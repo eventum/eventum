@@ -167,24 +167,58 @@ class Display_Column
     {
         $columns = array(
             "list_issues"   =>  array(
-                    "pri_rank"    =>  array(
-                            "title" =>  "Priority"
-                    ),
-                    "iss_id"    =>  array(
-                            "title" =>  "Issue ID"
-                    ),
-                    "usr_full_name" =>  array(
-                            "title" =>  "Reporter"
-                    ),
-                    "iss_grp_id"    =>  array(
-                            "title" =>  "Group"
-                    ),
-                    "assigned"  =>  array(
-                            "title" =>  "Assigned"
-                    ),
-                    "time_spent"    =>  array(
-                            "title" =>  "Time Spent"
-                    ),
+                "pri_rank"    =>  array(
+                    "title" =>  "Priority"
+                ),
+                "iss_id"    =>  array(
+                    "title" =>  "Issue ID"
+                ),
+                "usr_full_name" =>  array(
+                    "title" =>  "Reporter"
+                ),
+                "iss_grp_id"    =>  array(
+                    "title" =>  "Group"
+                ),
+                "assigned"  =>  array(
+                    "title" =>  "Assigned"
+                ),
+                "time_spent"    =>  array(
+                    "title" =>  "Time Spent"
+                ),
+                "iss_percent_complete"    =>  array(
+                    "title" =>  "% Complete",
+                    "default_role"  =>  9
+                ),
+                "iss_dev_time"    =>  array(
+                    "title" =>  "Est Dev Time",
+                    "default_role"  =>  9
+                ),
+                "prc_title"     =>  array(
+                    "title" =>  "Category"
+                ),
+                "pre_title" =>  array(
+                    "title" =>  "Release"
+                ),
+                "iss_customer_id"   =>  array(
+                    "title" =>  "Customer"
+                ),
+                "iss_sta_id"    =>  array(
+                    "title" =>  "Status"
+                ),
+                "sta_change_date"   =>  array(
+                    "title" =>  "Status Change Date"
+                ),
+                "last_action_date"  =>  array(
+                    "title" =>  "Last Action Date"
+                ),
+                "custom_fields" =>  array(
+                    "title" =>  "Custom Fields"
+                ),
+                "iss_summary"   =>  array(
+                    "title" =>  "Summary",
+                    "align" =>  "left",
+                    "width" =>  '30%'
+                )
             )
         );
         return $columns[$page];
@@ -218,7 +252,7 @@ class Display_Column
         }
         $rank = 1;
         foreach ($ranks as $field_name => $requested_rank) {
-            $stmt = "INSERT INTO
+            $sql = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
                     SET
                         ctd_prj_id = $prj_id,
@@ -226,7 +260,7 @@ class Display_Column
                         ctd_field = '$field_name',
                         ctd_min_role = " . $_REQUEST['min_role'][$field_name] . ",
                         ctd_rank = $rank";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = $GLOBALS["db_api"]->dbh->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -248,15 +282,20 @@ class Display_Column
         $columns = Display_Column::getAllColumns($page);
         $rank = 1;
         foreach ($columns as $field_name => $column) {
-            $stmt = "INSERT INTO
+            if (!empty($column['default_role'])) {
+                $min_role = $column['default_role'];
+            } else {
+                $min_role = 1;
+            }
+            $sql = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
                     SET
                         ctd_prj_id = $prj_id,
                         ctd_page = '$page',
                         ctd_field = '$field_name',
-                        ctd_min_role = 1,
+                        ctd_min_role = $min_role,
                         ctd_rank = $rank";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = $GLOBALS["db_api"]->dbh->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
