@@ -302,27 +302,32 @@ class Link_Filter
     function getFilters($prj_id)
     {
         static $filters;
-        if (is_null($filters)) {
-            $sql = "SELECT
-                        lfi_pattern,
-                        lfi_replacement
-                    FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
-                    WHERE
-                        lfi_id = plf_lfi_id AND
-                        lfi_usr_role < " . Auth::getCurrentRole() . " AND
-                        plf_prj_id = $prj_id
-                    ORDER BY
-                        lfi_id";
-            $res = $GLOBALS["db_api"]->dbh->getAll($sql);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                return array();
-            }
-            $filters = $res;
+
+        // poor man's caching system
+        if (!empty($filters[$prj_id])) {
+            return $filters[$prj_id];
         }
-        return $filters;
+
+        $stmt = "SELECT
+                    lfi_pattern,
+                    lfi_replacement
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
+                WHERE
+                    lfi_id = plf_lfi_id AND
+                    lfi_usr_role < " . Auth::getCurrentRole() . " AND
+                    plf_prj_id = $prj_id
+                ORDER BY
+                    lfi_id";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            $filters[$prj_id] = $res;
+            return $res;
+        }
     }
 
 
