@@ -77,7 +77,7 @@ if (!empty($HTTP_POST_VARS["developer"])) {
     }
     
     // print out emails
-    $data = Report::getWeeklyReport($HTTP_POST_VARS["developer"], $dates[0], $dates[1]);
+    $data = Report::getWeeklyReport($HTTP_POST_VARS["developer"], $dates[0], $dates[1], @$_REQUEST['separate_closed']);
     $tpl->assign("data", $data);
 }
 
