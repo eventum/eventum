@@ -185,6 +185,7 @@ class Mail_Queue
         }
         // remove any Reply-To: value from outgoing messages
         unset($headers['Reply-To']);
+        unset($headers['Return-Path']);
         // mutt sucks, so let's remove the broken Mime-Version header and add the proper one
         if (in_array('Mime-Version', array_keys($headers))) {
             unset($headers['Mime-Version']);
