@@ -32,6 +32,7 @@ Eventum Issue Tracking System
 - Updated PEAR Net_UserAgent_Detect class to be compatible with PHP5. Eventum should now work with PHP5 (Bryan)
 - Added ability to dynamically control which columns are displayed on list issues page (Bryan)
 - Added 'Release' to advanced search page (Bryan)
+- Added email configuration to install screen (Bryan)
 
 15 Sep 2004, Version 1.3.1
 - Added the missing maq_iss_id and maq_subject columns to the mail_queue table schema (João)

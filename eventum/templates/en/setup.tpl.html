@@ -42,6 +42,45 @@ function validateForm(f)
             return false;
         }
     }
+    
+    var field = getFormElement(f, 'setup[smtp][from]');
+    if (isWhitespace(field.value)) {
+        alert('Please enter the sender address that will be used for all outgoing notification emails.');
+        selectField(f, 'setup[smtp][from]');
+        return false;
+    }
+    field = getFormElement(f, 'setup[smtp][host]');
+    if (isWhitespace(field.value)) {
+        alert('Please enter the SMTP server hostname.');
+        selectField(f, 'setup[smtp][host]');
+        return false;
+    }
+    field = getFormElement(f, 'setup[smtp][port]');
+    if ((isWhitespace(field.value)) || (!isNumberOnly(field.value))) {
+        alert('Please enter the SMTP server port number.');
+        selectField(f, 'setup[smtp][port]');
+        return false;
+    }
+    var field1 = getFormElement(f, 'setup[smtp][auth]', 0);
+    var field2 = getFormElement(f, 'setup[smtp][auth]', 1);
+    if ((!field1.checked) && (!field2.checked)) {
+        alert('Please indicate whether the SMTP server requires authentication or not.');
+        return false;
+    }
+    if (field1.checked) {
+      field = getFormElement(f, 'setup[smtp][username]');
+      if (isWhitespace(field.value)) {
+          alert('Please enter the SMTP server username.');
+          selectField(f, 'setup[smtp][username]');
+          return false;
+      }
+      field = getFormElement(f, 'setup[smtp][password]');
+      if (isWhitespace(field.value)) {
+          alert('Please enter the SMTP server password.');
+          selectField(f, 'setup[smtp][password]');
+          return false;
+      }
+    }
     return true;
 }
 function toggleAlternateUserFields()
@@ -55,6 +94,21 @@ function toggleAlternateUserFields()
         element.style.display = 'none';
         f.alternate_user.focus();
     }
+}
+
+function disableAuthFields(f, bool)
+{
+  if (bool) {
+      var bgcolor = '#CCCCCC';
+  } else {
+      var bgcolor = '#FFFFFF';
+  }
+  var field = getFormElement(f, 'setup[smtp][username]');
+  field.disabled = bool;
+  field.style.backgroundColor = bgcolor;
+  field = getFormElement(f, 'setup[smtp][password]');
+  field.disabled = bool;
+  field.style.backgroundColor = bgcolor;
 }
 //-->
 </script>
@@ -273,6 +327,79 @@ Please report any problems you find to eventum-users@lists.mysql.com.
                 </td>
               </tr>
             </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default" align="right">
+            &nbsp;
+          </td>
+        </tr>
+        <tr>
+          <td class="default" align="center" colspan="2">
+            <hr size="1" noshade color="#000000">
+            <h3><b>Email Configuration</b></h3>
+            <i>If you do not correctly setup your SMTP (outgoing) mail settings, errors will be generated
+            when creating new users/projects.
+          </td>
+        </tr>
+        <tr>
+          <td width="100" class="default" align="right">
+            <b>Sender:&nbsp;</b>
+          </td>
+          <td width="80%">
+            <input type="text" class="default" name="setup[smtp][from]" size="30" value="{$smarty.request.setup.smtp.from|escape:"html"}">
+            {include file="error_icon.tpl.html" field="setup[smtp][from]"}
+            <span class="default"><i>This must be a valid email address.</i></span>
+          </td>
+        </tr>
+        <tr>
+          <td width="100" class="default" align="right">
+            <b>Hostname:&nbsp;</b>
+          </td>
+          <td width="80%">
+            <input type="text" class="default" name="setup[smtp][host]" size="30" value="{$smarty.request.setup.smtp.host|escape:"html"}">
+            {include file="error_icon.tpl.html" field="setup[smtp][host]"}
+          </td>
+        </tr>
+        <tr>
+          <td width="100" class="default" align="right">
+            <b>Port:&nbsp;</b>
+          </td>
+          <td width="80%">
+            <input type="text" class="default" name="setup[smtp][port]" size="10" value="{$smarty.request.setup.smtp.port}">
+            {include file="error_icon.tpl.html" field="setup[smtp][port]"}
+          </td>
+        </tr>
+        <tr>
+          <td width="100" class="default" align="right">
+            <b>Requires authentication?&nbsp;</b>
+          </td>
+          <td width="80%" class="default">
+            <input type="radio" name="setup[smtp][auth]" value="1" {if $smarty.request.setup.smtp.auth == 1}checked{/if} onClick="javascript:disableAuthFields(this.form, false);"> 
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('install_form', 'setup[smtp][auth]', 0);disableAuthFields(getForm('install_form'), false);">Yes</a>&nbsp;&nbsp;
+            <input type="radio" name="setup[smtp][auth]" value="0" {if $smarty.request.setup.smtp.auth != 1}checked{/if} onClick="javascript:disableAuthFields(this.form, true);"> 
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('install_form', 'setup[smtp][auth]', 1);disableAuthFields(getForm('install_form'), true);">No</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="100" class="default" align="right">
+            <b>Username:&nbsp;</b>
+          </td>
+          <td width="80%">
+            <input type="text" class="default" name="setup[smtp][username]" size="20" value="{$smarty.request.setup.smtp.username|escape:"html"}">
+            {include file="error_icon.tpl.html" field="setup[smtp][username]"}
+          </td>
+        </tr>
+        <tr>
+          <td width="100" class="default" align="right">
+            <b>Password:&nbsp;</b>
+          </td>
+          <td width="80%">
+            <input type="password" class="default" name="setup[smtp][password]" size="20" value="{$smarty.request.setup.smtp.password|escape:"html"}">
+            {include file="error_icon.tpl.html" field="setup[smtp][password]"}
+            {if $smarty.request.setup.smtp.auth != 1}
+            <script>disableAuthFields(getForm('install_form'), true);</script>
+            {/if}
           </td>
         </tr>
         <tr>
