@@ -440,7 +440,36 @@ class Customer
     }
 
 
+    /**
+     * Method used to send an expiration notice.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $contact_id The customer contact ID
+     * @param   boolean $is_expired Whether this customer is expired or not
+     * @return  void
+     */
+    function sendExpirationNotice($prj_id, $contact_id, $is_expired = FALSE)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->sendExpirationNotice($contact_id, $is_expired);
+    }
 
+
+    /**
+     * Checks whether the given technical contact ID is allowed in the current
+     * support contract or not.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_contact_id The customer technical contact ID
+     * @return  boolean
+     */
+    function isAllowedSupportContact($prj_id, $customer_contact_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->isAllowedSupportContact($customer_contact_id);
+    }
 
 
 
