@@ -1617,15 +1617,10 @@ class Support
             // check whether the current user is allowed to send this email to customers or not
             if (!Support::isAllowedToEmail($HTTP_POST_VARS["issue_id"], $user_info['usr_email'])) {
                 // add the message body as a note
-                $HTTP_POST_VARS = array(
-                    'issue_id'    => $HTTP_POST_VARS['issue_id'],
-                    'from'        => $HTTP_POST_VARS['from'],
-                    'blocked_msg' => $full_email,
-                    'title'       => $HTTP_POST_VARS["subject"],
-                    'note'        => Mail_API::getCannedBlockedMsgExplanation() . $HTTP_POST_VARS["message"]
-                );
+                $HTTP_POST_VARS['blocked_msg'] = $full_email;
+                $HTTP_POST_VARS['title'] = $HTTP_POST_VARS["subject"];
+                $HTTP_POST_VARS['note'] = Mail_API::getCannedBlockedMsgExplanation() . $HTTP_POST_VARS["message"];
                 Note::insert(Auth::getUserID(), $HTTP_POST_VARS["issue_id"]);
-                
                 Workflow::handleBlockedEmail(Issue::getProjectID($HTTP_POST_VARS['issue_id']), $HTTP_POST_VARS['issue_id'], $HTTP_POST_VARS, 'web');
                 return 1;
             }
