@@ -191,7 +191,23 @@ class Mime_Helper
             return MIME_Helper::quoteSender($address);
         }
     }
-
+    
+    
+    /**
+     * Decodes a quoted printable encoded address and returns the string.
+     * 
+     * @param   string $address The address to decode
+     * @return  string The decoded address
+     */
+    function decodeAddress($address)
+    {
+        if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
+            return str_replace("_", ' ', quoted_printable_decode($matches[1])) . " <" . $matches[2] . ">";
+        } else {
+            return $address;
+        }
+    }
+    
 
     /**
      * Determine if a string contains 8-bit characters.
