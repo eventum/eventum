@@ -500,3 +500,30 @@ ALTER TABLE eventum_custom_field ADD COLUMN fld_list_display tinyint(1) NOT NULL
 
 # October 22nd
 INSERT INTO eventum_history_type SET htt_name = 'draft_routed', htt_role = 4;
+
+# November 8th
+DROP TABLE IF EXISTS eventum_columns_to_display;
+CREATE TABLE eventum_columns_to_display (
+    ctd_prj_id int(11) unsigned NOT NULL,
+    ctd_page varchar(20) NOT NULL,
+    ctd_field varchar(30) NOT NULL,
+    ctd_min_role tinyint(1) NOT NULL DEFAULT 0,
+    ctd_rank tinyint(2) NOT NULL DEFAULT 0,
+    PRIMARY KEY(ctd_prj_id, ctd_page, ctd_field),
+    INDEX(ctd_prj_id, ctd_page)
+);
+
+
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','iss_pri_id',1,1);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','iss_id',1,2);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','iss_grp_id',1,3);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','assigned',1,4);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','time_spent',1,5);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','prc_title',1,6);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','pre_title',1,7);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','iss_customer_id',1,8);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','iss_sta_id',1,9);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','sta_change_date',1,10);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','last_action_date',1,11);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','custom_fields',1,12);
+INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','iss_summary',1,13);
