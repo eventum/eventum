@@ -64,6 +64,8 @@ $stmts[] = "CREATE TABLE eventum_search_profile (
 $stmts[] = "ALTER TABLE eventum_issue ADD INDEX (iss_duplicated_iss_id)";
 $stmts[] = "ALTER TABLE eventum_time_tracking ADD INDEX (ttr_iss_id)";
 
+$stmts[] = "ALTER TABLE eventum_issue ADD COLUMN iss_percent_complete tinyint(3) unsigned DEFAULT 0";
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
