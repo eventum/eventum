@@ -279,7 +279,7 @@ class Phone_Support
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["phs_description"] = Misc::activateLinks(nl2br(htmlspecialchars($res[$i]["phs_description"])));
-                $res[$i]["phs_description"] = Misc::activateIssueLinks($res[$i]["phs_description"]);
+                $res[$i]["phs_description"] = Link_Filter::processText($res[$i]["phs_description"]);
                 $res[$i]["phs_created_date"] = Date_API::getFormattedDate($res[$i]["phs_created_date"]);
             }
             return $res;

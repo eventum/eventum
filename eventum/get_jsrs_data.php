@@ -57,7 +57,7 @@ function getEmail($id)
     $split = explode("-", $id);
     $info = Support::getEmailDetails($split[0],$split[1]);
     if (!empty($_GET["ec_id"])) {
-        return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $info["message"]));
+        return Link_Filter::processText(nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $info["message"])));
     } else {
         return $info["seb_body"];
     }
@@ -74,7 +74,7 @@ function getNote($id)
 {
     $note = Note::getDetails($id);
     if (!empty($_GET["ec_id"])) {
-        return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $note["not_note"]));
+        return Link_Filter::processText(nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $note["not_note"])));
     } else {
         return $note["not_note"];
     }
@@ -91,7 +91,7 @@ function getDraft($id)
 {
     $info = Draft::getDetails($id);
     if (!empty($_GET["ec_id"])) {
-        return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $info["emd_body"]));
+        return Link_Filter::processText(nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $info["emd_body"])));
     } else {
         return $info["emd_body"];
     }
@@ -108,7 +108,7 @@ function getPhoneSupport($id)
 {
     $res = Phone_Support::getDetails($id);
     if (!empty($_GET["ec_id"])) {
-        return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["phs_description"]));
+        return Link_Filter::processText(nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["phs_description"])));
     } else {
         return $res["phs_description"];
     }
@@ -128,7 +128,7 @@ function getMailQueue($id)
     }
     $res = Mail_Queue::getEntry($id);
     if (!empty($_GET["ec_id"])) {
-        return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["maq_headers"] . "\n" . $res["maq_body"]));
+        return Link_Filter::processText(nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["maq_headers"] . "\n" . $res["maq_body"])));
     } else {
         return $res["maq_body"];
     }

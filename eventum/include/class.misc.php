@@ -468,45 +468,6 @@ class Misc
 
 
     /**
-     * Method used as a callback with the regular expression code that parses
-     * text and creates links to other issues.
-     *
-     * @access  public
-     * @param   array $matches Regular expression matches
-     * @return  string The link to the appropriate issue
-     */
-    function callbackIssueLinks($matches)
-    {
-        include_once(APP_INC_PATH . "class.issue.php");
-        // check if the issue is still open
-        if (Issue::isClosed($matches[5])) {
-            $class = 'closed_link';
-        } else {
-            $class = 'link';
-        }
-        $issue_title = Issue::getTitle($matches[5]);
-        return "<a title=\"issue " . $matches[5] . " - $issue_title\" class=\"" . $class . "\" href=\"view.php?id=" . $matches[5] . "\">" . $matches[1] . $matches[2] . $matches[3] . $matches[4] . $matches[5] . "</a>";
-    }
-
-
-    /**
-     * Method used to parse the given string for references to issues in the
-     * system, and creating links to those if any are found.
-     *
-     * @access  public
-     * @param   string $text The text to search against
-     * @param   string $class The CSS class to use on the actual links
-     * @return  string The parsed string
-     */
-    function activateIssueLinks($text, $class = "link")
-    {
-        $text = preg_replace_callback("/(issue)(:)?(\s)(\#)?(\d+)/i", array('Misc', 'callbackIssueLinks'), $text);
-        $text = preg_replace_callback("/(bug)(:)?(\s)(\#)?(\d+)/i", array('Misc', 'callbackIssueLinks'), $text);
-        return $text;
-    }
-
-
-    /**
      * Method used to parse the given string for references to URLs and create
      * real links out of those.
      *
