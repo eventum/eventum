@@ -574,7 +574,7 @@ function getDisplayStyle()
     // kind of hackish, but it works perfectly with IE6 and Mozilla 1.1
     if (is_ie5up) {
         return 'block';
-    } else if (is_nav6up) {
+    } else {
         return '';
     }
 }
