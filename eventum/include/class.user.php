@@ -53,9 +53,10 @@ include_once(APP_INC_PATH . "private_key.php");
 $roles = array(
     1 => "Viewer",
     2 => "Reporter",
-    3 => "Standard User",
-    4 => "Manager",
-    5 => "Administrator"
+    3 => "Customer",
+    4 => "Standard User",
+    5 => "Manager",
+    6 => "Administrator"
 );
 
 class User
@@ -109,6 +110,65 @@ class User
             return false;
         } else {
             return true;
+        }
+    }
+
+
+    /**
+     * Method used to get the customer contact ID associated with
+     * the given user ID.
+     *
+     * @access  public
+     * @param   integer $usr_id The user ID
+     * @return  integer The customer contact ID
+     */
+    function getCustomerContactID($usr_id)
+    {
+        $stmt = "SELECT
+                    usr_customer_contact_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_id=$usr_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the customer ID associated with
+     * the given user ID.
+     *
+     * @access  public
+     * @param   integer $usr_id The user ID
+     * @return  integer The customer ID
+     */
+    function getCustomerID($usr_id)
+    {
+        static $returns;
+
+        if (!empty($returns[$usr_id])) {
+            return $returns[$usr_id];
+        }
+
+        $stmt = "SELECT
+                    usr_customer_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_id=$usr_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            $returns[$usr_id] = $res;
+            return $res;
         }
     }
 

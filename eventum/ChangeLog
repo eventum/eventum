@@ -1,6 +1,9 @@
 Euventum Issue Tracking System
 =============================
 
+????, Version 2.0
+- Customer integration API
+
 ????, Version 1.3
 - Fixed the SQL schema to avoid the mystic "Invalid default value for 'sta_id'" error message when installing the application (João)
 - Fixed bug in custom field report when not graphing all options. (Bryan)

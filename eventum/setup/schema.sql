@@ -11,6 +11,7 @@ CREATE TABLE %TABLE_PREFIX%custom_filter (
   cst_iss_prc_id int(10) unsigned default NULL,
   cst_iss_sta_id int(10) unsigned default NULL,
   cst_iss_pre_id int(10) unsigned default NULL,
+  cst_customer_email varchar(64) default NULL,
   cst_show_authorized char(3) default '',
   cst_show_notification_list char(3) default '',
   cst_created_date date default NULL,
@@ -121,6 +122,8 @@ INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_unassociated';
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue;
 CREATE TABLE %TABLE_PREFIX%issue (
   iss_id int(11) unsigned NOT NULL auto_increment,
+  iss_customer_id int(11) unsigned NULL,
+  iss_customer_contact_id int(11) unsigned NULL,
   iss_usr_id int(10) unsigned NOT NULL default '0',
   iss_prj_id int(11) unsigned NOT NULL default '0',
   iss_prc_id int(11) unsigned NOT NULL default '0',
@@ -134,6 +137,7 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_last_response_date datetime default NULL,
   iss_first_response_date datetime default NULL,
   iss_closed_date datetime default NULL,
+  iss_last_customer_action_date datetime default NULL,
   iss_expected_resolution_date date default NULL,
   iss_summary varchar(128) NOT NULL default '',
   iss_description text NOT NULL,
@@ -283,6 +287,7 @@ CREATE TABLE %TABLE_PREFIX%project (
   prj_anonymous_post_options text,
   prj_outgoing_sender_name varchar(255) NOT NULL,
   prj_outgoing_sender_email varchar(255) NOT NULL,
+  prj_customer_backend varchar(64) NULL,
   PRIMARY KEY  (prj_id),
   UNIQUE KEY prj_title (prj_title),
   KEY prj_lead_usr_id (prj_lead_usr_id)
@@ -371,6 +376,7 @@ CREATE TABLE %TABLE_PREFIX%support_email (
   sup_parent_id int(11) unsigned NOT NULL default '0',
   sup_iss_id int(11) unsigned default '0',
   sup_usr_id int(11) unsigned default NULL,
+  sup_customer_id int(11) unsigned NULL,
   sup_message_id varchar(255) NOT NULL default '',
   sup_date datetime NOT NULL default '0000-00-00 00:00:00',
   sup_from varchar(255) NOT NULL default '',
@@ -429,6 +435,8 @@ INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created
 DROP TABLE IF EXISTS %TABLE_PREFIX%user;
 CREATE TABLE %TABLE_PREFIX%user (
   usr_id int(11) unsigned NOT NULL auto_increment,
+  usr_customer_id int(11) unsigned NULL default NULL,
+  usr_customer_contact_id int(11) unsigned NULL default NULL,
   usr_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   usr_status varchar(8) NOT NULL default 'active',
   usr_password varchar(32) NOT NULL default '',
@@ -441,8 +449,8 @@ CREATE TABLE %TABLE_PREFIX%user (
   UNIQUE KEY usr_email (usr_email),
   KEY usr_email_password (usr_email, usr_password)
 );
-INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (1, NOW(), '14589714398751513457adf349173434', 'system', 'system-account@example.com', 5, '');
-INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@example.com', 5, '');
+INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (1, NOW(), '14589714398751513457adf349173434', 'system', 'system-account@example.com', 6, '');
+INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@example.com', 6, '');
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%custom_field;
 CREATE TABLE %TABLE_PREFIX%custom_field (
@@ -551,6 +559,28 @@ INSERT INTO %TABLE_PREFIX%project_status (prs_prj_id, prs_sta_id) VALUES (1, 3);
 INSERT INTO %TABLE_PREFIX%project_status (prs_prj_id, prs_sta_id) VALUES (1, 4);
 INSERT INTO %TABLE_PREFIX%project_status (prs_prj_id, prs_sta_id) VALUES (1, 5);
 INSERT INTO %TABLE_PREFIX%project_status (prs_prj_id, prs_sta_id) VALUES (1, 6);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%customer_note;
+create table %TABLE_PREFIX%customer_note (
+    cno_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    cno_customer_id INT(11) UNSIGNED NOT NULL,
+    cno_created_date DATETIME NOT NULL,
+    cno_updated_date DATETIME NULL,
+    cno_note TEXT,
+    primary key(cno_id),
+    unique(cno_customer_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%customer_account_manager;
+CREATE TABLE %TABLE_PREFIX%customer_account_manager (
+  cam_id int(11) unsigned NOT NULL auto_increment,
+  cam_customer_id int(11) unsigned NOT NULL,
+  cam_usr_id int(11) unsigned NOT NULL,
+  cam_type varchar(7) NOT NULL,
+  PRIMARY KEY (cam_id),
+  KEY cam_customer_id (cam_customer_id),
+  UNIQUE KEY cam_manager (cam_customer_id, cam_usr_id)
+);
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%reminder_level;
 CREATE TABLE %TABLE_PREFIX%reminder_level (

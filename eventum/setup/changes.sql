@@ -264,3 +264,40 @@ ALTER TABLE eventum_support_email ADD KEY sup_usr_id(sup_usr_id);
 
 ALTER TABLE eventum_email_account ADD COLUMN ema_issue_auto_creation varchar(8) NOT NULL DEFAULT 'disabled';
 ALTER TABLE eventum_email_account ADD COLUMN ema_issue_auto_creation_options text;
+
+
+
+
+# eventum 2.0!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111111111
+
+UPDATE eventum_user SET usr_role=usr_role+1 WHERE usr_role > 2;
+
+ALTER TABLE eventum_project ADD COLUMN prj_customer_backend varchar(64) NULL;
+ALTER TABLE eventum_custom_filter ADD COLUMN cst_customer_email varchar(64) default NULL;
+ALTER TABLE eventum_issue ADD COLUMN iss_customer_id int(11) unsigned NULL;
+ALTER TABLE eventum_issue ADD COLUMN iss_customer_contact_id int(11) unsigned NULL;
+ALTER TABLE eventum_issue ADD COLUMN iss_last_customer_action_date datetime default NULL;
+ALTER TABLE eventum_support_email ADD COLUMN sup_customer_id int(11) unsigned NULL;
+
+ALTER TABLE eventum_user ADD COLUMN usr_customer_id int(11) unsigned NULL default NULL;
+ALTER TABLE eventum_user ADD COLUMN usr_customer_contact_id int(11) unsigned NULL default NULL;
+
+create table eventum_customer_note (
+    cno_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    cno_customer_id INT(11) UNSIGNED NOT NULL,
+    cno_created_date DATETIME NOT NULL,
+    cno_updated_date DATETIME NULL,
+    cno_note TEXT,
+    primary key(cno_id),
+    unique(cno_customer_id)
+);
+
+CREATE TABLE eventum_customer_account_manager (
+  cam_id int(11) unsigned NOT NULL auto_increment,
+  cam_customer_id int(11) unsigned NOT NULL,
+  cam_usr_id int(11) unsigned NOT NULL,
+  cam_type varchar(7) NOT NULL,
+  PRIMARY KEY (cam_id),
+  KEY cam_customer_id (cam_customer_id),
+  UNIQUE KEY cam_manager (cam_customer_id, cam_usr_id)
+);

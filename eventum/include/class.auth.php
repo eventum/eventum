@@ -101,6 +101,16 @@ class Auth
             Auth::removeCookie($cookie_name);
             Auth::redirect(APP_RELATIVE_URL . "index.php?err=12&email=" . $cookie['email'], $is_popup);
         }
+        // check the expiration date for a 'Customer' type user
+        $customer_id = User::getCustomerID(Auth::getUserID());
+        if ((!empty($customer_id)) && ($customer_id != -1)) {
+            include_once(APP_INC_PATH . "class.customer.php");
+            $status = Customer::getContractStatus($prj_id, $customer_id);
+            if ($status == 'expired') {
+                Auth::removeCookie($cookie_name);
+                Auth::redirect(APP_RELATIVE_URL . "index.php?err=10&email=" . $cookie["email"], $is_popup);
+            }
+        }
         // if the current session is still valid, then renew the expiration
         Auth::createLoginCookie($cookie_name, $cookie['email'], $cookie['autologin']);
         // renew the project cookie as well
