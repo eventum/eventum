@@ -539,7 +539,7 @@ class Note
             return $res;
         } else {
             // save message as a draft
-            $res = Draft::saveEmail($issue_id, 
+            $res = @Draft::saveEmail($issue_id, 
                 $structure->headers['to'], 
                 $structure->headers['cc'],
                 $structure->headers['subject'], 
