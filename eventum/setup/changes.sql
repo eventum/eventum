@@ -309,3 +309,5 @@ CREATE TABLE eventum_customer_account_manager (
   UNIQUE KEY cam_manager (cam_prj_id, cam_customer_id, cam_usr_id)
 );
 
+
+ALTER TABLE eventum_project ADD COLUMN prj_workflow_backend varchar(64) NULL DEFAULT NULL;
