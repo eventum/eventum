@@ -433,97 +433,37 @@ class Misc
 
 
     /**
-     * Method used to get the list of priorities as an associative array in the
-     * style of (id => title)
-     *
-     * @access  public
-     * @return  array The list of priorities
-     */
-    function getAssocPriorities()
-    {
-        $stmt = "SELECT
-                    pri_id,
-                    pri_title
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "priority";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            return $res;
-        }
-    }
-
-
-    /**
-     * Method used to get the full list of priorities.
-     *
-     * @access  public
-     * @return  array The list of priorities
-     */
-    function getPriorities()
-    {
-        $stmt = "SELECT
-                    pri_id,
-                    pri_title
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "priority";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            return $res;
-        }
-    }
-
-
-    /**
-     * Method used to get the title for a priority ID.
-     *
-     * @access  public
-     * @param   integer $id The priority ID
-     * @return  string The priority title
-     */
-    function getPriorityTitle($id)
-    {
-        $stmt = "SELECT
-                    pri_title
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "priority
-                 WHERE
-                    pri_id=$id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            return $res;
-        }
-    }
-
-
-    /**
      * Method used to format the given number of minutes in a string showing
      * the number of hours and minutes (02:30)
      *
      * @access  public
      * @param   integer $minutes The number of minutes to format
      * @param   boolean $omit_days If days should not be used, hours will just show up as greater then 24.
+     * @param   boolean $omit_empty If true, values that are "00" will be omitted.
      * @return  string The formatted time
      */
-    function getFormattedTime($minutes, $omit_days = false)
+    function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
     {
         $hours = $minutes / 60;
         $mins = $minutes % 60;
         if ($hours > 24 && $omit_days == false) {
             $days = $hours / 24;
             $hours = $hours % 24;
-            return sprintf("%02dd %02dh %02dm", $days, $hours, $mins);
+            $return = sprintf("%02dd %02dh %02dm", $days, $hours, $mins);
         } else {
-            return sprintf("%02dh %02dm", $hours, $mins);
+            $return = sprintf("%02dh %02dm", $hours, $mins);
         }
+        if ($omit_empty) {
+            $chunks = explode(" ", $return);
+            foreach ($chunks as $index => $chunk) {
+                preg_match("/(\d*)\S/i", $chunk, $matches);
+                if ($matches[1] == '00') {
+                    unset($chunks[$index]);
+                }
+            }
+            $return = join(" ", $chunks);
+        }
+        return $return;
     }
 
 

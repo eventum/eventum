@@ -48,6 +48,13 @@ $tpl->assign("issue_id", $issue_id);
 if (@$HTTP_POST_VARS["cat"] == "post_note") {
     $res = Note::insert($usr_id, $issue_id);
     $tpl->assign("post_result", $res);
+    // enter the time tracking entry about this phone support entry
+    if (!empty($HTTP_POST_VARS['time_spent'])) {
+        $HTTP_POST_VARS['issue_id'] = $issue_id;
+        $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Email Discussion');
+        $HTTP_POST_VARS['summary'] = 'Time entry inserted when sending an internal note.';
+        Time_Tracking::insertEntry();
+    }
 } elseif (@$HTTP_GET_VARS["cat"] == "reply") {
     if (!@empty($HTTP_GET_VARS["id"])) {
         $note = Note::getDetails($HTTP_GET_VARS["id"]);

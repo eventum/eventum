@@ -245,6 +245,19 @@ class Mail_mime
         return true;
     }
 
+
+    function addMessageRfc822($message_body, $encoding = 'base64')
+    {
+        $this->_parts[] = array(
+            'body'     => $message_body,
+            'c_type'   => 'message/rfc822',
+            'encoding' => $encoding,
+            'name'     => ''
+        );
+        return true;
+    }
+
+
     /*
     * Returns the contents of the given file name as string
     * @param string $file_name
@@ -394,7 +407,9 @@ class Mail_mime
         $params['content_type'] = $value['c_type'];
         $params['encoding']     = $value['encoding'];
         $params['disposition']  = 'attachment';
-        $params['dfilename']    = $value['name'];
+        if (!empty($value['name'])) {
+            $params['dfilename']    = $value['name'];
+        }
         $obj->addSubpart($value['body'], $params);
     }
 

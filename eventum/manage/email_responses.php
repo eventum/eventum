@@ -59,6 +59,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("info", Email_Response::getDetails($HTTP_GET_VARS["id"]));
     }
 
+    $tpl->assign("project_list", Project::getAll());
     $tpl->assign("list", Email_Response::getList());
 } else {
     $tpl->assign("show_not_allowed_msg", true);

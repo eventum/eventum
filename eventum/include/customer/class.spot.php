@@ -45,7 +45,7 @@ class Spot_Customer_Backend
             'phptype'  => "mysql",
             'hostspec' => "localhost",
             'database' => "spot",
-            'username' => "spot",
+            'username' => "root",
             'password' => ""
         );
         $GLOBALS['customer_db'] = DB::connect($dsn);
@@ -163,14 +163,15 @@ class Spot_Customer_Backend
      *
      * @access  public
      * @param   integer $customer_id The customer ID
+     * @param   boolean $force_refresh If data cache should be ignored. Default false
      * @return  array The customer details
      */
-    function getDetails($customer_id)
+    function getDetails($customer_id, $force_refresh = false)
     {
         static $returns;
 
         // poor man's caching system...
-        if (!empty($returns[$customer_id])) {
+        if ((!empty($returns[$customer_id])) && (!$force_refresh)) {
             return $returns[$customer_id];
         }
 
@@ -214,7 +215,11 @@ class Spot_Customer_Backend
                     'support_options'   => @implode(", ", $options),
                     'support_exp_date'  => $res['expiration_date'],
                     'note'              => Customer::getNoteDetailsByCustomer($customer_id),
-                    'is_per_incident'   => $is_per_incident
+                    'is_per_incident'   => $is_per_incident,
+                    'incident_details'  => array(
+                        "total"     =>  $this->getTotalIncidents($res["support_no"]),
+                        "redeemed"  =>  $this->getIncidentUsage($res["support_no"])
+                    )
                 );
                 return $returns[$customer_id];
             }
@@ -318,10 +323,15 @@ class Spot_Customer_Backend
     function hasPerIncidentContract($customer_id)
     {
         $details = $this->getDetails($customer_id);
-        if ($details['is_per_incident']) {
+        if (@$details['is_per_incident']) {
             return true;
         } else {
-            return false;
+            // also check for any customers in the Basic1/2/3 support levels
+            if ($this->_isNewBasicLevels($this->getSupportLevelID($customer_id))) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -350,6 +360,21 @@ class Spot_Customer_Backend
         } else {
             return $res;
         }
+    }
+
+
+    /**
+     * Returns the number of incidents remaining for the given support
+     * contract ID.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  integer The number of incidents remaining.
+     */
+    function getIncidentsRemaining($customer_id)
+    {
+        $details = $this->getDetails($customer_id);
+        return ($this->getTotalIncidents($details['support_no']) - $this->getIncidentUsage($details['support_no']));
     }
 
 
@@ -444,18 +469,23 @@ class Spot_Customer_Backend
      * @access  public
      * @param   integer $contact_id The customer contact ID
      * @param   integer $customer_id The customer ID
+     * @param   boolean $new_issue If the customer just tried to create a new issue.
      * @return  void
      */
-    function sendIncidentLimitNotice($contact_id, $customer_id)
+    function sendIncidentLimitNotice($contact_id, $customer_id, $new_issue = false)
     {
-        $type = 'incident_limit_reached_customer';
         // two emails, add the sales@ blurb only when sending the email to the sales team
         list($contact_email, $void, $contact_name) = $this->getContactLoginDetails($contact_id);
         $to = Mail_API::getFormattedName($contact_name, $contact_email);
         $emails = array(
-            'customer' => $to,
-            'sales'    => '"MySQL Sales Team" <sales@mysql.com>'
+            'customer' => $to
         );
+        $account_manager = $this->getSalesAccountManager($customer_id);
+        if (!empty($account_manager)) {
+            $emails['sales'] = Mail_API::getFormattedName($account_manager[0], $account_manager[1]);
+        } else {
+            $emails['sales'] = '"MySQL Sales Team" <sales@mysql.com>';
+        }
 
         $data = $this->getDetails($customer_id);
         $company_name = $data['customer_name'];
@@ -468,11 +498,14 @@ class Spot_Customer_Backend
             }
             // open text template
             $tpl = new Template_API;
-            $tpl->setTemplate("customer/" . $this->getName() . "/notifications/" . $type . '.tpl.text');
+            $tpl->setTemplate("customer/" . $this->getName() . '/notifications/incident_limit_reached_customer.tpl.text');
             $tpl->bulkAssign(array(
                 "data"             => $data,
                 "show_sales_blurb" => $show_sales_blurb
             ));
+            if ($new_issue) {
+                $tpl->assign("is_new_issue", 1);
+            }
             $text_message = $tpl->getTemplateContents();
 
             @include_once(APP_PEAR_PATH . 'Mail/mime.php');
@@ -655,12 +688,19 @@ class Spot_Customer_Backend
                  FROM
                     eaddress A,
                     eaddress_type B,
-                    cust_role C
+                    cust_role C,
+                    support D,
+                    cnt_support E
                  WHERE
                     C.cust_no=A.cust_no AND
                     A.eaddress_type_no=B.eaddress_type_no AND
                     B.descript='email' AND
-                    A.eaddress_code IN ('" . implode("', '", $emails) . "')
+                    A.eaddress_code IN ('" . implode("', '", $emails) . "') AND
+                    C.up_cust_no=D.cust_no AND
+                    D.support_no=E.support_no AND
+                    C.cust_no=E.cust_no AND
+                    D.status <> 'Cancelled' AND
+                    NOW() <= (D.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY)
                  LIMIT
                     0, 1";
         $res = $GLOBALS["customer_db"]->getRow($stmt, DB_FETCHMODE_ASSOC);
@@ -1080,11 +1120,17 @@ class Spot_Customer_Backend
     {
         $stmt = "SELECT
                     cust_entity.name2 AS first_name,
-                    cust_entity.name AS last_name
+                    cust_entity.name AS last_name,
+                    eaddress.eaddress_code AS email
                  FROM
-                    cust_entity
+                    cust_entity,
+                    eaddress,
+                    eaddress_type
                  WHERE
-                    cust_entity.cust_no=$contact_id";
+                    cust_entity.cust_no=$contact_id AND
+                    eaddress.cust_no=cust_entity.cust_no AND
+                    eaddress.eaddress_type_no=eaddress_type.eaddress_type_no AND
+                    eaddress_type.descript='email'";
         $res = $GLOBALS["customer_db"]->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1167,7 +1213,9 @@ class Spot_Customer_Backend
                     eaddress A,
                     eaddress_type B,
                     cust_role C,
-                    cust_entity D
+                    cust_entity D,
+                    support E,
+                    cnt_support F
                  WHERE
                     C.up_cust_no=D.cust_no AND
                     C.cust_no=A.cust_no AND
@@ -1176,7 +1224,12 @@ class Spot_Customer_Backend
                     (
                         A.eaddress_code LIKE '%" . Misc::escapeString($email) . "%' OR
                         D.name LIKE '%" . Misc::escapeString($email) . "%'
-                    )";
+                    ) AND
+                    E.cust_no=C.up_cust_no AND
+                    E.support_no=F.support_no AND
+                    F.cust_no=C.cust_no AND
+                    E.status <> 'Cancelled' AND
+                    NOW() <= (E.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY)";
         $res = $GLOBALS["customer_db"]->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1232,7 +1285,8 @@ class Spot_Customer_Backend
             return -2;
         } else {
             // get the support_no from the customer associated with the given issue
-            $details = $this->getDetails(Issue::getCustomerID($issue_id));
+            $customer_id = Issue::getCustomerID($issue_id);
+            $details = $this->getDetails($customer_id);
             $stmt = "INSERT INTO
                         support_issue
                      (
@@ -1247,6 +1301,14 @@ class Spot_Customer_Backend
                 Error_Handler::logError(array($pres->getMessage(), $pres->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
+                $prj_id = Issue::getProjectID($issue_id);
+                // get number of remaining incidents
+                $remaining = $this->getIncidentsRemaining($customer_id);
+                if ($remaining == 1) {
+                    $this->sendSalesIncidentLowMsg($customer_id);
+                } elseif ($remaining == 0) {
+                    $this->sendIncidentLimitNotice(Issue::getContactID($issue_id), $customer_id);
+                }
                 return 1;
             }
         }
@@ -1281,7 +1343,7 @@ class Spot_Customer_Backend
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
-        $mail->send($from, $to, "Issue #" . $issue_id . " Closed");
+        $mail->send($from, $to, "Issue #" . $issue_id . " Closed", 0, $issue_id);
     }
 
 
@@ -1474,7 +1536,7 @@ class Spot_Customer_Backend
     {
         // XXX: need to check what happens if you pass a customer that has more than one support contract on file
         $stmt = "SELECT
-                    A.cust_no contact_id,
+                    DISTINCT A.cust_no contact_id,
                     CONCAT(A.name, ', ', A.name2) contact_name,
                     C.eaddress_code email,
                     A.name2 contact_first_name,
@@ -1524,12 +1586,15 @@ class Spot_Customer_Backend
         list($contact_email, $void, $contact_name) = $this->getContactLoginDetails($contact_id);
         $to = Mail_API::getFormattedName($contact_name, $contact_email);
         $data = Issue::getDetails($issue_id);
+        $max_response_time = $this->getMaximumFirstResponseTime(Issue::getCustomerID($issue_id));
 
         // open text template
         $tpl = new Template_API;
         $tpl->setTemplate('customer/spot/customer_new_issue.tpl.text');
         $tpl->bulkAssign(array(
-            "data"             => $data
+            "data"             => $data,
+            "max_response_time"     => $max_response_time,
+            "max_response_formatted"    =>  Misc::getFormattedTime($max_response_time/60, false, true)
         ));
         $text_message = $tpl->getTemplateContents();
 
@@ -1538,7 +1603,7 @@ class Spot_Customer_Backend
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
-        $mail->send($from, $to, "New Issue #" . $issue_id);
+        $mail->send($from, $to, "New Issue #" . $issue_id, 0, $issue_id);
     }
 
 
@@ -1575,21 +1640,27 @@ class Spot_Customer_Backend
      */
     function getSupportLevelID($customer_id)
     {
+        static $returns;
+        
+        // poor man's caching system...
+        if (!empty($returns[$customer_id])) {
+            return $returns[$customer_id];
+        }
+        
         $stmt = "SELECT
-                    B.support_type_no
+                    support_type_no
                  FROM
-                    support A,
-                    support_type B
+                    support A
                  WHERE
                     A.cust_no=$customer_id AND
                     NOW() <= (A.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY) AND
-                    A.status <> 'Cancelled' AND
-                    A.support_type_no=B.support_type_no";
+                    A.status <> 'Cancelled'";
         $res = $GLOBALS["customer_db"]->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
         } else {
+            $returns[$customer_id] = $res;
             return $res;
         }
     }
@@ -1703,7 +1774,7 @@ class Spot_Customer_Backend
             @include_once(APP_PEAR_PATH . 'Mail/mime.php');
             $setup = Mail_API::getSMTPSettings();
             $headers['To'] = $to;
-            $headers['From'] = $setup["from"];
+            $headers['From'] = "MySQL Support Center <support-feedback@mysql.com>";
             $headers['Subject'] = "Login Attempt by Expired Support Customer (" . $company_name . ")";
             $mime = new Mail_mime("\r\n");
             $hdrs = $mime->headers($headers);
@@ -1806,7 +1877,17 @@ class Spot_Customer_Backend
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Method used to send an email notification to the sender of a
+     * set of email messages that were manually converted into an 
+     * issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   array $sup_ids The email IDs
+     * @param   integer $customer_id The customer ID
+     * @return  array The list of recipient emails
+     */
     function notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id = FALSE)
     {
         // build the list of allowed recipients if we are handling a customer issue
@@ -1858,13 +1939,23 @@ class Spot_Customer_Backend
             $mail = new Mail_API;
             $mail->setTextBody($text_message);
             $from = Notification::getFixedFromHeader($issue_id, "Indrek Siitan <support-feedback@mysql.com>", 'issue');
-            $mail->send($from, $recipient, 'New MySQL Support Issue Created');
+            $mail->send($from, $recipient, 'New MySQL Support Issue Created', 0, $issue_id);
         }
         return $recipient_emails;
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Method used to send an email notification to the sender of an
+     * email message that was automatically converted into an issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   string $sender The sender of the email message (and the recipient of this notification)
+     * @param   string $date The arrival date of the email message
+     * @param   string $subject The subject line of the email message
+     * @return  void
+     */
     function notifyAutoCreatedIssue($issue_id, $sender, $date, $subject)
     {
         $data = Issue::getDetails($issue_id);
@@ -1889,7 +1980,7 @@ class Spot_Customer_Backend
         $mail = new Mail_API;
         $mail->setTextBody($text_message);
         $from = Notification::getFixedFromHeader($issue_id, "Indrek Siitan <support-feedback@mysql.com>", 'issue');
-        $mail->send($from, $sender, 'New MySQL Support Issue Created');
+        $mail->send($from, $sender, 'New MySQL Support Issue Created', 0, $issue_id);
     }
 
 
@@ -1947,6 +2038,258 @@ class Spot_Customer_Backend
             return 0;
         } else {
             return $res;
+        }
+    }
+
+
+    /**
+     * Returns a message to be displayed to a customer on the top of the issue creation page.
+     * if customer bought more then 3 incidents and 3 or less are remaining, OR
+     * if customer bought more that 1 incidents and 1 is remaining show warning.
+     *
+     * @param   array $customer_id ID of the customer
+     */
+    function getNewIssueMessage($customer_id)
+    {
+        if ($this->hasPerIncidentContract($customer_id)) {
+            $details = $this->getDetails($customer_id);
+            $total = $details["incident_details"]["total"];
+            $remaining = $total - $details["incident_details"]["redeemed"];
+            
+            if ((($total > 3) && ($remaining < 3)) || (($total > 1) && ($remaining == 1))) {
+                $details["contact"] = $this->getContactLoginDetails(User::getCustomerContactID(Auth::getUserID()));
+                $tpl = new Template_API();
+                $tpl->setTemplate("customer/" . $this->getName() . "/incidents_low_customer.tpl.html");
+                $tpl->assign("customer", $details);
+                return $tpl->getTemplateContents();
+            }
+        } elseif ($this->isPremiumContract($customer_id)) {
+            // display message noting availability of phone support
+            $tpl = new Template_API();
+            $tpl->setTemplate("customer/" . $this->getName() . "/premium_new_issue.tpl.html");
+            return $tpl->getTemplateContents();
+        }
+        return '';
+    }
+
+
+    /**
+     * Notifies the customers sales rep or sales@ that a customer is low on incidents.
+     * 
+     * @param   integer $customer_id ID of the customer
+     */
+    function sendSalesIncidentLowMsg($customer_id)
+    {
+        $details = $this->getDetails($customer_id, true);
+        if ($details["incident_details"]["total"] < 4) {
+            // don't send this warning if the customer bought 3 or less incidents.
+            return;
+        }
+        $tpl = new Template_API();
+        $tpl->setTemplate("customer/" . $this->getName() . "/notifications/incidents_low_sales.tpl.text");
+        $tpl->assign("customer", $details);
+        $text_message = $tpl->getTemplateContents();
+        
+        $account_manager = $this->getSalesAccountManager($customer_id);
+        if (!empty($account_manager)) {
+            $to = Mail_API::getFormattedName($account_manager[0], $account_manager[1]);
+        } else {
+            $to = '"MySQL Sales Team" <sales@mysql.com>';
+        }
+        
+        @include_once(APP_PEAR_PATH . 'Mail/mime.php');
+        $setup = Mail_API::getSMTPSettings();
+        $headers['To'] = $to;
+        $headers['From'] = $setup["from"];
+        $headers['Subject'] = "Support Incidents low for Customer (" . $details["customer_name"] . ")";
+        $mime = new Mail_mime("\r\n");
+        $hdrs = $mime->headers($headers);
+        Mail_Queue::add($to, $hdrs, $text_message, 1);
+    }
+
+
+    /**
+     * Returns the MySQL AB office business hours in which the given
+     * customer falls under.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  string The business hours
+     */
+    function getBusinessHours($customer_id)
+    {
+        $americas = array(
+            'USA', 'CAN', 'BRA',
+            'ARG', 'CHL', 'MEX',
+            'ECU', 'VEN', 'URY',
+            'PER', 'BOL', 'COL'
+        );
+        $stmt = "SELECT
+                    country_code
+                 FROM
+                    address
+                 WHERE
+                    cust_no=$customer_id
+                 LIMIT
+                    0, 1";
+        $country_code = $GLOBALS["customer_db"]->getOne($stmt);
+        if (in_array($country_code, $americas)) {
+            return "9AM-7PM New York Time";
+        } else {
+            return "7AM-5PM London Time";
+        }
+    }
+
+
+    /**
+     * Checks whether the given support level is one of the new
+     * Basic1/Basic2/Basic3 support levels or not.
+     *
+     * @access  public
+     * @param   integer $support_level_id The support level ID
+     * @return  boolean
+     */
+    function _isNewBasicLevels($support_level_id)
+    {
+        $basic_levels = array(23, 24, 25);
+        if (in_array($support_level_id, $basic_levels)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * Returns whether the given support level is the new per-incident
+     * support level or not.
+     *
+     * @access  public
+     * @param   integer $support_level_id The support level ID
+     * @return  boolean
+     */
+    function _isNewPerIncidentLevel($support_level_id)
+    {
+        if ($support_level_id == 22) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * Checks whether the given customer has a support contract that
+     * enforces limits for the minimum first response time or not.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  boolean
+     */
+    function hasMinimumResponseTime($customer_id)
+    {
+        if ($this->_isNewPerIncidentLevel($this->getSupportLevelID($customer_id))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * Returns the minimum first response time in seconds for the
+     * support level associated with the given customer.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  integer The minimum first response time
+     */
+    function getMinimumResponseTime($customer_id)
+    {
+        if ($this->_isNewPerIncidentLevel($this->getSupportLevelID($customer_id))) {
+            return 3 * 24 * 60 * 60; // 3 day minimum response time
+        } else {
+            return 0;
+        }
+    }
+
+
+    /**
+     * Returns the maximum first response time associated with the
+     * support contract of the given customer.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  integer The maximum first response time, in seconds
+     */
+    function getMaximumFirstResponseTime($customer_id)
+    {
+        $support_level = $this->getSupportLevelID($customer_id);
+
+        $max_response_time = 0;
+        switch ($support_level) {
+            // (new) Incident Support
+            case 22:
+                $max_response_time = 5 * 24 * 60 * 60; // 120 hours
+                break;
+            // Basic 1; Basic 2; Basic 3
+            case 23:
+            case 24:
+            case 25:
+                $max_response_time = 1 * 24 * 60 * 60; // 1 day
+                break;
+            // Premier Silver
+            case 26:
+                $max_response_time = 4 * 60 * 60; // 4 hours
+                break;
+            // Premier Gold
+            case 27:
+                $max_response_time = 2 * 60 * 60; // 2 hours
+                break;
+            // Premier Platinum
+            case 28:
+                $max_response_time = 30 * 60; // 30 minutes
+                break;
+            // All older support levels (prior to September 1st 2004)
+            default:
+                $max_response_time = 1 * 24 * 60 * 60; // 1 day
+                break;
+        }
+        return $max_response_time;
+    }
+
+
+    /**
+     * Returns true if the customer is "premium".
+     * 
+     * @access  private
+     * @param   integer $customer_id The Customer ID
+     * @return  boolean true if the customer is premium
+     */
+    function isPremiumContract($customer_id)
+    {
+        $support_level = $this->getSupportLevelID($customer_id);
+        switch ($support_level) {
+            case 26:// Premier Silver
+            case 27:// Premier Gold
+            case 28:// Premier Platinum
+            case 19:// old Premium level
+                return true;
+            // All other support levels
+            default:
+                return false;
+        }
+    }
+
+
+    function isPerIncidentTimeLimitExpired($customer_id)
+    {
+        $support_level = $this->getSupportLevelID($customer_id);
+        if (!$this->_isNewPerIncidentLevel($support_level_id)) {
+            return false;
+        } else {
+            // check the time limit expiration
+            
         }
     }
 }

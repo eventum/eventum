@@ -32,6 +32,7 @@ include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.category.php");
+include_once(APP_INC_PATH . "class.priority.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.release.php");
 include_once(APP_INC_PATH . "class.issue.php");
@@ -39,6 +40,7 @@ include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.filter.php");
 include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.user.php");
+include_once(APP_INC_PATH . "class.group.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("list.tpl.html");
@@ -60,17 +62,38 @@ $tpl->assign("sorting", Issue::getSortingInfo($options));
 
 $prj_id = Auth::getCurrentProject();
 
+// generate options for assign list. If there are groups and user is above a customer, include groups
+$groups = Group::getAssocList();
+$users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
+$assign_options = array(
+    ""      =>  "Any",
+    "-1"    =>  "un-assigned",
+    "-2"    =>  "myself and un-assigned"
+);
+if (User::getGroupID(Auth::getUserID()) != '') {
+    $assign_options['-3'] = 'myself and my group';
+    $assign_options['-4'] = 'myself, un-assigned and my group';
+}
+if ((count($groups) > 0) && ( User::getRoleByUser(Auth::getUserID()) >User::getRoleID("Customer"))) {
+    foreach ($groups as $grp_id => $grp_name) {
+        $assign_options["grp:$grp_id"] = "Group: " . $grp_name;
+    }
+}
+$assign_options += $users;
+
 $list = Issue::getListing($prj_id, $options, $pagerRow, $rows);
 $tpl->assign("list", $list["list"]);
 $tpl->assign("list_info", $list["info"]);
-$tpl->assign("csv_data", base64_encode($list["csv"]));
+$tpl->assign("csv_data", base64_encode(@$list["csv"]));
 
-$tpl->assign("priorities", Misc::getPriorities());
+$tpl->assign("priorities", Priority::getList($prj_id));
 $tpl->assign("status", Status::getAssocStatusList($prj_id));
-$tpl->assign("users", Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')));
+$tpl->assign("users", $users);
+$tpl->assign("assign_options", $assign_options);
 $tpl->assign("custom", Filter::getAssocList($prj_id));
 $tpl->assign("csts", Filter::getListing($prj_id));
 $tpl->assign("categories", Category::getAssocList($prj_id));
+$tpl->assign("groups", $groups);
 
 $prefs = Prefs::get(Auth::getUserID());
 $tpl->assign("refresh_rate", $prefs['list_refresh_rate'] * 60);

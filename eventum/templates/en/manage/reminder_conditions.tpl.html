@@ -176,7 +176,7 @@
                     <input type="hidden" name="rem_id" value="{$rem_id}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap>&nbsp;</td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
                       <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Field</b></td>
                       <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Operator</b></td>
                       <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Value</b></td>
@@ -184,7 +184,7 @@
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].rlc_id}"></td>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].rlc_id}"></td>
                       <td width="33%" bgcolor="{$row_color}" class="default">&nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&rem_id={$rem_id}&rma_id={$rma_id}&id={$list[i].rlc_id}" title="update this entry">{$list[i].rmf_title|escape:"html"}</a></td>
                       <td width="33%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].rmo_title|escape:"html"}</td>
                       <td width="33%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].rlc_value|escape:"html"}</td>
@@ -201,9 +201,10 @@
                         <table width="100%" cellspacing="0" cellpadding="0">
                           <tr>
                             <td align="left">
-                              <input type="submit" value="Delete" class="button">
+                              <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                             </td>
                             <td width="100%" align="center">
+                              <input type="submit" value="Delete" class="button">&nbsp;&nbsp;
                               <input type="button" value="Review SQL Query" class="button" onClick="javascript:reviewSQL();">
                             </td>
                           </tr>

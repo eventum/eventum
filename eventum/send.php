@@ -64,7 +64,7 @@ if (@$HTTP_POST_VARS["cat"] == "send_email") {
     if (!empty($HTTP_POST_VARS['draft_id'])) {
         Draft::remove($HTTP_POST_VARS['draft_id']);
     }
-    // enter the time tracking entry about this phone support entry
+    // enter the time tracking entry about this new email
     if (!empty($HTTP_POST_VARS['time_spent'])) {
         $HTTP_POST_VARS['issue_id'] = $issue_id;
         $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Email Discussion');
@@ -77,6 +77,16 @@ if (@$HTTP_POST_VARS["cat"] == "send_email") {
 } elseif (@$HTTP_POST_VARS["cat"] == "update_draft") {
     $res = Draft::update($issue_id, $HTTP_POST_VARS["draft_id"], $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"], $HTTP_POST_VARS["parent_id"]);
     $tpl->assign("draft_result", $res);
+}
+
+// enter the time tracking entry about this new email
+if ((@$HTTP_POST_VARS["cat"] == "save_draft") || (@$HTTP_POST_VARS["cat"] == "update_draft")) {
+    if (!empty($HTTP_POST_VARS['time_spent'])) {
+        $HTTP_POST_VARS['issue_id'] = $issue_id;
+        $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Email Discussion');
+        $HTTP_POST_VARS['summary'] = 'Time entry inserted when saving an email draft.';
+        Time_Tracking::insertEntry();
+    }
 }
 
 if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
@@ -157,8 +167,8 @@ $t = Project::getAddressBook($prj_id, $issue_id);
 $tpl->assign("assoc_users", $t);
 $tpl->assign("assoc_emails", array_keys($t));
 
-$tpl->assign("canned_responses", Email_Response::getAssocList());
-$tpl->assign("js_canned_responses", Email_Response::getAssocListBodies());
+$tpl->assign("canned_responses", Email_Response::getAssocList($prj_id));
+$tpl->assign("js_canned_responses", Email_Response::getAssocListBodies($prj_id));
 
 $tpl->assign("current_user_prefs", Prefs::get($usr_id));
 

@@ -54,7 +54,7 @@ function authenticate($email, $password)
 }
 
 
-$getDeveloperList_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
+$getDeveloperList_sig = array(array($XML_RPC_Struct, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getDeveloperList($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
@@ -74,11 +74,11 @@ function getDeveloperList($p)
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "This project does not allow remote invocation");
     }
 
-    $res = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
+    $res = Project::getAddressBookAssocList($prj_id);
     if (empty($res)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "There are currently no users associated with the given project");
     } else {
-        return new XML_RPC_Response(XML_RPC_Encode(array_values($res)));
+        return new XML_RPC_Response(XML_RPC_Encode($res));
     }
 }
 
@@ -274,6 +274,8 @@ function assignIssue($p)
     $project_id = XML_RPC_decode($p->getParam(3));
     $developer = XML_RPC_decode($p->getParam(4));
 
+    createFakeCookie($email, Issue::getProjectID($issue_id));
+
     $usr_id = User::getUserIDByEmail($email);
     $assignee = User::getUserIDByEmail($developer);
     if (empty($assignee)) {
@@ -461,7 +463,7 @@ function closeIssue($p)
     $status_id = Status::getStatusID($new_status);
     $resolution_id = XML_RPC_decode($p->getParam(4));
     $send_notification = XML_RPC_decode($p->getParam(5));
-    $note = XML_RPC_decode($p->getParam(5));
+    $note = XML_RPC_decode($p->getParam(6));
     
     createFakeCookie($email, Issue::getProjectID($issue_id));
 
@@ -595,7 +597,7 @@ function getNote($p)
     return new XML_RPC_Response(XML_RPC_Encode($note));
 }
 
-$convertNote_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String));
+$convertNote_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Boolean));
 function convertNote($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
@@ -607,9 +609,10 @@ function convertNote($p)
     $issue_id = XML_RPC_decode($p->getParam(2));
     $note_id = XML_RPC_decode($p->getParam(3));
     $target = XML_RPC_decode($p->getParam(4));
+    $authorize_sender = XML_RPC_decode($p->getParam(5));
     
     createFakeCookie($email, Issue::getProjectID($issue_id));
-    $res = Note::convertNote($note_id, $target);
+    $res = Note::convertNote($note_id, $target, $authorize_sender);
     if ($res) {
         return new XML_RPC_Response(XML_RPC_Encode("OK"));
     } else {
@@ -789,6 +792,75 @@ function sendDraft($p)
     }
 }
 
+$redeemIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
+function redeemIssue($p)
+{
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+
+    $prj_id = Issue::getProjectID($issue_id);
+    createFakeCookie($email, $prj_id);
+    $customer_id = Issue::getCustomerID($issue_id);
+    
+    if (!Customer::hasCustomerIntegration($prj_id)) {
+        // no customer integration
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
+    } elseif (!Customer::hasPerIncidentContract($prj_id, $customer_id)) {
+        // check if is per incident contract
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
+    } elseif (!Customer::hasIncidentsLeft($prj_id, $customer_id)) {
+        // check if incidents are remaining
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id has no remaining incidents");
+    }
+    
+    $res = Customer::flagIncident($prj_id, $issue_id);
+    if ($res == -2) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is already marked as redeemed incident");
+    } elseif ($res == -1) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "An error occured trying to mark issue as redeemed.");
+    } else {
+        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+    }
+}
+
+$unredeemIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
+function unredeemIssue($p)
+{
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+
+    $prj_id = Issue::getProjectID($issue_id);
+    createFakeCookie($email, $prj_id);
+    $customer_id = Issue::getCustomerID($issue_id);
+    
+    if (!Customer::hasCustomerIntegration($prj_id)) {
+        // no customer integration
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
+    } elseif (!Customer::hasPerIncidentContract($prj_id, $customer_id)) {
+        // check if is per incident contract
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
+    }
+    
+    $res = Customer::unflagIncident($prj_id, $issue_id);
+    if ($res == -2) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is not marked as redeemed incident");
+    } elseif ($res == -1) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "An error occured trying to mark issue as unredeemed.");
+    } else {
+        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+    }
+}
+
 $logCommand_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_String));
 function logCommand($p)
 {
@@ -954,6 +1026,14 @@ $services = array(
     "sendDraft" => array(
         "function"  => "sendDraft",
         "signature" => $sendDraft_sig
+    ),
+    "redeemIssue" =>  array(
+        "function"  =>  "redeemIssue",
+        "signature" =>  $redeemIssue_sig
+    ),
+    "unredeemIssue" =>  array(
+        "function"  =>  "unredeemIssue",
+        "signature" =>  $unredeemIssue_sig
     ),
     "logCommand"    => array(
         "function"  => "logCommand",

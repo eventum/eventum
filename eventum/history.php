@@ -31,6 +31,7 @@ include_once("config.inc.php");
 include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.history.php");
+include_once(APP_INC_PATH . "class.reminder.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -39,6 +40,11 @@ $tpl->setTemplate("history.tpl.html");
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $tpl->assign("changes", History::getListing($HTTP_GET_VARS["iss_id"]));
+
+$role_id = User::getRoleByUser(Auth::getUserID());
+if ($role_id > User::getRoleID('Customer')) {
+    $tpl->assign("reminders", Reminder::getHistoryList($HTTP_GET_VARS["iss_id"]));
+}
 
 $tpl->displayTemplate();
 ?>

@@ -47,11 +47,19 @@ include_once(APP_INC_PATH . "class.validation.php");
 
 class Reminder_Action
 {
-    // XXX: put documentation here
+    /**
+     * Method used to quickly change the ranking of a reminder action
+     * from the administration screen.
+     *
+     * @access  public
+     * @param   integer $rma_id The reminder action ID
+     * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
+     * @return  boolean
+     */
     function changeRank($rma_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
-        $ranking = Reminder_Action::getRanking();
+        $ranking = Reminder_Action::_getRanking();
         $ranks = array_values($ranking);
         $ids = array_keys($ranking);
         $last = end($ids);
@@ -86,11 +94,18 @@ class Reminder_Action
                  WHERE
                     rma_id=" . $rma_id;
         $GLOBALS["db_api"]->dbh->query($stmt);
+        return true;
     }
 
 
-    // XXX: put documentation here
-    function getRanking()
+    /**
+     * Returns an associative array with the list of reminder action 
+     * IDs and their respective ranking.
+     *
+     * @access  private
+     * @return  array The list of reminder actions
+     */
+    function _getRanking()
     {
         $stmt = "SELECT
                     rma_id,
@@ -180,13 +195,15 @@ class Reminder_Action
                     rma_rmt_id,
                     rma_created_date,
                     rma_title,
-                    rma_rank
+                    rma_rank,
+                    rma_alert_irc
                  ) VALUES (
                     " . $HTTP_POST_VARS['rem_id'] . ",
                     " . $HTTP_POST_VARS['type'] . ",
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    '" . $HTTP_POST_VARS['rank'] . "'
+                    '" . $HTTP_POST_VARS['rank'] . "',
+                    " . $HTTP_POST_VARS['alert_irc'] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -203,7 +220,14 @@ class Reminder_Action
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Returns the list of users associated with a given reminder
+     * action ID
+     *
+     * @access  public
+     * @param   integer $rma_id The reminder action ID
+     * @return  array The list of associated users
+     */
     function getUserList($rma_id)
     {
         $stmt = "SELECT
@@ -231,7 +255,15 @@ class Reminder_Action
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Method used to associate a list of users with a given reminder
+     * action ID
+     *
+     * @access  public
+     * @param   integer $rma_id The reminder action ID
+     * @param   array $user_list The list of users
+     * @return  void
+     */
     function associateUserList($rma_id, $user_list)
     {
         for ($i = 0; $i < count($user_list); $i++) {
@@ -274,7 +306,8 @@ class Reminder_Action
                     rma_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     rma_rank='" . $HTTP_POST_VARS['rank'] . "',
                     rma_title='" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    rma_rmt_id=" . $HTTP_POST_VARS['type'] . "
+                    rma_rmt_id=" . $HTTP_POST_VARS['type'] . ",
+                    rma_alert_irc=" . $HTTP_POST_VARS['alert_irc'] . "
                  WHERE
                     rma_id=" . $HTTP_POST_VARS['id'];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -293,7 +326,14 @@ class Reminder_Action
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Checks whether the given reminder action type is one where a
+     * list of users is used or not.
+     *
+     * @access  public
+     * @param   integer $rmt_id The reminder action type ID
+     * @return  boolean
+     */
     function isUserList($rmt_id)
     {
         $stmt = "SELECT
@@ -320,7 +360,13 @@ class Reminder_Action
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Removes the full user list for a given reminder action ID.
+     *
+     * @access  public
+     * @param   integer $rma_id The reminder action ID
+     * @return  void
+     */
     function clearActionUserList($rma_id)
     {
         if (!is_array($rma_id)) {
@@ -404,7 +450,8 @@ class Reminder_Action
                     rma_id,
                     rma_title,
                     rmt_title,
-                    rma_rank
+                    rma_rank,
+                    rma_alert_irc
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_type
@@ -627,7 +674,7 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, APP_SHORT_NAME . ": Reminder Alert for Issue #$issue_id");
+                $mail->send($setup["from"], $address, APP_SHORT_NAME . ": Reminder Alert for Issue #$issue_id", 0, $issue_id);
             }
         } elseif ($type == 'sms') {
             $tpl = new Template_API;
@@ -644,8 +691,16 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "Reminder Alert for Issue #$issue_id");
+                $mail->send($setup["from"], $address, "Reminder Alert for Issue #$issue_id", 0, $issue_id);
             }
+        }
+        // - do we also need to alert IRC about this?
+        if ($action['rma_alert_irc']) {
+            if (Reminder::isDebug()) {
+                echo "  - Processing IRC notification\n";
+            }
+            $notice = "Issue #$issue_id: Reminder action '" . $action['rma_title'] . "' was just triggered.";
+            Notification::notifyIRC($issue_id, $notice);
         }
         // - eventum saves the day once again
         return true;

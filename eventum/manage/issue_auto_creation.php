@@ -33,6 +33,7 @@ include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.email_account.php");
 include_once(APP_INC_PATH . "class.category.php");
+include_once(APP_INC_PATH . "class.priority.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.setup.php");
@@ -61,7 +62,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     // load the form fields
     $tpl->assign("info", Email_Account::getDetails($ema_id));
     $tpl->assign("cats", Category::getAssocList($prj_id));
-    $tpl->assign("priorities", Misc::getPriorities());
+    $tpl->assign("priorities", Priority::getList($prj_id));
     $tpl->assign("users", Project::getUserAssocList($prj_id, 'active'));
     $tpl->assign("options", Email_Account::getIssueAutoCreationOptions($ema_id));
     $tpl->assign("ema_id", $ema_id);

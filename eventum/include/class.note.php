@@ -266,10 +266,11 @@ class Note
      * @param   integer $issue_id The issue ID
      * @param   string  $unknown_user The email address of a user that sent the blocked email that was turned into this note. Default is false.
      * @param   boolean $log If adding this note should be logged. Default true.
+     * @param   boolean $closing If The issue is being closed. Default false
      * @access  public
      * @return  integer 1 if the insert worked, -1 or -2 otherwise
      */
-    function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true)
+    function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true, $closing = false)
     {
         global $HTTP_POST_VARS;
 
@@ -283,7 +284,7 @@ class Note
         $note_cc[] = $usr_id;
         if ($unknown_user == false) {
             for ($i = 0; $i < count($note_cc); $i++) {
-                Notification::subscribeUser($issue_id, $note_cc[$i], Notification::getAllActions());
+                Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getAllActions());
             }
         }
         if (Validation::isWhitespace($HTTP_POST_VARS["note"])) {
@@ -342,7 +343,7 @@ class Note
             } else {
                 Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
             }
-            Workflow::handleNewNote(Issue::getProjectID($issue_id), $issue_id);
+            Workflow::handleNewNote(Issue::getProjectID($issue_id), $issue_id, $closing);
             return 1;
         }
     }
@@ -469,8 +470,9 @@ class Note
      * @access  public
      * @param   $note_id The id of the note
      * @param   $target What the not should be converted too
+     * @param   $authorize_sender If the sender should be added to authorized senders list.
      */
-    function convertNote($note_id, $target)
+    function convertNote($note_id, $target, $authorize_sender = false)
     {
         $issue_id = Note::getIssueID($note_id);
         $email_account_id = Email_Account::getEmailAccount();
@@ -530,7 +532,9 @@ class Note
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_email'), 
                         "Note converted to e-mail (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID()));
                 // now add sender as an authorized replier
-                Authorized_Replier::manualInsert($issue_id, @$structure->headers['from']);
+                if ($authorize_sender) {
+                    Authorized_Replier::manualInsert($issue_id, @$structure->headers['from']);
+                }
             }
             return $res;
         } else {

@@ -434,7 +434,13 @@ class Support
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Returns the referenced message-id for a given reply.
+     *
+     * @access  public
+     * @param   string $text_headers The full headers of the reply
+     * @return  string The message-id of the original email
+     */
     function getReferenceMessageID($text_headers)
     {
         $references = array();
@@ -443,7 +449,7 @@ class Support
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/sm', $text_headers, $matches)) {
             $references = explode("\n", trim($matches[1]));
-            array_walk($references, 'trim');
+            $references = array_map('trim', $references);
             // return the first message-id in the list of references
             return $references[0];
         }
@@ -550,16 +556,16 @@ class Support
                         $email->fromaddress, $email->subject, $message_body, $options['category'], 
                         $options['priority'], @$options['users'], $t['date']);
                 $t['issue_id'] = $new_issue_id;
-            }
-            // associate any existing replied-to email with the same issue
-            if ((!empty($associate_email)) && (!empty($t['issue_id']))) {
-                $reference_sup_id = Support::getIDByMessageID($associate_email);
-                Support::associate(APP_SYSTEM_USER_ID, $t['issue_id'], array($reference_sup_id));
+                // associate any existing replied-to email with this new issue
+                if ((!empty($associate_email)) && (!empty($t['issue_id']))) {
+                    $reference_sup_id = Support::getIDByMessageID($associate_email);
+                    Support::associate(APP_SYSTEM_USER_ID, $t['issue_id'], array($reference_sup_id));
+                }
             }
             // need to check crm for customer association
             if (!empty($email->fromaddress)) {
                 $details = Email_Account::getDetails($info['ema_id']);
-                if ((!empty($customer_id)) && (Customer::hasCustomerIntegration($info['ema_prj_id']))) {
+                if (Customer::hasCustomerIntegration($info['ema_prj_id'])) {
                     // get the sender's email address and check for any customer contact association in spot
                     $sender_email = Mail_API::getEmailAddress($email->fromaddress);
                     list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
@@ -749,12 +755,19 @@ class Support
      * Method used to get the current listing related cookie information.
      *
      * @access  public
+     * @param   boolean $full_cookie If the full cookie or user specific params should be returned.
      * @return  array The email listing information
      */
-    function getCookieParams()
+    function getCookieParams($full_cookie = false)
     {
         global $HTTP_COOKIE_VARS;
-        return @unserialize(base64_decode($HTTP_COOKIE_VARS[APP_EMAIL_LIST_COOKIE]));
+
+        $cookie = @unserialize(base64_decode($HTTP_COOKIE_VARS[APP_EMAIL_LIST_COOKIE]));
+        if ($full_cookie) {
+            return $cookie;
+        } else {
+            return @$cookie[Auth::getUserID()][Auth::getCurrentProject()];
+        }
     }
 
 
@@ -832,7 +845,10 @@ class Support
                 'Day'         => $end_field['Day']
             );
         }
-        $encoded = base64_encode(serialize($cookie));
+        // set search information for specific usr_id
+        $full_cookie = Support::getCookieParams(true);
+        $full_cookie[Auth::getUserID()][Auth::getCurrentProject()] = $cookie;
+        $encoded = base64_encode(serialize($full_cookie));
         setcookie(APP_EMAIL_LIST_COOKIE, $encoded, APP_EMAIL_LIST_COOKIE_EXPIRE);
         return $cookie;
     }
@@ -1064,8 +1080,8 @@ class Support
 
 
     /**
-     * Method used to associate a support email with an existing 
-     * issue.
+     * Method used to silently associate a support email with an 
+     * existing issue.
      *
      * @access  public
      * @param   integer $usr_id The user ID of the person performing this change
@@ -1073,7 +1089,7 @@ class Support
      * @param   array $items The list of email IDs to associate
      * @return  integer 1 if it worked, -1 otherwise
      */
-    function associate($usr_id, $issue_id, $items)
+    function associateEmail($usr_id, $issue_id, $items)
     {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
@@ -1093,8 +1109,37 @@ class Support
             Issue::markAsUpdated($issue_id);
             // save a history entry for each email being associated to this issue
             $stmt = "SELECT
+                        sup_subject
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                     WHERE
+                        sup_id IN (" . @implode(", ", $items) . ")";
+            $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+            for ($i = 0; $i < count($res); $i++) {
+                History::add($issue_id, $usr_id, History::getTypeID('email_associated'), 
+                       'Email (subject: \'' . $res[$i] . '\') associated by ' . User::getFullName($usr_id));
+            }
+            return 1;
+        }
+    }
+
+
+    /**
+     * Method used to associate a support email with an existing 
+     * issue.
+     *
+     * @access  public
+     * @param   integer $usr_id The user ID of the person performing this change
+     * @param   integer $issue_id The issue ID
+     * @param   array $items The list of email IDs to associate
+     * @return  integer 1 if it worked, -1 otherwise
+     */
+    function associate($usr_id, $issue_id, $items)
+    {
+        $res = Support::associateEmail($usr_id, $issue_id, $items);
+        if ($res == 1) {
+            $stmt = "SELECT
                         sup_id,
-                        sup_subject,
                         seb_full_email
                      FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
@@ -1104,14 +1149,13 @@ class Support
                         sup_id IN (" . @implode(", ", $items) . ")";
             $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
             for ($i = 0; $i < count($res); $i++) {
-                History::add($issue_id, $usr_id, History::getTypeID('email_associated'), 
-                                'Email (subject: \'' . $res[$i]['sup_subject'] . '\') associated by ' . User::getFullName($usr_id));
-                // send notifications for the issue being updated
                 // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
                 $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
                 Notification::notifyNewEmail($usr_id, $issue_id, $structure, $res[$i]['seb_full_email'], false);
             }
             return 1;
+        } else {
+            return -1;
         }
     }
 
@@ -1461,7 +1505,19 @@ class Support
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Method used to build the headers of a web-based message.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   string $message_id The message-id
+     * @param   string $from The sender of this message
+     * @param   string $to The primary recipient of this message
+     * @param   string $cc The extra recipients of this message
+     * @param   string $body The message body
+     * @param   string $in_reply_to The message-id that we are replying to
+     * @return  string The full email
+     */
     function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to)
     {
         // hack needed to get the full headers of this web-based email
@@ -1489,7 +1545,21 @@ class Support
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Method used to send emails directly from the sender to the 
+     * recipient. This will not re-write the sender's email address
+     * to issue-xxxx@ or whatever.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   string $from The sender of this message
+     * @param   string $to The primary recipient of this message
+     * @param   string $cc The extra recipients of this message
+     * @param   string $subject The subject of this message
+     * @param   string $body The message body
+     * @param   string $message_id The message-id
+     * @return  void
+     */
     function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $message_id)
     {
         $recipients = Support::getRecipientsCC($cc);
@@ -1507,12 +1577,19 @@ class Support
                 $fixed_body = $body;
             }
             $mail->setTextBody($fixed_body);
-            $mail->send($from, $recipient, $subject, TRUE);
+            $mail->send($from, $recipient, $subject, TRUE, $issue_id);
         }
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Method used to parse the Cc list in a string format and return
+     * an array of the email addresses contained within.
+     *
+     * @access  public
+     * @param   string $cc The Cc list
+     * @return  array The list of email addresses
+     */
     function getRecipientsCC($cc)
     {
         $cc = trim($cc);
@@ -1577,7 +1654,7 @@ class Support
                 $recipients = array_merge($recipients, Support::getRecipientsCC($HTTP_POST_VARS['cc']));
                 for ($i = 0; $i < count($recipients); $i++) {
                     if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($HTTP_POST_VARS["issue_id"], $recipients[$i]))) {
-                        Notification::manualInsert(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], Mail_API::getEmailAddress($recipients[$i]), array('emails'));
+                        Notification::subscribeEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], Mail_API::getEmailAddress($recipients[$i]), array('emails'));
                     }
                 }
             }

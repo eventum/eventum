@@ -99,6 +99,20 @@ class Error_Handler
         }
         $msg .= "That happened on page '" . $HTTP_SERVER_VARS["PHP_SELF"] . "' from IP Address '" . getenv("REMOTE_ADDR") . "' coming from the page (referrer) '" . getenv("HTTP_REFERER") . "'.\n\n";
         $msg .= "Sincerely yours,\nAutomated Error_Handler Class";
+        // only try to include the backtrace if we are on PHP 4.3.0 or later
+        if (version_compare(phpversion(), "4.3.0", ">=")) {
+            $msg .= "\n\nA backtrace is available:\n\n";
+            ob_start();
+            $backtrace = debug_backtrace();
+            // remove the two entries related to the error handling stuff itself
+            array_shift($backtrace);
+            array_shift($backtrace);
+            // now we can print it out
+            var_dump($backtrace);
+            $contents = ob_get_contents();
+            $msg .= $contents;
+            ob_end_clean();
+        }
         foreach ($notify_list as $notify_email) {
             $mail = new Mail_API;
             $mail->setTextBody($msg);

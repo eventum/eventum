@@ -32,6 +32,7 @@ include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.category.php");
+include_once(APP_INC_PATH . "class.priority.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.release.php");
 include_once(APP_INC_PATH . "class.project.php");
@@ -44,7 +45,7 @@ $tpl->setTemplate("searchbar.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 
 $prj_id = Auth::getCurrentProject();
-$tpl->assign("priorities", Misc::getPriorities());
+$tpl->assign("priorities", Priority::getList($prj_id));
 $tpl->assign("status", Status::getAssocStatusList($prj_id));
 $tpl->assign("users", Project::getUserAssocList($prj_id));
 $tpl->assign("categories", Category::getAssocList($prj_id));

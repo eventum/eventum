@@ -47,29 +47,26 @@ class Status
      *
      * @access  public
      * @param   integer $prj_id The project ID
-     * @param   integer $sta_id The status ID
+     * @param   array $sta_ids The list of status IDs
      * @return  array The label and date field
      */
-    function getProjectStatusCustomization($prj_id, $sta_id)
+    function getProjectStatusCustomization($prj_id, $sta_ids)
     {
         $stmt = "SELECT
+                    psd_sta_id,
                     psd_label,
                     psd_date_field
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
                  WHERE
                     psd_prj_id=$prj_id AND
-                    psd_sta_id=$sta_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt);
+                    psd_sta_id IN (" . implode(', ', $sta_ids) . ")";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return array('', '');
+            return array();
         } else {
-            if (count($res) == 0) {
-                return array('', '');
-            } else {
-                return $res;
-            }
+            return $res;
         }
     }
 
@@ -220,7 +217,7 @@ class Status
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            $date_fields = Issue::getDateFieldsAssocList();
+            $date_fields = Issue::getDateFieldsAssocList(TRUE);
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['date_field'] = $date_fields[$res[$i]['psd_date_field']];
             }
@@ -779,38 +776,6 @@ class Status
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            return $res;
-        }
-    }
-
-
-    /**
-     * Method used to get the color for a given status ID
-     *
-     * @access  public
-     * @param   integer $sta_id The status ID
-     * @return  string The status color
-     */
-    function getStatusColor($sta_id)
-    {
-        static $returns;
-
-        if (!empty($returns[$sta_id])) {
-            return $returns[$sta_id];
-        }
-
-        $stmt = "SELECT
-                    sta_color
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
-                 WHERE
-                    sta_id=$sta_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            $returns[$sta_id] = $res;
             return $res;
         }
     }

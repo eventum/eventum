@@ -230,7 +230,7 @@ class History
                         $res[$index]["customer_name"] = $details["customer_name"];
                     }
                 }
-                usort($res, create_function('$a,$b', 'return strcmp(@$a["customer_name"], @$b["customer_name"]);'));
+                usort($res, create_function('$a,$b', 'return strcasecmp(@$a["customer_name"], @$b["customer_name"]);'));
             }
         }
         return $res;

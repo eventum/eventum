@@ -52,7 +52,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     if (count(@$HTTP_POST_VARS["min_role"]) > 0) {
-        Project::updateFieldDisplaySettings($prj_id, $HTTP_POST_VARS["min_role"]);
+        $tpl->assign("result", Project::updateFieldDisplaySettings($prj_id, $HTTP_POST_VARS["min_role"]));
     }
 
     $fields = Project::getDisplayFields();

@@ -67,6 +67,11 @@ function checkDateFilterType(f, type_field)
     } else if ((option != 'between') && (isElementVisible(element))) {
         toggleVisibility(element_name, false);
     }
+    if ((option == 'null') && (isElementVisible(getPageElement(element_name + '_null1')))) {
+        toggleVisibility(element_name + '_null', false);
+    } else if ((option != 'null') && (!isElementVisible(getPageElement(element_name + '_null1')))) {
+        toggleVisibility(element_name + '_null', false);
+    }
 }
 function selectDateOptions(field_prefix, date_str)
 {
@@ -231,13 +236,15 @@ function validateForm(f)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
-                  <input {if $options.cst_created_date_filter_type != ""}checked{/if} type="checkbox" name="filter[created_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'created_date');">
-                  <span class="default">Created:</span><br />
+                  <input {if $options.cst_created_date_filter_type != ""}checked{/if} type="checkbox" id="filter[created_date]" name="filter[created_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'created_date');">
+                  <span class="default"><label for="filter[created_date]">Created:</label></span><br />
                   <select name="created_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
                     <option {if $options.cst_created_date_filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
                     <option {if $options.cst_created_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
                     <option {if $options.cst_created_date_filter_type == "between"}selected{/if} value="between">Between</option>
+                    <option {if $options.cst_created_date_filter_type == "null"}selected{/if} value="null">Is Null</option>
                   </select>&nbsp;
+                  <span id="created_date_null1">
                   {html_select_date field_array="created_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--
@@ -246,6 +253,7 @@ function validateForm(f)
                   tCalendar.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
+                  </span>
                 </td>
                 <td nowrap id="created_date1" width="50%" valign="bottom">
                   <span class="default">Created: <i>(End date)</i></span><br />
@@ -267,13 +275,15 @@ function validateForm(f)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
-                  <input {if $options.cst_updated_date_filter_type != ""}checked{/if} type="checkbox" name="filter[updated_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'updated_date');">
-                  <span class="default">Last Updated:</span><br />
+                  <input {if $options.cst_updated_date_filter_type != ""}checked{/if} type="checkbox" id="filter[updated_date]" name="filter[updated_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'updated_date');">
+                  <span class="default"><label for="filter[updated_date]">Last Updated:</label></span><br />
                   <select name="updated_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
                     <option {if $options.cst_updated_date_filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
                     <option {if $options.cst_updated_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
                     <option {if $options.cst_updated_date_filter_type == "between"}selected{/if} value="between">Between</option>
+                    <option {if $options.cst_updated_date_filter_type == "null"}selected{/if} value="null">Is Null</option>
                   </select>&nbsp;
+                  <span id="updated_date_null1">
                   {html_select_date field_array="updated_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--
@@ -282,6 +292,7 @@ function validateForm(f)
                   tCalendar3.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
+                  </span>
                 </td>
                 <td nowrap id="updated_date1" width="50%" valign="bottom">
                   <span class="default">Last Updated: <i>(End date)</i></span><br />
@@ -303,13 +314,15 @@ function validateForm(f)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
-                  <input {if $options.cst_first_response_date_filter_type != ""}checked{/if} type="checkbox" name="filter[first_response_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'first_response_date');">
-                  <span class="default">First Response by Staff:</span><br />
+                  <input {if $options.cst_first_response_date_filter_type != ""}checked{/if} type="checkbox" id="filter[first_response_date]" name="filter[first_response_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'first_response_date');">
+                  <span class="default"><label for="filter[first_response_date]">First Response by Staff:</label></span><br />
                   <select name="first_response_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
                     <option {if $options.cst_first_response_date_filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
                     <option {if $options.cst_first_response_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
                     <option {if $options.cst_first_response_date_filter_type == "between"}selected{/if} value="between">Between</option>
+                    <option {if $options.cst_first_response_date_filter_type == "null"}selected{/if} value="null">Is Null</option>
                   </select>&nbsp;
+                  <span id="first_response_date_null1">
                   {html_select_date field_array="first_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--
@@ -318,6 +331,7 @@ function validateForm(f)
                   tCalendar7.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
+                  </span>
                 </td>
                 <td nowrap id="first_response_date1" width="50%" valign="bottom">
                   <span class="default">First Response By Staff: <i>(End date)</i></span><br />
@@ -339,13 +353,15 @@ function validateForm(f)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
-                  <input {if $options.cst_last_response_date_filter_type != ""}checked{/if} type="checkbox" name="filter[last_response_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'last_response_date');">
-                  <span class="default">Last Response by Staff:</span><br />
+                  <input {if $options.cst_last_response_date_filter_type != ""}checked{/if} type="checkbox" id="filter[last_response_date]" name="filter[last_response_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'last_response_date');">
+                  <span class="default"><label for="filter[last_response_date]">Last Response by Staff:</label></span><br />
                   <select name="last_response_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
                     <option {if $options.cst_last_response_date_filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
                     <option {if $options.cst_last_response_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
                     <option {if $options.cst_last_response_date_filter_type == "between"}selected{/if} value="between">Between</option>
+                    <option {if $options.cst_last_response_date_filter_type == "null"}selected{/if} value="null">Is Null</option>
                   </select>&nbsp;
+                  <span id="last_response_date_null1">
                   {html_select_date field_array="last_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--
@@ -354,6 +370,7 @@ function validateForm(f)
                   tCalendar5.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
+                  </span>
                 </td>
                 <td nowrap id="last_response_date1" width="50%" valign="bottom">
                   <span class="default">Last Response by Staff: <i>(End date)</i></span><br />
@@ -375,13 +392,15 @@ function validateForm(f)
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
-                  <input {if $options.cst_closed_date_filter_type != ""}checked{/if} type="checkbox" name="filter[closed_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'closed_date');">
-                  <span class="default">Status Closed:</span><br />
+                  <input {if $options.cst_closed_date_filter_type != ""}checked{/if} type="checkbox" id="filter[closed_date]" name="filter[closed_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'closed_date');">
+                  <span class="default"><label for="filter[closed_date]">Status Closed:</label></span><br />
                   <select name="closed_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
                     <option {if $options.cst_closed_date_filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
                     <option {if $options.cst_closed_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
                     <option {if $options.cst_closed_date_filter_type == "between"}selected{/if} value="between">Between</option>
+                    <option {if $options.cst_closed_date_filter_type == "null"}selected{/if} value="null">Is Null</option>
                   </select>&nbsp;
+                  <span id="closed_date_null1">
                   {html_select_date field_array="closed_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--
@@ -390,6 +409,7 @@ function validateForm(f)
                   tCalendar9.setYearCombo(false);
                   //-->
                   </script>&nbsp;&nbsp;
+                  </span>
                 </td>
                 <td nowrap id="closed_date1" width="50%" valign="bottom">
                   <span class="default">Status Closed: <i>(End date)</i></span><br />
@@ -417,6 +437,14 @@ function validateForm(f)
             <span class="default">Search Title:</span>
             <input type="text" name="title" class="default" value="{$options.cst_title}">
             {include file="error_icon.tpl.html" field="title"}
+            {if $current_role >= $roles.manager}
+            <input type="checkbox" id="is_global" name="is_global" value="1" {if $options.cst_is_global}checked{/if}>
+            <span class="default"><label for="is_global">Global Search</label></span>
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5" align="center" bgcolor="{$light_color}">
             <input class="button" type="button" value="Save Search" onClick="javascript:saveCustomFilter(this.form);">
           </td>
         </tr>
@@ -443,10 +471,17 @@ function validateForm(f)
         {section name="i" loop=$custom}
         <tr>
           <td width="2">
-            <input type="checkbox" name="item[]" value="{$custom[i].cst_id}">
+            <input type="checkbox" name="item[]" value="{$custom[i].cst_id}" {if $current_role < $roles.manager and $custom[i].cst_is_global}disabled{/if}>
           </td>
-          <td width="100%" class="default">
+          <td width="100%">
+            <span class="default">
+            {if $current_role < $roles.manager and $custom[i].cst_is_global}
+            {$custom[i].cst_title}
+            {else}
             <a href="adv_search.php?custom_id={$custom[i].cst_id}" class="link" title="edit this custom search">{$custom[i].cst_title}</a>
+            {/if}
+            </span>
+            {if $custom[i].cst_is_global}<span class="small_default"><i>(global filter)</i></span>{/if}
           </td>
           <td>
             <a class="link" title="RSS feed for this custom search" href="rss.php?custom_id={$custom[i].cst_id}"><img src="images/icons/rss.gif" border="0"></a>
@@ -454,8 +489,17 @@ function validateForm(f)
         </tr>
         {if %i.last% && %i.total% > 0}
         <tr bgcolor="{$light_color}">
-          <td colspan="3" align="right">
-            <input type="submit" value="Remove Selected" class="button">
+          <td colspan="3">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+              <tr>
+                <td align="left">
+                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                </td>
+                <td align="right">
+                  <input type="submit" value="Remove Selected" class="button">
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
         {/if}

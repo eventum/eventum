@@ -165,7 +165,7 @@ if (!in_array($sender_email, array_values($staff_emails))) {
 
 if (!$has_magic_cookie) {
     // check if sender email address is associated with a real user
-    if ((!Notification::isBounceMessage($sender_email)) &&
+    if ((Mail_API::isVacationAutoResponder($structure->headers)) || (!Notification::isBounceMessage($sender_email)) &&
             (!Support::isAllowedToEmail($issue_id, $sender_email))) {
         // add the message body as a note
         $HTTP_POST_VARS = array(
@@ -173,12 +173,24 @@ if (!$has_magic_cookie) {
             'title'       => @$structure->headers['subject'],
             'note'        => Mail_API::getCannedBlockedMsgExplanation() . $body
         );
-        Note::insert(Auth::getUserID(), $issue_id, $structure->headers['from'], false);
+        // avoid having this type of message re-open the issue
+        if (Mail_API::isVacationAutoResponder($structure->headers)) {
+            $closing = true;
+        } else {
+            $closing = false;
+        }
+        Note::insert(Auth::getUserID(), $issue_id, $structure->headers['from'], false, $closing);
         
         $HTTP_POST_VARS['issue_id'] = $issue_id;
         $HTTP_POST_VARS['from'] = $sender_email;
         
-        Workflow::handleBlockedEmail($prj_id, $issue_id, $HTTP_POST_VARS, 'routed');
+        // avoid having this type of message re-open the issue
+        if (Mail_API::isVacationAutoResponder($structure->headers)) {
+            $email_type = 'vacation-autoresponder';
+        } else {
+            $email_type = 'routed';
+        }
+        Workflow::handleBlockedEmail($prj_id, $issue_id, $HTTP_POST_VARS, $email_type);
         
         // try to get usr_id of sender, if not, use system account
         $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
@@ -227,11 +239,14 @@ if ($res != -1) {
 
     // notifications about new emails are always external
     $internal_only = false;
-    // special case when emails are bounced back, so we don't want a notification about those
+    $assignee_only = false;
+    // special case when emails are bounced back, so we don't want a notification to customers about those
     if (Notification::isBounceMessage($sender_email)) {
+        // broadcast this email only to the assignees for this issue
         $internal_only = true;
+        $assignee_only = true;
     }
-    Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $structure, $full_message, $internal_only);
+    Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $structure, $full_message, $internal_only, $assignee_only);
     Issue::markAsUpdated($issue_id);
     // try to get usr_id of sender, if not, use system account
     $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));

@@ -209,7 +209,7 @@ class Monitor
                 "issue_user",
                 "note",
                 "phone_support",
-                "priority",
+                "project_priority",
                 "project",
                 "project_category",
                 "project_custom_field",

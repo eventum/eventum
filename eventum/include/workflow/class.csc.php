@@ -26,6 +26,8 @@
 // +----------------------------------------------------------------------+
 //
 
+include_once(APP_INC_PATH . "class.priority.php");
+
 class CSC_Workflow_Backend
 {
     /**
@@ -69,6 +71,8 @@ class CSC_Workflow_Backend
             Issue::setStatus($issue_id, Status::getStatusID('Assigned'));
             History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to 'Assigned' because " . User::getFullName($usr_id) . " locked the issue.");
         }
+        $issue_details = Issue::getDetails($issue_id, true);
+        $this->changeGroup($issue_id, $issue_details["iss_grp_id"], array($usr_id));
     }
 
 
@@ -104,7 +108,7 @@ class CSC_Workflow_Backend
     {
         // only send an irc notice if this was done by a customer user
         if ((Customer::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id) == User::getRoleID('Customer'))) {
-            $irc_notice = "Issue #$issue_id updated (Old Priority: " . Misc::getPriorityTitle($old_details['iss_pri_id']) . "; New Priority: " . Misc::getPriorityTitle($changes["priority"]) . "), " . $old_details['customer_info']['customer_name'] . ", " . $changes["summary"];
+            $irc_notice = "Issue #$issue_id updated (Old Priority: " . Priority::getTitle($old_details['iss_pri_id']) . "; New Priority: " . Priority::getTitle($changes["priority"]) . "), " . $old_details['customer_info']['customer_name'] . ", " . $changes["summary"];
             Notification::notifyIRC($issue_id, $irc_notice);
         }
     }
@@ -123,12 +127,35 @@ class CSC_Workflow_Backend
     {
         // notify the email being blocked to IRC
         Notification::notifyIRCBlockedMessage($issue_id, $email_details['from']);
-        
-        if ($type != 'new') {
+        // only change the issue status if we are not handling a notification for a new issue, or
+        // a vacation auto-responder message
+        if (($type != 'new') && ($type != 'vacation-autoresponder')) {
             $status_id = Status::getStatusID('Waiting on Developer');
             if ((!empty($status_id)) && (Issue::getStatusID($issue_id) != Status::getStatusID('Pending'))) {
                 $this->markAsWaitingOnDeveloper($issue_id, $status_id, 'blocked_email');
             }
+        }
+    }
+
+
+    /**
+     * Called when a note is routed.
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   boolean $closing If the issue is being closed
+     */
+    function handleNewNote($prj_id, $issue_id, $closing)
+    {
+        // if the issue is being closed, nothing should be done.
+        if ($closing) {
+            return;
+        }
+        // change the status of the issue automatically to 'Waiting on Developer'
+        $current_status_id = Issue::getStatusID($issue_id);
+        $status_id = Status::getStatusID('Waiting on Developer');
+        if ((!empty($status_id)) && ($current_status_id != Status::getStatusID('Pending'))) {
+            $this->markAsWaitingOnDeveloper($issue_id, $status_id, 'note');
         }
     }
 
@@ -149,6 +176,43 @@ class CSC_Workflow_Backend
         if (count($new_assignees) > 0 && !in_array($usr_id, $new_assignees)) {
             Notification::notifyIRCAssignmentChange($issue_id, $usr_id, $issue_details['assigned_users'], $new_assignees, $remote_assignment);
         }
+        $this->changeGroup($issue_id, $issue_details["iss_grp_id"], $new_assignees);
+        
+    }
+    
+    
+    /**
+     * Handles the logic for changing the group if an assignment changes.
+     * 
+     * @access  private
+     * @param   integer $issue_id ID of the issue.
+     * @param   integer $current_group ID of the current group.
+     * @param   array $new_assignees An array of the users who are now assigned to this issue.
+     */
+    function changeGroup($issue_id, $current_group, $new_assignees)
+    {
+        if (count($new_assignees) < 1) {
+            return -1;
+        }
+        
+        // handle changing the group if the new user is in in a different group
+        $user_groups = User::getGroupID($new_assignees);
+        if ((empty($current_group)) || ((!empty($current_group)) && (!in_array($current_group, $user_groups)))) {
+            // if the issue already has a group, and none of the new assignees are in the current group.
+            // see if all the new assignees are in the same group and if so, change the group.
+            $new_grp_id = $user_groups[0];
+            $change_group = true;
+            foreach ($user_groups as $grp_id) {
+            	if ($grp_id != $new_grp_id) {
+        	       // not all new assignees arein the same group, its not ok to change
+            	   $change_group = false;
+            	   break;
+            	}
+            }
+            if (($change_group == true) && (!empty($new_grp_id))) {
+                Issue::setGroup($issue_id, $new_grp_id);
+            }
+        }
     }
 
 
@@ -164,6 +228,46 @@ class CSC_Workflow_Backend
     {
         if ($has_TAM || $has_RR) {
             Issue::setStatus($issue_id, Status::getStatusID('Assigned'));
+        }
+        $details = Issue::getDetails($issue_id);
+        // figure out which Group this issue should belong too if no group is set
+        if ((empty($details["iss_grp_id"])) && (Group::getAssocList() > 0)) {
+            if (count($details['assigned_users']) > 0) {
+                $this->changeGroup($issue_id, 0, $details['assigned_users']);
+            } else {
+                $first_char = strtolower(substr($details["customer_info"]["customer_name"], 0, 1));
+                if ($first_char >= "n") {
+                    Issue::setGroup($issue_id, Group::getGroupByName("N-Z"));
+                } else {
+                    Issue::setGroup($issue_id, Group::getGroupByName("A-M"));
+                }
+            }
+        }
+        
+        // XXX: also need to check if the new per-incident support contract is 30 days old or not. if it is older than 30 days, then quarantine
+        $customer_id = Issue::getCustomerID($issue_id);
+        if (!empty($customer_id)) {
+            // check if we need to send a notification about per-incident support being over
+            if ((Customer::hasPerIncidentContract($prj_id, $customer_id)) && 
+                    (!Customer::hasIncidentsLeft($prj_id, $customer_id))) {
+                Customer::sendIncidentLimitNotice($prj_id, Issue::getContactID($issue_id), $customer_id, true);
+            }
+
+            // check if customer is using a support level with a 
+            // minimum response time restriction, and if so, quarantine!
+            if (Customer::hasMinimumResponseTime($prj_id, $customer_id)) {
+                $min_response_time = Customer::getMinimumResponseTime($prj_id, $customer_id);
+                $now_ts = Date_API::getCurrentUnixTimestampGMT();
+                $expiration_date = Date_API::getDateGMTByTS($now_ts + $min_response_time);
+                Issue::setQuarantine($issue_id, 2, $expiration_date);
+                return true;
+            }
+            // check if customer is out of incidents and if so, quarantine issue
+            if ((Customer::hasPerIncidentContract($prj_id, $customer_id)) && 
+                    (!Customer::hasIncidentsLeft($prj_id, $customer_id))) {
+                Issue::setQuarantine($issue_id, 1);
+                return true;
+            }
         }
     }
 
@@ -219,23 +323,6 @@ class CSC_Workflow_Backend
                     Issue::recordLastCustomerAction($issue_id);
                 }
             }
-        }
-    }
-
-
-    /**
-     * Called when a note is routed.
-     *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
-     */
-    function handleNewNote($prj_id, $issue_id)
-    {
-        // change the status of the issue automatically to 'Waiting on Developer'
-        $current_status_id = Issue::getStatusID($issue_id);
-        $status_id = Status::getStatusID('Waiting on Developer');
-        if ((!empty($status_id)) && ($current_status_id != Status::getStatusID('Pending'))) {
-            $this->markAsWaitingOnDeveloper($issue_id, $status_id, 'note');
         }
     }
 

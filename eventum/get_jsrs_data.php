@@ -29,15 +29,20 @@
 //
 include_once("config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
+include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.note.php");
 include_once(APP_INC_PATH . "class.draft.php");
+include_once(APP_INC_PATH . "class.mail_queue.php");
+
+Auth::checkAuthentication(APP_COOKIE);
+
 include_once(APP_INC_PATH . "jsrsServer.inc.php");
 
 /*
  * This page is used to return a single content to the expandable table using jsrs.
  */
 
-jsrsDispatch("getEmail,getNote,getDraft,getPhoneSupport");
+jsrsDispatch("getEmail,getNote,getDraft,getPhoneSupport,getMailQueue");
 
 /**
  * Selects the email from the table and returns the contents. Since jsrs only supports returning one value, 
@@ -105,7 +110,27 @@ function getPhoneSupport($id)
     if (!empty($_GET["ec_id"])) {
         return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["phs_description"]));
     } else {
-        return $note["phs_description"];
+        return $res["phs_description"];
+    }
+}
+
+
+/**
+ * Selects a mail queue entry from the table and returns the contents.
+ * 
+ * @param   string $id The mail queue entry ID.
+ * @return  A string containing the body.
+ */
+function getMailQueue($id)
+{
+    if (User::getRoleByUser(Auth::getUserID()) < User::getRoleID('Developer')) {
+        return;
+    }
+    $res = Mail_Queue::getEntry($id);
+    if (!empty($_GET["ec_id"])) {
+        return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["maq_headers"] . "\n" . $res["maq_body"]));
+    } else {
+        return $res["maq_body"];
     }
 }
 ?>

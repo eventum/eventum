@@ -64,8 +64,12 @@ class Command_Line
                 Command_Line::quit("Entered resolution doesn't match any in the list available to you");
             }
         } else {
-            $t = array_keys($list);
-            $resolution_id = $t[0];
+            if (count($list) == 0) {
+                $resolution_id = 0;
+            } else {
+                $t = array_keys($list);
+                $resolution_id = $t[0];
+            }
         }
         return $resolution_id;
     }
@@ -703,7 +707,8 @@ class Command_Line
   Support Level: " . @$details['customer_info']['support_level'] . "
 Support Options: " . @$details['customer_info']['support_options'] . "
           Phone: " . $details['iss_contact_phone'] . "
-       Timezone: " . $details['iss_contact_timezone'];
+       Timezone: " . $details['iss_contact_timezone'] . "
+Account Manager: " . @$details['customer_info']['account_manager'];
         }
         $msg .= "
   Last Response: " . $details['iss_last_response_date'] . "
@@ -746,7 +751,7 @@ Support Options: " . @$details['customer_info']['support_options'] . "
             }
             // if the user is passing an abbreviation, use the real title instead
             if (in_array(strtolower($status), $abbreviations)) {
-                $status = $statuses[$status];
+                $status = $statuses[strtoupper($status)];
             }
         }
 
@@ -892,8 +897,8 @@ Support Options: " . @$details['customer_info']['support_options'] . "
         }
         $developers = XML_RPC_decode($result->value());
         echo "Available Developers:\n";
-        foreach ($developers as $name) {
-            echo "- $name\n";
+        foreach ($developers as $name => $email) {
+            echo "-> $name - $email\n";
         }
     }
 
@@ -1109,8 +1114,9 @@ Support Options: " . @$details['customer_info']['support_options'] . "
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The sequential id of the note to view
      * @param   string $target What this note should be converted too, a draft or an email.
+     * @param   boolean $authorize_sender If the sender should be added to the authorized repliers list.
      */
-    function convertNote(&$rpc_conn, $auth, $issue_id, $note_id, $target)
+    function convertNote(&$rpc_conn, $auth, $issue_id, $note_id, $target, $authorize_sender)
     {
         Command_Line::checkIssuePermissions(&$rpc_conn, $auth, $issue_id);
         Command_Line::checkIssueAssignment(&$rpc_conn, $auth, $issue_id);
@@ -1127,6 +1133,7 @@ Support Options: " . @$details['customer_info']['support_options'] . "
             new XML_RPC_Value($issue_id, "int"),
             new XML_RPC_Value($note_details["not_id"], "int"),
             new XML_RPC_Value($target, "string"),
+            new XML_RPC_Value($authorize_sender, 'boolean')
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
@@ -1323,6 +1330,61 @@ Support Options: " . @$details['customer_info']['support_options'] . "
         echo XML_RPC_decode($result->value());
     }
 
+
+    /**
+     * Marks an issue as redeemed incident
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   array $auth Array of authentication information (email, password)
+     * @param   integer $issue_id The issue ID
+     */
+    function redeemIssue($rpc_conn, $auth, $issue_id)
+    {
+        Command_Line::checkIssuePermissions(&$rpc_conn, $auth, $issue_id);
+        Command_Line::checkIssueAssignment(&$rpc_conn, $auth, $issue_id);
+
+        $params = array(
+            new XML_RPC_Value($auth[0], 'string'), 
+            new XML_RPC_Value($auth[1], 'string'),
+            new XML_RPC_Value($issue_id, 'int')
+        );
+        $msg = new XML_RPC_Message("redeemIssue", $params);
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        echo "OK - Issue #$issue_id successfully marked as redeemed incident.\n";
+    }
+
+
+    /**
+     * Un-marks an issue as redeemed incident
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   array $auth Array of authentication information (email, password)
+     * @param   integer $issue_id The issue ID
+     */
+    function unredeemIssue($rpc_conn, $auth, $issue_id)
+    {
+        Command_Line::checkIssuePermissions(&$rpc_conn, $auth, $issue_id);
+        Command_Line::checkIssueAssignment(&$rpc_conn, $auth, $issue_id);
+
+        $params = array(
+            new XML_RPC_Value($auth[0], 'string'), 
+            new XML_RPC_Value($auth[1], 'string'),
+            new XML_RPC_Value($issue_id, 'int')
+        );
+        $msg = new XML_RPC_Message("unredeemIssue", $params);
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        echo "OK - Issue #$issue_id successfully marked as redeemed incident.\n";
+    }
+
+
     /**
      * Method to print data in a formatted table, according to the $format array.
      * 
@@ -1506,11 +1568,11 @@ Support Options: " . @$details['customer_info']['support_options'] . "
             "help"      =>  "Marks an issue as closed."
         );
         $usage[] = array(
-            "command"   =>  "<ticket_number> list-files",
+            "command"   =>  array("<ticket_number> list-files", "<ticket_number> lf"),
             "help"      =>  "List available attachments associated with the given issue.",
         );
         $usage[] = array(
-            "command"   =>  "<ticket_number> get-file <file_number>",
+            "command"   =>  array("<ticket_number> get-file <file_number>", "<ticket_number> gf <file_number>"),
             "help"      =>  "Download a specific file from the given issue."
         );
         $usage[] = array(
@@ -1532,8 +1594,9 @@ Support Options: " . @$details['customer_info']['support_options'] . "
             "help"      =>  "Displays a specific note for the issue."
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> convert-note <note_number> draft|email [--safe]","<ticket_number> cn <note_number> draft|email [--safe]"),
-            "help"      =>  "Converts the specified note to a draft or an email."
+            "command"   =>  array("<ticket_number> convert-note <note_number> draft|email [authorize] [--safe]","<ticket_number> cn <note_number> draft|email [authorize] [--safe]"),
+            "help"      =>  "Converts the specified note to a draft or an email. 
+    Use optional argument 'authorize' to add sender to authorized repliers list."
         );
         $usage[] = array(
             "command"   =>  array("<ticket_number> list-drafts","<ticket_number> ld"),
@@ -1546,6 +1609,14 @@ Support Options: " . @$details['customer_info']['support_options'] . "
         $usage[] = array(
             "command"   =>  array("<ticket_number> send-draft <draft_number>","<ticket_number> sd <draft_number>"),
             "help"      =>  "Converts a draft to an email and sends it out."
+        );
+        $usage[] = array(
+            "command"   =>  array("<ticket_number> redeem"),
+            "help"      =>  "Marks an issue as redeemed incident."
+        );
+        $usage[] = array(
+            "command"   =>  array("<ticket_number> unredeem"),
+            "help"      =>  "Un-marks an issue as redeemed incident."
         );
         $usage[] = array(
             "command"   =>  "developers",

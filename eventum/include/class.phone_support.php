@@ -48,6 +48,179 @@ include_once(APP_INC_PATH . "class.date.php");
 class Phone_Support
 {
     /**
+     * Method used to add a new category to the application.
+     *
+     * @access  public
+     * @return  integer 1 if the update worked properly, any other value otherwise
+     */
+    function insertCategory()
+    {
+        global $HTTP_POST_VARS;
+
+        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+            return -2;
+        }
+        $stmt = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
+                 (
+                    phc_prj_id,
+                    phc_title
+                 ) VALUES (
+                    " . $HTTP_POST_VARS["prj_id"] . ",
+                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
+                 )";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+
+    /**
+     * Method used to update the values stored in the database. 
+     * Typically the user would modify the title of the category in 
+     * the application and this method would be called.
+     *
+     * @access  public
+     * @return  integer 1 if the update worked properly, any other value otherwise
+     */
+    function updateCategory()
+    {
+        global $HTTP_POST_VARS;
+
+        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+            return -2;
+        }
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
+                 SET
+                    phc_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
+                 WHERE
+                    phc_prj_id=" . $HTTP_POST_VARS["prj_id"] . " AND
+                    phc_id=" . $HTTP_POST_VARS["id"];
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+
+    /**
+     * Method used to remove user-selected categories from the 
+     * database.
+     *
+     * @access  public
+     * @return  boolean Whether the removal worked or not
+     */
+    function removeCategory()
+    {
+        global $HTTP_POST_VARS;
+
+        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
+                 WHERE
+                    phc_id IN ($items)";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
+     * Method used to get the full details of a category.
+     *
+     * @access  public
+     * @param   integer $phc_id The category ID
+     * @return  array The information about the category provided
+     */
+    function getCategoryDetails($phc_id)
+    {
+        $stmt = "SELECT
+                    *
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
+                 WHERE
+                    phc_id=$phc_id";
+        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the full list of categories associated with
+     * a specific project.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array The full list of categories
+     */
+    function getCategoryList($prj_id)
+    {
+        $stmt = "SELECT
+                    phc_id,
+                    phc_title
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
+                 WHERE
+                    phc_prj_id=$prj_id
+                 ORDER BY
+                    phc_title ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get an associative array of the list of 
+     * categories associated with a specific project.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array The associative array of categories
+     */
+    function getCategoryAssocList($prj_id)
+    {
+        $stmt = "SELECT
+                    phc_id,
+                    phc_title
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
+                 WHERE
+                    phc_prj_id=$prj_id
+                 ORDER BY
+                    phc_id ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get the details of a given phone support entry.
      *
      * @access  public
@@ -84,11 +257,17 @@ class Phone_Support
     {
         $stmt = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support.*,
-                    usr_full_name
+                    usr_full_name,
+                    phc_title
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
+                    phs_iss_id=iss_id AND
+                    iss_prj_id=phc_prj_id AND
+                    phs_phc_id=phc_id AND
                     phs_usr_id=usr_id AND
                     phs_iss_id=$issue_id
                  ORDER BY
@@ -132,11 +311,11 @@ class Phone_Support
                  (
                     phs_iss_id,
                     phs_usr_id,
+                    phs_phc_id,
                     phs_created_date,
                     phs_type,
                     phs_phone_number,
                     phs_description,
-                    phs_reason,
                     phs_phone_type,
                     phs_call_from_lname,
                     phs_call_from_fname,
@@ -145,11 +324,11 @@ class Phone_Support
                  ) VALUES (
                     " . $HTTP_POST_VARS["issue_id"] . ",
                     $usr_id,
+                    " . $HTTP_POST_VARS["phone_category"] . ",
                     '" . Misc::escapeString($created_date) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["phone_number"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["reason"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["phone_type"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["from_lname"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["from_fname"]) . "',
@@ -272,8 +451,8 @@ class Phone_Support
             return true;
         }
     }
-    
-    
+
+
     /**
      * Returns the number of calls by a user in a time range.
      * 

@@ -46,7 +46,7 @@ $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_G
 $tpl->assign("issue_id", $issue_id);
 
 if (@$HTTP_POST_VARS["cat"] == "insert") {
-    $res = Notification::manualInsert($usr_id, $issue_id, $HTTP_POST_VARS['email'], $HTTP_POST_VARS['actions']);
+    $res = Notification::subscribeEmail($usr_id, $issue_id, $HTTP_POST_VARS['email'], $HTTP_POST_VARS['actions']);
     $tpl->assign("insert_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "edit") {
     $res = Notification::getDetails($HTTP_GET_VARS["id"]);
@@ -57,8 +57,6 @@ if (@$HTTP_POST_VARS["cat"] == "insert") {
 } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
     $res = Notification::remove($HTTP_POST_VARS["items"]);
     $tpl->assign("delete_result", $res);
-} else {
-    $tpl->assign("info", Prefs::getNotification($usr_id));
 }
 
 $tpl->assign("list", Notification::getSubscriberListing($issue_id));

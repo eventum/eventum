@@ -109,10 +109,7 @@ function runCustomFilter(f)
           <td>
             <span class="default">Assigned:</span><br />
             <select name="users" class="default">
-              <option value="">any</option>
-              <option value="-1" {if $options.users == '-1'}selected{/if}>un-assigned</option>
-              <option value="-2" {if $options.users == '-2'}selected{/if}>myself and un-assigned</option>
-              {html_options options=$users selected=$options.users}
+              {html_options options=$assign_options selected=$options.users}
             </select>
           </td>
           <td>

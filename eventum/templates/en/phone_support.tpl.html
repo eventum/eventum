@@ -55,17 +55,17 @@ function deletePhoneEntry(phone_id)
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
               <tr bgcolor="{$internal_color}">
                 <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getPhoneSupport" ec_id="phone"}</td>
-                <td width="20%" class="default_white">Recorded Date</td>
+                <td width="20%" class="default_white" nowrap>Recorded Date</td>
                 <td width="20%" class="default_white">User</td>
                 <td width="20%" class="default_white">Call Type</td>
-                <td width="20%" class="default_white">Reason</td>
+                <td width="20%" class="default_white">Category</td>
                 <td width="20%" class="default_white">Phone Number</td>
               </tr>
               {section name="i" loop=$phone_entries}
               {cycle values=$cycle assign="row_color"}
               <tr bgcolor="{$row_color}">
                 <td class="default" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id}</td>
-                <td class="default">{$phone_entries[i].phs_created_date}</td>
+                <td class="default" nowrap>{$phone_entries[i].phs_created_date}</td>
                 <td class="default">
                     {$phone_entries[i].usr_full_name}
                     {if $current_user_id == $phone_entries[i].phs_usr_id}
@@ -73,7 +73,7 @@ function deletePhoneEntry(phone_id)
                     {/if}
                 </td>
                 <td class="default">{$phone_entries[i].phs_type|capitalize}</td>
-                <td class="default">{$phone_entries[i].phs_reason}</td>
+                <td class="default">{$phone_entries[i].phc_title}</td>
                 <td class="default">{$phone_entries[i].phs_phone_number} ({$phone_entries[i].phs_phone_type})</td>
               </tr>
               {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id colspan="6"}
@@ -102,13 +102,8 @@ function deletePhoneEntry(phone_id)
         <tr id="phone_support4" {get_display_style element_name="phone_support"}>
           <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Reason:</b></td>
           <td bgcolor="{$light_color}" width="100%">
-            <select class="default" name="reason">
-              <option value="consultation">410-288-7657 Consultation Call</option>
-              <option value="emergency">410-288-8241 Emergency Call</option>
-              <option value="sales">Sales Issues</option>
-              <option value="technical">Technical Issues</option>
-              <option value="administrative">Administrative Issues</option>
-              <option value="other">Other</option>
+            <select name="phone_category" class="default">
+              {html_options options=$phone_categories selected=5}
             </select>
           </td>
         </tr>
@@ -151,14 +146,13 @@ function deletePhoneEntry(phone_id)
         </tr>
         <tr id="phone_support9" {get_display_style element_name="phone_support"}>
           <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Time Spent:</b></td>
-          <td bgcolor="{$light_color}" width="100%"><input type="text" size="5" name="call_length" class="default"> {include file="error_icon.tpl.html" field="call_length"} <span class="default">(in minutes)</span></td>
+          <td bgcolor="{$light_color}" width="100%"><input type="text" size="5" name="call_length" class="default"> {include file="error_icon.tpl.html" field="call_length"} <span class="small_default"><i>(in minutes)</i></span></td>
         </tr>
         <tr id="phone_support10" {get_display_style element_name="phone_support"}>
           <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Description:</b></td>
           <td bgcolor="{$light_color}">
             <textarea name="description" rows="8" style="width: 97%"></textarea>
             {include file="error_icon.tpl.html" field="description"}
-            <span class="small_default"><i>(internal only; not visible to customers)</i></span>
           </td>
         </tr>
         <tr id="phone_support11" {get_display_style element_name="phone_support"}>

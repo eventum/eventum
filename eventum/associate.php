@@ -45,6 +45,9 @@ if (@$HTTP_POST_VARS['cat'] == 'associate') {
     if ($HTTP_POST_VARS['target'] == 'email') {
         $res = Support::associate(Auth::getUserID(), $HTTP_POST_VARS['issue'], $HTTP_POST_VARS['item']);
         $tpl->assign("associate_result", $res);
+    } elseif ($HTTP_POST_VARS['target'] == 'reference') {
+        $res = Support::associateEmail(Auth::getUserID(), $HTTP_POST_VARS['issue'], $HTTP_POST_VARS['item']);
+        $tpl->assign("associate_result", $res);
     } else {
         for ($i = 0; $i < count($HTTP_POST_VARS['item']); $i++) {
             $email = Support::getEmailDetails(Email_Account::getAccountByEmail($HTTP_POST_VARS['item'][$i]), $HTTP_POST_VARS['item'][$i]);
@@ -79,28 +82,30 @@ if (@$HTTP_POST_VARS['cat'] == 'associate') {
             $sender_emails[$email] = $senders[$i];
         }
         $customer_id = Issue::getCustomerID($HTTP_GET_VARS['issue']);
-        $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id));
-        $unknown_contacts = array();
-        foreach ($sender_emails as $email => $address) {
-            if (!@in_array($email, $contact_emails)) {
-                $usr_id = User::getUserIDByEmail($email);
-                if (empty($usr_id)) {
-                    $unknown_contacts[] = $address;
-                } else {
-                    // if we got a real user ID, check if the customer user is the correct one
-                    // (i.e. a contact from the customer associated with the selected issue)
-                    if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
-                        // also check if the associated customer ID, if any, matches the one in the issue
-                        $user_customer_id = User::getCustomerID($usr_id);
-                        if ($user_customer_id != $customer_id) {
-                            $unknown_contacts[] = $address;
+        if (!empty($customer_id)) {
+            $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id));
+            $unknown_contacts = array();
+            foreach ($sender_emails as $email => $address) {
+                if (!@in_array($email, $contact_emails)) {
+                    $usr_id = User::getUserIDByEmail($email);
+                    if (empty($usr_id)) {
+                        $unknown_contacts[] = $address;
+                    } else {
+                        // if we got a real user ID, check if the customer user is the correct one
+                        // (i.e. a contact from the customer associated with the selected issue)
+                        if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
+                            // also check if the associated customer ID, if any, matches the one in the issue
+                            $user_customer_id = User::getCustomerID($usr_id);
+                            if ($user_customer_id != $customer_id) {
+                                $unknown_contacts[] = $address;
+                            }
                         }
                     }
                 }
             }
-        }
-        if (count($unknown_contacts) > 0) {
-            $tpl->assign('unknown_contacts', $unknown_contacts);
+            if (count($unknown_contacts) > 0) {
+                $tpl->assign('unknown_contacts', $unknown_contacts);
+            }
         }
     }
 }

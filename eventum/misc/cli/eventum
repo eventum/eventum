@@ -27,7 +27,7 @@ if (count($HTTP_SERVER_VARS['argv']) == 1) {
     Command_Line::quit("Requirement argument not found");
 }
 // show usage information if user gave --help
-if ($HTTP_SERVER_VARS['argv'][1] == '--help') {
+if (($HTTP_SERVER_VARS['argv'][1] == '--help') || ($HTTP_SERVER_VARS['argv'][1] == 'help')) {
     Command_Line::usage(__FILE__);
 }
 
@@ -95,9 +95,11 @@ if ($issue_id > 0) {
                 Command_Line::addTimeEntry(&$client, $auth, $issue_id, $check);
                 break;
             case 'list-files':
+            case 'lf':
                 Command_Line::printFileList(&$client, $auth, $issue_id);
                 break;
             case 'get-file':
+            case 'gf':
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the file number");
                 }
@@ -150,7 +152,12 @@ if ($issue_id > 0) {
                 if (@$HTTP_SERVER_VARS['argv'][4] != 'draft' && @$HTTP_SERVER_VARS['argv'][4] != 'email' ) {
                     Command_Line::quit("4th parameter must be 'draft' or 'email'");
                 }
-                Command_Line::convertNote(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3], $HTTP_SERVER_VARS['argv'][4]);
+                if (@$HTTP_SERVER_VARS['argv'][5] == 'authorize') {
+                    $authorize_sender = true;
+                } else {
+                    $authorize_sender = false;
+                }
+                Command_Line::convertNote(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3], $HTTP_SERVER_VARS['argv'][4], $authorize_sender);
                 break;
             
             // draft related commands
@@ -174,6 +181,16 @@ if ($issue_id > 0) {
                     Command_Line::quit("Missing parameter for the draft number");
                 }
                 Command_Line::sendDraft(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                break;
+                
+            case 'redeem':
+                // marking an issue as redeemed
+                Command_Line::redeemIssue(&$client, $auth, $issue_id);
+                break;
+            
+            case 'unredeem':
+                // unmarks issue as redeemed incident
+                Command_Line::unredeemIssue(&$client, $auth, $issue_id);
                 break;
             
             default:
@@ -206,6 +223,11 @@ if ($issue_id > 0) {
         Command_Line::printOpenIssues(&$client, $auth, $show_all_issues, $status);
     } elseif ($HTTP_SERVER_VARS['argv'][1] == 'list-status') {
         Command_Line::printStatusList(&$client, $auth);
+    } elseif ($HTTP_SERVER_VARS['argv'][1] == 'customer') {
+        if (count($HTTP_SERVER_VARS['argv']) != 4) {
+            Command_Line::quit("Wrong parameter count");
+        }
+        Command_Line::lookupCustomer(&$client, $auth, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3]);
     } elseif (($HTTP_SERVER_VARS['argv'][1] == 'weekly-report') || ($HTTP_SERVER_VARS['argv'][1] == 'wr')) {
         if (count(@$HTTP_SERVER_VARS['argv']) == 4) {
             // date range

@@ -282,14 +282,15 @@ class Workflow
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
+     * @param   boolean $closing If the issue is being closed
      */
-    function handleNewNote($prj_id, $issue_id)
+    function handleNewNote($prj_id, $issue_id, $closing = false)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return;
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->handleNewNote($prj_id, $issue_id);
+        return $backend->handleNewNote($prj_id, $issue_id, $closing);
     }
 }
 

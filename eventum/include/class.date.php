@@ -187,11 +187,14 @@ class Date_API
      *
      * @access  public
      * @param   string $timestamp The date timestamp to be formatted
+     * @param   string $timezone The timezone name
      * @return  string 
      */
-    function getFormattedDate($timestamp)
+    function getFormattedDate($timestamp, $timezone = FALSE)
     {
-        $timezone = Date_API::getPreferredTimezone();
+        if ($timezone === FALSE) {
+            $timezone = Date_API::getPreferredTimezone();
+        }
         $date = new Date($timestamp);
         // now convert to another timezone and return the date
         $date->convertTZById($timezone);
@@ -281,8 +284,8 @@ class Date_API
     {
         return gmdate('Y-m-d H:i:s', $timestamp);
     }
-    
-    
+
+
     /**
      * Returns a list of weeks (May 2 - May 8, May 9 - May 15).
      * 
@@ -315,7 +318,8 @@ class Date_API
         
         return $options;
     }
-    
+
+
     /**
      * Returns the current week in the same format formatWeekOption users.
      * 
@@ -328,8 +332,8 @@ class Date_API
         $start = date("U") - (DAY * (date("w") - 1));
         return date($value_format, $start) . "_" . date($value_format, ($start + (DAY * 6)));
     }
-    
-    
+
+
     /**
      * Formats a given week start and week end to a format useable by getWeekOptions().
      * 

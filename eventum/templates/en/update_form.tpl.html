@@ -60,7 +60,7 @@ function validateForm(f)
         return false;
     }
     {/literal}
-    {if $allow_unassigned_issues != 'yes'}
+    {if $allow_unassigned_issues != 'yes' && $current_role > $roles.customer}
     {literal}
     if (!hasOneSelected(f, 'assignments[]')) {
         alert('Please select an assignment for this issue');
@@ -121,6 +121,7 @@ function validateForm(f)
             </select>
           </td>
           {else}
+          <input type="hidden" name="category" value="{$issue.iss_prc_id}">
           <td width="120" bgcolor="{$cell_color}" class="default_white" rowspan="2">
             <b>Status:</b>
           </td>
@@ -158,10 +159,10 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td {if $current_role == $roles.customer}rowspan="2"{/if} width="120" bgcolor="{$cell_color}" class="default_white">
+          <td {if $current_role < $roles.standard_user}rowspan="2"{/if} width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Priority:</b>
           </td>
-          <td {if $current_role == $roles.customer}rowspan="2"{/if} bgcolor="{$light_color}">
+          <td {if $current_role < $roles.standard_user}rowspan="2"{/if} bgcolor="{$light_color}">
             <select class="default" name="priority">
               {html_options options=$priorities selected=$issue.iss_pri_id}
             </select>
@@ -186,10 +187,10 @@ function validateForm(f)
           </td>
           {/if}
           <input type="hidden" name="keep" value="yes">
-          <td nowrap width="130" bgcolor="{$cell_color}" class="default_white" {if $releases|@count < 1}rowspan="2"{/if}>
+          <td nowrap width="130" bgcolor="{$cell_color}" class="default_white">
             <b>Reporter:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default" {if $releases|@count < 1}rowspan="2"{/if}>
+          <td bgcolor="{$light_color}" class="default">
             {$issue.reporter}
           </td>
         </tr>
@@ -198,7 +199,7 @@ function validateForm(f)
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Expected Resolution Date:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td bgcolor="{$light_color}" {if $releases|@count == 0}colspan="3"{/if}>
             {* Convert expected resolution date to format usable by html_select_date *}
             {if $issue.iss_expected_resolution_date == ''}
                 {assign var="expected_resolution_date" value='0000-00-00'}
@@ -227,10 +228,10 @@ function validateForm(f)
           {/if}
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td {if $current_role > $roles.customer && $groups|@count > 0}rowspan="2" {/if}width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Assignment:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td {if $current_role > $roles.customer && $groups|@count > 0}rowspan="2" {/if}bgcolor="{$light_color}">
             {if $issue.has_inactive_users}
             <span class="default"><input type="radio" name="keep_assignments" checked value="yes"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'keep_assignments', 0);">Keep Current Assignments: {$issue.assignments}</a>
             <br />
@@ -273,12 +274,26 @@ function validateForm(f)
             {/if}
           </td>
         </tr>
+        {if $current_role > $roles.customer && $groups|@count > 0}
+        <tr>
+            <td width="140" bgcolor="{$cell_color}" valign="middle" class="default_white" nowrap >
+                <b>Group:</b>
+            </td>
+            <td bgcolor="{$light_color}" valign="middle" >
+                <select class="default" name="group">
+                <option value=""></option>
+                {html_options options=$groups selected=$issue.iss_grp_id}
+                </select>
+            </td>
+        </tr>
+        {/if}
         {else}
         <input type="hidden" name="keep_assignments" value="yes">
         {foreach key=_issue_id item=_issue_summary from=$issue.associated_issues}
         <input type="hidden" name="associated_issues[]" value="{$_issue_id}">
         {/foreach}
         <input type="hidden" name="estimated_dev_time" value="{$issue.iss_dev_time|escape:"html"}">
+        <input type="hidden" name="release" value="{$issue.iss_pre_id}">
         {/if}
         {if $releases|@count < 1}
             <input type="hidden" name="release" value="{$issue.iss_pre_id}">

@@ -32,11 +32,13 @@ include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.category.php");
+include_once(APP_INC_PATH . "class.priority.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.release.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.notification.php");
 include_once(APP_INC_PATH . "class.status.php");
+include_once(APP_INC_PATH . "class.group.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -70,7 +72,7 @@ if ($details["iss_pre_id"] != 0 && empty($releases[$details["iss_pre_id"]])){
 $tpl->assign(array(
     "subscribers"  => Notification::getSubscribers($issue_id),
     "categories"   => Category::getAssocList($prj_id),
-    "priorities"   => Misc::getAssocPriorities(),
+    "priorities"   => Priority::getAssocList($prj_id),
     "status"       => Status::getAssocStatusList($prj_id),
     "releases"     => $releases,
     "resolutions"  => Resolution::getAssocList(),
@@ -78,7 +80,8 @@ $tpl->assign(array(
     "issues"       => Issue::getColList(),
     "assoc_issues" => Issue::getAssocList(),
     "one_week_ts"  => time() + (7 * DAY),
-    "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"]
+    "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
+    "groups"       => Group::getAssocList()
 ));
 
 $tpl->displayTemplate();

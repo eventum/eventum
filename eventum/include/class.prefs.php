@@ -52,17 +52,14 @@ class Prefs
     function getDefaults()
     {
         return serialize(array(
-            'updated'                 => 1,
-            'closed'                  => 0,
-            'emails'                  => 0,
-            'files'                   => 0,
             'receive_assigned_emails' => 1,
             'receive_new_emails'      => 0,
             'timezone'                => Date_API::getDefaultTimezone(),
             'list_refresh_rate'       => APP_DEFAULT_REFRESH_RATE,
             'emails_refresh_rate'     => APP_DEFAULT_REFRESH_RATE,
             'email_signature'         => '',
-            'auto_append_sig'         => 'no'
+            'auto_append_sig'         => 'no',
+            'auto_append_note_sig'    => 'no'
         ));
     }
 
@@ -108,23 +105,6 @@ class Prefs
 
 
     /**
-     * Method used to get the email notification related preferences
-     * for a specific user.
-     *
-     * @access  public
-     * @param   integer $usr_id The user ID
-     * @return  array The preferences
-     */
-    function getNotification($usr_id)
-    {
-        $prefs = Prefs::get($usr_id);
-        $info = User::getNameEmail($usr_id);
-        $prefs["sub_email"] = $info["usr_email"];
-        return $prefs;
-    }
-
-
-    /**
      * Method used to set the preferences for a specific user.
      *
      * @access  public
@@ -141,10 +121,6 @@ class Prefs
         }
 
         $data = serialize(array(
-            'updated'                 => @$HTTP_POST_VARS['updated'],
-            'closed'                  => @$HTTP_POST_VARS['closed'],
-            'emails'                  => @$HTTP_POST_VARS['emails'],
-            'files'                   => @$HTTP_POST_VARS['files'],
             'close_popup_windows'     => $HTTP_POST_VARS['close_popup_windows'],
             'receive_assigned_emails' => $HTTP_POST_VARS['receive_assigned_emails'],
             'receive_new_emails'      => $HTTP_POST_VARS['receive_new_emails'],
@@ -152,7 +128,8 @@ class Prefs
             'list_refresh_rate'       => $HTTP_POST_VARS['list_refresh_rate'],
             'emails_refresh_rate'     => $HTTP_POST_VARS['emails_refresh_rate'],
             'email_signature'         => @$HTTP_POST_VARS['signature'],
-            'auto_append_sig'         => @$HTTP_POST_VARS['auto_append_sig']
+            'auto_append_sig'         => @$HTTP_POST_VARS['auto_append_sig'],
+            'auto_append_note_sig'    => @$HTTP_POST_VARS['auto_append_note_sig']
         ));
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user

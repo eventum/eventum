@@ -143,5 +143,6 @@ $HTTP_POST_VARS = array(
     'add_extra_recipients' => 'yes'
 );
 Note::insert(Auth::getUserID(), $issue_id, false, false);
+// XXX: need to handle attachments coming from notes as well?
 History::add($issue_id, Auth::getUserID(), History::getTypeID('note_routed'), "Note routed from " . $structure->headers['from']);
 ?>

@@ -151,7 +151,7 @@ class Template_API
         global $HTTP_SERVER_VARS;
 
         // determine the correct CSS file to use
-        if (ereg('MSIE ([0-9].[0-9]{1,2})', $HTTP_SERVER_VARS["HTTP_USER_AGENT"], $log_version)) {
+        if (ereg('MSIE ([0-9].[0-9]{1,2})', @$HTTP_SERVER_VARS["HTTP_USER_AGENT"], $log_version)) {
             $user_agent = 'ie';
         } else {
             $user_agent = 'other';

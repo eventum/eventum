@@ -40,6 +40,7 @@
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.release.php");
+include_once(APP_INC_PATH . "class.priority.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.project.php");
@@ -275,7 +276,7 @@ class Stats
     function getAssocPriority()
     {
         $prj_id = Auth::getCurrentProject();
-        $list = Misc::getAssocPriorities();
+        $list = Priority::getAssocList($prj_id);
         $stats = array();
         foreach ($list as $pri_id => $pri_title) {
             $stmt = "SELECT
@@ -309,7 +310,7 @@ class Stats
                     COUNT(*) AS total_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "priority
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
                     iss_pri_id=pri_id AND
                     iss_prj_id=$prj_id

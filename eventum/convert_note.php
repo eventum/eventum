@@ -46,7 +46,12 @@ $tpl->setTemplate("convert_note.tpl.html");
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 if (@$HTTP_POST_VARS['cat'] == 'convert') {
-    $tpl->assign("convert_result", Note::convertNote($HTTP_POST_VARS['note_id'], $HTTP_POST_VARS['target']));
+    if (@$HTTP_POST_VARS["add_authorized_replier"] == 1) {
+        $authorize_sender = true;
+    } else {
+        $authorize_sender = false;
+    }
+    $tpl->assign("convert_result", Note::convertNote($HTTP_POST_VARS['note_id'], $HTTP_POST_VARS['target'], $authorize_sender));
 } else {
     $tpl->assign("note_id", $HTTP_GET_VARS['id']);
 }

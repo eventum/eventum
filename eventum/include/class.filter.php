@@ -44,6 +44,37 @@ include_once(APP_INC_PATH . "class.date.php");
 class Filter
 {
     /**
+     * Method used to check whether the given custom filter is a
+     * global one or not.
+     *
+     * @access  public
+     * @param   integer $cst_id The custom filter ID
+     * @return  boolean
+     */
+    function isGlobal($cst_id)
+    {
+        $stmt = "SELECT
+                    COUNT(*)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                 WHERE
+                    cst_id=$cst_id AND
+                    cst_is_global=1";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            if ($res == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+
+    /**
      * Method used to check whether the given user is the owner of the custom 
      * filter ID.
      *
@@ -87,71 +118,39 @@ class Filter
         global $HTTP_POST_VARS;
 
         $cst_id = Filter::getFilterID($HTTP_POST_VARS["title"]);
-        // REFACTOR: look at making this a little bit prettier later on, no time now
-        if (@$HTTP_POST_VARS['filter']['created_date'] == 'yes') {
-            $created_date = "'" . $HTTP_POST_VARS["created_date"]["Year"] . "-" . $HTTP_POST_VARS["created_date"]["Month"] . "-" . $HTTP_POST_VARS["created_date"]["Day"] . "'";
-            $created_date_filter_type = "'" . $HTTP_POST_VARS['created_date']['filter_type'] . "'";
-            if ($created_date_filter_type == "'between'") {
-                $created_date_end = "'" . $HTTP_POST_VARS["created_date_end"]["Year"] . "-" . $HTTP_POST_VARS["created_date_end"]["Month"] . "-" . $HTTP_POST_VARS["created_date_end"]["Day"] . "'";
+        // loop through all available date fields and prepare the values for the sql query
+        $date_fields = array(
+            'created_date',
+            'updated_date',
+            'last_response_date',
+            'first_response_date',
+            'closed_date'
+        );
+        foreach ($date_fields as $field_name) {
+            $date_var = $field_name;
+            $filter_type_var = $field_name . '_filter_type';
+            $date_end_var = $field_name . '_end';
+            if (@$HTTP_POST_VARS['filter'][$field_name] == 'yes') {
+                $$date_var = "'" . $HTTP_POST_VARS[$field_name]["Year"] . "-" . $HTTP_POST_VARS[$field_name]["Month"] . "-" . $HTTP_POST_VARS[$field_name]["Day"] . "'";
+                $$filter_type_var = "'" . $HTTP_POST_VARS[$field_name]['filter_type'] . "'";
+                if ($$filter_type_var == "'between'") {
+                    $$date_end_var = "'" . $HTTP_POST_VARS[$date_end_var]["Year"] . "-" . $HTTP_POST_VARS[$date_end_var]["Month"] . "-" . $HTTP_POST_VARS[$date_end_var]["Day"] . "'";
+                } elseif ($$filter_type_var == "'null'") {
+                    $$date_var = "NULL";
+                    $$date_end_var = "NULL";
+                } else {
+                    $$date_end_var = "NULL";
+                }
             } else {
-                $created_date_end = "NULL";
+                $$date_var = 'NULL';
+                $$filter_type_var = "NULL";
+                $$date_end_var = 'NULL';
             }
-        } else {
-            $created_date = 'NULL';
-            $created_date_filter_type = "NULL";
-            $created_date_end = 'NULL';
         }
-        if (@$HTTP_POST_VARS['filter']['updated_date'] == 'yes') {
-            $updated_date = "'" . $HTTP_POST_VARS["updated_date"]["Year"] . "-" . $HTTP_POST_VARS["updated_date"]["Month"] . "-" . $HTTP_POST_VARS["updated_date"]["Day"] . "'";
-            $updated_date_filter_type = "'" . $HTTP_POST_VARS['updated_date']['filter_type'] . "'";
-            if ($updated_date_filter_type == "'between'") {
-                $updated_date_end = "'" . $HTTP_POST_VARS["updated_date_end"]["Year"] . "-" . $HTTP_POST_VARS["updated_date_end"]["Month"] . "-" . $HTTP_POST_VARS["updated_date_end"]["Day"] . "'";
-            } else {
-                $updated_date_end = "NULL";
-            }
+        if (empty($HTTP_POST_VARS['is_global'])) {
+            $is_global_filter = 0;
         } else {
-            $updated_date = 'NULL';
-            $updated_date_filter_type = "NULL";
-            $updated_date_end = 'NULL';
-        }
-        if (@$HTTP_POST_VARS['filter']['last_response_date'] == 'yes') {
-            $last_response_date = "'" . $HTTP_POST_VARS["last_response_date"]["Year"] . "-" . $HTTP_POST_VARS["last_response_date"]["Month"] . "-" . $HTTP_POST_VARS["last_response_date"]["Day"] . "'";
-            $last_response_date_filter_type = "'" . $HTTP_POST_VARS['last_response_date']['filter_type'] . "'";
-            if ($last_response_date_filter_type == "'between'") {
-                $last_response_date_end = "'" . $HTTP_POST_VARS["last_response_date_end"]["Year"] . "-" . $HTTP_POST_VARS["last_response_date_end"]["Month"] . "-" . $HTTP_POST_VARS["last_response_date_end"]["Day"] . "'";
-            } else {
-                $last_response_date_end = "NULL";
-            }
-        } else {
-            $last_response_date = 'NULL';
-            $last_response_date_filter_type = "NULL";
-            $last_response_date_end = 'NULL';
-        }
-        if (@$HTTP_POST_VARS['filter']['first_response_date'] == 'yes') {
-            $first_response_date = "'" . $HTTP_POST_VARS["first_response_date"]["Year"] . "-" . $HTTP_POST_VARS["first_response_date"]["Month"] . "-" . $HTTP_POST_VARS["first_response_date"]["Day"] . "'";
-            $first_response_date_filter_type = "'" . $HTTP_POST_VARS['first_response_date']['filter_type'] . "'";
-            if ($first_response_date_filter_type == "'between'") {
-                $first_response_date_end = "'" . $HTTP_POST_VARS["first_response_date_end"]["Year"] . "-" . $HTTP_POST_VARS["first_response_date_end"]["Month"] . "-" . $HTTP_POST_VARS["first_response_date_end"]["Day"] . "'";
-            } else {
-                $first_response_date_end = "NULL";
-            }
-        } else {
-            $first_response_date = 'NULL';
-            $first_response_date_filter_type = "NULL";
-            $first_response_date_end = 'NULL';
-        }
-        if (@$HTTP_POST_VARS['filter']['closed_date'] == 'yes') {
-            $closed_date = "'" . $HTTP_POST_VARS["closed_date"]["Year"] . "-" . $HTTP_POST_VARS["closed_date"]["Month"] . "-" . $HTTP_POST_VARS["closed_date"]["Day"] . "'";
-            $closed_date_filter_type = "'" . $HTTP_POST_VARS['closed_date']['filter_type'] . "'";
-            if ($closed_date_filter_type == "'between'") {
-                $closed_date_end = "'" . $HTTP_POST_VARS["closed_date_end"]["Year"] . "-" . $HTTP_POST_VARS["closed_date_end"]["Month"] . "-" . $HTTP_POST_VARS["closed_date_end"]["Day"] . "'";
-            } else {
-                $closed_date_end = "NULL";
-            }
-        } else {
-            $closed_date = 'NULL';
-            $closed_date_filter_type = "NULL";
-            $closed_date_end = 'NULL';
+            $is_global_filter = $HTTP_POST_VARS['is_global'];
         }
         if ($cst_id != 0) {
             $stmt = "UPDATE
@@ -182,7 +181,8 @@ class Filter
                         cst_first_response_date_end=$first_response_date_end,
                         cst_closed_date=$closed_date,
                         cst_closed_date_filter_type=$closed_date_filter_type,
-                        cst_closed_date_end=$closed_date_end
+                        cst_closed_date_end=$closed_date_end,
+                        cst_is_global=$is_global_filter
                      WHERE
                         cst_id=$cst_id";
         } else {
@@ -217,7 +217,8 @@ class Filter
                         cst_first_response_date_end,
                         cst_closed_date,
                         cst_closed_date_filter_type,
-                        cst_closed_date_end
+                        cst_closed_date_end,
+                        cst_is_global
                      ) VALUES (
                         " . Auth::getUserID() . ",
                         " . Auth::getCurrentProject() . ",
@@ -247,7 +248,8 @@ class Filter
                         $first_response_date_end,
                         $closed_date,
                         $closed_date_filter_type,
-                        $closed_date_end
+                        $closed_date_end,
+                        $is_global_filter
                      )";
         }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -304,8 +306,11 @@ class Filter
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                  WHERE
-                    cst_usr_id=" . Auth::getUserID() . " AND
-                    cst_prj_id=" . Auth::getCurrentProject() . "
+                    cst_prj_id=" . Auth::getCurrentProject() . " AND
+                    (
+                        cst_usr_id=" . Auth::getUserID() . " OR
+                        cst_is_global=1
+                    )
                  ORDER BY
                     cst_title";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -333,8 +338,11 @@ class Filter
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                  WHERE
-                    cst_usr_id=" . Auth::getUserID() . " AND
-                    cst_prj_id=" . Auth::getCurrentProject() . "
+                    cst_prj_id=" . Auth::getCurrentProject() . " AND
+                    (
+                        cst_usr_id=" . Auth::getUserID() . " OR
+                        cst_is_global=1
+                    )
                  ORDER BY
                     cst_title";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -391,19 +399,31 @@ class Filter
         global $HTTP_POST_VARS;
 
         $items = implode(", ", $HTTP_POST_VARS["item"]);
-        $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
-                 WHERE
-                    cst_usr_id=" . Auth::getUserID() . " AND
-                    cst_prj_id=" . Auth::getCurrentProject() . " AND
-                    cst_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            return 1;
+        foreach ($HTTP_POST_VARS["item"] as $cst_id) {
+            $stmt = "DELETE FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
+                     WHERE";
+            if (Filter::isGlobal($cst_id)) {
+                if (User::getRoleByUser(Auth::getUserID()) >= User::getRoleID('Manager')) {
+                    $stmt .= " cst_is_global=1 AND ";
+                } else {
+                    $stmt .= " 
+                        cst_is_global=1 AND
+                        cst_usr_id=" . Auth::getUserID() . " AND ";
+                }
+            } else {
+                $stmt .= " cst_usr_id=" . Auth::getUserID() . " AND ";
+            }
+            $stmt .= "
+                        cst_prj_id=" . Auth::getCurrentProject() . " AND
+                        cst_id=$cst_id";
+            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            }
         }
+        return 1;
     }
 
 

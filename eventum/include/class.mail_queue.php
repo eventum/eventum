@@ -33,6 +33,7 @@ include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "class.mime_helper.php");
 include_once(APP_INC_PATH . "class.setup.php");
+include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_PEAR_PATH . 'Mail.php');
 
 class Mail_Queue
@@ -115,10 +116,26 @@ class Mail_Queue
      * @param   array $headers The list of headers that should be sent with this email
      * @param   string $body The body of the message
      * @param   integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
+     * @param   integer $issue_id The ID of the issue. If false, email will not be associated with issue.
      * @return  true, or a PEAR_Error object
      */
-    function add($recipient, $headers, $body, $save_email_copy = 0)
+    function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false)
     {
+        // avoid sending emails out to users with inactive status
+        $recipient_email = Mail_API::getEmailAddress($recipient);
+        $usr_id = User::getUserIDByEmail($recipient_email);
+        if (!empty($usr_id)) {
+            $user_status = User::getStatusByEmail($recipient_email);
+            // if user is not set to an active status, then silently ignore
+            if (!User::isActiveStatus($user_status)) {
+                return false;
+            }
+        }
+        
+        if (empty($issue_id)) {
+            $issue_id = 'null';
+        }
+
         list(,$text_headers) = Mail::prepareHeaders($headers);
 
         $stmt = "INSERT INTO
@@ -129,14 +146,18 @@ class Mail_Queue
                     maq_sender_ip_address,
                     maq_recipient,
                     maq_headers,
-                    maq_body
+                    maq_body,
+                    maq_iss_id,
+                    maq_subject
                  ) VALUES (
                     $save_email_copy,
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . getenv("REMOTE_ADDR") . "',
                     '" . Misc::escapeString($recipient) . "',
                     '" . Misc::escapeString($text_headers) . "',
-                    '" . Misc::escapeString($body) . "'
+                    '" . Misc::escapeString($body) . "',
+                    $issue_id,
+                    '" . Misc::escapeString($headers["Subject"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -194,6 +215,8 @@ class Mail_Queue
         foreach ($_headers as $lowercase_name => $value) {
             $headers[$header_names[$lowercase_name]] = Mime_Helper::encode($value);
         }
+        // remove any Reply-To: value from outgoing messages
+        unset($headers['Reply-To']);
         // mutt sucks, so let's remove the broken Mime-Version header and add the proper one
         if (in_array('Mime-Version', array_keys($headers))) {
             unset($headers['Mime-Version']);
@@ -327,6 +350,64 @@ class Mail_Queue
     {
         $settings = Setup::load();
         return $settings["smtp"];
+    }
+
+
+    /**
+     * Returns the mail queue for a specific issue.
+     * 
+     * @access  public
+     * @param   integer $issue_is The issue ID
+     * @return  array An array of emails from the queue
+     */
+    function getListByIssueID($issue_id)
+    {
+        $stmt = "SELECT
+                    maq_id,
+                    maq_queued_date,
+                    maq_status,
+                    maq_recipient,
+                    maq_subject
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                 WHERE
+                    maq_iss_id = $issue_id";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return $res;
+    }
+
+
+    /**
+     * Returns the mail queue entry based on ID.
+     * 
+     * @acess   public
+     * @param   integer $maq_id The id of the mail queue entry.
+     * @return  array An array of information
+     */
+    function getEntry($maq_id)
+    {
+        $stmt = "SELECT
+                    maq_iss_id,
+                    maq_queued_date,
+                    maq_status,
+                    maq_recipient,
+                    maq_subject,
+                    maq_headers,
+                    maq_body
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                 WHERE
+                    maq_id = $maq_id";
+        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return $res;
     }
 }
 

@@ -144,7 +144,7 @@
                     <input type="hidden" name="prj_id" value="{$project.prj_id}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td bgcolor="{$cell_color}" nowrap>&nbsp;</td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Tentative Date</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Status</b></td>
@@ -152,7 +152,7 @@
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].pre_id}"></td>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].pre_id}"></td>
                       <td width="40%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pre_id}&prj_id={$project.prj_id}" title="update this entry">{$list[i].pre_title}</a>
                       </td>
@@ -167,7 +167,10 @@
                     </tr>
                     {/section}
                     <tr>
-                      <td colspan="4" bgcolor="{$cell_color}" align="center">
+                      <td width="4" align="center" bgcolor="{$cell_color}">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                      </td>
+                      <td colspan="3" bgcolor="{$cell_color}" align="center">
                         <input type="submit" value="Delete" class="button">
                       </td>
                     </tr>

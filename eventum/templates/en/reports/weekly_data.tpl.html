@@ -1,4 +1,4 @@
-{$data.user.usr_full_name} {if $report_type == 'weekly'}Weekly {/if}Report {$data.start} - {$data.end}
+{$data.user.usr_full_name} {if $data.group_name != ''}[{$data.group_name}] {/if}{if $report_type == 'weekly'}Weekly {/if}Report {$data.start} - {$data.end}
 
 {$application_title} issues worked on:
 

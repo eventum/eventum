@@ -113,7 +113,7 @@ if (!isset($HTTP_SERVER_VARS['PHP_AUTH_USER'])) {
 
     $usr_id = User::getUserIDByEmail($HTTP_SERVER_VARS['PHP_AUTH_USER']);
     // check if the passed 'custom_id' parameter is associated with the usr_id
-    if (!Filter::isOwner($HTTP_GET_VARS['custom_id'], $usr_id)) {
+    if ((!Filter::isGlobal($HTTP_GET_VARS['custom_id'])) && (!Filter::isOwner($HTTP_GET_VARS['custom_id'], $usr_id))) {
         returnError('Error: The provided custom filter ID is not associated with the given email address.');
         exit;
     }

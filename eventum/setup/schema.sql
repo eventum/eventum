@@ -33,6 +33,7 @@ CREATE TABLE %TABLE_PREFIX%custom_filter (
   cst_sort_by varchar(32) default NULL,
   cst_sort_order varchar(4) default NULL,
   cst_hide_closed int(1) default NULL,
+  cst_is_global int(1) default 0,
   PRIMARY KEY  (cst_id),
   KEY cst_usr_id (cst_usr_id,cst_prj_id)
 );
@@ -78,6 +79,7 @@ INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_unlock';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_assigned';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_replier_added';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'details_updated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'customer_details_updated';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_opened';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_auto_assigned';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'rr_issue_assigned';
@@ -119,6 +121,7 @@ INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_associated';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_all_unassociated';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'user_unassociated';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_unassociated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'group_changed';
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue;
 CREATE TABLE %TABLE_PREFIX%issue (
@@ -126,6 +129,7 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_customer_id int(11) unsigned NULL,
   iss_customer_contact_id int(11) unsigned NULL,
   iss_usr_id int(10) unsigned NOT NULL default '0',
+  iss_grp_id int(11) unsigned NULL default NULL,
   iss_prj_id int(11) unsigned NOT NULL default '0',
   iss_prc_id int(11) unsigned NOT NULL default '0',
   iss_pre_id int(10) unsigned NOT NULL default '0',
@@ -155,7 +159,8 @@ CREATE TABLE %TABLE_PREFIX%issue (
   PRIMARY KEY  (iss_id),
   KEY iss_prj_id (iss_prj_id),
   KEY iss_prc_id (iss_prc_id),
-  KEY iss_res_id (iss_res_id)
+  KEY iss_res_id (iss_res_id),
+  KEY iss_grp_id (iss_grp_id)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_association;
@@ -261,19 +266,20 @@ CREATE TABLE %TABLE_PREFIX%note (
   KEY not_bug_id (not_iss_id,not_usr_id)
 );
 
-DROP TABLE IF EXISTS %TABLE_PREFIX%priority;
-CREATE TABLE %TABLE_PREFIX%priority (
+DROP TABLE IF EXISTS %TABLE_PREFIX%project_priority;
+CREATE TABLE %TABLE_PREFIX%project_priority (
   pri_id tinyint(1) NOT NULL default '0',
+  pri_prj_id int(11) unsigned NOT NULL,
   pri_title varchar(64) NOT NULL default '',
   PRIMARY KEY  (pri_title),
   UNIQUE KEY pri_id (pri_id),
   KEY pri_id_2 (pri_id)
 );
-INSERT INTO %TABLE_PREFIX%priority (pri_id, pri_title) VALUES (5, 'Not Prioritized');
-INSERT INTO %TABLE_PREFIX%priority (pri_id, pri_title) VALUES (1, 'Critical');
-INSERT INTO %TABLE_PREFIX%priority (pri_id, pri_title) VALUES (2, 'High');
-INSERT INTO %TABLE_PREFIX%priority (pri_id, pri_title) VALUES (3, 'Medium');
-INSERT INTO %TABLE_PREFIX%priority (pri_id, pri_title) VALUES (4, 'Low');
+INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (5, 1, 'Not Prioritized');
+INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (1, 1, 'Critical');
+INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (2, 1, 'High');
+INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (3, 1, 'Medium');
+INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (4, 1, 'Low');
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project;
 CREATE TABLE %TABLE_PREFIX%project (
@@ -296,6 +302,7 @@ CREATE TABLE %TABLE_PREFIX%project (
 );
 INSERT INTO %TABLE_PREFIX%project (prj_id, prj_created_date, prj_title, prj_status, prj_lead_usr_id, prj_initial_sta_id, prj_remote_invocation, prj_anonymous_post, prj_anonymous_post_options, prj_outgoing_sender_name, prj_outgoing_sender_email) VALUES (1, NOW(), 'Default Project', 'active', 2, 1, '', '0', NULL, 'Default Project', 'default_project@example.com');
 
+DROP TABLE IF EXISTS %TABLE_PREFIX%project_field_display;
 CREATE TABLE %TABLE_PREFIX%project_field_display (
   pfd_prj_id int(11) unsigned NOT NULL,
   pfd_field varchar(20) NOT NULL,
@@ -444,6 +451,7 @@ INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created
 DROP TABLE IF EXISTS %TABLE_PREFIX%user;
 CREATE TABLE %TABLE_PREFIX%user (
   usr_id int(11) unsigned NOT NULL auto_increment,
+  usr_grp_id int(11) unsigned NULL default NULL,
   usr_customer_id int(11) unsigned NULL default NULL,
   usr_customer_contact_id int(11) unsigned NULL default NULL,
   usr_created_date datetime NOT NULL default '0000-00-00 00:00:00',
@@ -457,7 +465,8 @@ CREATE TABLE %TABLE_PREFIX%user (
   usr_clocked_in tinyint(1) DEFAULT 0,
   PRIMARY KEY  (usr_id),
   UNIQUE KEY usr_email (usr_email),
-  KEY usr_email_password (usr_email, usr_password)
+  KEY usr_email_password (usr_email, usr_password),
+  INDEX(usr_grp_id)
 );
 INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (1, NOW(), '14589714398751513457adf349173434', 'system', 'system-account@example.com', 7, '');
 INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@example.com', 7, '');
@@ -528,7 +537,7 @@ CREATE TABLE %TABLE_PREFIX%phone_support (
   phs_type enum('incoming','outgoing') NOT NULL default 'incoming',
   phs_phone_number varchar(32) NOT NULL default '',
   phs_phone_type varchar(6) NOT NULL,
-  phs_reason varchar(16) NOT NULL,
+  phs_phc_id int(11) unsigned NOT NULL,
   phs_description text NOT NULL,
   PRIMARY KEY (phs_id),
   KEY phs_iss_id (phs_iss_id),
@@ -642,6 +651,7 @@ CREATE TABLE %TABLE_PREFIX%reminder_action (
   rma_last_updated_date DATETIME NULL,
   rma_title VARCHAR(64) NOT NULL,
   rma_rank TINYINT(2) UNSIGNED NOT NULL,
+  rma_alert_irc TINYINT(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY(rma_id)
 );
 
@@ -846,4 +856,42 @@ CREATE TABLE %TABLE_PREFIX%faq_support_level (
   fsl_faq_id INT(11) UNSIGNED NOT NULL,
   fsl_support_level_id INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (fsl_faq_id, fsl_support_level_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%project_email_response;
+CREATE TABLE %TABLE_PREFIX%project_email_response (
+  per_prj_id int(11) unsigned NOT NULL,
+  per_ere_id int(10) unsigned NOT NULL,
+  PRIMARY KEY (per_prj_id, per_ere_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%project_phone_category;
+CREATE TABLE %TABLE_PREFIX%project_phone_category (
+  phc_id int(11) unsigned NOT NULL auto_increment,
+  phc_prj_id int(11) unsigned NOT NULL default '0',
+  phc_title varchar(64) NOT NULL default '',
+  PRIMARY KEY  (phc_id),
+  UNIQUE KEY uniq_category (phc_prj_id,phc_title),
+  KEY phc_prj_id (phc_prj_id)
+);
+INSERT INTO %TABLE_PREFIX%project_phone_category (phc_id, phc_prj_id, phc_title) VALUES (1, 1, 'Sales Issues');
+INSERT INTO %TABLE_PREFIX%project_phone_category (phc_id, phc_prj_id, phc_title) VALUES (2, 1, 'Technical Issues');
+INSERT INTO %TABLE_PREFIX%project_phone_category (phc_id, phc_prj_id, phc_title) VALUES (3, 1, 'Administrative Issues');
+INSERT INTO %TABLE_PREFIX%project_phone_category (phc_id, phc_prj_id, phc_title) VALUES (4, 1, 'Other');
+
+DROP TABLE IF EXISTS `%TABLE_PREFIX%group`;
+CREATE TABLE `%TABLE_PREFIX%group` (
+    grp_id int(11) unsigned auto_increment,
+    grp_name varchar(100) unique,
+    grp_description varchar(255),
+    grp_manager_usr_id int(11) unsigned,
+    PRIMARY KEY(grp_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%project_group;
+CREATE TABLE %TABLE_PREFIX%project_group (
+    pgr_prj_id int(11)  unsigned,
+    pgr_grp_id int(11) unsigned,
+    index(pgr_prj_id),
+    index(pgr_grp_id)
 );

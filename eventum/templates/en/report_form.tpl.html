@@ -43,6 +43,18 @@
             <b>Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.</b>
           </td>
         </tr>
+        {if $quarantine_status > 0}
+        <tr>
+            <td align="center" class="default" colspan="2">
+                <br />
+                <b><span style="color: red">Warning: your issue is currently quarantined. 
+                Please see the <a href="faq.php">FAQ</a> for information regarding quarantined issues.
+                </b>
+                <br /><br />
+                </span>
+            </td>
+        </tr>
+        {/if}
       </table>
     </td>
   </tr>
@@ -116,15 +128,30 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
+{if $message != ''}
+<table align="center" border="0" cellspacing="0" cellpadding="1" bgcolor="red">
+  <tr>
+    <td>
+        <table align="center" width="500" bgcolor="#FFFFFF">
+            <tr>
+                <td class="default" align="center">
+                    {$message}
+                </td>
+            </tr>
+        </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="report">
 <input type="hidden" name="customer" value="{$customer_id}">
 <input type="hidden" name="contact" value="{$contact_id}">
 <input type="hidden" name="attached_emails" value="{$attached_emails}">
-{if $hide_fields == 1}
+{if $current_role < $field_display_settings.assignment}
     <input type="hidden" name="assignment[]" value="">
-    <input type="hidden" name="estimated_dev_time" value="">
 {/if}
 {if $releases|@count < 1 || $current_role < $field_display_settings.release}
     {* Hidden field if there are no scheduled releases *}
@@ -149,7 +176,7 @@ function validateForm(f)
         </tr>
         {if $cats|@count > 0 && $current_role >= $field_display_settings.category}
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{if $field_display_settings.category > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
             <b>Category: *</b> {include file="help_link.tpl.html" topic="report_category"}
           </td>
           <td bgcolor="{$light_color}">
@@ -169,7 +196,7 @@ function validateForm(f)
             <select name="priority" class="default" tabindex="2">
               <option value="-1">Please choose a priority</option>
               {section name="i" loop=$priorities}
-              <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $smarty.post.priority}selected{/if}>{$priorities[i].pri_title}</option>
+              <option value="{$priorities[i].pri_id}" {if ($priorities[i].pri_id == $smarty.post.priority) OR ($smarty.post.priority == '' AND $priorities[i].pri_title == 'Medium')}selected{/if}>{$priorities[i].pri_title}</option>
               {/section}
             </select>
             {include file="error_icon.tpl.html" field="priority"}
@@ -177,7 +204,7 @@ function validateForm(f)
         </tr>
         {if $current_role >= $field_display_settings.assignment}
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{if $field_display_settings.assignment > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
             <b>Assignment: {if $allow_unassigned_issues != 'yes'}*{/if}</b> {include file="help_link.tpl.html" topic="report_assignment"}
           </td>
           <td bgcolor="{$light_color}">
@@ -188,9 +215,23 @@ function validateForm(f)
           </td>
         </tr>
         {/if}
+        {if $groups|@count > 0 && $current_role >= $field_display_settings.group}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.assignment > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>Group: 
+          </td>
+          <td bgcolor="{$light_color}">
+            <select class="default" name="group">
+                <option value=""></option>
+                {html_options options=$groups selected=$issue.iss_grp_id}
+            </select>
+            {include file="error_icon.tpl.html" field="group"}
+          </td>
+        </tr>
+        {/if}
         {if $releases|@count > 0 && $current_role >= $field_display_settings.release}
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{if $field_display_settings.release > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
             <b>Scheduled Release:</b> {include file="help_link.tpl.html" topic="report_release"}
           </td>
           <td bgcolor="{$light_color}">
@@ -212,7 +253,7 @@ function validateForm(f)
         </tr>
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>Description / Initial Requirements: *</b> {include file="help_link.tpl.html" topic="report_description"}
+            <b>Description: *</b> {include file="help_link.tpl.html" topic="report_description"}
           </td>
           <td bgcolor="{$light_color}">
             <textarea name="description" rows="10" tabindex="6" style="width: 97%">{if $issue_description != ''}{$issue_description}{else}{$smarty.post.description}{/if}</textarea>
@@ -221,7 +262,7 @@ function validateForm(f)
         </tr>
         {if $current_role >= $field_display_settings.estimated_dev_time}
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{if $field_display_settings.estimated_dev_time > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
             <nobr><b>Estimated Dev. Time:</b> {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
           </td>
           <td bgcolor="{$light_color}">
@@ -424,7 +465,7 @@ function setFocus()
 {
     {/literal}
     {if $cats|@count > 0 && $current_role >= $field_display_settings.category}
-    document.report_form.category.focus();
+        document.report_form.category.focus();
     {else}
         document.report_form.priority.focus();
     {/if}

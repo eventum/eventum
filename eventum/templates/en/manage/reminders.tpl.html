@@ -298,7 +298,7 @@
                     <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td bgcolor="{$cell_color}" nowrap>&nbsp;</td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>ID</b>&nbsp;</td>
                       <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>Rank</b>&nbsp;</td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
@@ -310,7 +310,7 @@
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].rem_id}"></td>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].rem_id}"></td>
                       <td bgcolor="{$row_color}" class="default" align="center">{$list[i].rem_id}</td>
                       <td bgcolor="{$row_color}" class="default" align="center">
                         <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rem_id}&rank=desc"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].rem_rank}
@@ -340,7 +340,10 @@
                     </tr>
                     {/section}
                     <tr>
-                      <td colspan="8" bgcolor="{$cell_color}" align="center">
+                      <td width="4" align="center" bgcolor="{$cell_color}">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                      </td>
+                      <td colspan="7" bgcolor="{$cell_color}" align="center">
                         <input type="submit" value="Delete" class="button">
                       </td>
                     </tr>

@@ -493,6 +493,9 @@ var toggle = 'off';
 function toggleSelectAll(f, field_name)
 {
     for (var i = 0; i < f.elements.length; i++) {
+        if (f.elements[i].disabled) {
+            continue;
+        }
         if (f.elements[i].name == field_name) {
             if (toggle == 'off') {
                 f.elements[i].checked = true;

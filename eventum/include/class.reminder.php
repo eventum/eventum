@@ -39,21 +39,37 @@
 
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.reminder_action.php");
+include_once(APP_INC_PATH . "class.priority.php");
 
 class Reminder
 {
-    // XXX: put documentation here
+    /**
+     * Returns whether we are in "debug mode" or not. Returning true
+     * here will enable all sorts of helpful messages in the reminder
+     * check script.
+     *
+     * @access  public
+     * @return  boolean
+     */
     function isDebug()
     {
         return false;
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Method used to quickly change the ranking of a reminder entry
+     * from the administration screen.
+     *
+     * @access  public
+     * @param   integer $rem_id The reminder entry ID
+     * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
+     * @return  boolean
+     */
     function changeRank($rem_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
-        $ranking = Reminder::getRanking();
+        $ranking = Reminder::_getRanking();
         $ranks = array_values($ranking);
         $ids = array_keys($ranking);
         $last = end($ids);
@@ -88,11 +104,18 @@ class Reminder
                  WHERE
                     rem_id=" . $rem_id;
         $GLOBALS["db_api"]->dbh->query($stmt);
+        return true;
     }
 
 
-    // XXX: put documentation here
-    function getRanking()
+    /**
+     * Returns an associative array with the list of reminder IDs and
+     * their respective ranking.
+     *
+     * @access  private
+     * @return  array The list of reminders
+     */
+    function _getRanking()
     {
         $stmt = "SELECT
                     rem_id,
@@ -111,7 +134,14 @@ class Reminder
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Method used by the administration screen to list the available
+     * issues in a project.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array The list of issues
+     */
     function getIssueAssocListByProject($prj_id)
     {
         $issues = Issue::getAssocListByProject($prj_id);
@@ -239,7 +269,15 @@ class Reminder
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Method used to associate a support level ID with a given
+     * reminder entry ID.
+     *
+     * @access  public
+     * @param   integer $rem_id The reminder ID
+     * @param   integer $support_level_id The support level ID
+     * @return  boolean
+     */
     function addSupportLevelAssociation($rem_id, $support_level_id)
     {
         $stmt = "INSERT INTO
@@ -290,7 +328,15 @@ class Reminder
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Method used to associate a customer ID with a given reminder 
+     * entry ID.
+     *
+     * @access  public
+     * @param   integer $rem_id The reminder ID
+     * @param   integer $customer_id The customer ID
+     * @return  boolean
+     */
     function addCustomerAssociation($rem_id, $customer_id)
     {
         $stmt = "INSERT INTO
@@ -609,12 +655,12 @@ class Reminder
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
         } else {
-            $priority_titles = Misc::getAssocPriorities();
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['rem_created_date'] = Date_API::getFormattedDate($res[$i]["rem_created_date"]);
                 $actions = Reminder_Action::getList($res[$i]['rem_id']);
                 $res[$i]['total_actions'] = count($actions);
                 $priorities = Reminder::getAssociatedPriorities($res[$i]['rem_id']);
+                $priority_titles = Priority::getAssocList($res[$i]['rem_prj_id']);
                 $res[$i]['priorities'] = array();
                 if (count($priorities) > 0) {
                     foreach ($priorities as $pri_id) {
@@ -775,6 +821,40 @@ class Reminder
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "')", $stmt);
         return $stmt;
+    }
+
+
+    /**
+     * Method used to list the history of triggered reminder actions
+     * for a given issue.
+     *
+     * @access  public
+     * @param   integer $iss_id The issue ID
+     * @return  array The list of triggered reminder actions
+     */
+    function getHistoryList($iss_id)
+    {
+        $stmt = "SELECT
+                    rmh_created_date,
+                    rma_title
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                 WHERE
+                    rmh_iss_id=$iss_id AND
+                    rmh_rma_id=rma_id
+                 ORDER BY
+                    rmh_created_date DESC";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            for ($i = 0; $i < count($res); $i++) {
+                $res[$i]["rmh_created_date"] = Date_API::getFormattedDate($res[$i]["rmh_created_date"]);
+            }
+            return $res;
+        }
     }
 }
 

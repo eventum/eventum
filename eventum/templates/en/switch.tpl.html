@@ -10,9 +10,29 @@
 <script language="JavaScript">
 <!--
 {if $smarty.get.is_frame == "yes"}
-opener.parent.location.href = opener.parent.location;
+var url = opener.parent.location.href;
 {else}
-opener.location.href = opener.location;
+var url = opener.location.href;
+{/if}
+
+var email_list_page = '/emails.php';
+{literal}
+if (url.indexOf(email_list_page + '?') != -1) {
+    url = url.substring(0, url.indexOf(email_list_page + '?') + email_list_page.length);
+}
+{/literal}
+
+var list_page = '/list.php';
+{literal}
+if (url.indexOf(list_page + '?') != -1) {
+    url = url.substring(0, url.indexOf(list_page + '?') + list_page.length);
+}
+{/literal}
+
+{if $smarty.get.is_frame == "yes"}
+opener.parent.location.href = url;
+{else}
+opener.location.href = url;
 {/if}
 setTimeout('window.close()', 2000);
 //-->

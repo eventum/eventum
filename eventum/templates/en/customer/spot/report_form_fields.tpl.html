@@ -57,7 +57,7 @@ function validateCustomer(f)
         </tr>
         {if $current_role != $roles.customer}
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$internal_color}" class="default_white">
             <b>Customer:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -68,7 +68,7 @@ function validateCustomer(f)
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$internal_color}" class="default_white">
             <b>Contact:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -76,7 +76,7 @@ function validateCustomer(f)
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$internal_color}" class="default_white">
             <b>Add Primary Contact to Notification List? *</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -85,7 +85,7 @@ function validateCustomer(f)
           </td>
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$internal_color}" class="default_white">
             <b>Notify Customer About New Issue? *</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -120,7 +120,7 @@ function validateCustomer(f)
             <b>Email: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="contact_email" class="default" size="40" value="{if $smarty.post.contact_email != ''}{$smarty.post.contact_email}{elseif $current_role == $roles.customer}{$current_email}{/if}">
+            <input type="text" name="contact_email" class="default" size="40" value="{if $smarty.post.contact_email != ''}{$smarty.post.contact_email}{else}{$contact_details.email}{/if}">
             {include file="error_icon.tpl.html" field="contact_email"}
           </td>
         </tr>

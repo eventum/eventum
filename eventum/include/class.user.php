@@ -460,9 +460,11 @@ class User
      *
      * @access  public
      * @param   integer $role The role ID of the user
+     * @param   boolean $exclude_grouped If users with a group should be excluded
+     * @Param   integer $grp_id The ID of the group.
      * @return  array The associative array of users
      */
-    function getActiveAssocList($role = NULL)
+    function getActiveAssocList($role = NULL, $exclude_grouped = false, $grp_id = false)
     {
         $stmt = "SELECT
                     usr_id,
@@ -474,6 +476,15 @@ class User
                     usr_id != " . APP_SYSTEM_USER_ID;
         if ($role != NULL) {
             $stmt .= " AND usr_role > $role ";
+        }
+        if ($grp_id != false) {
+            if ($exclude_grouped == false) {
+                $stmt .= " AND (usr_grp_id IS NULL OR usr_grp_id = $grp_id)";
+            } else {
+                $stmt .= " AND usr_grp_id = $grp_id";
+            }
+        } elseif ($exclude_grouped == true) {
+            $stmt .= " AND usr_grp_id IS NULL";
         }
         $stmt .= "
                  ORDER BY
@@ -655,6 +666,49 @@ class User
 
         $stmt = "SELECT
                     usr_full_name
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_id IN (" . implode(', ', $items) . ")";
+        if (!is_array($usr_id)) {
+            $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        } else {
+            $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        }
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            $returns[$key] = $res;
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the group id of the specified user.
+     *
+     * @access  public
+     * @param   integer $usr_id The user ID
+     * @return  string The user' full name
+     */
+    function getGroupID($usr_id)
+    {
+        static $returns;
+
+        if (!is_array($usr_id)) {
+            $items = array($usr_id);
+        } else {
+            $items = $usr_id;
+        }
+
+        $key = md5(serialize($usr_id));
+        if (!empty($returns[$key])) {
+            return $returns[$key];
+        }
+
+        $stmt = "SELECT
+                    usr_grp_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
@@ -984,6 +1038,9 @@ class User
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["usr_role"] = User::getRole($res[$i]["usr_role"]);
+                if (!empty($res[$i]["usr_grp_id"])) {
+                    $res[$i]["group_name"] = Group::getName($res[$i]["usr_grp_id"]);
+                }
             }
             return $res;
         }
@@ -1167,6 +1224,34 @@ class User
         } else {
             return false;
         }
+    }
+
+
+    /**
+     * Sets the group ID
+     * 
+     * @access  public
+     * @param   integer $usr_id The id of the user.
+     * @param   integer $grp_id The id of the group.
+     */
+    function setGroupID($usr_id, $grp_id)
+    {
+        if ($grp_id == false) {
+            $grp_id = 'null';
+        }
+        
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 SET
+                    usr_grp_id = $grp_id
+                 WHERE
+                    usr_id = $usr_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+        return 1;
     }
 }
 

@@ -170,7 +170,11 @@ function setSignature(f)
       <table width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default">
-            <b>Send Email</b>
+            {if $smarty.get.cat == 'create_draft'}
+                <b>Create Draft</b>
+            {else}
+                <b>Send Email</b>
+            {/if}
           </td>
         </tr>
         {if $send_result != ""}
@@ -256,7 +260,8 @@ function setSignature(f)
             {include file="error_icon.tpl.html" field="message"}
           </td>
         </tr>
-        {if $issue_id and $current_role != $roles.customer and $hide_email_buttons != 'yes'}
+        {if $issue_id and $current_role != $roles.customer}
+            {if $hide_email_buttons != 'yes'}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>New Status for Issue #{$issue_id}:</b>
@@ -267,12 +272,13 @@ function setSignature(f)
             </select>
           </td>
         </tr>
+            {/if}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Time Spent:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" size="5" name="time_spent" class="default"> <span class="default">(in minutes)</span>
+            <input type="text" size="5" name="time_spent" class="default"> <span class="small_default"><i>(in minutes)</i></span>
           </td>
         </tr>
         {elseif $issue_id and $current_role == $roles.customer}

@@ -74,18 +74,18 @@ function unmarkIncidentIssue(issue_id)
     var popupWin = window.open('popup.php?cat=unflag_incident&iss_id=' + issue_id, '_unflagIncident', features);
     popupWin.focus();
 }
+function removeQuarantine(issue_id)
+{
+    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('popup.php?cat=remove_quarantine&iss_id=' + issue_id, '_removeQuarantine', features);
+    popupWin.focus();
+}
 function validateForm(f)
 {
-{/literal}
-  {if $current_role == $roles.customer}
-{literal}
     if (!confirm('NOTE: If you need to send new information regarding this issue, please use \nthe EMAIL related buttons available at the bottom of the screen.')) {
         return false;
     }
-{/literal}
-  {/if}
-{literal}
-  return true;
+    return true;
 }
 //-->
 </script>
@@ -122,6 +122,33 @@ function validateForm(f)
 </table>
 <br />
 {/if}
+
+{if $quarantine_status > 0}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td><img src="{$rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td width="100%" class="default" align="center">
+            <span style="font-weight: bold; font-size: 160%; color: red;">
+                This Issue is Currently Quarantined
+            </span>
+            {include file="customer/$customer_backend_name/quarantine.tpl.html"}<br />
+            Please see the <a href="faq.php">FAQ</a> for information regarding quarantined issues.
+            {if $current_role > $roles.developer}
+            <br /><br />
+            <input type="button" name="remove_quarantine" value="Remove Quarantine" onClick="removeQuarantine({$issue.iss_id})">
+            {/if}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top: 1;padding-bottom: 0">
 <form method="get" action="update.php" onSubmit="javascript:return validateForm(this);">
 <input type="hidden" name="id" value="{$issue.iss_id}">
@@ -140,6 +167,27 @@ function validateForm(f)
             [ <a class="link" title="view the full history of changes on this issue" href="javascript:void(null);" onClick="javascript:openHistory({$smarty.get.id});">History of Changes</a> ]
           </td>
         </tr>
+        {if $issue.iss_customer_id}
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Customer:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$issue.customer_info.customer_name}
+            (<a href="#customer_details" class="link">Complete Details</a>)
+          </td>
+          <td width="140" bgcolor="{$cell_color}" class="default_white">
+            <b>Customer Contract:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            Support Level: {$issue.customer_info.support_level}
+            {if $issue.customer_info.support_options}
+            <br />
+            Support Options: {$issue.customer_info.support_options}
+            {/if}
+          </td>
+        </tr>
+        {/if}
         <tr>
           {* If we are not showing categories, put status here *}
           {if $show_category == 1}
@@ -258,10 +306,10 @@ function validateForm(f)
           {/if}
         </tr>
         <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
+          <td {if $current_role > $roles.customer && $groups|@count > 0}rowspan="2"{/if}width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Assignment:</b>
           </td>
-          <td {if $current_role <= $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
+          <td {if $current_role <= $roles.customer}colspan="3" {elseif $groups|@count > 0}rowspan="2"{/if}bgcolor="{$light_color}" class="default">
             {$issue.assignments}
           </td>
           {if $current_role > $roles.customer}
@@ -291,6 +339,17 @@ function validateForm(f)
           </td>
           {/if}
         </tr>
+        {* Display Group if a group is set and user is above a customer *}
+        {if $current_role > $roles.customer && $groups|@count > 0}
+        <tr>
+          <td width="150" bgcolor="{$internal_color}" class="default_white">
+            <b>Group:</b>
+          </td>
+          <td colspan="3" bgcolor="{$light_color}" class="default">
+            {$issue.group.grp_name}
+          </td>
+        </tr>
+        {/if}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Summary:</b><img src="images/blank.gif" height="1" width="150">

@@ -32,6 +32,7 @@ include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.category.php");
+include_once(APP_INC_PATH . "class.priority.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.setup.php");
@@ -58,7 +59,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     // load the form fields
     $tpl->assign("project", Project::getDetails($prj_id));
     $tpl->assign("cats", Category::getAssocList($prj_id));
-    $tpl->assign("priorities", Misc::getPriorities());
+    $tpl->assign("priorities", Priority::getList($prj_id));
     $tpl->assign("users", Project::getUserAssocList($prj_id, 'active'));
     $tpl->assign("options", Project::getAnonymousPostOptions($prj_id));
     $tpl->assign("prj_id", $prj_id);

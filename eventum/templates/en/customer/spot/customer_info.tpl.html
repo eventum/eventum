@@ -1,4 +1,5 @@
 
+<a name="customer_details" id="customer_details"></a>
 <br />
 {literal}
 <script language="JavaScript">
@@ -62,11 +63,40 @@ function updateContactDetails(issue_id)
                   {$issue.iss_contact_timezone}
                 </td>
               </tr>
-<!--              <tr>
-                <td align="center" colspan="2" bgcolor="{$cell_color}">
-                  <input class="button" type="button" value="Update Contact Details" onClick="javascript:updateContactDetails({$issue.iss_id});">
+              {if $current_role > $roles.standard_user}
+              <tr>
+                <td bgcolor="{$internal_color}" class="default_white">
+                  <nobr><b>Contact's Local Time:</b>&nbsp;</nobr>
                 </td>
-              </tr>-->
+                <td class="default" width="100%" bgcolor="{$light_color}">
+                  {$issue.contact_local_time}
+                </td>
+              </tr>
+              <tr>
+                <td bgcolor="{$internal_color}" class="default_white">
+                  <nobr><b>Business Hours:</b>&nbsp;</nobr>
+                </td>
+                <td class="default" width="100%" bgcolor="{$light_color}">
+                  {$issue.customer_business_hours}
+                </td>
+              </tr>
+              <tr>
+                <td bgcolor="{$internal_color}" class="default_white">
+                  <b>Maximum First Response Time:</b>&nbsp;<br />
+                </td>
+                <td width="100%" bgcolor="{$light_color}" class="default">
+                  {$issue.max_first_response_time}
+                </td>
+              </tr>
+              <tr>
+                <td bgcolor="{$internal_color}" class="default_white">
+                  <b>Time Until First Response Deadline:</b>&nbsp;<br />
+                </td>
+                <td width="100%" bgcolor="{$light_color}" class="default">
+                  {$issue.max_first_response_time_left}
+                </td>
+              </tr>
+              {/if}
             </table>
           </td>
           <td width="50%" valign="top">

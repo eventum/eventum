@@ -136,6 +136,24 @@ class Mail_API
 
 
     /**
+     * Checks whether the given headers are from a vacation 
+     * auto-responder message or not.
+     *
+     * @access  public
+     * @param   array $headers The list of headers
+     * @return  boolean
+     */
+    function isVacationAutoResponder($headers)
+    {
+        if (@$headers['x-vacationmessage'] == 'Yes') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
      * Method used to parse a string and return all email addresses contained
      * within it.
      *
@@ -366,6 +384,19 @@ class Mail_API
 
 
     /**
+     * Method used to add a message/rfc822 attachment to the message.
+     *
+     * @access  public
+     * @param   string $message_body The attachment data
+     * @return  void
+     */
+    function addMessageRfc822($message_body)
+    {
+        $this->mime->addMessageRfc822($message_body);
+    }
+
+
+    /**
      * Removes the warning message contained in a message, so that certain users
      * don't receive that extra information as it may not be relevant to them.
      *
@@ -468,9 +499,10 @@ class Mail_API
      * @param   string $from The originator of the message
      * @param   string $to The recipient of the message
      * @param   string $subject The subject of the message
+     * @param   integer $issue_id The ID of the issue. If false, email will not be associated with issue.
      * @return  string The full body of the message that was sent
      */
-    function send($from, $to, $subject, $save_email_copy = 0)
+    function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false)
     {
         // encode the addresses
         $from = MIME_Helper::encodeAddress($from);
@@ -484,7 +516,7 @@ class Mail_API
             'Subject' => $subject
         ));
         $hdrs = $this->mime->headers($this->headers);
-        $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy);
+        $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id);
         if (PEAR::isError($res)) {
             return $res;
         } else {

@@ -43,6 +43,30 @@ include_once(APP_INC_PATH . "class.misc.php");
 class Email_Response
 {
     /**
+     * Method used to add a project association to a email 
+     * response entry.
+     *
+     * @access  public
+     * @param   integer $ere_id The email response ID
+     * @param   integer $prj_id The project ID
+     * @return  void
+     */
+    function addProjectAssociation($ere_id, $prj_id)
+    {
+        $stmt = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_email_response
+                 (
+                    per_ere_id,
+                    per_prj_id
+                 ) VALUES (
+                    $ere_id,
+                    $prj_id
+                 )";
+        $GLOBALS["db_api"]->dbh->query($stmt);
+    }
+
+
+    /**
      * Method used to add a new canned email response to the system.
      *
      * @access  public
@@ -69,6 +93,11 @@ class Email_Response
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
+            $new_response_id = $GLOBALS["db_api"]->get_last_insert_id();
+            // now populate the project-news mapping table
+            foreach ($HTTP_POST_VARS['projects'] as $prj_id) {
+                Email_Response::addProjectAssociation($new_response_id, $prj_id);
+            }
             return 1;
         }
     }
@@ -89,6 +118,39 @@ class Email_Response
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response
                  WHERE
                     ere_id IN ($items)";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            Email_Response::removeProjectAssociations($HTTP_POST_VARS['items']);
+            return true;
+        }
+    }
+
+
+    /**
+     * Method used to remove the project associations for a given
+     * email response entry.
+     *
+     * @access  public
+     * @param   integer $ere_id The email response ID
+     * @param   integer $prj_id The project ID
+     * @return  boolean
+     */
+    function removeProjectAssociations($ere_id, $prj_id=FALSE)
+    {
+        if (!is_array($ere_id)) {
+            $ere_id = array($ere_id);
+        }
+        $items = @implode(", ", $ere_id);
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_email_response
+                 WHERE
+                    per_ere_id IN ($items)";
+        if ($prj_id) {
+            $stmt .= " AND per_prj_id=$prj_id";
+        }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -124,6 +186,11 @@ class Email_Response
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
+            // remove all of the associations with projects, then add them all again
+            Email_Response::removeProjectAssociations($HTTP_POST_VARS['id']);
+            foreach ($HTTP_POST_VARS['projects'] as $prj_id) {
+                Email_Response::addProjectAssociation($HTTP_POST_VARS['id'], $prj_id);
+            }
             return 1;
         }
     }
@@ -149,6 +216,37 @@ class Email_Response
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
+        } else {
+            // get all of the project associations here as well
+            $res['projects'] = array_keys(Email_Response::getAssociatedProjects($res['ere_id']));
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the list of associated projects for a given
+     * email response entry.
+     *
+     * @access  public
+     * @param   integer $ere_id The email response ID
+     * @return  array The list of projects
+     */
+    function getAssociatedProjects($ere_id)
+    {
+        $stmt = "SELECT
+                    prj_id,
+                    prj_title
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_email_response
+                 WHERE
+                    prj_id=per_prj_id AND
+                    per_ere_id=$ere_id";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
         } else {
             return $res;
         }
@@ -176,6 +274,10 @@ class Email_Response
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            // get the list of associated projects
+            for ($i = 0; $i < count($res); $i++) {
+                $res[$i]['projects'] = implode(", ", array_values(Email_Response::getAssociatedProjects($res[$i]['ere_id'])));
+            }
             return $res;
         }
     }
@@ -186,15 +288,20 @@ class Email_Response
      * available in the system.
      *
      * @access  public
+     * @param   integer $prj_id The project ID
      * @return  array The list of canned email responses
      */
-    function getAssocList()
+    function getAssocList($prj_id)
     {
         $stmt = "SELECT
                     ere_id,
                     ere_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_email_response
+                 WHERE
+                    per_ere_id=ere_id AND
+                    per_prj_id=$prj_id
                  ORDER BY
                     ere_title ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -212,15 +319,20 @@ class Email_Response
      * responses' bodies.
      *
      * @access  public
+     * @param   integer $prj_id The project ID
      * @return  array The list of canned email responses' bodies.
      */
-    function getAssocListBodies()
+    function getAssocListBodies($prj_id)
     {
         $stmt = "SELECT
                     ere_id,
                     ere_response_body
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response";
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_email_response
+                 WHERE
+                    per_ere_id=ere_id AND
+                    per_prj_id=$prj_id";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

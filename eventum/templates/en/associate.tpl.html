@@ -100,7 +100,21 @@ function validateForm(f)
         <tr>
           <td bgcolor="{$dark_color}">&nbsp;</td>
           <td bgcolor="{$dark_color}" class="small_default">
-            <b>NOTE:</b> Email{if $total_emails > 1}s{/if} will be broadcasted to the full notification list, including any unknown contacts, if this option is chosen.
+            <b>NOTE:</b> Email{if $total_emails > 1}s{/if} will be broadcasted to the full notification list, including any customers, if this option is chosen.
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}" align="right" valign="top">
+            <input type="radio" name="target" value="reference">
+          </td>
+          <td bgcolor="{$dark_color}" class="default">
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('associate_email_form', 'target', 1);">Save Message{if $total_emails > 1}s{/if} as Reference Email{if $total_emails > 1}s{/if}</a></b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}">&nbsp;</td>
+          <td bgcolor="{$dark_color}" class="small_default">
+            <b>NOTE:</b> Email{if $total_emails > 1}s{/if} will <b>NOT</b> be sent to the notification list, if this option if chosen. This is useful as way to backload a set of emails into an existing issue.
           </td>
         </tr>
         <tr>
@@ -108,7 +122,7 @@ function validateForm(f)
             <input type="radio" name="target" value="note">
           </td>
           <td class="default" bgcolor="{$dark_color}">
-            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('associate_email_form', 'target', 1);">Save Message{if $total_emails > 1}s{/if} as {if $total_emails == 1}an {/if}Internal Note{if $total_emails > 1}s{/if}</a></b>
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('associate_email_form', 'target', 2);">Save Message{if $total_emails > 1}s{/if} as {if $total_emails == 1}an {/if}Internal Note{if $total_emails > 1}s{/if}</a></b>
           </td>
         </tr>
         <tr>

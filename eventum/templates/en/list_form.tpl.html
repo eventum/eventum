@@ -88,6 +88,22 @@ function disableFields()
 //-->
 </script>
 {/literal}
+{* Figure out how many columns there are *}
+{if $current_role != $roles.customer}
+    {if $current_role > $roles.developer}
+        {assign var="col_count" value="10"}
+    {else}
+        {assign var="col_count" value="9"}
+    {/if}
+    {if $groups|@count > 0}
+        {math assign="col_count" equation="x+1" x=$col_count}
+    {/if}
+    {if $categories|@count > 0}
+        {math assign="col_count" equation="x+1" x=$col_count}
+    {/if}
+{else}
+    {assign var="col_count" value="9"}
+{/if}
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <form name="list_form" method="post" action="{$smarty.server.PHP_SELF}">
   <input type="hidden" name="cat" value="assign">
@@ -95,7 +111,7 @@ function disableFields()
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td colspan="{if $current_role != $roles.customer}{if $current_role > $roles.developer}9{else}8{/if}{else}7{/if}" class="default">
+          <td colspan="{math equation="x-2" x=$col_count}" class="default">
             <b>Search Results ({$list_info.total_rows} issues found{if $list_info.end_offset > 0}, {math equation="x + 1" x=$list_info.start_offset} - {$list_info.end_offset} shown{/if})</b>
             {include file="help_link.tpl.html" topic="list"}
           </td>
@@ -123,6 +139,9 @@ function disableFields()
             <a title="sort by issue id" href="{$sorting.links.iss_id}" class="white_link">Issue ID</a>
             {if $sorting.images.iss_id != ""}<a title="sort by issue id" href="{$sorting.links.iss_id}" class="white_link"><img border="0" src="{$sorting.images.iss_id}"></a>{/if}
           </td>
+          {if $current_role > $roles.customer && $groups|@count > 0}
+          <td align="center" class="default_white" nowrap>Group</td>
+          {/if}
           <td align="center" class="default_white">Assigned</td>
           {if $current_role != $roles.customer}
           <td align="center" class="default_white" nowrap>Time Spent</td>
@@ -160,12 +179,15 @@ function disableFields()
           </td>
         </tr>
         {section name="i" loop=$list}
-        <tr>
+        <tr {if $current_role > $roles.developer AND $list[i].iqu_status > 0}style="text-decoration : line-through;"{/if}>
           {if $current_role > $roles.developer}
           <td bgcolor="{$list[i].status_color}" width="1%" class="default" align="center"><input type="checkbox" name="item[]" value="{$list[i].iss_id}"></td>
           {/if}
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].pri_title|escape:"html"}</td>
           <td bgcolor="{$list[i].status_color}" align="center" class="default"><a href="view.php?id={$list[i].iss_id}" class="link" title="view issue details">{$list[i].iss_id}</a></td>
+          {if $current_role > $roles.customer && $groups|@count > 0}
+          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].group}</td>
+          {/if}
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].assigned_users}</td>
           {if $current_role != $roles.customer}
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].time_spent}</td>
@@ -181,6 +203,9 @@ function disableFields()
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].last_action_date|escape:"html"}</td>
           <td bgcolor="{$list[i].status_color}" width="50%" class="default">
             <a href="view.php?id={$list[i].iss_id}" class="link" title="view issue details">{$list[i].iss_summary|escape:"html"}</a>
+            {if $list[i].redeemed}
+                [Redeemed]
+            {/if}
             {if $list[i].iss_lock_usr_id != "" and $current_role != $roles.customer}
             <a href="view.php?id={$list[i].iss_id}" class="link" title="issue currently locked"><img src="images/icons/lock.gif" border="0"></a>
             {/if}
@@ -188,13 +213,13 @@ function disableFields()
         </tr>
         {sectionelse}
         <tr bgcolor="gray">
-          <td colspan="{if $current_role != $roles.customer}{if $current_role > $roles.developer}11{else}10{/if}{else}9{/if}" class="default_white" align="center">
+          <td colspan="{$col_count}" class="default_white" align="center">
             <i>No issues could be found.</i>
           </td>
         </tr>
         {/section}
         <tr bgcolor="{$cell_color}">
-          <td colspan="{if $current_role != $roles.customer}{if $current_role > $roles.developer}11{else}10{/if}{else}9{/if}">
+          <td colspan="{$col_count}">
             <table width="100%" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="30%" nowrap>
@@ -212,7 +237,7 @@ function disableFields()
                   <nobr>
                   <input name="first" type="button" value="|&lt;" class="shortcut" onClick="javascript:setPage(0);">
                   <input name="previous" type="button" value="&lt;&lt;" class="shortcut" onClick="javascript:setPage({$list_info.previous_page});">
-                  <input type="text" name="page" size="3" maxlength="3" value="{math equation="x + 1" x=$list_info.current_page}" style="background: {$cell_color};" class="paging_input" onKeyPress="javascript:return checkPageField(event);">
+                  <input type="text" name="page" size="3" maxlength="3" value="{if $list_info.current_page == ''}1{else}{math equation="x + 1" x=$list_info.current_page}{/if}" style="background: {$cell_color};" class="paging_input" onKeyPress="javascript:return checkPageField(event);">
                   <input name="go" type="button" value="Go" class="shortcut" onClick="javascript:goPage(this.form, this.form.page.value);">
                   <input name="next" type="button" value="&gt;&gt;" class="shortcut" onClick="javascript:setPage({$list_info.next_page});">
                   <input name="last" type="button" value="&gt;|" class="shortcut" onClick="javascript:setPage({$list_info.last_page});">

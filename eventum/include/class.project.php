@@ -39,6 +39,7 @@
 
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.misc.php");
+include_once(APP_INC_PATH . "class.group.php");
 include_once(APP_INC_PATH . "class.validation.php");
 include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "class.category.php");
@@ -345,6 +346,7 @@ class Project
             foreach ($HTTP_POST_VARS["items"] as $prj_id) {
                 Status::removeProjectAssociations($statuses, $prj_id);
             }
+            Group::disassociateProjects($HTTP_POST_VARS["items"]);
             return true;
         }
     }
@@ -540,7 +542,7 @@ class Project
 
     /**
      * Method used to get an associative array of project ID and title
-     * of all projects available in the system.
+     * of all projects available in the system to a given user ID.
      *
      * @access  public
      * @param   integer $usr_id The user ID
@@ -688,7 +690,6 @@ class Project
      */
     function getAddressBookEmails($prj_id, $issue_id)
     {
-        // XXX: eventually cache the results of this next function
         $list = Project::getAddressBook($prj_id, $issue_id);
         $emails = array();
         foreach ($list as $address => $name) {
@@ -709,6 +710,38 @@ class Project
      */
     function getAddressBook($prj_id, $issue_id = FALSE)
     {
+        static $returns;
+
+        $key = serialize(array($prj_id, $issue_id));
+        if (!empty($returns[$key])) {
+            return $returns[$key];
+        }
+
+        $res = Project::getAddressBookAssocList($prj_id, $issue_id);
+        if (empty($res)) {
+            return "";
+        } else {
+            $temp = array();
+            foreach ($res as $name => $email) {
+                $temp["$name <$email>"] = $name;
+            }
+            $returns[$key] = $temp;
+            return $temp;
+        }
+    }
+
+
+    /**
+     * Method used to get an associative array of names and emails 
+     * that are associated with a given project and issue.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @return  array List of names and emails
+     */
+    function getAddressBookAssocList($prj_id, $issue_id = FALSE)
+    {
         if ($issue_id) {
             $customer_id = Issue::getCustomerID($issue_id);
         }
@@ -722,7 +755,7 @@ class Project
                  WHERE
                     pru_prj_id=$prj_id AND
                     pru_usr_id=usr_id AND
-                    usr_id != " . APP_SYSTEM_USER_ID;
+                    usr_id <> " . APP_SYSTEM_USER_ID;
         if (!empty($customer_id)) {
             $stmt .= " AND (usr_customer_id IS NULL OR usr_customer_id IN (0, $customer_id)) ";
         } else {
@@ -732,17 +765,12 @@ class Project
                  ORDER BY
                     usr_customer_id DESC,
                     usr_full_name ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            $temp = array();
-            for ($i = 0; $i < count($res); $i++) {
-                $key = $res[$i]["usr_full_name"] . " <" . $res[$i]["usr_email"] . ">";
-                $temp[$key] = $res[$i]["usr_full_name"];
-            }
-            return $temp;
+            return $res;
         }
     }
 
@@ -954,7 +982,8 @@ class Project
             "category"  =>  "Category",
             "assignment"    =>  "Assignment",
             "release"   =>  "Scheduled Release",
-            "estimated_dev_time"    =>  "Estimated Dev. Time"
+            "estimated_dev_time"    =>  "Estimated Dev. Time",
+            "group"     =>  "Group"
         );
     }
 }

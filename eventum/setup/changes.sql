@@ -339,3 +339,91 @@ CREATE TABLE eventum_project_field_display (
   pfd_min_role tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (pfd_prj_id, pfd_field)
 );
+
+
+
+
+
+# August 17
+CREATE TABLE eventum_issue_quarantine (
+    iqu_iss_id int(11) unsigned auto_increment,
+    iqu_expiration datetime NULL,
+    iqu_status tinyint(1),
+    PRIMARY KEY(iqu_iss_id),
+    INDEX(iqu_expiration)
+);
+
+# august 18
+
+ALTER TABLE eventum_custom_filter ADD COLUMN cst_is_global int(1) default 0;
+
+# August 19th
+ALTER TABLE eventum_mail_queue ADD COLUMN maq_iss_id int(11) unsigned AFTER maq_id;
+ALTER TABLE eventum_mail_queue ADD COLUMN maq_subject varchar(255) NOT NULL AFTER maq_recipient;
+ALTER TABLE eventum_mail_queue ADD INDEX maq_iss_id (maq_iss_id);
+
+# August 23rd
+CREATE TABLE eventum_group (
+    grp_id int(11) unsigned auto_increment,
+    grp_name varchar(100) unique,
+    grp_description varchar(255),
+    grp_manager_usr_id int(11) unsigned,
+    PRIMARY KEY(grp_id)
+);
+
+CREATE TABLE eventum_project_group (
+    pgr_prj_id int(11)  unsigned,
+    pgr_grp_id int(11) unsigned,
+    index(pgr_prj_id),
+    index(pgr_grp_id)
+);
+
+ALTER TABLE eventum_user ADD COLUMN usr_grp_id int(11) unsigned NULL default NULL AFTER usr_id;
+ALTER TABLE eventum_user ADD INDEX(usr_grp_id);
+
+ALTER TABLE eventum_issue ADD COLUMN iss_grp_id int(11) unsigned NULL default NULL AFTER iss_usr_id;
+ALTER TABLE eventum_issue ADD INDEX(iss_grp_id);
+
+INSERT INTO eventum_history_type SET htt_name = 'group_changed';
+
+
+# august 24th
+ALTER TABLE eventum_priority RENAME eventum_project_priority;
+ALTER TABLE eventum_project_priority ADD COLUMN pri_prj_id int(11) unsigned NOT NULL;
+# remember to update all existing priorities to the 'MySQL' project!
+
+CREATE TABLE eventum_project_email_response (
+  per_prj_id int(11) unsigned NOT NULL,
+  per_ere_id int(10) unsigned NOT NULL,
+  PRIMARY KEY (per_prj_id, per_ere_id)
+);
+
+
+DROP TABLE IF EXISTS eventum_project_phone_category;
+CREATE TABLE eventum_project_phone_category (
+  phc_id int(11) unsigned NOT NULL auto_increment,
+  phc_prj_id int(11) unsigned NOT NULL default '0',
+  phc_title varchar(64) NOT NULL default '',
+  PRIMARY KEY  (phc_id),
+  UNIQUE KEY uniq_category (phc_prj_id,phc_title),
+  KEY phc_prj_id (phc_prj_id)
+);
+INSERT INTO eventum_project_phone_category (phc_id, phc_prj_id, phc_title) VALUES (1, 1, 'Sales Issues');
+INSERT INTO eventum_project_phone_category (phc_id, phc_prj_id, phc_title) VALUES (2, 1, 'Technical Issues');
+INSERT INTO eventum_project_phone_category (phc_id, phc_prj_id, phc_title) VALUES (3, 1, 'Administrative Issues');
+INSERT INTO eventum_project_phone_category (phc_id, phc_prj_id, phc_title) VALUES (4, 1, 'Other');
+
+ALTER TABLE eventum_phone_support ADD COLUMN phs_phc_id int(11) unsigned NOT NULL;
+
+# fix old values
+UPDATE eventum_phone_support SET phs_phc_id=1 WHERE phs_reason='sales';
+UPDATE eventum_phone_support SET phs_phc_id=2 WHERE phs_reason='technical';
+UPDATE eventum_phone_support SET phs_phc_id=3 WHERE phs_reason='administrative';
+UPDATE eventum_phone_support SET phs_phc_id=4 WHERE phs_reason='other';
+
+# check if everything is correct
+SELECT DISTINCT phs_reason, COUNT(*) total FROM eventum_phone_support GROUP BY phs_reason;
+# ALTER TABLE eventum_phone_support DROP COLUMN phs_reason;
+
+ALTER TABLE eventum_reminder_action ADD COLUMN rma_alert_irc TINYINT(1) unsigned NOT NULL DEFAULT 0;
+

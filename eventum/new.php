@@ -31,9 +31,11 @@ include_once("config.inc.php");
 include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.category.php");
+include_once(APP_INC_PATH . "class.priority.php");
 include_once(APP_INC_PATH . "class.release.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.misc.php");
+include_once(APP_INC_PATH . "class.group.php");
 include_once(APP_INC_PATH . "class.support.php");
 include_once(APP_INC_PATH . "class.custom_field.php");
 include_once(APP_INC_PATH . "class.setup.php");
@@ -46,19 +48,19 @@ Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
-// check if the current customer has already redeemed all available per-incident tickets
 if ((empty($HTTP_POST_VARS['cat'])) && (Customer::hasCustomerIntegration($prj_id))) {
     if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
         $customer_id = User::getCustomerID($usr_id);
+        // check if the current customer has already redeemed all available per-incident tickets
         if ((Customer::hasPerIncidentContract($prj_id, $customer_id)) && 
                 (!Customer::hasIncidentsLeft($prj_id, $customer_id))) {
             // show warning about per-incident limitation
             $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/incident_limit_reached.tpl.html");
             $tpl->assign('customer', Customer::getDetails($prj_id, $customer_id));
             $tpl->displayTemplate();
-            Customer::sendIncidentLimitNotice($prj_id, User::getCustomerContactID($usr_id), $customer_id);
             exit;
         }
+        $tpl->assign("message", Customer::getNewIssueMessage($prj_id, $customer_id));
     }
 }
 
@@ -68,7 +70,9 @@ if (@$HTTP_POST_VARS["cat"] == "report") {
         // show direct links to the issue page, issue listing page and 
         // email listing page
         $tpl->assign("new_issue_id", $res);
+        $tpl->assign("quarantine_status", Issue::getQuarantineStatus($res));
         $tpl->assign("errors", $insert_errors);
+        $tpl->assign("ticket", Issue::getDetails($res));
     } else {
         // need to show everything again
         $tpl->assign("error_msg", "1");
@@ -99,18 +103,27 @@ if (@$HTTP_GET_VARS["cat"] == "associate") {
                 'issue_summary'     => $email_details['sup_subject'],
                 'issue_description' => $email_details['message']
             ));
+            // also auto pre-fill the customer contact text fields
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                $sender_email = Mail_API::getEmailAddress($email_details['sup_from']);
+                list(,$contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
+                if (!empty($contact_id)) {
+                    $tpl->assign("contact_details", Customer::getContactDetails($prj_id, $contact_id));
+                }
+            }
         }
     }
 }
 
 $tpl->assign(array(
     "cats"                => Category::getAssocList($prj_id),
-    "priorities"          => Misc::getPriorities(),
+    "priorities"          => Priority::getList($prj_id),
     "users"               => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "releases"            => Release::getAssocList($prj_id),
     "custom_fields"       => Custom_Field::getListByProject($prj_id, 'report_form'),
     "max_attachment_size" => Attachment::getMaxAttachmentSize(),
-    "field_display_settings"    =>  Project::getFieldDisplaySettings($prj_id)
+    "field_display_settings"    =>  Project::getFieldDisplaySettings($prj_id),
+    "groups"              => Group::getAssocList()
 ));
 
 $setup = Setup::load();

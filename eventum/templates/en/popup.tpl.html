@@ -183,6 +183,13 @@
 {elseif $unflag_incident_result == 1}
   <b>Thank you, this issue was unmarked as a redeemed support incident.</b>
 {/if}
+
+{if $remove_quarantine_result == -1}
+    <b>An error occurred while trying to run your query</b>
+{elseif $remove_quarantine_result == 1}
+  <b>Thank you, this issue was removed from quarantine.</b>
+{/if}
+    
   </span>
 </center>
 

@@ -203,7 +203,7 @@ class Draft
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
-            $res["emd_updated_date"] = Date_API::getFormattedDate($res[$i]["emd_updated_date"]);
+            $res["emd_updated_date"] = Date_API::getFormattedDate($res["emd_updated_date"]);
             if (!empty($res['emd_unknown_user'])) {
                 $res['from'] = $res["emd_unknown_user"];
             } else {

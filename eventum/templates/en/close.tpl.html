@@ -66,6 +66,7 @@ function validateClose(f)
             </select>
           </td>
         </tr>
+        {if $resolutions|@count > 0}
         <tr>
           <td width="160" bgcolor="{$cell_color}" class="default_white">
             <b>Resolution:</b><br />
@@ -76,6 +77,9 @@ function validateClose(f)
             </select>
           </td>
         </tr>
+        {else}
+            <input type="hidden" name="resolution" value="">
+        {/if}
         <tr>
           <td width="160" bgcolor="{$cell_color}" class="default_white">
             <b>Send Notification About Issue Being Closed?</b><br />

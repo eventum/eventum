@@ -32,6 +32,7 @@ include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.category.php");
+include_once(APP_INC_PATH . "class.priority.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.release.php");
 include_once(APP_INC_PATH . "class.project.php");
@@ -53,7 +54,7 @@ if ($role_id < User::getRoleID('Standard User')) {
 $prj_id = Auth::getCurrentProject();
 $tpl->assign(array(
     "cats"       => Category::getAssocList($prj_id),
-    "priorities" => Misc::getPriorities(),
+    "priorities" => Priority::getList($prj_id),
     "status"     => Status::getAssocStatusList($prj_id),
     "users"      => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "releases"   => Release::getAssocList($prj_id),
@@ -61,7 +62,13 @@ $tpl->assign(array(
 ));
 
 if (!empty($HTTP_GET_VARS["custom_id"])) {
-    $tpl->assign("options", Filter::getDetails($HTTP_GET_VARS["custom_id"]));
+    $check_perm = true;
+    if (Filter::isGlobal($HTTP_GET_VARS["custom_id"])) {
+        if ($role_id >= User::getRoleID('Manager')) {
+            $check_perm = false;
+        }
+    }
+    $tpl->assign("options", Filter::getDetails($HTTP_GET_VARS["custom_id"], $check_perm));
 }
 
 $tpl->displayTemplate();

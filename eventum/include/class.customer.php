@@ -365,18 +365,34 @@ class Customer
 
 
     /**
+     * Returns the number of incidents remaining for the given support
+     * contract ID.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $support_no The support contract ID
+     * @return  integer The number of incidents remaining.
+     */
+    function getIncidentsRemaining($prj_id, $support_no)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getIncidentsRemaining($support_no);
+    }
+
+    /**
      * Method used to send a notice that the per-incident limit being reached.
      *
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $contact_id The customer contact ID
      * @param   integer $customer_id The customer ID
+     * @param   boolean $new_issue If the customer just tried to create a new issue.
      * @return  void
      */
-    function sendIncidentLimitNotice($prj_id, $contact_id, $customer_id)
+    function sendIncidentLimitNotice($prj_id, $contact_id, $customer_id, $new_issue = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->sendIncidentLimitNotice($contact_id, $customer_id);
+        return $backend->sendIncidentLimitNotice($contact_id, $customer_id, $new_issue);
     }
 
 
@@ -528,10 +544,47 @@ class Customer
     }
 
 
+    /**
+     * Returns a message to be displayed to a customer on the top of the issue creation page.
+     * If There are 3 or less incidents, display warning message.
+     * If only 1 incident left, email sales rep (or sales@ if no rep).
+     *
+     * @param   integer $prj_id The if of the project
+     * @param   array $customer_id Customer ID.
+     */
+    function getNewIssueMessage($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getNewIssueMessage($customer_id);
+    }
 
 
+    function getBusinessHours($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getBusinessHours($customer_id);
+    }
 
 
+    function hasMinimumResponseTime($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->hasMinimumResponseTime($customer_id);
+    }
+
+
+    function getMinimumResponseTime($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getMinimumResponseTime($customer_id);
+    }
+
+
+    function getMaximumFirstResponseTime($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getMaximumFirstResponseTime($customer_id);
+    }
 
 
 
