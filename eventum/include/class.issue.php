@@ -2597,9 +2597,15 @@ class Issue
                     $res['marked_as_redeemed_incident'] = Customer::isRedeemedIncident($res['iss_prj_id'], $res['iss_id']);
                     $max_first_response_time = Customer::getMaximumFirstResponseTime($res['iss_prj_id'], $res['iss_customer_id']);
                     $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
-                    $created_date_ts = Date_API::getUnixTimestamp($res['iss_created_date'], Date_API::getDefaultTimezone());
-                    $first_response_deadline = $created_date_ts + $max_first_response_time;
-                    $res['max_first_response_time_left'] = Date_API::getFormattedDateDiff($first_response_deadline, Date_API::getCurrentUnixTimestampGMT());
+                    if (empty($res['iss_first_response_date'])) {
+                        $created_date_ts = Date_API::getUnixTimestamp($res['iss_created_date'], Date_API::getDefaultTimezone());
+                        $first_response_deadline = $created_date_ts + $max_first_response_time;
+                        if (Date_API::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
+                            $res['max_first_response_time_left'] = Date_API::getFormattedDateDiff($first_response_deadline, Date_API::getCurrentUnixTimestampGMT());
+                        } else {
+                            $res['overdue_first_response_time'] = Date_API::getFormattedDateDiff(Date_API::getCurrentUnixTimestampGMT(), $first_response_deadline);
+                        }
+                    }
                 }
                 $res['iss_original_description'] = $res["iss_description"];
                 if (!strstr($HTTP_SERVER_VARS["PHP_SELF"], 'update.php')) {
