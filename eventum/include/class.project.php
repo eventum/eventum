@@ -476,7 +476,8 @@ class Project
                     prj_outgoing_sender_name,
                     prj_outgoing_sender_email,
                     prj_remote_invocation,
-                    prj_customer_backend
+                    prj_customer_backend,
+                    prj_workflow_backend
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
@@ -486,7 +487,8 @@ class Project
                     '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
