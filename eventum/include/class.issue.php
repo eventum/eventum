@@ -374,7 +374,7 @@ class Issue
         } else {
             // clear up the assignments for this issue, and then assign it to the current user
             Issue::deleteUserAssociations($issue_id, $usr_id);
-            Issue::addUserAssociation($issue_id, $usr_id, false);
+            Issue::addUserAssociation($usr_id, $issue_id, $usr_id, false);
             // save a history entry about this...
             History::add($issue_id, $usr_id, History::getTypeID('remote_locked'), "Issue remotely locked by " . User::getFullName($usr_id));
             Notification::subscribeUser($usr_id, $issue_id, $usr_id, Notification::getAllActions(), false);
@@ -444,7 +444,7 @@ class Issue
         Workflow::handleAssignmentChange(Issue::getProjectID($issue_id), $issue_id, $usr_id, Issue::getDetails($issue_id), array($assignee), true);
         // clear up the assignments for this issue, and then assign it to the current user
         Issue::deleteUserAssociations($issue_id, $usr_id);
-        $res = Issue::addUserAssociation($issue_id, $assignee, false);
+        $res = Issue::addUserAssociation($usr_id, $issue_id, $assignee, false);
         if ($res != -1) {
             // save a history entry about this...
             History::add($issue_id, $usr_id, History::getTypeID('remote_assigned'), "Issue remotely assigned to " . User::getFullName($assignee) . " by " . User::getFullName($usr_id));
@@ -636,7 +636,7 @@ class Issue
         } else {
             // clear up the assignments for this issue, and then assign it to the current user
             Issue::deleteUserAssociations($issue_id, $usr_id);
-            Issue::addUserAssociation($issue_id, $usr_id);
+            Issue::addUserAssociation($usr_id, $issue_id, $usr_id);
             // save a history entry about this...
             History::add($issue_id, $usr_id, History::getTypeID('issue_locked'), "Issue locked by " . User::getFullName($usr_id));
             Notification::subscribeUser($usr_id, $issue_id, $usr_id, Notification::getAllActions());
@@ -1016,7 +1016,7 @@ class Issue
             $actions = Notification::getAllActions();
             for ($i = 0; $i < count($users); $i++) {
                 Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i], $actions);
-                Issue::addUserAssociation($new_issue_id, $users[$i]);
+                Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i]);
                 $assign[] = $users[$i];
             }
             Notification::notifyNewAssignment($assign, $new_issue_id);
@@ -1221,7 +1221,7 @@ class Issue
                 if (count(@$HTTP_POST_VARS['assignments']) > 0) {
                     foreach ($HTTP_POST_VARS['assignments'] as $index => $associated_usr_id) {
                         if (!in_array($associated_usr_id, $current['assigned_users'])) {
-                            Issue::addUserAssociation($issue_id, $associated_usr_id);
+                            Issue::addUserAssociation($usr_id, $issue_id, $associated_usr_id);
                             if ($associated_usr_id != $usr_id) {
                                 $assignment_notifications[] = $associated_usr_id;
                             }
@@ -1448,11 +1448,13 @@ class Issue
      * Method used to assign an issue with an user.
      *
      * @access  public
+     * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID
+     * @param   integer $assignee_usr_id The user ID of the assignee
+     * @param   boolean $add_history Whether to add a history entry about this or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function addUserAssociation($issue_id, $usr_id, $add_history = TRUE)
+    function addUserAssociation($usr_id, $issue_id, $assignee_usr_id, $add_history = TRUE)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
@@ -1462,7 +1464,7 @@ class Issue
                     isu_assigned_date
                  ) VALUES (
                     $issue_id,
-                    $usr_id,
+                    $assignee_usr_id,
                     '" . Date_API::getCurrentDateGMT() . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -1471,8 +1473,8 @@ class Issue
             return -1;
         } else {
             if ($add_history) {
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('user_associated'), 
-                    'Issue assigned to ' . User::getFullName($usr_id) . ' by ' . User::getFullName(Auth::getUserID()));
+                History::add($issue_id, $usr_id, History::getTypeID('user_associated'), 
+                    'Issue assigned to ' . User::getFullName($assignee_usr_id) . ' by ' . User::getFullName($usr_id));
             }
             return 1;
         }
@@ -1640,7 +1642,7 @@ class Issue
             if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
                 foreach ($manager_usr_ids as $manager_usr_id) {
                     $users[] = $manager_usr_id;
-                    Issue::addUserAssociation($new_issue_id, $manager_usr_id, false);
+                    Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $manager_usr_id, false);
                     History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
                 }
                 $has_TAM = true;
@@ -1649,7 +1651,7 @@ class Issue
             if (@count($assignment) > 0) {
                 for ($i = 0; $i < count($assignment); $i++) {
                     Notification::subscribeUser($reporter, $new_issue_id, $assignment[$i], $actions);
-                    Issue::addUserAssociation($new_issue_id, $assignment[$i]);
+                    Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $assignment[$i]);
                     if ($assignment[$i] != $usr_id) {
                         $users[] = $assignment[$i];
                     }
@@ -1661,7 +1663,7 @@ class Issue
                     $assignee = Round_Robin::getNextAssignee($prj_id);
                     // assign the issue to the round robin person
                     if (!empty($assignee)) {
-                        Issue::addUserAssociation($new_issue_id, $assignee, false);
+                        Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $assignee, false);
                         History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
                         $users[] = $assignee;
                         $has_RR = true;
@@ -1820,7 +1822,7 @@ class Issue
             if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
                 foreach ($manager_usr_ids as $manager_usr_id) {
                     $users[] = $manager_usr_id;
-                    Issue::addUserAssociation($new_issue_id, $manager_usr_id, false);
+                    Issue::addUserAssociation($usr_id, $new_issue_id, $manager_usr_id, false);
                     History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
                 }
                 $has_TAM = true;
@@ -1829,7 +1831,7 @@ class Issue
             if (@count($HTTP_POST_VARS["users"]) > 0) {
                 for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
                     Notification::subscribeUser($usr_id, $new_issue_id, $HTTP_POST_VARS["users"][$i], $actions);
-                    Issue::addUserAssociation($new_issue_id, $HTTP_POST_VARS["users"][$i]);
+                    Issue::addUserAssociation($usr_id, $new_issue_id, $HTTP_POST_VARS["users"][$i]);
                     if ($HTTP_POST_VARS["users"][$i] != $usr_id) {
                         $users[] = $HTTP_POST_VARS["users"][$i];
                     }
@@ -1842,7 +1844,7 @@ class Issue
                     // assign the issue to the round robin person
                     if (!empty($assignee)) {
                         $users[] = $assignee;
-                        Issue::addUserAssociation($new_issue_id, $assignee, false);
+                        Issue::addUserAssociation($usr_id, $new_issue_id, $assignee, false);
                         History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
                         $has_RR = true;
                     }

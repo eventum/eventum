@@ -100,7 +100,7 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $res = SCM::remove();
     $tpl->assign("remove_checkin_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "self_assign") {
-    $res = Issue::addUserAssociation($HTTP_GET_VARS["iss_id"], $usr_id);
+    $res = Issue::addUserAssociation($usr_id, $HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign("self_assign_result", $res);
     Notification::subscribeUser($HTTP_GET_VARS["iss_id"], $usr_id, Notification::getAllActions());
 } elseif (@$HTTP_POST_VARS["cat"] == "remove_email") {
