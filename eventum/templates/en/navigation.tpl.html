@@ -66,9 +66,11 @@
           }
           function changeClockStatus()
           {
+          {/literal}
               var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-              var clockWin = window.open('clock_status.php', '_clock_status', features);
+              var clockWin = window.open('{$rel_url}clock_status.php', '_clock_status', features);
               clockWin.focus();
+          {literal}
           }
           //-->
           </script>
