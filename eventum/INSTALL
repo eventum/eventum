@@ -29,6 +29,9 @@ After the installation is done, you should go and take all of the available
 privileges from the '/setup' directory, so other people are not allowed to
 go in there and mess with your configuration.
 
+IMPORTANT: If you already have an installation of Eventum, please read the 
+UPGRADE file.
+
 
 
 Setting Up The Required Cron Scripts
