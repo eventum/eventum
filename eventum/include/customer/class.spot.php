@@ -389,11 +389,7 @@ class Customer_Backend
      */
     function _getExpirationOffset()
     {
-        $setup = Setup::load();
-        if (empty($setup['customer_grace_period'])) {
-            $setup['customer_grace_period'] = 14; // XXX: need to create a config constant for this eventually
-        }
-        return $setup['customer_grace_period'];
+        return 14;
     }
 
 
