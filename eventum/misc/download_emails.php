@@ -34,6 +34,13 @@ include_once(APP_INC_PATH . "db_access.php");
 
 ini_set("memory_limit", "256M");
 
+// we need the IMAP extension for this to work
+if (!function_exists('imap_open')) {
+    echo "Error: Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.\n";
+    echo "Please refer to the PHP manual for more details about how to enable the IMAP extension.\n";
+    exit;
+}
+
 // check for the required parameters
 if (@count($HTTP_SERVER_VARS['argv']) < 3 && @$HTTP_SERVER_VARS['argv'][1] != '--fix-lock') {
     echo "Error: Wrong number of parameters given. Expected parameters related to the email account:\n";

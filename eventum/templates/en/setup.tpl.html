@@ -105,7 +105,13 @@ function toggleAlternateUserFields()
             <b>NOTE: For security reasons it is highly recommended that the default password be changed as soon as possible.
             <br /><br />
             Also remember to protect your setup directory, like changing its permissions, to prevent anyone else 
-            from changing your existing Eventum configuration.</b>
+            from changing your existing Eventum configuration.
+            {if not $is_imap_enabled}
+            <br /><br />
+            WARNING: If you want to use the email integration features to download messages saved on a IMAP/POP3 server, you will need to
+            enable the IMAP extension in your PHP.INI configuration file. See the PHP manual for more details.
+            {/if}
+            </b>
           </td>
         </tr>
       </table>

@@ -398,6 +398,8 @@ $private_key = "' . md5(microtime()) . '";
 if (@$HTTP_POST_VARS["cat"] == 'install') {
     $res = install();
     $tpl->assign("result", $res);
+    // check for the optional IMAP extension
+    $tpl->assign('is_imap_enabled', function_exists('imap_open'));
 }
 
 
