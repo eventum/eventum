@@ -12,7 +12,8 @@ IMPORTANT:
 When upgrading to a new version of Eventum, please follow these 
 instructions:
 
-1) Make a copy of the following files: config.inc.php and setup.conf.php
+1) Make a copy of the following files: /path-to-eventum/config.inc.php 
+   and /path-to-eventum/setup.conf.php
 2) Extract your new Eventum copy over your existing folder structure
 3) Copy over your backed up copies of config.inc.php and setup.conf.php
    back in place
