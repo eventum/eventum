@@ -54,7 +54,7 @@ if (!empty($issue_id)) {
 }
 
 if (@$HTTP_POST_VARS["cat"] == "send_email") {
-    $res = Support::sendEmail();
+    $res = Support::sendEmail($HTTP_POST_VARS['parent_id']);
     $tpl->assign("send_result", $res);
     if (!@empty($HTTP_POST_VARS['new_status'])) {
         Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);

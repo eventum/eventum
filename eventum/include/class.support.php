@@ -1394,7 +1394,7 @@ class Support
 
 
     // XXX: put documentation here
-    function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body)
+    function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to)
     {
         // hack needed to get the full headers of this web-based email
         $mail = new Mail_API;
@@ -1403,6 +1403,9 @@ class Support
             $mail->setHeaders(array("Message-Id" => $message_id));
         } else {
             $issue_id = 0;
+        }
+        if ($in_reply_to) {
+            $mail->setHeaders(array("In-Reply-To" => $in_reply_to));
         }
         $cc = trim($cc);
         if (!empty($cc)) {
@@ -1460,18 +1463,23 @@ class Support
      * @access  public
      * @return  integer 1 if it worked, -1 otherwise
      */
-    function sendEmail()
+    function sendEmail($parent_sup_id = FALSE)
     {
         global $HTTP_POST_VARS, $HTTP_SERVER_VARS;
 
+        // if we are replying to an existing email, set the In-Reply-To: header accordingly
+        if ($parent_sup_id) {
+            $in_reply_to = Support::getMessageIDByID($parent_sup_id);
+        } else {
+            $in_reply_to = false;
+        }
         // remove extra 'Re: ' from subject
         $HTTP_POST_VARS['subject'] = Mail_API::removeExcessRe($HTTP_POST_VARS['subject']);
-
         $internal_only = false;
         $message_id = Support::getMessageID();
         // hack needed to get the full headers of this web-based email
         $full_email = Support::buildFullHeaders($HTTP_POST_VARS["issue_id"], $message_id, $HTTP_POST_VARS["from"],
-                $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"]);
+                $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"], $in_reply_to);
 
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($HTTP_POST_VARS['issue_id'])) {
@@ -1599,6 +1607,32 @@ class Support
         }
 
         return 1;
+    }
+
+
+    /**
+     * Method used to get the message-id associated with a given support
+     * email entry.
+     *
+     * @access  public
+     * @param   integer $sup_id The support email ID
+     * @return  integer The email ID
+     */
+    function getMessageIDByID($sup_id)
+    {
+        $stmt = "SELECT
+                    sup_message_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                 WHERE
+                    sup_id=$sup_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
     }
 
 
