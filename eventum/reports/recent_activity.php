@@ -45,13 +45,26 @@ $units = array(
     "hour"  =>  "Hours",
     "day"   =>  "Days"
 );
+$type_list = array(
+    "phone" =>  "Phone Calls",
+    "note"  =>  "Notes",
+    "email" =>  "Email",
+    "draft" =>  "Drafts",
+    "time"  =>  "Time Tracking"
+);
+
+if (empty($_REQUEST['activity_types'])) {
+    $_REQUEST['activity_types'] = array_keys($type_list);
+}
 
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
 $tpl->assign(array(
     "units" =>  $units,
-    "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'))
+    "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+    "type_list" =>  $type_list,
+    "activity_types"    =>  $_REQUEST['activity_types']
 ));
 
 
@@ -69,51 +82,190 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             (@$_REQUEST["end"]["Day"] != 0)) {
         $end_date = join("-", $HTTP_POST_VARS["end"]);
     }
-        
-    $sql = "SELECT
-                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support.*,
-                phc_title,
-                usr_full_name,
-                iss_summary
-            FROM
-                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support,
-                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category,
-                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-            WHERE
-                phs_phc_id = phc_id AND
-                phs_iss_id = iss_id AND
-                phs_usr_id = usr_id AND
-                iss_prj_id = $prj_id AND\n";
-    if ($_REQUEST['report_type'] == 'recent') {
-        $sql .= "phs_created_date >= DATE_SUB('" . Date_API::getCurrentDateGMT() . "', INTERVAL " . $_REQUEST['amount'] . " " . $_REQUEST['unit'] . ")";
-    } else {
-        $sql .= "phs_created_date BETWEEN '$start_date' AND '$end_date'";
-    }
-    if (!empty($_REQUEST['developer'])) {
-        $sql .= " AND phs_usr_id = " . $_REQUEST['developer'];
-    }
-    $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
-    if (PEAR::isError($res)) {
-        Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-    } else {
-        for ($i = 0; $i < count($res); $i++) {
-            if (Customer::hasCustomerIntegration($prj_id)) {
-                $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$i]['phs_iss_id']));
-                $res[$i]["customer"] = $details['customer_name'];
-            }
-            $res[$i]["date"] = Date_API::getFormattedDate($res[$i]['phs_created_date'], Date_API::getPreferredTimezone($usr_id));
+    
+    $data = array();
+    if (in_array('phone', $_REQUEST['activity_types'])) {
+        $sql = "SELECT
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support.*,
+                    phc_title,
+                    usr_full_name,
+                    iss_summary,
+                    sta_color
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                WHERE
+                    iss_sta_id = sta_id AND
+                    phs_phc_id = phc_id AND
+                    phs_iss_id = iss_id AND
+                    phs_usr_id = usr_id AND
+                    iss_prj_id = $prj_id AND\n";
+        $sql .= createWhereClause('phs_created_date', 'usr_id');
+        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        } else {
+            $data['phone'] = processResult($res, 'phs_created_date', 'phs_iss_id');
         }
-        
-        $tpl->assign("data", $res);
     }
+    
+    if (in_array('note', $_REQUEST['activity_types'])) {
+        $sql = "SELECT
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note.*,
+                    usr_full_name,
+                    iss_summary,
+                    sta_color
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                WHERE
+                    iss_sta_id = sta_id AND
+                    not_iss_id = iss_id AND
+                    not_usr_id = usr_id AND
+                    iss_prj_id = $prj_id AND\n";
+        $sql .= createWhereClause('not_created_date', 'not_usr_id');
+        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        } else {
+            $data['note'] = processResult($res, 'not_created_date', 'not_iss_id');
+        }
+    }
+    
+    if (in_array('email', $_REQUEST['activity_types'])) {
+        $sql = "SELECT
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email.*,
+                    iss_summary,
+                    CONCAT(sup_ema_id, '-', sup_id) AS composite_id,
+                    sta_color
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                WHERE
+                    iss_sta_id = sta_id AND
+                    sup_iss_id = iss_id AND
+                    iss_prj_id = $prj_id AND\n";
+        $sql .= createWhereClause('sup_date', 'sup_usr_id');
+        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            print_r($res);
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        } else {
+            $data['email'] = processResult($res, 'sup_date', 'sup_iss_id');
+        }
+    }
+    
+    if (in_array('draft', $_REQUEST['activity_types'])) {
+        $sql = "SELECT
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft.*,
+                    iss_summary,
+                    sta_color
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                WHERE
+                    iss_sta_id = sta_id AND
+                    emd_iss_id = iss_id AND
+                    iss_prj_id = $prj_id AND\n";
+        $sql .= createWhereClause('emd_updated_date', 'emd_usr_id');
+        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            print_r($res);
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        } else {
+            $data['draft'] = processResult($res, 'emd_updated_date', 'emd_iss_id');
+            for ($i = 0; $i < count($data['draft']); $i++) {
+                if (!empty($data['draft'][$i]['emd_unknown_user'])) {
+                    $data['draft'][$i]['from'] = $data['draft'][$i]["emd_unknown_user"];
+                } else {
+                    $data['draft'][$i]['from'] = User::getFromHeader($data['draft'][$i]['emd_usr_id']);
+                }
+                list($data['draft'][$i]['to'], ) = Draft::getEmailRecipients($data['draft'][$i]['emd_id']);
+                if (empty($data['draft'][$i]['to'])) {
+                    $data['draft'][$i]['to'] = "Notification List";
+                }
+            }
+        }
+    }
+    
+    if (in_array('time', $_REQUEST['activity_types'])) {
+        $sql = "SELECT
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking.*,
+                    ttc_title,
+                    iss_summary,
+                    usr_full_name,
+                    sta_color
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                WHERE
+                    iss_sta_id = sta_id AND
+                    ttr_iss_id = iss_id AND
+                    ttr_ttc_id = ttc_id AND
+                    ttr_usr_id = usr_id AND
+                    iss_prj_id = $prj_id AND\n";
+        $sql .= createWhereClause('ttr_created_date', 'ttr_usr_id');
+        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            print_r($res);
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        } else {
+            $data['time'] = processResult($res, 'ttr_created_date', 'ttr_iss_id');
+            for ($i = 0; $i < count($data['time']); $i++) {
+                $data['time'][$i]['time_spent'] = Misc::getFormattedTime($data['time'][$i]['ttr_time_spent'], true);
+            }
+        }
+    }
+    
     $tpl->assign(array(
         "unit"  =>  $_REQUEST['unit'],
         "amount"    =>  $_REQUEST['amount'],
         "developer" =>  $_REQUEST['developer'],
         "start_date"    =>  @$start_date,
         "end_date"      =>  @$end_date,
+        "data"  =>  $data
     ));
+}
+
+
+function createWhereClause($date_field, $user_field)
+{
+    $sql = '';
+    if ($_REQUEST['report_type'] == 'recent') {
+        $sql .= "$date_field >= DATE_SUB('" . Date_API::getCurrentDateGMT() . "', INTERVAL " . $_REQUEST['amount'] . " " . $_REQUEST['unit'] . ")";
+    } else {
+        $sql .= "$date_field BETWEEN '$start_date' AND '$end_date'";
+    }
+    if (!empty($_REQUEST['developer'])) {
+        $sql .= " AND $user_field = " . $_REQUEST['developer'];
+    }
+    $sql .= " ORDER BY $date_field";
+    return $sql;
+}
+
+function processResult($res, $date_field, $issue_field)
+{
+    GLOBAL $prj_id;
+    GLOBAL $usr_id;
+    
+    for ($i = 0; $i < count($res); $i++) {
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$i][$issue_field]));
+            $res[$i]["customer"] = @$details['customer_name'];
+        }
+        $res[$i]["date"] = Date_API::getFormattedDate($res[$i][$date_field], Date_API::getPreferredTimezone($usr_id));
+    }
+    return $res;
 }
 
 $tpl->displayTemplate();

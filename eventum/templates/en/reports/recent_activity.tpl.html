@@ -1,5 +1,8 @@
-{include file="header.tpl.html"}
+{include file="header.tpl.html" extra_title="Recent Activity"}
 
+<script language="javascript" src="{$app_base_url}js/jsrsClient.js"></script>
+<script language="javascript" src="{$app_base_url}js/expandable_cell.js"></script>
+{include file="jsrs.tpl.html"}
 <br />
 <form method="post" action="{$smarty.server.PHP_SELF}" name="recent_activity">
 <input type="hidden" name="cat" value="generate">
@@ -29,13 +32,15 @@
           <td width="120" class="default">
             <b>Activity Type:</b>
           </td>
-          <td width="200" class="default">
-            Phone Calls
+          <td width="200">
+            <select name="activity_types[]" size="5" multiple class="default">
+              {html_options options=$type_list selected=$activity_types}
+            </select>
           </td>
         </tr>
         <tr id="recent_row">
           <td width="120" class="default">
-            <b>Activity in past:</b>
+            <b>Activity in Past:</b>
           </td>
           <td width="200">
             <input type="text" size="3" name="amount" value="{$amount|default:36}" class="default" style="text-align: right">&nbsp;
@@ -99,17 +104,19 @@ function changeType(type) {
 changeType('{$smarty.request.report_type}');
 </script>
 
-{if $data != ''}
+{if $data|@count > 0}
+{if $data.phone != ''}
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td bgcolor="{$cell_color}" colspan="{if $has_customer_integration}7{else}6{/if}" class="default_white">
+          <td bgcolor="{$cell_color}" colspan="{if $has_customer_integration}8{else}7{/if}" class="default_white">
             <b>Recent Phone Calls</b>
           </td>
         </tr>
         <tr>
+          <td bgcolor="{$cell_color}" class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getPhoneSupport" ec_id="phone"}</td>
           <td bgcolor="{$cell_color}" class="default_white">Issue ID</td>
           {if $has_customer_integration}
           <td bgcolor="{$cell_color}" class="default_white">Customer</td>
@@ -120,10 +127,11 @@ changeType('{$smarty.request.report_type}');
           <td bgcolor="{$cell_color}" class="default_white">Line</td>
           <td bgcolor="{$cell_color}" class="default_white">Description</td>
         </tr>
-        {foreach from=$data item=row}
+        {foreach from=$data.phone item=row}
         {cycle values=$cycle assign="row_color"}
         <tr>
-          <td class="default" bgcolor="{$row_color}" align="right">
+          <td class="default" bgcolor="{$row_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$row.phs_id}</td>
+          <td class="default" bgcolor="{$row.sta_color}" align="right">
             <a href="{$app_base_url}view.php?id={$row.phs_iss_id}" class="link">{$row.phs_iss_id}</a>
           </td>
           {if $has_customer_integration}
@@ -135,15 +143,222 @@ changeType('{$smarty.request.report_type}');
           <td class="default" bgcolor="{$row_color}">{$row.phc_title}</td>
           <td class="default" bgcolor="{$row_color}">{$row.phs_description|nl2br}</td>
         </tr>
+        {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$row.phs_id colspan="8"}
         {foreachelse}
         <tr>
-            <td colspan="7" class="default" align="center" bgcolor="{$dark_color}"><i>No Phone Calls Found</i></td>
+            <td colspan="8" class="default" align="center" bgcolor="{$dark_color}"><i>No Phone Calls Found</i></td>
         </tr>
         {/foreach}
       </table>
     </td>
   </tr>
 </table>
+<br />
+{/if}
+
+{if $data.note != ''}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="{if $has_customer_integration}6{else}5{/if}" class="default_white">
+            <b>Recent Notes</b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$cell_color}" class="default_white" nowrap>{include file="expandable_cell/buttons.tpl.html" remote_func="getNote" ec_id="note"}</td>
+          <td bgcolor="{$cell_color}" class="default_white">Issue ID</td>
+          {if $has_customer_integration}
+          <td bgcolor="{$cell_color}" class="default_white">Customer</td>
+          {/if}
+          <td bgcolor="{$cell_color}" class="default_white">Posted Date</td>
+          <td bgcolor="{$cell_color}" class="default_white">User</td>
+          <td bgcolor="{$cell_color}" class="default_white">Title</td>
+        </tr>
+        {foreach from=$data.note item=row}
+        {cycle values=$cycle assign="row_color"}
+        <tr>
+          <td class="default" bgcolor="{$row_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$row.not_id}</td>
+          <td class="default" bgcolor="{$row.sta_color}" align="right">
+            <a href="{$app_base_url}view.php?id={$row.not_iss_id}" class="link">{$row.not_iss_id}</a>
+          </td>
+          {if $has_customer_integration}
+          <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
+          {/if}
+          <td class="default" bgcolor="{$row_color}" nowrap>{$row.date}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.usr_full_name}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.not_title|nl2br}</td>
+        </tr>
+        {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$row.not_id colspan="6"}
+        {foreachelse}
+        <tr>
+            <td colspan="6" class="default" align="center" bgcolor="{$dark_color}"><i>No Notes Found</i></td>
+        </tr>
+        {/foreach}
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+
+{if $data.email != ''}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="{if $has_customer_integration}7{else}6{/if}" class="default_white">
+            <b>Recent Emails</b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$cell_color}" class="default_white" align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email" remote_func="getEmail"}</td>
+          <td bgcolor="{$cell_color}" class="default_white" nowrap>Issue ID</td>
+          {if $has_customer_integration}
+          <td bgcolor="{$cell_color}" class="default_white">Customer</td>
+          {/if}
+          <td bgcolor="{$cell_color}" class="default_white">From</td>
+          <td bgcolor="{$cell_color}" class="default_white">To</td>
+          <td bgcolor="{$cell_color}" class="default_white">Date</td>
+          <td bgcolor="{$cell_color}" class="default_white">Subject</td>
+        </tr>
+        {foreach from=$data.email item=row}
+        {cycle values=$cycle assign="row_color"}
+        <tr>
+          <td align="center" bgcolor="{$row_color}" NOWRAP align="center">
+            {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$row.composite_id}
+          </td>
+          <td class="default" bgcolor="{$row.sta_color}" align="right">
+            <a href="{$app_base_url}view.php?id={$row.sup_iss_id}" class="link">{$row.sup_iss_id}</a>
+          </td>
+          {if $has_customer_integration}
+          <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
+          {/if}
+          <td class="default" bgcolor="{$row_color}">{$row.sup_from|escape:"html"}</td>
+          <td class="default" bgcolor="{$row_color}">
+            {if $row.sup_to == ""}
+              <i>sent to notification list</i>
+            {else}
+              {$row.sup_to|escape:"html"}
+            {/if}
+          </td>
+          <td class="default" bgcolor="{$row_color}" nowrap>{$row.date}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.sup_subject|nl2br}</td>
+        </tr>
+        {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$row.composite_id colspan=7 row_color=$row_color}
+        {foreachelse}
+        <tr>
+            <td colspan="7" class="default" align="center" bgcolor="{$dark_color}"><i>No Emails Found</i></td>
+        </tr>
+        {/foreach}
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+
+{if $data.draft != ''}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="{if $has_customer_integration}8{else}7{/if}" class="default_white">
+            <b>Recent Drafts</b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$cell_color}" class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getDraft" ec_id="draft"}</td>
+          <td bgcolor="{$cell_color}" class="default_white">Issue ID</td>
+          {if $has_customer_integration}
+          <td bgcolor="{$cell_color}" class="default_white">Customer</td>
+          {/if}
+          <td bgcolor="{$cell_color}" class="default_white">Status</td>
+          <td bgcolor="{$cell_color}" class="default_white">From</td>
+          <td bgcolor="{$cell_color}" class="default_white">To</td>
+          <td bgcolor="{$cell_color}" class="default_white">Date</td>
+          <td bgcolor="{$cell_color}" class="default_white">Subject</td>
+        </tr>
+        {foreach from=$data.draft item=row}
+        {cycle values=$cycle assign="row_color"}
+        <tr {if $row.emd_status != 'pending'}style="text-decoration: line-through;"{/if}>
+          <td class="default" NOWRAP bgcolor="{$row_color}">{include file="expandable_cell/buttons.tpl.html" ec_id="draft" list_id=$row.emd_id}</td>
+          <td class="default" bgcolor="{$row.sta_color}" align="right">
+            <a href="{$app_base_url}view.php?id={$row.emd_iss_id}" class="link">{$row.emd_iss_id}</a>
+          </td>
+          {if $has_customer_integration}
+          <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
+          {/if}
+          <td class="default" bgcolor="{$row_color}">{$row.emd_status}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.from|escape:"html"}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.to|escape:"html"}</td>
+          </td>
+          <td class="default" bgcolor="{$row_color}" nowrap>{$row.date}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.emd_subject|nl2br}</td>
+        </tr>
+        {include file="expandable_cell/body.tpl.html" ec_id="draft" list_id=$row.emd_id colspan=8}
+        {foreachelse}
+        <tr>
+            <td colspan="8" class="default" align="center" bgcolor="{$dark_color}"><i>No Drafts Found</i></td>
+        </tr>
+        {/foreach}
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+
+{if $data.time != ''}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="{if $has_customer_integration}7{else}6{/if}" class="default_white">
+            <b>Recent Time Entries</b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$cell_color}" class="default_white">Issue ID</td>
+          {if $has_customer_integration}
+          <td bgcolor="{$cell_color}" class="default_white">Customer</td>
+          {/if}
+          <td bgcolor="{$cell_color}" class="default_white">Date of Work</td>
+          <td bgcolor="{$cell_color}" class="default_white">User</td>
+          <td bgcolor="{$cell_color}" class="default_white">Time Spent</td>
+          <td bgcolor="{$cell_color}" class="default_white">Category</td>
+          <td bgcolor="{$cell_color}" class="default_white">Summary</td>
+        </tr>
+        {foreach from=$data.time item=row}
+        {cycle values=$cycle assign="row_color"}
+        <tr>
+          <td class="default" bgcolor="{$row.sta_color}" align="right">
+            <a href="{$app_base_url}view.php?id={$row.ttr_iss_id}" class="link">{$row.ttr_iss_id}</a>
+          </td>
+          {if $has_customer_integration}
+          <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
+          {/if}
+          <td class="default" bgcolor="{$row_color}" nowrap>{$row.date}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.usr_full_name}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.time_spent}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.ttc_title}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.ttr_summary|nl2br}</td>
+        </tr>
+        {foreachelse}
+        <tr>
+            <td colspan="7" class="default" align="center" bgcolor="{$dark_color}"><i>No Time Entries Found</i></td>
+        </tr>
+        {/foreach}
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
 {/if}
 <br />
 {include file="footer.tpl.html"}

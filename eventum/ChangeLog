@@ -17,6 +17,7 @@ Eventum Issue Tracking System
 - Issues Descriptions are now collapsible (Bryan)
 - Added #s to drafts, notes, phone calls, emails and time tracking entries (Bryan)
 - Weekly report excludes notification and authorized replier actions (Bryan)
+- Upgraded recent activity report to handle emails, notes, drafts and time tracking entries (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
