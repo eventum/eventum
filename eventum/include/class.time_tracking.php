@@ -49,6 +49,31 @@ include_once(APP_INC_PATH . "class.history.php");
 class Time_Tracking
 {
     /**
+     * Method used to get the ID of a given category.
+     *
+     * @access  public
+     * @param   string $ttc_title The time tracking category title
+     * @return  integerThe time tracking category ID
+     */
+    function getCategoryID($ttc_title)
+    {
+        $stmt = "SELECT
+                    ttc_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                 WHERE
+                    ttc_title='" . Misc::escapeString($ttc_title) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get the details of a time tracking category.
      *
      * @access  public
