@@ -48,6 +48,31 @@ include_once(APP_INC_PATH . "class.date.php");
 class Phone_Support
 {
     /**
+     * Method used to get the details of a given phone support entry.
+     *
+     * @access  public
+     * @param   integer $phs_id The phone support entry ID
+     * @return  array The phone support entry details
+     */
+    function getDetails($phs_id)
+    {
+        $stmt = "SELECT
+                    *
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
+                 WHERE
+                    phs_id=$phs_id";
+        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get the full listing of phone support entries 
      * associated with a specific issue.
      *
@@ -77,7 +102,6 @@ class Phone_Support
                 $res[$i]["phs_description"] = Misc::activateLinks(nl2br(htmlspecialchars($res[$i]["phs_description"])));
                 $res[$i]["phs_description"] = Misc::activateIssueLinks($res[$i]["phs_description"]);
                 $res[$i]["phs_created_date"] = Date_API::getFormattedDate($res[$i]["phs_created_date"]);
-                $res[$i]["phs_time_spent"] = Misc::getFormattedTime($res[$i]["phs_time_spent"]);
             }
             return $res;
         }
@@ -111,7 +135,6 @@ class Phone_Support
                     phs_created_date,
                     phs_type,
                     phs_phone_number,
-                    phs_time_spent,
                     phs_description,
                     phs_reason,
                     phs_phone_type,
@@ -125,7 +148,6 @@ class Phone_Support
                     '" . Misc::escapeString($created_date) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["phone_number"]) . "',
-                    " . $HTTP_POST_VARS["call_length"] . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["reason"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["phone_type"]) . "',
@@ -139,11 +161,41 @@ class Phone_Support
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
+            // enter the time tracking entry about this phone support entry
+            $phs_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Telephone Discussion');
+            $HTTP_POST_VARS['time_spent'] = $HTTP_POST_VARS['call_length'];
+            $HTTP_POST_VARS['summary'] = 'Time entry inserted from phone call.';
+            Time_Tracking::insertEntry();
+            $stmt = "SELECT
+                        max(ttr_id)
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                     WHERE
+                        ttr_iss_id = " . $HTTP_POST_VARS["issue_id"] . " AND
+                        ttr_usr_id = $usr_id";
+            $ttr_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            
             Issue::markAsUpdated($HTTP_POST_VARS['issue_id']);
             // need to save a history entry for this
             History::add($HTTP_POST_VARS['issue_id'], $usr_id, History::getTypeID('phone_entry_added'), 
                             'Phone Support entry submitted by ' . User::getFullName($usr_id));
             // XXX: send notifications for the issue being updated (new notification type phone_support?)
+            
+            // update phone record with time tracking ID.
+            if ((!empty($phs_id)) && (!empty($ttr_id))) {
+                $stmt = "UPDATE
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
+                         SET
+                            phs_ttr_id = $ttr_id
+                         WHERE
+                            phs_id = $phs_id";
+                $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                if (PEAR::isError($res)) {
+                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    return -1;
+                }
+            }
             return 1;
         }
     }
@@ -160,12 +212,14 @@ class Phone_Support
     function remove($phone_id)
     {
         $stmt = "SELECT
-                    phs_iss_id
+                    phs_iss_id,
+                    phs_ttr_id,
+                    phs_usr_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  WHERE
                     phs_id=$phone_id";
-        $issue_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $details = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
 
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
@@ -176,11 +230,21 @@ class Phone_Support
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Issue::markAsUpdated($issue_id);
+            Issue::markAsUpdated($details["phs_iss_id"]);
             // need to save a history entry for this
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('phone_entry_removed'), 
+            History::add($details["phs_iss_id"], Auth::getUserID(), History::getTypeID('phone_entry_removed'), 
                             'Phone Support entry removed by ' . User::getFullName(Auth::getUserID()));
-            return 1;
+            
+            if (!empty($details["phs_ttr_id"])) {
+                $time_result = Time_Tracking::removeEntry($details["phs_ttr_id"]);
+                if ($time_result == 1) {
+                    return 2;
+                } else {
+                    return $time_result;
+                }
+            } else {
+                return 1;
+            }
         }
     }
 
