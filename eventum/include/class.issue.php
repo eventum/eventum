@@ -1389,9 +1389,10 @@ class Issue
      * @param   integer $category The category ID
      * @param   integer $priority The priority ID
      * @param   array $assignment The list of users to assign this issue to
+     * @param   string $date The date the email was originally sent.
      * @return  void
      */
-    function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment)
+    function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment, $date)
     {
         if (Customer::hasCustomerIntegration($prj_id)) {
             $sender_email = Mail_API::getEmailAddress($sender);
