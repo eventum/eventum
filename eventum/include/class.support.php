@@ -1120,7 +1120,7 @@ class Support
                     );
                     continue;
                 }
-                if (@$output->parts[$i]->disposition == 'attachment') {
+                if (@strtolower($output->parts[$i]->disposition) == 'attachment') {
                     $res["attachments"][] = array(
                         'filename' => $output->parts[$i]->d_parameters["filename"]
                     );

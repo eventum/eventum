@@ -373,7 +373,7 @@ class Mime_Helper
                 if ($filetype == '/') {
                     $filetype = '';
                 }
-                if (@$output->parts[$i]->disposition == 'attachment') {
+                if (@strtolower($output->parts[$i]->disposition) == 'attachment') {
                     $name = MIME_Helper::getAttachmentName($filenames, @$output->parts[$i]->d_parameters["filename"]);
                     $filenames[] = $name;
                     $attachments[] = array(
@@ -404,7 +404,7 @@ class Mime_Helper
                 );
                 continue;
             }
-            if (@$output->parts[$i]->disposition == 'attachment') {
+            if (@strtolower($output->parts[$i]->disposition) == 'attachment') {
                 $attachments[] = array(
                     'filename' => $output->parts[$i]->d_parameters["filename"]
                 );
@@ -440,7 +440,7 @@ class Mime_Helper
                     break;
                 }
             } else {
-                if ((@$output->parts[$i]->disposition == 'attachment') && 
+                if ((@strtolower($output->parts[$i]->disposition) == 'attachment') && 
                         (@$output->parts[$i]->d_parameters["filename"] == $filename)) {
                     break;
                 }
@@ -503,14 +503,14 @@ class Mime_Helper
             $ctype = @strtolower($obj->ctype_primary.'/'.$obj->ctype_secondary);
             switch($ctype){
                 case 'text/plain':
-                    if (!empty($obj->disposition) && $obj->disposition == 'attachment') {
+                    if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
                         @$parts['attachments'][] = $obj->body;
                     } else {
                         @$parts['text'][] = $obj->body;
                     }
                     break;
                 case 'text/html':
-                    if (!empty($obj->disposition) && $obj->disposition == 'attachment'){
+                    if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
                         @$parts['attachments'][] = $obj->body;
                     } else {
                         @$parts['html'][] = $obj->body;
@@ -518,7 +518,7 @@ class Mime_Helper
                     break;
                 // special case for Apple Mail
                 case 'text/enriched':
-                    if (!empty($obj->disposition) && $obj->disposition == 'attachment'){
+                    if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
                         @$parts['attachments'][] = $obj->body;
                     } else {
                         @$parts['html'][] = $obj->body;
