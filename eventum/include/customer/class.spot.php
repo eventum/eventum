@@ -32,6 +32,10 @@ $customer_db = false;
 
 define("SPOT_CUSTOMER_EXPIRATION_OFFSET", 14);
 
+// Constants used when returning list of customers
+define("SPOT_CUSTOMER_OPTION_INNODB_SUPPORT", 11);
+define("SPOT_CUSTOMER_OPTION_NO_INNODB_SUPPORT", 12);
+
 
 class Spot_Customer_Backend
 {
@@ -1447,6 +1451,72 @@ class Spot_Customer_Backend
         } else {
             return $res;
         }
+    }
+
+
+    /**
+     * Returns the list of customer IDs for a given support contract level.
+     *
+     * @access  public
+     * @param   integer $support_level_id The support level ID
+     * @param   mixed $support_options An integer or array of integers indicating various options to get customers with.
+     * @return  array The list of customer IDs
+     */
+    function getListBySupportLevel($support_level_id, $support_options)
+    {
+        if (!is_array($support_level_id)) {
+            $support_level_id = array($support_level_id);
+        }
+        if (($support_options != false) && (!is_array($support_options))) {
+            $support_options = array($support_options);
+        } elseif ($support_options == false) {
+            $support_options = array();
+        }
+        $stmt = "SELECT
+                    A.cust_no
+                 FROM
+                    support A,
+                    support_type B LEFT JOIN
+                    support_extra C ON
+                        A.support_no = C.support_no
+                 WHERE
+                    A.support_type_no=B.support_type_no AND
+                    B.support_type_no IN (" . implode(',', $support_level_id) . ")";
+        if (in_array(SPOT_CUSTOMER_OPTION_INNODB_SUPPORT, $support_options)) {
+            $stmt .= " AND\n C.pl_extra_no=2";
+        } elseif (in_array(SPOT_CUSTOMER_OPTION_NO_INNODB_SUPPORT, $support_options)) {
+            $stmt .= " AND\n (C.pl_extra_no!=2 OR C.pl_extra_no IS NULL)";
+        }
+        if (in_array(CUSTOMER_EXCLUDE_EXPIRED, $support_options)) {
+            $stmt .= " AND\n A.enddate > NOW()";
+        }
+        $res = $GLOBALS["customer_db"]->getCol($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            if (empty($res)) {
+                return array();
+            } else {
+                return $res;
+            }
+        }
+    }
+
+
+    /**
+     * Returns an array of support levels grouped together.
+     * 
+     */
+    function getGroupedSupportLevels()
+    {
+        $levels = array(
+            'Entry Level' => array(7, 12, 19, 20),
+            'Primary'     => array(8, 13),
+            'Enhanced'    => array(9, 14),
+            'Premium'     => array(10)
+        );
+        return $levels;
     }
 }
 ?>

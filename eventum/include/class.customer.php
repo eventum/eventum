@@ -30,6 +30,9 @@
 
 include_once(APP_INC_PATH . 'class.misc.php');
 
+// Constants used by customer class.
+define("CUSTOMER_EXCLUDE_EXPIRED", 1);
+
 class Customer
 {
     /**
@@ -357,6 +360,20 @@ class Customer
     {
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getSupportLevelID($customer_id);
+    }
+
+
+    function getListBySupportLevel($prj_id, $support_level_id, $support_options = false)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getListBySupportLevel($support_level_id, $support_options);
+    }
+
+
+    function getGroupedSupportLevels($prj_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getGroupedSupportLevels($prj_id);
     }
 
 
