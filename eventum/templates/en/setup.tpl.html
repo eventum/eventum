@@ -229,7 +229,7 @@ function toggleAlternateUserFields()
                               <nobr>&nbsp;<b>Username: *</b>&nbsp;</nobr>
                             </td>
                             <td>
-                              <nobr><input type="text" class="default" name="eventum_user" size="20">&nbsp;</nobr>
+                              <nobr><input type="text" class="default" name="eventum_user" size="20" value="{$smarty.post.eventum_user}">&nbsp;</nobr>
                               {include file="error_icon.tpl.html" field="eventum_user"}
                             </td>
                           </tr>
@@ -238,12 +238,12 @@ function toggleAlternateUserFields()
                               <nobr>&nbsp;<b>Password:</b>&nbsp;</nobr>
                             </td>
                             <td>
-                              <nobr><input type="password" class="default" name="eventum_password" size="20">&nbsp;</nobr>
+                              <nobr><input type="password" class="default" name="eventum_password" size="20" value="{$smarty.post.eventum_password}">&nbsp;</nobr>
                             </td>
                           </tr>
                           <tr>
                             <td colspan="2" class="default" align="center">
-                              <input type="checkbox" name="create_user" value="yes"> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'create_user');">Create User and Permissions</a></b>
+                              <input type="checkbox" name="create_user" value="yes" {if $smarty.post.create_user == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'create_user');">Create User and Permissions</a></b>
                             </td>
                           </tr>
                         </table>
