@@ -33,7 +33,7 @@ $changes[] = "CREATE TABLE eventum_customer_account_manager (
   UNIQUE KEY cam_manager (cam_customer_id, cam_usr_id)
 )";
 $changes[] = "ALTER TABLE eventum_user ADD COLUMN usr_clocked_in tinyint(1) DEFAULT 0";
-$changes[] = "";
+$changes[] = "ALTER TABLE eventum_project ADD COLUMN prj_workflow_backend varchar(64) NULL DEFAULT NULL";
 $changes[] = "";
 $changes[] = "";
 $changes[] = "";
