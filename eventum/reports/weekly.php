@@ -41,16 +41,35 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $prj_id = Auth::getCurrentProject();
 
+if (count(@$HTTP_POST_VARS["start"]) > 0 &&
+        (@$HTTP_POST_VARS["start"]["Year"] != 0) &&
+        (@$HTTP_POST_VARS["start"]["Month"] != 0) &&
+        (@$HTTP_POST_VARS["start"]["Day"] != 0)) {
+    $start_date = join("-", $HTTP_POST_VARS["start"]);
+}
+if (count(@$HTTP_POST_VARS["end"]) > 0 &&
+        (@$HTTP_POST_VARS["end"]["Year"] != 0) &&
+        (@$HTTP_POST_VARS["end"]["Month"] != 0) &&
+        (@$HTTP_POST_VARS["end"]["Day"] != 0)) {
+    $end_date = join("-", $HTTP_POST_VARS["end"]);
+}
+
 $tpl->assign(array(
     "weeks" => Date_API::getWeekOptions(3,0),
-    "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter'))
+    "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter')),
+    "start_date"    =>  @$start_date,
+    "end_date"      =>  @$end_date,
+    "report_type"   =>  @$HTTP_POST_VARS["report_type"]
 ));
 
-if (!empty($HTTP_POST_VARS["week"]) && !empty($HTTP_POST_VARS["developer"])) {
+if (!empty($HTTP_POST_VARS["developer"])) {
     
     //split date up
-    $dates = explode("_", $HTTP_POST_VARS["week"]);
-    
+    if (@$HTTP_POST_VARS["report_type"] == "weekly") {
+        $dates = explode("_", $HTTP_POST_VARS["week"]);
+    } else {
+        $dates = array($start_date, $end_date);
+    }
     
     // print out emails
     $data = Report::getWeeklyReport($HTTP_POST_VARS["developer"], $dates[0], $dates[1]);

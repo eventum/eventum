@@ -470,19 +470,23 @@ function mayChangeIssue($p)
     }
 }
 
-$getWeeklyReport_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
+$getWeeklyReport_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
 function getWeeklyReport($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
     $week = abs(XML_RPC_decode($p->getParam(1)));
+    $start = XML_RPC_decode($p->getParam(2));
+    $end = XML_RPC_decode($p->getParam(3));
     
     // figure out the correct week
-    $start = date("U") - (DAY * (date("w") - 1));
-    if ($week > 0) {
-        $start = ($start - (WEEK * $week));
+    if ((empty($start)) || (empty($end))) {
+        $start = date("U") - (DAY * (date("w") - 1));
+        if ($week > 0) {
+            $start = ($start - (WEEK * $week));
+        }
+        $end = date("Y-m-d", ($start + (DAY * 6)));
+        $start = date("Y-m-d", $start);
     }
-    $end = date("Y-m-d", ($start + (DAY * 6)));
-    $start = date("Y-m-d", $start);
     
     $tpl = new Template_API();
     $tpl->setTemplate("reports/weekly_data.tpl.html");

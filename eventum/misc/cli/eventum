@@ -179,10 +179,16 @@ if ($issue_id > 0) {
     } elseif ($HTTP_SERVER_VARS['argv'][1] == 'list-status') {
         Command_Line::printStatusList(&$client, $user_email);
     } elseif (($HTTP_SERVER_VARS['argv'][1] == 'weekly-report') || ($HTTP_SERVER_VARS['argv'][1] == 'wr')) {
-        if (@$HTTP_SERVER_VARS['argv'][2] == '') {
-            @$HTTP_SERVER_VARS['argv'][2] = 0;
+        if (count(@$HTTP_SERVER_VARS['argv']) == 4) {
+            // date range
+            Command_Line::getWeeklyReport(&$client, $user_email, 0, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3]);
+        } else {
+            // weekly
+            if (@$HTTP_SERVER_VARS['argv'][2] == '') {
+                @$HTTP_SERVER_VARS['argv'][2] = 0;
+            }
+            Command_Line::getWeeklyReport(&$client, $user_email, $HTTP_SERVER_VARS['argv'][2]);
         }
-        Command_Line::getWeeklyReport(&$client, $user_email, $HTTP_SERVER_VARS['argv'][2]);
     } else {
         Command_Line::quit("Unknown parameter '" . $HTTP_SERVER_VARS['argv'][1] . "'");
     }

@@ -1,11 +1,11 @@
-{$data.user.usr_full_name} Weekly Report {$data.start} - {$data.end}
+{$data.user.usr_full_name} {if $report_type == 'weekly'}Weekly {/if}Report {$data.start} - {$data.end}
 
 {$application_title} Issues:
 
 {section name=issue loop=$data.issues}
 {$data.issues[issue].iss_id|str_pad:4:" ":"STR_PAD_LEFT"} {$data.issues[issue].iss_summary}
 {sectionelse}
-No issues touched this week
+No issues touched this time period
 {/section}
 
 New Issues Assigned:  {$data.new_assigned_count}

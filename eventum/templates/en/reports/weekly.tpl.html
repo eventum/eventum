@@ -1,7 +1,7 @@
 {include file="header.tpl.html"}
 
 <br />
-<form method="post" action="{$smarty.server.PHP_SELF}">
+<form method="post" action="{$smarty.server.PHP_SELF}" name="weekly_report">
 <input type="hidden" name="cat" value="generate">
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
@@ -14,22 +14,51 @@
         </tr>
         <tr>
           <td width="120" class="default">
+            <b>Report Type:</b>
+          </td>
+          <td width="200" class="default" NOWRAP>
+            <input type="radio" name="report_type" value="weekly" class="default" {if $report_type!='range'}checked{/if} onClick="changeType('weekly');">
+                <a id="link" class="link" href="javascript:void(null)" 
+                            onClick="javascript:checkRadio('weekly_report', 'report_type', 0);changeType('weekly');">Weekly</a>&nbsp;
+            <input type="radio" name="report_type" value="range" {if $report_type=='range'}CHECKED{/if} onClick="changeType('range');">
+                <a id="link" class="link" href="javascript:void(null)" 
+                            onClick="javascript:checkRadio('weekly_report', 'report_type', 1);changeType('range');">Date Range</a>&nbsp;
+          </td>
+          <td rowspan="5">
+            <input type="submit" value="Generate" class="shortcut">
+          </td>
+        </tr>
+        <tr id="week_row">
+          <td width="120" class="default">
             <b>Week:</b>
           </td>
-          <td width="150">
+          <td width="200">
             <select name="week" class="default">
                 {html_options options=$weeks selected=$week}
             </select>
           </td>
-          <td rowspan="2">
-            <input type="submit" value="Generate" class="shortcut">
+        </tr>
+        <tr id="start_row">
+          <td width="120" class="default">
+            <b>Start:</b>
+          </td>
+          <td width="200">
+            {html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
+          </td>
+        </tr>
+        <tr id="end_row">
+          <td width="120" class="default">
+            <b>End:</b>
+          </td>
+          <td width="200">
+            {html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
           </td>
         </tr>
         <tr>
           <td width="120" class="default">
             <b>Developer:</b>
           </td>
-          <td width="150">
+          <td width="200">
             <select name="developer" class="default">
                 {html_options options=$users selected=$developer}
             </select>
@@ -40,6 +69,23 @@
   </tr>
 </table>
 </form>
+<script language="JavaScript">
+{literal}
+function changeType(type) {
+    if (type == 'range') {
+        document.getElementById('week_row').style.display = 'none';
+        document.getElementById('start_row').style.display = getDisplayStyle();
+        document.getElementById('end_row').style.display = getDisplayStyle();
+    } else {
+        document.getElementById('week_row').style.display = getDisplayStyle();
+        document.getElementById('start_row').style.display = 'none';
+        document.getElementById('end_row').style.display = 'none';
+    }
+}
+{/literal}
+
+changeType('{$report_type}');
+</script>
 
 {if $data != ''}
 <pre>

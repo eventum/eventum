@@ -1037,12 +1037,15 @@ class Command_Line
      * @access  public
      * @param   resource $rpc_conn The connection resource
      * @param   string $user_email The email address of the current user.
-     * @param   integer $week The week for the report.
+     * @param   integer $week The week for the report. If start and end date are set, this is ignored.
+     * @param   string $start_date The start date of the report. (optional)
+     * @param   string $end_date The end_date of the report. (optional)
      */
-    function getWeeklyReport($rpc_conn, $user_email, $week)
+    function getWeeklyReport($rpc_conn, $user_email, $week, $start_date = '', $end_date = '')
     {
         // get summary and assignment of issue, then show confirmation prompt to user
-        $msg = new XML_RPC_Message("getWeeklyReport", array(new XML_RPC_Value($user_email, "string"), new XML_RPC_Value($week, "int")));
+        $msg = new XML_RPC_Message("getWeeklyReport", array(new XML_RPC_Value($user_email, "string"),
+             new XML_RPC_Value($week, "int"), new XML_RPC_Value($start_date, "string"), new XML_RPC_Value($end_date, "string")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             Command_Line::quit($result->faultString());
@@ -1255,10 +1258,10 @@ class Command_Line
             "help"      =>  "List all available statuses in the system."
         );
         $usage[] = array(
-            "command"   =>  array("weekly-report [<week>]", "wr [<week>]"),
+            "command"   =>  array("weekly-report ([<week>])|([<start>] [<end>])", "wr ([<week>])|([<start>] [<end>])"),
             "help"      =>  "Fetches the weekly report. Week is specified as an integer with 0 representing
      the current week, -1 the previous week and so on. If the week is omitted it defaults 
-     to the current week."
+     to the current week. Alternately, a date range can be set. Dates should be in the format 'YYYY-MM-DD'."
         );
         $script = basename($script);
         $usage_text = "";
