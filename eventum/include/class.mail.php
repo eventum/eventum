@@ -611,6 +611,28 @@ class Mail_API
 
         $subjects[] = $subject;
     }
+    
+    
+    /**
+     * Since Mail::prepareHeaders() is not supposed to be called statically, this method
+     * instantiates an instance of the mail class and calls prepareHeaders on it.
+     * 
+     * @param array $headers The array of headers to prepare, in an associative
+     *              array, where the array key is the header name (ie,
+     *              'Subject'), and the array value is the header
+     *              value (ie, 'test'). The header produced from those
+     *              values would be 'Subject: test'.
+     * @return mixed Returns false if it encounters a bad address,
+     *               otherwise returns an array containing two
+     *               elements: Any From: address found in the headers,
+     *               and the plain text version of the headers.
+     */
+    function prepareHeaders($headers)
+    {
+        $params = Mail_API::getSMTPSettings();
+        $mail =& Mail::factory('smtp', $params);
+        return $mail->prepareHeaders($headers);
+    }
 }
 
 // benchmarking the included file (aka setup time)
