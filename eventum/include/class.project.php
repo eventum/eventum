@@ -493,6 +493,9 @@ class Project
             for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
                 Project::associateUser($new_prj_id, $HTTP_POST_VARS["users"][$i]);
             }
+            foreach ($HTTP_POST_VARS['statuses'] as $sta_id) {
+                Status::addProjectAssociation($sta_id, $new_prj_id);
+            }
             return 1;
         }
     }
