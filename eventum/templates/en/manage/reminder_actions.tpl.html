@@ -248,7 +248,10 @@
                         {if $list[i].rma_alert_irc} [Alert IRC]{/if}
                         {if $list[i].rma_alert_group_leader} [Alert Group Leader]{/if}
                       </td>
-                      <td bgcolor="{$row_color}" class="default">&nbsp;<a href="reminder_conditions.php?rem_id={$list[i].rma_rem_id}&rma_id={$list[i].rma_id}" class="link">{$list[i].total_conditions} Condition{if $list[i].total_conditions != 1}s{/if}</a></td>
+                      <td bgcolor="{$row_color}" class="default">
+                        &nbsp;<a href="reminder_conditions.php?rem_id={$list[i].rma_rem_id}&rma_id={$list[i].rma_id}" class="link">{$list[i].total_conditions} Condition{if $list[i].total_conditions != 1}s{/if}</a><br />
+                        {if $list[i].status != ''}&nbsp;Status: {$list[i].status}{/if}
+                      </td>
                     </tr>
                     {sectionelse}
                     <tr>
