@@ -57,6 +57,11 @@ if (empty($rows)) {
     $rows = APP_DEFAULT_PAGER_SIZE;
 }
 
+if (@$_REQUEST['view'] == 'my_assignments') {
+    setcookie(APP_LIST_COOKIE, '', APP_LIST_COOKIE_EXPIRE);
+    Auth::redirect(APP_BASE_URL . "list.php?users=" . Auth::getUserID() . "&hide_closed=1");
+}
+
 $options = Issue::saveSearchParams();
 $tpl->assign("options", $options);
 $tpl->assign("sorting", Issue::getSortingInfo($options));

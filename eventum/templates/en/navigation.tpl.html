@@ -22,7 +22,7 @@
             <a target="_top" title="list available emails" href="{$rel_url}emails.php" class="white_link">Associate Emails</a>&nbsp;|
             {/if}
             {if $current_role > $roles.customer}
-            <a target="_top" title="list all issues assigned to you" href="{$rel_url}list.php?users={$current_user_id}" class="white_link">My Assignments</a>&nbsp;|
+            <a target="_top" title="list all issues assigned to you" href="{$rel_url}list.php?view=my_assignments" class="white_link">My Assignments</a>&nbsp;|
             {/if}
             <a target="_top" title="general statistics" href="{$rel_url}main.php" class="white_link">Stats</a>&nbsp;|
             {if $current_role > $roles.customer}
