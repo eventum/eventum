@@ -1,0 +1,74 @@
+{include file="header.tpl.html"}
+
+<br /><br />
+<table align="center" width="400" border="0" cellspacing="0" cellpadding="1" bgcolor="red">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+        <tr>
+          <td><img src="images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Warning</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default">
+            <b>Our records show that your support contract with MySQL has expired. We have provided you with
+            a grace period of {$expiration_offset} days to renew your contract.</b>
+          </td>
+        </tr>
+        <tr>
+          <td><img src="images/blank.gif" width="10" height="0"></td>
+          <td>
+            <table width="100%">
+              <tr>
+                <td class="default" width="120"><b>Contact:</b></td>
+                <td class="default">{$customer.contact_name}</td>
+              </tr>
+              <tr>
+                <td class="default" width="120"><b>Company Name:</b></td>
+                <td class="default">{$customer.company_name}</td>
+              </tr>
+              <tr>
+                <td class="default" width="120"><b>Contract #:</b></td>
+                <td class="default">{$customer.contract_id}</td>
+              </tr>
+              <tr>
+                <td class="default" width="120"><b>Support Level:</b></td>
+                <td class="default">{$customer.support_level}</td>
+              </tr>
+              <tr>
+                <td class="default" width="120"><b>Support Options:</b></td>
+                <td class="default">{$customer.support_options}</td>
+              </tr>
+              <tr>
+                <td class="default" width="120"><b>Expired:</b></td>
+                <td class="default">{$customer.expiration_date}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default">
+            <b>Please contact MySQL's sales team to renew your contract. Write to 
+            <a class="link" href="mailto:sales@mysql.com">sales@mysql.com</a>, or call 
+            one of MySQL's sales offices: USA +1-425-743-5635, Germany +49-7022-9256-30, 
+            Finland +358-50-571-0528, or France +33-1-43-077-099.</b>
+          </td>
+        </tr>
+        <tr>
+            {if $smarty.get.url != ""}
+                {assign var=url value=$smarty.get.url}
+            {else}
+                {assign var=url value="main.php"}
+            {/if}
+          <form method="get" action="{$url}">
+          <td colspan="2" align="right">
+            <input type="submit" class="button" value="Continue &gt;&gt;">
+          </td>
+          </form>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+{include file="footer.tpl.html"}
