@@ -45,6 +45,7 @@ include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.history.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.authorized_replier.php");
+include_once(APP_INC_PATH . 'class.customer.php');
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -131,11 +132,9 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $res = Authorized_Replier::addUser($HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign('authorize_reply_result', $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'flag_incident') {
-    include_once(APP_INC_PATH . 'class.customer.php');
     $res = Customer::flagIncident($HTTP_GET_VARS['iss_id']);
     $tpl->assign('flag_incident_result', $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'unflag_incident') {
-    include_once(APP_INC_PATH . 'class.customer.php');
     $res = Customer::unflagIncident($HTTP_GET_VARS['iss_id']);
     $tpl->assign('unflag_incident_result', $res);
 }
