@@ -125,6 +125,10 @@ $topics = array(
         "title" => "Edit Fields to Display",
         "parent" => "main"
     ),
+    "column_display" => array(
+        "title" => "Edit Columns to Display",
+        "parent" => "main"
+    ),
     "customize_listing" => array(
         "title" => "Customize Issue Listing Screen",
         "parent" => "main"
