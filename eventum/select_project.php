@@ -121,6 +121,11 @@ function handleExpiredCustomer($prj_id)
                 exit;
             } elseif ($status == 'in_grace_period') {
                 Customer::sendExpirationNotice($prj_id, $contact_id);
+                $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/grace_period.tpl.html");
+                $tpl->assign('customer', Customer::getContractDetails($prj_id, $contact_id, false));
+                $tpl->assign('expiration_offset', Customer::getExpirationOffset($prj_id));
+                $tpl->displayTemplate();
+                exit;
             }
             // check with cnt_support to see if this contact is allowed in this support contract
             if (!Customer::isAllowedSupportContact($prj_id, $contact_id)) {
