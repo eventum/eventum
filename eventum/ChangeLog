@@ -5,6 +5,7 @@ Eventum Issue Tracking System
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
 - Fixed bug with APP_TITLE not being displayed in issue auto created messages (Bryan)
 - Fixed Clock-In / Clock-Out link on non-base directories (João)
+- Prevent PHP warning from being displayed when running the process_mail_queue.php script (João)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)

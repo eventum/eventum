@@ -98,7 +98,7 @@ class Error_Handler
             $msg .= "'$error_msg'\n\n";
         }
         $msg .= "That happened on page '" . $HTTP_SERVER_VARS["PHP_SELF"] . "' from IP Address '" . getenv("REMOTE_ADDR") . "' coming from the page (referrer) '" . getenv("HTTP_REFERER") . "'.\n\n";
-        $msg .= "The user agent given was '" . $HTTP_SERVER_VARS['HTTP_USER_AGENT'] . "'.\n\n";
+        $msg .= "The user agent given was '" . @$HTTP_SERVER_VARS['HTTP_USER_AGENT'] . "'.\n\n";
         $msg .= "Sincerely yours,\nAutomated Error_Handler Class";
         // only try to include the backtrace if we are on PHP 4.3.0 or later
         if (version_compare(phpversion(), "4.3.0", ">=")) {
