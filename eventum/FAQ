@@ -39,3 +39,9 @@ error_reporting(E_ALL);
 
 This enables PHP error reporting so any problems you have will be displayed to
 the screen when you try to access a page.
+
+
+Problem: I get the error "unable to set sender to [@localhost]"
+Solution: Many things can cause this error. Here are a few to check.
+ - Your hostname is set correctly.
+ - Email information is filled out correctly in manage/general.php (web admin page).
