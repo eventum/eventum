@@ -18,7 +18,8 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr bgcolor="{$cell_color}">
           <th class="default_white">
-            Time Period (GMT)
+            Time Period<br />
+            (GMT)
           </th>
           <th class="default_white">
             Developer {if $type == "email"}Emails{else}Actions{/if}
@@ -27,7 +28,8 @@
             Customer {if $type == "email"}Emails{else}Actions{/if}
           </th>
           <th class="default_white">
-            Time Period ({$user_tz})
+            Time Period<br />
+            ({$user_tz})
           </th>
         </tr>
         {section name="workload" loop=$data}
