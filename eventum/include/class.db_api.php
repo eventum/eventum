@@ -111,6 +111,30 @@ class DB_API
             return mysql_escape_string($str);
         }
     }
+    
+    
+    /**
+     * Returns the SQL used to calculate the difference of 2 dates, not counting weekends.
+     * This thing is truly a work of art, the type of art that throws lemon juice in your eye and then laughs.
+     * If $end_date_field is null, now() is used.
+     * 
+     * @access  public
+     * @param   string $start_date_field The name of the field the first date is.
+     * @param   string $end_date_field The name of the field where the second date is.
+     * @return  string The SQL used to compare the 2 dates.
+     */
+    function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = false)
+    {
+        if ($end_date_field == false) {
+            $end_date_field = 'now()';
+        }
+        
+        $sql = "((UNIX_TIMESTAMP($end_date_field) - UNIX_TIMESTAMP($start_date_field)) -
+                (IF (((TO_DAYS($end_date_field)-TO_DAYS($start_date_field)) + DAYOFWEEK($start_date_field) < 8), 0, ((floor((TO_DAYS($end_date_field)-TO_DAYS($start_date_field))/7)) * 86400 * 2)
+                )) - (CASE WHEN DAYOFWEEK($start_date_field) = 7 THEN (86400 + (86400 - time_to_sec($start_date_field))) WHEN DAYOFWEEK($start_date_field) = 1 THEN (86400 - time_to_sec($start_date_field)) ELSE 0 END)
+                - (CASE WHEN DAYOFWEEK($end_date_field) = 7 THEN time_to_sec($end_date_field) WHEN DAYOFWEEK($end_date_field) = 1 THEN (86400 + time_to_sec($end_date_field)) ELSE 0 END))";
+        return $sql;
+    }
 }
 
 // benchmarking the included file (aka setup time)
