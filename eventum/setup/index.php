@@ -383,7 +383,7 @@ $private_key = "' . md5(microtime()) . '";
         $protocol_type = 'http://';
     }
     $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_contents);
-    $fp = fopen('../config.inc.php', 'w');
+    $fp = @fopen('../config.inc.php', 'w');
     if ($fp === FALSE) {
         return "Could not open the file 'config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     }
