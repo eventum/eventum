@@ -116,14 +116,14 @@ if (@$HTTP_GET_VARS["cat"] == "associate") {
 }
 
 $tpl->assign(array(
-    "cats"                => Category::getAssocList($prj_id),
-    "priorities"          => Priority::getList($prj_id),
-    "users"               => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
-    "releases"            => Release::getAssocList($prj_id),
-    "custom_fields"       => Custom_Field::getListByProject($prj_id, 'report_form'),
-    "max_attachment_size" => Attachment::getMaxAttachmentSize(),
-    "field_display_settings"    =>  Project::getFieldDisplaySettings($prj_id),
-    "groups"              => Group::getAssocList()
+    "cats"                   => Category::getAssocList($prj_id),
+    "priorities"             => Priority::getList($prj_id),
+    "users"                  => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+    "releases"               => Release::getAssocList($prj_id),
+    "custom_fields"          => Custom_Field::getListByProject($prj_id, 'report_form'),
+    "max_attachment_size"    => Attachment::getMaxAttachmentSize(),
+    "field_display_settings" => Project::getFieldDisplaySettings($prj_id),
+    "groups"                 => Group::getAssocList($prj_id)
 ));
 
 $setup = Setup::load();

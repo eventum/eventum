@@ -231,7 +231,7 @@ class CSC_Workflow_Backend
         }
         $details = Issue::getDetails($issue_id);
         // figure out which Group this issue should belong too if no group is set
-        if ((empty($details["iss_grp_id"])) && (Group::getAssocList() > 0)) {
+        if ((empty($details["iss_grp_id"])) && (Group::getAssocList($prj_id) > 0)) {
             if (count($details['assigned_users']) > 0) {
                 $this->changeGroup($issue_id, 0, $details['assigned_users']);
             } else {

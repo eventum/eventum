@@ -63,7 +63,7 @@ $tpl->assign("sorting", Issue::getSortingInfo($options));
 $prj_id = Auth::getCurrentProject();
 
 // generate options for assign list. If there are groups and user is above a customer, include groups
-$groups = Group::getAssocList();
+$groups = Group::getAssocList($prj_id);
 $users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
 $assign_options = array(
     ""      =>  "Any",

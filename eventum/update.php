@@ -81,7 +81,7 @@ $tpl->assign(array(
     "assoc_issues" => Issue::getAssocList(),
     "one_week_ts"  => time() + (7 * DAY),
     "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
-    "groups"       => Group::getAssocList()
+    "groups"       => Group::getAssocList($prj_id)
 ));
 
 $tpl->displayTemplate();

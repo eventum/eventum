@@ -121,7 +121,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                     "impacts"          => Impact_Analysis::getListing($issue_id),
                     "statuses"         => Status::getAssocStatusList($prj_id, false),
                     "drafts"           => Draft::getList($issue_id),
-                    "groups"           => Group::getAssocList()
+                    "groups"           => Group::getAssocList($prj_id)
                 ));
             }
         }

@@ -335,10 +335,17 @@ class Group
      * Returns an associative array of groups
      * 
      * @access  public
+     * @param   integer $prj_id The project ID
      * @return  array An associated array of groups
      */
-    function getAssocList()
+    function getAssocList($prj_id)
     {
+        static $list;
+
+        if (!empty($list[$prj_id])) {
+            return $list[$prj_id];
+        }
+
         $stmt = "SELECT
                     grp_id,
                     grp_name
@@ -347,15 +354,17 @@ class Group
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
                  WHERE
                     grp_id = pgr_grp_id AND
-                    pgr_prj_id = " . Auth::getCurrentProject() . "
+                    pgr_prj_id = $prj_id
                  ORDER BY
                     grp_name";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
+        } else {
+            $list[$prj_id] = $res;
+            return $res;
         }
-        return $res;
     }
 
 
@@ -438,7 +447,6 @@ class Group
         } else {
             return $res;
         }
-        
     }
 }
 
