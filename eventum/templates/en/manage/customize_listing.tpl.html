@@ -37,11 +37,8 @@
               <input type="hidden" name="cat" value="new">
               {/if}
               <tr>
-                <td class="default" nowrap>
-                  <b>Customize Issue Listing Screen</b>
-                </td>
-                <td class="default" align="right">
-                  (Current Project: {$project.prj_title})
+                <td colspan="2" class="default">
+                  <b>Customize Issue Listing Screen</b> {include file="help_link.tpl.html" topic="customize_listing"}
                 </td>
               </tr>
               {if $result != ""}

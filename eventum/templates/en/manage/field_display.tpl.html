@@ -12,7 +12,7 @@
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
                 <tr>
                     <td class="default" colspan="2">
-                        <b>Edit fields to display</b>
+                        <b>Edit Fields to Display</b> {include file="help_link.tpl.html" topic="field_display"}
                     </td>
                 </tr>
                 {if $result != ""}
@@ -26,26 +26,11 @@
                     </td>
                 </tr>
                 {/if}
-                <tr>
-                    <td class="default" colspan="2">
-                        This page allows you to control which fields are displayed to users of a certain role.
-                        For example, you could use this page so users of the role "<i>reporter</i>" are
-                        not able to set the category or release when reporting a new issue.
-                    </td>
-                </tr>
-                <tr>
-                    <td bgcolor="{$cell_color}" class="default_white" width="150">
-                        &nbsp;<b>Field</b>
-                    </td>
-                    <td bgcolor="{$cell_color}" class="default_white">
-                        &nbsp;<b>Minimum Role</b>
-                    </td>
-                </tr>
                 {foreach from=$fields item=field_title key=field_name}
                 {cycle values=$cycle assign="row_color"}
                 <tr>
-                    <td bgcolor="{$row_color}" align="center" class="default" width="150">
-                        {$field_title}
+                    <td bgcolor="{$cell_color}" align="center" class="default_white" width="150">
+                        {$field_title} Field:
                     </td>
                     <td bgcolor="{$row_color}">
                         <select name="min_role[{$field_name}]" class="default">

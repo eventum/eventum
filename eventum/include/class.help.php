@@ -113,10 +113,22 @@ $topics = array(
         "title"  => "Viewing Issues",
         "parent" => "main"
     ),
-    "email_blocking"    =>  array(
-        "title" =>  "Email Blocking",
-        "parent"    =>  "main"
-    )
+    "email_blocking" => array(
+        "title" => "Email Blocking",
+        "parent" => "main"
+    ),
+    "link_filters" => array(
+        "title" => "Link Filters",
+        "parent" => "main"
+    ),
+    "field_display" => array(
+        "title" => "Edit Fields to Display",
+        "parent" => "main"
+    ),
+    "customize_listing" => array(
+        "title" => "Customize Issue Listing Screen",
+        "parent" => "main"
+    ),
 );
 
 class Help
