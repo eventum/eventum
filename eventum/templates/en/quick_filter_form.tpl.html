@@ -37,6 +37,8 @@ function clearFilters(f)
     setHiddenFieldValue(f, 'closed_date[filter_type]', '');
     setHiddenFieldValue(f, 'show_authorized_issues', '');
     setHiddenFieldValue(f, 'show_notification_list_issues', '');
+    //other fields
+    setHiddenFieldValue(f, 'release', '');
     f.submit();
 }
 {/literal}
@@ -95,6 +97,7 @@ function runCustomFilter(f)
         {if $categories|@count < 1}
         <input type="hidden" name="category" value="">
         {/if}
+        <input type="hidden" name="release" value="{$options.release}">
         <tr>
           <td>
             <span class="default">Keyword(s):</span><br />
