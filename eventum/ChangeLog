@@ -55,6 +55,7 @@ Eventum Issue Tracking System
 - Following a direct link to an issue will no longer prompt for a project when you login (Bryan)
 - Automatically switch projects if viewing an issue in a project other then the currently selected one (Bryan)
 - Added default charset of 'ISO-8859-1' (Bryan)
+- Inline file attachments (such as images) now have filename set (Bryan)
 
 
 15 Sep 2004, Version 1.3.1

@@ -140,6 +140,8 @@ class Attachment
                 }
                 if (!in_array(strtolower($parts["extension"]), Attachment::_getNoDownloadExtensions())) {
                     header("Content-Disposition: attachment; filename=" . urlencode($filename));
+                } else {
+                    header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
                 }
             }
             header("Content-Length: " . $filesize);
