@@ -30,3 +30,132 @@ privileges from the '/setup' directory, so other people are not allowed to
 go in there and mess with your configuration.
 
 
+
+Setting Up The Required Cron Scripts
+====================================
+
+1)- Mail Queue Process (misc/process_mail_queue.php)
+
+Beginning with the first release of Eventum, emails are not directly sent out
+from the various scripts, but rather added to a mail queue table that is 
+processed by a cron job. If an email cannot be sent, it will be marked as such
+in the mail queue log, and the cron job script will re-try to send it again the
+next time it runs.
+
+* * * * * cd /path-to-eventum/misc; /usr/bin/php -q process_mail_queue.php
+
+The above line will run the mail queue script every minute. To setup the SMTP
+server that Eventum should use to send these queued emails, go to:
+
+ Administration >>> General Setup > SMTP (Outgoing Email) Settings
+
+
+2)- Email Download (misc/download_emails.php)
+
+In order for Eventum's email integration feature to work, you need to setup a
+cron job to run the script above every so often. The following is an example of
+the required crontab line:
+
+0 * * * * cd /path-to-eventum/misc; /usr/bin/php -q download_emails.php username_here mail.domain.com INBOX
+
+The above will run the command every hour, and will download emails associated
+with the given email account. If you have more than one email account, you may
+add another crontab entry for the other accounts. To setup the email integration
+feature with the appropriate email accounts, go to:
+
+ Administration >>> Manage Email Accounts
+
+
+3)- Reminder System (misc/check_reminders.php)
+
+The reminder system was designed with the objective as serving as a safe net
+for issues that need attention. Depending on what configuration you create, you
+may have several reminders (or alerts) be sent out whenever an issue needs 
+attention, for whatever parameter you may deem necessary.
+
+*/10 * * * * cd /path-to-eventum/misc; /usr/bin/php -q check_reminders.php 
+
+It is recommended that you run the reminder cron job every 10 minutes, so it
+won't flood you with alerts too often, but it would still be enough to handle
+most cases.
+
+
+4)- Heartbeat Monitor (misc/monitor.php)
+
+The heartbeat monitor is a feature designed for the administrator that wants to 
+be alerted whenever a common problem in Eventum is detected, like the database
+server not being available anymore, or maybe when the recommended permissions 
+for certain configuration files are changed. Please note that before running
+the heartbeat monitor, you may need to customize some of the checks to be 
+appropriate for your own system, particularly the permission and file checks on
+Monitor::checkConfiguration().
+
+*/10 * * * * cd /path-to-eventum/misc; /usr/bin/php -q monitor.php 
+
+
+
+
+Other Features Requiring System Setup
+=====================================
+
+1)- Email Routing Script (misc/route_emails.php)
+
+The email routing feature is used to automatically associate a thread of emails
+into an Eventum issue. By setting up qmail (or even postfix) to deliver emails
+sent to a specific address (usually issue-<number>@<domain>) to the above 
+script, users are able to use their email clients to reply to emails coming from
+Eventum, and those replies will be automatically associated with the issue and
+broadcasted to the entire notification list.
+
+The entire email message should be passed as standard input to the script, and
+the only parameter to it should be email account to which this email should be
+associated with. The following is an example of a successful run of this script:
+
+cat example_email.txt | php -q route_emails.php 1
+
+IMPORTANT: Please be aware that depending on the MDA that you are using (qmail,
+postfix or whatever), you may need to manually change the exit codes used in
+this script to handle the proper signals to the MDA. For example, postfix uses
+exit code 78 to signal a configuration problem, but other agents may need
+different exit codes.
+
+
+2)- Note Routing Script (misc/route_notes.php)
+
+The note routing feature is used to automatically associate a thread of notes
+into an Eventum issue. By setting up qmail (or even postfix) to deliver emails
+sent to a specific address (usually note-<number>@<domain>) to the above 
+script, users are able to use their email clients to reply to internal notes 
+coming from Eventum, and those replies will be automatically associated with 
+the issue and broadcasted to the notification list staff members.
+
+The entire email message should be passed as standard input to the script. The 
+following is an example of a successful run of this script:
+
+cat example_note_email.txt | php -q route_notes.php
+
+IMPORTANT: Please be aware that depending on the MDA that you are using (qmail,
+postfix or whatever), you may need to manually change the exit codes used in
+this script to handle the proper signals to the MDA. For example, postfix uses
+exit code 78 to signal a configuration problem, but other agents may need
+different exit codes.
+
+
+3)- IRC Notification Bot (misc/irc/bot.php)
+
+The IRC notification bot is a nice feature for remote teams that want to handle
+issues and want to have a quick and easy way to get simple notifications. Right
+now the bot notifies of the following actions:
+
+ - New Issues
+ - Blocked emails
+ - Issues that got their assignment list changed
+ 
+To invoke the notification bot and let it running on the server, this is the
+proper command:
+
+php -q bot.php &
+
+NOTE: You will need to manually edit the bot.php script to set your appropriate
+preferences, like IRC server and channel that the bot should join.
+
