@@ -309,14 +309,14 @@ class Notification
         $header_names = Mime_Helper::getHeaderNames($_headers);
         // we don't want to keep the (B)Cc list for an eventum-based email
         $ignore_headers = array(
-            'To',
-            'Cc',
-            'Bcc'
+            'to',
+            'cc',
+            'bcc'
         );
         $headers = array();
         // build the headers array required by the smtp library
         foreach ($structure->headers as $header_name => $value) {
-            if ((in_array($header_name, $ignore_headers)) ||
+            if ((in_array(strtolower($header_name), $ignore_headers)) ||
                     (!in_array($header_name, array_keys($header_names))) ||
                     (strstr($header_name, ' '))) {
                 continue;
