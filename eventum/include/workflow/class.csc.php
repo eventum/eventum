@@ -169,6 +169,61 @@ class CSC_Workflow_Backend
 
 
     /**
+     * Called when a new message is recieved. 
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   array $message An array containing the new email
+     */
+    function handleNewEmail($prj_id, $issue_id, $message)
+    {
+        $sender_email = strtolower(Mail_API::getEmailAddress($message->headers['from']));
+        $current_status_id = Issue::getStatusID($issue_id);
+        if (Notification::isBounceMessage($sender_email)) {
+            // only change the status of the associated issue if the current status is not
+            // currently marked to a status with a closed context
+            $status_id = Status::getStatusID('Waiting on Developer');
+            if ((!empty($status_id)) && (!Status::hasClosedContext($current_status_id)) &&
+                    ($current_status_id != Status::getStatusID('Pending'))) {
+                $this->markAsWaitingOnDeveloper($issue_id, $status_id, 'email');
+                Issue::recordLastCustomerAction($issue_id);
+            }
+        } else {
+            $staff_emails = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
+            $staff_emails = array_map('strtolower', $staff_emails);
+            // handle the first_response_date / last_response_date fields
+            if (in_array($sender_email, array_values($staff_emails))) {
+                $stmt = "UPDATE
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         SET
+                            iss_last_response_date='" . Date_API::getCurrentDateGMT() . "'
+                         WHERE
+                            iss_id=$issue_id";
+                $GLOBALS["db_api"]->dbh->query($stmt);
+        
+                $stmt = "UPDATE
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         SET
+                            iss_first_response_date='" . Date_API::getCurrentDateGMT() . "'
+                         WHERE
+                            iss_first_response_date IS NULL AND
+                            iss_id=$issue_id";
+                $GLOBALS["db_api"]->dbh->query($stmt);
+            }
+        
+            // change the status of the issue automatically to 'Waiting on Developer' if a non-staff person is sending this email
+            $status_id = Status::getStatusID('Waiting on Developer');
+            if ((!empty($status_id)) && ($current_status_id != Status::getStatusID('Pending'))) {
+                if (!in_array($sender_email, $staff_emails)) {
+                    $this->markAsWaitingOnDeveloper($issue_id, $status_id, 'email');
+                    Issue::recordLastCustomerAction($issue_id);
+                }
+            }
+        }
+    }
+
+
+    /**
      * Updates the status of a given issue ID to 'Waiting on Developer' and 
      * saves a history entry about it.
      *

@@ -258,6 +258,23 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
     }
+
+
+    /**
+     * Called when an email is recieved.
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   array $message An array containing the new email
+     */
+    function handleNewEmail($prj_id, $issue_id, $message)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->handleNewEmail($prj_id, $issue_id, $message);
+    }
 }
 
 
