@@ -16,7 +16,8 @@ instructions:
 2) Extract your new Eventum copy over your existing folder structure
 3) Copy over your backed up copies of config.inc.php and setup.conf.php
    back in place
-4) Run the upgrade scripts described in each section below
+4) Run the upgrade scripts described in each section below by opening
+   these scripts in your web browser
 
 
 
