@@ -410,6 +410,9 @@ class Auth
         }
         $usr_id = Auth::getUserID();
         $projects = Project::getAssocList($usr_id);
+        if ($usr_id == APP_SYSTEM_USER_ID) {
+            return $cookie['prj_id'];
+        }
         if (!in_array($cookie["prj_id"], array_keys($projects))) {
             Auth::redirect(APP_RELATIVE_URL . "select_project.php?err=1");
         }
