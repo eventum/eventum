@@ -140,20 +140,11 @@ if (@$HTTP_GET_VARS["cat"] == 'reply') {
     }
 }
 
-// show who is locking the issue, if appropriate
 if (!empty($issue_id)) {
-    $lock_usr_id = Issue::getLockedUserID($issue_id);
-    if (!empty($lock_usr_id)) {
-        $tpl->assign(array(
-            "issue_lock_usr_id"  => $lock_usr_id,
-            'lock_usr_full_name' => User::getFullName($lock_usr_id)
-        ));
-    }
     // list the available statuses
     $tpl->assign("statuses", Status::getAssocStatusList($prj_id, false));
     $tpl->assign("current_issue_status", Issue::getStatusID($issue_id));
-    
-    // set if the issue is assigned to this user or not
+    // set if the current user is allowed to send emails on this issue or not
     $sender_details = User::getDetails($usr_id);
     $tpl->assign("can_send_email", Support::isAllowedToEmail($issue_id, $sender_details["usr_email"]));
 }

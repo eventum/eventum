@@ -150,21 +150,6 @@ function setSignature(f)
 {if $smarty.get.cat == 'view_draft'}
 <input type="hidden" name="draft_id" value="{$draft_id}">
 {/if}
-{if $issue_lock_usr_id and $issue_lock_usr_id != $current_user_id and $current_role != $roles.customer}
-<br />
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td><img src="{$rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">This Issue is Currently Locked By {$lock_usr_full_name}</span></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-{/if}
 <table align="center" width="100%" cellpadding="3">
   <tr>
     <td>
