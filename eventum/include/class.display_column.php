@@ -51,7 +51,7 @@ class Display_Column
         static $returns;
 
         // poor man's caching system
-        if (empty($returns[$prj_id][$page])) {
+        if (!empty($returns[$prj_id][$page])) {
             return $returns[$prj_id][$page];
         }
 
