@@ -466,3 +466,37 @@ INSERT INTO eventum_history_type SET htt_name = 'issue_quarantine_removed', htt_
 
 ALTER TABLE eventum_issue DROP COLUMN iss_lock_usr_id;
 
+# september 28th
+DROP TABLE IF EXISTS eventum_link_filter;
+CREATE TABLE eventum_link_filter (
+  lfi_id int(11) unsigned NOT NULL auto_increment,
+  lfi_pattern varchar(255) NOT NULL,
+  lfi_replacement varchar(255) NOT NULL,
+  lfi_usr_role tinyint(9) NOT NULL DEFAULT 0,
+  lfi_description varchar(255) NULL,
+  PRIMARY KEY  (lfi_id)
+);
+
+DROP TABLE IF EXISTS eventum_project_link_filter;
+CREATE TABLE eventum_project_link_filter (
+  plf_prj_id int(11) NOT NULL,
+  plf_lfi_id int(11) NOT NULL,
+  PRIMARY KEY  (plf_prj_id, plf_lfi_id)
+);
+
+# October 4th
+ALTER TABLE eventum_irc_notice ADD COLUMN ino_prj_id int(11) NOT NULL;
+
+# October 7th
+ALTER TABLE eventum_reminder_field ADD column rmf_allow_column_compare tinyint(1) DEFAULT 0;
+UPDATE eventum_reminder_field SET rmf_allow_column_compare = 1 WHERE rmf_title LIKE '%date%';
+ALTER TABLE eventum_reminder_level_condition ADD COLUMN rlc_comparison_rmf_id tinyint(3) unsigned;
+
+# October 14th
+ALTER TABLE eventum_reminder_level ADD COLUMN rem_skip_weekend tinyint(1) NOT NULL DEFAULT 0;
+
+# October 18th
+ALTER TABLE eventum_custom_field ADD COLUMN fld_list_display tinyint(1) NOT NULL DEFAULT 0;
+
+# October 22nd
+INSERT INTO eventum_history_type SET htt_name = 'draft_routed', htt_role = 4;
