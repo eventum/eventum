@@ -48,6 +48,12 @@ class Spot_Customer_Backend
     }
 
 
+    function usesSupportLevels()
+    {
+        return true;
+    }
+
+
     /**
      * Method used to get the support contract status for a given customer.
      *
@@ -1388,6 +1394,59 @@ class Spot_Customer_Backend
         $setup = $mail->getSMTPSettings();
         $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
         $mail->send($from, $to, "New Issue #" . $issue_id);
+    }
+
+
+    /**
+     * Method used to get the list of available support levels from Spot.
+     *
+     * @access  public
+     * @return  array The list of available support levels
+     */
+    function getSupportLevelAssocList()
+    {
+        $stmt = "SELECT
+                    support_type_no AS level_id,
+                    descript AS level
+                 FROM
+                    support_type";
+        $res = $GLOBALS["customer_db"]->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Returns the support level of the current support contract for a given 
+     * customer ID.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  string The support contract level
+     */
+    function getSupportLevelID($customer_id)
+    {
+        $stmt = "SELECT
+                    B.support_type_no
+                 FROM
+                    support A,
+                    support_type B
+                 WHERE
+                    A.cust_no=$customer_id AND
+                    NOW() <= (A.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY) AND
+                    A.status <> 'Cancelled' AND
+                    A.support_type_no=B.support_type_no";
+        $res = $GLOBALS["customer_db"]->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
     }
 }
 ?>

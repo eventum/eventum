@@ -149,7 +149,15 @@ class Customer
     }
 
 
-
+    function doesBackendUseSupportLevels($prj_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        if ($backend === FALSE) {
+            return false;
+        } else {
+            return $backend->usesSupportLevels();
+        }
+    }
 
 
 
@@ -179,7 +187,6 @@ class Customer
      */
     function getContractStatus($prj_id, $customer_id)
     {
-        echo "getContractStatus($prj_id, $customer_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getContractStatus($customer_id);
     }
@@ -196,7 +203,6 @@ class Customer
      */
     function getCustomerTitlesByIssues($prj_id, &$result)
     {
-        echo "getCustomerTitlesByIssues($prj_id, $result)<br />";
         $backend =& Customer::_getBackend($prj_id);
         $backend->getCustomerTitlesByIssues($result);
     }
@@ -212,7 +218,6 @@ class Customer
      */
     function getDetails($prj_id, $customer_id)
     {
-        echo "getDetails($prj_id, $customer_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getDetails($customer_id);
     }
@@ -220,7 +225,6 @@ class Customer
 
     function isRedeemedIncident($prj_id, $issue_id)
     {
-        echo "isRedeemedIncident($prj_id, $issue_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->isRedeemedIncident($issue_id);
     }
@@ -228,7 +232,6 @@ class Customer
 
     function getAssocList($prj_id)
     {
-        echo "getAssocList($prj_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getAssocList();
     }
@@ -236,7 +239,6 @@ class Customer
 
     function getTitle($prj_id, $customer_id)
     {
-        echo "getTitle($prj_id, $customer_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getTitle($customer_id);
     }
@@ -244,7 +246,6 @@ class Customer
 
     function getTitles($prj_id, $customer_ids)
     {
-        echo "getTitles($prj_id, $customer_ids)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getTitles($customer_ids);
     }
@@ -252,7 +253,6 @@ class Customer
 
     function getContactEmailAssocList($prj_id, $customer_id)
     {
-        echo "getContactEmailAssocList($customer_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getContactEmailAssocList($customer_id);
     }
@@ -260,7 +260,6 @@ class Customer
 
     function getCustomerIDByEmails($prj_id, $emails)
     {
-        echo "getCustomerIDByEmails($emails)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getCustomerIDByEmails($emails);
     }
@@ -268,7 +267,6 @@ class Customer
 
     function getOverallStats($prj_id, $customer_id)
     {
-        echo "getOverallStats($prj_id, $customer_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getOverallStats($customer_id);
     }
@@ -276,7 +274,6 @@ class Customer
 
     function getProfile($prj_id, $usr_id)
     {
-        echo "getProfile($prj_id, $usr_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getProfile($usr_id);
     }
@@ -284,7 +281,6 @@ class Customer
 
     function getContractDetails($prj_id, $contact_id, $restrict_expiration = TRUE)
     {
-        echo "getContractDetails($prj_id, $contact_id, $restrict_expiration)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getContractDetails($contact_id, $restrict_expiration);
     }
@@ -292,7 +288,6 @@ class Customer
 
     function getContactDetails($prj_id, $contact_id)
     {
-        echo "getContactDetails($prj_id, $contact_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getContactDetails($contact_id);
     }
@@ -300,7 +295,6 @@ class Customer
 
     function getCustomerIDsLikeEmail($prj_id, $email)
     {
-        echo "getCustomerIDsLikeEmail($prj_id, $email)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getCustomerIDsLikeEmail($email);
     }
@@ -308,7 +302,6 @@ class Customer
 
     function flagIncident($prj_id, $issue_id)
     {
-        echo "flagIncident($prj_id, $issue_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->flagIncident($issue_id);
     }
@@ -316,7 +309,6 @@ class Customer
 
     function unflagIncident($prj_id, $issue_id)
     {
-        echo "unflagIncident($prj_id, $issue_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->unflagIncident($issue_id);
     }
@@ -341,7 +333,6 @@ class Customer
 
     function lookup($prj_id, $field, $value)
     {
-        echo "lookup($prj_id, $field, $value)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->lookup($field, $value);
     }
@@ -349,17 +340,24 @@ class Customer
 
     function notifyCustomerIssue($prj_id, $issue_id, $contact_id)
     {
-        echo "notifyCustomerIssue($prj_id, $issue_id, $contact_id)<br />";
         $backend =& Customer::_getBackend($prj_id);
         return $backend->notifyCustomerIssue($issue_id, $contact_id);
     }
 
 
 
+    function getSupportLevelAssocList($prj_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getSupportLevelAssocList();
+    }
 
 
-
-
+    function getSupportLevelID($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getSupportLevelID($customer_id);
+    }
 
 
 
