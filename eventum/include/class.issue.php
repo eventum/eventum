@@ -1059,34 +1059,29 @@ class Issue
         $assignments_changed = false;
         if (@$HTTP_POST_VARS["keep_assignments"] == "no") {
             // only change the issue-user associations if there really were any changes
-            $assign_diff = Misc::arrayDiff($current['assigned_users'], @$HTTP_POST_VARS['assignments']);
-            if (count($assign_diff) > 0) {
-                // go through the new assignments, if the user already exists, skip them
-                $assignments_to_remove = $current['assigned_users'];
-                $assignment_notifications = array();
-                if (count(@$HTTP_POST_VARS['assignments']) > 0) {
-                    foreach ($HTTP_POST_VARS['assignments'] as $index => $associated_usr_id) {
-                        if (!in_array($associated_usr_id, $current['assigned_users'])) {
-                            Issue::addUserAssociation($usr_id, $issue_id, $associated_usr_id);
-                            if ($associated_usr_id != $usr_id) {
-                                $assignment_notifications[] = $associated_usr_id;
-                            }
-                        } else {
-                            // user is already assigned, remove this user from users remove
-                            unset($assignments_to_remove[array_search($associated_usr_id, $assignments_to_remove)]);
-                        }
-                    }
-                }
-                if (count($assignments_to_remove) > 0) {
-                    foreach ($assignments_to_remove as $associated_usr_id) {
-                        Issue::deleteUserAssociation($issue_id, $associated_usr_id);
-                    }
-                }
-                if (count($assignment_notifications) > 0) {
-                    Notification::notifyNewAssignment($assignment_notifications, $issue_id);
+            $old_assignees = $current['assigned_users'];
+            $new_assignees = @$HTTP_POST_VARS['assignments'];
+            $assignment_notifications = array();
+
+            // remove people from the assignment list, if appropriate
+            foreach ($old_assignees as $assignee) {
+                if (!in_array($assignee, $new_assignees)) {
+                    Issue::deleteUserAssociation($issue_id, $assignee);
+                    $assignments_changed = true;
                 }
             }
-            $assignments_changed = true;
+            // add people to the assignment list, if appropriate
+            foreach ($new_assignees as $assignee) {
+                if (!in_array($assignee, $old_assignees)) {
+                    Issue::addUserAssociation($usr_id, $issue_id, $assignee);
+                    Notification::subscribeUser($usr_id, $issue_id, $assignee, Notification::getAllActions(), TRUE);
+                    $assignment_notifications[] = $assignee;
+                    $assignments_changed = true;
+                }
+            }
+            if (count($assignment_notifications) > 0) {
+                Notification::notifyNewAssignment($assignment_notifications, $issue_id);
+            }
         }
         if (empty($HTTP_POST_VARS["estimated_dev_time"])) {
             $HTTP_POST_VARS["estimated_dev_time"] = 0;
