@@ -268,12 +268,12 @@ CREATE TABLE %TABLE_PREFIX%note (
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_priority;
 CREATE TABLE %TABLE_PREFIX%project_priority (
-  pri_id tinyint(1) NOT NULL default '0',
+  pri_id tinyint(1) unsigned NOT NULL default '0' auto_increment,
   pri_prj_id int(11) unsigned NOT NULL,
   pri_title varchar(64) NOT NULL default '',
-  PRIMARY KEY  (pri_title),
-  UNIQUE KEY pri_id (pri_id),
-  KEY pri_id_2 (pri_id)
+  PRIMARY KEY  (pri_id),
+  UNIQUE KEY pri_id (pri_prj_id, pri_title),
+  KEY pri_title (pri_title)
 );
 INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (5, 1, 'Not Prioritized');
 INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (1, 1, 'Critical');
