@@ -85,14 +85,8 @@ class Support
                     sup_ema_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 WHERE
-                    sup_removed=0 AND
-                    sup_ema_id=ema_id AND
-                    ema_prj_id=" . Auth::getCurrentProject();
-        if (!empty($options["hide_associated"])) {
-            $stmt .= " AND sup_iss_id = 0 ";
-        }
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account";
+        $stmt .= Support::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
                     " . $options["sort_by"] . " " . $options["sort_order"];
