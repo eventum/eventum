@@ -56,14 +56,14 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                         'contact_id' => 87,
                         'first_name' => 'Bryan',
                         'last_name'  => 'Alsdorf',
-                        'email'      => 'bryan@widgetfactory.com',
+                        'email'      => 'bryan@example.com',
                         'phone'      => '+1 (123) 456-7890'
                     ),
                     array(
                         'contact_id' => 93,
                         'first_name' => 'Bob',
                         'last_name'  => 'Smith',
-                        'email'      => 'bob@widgetfactory.com',
+                        'email'      => 'bob@example.com',
                         'phone'      => '+1 (123) 456-7890'
                     )
                 ),
@@ -81,7 +81,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                         'contact_id' => 67,
                         'first_name' => 'Joao',
                         'last_name'  => 'Prado Maia',
-                        'email'      => 'jpm@joaoinc.com',
+                        'email'      => 'jpm@example.com',
                         'phone'      => '+1 (123) 456-7890'
                     )
                 ),
@@ -99,14 +99,14 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                         'contact_id' => 21,
                         'first_name' => 'J',
                         'last_name'  => 'Man',
-                        'email'      => 'j-man@examplecorp.com',
+                        'email'      => 'j-man@example.com',
                         'phone'      => '+1 (123) 456-7890'
                     ),
                     array(
                         'contact_id' => 22,
                         'first_name' => 'John',
                         'last_name'  => 'Doe',
-                        'email'      => 'John.Doe@examplecorp.com',
+                        'email'      => 'John.Doe@example.com',
                         'phone'      => '+1 (123) 456-7890'
                     )
                 ),
