@@ -42,6 +42,194 @@ include_once(APP_INC_PATH . "class.error_handler.php");
 class Status
 {
     /**
+     * Returns the label and date field associated with the customization of
+     * the given project and status IDs.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $sta_id The status ID
+     * @return  array The label and date field
+     */
+    function getProjectStatusCustomization($prj_id, $sta_id)
+    {
+        $stmt = "SELECT
+                    psd_label,
+                    psd_date_field
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
+                 WHERE
+                    psd_prj_id=$prj_id AND
+                    psd_sta_id=$sta_id";
+        $res = $GLOBALS["db_api"]->dbh->getRow($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array('', '');
+        } else {
+            if (count($res) == 0) {
+                return array('', '');
+            } else {
+                return $res;
+            }
+        }
+    }
+
+
+    /**
+     * Returns the details of a given project status customization entry.
+     *
+     * @access  public
+     * @param   integer $psd_id The customization entry ID
+     * @return  array The details
+     */
+    function getCustomizationDetails($psd_id)
+    {
+        $stmt = "SELECT
+                    *
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
+                 WHERE
+                    psd_id=$psd_id";
+        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Removes a given set of customizations.
+     *
+     * @access  public
+     * @param   array $items The customization entry IDs
+     * @return  boolean
+     */
+    function removeCustomization($items)
+    {
+        $items = @implode(", ", $items);
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
+                 WHERE
+                    psd_id IN ($items)";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
+     * Method used to update the details of a customization entry in the system.
+     *
+     * @access  public
+     * @param   integer $psd_id The customization entry ID
+     * @param   integer $prj_id The project ID
+     * @param   integer $sta_id The status ID
+     * @param   string $date_field The date field name
+     * @param   string $label The label that should appear in the issue listing screen
+     * @return  integer 1 if the insert worked properly, any other value otherwise
+     */
+    function updateCustomization($psd_id, $prj_id, $sta_id, $date_field, $label)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
+                 SET
+                    psd_prj_id=$prj_id,
+                    psd_sta_id=$sta_id,
+                    psd_date_field='" . Misc::escapeString($date_field) . "',
+                    psd_label='" . Misc::escapeString($label) . "'
+                 WHERE
+                    psd_id=$psd_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+
+    /**
+     * Method used to add a new customization entry to the system.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $sta_id The status ID
+     * @param   string $date_field The date field name
+     * @param   string $label The label that should appear in the issue listing screen
+     * @return  integer 1 if the insert worked properly, any other value otherwise
+     */
+    function insertCustomization($prj_id, $sta_id, $date_field, $label)
+    {
+        $stmt = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
+                 (
+                    psd_prj_id,
+                    psd_sta_id,
+                    psd_date_field,
+                    psd_label
+                 ) VALUES (
+                    $prj_id,
+                    $sta_id,
+                    '" . Misc::escapeString($date_field) . "',
+                    '" . Misc::escapeString($label) . "'
+                 )";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+
+    /**
+     * Method used to get a list of all existing customizations.
+     *
+     * @access  public
+     * @return  array The list of available customizations
+     */
+    function getCustomizationList()
+    {
+        $stmt = "SELECT
+                    psd_id,
+                    psd_prj_id,
+                    psd_sta_id,
+                    psd_label,
+                    psd_date_field,
+                    prj_title,
+                    sta_title
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                 WHERE
+                    prj_id=psd_prj_id AND
+                    sta_id=psd_sta_id
+                 ORDER BY
+                    prj_title ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            $date_fields = Issue::getDateFieldsAssocList();
+            for ($i = 0; $i < count($res); $i++) {
+                $res[$i]['date_field'] = $date_fields[$res[$i]['psd_date_field']];
+            }
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to check whether the given status has a closed context or
      * not.
      *

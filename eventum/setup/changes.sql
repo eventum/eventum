@@ -231,3 +231,14 @@ ALTER TABLE eventum_issue ADD COLUMN iss_trigger_reminders tinyint(1) default 1;
 # june 2
 
 UPDATE eventum_user SET usr_email='system-account@example.com' WHERE usr_id=1;
+
+DROP TABLE IF EXISTS eventum_project_status_date;
+CREATE TABLE eventum_project_status_date (
+  psd_id INT(11) UNSIGNED NOT NULL auto_increment,
+  psd_prj_id INT(11) UNSIGNED NOT NULL,
+  psd_sta_id INT(10) UNSIGNED NOT NULL,
+  psd_date_field VARCHAR(64) NOT NULL,
+  psd_label VARCHAR(32) NOT NULL,
+  PRIMARY KEY (psd_id),
+  UNIQUE KEY (psd_prj_id, psd_sta_id)
+);

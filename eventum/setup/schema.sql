@@ -761,3 +761,14 @@ CREATE TABLE %TABLE_PREFIX%mail_queue_log (
   KEY mql_maq_id (mql_maq_id),
   PRIMARY KEY(mql_id)
 );
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%project_status_date;
+CREATE TABLE %TABLE_PREFIX%project_status_date (
+  psd_id INT(11) UNSIGNED NOT NULL auto_increment,
+  psd_prj_id INT(11) UNSIGNED NOT NULL,
+  psd_sta_id INT(10) UNSIGNED NOT NULL,
+  psd_date_field VARCHAR(64) NOT NULL,
+  psd_label VARCHAR(32) NOT NULL,
+  PRIMARY KEY (psd_id),
+  UNIQUE KEY (psd_prj_id, psd_sta_id)
+);
