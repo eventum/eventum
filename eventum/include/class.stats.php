@@ -106,6 +106,7 @@ class Stats
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
             $stats[$prc_title] = $res;
         }
+        arsort($stats);
         return $stats;
     }
 
