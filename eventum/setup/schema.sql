@@ -164,6 +164,7 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_last_public_action_type varchar(20) default NULL,
   iss_last_internal_action_date datetime default NULL,
   iss_last_internal_action_type varchar(20) default NULL,
+  iss_private tinyint(1) NOT NULL default 0,
   PRIMARY KEY  (iss_id),
   KEY iss_prj_id (iss_prj_id),
   KEY iss_prc_id (iss_prc_id),

@@ -557,3 +557,5 @@ ALTER TABLE eventum_email_draft ADD COLUMN emd_status enum('pending', 'edited', 
 
 # January 26th
 ALTER TABLE eventum_project ADD COLUMN prj_segregate_reporter tinyint(1) DEFAULT 0;
+
+ALTER TABLE eventum_issue ADD COLUMN iss_private tinyint(1) NOT NULL DEFAULT 0;
