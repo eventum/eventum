@@ -75,6 +75,16 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
+
+{if $project_auto_switched == 1}
+<center>
+  <span class="banner_red">
+    Note: Project automatically switched to '{$current_project_name}' from '{$old_project}'.
+  </span>
+</center>
+<br />
+{/if}
+
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
 <form onSubmit="javascript:return validateForm(this);" name="update_form" method="post" action="update.php">
 <input type="hidden" name="cat" value="update">
@@ -305,7 +315,7 @@ function validateForm(f)
             {include file="error_icon.tpl.html" field="description"}
           </td>
         </tr>
-        {if $current_role >= $roles.manager}
+        {if $current_role >= $roles.developer}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Private:</b>
