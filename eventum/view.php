@@ -74,6 +74,15 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         } else {
             $options = Issue::saveSearchParams();
             $sides = Issue::getSides($issue_id, $options);
+            
+            // check if scheduled release should be displayed
+            $releases = Release::getAssocList($prj_id);
+            if (count($releases) > 0) {
+                $show_releases = 1;
+            } else {
+                $show_releases = 0;
+            }
+            
             $tpl->assign(array(
                 "next_issue"         => @$sides["next"],
                 "previous_issue"     => @$sides["previous"],
@@ -87,7 +96,8 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                 'users'              => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
                 "ema_id"             => Email_Account::getEmailAccount(),
                 'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id),
-                'max_attachment_size'=> Attachment::getMaxAttachmentSize()
+                'max_attachment_size'=> Attachment::getMaxAttachmentSize(),
+                'show_releases'      => $show_releases
             ));
 
             if ($role_id != User::getRoleID('customer')) {
