@@ -7,6 +7,7 @@ Euventum Issue Tracking System
 - Made canned email responses be customizable in a per-project basis (João)
 - Made priorities be customizable in a per-project basis (João)
 - Fixed the SQL schema to avoid the mystic "Invalid default value for 'sta_id'" error message when installing the application (João)
+- Automatically add a slash in the end of the installation path to avoid configuration problems (João)
 - Fixed bug in custom field report when not graphing all options. (Bryan)
 - Forced order of graph bars on custom field report to match order options are listed in the select box. (Bryan)
 - Added customer stats report. (Bryan)
