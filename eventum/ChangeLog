@@ -1,11 +1,11 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 1.5
+01 Mar 2005, Version 1.5
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
 - Fixed bug with APP_TITLE not being displayed in issue auto created messages (Bryan)
 - Fixed Clock-In / Clock-Out link on non-base directories (João)
-- Prevent PHP warning from being displayed when running the process_mail_queue.php script (João)
+- Fixed the mail queue handling code to prevent displaying a PHP warning (João)
 - Fixed a problem on the example customer backend that was triggering a DB error (João)
 - Added missing function to Abstract_Workflow_Backend class (Bryan)
 - Display the current textarea value when trying to update the custom fields (João)
@@ -36,11 +36,11 @@ Eventum Issue Tracking System
 - Fixed bug that prevented the edit custom fields window from automatically closing (Bryan)
 - Remove 'Return-Path' header from messages added to the mail queue (Bryan)
 - Added option to display reporter to list issues page (Bryan)
-- Always allow issue reporter to send emails (Bryan)
+- Added the feature to always allow the issue reporter to send emails (Bryan)
 - Changed attachment handling to work with inline attachments (Bryan)
 - Apply encoding fixes in more places (Elan Ruusamäe)
-- Silence console errors when adding new directory to CVS (Elan Ruusamäe)
-- If there is an error connecting to mail server when downloading email, release lock (Bryan)
+- Fixed the CVS integration code to silence console errors when adding a new directory (Elan Ruusamäe)
+- Fixed the email download code to release the lock if there is an error connecting to the mail server (Bryan)
 - Added workload by date range report (Bryan)
 - Added missing "scm_checkin_associated" history type (João)
 - Fixed bug on CVS integration script that was not encoding the URL arguments (João)
@@ -49,9 +49,10 @@ Eventum Issue Tracking System
 - Added specialized headers to outgoing emails (Bryan)
 - Added new CLI command 'takeIssue' (Bryan)
 - Added reminders and ability to sort to recent activity report (Bryan)
-- Prevent time tracking categories 'Email Discussion' and 'Telephone Discussion' from being deleted (Bryan)
+- Added feature to prevent time tracking categories 'Email Discussion' and 'Telephone Discussion' from being removed (Bryan)
 - When changing status with 'Change Status' select box, send out notification message (Bryan)
-- Fix the CVS commit handling regular expression to properly match "issue" or "bug" followed by a number (Elan Ruusamäe)
+- Fixed the CVS commit handling regular expression to properly match "issue" or "bug" followed by a number (Elan Ruusamäe)
+- Fixed the monitor code to properly escape the dash when searching for the IRC bot pid (Elan Ruusamäe)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
