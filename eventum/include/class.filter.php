@@ -160,7 +160,8 @@ class Filter
                         cst_keywords='" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
                         cst_users='" . $HTTP_POST_VARS["users"] . "',
                         cst_iss_sta_id='" . $HTTP_POST_VARS["status"] . "',
-                        cst_iss_pre_id='" . $HTTP_POST_VARS["release"] . "',
+                        cst_iss_pre_id='" . @$HTTP_POST_VARS["release"] . "',
+                        cst_iss_prc_id='" . @$HTTP_POST_VARS["category"] . "',
                         cst_rows='" . $HTTP_POST_VARS["rows"] . "',
                         cst_sort_by='" . $HTTP_POST_VARS["sort_by"] . "',
                         cst_sort_order='" . $HTTP_POST_VARS["sort_order"] . "',
@@ -203,6 +204,7 @@ class Filter
                         cst_users,
                         cst_iss_sta_id,
                         cst_iss_pre_id,
+                        cst_iss_prc_id,
                         cst_rows,
                         cst_sort_by,
                         cst_sort_order,
@@ -239,7 +241,8 @@ class Filter
                         '" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
                         '" . $HTTP_POST_VARS["users"] . "',
                         '" . $HTTP_POST_VARS["status"] . "',
-                        '" . $HTTP_POST_VARS["release"] . "',
+                        '" . @$HTTP_POST_VARS["release"] . "',
+                        '" . @$HTTP_POST_VARS["category"] . "',
                         '" . $HTTP_POST_VARS["rows"] . "',
                         '" . $HTTP_POST_VARS["sort_by"] . "',
                         '" . $HTTP_POST_VARS["sort_order"] . "',
@@ -347,9 +350,10 @@ class Filter
      * 'active' project.
      *
      * @access  public
+     * @param   boolean $build_url If a URL for this filter should be constructed.
      * @return  array The full list of custom filters
      */
-    function getListing()
+    function getListing($build_url = false)
     {
         $stmt = "SELECT
                     *
@@ -368,6 +372,38 @@ class Filter
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            if ((count($res) > 0) && ($build_url == true)) {
+                $filter_info = Filter::getFiltersInfo();
+                for ($i = 0; $i < count($res); $i++) {
+                    $res[$i]['url'] = '';
+                    foreach ($filter_info as $field => $filter) {
+                        if (@$filter['is_date'] == true) {
+                            $res[$i]['url'] .= $filter['param'] . '[filter_type]=' . $res[$i]['cst_' . $field . '_filter_type'] . '&';
+                            if ($res[$i]['cst_' . $field . '_filter_type'] == 'in_past') {
+                                $res[$i]['url'] .= $filter['param'] . '[time_period]=' . $res[$i]['cst_' . $field . '_time_period'] . '&';
+                            } else {
+                                $start_date = $res[$i]['cst_' . $field];
+                                if (!empty($start_date)) {
+                                    $start_date_parts = explode("-", $start_date);
+                                    $res[$i]['url'] .= $filter['param']  . '[Year]=' . $start_date_parts[0] . '&';
+                                    $res[$i]['url'] .= $filter['param']  . '[Month]=' . $start_date_parts[1] . '&';
+                                    $res[$i]['url'] .= $filter['param']  . '[Day]=' . $start_date_parts[2] . '&';
+                                }
+                                $end_date = $res[$i]['cst_' . $field . '_end'];
+                                if (!empty($end_date)) {
+                                    $end_date_parts = explode("-", $end_date);
+                                    $res[$i]['url'] .= $filter['param']  . '_end[Year]=' . $end_date_parts[0] . '&';
+                                    $res[$i]['url'] .= $filter['param']  . '_end[Month]=' . $end_date_parts[1] . '&';
+                                    $res[$i]['url'] .= $filter['param']  . '_end[Day]=' . $end_date_parts[2] . '&';
+                                }
+                            }
+                        } else {
+                            $res[$i]['url'] .= $filter['param'] . '=' . urlencode($res[$i]['cst_' . $field]) . '&';
+                        }
+                    }
+                }
+            }
+            
             return $res;
         }
     }
@@ -467,6 +503,101 @@ class Filter
         } else {
             return true;
         }
+    }
+    
+    
+    /**
+     * Returns an array of information about all the different filter fields.
+     * 
+     * @access  public
+     * @return  Array an array of information.
+     */
+    function getFiltersInfo()
+    {
+        // format is "name_of_db_field" => array(
+        //      "title" => human readable title,
+        //      "param" => name that appears in get, post or cookie
+        $fields = array(
+            'iss_pri_id'    =>  array(
+                'title' =>  'Priority',
+                'param' =>  'priority'
+            ),
+            'keywords'  =>  array(
+                'title' =>  'Keyword(s)',
+                'param' =>  'keywords'
+            ),
+            'users' =>  array(
+                'title' =>  'Assigned',
+                'param' =>  'users'
+            ),
+            'iss_prc_id'    =>  array(
+                'title' =>  'Category',
+                'param' =>  'category'
+            ),
+            'iss_sta_id'    =>  array(
+                'title' =>  'Status',
+                'param' =>  'status'
+            ),
+            'iss_pre_id'    =>  array(
+                'title' =>  'Release',
+                'param' =>  'release'
+            ),
+            'created_date'  =>  array(
+                'title' =>  'Created Date',
+                'param' =>  'created_date',
+                'is_date'   =>  true
+            ),
+            'updated_date'  =>  array(
+                'title' =>  'Updated Date',
+                'param' =>  'updated_date',
+                'is_date'   =>  true
+            ),
+            'last_response_date'  =>  array(
+                'title' =>  'Last Response Date',
+                'param' =>  'last_response_date',
+                'is_date'   =>  true
+            ),
+            'first_response_date'  =>  array(
+                'title' =>  'First Response Date',
+                'param' =>  'first_response_date',
+                'is_date'   =>  true
+            ),
+            'closed_date'  =>  array(
+                'title' =>  'Closed Date',
+                'param' =>  'closed_date',
+                'is_date'   =>  true
+            ),
+            'rows'  =>  array(
+                'title' =>  'Rows Per Page',
+                'param' =>  'rows'
+            ),
+            'sort_by'   =>  array(
+                'title' =>  'Sort By',
+                'param' =>  'sort_by'
+            ),
+            'sort_order'    =>  array(
+                'title' =>  'Sort Order',
+                'param' =>  'sort_order',
+            ),
+            'hide_closed'   =>  array(
+                'title' =>  'Hide Closed Issues',
+                'param' =>  'hide_closed'
+            ),
+            'customer_email'    =>  array(
+                'title' =>  'Customer Email',
+                'param' =>  'customer_email'
+            ),
+            'show_authorized'   =>  array(
+                'title' =>  'Authorized to Send Emails',
+                'param' =>  'show_authorized_issues'
+            ),
+            'show_notification_list'    =>  array(
+                'title' =>  'Authorized to Send Emails',
+                'param' =>  'show_notification_list_issues'
+            )
+        );
+            
+        return $fields;
     }
 }
 

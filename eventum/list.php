@@ -98,7 +98,8 @@ $tpl->assign("status", Status::getAssocStatusList($prj_id));
 $tpl->assign("users", $users);
 $tpl->assign("assign_options", $assign_options);
 $tpl->assign("custom", Filter::getAssocList($prj_id));
-$tpl->assign("csts", Filter::getListing($prj_id));
+$tpl->assign("csts", Filter::getListing(true));
+$tpl->assign("filter_info", Filter::getFiltersInfo());
 $tpl->assign("categories", Category::getAssocList($prj_id));
 $tpl->assign("groups", $groups);
 

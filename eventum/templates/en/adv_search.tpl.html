@@ -46,6 +46,7 @@ function toggleDateFields(f, field_name)
     var month_end_field = getFormElement(f, field_name + '_end[Month]');
     var day_end_field = getFormElement(f, field_name + '_end[Day]');
     var year_end_field = getFormElement(f, field_name + '_end[Year]');
+    var time_period_field = getFormElement(f, field_name + '[time_period]');
     if (checkbox.checked) {
         var bool = false;
     } else {
@@ -58,6 +59,7 @@ function toggleDateFields(f, field_name)
     month_end_field.disabled = bool;
     day_end_field.disabled = bool;
     year_end_field.disabled = bool;
+    time_period_field.disabled = bool;
 }
 function checkDateFilterType(f, type_field)
 {
@@ -190,13 +192,15 @@ function validateForm(f)
             </select>
           </td>
           <td>
-            <span class="default">Status:</span><br />
-            <select name="status" class="default">
+            {if $cats|@count > 0} 
+            <span class="default">Category:</span><br />
+            <select name="category" class="default">
               <option value="">any</option>
-              {foreach key=sta_id item=sta_title from=$status}
-              <option value="{$sta_id}" {if $sta_id == $options.cst_iss_sta_id}selected{/if}>{$sta_title}</option>
+              {foreach key=prc_id item=prc_title from=$cats}
+              <option value="{$prc_id}" {if $prc_id == $options.cst_iss_prc_id}selected{/if}>{$prc_title}</option>
               {/foreach}
             </select>
+            {/if}
           </td>
           <td colspan="2">
             {if $releases|@count > 0}
