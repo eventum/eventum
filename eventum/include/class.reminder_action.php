@@ -41,6 +41,7 @@ include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.reminder_condition.php");
 include_once(APP_INC_PATH . "class.notification.php");
 include_once(APP_INC_PATH . "class.user.php");
+include_once(APP_INC_PATH . "class.group.php");
 include_once(APP_INC_PATH . "class.mail.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.validation.php");
@@ -52,14 +53,15 @@ class Reminder_Action
      * from the administration screen.
      *
      * @access  public
+     * @param   integer $rem_id The reminder ID
      * @param   integer $rma_id The reminder action ID
      * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
      * @return  boolean
      */
-    function changeRank($rma_id, $rank_type)
+    function changeRank($rem_id, $rma_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
-        $ranking = Reminder_Action::_getRanking();
+        $ranking = Reminder_Action::_getRanking($rem_id);
         $ranks = array_values($ranking);
         $ids = array_keys($ranking);
         $last = end($ids);
@@ -103,15 +105,18 @@ class Reminder_Action
      * IDs and their respective ranking.
      *
      * @access  private
+     * @param   integer $rem_id The reminder ID
      * @return  array The list of reminder actions
      */
-    function _getRanking()
+    function _getRanking($rem_id)
     {
         $stmt = "SELECT
                     rma_id,
                     rma_rank
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                 WHERE
+                    rma_rem_id = $rem_id
                  ORDER BY
                     rma_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -617,13 +622,6 @@ class Reminder_Action
                         $to[] = $leader_email;
                     }
                 }
-                // if there are no recipients, then just skip to the next action
-                if (count($to) == 0) {
-                    if (Reminder::isDebug()) {
-                        echo "  - No clocked in assigned users could be found\n";
-                    }
-                    return false;
-                }
                 break;
             case 'email_list':
                 $type = 'email';
@@ -664,13 +662,6 @@ class Reminder_Action
                         $to[] = $leader_sms_email;
                     }
                 }
-                // if there are no recipients, then just skip to the next action
-                if (count($to) == 0) {
-                    if (Reminder::isDebug()) {
-                        echo "  - No assigned users with SMS email address could be found\n";
-                    }
-                    return false;
-                }
                 break;
             case 'sms_list':
                 $type = 'sms';
@@ -697,32 +688,66 @@ class Reminder_Action
                         $to[] = $leader_sms_email;
                     }
                 }
-                // if there are no recipients, then just skip to the next action
-                if (count($to) == 0) {
-                    if (Reminder::isDebug()) {
-                        echo "  - No assigned users with SMS email address could be found\n";
-                    }
-                    return false;
-                }
                 break;
+        }
+        $data = Notification::getIssueDetails($issue_id);
+        $conditions = Reminder_Condition::getAdminList($action['rma_id']);
+        // alert IRC if needed
+        if ($action['rma_alert_irc']) {
+            if (Reminder::isDebug()) {
+                echo "  - Processing IRC notification\n";
+            }
+            $irc_notice = "Issue #$issue_id (Priority: " . $data['pri_title'];
+            // also add information about the assignee, if any
+            $assignment = Issue::getAssignedUsers($issue_id);
+            if (count($assignment) > 0) {
+                $irc_notice .= "; Assignment: " . implode(', ', $assignment);
+            }
+            if (!empty($data['iss_grp_id'])) {
+                $irc_notice .= "; Group: " . Group::getName($data['iss_grp_id']);
+            }
+            $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered";
+            Notification::notifyIRC(Issue::getProjectID($issue_id), $irc_notice, $issue_id);
+        }
+        $setup = Setup::load();
+        // if there are no recipients, then just skip to the next action
+        if (count($to) == 0) {
+            if (Reminder::isDebug()) {
+                echo "  - No recipients could be found\n";
+            }
+            // if not even an irc alert was sent, then save 
+            // a notice about this on reminder_sent@, if needed
+            if (!$action['rma_alert_irc']) {
+                if (@$setup['email_reminder']['status'] == 'enabled') {
+                    Reminder_Action::_recordNoRecipientError($issue_id, $type, $reminder, $action);
+                }
+                return false;
+            }
         }
         // - save a history entry about this action
         Reminder_Action::saveHistory($issue_id, $action['rma_id']);
         // - save this action as the latest triggered one for the given issue ID
         Reminder_Action::recordLastTriggered($issue_id, $action['rma_id']);
 
-        $conditions = Reminder_Condition::getAdminList($action['rma_id']);
         // - perform the action
-        if ($type == 'email') {
+        if (count($to) > 0) {
+            // send a copy of this reminder to reminder_sent@, if needed
+            if ((@$setup['email_reminder']['status'] == 'enabled') &&
+                    (!empty($setup['email_reminder']['addresses']))) {
+                $addresses = Reminder::_getReminderAlertAddresses();
+                if (count($addresses) > 0) {
+                    $to = array_merge($to, $addresses);
+                }
+            }
             $tpl = new Template_API;
-            $tpl->setTemplate('reminders/email_alert.tpl.text');
+            $tpl->setTemplate('reminders/' . $type . '_alert.tpl.text');
             $tpl->bulkAssign(array(
-                "data"         => Notification::getIssueDetails($issue_id),
-                "reminder"     => $reminder,
-                "conditions"   => $conditions
+                "data"       => $data,
+                "reminder"   => $reminder,
+                "action"     => $action,
+                "conditions" => $conditions
             ));
             $text_message = $tpl->getTemplateContents();
-
             foreach ($to as $address) {
                 // send email (use PEAR's classes)
                 $mail = new Mail_API;
@@ -730,34 +755,45 @@ class Reminder_Action
                 $setup = $mail->getSMTPSettings();
                 $mail->send($setup["from"], $address, "[#$issue_id] Reminder: " . $action['rma_title'], 0, $issue_id);
             }
-        } elseif ($type == 'sms') {
-            $tpl = new Template_API;
-            $tpl->setTemplate('reminders/sms_alert.tpl.text');
-            $tpl->bulkAssign(array(
-                "data"         => Notification::getIssueDetails($issue_id),
-                "reminder"     => $reminder,
-                "conditions"   => $conditions
-            ));
-            $text_message = $tpl->getTemplateContents();
-
-            foreach ($to as $address) {
-                // send email (use PEAR's classes)
-                $mail = new Mail_API;
-                $mail->setTextBody($text_message);
-                $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "[#$issue_id] Reminder: " . $action['rma_title'], 0, $issue_id);
-            }
-        }
-        // - do we also need to alert IRC about this?
-        if ($action['rma_alert_irc']) {
-            if (Reminder::isDebug()) {
-                echo "  - Processing IRC notification\n";
-            }
-            $notice = "Issue #$issue_id: Reminder action '" . $action['rma_title'] . "' was just triggered.";
-            Notification::notifyIRC(Issue::getProjectID($issue_id), $notice, $issue_id);
         }
         // - eventum saves the day once again
         return true;
+    }
+
+
+    /**
+     * Method used to send an alert to a set of email addresses when
+     * a reminder action was triggered, but no action was really
+     * taken because no recipients could be found.
+     *
+     * @access  private
+     * @param   integer $issue_id The issue ID
+     * @param   string $type Which reminder are we trying to send, email or sms
+     * @param   array $reminder The reminder details
+     * @param   array $action The action details
+     * @return  void
+     */
+    function _recordNoRecipientError($issue_id, $type, $reminder, $action)
+    {
+        $to = Reminder::_getReminderAlertAddresses();
+        if (count($to) > 0) {
+            $tpl = new Template_API;
+            $tpl->setTemplate('reminders/alert_no_recipients.tpl.text');
+            $tpl->bulkAssign(array(
+                "type"       => $type,
+                "data"       => $data,
+                "reminder"   => $reminder,
+                "conditions" => $conditions
+            ));
+            $text_message = $tpl->getTemplateContents();
+            foreach ($to as $address) {
+                // send email (use PEAR's classes)
+                $mail = new Mail_API;
+                $mail->setTextBody($text_message);
+                $setup = $mail->getSMTPSettings();
+                $mail->send($setup["from"], $address, "[#$issue_id] Reminder Not Triggered: " . $action['rma_title'], 0, $issue_id);
+            }
+        }
     }
 
 
@@ -837,6 +873,29 @@ class Reminder_Action
                         $rma_id
                      )";
         }
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
+     * Clears the last triggered reminder for a given issue ID.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  boolean
+     */
+    function clearLastTriggered($issue_id)
+    {
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
+                 WHERE
+                    rta_iss_id=$issue_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
