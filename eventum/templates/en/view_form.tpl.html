@@ -41,7 +41,7 @@ function unlock(issue_id)
 function replyIssue(issue_id)
 {
     var features = 'width=740,height=580,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('send.php?cat=reply&ema_id=1&issue_id=' + issue_id, '_replyIssue', features);
+    var popupWin = window.open('send.php?cat=reply&ema_id=1&issue_id=' + issue_id, '_replyIssue' + issue_id, features);
     popupWin.focus();
 }
 function clearDuplicateStatus(issue_id)
