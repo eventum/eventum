@@ -1,4 +1,4 @@
-EVENTUM_USER = user@mysql.com
+EVENTUM_USER = user@domain.com
 EVENTUM_PASSWORD = password_here
-EVENTUM_HOST = support.mysql.com
-EVENTUM_PORT = 443
+EVENTUM_HOST = your.domain.com
+EVENTUM_PORT = 80
