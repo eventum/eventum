@@ -20,6 +20,7 @@ $config_contents = str_replace("%{APP_SQL_DBPASS}%", APP_SQL_DBPASS, $config_con
 $config_contents = str_replace("%{APP_TABLE_PREFIX}%", APP_TABLE_PREFIX, $config_contents);
 $config_contents = str_replace("%{APP_HOSTNAME}%", APP_HOSTNAME, $config_contents);
 $config_contents = str_replace("%{APP_RELATIVE_URL}%", APP_RELATIVE_URL, $config_contents);
+$config_contents = str_replace("%{APP_VERSION}%", "1.4", $config_contents);
 if (stristr(APP_BASE_URL, 'https://') !== false) {
     $protocol_type = 'https://';
 } else {
@@ -27,7 +28,7 @@ if (stristr(APP_BASE_URL, 'https://') !== false) {
 }
 
 $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_contents);
-$fp = @fopen(APP_PATH . 'config2.inc.php', 'w');
+$fp = fopen(APP_PATH . 'config.inc.php', 'w');
 if ($fp === FALSE) {
     echo "Could not open the file 'config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     exit;
