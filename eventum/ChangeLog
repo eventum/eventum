@@ -21,6 +21,7 @@ Eventum Issue Tracking System
 - Properly escape values to prevent SQL-Injection attacks (Bryan)
 - Strip CC and BCC headers from outgoing emails (Bryan)
 - List issues on Custom Fields report (Bryan)
+- Added To and From columns to phone support listing (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
