@@ -190,6 +190,9 @@ function disableFields()
               {if $list[i].redeemed}
                   [Redeemed]
               {/if}
+              {if $list[i].iss_private == 1}
+                  <b>[Private]</b>
+              {/if}
             {/if}
           </td>
           {/foreach}
