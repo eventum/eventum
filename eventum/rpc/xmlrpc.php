@@ -345,6 +345,7 @@ function getFileList($p)
         return $auth;
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
+    createFakeCookie($email, Issue::getProjectID($issue_id));
 
     $res = Attachment::getList($issue_id);
     if (empty($res)) {
@@ -476,6 +477,7 @@ function getEmailListing($p)
     // since xml-rpc has issues, lets base64 encode everything
     if (is_array($emails)) {
         for ($i = 0; $i < count($emails); $i++) {
+            unset($emails[$i]["seb_body"]);
             foreach ($emails[$i] as $key => $val) {
                 $emails[$i][$key] = base64_encode($val);
             }
