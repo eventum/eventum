@@ -41,12 +41,16 @@ if (@$HTTP_POST_VARS["cat"] == "reset_password") {
         $tpl->assign("result", 4);
     }
     $usr_id = User::getUserIDByEmail($HTTP_POST_VARS["email"]);
-    $info = User::getDetails($usr_id);
-    if (!User::isActiveStatus($info["usr_status"])) {
-        $tpl->assign("result", 3);
+    if (empty($usr_id)) {
+        $tpl->assign("result", 5);
     } else {
-        User::sendPasswordConfirmationEmail($usr_id);
-        $tpl->assign("result", 1);
+        $info = User::getDetails($usr_id);
+        if (!User::isActiveStatus($info["usr_status"])) {
+            $tpl->assign("result", 3);
+        } else {
+            User::sendPasswordConfirmationEmail($usr_id);
+            $tpl->assign("result", 1);
+        }
     }
 }
 
