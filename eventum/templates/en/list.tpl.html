@@ -94,23 +94,9 @@ function disableFields()
 </script>
 {/literal}
 {* Figure out how many columns there are *}
-{if $current_role != $roles.customer}
-    {if $current_role > $roles.developer}
-        {assign var="col_count" value="10"}
-    {else}
-        {assign var="col_count" value="9"}
-    {/if}
-    {if $groups|@count > 0}
-        {math assign="col_count" equation="x+1" x=$col_count}
-    {/if}
-    {if $categories|@count > 0}
-        {math assign="col_count" equation="x+1" x=$col_count}
-    {/if}
-    {if $list_info.custom_fields|@count > 0}
-        {math assign="col_count" equation="x+1" x=$col_count}
-    {/if}
-{else}
-    {assign var="col_count" value="9"}
+{assign var="col_count" value=$columns|@count}
+{if $current_role > $roles.developer}
+    {math assign="col_count" equation="x+1" x=$col_count}
 {/if}
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <form name="list_form" method="post" action="{$smarty.server.PHP_SELF}">
@@ -139,48 +125,9 @@ function disableFields()
             <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
           </td>
           {/if}
-          <td align="center" class="default_white" nowrap>
-            <a title="sort by priority" href="{$sorting.links.iss_pri_id}" class="white_link">Priority</a>
-            {if $sorting.images.iss_pri_id != ""}<a title="sort by priority" href="{$sorting.links.iss_pri_id}" class="white_link"><img border="0" src="{$sorting.images.iss_pri_id}"></a>{/if}
-          </td>
-          <td align="center" class="default_white" nowrap>
-            <a title="sort by issue id" href="{$sorting.links.iss_id}" class="white_link">Issue ID</a>
-            {if $sorting.images.iss_id != ""}<a title="sort by issue id" href="{$sorting.links.iss_id}" class="white_link"><img border="0" src="{$sorting.images.iss_id}"></a>{/if}
-          </td>
-          {if $current_role > $roles.customer && $groups|@count > 0}
-          <td align="center" class="default_white" nowrap>Group</td>
-          {/if}
-          <td align="center" class="default_white">Assigned</td>
-          {if $current_role != $roles.customer}
-          <td align="center" class="default_white" nowrap>Time Spent</td>
-          {/if}
-          {if $categories|@count > 0}
-          <td align="center" class="default_white" nowrap>
-            <a title="sort by category" href="{$sorting.links.iss_prc_id}" class="white_link">Category</a>
-            {if $sorting.images.iss_prc_id != ""}<a title="sort by category" href="{$sorting.links.iss_prc_id}" class="white_link"><img border="0" src="{$sorting.images.iss_prc_id}"></a>{/if}
-          </td>
-          {/if}
-          {if $has_customer_integration}
-          <td align="center" class="default_white" nowrap>
-            <a title="sort by customer" href="{$sorting.links.iss_customer_id}" class="white_link">Customer</a>
-            {if $sorting.images.iss_customer_id != ""}<a title="sort by customer" href="{$sorting.links.iss_customer_id}" class="white_link"><img border="0" src="{$sorting.images.iss_customer_id}"></a>{/if}
-          </td>
-          {/if}
-          <td align="center" class="default_white" nowrap>
-            <a title="sort by status" href="{$sorting.links.iss_sta_id}" class="white_link">Status</a>
-            {if $sorting.images.iss_sta_id != ""}<a title="sort by status" href="{$sorting.links.iss_sta_id}" class="white_link"><img border="0" src="{$sorting.images.iss_sta_id}"></a>{/if}
-          </td>
-          <td align="center" class="default_white" nowrap>Status Change Date</td>
-          <td align="center" class="default_white" nowrap>
-            <a title="sort by last action date" href="{$sorting.links.last_action_date}" class="white_link">Last Action Date</a>
-            {if $sorting.images.last_action_date != ""}<a title="sort by last action date" href="{$sorting.links.last_action_date}" class="white_link"><img border="0" src="{$sorting.images.last_action_date}"></a>{/if}
-          </td>
-          {if $list_info.custom_fields|@count > 0}
-          <td align="center" class="default_white" nowrap>
-            Custom Fields
-          </td>
-          {/if}
-          <td width="30%">
+          {foreach from=$columns item=column key=field_name}
+          <td align="{$column.align|default:'center'}" class="default_white" nowrap {if $column.width != ''}width="{$column.width}"{/if}>
+            {if $field_name == 'iss_summary'}
             <table cellspacing="0" cellpadding="1" width="100%">
               <tr>
                 <td class="default_white">
@@ -192,48 +139,60 @@ function disableFields()
                 </td>
               </tr>
             </table>
+            {elseif $sorting.links[$field_name] != ''}
+              <a title="sort by {$column.title}" href="{$sorting.links[$field_name]}" class="white_link">{$column.title}</a>
+              {if $sorting.images[$field_name] != ""}<a title="sort by {$column.title}" href="{$sorting.links[$field_name]}" class="white_link"><img border="0" src="{$sorting.images[$field_name]}"></a>{/if}
+            {else}
+              {$column.title}
+            {/if}
           </td>
+          {/foreach}
         </tr>
         {section name="i" loop=$list}
         <tr {if $current_role >= $roles.developer AND $list[i].iqu_status > 0}style="text-decoration: line-through;"{/if}>
           {if $current_role > $roles.developer}
           <td bgcolor="{$list[i].status_color}" width="1%" class="default" align="center"><input type="checkbox" name="item[]" value="{$list[i].iss_id}"></td>
           {/if}
-          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].pri_title|escape:"html"}</td>
-          <td bgcolor="{$list[i].status_color}" align="center" class="default"><a href="view.php?id={$list[i].iss_id}" class="link" title="view issue details">{$list[i].iss_id}</a></td>
-          {if $current_role > $roles.customer && $groups|@count > 0}
-          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].group}</td>
-          {/if}
-          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].assigned_users}</td>
-          {if $current_role != $roles.customer}
-          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].time_spent}</td>
-          {/if}
-          {if $categories|@count > 0}
-          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].prc_title|escape:"html"}</td>
-          {/if}
-          {if $has_customer_integration}
-          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].customer_title|escape:"html"}</td>
-          {/if}
-          <td bgcolor="{$list[i].status_color}" align="center" class="default" width="8%">{$list[i].sta_title|escape:"html"}</td>
-          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].status_change_date|escape:"html"}</td>
-          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].last_action_date|escape:"html"}</td>
-          {if $list_info.custom_fields|@count > 0}
-          <td bgcolor="{$list[i].status_color}" align="center" class="default">
-            <nobr>
-            {foreach from=$list[i].custom_field key=fld_id item=fld_value}
+          {foreach from=$columns item=column key=field_name}
+          <td bgcolor="{$list[i].status_color}" align="{$column.align|default:'center'}" class="default">
+            {if $field_name == 'iss_id'}
+              <a href="view.php?id={$list[i].iss_id}" class="link" title="view issue details">{$list[i].iss_id}</a>
+            {elseif $field_name == 'iss_pri_id'}
+              {$list[i].pri_title|escape:"html"}
+            {elseif $field_name == 'iss_grp_id'}
+              {$list[i].group}
+            {elseif $field_name == 'assigned'}
+              {$list[i].assigned_users}
+            {elseif $field_name == 'time_spent'}
+              {$list[i].time_spent}
+            {elseif $field_name == 'prc_title'}
+              {$list[i].prc_title}
+            {elseif $field_name == 'pre_title'}
+              {$list[i].pre_title|escape:"html"}
+            {elseif $field_name == 'iss_customer_id'}
+              {$list[i].customer_title|escape:"html"}
+            {elseif $field_name == 'iss_sta_id'}
+              {$list[i].sta_title|escape:"html"}
+            {elseif $field_name == 'sta_change_date'}
+              {$list[i].status_change_date|escape:"html"}
+            {elseif $field_name == 'last_action_date'}
+              {$list[i].last_action_date|escape:"html"}
+            {elseif $field_name == 'custom_fields'}
+              <nobr>
+              {foreach from=$list[i].custom_field key=fld_id item=fld_value}
                 {if $fld_value != ''}
-                    {$list_info.custom_fields[$fld_id]}: {$fld_value}&nbsp;<br />
+                  {$list_info.custom_fields[$fld_id]}: {$fld_value}&nbsp;<br />
                 {/if}
-            {/foreach}
-            </nobr>
-          </td>
-          {/if}
-          <td bgcolor="{$list[i].status_color}" width="50%" class="default">
-            <a href="view.php?id={$list[i].iss_id}" class="link" title="view issue details">{$list[i].iss_summary|escape:"html"}</a>
-            {if $list[i].redeemed}
-                [Redeemed]
+              {/foreach}
+              </nobr>
+            {elseif $field_name == 'iss_summary'}
+              <a href="view.php?id={$list[i].iss_id}" class="link" title="view issue details">{$list[i].iss_summary|escape:"html"}</a>
+              {if $list[i].redeemed}
+                  [Redeemed]
+              {/if}
             {/if}
           </td>
+          {/foreach}
         </tr>
         {sectionelse}
         <tr bgcolor="gray">

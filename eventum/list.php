@@ -41,6 +41,7 @@ include_once(APP_INC_PATH . "class.filter.php");
 include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.group.php");
+include_once(APP_INC_PATH . "class.display_column.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("list.tpl.html");
@@ -86,6 +87,7 @@ $tpl->assign("list", $list["list"]);
 $tpl->assign("list_info", $list["info"]);
 $tpl->assign("csv_data", base64_encode(@$list["csv"]));
 
+$tpl->assign("columns", Display_Column::getColumnsToDisplay($prj_id, 'list_issues'));
 $tpl->assign("priorities", Priority::getList($prj_id));
 $tpl->assign("status", Status::getAssocStatusList($prj_id));
 $tpl->assign("users", $users);
