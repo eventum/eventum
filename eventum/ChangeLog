@@ -11,6 +11,7 @@ Euventum Issue Tracking System
 - Added new Custom Field Report. (Bryan)
 - Download emails script no longer requires a mailbox name if using a pop3 account. (Bryan)
 - Fixed bug where values for new custom fields could not be set on existing issues. (Bryan)
+- When replying to an email from the web interface, set the In-Reply-To: header accordingly (João)
 - Phone call module now uses expandable cell to save space. (João; Bryan)
 - When Phone call is added, time tracking entry is also added. (João; Bryan)
 - Moved description to seperate table to prevent wide descriptions from pushing the rest of the table over. (Bryan)
