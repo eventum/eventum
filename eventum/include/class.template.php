@@ -59,7 +59,7 @@ class Template_API
     function Template_API()
     {
         $this->smarty = new Smarty;
-        $this->smarty->template_dir = APP_PATH . "templates/" . APP_CURRENT_LANG;
+        $this->smarty->template_dir = APP_TPL_PATH . APP_CURRENT_LANG;
         $this->smarty->compile_dir = APP_PATH . "templates_c";
         $this->smarty->config_dir = '';
         $this->smarty->register_modifier("activateLinks", array('Link_Filter', 'activateLinks'));
