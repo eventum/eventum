@@ -84,9 +84,6 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
 } elseif (@$HTTP_POST_VARS["cat"] == "remove_support_email") {
     $res = Support::removeAssociation();
     $tpl->assign("remove_association_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "upload_file") {
-    $res = Attachment::attach($usr_id);
-    $tpl->assign("upload_file_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "delete_attachment") {
     $res = Attachment::remove($HTTP_GET_VARS["id"]);
     $tpl->assign("remove_attachment_result", $res);
