@@ -52,8 +52,10 @@ function isEmail(s)
         if (s.indexOf(denied_chars[z]) != -1) return false;
     }
 
-    // look for .
-    if (s.indexOf(".") == -1) return false;
+    // look for a dot, but also allow for a user@localhost address
+    if ((s.indexOf(".") == -1) && (s.substring(s.lastIndexOf('@'), s.length) != '@localhost')) {
+        return false;
+    }
 
     // no two dots alongside each other
     if (s.indexOf("..") != -1) return false;
@@ -62,7 +64,11 @@ function isEmail(s)
     if (s.indexOf("@.") != -1) return false;
 
     // the last character cannot be a .
-    if ((s.charAt(sLength-1) == ".") || (s.charAt(sLength-1) == "_")) return false;
+    if ((s.substring(s.lastIndexOf('@'), s.length) != '@localhost.') && (
+            (s.charAt(sLength-1) == ".") ||
+            (s.charAt(sLength-1) == "_"))) {
+        return false;
+    }
 
     return true;
 }

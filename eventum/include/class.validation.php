@@ -70,8 +70,10 @@ class Validation
     {
         $valid_chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
                                 'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',
-                                's', 't', 'u', 'w', 'v', 'x', 'y', 'z');
-        $extended_chars = array('.', '_', '-', '@');
+                                's', 't', 'u', 'w', 'v', 'x', 'y', 'z',
+                                '0', '1', '2', '3', '4', '5', '6', '7', 
+                                '8', '9');
+        $extended_chars = array('.', '+', '_', '-', '@');
         $str = strtolower($str);
 
         // we need at least one @ symbol
@@ -89,16 +91,22 @@ class Validation
                 return false;
             }
         }
-        // email addresses need at least one dot
-        if (!strstr($str, '.')) {
+        // email addresses need at least one dot (but also allow for user@localhost addresses)
+        if ((!strstr($str, '.')) && (substr($str, strrpos($str, '@')) != '@localhost')) {
             return false;
         }
         // no two dots alongside each other
         if (strstr($str, '..')) {
             return false;
         }
+        // do an extra check for a dot as the last character of an address
+        array_shift($extended_chars);
+        if ((substr($str, strlen($str)-1) == '.') && 
+                (substr($str, strrpos($str, '@')) != '@localhost.')) {
+            return false;
+        }
         // the last character cannot be one of the extended ones
-        if (in_array(substr($str, strlen($str)-1, 1), $extended_chars)) {
+        if (in_array(substr($str, strlen($str)-1), $extended_chars)) {
             return false;
         }
         return true;
