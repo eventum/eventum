@@ -546,13 +546,14 @@ class Project
      *
      * @access  public
      * @param   integer $usr_id The user ID
+     * @param   boolean $force_refresh If the cache should not be used.
      * @return  array The list of projects
      */
-    function getAssocList($usr_id)
+    function getAssocList($usr_id, $force_refresh = false)
     {
         static $returns;
 
-        if (!empty($returns[$usr_id])) {
+        if ((!empty($returns[$usr_id])) && ($force_refresh != true)) {
             return $returns[$usr_id];
         }
 
