@@ -268,7 +268,7 @@ ALTER TABLE eventum_email_account ADD COLUMN ema_issue_auto_creation_options tex
 
 
 
-# eventum 2.0!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111111111
+# eventum 1.3!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111111111
 
 UPDATE eventum_user SET usr_role=usr_role+2 WHERE usr_role>3;
 UPDATE eventum_user SET usr_role=4 WHERE usr_role=3;
@@ -332,3 +332,5 @@ CREATE TABLE eventum_faq_support_level (
 
 ALTER TABLE eventum_reminder_requirement ADD COLUMN rer_support_level_id INT(11) UNSIGNED NULL;
 ALTER TABLE eventum_reminder_requirement ADD COLUMN rer_customer_id INT(11) UNSIGNED NULL;
+
+ALTER TABLE eventum_project ADD COLUMN prj_hide_fields_from_reporter tinyint(1) NOT NULL DEFAULT 0;
