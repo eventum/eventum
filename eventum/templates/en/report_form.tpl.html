@@ -1,3 +1,15 @@
+{if $error_msg == 1}
+    <table align="center" width="80%">
+        <tr>
+            <td>
+                <div style="font-size: 24; color: red; border: thin solid Red;" align="center">
+                    There was an error creating your issue.
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br />
+{/if}
 
 {if $new_issue_id != "" and $smarty.post.report_stays != "yes"}
 <table width="500" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
@@ -194,7 +206,7 @@ function validateForm(f)
             <b>Summary: *</b> {include file="help_link.tpl.html" topic="report_summary"}
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="summary" class="default" size="50" tabindex="5" value="{$issue_summary}">
+            <input type="text" name="summary" class="default" size="50" tabindex="5" value="{if $issue_summary != ''}{$issue_summary}{else}{$smarty.post.summary}{/if}">
             {include file="error_icon.tpl.html" field="summary"}
           </td>
         </tr>
@@ -203,7 +215,7 @@ function validateForm(f)
             <b>Description / Initial Requirements: *</b> {include file="help_link.tpl.html" topic="report_description"}
           </td>
           <td bgcolor="{$light_color}">
-            <textarea name="description" rows="10" tabindex="6" style="width: 97%">{$issue_description}</textarea>
+            <textarea name="description" rows="10" tabindex="6" style="width: 97%">{if $issue_description != ''}{$issue_description}{else}{$smarty.post.description}{/if}</textarea>
             {include file="error_icon.tpl.html" field="description"}
           </td>
         </tr>
@@ -213,7 +225,7 @@ function validateForm(f)
             <nobr><b>Estimated Dev. Time:</b> {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="estimated_dev_time" class="default" size="10" tabindex="7">
+            <input type="text" name="estimated_dev_time" class="default" size="10" tabindex="7" value="{$smarty.post.estimated_dev_time}">
             {include file="error_icon.tpl.html" field="estimated_dev_time"} <span class="default">(in hours)</span>
           </td>
         </tr>
