@@ -58,6 +58,8 @@ if (@$HTTP_POST_VARS["cat"] == "update") {
 
 $prj_id = Auth::getCurrentProject();
 
+$setup = Setup::load();
+
 $tpl->assign(array(
     "subscribers"  => Notification::getSubscribers($issue_id),
     "categories"   => Category::getAssocList($prj_id),
@@ -68,7 +70,8 @@ $tpl->assign(array(
     "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter')),
     "issues"       => Issue::getColList(),
     "assoc_issues" => Issue::getAssocList(),
-    "one_week_ts"  => time() + (7 * DAY)
+    "one_week_ts"  => time() + (7 * DAY),
+    "allow_unassigned_issues"   =>  $setup["allow_unassigned_issues"]
 ));
 
 $tpl->displayTemplate();

@@ -59,6 +59,17 @@ function validateForm(f)
         selectField(f, 'description');
         return false;
     }
+    {/literal}
+    {if $allow_unassigned_issues != 'yes'}
+    {literal}
+    if (!hasOneSelected(f, 'assignments[]')) {
+        alert('Please select an assignment for this issue');
+        selectField(f, 'assignments[]');
+        return false;
+    }
+    {/literal}
+    {/if}
+    {literal}
     return true;
 }
 //-->

@@ -36,6 +36,7 @@ include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.support.php");
 include_once(APP_INC_PATH . "class.custom_field.php");
+include_once(APP_INC_PATH . "class.setup.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -67,6 +68,9 @@ $tpl->assign("priorities", Misc::getPriorities());
 $tpl->assign("users", Project::getUserAssocList($prj_id, 'active'));
 $tpl->assign("releases", Release::getAssocList($prj_id));
 $tpl->assign("custom_fields", Custom_Field::getListByProject($prj_id, 'report_form'));
+
+$setup = Setup::load();
+$tpl->assign("allow_unassigned_issues", $setup["allow_unassigned_issues"]);
 
 $prefs = Prefs::get(Auth::getUserID());
 $tpl->assign("user_prefs", $prefs);
