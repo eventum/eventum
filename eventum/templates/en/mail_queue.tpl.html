@@ -10,7 +10,7 @@
   <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
     <tr>
       <td class="default" nowrap>
-        <b>Mail Queue for issue #{$issue_id}</b>
+        <b>Mail Queue for Issue #{$issue_id}</b>
       </td>
     </tr>
     <tr id="drafts1" {get_display_style element_name="drafts"}>
@@ -18,7 +18,7 @@
         <table width="100%" cellpadding="2" cellspacing="1">
           <tr bgcolor="{$cell_color}">
             <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getMailQueue" ec_id="mailqueue"}</td>
-            <td width="20%" class="default_white">To</td>
+            <td width="20%" class="default_white">Recipient</td>
             <td width="20%" class="default_white" nowrap>Queued Date</td>
             <td width="10%" class="default_white">Status</td>
             <td width="50%" class="default_white">Subject</td>
