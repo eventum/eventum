@@ -46,6 +46,7 @@ Eventum Issue Tracking System
 - Fixed bug on CVS integration script that was not encoding the URL arguments (João)
 - Added the ability to rank custom priorities (João)
 - Fixed bug when sorting by category (Bryan)
+- Added specialized headers to outgoing emails (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
