@@ -350,6 +350,11 @@ class Issue
      */
     function setStatus($issue_id, $status_id)
     {
+        // check if the status is already set to the 'new' one
+        if (Issue::getStatusID($issue_id) == $status_id) {
+            return -1;
+        }
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
