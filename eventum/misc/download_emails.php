@@ -29,7 +29,8 @@
 //
 include("../config.inc.php");
 include_once(APP_INC_PATH . "class.support.php");
-include_once(APP_INC_PATH . "class.setup.php");
+include_once(APP_INC_PATH . "class.lock.php");
+include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 ini_set("memory_limit", "256M");
@@ -59,38 +60,29 @@ if ($account_id == 0 && !in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
 }
 
 if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
-    $setup = Setup::load();
     // if there is no account id, unlock all accounts
     if (empty($account_id)) {
-        if (!is_array($setup['downloading_emails'])) {
-            $setup['downloading_emails'] = array();
-        } else {
-            foreach ($setup['downloading_emails'] as $key => $val) {
-                $setup['downloading_emails'][$key] = 'no';
+        $prj_ids = array_keys(Project::getAll());
+        foreach ($prj_ids as $prj_id) {
+            $ema_ids = Email_Account::getAssocList($prj_id);
+            foreach ($ema_ids as $ema_id) {
+                Lock::release('download_emails_' . $ema_id);
             }
         }
     } else {
-        $setup['downloading_emails'][$account_id] = 'no';
+        Lock::release('download_emails_' . $account_id);
     }
-    Setup::save($setup);
-    echo "The lock key was fixed successfully.\n";
+    echo "The lock file was removed successfully.\n";
     exit;
 }
 
 // check if there is another instance of this script already running
-$setup = Setup::load();
-if (isset($setup['downloading_emails'][$account_id]) && @$setup['downloading_emails'][$account_id] == 'yes') {
+if (!Lock::acquire('download_emails_' . $account_id)) {
     echo "Error: Another instance of the script is still running for the specified account. " . 
                 "If this is not accurate, you may fix it by running this script with '--fix-lock' " . 
                 "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock' " . 
                 "as the only parameter.\n";
     exit;
-} else {
-    if (!is_array($setup['downloading_emails'])) {
-        $setup['downloading_emails'] = array();
-    }
-    $setup['downloading_emails'][$account_id] = 'yes';
-    Setup::save($setup);
 }
 
 $account = Email_Account::getDetails($account_id);
@@ -108,8 +100,6 @@ if ($mbox == false) {
     Support::clearErrors();
 }
 
-// clear the "lock" key
-$setup = Setup::load();
-$setup['downloading_emails'][$account_id] = 'no';
-Setup::save($setup);
+// clear the lock
+Lock::release('download_emails_' . $account_id);
 ?>

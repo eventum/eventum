@@ -114,6 +114,14 @@ function checkRequirements()
     if (ini_get('allow_call_time_pass_reference') != "1") {
         $errors[] = "The 'allow_call_time_pass_reference' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
     }
+    $error = checkPermissions('../locks', "Directory 'locks'", TRUE);
+    if (!empty($error)) {
+        $errors[] = $error;
+    }
+    $error = checkPermissions('../logs', "Directory 'logs'", TRUE);
+    if (!empty($error)) {
+        $errors[] = $error;
+    }
     $error = checkPermissions('../templates_c', "Directory 'templates_c'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;

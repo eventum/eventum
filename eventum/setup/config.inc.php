@@ -59,6 +59,7 @@ if ((substr($app_path, -1) != '/') && (substr($app_path, -2) != '\\')) {
 @define("APP_SMARTY_PATH", APP_INC_PATH . "Smarty/");
 @define("APP_JPGRAPH_PATH", APP_INC_PATH . "jpgraph/");
 @define("APP_LOG_PATH", APP_PATH . "logs/");
+@define("APP_LOCKS_PATH", APP_PATH . "locks/");
 if (stristr(PHP_OS, 'darwin')) {
     ini_set("include_path", ".:" . APP_PEAR_PATH);
 } elseif (stristr(PHP_OS, 'win')) {

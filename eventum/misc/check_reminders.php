@@ -30,9 +30,27 @@
 
 include_once("../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
+include_once(APP_INC_PATH . "class.lock.php");
 include_once(APP_INC_PATH . "class.reminder.php");
 include_once(APP_INC_PATH . "class.reminder_action.php");
 include_once(APP_INC_PATH . "class.reminder_condition.php");
+
+
+// if requested, clear the lock
+if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
+    Lock::release('check_reminders');
+    echo "The lock file was removed successfully.\n";
+    exit;
+}
+
+// acquire a lock to prevent multiple scripts from 
+// running at the same time
+if (!Lock::acquire('check_reminders')) {
+    echo "Error: Another instance of the script is still running. " . 
+                "If this is not accurate, you may fix it by running this script with '--fix-lock' " . 
+                "as the only parameter.\n";
+    exit;
+}
 
 /*
 1 - Get list of reminders with all of its actions
@@ -108,4 +126,7 @@ for ($i = 0; $i < count($reminders); $i++) {
         }
     }
 }
+
+// release the lock
+Lock::release('check_reminders');
 ?>

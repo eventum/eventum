@@ -31,11 +31,20 @@ include_once("../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.mail_queue.php");
 
+// if requested, clear the lock
+if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
+    Mail_Queue::removeProcessFile();
+    echo "The lock file was removed successfully.\n";
+    exit;
+}
+
 if (!Mail_Queue::isSafeToRun()) {
-    $pid = Mail_Queue::getProcessID();
+    $pid = Lock::getProcessID('process_mail_queue');
     echo "ERROR: There is already a process (pid=$pid) of this script running.\n";
     exit;
 }
+
+sleep(50);
 
 ini_set("memory_limit", "256M");
 
