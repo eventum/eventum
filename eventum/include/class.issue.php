@@ -1619,7 +1619,11 @@ class Issue
         // if we are creating an issue for a customer, put the 
         // main customer contact as the reporter for it
         if (Customer::hasCustomerIntegration($prj_id)) {
-            $stmt .= User::getUserIDByContactID($HTTP_POST_VARS['contact']) . ",";
+            $contact_usr_id = User::getUserIDByContactID($HTTP_POST_VARS['contact']);
+            if (empty($contact_usr_id)) {
+                $contact_usr_id = $usr_id;
+            }
+            $stmt .= $contact_usr_id . ",";
         } else {
             $stmt .= $usr_id . ",";
         }
