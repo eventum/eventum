@@ -1199,7 +1199,7 @@ class Notification
             $mail = new Mail_API;
             $mail->setTextBody($text_message);
             $setup = $mail->getSMTPSettings();
-            $mail->send($setup["from"], $emails[$i], APP_SHORT_NAME . ": New issue notification (ID: $issue_id)", TRUE, $issue_id);
+            $mail->send($setup["from"], $emails[$i], "[#$issue_id] Assignment: " . $issue['iss_summary'], TRUE, $issue_id);
         }
     }
 
