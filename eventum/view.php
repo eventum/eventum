@@ -82,7 +82,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
             } else {
                 $show_releases = 0;
             }
-            
+
             // get if categories should be displayed
             $cats = Category::getList($prj_id);
             if (count($cats) > 0) {
@@ -90,38 +90,38 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
             } else {
                 $show_category = 0;
             }
-            
+
             $tpl->assign(array(
-                "next_issue"         => @$sides["next"],
-                "previous_issue"     => @$sides["previous"],
-                "subscribers"        => Notification::getSubscribers($issue_id),
-                "custom_fields"      => Custom_Field::getListByIssue($prj_id, $issue_id),
-                "files"              => Attachment::getList($issue_id),
-                "emails"             => Support::getEmailsByIssue($issue_id),
-                "zones"              => Date_API::getTimezoneList(),
-                'users'              => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
-                "ema_id"             => Email_Account::getEmailAccount(),
-                'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id),
-                'max_attachment_size'=> Attachment::getMaxAttachmentSize(),
-                'show_releases'      => $show_releases,
-                'show_category'      => $show_category,
-                'quarantine_status'  => Issue::getQuarantineStatus($issue_id)
+                'next_issue'          => @$sides['next'],
+                'previous_issue'      => @$sides['previous'],
+                'subscribers'         => Notification::getSubscribers($issue_id),
+                'custom_fields'       => Custom_Field::getListByIssue($prj_id, $issue_id),
+                'files'               => Attachment::getList($issue_id),
+                'emails'              => Support::getEmailsByIssue($issue_id),
+                'zones'               => Date_API::getTimezoneList(),
+                'users'               => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+                'ema_id'              => Email_Account::getEmailAccount(),
+                'is_user_authorized'  => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id),
+                'max_attachment_size' => Attachment::getMaxAttachmentSize(),
+                'show_releases'       => $show_releases,
+                'show_category'       => $show_category,
+                'quarantine_status'   => Issue::getQuarantineStatus($issue_id)
             ));
 
             if ($role_id != User::getRoleID('customer')) {
                 $time_entries = Time_Tracking::getListing($issue_id);
                 $tpl->assign(array(
-                    "notes"            => Note::getListing($issue_id),
-                    "phone_entries"    => Phone_Support::getListing($issue_id),
-                    "phone_categories" => Phone_Support::getCategoryAssocList($prj_id),
-                    "checkins"         => SCM::getCheckinList($issue_id),
-                    "time_categories"  => Time_Tracking::getAssocCategories(),
-                    "time_entries"     => $time_entries['list'],
-                    "total_time_spent" => $time_entries['total_time_spent'],
-                    "impacts"          => Impact_Analysis::getListing($issue_id),
-                    "statuses"         => Status::getAssocStatusList($prj_id, false),
-                    "drafts"           => Draft::getList($issue_id),
-                    "groups"           => Group::getAssocList($prj_id)
+                    'notes'            => Note::getListing($issue_id),
+                    'phone_entries'    => Phone_Support::getListing($issue_id),
+                    'phone_categories' => Phone_Support::getCategoryAssocList($prj_id),
+                    'checkins'         => SCM::getCheckinList($issue_id),
+                    'time_categories'  => Time_Tracking::getAssocCategories(),
+                    'time_entries'     => $time_entries['list'],
+                    'total_time_spent' => $time_entries['total_time_spent'],
+                    'impacts'          => Impact_Analysis::getListing($issue_id),
+                    'statuses'         => Status::getAssocStatusList($prj_id, false),
+                    'drafts'           => Draft::getList($issue_id),
+                    'groups'           => Group::getAssocList($prj_id)
                 ));
             }
         }
