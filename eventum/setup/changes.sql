@@ -574,4 +574,15 @@ UPDATE eventum_columns_to_display SET ctd_field='pri_rank' WHERE ctd_field='iss_
 ALTER TABLE eventum_mail_queue ADD COLUMN maq_type varchar(30) DEFAULT '';
 ALTER TABLE eventum_mail_queue ADD COLUMN maq_usr_id int(11) unsigned NULL DEFAULT NULL;
 
+# March 3rd
+CREATE TABLE eventum_search_profile (
+  sep_id int(11) unsigned NOT NULL auto_increment,
+  sep_usr_id int(11) unsigned NOT NULL,
+  sep_prj_id int(11) unsigned NOT NULL,
+  sep_type char(5) NOT NULL,
+  sep_user_profile blob NOT NULL,
+  PRIMARY KEY (sep_id),
+  UNIQUE (sep_usr_id, sep_prj_id, sep_type)
+);
 
+ 

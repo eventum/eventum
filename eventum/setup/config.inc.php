@@ -101,10 +101,6 @@ if (stristr(PHP_OS, 'darwin')) {
 
 @define("APP_VERSION", "%{APP_VERSION}%");
 
-@define("APP_LIST_COOKIE", 'eventum_list');
-@define("APP_LIST_COOKIE_EXPIRE", time() + (60 * 60 * 24 * 30 * 48));
-@define("APP_EMAIL_LIST_COOKIE", 'eventum_email_list');
-@define("APP_EMAIL_LIST_COOKIE_EXPIRE", time() + (60 * 60 * 24 * 30 * 48));
 @define("APP_DEFAULT_PAGER_SIZE", 5);
 @define("APP_DEFAULT_REFRESH_RATE", 5); // in minutes
 

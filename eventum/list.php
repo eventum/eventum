@@ -42,11 +42,14 @@ include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.group.php");
 include_once(APP_INC_PATH . "class.display_column.php");
+include_once(APP_INC_PATH . "class.search_profile.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("list.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
+$usr_id = Auth::getUserID();
+$prj_id = Auth::getCurrentProject();
 
 $pagerRow = Issue::getParam('pagerRow');
 if (empty($pagerRow)) {
@@ -58,15 +61,13 @@ if (empty($rows)) {
 }
 
 if (@$_REQUEST['view'] == 'my_assignments') {
-    setcookie(APP_LIST_COOKIE, '', APP_LIST_COOKIE_EXPIRE);
-    Auth::redirect(APP_BASE_URL . "list.php?users=" . Auth::getUserID() . "&hide_closed=1&rows=$rows");
+    Search_Profile::remove($usr_id, $prj_id, 'issue');
+    Auth::redirect(APP_BASE_URL . "list.php?users=$usr_id&hide_closed=1&rows=$rows");
 }
 
 $options = Issue::saveSearchParams();
 $tpl->assign("options", $options);
 $tpl->assign("sorting", Issue::getSortingInfo($options));
-
-$prj_id = Auth::getCurrentProject();
 
 // generate options for assign list. If there are groups and user is above a customer, include groups
 $groups = Group::getAssocList($prj_id);
@@ -76,11 +77,11 @@ $assign_options = array(
     "-1"    =>  "un-assigned",
     "-2"    =>  "myself and un-assigned"
 );
-if (User::getGroupID(Auth::getUserID()) != '') {
+if (User::getGroupID($usr_id) != '') {
     $assign_options['-3'] = 'myself and my group';
     $assign_options['-4'] = 'myself, un-assigned and my group';
 }
-if ((count($groups) > 0) && ( Auth::getCurrentRole() >User::getRoleID("Customer"))) {
+if ((count($groups) > 0) && (Auth::getCurrentRole() > User::getRoleID("Customer"))) {
     foreach ($groups as $grp_id => $grp_name) {
         $assign_options["grp:$grp_id"] = "Group: " . $grp_name;
     }
@@ -103,7 +104,7 @@ $tpl->assign("filter_info", Filter::getFiltersInfo());
 $tpl->assign("categories", Category::getAssocList($prj_id));
 $tpl->assign("groups", $groups);
 
-$prefs = Prefs::get(Auth::getUserID());
+$prefs = Prefs::get($usr_id);
 $tpl->assign("refresh_rate", $prefs['list_refresh_rate'] * 60);
 $tpl->assign("refresh_page", "list.php");
 

@@ -62,6 +62,7 @@ include_once(APP_INC_PATH . "class.authorized_replier.php");
 include_once(APP_INC_PATH . "class.workflow.php");
 include_once(APP_INC_PATH . "class.priority.php");
 include_once(APP_INC_PATH . "class.reminder_action.php");
+include_once(APP_INC_PATH . "class.search_profile.php");
 
 class Issue
 {
@@ -1820,26 +1821,6 @@ class Issue
 
 
     /**
-     * Method used to get the current listing related cookie information.
-     *
-     * @access  public
-     * @param   boolean $full_cookie If the full cookie or user specific params should be returned.
-     * @return  array The issue listing information
-     */
-    function getCookieParams($full_cookie = false)
-    {
-        global $HTTP_COOKIE_VARS;
-
-        $cookie = @unserialize(base64_decode($HTTP_COOKIE_VARS[APP_LIST_COOKIE]));
-        if ($full_cookie) {
-            return $cookie;
-        } else {
-            return @$cookie[Auth::getUserID()][Auth::getCurrentProject()];
-        }
-    }
-
-
-    /**
      * Method used to get a specific parameter in the issue listing cookie.
      *
      * @access  public
@@ -1849,14 +1830,14 @@ class Issue
     function getParam($name)
     {
         global $HTTP_POST_VARS, $HTTP_GET_VARS;
-        $cookie = Issue::getCookieParams();
+        $profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'issue');
 
         if (isset($HTTP_GET_VARS[$name])) {
             return $HTTP_GET_VARS[$name];
         } elseif (isset($HTTP_POST_VARS[$name])) {
             return $HTTP_POST_VARS[$name];
-        } elseif (isset($cookie[$name])) {
-            return $cookie[$name];
+        } elseif (isset($profile[$name])) {
+            return $profile[$name];
         } else {
             return "";
         }
@@ -1930,11 +1911,7 @@ class Issue
                 );
             }
         }
-        // set search information for specific usr_id
-        $full_cookie = Issue::getCookieParams(true);
-        $full_cookie[Auth::getUserID()][Auth::getCurrentProject()] = $cookie;
-        $encoded = base64_encode(serialize($full_cookie));
-        setcookie(APP_LIST_COOKIE, $encoded, APP_LIST_COOKIE_EXPIRE);
+        Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'issue', $cookie);
         return $cookie;
     }
 

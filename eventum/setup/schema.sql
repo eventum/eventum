@@ -64,11 +64,11 @@ CREATE TABLE %TABLE_PREFIX%email_account (
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%history_type;
 CREATE TABLE %TABLE_PREFIX%history_type (
-    htt_id tinyint(2) unsigned NOT NULL auto_increment,
-    htt_name varchar(25) NOT NULL,
-    htt_role tinyint(1) DEFAULT 0,
-    PRIMARY KEY(htt_id),
-    UNIQUE (htt_name)
+  htt_id tinyint(2) unsigned NOT NULL auto_increment,
+  htt_name varchar(25) NOT NULL,
+  htt_role tinyint(1) DEFAULT 0,
+  PRIMARY KEY(htt_id),
+  UNIQUE (htt_name)
 );
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'attachment_removed';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'attachment_added';
@@ -593,15 +593,15 @@ INSERT INTO %TABLE_PREFIX%project_status (prs_prj_id, prs_sta_id) VALUES (1, 5);
 INSERT INTO %TABLE_PREFIX%project_status (prs_prj_id, prs_sta_id) VALUES (1, 6);
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%customer_note;
-create table %TABLE_PREFIX%customer_note (
-    cno_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    cno_prj_id int(11) unsigned NOT NULL,
-    cno_customer_id INT(11) UNSIGNED NOT NULL,
-    cno_created_date DATETIME NOT NULL,
-    cno_updated_date DATETIME NULL,
-    cno_note TEXT,
-    primary key(cno_id),
-    unique(cno_prj_id, cno_customer_id)
+CREATE TABLE %TABLE_PREFIX%customer_note (
+  cno_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  cno_prj_id int(11) unsigned NOT NULL,
+  cno_customer_id INT(11) UNSIGNED NOT NULL,
+  cno_created_date DATETIME NOT NULL,
+  cno_updated_date DATETIME NULL,
+  cno_note TEXT,
+  PRIMARY KEY(cno_id),
+  UNIQUE(cno_prj_id, cno_customer_id)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%customer_account_manager;
@@ -953,19 +953,16 @@ CREATE TABLE %TABLE_PREFIX%project_link_filter (
   PRIMARY KEY  (plf_prj_id, plf_lfi_id)
 );
 
-
 DROP TABLE IF EXISTS %TABLE_PREFIX%columns_to_display;
 CREATE TABLE %TABLE_PREFIX%columns_to_display (
-    ctd_prj_id int(11) unsigned NOT NULL,
-    ctd_page varchar(20) NOT NULL,
-    ctd_field varchar(30) NOT NULL,
-    ctd_min_role tinyint(1) NOT NULL DEFAULT 0,
-    ctd_rank tinyint(2) NOT NULL DEFAULT 0,
-    PRIMARY KEY(ctd_prj_id, ctd_page, ctd_field),
-    INDEX(ctd_prj_id, ctd_page)
+  ctd_prj_id int(11) unsigned NOT NULL,
+  ctd_page varchar(20) NOT NULL,
+  ctd_field varchar(30) NOT NULL,
+  ctd_min_role tinyint(1) NOT NULL DEFAULT 0,
+  ctd_rank tinyint(2) NOT NULL DEFAULT 0,
+  PRIMARY KEY(ctd_prj_id, ctd_page, ctd_field),
+  INDEX(ctd_prj_id, ctd_page)
 );
-
-
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','pri_rank',1,1);
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_id',1,2);
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_grp_id',1,3);
@@ -979,3 +976,16 @@ INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','sta_change
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','last_action_date',1,11);
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','custom_fields',1,12);
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_summary',1,13);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%search_profile;
+CREATE TABLE %TABLE_PREFIX%search_profile (
+  sep_id int(11) unsigned NOT NULL auto_increment,
+  sep_usr_id int(11) unsigned NOT NULL,
+  sep_prj_id int(11) unsigned NOT NULL,
+  sep_type char(5) NOT NULL,
+  sep_user_profile blob NOT NULL,
+  PRIMARY KEY (sep_id),
+  UNIQUE (sep_usr_id, sep_prj_id, sep_type)
+);
+
+

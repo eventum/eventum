@@ -51,6 +51,16 @@ for ($i = 0; $i < count($columns); $i++) {
     }
 }
 
+$stmts[] = "CREATE TABLE eventum_search_profile (
+  sep_id int(11) unsigned NOT NULL auto_increment,
+  sep_usr_id int(11) unsigned NOT NULL,
+  sep_prj_id int(11) unsigned NOT NULL,
+  sep_type char(5) NOT NULL,
+  sep_user_profile blob NOT NULL,
+  PRIMARY KEY (sep_id),
+  UNIQUE (sep_usr_id, sep_prj_id, sep_type)
+)";
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
