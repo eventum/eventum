@@ -1,0 +1,238 @@
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top" width="50%">
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td width="100%">
+            <table bgcolor="{$light_color}" width="100%" border="0" cellspacing="0" cellpadding="4">
+              <tr>
+                <td colspan="2">
+                  <span class="default"><b>Welcome to {$application_title}, {$current_full_name}</b></span>
+                  <hr size="1" noshade color="{$cell_color}">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="default">
+                  <ul>
+                    <li><b><a href="ticket.php" class="link">Create a new Support Issue</a></b></li>
+                    <li><b><a href="list.php" class="link">List your Support Issues</a></b></li>
+                    <li><b><a href="preferences.php" class="link">Update your Account Preferences</a></b></li>
+                    <li><b><a href="internal_faq.php" class="link">MySQL Support Internal FAQ</a></b> <img src="/images/icons/new.gif" border="0"></li>
+                    <li><b><a href="logout.php" class="link">Logout</a></b></li>
+                  </ul>
+                  <a href="mailto:support-feedback@mysql.com?Subject=CSC-Feedback" class="link">Send us your comments & feedback about CSC</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br />
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td width="100%">
+            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+              <tr>
+                <td colspan="2">
+                  <span class="default"><b>Customer Stats</b></span>
+                  <hr size="1" noshade color="{$cell_color}">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <table cellspacing="1" cellpadding="2" width="100%">
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b># Issues Submitted:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {if $customer_stats.total_issues != ""}
+                        <a class="link" href="list.php?hide_closed=0" title="list all issues">{$customer_stats.total_issues} issue{if $customer_stats.total_issues > 1}s{/if}</a>
+                        {else}
+                        <i>No issues yet submitted.</i>
+                        {/if}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b># Open Issues:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {if $customer_stats.total_open != ""}
+                        <a class="link" href="list.php?hide_closed=1" title="list open issues">{$customer_stats.total_open} issue{if $customer_stats.total_open > 1}s{/if}</a>
+                        {else}
+                        <i>No open issues.</i>
+                        {/if}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b># Closed Issues:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {if $customer_stats.total_closed != ""}
+                        {$customer_stats.total_closed} issue{if $customer_stats.total_closed > 1}s{/if}
+                        {else}
+                        <i>No issues yet closed.</i>
+                        {/if}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b># Emails by MySQL Staff:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {if $customer_stats.total_emails != ""}
+                        {$customer_stats.total_emails} email{if $customer_stats.total_emails > 1}s{/if}
+                        {else}
+                        <i>No emails yet sent.</i>
+                        {/if}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b># Phone Calls by MySQL Staff:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {if $customer_stats.total_calls != ""}
+                        {$customer_stats.total_calls} call{if $customer_stats.total_calls > 1}s{/if}
+                        {else}
+                        <i>No phone calls yet.</i>
+                        {/if}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Avg. Time until <br />1st Response:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {if $customer_stats.average_first_response != ""}
+                        {$customer_stats.average_first_response}
+                        {else}
+                        <i>No responses yet sent.</i>
+                        {/if}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Avg. Time until Close:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {if $customer_stats.average_close != ""}
+                        {$customer_stats.average_close}
+                        {else}
+                        <i>No issues yet closed.</i>
+                        {/if}
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br />
+      {include file="latest_news.tpl.html"}
+    </td>
+    <td>
+      &nbsp;
+    </td>
+    <td valign="top" width="50%">
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td width="100%">
+            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+              <tr>
+                <td>
+                  <span class="default"><b>Customer Profile</b></span>
+                  <hr size="1" noshade color="{$cell_color}">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <table cellspacing="1" cellpadding="2" width="100%">
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Support Contract #:</b></td>
+                      <td bgcolor="{$light_color}" class="default">{$profile.contract_id}</td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Company Name:</b></td>
+                      <td bgcolor="{$light_color}" class="default">{$profile.company_name}</td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Support Level:</b></td>
+                      <td bgcolor="{$light_color}" class="default">{$profile.support_level}</td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Support Options:</b></td>
+                      <td bgcolor="{$light_color}" class="default">{$profile.support_options}</td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Expiration:</b></td>
+                      <td bgcolor="{$light_color}" class="default">{$profile.expiration_date}</td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Addresses:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {section name="i" loop=$profile.addresses}
+                        {$profile.addresses[i]|replace:"\n":"<br />"}<br />
+                        {if not $smarty.section.i.last}
+                        <br />
+                        {/if}
+                        {sectionelse}
+                        <i>No addresses on file.</i>
+                        {/section}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Company Emails:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {section name="i" loop=$profile.email_addresses}
+                        {$profile.email_addresses[i]}<br />
+                        {sectionelse}
+                        <i>No email addresses on file.</i>
+                        {/section}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Phone Numbers:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {section name="i" loop=$profile.telephones}
+                        {$profile.telephones[i]}<br />
+                        {sectionelse}
+                        <i>No phone numbers on file.</i>
+                        {/section}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Technical Contacts:</b></td>
+                      <td bgcolor="{$light_color}" class="default">
+                        {foreach name="contact" key=contact_id item=info from=$profile.contacts}
+                          {$info.name}<br />
+                          {section name="y" loop=$info.telephones}
+                          {$info.telephones[y]}<br />
+                          {/section}
+                          {section name="y" loop=$info.emails}
+                          {$info.emails[y]}<br />
+                          {/section}
+                          {if not $smarty.foreach.contact.last}
+                          <br />
+                          {/if}
+                        {foreachelse}
+                        <i>No contacts on file.</i>
+                        {/foreach}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Online Tech Support Agreement Version:</b></td>
+                      <td bgcolor="{$light_color}" class="default">{$profile.versions.contract_version}</td>
+                    </tr>
+                    <tr>
+                      <td bgcolor="{$cell_color}" width="180" class="default_white"><b>Tech Support FAQ Version:</b></td>
+                      <td bgcolor="{$light_color}" class="default">{$profile.versions.faq_version}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="default" align="center">
+                        <b>NOTE: If any information is incorrect, please email <br />corrections to
+                        <a class="link" href="mailto:support-feedback@mysql.com">support-feedback@mysql.com</a>.</b>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>    
+
