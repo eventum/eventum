@@ -53,7 +53,9 @@ if (preg_match("/^(boundary=).*/m", $full_message)) {
     $replacement = '$1$2; $3$4';
     $full_message = preg_replace($pattern, $replacement, $full_message);
 }
-$associated_user = 'admin@domain.com'; // SETUP: this needs to be configured properly
+// associate routed emails to the internal system account
+$sys_account = User::getNameEmail(APP_SYSTEM_USER_ID);
+$associated_user = $sys_account['usr_email'];
 
 // need some validation here
 if (empty($email_account_id)) {
