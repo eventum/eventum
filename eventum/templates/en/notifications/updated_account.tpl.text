@@ -9,3 +9,4 @@ Your account information as it now exists appears below.
          Projects: {$user.projects}
 ----------------------------------------------------------------------
 
+<{$app_base_url}>
