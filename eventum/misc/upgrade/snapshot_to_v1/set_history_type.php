@@ -95,11 +95,6 @@ $patterns[] = array(
     "set_user"  =>  true
 );
 $patterns[] = array(
-    "pattern"   =>  "/Customer details updated by (.*)/i",
-    "status"    =>  'customer_details_updated',
-    "set_user"  =>  true
-);
-$patterns[] = array(
     "pattern"   =>  "/Issue opened by (.*)/i",
     "status"    =>  'issue_opened',
     "set_user"  =>  true

@@ -1395,7 +1395,7 @@ class Support
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($HTTP_POST_VARS['issue_id'])) {
             $user_info = User::getNameEmail(Auth::getUserID());
-            // check whether the current user is allowed to send this email to customers or not
+            // check whether the current user is allowed to send this email to the notification list or not
             if (!Support::isAllowedToEmail($HTTP_POST_VARS["issue_id"], $user_info['usr_email'])) {
                 // add the message body as a note
                 $HTTP_POST_VARS = array(

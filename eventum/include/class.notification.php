@@ -608,7 +608,7 @@ class Notification
 
         $emails = array();
         $users = Notification::getUsersByIssue($issue_id, 'updated');
-        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
+        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Reporter'));
         $user_emails = array_map('strtolower', $user_emails);
         for ($i = 0; $i < count($users); $i++) {
             if (empty($users[$i]["sub_usr_id"])) {

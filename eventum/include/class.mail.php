@@ -347,8 +347,8 @@ class Mail_API
 
 
     /**
-     * Removes the warning message contained in a message, so that customers
-     * don't receive that extra information since it is not relevant to them.
+     * Removes the warning message contained in a message, so that certain users
+     * don't receive that extra information as it may not be relevant to them.
      *
      * @access  public
      * @param   string $str The body of the email
@@ -364,8 +364,8 @@ class Mail_API
 
     /**
      * Returns the warning message that needs to be added to the top of routed
-     * issue emails to alert the recipient that he can (or not) reply to 
-     * customers associated with the issue.
+     * issue emails to alert the recipient that he can (or not) send emails to 
+     * the issue notification list.
      *
      * @access  public
      * @param   string $type Whether the warning message is of an allowed recipient or not

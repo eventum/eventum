@@ -31,7 +31,6 @@ $fixes = array(
     "UPDATE eventum_subscription SET sub_usr_id = $new_usr_id WHERE sub_usr_id = 1",
     "UPDATE eventum_time_tracking SET ttr_usr_id = $new_usr_id WHERE ttr_usr_id = 1",
     "UPDATE eventum_phone_support SET phs_usr_id = $new_usr_id WHERE phs_usr_id = 1",
-    "UPDATE eventum_customer_account_manager SET cam_usr_id = $new_usr_id WHERE cam_usr_id = 1",
     "UPDATE eventum_reminder_action_list SET ral_usr_id = $new_usr_id WHERE ral_usr_id = 1",
     "UPDATE eventum_news SET nws_usr_id = $new_usr_id WHERE nws_usr_id = 1",
     "UPDATE eventum_round_robin_user SET rru_usr_id = $new_usr_id WHERE rru_usr_id = 1",

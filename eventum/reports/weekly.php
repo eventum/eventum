@@ -43,7 +43,7 @@ $prj_id = Auth::getCurrentProject();
 
 $tpl->assign(array(
     "weeks" => Date_API::getWeekOptions(3,0),
-    "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'))
+    "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter'))
 ));
 
 if (!empty($HTTP_POST_VARS["week"]) && !empty($HTTP_POST_VARS["developer"])) {

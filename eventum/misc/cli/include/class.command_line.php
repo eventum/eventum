@@ -988,7 +988,7 @@ class Command_Line
      */
     function getWeeklyReport($rpc_conn, $user_email, $week)
     {
-        // get summary, customer status and assignment of issue, then show confirmation prompt to user
+        // get summary and assignment of issue, then show confirmation prompt to user
         $msg = new XML_RPC_Message("getWeeklyReport", array(new XML_RPC_Value($user_email, "string"), new XML_RPC_Value($week, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
@@ -1039,7 +1039,7 @@ class Command_Line
     {
         // this is needed to prevent multiple confirmations from being shown to the user
         $GLOBALS['_displayed_confirmation'] = true;
-        // get summary, customer status and assignment of issue, then show confirmation prompt to user
+        // get summary and assignment of issue, then show confirmation prompt to user
         $msg = new XML_RPC_Message("getSimpleIssueDetails", array(new XML_RPC_Value($issue_id, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
@@ -1200,10 +1200,6 @@ class Command_Line
         $usage[] = array(
             "command"   =>  "list-status",
             "help"      =>  "List all available statuses in the system."
-        );
-        $usage[] = array(
-            "command"   =>  "customer email|support|customer <value>",
-            "help"      =>  "Looks up a customer's record information from Spot."
         );
         $usage[] = array(
             "command"   =>  array("weekly-report [<week>]", "wr [<week>]"),
