@@ -261,7 +261,7 @@ class Filter
                         $last_response_date_end,
                         $first_response_date,
                         $first_response_date_filter_type,
-                        '" . @$_REQUEST['first_response_date']['time_period'] . "'
+                        '" . @$_REQUEST['first_response_date']['time_period'] . "',
                         $first_response_date_end,
                         $closed_date,
                         $closed_date_filter_type,
