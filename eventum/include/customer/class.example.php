@@ -244,7 +244,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
      * @param   array $customer_ids The list of customers
      * @return  array The associative array of customer id => customer name
      */
-    function getTitles($prj_id, $customer_ids)
+    function getTitles($customer_ids)
     {
         $assoc = array();
         foreach ($this->data as $id => $details) {
@@ -290,10 +290,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                 // in a perfect world you would want to do partial searches 
                 // here, but as an example in_array() will do
                 if (in_array($contact["email"], $emails)) {
-                    return array(
-                        "customer_id" => $company_id,
-                        "contact_id"  => $contact['contact_id']
-                    );
+                    return array($company_id, $contact['contact_id']);
                 }
             }
         }
