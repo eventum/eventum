@@ -50,7 +50,8 @@ $type_list = array(
     "note"  =>  "Notes",
     "email" =>  "Email",
     "draft" =>  "Drafts",
-    "time"  =>  "Time Tracking"
+    "time"  =>  "Time Tracking",
+    "reminder"  =>  "Reminders"
 );
 
 if (empty($_REQUEST['activity_types'])) {
@@ -227,6 +228,32 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
         }
     }
     
+    if ((empty($_REQUEST['developer'])) && (in_array('reminder', $_REQUEST['activity_types']))) {
+        $sql = "SELECT
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history.*,
+                    iss_summary,
+                    sta_color,
+                    rma_title
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                WHERE
+                    iss_sta_id = sta_id AND
+                    rmh_iss_id = iss_id AND
+                    rmh_rma_id = rma_id AND
+                    iss_prj_id = $prj_id AND\n";
+        $sql .= createWhereClause('rmh_created_date');
+        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            print_r($res);
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        } else {
+            $data['reminder'] = processResult($res, 'rmh_created_date', 'rmh_iss_id');
+        }
+    }
+    
     $tpl->assign(array(
         "unit"  =>  $_REQUEST['unit'],
         "amount"    =>  $_REQUEST['amount'],
@@ -238,7 +265,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
 }
 
 
-function createWhereClause($date_field, $user_field)
+function createWhereClause($date_field, $user_field = false)
 {
     $sql = '';
     if ($_REQUEST['report_type'] == 'recent') {
@@ -246,10 +273,10 @@ function createWhereClause($date_field, $user_field)
     } else {
         $sql .= "$date_field BETWEEN '$start_date' AND '$end_date'";
     }
-    if (!empty($_REQUEST['developer'])) {
+    if (($user_field != false) && (!empty($_REQUEST['developer']))) {
         $sql .= " AND $user_field = " . $_REQUEST['developer'];
     }
-    $sql .= " ORDER BY $date_field";
+    $sql .= " ORDER BY $date_field " . $_REQUEST['sort_order'];
     return $sql;
 }
 
@@ -258,23 +285,13 @@ function processResult($res, $date_field, $issue_field)
     GLOBAL $prj_id;
     GLOBAL $usr_id;
     
-    $res_count = count($res);
-    for ($i = 0; $i < $res_count; $i++) {
-        if (!Issue::canAccess($res[$i][$issue_field], Auth::getUserID())) {
-            unset($res[$i]);
-            continue;
-        }
-        
+    for ($i = 0; $i < count($res); $i++) {
         if (Customer::hasCustomerIntegration($prj_id)) {
-            $customer_id = Issue::getCustomerID($res[$i][$issue_field]);
-            if (!empty($customer_id)) {
-                $details = Customer::getDetails($prj_id, $customer_id);
-                $res[$i]["customer"] = @$details['customer_name'];
-            }
+            $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$i][$issue_field]));
+            $res[$i]["customer"] = @$details['customer_name'];
         }
         $res[$i]["date"] = Date_API::getFormattedDate($res[$i][$date_field], Date_API::getPreferredTimezone($usr_id));
     }
-    $res = array_merge($res);
     return $res;
 }
 

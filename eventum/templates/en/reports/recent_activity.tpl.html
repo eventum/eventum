@@ -77,6 +77,17 @@
           </td>
         </tr>
         <tr>
+          <td width="120" class="default">
+            <b>Sort Order:</b>
+          </td>
+          <td width="200">
+            <select class="default" name="sort_order">
+                <option value="ASC" label="Ascending" {if $smarty.request.sort_order != 'DESC'}selected{/if}>Ascending</option>
+                <option value="DESC" label="Descending" {if $smarty.request.sort_order == 'DESC'}selected{/if}>Descending</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
           <td align="center" colspan="2">
             <input type="submit" value="Generate" class="shortcut">
           </td>
@@ -351,6 +362,47 @@ changeType('{$smarty.request.report_type}');
         {foreachelse}
         <tr>
             <td colspan="7" class="default" align="center" bgcolor="{$dark_color}"><i>No Time Entries Found</i></td>
+        </tr>
+        {/foreach}
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+
+{if $data.reminder != ''}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="{if $has_customer_integration}4{else}3{/if}" class="default_white">
+            <b>Recent Reminder Actions</b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$cell_color}" class="default_white">Issue ID</td>
+          {if $has_customer_integration}
+          <td bgcolor="{$cell_color}" class="default_white">Customer</td>
+          {/if}
+          <td bgcolor="{$cell_color}" class="default_white">Date Triggered</td>
+          <td bgcolor="{$cell_color}" class="default_white">Title</td>
+        </tr>
+        {foreach from=$data.reminder item=row}
+        {cycle values=$cycle assign="row_color"}
+        <tr>
+          <td class="default" bgcolor="{$row.sta_color}" align="right">
+            <a href="{$app_base_url}view.php?id={$row.rmh_iss_id}" class="link">{$row.rmh_iss_id}</a>
+          </td>
+          {if $has_customer_integration}
+          <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
+          {/if}
+          <td class="default" bgcolor="{$row_color}" nowrap>{$row.date}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.rma_title}</td>
+        {foreachelse}
+        <tr>
+            <td colspan="7" class="default" align="center" bgcolor="{$dark_color}"><i>No Reminder Entries Found</i></td>
         </tr>
         {/foreach}
       </table>
