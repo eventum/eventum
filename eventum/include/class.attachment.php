@@ -45,6 +45,7 @@ include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.issue.php");
+include_once(APP_INC_PATH . "class.workflow.php");
 
 class Attachment
 {
@@ -329,18 +330,16 @@ class Attachment
         }
         
         Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
-        // XXX: check if we need to change the issue status to 'Waiting on Developer'
-        /*
-        if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
-            $status_id = Status::getStatusID('Waiting on Developer');
-            if ((!empty($status_id)) && (Issue::getStatusID($HTTP_POST_VARS["issue_id"]) != Status::getStatusID('Pending'))) {
-                Issue::markAsWaitingOnDeveloper($HTTP_POST_VARS["issue_id"], $status_id, 'file');
-                Issue::recordLastCustomerAction($HTTP_POST_VARS["issue_id"]);
-            }
-        }
-        */
         // need to save a history entry for this
         History::add($HTTP_POST_VARS["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
+        
+        // if there is customer integration, mark last customer action
+        if ((Customer::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id) == User::getRoleID('Customer'))) {
+            Issue::recordLastCustomerAction($issue_id);
+        }
+        
+        Workflow::handleAttachment(Issue::getProjectID($HTTP_POST_VARS["issue_id"]), $HTTP_POST_VARS["issue_id"], $usr_id);
+        
         // send notifications for the issue being updated
         Notification::notify($HTTP_POST_VARS["issue_id"], 'files', $attachment_id);
         return 1;

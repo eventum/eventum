@@ -59,6 +59,7 @@ include_once(APP_INC_PATH . "class.phone_support.php");
 include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.round_robin.php");
 include_once(APP_INC_PATH . "class.authorized_replier.php");
+include_once(APP_INC_PATH . "class.workflow.php");
 
 $list_headings = array(
     'Priority',
@@ -328,14 +329,7 @@ class Issue
             // save a history entry about this...
             History::add($issue_id, $usr_id, History::getTypeID('remote_locked'), "Issue remotely locked by " . User::getFullName($usr_id));
             Notification::subscribeUser($issue_id, $usr_id, Notification::getAllActions(), false);
-            // XXX: if the current issue status is set to 'pending', then change the status to 'assigned'
-            /*
-            $current_status_id = Issue::getStatusID($issue_id);
-            if ($current_status_id == Status::getStatusID('Pending')) {
-                Issue::setStatus($issue_id, Status::getStatusID('Assigned'));
-                History::add($issue_id, $usr_id, History::getTypeID('remote_status_change'), "Status changed to 'Assigned' because " . User::getFullName($usr_id) . " remotely locked the issue.");
-            }
-            */
+            Workflow::handleLock(Issue::getProjectID($issue_id), $issue_id, $usr_id);
             return 1;
         }
     }
@@ -398,10 +392,8 @@ class Issue
      */
     function remoteAssign($issue_id, $usr_id, $assignee)
     {
-        if ($usr_id != $assignee) {
-            $current = Issue::getDetails($issue_id);
-            Notification::notifyIRCAssignmentChange($issue_id, $usr_id, $current['assigned_users'], array($assignee), true);
-        }
+        Workflow::handleAssignmentChange(Issue::getProjectID($issue_id), $issue_id, $usr_id, Issue::getDetails($issue_id), array($assignee), true);
+        
         // clear up the assignments for this issue, and then assign it to the current user
         Issue::deleteUserAssociations($issue_id, $usr_id);
         $res = Issue::addUserAssociation($issue_id, $assignee, false);
@@ -597,14 +589,7 @@ class Issue
             // save a history entry about this...
             History::add($issue_id, $usr_id, History::getTypeID('issue_locked'), "Issue locked by " . User::getFullName($usr_id));
             Notification::subscribeUser($issue_id, $usr_id, Notification::getAllActions());
-            // XXX: if the current issue status is set to 'pending', then change the status to 'assigned'
-            /*
-            $current_status_id = Issue::getStatusID($issue_id);
-            if ($current_status_id == Status::getStatusID('Pending')) {
-                Issue::setStatus($issue_id, Status::getStatusID('Assigned'));
-                History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to 'Assigned' because " . User::getFullName($usr_id) . " locked the issue.");
-            }
-            */
+            Workflow::handleLock(Issue::getProjectID($issue_id), $issue_id, $usr_id);
             return 1;
         }
     }
@@ -1137,6 +1122,7 @@ class Issue
         global $HTTP_POST_VARS;
 
         $usr_id = Auth::getUserID();
+        $prj_id = Issue::getProjectID($issue_id);
         // get all of the 'current' information of this issue
         $current = Issue::getDetails($issue_id);
         // update the issue associations
@@ -1191,7 +1177,7 @@ class Issue
                     }
                 }
             }
-            Notification::notifyIRCAssignmentChange($issue_id, $usr_id, $current['assigned_users'], @$HTTP_POST_VARS['assignments']);
+            Workflow::handleAssignmentChange(Issue::getProjectID($issue_id), $issue_id, $usr_id, Issue::getDetails($issue_id), @$HTTP_POST_VARS['assignments'], false);
         }
         if (empty($HTTP_POST_VARS["estimated_dev_time"])) {
             $HTTP_POST_VARS["estimated_dev_time"] = 0;
@@ -1238,11 +1224,7 @@ class Issue
             }
             if ($current["iss_pri_id"] != $HTTP_POST_VARS["priority"]) {
                 $updated_fields["Priority"] = History::formatChanges(Misc::getPriorityTitle($current["iss_pri_id"]), Misc::getPriorityTitle($HTTP_POST_VARS["priority"]));
-                // XXX: only send an irc notice if this was done by a customer user
-                if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
-                    $irc_notice = "Issue #$issue_id updated (Old Priority: " . Misc::getPriorityTitle($current['iss_pri_id']) . "; New Priority: " . Misc::getPriorityTitle($HTTP_POST_VARS["priority"]) . "), " . $current['customer_info']['customer_name'] . ", " . $HTTP_POST_VARS["summary"];
-                    Notification::notifyIRC($issue_id, $irc_notice);
-                }
+                Workflow::handlePriorityChange($prj_id, $issue_id, $usr_id, $current, $HTTP_POST_VARS);
             }
             if ($current["iss_sta_id"] != $HTTP_POST_VARS["status"]) {
                 $updated_fields["Status"] = History::formatChanges(Status::getStatusTitle($current["iss_sta_id"]), Status::getStatusTitle($HTTP_POST_VARS["status"]));
@@ -1291,17 +1273,13 @@ class Issue
             if (($current["duplicates"] != '') && (count($intersect) > 0)) {
                 Issue::updateDuplicates($issue_id);
             }
-            // XXX: if a customer is updating the issue, mark it as 'Waiting on Developer'
-            /*
-            $status_id = Status::getStatusID('Waiting on Developer');
-            if ((!empty($status_id)) &&
-                    ($HTTP_POST_VARS["status"] != Status::getStatusID('Pending')) &&
-                    (!Status::hasClosedContext($HTTP_POST_VARS["status"])) &&
-                    (User::getRoleByUser($usr_id) == User::getRoleID('Customer'))) {
-                Issue::markAsWaitingOnDeveloper($issue_id, $status_id, 'update');
+            
+            // if there is customer integration, mark last customer action
+            if ((Customer::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id) == User::getRoleID('Customer'))) {
                 Issue::recordLastCustomerAction($issue_id);
             }
-            */
+            
+            Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $HTTP_POST_VARS);
             return 1;
         }
     }
