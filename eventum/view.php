@@ -104,7 +104,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                 'max_attachment_size' => Attachment::getMaxAttachmentSize(),
                 'show_releases'       => $show_releases,
                 'show_category'       => $show_category,
-                'quarantine_status'   => Issue::getQuarantineStatus($issue_id)
+                'quarantine'          => Issue::getQuarantineInfo($issue_id)
             ));
 
             if ($role_id != User::getRoleID('customer')) {

@@ -70,7 +70,7 @@ if (@$HTTP_POST_VARS["cat"] == "report") {
         // show direct links to the issue page, issue listing page and 
         // email listing page
         $tpl->assign("new_issue_id", $res);
-        $tpl->assign("quarantine_status", Issue::getQuarantineStatus($res));
+        $tpl->assign("quarantine", Issue::getQuarantineInfo($res));
         $tpl->assign("errors", $insert_errors);
         $tpl->assign("ticket", Issue::getDetails($res));
     } else {

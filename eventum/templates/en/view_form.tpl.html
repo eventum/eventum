@@ -108,7 +108,7 @@ function validateForm(f)
   </tr>
 </table>
 
-{if $quarantine_status > 0}
+{if $quarantine.iqu_status > 0}
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
@@ -121,6 +121,9 @@ function validateForm(f)
                 This Issue is Currently Quarantined
             </span>
             {include file="customer/$customer_backend_name/quarantine.tpl.html"}<br />
+            {if $current_role > $roles.customer && $quarantine.iqu_expiration != ''}
+                Quarantine expires in {$quarantine.time_till_expiration}<br />
+            {/if}
             Please see the <a href="faq.php">FAQ</a> for information regarding quarantined issues.
             </span>
             {if $current_role > $roles.developer}
