@@ -563,9 +563,6 @@ class Support
                     $t['customer_id'] = $customer_id;
                 }
             }
-            if (empty($t['customer_id'])) {
-                $t['customer_id'] = "NULL";
-            }
             if (empty($t['issue_id'])) {
                 $t['issue_id'] = 0;
             }
@@ -674,6 +671,12 @@ class Support
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
+        if (!empty($usr_id) && !empty($row["customer_id"])) {
+            $row["customer_id"] = User::getCustomerID($usr_id);
+        }
+        if (empty($row['customer_id'])) {
+            $row['customer_id'] = "NULL";
+        }
         
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
