@@ -68,6 +68,16 @@ function validateClose(f)
         </tr>
         <tr>
           <td width="160" bgcolor="{$cell_color}" class="default_white">
+            <b>Resolution:</b><br />
+          </td>
+          <td bgcolor="{$light_color}">
+            <select class="default" name="resolution">
+              {html_options options=$resolutions}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td width="160" bgcolor="{$cell_color}" class="default_white">
             <b>Send Notification About Issue Being Closed?</b><br />
           </td>
           <td bgcolor="{$light_color}" class="default">
