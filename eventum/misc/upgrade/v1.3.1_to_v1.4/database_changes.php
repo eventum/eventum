@@ -80,6 +80,8 @@ $stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_last_response_date_
 $stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_first_response_date_time_period smallint(4) AFTER cst_first_response_date_filter_type";
 $stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_closed_date_time_period smallint(4) AFTER cst_closed_date_filter_type";
 
+$stmts[] = "UPDATE eventum_user SET usr_status = 'inactive' WHERE usr_id = 1";
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);

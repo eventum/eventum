@@ -542,3 +542,6 @@ ALTER TABLE eventum_custom_filter ADD COLUMN cst_updated_date_time_period smalli
 ALTER TABLE eventum_custom_filter ADD COLUMN cst_last_response_date_time_period smallint(4) AFTER cst_last_response_date_filter_type;
 ALTER TABLE eventum_custom_filter ADD COLUMN cst_first_response_date_time_period smallint(4) AFTER cst_first_response_date_filter_type;
 ALTER TABLE eventum_custom_filter ADD COLUMN cst_closed_date_time_period smallint(4) AFTER cst_closed_date_filter_type;
+
+# December 28th
+UPDATE eventum_user SET usr_status = 'inactive' WHERE usr_id = 1;
