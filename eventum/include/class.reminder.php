@@ -640,6 +640,8 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
         $stmt .= Reminder::getWhereClause($reminder, $conditions);
         $stmt .= ' AND iss_trigger_reminders=1 ';
+        // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
+        $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "')", $stmt);
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -713,6 +715,8 @@ class Reminder
                  FROM
                     " . APP_TABLE_PREFIX . "issue";
         $stmt .= Reminder::getWhereClause($reminder, $conditions);
+        // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
+        $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "')", $stmt);
         return $stmt;
     }
 }
