@@ -1655,7 +1655,6 @@ class Spot_Customer_Backend
      */
     function sendExpirationNotice($contact_id, $is_expired = FALSE)
     {
-        $type = 'expired_customer';
         // two emails, add the sales@ blurb only when sending the email to the sales team
         list($contact_email, $void, $contact_name) = $this->getContactLoginDetails($contact_id);
         $to = Mail_API::getFormattedName($contact_name, $contact_email);
@@ -1676,7 +1675,7 @@ class Spot_Customer_Backend
             }
             // open text template
             $tpl = new Template_API;
-            $tpl->setTemplate('notifications/' . $type . '.tpl.text');
+            $tpl->setTemplate('customer/spot/expired_customer.tpl.text');
             $tpl->bulkAssign(array(
                 "data"             => $data,
                 "is_expired"       => $is_expired,
