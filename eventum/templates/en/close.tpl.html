@@ -70,6 +70,7 @@ function validateClose(f)
               <option value="-1">Please choose a status</option>
               {html_options options=$statuses}
             </select>
+            <script language="Javascript">selectOnlyValidOption(document.forms['close_form'].elements['status']);</script>
             {include file="error_icon.tpl.html" field="status"}
           </td>
         </tr>

@@ -28,8 +28,8 @@ function signupAsAuthorizedReplier(issue_id)
 }
 function selfAssign(issue_id)
 {
-    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=self_assign&iss_id=' + issue_id, '_selfAssign', features);
+    var features = 'width=420,height=150,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('self_assign.php?iss_id=' + issue_id, '_selfAssign', features);
     popupWin.focus();
 }
 function unassign(issue_id)

@@ -165,10 +165,11 @@ function validateForm(f)
             <nobr><b>Associated Issues:</b></nobr>
           </td>
           <td bgcolor="{$light_color}">
-            <select size="4" multiple name="associated_issues[]" class="default">
+            <select size="4" multiple name="associated_issues[]" class="default" onChange="showSelections('update_form', 'associated_issues[]')">
               {html_options values=$issues output=$issues selected=$issue.associated_issues}
             </select>
-            {if not ($os.mac and $browser.ie)}<a title="lookup issues by their summaries" href="javascript:void(null);" onClick="return overlib(getOverlibContents('{include file="lookup_layer.tpl.html" list=$assoc_issues multiple=1}', 'update_form', 'associated_issues[]', true), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, RIGHT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#000000', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            {if not ($os.mac and $browser.ie)}<a title="lookup issues by their summaries" href="javascript:void(null);" onClick="return overlib(getOverlibContents('{include file="lookup_layer.tpl.html" list=$assoc_issues multiple=1}', 'update_form', 'associated_issues[]', true), STICKY, HEIGHT, 50, WIDTH, 250, BELOW, RIGHT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#000000', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            <div class="default" id="selection_associated_issues[]"></div>
           </td>
           {/if}
           <input type="hidden" name="keep" value="yes">

@@ -117,7 +117,7 @@ if (@$HTTP_GET_VARS["cat"] == "associate") {
 
 $tpl->assign(array(
     "cats"                   => Category::getAssocList($prj_id),
-    "priorities"             => Priority::getList($prj_id),
+    "priorities"             => Priority::getAssocList($prj_id),
     "users"                  => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "releases"               => Release::getAssocList($prj_id),
     "custom_fields"          => Custom_Field::getListByProject($prj_id, 'report_form'),

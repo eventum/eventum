@@ -130,6 +130,9 @@ function validateForm(f)
     if (window.validateCustomer) {
         validateCustomer(f);
     }
+    if (errors.length > 0) {
+        f.main_submit_button.disabled = false;
+    }
 }
 //-->
 </script>
@@ -199,11 +202,15 @@ function validateForm(f)
             <b>Priority: *</b> {include file="help_link.tpl.html" topic="report_priority"}
           </td>
           <td bgcolor="{$light_color}">
+            {* Figure out default priority *}
+            {if $smarty.post.priority != ''}
+              {assign var="priority" value=$smarty.post.priority}
+            {else}
+              {assign var="priority" value=3}
+            {/if}
             <select name="priority" class="default" tabindex="2">
               <option value="-1">Please choose a priority</option>
-              {section name="i" loop=$priorities}
-              <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $smarty.post.priority}selected{/if}>{$priorities[i].pri_title}</option>
-              {/section}
+              {html_options options=$priorities selected=$priority}
             </select>
             {include file="error_icon.tpl.html" field="priority"}
           </td>
@@ -218,6 +225,7 @@ function validateForm(f)
               {html_options options=$users selected=$smarty.post.users}
             </select>
             {include file="error_icon.tpl.html" field="users[]"}
+            <script language="Javascript">selectOnlyValidOption(document.forms['report_form'].elements['users[]']);</script>
           </td>
         </tr>
         {/if}

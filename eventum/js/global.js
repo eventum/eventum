@@ -212,11 +212,13 @@ function showComboBoxes()
 function getOverlibContents(options, target_form, target_field, is_multiple)
 {
     hideComboBoxes(target_field);
-    var html = '<form onSubmit="javascript:return lookupOption(this, \'' + target_form + '\', \'' + target_field + '\');">' + options + '<input class="button_overlib" type="submit" value="Lookup"><br><input name="search" class="lookup_field_overlib" type="text" size="24" value="paste or start typing here" onBlur="javascript:this.value=\'paste or start typing here\';" onFocus="javascript:this.value=\'\';" onKeyUp="javascript:lookupField(this.form, this, \'lookup';
+    var html = '<form name="overlib_form" onSubmit="javascript:return lookupOption(this, \'' + target_form + '\', \'' + target_field + '\');">' + options + '<br /><input name="search" class="lookup_field_overlib" type="text" size="24" value="paste or start typing here" onBlur="javascript:this.value=\'paste or start typing here\';" onFocus="javascript:this.value=\'\';" onKeyUp="javascript:lookupField(this.form, this, \'lookup';
     if ((is_multiple != null) && (is_multiple == true)) {
         html += '[]';
     }
-    html += '\');"></form>';
+    html += '\');"><input class="button_overlib" type="submit" value="Lookup"><br />'
+        + '<input type="text" name="id_number" size="24" class="lookup_field_overlib" value="id #" onFocus="javascript:this.value=\'\';" onClick>'
+        + '<input type="button" class="button_overlib" value="Add By ID" onClick="lookupByID(document.forms[\'overlib_form\'].id_number, \'' + target_form + '\', \'' + target_field + '\')"></form>';
     return html;
 }
 
@@ -243,6 +245,33 @@ function lookupOption(f, target_form, target_field)
             nd();
             showComboBoxes();
             break;
+        }
+    }
+    return false;
+}
+
+function lookupByID(field, target_form, target_field)
+{
+    if (!isNumberOnly(field.value)) {
+        alert('Please enter numbers only');
+    } else {
+        // try to find value in targer field.
+        target_obj = document.forms[target_form].elements[target_field];
+        found = false;
+        for (i = 0;i<target_obj.options.length; i++) {
+            if (target_obj.options[i].value == field.value) {
+                found = true;
+                target_obj.options[i].selected = true;
+            }
+        }
+        if (found == false) {
+            alert('ID #' + field.value + ' was not found');
+        } else {
+            field.value = '';
+            // check if we should call "showSelection"
+            if (document.getElementById('selection_' + target_field) != null) {
+                showSelections(target_form, target_field)
+            }
         }
     }
     return false;
@@ -628,5 +657,19 @@ function openHelp(rel_url, topic)
     var features = 'width=' + width + ',height=' + height + ',' + location + 'resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var helpWin = window.open(rel_url + 'help.php?topic=' + topic, '_help', features);
     helpWin.focus();
+}
+
+function selectOnlyValidOption(selectObj)
+{
+    if (selectObj.selectedIndex < 1) {
+        if (selectObj.length == 1) {
+            selectObj.selectedIndex = 0;
+            return;
+        }
+        if (selectObj.length <= 2 && selectObj.options[0].value == -1) {
+            selectObj.selectedIndex = 1;
+            return;
+        }
+    }
 }
 //-->

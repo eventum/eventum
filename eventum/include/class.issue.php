@@ -1365,9 +1365,15 @@ class Issue
                  WHERE
                     isu_iss_id = $issue_id AND
                     isu_usr_id = $usr_id";
-        $GLOBALS["db_api"]->dbh->query($stmt);
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'), 
-            User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID()));
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'), 
+                User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID()));
+            return 1;
+        }
     }
 
 

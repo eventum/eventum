@@ -96,13 +96,8 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
 } elseif (@$HTTP_POST_VARS["cat"] == "remove_checkin") {
     $res = SCM::remove();
     $tpl->assign("remove_checkin_result", $res);
-} elseif (@$HTTP_GET_VARS["cat"] == "self_assign") {
-    $res = Issue::addUserAssociation($usr_id, $HTTP_GET_VARS["iss_id"], $usr_id);
-    $tpl->assign("self_assign_result", $res);
-    Notification::subscribeUser($usr_id, $HTTP_GET_VARS["iss_id"], $usr_id, Notification::getAllActions());
-    Workflow::handleAssignment($prj_id, $HTTP_GET_VARS["iss_id"], $usr_id);
 } elseif (@$HTTP_GET_VARS['cat'] == 'unassign') {
-    $res = Issue::deleteUserAssociations($HTTP_GET_VARS["iss_id"], $usr_id);
+    $res = Issue::deleteUserAssociation($HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign('unassign_result', $res);
 } elseif (@$HTTP_POST_VARS["cat"] == "remove_email") {
     $res = Support::removeEmails();
