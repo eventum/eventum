@@ -31,6 +31,12 @@ include_once("../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.mail_queue.php");
 
+if (!Mail_Queue::isSafeToRun()) {
+    $pid = Mail_Queue::getProcessID();
+    echo "ERROR: There is already a process (pid=$pid) of this script running.\n";
+    exit;
+}
+
 ini_set("memory_limit", "256M");
 
 // handle only pending emails
@@ -40,4 +46,6 @@ Mail_Queue::send('pending', $limit);
 // handle emails that we tried to send before, but an error happened...
 $limit = 50;
 Mail_Queue::send('error', $limit);
+
+Mail_Queue::removeProcessFile();
 ?>

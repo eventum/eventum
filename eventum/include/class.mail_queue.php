@@ -38,6 +38,76 @@ include_once(APP_PEAR_PATH . 'Mail.php');
 class Mail_Queue
 {
     /**
+     * Returns the full path to the file that keeps the process ID of the
+     * running script.
+     *
+     * @access  private
+     * @return  string The full path of the process file
+     */
+    function _getProcessFilename()
+    {
+        return APP_PATH . 'misc/process_mail_queue.pid';
+    }
+
+
+    /**
+     * Checks whether it is safe or not to run the mail queue script.
+     *
+     * @access  public
+     * @return  boolean
+     */
+    function isSafeToRun()
+    {
+        $pid = Mail_Queue::getProcessID();
+        if (!empty($pid)) {
+            return false;
+        } else {
+            // create the pid file
+            $fp = fopen(Mail_Queue::_getProcessFilename(), 'w');
+            fwrite($fp, getmypid());
+            fclose($fp);
+            return true;
+        }
+    }
+
+
+    /**
+     * Returns the process ID of the script, if any.
+     *
+     * @access  public
+     * @return  integer The process ID of the script
+     */
+    function getProcessID()
+    {
+        static $pid;
+
+        if (!empty($pid)) {
+            return $pid;
+        }
+
+        $pid_file = Mail_Queue::_getProcessFilename();
+        if (!file_exists($pid_file)) {
+            return 0;
+        } else {
+            $pid = trim(implode('', file($pid_file)));
+            return $pid;
+        }
+    }
+
+
+    /**
+     * Removes the process file to allow other instances of this script to run.
+     *
+     * @access  public
+     * @return  void
+     */
+    function removeProcessFile()
+    {
+        @unlink(Mail_Queue::_getProcessFilename());
+    }
+
+
+    /**
      * Adds an email to the outgoing mail queue.
      *
      * @access  public
