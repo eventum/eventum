@@ -202,21 +202,6 @@
                 </td>
               </tr>
               <tr>
-                <td width="120" nowrap bgcolor="{$cell_color}" class="default_white">
-                  <b>Hide Fields From Reporter Role:</b>
-                </td>
-                <td width="80%" bgcolor="{$light_color}">
-                  <span class="default">
-                  <input type="radio" name="hide_fields" value="1" {if $info.prj_hide_fields_from_reporter == 1}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('project_form', 'hide_fields', 0);">Yes</a>&nbsp;&nbsp;
-                  <input type="radio" name="hide_fields" value="0" {if $info.prj_hide_fields_from_reporter != 1}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('project_form', 'hide_fields', 1);">No</a><br />
-                  </span>
-                  <span class="small_default"><i>If yes, hides the assignment, scheduled release and estimated developement time fields from users with the role 'Reporter' on the
-                  issue creation page.</i></span>
-                </td>
-              </tr>
-              <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input class="button" type="submit" value="Update Project">
@@ -282,6 +267,7 @@
                           <li><a href="{$rel_url}manage/releases.php?prj_id={$list[i].prj_id}" class="link">Edit Releases</a></li>
                           <li><a href="{$rel_url}manage/categories.php?prj_id={$list[i].prj_id}" class="link">Edit Categories</a></li>
                           <li><a href="{$rel_url}manage/anonymous.php?prj_id={$list[i].prj_id}" class="link">Anonymous Reporting</a></li>
+                          <li><a href="{$rel_url}manage/field_display.php?prj_id={$list[i].prj_id}" class="link">Edit Fields to Display</a></li>
                         </ul>
                       </td>
                     </tr>

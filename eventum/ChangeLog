@@ -10,7 +10,7 @@ Euventum Issue Tracking System
 - Forced order of graph bars on custom field report to match order options are listed in the select box. (Bryan)
 - Added initial support for custom workflows. (Bryan)
 - Added customer stats report. (Bryan)
-- Added project setting whether to hide fields from users with the role of 'Reporter' on the issue creation page. (Bryan)
+- Added ability to specify which fields should be displayed on the issue creation form. (Bryan)
 
 30 Jun 2004, Version 1.2.2
 - Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being created. (Bryan)

@@ -109,14 +109,12 @@ $tpl->assign(array(
     "users"               => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "releases"            => Release::getAssocList($prj_id),
     "custom_fields"       => Custom_Field::getListByProject($prj_id, 'report_form'),
-    "max_attachment_size" => Attachment::getMaxAttachmentSize()
+    "max_attachment_size" => Attachment::getMaxAttachmentSize(),
+    "field_display_settings"    =>  Project::getFieldDisplaySettings($prj_id)
 ));
 
 $setup = Setup::load();
 $tpl->assign("allow_unassigned_issues", $setup["allow_unassigned_issues"]);
-
-$prj_details = Project::getDetails($prj_id);
-$tpl->assign("hide_fields_from_reporter", @$prj_details["prj_hide_fields_from_reporter"]);
 
 $prefs = Prefs::get($usr_id);
 $tpl->assign("user_prefs", $prefs);
