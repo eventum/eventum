@@ -60,7 +60,14 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
 } elseif (!Issue::canAccess($issue_id, $usr_id)) {
     $tpl->assign("auth_customer", 'denied');
 } else {
-    
+    $associated_projects = @array_keys(Project::getAssocList($usr_id));
+    $new_prj_id = Issue::getProjectID($issue_id);
+    $auto_switched = false;
+    if ((!empty($new_prj_id)) && (in_array($new_prj_id, $associated_projects)) && ($new_prj_id != $prj_id)) {
+        $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+        Auth::setCurrentProject($new_prj_id, $cookie["remember"], true);
+        Auth::redirect(APP_BASE_URL . "update.php?id=$issue_id");
+    }
     if (@$HTTP_POST_VARS["cat"] == "update") {
         $res = Issue::update($HTTP_POST_VARS["issue_id"]);
         $tpl->assign("update_result", $res);
@@ -103,6 +110,14 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
         "groups"       => Group::getAssocList($prj_id)
     ));
+    
+    $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+    if (!empty($cookie['auto_switched_from'])) {
+        $tpl->assign(array(
+            "project_auto_switched" =>  1,
+            "old_project"   =>  Project::getName($cookie['auto_switched_from'])
+        ));
+    }
 }
 $tpl->displayTemplate();
 ?>
