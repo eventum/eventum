@@ -174,6 +174,9 @@ class Command_Line
             Command_Line::quit($result->faultString());
         }
         echo "OK - Issue #$issue_id successfully closed.\n";
+        if (XML_RPC_decode($result->value()) == 'INCIDENT') {
+            echo "WARNING: This customer has incidents. Please redeem incidents by running 'eventum $issue_id redeem'\n";
+        }
     }
 
 
@@ -485,6 +488,34 @@ class Command_Line
 
 
     /**
+     * Method used to assign an issue to the current user and set status to 'assigned'.
+     * If issue is already assigned to someone else, this will fail.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   array $auth Array of authentication information (email, password)
+     * @param   integer $issue_id The issue ID
+     */
+    function takeIssue($rpc_conn, $auth, $issue_id)
+    {
+        $details = Command_Line::checkIssuePermissions(&$rpc_conn, $auth, $issue_id);
+
+        $params = array(
+            new XML_RPC_Value($auth[0], 'string'),
+            new XML_RPC_Value($auth[1], 'string'),
+            new XML_RPC_Value($issue_id, 'int'),
+            new XML_RPC_Value($details['iss_prj_id'], 'int'),
+        );
+        $msg = new XML_RPC_Message("takeIssue", $params);
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        echo "OK - Issue #$issue_id successfully taken.\n";
+    }
+
+
+    /**
      * Method used to add an authorized replier
      *
      * @access  public
@@ -727,8 +758,8 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         }
         foreach ($issues as $issue) {
             echo "- #" . $issue['issue_id'] . " - " . $issue['summary'] . " (" . $issue['status'] . ")";
-            if (!empty($issue['assignment'])) {
-                echo " - (" . $issue['assignment'] . ")";
+            if (!empty($issue['assigned_users'])) {
+                echo " - (" . $issue['assigned_users'] . ")";
             } else {
                 echo " - (unassigned)";
             }
@@ -1558,6 +1589,10 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         $usage[] = array(
             "command"   =>  "<ticket_number> assign <developer_email> [--safe]",
             "help"      =>  "Assign an issue to another developer."
+        );
+        $usage[] = array(
+            "command"   =>  "<ticket_number> take [--safe]",
+            "help"      =>  "Assign an issue to yourself and change status to 'Assigned'."
         );
         $usage[] = array(
             "command"   =>  array("<ticket_number> add-replier <user_email> [--safe]","<ticket_number> ar <user_email> [--safe]"),

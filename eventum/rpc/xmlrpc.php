@@ -131,7 +131,7 @@ function getOpenIssues($p)
             $structs[] = new XML_RPC_Value(array(
                 "issue_id"   => new XML_RPC_Value($res[$i]['iss_id'], "int"),
                 "summary"    => new XML_RPC_Value($res[$i]['iss_summary']),
-                'assignment' => new XML_RPC_Value($res[$i]['usr_full_name']),
+                'assigned_users'    => new XML_RPC_Value($res[$i]['assigned_users']),
                 'status'     => new XML_RPC_Value($res[$i]['sta_title'])
             ), "struct");
         }
@@ -298,6 +298,46 @@ function assignIssue($p)
     }
 }
 
+$takeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int));
+function takeIssue($p)
+{
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $project_id = XML_RPC_decode($p->getParam(3));
+
+    createFakeCookie($email, Issue::getProjectID($issue_id));
+
+    // check if issue currently is un-assigned
+    $current_assignees = Issue::getAssignedUsers($issue_id);
+    if (count($current_assignees) > 0) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue is currently assigned to " . join(',', $current_assignees));
+    }
+    
+    $usr_id = User::getUserIDByEmail($email);
+    
+    // check if the assignee is even allowed to be in the given project
+    $projects = Project::getRemoteAssocListByUser($usr_id);
+    if (!in_array($project_id, array_keys($projects))) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The selected developer is not permitted in the project associated with issue #$issue_id");
+    }
+    
+    $res = Issue::remoteAssign($issue_id, $usr_id, $usr_id);
+    if ($res == -1) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not assign issue #$issue_id to $email");
+    } else {
+        $res = Issue::setRemoteStatus($issue_id, $usr_id, "Assigned");
+        if ($res == -1) {
+           return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not set status for issue #$issue_id");
+        }
+        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+    }
+}
+
 $addAuthorizedReplier_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String));
 function addAuthorizedReplier($p)
 {
@@ -428,7 +468,12 @@ function closeIssue($p)
     if ($res == -1) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not close issue #$issue_id");
     } else {
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        $prj_id = Issue::getProjectID($issue_id);
+        if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {
+            return new XML_RPC_Response(XML_RPC_Encode('INCIDENT'));
+        } else {
+            return new XML_RPC_Response(XML_RPC_Encode('OK'));
+        }
     }
 }
 
@@ -944,6 +989,10 @@ $services = array(
     "assignIssue" => array(
         'function'  => "assignIssue",
         'signature' => $assignIssue_sig
+    ),
+    "takeIssue" => array(
+        'function'  => "takeIssue",
+        'signature' => $takeIssue_sig
     ),
     "addAuthorizedReplier" => array(
         'function'  => "addAuthorizedReplier",
