@@ -15,4 +15,5 @@ Eventum Issue Tracking System
 - Added a usr_id field to the email table to make reporting on that table easier (Bryan)
 - Separated the body and full email fields from the email table into a separate one to improve query performance (João)
 - Added a missing reference to the 'noted_emails|notes' directories in the INSTALL file (João)
+- Removed 'to' field when sending emails from an issue since emails are sent to notification list. (Bryan)
 
