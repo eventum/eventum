@@ -69,11 +69,21 @@ if ($details["iss_pre_id"] != 0 && empty($releases[$details["iss_pre_id"]])){
     $releases = array($details["iss_pre_id"] => $details["pre_title"]) + $releases;
 }
 
+if (Workflow::hasWorkflowIntegration($prj_id)) {
+    $statuses = Workflow::getAllowedStatuses($prj_id, $issue_id);
+    // if currently selected release is not on list, go ahead and add it.
+    if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
+        $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
+    }
+} else {
+    $statuses = Status::getAssocStatusList($prj_id);
+}
+
 $tpl->assign(array(
     "subscribers"  => Notification::getSubscribers($issue_id),
     "categories"   => Category::getAssocList($prj_id),
     "priorities"   => Priority::getAssocList($prj_id),
-    "status"       => Status::getAssocStatusList($prj_id),
+    "status"       => $statuses,
     "releases"     => $releases,
     "resolutions"  => Resolution::getAssocList(),
     "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),

@@ -312,6 +312,23 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleNewNote($prj_id, $issue_id, $closing);
     }
+    
+    
+    /**
+     * Method is called to return the list of statuses valid for a specific issue.
+     * 
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @return  array An associative array of statuses valid for this issue.
+     */
+    function getAllowedStatuses($prj_id, $issue_id)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->getAllowedStatuses($prj_id, $issue_id);
+    }
 }
 
 

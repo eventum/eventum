@@ -149,5 +149,18 @@ class Abstract_Workflow_Backend
     function handleNewEmail($prj_id, $issue_id, $message)
     {
     }
+    
+    
+    /**
+     * Method is called to return the list of statuses valid for a specific issue.
+     * 
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @return  array An associative array of statuses valid for this issue.
+     */
+    function getAllowedStatuses($prj_id, $issue_id)
+    {
+        return Status::getAssocList();
+    }
 }
 ?>

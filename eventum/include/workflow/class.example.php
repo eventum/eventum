@@ -176,5 +176,21 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     {
         echo "Workflow: New Email<br />\n";
     }
+    
+    
+    /**
+     * Method is called to return the list of statuses valid for a specific issue.
+     * 
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @return  array An associative array of statuses valid for this issue.
+     */
+    function getAllowedStatuses($prj_id, $issue_id)
+    {
+        echo "Workflow: Returning allowed statuses<br />\n";
+       $statuses = Status::getAssocList();
+       // you should perform any logic and remove any statuses you need to here.
+       return $statuses;
+    }
 }
 ?>
