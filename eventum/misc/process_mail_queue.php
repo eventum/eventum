@@ -31,8 +31,22 @@ include_once("../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.mail_queue.php");
 
+// determine if this script is being called from the web or command line
+$fix_lock = false;
+if (isset($_SERVER['HTTP_HOST'])) {
+    // web
+    if (@$_GET['fix-lock'] == 1) {
+        $fix_lock = true;
+    }
+} else {
+    // command line
+    if (in_array('--fix-lock', $_SERVER['argv'])) {
+        $fix_lock = true;
+    }
+}
+
 // if requested, clear the lock
-if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
+if ($fix_lock) {
     Mail_Queue::removeProcessFile();
     echo "The lock file was removed successfully.\n";
     exit;

@@ -68,6 +68,9 @@ feature with the appropriate email accounts, go to:
 
  Administration >>> Manage Email Accounts
 
+You can also call the download_emails script via the web, using the following URL:
+http://eventum_server/path-to-eventum/misc/download_emails.php?username=username_here&hostname=mail.domain.com&mailbox=INBOX
+
 
 3)- Reminder System (misc/check_reminders.php)
 

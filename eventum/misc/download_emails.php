@@ -42,24 +42,52 @@ if (!function_exists('imap_open')) {
     exit;
 }
 
+// determine if this script is being called from the web or command line
+$fix_lock = false;
+if (isset($_SERVER['HTTP_HOST'])) {
+    // web
+    $type = 'web';
+    if (@$_GET['fix-lock'] == 1) {
+        $fix_lock = true;
+    }
+    $username = @$_GET['username'];
+    $hostname = @$_GET['hostname'];
+    $mailbox = @$_GET['mailbox'];
+} else {
+    // command line
+    $type = 'cli';
+    if (in_array('--fix-lock', $_SERVER['argv'])) {
+        $fix_lock = true;
+    }
+    $username = @$_SERVER['argv'][1];
+    $hostname = @$_SERVER['argv'][2];
+    $mailbox = @$_SERVER['argv'][3];
+}
+
+
 // check for the required parameters
-if (@count($HTTP_SERVER_VARS['argv']) < 3 && @$HTTP_SERVER_VARS['argv'][1] != '--fix-lock') {
-    echo "Error: Wrong number of parameters given. Expected parameters related to the email account:\n";
-    echo " 1 - username\n";
-    echo " 2 - hostname\n";
-    echo " 3 - mailbox (only required if IMAP account)\n";
-    echo "Example: php -q download_emails.php user example.com INBOX\n";
+if (($fix_lock != true) && ((empty($username)) || (empty($hostname)))) {
+    if ($type == 'cli') {
+        echo "Error: Wrong number of parameters given. Expected parameters related to the email account:\n";
+        echo " 1 - username\n";
+        echo " 2 - hostname\n";
+        echo " 3 - mailbox (only required if IMAP account)\n";
+        echo "Example: php -q download_emails.php user example.com INBOX\n";
+    } else {
+        echo "Error: Wrong number of parameters given. Expected parameters related to email account:<br />\n";
+        echo "download_emails.php?username=<i>username</i>&hostname=<i>hostname</i>&mailbox=<i>mailbox</i><br />";
+    }
     exit;
 }
 
 // get the account ID since we need it for locking.
-$account_id = Email_Account::getAccountID(@$HTTP_SERVER_VARS["argv"][1], @$HTTP_SERVER_VARS["argv"][2], @$HTTP_SERVER_VARS["argv"][3]);
-if ($account_id == 0 && !in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
+$account_id = Email_Account::getAccountID($username, $hostname, $mailbox);
+if (($account_id == 0) && ($fix_lock != true)) {
     echo "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again.\n";
     exit;
 }
 
-if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
+if ($fix_lock == true) {
     // if there is no account id, unlock all accounts
     if (empty($account_id)) {
         $prj_ids = array_keys(Project::getAll());
@@ -78,10 +106,17 @@ if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
 
 // check if there is another instance of this script already running
 if (!Lock::acquire('download_emails_' . $account_id)) {
-    echo "Error: Another instance of the script is still running for the specified account. " . 
-                "If this is not accurate, you may fix it by running this script with '--fix-lock' " . 
-                "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock' " . 
-                "as the only parameter.\n";
+    if ($type == 'cli') {
+        echo "Error: Another instance of the script is still running for the specified account. " . 
+                    "If this is not accurate, you may fix it by running this script with '--fix-lock' " . 
+                    "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock' " . 
+                    "as the only parameter.\n";
+    } else {
+        echo "Error: Another instance of the script is still running for the specified account. " . 
+                    "If this is not accurate, you may fix it by running this script with 'fix-lock=1' " . 
+                    "in the query string or you may unlock ALL accounts by running this script with 'fix-lock=1' " .
+                    "as the only parameter.<br />\n";
+    }
     exit;
 }
 
