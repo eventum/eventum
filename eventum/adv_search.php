@@ -52,11 +52,31 @@ if ($role_id < User::getRoleID('Standard User')) {
 }
 
 $prj_id = Auth::getCurrentProject();
+
+// generate options for assign list. If there are groups and user is above a customer, include groups
+$groups = Group::getAssocList($prj_id);
+$users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
+$assign_options = array(
+    ""      =>  "Any",
+    "-1"    =>  "un-assigned",
+    "-2"    =>  "myself and un-assigned"
+);
+if (User::getGroupID(Auth::getUserID()) != '') {
+    $assign_options['-3'] = 'myself and my group';
+    $assign_options['-4'] = 'myself, un-assigned and my group';
+}
+if ((count($groups) > 0) && ( User::getRoleByUser(Auth::getUserID()) >User::getRoleID("Customer"))) {
+    foreach ($groups as $grp_id => $grp_name) {
+        $assign_options["grp:$grp_id"] = "Group: " . $grp_name;
+    }
+}
+$assign_options += $users;
+
 $tpl->assign(array(
     "cats"       => Category::getAssocList($prj_id),
     "priorities" => Priority::getList($prj_id),
     "status"     => Status::getAssocStatusList($prj_id),
-    "users"      => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+    "users"      => $assign_options,
     "releases"   => Release::getAssocList($prj_id),
     "custom"     => Filter::getListing($prj_id)
 ));
