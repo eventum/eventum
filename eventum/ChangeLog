@@ -2,15 +2,37 @@ Euventum Issue Tracking System
 =============================
 
 ????, Version 2.0
-- Customer integration API
-
-????, Version 1.3
+- Customer integration API (João, Bryan)
+- Custom Workflow API (Bryan)
+- Made canned email responses be customizable in a per-project basis (João)
+- Made priorities be customizable in a per-project basis (João)
 - Fixed the SQL schema to avoid the mystic "Invalid default value for 'sta_id'" error message when installing the application (João)
 - Fixed bug in custom field report when not graphing all options. (Bryan)
 - Forced order of graph bars on custom field report to match order options are listed in the select box. (Bryan)
 - Added initial support for custom workflows. (Bryan)
 - Added customer stats report. (Bryan)
 - Added ability to specify which fields should be displayed on the issue creation form. (Bryan)
+- Fixed the "Forgot My Password" code to check for null results (Clay Loveless)
+- Improved the form validation of the email account form (Clay Loveless)
+- Fixed a bug that was preventing history entries to be created about an assignment from an issue automatically created from an email (Clay Loveless, João)
+- Added support for "date field is NULL" type search (João)
+- Added the ability to create global custom filters (João)
+- Displaying the history of reminder actions triggered for a specific issue (João)
+- Added time tracking shortcuts to the note and draft popups (João)
+- Added a feature to display the assignment information for an issue when doing IRC notifications (João)
+- New option to silently associate an email with an existing issue (João)
+- Clear out any email listing screen search parameters when switching the currently selected project (João)
+- Added shortcuts for the list-files and get-file CLI commands (João)
+- Added a feature to include the backtrace of an error if we have access to the debug_backtrace() function (João)
+- Added note to remind people to protect their setup directories after installation (João)
+- Removed the "default notification options" feature. Too complex for something that should be simple (João)
+- Added user preference to automatically pre-fill the email signature in the internal notes module (João)
+- Fixed a bug that would continualy add "[#3333] Note: " to messages that already have that in the subject line (João)
+- Added a feature to save the issue/email listing screen search parameters in a per-project basis, so switching projects no longer is a problem (João)
+- Added a feature to allow a issue reminder to trigger a specific action and also a IRC notification (João)
+- Fixed the issue-xxxx@ code to properly ignore vacation auto-responder messages (João)
+- Improved the Mail_Queue class code to remove any Reply-To: values prior to sending the messages out (João)
+- Added some performance tweaks to a few screens (João)
 
 30 Jun 2004, Version 1.2.2
 - Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being created. (Bryan)
