@@ -1710,7 +1710,7 @@ class Support
         // associate this new email with a customer, if appropriate
         if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
             $customer_id = User::getCustomerID(Auth::getUserID());
-            if ((empty($customer_id)) && ($customer_id != -1)) {
+            if ((!empty($customer_id)) && ($customer_id != -1)) {
                 $t['customer_id'] = $customer_id;
             }
         }
