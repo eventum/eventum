@@ -112,6 +112,10 @@ function validateForm(f)
     if (isWhitespace(f.summary.value)) {
         errors[errors.length] = new Option('Summary', 'summary');
     }
+    
+    // replace special characters in description
+    replaceSpecialCharacters(f.description);
+    
     if (isWhitespace(f.description.value)) {
         errors[errors.length] = new Option('Initial Description', 'description');
     }
