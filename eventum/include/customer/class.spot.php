@@ -30,7 +30,7 @@
 
 $customer_db = false;
 
-class Customer_Backend
+class Spot_Customer_Backend
 {
     function connect()
     {
@@ -38,7 +38,7 @@ class Customer_Backend
             'phptype'  => "mysql",
             'hostspec' => "localhost",
             'database' => "spot",
-            'username' => "root",
+            'username' => "spot",
             'password' => ""
         );
         $GLOBALS['customer_db'] = DB::connect($dsn);
@@ -81,7 +81,7 @@ class Customer_Backend
                 $status = 'expired';
             } else {
                 $current_gmt_ts = Date_API::getCurrentUnixTimestampGMT();
-                $grace_period_offset = Customer_Backend::_getExpirationOffset() * DAY;
+                $grace_period_offset = $this->_getExpirationOffset() * DAY;
                 $cutoff_ts = $res + $grace_period_offset;
                 if ($current_gmt_ts < $res) {
                     $status = 'active';
@@ -183,11 +183,11 @@ class Customer_Backend
             if (empty($res)) {
                 return array();
             } else {
-                list($is_per_incident, $options) = Customer_Backend::getSupportOptions($res['support_no']);
-                list($account_manager, ) = Customer_Backend::getSalesAccountManager($customer_id);
+                list($is_per_incident, $options) = $this->getSupportOptions($res['support_no']);
+                list($account_manager, ) = $this->getSalesAccountManager($customer_id);
                 $returns[$customer_id] = array(
                     'support_no'        => $res['support_no'],
-                    'sales_person'      => Customer_Backend::getSalesPerson($customer_id, $res['order_row_no']),
+                    'sales_person'      => $this->getSalesPerson($customer_id, $res['order_row_no']),
                     'account_manager'   => $account_manager,
                     'customer_name'     => $res['name'],
                     'contract_id'       => $res['contract_id'],
@@ -232,7 +232,7 @@ class Customer_Backend
         for ($i = 0; $i < count($extra); $i++) {
             if ($extra[$i]['contract_type'] == 'perIncident') {
                 // get the current usage and the limit
-                $incidents_left = ((integer) $extra[$i]['parameter']) - Customer_Backend::getIncidentUsage($support_no);
+                $incidents_left = ((integer) $extra[$i]['parameter']) - $this->getIncidentUsage($support_no);
                 $extra_options[] = $extra[$i]['descript'] . ' (Total: ' . $extra[$i]['parameter'] . '; Left: ' . $incidents_left . ')';
                 $is_per_incident = true;
             } else {
@@ -327,7 +327,7 @@ class Customer_Backend
      */
     function isRedeemedIncident($issue_id)
     {
-        $details = Customer_Backend::getDetails(Issue::getCustomerID($issue_id));
+        $details = $this->getDetails(Issue::getCustomerID($issue_id));
         $stmt = "SELECT
                     COUNT(*)
                  FROM
@@ -368,7 +368,7 @@ class Customer_Backend
                     A.cust_type='C' AND
                     A.cust_no=B.cust_no AND
                     B.status <> 'Cancelled' AND
-                    NOW() <= (B.enddate + INTERVAL " . Customer_Backend::_getExpirationOffset() . " DAY)
+                    NOW() <= (B.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY)
                  ORDER BY
                     A.name ASC";
         $res = $GLOBALS["customer_db"]->getAssoc($stmt);
@@ -412,7 +412,7 @@ class Customer_Backend
                     A.cust_no=$customer_id AND
                     A.cust_no=B.cust_no AND
                     B.status <> 'Cancelled' AND
-                    NOW() <= (B.enddate + INTERVAL " . Customer_Backend::_getExpirationOffset() . " DAY)";
+                    NOW() <= (B.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY)";
         $res = $GLOBALS["customer_db"]->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -445,7 +445,7 @@ class Customer_Backend
                     A.cust_no IN ($items) AND
                     A.cust_no=B.cust_no AND
                     B.status <> 'Cancelled' AND
-                    NOW() <= (B.enddate + INTERVAL " . Customer_Backend::_getExpirationOffset() . " DAY)";
+                    NOW() <= (B.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY)";
         $res = $GLOBALS["customer_db"]->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -488,7 +488,7 @@ class Customer_Backend
                     C.eaddress_type_no=D.eaddress_type_no AND
                     D.descript='email' AND
                     E.status <> 'Cancelled' AND
-                    NOW() <= (E.enddate + INTERVAL " . Customer_Backend::_getExpirationOffset() . " DAY)";
+                    NOW() <= (E.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY)";
         $res = $GLOBALS["customer_db"]->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -721,7 +721,7 @@ class Customer_Backend
         // get the information about the company
         // - company name
         // - support level
-        $contract = Customer_Backend::getContractDetails($contact_id);
+        $contract = $this->getContractDetails($contact_id);
 
         // - street addresses (*-1)
         $stmt = "SELECT
@@ -811,7 +811,7 @@ class Customer_Backend
                     C.support_no=D.support_no AND
                     C.cust_no=A.cust_no AND
                     D.status <> 'Cancelled' AND
-                    NOW() <= (D.enddate + INTERVAL " . Customer_Backend::_getExpirationOffset() . " DAY)";
+                    NOW() <= (D.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY)";
         $res = $GLOBALS["customer_db"]->getAssoc($stmt);
         $contacts = array();
         if (!empty($res)) {
@@ -862,7 +862,7 @@ class Customer_Backend
                     A.support_faq_no=C.support_faq_no AND
                     B.support_agr_no=C.support_agr_no AND
                     C.status <> 'Cancelled' AND
-                    NOW() <= (C.enddate + INTERVAL " . Customer_Backend::_getExpirationOffset() . " DAY)";
+                    NOW() <= (C.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY)";
         $versions = $GLOBALS["customer_db"]->getRow($stmt, DB_FETCHMODE_ASSOC);
 
         return array(
@@ -889,10 +889,10 @@ class Customer_Backend
      */
     function getContractDetails($contact_id, $restrict_expiration = TRUE)
     {
-        $details = Customer_Backend::getContactDetails($contact_id);
+        $details = $this->getContactDetails($contact_id);
         $contact_name = $details['first_name'] . ' ' . $details['last_name'];
 
-        $customer_id = Customer_Backend::_getCustomerIDFromContact($contact_id);
+        $customer_id = $this->_getCustomerIDFromContact($contact_id);
         $stmt = "SELECT
                     A.name,
                     B.support_no,
@@ -910,7 +910,7 @@ class Customer_Backend
         if ($restrict_expiration) {
             $stmt .= " AND
                     B.status <> 'Cancelled' AND
-                    NOW() <= (B.enddate + INTERVAL " . Customer_Backend::_getExpirationOffset() . " DAY)";
+                    NOW() <= (B.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY)";
         }
         $stmt .= "
                  ORDER BY
@@ -919,7 +919,7 @@ class Customer_Backend
                     0, 1";
         $res = $GLOBALS["customer_db"]->getRow($stmt, DB_FETCHMODE_ASSOC);
 
-        list($is_per_incident, $options) = Customer_Backend::getSupportOptions($res['support_no']);
+        list($is_per_incident, $options) = $this->getSupportOptions($res['support_no']);
         return array(
             'contact_name'    => $contact_name,
             'company_name'    => $res['name'],
@@ -1043,11 +1043,11 @@ class Customer_Backend
     function unflagIncident($issue_id)
     {
         // check if the issue is not already in there
-        if (!Customer_Backend::isRedeemedIncident($issue_id)) {
+        if (!$this->isRedeemedIncident($issue_id)) {
             return -2;
         } else {
             // get the support_no from the customer associated with the given issue
-            $details = Customer_Backend::getDetails(Issue::getCustomerID($issue_id));
+            $details = $this->getDetails(Issue::getCustomerID($issue_id));
             $stmt = "DELETE FROM
                         support_issue
                      WHERE
@@ -1074,11 +1074,11 @@ class Customer_Backend
     function flagIncident($issue_id)
     {
         // check if the issue is not already in there
-        if (Customer_Backend::isRedeemedIncident($issue_id)) {
+        if ($this->isRedeemedIncident($issue_id)) {
             return -2;
         } else {
             // get the support_no from the customer associated with the given issue
-            $details = Customer_Backend::getDetails(Issue::getCustomerID($issue_id));
+            $details = $this->getDetails(Issue::getCustomerID($issue_id));
             $stmt = "INSERT INTO
                         support_issue
                      (
