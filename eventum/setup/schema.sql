@@ -813,14 +813,17 @@ CREATE TABLE %TABLE_PREFIX%issue_user_replier (
 DROP TABLE IF EXISTS %TABLE_PREFIX%mail_queue;
 CREATE TABLE %TABLE_PREFIX%mail_queue (
   maq_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  maq_iss_id int(11) unsigned default NULL,
   maq_queued_date DATETIME NOT NULL,
   maq_status VARCHAR(8) NOT NULL DEFAULT 'pending',
   maq_save_copy TINYINT(1) NOT NULL DEFAULT 1,
   maq_sender_ip_address VARCHAR(15) NOT NULL,
   maq_recipient VARCHAR(255) NOT NULL,
+  maq_subject varchar(255) NOT NULL,
   maq_headers TEXT NOT NULL,
   maq_body LONGTEXT NOT NULL,
   KEY maq_status (maq_status),
+  KEY maq_iss_id (maq_iss_id),
   PRIMARY KEY(maq_id)
 );
 
