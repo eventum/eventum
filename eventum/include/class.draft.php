@@ -32,18 +32,43 @@ include_once(APP_INC_PATH . "class.email_account.php");
 class Draft
 {
     /**
+     * Method used to save the routed draft into a backup directory.
+     *
+     * @access  public
+     * @param   string $message The full body of the draft
+     */
+    function saveRoutedMessage($message)
+    {
+        $path = APP_PATH . "misc/routed_drafts/";
+        list($usec,) = explode(" ", microtime());
+        $filename = date('dmY.His.') . $usec . '.draft.txt';
+        $fp = @fopen($path . $filename, 'w');
+        @fwrite($fp, $message);
+        @fclose($fp);
+        @chmod($path . $filename, 0777);
+    }
+
+
+    /**
      * Method used to save the draft response in the database for 
      * further use.
      *
      * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   string $to The primary recipient of the draft
+     * @param   string $cc The secondary recipients of the draft
+     * @param   string $subject The subject of the draft
+     * @param   string $message The draft body
+     * @param   integer $parent_id The ID of the email that this draft is replying to, if any
+     * @param   string $unknown_user The sender of the draft, if not a real user
+     * @param   boolean $add_history_entry Whether to add a history entry automatically or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = FALSE, $unknown_user = FALSE)
+    function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = FALSE, $unknown_user = FALSE, $add_history_entry = TRUE)
     {
         if (empty($parent_id)) {
             $parent_id = 'NULL';
         }
-        
         // if unknown_user is not empty, set the usr_id to be the system user.
         if (!empty($unknown_user)) {
             $usr_id = APP_SYSTEM_USER_ID;
@@ -86,12 +111,15 @@ class Draft
                 Draft::addEmailRecipient($new_emd_id, $cc, true);
             }
             Issue::markAsUpdated($issue_id, "draft saved");
-            History::add($issue_id, $usr_id, History::getTypeID('draft_added'), 'Email message saved as a draft by ' . User::getFullName($usr_id));
+            if ($add_history_entry) {
+                History::add($issue_id, $usr_id, History::getTypeID('draft_added'), 'Email message saved as a draft by ' . User::getFullName($usr_id));
+            }
             return 1;
         }
     }
 
 
+    // XXX: put some documentation here
     function update($issue_id, $emd_id, $to, $cc, $subject, $message, $parent_id = FALSE)
     {
         if (empty($parent_id)) {
@@ -128,6 +156,7 @@ class Draft
     }
 
 
+    // XXX: put some documentation here
     function remove($emd_id)
     {
         $stmt = "DELETE FROM
@@ -145,6 +174,7 @@ class Draft
     }
 
 
+    // XXX: put some documentation here
     function removeRecipients($emd_id)
     {
         $stmt = "DELETE FROM
@@ -161,6 +191,7 @@ class Draft
     }
 
 
+    // XXX: put some documentation here
     function addEmailRecipient($emd_id, $email, $is_cc)
     {
         if (!$is_cc) {
@@ -190,6 +221,7 @@ class Draft
     }
 
 
+    // XXX: put some documentation here
     function getDetails($emd_id)
     {
         $stmt = "SELECT
@@ -215,6 +247,7 @@ class Draft
     }
 
 
+    // XXX: put some documentation here
     function getList($issue_id)
     {
         $stmt = "SELECT
@@ -251,6 +284,7 @@ class Draft
     }
 
 
+    // XXX: put some documentation here
     function getEmailRecipients($emd_id)
     {
         $stmt = "SELECT
@@ -313,9 +347,8 @@ class Draft
             }
         }
     }
-    
-    
-    
+
+
     /**
      * Converts an email to a draft and sends it.
      * 
@@ -324,7 +357,8 @@ class Draft
      */
     function send($draft_id)
     {
-        GLOBAL $HTTP_POST_VARS;
+        global $HTTP_POST_VARS;
+
         $draft = Draft::getDetails($draft_id);
         $HTTP_POST_VARS["issue_id"] = $draft["emd_iss_id"];
         $HTTP_POST_VARS["subject"] = $draft["emd_subject"];
@@ -333,7 +367,6 @@ class Draft
         $HTTP_POST_VARS["cc"] = @join(";", $draft["cc"]);
         $HTTP_POST_VARS["message"] = $draft["emd_body"];
         $HTTP_POST_VARS["ema_id"] = Email_Account::getEmailAccount();
-        
         $res = Support::sendEmail();
         if ($res == 1) {
            Draft::remove($draft_id);

@@ -216,6 +216,20 @@
                   field.disabled = bool;
                   field.style.backgroundColor = bgcolor;
               }
+              function disableDraftRoutingFields(f, bool)
+              {
+                  if (bool) {
+                      var bgcolor = '#CCCCCC';
+                  } else {
+                      var bgcolor = '#FFFFFF';
+                  }
+                  var field = getFormElement(f, 'draft_routing[address_prefix]');
+                  field.disabled = bool;
+                  field.style.backgroundColor = bgcolor;
+                  field = getFormElement(f, 'draft_routing[address_host]');
+                  field.disabled = bool;
+                  field.style.backgroundColor = bgcolor;
+              }
               function disableErrorEmailFields(f, bool)
               {
                   if (bool) {
@@ -224,6 +238,17 @@
                       var bgcolor = '#FFFFFF';
                   }
                   var field = getFormElement(f, 'email_error[addresses]');
+                  field.disabled = bool;
+                  field.style.backgroundColor = bgcolor;
+              }
+              function disableReminderEmailFields(f, bool)
+              {
+                  if (bool) {
+                      var bgcolor = '#CCCCCC';
+                  } else {
+                      var bgcolor = '#FFFFFF';
+                  }
+                  var field = getFormElement(f, 'email_reminder[addresses]');
                   field.disabled = bool;
                   field.style.backgroundColor = bgcolor;
               }
@@ -417,7 +442,7 @@
                         Email Address Prefix:&nbsp;
                       </td>
                       <td width="80%">
-                        <input type="text" name="email_routing[address_prefix]" value="{if $setup.email_routing.address_prefix}{$setup.email_routing.address_prefix}{else}eventum_{/if}" class="default">
+                        <input type="text" name="email_routing[address_prefix]" value="{if $setup.email_routing.address_prefix}{$setup.email_routing.address_prefix}{else}issue_{/if}" class="default">
                         {include file="error_icon.tpl.html" field="email_routing[address_prefix]"}
                         <span class="small_default">(i.e. <b>issue_</b>51@example.com)</span>
                       </td>
@@ -486,10 +511,10 @@
                     </tr>
                     <tr>
                       <td width="100" class="default" align="right">
-                        note Address Prefix:&nbsp;
+                        Note Address Prefix:&nbsp;
                       </td>
                       <td width="80%">
-                        <input type="text" name="note_routing[address_prefix]" value="{if $setup.note_routing.address_prefix}{$setup.note_routing.address_prefix}{else}eventum_{/if}" class="default">
+                        <input type="text" name="note_routing[address_prefix]" value="{if $setup.note_routing.address_prefix}{$setup.note_routing.address_prefix}{else}note_{/if}" class="default">
                         {include file="error_icon.tpl.html" field="note_routing[address_prefix]"}
                         <span class="small_default">(i.e. <b>note_</b>51@example.com)</span>
                       </td>
@@ -502,6 +527,43 @@
                         <input type="text" name="note_routing[address_host]" class="default" value="{$setup.note_routing.address_host}">
                         {include file="error_icon.tpl.html" field="note_routing[address_host]"}
                         <span class="small_default">(i.e. note_51@<b>example.com</b>)</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Email Draft Interface:</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <table>
+                    <tr>
+                      <td colspan="2" class="default_white">
+                        <input type="radio" name="draft_routing[status]" value="enabled" {if $setup.draft_routing.status == 'enabled'}checked{/if} onClick="javascript:disableDraftRoutingFields(this.form, false);"> 
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'draft_routing[status]', 0);disableDraftRoutingFields(getForm('general_setup_form'), false);">Enabled</a>&nbsp;&nbsp;
+                        <input type="radio" name="draft_routing[status]" value="disabled" {if $setup.draft_routing.status != 'enabled'}checked{/if} onClick="javascript:disableDraftRoutingFields(this.form, true);"> 
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'draft_routing[status]', 1);disableDraftRoutingFields(getForm('general_setup_form'), true);">Disabled</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="100" class="default" align="right">
+                        Draft Address Prefix:&nbsp;
+                      </td>
+                      <td width="80%">
+                        <input type="text" name="draft_routing[address_prefix]" value="{if $setup.draft_routing.address_prefix}{$setup.draft_routing.address_prefix}{else}draft_{/if}" class="default">
+                        {include file="error_icon.tpl.html" field="draft_routing[address_prefix]"}
+                        <span class="small_default">(i.e. <b>draft_</b>51@example.com)</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="100" class="default" align="right">
+                        Address Hostname:&nbsp;
+                      </td>
+                      <td width="80%">
+                        <input type="text" name="draft_routing[address_host]" class="default" value="{$setup.draft_routing.address_host}">
+                        {include file="error_icon.tpl.html" field="draft_routing[address_host]"}
+                        <span class="small_default">(i.e. draft_51@<b>example.com</b>)</span>
                       </td>
                     </tr>
                   </table>
@@ -612,6 +674,32 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Email Reminder System Status Information:</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <table>
+                    <tr>
+                      <td colspan="2" class="default_white">
+                        <input type="radio" name="email_reminder[status]" value="enabled" {if $setup.email_reminder.status == 'enabled'}checked{/if} onClick="javascript:disableReminderEmailFields(getForm('general_setup_form'), false);"> 
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_reminder[status]', 0);disableReminderEmailFields(getForm('general_setup_form'), false);">Enabled</a>&nbsp;&nbsp;
+                        <input type="radio" name="email_reminder[status]" value="disabled" {if $setup.email_reminder.status != 'enabled'}checked{/if} onClick="javascript:disableReminderEmailFields(getForm('general_setup_form'), true);"> 
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_reminder[status]', 1);disableReminderEmailFields(getForm('general_setup_form'), true);">Disabled</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="100" class="default" align="right">
+                        Email Addresses To Send Information To:&nbsp;
+                      </td>
+                      <td width="80%">
+                        <input class="default" type="text" name="email_reminder[addresses]" value="{$setup.email_reminder.addresses|escape:"html"}" size="50">
+                        <span class="small_default">(separate multiple addresses with commas)</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
                   <b>Email Error Logging System:</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
@@ -688,6 +776,22 @@
           } else {
               field2.checked = true;
               disableNoteRoutingFields(f, true);
+          }
+          field1 = getFormElement(f, 'draft_routing[status]', 0);
+          field2 = getFormElement(f, 'draft_routing[status]', 1);
+          if (field1.checked) {
+              disableDraftRoutingFields(f, false);
+          } else {
+              field2.checked = true;
+              disableDraftRoutingFields(f, true);
+          }
+          field1 = getFormElement(f, 'email_reminder[status]', 0);
+          field2 = getFormElement(f, 'email_reminder[status]', 1);
+          if (field1.checked) {
+              disableReminderEmailFields(f, false);
+          } else {
+              field2.checked = true;
+              disableReminderEmailFields(f, true);
           }
           field1 = getFormElement(f, 'email_error[status]', 0);
           field2 = getFormElement(f, 'email_error[status]', 1);

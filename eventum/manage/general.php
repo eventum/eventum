@@ -70,7 +70,9 @@ if ($role_id == User::getRoleID('administrator')) {
         @$setup["accounts_role"] = $HTTP_POST_VARS["accounts_role"];
         @$setup['email_routing'] = $HTTP_POST_VARS['email_routing'];
         @$setup['note_routing'] = $HTTP_POST_VARS['note_routing'];
+        @$setup['draft_routing'] = $HTTP_POST_VARS['draft_routing'];
         @$setup['email_error'] = $HTTP_POST_VARS['email_error'];
+        @$setup['email_reminder'] = $HTTP_POST_VARS['email_reminder'];
         $options = Setup::load();
         @$setup['downloading_emails'] = $options['downloading_emails'];
         $res = Setup::save($setup);
