@@ -329,3 +329,6 @@ CREATE TABLE eventum_faq_support_level (
   fsl_support_level_id INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (fsl_faq_id, fsl_support_level_id)
 );
+
+ALTER TABLE eventum_reminder_requirement ADD COLUMN rer_support_level_id INT(11) UNSIGNED NULL;
+ALTER TABLE eventum_reminder_requirement ADD COLUMN rer_customer_id INT(11) UNSIGNED NULL;

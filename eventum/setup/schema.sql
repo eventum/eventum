@@ -611,6 +611,8 @@ CREATE TABLE %TABLE_PREFIX%reminder_requirement (
   rer_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   rer_rem_id INT(11) UNSIGNED NOT NULL,
   rer_iss_id INT(11) UNSIGNED NULL,
+  rer_support_level_id INT(11) UNSIGNED NULL,
+  rer_customer_id INT(11) UNSIGNED NULL,
   rer_trigger_all_issues TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY(rer_id)
 );
@@ -680,6 +682,7 @@ CREATE TABLE %TABLE_PREFIX%reminder_field (
 );
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation) VALUES ('Status', 'iss_sta_id', 'iss_sta_id');
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation) VALUES ('Last Response Date', 'iss_last_response_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_last_response_date), 0))');
+INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation) VALUES ('Last Customer Action Date', 'iss_last_customer_action_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_last_customer_action_date), 0))');
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation) VALUES ('Last Update Date', 'iss_updated_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_updated_date), 0))');
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation) VALUES ('Created Date', 'iss_created_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_created_date), 0))');
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation) VALUES ('First Response Date', 'iss_first_response_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_first_response_date), 0))');

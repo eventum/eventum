@@ -57,8 +57,29 @@
                   var f = getForm('reminder_form');
                   var issue_field = getFormElement(f, 'issues[]');
                   var priority_field = getFormElement(f, 'priorities[]');
+                  var level_field = getFormElement(f, 'support_levels[]');
+                  var customer_field = getFormElement(f, 'customers[]');
 
-                  var field = getFormElement(f, 'reminder_type', 0);
+                  var next_field = 0;
+                  if (level_field) {
+                      var field = getFormElement(f, 'reminder_type', 0);
+                      if (field.checked) {
+                        level_field.disabled = false;
+                      } else {
+                          level_field.disabled = true;
+                      }
+                      next_field++;
+                  }
+                  if (customer_field) {
+                      var field = getFormElement(f, 'reminder_type', next_field);
+                      if (field.checked) {
+                          customer_field.disabled = false;
+                      } else {
+                          customer_field.disabled = true;
+                      }
+                      next_field++;
+                  }
+                  var field = getFormElement(f, 'reminder_type', next_field);
                   if (field.checked) {
                       issue_field.disabled = false;
                   } else {
@@ -87,13 +108,27 @@
                       alert('Please enter the rank for this reminder.');
                       return false;
                   }
-                  var field1 = getFormElement(f, 'reminder_type', 0);
-                  var field2 = getFormElement(f, 'reminder_type', 1);
-                  if ((!field1.checked) && (!field2.checked)) {
-                      alert('Please choose a reminder type.');
+                  var next_field = 0;
+                  var support_levels = getFormElement(f, 'support_levels[]');
+                  if (support_levels) {
+                      var by_support_level = getFormElement(f, 'reminder_type', 0);
+                      next_field++;
+                  }
+                  var customers = getFormElement(f, 'customers[]');
+                  if (customers) {
+                      var by_customers = getFormElement(f, 'reminder_type', next_field);
+                      next_field++;
+                  }
+                  var by_issue = getFormElement(f, 'reminder_type', next_field);
+                  if ((by_support_level.checked) && (!hasOneSelected(f, 'support_levels[]'))) {
+                      alert('Please choose the support levels that will be associated with this reminder.');
                       return false;
                   }
-                  if ((field1.checked) && (!hasOneSelected(f, 'issues[]'))) {
+                  if ((by_customer.checked) && (!hasOneSelected(f, 'customers[]'))) {
+                      alert('Please choose the customers that will be associated with this reminder.');
+                      return false;
+                  }
+                  if ((by_issue.checked) && (!hasOneSelected(f, 'issues[]'))) {
                       alert('Please enter the issue IDs that will be associated with this reminder.');
                       return false;
                   }
@@ -119,7 +154,7 @@
                 </td>
                 <td width="85%" bgcolor="{$light_color}">
                   <select name="project" class="default" onChange="javascript:populateIssueComboBox(this.form);">
-                    <option value="-1">Please choose an option</option>
+                    <option value="">Please choose an option</option>
                     {html_options options=$project_list selected=$info.rem_prj_id}
                   </select>
                   {include file="error_icon.tpl.html" field="project"}
@@ -148,45 +183,75 @@
                   <b>Reminder Type:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <table cellpadding="1">
+                  <table cellpadding="1" border="0">
                     <tr>
+                      {counter start=0 assign="next_field"}
+                      {if $backend_uses_support_levels}
+                      <td class="default">
+                        <input type="radio" name="reminder_type" value="support_level" {if $info.type == 'support_level'}checked{/if} onClick="javascript:toggleReminderTypeFields();">
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'reminder_type', 0);toggleReminderTypeFields();">By Support Level</a>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        {counter}
+                      {/if}
+                      {if $project_has_customer_integration}
+                      <td class="default">
+                        <input type="radio" name="reminder_type" value="customer" {if $info.type == 'customer'}checked{/if} onClick="javascript:toggleReminderTypeFields();">
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">By Customer</a>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        {counter}
+                      {/if}
                       <td class="default">
                         <input type="radio" name="reminder_type" value="issue" {if $info.type == 'issue'}checked{/if} onClick="javascript:toggleReminderTypeFields();">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'reminder_type', 0);toggleReminderTypeFields();">By Issue ID</a>
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">By Issue ID</a>
                       </td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                      <td class="default">
-                        <input type="radio" name="reminder_type" value="all_issues" {if $info.type == 'ALL'}checked{/if} onClick="javascript:toggleReminderTypeFields();">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'reminder_type', 1);toggleReminderTypeFields();">All Issues</a>
-                      </td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      {counter}
                     </tr>
                     <tr>
+                      {if $backend_uses_support_levels}
                       <td>
-                        <select name="issues[]" class="default" size="4" multiple>
-                          {html_options options=$issues selected=$associated_issues}
+                        <select name="support_levels[]" class="default" size="4" multiple>
+                          {html_options options=$support_levels selected=$info.rer_support_level_id}
                         </select>
                       </td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      {/if}
+                      {if $project_has_customer_integration}
+                      <td>
+                        <select name="customers[]" size="4" multiple class="default">
+                          {html_options options=$customers selected=$info.rer_customer_id}
+                        </select>
+                      </td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      {/if}
+                      <td>
+                        <select name="issues[]" class="default" size="4" multiple>
+                          {html_options options=$issues selected=$info.rer_iss_id}
+                        </select>
+                      </td>
                     </tr>
                     <tr>
+                      <td class="default">
+                        <input type="radio" name="reminder_type" value="all_issues" {if $info.type == 'ALL'}checked{/if} onClick="javascript:toggleReminderTypeFields();" {if $smarty.get.cat != 'edit'}checked{/if}>
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">All Issues</a>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       <td class="default">
                         <input type="checkbox" name="check_priority" value="yes" {if $info.check_priority == 'yes'}checked{/if} onClick="javascript:toggleReminderTypeFields();">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('reminder_form', 'check_priority');toggleReminderTypeFields();">Also Filter By Issue Priorities</a>
                       </td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     </tr>
                     <tr>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       <td>
                         <select name="priorities[]" size="4" multiple class="default">
                           {html_options options=$priorities selected=$info.rer_pri_id}
                         </select>
                       </td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     </tr>
@@ -258,7 +323,7 @@
                         &nbsp;{$list[i].prj_title|escape:"html"}
                       </td>
                       <td width="20%" bgcolor="{$row_color}" class="default">
-                        &nbsp;{if $list[i].type == 'ALL'}All Issues{elseif $list[i].type == 'issue'}By Issue ID{/if}
+                        &nbsp;{if $list[i].type == 'ALL'}All Issues{elseif $list[i].type == 'support_level'}By Support Level{elseif $list[i].type == 'customer'}By Customer{elseif $list[i].type == 'issue'}By Issue ID{/if}
                       </td>
                       <td width="15%" bgcolor="{$row_color}" class="default">
                         &nbsp;{section name="y" loop=$list[i].priorities}{$list[i].priorities[y]|escape:"html"}{if not $smarty.section.y.last}, {/if}{/section}

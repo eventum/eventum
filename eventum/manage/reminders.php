@@ -62,6 +62,17 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         if (!empty($HTTP_GET_VARS['prj_id'])) {
             $info['rem_prj_id'] = $HTTP_GET_VARS['prj_id'];
         }
+        // only show customers and support levels if the selected project really needs it
+        $project_has_customer_integration = Customer::hasCustomerIntegration($info['rem_prj_id']);
+        $tpl->assign("project_has_customer_integration", $project_has_customer_integration);
+        if ($project_has_customer_integration) {
+            $tpl->assign("customers", Customer::getAssocList($info['rem_prj_id']));
+            $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($info['rem_prj_id']);
+            if ($backend_uses_support_levels) {
+                $tpl->assign("support_levels", Customer::getSupportLevelAssocList($info['rem_prj_id']));
+            }
+            $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
+        }
         $tpl->assign('issues', Reminder::getIssueAssocListByProject($info['rem_prj_id']));
         $tpl->assign("info", $info);
     } elseif (@$HTTP_GET_VARS["cat"] == "change_rank") {
@@ -69,6 +80,17 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     } elseif (!empty($HTTP_GET_VARS['prj_id'])) {
         $tpl->assign("info", array('rem_prj_id' => $HTTP_GET_VARS['prj_id']));
         $tpl->assign('issues', Reminder::getIssueAssocListByProject($HTTP_GET_VARS['prj_id']));
+        // only show customers and support levels if the selected project really needs it
+        $project_has_customer_integration = Customer::hasCustomerIntegration($HTTP_GET_VARS['prj_id']);
+        $tpl->assign("project_has_customer_integration", $project_has_customer_integration);
+        if ($project_has_customer_integration) {
+            $tpl->assign("customers", Customer::getAssocList($HTTP_GET_VARS['prj_id']));
+            $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($HTTP_GET_VARS['prj_id']);
+            if ($backend_uses_support_levels) {
+                $tpl->assign("support_levels", Customer::getSupportLevelAssocList($HTTP_GET_VARS['prj_id']));
+            }
+            $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
+        }
     }
 
     // wouldn't make much sense to create a reminder for a 'Not Prioritized' 

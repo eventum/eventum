@@ -195,7 +195,11 @@ class Reminder
             $requirements = Reminder::getRequirements($rem_id);
             if (!empty($requirements)) {
                 $res['type'] = $requirements['type'];
-                if ($res['type'] == 'issue') {
+                if ($res['type'] == 'support_level') {
+                    $res['rer_support_level_id'] = $requirements['values'];
+                } elseif ($res['type'] == 'customer') {
+                    $res['rer_customer_id'] = $requirements['values'];
+                } elseif ($res['type'] == 'issue') {
                     $res['rer_iss_id'] = array_values($requirements['values']);
                 }
             }
@@ -235,28 +239,24 @@ class Reminder
     }
 
 
-    /**
-     * Method used to get a list of all issue IDs associated with the given
-     * reminder.
-     *
-     * @access  public
-     * @param   integer $rem_id The reminder ID
-     * @return  array The list of associated issue IDs
-     */
-    function getAssociatedIssues($rem_id)
+    // XXX: put documentation here
+    function addSupportLevelAssociation($rem_id, $support_level_id)
     {
-        $stmt = "SELECT
-                    rer_iss_id
-                 FROM
+        $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
-                 WHERE
-                    rer_rem_id=$rem_id";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+                 (
+                    rer_rem_id,
+                    rer_support_level_id
+                 ) VALUES (
+                    $rem_id,
+                    $support_level_id
+                 )";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return array();
+            return false;
         } else {
-            return $res;
+            return true;
         }
     }
 
@@ -279,6 +279,28 @@ class Reminder
                  ) VALUES (
                     $rem_id,
                     $issue_id
+                 )";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    // XXX: put documentation here
+    function addCustomerAssociation($rem_id, $customer_id)
+    {
+        $stmt = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
+                 (
+                    rer_rem_id,
+                    rer_customer_id
+                 ) VALUES (
+                    $rem_id,
+                    $customer_id
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -402,9 +424,17 @@ class Reminder
         } else {
             $new_rem_id = $GLOBALS["db_api"]->get_last_insert_id();
             // map the reminder requirements now
-            if ((@$HTTP_POST_VARS['reminder_type'] == 'issue') && (count($HTTP_POST_VARS['issues']) > 0)) {
+            if ((@$HTTP_POST_VARS['reminder_type'] == 'support_level') && (count($HTTP_POST_VARS['support_levels']) > 0)) {
+                for ($i = 0; $i < count($HTTP_POST_VARS['support_levels']); $i++) {
+                    Reminder::addSupportLevelAssociation($new_rem_id, $HTTP_POST_VARS['support_levels'][$i]);
+                }
+            } elseif ((@$HTTP_POST_VARS['reminder_type'] == 'issue') && (count($HTTP_POST_VARS['issues']) > 0)) {
                 for ($i = 0; $i < count($HTTP_POST_VARS['issues']); $i++) {
                     Reminder::addIssueAssociation($new_rem_id, $HTTP_POST_VARS['issues'][$i]);
+                }
+            } elseif ((@$HTTP_POST_VARS['reminder_type'] == 'customer') && (count($HTTP_POST_VARS['customers']) > 0)) {
+                for ($i = 0; $i < count($HTTP_POST_VARS['customers']); $i++) {
+                    Reminder::addCustomerAssociation($new_rem_id, $HTTP_POST_VARS['customers'][$i]);
                 }
             } elseif (@$HTTP_POST_VARS['reminder_type'] == 'all_issues') {
                  Reminder::associateAllIssues($new_rem_id);
@@ -445,9 +475,17 @@ class Reminder
         } else {
             Reminder::removeAllAssociations($HTTP_POST_VARS['id']);
             // map the reminder requirements now
-            if ((@$HTTP_POST_VARS['reminder_type'] == 'issue') && (count($HTTP_POST_VARS['issues']) > 0)) {
+            if ((@$HTTP_POST_VARS['reminder_type'] == 'support_level') && (count($HTTP_POST_VARS['support_levels']) > 0)) {
+                for ($i = 0; $i < count($HTTP_POST_VARS['support_levels']); $i++) {
+                    Reminder::addSupportLevelAssociation($HTTP_POST_VARS['id'], $HTTP_POST_VARS['support_levels'][$i]);
+                }
+            } elseif ((@$HTTP_POST_VARS['reminder_type'] == 'issue') && (count($HTTP_POST_VARS['issues']) > 0)) {
                 for ($i = 0; $i < count($HTTP_POST_VARS['issues']); $i++) {
                     Reminder::addIssueAssociation($HTTP_POST_VARS['id'], $HTTP_POST_VARS['issues'][$i]);
+                }
+            } elseif ((@$HTTP_POST_VARS['reminder_type'] == 'customer') && (count($HTTP_POST_VARS['customers']) > 0)) {
+                for ($i = 0; $i < count($HTTP_POST_VARS['customers']); $i++) {
+                    Reminder::addCustomerAssociation($HTTP_POST_VARS['id'], $HTTP_POST_VARS['customers'][$i]);
                 }
             } elseif (@$HTTP_POST_VARS['reminder_type'] == 'all_issues') {
                  Reminder::associateAllIssues($HTTP_POST_VARS['id']);
@@ -510,7 +548,9 @@ class Reminder
     function getRequirements($rem_id)
     {
         $stmt = "SELECT
+                    rer_customer_id,
                     rer_iss_id,
+                    rer_support_level_id,
                     rer_trigger_all_issues
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
@@ -526,6 +566,12 @@ class Reminder
             for ($i = 0; $i < count($res); $i++) {
                 if ($res[$i]['rer_trigger_all_issues'] == '1') {
                     return array('type' => 'ALL');
+                } elseif (!empty($res[$i]['rer_support_level_id'])) {
+                    $type = 'support_level';
+                    $values[] = $res[$i]['rer_support_level_id'];
+                } elseif (!empty($res[$i]['rer_customer_id'])) {
+                    $type = 'customer';
+                    $values[] = $res[$i]['rer_customer_id'];
                 } elseif (!empty($res[$i]['rer_iss_id'])) {
                     $type = 'issue';
                     $values[] = $res[$i]['rer_iss_id'];
@@ -673,6 +719,17 @@ class Reminder
         $requirement = Reminder::getRequirements($reminder['rem_id']);
         if ($requirement['type'] == 'issue') {
             $stmt .= ' AND iss_id IN (' . implode(', ', $requirement['values']) . ")\n";
+        } else {
+            if (Customer::hasCustomerIntegration($reminder['rem_prj_id'])) {
+                if ($requirement['type'] == 'customer') {
+                    $stmt .= ' AND iss_customer_id IN (' . implode(', ', $requirement['values']) . ")\n";
+                } elseif ($requirement['type'] == 'support_level') {
+                    if (Customer::doesBackendUseSupportLevels($reminder['rem_prj_id'])) {
+                        $customer_ids = Customer::getListBySupportLevel($requirement['values']);
+                        $stmt .= ' AND iss_customer_id IN (' . implode(', ', $customer_ids) . ")\n";
+                    }
+                }
+            }
         }
         $priorities = Reminder::getAssociatedPriorities($reminder['rem_id']);
         if (count($priorities) > 0) {

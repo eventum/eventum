@@ -538,12 +538,14 @@ class Reminder_Action
                 $assignees = Issue::getAssignedUserIDs($issue_id);
                 $to = array();
                 foreach ($assignees as $assignee) {
-                    $to[] = User::getFromHeader($assignee);
+                    if (User::isClockedIn($assignee)) {
+                        $to[] = User::getFromHeader($assignee);
+                    }
                 }
                 // if there are no recipients, then just skip to the next action
                 if (count($to) == 0) {
                     if (Reminder::isDebug()) {
-                        echo "  - No assigned users could be found\n";
+                        echo "  - No clocked in assigned users could be found\n";
                     }
                     return false;
                 }
@@ -556,7 +558,9 @@ class Reminder_Action
                     if (Validation::isEmail($key)) {
                         $to[] = $key;
                     } else {
-                        $to[] = User::getFromHeader($key);
+                        if (User::isClockedIn($key)) {
+                            $to[] = User::getFromHeader($key);
+                        }
                     }
                 }
                 break;
@@ -565,9 +569,11 @@ class Reminder_Action
                 $assignees = Issue::getAssignedUserIDs($issue_id);
                 $to = array();
                 foreach ($assignees as $assignee) {
-                    $sms_email = User::getSMS($assignee);
-                    if (!empty($sms_email)) {
-                        $to[] = $sms_email;
+                    if (User::isClockedIn($assignee)) {
+                        $sms_email = User::getSMS($assignee);
+                        if (!empty($sms_email)) {
+                            $to[] = $sms_email;
+                        }
                     }
                 }
                 // if there are no recipients, then just skip to the next action
