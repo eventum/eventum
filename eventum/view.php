@@ -79,6 +79,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
     } else {
         // check if the requested issue is a part of one of the projects
         // associated with this user
+        $associated_projects = @array_keys(Project::getAssocList($usr_id));
         if (!@in_array($details['iss_prj_id'], $associated_projects)) {
             $tpl->assign("auth_customer", 'denied');
         } else {
