@@ -138,7 +138,7 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_prj_id int(11) unsigned NOT NULL default 0,
   iss_prc_id int(11) unsigned NOT NULL default 0,
   iss_pre_id int(10) unsigned NOT NULL default 0,
-  iss_pri_id tinyint(1) NOT NULL default 0,
+  iss_pri_id smallint(3) NOT NULL default 0,
   iss_sta_id tinyint(1) NOT NULL default 0,
   iss_res_id int(10) unsigned NOT NULL default 0,
   iss_duplicated_iss_id int(11) unsigned NULL default NULL,
@@ -277,7 +277,7 @@ CREATE TABLE %TABLE_PREFIX%note (
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_priority;
 CREATE TABLE %TABLE_PREFIX%project_priority (
-  pri_id tinyint(1) unsigned NOT NULL auto_increment,
+  pri_id smallint(3) unsigned NOT NULL auto_increment,
   pri_prj_id int(11) unsigned NOT NULL,
   pri_title varchar(64) NOT NULL default '',
   PRIMARY KEY (pri_id),
