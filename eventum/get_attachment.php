@@ -46,8 +46,26 @@ if (@$HTTP_GET_VARS["filename"] == 'Outlook.bmp') {
     header("Content-Type: image/bmp");
 } else {
     list($mimetype, $data) = Mime_Helper::getAttachment($email, $HTTP_GET_VARS["filename"]);
-    // output the real content-type from the email. maybe a bad idea?
-    header("Content-Type: $mimetype");
+    $parts = pathinfo($HTTP_GET_VARS["filename"]);
+    $special_extensions = array(
+        'err',
+        'log',
+        'cnf',
+        'var',
+        'ini'
+    );
+    // always force the browser to display the contents of these special files
+    if (in_array(strtolower($parts["extension"]), $special_extensions)) {
+        header('Content-Type: text/plain');
+    } else {
+        // output the real content-type from the email. maybe a bad idea?
+        if (empty($mimetype)) {
+            header("Content-Type: application/unknown");
+        } else {
+            header("Content-Type: " . urlencode($mimetype));
+        }
+        header("Content-Disposition: attachment; filename=" . urlencode($HTTP_GET_VARS["filename"]));
+    }
 }
 header("Content-Length: " . strlen($data));
 echo $data;
