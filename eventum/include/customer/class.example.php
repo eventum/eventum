@@ -401,7 +401,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                     pru_usr_id=usr_id AND
                     pru_prj_id=iss_prj_id AND
                     iss_id=$issue_id AND
-                    usr_role <> " . User::getRoleID('Customer');
+                    pru_role <> " . User::getRoleID('Customer');
         $staff_emails = $GLOBALS["db_api"]->dbh->getCol($stmt);
 
         $stmt = "SELECT
