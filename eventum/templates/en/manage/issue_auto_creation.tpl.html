@@ -1,0 +1,165 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              {literal}
+              <script language="JavaScript">
+              <!--
+              function validateForm(f)
+              {
+                  var field1 = getFormElement(f, 'issue_auto_creation', 0);
+                  var field2 = getFormElement(f, 'issue_auto_creation', 1);
+                  if ((!field1.checked) && (!field2.checked)) {
+                      alert('Please choose whether the issue auto creation feature should be allowed or not for this email account');
+                      return false;
+                  }
+                  if (field1.checked) {
+                      var field = getFormElement(f, 'options[reporter]');
+                      if (field.selectedIndex == 0) {
+                          selectField(f, 'options[reporter]');
+                          alert('Please choose the reporter.');
+                          return false;
+                      }
+                      field = getFormElement(f, 'options[category]');
+                      if (field.selectedIndex == 0) {
+                          selectField(f, 'options[category]');
+                          alert('Please choose the default category.');
+                          return false;
+                      }
+                      field = getFormElement(f, 'options[priority]');
+                      if (field.selectedIndex == 0) {
+                          selectField(f, 'options[priority]');
+                          alert('Please choose the default priority.');
+                          return false;
+                      }
+                  }
+                  return true;
+              }
+              function disableFields(f, bool)
+              {
+                  if (bool) {
+                      var bgcolor = '#CCCCCC';
+                  } else {
+                      var bgcolor = '#FFFFFF';
+                  }
+                  var field = getFormElement(f, 'options[category]');
+                  field.disabled = bool;
+                  field.style.backgroundColor = bgcolor;
+                  field = getFormElement(f, 'options[reporter]');
+                  field.disabled = bool;
+                  field.style.backgroundColor = bgcolor;
+                  field = getFormElement(f, 'options[priority]');
+                  field.disabled = bool;
+                  field.style.backgroundColor = bgcolor;
+                  field = getFormElement(f, 'options[users][]');
+                  field.disabled = bool;
+                  field.style.backgroundColor = bgcolor;
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="auto_creation_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="ema_id" value="{$ema_id}">
+              <tr>
+                <td colspan="2" class="default">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td class="default"><b>Auto-Creation of Issues</b></td>
+                      <td align="right" class="default">(Associated Project: {$prj_title})</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td width="130" nowrap bgcolor="{$cell_color}" class="default_white">
+                  <b>Auto-Creation of Issues: *</b>
+                </td>
+                <td width="80%" bgcolor="{$light_color}" class="default">
+                  <input type="radio" name="issue_auto_creation" value="enabled" {if $info.ema_issue_auto_creation == 'enabled'}checked{/if} onClick="javascript:disableFields(getForm('auto_creation_form'), false);"> 
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('auto_creation_form', 'issue_auto_creation', 0);disableFields(getForm('auto_creation_form'), false);">Enabled</a>&nbsp;&nbsp;
+                  <input type="radio" name="issue_auto_creation" value="disabled" {if $info.ema_issue_auto_creation == 'disabled'}checked{/if} onClick="javascript:disableFields(getForm('auto_creation_form'), true);"> 
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('auto_creation_form', 'issue_auto_creation', 1);disableFields(getForm('auto_creation_form'), true);">Disabled</a>
+                </td>
+              </tr>
+              <tr>
+                <td width="130" bgcolor="{$cell_color}" class="default_white">
+                  <b>Reporter: *</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="options[reporter]" class="default" tabindex="1">
+                    <option value="-1">Please choose an user</option>
+                    {html_options options=$users selected=$options.reporter}
+                  </select>
+                  {include file="error_icon.tpl.html" field="options[reporter]"}
+                </td>
+              </tr>
+              <tr>
+                <td width="130" bgcolor="{$cell_color}" class="default_white">
+                  <b>Default Category: *</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="options[category]" class="default" tabindex="2">
+                    <option value="-1">Please choose a category</option>
+                    {html_options options=$cats selected=$options.category}
+                  </select>
+                  {include file="error_icon.tpl.html" field="options[category]"}
+                </td>
+              </tr>
+              <tr>
+                <td width="130" bgcolor="{$cell_color}" class="default_white">
+                  <b>Default Priority: *</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="options[priority]" class="default" tabindex="3">
+                    <option value="-1">Please choose a priority</option>
+                    {section name="i" loop=$priorities}
+                    <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.priority}selected{/if}>{$priorities[i].pri_title}</option>
+                    {/section}
+                  </select>
+                  {include file="error_icon.tpl.html" field="options[priority]"}
+                </td>
+              </tr>
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Assignment:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="options[users][]" multiple size="3" class="default" tabindex="4">
+                    {html_options options=$users selected=$options.users}
+                  </select>
+                  {include file="error_icon.tpl.html" field="options[users][]"}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  <input class="button" type="submit" value="Update Setup">
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+            </table>
+          </td>
+        </tr>
+      </table>
+      {literal}
+      <script language="JavaScript">
+      <!--
+      window.onload = setDisabledFields;
+      function setDisabledFields()
+      {
+          var f = getForm('auto_creation_form');
+          var field1 = getFormElement(f, 'issue_auto_creation', 0);
+          if (field1.checked) {
+              disableFields(f, false);
+          } else {
+              field1 = getFormElement(f, 'issue_auto_creation', 1);
+              field1.checked = true;
+              disableFields(f, true);
+          }
+      }
+      //-->
+      </script>
+      {/literal}
+
