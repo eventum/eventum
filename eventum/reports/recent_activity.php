@@ -287,14 +287,19 @@ function processResult($res, $date_field, $issue_field)
     GLOBAL $prj_id;
     GLOBAL $usr_id;
     
+    $data = array();
     for ($i = 0; $i < count($res); $i++) {
+        if (!Issue::canAccess($res[$i][$issue_field], $usr_id)) {
+            continue;
+        }
         if (Customer::hasCustomerIntegration($prj_id)) {
             $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$i][$issue_field]));
             $res[$i]["customer"] = @$details['customer_name'];
         }
         $res[$i]["date"] = Date_API::getFormattedDate($res[$i][$date_field], Date_API::getPreferredTimezone($usr_id));
+        $data[] = $res[$i];
     }
-    return $res;
+    return $data;
 }
 
 $tpl->displayTemplate();
