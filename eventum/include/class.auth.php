@@ -63,7 +63,7 @@ class Auth
         } else {
             $msg .= "not successful because of '$extra'.\n";
         }
-        $fp = @fopen(APP_PATH . 'login_log.txt', "a");
+        $fp = @fopen(APP_LOGIN_LOG, "a");
         @fwrite($fp, $msg);
         @fclose($fp);
     }

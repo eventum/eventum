@@ -58,6 +58,7 @@ if ((substr($app_path, -1) != '/') && (substr($app_path, -2) != '\\')) {
 @define("APP_TPL_PATH", APP_PATH . "templates/");
 @define("APP_SMARTY_PATH", APP_INC_PATH . "Smarty/");
 @define("APP_JPGRAPH_PATH", APP_INC_PATH . "jpgraph/");
+@define("APP_LOG_PATH", APP_PATH . "logs/");
 if (stristr(PHP_OS, 'darwin')) {
     ini_set("include_path", ".:" . APP_PEAR_PATH);
 } elseif (stristr(PHP_OS, 'win')) {
@@ -80,8 +81,10 @@ if (stristr(PHP_OS, 'darwin')) {
 @define("APP_DEFAULT_DB", APP_SQL_DBNAME);
 @define("APP_TABLE_PREFIX", "%{APP_TABLE_PREFIX}%");
 
-@define("APP_ERROR_LOG", APP_PATH . "error_handler.log");
-@define("APP_CLI_LOG", APP_PATH . "cli.log");
+@define("APP_ERROR_LOG", APP_LOG_PATH . "errors.log");
+@define("APP_CLI_LOG", APP_LOG_PATH . "cli.log");
+@define("APP_IRC_LOG", APP_LOG_PATH . "irc_bot.log");
+@define("APP_LOGIN_LOG", APP_LOG_PATH . "login_attempts.log");
 
 @define("APP_NAME", "Eventum");
 @define("APP_SHORT_NAME", APP_NAME); // used in the subject of notification emails

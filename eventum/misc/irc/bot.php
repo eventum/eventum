@@ -318,7 +318,7 @@ $bot = &new Eventum_Bot();
 $irc = &new Net_SmartIRC();
 $irc->setDebug(SMARTIRC_DEBUG_ALL);
 $irc->setLogdestination(SMARTIRC_FILE);
-$irc->setLogfile('irclog.txt');
+$irc->setLogfile(APP_IRC_LOG);
 $irc->setUseSockets(TRUE);
 $irc->setAutoReconnect(TRUE);
 $irc->setAutoRetry(TRUE);

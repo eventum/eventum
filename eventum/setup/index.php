@@ -122,7 +122,7 @@ function checkRequirements()
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions('../error_handler.log', "File 'error_handler.log'");
+    $error = checkPermissions('../logs/errors.log', "File 'logs/errors.log'");
     if (!empty($error)) {
         $errors[] = $error;
     }
