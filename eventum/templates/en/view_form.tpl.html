@@ -1,7 +1,8 @@
 
-{literal}
 <script language="JavaScript">
 <!--
+var ema_id = '{$ema_id}';
+{literal}
 function openHistory(issue_id)
 {
     var features = 'width=520,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -76,7 +77,8 @@ function removeQuarantine(issue_id)
 }
 function validateForm(f)
 {
-    if (!confirm('NOTE: If you need to send new information regarding this issue, please use \nthe EMAIL related buttons available at the bottom of the screen.')) {
+    // if no emails accounts are setup, don't display confirmation message.
+    if ((ema_id != '') && !confirm('NOTE: If you need to send new information regarding this issue, please use \nthe EMAIL related buttons available at the bottom of the screen.')) {
         return false;
     }
     return true;
