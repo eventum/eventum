@@ -89,7 +89,7 @@ $changes[] = "ALTER TABLE eventum_issue ADD COLUMN iss_grp_id int(11) unsigned N
 $changes[] = "ALTER TABLE eventum_issue ADD INDEX(iss_grp_id)";
 $changes[] = "INSERT INTO eventum_history_type SET htt_name = 'group_changed'";
 $changes[] = "ALTER TABLE eventum_priority RENAME eventum_project_priority";
-$changes[] = "ALTER TABLE eventum_project_priority CHANGE column pri_id pri_id tinyint(1) unsigned NOT NULL default '0' auto_increment";
+$changes[] = "ALTER TABLE eventum_project_priority CHANGE column pri_id pri_id tinyint(1) unsigned NOT NULL auto_increment";
 $changes[] = "ALTER TABLE eventum_project_priority ADD COLUMN pri_prj_id int(11) unsigned NOT NULL";
 $changes[] = "ALTER TABLE eventum_project_priority DROP PRIMARY KEY";
 $changes[] = "ALTER TABLE eventum_project_priority ADD PRIMARY KEY(pri_id)";
