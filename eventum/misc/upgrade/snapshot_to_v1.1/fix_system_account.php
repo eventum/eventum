@@ -62,7 +62,7 @@ $stmt = "INSERT INTO
             '" . Date_API::getCurrentDateGMT() . "',
             '14589714398751513457adf349173434',
             'system',
-            '',
+            'system-account@example.com',
             5,
             ''
          )";
