@@ -41,11 +41,22 @@ if (isset($_GET)) {
     $HTTP_COOKIE_VARS = $_COOKIE;
 }
 
-function checkPermissions($file, $desc)
+function checkPermissions($file, $desc, $is_directory = FALSE)
 {
     clearstatcache();
     if (!file_exists($file)) {
-        return "$desc does not exist.";
+        if (!$is_directory) {
+            // try to create the file ourselves then
+            $fp = @fopen($file, 'w');
+            if (!$fp) {
+                return "$desc does not exist. Please create it and try again.";
+            }
+            @fclose($fp);
+        } else {
+            if (!@mkdir($file)) {
+                return "$desc does not exist. Please create it and try again.";
+            }
+        }
     }
     clearstatcache();
     if (!is_writable($file)) {
@@ -97,7 +108,7 @@ function checkRequirements()
     if (ini_get('file_uploads') != "1") {
         $errors[] = "The 'file_uploads' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
     }
-    $error = checkPermissions('../templates_c', "Directory 'templates_c'");
+    $error = checkPermissions('../templates_c', "Directory 'templates_c'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;
     }
@@ -137,7 +148,7 @@ function checkRequirements()
 
 <br /><br />
 
-<table width="400" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="500" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -218,9 +229,13 @@ function getDatabaseList($conn)
 
 function getUserList($conn)
 {
-    mysql_select_db('mysql');
-    $res = mysql_query('SELECT DISTINCT User from user');
+    @mysql_select_db('mysql');
+    $res = @mysql_query('SELECT DISTINCT User from user');
     $users = array();
+    // if the user cannot select from the mysql.user table, then return an empty list
+    if (!$res) {
+        return $users;
+    }
     while ($row = mysql_fetch_row($res)) {
         $users[] = $row[0];
     }
@@ -286,17 +301,19 @@ $private_key = "' . md5(microtime()) . '";
     }
     // create the new user, if needed
     $user_list = getUserList($conn);
-    $user_list = array_map('strtolower', $user_list);
-    if (@$HTTP_POST_VARS["create_user"] == 'yes') {
-        if (!in_array(strtolower(@$HTTP_POST_VARS['eventum_user']), $user_list)) {
-            $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT ON " . $HTTP_POST_VARS['db_name'] . ".* TO '" . $HTTP_POST_VARS["eventum_user"] . "'@'%' IDENTIFIED BY '" . $HTTP_POST_VARS["eventum_password"] . "'";
-            if (!mysql_query($stmt, $conn)) {
-                return getErrorMessage('create_user', mysql_error());
+    if (count($user_list) > 0) {
+        $user_list = array_map('strtolower', $user_list);
+        if (@$HTTP_POST_VARS["create_user"] == 'yes') {
+            if (!in_array(strtolower(@$HTTP_POST_VARS['eventum_user']), $user_list)) {
+                $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT ON " . $HTTP_POST_VARS['db_name'] . ".* TO '" . $HTTP_POST_VARS["eventum_user"] . "'@'%' IDENTIFIED BY '" . $HTTP_POST_VARS["eventum_password"] . "'";
+                if (!mysql_query($stmt, $conn)) {
+                    return getErrorMessage('create_user', mysql_error());
+                }
             }
-        }
-    } else {
-        if ((count($user_list) > 0) && (!in_array(strtolower(@$HTTP_POST_VARS['eventum_user']), $user_list))) {
-            return "The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.";
+        } else {
+            if (!in_array(strtolower(@$HTTP_POST_VARS['eventum_user']), $user_list)) {
+                return "The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.";
+            }
         }
     }
     // check if we can use the database
