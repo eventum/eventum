@@ -1,0 +1,49 @@
+{include file="header.tpl.html"}
+
+<br />
+<form method="post" action="{$smarty.server.PHP_SELF}">
+<input type="hidden" name="cat" value="generate">
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="3" class="default_white">
+            <b>Weekly Report</b>
+          </td>
+        </tr>
+        <tr>
+          <td width="120" class="default">
+            <b>Week:</b>
+          </td>
+          <td width="150">
+            <select name="week">
+                {html_options options=$weeks selected=$week}
+            </select>
+          </td>
+          <td rowspan="2">
+            <input type="submit" value="Generate" class="shortcut">
+          </td>
+        </tr>
+        <tr>
+          <td width="120" class="default">
+            <b>Developer:</b>
+          </td>
+          <td width="150">
+            <select name="developer">
+                {html_options options=$users selected=$developer}
+            </select>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+
+{if $data != ''}
+<pre>
+{include file="reports/weekly_data.tpl.html"}
+</pre>
+{/if}
+{include file="footer.tpl.html"}

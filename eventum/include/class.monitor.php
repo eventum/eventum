@@ -1,0 +1,307 @@
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4: */
+// +----------------------------------------------------------------------+
+// | Eventum - Issue Tracking System                                      |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2003, 2004 MySQL AB                                    |
+// |                                                                      |
+// | This program is free software; you can redistribute it and/or modify |
+// | it under the terms of the GNU General Public License as published by |
+// | the Free Software Foundation; either version 2 of the License, or    |
+// | (at your option) any later version.                                  |
+// |                                                                      |
+// | This program is distributed in the hope that it will be useful,      |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+// | GNU General Public License for more details.                         |
+// |                                                                      |
+// | You should have received a copy of the GNU General Public License    |
+// | along with this program; if not, write to:                           |
+// |                                                                      |
+// | Free Software Foundation, Inc.                                       |
+// | 59 Temple Place - Suite 330                                          |
+// | Boston, MA 02111-1307, USA.                                          |
+// +----------------------------------------------------------------------+
+// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// +----------------------------------------------------------------------+
+//
+// @(#) $Id$
+//
+
+include_once("DB.php");
+include_once(APP_INC_PATH . "class.misc.php");
+
+class Monitor
+{
+    /**
+     * Checks the mail queue logs for any email that wasn't delivered.
+     *
+     * @access  public
+     */
+    function checkMailQueue()
+    {
+        // try to connect to the database
+        $dsn = array(
+            'phptype'  => APP_SQL_DBTYPE,
+            'hostspec' => APP_SQL_DBHOST,
+            'database' => APP_SQL_DBNAME,
+            'username' => APP_SQL_DBUSER,
+            'password' => APP_SQL_DBPASS
+        );
+        $dbh = DB::connect($dsn);
+
+        $limit = 10;
+        $stmt = "SELECT
+                    maq_id,
+                    COUNT(mql_id) total_tries
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue_log
+                 WHERE
+                    maq_status='error' AND
+                    maq_id=mql_maq_id
+                 GROUP BY
+                    maq_id";
+        $queue_ids = $dbh->getCol($stmt);
+        if (count($queue_ids) > 0) {
+            echo "ERROR: There is a total of " . count($queue_ids) . " queued emails that were not sent yet.\n";
+        }
+    }
+
+
+    /**
+     * Checks the free disk space status on the server.
+     *
+     * @access  public
+     */
+    function checkDiskspace()
+    {
+        $low_limit = 5;
+        $high_limit = 15;
+        $partition = '/';
+        $total_space = disk_total_space($partition);
+        $free_space = disk_free_space($partition);
+        $free_percentage = ($free_space * 100) / $total_space;
+        if ($free_percentage < $low_limit) {
+            echo "ERROR: Almost no free disk space left (percentage left: $free_percentage)\n";
+            exit;
+        }
+        if ($free_percentage < $high_limit) {
+            echo "ERROR: Free disk space left is getting very low (percentage left: $free_percentage)\n";
+        }
+    }
+
+
+    /**
+     * Checks on the status of the required configuration and auxiliary files
+     * and directories.
+     *
+     * @access  public
+     */
+    function checkConfiguration()
+    {
+        $required_files = array(
+            APP_PATH . 'config.inc.php' => array(
+                'check_owner'      => true,
+                'owner'            => 'apache',
+                'check_group'      => true,
+                'group'            => 'apache',
+                'check_permission' => true,
+                'permission'       => 755,
+            ),
+            APP_PATH . 'setup.conf.php' => array(
+                'check_owner'      => true,
+                'owner'            => 'apache',
+                'check_group'      => true,
+                'group'            => 'apache',
+                'check_permission' => true,
+                'permission'       => 750,
+                'check_filesize'   => true,
+                'filesize'         => 1024
+            ),
+        );
+        foreach ($required_files as $file_path => $options) {
+            // check if file exists
+            if (!file_exists($file_path)) {
+                echo "ERROR: File could not be found (path: $file_path)\n";
+                continue;
+            }
+            // check the owner and group for these files
+            list($owner, $group) = Monitor::_getOwnerAndGroup($file_path);
+            if ((@$options['check_owner']) && ($options['owner'] != $owner)) {
+                echo "ERROR: File owner mismatch (path: $file_path; current owner: $owner; correct owner: " . $options['owner'] . ")\n";
+            }
+            if ((@$options['check_group']) && ($options['group'] != $group)) {
+                echo "ERROR: File group mismatch (path: $file_path; current group: $group; correct group: " . $options['group'] . ")\n";
+            }
+            // check permission bits
+            $perm = Monitor::_getOctalPerms($file_path);
+            if ((@$options['check_permission']) && ($options['permission'] != $perm)) {
+                echo "ERROR: File permission mismatch (path: $file_path; current perm: $perm; correct perm: " . $options['permission'] . ")\n";
+            }
+            // check filesize
+            if ((@$options['check_filesize']) && (filesize($file_path) < $options['filesize'])) {
+                echo "ERROR: File size mismatch (path: $file_path; current filesize: " . filesize($file_path) . ")\n";
+            }
+        }
+        $required_directories = array(
+            APP_PATH . 'misc/routed_emails' => array(
+                'check_permission' => true,
+                'permission'       => 770,
+            ),
+            APP_PATH . 'misc/routed_notes' => array(
+                'check_permission' => true,
+                'permission'       => 770,
+            ),
+            APP_PATH . 'setup' => array(
+                'check_permission' => true,
+                'permission'       => 100,
+            ),
+        );
+        foreach ($required_directories as $dir_path => $options) {
+            // check if directory exists
+            if (!file_exists($dir_path)) {
+                echo "ERROR: Directory could not be found (path: $dir_path)\n";
+                continue;
+            }
+            // check permission bits
+            $perm = Monitor::_getOctalPerms($dir_path);
+            if ((@$options['check_permission']) && ($options['permission'] != $perm)) {
+                echo "ERROR: Directory permission mismatch (path: $dir_path; current perm: $perm; correct perm: " . $options['permission'] . ")\n";
+            }
+        }
+    }
+
+
+    /**
+     * Checks on the status of the MySQL database.
+     *
+     * @access  public
+     */
+    function checkDatabase()
+    {
+        // try to connect to the database
+        $dsn = array(
+            'phptype'  => APP_SQL_DBTYPE,
+            'hostspec' => APP_SQL_DBHOST,
+            'database' => APP_SQL_DBNAME,
+            'username' => APP_SQL_DBUSER,
+            'password' => APP_SQL_DBPASS
+        );
+        $dbh = DB::connect($dsn);
+        if (PEAR::isError($dbh)) {
+            echo "ERROR: Could not connect to the mysql database. Detailed error message:\n\n";
+            echo $dbh->getMessage() . '/' .  $dbh->getDebugInfo();
+        } else {
+            $required_tables = array(
+                "custom_field",
+                "custom_field_option",
+                "custom_filter",
+                "email_account",
+                "email_response",
+                "issue",
+                "issue_association",
+                "issue_attachment",
+                "issue_attachment_file",
+                "issue_checkin",
+                "issue_custom_field",
+                "issue_history",
+                "issue_requirement",
+                "issue_user",
+                "note",
+                "phone_support",
+                "priority",
+                "project",
+                "project_category",
+                "project_custom_field",
+                "project_release",
+                "project_status",
+                "project_user",
+                "resolution",
+                "status",
+                "subscription",
+                "subscription_type",
+                "support_email",
+                "time_tracking",
+                "time_tracking_category",
+                "user"
+            );
+            // add the table prefix to all of the required tables
+            $required_tables = Misc::array_map_deep($required_tables, array('Monitor', '_add_table_prefix'));
+            // check if all of the required tables are really there
+            $stmt = "SHOW TABLES";
+            $table_list = $dbh->getCol($stmt);
+            for ($i = 0; $i < count($required_tables); $i++) {
+                if (!in_array($required_tables[$i], $table_list)) {
+                    echo "ERROR: Could not find required table '" . $required_tables[$i] . "'\n";
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Checks on the status of the IRC bot.
+     *
+     * @access  public
+     */
+    function checkIRCBot()
+    {
+        // check if any bot.php process is still running (lame, but oh well)
+        ob_start();
+        passthru("ps -ef | grep 'php -q bot.php'");
+        $contents = ob_get_contents();
+        ob_end_clean();
+        $lines = explode("\n", $contents);
+        if (count($lines) <= 1) {
+            echo "ERROR: Could not find IRC bot pid from process list.\n";
+        }
+    }
+
+
+    /**
+     * Method used by the code that checks if the required tables
+     * do exist in the appropriate database. It returns the given
+     * table name prepended with the appropriate table prefix.
+     *
+     * @access  private
+     * @param   string $table_name The table name
+     * @return  string The table name with the prefix added to it
+     */
+    function _add_table_prefix($table_name)
+    {
+        return APP_TABLE_PREFIX . $table_name;
+    }
+
+
+    /**
+     * Returns the owner and group name for the given file.
+     *
+     * @access  private
+     * @param   string $file The full path to the file
+     * @return  array The owner and group name associated with that file
+     */
+    function _getOwnerAndGroup($file)
+    {
+        $owner_info = posix_getpwuid(fileowner($file));
+        $group_info = posix_getgrgid(filegroup($file));
+        return array(
+            $owner_info['name'],
+            $group_info['name']
+        );
+    }
+
+
+    /**
+     * Returns the octal permission string for a given file.
+     *
+     * @access  private
+     * @param   string $file The full path to the file
+     * @return  string The octal permission string
+     */
+    function _getOctalPerms($file)
+    {
+        return substr(sprintf("%o", fileperms($file)), -3);
+    }
+}
+?>

@@ -1,0 +1,31 @@
+{$data.user.usr_full_name} Weekly Report {$data.start} - {$data.end}
+
+{$application_title} Issues:
+
+{section name=issue loop=$data.issues}
+{$data.issues[issue].iss_id|str_pad:4:" ":"STR_PAD_LEFT"} {$data.issues[issue].iss_summary}
+{sectionelse}
+No issues touched this week
+{/section}
+
+New Issues Assigned:  {$data.new_assigned_count}
+
+{section name=status loop=$data.status_counts}
+{assign var="title" value="`$data.status_counts[status].sta_title`:"}
+{$title|str_pad:"22"}{$data.status_counts[status].total}
+{/section}
+Total Issues:         {$data.issues|@count}
+
+Total Phone Calls:    {$data.phone_count}
+CSC Emails:           {$data.email_count.associated}
+Other Emails:         {$data.email_count.other}
+Total Notes:          {$data.note_count}
+
+Phone Time Spent:     {if $data.time_tracking.Telephone_Discussion.formatted_time == ''}00h 00m{else}{$data.time_tracking.Telephone_Discussion.formatted_time}{/if}
+
+Email Time Spent:     {if $data.time_tracking.Email_Discussion.formatted_time == ''}00h 00m{else}{$data.time_tracking.Email_Discussion.formatted_time}{/if}
+
+Login Time Spent:     {if $data.time_tracking.Login_Work.formatted_time == ''}00h 00m{else}{$data.time_tracking.Login_Work.formatted_time}{/if}
+
+
+Total Time Spent:     {$data.total_time}
