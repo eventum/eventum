@@ -774,7 +774,7 @@ class Reminder
                     $stmt .= ' AND iss_customer_id IN (' . implode(', ', $requirement['values']) . ")\n";
                 } elseif ($requirement['type'] == 'support_level') {
                     if (Customer::doesBackendUseSupportLevels($reminder['rem_prj_id'])) {
-                        $customer_ids = Customer::getListBySupportLevel($reminder['rem_prj_id'], $requirement['values']);
+                        $customer_ids = Customer::getListBySupportLevel($reminder['rem_prj_id'], $requirement['values'], CUSTOMER_EXCLUDE_EXPIRED);
                         // break the query on purpose if no customers could be found
                         if (count($customer_ids) == 0) {
                             $customer_ids = array(-1);
