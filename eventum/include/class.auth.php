@@ -80,7 +80,7 @@ class Auth
     function getRequestedURL()
     {
         global $HTTP_SERVER_VARS;
-        return $HTTP_SERVER_VARS["REQUEST_URI"];
+        return urlencode($HTTP_SERVER_VARS["REQUEST_URI"]);
     }
 
 
@@ -297,8 +297,12 @@ class Auth
         if ($is_popup) {
             $html = '<script language="JavaScript">
                      <!--
-                     window.opener.location.href = "' . $new_url . '";
-                     window.close();
+                     if (window.opener) {
+                         window.opener.location.href = "' . $new_url . '";
+                         window.close();
+                     } else {
+                        location.href = "' . $new_url . '";
+                     }
                      //-->
                      </script>';
             echo $html;
