@@ -86,7 +86,8 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                 "zones"              => Date_API::getTimezoneList(),
                 'users'              => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
                 "ema_id"             => Email_Account::getEmailAccount(),
-                'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id)
+                'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id),
+                'max_attachment_size'=> Attachment::getMaxAttachmentSize()
             ));
 
             if ($role_id != User::getRoleID('customer')) {
