@@ -286,6 +286,12 @@ class Customer
     }
 
 
+    function getCustomerIDsLikeEmail($prj_id, $email)
+    {
+        echo "getCustomerIDsLikeEmail($prj_id, $email)<br />";
+        Customer::_setupBackend($prj_id);
+        return Customer_Backend::getCustomerIDsLikeEmail($email);
+    }
 
 
 

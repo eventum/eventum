@@ -40,7 +40,6 @@
 include_once(APP_INC_PATH . "class.validation.php");
 include_once(APP_INC_PATH . "class.time_tracking.php");
 include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.customer.php");
 include_once(APP_INC_PATH . "class.attachment.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.user.php");
@@ -2061,6 +2060,7 @@ class Issue
     {
         $usr_id = Auth::getUserID();
         $role_id = User::getRoleByUser($usr_id);
+        $prj_id = Auth::getCurrentProject();
 
         $stmt = '';
         if (User::getRole($role_id) == "Customer") {
@@ -2072,17 +2072,17 @@ class Issue
             if ($options['users'] == '-1') {
                 $stmt .= ' IS NULL';
             } elseif ($options['users'] == '-2') {
-                $stmt .= ' IS NULL OR isu_usr_id=' . Auth::getUserID();
+                $stmt .= ' IS NULL OR isu_usr_id=' . $usr_id;
             } else {
                 $stmt .= '=' . $options["users"];
             }
             $stmt .= ')';
         }
         if (!empty($options["show_authorized_issues"])) {
-            $stmt .= " AND (iur_usr_id=" . Auth::getUserID() . ")";
+            $stmt .= " AND (iur_usr_id=$usr_id)";
         }
         if (!empty($options["show_notification_list_issues"])) {
-            $stmt .= " AND (sub_usr_id=" . Auth::getUserID() . ")";
+            $stmt .= " AND (sub_usr_id=$usr_id)";
         }
         if (!empty($options["keywords"])) {
             $stmt .= " AND (" . Misc::prepareBooleanSearch('iss_summary', $options["keywords"]);
@@ -2101,8 +2101,8 @@ class Issue
             $stmt .= " AND sta_is_closed=0";
         }
         // check if the user is trying to search by customer email
-        if (!empty($options['customer_email'])) {
-            $customer_ids = Customer::getCustomerIDsLikeEmail($options['customer_email']);
+        if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($options['customer_email']))) {
+            $customer_ids = Customer::getCustomerIDsLikeEmail($prj_id, $options['customer_email']);
             if (count($customer_ids) > 0) {
                 $stmt .= " AND iss_customer_id IN (" . implode(', ', $customer_ids) . ")";
             } else {

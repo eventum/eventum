@@ -995,5 +995,45 @@ class Customer_Backend
             return $res;
         }
     }
+
+
+    /**
+     * Returns the list of customer IDs that are associated with the given
+     * email value (wildcards welcome).
+     *
+     * @access  public
+     * @param   string $email The email value
+     * @return  array The list of customer IDs
+     */
+    function getCustomerIDsLikeEmail($email)
+    {
+        // need to restrict the customer lookup
+        if (strlen($email) < 5) {
+            return array();
+        }
+        $stmt = "SELECT
+                    DISTINCT C.up_cust_no
+                 FROM
+                    eaddress A,
+                    eaddress_type B,
+                    cust_role C,
+                    cust_entity D
+                 WHERE
+                    C.up_cust_no=D.cust_no AND
+                    C.cust_no=A.cust_no AND
+                    A.eaddress_type_no=B.eaddress_type_no AND
+                    B.descript='email' AND
+                    (
+                        A.eaddress_code LIKE '%" . Misc::escapeString($email) . "%' OR
+                        D.name LIKE '%" . Misc::escapeString($email) . "%'
+                    )";
+        $res = $GLOBALS["customer_db"]->getCol($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
 }
 ?>
