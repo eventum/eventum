@@ -59,8 +59,8 @@ function validateForm(f)
         selectField(f, 'description');
         return false;
     }
-    if ((f.percent_complete.value != '') && !(f.percent_complete.value >= 0 && f.percent_complete.value <= 100)) {
-        alert('Percent complete should be between 0 and 100');
+    if ((f.percent_complete.value != '') && ((f.percent_complete.value < 0) || (f.percent_complete.value > 100))) {
+        alert('Percentage complete should be between 0 and 100');
         selectField(f, 'percent_complete');
         return false;
     }
@@ -230,7 +230,7 @@ function validateForm(f)
         </tr>
         <tr>
           <td width="120" nowrap bgcolor="{$cell_color}" class="default_white">
-            <b>% Complete:</b>
+            <b>Percentage Complete:</b>
           </td>
           <td width="50%" bgcolor="{$light_color}">
             <input type="text" name="percent_complete" value="{$issue.iss_percent_complete}" size="2" class="default">
@@ -238,7 +238,7 @@ function validateForm(f)
             <span class="default">(0 - 100)</span>
           </td>
           <td width="120" bgcolor="{$cell_color}" class="default_white" nowrap>
-            <b>Est Dev Time:</b>
+            <b>Estimated Dev. Time:</b>
           </td>
           <td width="50%" bgcolor="{$light_color}" valign="top">
            <input type="text" name="estimated_dev_time" value="{$issue.iss_dev_time}" size="4" class="default">
