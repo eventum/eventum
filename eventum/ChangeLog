@@ -36,6 +36,7 @@ Eventum Issue Tracking System
 - Fixed bug that prevented the edit custom fields window from automatically closing (Bryan)
 - Remove 'Return-Path' header from messages added to the mail queue (Bryan)
 - Added option to display reporter to list issues page (Bryan)
+- Always allow issue reporter to send emails (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)

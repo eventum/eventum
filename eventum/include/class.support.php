@@ -501,6 +501,7 @@ class Support
             } else {
                 $has_attachments = 0;
             }
+                        
             // we can't trust the in-reply-to from the imap c-client, so let's
             // try to manually parse that value from the full headers
             $reference_msg_id = Support::getReferenceMessageID($headers);
@@ -1500,7 +1501,10 @@ class Support
             // check if this user is not a customer and 
             // also not in the assignment list for the current issue and
             // also not in the authorized repliers list
-            if ((!Authorized_Replier::isUserAuthorizedReplier($issue_id, $sender_usr_id)) &&
+            // also not the reporter
+            $details = Issue::getDetails($issue_id);
+            if (($sender_usr_id != $details['iss_usr_id']) &&
+                    (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $sender_usr_id)) &&
                     (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
                     (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) {
                 $is_allowed = false;
