@@ -403,7 +403,7 @@ $private_key = "' . md5(microtime()) . '";
     
     // write setup file
     include_once("../config.inc.php");
-    include_once(APP_INC_PATH . "include/class.setup.php");
+    include_once(APP_INC_PATH . "class.setup.php");
     Setup::save($_REQUEST['setup']);
     
     return 'success';
