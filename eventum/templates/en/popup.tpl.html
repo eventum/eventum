@@ -133,6 +133,9 @@
   <b>An error occurred while trying to run your query</b>
 {elseif $delete_phone_result == 1}
   <b>Thank you, the phone support entry was removed successfully.</b>
+{elseif $delete_phone_result == 2}
+  <b>Thank you, the phone support entry was removed successfully.<br />
+  The associated time tracking entry was also deleted.</b>
 {/if}
 
 {if $new_status_result == -1}
