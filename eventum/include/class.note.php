@@ -481,7 +481,6 @@ class Note
         $parts = array();
         Mime_Helper::parse_output($structure, $parts);
         if ($target == 'email') {
-            // XXX: need to eventually reuse this code in a function
             if (@count($parts["attachments"]) > 0) {
                 $has_attachments = 1;
             } else {
