@@ -1889,6 +1889,37 @@ class Support
         }
         return $res;
     }
+    
+    
+    /**
+     * Returns the projectID based on the email account
+     * 
+     * @access  public
+     * @param   integer $ema_id The id of the email account.
+     * @return  iteger The ID of the of the project.
+     */
+    function getProjectByEmailAccount($ema_id)
+    {
+        static $returns;
+
+        if (!empty($returns[$ema_id])) {
+            return $returns[$ema_id];
+        }
+        
+        $stmt = "SELECT
+                    ema_prj_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                 WHERE
+                    ema_id = $ema_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+        $returns[$ema_id] = $res;
+        return $res;
+    }
 }
 
 // benchmarking the included file (aka setup time)
