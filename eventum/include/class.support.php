@@ -109,10 +109,19 @@ class Support
     // XXX: put documentation here
     function isAllowedToEmail($issue_id, $sender_email)
     {
-        // XXX: need to fix this
         $is_allowed = true;
-        if (!Notification::isSubscribedToEmails($issue_id, $sender_email)) {
-            $is_allowed = false;
+        $sender_usr_id = User::getUserIDByEmail($sender_email);
+        if (empty($sender_usr_id)) {
+            if (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) {
+                $is_allowed = false;
+            }
+        } else {
+            // check if this user is not in the assignment list for the current issue and
+            // also not in the authorized repliers list
+            if ((!Authorized_Replier::isUserAuthorizedReplier($issue_id, $sender_usr_id)) &&
+                    (!Issue::isAssignedToUser($issue_id, $sender_usr_id))) {
+                $is_allowed = false;
+            }
         }
         return $is_allowed;
     }
