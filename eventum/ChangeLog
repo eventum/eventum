@@ -3,3 +3,6 @@ Eventum Issue Tracking System
 
 05 Jun 2004, Version 1.1
 - Initial release (João; Bryan)
+
+??, Version 1.2
+- SMS email address can now be set back to empty. (Bryan)

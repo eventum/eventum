@@ -45,9 +45,7 @@ $usr_id = Auth::getUserID();
 if (@$HTTP_POST_VARS["cat"] == "update_account") {
     $res = Prefs::set($usr_id);
     $tpl->assign('update_account_result', $res);
-    if (!empty($HTTP_POST_VARS['sms_email'])) {
-        User::updateSMS($usr_id, $HTTP_POST_VARS['sms_email']);
-    }
+    User::updateSMS($usr_id, $HTTP_POST_VARS['sms_email']);
 } elseif (@$HTTP_POST_VARS["cat"] == "update_name") {
     $res = User::updateFullName($usr_id);
     $tpl->assign('update_name_result', $res);
