@@ -266,7 +266,9 @@ function validateForm(f)
         <input type="hidden" name="associated_issues[]" value="{$_issue_id}">
         {/foreach}
         <input type="hidden" name="estimated_dev_time" value="{$issue.iss_dev_time|escape:"html"}">
-        <input type="hidden" name="release" value="{$issue.iss_pre_id}">
+        {/if}
+        {if $releases|@count < 1}
+            <input type="hidden" name="release" value="{$issue.iss_pre_id}">
         {/if}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
