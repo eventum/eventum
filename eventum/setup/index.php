@@ -365,6 +365,10 @@ $private_key = "' . md5(microtime()) . '";
         $HTTP_POST_VARS['db_username'] = $HTTP_POST_VARS['eventum_user'];
         $HTTP_POST_VARS['db_password'] = $HTTP_POST_VARS['eventum_password'];
     }
+    // make sure there is a / in the end of the APP_PATH constant
+    if (substr($HTTP_POST_VARS['path'], 0, -1) != '/') {
+        $HTTP_POST_VARS['path'] .= '/';
+    }
     $config_contents = implode("", file("config.inc.php"));
     $config_contents = str_replace("%{APP_PATH}%", $HTTP_POST_VARS['path'], $config_contents);
     $config_contents = str_replace("%{APP_SQL_DBHOST}%", $HTTP_POST_VARS['db_hostname'], $config_contents);
