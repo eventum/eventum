@@ -47,6 +47,7 @@ function authenticate($email, $password)
     if ((!Auth::isCorrectPassword($email, $password)) || (User::getRoleByUser(User::getUserIDByEmail($email)) <= User::getRoleID("Customer"))) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role");
     } else {
+        createFakeCookie($email);
         return true;
     }
 }
@@ -185,8 +186,6 @@ function getIssueDetails($p)
         return $auth;
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
-    
-    createFakeCookie($email);
     
     $res = Issue::getDetails($issue_id);
     if (empty($res)) {
@@ -431,6 +430,8 @@ function closeIssue($p)
     $resolution_id = XML_RPC_decode($p->getParam(4));
     $send_notification = XML_RPC_decode($p->getParam(5));
     $note = XML_RPC_decode($p->getParam(5));
+    
+    createFakeCookie($email, Issue::getProjectID($issue_id));
 
     $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
     if ($res == -1) {
@@ -528,7 +529,6 @@ function getNoteListing($p)
         return $auth;
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
-    createFakeCookie($email);
     $notes = Note::getListing($issue_id);
 
     // since xml-rpc has issues, lets base64 encode everything
@@ -689,7 +689,6 @@ function getDraftListing($p)
         return $auth;
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
-    createFakeCookie($email);
     
     $drafts = Draft::getList($issue_id);
 
@@ -752,6 +751,26 @@ function sendDraft($p)
     } else {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Error sending Draft #" . $draft_id . "\n");
     }
+}
+
+$logCommand_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_String));
+function logCommand($p)
+{
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $command = XML_RPC_decode($p->getParam(2));
+    
+    $msg = $email . "\t" . $command . "\n";
+    
+    $fp = @fopen(APP_CLI_LOG, "a");
+    @fwrite($fp, $msg);
+    @fclose($fp);
+    
+    return new XML_RPC_Response(XML_RPC_Encode('OK'));
 }
 
 /**
@@ -895,6 +914,10 @@ $services = array(
     "sendDraft" => array(
         "function"  => "sendDraft",
         "signature" => $sendDraft_sig
+    ),
+    "logCommand"    => array(
+        "function"  => "logCommand",
+        "signature" => $logCommand_sig
     )
 );
 $server = new XML_RPC_Server($services);
