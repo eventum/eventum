@@ -540,9 +540,12 @@ class Support
                 $t['issue_id'] = $new_issue_id;
             }
             // associate any existing replied-to email with the same issue
-            if (!empty($associate_email)) {
+            if ((!empty($associate_email)) && (!empty($t['issue_id']))) {
                 $reference_sup_id = Support::getIDByMessageID($associate_email);
                 Support::associate(APP_SYSTEM_USER_ID, $t['issue_id'], array($reference_sup_id));
+            }
+            if (empty($t['issue_id'])) {
+                $t['issue_id'] = 0;
             }
             $res = Support::insertEmail($t, $structure);
             if ($res != -1) {
