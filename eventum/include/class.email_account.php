@@ -374,18 +374,28 @@ class Email_Account
      * accounts in the format of account ID => account title.
      *
      * @access  public
-     * @param   integer $prj_id The project ID
+     * @param   integer $projects An array of project IDs
      * @return  array The list of accounts
      */
-    function getAssocList($prj_id)
+    function getAssocList($projects, $include_project_title = false)
     {
+        if (!is_array($projects)) {
+            $projects = array($projects);
+        }
+        if ($include_project_title) {
+            $title_sql = "CONCAT(prj_title, ': ', ema_username, '@', ema_hostname, ' ', ema_folder)";
+        } else {
+            $title_sql = "CONCAT(ema_username, '@', ema_hostname, ' ', ema_folder)";
+        }
         $stmt = "SELECT
                     ema_id,
-                    CONCAT(ema_username, '@', ema_hostname, ' ', ema_folder) AS ema_title
+                    $title_sql AS ema_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
-                    ema_prj_id=$prj_id
+                    prj_id = ema_prj_id AND
+                    ema_prj_id IN (" . join(',', $projects) . ")
                  ORDER BY
                     ema_title";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
