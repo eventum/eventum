@@ -139,6 +139,19 @@ class Abstract_Workflow_Backend
     {
     }
 
+    
+
+    /**
+     * Called when an email is associated with an issue.
+     *
+     * @access  public
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The issue ID
+     */
+    function handleManualEmailAssociation($prj_id, $issue_id)
+    {
+    }
+
 
     /**
      * Called when a new message is recieved. 
