@@ -1,0 +1,25 @@
+This is an automated message sent at your request from MySQL's 
+Customer Support Center.
+
+Dear {$data.iss_contact_person_fname} {$data.iss_contact_person_lname},
+
+Your new MySQL support issue was successfully created.
+
+     Issue #: {$data.iss_id}
+     Summary: {$data.iss_summary}
+    Priority: {$data.pri_title}
+   Submitted: {$data.iss_created_date}
+   
+A record of all communications between you and MySQL on issue# {$data.iss_id}
+will be kept at https://support.mysql.com/{$data.iss_id}.
+
+You may update this issue or report new information about it at
+https://support.mysql.com/{$data.iss_id}/update.
+
+If you experience problems, contact MySQL's Director of Support, Mr. 
+Tom Basil, at <support-feedback@mysql.com> or by telephone at
++1-410-384-7360 (weekdays 9 am to 5 pm New York time).
+
+Sincerely,
+The MySQL Support & Development Team
+
