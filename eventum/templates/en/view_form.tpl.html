@@ -124,7 +124,7 @@ function validateForm(f)
             {if $current_role > $roles.customer && $quarantine.iqu_expiration != ''}
                 Quarantine expires in {$quarantine.time_till_expiration}<br />
             {/if}
-            Please see the <a href="faq.php">FAQ</a> for information regarding quarantined issues.
+            Please see the <a class="link" href="faq.php">FAQ</a> for information regarding quarantined issues.
             </span>
             {if $current_role > $roles.developer}
             <br /><br />
@@ -162,14 +162,14 @@ function validateForm(f)
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Customer:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td width="50%" bgcolor="{$light_color}" class="default">
             {$issue.customer_info.customer_name}
             (<a href="#customer_details" class="link">Complete Details</a>)
           </td>
-          <td width="140" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Customer Contract:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td width="50%" bgcolor="{$light_color}" class="default">
             Support Level: {$issue.customer_info.support_level}
             {if $issue.customer_info.support_options}
             <br />
@@ -191,11 +191,11 @@ function validateForm(f)
           <td width="150" bgcolor="{$cell_color}" class="default_white" rowspan="2">
             <b>Status:</b>
           </td>
-          <td bgcolor="{$issue.status_color}" class="default" rowspan="2">
+          <td width="50%" bgcolor="{$issue.status_color}" class="default" rowspan="2">
             {$issue.sta_title|escape:"html"}
           </td>
           {/if}
-          <td width="140" bgcolor="{$cell_color}" valign="top" class="default_white" nowrap>
+          <td width="150" bgcolor="{$cell_color}" valign="top" class="default_white" nowrap>
             <b>Notification List:</b>
           </td>
           <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
@@ -213,7 +213,7 @@ function validateForm(f)
             {$issue.sta_title|escape:"html"}
           </td>
           {/if}
-          <td width="140" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Submitted Date:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -227,7 +227,7 @@ function validateForm(f)
           <td {if $current_role == $roles.customer || $show_releases == 0}rowspan="2"{/if} bgcolor="{$light_color}" class="default">
             {$issue.pri_title|escape:"html"}
           </td>
-          <td width="140" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Last Updated Date:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -239,14 +239,14 @@ function validateForm(f)
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <nobr><b>Scheduled Release:</b>&nbsp;</nobr>
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td width="50%" bgcolor="{$light_color}" class="default">
             {$issue.pre_title|escape:"html"}
           </td>
           {/if}
-          <td nowrap width="140" bgcolor="{$cell_color}" class="default_white">
+          <td nowrap width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Associated Issues:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td width="50%" bgcolor="{$light_color}" class="default">
             {section name="i" loop=$issue.associated_issues}{if %i.rownum% > 1},&nbsp;{/if}<a href="view.php?id={$issue.associated_issues[i]}" title="view issue details" class="link">#{$issue.associated_issues[i]}</a>{sectionelse}
             <i>No issues associated</i>
             {/section}
@@ -256,13 +256,13 @@ function validateForm(f)
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Resolution:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td width="50%" bgcolor="{$light_color}" class="default">
             {$issue.iss_resolution}
           </td>
-          <td width="140" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Expected Resolution Date:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td width="50%" bgcolor="{$light_color}" class="default">
             {if $issue.iss_expected_resolution_date == 0}
             <i>No resolution date given</i>
             {else}
@@ -274,14 +274,14 @@ function validateForm(f)
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Reporter:</b>
           </td>
-          <td {if $current_role <= $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
+          <td width="50%" {if $current_role <= $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
             {$issue.reporter}
           </td>
           {if $current_role > $roles.customer}
-          <td width="140" bgcolor="{$internal_color}" class="default_white">
+          <td width="150" bgcolor="{$internal_color}" class="default_white">
             <b>Duplicates:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td width="50%" bgcolor="{$light_color}" class="default">
             {if $issue.iss_duplicated_iss_id}
             Duplicate of: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{$issue.iss_duplicated_iss_id} - {$issue.iss_duplicated_iss_title|escape:"html"}" class="link">#{$issue.iss_duplicated_iss_id}</a>
             {/if}
@@ -296,14 +296,14 @@ function validateForm(f)
           {/if}
         </tr>
         <tr>
-          <td {if $current_role > $roles.customer && $groups|@count > 0}rowspan="2"{/if}width="150" bgcolor="{$cell_color}" class="default_white">
+          <td {if $current_role > $roles.customer && $groups|@count > 0}rowspan="2"{/if} width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Assignment:</b>
           </td>
-          <td {if $current_role <= $roles.customer}colspan="3" {elseif $groups|@count > 0}rowspan="2"{/if}bgcolor="{$light_color}" class="default">
+          <td width="50%" {if $current_role <= $roles.customer}colspan="3" {elseif $groups|@count > 0}rowspan="2"{/if} bgcolor="{$light_color}" class="default">
             {$issue.assignments}
           </td>
           {if $current_role > $roles.customer}
-          <td width="140" bgcolor="{$internal_color}" valign="top" class="default_white" nowrap>
+          <td width="150" bgcolor="{$internal_color}" valign="top" class="default_white" nowrap>
             <b>Authorized Repliers:</b>
           </td>
           <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
@@ -390,7 +390,7 @@ function validateForm(f)
                 {/if}
                 <td width="100%" align="center">
                   <input class="button" type="submit" value="Update">&nbsp;
-                  {if $current_role > $roles.standard_user}
+                  {if $current_role >= $roles.standard_user}
                   <input class="button" type="button" value="Reply" onClick="javascript:replyIssue({$issue.iss_id});">&nbsp;
                   {/if}
                 </td>
