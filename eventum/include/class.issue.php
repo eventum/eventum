@@ -1059,7 +1059,7 @@ class Issue
         $assignments_changed = false;
         if (@$HTTP_POST_VARS["keep_assignments"] == "no") {
             // only change the issue-user associations if there really were any changes
-            $old_assignees = $current['assigned_users'];
+            $old_assignees = array_merge($current['assigned_users'], $current['assigned_inactive_users']);
             if (!empty($HTTP_POST_VARS['assignments'])) {
                 $new_assignees = @$HTTP_POST_VARS['assignments'];
             } else {
@@ -2707,8 +2707,10 @@ class Issue
                 $temp = Issue::getAssignedUsersStatus($res["iss_id"]);
                 $res["has_inactive_users"] = 0;
                 $res["assigned_users"] = array();
+                $res["assigned_inactive_users"] = array();
                 foreach ($temp as $usr_id => $usr_status) {
                     if (!User::isActiveStatus($usr_status)) {
+                        $res["assigned_inactive_users"][] = $usr_id;
                         $res["has_inactive_users"] = 1;
                     } else {
                         $res["assigned_users"][] = $usr_id;
