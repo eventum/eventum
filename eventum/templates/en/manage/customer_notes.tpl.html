@@ -144,7 +144,7 @@
                 {section name="i" loop=$list}
                 {cycle values=$cycle assign="row_color"}
                 <tr>
-                  <td nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].cno_id}"></td>
+                  <td nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].cno_id}"></td>
                   <td bgcolor="{$row_color}" class="default">
                     <a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].cno_id}">{$list[i].customer_title|escape:"html"}</a>
                   </td>
