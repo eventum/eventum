@@ -61,6 +61,9 @@ $stmts[] = "CREATE TABLE eventum_search_profile (
   UNIQUE (sep_usr_id, sep_prj_id, sep_type)
 )";
 
+$stmts[] = "ALTER TABLE eventum_issue ADD INDEX (iss_duplicated_iss_id)";
+$stmts[] = "ALTER TABLE eventum_time_tracking ADD INDEX (ttr_iss_id)";
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);

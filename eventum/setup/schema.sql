@@ -170,7 +170,8 @@ CREATE TABLE %TABLE_PREFIX%issue (
   KEY iss_prj_id (iss_prj_id),
   KEY iss_prc_id (iss_prc_id),
   KEY iss_res_id (iss_res_id),
-  KEY iss_grp_id (iss_grp_id)
+  KEY iss_grp_id (iss_grp_id),
+  KEY iss_duplicated_iss_id (iss_duplicated_iss_id)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_association;
@@ -440,7 +441,8 @@ CREATE TABLE %TABLE_PREFIX%time_tracking (
   ttr_time_spent int(11) unsigned NOT NULL default 0,
   ttr_summary varchar(255) NOT NULL default '',
   PRIMARY KEY  (ttr_id),
-  KEY ttr_ttc_id (ttr_ttc_id,ttr_iss_id,ttr_usr_id)
+  KEY ttr_ttc_id (ttr_ttc_id,ttr_iss_id,ttr_usr_id),
+  KEY ttr_iss_id (ttr_iss_id)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%time_tracking_category;

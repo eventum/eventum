@@ -10,6 +10,7 @@ Eventum Issue Tracking System
 - Added some form validation to the custom field report (João)
 - Changed the attachment handling code to handle certain attachment types better (Bryan)
 - Changed the issue/email listing screens to save their search related information in the database, instead of in cookies (João)
+- Added indexes to a few columns (Bug #7676) (Bryan)
 
 01 Mar 2005, Version 1.5
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
