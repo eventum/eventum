@@ -2,8 +2,8 @@
 DROP TABLE IF EXISTS %TABLE_PREFIX%custom_filter;
 CREATE TABLE %TABLE_PREFIX%custom_filter (
   cst_id int(10) unsigned NOT NULL auto_increment,
-  cst_usr_id int(10) unsigned NOT NULL default '0',
-  cst_prj_id int(10) unsigned NOT NULL default '0',
+  cst_usr_id int(10) unsigned NOT NULL default 0,
+  cst_prj_id int(10) unsigned NOT NULL default 0,
   cst_title varchar(64) NOT NULL default '',
   cst_iss_pri_id int(10) unsigned default NULL,
   cst_keywords varchar(64) default NULL,
@@ -41,7 +41,7 @@ CREATE TABLE %TABLE_PREFIX%custom_filter (
 DROP TABLE IF EXISTS %TABLE_PREFIX%email_account;
 CREATE TABLE %TABLE_PREFIX%email_account (
   ema_id int(10) unsigned NOT NULL auto_increment,
-  ema_prj_id int(10) unsigned NOT NULL default '0',
+  ema_prj_id int(10) unsigned NOT NULL default 0,
   ema_type varchar(32) NOT NULL default '',
   ema_folder varchar(255) default NULL,
   ema_hostname varchar(255) NOT NULL default '',
@@ -130,14 +130,14 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_id int(11) unsigned NOT NULL auto_increment,
   iss_customer_id int(11) unsigned NULL,
   iss_customer_contact_id int(11) unsigned NULL,
-  iss_usr_id int(10) unsigned NOT NULL default '0',
+  iss_usr_id int(10) unsigned NOT NULL default 0,
   iss_grp_id int(11) unsigned NULL default NULL,
-  iss_prj_id int(11) unsigned NOT NULL default '0',
-  iss_prc_id int(11) unsigned NOT NULL default '0',
-  iss_pre_id int(10) unsigned NOT NULL default '0',
-  iss_pri_id tinyint(1) NOT NULL default '0',
-  iss_sta_id tinyint(1) NOT NULL default '0',
-  iss_res_id int(10) unsigned NOT NULL default '0',
+  iss_prj_id int(11) unsigned NOT NULL default 0,
+  iss_prc_id int(11) unsigned NOT NULL default 0,
+  iss_pre_id int(10) unsigned NOT NULL default 0,
+  iss_pri_id tinyint(1) NOT NULL default 0,
+  iss_sta_id tinyint(1) NOT NULL default 0,
+  iss_res_id int(10) unsigned NOT NULL default 0,
   iss_duplicated_iss_id int(11) unsigned NULL default NULL,
   iss_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   iss_updated_date datetime default NULL,
@@ -171,16 +171,16 @@ CREATE TABLE %TABLE_PREFIX%issue (
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_association;
 CREATE TABLE %TABLE_PREFIX%issue_association (
-  isa_issue_id int(10) unsigned NOT NULL default '0',
-  isa_associated_id int(10) unsigned NOT NULL default '0',
+  isa_issue_id int(10) unsigned NOT NULL default 0,
+  isa_associated_id int(10) unsigned NOT NULL default 0,
   KEY isa_issue_id (isa_issue_id,isa_associated_id)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_attachment;
 CREATE TABLE %TABLE_PREFIX%issue_attachment (
   iat_id int(10) unsigned NOT NULL auto_increment,
-  iat_iss_id int(10) unsigned NOT NULL default '0',
-  iat_usr_id int(10) unsigned NOT NULL default '0',
+  iat_iss_id int(10) unsigned NOT NULL default 0,
+  iat_usr_id int(10) unsigned NOT NULL default 0,
   iat_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   iat_description text,
   iat_unknown_user varchar(255) NULL DEFAULT NULL,
@@ -191,7 +191,7 @@ CREATE TABLE %TABLE_PREFIX%issue_attachment (
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_attachment_file;
 CREATE TABLE %TABLE_PREFIX%issue_attachment_file (
   iaf_id int(10) unsigned NOT NULL auto_increment,
-  iaf_iat_id int(10) unsigned NOT NULL default '0',
+  iaf_iat_id int(10) unsigned NOT NULL default 0,
   iaf_file longblob NULL,
   iaf_filename varchar(255) NOT NULL default '',
   iaf_filetype varchar(255) NULL,
@@ -203,7 +203,7 @@ CREATE TABLE %TABLE_PREFIX%issue_attachment_file (
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_checkin;
 CREATE TABLE %TABLE_PREFIX%issue_checkin (
   isc_id int(10) unsigned NOT NULL auto_increment,
-  isc_iss_id int(10) unsigned NOT NULL default '0',
+  isc_iss_id int(10) unsigned NOT NULL default 0,
   isc_module varchar(255) NOT NULL default '',
   isc_filename varchar(255) NOT NULL default '',
   isc_old_version varchar(32) NOT NULL default '',
@@ -218,8 +218,8 @@ CREATE TABLE %TABLE_PREFIX%issue_checkin (
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_history;
 CREATE TABLE %TABLE_PREFIX%issue_history (
   his_id int(10) unsigned NOT NULL auto_increment,
-  his_iss_id int(10) unsigned NOT NULL default '0',
-  his_usr_id int(11) unsigned NOT NULL default '0',
+  his_iss_id int(10) unsigned NOT NULL default 0,
+  his_usr_id int(11) unsigned NOT NULL default 0,
   his_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   his_summary text NOT NULL,
   his_htt_id varchar(20) NOT NULL default '',
@@ -233,8 +233,8 @@ CREATE TABLE %TABLE_PREFIX%issue_history (
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_requirement;
 CREATE TABLE %TABLE_PREFIX%issue_requirement (
   isr_id int(10) unsigned NOT NULL auto_increment,
-  isr_iss_id int(10) unsigned NOT NULL default '0',
-  isr_usr_id int(10) unsigned NOT NULL default '0',
+  isr_iss_id int(10) unsigned NOT NULL default 0,
+  isr_usr_id int(10) unsigned NOT NULL default 0,
   isr_updated_usr_id int(10) unsigned default NULL,
   isr_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   isr_updated_date datetime default NULL,
@@ -249,8 +249,8 @@ CREATE TABLE %TABLE_PREFIX%issue_requirement (
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_user;
 CREATE TABLE %TABLE_PREFIX%issue_user (
-  isu_iss_id int(10) unsigned NOT NULL default '0',
-  isu_usr_id int(10) unsigned NOT NULL default '0',
+  isu_iss_id int(10) unsigned NOT NULL default 0,
+  isu_usr_id int(10) unsigned NOT NULL default 0,
   isu_assigned_date datetime,
   PRIMARY KEY  (isu_iss_id,isu_usr_id),
   KEY isu_usr_id (isu_usr_id),
@@ -260,9 +260,9 @@ CREATE TABLE %TABLE_PREFIX%issue_user (
 DROP TABLE IF EXISTS %TABLE_PREFIX%note;
 CREATE TABLE %TABLE_PREFIX%note (
   not_id int(11) unsigned NOT NULL auto_increment,
-  not_iss_id int(11) unsigned NOT NULL default '0',
+  not_iss_id int(11) unsigned NOT NULL default 0,
   not_created_date datetime NOT NULL default '0000-00-00 00:00:00',
-  not_usr_id int(11) unsigned NOT NULL default '0',
+  not_usr_id int(11) unsigned NOT NULL default 0,
   not_title varchar(255) NOT NULL,
   not_note longtext NOT NULL,
   not_blocked_message longtext NULL,
@@ -274,12 +274,11 @@ CREATE TABLE %TABLE_PREFIX%note (
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_priority;
 CREATE TABLE %TABLE_PREFIX%project_priority (
-  pri_id tinyint(1) NOT NULL default '0',
+  pri_id tinyint(1) unsigned NOT NULL auto_increment,
   pri_prj_id int(11) unsigned NOT NULL,
   pri_title varchar(64) NOT NULL default '',
-  PRIMARY KEY  (pri_title),
-  UNIQUE KEY pri_id (pri_id),
-  KEY pri_id_2 (pri_id)
+  PRIMARY KEY (pri_id),
+  UNIQUE KEY pri_title (pri_title, pri_prj_id)
 );
 INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (5, 1, 'Not Prioritized');
 INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (1, 1, 'Critical');
@@ -293,8 +292,8 @@ CREATE TABLE %TABLE_PREFIX%project (
   prj_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   prj_title varchar(64) NOT NULL default '',
   prj_status set('active','archived') NOT NULL default 'active',
-  prj_lead_usr_id int(11) unsigned NOT NULL default '0',
-  prj_initial_sta_id int(10) unsigned NOT NULL default '0',
+  prj_lead_usr_id int(11) unsigned NOT NULL default 0,
+  prj_initial_sta_id int(10) unsigned NOT NULL default 0,
   prj_remote_invocation varchar(8) NOT NULL default 'disabled',
   prj_anonymous_post varchar(8) NOT NULL default 'disabled',
   prj_anonymous_post_options text,
@@ -319,7 +318,7 @@ CREATE TABLE %TABLE_PREFIX%project_field_display (
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_category;
 CREATE TABLE %TABLE_PREFIX%project_category (
   prc_id int(11) unsigned NOT NULL auto_increment,
-  prc_prj_id int(11) unsigned NOT NULL default '0',
+  prc_prj_id int(11) unsigned NOT NULL default 0,
   prc_title varchar(64) NOT NULL default '',
   PRIMARY KEY  (prc_id),
   UNIQUE KEY uniq_category (prc_prj_id,prc_title),
@@ -332,7 +331,7 @@ INSERT INTO %TABLE_PREFIX%project_category (prc_id, prc_prj_id, prc_title) VALUE
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_release;
 CREATE TABLE %TABLE_PREFIX%project_release (
   pre_id int(10) unsigned NOT NULL auto_increment,
-  pre_prj_id int(10) unsigned NOT NULL default '0',
+  pre_prj_id int(10) unsigned NOT NULL default 0,
   pre_title varchar(128) NOT NULL default '',
   pre_scheduled_date date NOT NULL default '0000-00-00',
   pre_status enum('available','unavailable') NOT NULL default 'available',
@@ -345,8 +344,8 @@ INSERT INTO %TABLE_PREFIX%project_release (pre_id, pre_prj_id, pre_title, pre_sc
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_user;
 CREATE TABLE %TABLE_PREFIX%project_user (
   pru_id int(11) unsigned NOT NULL auto_increment,
-  pru_prj_id int(11) unsigned NOT NULL default '0',
-  pru_usr_id int(11) unsigned NOT NULL default '0',
+  pru_prj_id int(11) unsigned NOT NULL default 0,
+  pru_usr_id int(11) unsigned NOT NULL default 0,
   PRIMARY KEY  (pru_id),
   UNIQUE KEY pru_prj_id (pru_prj_id,pru_usr_id)
 );
@@ -373,7 +372,7 @@ INSERT INTO %TABLE_PREFIX%resolution (res_id, res_title, res_created_date) VALUE
 DROP TABLE IF EXISTS %TABLE_PREFIX%subscription;
 CREATE TABLE %TABLE_PREFIX%subscription (
   sub_id int(10) unsigned NOT NULL auto_increment,
-  sub_iss_id int(10) unsigned NOT NULL default '0',
+  sub_iss_id int(10) unsigned NOT NULL default 0,
   sub_usr_id int(10) unsigned default NULL,
   sub_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   sub_level varchar(10) NOT NULL default 'user',
@@ -385,7 +384,7 @@ CREATE TABLE %TABLE_PREFIX%subscription (
 DROP TABLE IF EXISTS %TABLE_PREFIX%subscription_type;
 CREATE TABLE %TABLE_PREFIX%subscription_type (
   sbt_id int(10) unsigned NOT NULL auto_increment,
-  sbt_sub_id int(10) unsigned NOT NULL default '0',
+  sbt_sub_id int(10) unsigned NOT NULL default 0,
   sbt_type varchar(10) NOT NULL default '',
   PRIMARY KEY  (sbt_id),
   KEY sbt_sub_id (sbt_sub_id)
@@ -394,9 +393,9 @@ CREATE TABLE %TABLE_PREFIX%subscription_type (
 DROP TABLE IF EXISTS %TABLE_PREFIX%support_email;
 CREATE TABLE %TABLE_PREFIX%support_email (
   sup_id int(11) unsigned NOT NULL auto_increment,
-  sup_ema_id int(10) unsigned NOT NULL default '0',
-  sup_parent_id int(11) unsigned NOT NULL default '0',
-  sup_iss_id int(11) unsigned default '0',
+  sup_ema_id int(10) unsigned NOT NULL default 0,
+  sup_parent_id int(11) unsigned NOT NULL default 0,
+  sup_iss_id int(11) unsigned default 0,
   sup_usr_id int(11) unsigned default NULL,
   sup_customer_id int(11) unsigned NULL,
   sup_message_id varchar(255) NOT NULL default '',
@@ -405,8 +404,8 @@ CREATE TABLE %TABLE_PREFIX%support_email (
   sup_to varchar(255) NOT NULL default '',
   sup_cc varchar(255) default NULL,
   sup_subject varchar(255) NOT NULL default '',
-  sup_has_attachment tinyint(1) NOT NULL default '0',
-  sup_removed tinyint(1) NOT NULL default '0',
+  sup_has_attachment tinyint(1) NOT NULL default 0,
+  sup_removed tinyint(1) NOT NULL default 0,
   PRIMARY KEY  (sup_id),
   KEY sup_parent_id (sup_parent_id),
   KEY sup_ema_id (sup_ema_id),
@@ -427,11 +426,11 @@ CREATE TABLE %TABLE_PREFIX%support_email_body (
 DROP TABLE IF EXISTS %TABLE_PREFIX%time_tracking;
 CREATE TABLE %TABLE_PREFIX%time_tracking (
   ttr_id int(10) unsigned NOT NULL auto_increment,
-  ttr_ttc_id int(10) unsigned NOT NULL default '0',
-  ttr_iss_id int(10) unsigned NOT NULL default '0',
-  ttr_usr_id int(10) unsigned NOT NULL default '0',
+  ttr_ttc_id int(10) unsigned NOT NULL default 0,
+  ttr_iss_id int(10) unsigned NOT NULL default 0,
+  ttr_usr_id int(10) unsigned NOT NULL default 0,
   ttr_created_date datetime NOT NULL default '0000-00-00 00:00:00',
-  ttr_time_spent int(11) unsigned NOT NULL default '0',
+  ttr_time_spent int(11) unsigned NOT NULL default 0,
   ttr_summary varchar(255) NOT NULL default '',
   PRIMARY KEY  (ttr_id),
   KEY ttr_ttc_id (ttr_ttc_id,ttr_iss_id,ttr_usr_id)
@@ -494,7 +493,7 @@ CREATE TABLE %TABLE_PREFIX%custom_field (
 DROP TABLE IF EXISTS %TABLE_PREFIX%custom_field_option;
 CREATE TABLE %TABLE_PREFIX%custom_field_option (
   cfo_id int(10) unsigned NOT NULL auto_increment,
-  cfo_fld_id int(10) unsigned NOT NULL default '0',
+  cfo_fld_id int(10) unsigned NOT NULL default 0,
   cfo_value varchar(64) NOT NULL default '',
   PRIMARY KEY  (cfo_id),
   KEY icf_fld_id (cfo_fld_id)
@@ -503,8 +502,8 @@ CREATE TABLE %TABLE_PREFIX%custom_field_option (
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_custom_field;
 CREATE TABLE %TABLE_PREFIX%issue_custom_field (
   icf_id int(10) unsigned NOT NULL auto_increment,
-  icf_iss_id int(10) unsigned NOT NULL default '0',
-  icf_fld_id int(10) unsigned NOT NULL default '0',
+  icf_iss_id int(10) unsigned NOT NULL default 0,
+  icf_fld_id int(10) unsigned NOT NULL default 0,
   icf_value text default NULL,
   PRIMARY KEY  (icf_id),
   KEY icf_iss_id (icf_iss_id),
@@ -514,8 +513,8 @@ CREATE TABLE %TABLE_PREFIX%issue_custom_field (
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_custom_field;
 CREATE TABLE %TABLE_PREFIX%project_custom_field (
   pcf_id int(10) unsigned NOT NULL auto_increment,
-  pcf_prj_id int(10) unsigned NOT NULL default '0',
-  pcf_fld_id int(10) unsigned NOT NULL default '0',
+  pcf_prj_id int(10) unsigned NOT NULL default 0,
+  pcf_fld_id int(10) unsigned NOT NULL default 0,
   PRIMARY KEY  (pcf_id),
   KEY pcf_prj_id (pcf_prj_id),
   KEY pcf_fld_id (pcf_fld_id)
@@ -533,8 +532,8 @@ CREATE TABLE %TABLE_PREFIX%email_response (
 DROP TABLE IF EXISTS %TABLE_PREFIX%phone_support;
 CREATE TABLE %TABLE_PREFIX%phone_support (
   phs_id int(10) unsigned NOT NULL auto_increment,
-  phs_usr_id int(10) unsigned NOT NULL default '0',
-  phs_iss_id int(10) unsigned NOT NULL default '0',
+  phs_usr_id int(10) unsigned NOT NULL default 0,
+  phs_iss_id int(10) unsigned NOT NULL default 0,
   phs_ttr_id int(10) unsigned NULL,
   phs_call_from_lname varchar(64) NULL,
   phs_call_from_fname varchar(64) NULL,
@@ -784,7 +783,7 @@ DROP TABLE IF EXISTS %TABLE_PREFIX%email_draft_recipient;
 CREATE TABLE %TABLE_PREFIX%email_draft_recipient (
   edr_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   edr_emd_id INT(11) UNSIGNED NOT NULL,
-  edr_is_cc TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  edr_is_cc TINYINT(1) UNSIGNED NOT NULL default 0,
   edr_email VARCHAR(255) NOT NULL,
   PRIMARY KEY(edr_id)
 );
@@ -802,8 +801,8 @@ CREATE TABLE %TABLE_PREFIX%irc_notice (
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_user_replier;
 CREATE TABLE %TABLE_PREFIX%issue_user_replier (
   iur_id int(11) unsigned NOT NULL auto_increment,
-  iur_iss_id int(10) unsigned NOT NULL default '0',
-  iur_usr_id int(10) unsigned NOT NULL default '0',
+  iur_iss_id int(10) unsigned NOT NULL default 0,
+  iur_usr_id int(10) unsigned NOT NULL default 0,
   iur_email varchar(255) default NULL,
   PRIMARY KEY  (iur_id),
   KEY iur_usr_id (iur_usr_id),
@@ -879,7 +878,7 @@ CREATE TABLE %TABLE_PREFIX%project_email_response (
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_phone_category;
 CREATE TABLE %TABLE_PREFIX%project_phone_category (
   phc_id int(11) unsigned NOT NULL auto_increment,
-  phc_prj_id int(11) unsigned NOT NULL default '0',
+  phc_prj_id int(11) unsigned NOT NULL default 0,
   phc_title varchar(64) NOT NULL default '',
   PRIMARY KEY  (phc_id),
   UNIQUE KEY uniq_category (phc_prj_id,phc_title),
