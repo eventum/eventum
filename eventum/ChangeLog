@@ -18,9 +18,9 @@ Eventum Issue Tracking System
 - Fixed some caching problems that might be triggered when customizing the columns to be displayed at a project level (João)
 - Fixed the report form so that it dynamically focus the correct field depending on what form fields are hidden (João)
 - Changed the view email screen to set the page character set to whatever is set on the underlying email content (Elan Ruusamäe)
-- Added Estimated Dev time to list issues page, view issue page and update page (Dustin Sias)
+- Added Estimated Dev time field to list issues page, view issue page and update page (Dustin Sias)
 - Added Percent complete field (Dustin Sias)
-- Changed javascript confirmation when updating an issue to not display if no emails accounts are setup (Bryan)
+- Changed javascript confirmation when updating an issue to not be displayed if no emails accounts exist yet (Bryan)
 
 01 Mar 2005, Version 1.5
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
