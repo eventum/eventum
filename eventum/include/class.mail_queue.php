@@ -127,7 +127,7 @@ class Mail_Queue
         if (!empty($usr_id)) {
             $user_status = User::getStatusByEmail($recipient_email);
             // if user is not set to an active status, then silently ignore
-            if (!User::isActiveStatus($user_status)) {
+            if ((!User::isActiveStatus($user_status)) && (!User::isPendingStatus($user_status))) {
                 return false;
             }
         }
@@ -215,7 +215,18 @@ class Mail_Queue
         $_headers = Mail_Queue::_getHeaders($text_headers, $body);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {
-            $headers[$header_names[$lowercase_name]] = Mime_Helper::encode($value);
+            // need to remove the quotes to avoid a parsing problem
+            // on senders that have extended characters in the first
+            // or last words in their sender name
+            if ($lowercase_name == 'from') {
+                $value = Mime_Helper::removeQuotes($value);
+            }
+            $value = Mime_Helper::encode($value);
+            // add the quotes back
+            if ($lowercase_name == 'from') {
+                $value = Mime_Helper::quoteSender($value);
+            }
+            $headers[$header_names[$lowercase_name]] = $value;
         }
         // remove any Reply-To: value from outgoing messages
         unset($headers['Reply-To']);
@@ -227,7 +238,12 @@ class Mail_Queue
         $mail =& Mail::factory('smtp', Mail_Queue::_getSMTPSettings());
         $res = $mail->send($recipient, $headers, $body);
         if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            // special handling of errors when the mail server is down
+            if (strstr($res->getMessage(), 'unable to connect to smtp server')) {
+                Error_Handler::logToFile(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            } else {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            }
             return $res;
         } else {
             return true;

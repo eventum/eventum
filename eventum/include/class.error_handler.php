@@ -57,7 +57,7 @@ class Error_Handler
     function logError($error_msg = "", $script = "", $line = "")
     {
         if (REPORT_ERROR_FILE) {
-            Error_Handler::_logToFile($error_msg, $script, $line);
+            Error_Handler::logToFile($error_msg, $script, $line);
         }
         $setup = Setup::load();
         if (@$setup['email_error']['status'] == 'enabled') {
@@ -69,7 +69,7 @@ class Error_Handler
     /**
      * Notifies site administrators of the error condition
      *
-     * @access public
+     * @access private
      * @param  string $error_msg The error message
      * @param  string $script The script name where the error happened
      * @param  int $line The line number where the error happened
@@ -97,8 +97,8 @@ class Error_Handler
         } else {
             $msg .= "'$error_msg'\n\n";
         }
-        $msg .= "That happened on page '" . $HTTP_SERVER_VARS["PHP_SELF"] . "' from IP Address '" . getenv("REMOTE_ADDR") . "' coming from the page (referrer) '" . getenv("HTTP_REFERER") . "'.\n";
-        $msg .= "The user agent given was '" . get_browser() . "'.\n\n";
+        $msg .= "That happened on page '" . $HTTP_SERVER_VARS["PHP_SELF"] . "' from IP Address '" . getenv("REMOTE_ADDR") . "' coming from the page (referrer) '" . getenv("HTTP_REFERER") . "'.\n\n";
+        $msg .= "The user agent given was '" . $HTTP_SERVER_VARS['HTTP_USER_AGENT'] . "'.\n\n";
         $msg .= "Sincerely yours,\nAutomated Error_Handler Class";
         // only try to include the backtrace if we are on PHP 4.3.0 or later
         if (version_compare(phpversion(), "4.3.0", ">=")) {
@@ -130,7 +130,7 @@ class Error_Handler
      * @param  string $script The script name where the error happened
      * @param  int $line The line number where the error happened
      */
-    function _logToFile($error_msg = "unknown", $script = "unknown", $line = "unknown")
+    function logToFile($error_msg = "unknown", $script = "unknown", $line = "unknown")
     {
         global $HTTP_SERVER_VARS;
 
