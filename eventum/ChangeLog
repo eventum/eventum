@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Fixed bug with searching by date range on recent activity report (Bryan)
 - Removed update issue confirmation for anyone with a role of developer or above (Bryan)
 - Fixed JS error on close issue page (Bryan)
+- Fixed bug in example customer API (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)

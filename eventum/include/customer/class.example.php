@@ -531,7 +531,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         if ($field == "email") {
             $details = $this->getCustomerIDsLikeEmail($value);
             if (count($details) > 0) {
-                $id = $details["customer_id"];
+                list($id, $contact_id) = $details;
             } else {
                 $id = 0;
             }
