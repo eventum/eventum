@@ -300,7 +300,7 @@ class Group
 
 
     /**
-     * Returns a list of projects
+     * Returns a list of groups
      * 
      * @access  public
      * @return  array An array of group information
