@@ -1002,6 +1002,7 @@ class Issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_closed_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_res_id=" . $HTTP_POST_VARS["resolution"] . ",
                     iss_sta_id=" . $HTTP_POST_VARS['status'] . "
                  WHERE
                     iss_id=$issue_id";
