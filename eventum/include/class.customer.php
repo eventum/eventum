@@ -500,6 +500,11 @@ class Customer
     }
 
 
+    function getContactLoginDetails($prj_id, $contact_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getContactLoginDetails($contact_id);
+    }
 
 
 
