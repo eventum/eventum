@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 - Avoid displaying PHP warnings when running Eventum under safe_mode (João)
 - Fixed the mail queue processing code that was referencing a missing method name (João)
 - Added feature to replace special characters Microsoft Word uses for double and single quotes with normal characters when creating an issue (Bryan)
+- Added feature to allow emails to be moved between accounts (Bryan)
 - Added some form validation to the custom field report (João)
 
 01 Mar 2005, Version 1.5
