@@ -938,7 +938,7 @@ class Support
         // now for the real thing
         $attachments = Mime_Helper::getAttachments($full_email);
         if (count($attachments) > 0) {
-            $attachment_id = Attachment::add($issue_id, $usr_id, 'Attachment originated from a support email', $unknown_user);
+            $attachment_id = Attachment::add($issue_id, $usr_id, 'Attachment originated from an email', $unknown_user);
             for ($i = 0; $i < count($attachments); $i++) {
                 Attachment::addFile($attachment_id, $issue_id, $attachments[$i]['filename'], $attachments[$i]['filetype'], $attachments[$i]['blob']);
             }
