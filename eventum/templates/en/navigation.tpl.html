@@ -21,7 +21,7 @@
             {if $app_setup.support_email == 'enabled' and $current_role > $roles.customer}
             <a target="_top" title="list available emails" href="{$rel_url}emails.php" class="white_link">Associate Emails</a>&nbsp;|
             {/if}
-            {if $current_role >= $roles.customer}
+            {if $current_role > $roles.customer}
             <a target="_top" title="list all issues assigned to you" href="{$rel_url}list.php?users={$current_user_id}" class="white_link">My Assignments</a>&nbsp;|
             {/if}
             <a target="_top" title="general statistics" href="{$rel_url}main.php" class="white_link">Stats</a>&nbsp;|
@@ -49,7 +49,7 @@
           <!--
           function setCurrentProject()
           {
-              var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+              var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
               var projWin = window.open('', '_active_project', features);
               projWin.focus();
               return true;
@@ -64,6 +64,12 @@
                   return false;
               }
           }
+          function changeClockStatus()
+          {
+              var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+              var clockWin = window.open('clock_status.php', '_clock_status', features);
+              clockWin.focus();
+          }
           //-->
           </script>
           {/literal}
@@ -77,7 +83,9 @@
           </form>
           {/if}
           <td width="50%" nowrap bgcolor="{$light_color}" class="default">
-            <b>User: {$current_full_name}</b> (<a target="_top" title="modify your account details and preferences" href="{$rel_url}preferences.php" class="link">Preferences</a>)
+            <b>User: {$current_full_name} [CLOCKED {if $is_current_user_clocked_in}IN{else}OUT{/if}]</b>
+            (<a target="_top" title="modify your account details and preferences" href="{$rel_url}preferences.php" class="link">Preferences</a> 
+            <a target="_top" title="change your account clocked-in status" href="javascript:void(null);" onClick="javascript:changeClockStatus();" class="link">Clock {if $is_current_user_clocked_in}Out{else}In{/if}</a>)
           </td>
           <form target="_top" method="get" action="{$rel_url}list.php">
           <td width="5%" nowrap bgcolor="{$light_color}">
