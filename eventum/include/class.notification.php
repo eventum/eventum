@@ -153,7 +153,11 @@ class Notification
                 }
             }
         } else {
-            $flag = '[' . $setup[$routing]['recipient_type_flag'] . '] ';
+            if (!empty($setup[$routing]['recipient_type_flag'])) {
+                $flag = '[' . $setup[$routing]['recipient_type_flag'] . '] ';
+            } else {
+                $flag = '';
+            }
             $from_email = $setup[$routing]['address_prefix'] . $issue_id . "@" . $setup[$routing]['address_host'];
             if (!empty($info['sender_name'])) {
                 // also check where we need to append/prepend a special string to the sender name
@@ -182,7 +186,7 @@ class Notification
                 }
             }
         }
-        return MIME_Helper::encodeAddress($from);
+        return MIME_Helper::encodeAddress(trim($from));
     }
 
 
