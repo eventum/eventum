@@ -89,6 +89,7 @@ $account = Email_Account::getDetails($account_id);
 $mbox = Support::connectEmailServer($account);
 if ($mbox == false) {
     echo "Error: Could not connect to the email server. Please verify your email account settings and try again.\n";
+    Lock::release('download_emails_' . $account_id);
     exit;
 } else {
     $total_emails = Support::getTotalEmails($mbox);
