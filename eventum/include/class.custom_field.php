@@ -166,7 +166,7 @@ class Custom_Field
         $field_types = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 
         foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
-            if ($field_types[$fld_id] != 'multiple') {
+            if (($field_types[$fld_id] != 'multiple') && ($field_types[$fld_id] != 'combo')) {
                 $stmt = "UPDATE
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                          SET
