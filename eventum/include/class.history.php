@@ -123,7 +123,7 @@ class History
                     htt_id = his_htt_id AND
                     his_is_hidden != 1 AND
                     his_iss_id=$iss_id AND
-                    htt_role <= " . User::getRoleByUser(Auth::getUserID()) . "
+                    htt_role <= " . Auth::getCurrentRole() . "
                  ORDER BY
                     his_id DESC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);

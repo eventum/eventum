@@ -42,7 +42,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $tpl->assign("type", "groups");
 
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
     if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("show_setup_links", true);
@@ -59,9 +59,9 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     if (@$HTTP_GET_VARS["cat"] == "edit") {
         $info = Group::getDetails($HTTP_GET_VARS["id"]);
         $tpl->assign("info", $info);
-        $user_options = User::getActiveAssocList(User::getRoleID('customer'), false, $HTTP_GET_VARS["id"]);
+        $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), false, $HTTP_GET_VARS["id"]);
     } else {
-        $user_options = User::getActiveAssocList(User::getRoleID('customer'), true);
+        $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), true);
     }
 
     if (@$HTTP_GET_VARS['show_customers'] == 1) {

@@ -296,7 +296,7 @@ class Link_Filter
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
                     WHERE
                         lfi_id = plf_lfi_id AND
-                        lfi_usr_role < " . User::getRoleByUser(Auth::getUserID()) . " AND
+                        lfi_usr_role < " . Auth::getCurrentRole() . " AND
                         plf_prj_id = " . Auth::getCurrentProject() . "
                     ORDER BY
                         lfi_id";

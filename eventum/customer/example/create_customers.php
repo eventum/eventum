@@ -53,14 +53,15 @@ foreach ($customers as $customer_id => $customer_name) {
                         usr_email = '" . $contact['email'] . "',
                         usr_customer_id = " . $customer_id . ",
                         usr_customer_contact_id = " . $contact['contact_id'] . ",
-                        usr_role = " . User::getRoleID('Customer') . ",
-                        usr_preferences = '" . Misc::escapeString(Prefs::getDefaults()) . "'";
+                        usr_preferences = '" . Misc::escapeString(Prefs::getDefaults(array($prj_id))) . "'";
             $res = $GLOBALS["db_api"]->dbh->query($sql);
             if (PEAR::isError($res)) {
                 echo "Error inserting user<br /><pre>";
                 print_r($res);
                 echo "</pre>";
             }
+            $new_usr_id = $GLOBALS['db_api']->get_last_insert_id();
+            Project::associateUser($prj_id, $new_usr_id, User::getRoleID("Customer"));
         }
     }
     echo "<hr />";

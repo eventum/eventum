@@ -89,11 +89,13 @@ function uploadFile(issue_id)
               </tr>
               {/section}
               <form>
+              {if $current_role > $roles.viewer}
               <tr>
                 <td colspan="4" bgcolor="{$cell_color}" align="center">
                   <input type="button" class="button" value="Upload File" onClick="javascript:uploadFile({$smarty.get.id});">
                 </td>
               </tr>
+              {/if}
               </form>
             </table>
           </td>

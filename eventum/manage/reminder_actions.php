@@ -44,7 +44,7 @@ $tpl->assign("type", "reminder_actions");
 
 $rem_id = @$HTTP_POST_VARS['rem_id'] ? $HTTP_POST_VARS['rem_id'] : $HTTP_GET_VARS['rem_id'];
 
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
     if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("show_setup_links", true);
@@ -68,7 +68,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     $tpl->assign("rem_title", Reminder::getTitle($rem_id));
     $tpl->assign("action_types", Reminder_Action::getActionTypeList());
     $tpl->assign("list", Reminder_Action::getAdminList($rem_id));
-    $tpl->assign("user_options", User::getActiveAssocList(User::getRoleID('Customer')));
+    $tpl->assign("user_options", User::getActiveAssocList(Reminder::getProjectID($rem_id), User::getRoleID('Customer')));
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }

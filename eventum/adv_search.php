@@ -46,7 +46,7 @@ $tpl->setTemplate("adv_search.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 
 // customers should not be able to see this page
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('Standard User')) {
     Auth::redirect(APP_RELATIVE_URL . "list.php");
 }
@@ -65,7 +65,7 @@ if (User::getGroupID(Auth::getUserID()) != '') {
     $assign_options['-3'] = 'myself and my group';
     $assign_options['-4'] = 'myself, un-assigned and my group';
 }
-if ((count($groups) > 0) && ( User::getRoleByUser(Auth::getUserID()) >User::getRoleID("Customer"))) {
+if ((count($groups) > 0) && ( Auth::getCurrentRole() >User::getRoleID("Customer"))) {
     foreach ($groups as $grp_id => $grp_name) {
         $assign_options["grp:$grp_id"] = "Group: " . $grp_name;
     }

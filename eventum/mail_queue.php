@@ -40,7 +40,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $issue_id = $HTTP_GET_VARS["iss_id"];
 
-if ((User::getRoleByUser(Auth::getUserID()) < User::getRoleID('Developer')) ||
+if ((Auth::getCurrentRole() < User::getRoleID('Developer')) ||
         (Issue::getProjectID($issue_id) != Auth::getCurrentProject())) {
     $tpl->assign("denied", 1);
 } else {

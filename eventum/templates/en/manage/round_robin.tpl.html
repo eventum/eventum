@@ -3,9 +3,15 @@
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              {literal}
               <script language="JavaScript">
               <!--
+              var url = '{$smarty.server.PHP_SELF}';
+              {literal}
+              function populateUserComboBox(f)
+              {
+                  url += '?prj_id=' + getSelectedOption(f, 'project');
+                  window.location.href = url;
+              }
               function validateForm(f)
               {
                   if (!hasOneSelected(f, 'users[]')) {
@@ -62,8 +68,14 @@
                   <nobr><b>Project:</b></nobr>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <select name="project" class="default">
-                  {html_options options=$project_list selected=$info.prr_prj_id}
+                  {if $info.prr_prj_id != ''}
+                    {assign var=project value=$info.prr_prj_id}
+                  {else}
+                    {assign var=project value=$smarty.request.prj_id}
+                  {/if}
+                  <select name="project" class="default" onChange="javascript:populateUserComboBox(this.form);">
+                  <option value="-1">Please choose an option</option>
+                  {html_options options=$project_list selected=$project}
                   </select>
                   {include file="error_icon.tpl.html" field="project"}
                 </td>

@@ -545,3 +545,9 @@ ALTER TABLE eventum_custom_filter ADD COLUMN cst_closed_date_time_period smallin
 
 # December 28th
 UPDATE eventum_user SET usr_status = 'inactive' WHERE usr_id = 1;
+
+
+# January 6th
+ALTER TABLE eventum_project_user ADD COLUMN pru_role tinyint(1) unsigned default 1;
+
+ALTER TABLE eventum_user DROP column usr_role;

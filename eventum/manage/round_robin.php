@@ -41,7 +41,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $tpl->assign("type", "round_robin");
 
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
     if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("show_setup_links", true);
@@ -56,11 +56,15 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", Round_Robin::getDetails($HTTP_GET_VARS["id"]));
+        $info = Round_Robin::getDetails($HTTP_GET_VARS["id"]);
+        $tpl->assign("info", $info);
+        $_REQUEST['prj_id'] = $info['prr_prj_id'];
     }
 
     $tpl->assign("list", Round_Robin::getList());
-    $tpl->assign("user_options", User::getActiveAssocList(User::getRoleID('Customer')));
+    if (!empty($_REQUEST['prj_id'])) {
+        $tpl->assign("user_options", User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
+    }
     $tpl->assign("project_list", Project::getAll());
 } else {
     $tpl->assign("show_not_allowed_msg", true);

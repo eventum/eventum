@@ -305,7 +305,7 @@ class User
         if (Auth::userExists($HTTP_POST_VARS["email"])) {
             return -2;
         }
-        $prefs = Prefs::getDefaults();
+        $prefs = Prefs::getDefaults($projects);
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
@@ -313,7 +313,6 @@ class User
                     usr_password,
                     usr_full_name,
                     usr_email,
-                    usr_role,
                     usr_preferences,
                     usr_status
                  ) VALUES (
@@ -321,7 +320,6 @@ class User
                     '" . md5(Misc::escapeString($HTTP_POST_VARS["passwd"])) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["email"]) . "',
-                    " . $role . ",
                     '" . Misc::escapeString($prefs) . "',
                     'pending'
                  )";
@@ -333,7 +331,7 @@ class User
             $new_usr_id = $GLOBALS["db_api"]->get_last_insert_id();
             // add the project associations!
             for ($i = 0; $i < count($projects); $i++) {
-                Project::associateUser($projects[$i], $new_usr_id);
+                Project::associateUser($projects[$i], $new_usr_id, $role);
             }
             // send confirmation email to user
             $hash = md5($HTTP_POST_VARS["full_name"] . md5($HTTP_POST_VARS["email"]) . $GLOBALS["private_key"]);
@@ -477,23 +475,33 @@ class User
      * as an associative array of user IDs => user full names.
      *
      * @access  public
+     * @param   integer $prj_id The id of the project to show users from
      * @param   integer $role The role ID of the user
      * @param   boolean $exclude_grouped If users with a group should be excluded
      * @Param   integer $grp_id The ID of the group.
      * @return  array The associative array of users
      */
-    function getActiveAssocList($role = NULL, $exclude_grouped = false, $grp_id = false)
+    function getActiveAssocList($prj_id = false, $role = NULL, $exclude_grouped = false, $grp_id = false)
     {
         $stmt = "SELECT
                     usr_id,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
+        if ($prj_id != false) {
+            $stmt .= ",
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user\n";
+        }
+        $stmt .= "
                  WHERE
                     usr_status='active' AND
                     usr_id != " . APP_SYSTEM_USER_ID;
+        if ($prj_id != false) {
+            $stmt .= " AND pru_prj_id = $prj_id AND
+                       usr_id = pru_usr_id";
+        }
         if ($role != NULL) {
-            $stmt .= " AND usr_role > $role ";
+            $stmt .= " AND pru_role > $role ";
         }
         if ($grp_id != false) {
             if ($exclude_grouped == false) {
@@ -597,31 +605,33 @@ class User
 
 
     /**
-     * Method used to get the role for a specific user.
+     * Method used to get the role for a specific user and project.
      *
      * @access  public
      * @param   integer $usr_id The user ID
+     * @param   integer $prj_id The project ID
      * @return  integer The role ID
      */
-    function getRoleByUser($usr_id)
+    function getRoleByUser($usr_id, $prj_id)
     {
         static $returns;
 
-        if (!empty($returns[$usr_id])) {
-            return $returns[$usr_id];
+        if (!empty($returns[$usr_id][$prj_id])) {
+            return $returns[$usr_id][$prj_id];
         }
 
         $stmt = "SELECT
-                    usr_role
+                    pru_role
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
-                    usr_id=$usr_id";
+                    pru_usr_id=$usr_id AND
+                    pru_prj_id = $prj_id";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             return "";
         } else {
-            $returns[$usr_id] = $res;
+            $returns[$usr_id][$prj_id] = $res;
             return $res;
         }
     }
@@ -653,7 +663,9 @@ class User
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            $res["projects"] = @array_keys(Project::getAssocList($usr_id));
+            $roles =  Project::getAssocList($usr_id, false, true);
+            $res["projects"] = @array_keys($roles);
+            $res["roles"] = $roles;
             $returns[$usr_id] = $res;
             return $res;
         }
@@ -927,8 +939,7 @@ class User
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
                     usr_full_name='" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
-                    usr_email='" . Misc::escapeString($HTTP_POST_VARS["email"]) . "',
-                    usr_role=" . $HTTP_POST_VARS["role"];
+                    usr_email='" . Misc::escapeString($HTTP_POST_VARS["email"]) . "'";
         if (!empty($HTTP_POST_VARS["password"])) {
             $stmt .= ",
                     usr_password='" . md5($HTTP_POST_VARS["password"]) . "'";
@@ -951,15 +962,20 @@ class User
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
-                for ($i = 0; $i < count($HTTP_POST_VARS["projects"]); $i++) {
+                foreach ($HTTP_POST_VARS["role"] as $prj_id => $role) {
+                    if ($role < 1) {
+                        continue;
+                    }
                     $stmt = "INSERT INTO
                                 " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                              (
                                 pru_prj_id,
-                                pru_usr_id
+                                pru_usr_id,
+                                pru_role
                              ) VALUES (
-                                " . $HTTP_POST_VARS["projects"][$i] . ",
-                                " . $HTTP_POST_VARS["id"] . "
+                                " . $prj_id . ",
+                                " . $HTTP_POST_VARS["id"] . ",
+                                " . $role . "
                              )";
                     $res = $GLOBALS["db_api"]->dbh->query($stmt);
                     if (PEAR::isError($res)) {
@@ -987,8 +1003,15 @@ class User
     function insert()
     {
         global $HTTP_POST_VARS;
-
-        $prefs = Prefs::getDefaults();
+        
+        $projects = array();
+        foreach ($HTTP_POST_VARS["role"] as $prj_id => $role) {
+            if ($role < 1) {
+                continue;
+            }
+            $projects[] = $prj_id;
+        }
+        $prefs = Prefs::getDefaults($projects);
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
@@ -998,7 +1021,6 @@ class User
                     usr_password,
                     usr_full_name,
                     usr_email,
-                    usr_role,
                     usr_preferences
                  ) VALUES (
                     NULL,
@@ -1007,7 +1029,6 @@ class User
                     '" . md5(Misc::escapeString($HTTP_POST_VARS["password"])) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["email"]) . "',
-                    " . $HTTP_POST_VARS["role"] . ",
                     '" . Misc::escapeString($prefs) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -1017,8 +1038,11 @@ class User
         } else {
             $new_usr_id = $GLOBALS["db_api"]->get_last_insert_id();
             // add the project associations!
-            for ($i = 0; $i < count($HTTP_POST_VARS["projects"]); $i++) {
-                Project::associateUser($HTTP_POST_VARS["projects"][$i], $new_usr_id);
+            foreach ($HTTP_POST_VARS["role"] as $prj_id => $role) {
+                if ($role < 1) {
+                    continue;
+                }
+                Project::associateUser($prj_id, $new_usr_id, $role);
             }
             // send email to user
             Notification::notifyNewUser($new_usr_id, $HTTP_POST_VARS["password"]);
@@ -1041,11 +1065,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id != " . APP_SYSTEM_USER_ID;
-        if ($show_customers == false) {
-            $stmt .= " AND usr_role <> '" . User::getRoleID('Customer') . "' ";
-        }
-        $stmt .= "
+                    usr_id != " . APP_SYSTEM_USER_ID . "
                  ORDER BY
                     usr_status ASC,
                     usr_full_name ASC";
@@ -1054,12 +1074,22 @@ class User
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["usr_role"] = User::getRole($res[$i]["usr_role"]);
+            $count = count($res);
+            for ($i = 0; $i < $count; $i++) {
+                $res[$i]["roles"] = Project::getAssocList($res[$i]['usr_id'], false, true);
+                $role = current($res[$i]['roles']);
+                $role = $role['pru_role'];
+                if (($show_customers == false) && (
+                    ((@$res[$i]['roles'][Auth::getCurrentProject()]['pru_role']) == User::getRoleID("Customer")) ||
+                    ((count($res[$i]['roles']) == 1) && ($role == User::getRoleID("Customer"))))) {
+                    unset($res[$i]);
+                    continue;
+                }
                 if (!empty($res[$i]["usr_grp_id"])) {
                     $res[$i]["group_name"] = Group::getName($res[$i]["usr_grp_id"]);
                 }
             }
+            $res = array_merge($res);// reset the keys
             return $res;
         }
     }

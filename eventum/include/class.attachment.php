@@ -436,7 +436,7 @@ class Attachment
         History::add($HTTP_POST_VARS["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
         
         // if there is customer integration, mark last customer action
-        if ((Customer::hasCustomerIntegration(Issue::getProjectID($HTTP_POST_VARS["issue_id"]))) && (User::getRoleByUser($usr_id) == User::getRoleID('Customer'))) {
+        if ((Customer::hasCustomerIntegration(Issue::getProjectID($HTTP_POST_VARS["issue_id"]))) && (User::getRoleByUser($usr_id, Issue::getProjectID($HTTP_POST_VARS["issue_id"])) == User::getRoleID('Customer'))) {
             Issue::recordLastCustomerAction($HTTP_POST_VARS["issue_id"]);
         }
         

@@ -50,7 +50,7 @@ if (!Customer::hasCustomerIntegration($prj_id)) {
         // show all FAQ entries
         $support_level_id = -1;
     } else {
-        if (User::getRoleByUser($usr_id) != User::getRoleID('Customer')) {
+        if (Auth::getCurrentRole() != User::getRoleID('Customer')) {
             // show all FAQ entries
             $support_level_id = -1;
         } else {

@@ -40,7 +40,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $tpl->assign("type", "account_managers");
 
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
     if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("show_setup_links", true);
@@ -67,7 +67,9 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     $tpl->assign("list", Customer::getAccountManagerList());
-    $tpl->assign("user_options", User::getActiveAssocList(User::getRoleID('Customer')));
+    if (!empty($_REQUEST['prj_id'])) {
+        $tpl->assign("user_options", User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
+    }
     $tpl->assign("project_list", Project::getAll(false));
 } else {
     $tpl->assign("show_not_allowed_msg", true);

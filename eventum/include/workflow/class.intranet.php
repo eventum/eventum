@@ -51,8 +51,8 @@ class Intranet_Workflow_Backend extends Abstract_Workflow_Backend
     {
         // Add the senders of any emails to authorized replies list
         $emails = Support::getEmailsByIssue($issue_id);
-        
-        if (count($emails) > 0) {
+
+        if ((!empty($emails)) && (count($emails) > 0)) {
             foreach ($emails as $email) {
                 $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($email['sup_from']));
                 if (!empty($usr_id)) {

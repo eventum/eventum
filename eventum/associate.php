@@ -98,7 +98,7 @@ if (@$HTTP_POST_VARS['cat'] == 'associate') {
                     } else {
                         // if we got a real user ID, check if the customer user is the correct one
                         // (i.e. a contact from the customer associated with the selected issue)
-                        if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
+                        if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
                             // also check if the associated customer ID, if any, matches the one in the issue
                             $user_customer_id = User::getCustomerID($usr_id);
                             if ($user_customer_id != $customer_id) {

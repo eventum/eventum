@@ -41,7 +41,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $tpl->assign("changes", History::getListing($HTTP_GET_VARS["iss_id"]));
 
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if ($role_id > User::getRoleID('Customer')) {
     $tpl->assign("reminders", Reminder::getHistoryList($HTTP_GET_VARS["iss_id"]));
 }

@@ -443,7 +443,7 @@ class Note
             return "";
         } else {
             // only show the internal notes for users with the appropriate permission level
-            $role_id = User::getRoleByUser(Auth::getUserID());
+            $role_id = Auth::getCurrentRole();
             $t = array();
             for ($i = 0; $i < count($res); $i++) {
                 if ($role_id < User::getRoleID('standard user')) {

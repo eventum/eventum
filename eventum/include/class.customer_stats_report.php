@@ -355,12 +355,15 @@ class Customer_Stats_Report
                     count(*)
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
-                    sup_usr_id = usr_id AND
+                    sup_ema_id = ema_id AND
                     sup_iss_id = iss_id AND
-                    usr_role = " . User::getRoleID('Customer') . " AND 
+                    sup_usr_id = pru_usr_id AND
+                    ema_prj_id = pru_prj_id AND
+                    pru_role = " . User::getRoleID('Customer') . " AND 
                     " . $this->getWhereClause("iss_customer_id", "sup_date") . "
                  GROUP BY
                     sup_iss_id";
@@ -387,12 +390,15 @@ class Customer_Stats_Report
                     count(*)
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
-                    sup_usr_id = usr_id AND
+                    sup_ema_id = ema_id AND
                     sup_iss_id = iss_id AND
-                    usr_role != " . User::getRoleID('Customer') . " AND 
+                    sup_usr_id = pru_usr_id AND
+                    ema_prj_id = pru_prj_id AND
+                    pru_role != " . User::getRoleID('Customer') . " AND 
                     " . $this->getWhereClause("iss_customer_id", "sup_date") . "
                  GROUP BY
                     sup_iss_id";

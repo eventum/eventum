@@ -359,15 +359,19 @@ class Project
      *
      * @access  public
      * @param   array $ids The project IDs
+     * @param   array $users_to_not_remove Users that should not be removed
      * @return  boolean
      */
-    function removeUserByProjects($ids)
+    function removeUserByProjects($ids, $users_to_not_remove = false)
     {
         $items = @implode(", ", $ids);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     pru_prj_id IN ($items)";
+        if ($users_to_not_remove != false) {
+            $stmt .= " AND\n pru_usr_id NOT IN(" . join(', ', $users_to_not_remove) . ")";
+        }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -410,9 +414,9 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Project::removeUserByProjects(array($HTTP_POST_VARS["id"]));
+            Project::removeUserByProjects(array($HTTP_POST_VARS["id"]), $HTTP_POST_VARS["users"]);
             for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
-                Project::associateUser($HTTP_POST_VARS["id"], $HTTP_POST_VARS["users"][$i]);
+                Project::associateUser($HTTP_POST_VARS["id"], $HTTP_POST_VARS["users"][$i], User::getRoleID("Standard User"));
             }
             $statuses = array_keys(Status::getAssocStatusList($HTTP_POST_VARS["id"]));
             if (count($statuses) > 0) {
@@ -427,29 +431,50 @@ class Project
 
 
     /**
-     * Method used to associate an user to a project.
+     * Method used to associate an user to a project. If the user association already exists
+     * no change will be made.
      *
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $usr_id The user ID
+     * @param   integer $role The role of the user
      * @return  boolean
      */
-    function associateUser($prj_id, $usr_id)
+    function associateUser($prj_id, $usr_id, $role)
     {
-        $stmt = "INSERT INTO
+        // see if association already exists
+        $sql = "SELECT
+                    pru_id
+                FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
-                 (
-                    pru_usr_id,
-                    pru_prj_id
-                 ) VALUES (
-                    $usr_id,
-                    $prj_id
-                 )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                WHERE
+                    pru_prj_id = $prj_id AND
+                    pru_usr_id = $usr_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
+            if (empty($res)) {
+                $stmt = "INSERT INTO
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                         (
+                            pru_usr_id,
+                            pru_prj_id,
+                            pru_role
+                         ) VALUES (
+                            $usr_id,
+                            $prj_id,
+                            $role
+                         )";
+                $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                if (PEAR::isError($res)) {
+                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    return false;
+                } else {
+                    return true;
+                }
+            }
             return true;
         }
     }
@@ -500,7 +525,7 @@ class Project
         } else {
             $new_prj_id = $GLOBALS["db_api"]->get_last_insert_id();
             for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
-                Project::associateUser($new_prj_id, $HTTP_POST_VARS["users"][$i]);
+                Project::associateUser($new_prj_id, $HTTP_POST_VARS["users"][$i], User::getRoleID("Standard User"));
             }
             foreach ($HTTP_POST_VARS['statuses'] as $sta_id) {
                 Status::addProjectAssociation($sta_id, $new_prj_id);
@@ -551,19 +576,24 @@ class Project
      * @access  public
      * @param   integer $usr_id The user ID
      * @param   boolean $force_refresh If the cache should not be used.
+     * @param   boolean $include_role if the user role should be included.
      * @return  array The list of projects
      */
-    function getAssocList($usr_id, $force_refresh = false)
+    function getAssocList($usr_id, $force_refresh = false, $include_role = false)
     {
         static $returns;
 
-        if ((!empty($returns[$usr_id])) && ($force_refresh != true)) {
-            return $returns[$usr_id];
+        if ((!empty($returns[$usr_id][$include_role])) && ($force_refresh != true)) {
+            return $returns[$usr_id][$include_role];
         }
 
         $stmt = "SELECT
                     prj_id,
-                    prj_title
+                    prj_title";
+        if ($include_role) {
+            $stmt .= ",\npru_role";
+        }
+        $stmt .= "
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
@@ -572,12 +602,21 @@ class Project
                     pru_usr_id=$usr_id
                  ORDER BY
                     prj_title";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if ($include_role) {
+            $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt, true, array(), DB_FETCHMODE_ASSOC);
+        } else {
+            $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        }
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            $returns[$usr_id] = $res;
+            if ($include_role) {
+                foreach ($res as $prj_id => $data) {
+                    $res[$prj_id]['role'] = User::getRole($data['pru_role']);
+                }
+            }
+            $returns[$usr_id][$include_role] = $res;
             return $res;
         }
     }
@@ -608,7 +647,7 @@ class Project
             $stmt .= " AND usr_status='active' ";
         }
         if ($role != NULL) {
-            $stmt .= " AND usr_role > $role ";
+            $stmt .= " AND pru_role > $role ";
         }
         $stmt .= "
                  ORDER BY
@@ -884,7 +923,7 @@ class Project
             $stmt .= " AND usr_status='active' ";
         }
         if ($role != NULL) {
-            $stmt .= " AND usr_role > $role ";
+            $stmt .= " AND pru_role > $role ";
         }
         $stmt .= "
                  ORDER BY

@@ -266,14 +266,17 @@ class Report
         $stmt = "SELECT
                     count(*) as events,
                     hour(his_created_date) AS time_period,
-                    if (usr_role > 3, 'developer', 'customer') as performer,
-                    SUM(if (usr_role > 3, 1, 0)) as dev_events,
-                    SUM(if (usr_role > 3, 0, 1)) as cust_events
+                    if (pru_role > 3, 'developer', 'customer') as performer,
+                    SUM(if (pru_role > 3, 1, 0)) as dev_events,
+                    SUM(if (pru_role > 3, 0, 1)) as cust_events
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
-                    his_usr_id = usr_id
+                    his_usr_id = usr_id AND
+                    usr_id = pru_usr_id AND
+                    pru_prj_id = " . Auth::getCurrentProject() . "
                  GROUP BY
                     time_period, performer
                  ORDER BY
@@ -363,7 +366,7 @@ class Report
         }
         
         // get all developer email addresses
-        $users = User::getActiveAssocList(User::getRoleID("customer"));
+        $users = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID("customer"));
         $emails = array();
         foreach ($users as $usr_id => $usr_full_name) {
             $emails[] = Misc::escapeString(User::getFromHeader($usr_id));

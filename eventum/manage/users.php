@@ -41,7 +41,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $tpl->assign("type", "users");
 
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
     if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("show_setup_links", true);
@@ -58,26 +58,31 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         User::changeStatus();
     }
 
+    $project_roles = array();
+    $project_list = Project::getAll();
     if (@$HTTP_GET_VARS["cat"] == "edit") {
         $info = User::getDetails($HTTP_GET_VARS["id"]);
-        if ($info['usr_role'] == User::getRoleID('Customer')) {
+        $tpl->assign("info", $info);
+    }
+    foreach ($project_list as $prj_id => $prj_title) {
+        if (@$info['roles'][$prj_id]['pru_role'] == User::getRoleID('Customer')) {
             if (count($excluded_roles) == 1) {
                 $excluded_roles = false;
             } else {
                 $excluded_roles = array('administrator');
             }
         }
-        $tpl->assign("info", $info);
+        $project_roles[$prj_id] = $user_roles = array(0 => "No Access") + User::getRoles($excluded_roles);
     }
-
+    
     if (@$HTTP_GET_VARS['show_customers'] == 1) {
         $show_customer = true;
     } else {
         $show_customer = false;
     }
     $tpl->assign("list", User::getList($show_customer));
-    $tpl->assign("project_list", Project::getAll());
-    $tpl->assign("user_roles", User::getRoles($excluded_roles));
+    $tpl->assign("project_list", $project_list);
+    $tpl->assign("project_roles", $project_roles);
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }

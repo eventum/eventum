@@ -36,7 +36,19 @@
                       selectField(f, 'full_name');
                       return false;
                   }
-                  if (!hasOneSelected(f, 'projects[]')) {
+                  var has_project_selected = false;
+                  var projects = new Array({/literal}{$project_list|@count}{literal});
+                  {/literal}
+                  {foreach from=$project_list key=prj_id item=prj_title name=projects}
+                  projects[{$smarty.foreach.projects.iteration-1}] = {$prj_id};
+                  {/foreach}
+                  {literal}
+                  for (i = 0; i < projects.length; i++) {
+                    if (getFormElement(getForm('user_form'), 'role[' + projects[i] + ']').selectedIndex > 0) {
+                        has_project_selected = true;
+                    }
+                  }
+                  if (!has_project_selected) {
                       alert('Please assign the appropriate projects for this user.');
                       selectField(f, 'projects[]');
                       return false;
@@ -109,23 +121,22 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Role:</b>
+                  <nobr><b>Assigned Projects and Roles:</b></nobr>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <select name="role" class="default">
-                  {html_options options=$user_roles selected=$info.usr_role}
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <nobr><b>Assigned Projects:</b></nobr>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <select name="projects[]" multiple size="3" class="default">
-                  {html_options options=$project_list selected=$info.projects}
-                  </select>
-                  {include file="error_icon.tpl.html" field="projects[]"}
+                  <table border="0">
+                    {foreach from=$project_list key=prj_id item=prj_name}
+                    <tr>
+                      <td class="default">{$prj_name}:</td>
+                      <td>
+                        <select name="role[{$prj_id}]" class="default">
+                        {html_options options=$project_roles[$prj_id] selected=$info.roles.$prj_id.pru_role}
+                        </select>
+                        {include file="error_icon.tpl.html" field="role[$prj_id]"}
+                      </td>
+                    </tr>
+                    {/foreach}
+                  </table>
                 </td>
               </tr>
               <tr>
@@ -212,8 +223,10 @@
                       <td width="15%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].usr_id}" title="update this entry">{$list[i].usr_full_name}</a>
                       </td>
-                      <td width="15%" bgcolor="{$row_color}" class="default">
-                        &nbsp;{$list[i].usr_role}
+                      <td width="15%" bgcolor="{$row_color}" class="default" nowrap>
+                        {foreach from=$list[i].roles item=role_data}
+                          &nbsp;{$role_data.prj_title}: {$role_data.role}<br />
+                        {/foreach}
                       </td>
                       <td width="35%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a href="mailto:{$list[i].usr_email}" class="link" title="send email to {$list[i].usr_email}">{$list[i].usr_email}</a>
@@ -227,7 +240,7 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                      <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
                         <i>No users could be found.</i>
                       </td>
                     </tr>

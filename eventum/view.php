@@ -50,7 +50,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
-$role_id = User::getRoleByUser($usr_id);
+$role_id = Auth::getCurrentRole();
 
 @$issue_id = $HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["id"];
 $tpl->assign("extra_title", "Issue #$issue_id Details");

@@ -433,6 +433,24 @@ class Auth
 
 
     /**
+     * Gets the current role in the current project.
+     *
+     * @access  public
+     * @return  integer The current role ID
+     */
+    function getCurrentRole()
+    {
+        $prj_id = Auth::getCurrentProject();
+        $usr_id = Auth::getUserID();
+        if ((!empty($prj_id)) && (!empty($usr_id))) {
+            return User::getRoleByUser($usr_id, $prj_id);
+        } else {
+            return 1;
+        }
+    }
+
+
+    /**
      * Sets the current selected project for the user session.
      *
      * @access  public

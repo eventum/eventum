@@ -458,7 +458,7 @@ class Filter
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                      WHERE";
             if (Filter::isGlobal($cst_id)) {
-                if (User::getRoleByUser(Auth::getUserID()) >= User::getRoleID('Manager')) {
+                if (Auth::getCurrentRole() >= User::getRoleID('Manager')) {
                     $stmt .= " cst_is_global=1 AND ";
                 } else {
                     $stmt .= " 

@@ -42,7 +42,7 @@ $tpl->setTemplate("main.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 
 $prj_id = Auth::getCurrentProject();
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if ($role_id == User::getRoleID('customer')) {
     // need the activity dashboard here
     $usr_id = Auth::getUserID();

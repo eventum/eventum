@@ -591,7 +591,7 @@ class Support
                         Issue::markAsUpdated($t["issue_id"], "customer action");
                     } else {
                         $sender_usr_id = User::getUserIDByEmail($sender_email);
-                        if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id) > User::getRoleID('Customer'))) {
+                        if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue)) > User::getRoleID('Customer'))) {
                             Issue::markAsUpdated($t["issue_id"], "staff response");
                         }
                     }
@@ -1489,7 +1489,7 @@ class Support
             // also not in the authorized repliers list
             if ((!Authorized_Replier::isUserAuthorizedReplier($issue_id, $sender_usr_id)) &&
                     (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
-                    (User::getRoleByUser($sender_usr_id) != User::getRoleID('Customer'))) {
+                    (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) {
                 $is_allowed = false;
             }
         }
@@ -1708,7 +1708,7 @@ class Support
             'has_attachment' => 0
         );
         // associate this new email with a customer, if appropriate
-        if (User::getRoleByUser(Auth::getUserID()) == User::getRoleID('Customer')) {
+        if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
             $customer_id = User::getCustomerID(Auth::getUserID());
             if ((empty($customer_id)) && ($customer_id != -1)) {
                 $t['customer_id'] = $customer_id;
@@ -1730,7 +1730,7 @@ class Support
                             'Outgoing email sent by ' . User::getFullName(Auth::getUserID()));
 
             // also update the last_response_date field for the associated issue
-            if (User::getRoleByUser(Auth::getUserID()) > User::getRoleID('Customer')) {
+            if (Auth::getCurrentRole() > User::getRoleID('Customer')) {
                 $stmt = "UPDATE
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                          SET

@@ -48,7 +48,7 @@ $tpl->assign("type", "issue_auto_creation");
 
 @$ema_id = $HTTP_POST_VARS["ema_id"] ? $HTTP_POST_VARS["ema_id"] : $HTTP_GET_VARS["ema_id"];
 
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
     if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("show_setup_links", true);

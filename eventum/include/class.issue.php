@@ -1187,7 +1187,7 @@ class Issue
             }
             
             // if there is customer integration, mark last customer action
-            if ((Customer::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id) == User::getRoleID('Customer'))) {
+            if ((Customer::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer'))) {
                 Issue::recordLastCustomerAction($issue_id);
             }
             
@@ -1966,7 +1966,7 @@ class Issue
         $last_action_fields = array(
             "iss_last_public_action_date"
         );
-        if (User::getRoleByUser(Auth::getUserID()) > User::getRoleID('Customer')) {
+        if (Auth::getCurrentRole() > User::getRoleID('Customer')) {
             $last_action_fields[] = "iss_last_internal_action_date";
         }
         if (count($last_action_fields) > 1) {
@@ -1995,7 +1995,7 @@ class Issue
         $start = $current_row * $max;
         // get the current user's role
         $usr_id = Auth::getUserID();
-        $role_id = User::getRoleByUser($usr_id);
+        $role_id = User::getRoleByUser($usr_id, $prj_id);
         
         // get any custom fields that should be displayed
         $custom_fields = Custom_Field::getFieldsToBeListed($prj_id);
@@ -2139,7 +2139,7 @@ class Issue
                     $fields[] = @$res[$i]['customer_title'];
                     // check if current user is acustomer and has a per incident contract.
                     // if so, check if issue is redeemed.
-                    if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
+                    if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
                         if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
                                 (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
                             $res[$i]['redeemed'] = true;
@@ -2195,7 +2195,7 @@ class Issue
     {
         for ($i = 0; $i < count($result); $i++) {
             if (($result[$i]['action_type'] == "internal") && 
-                    (User::getRoleByUser(Auth::getUserID()) > User::getRoleID('Customer'))) {
+                    (Auth::getCurrentRole() > User::getRoleID('Customer'))) {
                 $label = $result[$i]["iss_last_internal_action_type"];
                 $last_date = $result[$i]["iss_last_internal_action_date"];
             } else {
@@ -2261,8 +2261,8 @@ class Issue
     function buildWhereClause($options)
     {
         $usr_id = Auth::getUserID();
-        $role_id = User::getRoleByUser($usr_id);
         $prj_id = Auth::getCurrentProject();
+        $role_id = User::getRoleByUser($usr_id, $prj_id);
 
         $stmt = '';
         if (User::getRole($role_id) == "Customer") {
@@ -2370,7 +2370,7 @@ class Issue
     function getSides($issue_id, $options)
     {
         $usr_id = Auth::getUserID();
-        $role_id = User::getRoleByUser($usr_id);
+        $role_id = Auth::getCurrentRole();
 
         $stmt = "SELECT
                     iss_id,

@@ -47,20 +47,26 @@ class Prefs
      * Method used to get the system-wide default preferences.
      *
      * @access  public
+     * @param   array $projects An array of projects this user will have access too.
      * @return  string The serialized array of the default preferences
      */
-    function getDefaults()
+    function getDefaults($projects)
     {
-        return serialize(array(
-            'receive_assigned_emails' => 1,
-            'receive_new_emails'      => 0,
+        $prefs = array(
+            'receive_assigned_emails' => array(),
+            'receive_new_emails'      => array(),
             'timezone'                => Date_API::getDefaultTimezone(),
             'list_refresh_rate'       => APP_DEFAULT_REFRESH_RATE,
             'emails_refresh_rate'     => APP_DEFAULT_REFRESH_RATE,
             'email_signature'         => '',
             'auto_append_sig'         => 'no',
             'auto_append_note_sig'    => 'no'
-        ));
+        );
+        foreach ($projects as $prj_id) {
+            $prefs['receive_assigned_emails'][$prj_id] = 1;
+            $prefs['receive_new_emails'][$prj_id] = 0;
+        }
+        return serialize($prefs);
     }
 
 

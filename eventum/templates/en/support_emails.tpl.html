@@ -107,7 +107,7 @@ function sendEmail(account_id, issue_id)
               {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$emails[i].composite_id colspan=7 row_color=$row_color}
               {sectionelse}
               <tr>
-                <td colspan="{if $current_role > $roles.viewer}6{else}5{/if}" bgcolor="{$light_color}" class="default" align="center">
+                <td colspan="{if $current_role > $roles.viewer}7{else}6{/if}" bgcolor="{$light_color}" class="default" align="center">
                   <i>No associated emails could be found.</i>
                 </td>
               </tr>

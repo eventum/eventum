@@ -45,11 +45,14 @@ $tpl = new Template_API();
 $tpl->setTemplate("new.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
+if (Auth::getCurrentRole() < User::getRoleID("Reporter")) {
+    Auth::redirect("main.php");
+}
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
 if (Customer::hasCustomerIntegration($prj_id)) {
-    if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
+    if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
         $customer_id = User::getCustomerID($usr_id);
         // check if the current customer has already redeemed all available per-incident tickets
         if ((empty($HTTP_POST_VARS['cat'])) && (Customer::hasPerIncidentContract($prj_id, $customer_id)) && 
@@ -132,7 +135,7 @@ $tpl->assign("allow_unassigned_issues", @$setup["allow_unassigned_issues"]);
 $prefs = Prefs::get($usr_id);
 $tpl->assign("user_prefs", $prefs);
 $tpl->assign("zones", Date_API::getTimezoneList());
-if (User::getRole(User::getRoleByUser($usr_id)) == "Customer") {
+if (User::getRole(Auth::getCurrentRole()) == "Customer") {
     $customer_contact_id = User::getCustomerContactID($usr_id);
     $tpl->assign("contact_details", Customer::getContactDetails($prj_id, $customer_contact_id));
     $customer_id = User::getCustomerID($usr_id);

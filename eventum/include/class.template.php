@@ -178,12 +178,14 @@ class Template_API
             $this->assign("current_email", $info["usr_email"]);
             $this->assign("current_user_id", $usr_id);
             $this->assign("is_current_user_clocked_in", User::isClockedIn($usr_id));
-            $role_id = User::getRoleByUser($usr_id);
+            $role_id = User::getRoleByUser($usr_id, $prj_id);
             if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
                 $this->assign("show_admin_link", true);
             }
-            $this->assign("current_role", (integer) $role_id);
-            $this->assign("current_role_name", User::getRole($role_id));
+            if ($role_id > 0) {
+                $this->assign("current_role", (integer) $role_id);
+                $this->assign("current_role_name", User::getRole($role_id));
+            }
             $this->assign("roles", User::getAssocRoleIDs());
         }
         $this->assign("app_setup", Setup::load());

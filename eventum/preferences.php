@@ -64,6 +64,7 @@ if (empty($prefs)) {
     $prefs = Setup::load();
 }
 $tpl->assign("user_prefs", $prefs);
+$tpl->assign("assigned_projects", Project::getAssocList($usr_id, false, true));
 $tpl->assign("zones", Date_API::getTimezoneList());
 
 $tpl->displayTemplate();

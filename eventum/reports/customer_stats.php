@@ -42,7 +42,7 @@ $tpl->setTemplate("reports/customer_stats.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Customer")) {
+if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
     echo "Invalid role";
     exit;
 }
@@ -105,7 +105,7 @@ $tpl->assign(array(
 ));
 
 // only set customers if user has role of manager or above
-if (User::getRoleByUser(Auth::getUserID()) >= User::getRoleID('manager')) {
+if (Auth::getCurrentRole() >= User::getRoleID('manager')) {
     $tpl->assign(array(
     "customers"         =>  Customer::getAssocList($prj_id),
     "customer"          =>  @$HTTP_POST_VARS["customer"]

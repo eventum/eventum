@@ -32,10 +32,8 @@ include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
-
-if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Customer")) {
-    echo "Invalid role";
-    exit;
+if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
+    Auth::redirect("../main.php");
 }
 
 $tpl = new Template_API();

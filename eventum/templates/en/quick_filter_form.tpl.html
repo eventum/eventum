@@ -154,6 +154,7 @@ function runCustomFilter(f)
       &nbsp;
     </td>
   </tr>
+  {if $current_role > $roles.reporter}
   <tr id="custom_filter_form1" {get_display_style element_name="custom_filter_form"}>
     <td>
       &nbsp;
@@ -186,6 +187,7 @@ function runCustomFilter(f)
       &nbsp;
     </td>
   </tr>
+  {/if}
 </table>
 
 <br />

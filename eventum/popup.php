@@ -117,7 +117,7 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $res = Authorized_Replier::addUser($HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign('authorize_reply_result', $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'remove_quarantine') {
-    if (User::getRoleByUser($usr_id) > User::getRoleID('Developer')) {
+    if (Auth::getCurrentRole() > User::getRoleID('Developer')) {
         $res = Issue::setQuarantine($HTTP_GET_VARS['iss_id'], 0);
         $tpl->assign('remove_quarantine_result', $res);
     }

@@ -1,5 +1,5 @@
 {include file="header.tpl.html" extra_title="Issue #$issue_id - Upload File"}
-
+{if $current_role > $roles.viewer}
 {if $upload_file_result != ''}
     <br />
     <center>
@@ -100,5 +100,7 @@ function validateUpload(f)
   </tr>
 </table>
 {/if}
-
+{else}
+<center><span class="default">You do not have the correct role to access this page</span></center>
+{/if}
 {include file="footer.tpl.html"}

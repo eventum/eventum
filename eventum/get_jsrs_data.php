@@ -123,7 +123,7 @@ function getPhoneSupport($id)
  */
 function getMailQueue($id)
 {
-    if (User::getRoleByUser(Auth::getUserID()) < User::getRoleID('Developer')) {
+    if (Auth::getCurrentRole() < User::getRoleID('Developer')) {
         return;
     }
     $res = Mail_Queue::getEntry($id);

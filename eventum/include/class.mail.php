@@ -455,7 +455,7 @@ class Mail_API
                 return $body;
             } else {
                 // don't add anything if the recipient is a known customer contact
-                $recipient_role_id = User::getRoleByUser($recipient_usr_id);
+                $recipient_role_id = User::getRoleByUser($recipient_usr_id, Issue::getProjectID($issue_id));
                 if ($recipient_role_id == User::getRoleID('Customer')) {
                     return $body;
                 } else {

@@ -51,7 +51,7 @@ class Display_Column
         static $returns;
         
         if (empty($returns[$page])) {
-            $current_role = User::getRoleByUser(Auth::getUserID());
+            $current_role = Auth::getCurrentRole();
             $data = Display_Column::getSelectedColumns($prj_id, $page);
             $has_customer_integration = Customer::hasCustomerIntegration($prj_id);
             $only_with_customers = array('iss_customer_id');
@@ -69,7 +69,7 @@ class Display_Column
                 unset($data['custom_fields']);
             }
             // remove customer field if user has a role of customer
-            if (User::getRoleByUser(Auth::getUserID()) == User::getRoleID("Customer")) {
+            if (Auth::getCurrentRole() == User::getRoleID("Customer")) {
                 unset($data['iss_customer_id']);
             }
             

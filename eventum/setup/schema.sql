@@ -348,6 +348,7 @@ CREATE TABLE %TABLE_PREFIX%project_user (
   pru_id int(11) unsigned NOT NULL auto_increment,
   pru_prj_id int(11) unsigned NOT NULL default 0,
   pru_usr_id int(11) unsigned NOT NULL default 0,
+  pru_role tinyint(1) unsigned NOT NULL default 1,
   PRIMARY KEY  (pru_id),
   UNIQUE KEY pru_prj_id (pru_prj_id,pru_usr_id)
 );
@@ -467,7 +468,6 @@ CREATE TABLE %TABLE_PREFIX%user (
   usr_password varchar(32) NOT NULL default '',
   usr_full_name varchar(255) NOT NULL default '',
   usr_email varchar(255) NOT NULL default '',
-  usr_role tinyint(1) unsigned NOT NULL default '1',
   usr_preferences longtext,
   usr_sms_email varchar(255) NULL,
   usr_clocked_in tinyint(1) DEFAULT 0,

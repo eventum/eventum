@@ -45,7 +45,8 @@ include_once(APP_PEAR_PATH . "XML_RPC/Server.php");
 
 function authenticate($email, $password)
 {
-    if ((!Auth::isCorrectPassword($email, $password)) || (User::getRoleByUser(User::getUserIDByEmail($email)) <= User::getRoleID("Customer"))) {
+    // XXX: THe role check shouldn't be hardcoded for project 1
+    if ((!Auth::isCorrectPassword($email, $password)) || (User::getRoleByUser(User::getUserIDByEmail($email), 1) <= User::getRoleID("Customer"))) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role");
     } else {
         createFakeCookie($email);
@@ -395,7 +396,7 @@ function lookupCustomer($p)
     
     $usr_id = User::getUserIDByEmail($email);
     // only customers should be able to use this page
-    $role_id = User::getRoleByUser($usr_id);
+    $role_id = User::getRoleByUser($usr_id, $prj_id);
     if ($role_id < User::getRoleID('Developer')) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "You don't have the appropriate permissions to lookup customer information");
     } else {

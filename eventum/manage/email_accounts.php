@@ -44,7 +44,7 @@ $tpl->assign("type", "email_accounts");
 
 $tpl->assign("all_projects", Project::getAll());
 
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if ($role_id == User::getRoleID('administrator')) {
     $tpl->assign("show_setup_links", true);
 

@@ -41,7 +41,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $tpl->assign("type", "custom_fields");
 
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if ($role_id == User::getRoleID('administrator')) {
     $tpl->assign("show_setup_links", true);
 

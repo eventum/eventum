@@ -258,7 +258,7 @@ if ($res != -1) {
     if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
         Issue::markAsUpdated($issue_id, 'customer action');
     } else {
-        if ((!empty($usr_id)) && (User::getRoleByUser($usr_id) > User::getRoleID('Customer'))) {
+        if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer'))) {
             Issue::markAsUpdated($issue_id, 'staff response');
         }
     }

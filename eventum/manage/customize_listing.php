@@ -42,7 +42,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $tpl->assign("type", "customize_listing");
 
-$role_id = User::getRoleByUser(Auth::getUserID());
+$role_id = Auth::getCurrentRole();
 if ($role_id == User::getRoleID('administrator')) {
     $tpl->assign("show_setup_links", true);
 
