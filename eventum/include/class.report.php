@@ -176,9 +176,10 @@ class Report
      * @param   string $usr_id The ID of the user this report is for.
      * @param   string The start date of this report.
      * @param   string The end date of this report.
+     * @param   boolean If closed issues should be separated from other issues.
      * @return  array An array of data containing all the elements of the weekly report.
      */
-    function getWeeklyReport($usr_id, $start, $end)
+    function getWeeklyReport($usr_id, $start, $end, $separate_closed = false)
     {
         // figure out timezone
         $user_prefs = Prefs::get($usr_id);
@@ -238,7 +239,7 @@ class Report
             "end"       => str_replace('-', '.', $end),
             "user"      => User::getDetails($usr_id),
             "group_name"=> Group::getName(User::getGroupID($usr_id)),
-            "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts),
+            "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed),
             "status_counts" => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts, array("WOD", "WOC","WOF","WOB","WOL","WOA")),
             "new_assigned_count"    =>  $newly_assigned,
             "time_tracking" => $time_tracking,
