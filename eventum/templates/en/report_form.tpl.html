@@ -6,8 +6,20 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default">
+            {if $errors|@count == 0}
             <b>Thank you, the new issue was created successfully. Please choose 
             from one of the options below:</b>
+            {else}
+                Thank you, the new issue was created successfully. <br />
+                <span style="color: red">However, the following errors were encountered:
+                <ul>
+                {foreach from=$errors name=errors item=error}
+                    <li>{$error}</li>
+                {/foreach}
+                </ul>
+                </span>
+                Please choose from one of the options below:</b>
+            {/if}
             <ul>
               <li><a href="view.php?id={$new_issue_id}" class="link">Open the Issue Details Page</a></li>
               <li><a href="list.php" class="link">Open the Issue Listing Page</a></li>
@@ -214,6 +226,7 @@ function validateForm(f)
                 </td>
               </tr>
             </table>
+            <span class="default">Maximum file size is {$max_attachment_size}</span>
             {literal}
             <script language="">
             <!--

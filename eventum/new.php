@@ -50,6 +50,7 @@ if (@$HTTP_POST_VARS["cat"] == "report") {
         // show direct links to the issue page, issue listing page and 
         // email listing page
         $tpl->assign("new_issue_id", $res);
+        $tpl->assign("errors", $insert_errors);
     } else {
         // need to show everything again
         $tpl->assign("error_msg", "1");
@@ -68,6 +69,7 @@ $tpl->assign("priorities", Misc::getPriorities());
 $tpl->assign("users", Project::getUserAssocList($prj_id, 'active'));
 $tpl->assign("releases", Release::getAssocList($prj_id));
 $tpl->assign("custom_fields", Custom_Field::getListByProject($prj_id, 'report_form'));
+$tpl->assign("max_attachment_size", Attachment::getMaxAttachmentSize());
 
 $setup = Setup::load();
 $tpl->assign("allow_unassigned_issues", $setup["allow_unassigned_issues"]);
