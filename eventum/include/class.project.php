@@ -399,8 +399,7 @@ class Project
                     prj_outgoing_sender_email='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
                     prj_remote_invocation='" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
                     prj_customer_backend='" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "',
-                    prj_workflow_backend='" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "',
-                    prj_hide_fields_from_reporter='" . $HTTP_POST_VARS["hide_fields"] . "'
+                    prj_workflow_backend='" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "'
                  WHERE
                     prj_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -478,8 +477,7 @@ class Project
                     prj_outgoing_sender_email,
                     prj_remote_invocation,
                     prj_customer_backend,
-                    prj_workflow_backend,
-                    prj_hide_fields_from_reporter
+                    prj_workflow_backend
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
@@ -490,8 +488,7 @@ class Project
                     '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "',
-                    " . $HTTP_POST_VARS["hide_fields"] . "
+                    '" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -867,6 +864,98 @@ class Project
             $returns[$prj_id] = $res;
             return $res;
         }
+    }
+
+
+    /**
+     * Sets the minimum role needed to view a specific field on the issue creation form.
+     * 
+     * @access  public
+     * @param   integer $prj_id The project ID.
+     * @param   array $settings An array of fields and role is required to view them.
+     * @return  integer 1 if the update worked, -1 otherwise.
+     */
+    function updateFieldDisplaySettings($prj_id, $settings)
+    {
+        // delete current settings
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_field_display
+                 WHERE
+                    pfd_prj_id = $prj_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+        
+        // insert new values
+        foreach ($settings as $field => $min_role) {
+            $stmt = "INSERT INTO
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_field_display
+                     (
+                        pfd_prj_id,
+                        pfd_field,
+                        pfd_min_role
+                     ) VALUES (
+                        $prj_id,
+                        '$field',
+                        $min_role
+                     )";
+            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            }
+        }
+        return 1;
+    }
+
+
+    /**
+     * Returns display settings for a specific project.
+     * 
+     * @access public
+     * @param   integer $prj_id The project ID
+     * @return  array An associative array of minimum role required to access a field.
+     */
+    function getFieldDisplaySettings($prj_id)
+    {
+        $stmt = "SELECT
+                    pfd_field,
+                    pfd_min_role
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_field_display
+                 WHERE
+                    pfd_prj_id = $prj_id";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+        $fields = Project::getDisplayFields();
+        foreach ($fields as $field_name => $field_title) {
+            if (!isset($res[$field_name])) {
+                $res[$field_name] = 0;
+            }
+        }
+        return $res;
+    }
+
+
+    /**
+     * Returns an array of fields which can be hidden.
+     * 
+     * @access  public
+     * @return  array
+     */
+    function getDisplayFields()
+    {
+        return array(
+            "category"  =>  "Category",
+            "assignment"    =>  "Assignment",
+            "release"   =>  "Scheduled Release",
+            "estimated_dev_time"    =>  "Estimated Dev. Time"
+        );
     }
 }
 
