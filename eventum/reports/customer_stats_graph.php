@@ -83,7 +83,7 @@ foreach ($data as $index => $info) {
     $plottable = array();
     switch ($graph_id) {
         case 1:
-            $plottable["Customers in Spot"] = $info["customer_counts"]["customers_in_spot"];
+            $plottable["Customer Count"] = $info["customer_counts"]["customer_count"];
             $plottable["Issues"] = $info["issue_counts"]["total"];
             $plottable["Emails by Staff"] = $info["email_counts"]["developer"]["total"];
             $plottable["Emails by Customers"] = $info["email_counts"]["customer"]["total"];

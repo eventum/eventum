@@ -74,11 +74,6 @@ function clearDate()
             <b>Options</b>
           </td>
           <td align="left" valign="bottom" class="default" colspan="2" NOWRAP>
-            <!-- // XXX: internal only -->
-            <input type="checkbox" name="split_innoDB" value="1" {if $split_innoDB==1}CHECKED{/if}>
-            <a id="link" class="link" href="javascript:void(null)" 
-                            onClick="javascript:toggleCheckbox('customer_stats_report', 'split_innoDB');">Split by InnoDB support</a>
-            &nbsp;&nbsp;
             <input type="checkbox" name="include_expired" value="1" {if $include_expired==1}CHECKED{/if}>
             <a id="link" class="link" href="javascript:void(null)" 
                             onClick="javascript:toggleCheckbox('customer_stats_report', 'include_expired');">Include expired contracts</a>
@@ -137,7 +132,7 @@ function clearDate()
             </tr>
             <tr bgcolor="{$cell_color}">
                 {if $display.customer_counts == 1}
-                <th class="default_white">In Spot</th>
+                <th class="default_white">Count</th>
                 <th class="default_white">Using CSC</th>
                 <th class="default_white">Issues in CSC<br />(0/1-2/3-8/>8)</th>
                 {/if}
@@ -168,7 +163,7 @@ function clearDate()
                 
                 <!-- Customer counts -->
                 {if $display.customer_counts == 1}
-                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].customer_counts.customers_in_spot}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].customer_counts.customer_count}</td>
                 <td class="default" align="center" rowspan="{$row_span}">{$data[stats].customer_counts.active}</td>
                 <td class="default" align="center" rowspan="{$row_span}">
                     {$data[stats].customer_counts.inactive|floor}% /
