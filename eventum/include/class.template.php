@@ -44,6 +44,7 @@ require_once(APP_INC_PATH . "class.project.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.user.php");
 require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "class.link_filter.php");
 
 class Template_API
 {
@@ -61,6 +62,7 @@ class Template_API
         $this->smarty->template_dir = APP_PATH . "templates/" . APP_CURRENT_LANG;
         $this->smarty->compile_dir = APP_PATH . "templates_c";
         $this->smarty->config_dir = '';
+        $this->smarty->register_modifier("activateLinks", array('Link_Filter', 'processText'));
     }
 
 
