@@ -75,7 +75,7 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
-{if $issue.iss_lock_usr_id and $issue.iss_lock_usr_id != $current_user_id}
+{if $issue.iss_lock_usr_id and $issue.iss_lock_usr_id != $current_user_id and $current_role > $roles.customer}
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
@@ -94,15 +94,16 @@ function validateForm(f)
 <form onSubmit="javascript:return validateForm(this);" name="update_form" method="post" action="update.php">
 <input type="hidden" name="cat" value="update">
 <input type="hidden" name="issue_id" value="{$issue.iss_id}">
+<input type="hidden" name="resolution" value="{$issue.iss_res_id}">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default" nowrap>
-            <b>Update Issue Overview</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" class="link">{$issue.iss_id}</a>) {if $issue.iss_lock_usr_id}<b><font color="red">(Locked)</font></b>{/if}
+            <b>Update Issue Overview</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" class="link">{$issue.iss_id}</a>) {if $issue.iss_lock_usr_id and $current_role > $roles.customer}<b><font color="red">(Locked)</font></b>{/if}
           </td>
           <td colspan="2" align="right" class="default">
-            {if $current_role != $roles.customer}
+            {if $current_role > $roles.customer}
             [ <a class="link" title="edit the authorized repliers list for this issue" href="javascript:void(null);" onClick="javascript:openAuthorizedReplier({$smarty.get.id});">Edit Authorized Replier List</a> ]
             [ <a class="link" href="javascript:void(null);" onClick="javascript:openNotification({$smarty.get.id});">Edit Notification List</a> ]
             {/if}
@@ -118,10 +119,10 @@ function validateForm(f)
               {html_options options=$categories selected=$issue.iss_prc_id}
             </select>
           </td>
-          <td width="120" bgcolor="{$cell_color}" rowspan="2" valign="top" class="default_white" nowrap>
+          <td width="120" bgcolor="{$cell_color}" valign="top" class="default_white" nowrap>
             <b>Notification List:</b>
           </td>
-          <td width="50%" bgcolor="{$light_color}" rowspan="2" valign="top" class="default">
+          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
             {if $subscribers.staff != ''}Staff: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
             {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
             {if $subscribers.customers != ''}Other: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
@@ -136,16 +137,6 @@ function validateForm(f)
               {html_options options=$status selected=$issue.iss_sta_id}
             </select>
           </td>
-        </tr>
-        <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>Priority:</b>
-          </td>
-          <td bgcolor="{$light_color}">
-            <select class="default" name="priority">
-              {html_options options=$priorities selected=$issue.iss_pri_id}
-            </select>
-          </td>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Submitted Date:</b>
           </td>
@@ -154,6 +145,23 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
+          <td {if $current_role == $roles.customer}rowspan="2"{/if} width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Priority:</b>
+          </td>
+          <td {if $current_role == $roles.customer}rowspan="2"{/if} bgcolor="{$light_color}">
+            <select class="default" name="priority">
+              {html_options options=$priorities selected=$issue.iss_pri_id}
+            </select>
+          </td>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Update Date:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$issue.iss_updated_date}
+          </td>
+        </tr>
+        <tr>
+          {if $current_role > $roles.customer}
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <nobr><b>Associated Issues:</b></nobr>
           </td>
@@ -163,14 +171,16 @@ function validateForm(f)
             </select>
             {if not ($os.mac and $browser.ie)}<a title="lookup issues by their summaries" href="javascript:void(null);" onClick="return overlib(getOverlibContents('{include file="lookup_layer.tpl.html" list=$assoc_issues multiple=1}', 'update_form', 'associated_issues[]', true), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, RIGHT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#000000', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
           </td>
+          {/if}
           <input type="hidden" name="keep" value="yes">
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>Update Date:</b>
+          <td nowrap width="130" bgcolor="{$cell_color}" class="default_white">
+            <b>Reporter:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
-            {$issue.iss_updated_date}
+            {$issue.reporter}
           </td>
         </tr>
+        {if $current_role > $roles.customer}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Expected Resolution Date:</b>
@@ -191,8 +201,7 @@ function validateForm(f)
             {/if}
             {html_select_date time=$expected_resolution_date field_array="expected_resolution_date" prefix="" start_year=$expected_resolution_start_year end_year="+1" all_extra='class="default"' year_empty="" day_empty="" month_empty=""}
           </td>
-          <input type="hidden" name="resolution" value="{$issue.iss_res_id}">
-          <td nowrap width="130" bgcolor="{$cell_color}" class="default_white">
+          <td nowrap width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Scheduled Release:</b>
           </td>
           <td bgcolor="{$light_color}">
@@ -203,10 +212,10 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white" rowspan="2">
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Assignment:</b>
           </td>
-          <td bgcolor="{$light_color}" rowspan="2">
+          <td bgcolor="{$light_color}">
             {if $issue.has_inactive_users}
             <span class="default"><input type="radio" name="keep_assignments" checked value="yes"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'keep_assignments', 0);">Keep Current Assignments: {$issue.assignments}</a>
             <br />
@@ -224,18 +233,10 @@ function validateForm(f)
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="assignments[]" callbacks="new Array('showSelections(\'update_form\', \'assignments[]\')')"}
             <div class="default" id="selection_assignments[]">{if $issue.assignments}Current Selections: {$issue.assignments}{/if}</div>
           </td>
-          <td nowrap width="130" bgcolor="{$cell_color}" class="default_white">
-            <b>Reporter:</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default">
-            {$issue.reporter}
-          </td>
-        </tr>
-        <tr>
-          <td width="140" bgcolor="{$cell_color}"  class="default_white" nowrap>
+          <td width="140" bgcolor="{$cell_color}" valign="top" class="default_white" nowrap>
             <b>Authorized Repliers:</b>
           </td>
-          <td width="50%" bgcolor="{$light_color}" class="default">
+          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
             {if $issue.authorized_repliers.users|@count > 0}
                 Staff:
                 {section name="replier" loop=$issue.authorized_repliers.users}
@@ -257,6 +258,13 @@ function validateForm(f)
             {/if}
           </td>
         </tr>
+        {else}
+        <input type="hidden" name="keep_assignments" value="yes">
+        {foreach key=_issue_id item=_issue_summary from=$issue.associated_issues}
+        <input type="hidden" name="associated_issues[]" value="{$_issue_id}">
+        {/foreach}
+        <input type="hidden" name="estimated_dev_time" value="{$issue.iss_dev_time|escape:"html"}">
+        {/if}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Summary:</b>
@@ -271,7 +279,7 @@ function validateForm(f)
             <b>Description:</b>
           </td>
           <td colspan="3" bgcolor="{$dark_color}" class="default">
-            <textarea name="description" rows="8" style="width: 97%">{$issue.iss_description|escape:"html"}</textarea>
+            <textarea name="description" rows="20" style="width: 97%">{$issue.iss_description|escape:"html"}</textarea>
             {include file="error_icon.tpl.html" field="description"}
           </td>
         </tr>
@@ -280,14 +288,11 @@ function validateForm(f)
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Trigger Reminders:</b>
           </td>
-          <td colspan="3" bgcolor="{$dark_color}">
-            <span class="default">
+          <td colspan="3" bgcolor="{$dark_color}" class="default">
             <input type="radio" name="trigger_reminders" value="1" {if $issue.iss_trigger_reminders}checked{/if}>
             <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'trigger_reminders', 0);">Yes</a>
             <input type="radio" name="trigger_reminders" value="0" {if not $issue.iss_trigger_reminders}checked{/if}>
             <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'trigger_reminders', 1);">No</a>
-            </span>
-            &nbsp;&nbsp;<span class="small_default">(If set to 'No', this issue will never trigger any reminders, regardless of criteria.)</span>
           </td>
         </tr>
         {else}
@@ -301,7 +306,7 @@ function validateForm(f)
                   <input class="button" type="submit" value="Update">&nbsp;
                   <input class="button" type="button" value="Cancel Update" onClick="javascript:history.go(-1);">&nbsp;
                   <input class="button" type="reset" value="Reset">
-                  {if not $issue.sta_is_closed}
+                  {if (not $issue.sta_is_closed) and $current_role > $roles.customer}
                   &nbsp;<input class="button" type="button" value="Close Issue" onClick="javascript:window.location.href='close.php?id={$issue.iss_id}';">
                   {/if}
                 </td>
