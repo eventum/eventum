@@ -45,6 +45,7 @@ include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.history.php");
 include_once(APP_INC_PATH . "class.phone_support.php");
 include_once(APP_INC_PATH . "class.prefs.php");
+include_once(APP_PEAR_PATH . "Math/Stats.php");
 
 class Report
 {
@@ -535,6 +536,136 @@ class Report
             return array();
         }
         $data["All Others"] = $res;
+        
+        return $data;
+    }
+    
+    
+    /**
+     * Returns workload information for the specified date range and interval.
+     * 
+     * @access  public
+     * @param   string $interval The interval to use in this report.
+     * @param   string $type If this report is aggregate or individual
+     * @param   string $start The start date of this report.
+     * @param   string $end The end date of this report.
+     * @return  array An array containing workload data.
+     */
+    function getWorkloadByDateRange($interval, $type, $start, $end)
+    {
+        $data = array();
+        
+        // figure out the correct format code
+        switch ($interval) {
+            case "day":
+                $format = '%m/%d/%y';
+                $order_by = "%1\$s";
+                break;
+            case "dow":
+                $format = '%W';
+                $order_by = "IF(DATE_FORMAT(%1\$s, '%%w') = 0, 7, DATE_FORMAT(%1\$s, '%%w'))";
+                break;
+            case "week":
+                if ($type == "aggregate") {
+                    $format = '%v';
+                } else {
+                    $format = '%v/%y';
+                }
+                $order_by = "%1\$s";
+                break;
+            case "dom":
+                $format = '%d';
+                break;
+            case "month":
+                if ($type == "aggregate") {
+                    $format = '%b';
+                    $order_by = "DATE_FORMAT(%1\$s, '%%m')";
+                } else {
+                    $format = '%b/%y';
+                    $order_by = "%1\$s";
+                }
+                break;
+        }
+        
+        // get issue counts
+        $stmt = "SELECT
+                    DATE_FORMAT(iss_created_date, '$format'),
+                    count(*)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                    iss_created_date BETWEEN '$start' AND '$end'
+                 GROUP BY
+                    DATE_FORMAT(iss_created_date, '$format')";
+        if (!empty($order_by)) {
+            $stmt .= "\nORDER BY " . sprintf($order_by, 'iss_created_date');
+        }
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+        $data["issues"]["points"] = $res;
+        
+        if (count($res) > 0) {
+            $stats = new Math_Stats();
+            $stats->setData($res);
+            
+            $data["issues"]["stats"] = array(
+                "total" =>  $stats->sum(),
+                "avg"   =>  $stats->mean(),
+                "median"    =>  $stats->median(),
+                "max"   =>  $stats->max()
+            );
+        } else {
+            $data["issues"]["stats"] = array(
+                "total" =>  0,
+                "avg"   =>  0,
+                "median"    =>  0,
+                "max"   =>  0
+            );
+        }
+        
+        
+        // get email counts
+        $stmt = "SELECT
+                    DATE_FORMAT(sup_date, '$format'),
+                    count(*)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                 WHERE
+                    sup_date BETWEEN '$start' AND '$end'
+                 GROUP BY
+                    DATE_FORMAT(sup_date, '$format')";
+        if (!empty($order_by)) {
+            $stmt .= "\nORDER BY " . sprintf($order_by, 'sup_date');
+        }
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+        $data["emails"]["points"] = $res;
+        
+        if (count($res) > 0) {
+            $stats = new Math_Stats();
+            $stats->setData($res);
+            
+            $data["emails"]["stats"] = array(
+                "total" =>  $stats->sum(),
+                "avg"   =>  $stats->mean(),
+                "median"    =>  $stats->median(),
+                "max"   =>  $stats->max()
+            );
+        } else {
+            $data["emails"]["stats"] = array(
+                "total" =>  0,
+                "avg"   =>  0,
+                "median"    =>  0,
+                "max"   =>  0
+            );
+        }
+        
         
         return $data;
     }
