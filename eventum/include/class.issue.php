@@ -2857,7 +2857,7 @@ class Issue
         }
         $stmt .= "
                  ORDER BY
-                    iss_id ASC";
+                    iss_id DESC";
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
