@@ -189,6 +189,7 @@ function getIssueDetails($p)
         return $auth;
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
+    createFakeCookie($email, Issue::getProjectID($issue_id));
     
     $res = Issue::getDetails($issue_id);
     if (empty($res)) {
