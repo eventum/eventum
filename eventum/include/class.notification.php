@@ -902,7 +902,7 @@ class Notification
             $tpl = new Template_API;
             $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
             $tpl->bulkAssign(array(
-                "app_title"    => Misc::getToolCaption(),
+                "app_title"   => Misc::getToolCaption(),
                 "data"        => $data,
                 "sender_name" => Mail_API::getName($sender)
             ));

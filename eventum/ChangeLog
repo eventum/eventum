@@ -1,10 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 1.4
+???, Version 1.4.1
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
 - Fixed bug with APP_TITLE not being displayed in issue auto created messages (Bryan)
-
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
@@ -61,7 +60,6 @@ Eventum Issue Tracking System
 - Automatically switch projects if viewing an issue in a project other then the currently selected one (Bryan)
 - Added default charset of 'ISO-8859-1' (Bryan)
 - Inline file attachments (such as images) now have filename set (Bryan)
-
 
 15 Sep 2004, Version 1.3.1
 - Added the missing maq_iss_id and maq_subject columns to the mail_queue table schema (João)
