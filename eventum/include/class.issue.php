@@ -76,11 +76,22 @@ class Issue
     {
         $headings = array(
             'Priority',
-            'Issue ID',
-            'Assigned',
-            'Time Spent',
-            'Category'
+            'Issue ID'
         );
+        // hide the group column from the output if no
+        // groups are available in the database
+        $groups = Group::getAssocList($prj_id);
+        if (count($groups) > 0) {
+            $headings[] = 'Group';
+        }
+        $headings[] = 'Assigned';
+        $headings[] = 'Time Spent';
+        // hide the category column from the output if no 
+        // categories are available in the database
+        $categories = Category::getAssocList($prj_id);
+        if (count($categories) > 0) {
+            $headings[] = 'Category';
+        }
         if (Customer::hasCustomerIntegration($prj_id)) {
             $headings[] = 'Customer';
         }
@@ -2270,16 +2281,27 @@ class Issue
                 Issue::formatLastActionDates($res);
                 Issue::getLastStatusChangeDates($prj_id, $res);
             }
+            $groups = Group::getAssocList($prj_id);
+            $categories = Category::getAssocList($prj_id);
             $csv[] = @implode("\t", Issue::getColumnHeadings($prj_id));
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
                 $fields = array(
                     $res[$i]['pri_title'],
-                    $res[$i]['iss_id'],
-                    $res[$i]['assigned_users'],
-                    $res[$i]['time_spent'],
-                    $res[$i]['prc_title']
+                    $res[$i]['iss_id']
                 );
+                // hide the group column from the output if no
+                // groups are available in the database
+                if (count($groups) > 0) {
+                    $fields[] = $res[$i]['group'];
+                }
+                $fields[] = $res[$i]['assigned_users'];
+                $fields[] = $res[$i]['time_spent'];
+                // hide the category column from the output if no 
+                // categories are available in the database
+                if (count($categories) > 0) {
+                    $fields[] = $res[$i]['prc_title'];
+                }
                 if (Customer::hasCustomerIntegration($prj_id)) {
                     $fields[] = @$res[$i]['customer_title'];
                     // check if current user is acustomer and has a per incident contract.
