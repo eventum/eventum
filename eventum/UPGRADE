@@ -20,6 +20,15 @@ instructions:
    these scripts in your web browser
 
 
+- Upgrading from version 1.5 to 1.5.1:
+--------------------------------------
+
+For the upgrade from release 1.5 to 1.5.1, there's one script in the 
+following directory that will upgrade your database schema:
+
+  /path-to-eventum/misc/upgrade/v1.5_to_v1.5.1/database_changes.php
+
+
 - Upgrading from version 1.4 to 1.5:
 ------------------------------------
 
