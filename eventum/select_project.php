@@ -129,7 +129,7 @@ function handleExpiredCustomer($prj_id)
             }
             // check with cnt_support to see if this contact is allowed in this support contract
             if (!Customer::isAllowedSupportContact($prj_id, $contact_id)) {
-                Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'not allowed as technical contact');
+                Auth::saveLoginAttempt($email, 'failure', 'not allowed as technical contact');
                 Auth::redirect(APP_RELATIVE_URL . "index.php?err=4&email=" . $email);
             }
         }
