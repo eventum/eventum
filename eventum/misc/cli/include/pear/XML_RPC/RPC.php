@@ -415,7 +415,7 @@ class XML_RPC_Client
         if ($port == 443) {
             $server = 'https://' . $server;
         } else {
-            $server = 'http://' . $server;
+            $server = 'http://' . $server . ':' . $port;
         }
         $server .= $this->path;
 
