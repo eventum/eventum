@@ -39,6 +39,7 @@
 
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.misc.php");
+include_once(APP_INC_PATH . "class.mime_helper.php");
 include_once(APP_INC_PATH . "class.date.php");
 
 class History
@@ -133,6 +134,7 @@ class History
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["his_created_date"] = Date_API::getFormattedDate($res[$i]["his_created_date"]);
+                $res[$i]["his_summary"] = Mime_Helper::fixEncoding($res[$i]["his_summary"]);
             }
             return $res;
         }
