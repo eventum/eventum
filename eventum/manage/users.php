@@ -59,7 +59,15 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", User::getDetails($HTTP_GET_VARS["id"]));
+        $info = User::getDetails($HTTP_GET_VARS["id"]);
+        if ($info['usr_role'] == User::getRoleID('Customer')) {
+            if (count($excluded_roles) == 1) {
+                $excluded_roles = false;
+            } else {
+                $excluded_roles = array('administrator');
+            }
+        }
+        $tpl->assign("info", $info);
     }
 
     if (@$HTTP_GET_VARS['show_customers'] == 1) {
