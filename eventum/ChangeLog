@@ -7,6 +7,10 @@ Eventum Issue Tracking System
 - Added a missing named anchor in the example backend customer information template (João)
 - Fixed the create issue form priority drop-down box to default to 'Please choose a priority' (João)
 - Added the support for a non-standard MySQL port (João)
+- Changed the issue reply window to have a unique name so one can reply to multiple issues at once (João)
+- Fixed the FAQ and News modules to automatically activate links when displaying the content (João)
+- Added the ability to sort by the Last Action Date column in saved searches (João)
+- Added an initial set of commands to the IRC bot: !help; !auth; !clock; !list-clocked-in and !list-quarantined (João)
 
 10 Sep 2004, Version 1.3
 - Customer integration API (João, Bryan)
