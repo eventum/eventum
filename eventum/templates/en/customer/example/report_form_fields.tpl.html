@@ -1,0 +1,162 @@
+{literal}
+<script language="JavaScript">
+<!--
+function lookupCustomer()
+{
+    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+{/literal}
+    var popupWin = window.open('customer/{$customer_backend_name}/customer_lookup.php', '_customerLookup', features);
+{literal}
+    popupWin.focus();
+}
+function removeEmailsFieldOptions()
+{
+    var f = getForm('report_form');
+    var field = getFormElement(f, 'contact_extra_emails[]');
+    field.length = 0;
+}
+
+function addOptionToEmailsField(value)
+{
+    var f = getForm('report_form');
+    var field = getFormElement(f, 'contact_extra_emails[]');
+    field.options[field.options.length] = new Option(value, value);
+}
+
+function validateCustomer(f)
+{
+    if (f.customer != null) {
+        if (isWhitespace(f.customer.value)) {
+            errors[errors.length] = new Option('Customer', 'customer');
+        }
+        if (isWhitespace(f.contact.value)) {
+            errors[errors.length] = new Option('Contact', 'contact');
+        }
+    }
+    if (isWhitespace(f.contact_person_lname.value)) {
+        errors[errors.length] = new Option('Contact Person Last Name', 'contact_person_lname');
+    }
+    if (isWhitespace(f.contact_person_fname.value)) {
+        errors[errors.length] = new Option('Contact Person First Name', 'contact_person_fname');
+    }
+    if (isWhitespace(f.contact_email.value)) {
+        errors[errors.length] = new Option('Contact Email', 'contact_email');
+    } else {
+        if (!isEmail(f.contact_email.value)) {
+            errors[errors.length] = new Option('Contact Email', 'contact_email');
+        }
+    }
+}
+//-->
+</script>
+{/literal}
+        <tr>
+          <td colspan="2" class="default">
+            <b>Customer Details</b>
+          </td>
+        </tr>
+        {if $current_role != $roles.customer}
+        <tr>
+          <td width="150" bgcolor="{$internal_color}" class="default_white">
+            <b>Customer:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <b><div id="customer_div">{$customer_name}</div></b>&nbsp;
+            {if $current_role > $roles.standard_user}
+            <a class="link" href="javascript:void(null);" onClick="javascript:lookupCustomer();">Lookup Customer</a>
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$internal_color}" class="default_white">
+            <b>Contact:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <b><div id="contact_div">{$contact_name}</div></b>
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$internal_color}" class="default_white">
+            <b>Add Primary Contact to Notification List? *</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <input type="radio" name="add_primary_contact" value="yes" {if $smarty.post.add_primary_contact != 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'add_primary_contact', 0);">Yes</a>&nbsp;&nbsp;
+            <input type="radio" name="add_primary_contact" value="no" {if $smarty.post.add_primary_contact == 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'add_primary_contact', 1);">No</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$internal_color}" class="default_white">
+            <b>Notify Customer About New Issue? *</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <input type="radio" name="notify_customer" value="yes" {if $smarty.post.notify_customer != 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'notify_customer', 0);">Yes</a>&nbsp;&nbsp;
+            <input type="radio" name="notify_customer" value="no" {if $smarty.post.notify_customer == 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'notify_customer', 1);">No</a>
+          </td>
+        </tr>
+        {else}
+        <input type="hidden" name="add_primary_contact" value="no">
+        <input type="hidden" name="notify_customer" value="yes">
+        {/if}
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Last Name: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="contact_person_lname" class="default" value="{if $smarty.post.contact_person_lname != ''}{$smarty.post.contact_person_lname}{else}{$contact_details.last_name}{/if}" size="40">
+            {include file="error_icon.tpl.html" field="contact_person_lname"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>First Name: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="contact_person_fname" class="default" value="{if $smarty.post.contact_person_fname != ''}{$smarty.post.contact_person_fname}{else}{$contact_details.first_name}{/if}" size="40">
+            {include file="error_icon.tpl.html" field="contact_person_fname"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Email: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="contact_email" class="default" size="40" value="{if $smarty.post.contact_email != ''}{$smarty.post.contact_email}{else}{$contact_details.email}{/if}">
+            {include file="error_icon.tpl.html" field="contact_email"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Phone Number:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="contact_phone" value="{if $smarty.post.contact_phone != ''}{$smarty.post.contact_phone}{else}{$contact_details.phone}{/if}" class="default" size="20">
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Timezone:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            {if $smarty.post.contact_timezone != ''}
+                {assign var=current_tz value=$smarty.post.contact_timezone}
+            {else}
+                {assign var=current_tz value=$user_prefs.timezone}
+            {/if}
+            <select class="default" name="contact_timezone">
+              {html_options values=$zones output=$zones selected=$current_tz}
+            </select>
+            {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="contact_timezone"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Additional Contact Emails:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <select class="default" name="contact_extra_emails[]" size="3" multiple>
+              {html_options options=$contacts selected=$smarty.post.contact_extra_emails}
+            </select>
+            <span class="small_default">(hold ctrl to select multiple options)<br />
+            <i>(only technical contacts listed on your contract)</i></span>
+          </td>
+        </tr>
