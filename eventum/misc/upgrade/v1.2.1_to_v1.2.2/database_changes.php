@@ -4,7 +4,7 @@ include_once(APP_INC_PATH . "db_access.php");
 
 
 $changes = array();
-$changes[] = "INSERT INTO eventum_time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (8, 'Telephone Discussion', NOW())";
+$changes[] = "INSERT INTO eventum_time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (null, 'Telephone Discussion', NOW())";
 $changes[] = 'ALTER TABLE eventum_phone_support DROP COLUMN phs_time_spent';
 $changes[] = 'ALTER TABLE eventum_phone_support ADD COLUMN phs_ttr_id int(10) unsigned NULL AFTER phs_iss_id';
 
