@@ -55,11 +55,11 @@ function replyNote(note_id, issue_id)
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
-            [ <a id="notes_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('notes');">{get_innerhtml element_name="notes"}</a> ]
+            [ <a id="notes_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('notes');">{get_innerhtml element_name="notes" total=$notes|@count}</a> ]
             {/if}
           </td>
         </tr>
-        <tr id="notes1" {get_display_style element_name="notes"}>
+        <tr id="notes1" {get_display_style element_name="notes" total=$notes|@count}>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr bgcolor="{$internal_color}">

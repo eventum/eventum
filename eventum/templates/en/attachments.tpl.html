@@ -42,11 +42,11 @@ function uploadFile(issue_id)
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko}
-            [ <a id="attachments_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('attachments');">{get_innerhtml element_name="attachments"}</a> ]
+            [ <a id="attachments_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('attachments');">{get_innerhtml element_name="attachments" total=$files|@count}</a> ]
             {/if}
           </td>
         </tr>
-        <tr id="attachments1" {get_display_style element_name="attachments"}>
+        <tr id="attachments1" {get_display_style element_name="attachments" total=$files|@count}>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr>

@@ -35,11 +35,11 @@ function addPhoneCall()
         </td>
         <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
-            [ <a id="phone_support_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('phone_support');">{get_innerhtml element_name="phone_support"}</a> ]
+            [ <a id="phone_support_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('phone_support');">{get_innerhtml element_name="phone_support" total=$phone_entries|@count}</a> ]
             {/if}
         </td>
         </tr>
-        <tr id="phone_support1" {get_display_style element_name="phone_support"}>
+        <tr id="phone_support1" {get_display_style element_name="phone_support" total=$phone_entries|@count}>
           <td colspan="2">
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
               <tr bgcolor="{$internal_color}">

@@ -33,11 +33,11 @@ function removeCheckins(f)
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko}
-            [ <a id="checkins_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('checkins');">{get_innerhtml element_name="checkins"}</a> ]
+            [ <a id="checkins_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('checkins');">{get_innerhtml element_name="checkins" total=$checkins|@count}</a> ]
             {/if}
           </td>
         </tr>
-        <tr id="checkins1" {get_display_style element_name="checkins"}>
+        <tr id="checkins1" {get_display_style element_name="checkins" total=$checkins|@count}>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr bgcolor="{$cell_color}">
