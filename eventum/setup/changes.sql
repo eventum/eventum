@@ -554,3 +554,6 @@ ALTER TABLE eventum_user DROP column usr_role;
 
 # January 23th
 ALTER TABLE eventum_email_draft ADD COLUMN emd_status enum('pending', 'edited', 'sent') NOT NULL DEFAULT 'pending' AFTER emd_sup_id;
+
+# January 26th
+ALTER TABLE eventum_project ADD COLUMN prj_segregate_reporter tinyint(1) DEFAULT 0;

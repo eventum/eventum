@@ -20,6 +20,7 @@ if ($res == 0) {
 
 $stmts[] = "ALTER TABLE eventum_project_user ADD COLUMN pru_role tinyint(1) unsigned default 1";
 
+$stmts[] = "ALTER TABLE eventum_project ADD COLUMN prj_segregate_reporter tinyint(1) DEFAULT 0";
 
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);

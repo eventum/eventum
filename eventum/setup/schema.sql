@@ -303,6 +303,7 @@ CREATE TABLE %TABLE_PREFIX%project (
   prj_outgoing_sender_email varchar(255) NOT NULL,
   prj_customer_backend varchar(64) NULL,
   prj_workflow_backend varchar(64) NULL,
+  prj_segregate_reporter tinyint(1) DEFAULT 0,
   PRIMARY KEY  (prj_id),
   UNIQUE KEY prj_title (prj_title),
   KEY prj_lead_usr_id (prj_lead_usr_id)
