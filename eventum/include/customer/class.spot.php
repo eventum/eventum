@@ -1642,5 +1642,98 @@ class Spot_Customer_Backend
         );
         return $levels;
     }
+
+
+    /**
+     * Method used to send an expiration notice to the MySQL sales team and the
+     * customer contact.
+     *
+     * @access  public
+     * @param   integer $contact_id The customer contact ID
+     * @param   boolean $is_expired Whether this customer is expired or not
+     * @return  void
+     */
+    function sendExpirationNotice($contact_id, $is_expired = FALSE)
+    {
+        $type = 'expired_customer';
+        // two emails, add the sales@ blurb only when sending the email to the sales team
+        list($contact_email, $void, $contact_name) = $this->getContactLoginDetails($contact_id);
+        $to = Mail_API::getFormattedName($contact_name, $contact_email);
+        $emails = array(
+            'customer' => $to,
+            'sales'    => '"MySQL Sales Team" <sales@mysql.com>'
+        );
+
+        $data = $this->getContractDetails($contact_id, false);
+        $company_name = $data['company_name'];
+        $data['customer_grace_period'] = $this->_getExpirationOffset();
+
+        foreach ($emails as $email_type => $to) {
+            if ($email_type == 'sales') {
+                $show_sales_blurb = true;
+            } else {
+                $show_sales_blurb = false;
+            }
+            // open text template
+            $tpl = new Template_API;
+            $tpl->setTemplate('notifications/' . $type . '.tpl.text');
+            $tpl->bulkAssign(array(
+                "data"             => $data,
+                "is_expired"       => $is_expired,
+                "show_sales_blurb" => $show_sales_blurb
+            ));
+            $text_message = $tpl->getTemplateContents();
+
+            @include_once(APP_PEAR_PATH . 'Mail/mime.php');
+            $setup = Mail_API::getSMTPSettings();
+            $headers['To'] = $to;
+            $headers['From'] = $setup["from"];
+            $headers['Subject'] = "Login Attempt by Expired Support Customer (" . $company_name . ")";
+            $mime = new Mail_mime("\r\n");
+            $hdrs = $mime->headers($headers);
+            Mail_Queue::add($to, $hdrs, $text_message, 1);
+        }
+    }
+
+
+    /**
+     * Checks whether the given technical contact ID is allowed in the current
+     * support contract or not.
+     *
+     * @access  public
+     * @param   integer $customer_contact_id The customer technical contact ID
+     * @return  boolean
+     */
+    function isAllowedSupportContact($customer_contact_id)
+    {
+        $stmt = "SELECT
+                    COUNT(*)
+                 FROM
+                    support A,
+                    cnt_support B,
+                    cust_role C
+                 WHERE
+                    A.support_no=B.support_no AND
+                    B.cust_no=C.cust_no AND
+                    C.up_cust_no=A.cust_no AND
+                    C.cust_no=$customer_contact_id AND
+                    A.status <> 'Cancelled' AND
+                    NOW() <= (A.enddate + INTERVAL " . $this->_getExpirationOffset() . " DAY)";
+        $res = $GLOBALS["customer_db"]->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            if (empty($res)) {
+                return false;
+            } else {
+                if ($res > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
 }
 ?>
