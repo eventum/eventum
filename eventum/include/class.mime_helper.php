@@ -61,6 +61,29 @@ include_once(APP_PEAR_PATH . "Mail/mimeDecode.php");
 class Mime_Helper
 {
     /**
+     * Method used to get charset from raw email.
+     *
+     * @access  public
+     * @param   string $input The full body of the message
+     * @return  string charset extracted from Content-Type header of email.
+     */
+    function getCharacterSet($input)
+    {
+        $structure = Mime_Helper::decode($input, false, false);
+        if (empty($structure)) {
+            return false;
+        }
+
+        $content_type = $structure->headers['content-type'];
+        if (preg_match('/charset\s*=\s*(["\'])?([-\w\d]+)(\1)?;?/i', $content_type, $matches)) {
+            return $matches[2];
+        }
+
+        return false;
+    }
+
+
+    /**
      * Returns the appropriate message body for a given MIME-based decoded
      * structure.
      *

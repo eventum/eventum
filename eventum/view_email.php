@@ -52,10 +52,10 @@ if (!Issue::canAccess($issue_id, Auth::getUserID())) {
 }
 
 $tpl->bulkAssign(array(
-    "email"       => $email,
-    "issue_id"    => $issue_id,
-    'extra_title' => "Email #" . $HTTP_GET_VARS['id'] . ": " . $email['sup_subject'],
-    'email_accounts'    =>  Email_Account::getAssocList(array_keys(Project::getAssocList(Auth::getUserID())), true)
+    "email"           => $email,
+    "issue_id"        => $issue_id,
+    'extra_title'     => "Email #" . $HTTP_GET_VARS['id'] . ": " . $email['sup_subject'],
+    'email_accounts'  =>  Email_Account::getAssocList(array_keys(Project::getAssocList(Auth::getUserID())), true)
 ));
 
 if (@$HTTP_GET_VARS['cat'] == 'list_emails') {
@@ -74,6 +74,12 @@ if (@$HTTP_GET_VARS['cat'] == 'list_emails') {
         'previous' => $sides['previous'],
         'next'     => $sides['next']
     ));
+}
+
+// set the page charset to whatever is set on this email
+$charset = Mime_Helper::getCharacterSet($email['seb_full_email']);
+if (!empty($charset)) {
+    header("Content-Type: text/html; charset=" . $charset);
 }
 
 $tpl->displayTemplate();

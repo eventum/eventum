@@ -17,6 +17,7 @@ Eventum Issue Tracking System
 - Changed the behavior of the view issue screen to automatically hide tables without any data (João)
 - Fixed some caching problems that might be triggered when customizing the columns to be displayed at a project level (João)
 - Fixed the report form so that it dynamically focus the correct field depending on what form fields are hidden (João)
+- Changed the view email screen to set the page character set to whatever is set on the underlying email content (Elan Ruusamäe)
 
 01 Mar 2005, Version 1.5
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
