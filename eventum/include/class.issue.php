@@ -1519,6 +1519,8 @@ class Issue
             return -1;
         } else {
             $new_issue_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $has_TAM = false;
+            $has_RR = false;
             // log the creation of the issue
             History::add($new_issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
 
@@ -1544,10 +1546,7 @@ class Issue
                     Issue::addUserAssociation($new_issue_id, $manager_usr_id, false);
                     History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
                 }
-                // XXX: need a workflow entry for this next line...
-                /*
-                Issue::setStatus($new_issue_id, Status::getStatusID('Assigned'));
-                */
+                $has_TAM = true;
             }
             // now add the user/issue association
             $users = array();
@@ -1562,17 +1561,14 @@ class Issue
             } else {
                 // only use the round-robin feature if this new issue was not 
                 // already assigned to a customer account manager
-                if (!isset($manager_usr_ids)) {
+                if (@count($manager_usr_ids) < 1) {
                     $assignee = Round_Robin::getNextAssignee($prj_id);
                     // assign the issue to the round robin person
                     if (!empty($assignee)) {
                         Issue::addUserAssociation($new_issue_id, $assignee, false);
                         History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
-                        // XXX: need a workflow entry for this next line...
-                        /*
-                        Issue::setStatus($new_issue_id, Status::getStatusID('Assigned'));
-                        */
                         $users[] = $assignee;
+                        $has_RR = true;
                     }
                 }
             }
@@ -1584,6 +1580,9 @@ class Issue
             Notification::notifyAutoCreatedIssue($new_issue_id, $sender);
             // also notify any users that want to receive emails anytime a new issue is created
             Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
+            
+            Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
+            
             return $new_issue_id;
         }
     }
@@ -1673,6 +1672,8 @@ class Issue
             return -1;
         } else {
             $new_issue_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $has_TAM = false;
+            $has_RR = false;
             $info = User::getNameEmail($usr_id);
             // log the creation of the issue
             History::add($new_issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
@@ -1704,15 +1705,13 @@ class Issue
             }
 
             // only assign the issue to an user if the associated customer has any technical account managers
+            $has_TAM = false;
             if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
                 foreach ($manager_usr_ids as $manager_usr_id) {
                     Issue::addUserAssociation($new_issue_id, $manager_usr_id, false);
                     History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
                 }
-                // XXX: need a workflow entry for this next line...
-                /*
-                Issue::setStatus($new_issue_id, Status::getStatusID('Assigned'));
-                */
+                $has_TAM = true;
             }
             // now add the user/issue association (aka assignments)
             $users = array();
@@ -1727,16 +1726,13 @@ class Issue
             } else {
                 // only use the round-robin feature if this new issue was not 
                 // already assigned to a customer account manager
-                if (!isset($manager_usr_ids)) {
+                if (@count($manager_usr_ids) < 1) {
                     $assignee = Round_Robin::getNextAssignee($prj_id);
                     // assign the issue to the round robin person
                     if (!empty($assignee)) {
                         Issue::addUserAssociation($new_issue_id, $assignee, false);
                         History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
-                        // XXX: need a workflow entry for this next line...
-                        /*
-                        Issue::setStatus($new_issue_id, Status::getStatusID('Assigned'));
-                        */
+                        $has_RR = true;
                     }
                 }
             }
@@ -1804,6 +1800,9 @@ class Issue
             }
             // also notify any users that want to receive emails anytime a new issue is created
             Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
+            
+            Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
+            
             return $new_issue_id;
         }
     }
