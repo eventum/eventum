@@ -1399,15 +1399,20 @@ class Issue
      */
     function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment, $date)
     {
+        $sender_email = Mail_API::getEmailAddress($sender);
         if (Customer::hasCustomerIntegration($prj_id)) {
-            $sender_email = Mail_API::getEmailAddress($sender);
             list($customer_id, $customer_contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
             if (!empty($customer_id)) {
                 $contact = Customer::getContactDetails($prj_id, $customer_contact_id);
                 $reporter = User::getUserIDByContactID($customer_contact_id);
                 $contact_timezone = Date_API::getPreferredTimezone($reporter);
             } else {
-                $reporter = APP_SYSTEM_USER_ID;
+                $sender_usr_id = User::getUserIDByEmail($sender_email);
+                if (!empty($sender_usr_id)) {
+                    $reporter = $sender_usr_id;
+                } else {
+                    $reporter = APP_SYSTEM_USER_ID;
+                }
             }
         } else {
             $customer_id = FALSE;
@@ -1946,7 +1951,8 @@ class Issue
             "iss_sta_id",
             "iss_created_date",
             "iss_summary",
-            "last_action_date"
+            "last_action_date",
+            "usr_full_name"
         );
         $items = array(
             "links"  => array(),
@@ -2042,9 +2048,11 @@ class Issue
                     iss_last_internal_action_type,
                     " . Issue::getLastActionFields() . ",
                     IF(iss_last_internal_action_date > iss_last_public_action_date, 'internal', 'public') AS action_type,
-                    iss_private
+                    iss_private,
+                    usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
         if (!empty($options["users"])) {
             $stmt .= "
                  LEFT JOIN
@@ -2280,7 +2288,7 @@ class Issue
         $prj_id = Auth::getCurrentProject();
         $role_id = User::getRoleByUser($usr_id, $prj_id);
 
-        $stmt = '';
+        $stmt = ' AND iss_usr_id = usr_id';
         if (User::getRole($role_id) == "Customer") {
             $stmt .= " AND iss_customer_id=" . User::getCustomerID($usr_id);
         } elseif (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
@@ -2398,7 +2406,8 @@ class Issue
                     iss_id,
                     " . Issue::getLastActionFields() . "
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
         if (!empty($options["users"])) {
             $stmt .= "
                  LEFT JOIN
