@@ -50,36 +50,36 @@ $types = array(
 );
 
 
-if (count(@$HTTP_POST_VARS["start"]) > 0 &&
-        (@$HTTP_POST_VARS["start"]["Year"] != 0) &&
-        (@$HTTP_POST_VARS["start"]["Month"] != 0) &&
-        (@$HTTP_POST_VARS["start"]["Day"] != 0)) {
-    $start_date = join("-", $HTTP_POST_VARS["start"]);
+if (count(@$_REQUEST["start"]) > 0 &&
+        (@$_REQUEST["start"]["Year"] != 0) &&
+        (@$_REQUEST["start"]["Month"] != 0) &&
+        (@$_REQUEST["start"]["Day"] != 0)) {
+    $start_date = join("-", $_REQUEST["start"]);
 } else {
     // if empty start date, set to be a month ago
     $start_date = date("Y-m-d", time() - MONTH);
 }
-if (count(@$HTTP_POST_VARS["end"]) > 0 &&
-        (@$HTTP_POST_VARS["end"]["Year"] != 0) &&
-        (@$HTTP_POST_VARS["end"]["Month"] != 0) &&
-        (@$HTTP_POST_VARS["end"]["Day"] != 0)) {
-    $end_date = join("-", $HTTP_POST_VARS["end"]);
+if (count(@$_REQUEST["end"]) > 0 &&
+        (@$_REQUEST["end"]["Year"] != 0) &&
+        (@$_REQUEST["end"]["Month"] != 0) &&
+        (@$_REQUEST["end"]["Day"] != 0)) {
+    $end_date = join("-", $_REQUEST["end"]);
 } else {
     $end_date = date("Y-m-d");
 }
 
 
-if (!empty($HTTP_POST_VARS["interval"])) {
-    $data = Report::getWorkloadByDateRange($HTTP_POST_VARS["interval"], $HTTP_POST_VARS["type"], $start_date, $end_date);
+if (!empty($_REQUEST["interval"])) {
+    $data = Report::getWorkloadByDateRange($_REQUEST["interval"], $_REQUEST["type"], $start_date, $end_date);
     Session::set("workload_date_range_data", $data);
     $tpl->assign("data", $data);
   //  echo "<pre>";print_r($data);echo "</pre>";
 }
 
 $tpl->assign(array(
-    "interval"  =>  @$HTTP_POST_VARS["interval"],
+    "interval"  =>  @$_REQUEST["interval"],
     "types" =>  $types,
-    "type"  =>  @$HTTP_POST_VARS["type"],
+    "type"  =>  @$_REQUEST["type"],
     "start_date"    =>  $start_date,
     "end_date"  =>  $end_date
 ));

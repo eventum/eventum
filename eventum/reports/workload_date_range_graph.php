@@ -55,7 +55,7 @@ if (empty($data)) {
     exit;
 }
 
-switch ($HTTP_GET_VARS["interval"]) {
+switch ($_REQUEST["interval"]) {
     case "dow":
         $x_title = "Day of Week";
         break;
@@ -73,23 +73,23 @@ switch ($HTTP_GET_VARS["interval"]) {
         break;
 }
 
-if ($HTTP_GET_VARS["graph"] == "issue") {
+if ($_REQUEST["graph"] == "issue") {
     $plots = array_values($data["issues"]["points"]);
     $graph_title = "Issues by created date";
     $labels = array_keys($data["issues"]["points"]);
-} elseif ($HTTP_GET_VARS["graph"] == "email") {
+} elseif ($_REQUEST["graph"] == "email") {
     $plots = array_values($data["emails"]["points"]);
     $graph_title = "Emails by sent date";
     $labels = array_keys($data["emails"]["points"]);
 }
-$graph_title .= " " . $HTTP_GET_VARS["start_date"] . " through " . $HTTP_GET_VARS["end_date"];
+$graph_title .= " " . $_REQUEST["start_date"] . " through " . $_REQUEST["end_date"];
 
 if (count($plots) < 1) {
     Header("Location: ../images/no_data.gif");
     exit;
 }
 
-if (@$HTTP_GET_VARS["type"] == "pie") {
+if (@$_REQUEST["type"] == "pie") {
     
     // A new graph
     $graph = new PieGraph(500,300,"auto");
