@@ -311,3 +311,21 @@ CREATE TABLE eventum_customer_account_manager (
 
 
 ALTER TABLE eventum_project ADD COLUMN prj_workflow_backend varchar(64) NULL DEFAULT NULL;
+
+CREATE TABLE eventum_faq (
+  faq_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  faq_prj_id INT(11) UNSIGNED NOT NULL,
+  faq_usr_id INT(11) UNSIGNED NOT NULL,
+  faq_created_date DATETIME NOT NULL,
+  faq_updated_date DATETIME NULL,
+  faq_title VARCHAR(255) NOT NULL,
+  faq_message LONGTEXT NOT NULL,
+  PRIMARY KEY (faq_id),
+  UNIQUE KEY faq_title (faq_title)
+);
+
+CREATE TABLE eventum_faq_support_level (
+  fsl_faq_id INT(11) UNSIGNED NOT NULL,
+  fsl_support_level_id INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (fsl_faq_id, fsl_support_level_id)
+);

@@ -817,3 +817,23 @@ CREATE TABLE %TABLE_PREFIX%project_status_date (
   PRIMARY KEY (psd_id),
   UNIQUE KEY (psd_prj_id, psd_sta_id)
 );
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%faq;
+CREATE TABLE %TABLE_PREFIX%faq (
+  faq_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  faq_prj_id INT(11) UNSIGNED NOT NULL,
+  faq_usr_id INT(11) UNSIGNED NOT NULL,
+  faq_created_date DATETIME NOT NULL,
+  faq_updated_date DATETIME NULL,
+  faq_title VARCHAR(255) NOT NULL,
+  faq_message LONGTEXT NOT NULL,
+  PRIMARY KEY (faq_id),
+  UNIQUE KEY faq_title (faq_title)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%faq_support_level;
+CREATE TABLE %TABLE_PREFIX%faq_support_level (
+  fsl_faq_id INT(11) UNSIGNED NOT NULL,
+  fsl_support_level_id INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (fsl_faq_id, fsl_support_level_id)
+);
