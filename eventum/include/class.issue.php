@@ -1916,7 +1916,7 @@ class Issue
             "iss_pri_id",
             "iss_id",
             "iss_customer_id",
-            "iss_prc_id",
+            "prc_title",
             "iss_sta_id",
             "iss_created_date",
             "iss_summary",
@@ -2009,6 +2009,7 @@ class Issue
                     sta_id,
                     iqu_status,
                     grp_name `group`,
+                    pre_title,
                     iss_last_public_action_date,
                     iss_last_public_action_type,
                     iss_last_internal_action_date,
@@ -2047,6 +2048,10 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  ON
                     iss_prc_id=prc_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                 ON
+                    iss_pre_id = pre_id
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  ON
