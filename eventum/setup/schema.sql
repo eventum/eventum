@@ -917,3 +917,19 @@ CREATE TABLE %TABLE_PREFIX%issue_quarantine (
     INDEX(iqu_expiration)
 );
 
+DROP TABLE IF EXISTS %TABLE_PREFIX%link_filter;
+CREATE TABLE %TABLE_PREFIX%link_filter (
+  lfi_id int(11) unsigned NOT NULL auto_increment,
+  lfi_pattern varchar(255) NOT NULL,
+  lfi_replacement varchar(255) NOT NULL,
+  lfi_usr_role tinyint(9) NOT NULL DEFAULT 0,
+  lfi_description varchar(255) NULL,
+  PRIMARY KEY  (lfi_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%project_link_filter;
+CREATE TABLE %TABLE_PREFIX%project_link_filter (
+  plf_prj_id int(11) NOT NULL,
+  plf_lfi_id int(11) NOT NULL,
+  PRIMARY KEY  (plf_prj_id, plf_lfi_id)
+);

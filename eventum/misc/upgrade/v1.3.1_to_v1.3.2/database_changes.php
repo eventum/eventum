@@ -34,6 +34,20 @@ if (!in_array('cno_prj_id', $columns)) {
 
 $stmts[] = 'ALTER TABLE eventum_issue DROP COLUMN iss_lock_usr_id';
 
+$stmts[] = 'CREATE TABLE eventum_link_filter (
+  lfi_id int(11) unsigned NOT NULL auto_increment,
+  lfi_pattern varchar(255) NOT NULL,
+  lfi_replacement varchar(255) NOT NULL,
+  lfi_usr_role tinyint(9) NOT NULL DEFAULT 0,
+  lfi_description varchar(255) NULL,
+  PRIMARY KEY  (lfi_id)
+)';
+$stmts[] = 'CREATE TABLE eventum_project_link_filter (
+  plf_prj_id int(11) NOT NULL,
+  plf_lfi_id int(11) NOT NULL,
+  PRIMARY KEY  (plf_prj_id, plf_lfi_id)
+)';
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
