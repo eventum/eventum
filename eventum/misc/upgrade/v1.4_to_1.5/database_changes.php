@@ -24,6 +24,8 @@ $stmts[] = "ALTER TABLE eventum_project ADD COLUMN prj_segregate_reporter tinyin
 
 $stmts[] = "ALTER TABLE eventum_issue ADD COLUMN iss_private tinyint(1) NOT NULL DEFAULT 0";
 
+$stmts[] = "ALTER TABLE eventum_email_draft ADD COLUMN emd_status enum('pending', 'edited', 'sent') NOT NULL DEFAULT 'pending' AFTER emd_sup_id";
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
