@@ -601,15 +601,18 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
      * Returns the list of customer IDs for a given support contract level.
      *
      * @access  public
-     * @param   integer $support_level_id The support level ID
+     * @param   integer/array $support_level_id The support level ID or an array of support level IDs
      * @param   mixed $support_options An integer or array of integers indicating various options to get customers with.
      * @return  array The list of customer IDs
      */
     function getListBySupportLevel($support_level_id, $support_options = false)
     {
+        if (!is_array($support_level_id)) {
+            $support_level_id = array($support_level_id);
+        }
         $assoc = array();
         foreach ($this->data as $company_id => $details) {
-            if ($details["support_level_id"] == $support_level_id) {
+            if (in_array($details["support_level_id"], $support_level_id)) {
                 $assoc[] = $company_id;
             }
         }
