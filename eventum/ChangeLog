@@ -41,6 +41,7 @@ Eventum Issue Tracking System
 - Apply encoding fixes in more places (Elan Ruusamäe)
 - Silence console errors when adding new directory to CVS (Elan Ruusamäe)
 - If there is an error connecting to mail server when downloading email, release lock (Bryan)
+- Added workload by date range report (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
