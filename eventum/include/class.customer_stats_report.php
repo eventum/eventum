@@ -772,6 +772,6 @@ class Customer_Stats_Report
 
 // benchmarking the included file (aka setup time)
 if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Report Class');
+    $GLOBALS['bench']->setMarker('Included Customer_Stats_Report Class');
 }
 ?>
