@@ -269,6 +269,8 @@ class Eventum_Bot
                 foreach ($channels as $channel) {
                     if ($res[$i]['ino_iss_id'] > 0) {
                         $res[$i]['ino_message'] .= ' - ' . APP_BASE_URL . 'view.php?id=' . $res[$i]['ino_iss_id'];
+                    } elseif (substr($res[$i]['ino_message'], 0, strlen('New Pending Email')) == 'New Pending Email') {
+                        $res[$i]['ino_message'] .= ' - ' . APP_BASE_URL . 'emails.php';
                     }
                     $this->sendResponse($irc, $channel, $res[$i]['ino_message']);
                 }
