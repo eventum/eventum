@@ -495,7 +495,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         $assoc = array();
         foreach ($this->data as $company_id => $details) {
             foreach ($details['contacts'] as $contact) {
-                if ($details['contacts']['contact_id'] == $contact_id) {
+                if ($contact['contact_id'] == $contact_id) {
                     return $contact;
                 }
             }
