@@ -502,7 +502,7 @@ class Note
                 'full_email'     => @$blocked_message,
                 'has_attachment' => $has_attachments
             );
-            // need to check spot for customer association
+            // need to check for a possible customer association
             if (!empty($structure->headers['from'])) {
                 $details = Email_Account::getDetails($email_account_id);
                 // check from the associated project if we need to lookup any customers by this email address
