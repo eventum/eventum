@@ -74,11 +74,11 @@ $tpl->assign(array(
     "status"       => Status::getAssocStatusList($prj_id),
     "releases"     => $releases,
     "resolutions"  => Resolution::getAssocList(),
-    "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter')),
+    "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "issues"       => Issue::getColList(),
     "assoc_issues" => Issue::getAssocList(),
     "one_week_ts"  => time() + (7 * DAY),
-    "allow_unassigned_issues"   =>  $setup["allow_unassigned_issues"]
+    "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"]
 ));
 
 $tpl->displayTemplate();

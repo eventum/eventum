@@ -130,6 +130,14 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
 } elseif (@$HTTP_GET_VARS['cat'] == 'authorize_reply') {
     $res = Authorized_Replier::addUser($HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign('authorize_reply_result', $res);
+} elseif (@$HTTP_GET_VARS['cat'] == 'flag_incident') {
+    include_once(APP_INC_PATH . 'class.customer.php');
+    $res = Customer::flagIncident($HTTP_GET_VARS['iss_id']);
+    $tpl->assign('flag_incident_result', $res);
+} elseif (@$HTTP_GET_VARS['cat'] == 'unflag_incident') {
+    include_once(APP_INC_PATH . 'class.customer.php');
+    $res = Customer::unflagIncident($HTTP_GET_VARS['iss_id']);
+    $tpl->assign('unflag_incident_result', $res);
 }
 
 $tpl->assign("current_user_prefs", Prefs::get($usr_id));

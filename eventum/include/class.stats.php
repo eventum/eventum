@@ -337,7 +337,7 @@ class Stats
     function getAssocUser()
     {
         $prj_id = Auth::getCurrentProject();
-        $list = Project::getUserAssocList($prj_id, 'stats', User::getRoleID('Reporter'));
+        $list = Project::getUserAssocList($prj_id, 'stats', User::getRoleID('Customer'));
         $stats = array();
         foreach ($list as $usr_id => $usr_full_name) {
             $stmt = "SELECT

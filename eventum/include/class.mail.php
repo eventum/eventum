@@ -347,6 +347,21 @@ class Mail_API
 
 
     /**
+     * Method used to add an attachment to the message.
+     *
+     * @access  public
+     * @param   string $name The attachment name
+     * @param   string $data The attachment data
+     * @param   string $content_type The content type of the attachment
+     * @return  void
+     */
+    function addAttachment($name, $data, $content_type)
+    {
+        $this->mime->addAttachment($data, $content_type, $name, false);
+    }
+
+
+    /**
      * Removes the warning message contained in a message, so that certain users
      * don't receive that extra information as it may not be relevant to them.
      *

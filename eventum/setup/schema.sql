@@ -445,12 +445,13 @@ CREATE TABLE %TABLE_PREFIX%user (
   usr_role tinyint(1) unsigned NOT NULL default '1',
   usr_preferences longtext,
   usr_sms_email varchar(255) NULL,
+  usr_clocked_in tinyint(1) DEFAULT 0,
   PRIMARY KEY  (usr_id),
   UNIQUE KEY usr_email (usr_email),
   KEY usr_email_password (usr_email, usr_password)
 );
-INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (1, NOW(), '14589714398751513457adf349173434', 'system', 'system-account@example.com', 6, '');
-INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@example.com', 6, '');
+INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (1, NOW(), '14589714398751513457adf349173434', 'system', 'system-account@example.com', 7, '');
+INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@example.com', 7, '');
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%custom_field;
 CREATE TABLE %TABLE_PREFIX%custom_field (
@@ -563,23 +564,25 @@ INSERT INTO %TABLE_PREFIX%project_status (prs_prj_id, prs_sta_id) VALUES (1, 6);
 DROP TABLE IF EXISTS %TABLE_PREFIX%customer_note;
 create table %TABLE_PREFIX%customer_note (
     cno_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    cno_prj_id int(11) unsigned NOT NULL,
     cno_customer_id INT(11) UNSIGNED NOT NULL,
     cno_created_date DATETIME NOT NULL,
     cno_updated_date DATETIME NULL,
     cno_note TEXT,
     primary key(cno_id),
-    unique(cno_customer_id)
+    unique(cno_prj_id, cno_customer_id)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%customer_account_manager;
 CREATE TABLE %TABLE_PREFIX%customer_account_manager (
   cam_id int(11) unsigned NOT NULL auto_increment,
+  cam_prj_id int(11) unsigned NOT NULL,
   cam_customer_id int(11) unsigned NOT NULL,
   cam_usr_id int(11) unsigned NOT NULL,
   cam_type varchar(7) NOT NULL,
   PRIMARY KEY (cam_id),
   KEY cam_customer_id (cam_customer_id),
-  UNIQUE KEY cam_manager (cam_customer_id, cam_usr_id)
+  UNIQUE KEY cam_manager (cam_prj_id, cam_customer_id, cam_usr_id)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%reminder_level;

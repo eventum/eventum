@@ -97,7 +97,7 @@ if (empty($issue_id)) {
 
 $prj_id = Issue::getProjectID($issue_id);
 // check if the sender is allowed in this issue' project and if it is an internal user
-$users = Project::getUserEmailAssocList($prj_id, 'active');
+$users = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
 $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
 $user_emails = array_map('strtolower', array_values($users));
 if (!in_array($sender_email, $user_emails)) {

@@ -8,6 +8,12 @@ function viewDraft(draft_id, issue_id)
     var draftWin = window.open('send.php?cat=view_draft&issue_id=' + issue_id + '&id=' + draft_id, '_draft' + draft_id, features);
     draftWin.focus();
 }
+function createDraft(issue_id)
+{
+    var features = 'width=740,height=580,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var draftWin = window.open('send.php?cat=create_draft&issue_id=' + issue_id, '_createDraft', features);
+    draftWin.focus();
+}
 //-->
 </script>
 {/literal}
@@ -55,6 +61,13 @@ function viewDraft(draft_id, issue_id)
                 </td>
               </tr>
               {/section}
+              {if $current_role > $roles.reporter}
+              <tr>
+                <td colspan="5" bgcolor="{$internal_color}" align="center">
+                  <input type="button" value="Create Draft" class="button" onClick="javascript:createDraft({$smarty.get.id});">
+                </td>
+              </tr>
+              {/if}
             </table>
           </td>
         </tr>

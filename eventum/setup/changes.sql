@@ -270,7 +270,8 @@ ALTER TABLE eventum_email_account ADD COLUMN ema_issue_auto_creation_options tex
 
 # eventum 2.0!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111111111
 
-UPDATE eventum_user SET usr_role=usr_role+1 WHERE usr_role > 2;
+UPDATE eventum_user SET usr_role=usr_role+2 WHERE usr_role>3;
+UPDATE eventum_user SET usr_role=4 WHERE usr_role=3;
 
 ALTER TABLE eventum_project ADD COLUMN prj_customer_backend varchar(64) NULL;
 ALTER TABLE eventum_custom_filter ADD COLUMN cst_customer_email varchar(64) default NULL;
@@ -282,23 +283,29 @@ ALTER TABLE eventum_support_email ADD COLUMN sup_customer_id int(11) unsigned NU
 ALTER TABLE eventum_user ADD COLUMN usr_customer_id int(11) unsigned NULL default NULL;
 ALTER TABLE eventum_user ADD COLUMN usr_customer_contact_id int(11) unsigned NULL default NULL;
 
+ALTER TABLE eventum_user ADD COLUMN usr_clocked_in tinyint(1) DEFAULT 0;
+
+DROP TABLE IF EXISTS eventum_customer_note;
 create table eventum_customer_note (
     cno_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    cno_prj_id int(11) unsigned NOT NULL,
     cno_customer_id INT(11) UNSIGNED NOT NULL,
     cno_created_date DATETIME NOT NULL,
     cno_updated_date DATETIME NULL,
     cno_note TEXT,
     primary key(cno_id),
-    unique(cno_customer_id)
+    unique(cno_prj_id, cno_customer_id)
 );
 
+DROP TABLE IF EXISTS eventum_customer_account_manager;
 CREATE TABLE eventum_customer_account_manager (
   cam_id int(11) unsigned NOT NULL auto_increment,
+  cam_prj_id int(11) unsigned NOT NULL,
   cam_customer_id int(11) unsigned NOT NULL,
   cam_usr_id int(11) unsigned NOT NULL,
   cam_type varchar(7) NOT NULL,
   PRIMARY KEY (cam_id),
   KEY cam_customer_id (cam_customer_id),
-  UNIQUE KEY cam_manager (cam_customer_id, cam_usr_id)
+  UNIQUE KEY cam_manager (cam_prj_id, cam_customer_id, cam_usr_id)
 );
 

@@ -16,9 +16,9 @@ New Issues Assigned:  {$data.new_assigned_count}
 {/section}
 Total Issues:         {$data.issues|@count}
 
-Total Phone Calls:    {$data.phone_count}
 Eventum Emails:       {$data.email_count.associated}
 Other Emails:         {$data.email_count.other}
+Total Phone Calls:    {$data.phone_count}
 Total Notes:          {$data.note_count}
 
 Phone Time Spent:     {if $data.time_tracking.Telephone_Discussion.formatted_time == ''}00h 00m{else}{$data.time_tracking.Telephone_Discussion.formatted_time}{/if}

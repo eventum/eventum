@@ -531,6 +531,15 @@ class Support
                 //  -> create new issue and associate current email with it
                 $should_create_issue = true;
             }
+            // only create a new issue if this email is coming from a known customer
+            if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes')) {
+                $sender_email = Mail_API::getEmailAddress($email->fromaddress);
+                include_once(APP_INC_PATH . "class.customer.php");
+                list($customer_id,) = Customer::getCustomerIDByEmails(array($sender_email));
+                if (empty($customer_id)) {
+                    $should_create_issue = false;
+                }
+            }
             // check whether we need to create a new issue or not
             if (($info['ema_issue_auto_creation'] == 'enabled') && ($should_create_issue)) {
                 $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
@@ -544,6 +553,22 @@ class Support
                 $reference_sup_id = Support::getIDByMessageID($associate_email);
                 Support::associate(APP_SYSTEM_USER_ID, $t['issue_id'], array($reference_sup_id));
             }
+            // need to check spot for customer association
+            if (!empty($email->fromaddress)) {
+                $details = Email_Account::getDetails($info['ema_id']);
+                if (@$details['ema_check_spot']) {
+                    // get the sender's email address and check for any customer contact association in spot
+                    $sender_email = Mail_API::getEmailAddress($email->fromaddress);
+                    include_once(APP_INC_PATH . "class.customer.php");
+                    list($customer_id,) = Customer::getCustomerIDByEmails(array($sender_email));
+                    if (!empty($customer_id)) {
+                        $t['customer_id'] = $customer_id;
+                    }
+                }
+            }
+            if (empty($t['customer_id'])) {
+                $t['customer_id'] = "NULL";
+            }
             if (empty($t['issue_id'])) {
                 $t['issue_id'] = 0;
             }
@@ -552,8 +577,11 @@ class Support
                 // only extract the attachments from the email if we are associating the email to an issue
                 if (!empty($t['issue_id'])) {
                     Support::extractAttachments($t['issue_id'], $message);
-                    // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
-                    Notification::notifyNewEmail(APP_SYSTEM_USER_ID, $t["issue_id"], $structure, $message, false);
+                    // if the issue was auto created, don't broadcast the email to the notification list
+                    if (($info['ema_issue_auto_creation'] != 'enabled') || (!$should_create_issue)) {
+                        // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
+                        Notification::notifyNewEmail(APP_SYSTEM_USER_ID, $t["issue_id"], $structure, $message, false);
+                    }
                     Issue::markAsUpdated($t["issue_id"]);
                 }
                 // need to delete the message from the server?
@@ -658,7 +686,8 @@ class Support
         if (!empty($usr_id)) {
             $stmt .= "\nsup_usr_id,\n";
         }
-        $stmt .= "  sup_message_id,
+        $stmt .= "  sup_customer_id,
+                    sup_message_id,
                     sup_date,
                     sup_from,
                     sup_to,
@@ -672,6 +701,7 @@ class Support
             $stmt .= "\n$usr_id,\n";
         }
         $stmt .= "  
+                    " . $row["customer_id"] . ",
                     '" . Misc::escapeString($row["message_id"]) . "',
                     '" . Misc::escapeString($row["date"]) . "',
                     '" . Misc::escapeString($row["from"]) . "',
@@ -816,6 +846,7 @@ class Support
 
         $fields = array(
             "sup_from",
+            "sup_customer_id",
             "sup_date",
             "sup_to",
             "sup_iss_id",
@@ -863,6 +894,7 @@ class Support
                     sup_id,
                     sup_ema_id,
                     sup_iss_id,
+                    sup_customer_id,
                     sup_from,
                     sup_date,
                     sup_to,
@@ -890,6 +922,16 @@ class Support
                 "info" => ""
             );
         } else {
+            $customer_ids = array();
+            for ($i = 0; $i < count($res); $i++) {
+                if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
+                    $customer_ids[] = $res[$i]['sup_customer_id'];
+                }
+            }
+            if (count($customer_ids) > 0) {
+                include_once(APP_INC_PATH . "class.customer.php");
+                $company_titles = Customer::getTitles($customer_ids);
+            }
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["sup_date"] = Date_API::getFormattedDate($res[$i]["sup_date"]);
                 $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
@@ -899,6 +941,7 @@ class Support
                 } else {
                     $res[$i]["sup_to"] = Mime_Helper::fixEncoding(Mail_API::getName($res[$i]["sup_to"]));
                 }
+                @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
             }
             $total_pages = ceil($total_rows / $max);
             $last_page = $total_pages - 1;
@@ -984,12 +1027,15 @@ class Support
         $usr_id = User::getUserIDByEmail($sender_email);
         $unknown_user = false;
         if (empty($usr_id)) {
-            // if we couldn't find a real user by that email, just use the first issue assignee as the owner
-            $users = Issue::getAssignedUserIDs($issue_id);
-            if (count($users) > 0) {
-                $usr_id = $users[0];
-            } else {
-                // if we can't find any reasonable owner for this attachment, just use the current user
+            // try checking if a customer technical contact has this email associated with it
+            include_once(APP_INC_PATH . "class.customer.php");
+            list(,$contact_id) = Customer::getCustomerIDByEmails(array($sender_email));
+            if (!empty($contact_id)) {
+                $usr_id = User::getUserIDByContactID($contact_id);
+            }
+            if (empty($usr_id)) {
+                // if we couldn't find a real customer by that email, set the usr_id to be the system user id, 
+                // and store the actual email address in the unknown_user field.
                 $usr_id = APP_SYSTEM_USER_ID;
                 $unknown_user = $structure->headers['from'];
             }
@@ -1378,14 +1424,21 @@ class Support
         $is_allowed = true;
         $sender_usr_id = User::getUserIDByEmail($sender_email);
         if (empty($sender_usr_id)) {
-            if (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) {
+            include_once(APP_INC_PATH . 'class.customer.php');
+            // check for a customer contact with several email addresses
+            $customer_id = Issue::getCustomerID($issue_id);
+            $contact_emails = array_keys(Customer::getContactEmailAssocList($customer_id));
+            if ((!in_array($sender_email, $contact_emails)) &&
+                    (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
                 $is_allowed = false;
             }
         } else {
-            // check if this user is not in the assignment list for the current issue and
+            // check if this user is not a customer and 
+            // also not in the assignment list for the current issue and
             // also not in the authorized repliers list
             if ((!Authorized_Replier::isUserAuthorizedReplier($issue_id, $sender_usr_id)) &&
-                    (!Issue::isAssignedToUser($issue_id, $sender_usr_id))) {
+                    (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
+                    (User::getRoleByUser($sender_usr_id) != User::getRoleID('Customer'))) {
                 $is_allowed = false;
             }
         }
@@ -1484,7 +1537,7 @@ class Support
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($HTTP_POST_VARS['issue_id'])) {
             $user_info = User::getNameEmail(Auth::getUserID());
-            // check whether the current user is allowed to send this email to the notification list or not
+            // check whether the current user is allowed to send this email to customers or not
             if (!Support::isAllowedToEmail($HTTP_POST_VARS["issue_id"], $user_info['usr_email'])) {
                 // add the message body as a note
                 $HTTP_POST_VARS = array(
@@ -1508,7 +1561,7 @@ class Support
                 $recipients = array($HTTP_POST_VARS['to']);
                 $recipients = array_merge($recipients, Support::getRecipientsCC($HTTP_POST_VARS['cc']));
                 for ($i = 0; $i < count($recipients); $i++) {
-                    if (!Notification::isIssueRoutingSender($HTTP_POST_VARS["issue_id"], $recipients[$i])) {
+                    if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($HTTP_POST_VARS["issue_id"], $recipients[$i]))) {
                         Notification::manualInsert(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], Mail_API::getEmailAddress($recipients[$i]), array('emails'));
                     }
                 }
@@ -1562,6 +1615,7 @@ class Support
         }
 
         $t = array(
+            'customer_id'    => 'NULL', // XXX: not always, what if the current user is a customer?
             'issue_id'       => $HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : 0,
             'ema_id'         => $HTTP_POST_VARS['ema_id'],
             'message_id'     => $message_id,
@@ -1586,7 +1640,7 @@ class Support
                             'Outgoing email sent by ' . User::getFullName(Auth::getUserID()));
 
             // also update the last_response_date field for the associated issue
-            if (User::getRoleByUser(Auth::getUserID()) > User::getRoleID('Reporter')) {
+            if (User::getRoleByUser(Auth::getUserID()) > User::getRoleID('Customer')) {
                 $stmt = "UPDATE
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                          SET

@@ -41,6 +41,7 @@
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
 require_once(APP_SMARTY_PATH . "Smarty.class.php");
 require_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "class.customer.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.user.php");
 require_once(APP_INC_PATH . "class.setup.php");
@@ -160,9 +161,10 @@ class Template_API
         // create the list of projects
         $usr_id = Auth::getUserID();
         if ($usr_id != '') {
+            $prj_id = Auth::getCurrentProject();
             $info = User::getNameEmail($usr_id);
             $this->assign("active_projects", Project::getAssocList($usr_id));
-            $this->assign("current_project", Auth::getCurrentProject());
+            $this->assign("current_project", $prj_id);
             $this->assign("current_project_name", Auth::getCurrentProjectName());
             $this->assign("current_full_name", $info["usr_full_name"]);
             $this->assign("current_email", $info["usr_email"]);
@@ -174,6 +176,7 @@ class Template_API
             $this->assign("current_role", (integer) $role_id);
             $this->assign("current_role_name", User::getRole($role_id));
             $this->assign("roles", User::getAssocRoleIDs());
+            $this->assign("has_customer_integration", Customer::hasCustomerIntegration($prj_id));
         }
         $this->assign("app_setup", Setup::load());
         $this->assign("app_setup_path", APP_SETUP_PATH);

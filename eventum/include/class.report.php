@@ -460,42 +460,68 @@ class Report
      * @access  public
      * @param   integer $fld_id The id of the custom field.
      * @param   array $cfo_ids An array of option ids.
+     * @param   string $group_by How the data should be grouped.
      * @return  array An array of data.
      */
-    function getCustomFieldReport($fld_id, $cfo_ids)
+    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue")
     {
+        // get field values
         $stmt = "SELECT
-                    cfo_value,
-                    count(*)
-                FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
-                WHERE
-                    cfo_id = icf_value AND
-                    icf_fld_id = $fld_id AND
-                    cfo_id IN(" . join(",", $cfo_ids) . ")
-                GROUP BY
+                    cfo_id,
                     cfo_value
-                ORDER BY
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
+                 WHERE
+                    cfo_fld_id = $fld_id AND
+                    cfo_id IN(" . join(",", $cfo_ids) . ")
+                 ORDER BY
                     cfo_id";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        $options = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($options)) {
+            Error_Handler::logError(array($options->getMessage(), $options->getDebugInfo()), __FILE__, __LINE__);
             return array();
         }
-        $data = $res;
+        
+        if ($group_by == "customer") {
+            $group_by_field = "iss_customer_id";
+        } else {
+            $group_by_field = "iss_id";
+        }
+        
+        $data = array();
+        foreach ($options as $cfo_id => $value) {
+            $stmt = "SELECT
+                        COUNT(DISTINCT $group_by_field)
+                    FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    WHERE
+                        cfo_id = icf_value AND
+                        icf_iss_id = iss_id AND
+                        icf_fld_id = $fld_id AND
+                        cfo_id = $cfo_id";
+            $count = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            if (PEAR::isError($count)) {
+                Error_Handler::logError(array($count->getMessage(), $count->getDebugInfo()), __FILE__, __LINE__);
+                return array();
+            }
+            $data[$value] = $count;
+        }
+        
         
         // include count of all other values (used in pie chart)
         $stmt = "SELECT
-                    count(*)
+                    COUNT(DISTINCT $group_by_field)
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                 WHERE
                     cfo_id = icf_value AND
+                        icf_iss_id = iss_id AND
                     icf_fld_id = $fld_id AND
                     cfo_id NOT IN(" . join(",", $cfo_ids) . ")";
-        
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

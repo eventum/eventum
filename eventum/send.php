@@ -63,6 +63,13 @@ if (@$HTTP_POST_VARS["cat"] == "send_email") {
     if (!empty($HTTP_POST_VARS['draft_id'])) {
         Draft::remove($HTTP_POST_VARS['draft_id']);
     }
+    // enter the time tracking entry about this phone support entry
+    if (!empty($HTTP_POST_VARS['time_spent'])) {
+        $HTTP_POST_VARS['issue_id'] = $issue_id;
+        $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Email Discussion');
+        $HTTP_POST_VARS['summary'] = 'Time entry inserted when sending outgoing email.';
+        Time_Tracking::insertEntry();
+    }
 } elseif (@$HTTP_POST_VARS["cat"] == "save_draft") {
     $res = Draft::saveEmail($issue_id, $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"], $HTTP_POST_VARS["parent_id"]);
     $tpl->assign("draft_result", $res);
@@ -91,6 +98,8 @@ if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
         "email"           => $email,
         "parent_email_id" => $draft['emd_sup_id']
     ));
+} elseif (@$HTTP_GET_VARS['cat'] == 'create_draft') {
+    $tpl->assign("hide_email_buttons", "yes");
 } else {
     if (!@empty($HTTP_GET_VARS["id"])) {
         $email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]);

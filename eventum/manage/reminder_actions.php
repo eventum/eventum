@@ -68,7 +68,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     $tpl->assign("rem_title", Reminder::getTitle($rem_id));
     $tpl->assign("action_types", Reminder_Action::getActionTypeList());
     $tpl->assign("list", Reminder_Action::getAdminList($rem_id));
-    $tpl->assign("user_options", User::getActiveAssocList(User::getRoleID('Reporter')));
+    $tpl->assign("user_options", User::getActiveAssocList(User::getRoleID('Customer')));
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }

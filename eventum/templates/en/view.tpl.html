@@ -7,7 +7,17 @@
   <table width="400" align="center">
     <tr>
       <td>
-        &nbsp;<span class="default"><b>Error: The issue #{$smarty.get.id} could not be found in the currently selected project.</b>
+        &nbsp;<span class="default"><b>Error: The issue #{$smarty.get.id} could not be found.</b>
+        <br /><br />
+        &nbsp;<a class="link" href="javascript:history.go(-1);">Go Back</a></span>
+      </td>
+    </tr>
+  </table>
+{elseif $auth_customer == 'denied'}
+  <table width="500" align="center">
+    <tr>
+      <td>
+        &nbsp;<span class="default"><b>Sorry, you do not have the required privileges to view this issue.</b>
         <br /><br />
         &nbsp;<a class="link" href="javascript:history.go(-1);">Go Back</a></span>
       </td>
@@ -17,23 +27,33 @@
   {include file="view_form.tpl.html"}
   {include file="custom_fields.tpl.html"}
   {include file="top_link.tpl.html"}
+  {if $issue.iss_customer_id}
+  {include file="customer_info.tpl.html"}
+  {include file="top_link.tpl.html"}
+  {/if}
   {include file="attachments.tpl.html"}
   {include file="top_link.tpl.html"}
-  {if $app_setup.scm_integration == 'enabled'}
-    {include file="checkins.tpl.html"}
-    {include file="top_link.tpl.html"}
+  {if $current_role != $roles.customer and $app_setup.scm_integration == 'enabled'}
+  {include file="checkins.tpl.html"}
+  {include file="top_link.tpl.html"}
   {/if}
+  {if $current_role != $roles.customer}
   {include file="time_tracking.tpl.html"}
   {include file="top_link.tpl.html"}
   {include file="notes.tpl.html"}
   {include file="top_link.tpl.html"}
+  {/if}
+  {if $issue.iss_customer_id and $current_role != $roles.customer}
   {include file="phone_support.tpl.html"}
   {include file="top_link.tpl.html"}
+  {/if}
   {if $app_setup.support_email == 'enabled'}
-    {include file="email_drafts.tpl.html"}
-    {include file="top_link.tpl.html"}
-    {include file="support_emails.tpl.html"}
-    {include file="top_link.tpl.html"}
+    {if $current_role != $roles.customer}
+      {include file="email_drafts.tpl.html"}
+      {include file="top_link.tpl.html"}
+    {/if}
+  {include file="support_emails.tpl.html"}
+  {include file="top_link.tpl.html"}
   {/if}
 {/if}
 

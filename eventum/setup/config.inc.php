@@ -46,7 +46,11 @@ if (!function_exists('is_a')) {
 }
 
 // definitions of path related variables
-@define("APP_PATH", '%{APP_PATH}%');
+$app_path = '%{APP_PATH}%';
+if ((substr($app_path, -1) != '/') && ((substr($app_path, -2) != '\\')) {
+    $app_path .= '/';
+}
+@define("APP_PATH", $app_path);
 @define("APP_INC_PATH", APP_PATH . "include/");
 @define("APP_PEAR_PATH", APP_INC_PATH . "pear/");
 @define("APP_TPL_PATH", APP_PATH . "templates/");
@@ -102,7 +106,7 @@ if (stristr(PHP_OS, 'darwin')) {
 @define("APP_MIDDLE_COLOR", "#CACACA");
 @define("APP_DARK_COLOR", "#CACACA");
 @define("APP_CYCLE_COLORS", "#DDDDDD,#CACACA");
-@define("APP_INTERNAL_COLOR", APP_CELL_COLOR);
+@define("APP_INTERNAL_COLOR", "#9C494B");
 
 // define the user_id of system user
 @define("APP_SYSTEM_USER_ID", 1);

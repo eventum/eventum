@@ -192,7 +192,12 @@ class Mail_Queue
         $_headers = Mail_Queue::_getHeaders($text_headers, $body);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {
-            $headers[$header_names[$lowercase_name]] = $value;
+            $headers[$header_names[$lowercase_name]] = Mime_Helper::encode($value);
+        }
+        // mutt sucks, so let's remove the broken Mime-Version header and add the proper one
+        if (in_array('Mime-Version', array_keys($headers))) {
+            unset($headers['Mime-Version']);
+            $headers['MIME-Version'] = '1.0';
         }
         $mail =& Mail::factory('smtp', Mail_Queue::_getSMTPSettings());
         $res = $mail->send($recipient, $headers, $body);

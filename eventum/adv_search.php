@@ -44,12 +44,18 @@ $tpl->setTemplate("adv_search.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+// customers should not be able to see this page
+$role_id = User::getRoleByUser(Auth::getUserID());
+if ($role_id < User::getRoleID('Standard User')) {
+    Auth::redirect(APP_RELATIVE_URL . "list.php");
+}
+
 $prj_id = Auth::getCurrentProject();
 $tpl->assign(array(
     "cats"       => Category::getAssocList($prj_id),
     "priorities" => Misc::getPriorities(),
     "status"     => Status::getAssocStatusList($prj_id),
-    "users"      => Project::getUserAssocList($prj_id, 'active'),
+    "users"      => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "releases"   => Release::getAssocList($prj_id),
     "custom"     => Filter::getListing($prj_id)
 ));

@@ -61,7 +61,7 @@ function sendEmail(account_id, issue_id)
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr bgcolor="{$cell_color}">
-                {if $emails != "" and $current_role > $roles.viewer}
+                {if $emails != "" and $current_role > $roles.viewer and $current_role != $roles.customer}
                 <td width="5">
                   <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
                 </td>
@@ -78,7 +78,7 @@ function sendEmail(account_id, issue_id)
               {section name="i" loop=$emails}
               {cycle values=$cycle assign="row_color"}
               <tr>
-                {if $current_role > $roles.viewer}
+                {if $current_role > $roles.viewer and $current_role != $roles.customer}
                 <td align="center" bgcolor="{$row_color}">
                   <input type="checkbox" name="item[]" value="{$emails[i].sup_id}">
                 </td>
@@ -120,7 +120,7 @@ function sendEmail(account_id, issue_id)
                     <tr>
                       <td nowrap width="10">
                         <nobr>
-                        {if $emails != "" and $current_role > $roles.viewer}
+                        {if $emails != "" and $current_role != $roles.customer}
                         <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
                         <input type="submit" class="button" value="Remove Selected">
                         {/if}

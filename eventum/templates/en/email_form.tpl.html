@@ -65,10 +65,12 @@ email_responses[{$js_canned_responses[i].ere_id}] = "{$js_canned_responses[i].er
 {literal}
 function validate(f)
 {
-    if (isWhitespace(f.to.value)) {
-        alert('Please enter the recipient of this email.');
-        selectField(f, 'to');
-        return false;
+    if (f.to != null) {
+        if (isWhitespace(f.to.value)) {
+            alert('Please enter the recipient of this email.');
+            selectField(f, 'to');
+            return false;
+        }
     }
     if (isWhitespace(f.subject.value)) {
         alert('Please enter the subject of this email.');
@@ -80,7 +82,27 @@ function validate(f)
         selectField(f, 'message');
         return false;
     }
+{/literal}
+{if $current_role != $roles.customer and $issue_id != 0}
+    {if !$can_send_email}
+    var warning_msg = "WARNING: You are not assigned to this issue so your email will be blocked. Your blocked email will be converted ";
+    warning_msg += "to a note that can be recovered later.\n\nFor more information, please see the topic \"email blocking\" in help.";
+    {else}
+    var warning_msg = "WARNING: This email will be sent to all names on this issue's Notification List, including CUSTOMERS.\n";
+    warning_msg += "If you want the CUSTOMER to receive your message now, press OK.\n";
+    warning_msg += "Otherwise, to return to your editing window, press CANCEL.";
+    {/if}
+{literal}
+    if (!confirm(warning_msg)) {
+        return false;
+    } else {
+        return true;
+    }
+{/literal}
+{else}
     return true;
+{/if}
+{literal}
 }
 function setResponseBody(f)
 {
@@ -127,7 +149,7 @@ function setSignature(f)
 {if $smarty.get.cat == 'view_draft'}
 <input type="hidden" name="draft_id" value="{$draft_id}">
 {/if}
-{if $issue_lock_usr_id and $issue_lock_usr_id != $current_user_id}
+{if $issue_lock_usr_id and $issue_lock_usr_id != $current_user_id and $current_role != $roles.customer}
 <br />
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
@@ -186,7 +208,6 @@ function setSignature(f)
             {else}
                 <span class="default">Issue #{$issue_id} Notification List</span>
             {/if}
-           </td>
           </td>
         </tr>
         <tr>
@@ -198,6 +219,7 @@ function setSignature(f)
             {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users multiple="1"}', 'send_email_form', 'cc'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
           </td>
         </tr>
+        {if $issue_id and $current_role != $roles.customer}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             &nbsp;
@@ -207,6 +229,9 @@ function setSignature(f)
             <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('send_email_form', 'add_unknown');">Add Unknown Recipients to Issue Notification List</a>
           </td>
         </tr>
+        {else}
+        <input type="hidden" name="add_unknown" value="no">
+        {/if}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Subject: *</b>
@@ -218,7 +243,7 @@ function setSignature(f)
         </tr>
         <tr>
           <td bgcolor="{$light_color}" colspan="2">
-            {if $canned_responses}
+            {if $current_role != $roles.customer and $canned_responses != ''}
             <span class="default"><b>Canned Responses:</b></span>
             <select name="email_response" class="default">
               {html_options options=$canned_responses}
@@ -231,7 +256,7 @@ function setSignature(f)
             {include file="error_icon.tpl.html" field="message"}
           </td>
         </tr>
-        {if $issue_id}
+        {if $issue_id and $current_role != $roles.customer and $hide_email_buttons != 'yes'}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>New Status for Issue #{$issue_id}:</b>
@@ -242,18 +267,18 @@ function setSignature(f)
             </select>
           </td>
         </tr>
-        {/if}
-        {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_sig != 'yes'}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
-            &nbsp;
+            <b>Time Spent:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
-            <input type="checkbox" name="add_email_signature" value="yes" onClick="javascript:setSignature(this.form);">
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('send_email_form', 'add_email_signature');setSignature(getForm('send_email_form'));">Add Email Signature To Email Body</a>
+          <td bgcolor="{$light_color}">
+            <input type="text" size="5" name="time_spent" class="default"> <span class="default">(in minutes)</span>
           </td>
         </tr>
+        {elseif $issue_id and $current_role == $roles.customer}
+        <input type="hidden" name="new_status" value="{$new_status}">
         {/if}
+        {if $hide_email_buttons != 'yes'}
         <tr>
           <td colspan="2" bgcolor="{$cell_color}">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -264,16 +289,27 @@ function setSignature(f)
                   <input class="button" type="button" value="Cancel" onClick="javascript:window.close();">
                 </td>
                 {if $app_setup.spell_checker == 'enabled'}
-                <td align="right" width="150">
+                <td align="center" width="150">
                   <input class="button" type="button" value="Check Spelling" onClick="javascript:checkSpelling('send_email_form', 'message');">
+                </td>
+                {/if}
+                {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_sig != 'yes'}
+                <td class="default_white" align="right" width="150">
+                  <nobr>
+                  <input type="checkbox" name="add_email_signature" value="yes" onClick="javascript:setSignature(this.form);">
+                  <a id="white_link" class="white_link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('send_email_form', 'add_email_signature');setSignature(getForm('send_email_form'));">Add Email Signature</a>
+                  &nbsp;&nbsp;
+                  </nobr>
                 </td>
                 {/if}
               </tr>
             </table>
           </td>
         </tr>
+        {/if}
+        {if $issue_id and $current_role != $roles.customer}
         <tr>
-          <td bgcolor="{$dark_color}" colspan="2">
+          <td bgcolor="{if $hide_email_buttons == 'yes'}{$cell_color}{else}{$dark_color}{/if}" colspan="2">
             {if $smarty.get.cat == 'view_draft'}
             <input type="button" class="button" value="Save Draft Changes" onClick="javascript:updateDraft(this.form);">
             {else}
@@ -281,6 +317,7 @@ function setSignature(f)
             {/if}
           </td>
         </tr>
+        {/if}
         <tr>
           <td colspan="2" class="default">
             <b>* Required fields</b>

@@ -155,6 +155,14 @@ if (($setup['email_routing']['status'] == 'enabled') &&
     $body = Mail_API::stripWarningMessage($body);
 }
 
+$prj_id = Issue::getProjectID($issue_id);
+$staff_emails = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
+$staff_emails = array_map('strtolower', $staff_emails);
+// only allow staff users to use the magic cookie
+if (!in_array($sender_email, array_values($staff_emails))) {
+    $has_magic_cookie = false;
+}
+
 if (!$has_magic_cookie) {
     // check if sender email address is associated with a real user
     if ((!Notification::isBounceMessage($sender_email)) &&
@@ -226,9 +234,6 @@ if (Notification::isBounceMessage($sender_email)) {
         Issue::markAsUpdated($issue_id);
     }
 } else {
-    $prj_id = Issue::getProjectID($issue_id);
-    $staff_emails = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Reporter'));
-    $staff_emails = array_map('strtolower', $staff_emails);
     // handle the first_response_date / last_response_date fields
     if (in_array($sender_email, array_values($staff_emails))) {
         $stmt = "UPDATE

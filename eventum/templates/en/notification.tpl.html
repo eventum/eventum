@@ -2,9 +2,13 @@
 
 <br />
 
-{literal}
 <script language="JavaScript">
 <!--
+var allowed_emails = new Array();
+{section name="i" loop=$allowed_emails}
+allowed_emails[allowed_emails.length] = '{$allowed_emails[i]}';
+{/section}
+{literal}
 function validate(f)
 {
     if (isWhitespace(f.email.value)) {
@@ -12,7 +16,19 @@ function validate(f)
         selectField(f, 'email');
         return false;
     }
-    return true;
+    // extra check to see if the given email address is allowed in this issue or not
+    var email = getEmailFromAddress(f.email.value);
+    if (!inArray(email, allowed_emails)) {
+        var msg = "The given email address '" + f.email.value + "' is neither a known staff member or customer technical contact.";
+        msg += "\nAre you sure you want to add this address to the notification list?";
+        if (!confirm(msg)) {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        return true;
+    }
 }
 function addSelection(f, from, to)
 {

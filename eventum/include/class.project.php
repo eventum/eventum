@@ -670,6 +670,27 @@ class Project
 
 
     /**
+     * Method used to get a list of emails that are associated with a given 
+     * project and issue.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @return  array List of emails
+     */
+    function getAddressBookEmails($prj_id, $issue_id)
+    {
+        // XXX: eventually cache the results of this next function
+        $list = Project::getAddressBook($prj_id, $issue_id);
+        $emails = array();
+        foreach ($list as $address => $name) {
+            $emails[] = Mail_API::getEmailAddress($address);
+        }
+        return $emails;
+    }
+
+
+    /**
      * Method used to get a list of names and emails that are 
      * associated with a given project and issue.
      *
@@ -680,6 +701,10 @@ class Project
      */
     function getAddressBook($prj_id, $issue_id = FALSE)
     {
+        if ($issue_id) {
+            $customer_id = Issue::getCustomerID($issue_id);
+        }
+
         $stmt = "SELECT
                     usr_full_name,
                     usr_email
@@ -689,8 +714,15 @@ class Project
                  WHERE
                     pru_prj_id=$prj_id AND
                     pru_usr_id=usr_id AND
-                    usr_id != " . APP_SYSTEM_USER_ID . "
+                    usr_id != " . APP_SYSTEM_USER_ID;
+        if (!empty($customer_id)) {
+            $stmt .= " AND (usr_customer_id IS NULL OR usr_customer_id IN (0, $customer_id)) ";
+        } else {
+            $stmt .= " AND (usr_customer_id IS NULL OR usr_customer_id=0) ";
+        }
+        $stmt .= "
                  ORDER BY
+                    usr_customer_id DESC,
                     usr_full_name ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {

@@ -3,6 +3,27 @@
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));
 
+function inArray(value, stack)
+{
+    for (var i = 0; i < stack.length; i++) {
+        if (stack[i] == value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function getEmailFromAddress(str)
+{
+    var first_pos = str.lastIndexOf('<');
+    var second_pos = str.lastIndexOf('>');
+    if ((first_pos != -1) && (second_pos != -1)) {
+        return str.substring(first_pos+1, second_pos);
+    } else {
+        return str;
+    }
+}
+
 function closeAndRefresh()
 {
     opener.location.href = opener.location;
@@ -433,7 +454,9 @@ function checkRadio(form_name, field_name, num)
 {
     var f = getForm(form_name);
     var field = getFormElement(f, field_name, num);
-    field.checked = true;
+    if (!field.disabled) {
+        field.checked = true;
+    }
 }
 
 function toggleCheckbox(form_name, field_name, num)

@@ -5,6 +5,11 @@
 function clearFilters(f)
 {
     f.keywords.value = '';
+{/literal}
+    {if $has_customer_integration}
+    f.customer_email.value = '';
+    {/if}
+{literal}
     f.users.selectedIndex = 0;
     f.category.selectedIndex = 0;
     f.status.selectedIndex = 0;
@@ -37,7 +42,7 @@ function clearFilters(f)
 {/literal}
 var get_urls = new Array();
 {section name="i" loop=$csts}
-get_urls[{$csts[i].cst_id}] = 'keywords={$csts[i].cst_keywords|escape:"html"}&users={$csts[i].cst_users}&category={$csts[i].cst_iss_prc_id}&status={$csts[i].cst_iss_sta_id}&priority={$csts[i].cst_iss_pri_id}&release={$csts[i].cst_iss_pre_id}&rows={$csts[i].cst_rows}&sort_by={$csts[i].cst_sort_by}&sort_order={$csts[i].cst_sort_order}&hide_closed={$csts[i].cst_hide_closed}&show_authorized_issues={$csts[i].cst_show_authorized}&show_notification_list_issues={$csts[i].cst_show_notification_list}';
+get_urls[{$csts[i].cst_id}] = 'keywords={$csts[i].cst_keywords|escape:"html"}&customer_email={$csts[i].cst_customer_email|escape:"html"}&users={$csts[i].cst_users}&category={$csts[i].cst_iss_prc_id}&status={$csts[i].cst_iss_sta_id}&priority={$csts[i].cst_iss_pri_id}&release={$csts[i].cst_iss_pre_id}&rows={$csts[i].cst_rows}&sort_by={$csts[i].cst_sort_by}&sort_order={$csts[i].cst_sort_order}&hide_closed={$csts[i].cst_hide_closed}&show_authorized_issues={$csts[i].cst_show_authorized}&show_notification_list_issues={$csts[i].cst_show_notification_list}';
 {/section}
 {literal}
 function runCustomFilter(f)
@@ -92,6 +97,12 @@ function runCustomFilter(f)
             <span class="default">Keyword(s):</span><br />
             <input class="default" type="text" name="keywords" size="15" value="{$options.keywords|escape:"html"}">
           </td>
+          {if $has_customer_integration}
+          <td>
+            <span class="default">Customer Name/Email:</span><br />
+            <input class="default" type="text" name="customer_email" size="20" value="{$options.customer_email|escape:"html"}">
+          </td>
+          {/if}
           <td>
             <span class="default">Assigned:</span><br />
             <select name="users" class="default">

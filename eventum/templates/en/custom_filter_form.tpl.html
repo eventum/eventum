@@ -126,7 +126,7 @@ function validateForm(f)
     <td>
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
         <tr>
-          <td colspan="3" bgcolor="{$light_color}" class="default">
+          <td colspan="4" bgcolor="{$light_color}" class="default">
             <b>Advanced Search</b>
           </td>
           <td bgcolor="{$light_color}" align="right">
@@ -139,10 +139,16 @@ function validateForm(f)
         <input type="hidden" name="hidden2" value="">
         <input type="hidden" name="hidden3" value="">
         <tr>
-          <td>
+          <td{if not $has_customer_integration} colspan="2"{/if}>
             <span class="default">Keyword(s):</span><br />
             <input class="default" type="text" name="keywords" value="{$options.cst_keywords|escape:'html'}">
           </td>
+          {if $has_customer_integration}
+          <td>
+            <span class="default">Customer Email:</span><br />
+            <input class="default" type="text" name="customer_email" value="{$options.cst_customer_email|escape:'html'}">
+          </td>
+          {/if}
           <td>
             <span class="default">Assigned:</span><br />
             <select name="users" class="default">
@@ -195,7 +201,7 @@ function validateForm(f)
               <option value="iss_summary" {if $options.cst_sort_by == "iss_summary"}selected{/if}>Summary</option>
             </select>
           </td>
-          <td>
+          <td colspan="2">
             <span class="default">Sort Order:</span><br />
             <select name="sort_order" class="default">
               <option value="asc" {if $options.cst_sort_order == "asc"}selected{/if}>asc</option>
@@ -204,7 +210,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td colspan="4">
+          <td colspan="5">
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap class="default">
@@ -257,7 +263,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td colspan="4">
+          <td colspan="5">
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
@@ -293,7 +299,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td colspan="4">
+          <td colspan="5">
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
@@ -329,7 +335,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td colspan="4">
+          <td colspan="5">
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
@@ -365,7 +371,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td colspan="4">
+          <td colspan="5">
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
@@ -401,13 +407,13 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td colspan="4" align="center">
+          <td colspan="5" align="center">
             <input class="button" type="submit" value="Run Search">
             <input class="button" type="reset" value="Reset">
           </td>
         </tr>
         <tr>
-          <td colspan="4" align="center" bgcolor="{$light_color}">
+          <td colspan="5" align="center" bgcolor="{$light_color}">
             <span class="default">Search Title:</span>
             <input type="text" name="title" class="default" value="{$options.cst_title}">
             {include file="error_icon.tpl.html" field="title"}

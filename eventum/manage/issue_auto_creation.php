@@ -56,7 +56,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     $prj_id = Email_Account::getProjectID($ema_id);
 
     if (@$HTTP_POST_VARS["cat"] == "update") {
-        Email_Account::updateIssueAutoCreation($ema_id, $HTTP_POST_VARS['issue_auto_creation'], $HTTP_POST_VARS['options']);
+        @Email_Account::updateIssueAutoCreation($ema_id, $HTTP_POST_VARS['issue_auto_creation'], $HTTP_POST_VARS['options']);
     }
     // load the form fields
     $tpl->assign("info", Email_Account::getDetails($ema_id));

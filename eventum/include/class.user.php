@@ -55,12 +55,65 @@ $roles = array(
     2 => "Reporter",
     3 => "Customer",
     4 => "Standard User",
-    5 => "Manager",
-    6 => "Administrator"
+    5 => "Developer",
+    6 => "Manager",
+    7 => "Administrator"
 );
 
 class User
 {
+    /**
+     * Method used to get the user ID associated with the given customer 
+     * contact ID.
+     *
+     * @access  public
+     * @param   integer $customer_contact_id The customer contact ID
+     * @return  integer The user ID
+     */
+    function getUserIDByContactID($customer_contact_id)
+    {
+        $stmt = "SELECT
+                    usr_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_customer_contact_id=$customer_contact_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the account email address associated with the given 
+     * customer contact ID.
+     *
+     * @access  public
+     * @param   integer $customer_contact_id The customer contact ID
+     * @return  string The user's email address
+     */
+    function getEmailByContactID($customer_contact_id)
+    {
+        $stmt = "SELECT
+                    usr_email
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_customer_contact_id=$customer_contact_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        } else {
+            return $res;
+        }
+    }
+
+
     /**
      * Method used to get the SMS email address associated with the given 
      * user ID.
@@ -1040,6 +1093,80 @@ class User
     {
         $info = User::getNameEmail($usr_id);
         return $info["usr_full_name"] . " <" . $info["usr_email"] . ">";
+    }
+    
+    
+    /**
+     * Marks a user as clocked in.
+     * 
+     * @access  public
+     * @param   int $usr_id The id of the user to clock out.
+     */
+    function clockIn($usr_id)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 SET
+                    usr_clocked_in = 1
+                 WHERE
+                    usr_id = $usr_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+        return 1;
+    }
+    
+    
+    /**
+     * Marks a user as clocked out.
+     * 
+     * @access  public
+     * @param   integer $usr_id The id of the user to clock out.
+     */
+    function clockOut($usr_id)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 SET
+                    usr_clocked_in = 0
+                 WHERE
+                    usr_id = $usr_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+        return 1;
+    }
+    
+    
+    /**
+     * Returns true if a user is clocked in.
+     * 
+     * @access  public
+     * @param   integer $usr_id The id of the user to clock out.
+     * @return  boolean True if the user is logged in, false otherwise
+     */
+    function isClockedIn($usr_id)
+    {
+        $stmt = "SELECT
+                    usr_clocked_in
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_id = $usr_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+        if ($res == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

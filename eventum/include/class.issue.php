@@ -40,6 +40,7 @@
 include_once(APP_INC_PATH . "class.validation.php");
 include_once(APP_INC_PATH . "class.time_tracking.php");
 include_once(APP_INC_PATH . "class.misc.php");
+include_once(APP_INC_PATH . "class.customer.php");
 include_once(APP_INC_PATH . "class.attachment.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.user.php");
@@ -88,6 +89,7 @@ class Issue
             'iss_created_date'              => 'Created Date',
             'iss_updated_date'              => 'Last Updated Date',
             'iss_last_response_date'        => 'Last Response Date',
+            'iss_last_customer_action_date' => 'Customer Action Date',
             'iss_closed_date'               => 'Closed Date'
         );
     }
@@ -177,6 +179,63 @@ class Issue
             return -1;
         } else {
             return 1;
+        }
+    }
+
+
+    /**
+     * Records the last customer action date for a given issue ID.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    function recordLastCustomerAction($issue_id)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 SET
+                    iss_last_customer_action_date='" . Date_API::getCurrentDateGMT() . "'
+                 WHERE
+                    iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+
+    /**
+     * Returns the customer ID associated with the given issue ID.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  integer The customer ID associated with the issue
+     */
+    function getCustomerID($issue_id)
+    {
+        static $returns;
+
+        if (!empty($returns[$issue_id])) {
+            return $returns[$issue_id];
+        }
+
+        $stmt = "SELECT
+                    iss_customer_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                    iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        } else {
+            $returns[$issue_id] = $res;
+            return $res;
         }
     }
 
@@ -786,36 +845,6 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
-        } else {
-            return $res;
-        }
-    }
-
-
-    /**
-     * Method used to get the list of issues as an associative array
-     * associated with a given release.
-     *
-     * @access  public
-     * @param   integer $pre_id The release ID
-     * @return  array The list of issues
-     */
-    function getAssocListByRelease($pre_id)
-    {
-        $stmt = "SELECT
-                    iss_id,
-                    iss_summary
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 WHERE
-                    iss_prj_id=" . Auth::getCurrentProject() . " AND
-                    iss_pre_id=$pre_id
-                 ORDER BY
-                    iss_id ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
         } else {
             return $res;
         }
@@ -1439,6 +1468,10 @@ class Issue
             if (count($users)) {
                 Notification::notifyAssignedUsers($users, $new_issue_id);
             }
+            // add the sender to the notification list of this new issue
+            Notification::manualInsert(APP_SYSTEM_USER_ID, $new_issue_id, $sender, Notification::getAllActions());
+            // send special 'an issue was auto-created for you' notification back to the sender
+            Notification::notifyAutoCreatedIssue($new_issue_id, $sender);
             // also notify any users that want to receive emails anytime a new issue is created
             Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
             return $new_issue_id;
@@ -1641,6 +1674,7 @@ class Issue
             'status'         => Issue::getParam('status'),
             'priority'       => Issue::getParam('priority'),
             'category'       => Issue::getParam('category'),
+            'customer_email' => Issue::getParam('customer_email'),
             // advanced search form
             'show_authorized_issues'        => Issue::getParam('show_authorized_issues'),
             'show_notification_list_issues' => Issue::getParam('show_notification_list_issues'),
@@ -1695,6 +1729,7 @@ class Issue
         $fields = array(
             "iss_pri_id",
             "iss_id",
+            "iss_customer_id",
             "iss_prc_id",
             "iss_sta_id",
             "iss_created_date",
@@ -1747,11 +1782,13 @@ class Issue
                     iss_id,
                     iss_prj_id,
                     iss_sta_id,
+                    iss_customer_id,
                     iss_lock_usr_id,
                     iss_created_date,
                     iss_updated_date,
                     iss_last_response_date,
                     iss_closed_date,
+                    iss_last_customer_action_date,
                     iss_usr_id,
                     iss_summary,
                     pri_title,
@@ -1818,6 +1855,10 @@ class Issue
                 }
                 Issue::getAssignedUsersByIssues($res);
                 Time_Tracking::getTimeSpentByIssues($res);
+                // need to get the customer titles for all of these issues...
+                if (Customer::hasCustomerIntegration($prj_id)) {
+                    Customer::getCustomerTitlesByIssues($prj_id, $res);
+                }
                 Issue::getLastActionDates($res);
             }
             $csv[] = @implode("\t", $list_headings);
@@ -1830,6 +1871,7 @@ class Issue
                     $res[$i]['iss_id'],
                     $res[$i]['assigned_users'],
                     $res[$i]['time_spent'],
+                    @$res[$i]['customer_title'],
                     $res[$i]['prc_title'],
                     $res[$i]['sta_title'],
                     $res[$i]["status_change_date"],
@@ -1895,39 +1937,42 @@ class Issue
                  GROUP BY
                     sup_iss_id";
         $emails = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        // get latest draft
-        $stmt = "SELECT
-                    emd_iss_id,
-                    UNIX_TIMESTAMP(MAX(emd_updated_date))
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
-                 WHERE
-                    emd_iss_id IN ($ids)
-                 GROUP BY
-                    emd_iss_id";
-        $drafts = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        // get latest phone call
-        $stmt = "SELECT
-                    phs_iss_id,
-                    UNIX_TIMESTAMP(MAX(phs_created_date))
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
-                 WHERE
-                    phs_iss_id IN ($ids)
-                 GROUP BY
-                    phs_iss_id";
-        $calls = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        // get last note
-        $stmt = "SELECT
-                    not_iss_id,
-                    UNIX_TIMESTAMP(MAX(not_created_date))
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
-                 WHERE
-                    not_iss_id IN ($ids)
-                 GROUP BY
-                    not_iss_id";
-        $notes = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        // only show the internal fields to staff users
+        if (User::getRoleByUser(Auth::getUserID()) > User::getRoleID('Customer')) {
+            // get latest draft
+            $stmt = "SELECT
+                        emd_iss_id,
+                        UNIX_TIMESTAMP(MAX(emd_updated_date))
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                     WHERE
+                        emd_iss_id IN ($ids)
+                     GROUP BY
+                        emd_iss_id";
+            $drafts = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            // get latest phone call
+            $stmt = "SELECT
+                        phs_iss_id,
+                        UNIX_TIMESTAMP(MAX(phs_created_date))
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
+                     WHERE
+                        phs_iss_id IN ($ids)
+                     GROUP BY
+                        phs_iss_id";
+            $calls = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            // get last note
+            $stmt = "SELECT
+                        not_iss_id,
+                        UNIX_TIMESTAMP(MAX(not_created_date))
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                     WHERE
+                        not_iss_id IN ($ids)
+                     GROUP BY
+                        not_iss_id";
+            $notes = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        }
         // now sort out the fields for each issue
         for ($i = 0; $i < count($result); $i++) {
             // check attachments, notes, emails, updated date
@@ -1935,6 +1980,7 @@ class Issue
                 'created'         => $result[$i]['iss_created_date'],
                 'updated'         => $result[$i]['iss_updated_date'],
                 'staff response'  => $result[$i]['iss_last_response_date'],
+                'customer action' => $result[$i]['iss_last_customer_action_date'],
                 'closed'          => $result[$i]['iss_closed_date']
             );
             @$date_fields['file'] = $files[$result[$i]['iss_id']];
@@ -2009,8 +2055,12 @@ class Issue
     function buildWhereClause($options)
     {
         $usr_id = Auth::getUserID();
+        $role_id = User::getRoleByUser($usr_id);
 
         $stmt = '';
+        if (User::getRole($role_id) == "Customer") {
+            $stmt .= " AND iss_customer_id=" . User::getCustomerID($usr_id);
+        }
         if (!empty($options["users"])) {
             $stmt .= " AND (
                     isu_usr_id";
@@ -2044,6 +2094,16 @@ class Issue
         }
         if (!empty($options["hide_closed"])) {
             $stmt .= " AND sta_is_closed=0";
+        }
+        // check if the user is trying to search by customer email
+        if (!empty($options['customer_email'])) {
+            $customer_ids = Customer::getCustomerIDsLikeEmail($options['customer_email']);
+            if (count($customer_ids) > 0) {
+                $stmt .= " AND iss_customer_id IN (" . implode(', ', $customer_ids) . ")";
+            } else {
+                // kill the result-set
+                $stmt .= " AND iss_customer_id = -1";
+            }
         }
         // now for the date fields
         $date_fields = array(
@@ -2356,6 +2416,11 @@ class Issue
             if (empty($res)) {
                 return "";
             } else {
+                // get customer information, if any
+                if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['iss_prj_id']))) {
+                    $res['customer_info'] = Customer::getDetails($res['iss_prj_id'], $res['iss_customer_id']);
+                    $res['marked_as_redeemed_incident'] = Customer::isRedeemedIncident($res['iss_prj_id'], $res['iss_id']);
+                }
                 $res['iss_original_description'] = $res["iss_description"];
                 if (!strstr($HTTP_SERVER_VARS["PHP_SELF"], 'update.php')) {
                     $res["iss_description"] = Misc::activateLinks(nl2br(htmlspecialchars($res["iss_description"])));

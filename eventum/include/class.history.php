@@ -206,7 +206,8 @@ class History
     {
         $stmt = "SELECT
                     iss_id,
-                    iss_summary
+                    iss_summary,
+                    iss_customer_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -220,6 +221,17 @@ class History
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
+        } else {
+            if (count($res) > 0) {
+                include_once(APP_INC_PATH . "class.customer.php");
+                foreach ($res as $index => $row) {
+                    if (!empty($row["iss_customer_id"])) {
+                        $details = Customer::getDetails($row["iss_customer_id"]);
+                        $res[$index]["customer_name"] = $details["customer_name"];
+                    }
+                }
+                usort($res, create_function('$a,$b', 'return strcmp(@$a["customer_name"], @$b["customer_name"]);'));
+            }
         }
         return $res;
     }

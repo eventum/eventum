@@ -56,38 +56,53 @@ $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_G
 $tpl->assign("extra_title", "Issue #$issue_id Details");
 
 $details = Issue::getDetails($issue_id);
+$tpl->assign("issue", $details);
 
-// check if the requested issue is a part of the 'current' project
-if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {
-    $tpl->assign('issue', '');
+// in the case of a customer user, also need to check if that customer has access to this issue
+if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) != $details['iss_customer_id'])) {
+    $tpl->assign("auth_customer", 'denied');
 } else {
-    $tpl->assign("issue", $details);
-    $options = Issue::saveSearchParams();
-    $sides = Issue::getSides($issue_id, $options);
-    $tpl->assign(array(
-        "next_issue"         => @$sides["next"],
-        "previous_issue"     => @$sides["previous"],
-        "subscribers"        => Notification::getSubscribers($issue_id),
-        "custom_fields"      => Custom_Field::getListByIssue($prj_id, $issue_id),
-        "files"              => Attachment::getList($issue_id),
-        "notes"              => Note::getListing($issue_id),
-        "emails"             => Support::getEmailsByIssue($issue_id),
-        "phone_entries"      => Phone_Support::getListing($issue_id),
-        "zones"              => Date_API::getTimezoneList(),
-        'users'              => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter')),
-        "ema_id"             => Email_Account::getEmailAccount(),
-        'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id)
-    ));
-    $time_entries = Time_Tracking::getListing($issue_id);
-    $tpl->assign(array(
-        "checkins"         => SCM::getCheckinList($issue_id),
-        "time_categories"  => Time_Tracking::getAssocCategories(),
-        "time_entries"     => $time_entries['list'],
-        "total_time_spent" => $time_entries['total_time_spent'],
-        "impacts"          => Impact_Analysis::getListing($issue_id),
-        "statuses"         => Status::getAssocStatusList($prj_id, false),
-        "drafts"           => Draft::getList($issue_id)
-    ));
+    // check if the requested issue is a part of the 'current' project
+    if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {
+        $tpl->assign('issue', '');
+    } else {
+        // check if the requested issue is a part of one of the projects
+        // associated with this user
+        $associated_projects = @array_keys(Project::getAssocList($usr_id));
+        if (!@in_array($details['iss_prj_id'], $associated_projects)) {
+            $tpl->assign("auth_customer", 'denied');
+        } else {
+            $options = Issue::saveSearchParams();
+            $sides = Issue::getSides($issue_id, $options);
+            $tpl->assign(array(
+                "next_issue"         => @$sides["next"],
+                "previous_issue"     => @$sides["previous"],
+                "subscribers"        => Notification::getSubscribers($issue_id),
+                "custom_fields"      => Custom_Field::getListByIssue($prj_id, $issue_id),
+                "files"              => Attachment::getList($issue_id),
+                "notes"              => Note::getListing($issue_id),
+                "emails"             => Support::getEmailsByIssue($issue_id),
+                "phone_entries"      => Phone_Support::getListing($issue_id),
+                "zones"              => Date_API::getTimezoneList(),
+                'users'              => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+                "ema_id"             => Email_Account::getEmailAccount(),
+                'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id)
+            ));
+
+            if ($role_id != User::getRoleID('customer')) {
+                $time_entries = Time_Tracking::getListing($issue_id);
+                $tpl->assign(array(
+                    "checkins"         => SCM::getCheckinList($issue_id),
+                    "time_categories"  => Time_Tracking::getAssocCategories(),
+                    "time_entries"     => $time_entries['list'],
+                    "total_time_spent" => $time_entries['total_time_spent'],
+                    "impacts"          => Impact_Analysis::getListing($issue_id),
+                    "statuses"         => Status::getAssocStatusList($prj_id, false),
+                    "drafts"           => Draft::getList($issue_id)
+                ));
+            }
+        }
+    }
 }
 
 $tpl->displayTemplate();

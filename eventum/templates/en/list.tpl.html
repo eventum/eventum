@@ -1,7 +1,9 @@
 {include file="header.tpl.html" extra_title="List of Issues"}
 {include file="navigation.tpl.html"}
 
+{if $current_role != $roles.customer}
 {include file="quick_filter_form.tpl.html"}
+{/if}
 {include file="list_form.tpl.html"}
 
 <br />

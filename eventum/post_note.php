@@ -62,7 +62,7 @@ if (@$HTTP_POST_VARS["cat"] == "post_note") {
 }
 
 $tpl->assign("from", User::getFromHeader($usr_id));
-$tpl->assign('users', Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter')));
+$tpl->assign('users', Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')));
 $tpl->assign("current_user_prefs", Prefs::get($usr_id));
 
 $tpl->displayTemplate();

@@ -607,7 +607,7 @@ class Notification
 
         $emails = array();
         $users = Notification::getUsersByIssue($issue_id, 'updated');
-        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Reporter'));
+        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
         $user_emails = array_map('strtolower', $user_emails);
         for ($i = 0; $i < count($users); $i++) {
             if (empty($users[$i]["sub_usr_id"])) {
@@ -652,7 +652,7 @@ class Notification
         if (($extra_recipients) && (count($extra) > 0)) {
             $users = array_merge($users, $extra);
         }
-        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Viewer'));
+        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
         $user_emails = array_map('strtolower', $user_emails);
         for ($i = 0; $i < count($users); $i++) {
             if (empty($users[$i]["sub_usr_id"])) {
@@ -773,7 +773,9 @@ class Notification
                     usr_full_name,
                     usr_email,
                     usr_preferences,
-                    usr_role
+                    usr_role,
+                    usr_customer_id,
+                    usr_customer_contact_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
@@ -789,6 +791,11 @@ class Notification
         for ($i = 0; $i < count($res); $i++) {
             $res[$i]['usr_preferences'] = @unserialize($res[$i]['usr_preferences']);
             $subscriber = Mail_API::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
+            // don't send these emails to customers
+            if (($res[$i]['usr_role'] == User::getRoleID('Customer')) || (!empty($res[$i]['usr_customer_id']))
+                    || (!empty($res[$i]['usr_customer_contact_id']))) {
+                continue;
+            }
             if ((@$res[$i]['usr_preferences']['receive_new_emails']) && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
@@ -800,6 +807,30 @@ class Notification
         $data['custom_fields'] = Custom_Field::getListByIssue($data['iss_prj_id'], $issue_id);
         $subject = 'New Issue';
         Notification::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false);
+    }
+
+
+    // XXX: put documentation here
+    function notifyAutoCreatedIssue($issue_id, $sender)
+    {
+        $type = 'new_auto_created_issue';
+        $data = Issue::getDetails($issue_id);
+
+        // open text template
+        $tpl = new Template_API;
+        $tpl->setTemplate('notifications/' . $type . '.tpl.text');
+        $tpl->bulkAssign(array(
+            "data"        => $data,
+            "sender_name" => Mail_API::getName($sender)
+        ));
+        $text_message = $tpl->getTemplateContents();
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_API;
+        $mail->setTextBody($text_message);
+        $setup = $mail->getSMTPSettings();
+        $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
+        $mail->send($from, $sender, 'Confirmation on your Support Issue');
     }
 
 
@@ -871,7 +902,7 @@ class Notification
     {
         // don't save any irc notification if this feature is disabled
         $setup = Setup::load();
-        if ($setup['irc_notification'] != 'enabled') {
+        if (@$setup['irc_notification'] != 'enabled') {
             return false;
         }
 
@@ -1087,7 +1118,7 @@ class Notification
                     sub_iss_id=$issue_id";
         $users = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($users); $i++) {
-            if (!empty($users[$i]['usr_role'])) {
+            if ($users[$i]['usr_role'] != User::getRoleID('Customer')) {
                 $subscribers['staff'][] = $users[$i]['usr_full_name'];
             } else {
                 $subscribers['customers'][] = $users[$i]['usr_full_name'];
@@ -1111,7 +1142,7 @@ class Notification
             if (empty($emails[$i]['sub_email'])) {
                 continue;
             }
-            if (!empty($emails[$i]['usr_role'])) {
+            if ((!empty($emails[$i]['usr_role'])) && ($emails[$i]['usr_role'] != User::getRoleID('Customer'))) {
                 $subscribers['staff'][] = $emails[$i]['usr_full_name'];
             } else {
                 $subscribers['customers'][] = $emails[$i]['sub_email'];

@@ -39,7 +39,7 @@ $tpl->setTemplate("reports/workload_time_period.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
+if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Customer")) {
     echo "Invalid role";
     exit;
 }
@@ -57,9 +57,9 @@ if (@$HTTP_GET_VARS["type"] == "email") {
 }
 
 $tpl->assign(array(
-    "data"  =>  $data,
-    "type"  =>  @$HTTP_GET_VARS["type"],
-    "user_tz"   =>  $tz->getShortName()
+    "data"    => $data,
+    "type"    => @$HTTP_GET_VARS["type"],
+    "user_tz" => $tz->getShortName()
 ));
 $tpl->displayTemplate();
 ?>

@@ -33,7 +33,7 @@ include_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
+if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Customer")) {
     echo "Invalid role";
     exit;
 }

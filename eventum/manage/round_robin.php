@@ -60,7 +60,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     $tpl->assign("list", Round_Robin::getList());
-    $tpl->assign("user_options", User::getActiveAssocList(User::getRoleID('Reporter')));
+    $tpl->assign("user_options", User::getActiveAssocList(User::getRoleID('Customer')));
     $tpl->assign("project_list", Project::getAll());
 } else {
     $tpl->assign("show_not_allowed_msg", true);

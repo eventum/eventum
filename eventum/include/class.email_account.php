@@ -182,6 +182,7 @@ class Email_Account
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            $res['ema_issue_auto_creation_options'] = @unserialize($res['ema_issue_auto_creation_options']);
             return $res;
         }
     }

@@ -67,7 +67,7 @@ $tpl->assign("csv_data", base64_encode($list["csv"]));
 
 $tpl->assign("priorities", Misc::getPriorities());
 $tpl->assign("status", Status::getAssocStatusList($prj_id));
-$tpl->assign("users", Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter')));
+$tpl->assign("users", Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')));
 $tpl->assign("custom", Filter::getAssocList($prj_id));
 $tpl->assign("csts", Filter::getListing($prj_id));
 $tpl->assign("categories", Category::getAssocList($prj_id));

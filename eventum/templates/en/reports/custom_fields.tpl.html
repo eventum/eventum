@@ -20,15 +20,30 @@
           </td>
         </tr>
         <tr>
-          <td align="center" valign="top">
+          <td align="center" valign="top" height="10">
             <select name="custom_field" class="default" onChange="setOptions(this.options[this.selectedIndex].value, true)">
                 <option value=""></option>
                 {html_options options=$custom_fields selected=$custom_field}
             </select>
           </td>
-          <td align="center" valign="top">
+          <td align="center" valign="top" rowspan="3">
             <select name="custom_options[]" size="8" multiple class="default">
             </select>
+          </td>
+        </tr>
+        <tr>
+          <td width="30%" class="default" align="center" height="10">
+            <b>Group By</b>
+          </td>
+        </tr>
+        <tr>
+          <td align="left" valign="top"class="default">
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="issue" {if $group_by != 'customer'}CHECKED{/if}>
+                <a id="link" class="link" href="javascript:void(null)" 
+                            onClick="javascript:checkRadio('custom_fields_report', 'group_by', 0);">Issue</a><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="customer" {if $group_by == 'customer'}CHECKED{/if}>
+                <a id="link" class="link" href="javascript:void(null)" 
+                            onClick="javascript:checkRadio('custom_fields_report', 'group_by', 1);">Customer</a><br />
           </td>
         </tr>
         <tr>

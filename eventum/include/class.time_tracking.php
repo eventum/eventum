@@ -416,13 +416,17 @@ class Time_Tracking
     {
         global $HTTP_POST_VARS;
 
-        // format the date from the form
-        $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d', 
-            $HTTP_POST_VARS["date"]["Year"], $HTTP_POST_VARS["date"]["Month"],
-            $HTTP_POST_VARS["date"]["Day"], $HTTP_POST_VARS["date"]["Hour"],
-            $HTTP_POST_VARS["date"]["Minute"], 0);
-        // convert the date to GMT timezone
-        $created_date = Date_API::getDateGMT($created_date);
+        if (!empty($HTTP_POST_VARS["date"])) {
+            // format the date from the form
+            $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d', 
+                $HTTP_POST_VARS["date"]["Year"], $HTTP_POST_VARS["date"]["Month"],
+                $HTTP_POST_VARS["date"]["Day"], $HTTP_POST_VARS["date"]["Hour"],
+                $HTTP_POST_VARS["date"]["Minute"], 0);
+            // convert the date to GMT timezone
+            $created_date = Date_API::getDateGMT($created_date);
+        } else {
+            $created_date = Date_API::getCurrentDateGMT();
+        }
         $usr_id = Auth::getUserID();
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking

@@ -42,14 +42,24 @@ $tpl->setTemplate("main.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 
 $prj_id = Auth::getCurrentProject();
-$tpl->assign("status", Stats::getStatus());
-$tpl->assign("releases", Stats::getRelease());
-$tpl->assign("categories", Stats::getCategory());
-$tpl->assign("priorities", Stats::getPriority());
-$tpl->assign("users", Stats::getUser());
-$tpl->assign("emails", Stats::getEmailStatus());
-$tpl->assign("pie_chart", Stats::getPieChart());
-$tpl->assign("random_tip", Misc::getRandomTip($tpl));
+$role_id = User::getRoleByUser(Auth::getUserID());
+if ($role_id == User::getRoleID('customer')) {
+    // need the activity dashboard here
+    include_once(APP_INC_PATH . "class.customer.php");
+    $usr_id = Auth::getUserID();
+    $customer_id = User::getCustomerID($usr_id);
+    $tpl->assign("customer_stats", Customer::getOverallStats($customer_id));
+    $tpl->assign("profile", Customer::getProfile($usr_id));
+} else {
+    $tpl->assign("status", Stats::getStatus());
+    $tpl->assign("releases", Stats::getRelease());
+    $tpl->assign("categories", Stats::getCategory());
+    $tpl->assign("priorities", Stats::getPriority());
+    $tpl->assign("users", Stats::getUser());
+    $tpl->assign("emails", Stats::getEmailStatus());
+    $tpl->assign("pie_chart", Stats::getPieChart());
+    $tpl->assign("random_tip", Misc::getRandomTip($tpl));
+}
 
 $tpl->assign("news", News::getListByProject($prj_id));
 

@@ -39,7 +39,7 @@ include_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
+if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Customer")) {
     echo "Invalid role";
     exit;
 }
@@ -48,7 +48,7 @@ if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
  * Generates a graph for the selected custom field
  */
 
-$data = Report::getCustomFieldReport(@$HTTP_GET_VARS["custom_field"], @$HTTP_GET_VARS["custom_options"]);
+$data = Report::getCustomFieldReport(@$HTTP_GET_VARS["custom_field"], @$HTTP_GET_VARS["custom_options"], @$HTTP_GET_VARS["group_by"]);
 $field_details = Custom_Field::getDetails(@$HTTP_GET_VARS["custom_field"]);
 
 if (count($data) < 2) {
@@ -135,7 +135,13 @@ if (@$HTTP_GET_VARS["type"] == "pie") {
     $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 }
 
-$graph->title->Set("Issues by " . $field_details["fld_title"]);
+if (@$HTTP_GET_VARS["group_by"] == "customers") {
+    "Customers by " . $field_details["fld_title"];
+} else {
+    $title = "Issues by " . $field_details["fld_title"];
+}
+
+$graph->title->Set($title);
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 
 $graph->Add($plot);

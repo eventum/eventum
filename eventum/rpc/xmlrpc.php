@@ -32,6 +32,7 @@ include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.note.php");
+include_once(APP_INC_PATH . "class.draft.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.status.php");
@@ -41,10 +42,26 @@ include_once(APP_INC_PATH . "class.template.php");
 error_reporting(0);
 include_once(APP_PEAR_PATH . "XML_RPC/Server.php");
 
-$getDeveloperList_sig = array(array($XML_RPC_Array, $XML_RPC_Int));
+function authenticate($email, $password)
+{
+    if (!Auth::isCorrectPassword($email, $password)) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Authentication failed for $email");
+    } else {
+        return true;
+    }
+}
+
+
+$getDeveloperList_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getDeveloperList($p)
 {
-    $prj_id = XML_RPC_decode($p->getParam(0));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $prj_id = XML_RPC_decode($p->getParam(2));
 
     $res = Project::getRemoteAssocList();
     if (empty($res)) {
@@ -55,7 +72,7 @@ function getDeveloperList($p)
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "This project does not allow remote invocation");
     }
 
-    $res = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Reporter'));
+    $res = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
     if (empty($res)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "There are currently no users associated with the given project");
     } else {
@@ -63,10 +80,16 @@ function getDeveloperList($p)
     }
 }
 
-$getSimpleIssueDetails_sig = array(array($XML_RPC_Struct, $XML_RPC_Int));
+$getSimpleIssueDetails_sig = array(array($XML_RPC_Struct, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getSimpleIssueDetails($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
 
     $details = Issue::getDetails($issue_id);
     if (empty($details)) {
@@ -80,13 +103,18 @@ function getSimpleIssueDetails($p)
             ), "struct"));
 }
 
-$getOpenIssues_sig = array(array($XML_RPC_Array, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Boolean, $XML_RPC_String));
+$getOpenIssues_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Boolean, $XML_RPC_String));
 function getOpenIssues($p)
 {
-    $prj_id = XML_RPC_decode($p->getParam(0));
-    $email = XML_RPC_decode($p->getParam(1));
-    $show_all_issues = XML_RPC_decode($p->getParam(2));
-    $status = XML_RPC_decode($p->getParam(3));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $prj_id = XML_RPC_decode($p->getParam(2));
+    $show_all_issues = XML_RPC_decode($p->getParam(3));
+    $status = XML_RPC_decode($p->getParam(4));
     $status_id = Status::getStatusID($status);
 
     $res = Issue::getOpenIssues($prj_id, $email, $show_all_issues, $status_id);
@@ -121,10 +149,15 @@ function isValidLogin($p)
     return new XML_RPC_Response(new XML_RPC_Value($is_valid, $XML_RPC_String));
 }
 
-$getUserAssignedProjects_sig = array(array($XML_RPC_Array, $XML_RPC_String));
+$getUserAssignedProjects_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String));
 function getUserAssignedProjects($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
 
     $usr_id = User::getUserIDByEmail($email);
     $res = Project::getRemoteAssocListByUser($usr_id);
@@ -142,12 +175,18 @@ function getUserAssignedProjects($p)
     }
 }
 
-$getIssueDetails_sig = array(array($XML_RPC_Struct, $XML_RPC_Int, $XML_RPC_String));
+$getIssueDetails_sig = array(array($XML_RPC_Struct, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getIssueDetails($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
     
-    createFakeCookie(XML_RPC_decode($p->getParam(1)));
+    createFakeCookie($email);
     
     $res = Issue::getDetails($issue_id);
     if (empty($res)) {
@@ -159,9 +198,15 @@ function getIssueDetails($p)
     }
 }
 
-$getTimeTrackingCategories_sig = array(array($XML_RPC_Struct));
-function getTimeTrackingCategories()
+$getTimeTrackingCategories_sig = array(array($XML_RPC_Struct, $XML_RPC_String, $XML_RPC_String));
+function getTimeTrackingCategories($p)
 {
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
     $res = Time_Tracking::getAssocCategories();
     if (empty($res)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No time tracking categories could be found");
@@ -170,14 +215,19 @@ function getTimeTrackingCategories()
     }
 }
 
-$recordTimeWorked_sig = array(array($XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Int));
+$recordTimeWorked_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Int));
 function recordTimeWorked($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    $email = XML_RPC_decode($p->getParam(1));
-    $cat_id = XML_RPC_decode($p->getParam(2));
-    $summary = XML_RPC_decode($p->getParam(3));
-    $time_spent = XML_RPC_decode($p->getParam(4));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $cat_id = XML_RPC_decode($p->getParam(3));
+    $summary = XML_RPC_decode($p->getParam(4));
+    $time_spent = XML_RPC_decode($p->getParam(5));
 
     $usr_id = User::getUserIDByEmail($email);
     $res = Time_Tracking::recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent);
@@ -188,12 +238,17 @@ function recordTimeWorked($p)
     }
 }
 
-$setIssueStatus_sig = array(array($XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
+$setIssueStatus_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String));
 function setIssueStatus($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    $email = XML_RPC_decode($p->getParam(1));
-    $new_status = XML_RPC_decode($p->getParam(2));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $new_status = XML_RPC_decode($p->getParam(3));
 
     $usr_id = User::getUserIDByEmail($email);
     $res = Issue::setRemoteStatus($issue_id, $usr_id, $new_status);
@@ -204,13 +259,18 @@ function setIssueStatus($p)
     }
 }
 
-$assignIssue_sig = array(array($XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
+$assignIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String));
 function assignIssue($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    $project_id = XML_RPC_decode($p->getParam(1));
-    $email = XML_RPC_decode($p->getParam(2));
-    $developer = XML_RPC_decode($p->getParam(3));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $project_id = XML_RPC_decode($p->getParam(3));
+    $developer = XML_RPC_decode($p->getParam(4));
 
     $usr_id = User::getUserIDByEmail($email);
     $assignee = User::getUserIDByEmail($developer);
@@ -231,13 +291,18 @@ function assignIssue($p)
     }
 }
 
-$addAuthorizedReplier_sig = array(array($XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
+$addAuthorizedReplier_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String));
 function addAuthorizedReplier($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    $project_id = XML_RPC_decode($p->getParam(1));
-    $email = XML_RPC_decode($p->getParam(2));
-    $new_replier = XML_RPC_decode($p->getParam(3));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $project_id = XML_RPC_decode($p->getParam(3));
+    $new_replier = XML_RPC_decode($p->getParam(4));
     
     $usr_id = User::getUserIDByEmail($email);
     $replier_usr_id = User::getUserIDByEmail($new_replier);
@@ -264,12 +329,17 @@ function addAuthorizedReplier($p)
     }
 }
 
-$lockIssue_sig = array(array($XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
+$lockIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String));
 function lockIssue($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    $email = XML_RPC_decode($p->getParam(1));
-    $force_lock = XML_RPC_decode($p->getParam(2));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $force_lock = XML_RPC_decode($p->getParam(3));
 
     $usr_id = User::getUserIDByEmail($email);
     $res = Issue::remoteLock($issue_id, $usr_id, $force_lock);
@@ -284,11 +354,16 @@ function lockIssue($p)
     }
 }
 
-$unlockIssue_sig = array(array($XML_RPC_String, $XML_RPC_Int, $XML_RPC_String));
+$unlockIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function unlockIssue($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    $email = XML_RPC_decode($p->getParam(1));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
 
     $usr_id = User::getUserIDByEmail($email);
     $res = Issue::remoteUnlock($issue_id, $usr_id);
@@ -301,10 +376,16 @@ function unlockIssue($p)
     }
 }
 
-$getFileList_sig = array(array($XML_RPC_String, $XML_RPC_Int));
+$getFileList_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getFileList($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
 
     $res = Attachment::getList($issue_id);
     if (empty($res)) {
@@ -314,10 +395,16 @@ function getFileList($p)
     }
 }
 
-$getFile_sig = array(array($XML_RPC_String, $XML_RPC_Int));
+$getFile_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getFile($p)
 {
-    $file_id = XML_RPC_decode($p->getParam(0));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $file_id = XML_RPC_decode($p->getParam(2));
 
     $res = Attachment::getDetails($file_id);
     if (empty($res)) {
@@ -328,16 +415,21 @@ function getFile($p)
     }
 }
 
-$closeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Boolean, $XML_RPC_String));
+$closeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Boolean, $XML_RPC_String));
 function closeIssue($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
     $usr_id = User::getUserIDByEmail($email);
-    $issue_id = XML_RPC_decode($p->getParam(1));
-    $new_status = XML_RPC_decode($p->getParam(2));
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $new_status = XML_RPC_decode($p->getParam(3));
     $status_id = Status::getStatusID($new_status);
-    $resolution_id = XML_RPC_decode($p->getParam(3));
-    $send_notification = XML_RPC_decode($p->getParam(4));
+    $resolution_id = XML_RPC_decode($p->getParam(4));
+    $send_notification = XML_RPC_decode($p->getParam(5));
     $note = XML_RPC_decode($p->getParam(5));
 
     $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
@@ -348,29 +440,47 @@ function closeIssue($p)
     }
 }
 
-$getClosedAbbreviationAssocList_sig = array(array($XML_RPC_String, $XML_RPC_Int));
+$getClosedAbbreviationAssocList_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getClosedAbbreviationAssocList($p)
 {
-    $prj_id = XML_RPC_decode($p->getParam(0));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $prj_id = XML_RPC_decode($p->getParam(2));
 
     $res = Status::getClosedAbbreviationAssocList($prj_id);
     return new XML_RPC_Response(XML_RPC_Encode($res));
 }
 
-$getAbbreviationAssocList_sig = array(array($XML_RPC_String, $XML_RPC_Int, $XML_RPC_Boolean));
+$getAbbreviationAssocList_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Boolean));
 function getAbbreviationAssocList($p)
 {
-    $prj_id = XML_RPC_decode($p->getParam(0));
-    $show_closed = XML_RPC_decode($p->getParam(1));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $prj_id = XML_RPC_decode($p->getParam(2));
+    $show_closed = XML_RPC_decode($p->getParam(3));
 
     $res = Status::getAbbreviationAssocList($prj_id, $show_closed);
     return new XML_RPC_Response(XML_RPC_Encode($res));
 }
 
-$getEmailListing_sig = array(array($XML_RPC_Array, $XML_RPC_Int));
+$getEmailListing_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getEmailListing($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
     $emails = Support::getEmailsByIssue($issue_id);
 
     // since xml-rpc has issues, lets base64 encode everything
@@ -384,11 +494,17 @@ function getEmailListing($p)
     return new XML_RPC_Response(XML_RPC_Encode($emails));
 }
 
-$getEmail_sig = array(array($XML_RPC_Array, $XML_RPC_Int, $XML_RPC_Int));
+$getEmail_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int));
 function getEmail($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    $email_id = XML_RPC_decode($p->getParam(1));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $email_id = XML_RPC_decode($p->getParam(3));
     $email = Support::getEmailBySequence($issue_id, $email_id);
 
     // get requested email
@@ -402,11 +518,17 @@ function getEmail($p)
     return new XML_RPC_Response(XML_RPC_Encode($email));
 }
 
-$getNoteListing_sig = array(array($XML_RPC_Array, $XML_RPC_Int, $XML_RPC_String));
+$getNoteListing_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getNoteListing($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    createFakeCookie(XML_RPC_decode($p->getParam(1)));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    createFakeCookie($email);
     $notes = Note::getListing($issue_id);
 
     // since xml-rpc has issues, lets base64 encode everything
@@ -418,11 +540,17 @@ function getNoteListing($p)
     return new XML_RPC_Response(XML_RPC_Encode($notes));
 }
 
-$getNote_sig = array(array($XML_RPC_Array, $XML_RPC_Int, $XML_RPC_Int));
+$getNote_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int));
 function getNote($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    $note_id = XML_RPC_decode($p->getParam(1));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $note_id = XML_RPC_decode($p->getParam(3));
     $note = Note::getNoteBySequence($issue_id, $note_id);
     
     if ((count($note) < 1) || (!is_array($note))) {
@@ -435,14 +563,20 @@ function getNote($p)
     return new XML_RPC_Response(XML_RPC_Encode($note));
 }
 
-$convertNote_sig = array(array($XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
+$convertNote_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int, $XML_RPC_String));
 function convertNote($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    $note_id = XML_RPC_decode($p->getParam(1));
-    $target = XML_RPC_decode($p->getParam(2));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $note_id = XML_RPC_decode($p->getParam(3));
+    $target = XML_RPC_decode($p->getParam(4));
     
-    createFakeCookie(XML_RPC_decode($p->getParam(3)), Issue::getProjectID($issue_id));
+    createFakeCookie($email, Issue::getProjectID($issue_id));
     $res = Note::convertNote($note_id, $target);
     if ($res) {
         return new XML_RPC_Response(XML_RPC_Encode("OK"));
@@ -451,11 +585,16 @@ function convertNote($p)
     }
 }
 
-$mayChangeIssue_sig = array(array($XML_RPC_String, $XML_RPC_Int, $XML_RPC_String));
+$mayChangeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function mayChangeIssue($p)
 {
-    $issue_id = XML_RPC_decode($p->getParam(0));
-    $email = XML_RPC_decode($p->getParam(1));
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
     $usr_id = User::getUserIDByEmail($email);
 
     $assignees = Issue::getAssignedUserIDs($issue_id);
@@ -470,13 +609,18 @@ function mayChangeIssue($p)
     }
 }
 
-$getWeeklyReport_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
+$getWeeklyReport_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
 function getWeeklyReport($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
-    $week = abs(XML_RPC_decode($p->getParam(1)));
-    $start = XML_RPC_decode($p->getParam(2));
-    $end = XML_RPC_decode($p->getParam(3));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $week = abs(XML_RPC_decode($p->getParam(2)));
+    $start = XML_RPC_decode($p->getParam(3));
+    $end = XML_RPC_decode($p->getParam(4));
     
     // figure out the correct week
     if ((empty($start)) || (empty($end))) {
@@ -501,6 +645,113 @@ function getResolutionAssocList($p)
 
     $res = Resolution::getAssocList();
     return new XML_RPC_Response(XML_RPC_Encode($res));
+}
+
+$timeClock_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_String));
+function timeClock($p)
+{
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $action = XML_RPC_decode($p->getParam(2));
+    
+    if ($action == "in") {
+        $res = User::clockIn(User::getUserIDByEmail($email));
+    } elseif ($action == "out") {
+        $res = User::clockOut(User::getUserIDByEmail($email));
+    } else {
+        if (User::isClockedIn(User::getUserIDByEmail($email))) {
+            $msg = "is clocked in";
+        } else {
+            $msg = "is clocked out";
+        }
+        return new XML_RPC_Response(XML_RPC_Encode("$email " . $msg . ".\n"));
+    }
+    
+    if ($res == 1) {
+        return new XML_RPC_Response(XML_RPC_Encode("$email successfully clocked " . $action . ".\n"));
+    } else {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Error clocking " . $action . ".\n");
+    }
+}
+
+
+$getDraftListing_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
+function getDraftListing($p)
+{
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    createFakeCookie($email);
+    
+    $drafts = Draft::getList($issue_id);
+
+    // since xml-rpc has issues, lets base64 encode everything
+    for ($i = 0; $i < count($drafts); $i++) {
+        foreach ($drafts[$i] as $key => $val) {
+            $drafts[$i][$key] = base64_encode($val);
+        }
+    }
+    return new XML_RPC_Response(XML_RPC_Encode($drafts));
+}
+
+$getDraft_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int));
+function getDraft($p)
+{
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $draft_id = XML_RPC_decode($p->getParam(3));
+    $draft = Draft::getDraftBySequence($issue_id, $draft_id);
+    
+    if ((count($draft) < 1) || (!is_array($draft))) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Draft #" . $draft_id . " does not exist for issue #$issue_id");
+    }
+    if (empty($draft['to'])) {
+        $draft['to'] = "Notification List";
+    }
+    $draft['cc'] = @join(", ", $draft['cc']);
+    // since xml-rpc has issues, lets base64 encode everything
+    foreach ($draft as $key => $val) {
+        $draft[$key] = base64_encode($val);
+    }
+    return new XML_RPC_Response(XML_RPC_Encode($draft));
+}
+
+$sendDraft_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Int));
+function sendDraft($p)
+{
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $draft_id = XML_RPC_decode($p->getParam(3));
+    $draft = Draft::getDraftBySequence($issue_id, $draft_id);
+    createFakeCookie($email, Issue::getProjectID($issue_id));
+    
+    if ((count($draft) < 1) || (!is_array($draft))) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Draft #" . $draft_id . " does not exist for issue #$issue_id");
+    }
+    $res = Draft::send($draft["emd_id"]);
+    if ($res == 1) {
+        return new XML_RPC_Response(XML_RPC_Encode("Draft #" . $draft_id . " sent successfully.\n"));
+    } else {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Error sending Draft #" . $draft_id . "\n");
+    }
 }
 
 /**
@@ -628,6 +879,22 @@ $services = array(
     "getResolutionAssocList" => array(
         "function"  => "getResolutionAssocList",
         "signature" => $getResolutionAssocList_sig
+    ),
+    "timeClock"     => array(
+        "function"  => "timeClock",
+        "signature" => $timeClock_sig
+    ),
+    "getDraftListing" => array(
+        "function"  => "getDraftListing",
+        "signature" => $getDraftListing_sig
+    ),
+    "getDraft" => array(
+        "function"  => "getDraft",
+        "signature" => $getDraft_sig
+    ),
+    "sendDraft" => array(
+        "function"  => "sendDraft",
+        "signature" => $sendDraft_sig
     )
 );
 $server = new XML_RPC_Server($services);

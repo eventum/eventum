@@ -499,12 +499,27 @@ class Note
                 'full_email'     => @$blocked_message,
                 'has_attachment' => $has_attachments
             );
+            // need to check spot for customer association
+            if (!empty($structure->headers['from'])) {
+                $details = Email_Account::getDetails($email_account_id);
+                if (@$details['ema_check_spot']) {
+                    include_once(APP_INC_PATH . "class.customer.php");
+                    // check for any customer contact association in spot
+                    list($customer_id,) = Customer::getCustomerIDByEmails(array($sender_email));
+                    if (!empty($customer_id)) {
+                        $t['customer_id'] = $customer_id;
+                    }
+                }
+            }
+            if (empty($t['customer_id'])) {
+                $t['customer_id'] = "NULL";
+            }
             $res = Support::insertEmail($t, $structure);
             if ($res != -1) {
                 Support::extractAttachments($issue_id, $blocked_message);
                 // notifications about new emails are always external
                 $internal_only = false;
-                // special case when emails are bounced back, so we don't want to notify unknown users about those
+                // special case when emails are bounced back, so we don't want to notify the customer about those
                 if (Notification::isBounceMessage($sender_email)) {
                     $internal_only = true;
                 }

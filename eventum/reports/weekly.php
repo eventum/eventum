@@ -39,7 +39,7 @@ $tpl->setTemplate("reports/weekly.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
+if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Customer")) {
     echo "Invalid role";
     exit;
 }
@@ -61,7 +61,7 @@ if (count(@$HTTP_POST_VARS["end"]) > 0 &&
 
 $tpl->assign(array(
     "weeks" => Date_API::getWeekOptions(3,0),
-    "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter')),
+    "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "start_date"    =>  @$start_date,
     "end_date"      =>  @$end_date,
     "report_type"   =>  @$HTTP_POST_VARS["report_type"]

@@ -27,7 +27,7 @@
 //
 // @(#) $Id$
 //
-
+include_once(APP_INC_PATH . "class.email_account.php");
 
 class Draft
 {
@@ -203,6 +203,12 @@ class Draft
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
+            $res["emd_updated_date"] = Date_API::getFormattedDate($res[$i]["emd_updated_date"]);
+            if (!empty($res['emd_unknown_user'])) {
+                $res['from'] = $res["emd_unknown_user"];
+            } else {
+                $res['from'] = User::getFromHeader($res['emd_usr_id']);
+            }
             list($res['to'], $res['cc']) = Draft::getEmailRecipients($emd_id);
             return $res;
         }
@@ -220,7 +226,9 @@ class Draft
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
                  WHERE
-                    emd_iss_id=$issue_id";
+                    emd_iss_id=$issue_id
+                 ORDER BY
+                    emd_id";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -234,7 +242,6 @@ class Draft
                     $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
                 }
                 list($res[$i]['to'], ) = Draft::getEmailRecipients($res[$i]['emd_id']);
-                
                 if (empty($res[$i]['to'])) {
                     $res[$i]['to'] = "Notification List";
                 }
@@ -272,6 +279,66 @@ class Draft
                 $ccs
             );
         }
+    }
+
+
+    /**
+     * Returns the nth draft for the specific issue. Sequence starts at 1.
+     * 
+     * @access  public
+     * @param   integer $issue_id The id of the issue.
+     * @param   integer $sequence The sequential number of the draft.
+     * @return  array An array of data containing details about the draft.
+     */
+    function getDraftBySequence($issue_id, $sequence)
+    {
+        $stmt = "SELECT
+                    emd_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                WHERE
+                    emd_iss_id = $issue_id
+                 ORDER BY
+                    emd_id ASC
+                LIMIT " . ($sequence - 1) . ", 1";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            if (empty($res)) {
+                return array();
+            } else {
+                return Draft::getDetails($res);
+            }
+        }
+    }
+    
+    
+    
+    /**
+     * Converts an email to a draft and sends it.
+     * 
+     * @access  public
+     * @param   integer $draft_id The id of the draft to send.
+     */
+    function send($draft_id)
+    {
+        GLOBAL $HTTP_POST_VARS;
+        $draft = Draft::getDetails($draft_id);
+        $HTTP_POST_VARS["issue_id"] = $draft["emd_iss_id"];
+        $HTTP_POST_VARS["subject"] = $draft["emd_subject"];
+        $HTTP_POST_VARS["from"] = User::getFromHeader(Auth::getUserID());
+        $HTTP_POST_VARS["to"] = $draft["to"];
+        $HTTP_POST_VARS["cc"] = @join(";", $draft["cc"]);
+        $HTTP_POST_VARS["message"] = $draft["emd_body"];
+        $HTTP_POST_VARS["ema_id"] = Email_Account::getEmailAccount();
+        
+        $res = Support::sendEmail();
+        if ($res == 1) {
+           Draft::remove($draft_id);
+        }
+        return $res;
     }
 }
 
