@@ -17,6 +17,7 @@ Eventum Issue Tracking System
 - Added 'Link Filters' so text matching a regular expression could be linked to other systems (Bryan)
 - If select box only has one valid option it will be selected automatically (Bryan)
 - Popups to choose associated issues now has option to choose issue by ID (Bryan)
+- Prompt before closing email window (Bryan)
 
 15 Sep 2004, Version 1.3.1
 - Added the missing maq_iss_id and maq_subject columns to the mail_queue table schema (João)
