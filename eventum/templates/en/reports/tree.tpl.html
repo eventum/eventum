@@ -10,7 +10,21 @@
 <script type="text/javascript">
 <!--
 tree = new dTree('tree');
-tree.useCookies = false;
+tree.config.useCookies = false;
+tree.icon.root = '{$rel_url}images/dtree/base.gif';
+tree.icon.folder = '{$rel_url}images/dtree/folder.gif';
+tree.icon.folderOpen = '{$rel_url}images/dtree/folderopen.gif';
+tree.icon.node = '{$rel_url}images/dtree/page.gif';
+tree.icon.empty = '{$rel_url}images/dtree/empty.gif';
+tree.icon.line = '{$rel_url}images/dtree/line.gif';
+tree.icon.join= '{$rel_url}images/dtree/join.gif';
+tree.icon.joinBottom = '{$rel_url}images/dtree/joinbottom.gif';
+tree.icon.plus = '{$rel_url}images/dtree/plus.gif';
+tree.icon.plusBottom = '{$rel_url}images/dtree/plusbottom.gif';
+tree.icon.minus = '{$rel_url}images/dtree/minus.gif';
+tree.icon.minusBottom = '{$rel_url}images/dtree/minusbottom.gif';
+tree.icon.nlPlus = '{$rel_url}images/dtree/nolines_plus.gif';
+tree.icon.nlMinus = '{$rel_url}images/dtree/nolines_minus.gif';
 
 tree.add(0, -1, 'Available Reports');
 tree.add(1, 0, 'Issues');
