@@ -76,10 +76,10 @@ class Mime_Helper
         $str = '';
         $is_html = false;
         if (isset($parts["text"])) {
-            $str = $parts["text"][0];
+            $str = join("\n\n", $parts["text"]);
         } elseif (isset($parts["html"])) {
             $is_html = true;
-            $str = $parts["html"][0];
+            $str = join("\n\n", $parts["html"]);
         }
         if (@$output->headers['content-transfer-encoding'] == 'quoted-printable') {
             $str = Mime_Helper::decodeBody($str, 'quoted-printable');
@@ -392,9 +392,7 @@ class Mime_Helper
         $attachments = array();
         $filenames = array();
         for ($i = 0; $i < @count($output->parts); $i++) {
-            // hack in order to display in-line images
-            $bmp_filetypes = array('bmp', 'x-bmp');
-            if ((@$output->parts[$i]->ctype_primary == 'image') && (@in_array($output->parts[$i]->ctype_secondary, $bmp_filetypes))) {
+            if (@$output->parts[$i]->ctype_primary == 'image') {
                 $name = MIME_Helper::getAttachmentName($filenames, @$output->parts[$i]->ctype_parameters['name']);
                 $filenames[] = $name;
                 $attachments[] = array(
@@ -440,16 +438,18 @@ class Mime_Helper
         // now get any eventual attachments
         for ($i = 0; $i < @count($output->parts); $i++) {
             // hack in order to display in-line images
-            $bmp_filetypes = array('bmp', 'x-bmp');
-            if ((@$output->parts[$i]->ctype_primary == 'image') &&
-                    (@in_array($output->parts[$i]->ctype_secondary, $bmp_filetypes))) {
+            if (@$output->parts[$i]->ctype_primary == 'image') {
                 $attachments[] = array(
-                    'filename' => $output->parts[$i]->ctype_parameters['name'],
+                    'filename' => @$output->parts[$i]->ctype_parameters['name'],
                     'cid'      => @$output->parts[$i]->headers['content-id']
                 );
                 continue;
             }
-            if ((!in_array(strtolower($output->parts[$i]->ctype_primary), Mime_Helper::_getInvalidContentTypes())) &&
+            $filetype = @$output->parts[$i]->ctype_primary . '/' . @$output->parts[$i]->ctype_secondary;
+            if ($filetype == '/') {
+                $filetype = '';
+            }
+            if ((!in_array(strtolower($filetype), Mime_Helper::_getInvalidContentTypes())) &&
                     (in_array(@strtolower($output->parts[$i]->disposition), Mime_Helper::_getValidDispositions())) && 
                     (!empty($output->parts[$i]->d_parameters["filename"]))) {
                 $attachments[] = array(
@@ -480,10 +480,9 @@ class Mime_Helper
         for ($i = 0; $i < count($output->parts); $i++) {
             if ($cid !== FALSE) {
                 // hack in order to display in-line images
-                $bmp_filetypes = array('bmp', 'x-bmp');
                 if ((@$output->parts[$i]->ctype_primary == 'image') &&
-                        (@in_array($output->parts[$i]->ctype_secondary, $bmp_filetypes)) &&
-                        (@$output->parts[$i]->ctype_parameters['name'] == $filename) &&
+                        ((@$output->parts[$i]->ctype_parameters['name'] == $filename) || 
+                        (empty($output->parts[$i]->ctype_parameters['name']))) &&
                         (@$output->parts[$i]->headers['content-id'] == $cid)) {
                     break;
                 }
@@ -553,7 +552,7 @@ class Mime_Helper
             $ctype = @strtolower($obj->ctype_primary.'/'.$obj->ctype_secondary);
             switch($ctype){
                 case 'text/plain':
-                    if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
+                    if (((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) || (!empty($obj->d_parameters['filename']))) {
                         @$parts['attachments'][] = $obj->body;
                     } else {
                         @$parts['text'][] = $obj->body;
@@ -578,6 +577,9 @@ class Mime_Helper
                     // avoid treating forwarded messages as attachments
                     if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'inline') &&
                             ($ctype != 'message/rfc822')) {
+                        @$parts['attachments'][] = $obj->body;
+                    } elseif (stristr($ctype, 'image')) {
+                        // handle inline images
                         @$parts['attachments'][] = $obj->body;
                     }
             }
