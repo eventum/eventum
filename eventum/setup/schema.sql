@@ -736,7 +736,7 @@ CREATE TABLE %TABLE_PREFIX%issue_user_replier (
   PRIMARY KEY  (iur_id),
   KEY iur_usr_id (iur_usr_id),
   KEY iur_iss_id (iur_iss_id)
-)
+);
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%mail_queue;
 CREATE TABLE %TABLE_PREFIX%mail_queue (
