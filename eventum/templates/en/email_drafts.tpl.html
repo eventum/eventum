@@ -1,0 +1,62 @@
+
+{literal}
+<script language="JavaScript">
+<!--
+function viewDraft(draft_id, issue_id)
+{
+    var features = 'width=740,height=580,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var draftWin = window.open('send.php?cat=view_draft&issue_id=' + issue_id + '&id=' + draft_id, '_draft' + draft_id, features);
+    draftWin.focus();
+}
+//-->
+</script>
+{/literal}
+<br />
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td width="100%">
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td class="default" nowrap>
+            <b>Drafts</b>
+          </td>
+          <td align="right" class="default">
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko}
+            [ <a id="drafts_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('drafts');">{get_innerhtml element_name="drafts"}</a> ]
+            {/if}
+          </td>
+        </tr>
+        <tr id="drafts1" {get_display_style element_name="drafts"}>
+          <td colspan="2">
+            <table width="100%" cellpadding="2" cellspacing="1">
+              <tr bgcolor="{$cell_color}">
+                <td class="default_white">From</td>
+                <td class="default_white">To</td>
+                <td class="default_white" nowrap>Last Updated Date</td>
+                <td width="55%" class="default_white">Subject</td>
+              </tr>
+              {section name="i" loop=$drafts}
+              {cycle values=$cycle assign="row_color"}
+              <tr>
+                <td class="default" bgcolor="{$row_color}">{$drafts[i].from|escape:"html"}</td>
+                <td class="default" bgcolor="{$row_color}">{$drafts[i].to|escape:"html"}</td>
+                <td class="default" nowrap bgcolor="{$row_color}">{$drafts[i].emd_updated_date}</td>
+                <td class="default" bgcolor="{$row_color}">
+                  <a title="view email details" href="javascript:void(null);" onClick="javascript:viewDraft({$drafts[i].emd_id}, {$smarty.get.id});" class="link">{$drafts[i].emd_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
+                </td>
+              </tr>
+              {sectionelse}
+              <tr>
+                <td colspan="4" bgcolor="{$light_color}" class="default" align="center">
+                  <b>No email drafts could be found.</b>
+                </td>
+              </tr>
+              {/section}
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
