@@ -475,19 +475,27 @@ class Notification
      */
     function getUsersByIssue($issue_id, $type)
     {
-        $stmt = "SELECT
-                    DISTINCT sub_usr_id,
-                    sub_email
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
-                 WHERE
-                    sub_iss_id=$issue_id AND
-                    sub_id=sbt_sub_id";
-        // always send the notifications about new notes to all internal users
-        if ($type != 'notes') {
-            $stmt .= " AND
-                    sbt_type='$type'";
+        if ($type == 'notes') {
+            $stmt = "SELECT
+                        DISTINCT sub_usr_id,
+                        sub_email
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                     WHERE
+                        sub_iss_id=$issue_id AND
+                        sub_usr_id IS NOT NULL AND
+                        sub_usr_id <> 0";
+        } else {
+            $stmt = "SELECT
+                        DISTINCT sub_usr_id,
+                        sub_email
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
+                     WHERE
+                        sub_iss_id=$issue_id AND
+                        sub_id=sbt_sub_id AND
+                        sbt_type='$type'";
         }
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
