@@ -31,7 +31,6 @@ foreach ($res as $usr_id => $role) {
     
     // handle preferences
     $prefs = Prefs::get($usr_id);
-    echo "<pre>$usr_id";print_r($prefs);echo "</pre>";
     $receive_assigned_emails = @$prefs['receive_assigned_emails'];
     if (empty($receive_assigned_emails)) {
         $receive_assigned_emails = 0;
@@ -40,7 +39,6 @@ foreach ($res as $usr_id => $role) {
     if (empty($receive_new_emails)) {
         $receive_new_emails = 0;
     }
-    echo "$receive_assigned_emails - $receive_new_emails<br />";
     
     $projects = Project::getAssocList($usr_id);
     $prefs['receive_new_emails'] = array();
@@ -49,7 +47,6 @@ foreach ($res as $usr_id => $role) {
         $prefs['receive_assigned_emails'][$prj_id] = $receive_assigned_emails;
         $prefs['receive_new_emails'][$prj_id] = $receive_new_emails;
     }
-    echo "<pre>";print_r($prefs);echo "</pre><hr>";
     $sql = "UPDATE
                 " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
             SET
