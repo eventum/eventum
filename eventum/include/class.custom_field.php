@@ -166,7 +166,11 @@ class Custom_Field
         $field_types = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 
         foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
-            if (($field_types[$fld_id] != 'multiple') && ($field_types[$fld_id] != 'combo')) {
+            $option_types = array(
+                'multiple',
+                'combo'
+            );
+            if (!in_array($field_types[$fld_id], $option_types)) {
                 // first check if there is actually a record for this field for the issue
                 $stmt = "SELECT
                             icf_id
