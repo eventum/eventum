@@ -744,9 +744,9 @@ function checkWindowClose(msg)
     }
 }
 
-
 // Replace special characters MS uses for quotes with normal versions
-function replaceSpecialCharacters(e) {
+function replaceSpecialCharacters(e)
+{
     var s = new String(e.value);
     var newString = '';
     var thisChar;
@@ -754,7 +754,7 @@ function replaceSpecialCharacters(e) {
     for (i = 0; i < s.length; i++) {
         thisChar = s.charAt(i);
         charCode = s.charCodeAt(i);
-        if (charCode == 8220 || charCode == 8221) {
+        if ((charCode == 8220) || (charCode == 8221)) {
             thisChar = '"';
         } else if (charCode == 8217) {
             thisChar = "'";
