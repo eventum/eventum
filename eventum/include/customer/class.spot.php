@@ -1126,35 +1126,6 @@ class Spot_Customer_Backend
 
 
     /**
-     * Method used to get the phone number associated with a given
-     * customer ID.
-     *
-     * @access  public
-     * @param   integer $customer_id The customer ID
-     * @return  string The phone number
-     */
-    function getPhoneNumber($customer_id)
-    {
-        $stmt = "SELECT
-                    A.eaddress_code
-                 FROM
-                    eaddress A,
-                    eaddress_type B
-                 WHERE
-                    A.cust_no=$customer_id AND
-                    A.eaddress_type_no=B.eaddress_type_no AND
-                    B.descript='telephone'";
-        $res = $GLOBALS["customer_db"]->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            return $res;
-        }
-    }
-
-
-    /**
      * Method used to get the customer ID associated with a given
      * customer contact ID.
      *
