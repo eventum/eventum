@@ -186,7 +186,7 @@ class Time_Tracking
 
     /**
      * Method used to get the full list of time tracking categories available in
-     * the system.
+     * the system exclusing those reserved by the system.
      *
      * @access  public
      * @return  array The list of categories
@@ -198,6 +198,8 @@ class Time_Tracking
                     ttc_title
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                 WHERE
+                    ttc_title NOT IN ('Email Discussion', 'Telephone Discussion')
                  ORDER BY
                     ttc_title ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
