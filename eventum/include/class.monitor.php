@@ -281,7 +281,7 @@ class Monitor
     {
         // check if any bot.php process is still running (lame, but oh well)
         ob_start();
-        passthru("ps -ef | grep 'php -q bot.php'");
+        passthru("ps -ef | grep '[-]q bot.php'");
         $contents = ob_get_contents();
         ob_end_clean();
         $lines = explode("\n", $contents);
