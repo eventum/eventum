@@ -73,11 +73,17 @@ class Mime_Helper
     {
         $parts = array();
         Mime_Helper::parse_output($output, $parts);
+        $str = '';
         if (isset($parts["text"])) {
-            return $parts["text"][0];
+            $str = $parts["text"][0];
         } elseif (isset($parts["html"])) {
-            return $parts["html"][0];
+            $str = $parts["html"][0];
         }
+        if (@$output->headers['content-transfer-encoding'] == 'quoted-printable') {
+            $str = Mime_Helper::decodeBody($str, 'quoted-printable');
+        }
+        // XXX: do we also need to do something here about base64 encoding?
+        return $str;
     }
 
 
@@ -192,6 +198,7 @@ class Mime_Helper
             return false;
         }
     }
+
 
     /**
      * Encode a string containing non-ASCII characters according to RFC 2047.
