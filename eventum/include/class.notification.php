@@ -789,7 +789,7 @@ class Notification
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         $emails = array();
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['usr_preferences'] = @unserialize($res[$i]['usr_preferences']);
+            @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
             $subscriber = Mail_API::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
             // don't send these emails to customers
             if (($res[$i]['usr_role'] == User::getRoleID('Customer')) || (!empty($res[$i]['usr_customer_id']))
@@ -811,26 +811,88 @@ class Notification
 
 
     // XXX: put documentation here
-    function notifyAutoCreatedIssue($issue_id, $sender)
+    function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject)
     {
-        $type = 'new_auto_created_issue';
-        $data = Issue::getDetails($issue_id);
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            Customer::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject);
+        } else {
+            $data = Issue::getDetails($issue_id);
 
-        // open text template
-        $tpl = new Template_API;
-        $tpl->setTemplate('notifications/' . $type . '.tpl.text');
-        $tpl->bulkAssign(array(
-            "data"        => $data,
-            "sender_name" => Mail_API::getName($sender)
-        ));
-        $text_message = $tpl->getTemplateContents();
+            // open text template
+            $tpl = new Template_API;
+            $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
+            $tpl->bulkAssign(array(
+                "data"        => $data,
+                "sender_name" => Mail_API::getName($sender)
+            ));
+            $tpl->assign(array(
+                'email' => array(
+                    'date'    => $date,
+                    'from'    => $sender,
+                    'subject' => $subject
+                )
+            ));
+            $text_message = $tpl->getTemplateContents();
 
-        // send email (use PEAR's classes)
-        $mail = new Mail_API;
-        $mail->setTextBody($text_message);
-        $setup = $mail->getSMTPSettings();
-        $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
-        $mail->send($from, $sender, 'Confirmation on your Support Issue');
+            // send email (use PEAR's classes)
+            $mail = new Mail_API;
+            $mail->setTextBody($text_message);
+            $setup = $mail->getSMTPSettings();
+            $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
+            $mail->send($from, $sender, 'New Issue Created');
+        }
+    }
+
+
+    // XXX: put documentation here
+    function notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id = FALSE)
+    {
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            return Customer::notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id);
+        } else {
+            // build the list of recipients
+            $recipients = array();
+            $recipient_emails = array();
+            for ($i = 0; $i < count($sup_ids); $i++) {
+                $senders = Support::getSender(array($sup_ids[$i]));
+                if (count($senders) > 0) {
+                    $sender_email = Mail_API::getEmailAddress($senders[0]);
+                    $recipients[$sup_ids[$i]] = $senders[0];
+                    $recipient_emails[] = $sender_email;
+                }
+            }
+            if (count($recipients) == 0) {
+                return false;
+            }
+
+            $data = Issue::getDetails($issue_id);
+            foreach ($recipients as $sup_id => $recipient) {
+                // open text template
+                $tpl = new Template_API;
+                $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
+                $tpl->bulkAssign(array(
+                    "data"        => $data,
+                    "sender_name" => Mail_API::getName($recipient)
+                ));
+                $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($sup_id), $sup_id);
+                $tpl->assign(array(
+                    'email' => array(
+                        'date'    => $email_details['sup_date'],
+                        'from'    => $email_details['sup_from'],
+                        'subject' => $email_details['sup_subject']
+                    )
+                ));
+                $text_message = $tpl->getTemplateContents();
+
+                // send email (use PEAR's classes)
+                $mail = new Mail_API;
+                $mail->setTextBody($text_message);
+                $setup = $mail->getSMTPSettings();
+                $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
+                $mail->send($from, $recipient, 'New Issue Created');
+            }
+            return $recipient_emails;
+        }
     }
 
 
@@ -1036,7 +1098,7 @@ class Notification
         $emails = array();
         for ($i = 0; $i < count($users); $i++) {
             $prefs = Prefs::get($users[$i]);
-            if ($prefs["receive_assigned_emails"]) {
+            if ((!empty($prefs)) && (@$prefs["receive_assigned_emails"])) {
                 $emails[] = User::getFromHeader($users[$i]);
             }
         }

@@ -545,7 +545,7 @@ class Support
                 $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
                 $new_issue_id = @Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID, 
                         $email->fromaddress, $email->subject, $message_body, $options['category'], 
-                        $options['priority'], @$options['users']);
+                        $options['priority'], @$options['users'], $t['date']);
                 $t['issue_id'] = $new_issue_id;
             }
             // associate any existing replied-to email with the same issue

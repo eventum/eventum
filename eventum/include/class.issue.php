@@ -1577,7 +1577,7 @@ class Issue
             }
 
             // send special 'an issue was auto-created for you' notification back to the sender
-            Notification::notifyAutoCreatedIssue($new_issue_id, $sender);
+            Notification::notifyAutoCreatedIssue($prj_id, $new_issue_id, $sender, $date, $summary);
             // also notify any users that want to receive emails anytime a new issue is created
             Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
             
@@ -1779,6 +1779,12 @@ class Issue
                 $items = explode(",", $HTTP_POST_VARS["attached_emails"]);
                 Support::associate($usr_id, $new_issue_id, $items);
             }
+            // need to notify any emails being converted into issues ?
+            if (@count($HTTP_POST_VARS["notify_senders"]) > 0) {
+                $recipients = Notification::notifyEmailConvertedIntoIssue($prj_id, $new_issue_id, $HTTP_POST_VARS["notify_senders"], $customer_id);
+            } else {
+                $recipients = array();
+            }
             // need to process any custom fields ?
             if (@count($HTTP_POST_VARS["custom_fields"]) > 0) {
                 foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
@@ -1796,7 +1802,12 @@ class Issue
             }
             // also send a special confirmation email to the customer contact
             if ((@$HTTP_POST_VARS['notify_customer'] == 'yes') && (!empty($HTTP_POST_VARS['contact']))) {
-                Customer::notifyCustomerIssue($prj_id, $new_issue_id, $HTTP_POST_VARS['contact']);
+                // also need to pass the list of sender emails already notified,
+                // so we can avoid notifying the same person again
+                $contact_email = User::getEmailByContactID($HTTP_POST_VARS['contact']);
+                if (@!in_array($contact_email, $recipients)) {
+                    Customer::notifyCustomerIssue($prj_id, $new_issue_id, $HTTP_POST_VARS['contact']);
+                }
             }
             // also notify any users that want to receive emails anytime a new issue is created
             Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
