@@ -32,6 +32,7 @@ include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.project.php");
+include_once(APP_INC_PATH . "class.customer.php");
 include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "db_access.php");
 
@@ -63,13 +64,15 @@ if ($role_id == User::getRoleID('administrator')) {
         ));
     }
 
+    $display_customer_fields = false;
     @$prj_id = $HTTP_POST_VARS["prj_id"] ? $HTTP_POST_VARS["prj_id"] : $HTTP_GET_VARS["prj_id"];
     if (!empty($prj_id)) {
-        $tpl->assign("status_list", Status::getAssocStatusList($HTTP_GET_VARS['prj_id'], TRUE));
+        $tpl->assign("status_list", Status::getAssocStatusList($prj_id, TRUE));
         $tpl->assign('project_id', $prj_id);
+        $display_customer_fields = Customer::hasCustomerIntegration($prj_id);
     }
 
-    $tpl->assign("date_fields", Issue::getDateFieldsAssocList());
+    $tpl->assign("date_fields", Issue::getDateFieldsAssocList($display_customer_fields));
     $tpl->assign("project_list", Project::getAll());
     $tpl->assign("list", Status::getCustomizationList());
 } else {

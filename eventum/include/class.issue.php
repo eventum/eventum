@@ -81,17 +81,22 @@ class Issue
      * change date' column.
      *
      * @access  public
+     * @param   boolean $display_customer_fields Whether to include any customer related fields or not
      * @return  array The list of available date fields
      */
-    function getDateFieldsAssocList()
+    function getDateFieldsAssocList($display_customer_fields = FALSE)
     {
-        return array(
+        $fields = array(
             'iss_created_date'              => 'Created Date',
             'iss_updated_date'              => 'Last Updated Date',
             'iss_last_response_date'        => 'Last Response Date',
-            'iss_last_customer_action_date' => 'Customer Action Date',
             'iss_closed_date'               => 'Closed Date'
         );
+        if ($display_customer_fields) {
+            $fields['iss_last_customer_action_date'] = 'Customer Action Date';
+        }
+        asort($fields);
+        return $fields;
     }
 
 
