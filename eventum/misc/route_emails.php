@@ -210,6 +210,18 @@ if (@count($parts["attachments"]) > 0) {
 } else {
     $has_attachments = 0;
 }
+
+// remove certain CC addresses
+if ((!empty($structure->headers['cc'])) && (@$setup['smtp']['save_outgoing_email'] == 'yes')) {
+    $ccs = explode(",", @$structure->headers['cc']);
+    for ($i = 0; $i < count($ccs); $i++) {
+        if (Mail_API::getEmailAddress($ccs[$i]) == $setup['smtp']['save_address']) {
+            unset($ccs[$i]);
+        }
+    }
+    @$structure->headers['cc'] = join(', ', $ccs);
+}
+
 $t = array(
     'issue_id'       => $issue_id,
     'ema_id'         => $email_account_id,
