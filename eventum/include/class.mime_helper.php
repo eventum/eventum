@@ -604,6 +604,8 @@ class Mime_Helper
                     } elseif (stristr($ctype, 'image')) {
                         // handle inline images
                         @$parts['attachments'][] = $obj->body;
+                    } elseif(strtolower(@$obj->disposition) == 'attachment') {
+                        @$parts['attachments'][] = $obj->body;
                     }
             }
         }
