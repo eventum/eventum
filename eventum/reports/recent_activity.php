@@ -258,13 +258,23 @@ function processResult($res, $date_field, $issue_field)
     GLOBAL $prj_id;
     GLOBAL $usr_id;
     
-    for ($i = 0; $i < count($res); $i++) {
+    $res_count = count($res);
+    for ($i = 0; $i < $res_count; $i++) {
+        if (!Issue::canAccess($res[$i][$issue_field], Auth::getUserID())) {
+            unset($res[$i]);
+            continue;
+        }
+        
         if (Customer::hasCustomerIntegration($prj_id)) {
-            $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$i][$issue_field]));
-            $res[$i]["customer"] = @$details['customer_name'];
+            $customer_id = Issue::getCustomerID($res[$i][$issue_field]);
+            if (!empty($customer_id)) {
+                $details = Customer::getDetails($prj_id, $customer_id);
+                $res[$i]["customer"] = @$details['customer_name'];
+            }
         }
         $res[$i]["date"] = Date_API::getFormattedDate($res[$i][$date_field], Date_API::getPreferredTimezone($usr_id));
     }
+    $res = array_merge($res);
     return $res;
 }
 
