@@ -1406,17 +1406,15 @@ class Issue
                 $contact = Customer::getContactDetails($prj_id, $customer_contact_id);
                 $reporter = User::getUserIDByContactID($customer_contact_id);
                 $contact_timezone = Date_API::getPreferredTimezone($reporter);
-            } else {
-                $sender_usr_id = User::getUserIDByEmail($sender_email);
-                if (!empty($sender_usr_id)) {
-                    $reporter = $sender_usr_id;
-                } else {
-                    $reporter = APP_SYSTEM_USER_ID;
-                }
             }
         } else {
+            $sender_usr_id = User::getUserIDByEmail($sender_email);
+            if (!empty($sender_usr_id)) {
+                $reporter = $sender_usr_id;
+            } else {
+                $reporter = APP_SYSTEM_USER_ID;
+            }
             $customer_id = FALSE;
-            $reporter = APP_SYSTEM_USER_ID;
         }
 
         $initial_status = Project::getInitialStatus($prj_id);
