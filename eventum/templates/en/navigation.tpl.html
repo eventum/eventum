@@ -83,9 +83,9 @@
           </form>
           {/if}
           <td width="50%" nowrap bgcolor="{$light_color}" class="default">
-            <b>User: {$current_full_name} [CLOCKED {if $is_current_user_clocked_in}IN{else}OUT{/if}]</b>
-            (<a target="_top" title="modify your account details and preferences" href="{$rel_url}preferences.php" class="link">Preferences</a> 
-            <a target="_top" title="change your account clocked-in status" href="javascript:void(null);" onClick="javascript:changeClockStatus();" class="link">Clock {if $is_current_user_clocked_in}Out{else}In{/if}</a>)
+            <b>User: {$current_full_name}{if $current_role > $roles.standard_user} [CLOCKED {if $is_current_user_clocked_in}IN{else}OUT{/if}]{/if}</b>
+            (<a target="_top" title="modify your account details and preferences" href="{$rel_url}preferences.php" class="link">Preferences</a>{if $current_role > $roles.standard_user} 
+            <a target="_top" title="change your account clocked-in status" href="javascript:void(null);" onClick="javascript:changeClockStatus();" class="link">Clock {if $is_current_user_clocked_in}Out{else}In{/if}</a>{/if})
           </td>
           <form target="_top" method="get" action="{$rel_url}list.php">
           <td width="5%" nowrap bgcolor="{$light_color}">
