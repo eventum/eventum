@@ -487,7 +487,8 @@ class Status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  ORDER BY
-                    sta_title ASC";
+                    sta_rank ASC,
+                    sta_title";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -712,7 +713,7 @@ class Status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  ORDER BY
-                    sta_title ASC";
+                    sta_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

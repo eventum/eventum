@@ -13,6 +13,7 @@ Eventum Issue Tracking System
 - Fixed bug with 'My Assignments' not remembering sort order (Bryan)
 - Fixed bug #9181: Edit Notification List doesn't select address to edit (Bryan)
 - Added feature to allow issue/note/draft routing to use normal email accounts instead of specialized setup (Bryan)
+- Changed statuses to always be sorted by rank (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
