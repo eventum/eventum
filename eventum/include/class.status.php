@@ -416,9 +416,10 @@ class Status
      *
      * @access  public
      * @param   array $prj_id List of project IDs
+     * @param   boolean $show_closed Whether to show closed context statuses or not
      * @return  array The list of statuses
      */
-    function getAssocStatusList($prj_id)
+    function getAssocStatusList($prj_id, $show_closed = TRUE)
     {
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);
@@ -432,7 +433,11 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status
                  WHERE
                     prs_prj_id IN ($items) AND
-                    prs_sta_id=sta_id
+                    prs_sta_id=sta_id";
+        if (!$show_closed) {
+            $stmt .= " AND sta_is_closed=0 ";
+        }
+        $stmt .= "
                  ORDER BY
                     sta_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);

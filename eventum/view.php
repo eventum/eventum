@@ -84,7 +84,7 @@ if ($details['iss_prj_id'] != $prj_id) {
         "time_entries"     => $time_entries['list'],
         "total_time_spent" => $time_entries['total_time_spent'],
         "impacts"          => Impact_Analysis::getListing($issue_id),
-        "statuses"         => Status::getAssocStatusList($prj_id),
+        "statuses"         => Status::getAssocStatusList($prj_id, false),
         "drafts"           => Draft::getList($issue_id)
     ));
 }
