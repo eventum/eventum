@@ -70,6 +70,7 @@ if (stristr(PHP_OS, 'darwin')) {
 // definitions of SQL variables
 @define("APP_SQL_DBTYPE", "mysql");
 @define("APP_SQL_DBHOST", "%{APP_SQL_DBHOST}%");
+@define("APP_SQL_DBPORT", 3306);
 @define("APP_SQL_DBNAME", "%{APP_SQL_DBNAME}%");
 @define("APP_SQL_DBUSER", "%{APP_SQL_DBUSER}%");
 @define("APP_SQL_DBPASS", "%{APP_SQL_DBPASS}%");

@@ -61,6 +61,10 @@ class DB_API
             'username' => APP_SQL_DBUSER,
             'password' => APP_SQL_DBPASS
         );
+        // if we are using some non-standard mysql port, pass that value in the dsn
+        if ((defined('APP_SQL_DBPORT')) && (APP_SQL_DBPORT != 3306)) {
+            $dsn['port'] = APP_SQL_DBPORT;
+        }
         $this->dbh = DB::connect($dsn);
         if (PEAR::isError($this->dbh)) {
             Error_Handler::logError(array($this->dbh->getMessage(), $this->dbh->getDebugInfo()), __FILE__, __LINE__);
