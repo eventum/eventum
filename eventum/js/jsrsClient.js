@@ -147,8 +147,13 @@ function contextGET( rsPage, func, parms ){
   // build URL to call
   var URL = rsPage;
 
-  // always send context
-  URL += "?C=" + this.id;
+  // handle URL already having arguments.
+  if (URL.substr(URL.length-1,1) != '&') {
+    URL += '?';
+  }
+  
+   // always send context
+  URL += "C=" + this.id;
 
   // func and parms are optional
   if (func != null){
