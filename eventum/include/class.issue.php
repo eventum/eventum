@@ -3151,6 +3151,10 @@ class Issue
     {
         static $access;
         
+        if (empty($issue_id)) {
+            return true;
+        }
+        
         if (isset($access[$issue_id . "-" . $usr_id])) {
             return $access[$issue_id . "-" . $usr_id];
         }
