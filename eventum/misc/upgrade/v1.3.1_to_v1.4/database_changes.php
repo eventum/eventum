@@ -62,6 +62,18 @@ $stmts[] = 'ALTER TABLE eventum_reminder_level ADD COLUMN rem_skip_weekend tinyi
 // fix wrong column type
 $stmts[] = 'ALTER TABLE eventum_issue_history CHANGE COLUMN his_htt_id his_htt_id tinyint(2) NOT NULL DEFAULT 0';
 
+// add table to control which columns to display
+$stmts[] = "CREATE TABLE eventum_columns_to_display (
+    ctd_prj_id int(11) unsigned NOT NULL,
+    ctd_page varchar(20) NOT NULL,
+    ctd_field varchar(30) NOT NULL,
+    ctd_min_role tinyint(1) NOT NULL DEFAULT 0,
+    ctd_rank tinyint(2) NOT NULL DEFAULT 0,
+    PRIMARY KEY(ctd_prj_id, ctd_page, ctd_field),
+    INDEX(ctd_prj_id, ctd_page)
+)";
+
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
