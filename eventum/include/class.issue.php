@@ -2781,7 +2781,7 @@ class Issue
             } else {
                 
                 // make sure issue is not in another project
-                if (Issue::getProjectID($HTTP_POST_VARS['items'][$i]) != Auth::getCurrentProject()) {
+                if (Issue::getProjectID($HTTP_POST_VARS['item'][$i]) != Auth::getCurrentProject()) {
                     return -1;
                 }
                 
