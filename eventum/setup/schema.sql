@@ -290,12 +290,18 @@ CREATE TABLE %TABLE_PREFIX%project (
   prj_outgoing_sender_email varchar(255) NOT NULL,
   prj_customer_backend varchar(64) NULL,
   prj_workflow_backend varchar(64) NULL,
-  prj_hide_fields_from_reporter tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY  (prj_id),
   UNIQUE KEY prj_title (prj_title),
   KEY prj_lead_usr_id (prj_lead_usr_id)
 );
 INSERT INTO %TABLE_PREFIX%project (prj_id, prj_created_date, prj_title, prj_status, prj_lead_usr_id, prj_initial_sta_id, prj_remote_invocation, prj_anonymous_post, prj_anonymous_post_options, prj_outgoing_sender_name, prj_outgoing_sender_email) VALUES (1, NOW(), 'Default Project', 'active', 2, 1, '', '0', NULL, 'Default Project', 'default_project@example.com');
+
+CREATE TABLE %TABLE_PREFIX%project_field_display (
+  pfd_prj_id int(11) unsigned NOT NULL,
+  pfd_field varchar(20) NOT NULL,
+  pfd_min_role tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (pfd_prj_id, pfd_field)
+);
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_category;
 CREATE TABLE %TABLE_PREFIX%project_category (
