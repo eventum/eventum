@@ -203,18 +203,24 @@ class History
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
      * @param   date $end The end date
+     * @param   date $separate_closed If closed issues should be included in a separate array
      * @return  array An array of issues touched by the user.
      */
-    function getTouchedIssuesByUser($usr_id, $start, $end)
+    function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false)
     {
         $stmt = "SELECT
                     iss_id,
                     iss_prj_id,
                     iss_summary,
-                    iss_customer_id
+                    iss_customer_id,
+                    sta_is_closed
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    LEFT JOIN
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    ON
+                        iss_sta_id = sta_id
                  WHERE
                     his_iss_id = iss_id AND
                     his_usr_id = $usr_id AND
@@ -226,17 +232,28 @@ class History
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            $data = array(
+                "closed"    =>  array(),
+                "other"     =>  array()
+            );
             if (count($res) > 0) {
                 foreach ($res as $index => $row) {
-                    if (!empty($row["iss_customer_id"])) {
+                    if ((!empty($row["iss_customer_id"])) && (Customer::hasCustomerIntegration($row['iss_prj_id']))) {
                         $details = Customer::getDetails($row["iss_prj_id"], $row["iss_customer_id"]);
-                        $res[$index]["customer_name"] = $details["customer_name"];
+                        $row["customer_name"] = $details["customer_name"];
+                    }
+                    if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
+                        $data['closed'][] = $row;
+                    } else {
+                        $data['other'][] = $row;
                     }
                 }
-                usort($res, create_function('$a,$b', 'return strcasecmp(@$a["customer_name"], @$b["customer_name"]);'));
+                $sort_function = create_function('$a,$b', 'return strcasecmp(@$a["customer_name"], @$b["customer_name"]);');
+                @usort($data['closed'], $sort_function);
+                @usort($data['other'], $sort_function);
             }
         }
-        return $res;
+        return $data;
     }
 
 
