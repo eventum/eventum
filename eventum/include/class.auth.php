@@ -39,6 +39,7 @@
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.customer.php");
 include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "private_key.php");
 
@@ -104,7 +105,6 @@ class Auth
         // check the expiration date for a 'Customer' type user
         $customer_id = User::getCustomerID(Auth::getUserID());
         if ((!empty($customer_id)) && ($customer_id != -1)) {
-            include_once(APP_INC_PATH . "class.customer.php");
             $status = Customer::getContractStatus($prj_id, $customer_id);
             if ($status == 'expired') {
                 Auth::removeCookie($cookie_name);
