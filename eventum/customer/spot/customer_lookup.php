@@ -30,7 +30,6 @@
 include_once("../../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.customer.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("customer/spot/customer_lookup.tpl.html");
