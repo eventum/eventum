@@ -44,25 +44,31 @@ $tpl->displayTemplate();
 flush();
 
 echo "<span class='default'>";
-// check if the hostname is just an IP based one
-if ((!preg_match("/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/", $HTTP_POST_VARS["hostname"])) &&
-        (gethostbyname($HTTP_POST_VARS["hostname"]) == $HTTP_POST_VARS["hostname"])) {
-    echo "<b>The provided hostname could not be resolved. Please check your information and try again.</b>";
-} else {
 
-    $account = array(
-        "ema_hostname" => $HTTP_POST_VARS["hostname"],
-        "ema_port"     => $HTTP_POST_VARS["port"],
-        "ema_type"     => $HTTP_POST_VARS["type"],
-        "ema_folder"   => $HTTP_POST_VARS["folder"],
-        "ema_username" => $HTTP_POST_VARS["username"],
-        "ema_password" => $HTTP_POST_VARS["password"]
-    );
-    $mbox = Support::connectEmailServer($account);
-    if (!$mbox) {
-        echo "<b>Could not connect to the server with the provided information.</b>";
+// we need the IMAP extension for this to work
+if (!function_exists('imap_open')) {
+    echo "<b>Error: Eventum requires the IMAP extension in order to connect to IMAP/POP3 servers.<br /><br />";
+    echo "Please refer to the PHP manual for more details about how to enable the IMAP extension.</b>";
+} else {
+    // check if the hostname is just an IP based one
+    if ((!preg_match("/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/", $HTTP_POST_VARS["hostname"])) &&
+            (gethostbyname($HTTP_POST_VARS["hostname"]) == $HTTP_POST_VARS["hostname"])) {
+        echo "<b>The provided hostname could not be resolved. Please check your information and try again.</b>";
     } else {
-        echo "<b>Thank you, the connection to the email server was created successfully.</b>";
+        $account = array(
+            "ema_hostname" => $HTTP_POST_VARS["hostname"],
+            "ema_port"     => $HTTP_POST_VARS["port"],
+            "ema_type"     => $HTTP_POST_VARS["type"],
+            "ema_folder"   => $HTTP_POST_VARS["folder"],
+            "ema_username" => $HTTP_POST_VARS["username"],
+            "ema_password" => $HTTP_POST_VARS["password"]
+        );
+        $mbox = Support::connectEmailServer($account);
+        if (!$mbox) {
+            echo "<b>Could not connect to the server with the provided information.</b>";
+        } else {
+            echo "<b>Thank you, the connection to the email server was created successfully.</b>";
+        }
     }
 }
 ?>
