@@ -69,6 +69,8 @@ if (@$setup['note_routing']['status'] != 'enabled') {
     exit(78);
 }
 $prefix = $setup['note_routing']['address_prefix'];
+// escape plus signs so 'note+1@example.com' becomes a valid routing address
+$prefix = str_replace('+', '\+', $prefix);
 $mail_domain = $setup['note_routing']['address_host'];
 if (empty($prefix)) {
     echo "Error: Please configure the email address prefix.\n";

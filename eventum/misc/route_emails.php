@@ -107,6 +107,8 @@ if ($setup['email_routing']['status'] != 'enabled') {
     exit(78);
 }
 $prefix = $setup['email_routing']['address_prefix'];
+// escape plus signs so 'issue+1@example.com' becomes a valid routing address
+$prefix = str_replace('+', '\+', $prefix);
 $mail_domain = $setup['email_routing']['address_host'];
 $mail_domain_alias = @$setup['email_routing']['host_alias'];
 if (!empty($mail_domain_alias)) {
