@@ -174,7 +174,13 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
      */
     function getCustomerTitlesByIssues(&$result)
     {
-        echo "<pre>";print_r($result);echo "</pre>";
+        if (count($result) > 0) {
+            for ($i = 0; $i < count($result); $i++) {
+                if (!empty($result[$i]["iss_customer_id"])) {
+                    $result[$i]["customer_title"] = $this->getTitle($result[$i]["iss_customer_id"]);
+                }
+            }
+        }
     }
 
 
@@ -472,19 +478,6 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         // this is used to return all details about the customer/contact in one fell swoop.
         // for this example it will just return the details
         return $this->getDetails(User::getCustomerID($usr_id));
-    }
-
-
-    /**
-     * Method used to get the contract details for a given customer contact.
-     *
-     * @access  public
-     * @param   integer $contact_id The customer contact ID
-     * @return  array The customer contract details
-     */
-    function getContractDetails($contact_id, $restrict_expiration = TRUE)
-    {
-        // XXX - later
     }
 
 
