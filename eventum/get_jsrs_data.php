@@ -37,7 +37,7 @@ include_once(APP_INC_PATH . "jsrsServer.inc.php");
  * This page is used to return a single content to the expandable table using jsrs.
  */
 
-jsrsDispatch("getEmail,getNote,getDraft");
+jsrsDispatch("getEmail,getNote,getDraft,getPhoneSupport");
 
 /**
  * Selects the email from the table and returns the contents. Since jsrs only supports returning one value, 
@@ -89,6 +89,23 @@ function getDraft($id)
         return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $info["emd_body"]));
     } else {
         return $info["emd_body"];
+    }
+}
+
+
+/**
+ * Selects a phone support entry from the table and returns the contents.
+ * 
+ * @param   string $id The phone support entry ID.
+ * @return  A string containing the description.
+ */
+function getPhoneSupport($id)
+{
+    $res = Phone_Support::getDetails($id);
+    if (!empty($_GET["ec_id"])) {
+        return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $res["phs_description"]));
+    } else {
+        return $note["phs_description"];
     }
 }
 ?>
