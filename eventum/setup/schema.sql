@@ -453,6 +453,7 @@ INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created
 INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (6, 'Tech-Support', NOW());
 INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (7, 'Release', NOW());
 INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (8, 'Telephone Discussion', NOW());
+INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (9, 'Email Discussion', NOW());
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%user;
 CREATE TABLE %TABLE_PREFIX%user (
