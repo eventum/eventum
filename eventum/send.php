@@ -47,6 +47,12 @@ $usr_id = Auth::getUserID();
 @$issue_id = $HTTP_GET_VARS["issue_id"] ? $HTTP_GET_VARS["issue_id"] : $HTTP_POST_VARS["issue_id"];
 $tpl->assign("issue_id", $issue_id);
 
+// since emails associated with issues are sent to the notification list, not the to: field, set the to field to be blank
+// this field should already be blank, but may also be unset.
+if (!empty($issue_id)) {
+    $HTTP_POST_VARS['to'] = '';
+}
+
 if (@$HTTP_POST_VARS["cat"] == "send_email") {
     $res = Support::sendEmail();
     $tpl->assign("send_result", $res);
