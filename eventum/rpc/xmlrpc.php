@@ -622,6 +622,10 @@ function getWeeklyReport($p)
     $start = XML_RPC_decode($p->getParam(3));
     $end = XML_RPC_decode($p->getParam(4));
     
+    // we have to set a project so the template class works, even though the weekly report doesn't actually need it
+    $projects = Project::getAssocList(Auth::getUserID());
+    createFakeCookie($email, current(array_keys($projects)));
+    
     // figure out the correct week
     if ((empty($start)) || (empty($end))) {
         $start = date("U") - (DAY * (date("w") - 1));
