@@ -399,7 +399,8 @@ class Project
                     prj_outgoing_sender_email='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
                     prj_remote_invocation='" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
                     prj_customer_backend='" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "',
-                    prj_workflow_backend='" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "'
+                    prj_workflow_backend='" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "',
+                    prj_hide_fields_from_reporter='" . $HTTP_POST_VARS["hide_fields"] . "'
                  WHERE
                     prj_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -477,7 +478,8 @@ class Project
                     prj_outgoing_sender_email,
                     prj_remote_invocation,
                     prj_customer_backend,
-                    prj_workflow_backend
+                    prj_workflow_backend,
+                    prj_hide_fields_from_reporter
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
@@ -488,7 +490,8 @@ class Project
                     '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "',
+                    " . $HTTP_POST_VARS["hide_fields"] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
