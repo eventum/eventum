@@ -585,6 +585,10 @@ CREATE TABLE eventum_search_profile (
   UNIQUE (sep_usr_id, sep_prj_id, sep_type)
 );
 
- # March 3rd
- ALTER TABLE eventum_issue ADD INDEX (iss_duplicated_iss_id);
- ALTER TABLE eventum_time_tracking ADD INDEX (ttr_iss_id)
+# March 3rd
+ALTER TABLE eventum_issue ADD INDEX (iss_duplicated_iss_id);
+ALTER TABLE eventum_time_tracking ADD INDEX (ttr_iss_id)
+ 
+ 
+# March 7th
+ALTER TABLE eventum_issue ADD COLUMN iss_percent_complete tinyint(3) unsigned DEFAULT 0;
