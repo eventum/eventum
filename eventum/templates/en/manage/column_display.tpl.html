@@ -10,6 +10,9 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <form name="column_display_form" method="post" action="{$smarty.server.PHP_SELF}">
+        <input type="hidden" name="cat" value="save">
+        <input type="hidden" name="page" value="{$page}">
+        <input type="hidden" name="prj_id" value="{$prj_id}">
         <tr>
           <td class="default" nowrap colspan="2">
             <b>Manage Columns to Display</b> {include file="help_link.tpl.html" topic="column_display"}
@@ -67,10 +70,7 @@
         {/foreach}
         <tr>
           <td bgcolor="{$cell_color}" align="center" colspan="3">
-            <input type="hidden" name="cat" value="save">
-            <input type="hidden" name="page" value="{$page}">
-            <input type="hidden" name="prj_id" value="{$prj_id}">
-            <input type="submit" name="save" value="Save" class="default" >
+            <input type="submit" name="save" value="Save" class="button">
           </td>
         </tr>
       </table>
