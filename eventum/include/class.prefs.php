@@ -123,7 +123,7 @@ class Prefs
         $data = serialize(array(
             'close_popup_windows'     => $HTTP_POST_VARS['close_popup_windows'],
             'receive_assigned_emails' => $HTTP_POST_VARS['receive_assigned_emails'],
-            'receive_new_emails'      => $HTTP_POST_VARS['receive_new_emails'],
+            'receive_new_emails'      => @$HTTP_POST_VARS['receive_new_emails'],
             'timezone'                => $HTTP_POST_VARS['timezone'],
             'list_refresh_rate'       => $HTTP_POST_VARS['list_refresh_rate'],
             'emails_refresh_rate'     => $HTTP_POST_VARS['emails_refresh_rate'],
