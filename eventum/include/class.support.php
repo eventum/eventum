@@ -748,9 +748,7 @@ class Support
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
-                if (!empty($row["issue_id"])) {
-                    Workflow::handleNewEmail(Issue::getProjectID($row["issue_id"]), $row["issue_id"], $structure);
-                }
+                Workflow::handleNewEmail(Support::getProjectByEmailAccount($row["ema_id"]), @$row["issue_id"], $structure, $row);
                 return 1;
             }
         }
