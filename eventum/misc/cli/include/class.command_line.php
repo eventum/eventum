@@ -640,7 +640,15 @@ class Command_Line
     {
         $details = Command_Line::checkIssuePermissions(&$rpc_conn, $auth, $issue_id);
 
-        $msg = "        Issue #: $issue_id
+        $msg = '';
+        if (!empty($details["quarantine"]["iqu_status"])) {
+            $msg .= "        WARNING: Issue is currently quarantined!";
+            if (!empty($details["quarantine"]["iqu_expiration"])) {
+                $msg .= " Quarantine expires in " . $details["quarantine"]["time_till_expiration"];
+            }
+            $msg .= "\n";
+        }
+        $msg .= "        Issue #: $issue_id
         Summary: " . $details['iss_summary'] . "
          Status: " . $details['sta_title'] . "
      Assignment: " . $details['assignments'] . "
