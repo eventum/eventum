@@ -46,21 +46,21 @@ if (@$HTTP_POST_VARS["cat"] == "report") {
         // need to show everything again
         $tpl->assign("error_msg", "1");
     }
-} elseif (@$HTTP_POST_VARS["post_form"] == "yes") {
+} elseif (@$HTTP_GET_VARS["post_form"] == "yes") {
     // only list those projects that are allowing anonymous reporting of new issues
     $projects = Project::getAnonymousList();
     if (empty($projects)) {
         $tpl->assign("no_projects", "1");
     } else {
-        if (!in_array($HTTP_POST_VARS["project"], array_keys($projects))) {
+        if (!in_array($HTTP_GET_VARS["project"], array_keys($projects))) {
             $tpl->assign("no_projects", "1");
         } else {
             // get list of custom fields for the selected project
-            $options = Project::getAnonymousPostOptions($HTTP_POST_VARS["project"]);
+            $options = Project::getAnonymousPostOptions($HTTP_GET_VARS["project"]);
             if (@$options["show_custom_fields"] == "yes") {
-                $tpl->assign("custom_fields", Custom_Field::getListByProject($HTTP_POST_VARS["project"], 'anonymous_form'));
+                $tpl->assign("custom_fields", Custom_Field::getListByProject($HTTP_GET_VARS["project"], 'anonymous_form'));
             }
-            $tpl->assign("project_name", Project::getName($HTTP_POST_VARS["project"]));
+            $tpl->assign("project_name", Project::getName($HTTP_GET_VARS["project"]));
         }
     }
 } else {
@@ -69,7 +69,12 @@ if (@$HTTP_POST_VARS["cat"] == "report") {
     if (empty($projects)) {
         $tpl->assign("no_projects", "1");
     } else {
-        $tpl->assign("projects", $projects);
+        if (count($projects) == 1) {
+            $project_ids = array_keys($projects);
+            Auth::redirect('post.php?post_form=yes&project=' . $project_ids[0]);
+        } else {
+            $tpl->assign("projects", $projects);
+        }
     }
 }
 
