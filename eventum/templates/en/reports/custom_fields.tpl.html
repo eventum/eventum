@@ -1,6 +1,21 @@
 {include file="header.tpl.html"}
 <br />
-<form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="get">
+{literal}
+<script language="JavaScript">
+<!--
+function validateForm(f)
+{
+    if (getSelectedOption(f, 'custom_field') == -1) {
+        selectField(f, 'custom_field');
+        alert('Please select the custom field that you would like to generate a report against.');
+        return false;
+    }
+    return true;
+}
+//-->
+</script>
+{/literal}
+<form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="get" onSubmit="javascript:return validateForm(this);">
 <input type="hidden" name="cat" value="generate">
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" width="400">
   <tr>
@@ -22,9 +37,10 @@
         <tr>
           <td align="center" valign="top" height="10">
             <select name="custom_field" class="default" onChange="setOptions(this.options[this.selectedIndex].value, true)">
-                <option value=""></option>
+                <option value="-1"></option>
                 {html_options options=$custom_fields selected=$custom_field}
             </select>
+            {include file="error_icon.tpl.html" field="custom_field"}
           </td>
           <td align="center" valign="top" rowspan="3">
             <select name="custom_options[]" size="8" multiple class="default">
