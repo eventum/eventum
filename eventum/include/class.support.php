@@ -1138,16 +1138,17 @@ class Support
         } else {
             // gotta parse MIME based emails now
             $output = Mime_Helper::decode($res["seb_full_email"], true);
-            $res["message"] = Mime_Helper::getMessageBody($output);
+            $res["message"] = Mime_Helper::getMessageBody($output); // XXX: check which code relies on this var
             $res["attachments"] = array();
             // now get any eventual attachments
             for ($i = 0; $i < @count($output->parts); $i++) {
-                // hack in order to display in-line images from Outlook
+                // hack in order to display in-line images
+                $bmp_filetypes = array('bmp', 'x-bmp');
                 if ((@$output->parts[$i]->ctype_primary == 'image') &&
-                        (@$output->parts[$i]->ctype_secondary == 'bmp')) {
+                        (@in_array($output->parts[$i]->ctype_secondary, $bmp_filetypes))) {
                     $res["attachments"][] = array(
                         'filename' => $output->parts[$i]->ctype_parameters['name'],
-                        'cid'      => $output->parts[$i]->headers['content-id']
+                        'cid'      => @$output->parts[$i]->headers['content-id']
                     );
                     continue;
                 }
