@@ -42,6 +42,7 @@ Euventum Issue Tracking System
 - Added ability for issues to be 'Quarantined' when they are created (Bryan)
 - Added sorting on 'Last Action Date' column (Bryan, João)
 - Changed the history of changes window to dynamically hide internal-only actions from customer users (Bryan)
+- Fixed bug in the notification email code to properly display the project name in the outgoing emails (Clay Loveless)
 
 30 Jun 2004, Version 1.2.2
 - Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being created. (Bryan)

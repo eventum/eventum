@@ -2756,6 +2756,7 @@ class Issue
 
         $stmt = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue.*,
+                    prj_title,
                     prc_title,
                     pre_title,
                     pri_title,
@@ -2764,7 +2765,8 @@ class Issue
                     sta_color status_color,
                     sta_is_closed
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
@@ -2782,7 +2784,8 @@ class Issue
                  ON
                     iss_pre_id=pre_id
                  WHERE
-                    iss_id=$issue_id";
+                    iss_id=$issue_id AND
+                    iss_prj_id=prj_id";
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
