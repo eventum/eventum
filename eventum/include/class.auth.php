@@ -46,6 +46,30 @@ include_once(APP_INC_PATH . "private_key.php");
 class Auth
 {
     /**
+     * Method used to save the login information into a log file. It will be
+     * useful for administrative purposes, so we know which customers were able
+     * to login.
+     *
+     * @access  public
+     * @param   string $email The email associated with the user
+     * @param   string $type Whether it was a successful login or not
+     * @param   string $extra The reason for not being a successful login
+     */
+    function saveLoginAttempt($email, $type, $extra = false)
+    {
+        $msg = Date_API::getCurrentDateGMT() . " - Login attempt by '$email' was ";
+        if ($type == 'success') {
+            $msg .= "successful.\n";
+        } else {
+            $msg .= "not successful because of '$extra'.\n";
+        }
+        $fp = @fopen(APP_PATH . 'login_log.txt', "a");
+        @fwrite($fp, $msg);
+        @fclose($fp);
+    }
+
+
+    /**
      * Method used to get the requested URI for the 'current' page the user is
      * trying to access. This is used to get the appropriate URL and save it
      * if the user does not have the login cookie.
