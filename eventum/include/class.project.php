@@ -48,6 +48,7 @@ include_once(APP_INC_PATH . "class.filter.php");
 include_once(APP_INC_PATH . "class.support.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.status.php");
+include_once(APP_INC_PATH . "class.display_column.php");
 
 class Project
 {
@@ -504,6 +505,9 @@ class Project
             foreach ($HTTP_POST_VARS['statuses'] as $sta_id) {
                 Status::addProjectAssociation($sta_id, $new_prj_id);
             }
+            
+            Display_Column::setupNewProject($new_prj_id);
+            
             return 1;
         }
     }
