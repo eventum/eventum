@@ -44,6 +44,22 @@ function validateClose(f)
         alert('Please enter the reason for closing this issue.');
         return false;
     }
+    
+    if (has_per_incident_contract) {
+        elements = getForm('close_form');
+        has_checked_incident = false;
+        for (i = 0; i < elements.length; i++) {
+            if (elements[i].name.substr(0, 6) == 'redeem') {
+                if (elements[i].checked == true) {
+                    has_checked_incident = true;
+                }
+            }
+        }
+        if (has_checked_incident == false) {
+            return confirm('This customer has a per incident contract. You have chosen not to redeem any incidents. Press \'OK\' ' +
+             'to confirm or \'Cancel\' to revise.');
+        }
+    }
     return true;
 }
 //-->
@@ -109,6 +125,9 @@ function validateClose(f)
           </td>
         </tr>
         {if $incident_details|@count > 0}
+        <script>
+        var has_per_incident_contract = true;
+        </script>
         <tr>
           <td width="160" bgcolor="{$internal_color}" class="default_white">
             <b>Incident Types to Redeem: </b><br />
