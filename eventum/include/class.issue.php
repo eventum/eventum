@@ -2427,6 +2427,13 @@ class Issue
                  ON
                     sub_iss_id=iss_id";
         }
+        if (@$options['sort_by'] == 'prc_title') {
+            $stmt .= "
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                 ON
+                    iss_prc_id = prc_id";
+        }
         $stmt .= "
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
