@@ -18,6 +18,7 @@ Euventum Issue Tracking System
 - Moved description to seperate table to prevent wide descriptions from pushing the rest of the table over. (Bryan)
 - Added security to reports to prevent users with a role lower then "Standard User" from accessing them. (Bryan)
 - Auto reconnect to the IRC server if the connection is lost (João)
+- Fixed cookie related problem that prevented users from logging into IIS based installations (João)
 
 15 Jun 2004, Version 1.2.1
 - Fixed the email download routine to properly handle emails without any issue association (João)

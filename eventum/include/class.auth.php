@@ -270,7 +270,7 @@ class Auth
             echo $html;
             exit;
         } else {
-            header("Location: $new_url");
+            header("Refresh: 0; URL=$new_url");
             exit;
         }
     }
