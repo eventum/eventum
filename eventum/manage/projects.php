@@ -57,6 +57,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
         Project::remove();
     }
+    $tpl->assign("active_projects", Project::getAssocList(Auth::getUserID(), true));
 
     if (@$HTTP_GET_VARS["cat"] == "edit") {
         $tpl->assign("info", Project::getDetails($HTTP_GET_VARS["id"]));
