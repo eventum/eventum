@@ -63,16 +63,20 @@ function checkDateFilterType(f, type_field)
 {
     var option = getSelectedOption(f, type_field.name);
     var element_name = type_field.name.substring(0, type_field.name.indexOf('['));
-    var element = getPageElement(element_name + 1);
-    if ((option == 'between') && (!isElementVisible(element))) {
-        toggleVisibility(element_name, false);
-    } else if ((option != 'between') && (isElementVisible(element))) {
-        toggleVisibility(element_name, false);
-    }
-    if ((option == 'null') && (isElementVisible(getPageElement(element_name + '_null1')))) {
-        toggleVisibility(element_name + '_null', false);
-    } else if ((option != 'null') && (!isElementVisible(getPageElement(element_name + '_null1')))) {
-        toggleVisibility(element_name + '_null', false);
+    var element = getPageElement(element_name);
+
+    if (option == 'between') {
+        changeVisibility(element_name + '1', true);
+        changeVisibility(element_name + '2', true);
+        changeVisibility(element_name + '_last', false);
+    } else if (option == 'in_past') {
+        changeVisibility(element_name + '1', false);
+        changeVisibility(element_name + '2', false);
+        changeVisibility(element_name + '_last', true);
+    } else {
+        changeVisibility(element_name + '1', true);
+        changeVisibility(element_name + '2', false);
+        changeVisibility(element_name + '_last', false);
     }
 }
 function selectDateOptions(field_prefix, date_str)
@@ -268,8 +272,9 @@ function validateForm(f)
                     <option {if $options.cst_created_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
                     <option {if $options.cst_created_date_filter_type == "between"}selected{/if} value="between">Between</option>
                     <option {if $options.cst_created_date_filter_type == "null"}selected{/if} value="null">Is Null</option>
+                    <option {if $options.cst_created_date_filter_type == "in_past"}selected{/if} value="in_past">In Past</option>
                   </select>&nbsp;
-                  <span id="created_date_null1">
+                  <span id="created_date1">
                   {html_select_date field_array="created_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--
@@ -279,8 +284,12 @@ function validateForm(f)
                   //-->
                   </script>&nbsp;&nbsp;
                   </span>
+                  <span id="created_date_last">
+                  <input type="text" name="created_date[time_period]" size="3" class="default" value="{$options.cst_created_date_time_period}"> <span class="default">hours</span>
+                  &nbsp;&nbsp;
+                  </span>
                 </td>
-                <td nowrap id="created_date1" width="50%" valign="bottom">
+                <td nowrap id="created_date2" width="50%" valign="bottom">
                   <span class="default">Created: <i>(End date)</i></span><br />
                   {html_select_date field_array="created_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
@@ -307,8 +316,9 @@ function validateForm(f)
                     <option {if $options.cst_updated_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
                     <option {if $options.cst_updated_date_filter_type == "between"}selected{/if} value="between">Between</option>
                     <option {if $options.cst_updated_date_filter_type == "null"}selected{/if} value="null">Is Null</option>
+                    <option {if $options.cst_updated_date_filter_type == "in_past"}selected{/if} value="in_past">In Past</option>
                   </select>&nbsp;
-                  <span id="updated_date_null1">
+                  <span id="updated_date1">
                   {html_select_date field_array="updated_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--
@@ -318,8 +328,12 @@ function validateForm(f)
                   //-->
                   </script>&nbsp;&nbsp;
                   </span>
+                  <span id="updated_date_last">
+                  <input type="text" name="updated_date[time_period]" size="3" class="default" value="{$options.cst_updated_date_time_period}"> <span class="default">hours</span>
+                  &nbsp;&nbsp;
+                  </span>
                 </td>
-                <td nowrap id="updated_date1" width="50%" valign="bottom">
+                <td nowrap id="updated_date2" width="50%" valign="bottom">
                   <span class="default">Last Updated: <i>(End date)</i></span><br />
                   {html_select_date field_array="updated_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
@@ -346,8 +360,9 @@ function validateForm(f)
                     <option {if $options.cst_first_response_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
                     <option {if $options.cst_first_response_date_filter_type == "between"}selected{/if} value="between">Between</option>
                     <option {if $options.cst_first_response_date_filter_type == "null"}selected{/if} value="null">Is Null</option>
+                    <option {if $options.cst_first_response_date_filter_type == "in_past"}selected{/if} value="in_past">In Past</option>
                   </select>&nbsp;
-                  <span id="first_response_date_null1">
+                  <span id="first_response_date1">
                   {html_select_date field_array="first_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--
@@ -357,8 +372,12 @@ function validateForm(f)
                   //-->
                   </script>&nbsp;&nbsp;
                   </span>
+                  <span id="first_response_date_last">
+                  <input type="text" name="first_response_date[time_period]" size="3" class="default" value="{$options.cst_first_response_date_time_period}"> <span class="default">hours</span>
+                  &nbsp;&nbsp;
+                  </span>
                 </td>
-                <td nowrap id="first_response_date1" width="50%" valign="bottom">
+                <td nowrap id="first_response_date2" width="50%" valign="bottom">
                   <span class="default">First Response By Staff: <i>(End date)</i></span><br />
                   {html_select_date field_array="first_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
@@ -385,8 +404,9 @@ function validateForm(f)
                     <option {if $options.cst_last_response_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
                     <option {if $options.cst_last_response_date_filter_type == "between"}selected{/if} value="between">Between</option>
                     <option {if $options.cst_last_response_date_filter_type == "null"}selected{/if} value="null">Is Null</option>
+                    <option {if $options.cst_last_response_date_filter_type == "in_past"}selected{/if} value="in_past">In Past</option>
                   </select>&nbsp;
-                  <span id="last_response_date_null1">
+                  <span id="last_response_date1">
                   {html_select_date field_array="last_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--
@@ -396,8 +416,12 @@ function validateForm(f)
                   //-->
                   </script>&nbsp;&nbsp;
                   </span>
+                  <span id="last_response_date_last">
+                  <input type="text" name="last_response_date[time_period]" size="3" class="default" value="{$options.cst_last_response_date_time_period}"> <span class="default">hours</span>
+                  &nbsp;&nbsp;
+                  </span>
                 </td>
-                <td nowrap id="last_response_date1" width="50%" valign="bottom">
+                <td nowrap id="last_response_date2" width="50%" valign="bottom">
                   <span class="default">Last Response by Staff: <i>(End date)</i></span><br />
                   {html_select_date field_array="last_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
@@ -424,8 +448,9 @@ function validateForm(f)
                     <option {if $options.cst_closed_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
                     <option {if $options.cst_closed_date_filter_type == "between"}selected{/if} value="between">Between</option>
                     <option {if $options.cst_closed_date_filter_type == "null"}selected{/if} value="null">Is Null</option>
+                    <option {if $options.cst_closed_date_filter_type == "in_past"}selected{/if} value="in_past">In Past</option>
                   </select>&nbsp;
-                  <span id="closed_date_null1">
+                  <span id="closed_date1">
                   {html_select_date field_array="closed_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--
@@ -435,8 +460,12 @@ function validateForm(f)
                   //-->
                   </script>&nbsp;&nbsp;
                   </span>
+                  <span id="closed_date_last">
+                  <input type="text" name="closed_date[time_period]" size="3" class="default" value="{$options.cst_closed_date_time_period}"> <span class="default">hours</span>
+                  &nbsp;&nbsp;
+                  </span>
                 </td>
-                <td nowrap id="closed_date1" width="50%" valign="bottom">
+                <td nowrap id="closed_date2" width="50%" valign="bottom">
                   <span class="default">Status Closed: <i>(End date)</i></span><br />
                   {html_select_date field_array="closed_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
@@ -558,7 +587,7 @@ date_fields[date_fields.length] = new Option('closed_date', '{$options.cst_close
 date_fields[date_fields.length] = new Option('closed_date_end', '{$options.cst_closed_date_end}');
 
 {literal}
-var elements_to_hide = new Array('created_date', 'updated_date', 'last_response_date', 'first_response_date', 'closed_date');
+var elements_to_hide = new Array('created_date', 'updated_date', 'first_response_date', 'last_response_date', 'closed_date');
 for (var i = 0; i < elements_to_hide.length; i++) {
     toggleVisibility(elements_to_hide[i]);
     toggleDateFields(f, elements_to_hide[i]);

@@ -527,3 +527,14 @@ INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','sta_change_date'
 INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','last_action_date',1,11);
 INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','custom_fields',1,12);
 INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','iss_summary',1,13);
+
+
+# December 4th
+
+
+# December 4th
+ALTER TABLE eventum_custom_filter ADD COLUMN cst_created_date_time_period smallint(4) AFTER cst_created_date_filter_type;
+ALTER TABLE eventum_custom_filter ADD COLUMN cst_updated_date_time_period smallint(4) AFTER cst_updated_date_filter_type;
+ALTER TABLE eventum_custom_filter ADD COLUMN cst_last_response_date_time_period smallint(4) AFTER cst_last_response_date_filter_type;
+ALTER TABLE eventum_custom_filter ADD COLUMN cst_first_response_date_time_period smallint(4) AFTER cst_first_response_date_filter_type;
+ALTER TABLE eventum_custom_filter ADD COLUMN cst_closed_date_time_period smallint(4) AFTER cst_closed_date_filter_type;

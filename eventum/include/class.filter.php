@@ -135,7 +135,7 @@ class Filter
                 $$filter_type_var = "'" . $HTTP_POST_VARS[$field_name]['filter_type'] . "'";
                 if ($$filter_type_var == "'between'") {
                     $$date_end_var = "'" . $HTTP_POST_VARS[$date_end_var]["Year"] . "-" . $HTTP_POST_VARS[$date_end_var]["Month"] . "-" . $HTTP_POST_VARS[$date_end_var]["Day"] . "'";
-                } elseif ($$filter_type_var == "'null'") {
+                } elseif (($$filter_type_var == "'null'") || ($$filter_type_var == "'in_past'")) {
                     $$date_var = "NULL";
                     $$date_end_var = "NULL";
                 } else {
@@ -170,18 +170,23 @@ class Filter
                         cst_show_notification_list='" . @$HTTP_POST_VARS["show_notification_list_issues"] . "',
                         cst_created_date=$created_date,
                         cst_created_date_filter_type=$created_date_filter_type,
+                        cst_created_date_time_period='" . @$_REQUEST['created_date']['time_period'] . "',
                         cst_created_date_end=$created_date_end,
                         cst_updated_date=$updated_date,
                         cst_updated_date_filter_type=$updated_date_filter_type,
+                        cst_updated_date_time_period='" . @$_REQUEST['updated_date']['time_period'] . "',
                         cst_updated_date_end=$updated_date_end,
                         cst_last_response_date=$last_response_date,
                         cst_last_response_date_filter_type=$last_response_date_filter_type,
+                        cst_last_response_date_time_period='" . @$_REQUEST['last_response_date']['time_period'] . "',
                         cst_last_response_date_end=$last_response_date_end,
                         cst_first_response_date=$first_response_date,
                         cst_first_response_date_filter_type=$first_response_date_filter_type,
+                        cst_first_response_date_time_period='" . @$_REQUEST['first_response_date']['time_period'] . "',
                         cst_first_response_date_end=$first_response_date_end,
                         cst_closed_date=$closed_date,
                         cst_closed_date_filter_type=$closed_date_filter_type,
+                        cst_closed_date_time_period='" . @$_REQUEST['closed_date']['time_period'] . "',
                         cst_closed_date_end=$closed_date_end,
                         cst_is_global=$is_global_filter
                      WHERE
@@ -207,18 +212,23 @@ class Filter
                         cst_show_notification_list,
                         cst_created_date,
                         cst_created_date_filter_type,
+                        cst_created_date_time_period,
                         cst_created_date_end,
                         cst_updated_date,
                         cst_updated_date_filter_type,
+                        cst_updated_date_time_period,
                         cst_updated_date_end,
                         cst_last_response_date,
                         cst_last_response_date_filter_type,
+                        cst_last_response_date_time_period,
                         cst_last_response_date_end,
                         cst_first_response_date,
                         cst_first_response_date_filter_type,
+                        cst_first_response_date_time_period,
                         cst_first_response_date_end,
                         cst_closed_date,
                         cst_closed_date_filter_type,
+                        cst_closed_date_time_period,
                         cst_closed_date_end,
                         cst_is_global
                      ) VALUES (
@@ -239,18 +249,23 @@ class Filter
                         '" . @$HTTP_POST_VARS["show_notification_list_issues"] . "',
                         $created_date,
                         $created_date_filter_type,
+                        '" . @$_REQUEST['created_date']['time_period'] . "',
                         $created_date_end,
                         $updated_date,
                         $updated_date_filter_type,
+                        '" . @$_REQUEST['updated_date']['time_period'] . "',
                         $updated_date_end,
                         $last_response_date,
                         $last_response_date_filter_type,
+                        '" . @$_REQUEST['response_date']['time_period'] . "',
                         $last_response_date_end,
                         $first_response_date,
                         $first_response_date_filter_type,
+                        '" . @$_REQUEST['first_response_date']['time_period'] . "'
                         $first_response_date_end,
                         $closed_date,
                         $closed_date_filter_type,
+                        '" . @$_REQUEST['closed_date']['time_period'] . "',
                         $closed_date_end,
                         $is_global_filter
                      )";

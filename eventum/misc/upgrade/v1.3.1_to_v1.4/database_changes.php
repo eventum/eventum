@@ -73,6 +73,12 @@ $stmts[] = "CREATE TABLE eventum_columns_to_display (
     INDEX(ctd_prj_id, ctd_page)
 )";
 
+// add filtering by events in past x hours to advanced search
+$stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_created_date_time_period smallint(4) AFTER cst_created_date_filter_type";
+$stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_updated_date_time_period smallint(4) AFTER cst_updated_date_filter_type;"
+$stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_last_response_date_time_period smallint(4) AFTER cst_last_response_date_filter_type";
+$stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_first_response_date_time_period smallint(4) AFTER cst_first_response_date_filter_type";
+$stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_closed_date_time_period smallint(4) AFTER cst_closed_date_filter_type";
 
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);

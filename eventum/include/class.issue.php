@@ -1877,21 +1877,29 @@ class Issue
             if (empty($field)) {
                 continue;
             }
-            $end_field_name = $field_name . '_end';
-            $end_field = Issue::getParam($end_field_name);
-            @$cookie[$field_name] = array(
-                'Year'        => $field['Year'],
-                'Month'       => $field['Month'],
-                'Day'         => $field['Day'],
-                'start'       => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
-                'filter_type' => $field['filter_type'],
-                'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day']
-            );
-            @$cookie[$end_field_name] = array(
-                'Year'        => $end_field['Year'],
-                'Month'       => $end_field['Month'],
-                'Day'         => $end_field['Day']
-            );
+            if (@$field['filter_type'] == 'in_past') {
+                @$cookie[$field_name] = array(
+                    'filter_type'   =>  'in_past',
+                    'time_period'   =>  $field['time_period']
+                );
+            } else {
+                $end_field_name = $field_name . '_end';
+                $end_field = Issue::getParam($end_field_name);
+                @$cookie[$field_name] = array(
+                    'past_hour'   => $field['past_hour'],
+                    'Year'        => $field['Year'],
+                    'Month'       => $field['Month'],
+                    'Day'         => $field['Day'],
+                    'start'       => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
+                    'filter_type' => $field['filter_type'],
+                    'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day']
+                );
+                @$cookie[$end_field_name] = array(
+                    'Year'        => $end_field['Year'],
+                    'Month'       => $end_field['Month'],
+                    'Day'         => $end_field['Day']
+                );
+            }
         }
         // set search information for specific usr_id
         $full_cookie = Issue::getCookieParams(true);
@@ -2333,6 +2341,10 @@ class Issue
                         break;
                     case 'null':
                         $stmt .= " AND iss_$field_name IS NULL";
+                        break;
+                    case 'in_past':
+                        $stmt .= " AND (UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "') - UNIX_TIMESTAMP(iss_$field_name)) <= (" . 
+                            $options[$field_name]['time_period'] . "*3600)";
                         break;
                 }
             }
