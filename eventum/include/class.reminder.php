@@ -804,13 +804,13 @@ class Reminder
                         $conditions[$i]['rmf_sql_representation'] = $conditions[$i]['rmf_sql_field'];
                     } else {
                         $conditions[$i]['rlc_value'] = $conditions[$i]['rlc_value'] * 60 * 60;
+                        if (@$reminder["rem_skip_weekend"] == 1) {
+                            $sql_field = Reminder_Condition::getSQLField($conditions[$i]['rlc_rmf_id']);
+                            $conditions[$i]['rmf_sql_representation'] = DB_API::getNoWeekendDateDiffSQL($sql_field);
+                        }
                     }
                 }
                 
-                if ($reminder["rem_skip_weekend"] == 1) {
-                    $sql_field = Reminder_Condition::getSQLField($conditions[$i]['rlc_rmf_id']);
-                    $conditions[$i]['rmf_sql_representation'] = DB_API::getNoWeekendDateDiffSQL($sql_field);
-                }
                 $stmt .= sprintf(" AND %s %s %s\n", $conditions[$i]['rmf_sql_representation'],
                                                   $conditions[$i]['rmo_sql_representation'],
                                                   $conditions[$i]['rlc_value']);
@@ -875,6 +875,27 @@ class Reminder
             }
             return $res;
         }
+    }
+
+
+    /**
+     * Method used to get the list of email addresses to use
+     * to send diagnostic information about the reminder system.
+     *
+     * @access  private
+     * @return  array The list of alert email addresses
+     */
+    function _getReminderAlertAddresses()
+    {
+        $emails = array();
+        $setup = Setup::load();
+        if ((@$setup['email_reminder']['status'] == 'enabled') &&
+                (!empty($setup['email_reminder']['addresses']))) {
+            $addresses = $setup['email_reminder']['addresses'];
+            $emails = explode(',', $addresses);
+        }
+        $emails = array_map('trim', $emails);
+        return $emails;
     }
 }
 
