@@ -10,18 +10,18 @@
               {
                   checkLeadSelection(f);
                   if (isWhitespace(f.title.value)) {
-                      alert('Please enter the title of this project.');
                       selectField(f, 'title');
+                      alert('Please enter the title of this project.');
                       return false;
                   }
                   if (!hasOneSelected(f, 'users[]')) {
-                      alert('Please assign the users for this project.');
                       selectField(f, 'users[]');
+                      alert('Please assign the users for this project.');
                       return false;
                   }
                   if (!hasOneSelected(f, 'statuses[]')) {
-                      alert('Please assign the statuses for this project.');
                       selectField(f, 'statuses[]');
+                      alert('Please assign the statuses for this project.');
                       return false;
                   }
                   // the selected initial status should be one of the selected assigned statuses
@@ -34,13 +34,13 @@
                       }
                   }
                   if (!found) {
-                      alert('Please choose the initial status from one of the assigned statuses of this project.');
                       selectField(f, 'initial_status');
+                      alert('Please choose the initial status from one of the assigned statuses of this project.');
                       return false;
                   }
-                  if (isWhitespace(f.outgoing_sender_email.value)) {
-                      alert('Please enter the outgoing sender address for this project.');
+                  if (!isEmail(f.outgoing_sender_email.value)) {
                       selectField(f, 'outgoing_sender_email');
+                      alert('Please enter a valid outgoing sender address for this project.');
                       return false;
                   }
                   return true;
