@@ -234,6 +234,10 @@ class Draft
                     $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
                 }
                 list($res[$i]['to'], ) = Draft::getEmailRecipients($res[$i]['emd_id']);
+                
+                if (empty($res[$i]['to'])) {
+                    $res[$i]['to'] = "Notification List";
+                }
             }
             return $res;
         }
