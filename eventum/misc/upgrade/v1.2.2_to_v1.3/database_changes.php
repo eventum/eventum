@@ -25,6 +25,7 @@ $changes[] = "create table eventum_customer_note (
 )";
 $changes[] = "CREATE TABLE eventum_customer_account_manager (
   cam_id int(11) unsigned NOT NULL auto_increment,
+  cam_prj_id int(11) unsigned NOT NULL,
   cam_customer_id int(11) unsigned NOT NULL,
   cam_usr_id int(11) unsigned NOT NULL,
   cam_type varchar(7) NOT NULL,
