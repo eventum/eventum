@@ -69,8 +69,8 @@ if ($HTTP_GET_VARS['cat'] == 'attachment') {
             } else {
                 header("Content-Type: " . $file['iaf_filetype']);
             }
+            header("Content-Disposition: attachment; filename=$filename");
         }
-        header("Content-Disposition: attachment; filename=$filename");
         header("Content-Length: " . $file['iaf_filesize']);
         echo $file['iaf_file'];
         exit;
