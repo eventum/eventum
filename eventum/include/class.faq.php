@@ -264,6 +264,7 @@ class FAQ
                 $res['support_levels'] = array_keys(FAQ::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
             }
             $res['faq_updated_date'] = Date_API::getFormattedDate($res['faq_updated_date']);
+            $res['message'] = Misc::activateLinks(nl2br(htmlspecialchars($res['faq_message'])));
             return $res;
         }
     }

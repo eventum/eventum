@@ -64,6 +64,7 @@ class News
                 if ((!$show_full_message) && (strlen($res[$i]['nws_message']) > 255)) {
                     $res[$i]['nws_message'] = substr($res[$i]['nws_message'], 0, 255) . '...';
                 }
+                $res[$i]['nws_message'] = Misc::activateLinks(nl2br(htmlspecialchars($res[$i]['nws_message'])));
             }
             return $res;
         }
