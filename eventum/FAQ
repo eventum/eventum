@@ -10,6 +10,10 @@ answers, or subscribe and send your questions to the list.
 
 Trouble Shooting
 
+Problem: I get the message "Client does not support authentication protocol 
+    requested by server; consider upgrading MySQL client".
+Solution: See http://dev.mysql.com/doc/mysql/en/old-client.html
+
 Problem: I get the message "Error: Cookies support seem to be disabled in 
     your browser. Please enable this feature and try again".
 Solution: There are many things that could cause this problem.
