@@ -69,7 +69,8 @@ class Report
                     iss_sta_id,
                     iss_created_date,
                     iss_updated_date,
-                    iss_last_response_date
+                    iss_last_response_date,
+                    sta_color
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
@@ -105,7 +106,7 @@ class Report
                     'sta_title'           => $res[$i]['sta_title'],
                     'iss_created_date'    => Date_API::getFormattedDate($res[$i]['iss_created_date']),
                     'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
-                    'status_color'        => Status::getStatusColor($res[$i]['iss_sta_id']),
+                    'status_color'        => $res[$i]['sta_color'],
                     'last_update'         => Date_API::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_updated_date'], Date_API::getDefaultTimezone())),
                     'last_email_response' => Date_API::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_API::getDefaultTimezone()))
                 );
@@ -131,7 +132,8 @@ class Report
                     iss_summary,
                     sta_title,
                     iss_sta_id,
-                    iss_created_date
+                    iss_created_date,
+                    sta_color
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
@@ -159,7 +161,7 @@ class Report
                     'sta_title'        => $res[$i]['sta_title'],
                     'iss_created_date' => Date_API::getFormattedDate($res[$i]['iss_created_date']),
                     'time_spent'       => Misc::getFormattedTime($res[$i]['time_spent']),
-                    'status_color'     => Status::getStatusColor($res[$i]['iss_sta_id'])
+                    'status_color'     => $res[$i]['sta_color']
                 );
             }
             return $issues;
@@ -235,6 +237,7 @@ class Report
             "start"     => str_replace('-', '.', $start),
             "end"       => str_replace('-', '.', $end),
             "user"      => User::getDetails($usr_id),
+            "group_name"=> Group::getName(User::getGroupID($usr_id)),
             "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts),
             "status_counts" => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts, array("WOD", "WOC","WOF","WOB","WOL","WOA")),
             "new_assigned_count"    =>  $newly_assigned,
