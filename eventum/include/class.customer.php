@@ -507,10 +507,25 @@ class Customer
     }
 
 
+    function getContractEndDate($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getContractEndDate($customer_id);
+    }
 
 
+    function getSalesAccountManager($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getSalesAccountManager($customer_id);
+    }
 
 
+    function getContractStartDate($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getContractStartDate($customer_id);
+    }
 
 
 

@@ -174,6 +174,62 @@ class Command_Line
 
 
     /**
+     * Looks up customer information given a set of search parameters.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   array $auth Array of authentication information (email, password)
+     * @param   string $field The field in which to search
+     * @param   string $value The value to search against
+     */
+    function lookupCustomer($rpc_conn, $auth, $field, $value)
+    {
+        $project_id = Command_Line::promptProjectSelection(&$rpc_conn, $auth, TRUE);
+
+        $params = array(
+            new XML_RPC_Value($auth[0], 'string'), 
+            new XML_RPC_Value($auth[1], 'string'),
+            new XML_RPC_Value($project_id, 'int'),
+            new XML_RPC_Value($field),
+            new XML_RPC_Value($value)
+        );
+        $msg = new XML_RPC_Message("lookupCustomer", $params);
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $res = XML_RPC_decode($result->value());
+        if (!is_array($res)) {
+            echo "ERROR: Sorry, for security reasons you need to wait $res until your next customer lookup.\n";
+        } else {
+            if (count($res) == 0) {
+                echo "Sorry, no customers could be found.\n";
+            } else {
+                $out = array();
+                $out[] = "Customer Lookup Results:\n";
+                foreach ($res as $customer) {
+                    $out[] = '         Customer: ' . $customer['customer_name'];
+                    $out[] = '    Support Level: ' . $customer['support_level'];
+                    $out[] = '       Expiration: ' . $customer['expiration_date'];
+                    $out[] = '  Contract Status: ' . $customer['contract_status'];
+                    // contacts now...
+                    if (count($customer['contacts']) > 0) {
+                        $out[] = " Allowed Contacts: " . $customer['contacts'][0]['contact_name'] . ' - ' . $customer['contacts'][0]['email'] .
+                                (empty($customer['contacts'][0]['phone']) ? '' : (' - ' . $customer['contacts'][0]['phone']));
+                        for ($i = 1; $i < count($customer['contacts']); $i++) {
+                            $out[] = "                   " . $customer['contacts'][$i]['contact_name'] . ' - ' . $customer['contacts'][$i]['email'] .
+                                (empty($customer['contacts'][$i]['phone']) ? '' : (' - ' . $customer['contacts'][$i]['phone']));
+                        }
+                    }
+                    $out[] = "\n";
+                }
+                echo implode("\n", $out);
+            }
+        }
+    }
+
+
+    /**
      * Method used to parse the eventum command line configuration file
      * and return the appropriate configuration settings.
      *
@@ -640,7 +696,16 @@ class Command_Line
          Status: " . $details['sta_title'] . "
      Assignment: " . $details['assignments'] . "
  Auth. Repliers: " . @implode(', ', $details['authorized_names']) . "
-       Reporter: " . $details['reporter'] . "
+       Reporter: " . $details['reporter'];
+        if (@isset($details['customer_info'])) {
+            $msg .= "
+       Customer: " . @$details['customer_info']['customer_name'] . "
+  Support Level: " . @$details['customer_info']['support_level'] . "
+Support Options: " . @$details['customer_info']['support_options'] . "
+          Phone: " . $details['iss_contact_phone'] . "
+       Timezone: " . $details['iss_contact_timezone'];
+        }
+        $msg .= "
   Last Response: " . $details['iss_last_response_date'] . "
    Last Updated: " . $details['iss_updated_date'] . "\n";
         echo $msg;
@@ -720,11 +785,16 @@ class Command_Line
      * @access  public
      * @param   resource $rpc_conn The connection resource
      * @param   array $auth Array of authentication information (email, password)
+     * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
      */
-    function getUserAssignedProjects($rpc_conn, $auth)
+    function getUserAssignedProjects($rpc_conn, $auth, $only_customer_projects = FALSE)
     {
-        $msg = new XML_RPC_Message("getUserAssignedProjects", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string')));
+        $msg = new XML_RPC_Message("getUserAssignedProjects", array(
+            new XML_RPC_Value($auth[0], 'string'),
+            new XML_RPC_Value($auth[1], 'string'),
+            new XML_RPC_Value($only_customer_projects, 'boolean')
+        ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             Command_Line::quit($result->faultString());
@@ -739,12 +809,13 @@ class Command_Line
      * @access  public
      * @param   resource $rpc_conn The connection resource
      * @param   array $auth Array of authentication information (email, password)
+     * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  integer The project ID
      */
-    function promptProjectSelection($rpc_conn, $auth)
+    function promptProjectSelection($rpc_conn, $auth, $only_customer_projects = FALSE)
     {
         // list the projects that this user is assigned to
-        $projects = Command_Line::getUserAssignedProjects(&$rpc_conn, $auth);
+        $projects = Command_Line::getUserAssignedProjects(&$rpc_conn, $auth, $only_customer_projects);
 
         if (count($projects) > 1) {
             // need to ask which project this person is asking about
@@ -1080,7 +1151,6 @@ class Command_Line
      */
     function getWeeklyReport($rpc_conn, $auth, $week, $start_date = '', $end_date = '')
     {
-        // get summary, customer status and assignment of issue, then show confirmation prompt to user
         $msg = new XML_RPC_Message("getWeeklyReport", array(
             new XML_RPC_Value($auth[0], 'string'), 
             new XML_RPC_Value($auth[1], 'string'),
@@ -1314,8 +1384,11 @@ class Command_Line
                 default:
                     $details = XML_RPC_decode($result->value());
                     $msg = "These are the current details for issue #$issue_id:\n" .
-                            "         Summary: " . $details['summary'] . "\n" .
-                            "          Status: " . $details['status'] . "\n" .
+                            "         Summary: " . $details['summary'] . "\n";
+                    if (@!empty($details['customer'])) {
+                        $msg .= "        Customer: " . $details['customer'] . "\n";
+                    }
+                    $msg .= "          Status: " . $details['status'] . "\n" .
                             "      Assignment: " . $details["assignments"] . "\n" . 
                             "  Auth. Repliers: " . $details["authorized_names"] . "\n" .
                             "Are you sure you want to change this issue?";
@@ -1486,6 +1559,10 @@ class Command_Line
         $usage[] = array(
             "command"   =>  "list-status",
             "help"      =>  "List all available statuses in the system."
+        );
+        $usage[] = array(
+            "command"   =>  "customer email|support|customer <value>",
+            "help"      =>  "Looks up a customer's record information."
         );
         $usage[] = array(
             "command"   =>  array("weekly-report ([<week>])|([<start>] [<end>])", "wr ([<week>])|([<start>] [<end>])"),

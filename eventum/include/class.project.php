@@ -784,13 +784,14 @@ class Project
      *
      * @access  public
      * @param   integer $usr_id The user ID
+     * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
      */
-    function getRemoteAssocListByUser($usr_id)
+    function getRemoteAssocListByUser($usr_id, $only_customer_projects = FALSE)
     {
         static $returns;
 
-        if (!empty($returns[$usr_id])) {
+        if ((!$only_customer_projects) && (!empty($returns[$usr_id]))) {
             return $returns[$usr_id];
         }
 
@@ -803,7 +804,11 @@ class Project
                  WHERE
                     prj_id=pru_prj_id AND
                     pru_usr_id=$usr_id AND
-                    prj_remote_invocation='enabled'
+                    prj_remote_invocation='enabled'";
+        if ($only_customer_projects) {
+            $stmt .= " AND prj_customer_backend <> '' AND prj_customer_backend IS NOT NULL ";
+        }
+        $stmt .= "
                  ORDER BY
                     prj_title";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -811,7 +816,10 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            $returns[$usr_id] = $res;
+            // don't cache the results when the optional argument is used to avoid getting bogus results
+            if (!$only_customer_projects) {
+                $returns[$usr_id] = $res;
+            }
             return $res;
         }
     }

@@ -823,7 +823,11 @@ class Notification
         }
         $data = Issue::getDetails($issue_id);
         // notify new issue to irc channel
-        $irc_notice = "New Issue #$issue_id (Priority: " . $data['pri_title'] . "), " . $data['iss_summary'];
+        $irc_notice = "New Issue #$issue_id (Priority: " . $data['pri_title'] . "), ";
+        if (@isset($data['customer_info'])) {
+            $irc_notice .= $data['customer_info']['customer_name'] . ", ";
+        }
+        $irc_notice .= $data['iss_summary'];
         Notification::notifyIRC($issue_id, $irc_notice);
         $data['custom_fields'] = Custom_Field::getListByIssue($data['iss_prj_id'], $issue_id);
         $subject = 'New Issue';

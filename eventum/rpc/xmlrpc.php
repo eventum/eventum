@@ -39,6 +39,7 @@ include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.authorized_replier.php");
 include_once(APP_INC_PATH . "class.report.php");
 include_once(APP_INC_PATH . "class.template.php");
+include_once(APP_INC_PATH . "class.customer.php");
 error_reporting(0);
 include_once(APP_PEAR_PATH . "XML_RPC/Server.php");
 
@@ -98,6 +99,7 @@ function getSimpleIssueDetails($p)
     }
     return new XML_RPC_Response(new XML_RPC_Value(array(
                 "summary"     => new XML_RPC_Value($details['iss_summary']),
+                "customer"    => new XML_RPC_Value(@$details['customer_info']['customer_name']),
                 "status"      => new XML_RPC_Value(@$details['sta_title']),
                 "assignments" => new XML_RPC_Value(@$details["assignments"]),
                 "authorized_names"  =>  new XML_RPC_Value(@implode(', ', $details['authorized_names']))
@@ -150,7 +152,7 @@ function isValidLogin($p)
     return new XML_RPC_Response(new XML_RPC_Value($is_valid, $XML_RPC_String));
 }
 
-$getUserAssignedProjects_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String));
+$getUserAssignedProjects_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Boolean));
 function getUserAssignedProjects($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
@@ -159,9 +161,10 @@ function getUserAssignedProjects($p)
     if (is_object($auth)) {
         return $auth;
     }
+    $only_customer_projects = XML_RPC_decode($p->getParam(2));
 
     $usr_id = User::getUserIDByEmail($email);
-    $res = Project::getRemoteAssocListByUser($usr_id);
+    $res = Project::getRemoteAssocListByUser($usr_id, $only_customer_projects);
     if (empty($res)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "You are not assigned to any projects at this moment");
     } else {
@@ -410,6 +413,35 @@ function getFile($p)
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The requested file could not be found");
     } else {
         $res['iaf_file'] = base64_encode($res['iaf_file']);
+        return new XML_RPC_Response(XML_RPC_Encode($res));
+    }
+}
+
+$lookupCustomer_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
+function lookupCustomer($p)
+{
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $prj_id = XML_RPC_decode($p->getParam(2));
+    $field = XML_RPC_decode($p->getParam(3));
+    $value = XML_RPC_decode($p->getParam(4));
+
+    $possible_fields = array('email', 'support', 'customer');
+    if (!in_array($field, $possible_fields)) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Unknown field type '$field'");
+    }
+    
+    $usr_id = User::getUserIDByEmail($email);
+    // only customers should be able to use this page
+    $role_id = User::getRoleByUser($usr_id);
+    if ($role_id < User::getRoleID('Developer')) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "You don't have the appropriate permissions to lookup customer information");
+    } else {
+        $res = Customer::lookup($prj_id, $field, $value);
         return new XML_RPC_Response(XML_RPC_Encode($res));
     }
 }
@@ -814,6 +846,10 @@ $services = array(
     "closeIssue" => array(
         'function'  => 'closeIssue',
         'signature' => $closeIssue_sig
+    ),
+    "lookupCustomer" => array(
+        'function'  => "lookupCustomer",
+        'signature' => $lookupCustomer_sig
     ),
     "getFile" => array(
         'function'  => "getFile",

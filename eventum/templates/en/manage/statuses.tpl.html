@@ -181,7 +181,7 @@
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].sta_id}"></td>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].sta_id}"></td>
                       <td bgcolor="{$row_color}" class="default" align="center">{$list[i].sta_rank}</td>
                       <td bgcolor="{$row_color}" class="default" align="center">{$list[i].sta_abbreviation}</td>
                       <td width="40%" bgcolor="{$row_color}" class="default">

@@ -61,20 +61,36 @@ include_once(APP_INC_PATH . "class.round_robin.php");
 include_once(APP_INC_PATH . "class.authorized_replier.php");
 include_once(APP_INC_PATH . "class.workflow.php");
 
-$list_headings = array(
-    'Priority',
-    'Issue ID',
-    'Assigned',
-    'Time Spent',
-    'Category',
-    'Status',
-    'Status Change Date',
-    'Last Action Date',
-    'Summary'
-);
-
 class Issue
 {
+    /**
+     * Method used to get the list of column heading titles for the
+     * CSV export functionality of the issue listing screen.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array The list of column heading titles
+     */
+    function getColumnHeadings($prj_id)
+    {
+        $headings = array(
+            'Priority',
+            'Issue ID',
+            'Assigned',
+            'Time Spent',
+            'Category'
+        );
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            $headings[] = 'Customer';
+        }
+        $headings[] = 'Status';
+        $headings[] = 'Status Change Date';
+        $headings[] = 'Last Action Date';
+        $headings[] = 'Summary';
+        return $headings;
+    }
+
+
     /**
      * Method used to get the full list of date fields available to issues, to
      * be used when customizing the issue listing screen in the 'last status
@@ -1973,8 +1989,6 @@ class Issue
      */
     function getListing($prj_id, $options, $current_row = 0, $max = 5, $get_reporter = FALSE)
     {
-        global $list_headings;
-
         if ($max == "ALL") {
             $max = 9999999;
         }
@@ -2066,7 +2080,7 @@ class Issue
                 }
                 Issue::getLastActionDates($res);
             }
-            $csv[] = @implode("\t", $list_headings);
+            $csv[] = @implode("\t", Issue::getColumnHeadings($prj_id));
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['status_change_date'] = Issue::getLastStatusChangeDate($res[$i]['iss_id'], $res[$i]);
                 $res[$i]["status_color"] = Status::getStatusColor($res[$i]["sta_id"]);
@@ -2076,13 +2090,15 @@ class Issue
                     $res[$i]['iss_id'],
                     $res[$i]['assigned_users'],
                     $res[$i]['time_spent'],
-                    @$res[$i]['customer_title'],
-                    $res[$i]['prc_title'],
-                    $res[$i]['sta_title'],
-                    $res[$i]["status_change_date"],
-                    $res[$i]["last_action_date"],
-                    $res[$i]['iss_summary']
+                    $res[$i]['prc_title']
                 );
+                if (Customer::hasCustomerIntegration($prj_id)) {
+                    $fields[] = @$res[$i]['customer_title'];
+                }
+                $fields[] = $res[$i]['sta_title'];
+                $fields[] = $res[$i]["status_change_date"];
+                $fields[] = $res[$i]["last_action_date"];
+                $fields[] = $res[$i]['iss_summary'];
                 $csv[] = @implode("\t", $fields);
             }
             $total_pages = ceil($total_rows / $max);

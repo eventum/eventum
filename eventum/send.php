@@ -59,6 +59,7 @@ if (@$HTTP_POST_VARS["cat"] == "send_email") {
     if (!@empty($HTTP_POST_VARS['new_status'])) {
         Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
     }
+    
     // remove the existing email draft, if appropriate
     if (!empty($HTTP_POST_VARS['draft_id'])) {
         Draft::remove($HTTP_POST_VARS['draft_id']);
@@ -123,7 +124,8 @@ if (@$HTTP_GET_VARS["cat"] == 'reply') {
         $details['sup_from'] = Mail_API::getFormattedName($details['reporter'], $details['reporter_email']);
         $tpl->bulkAssign(array(
             "email"           => $details,
-            "parent_email_id" => 0
+            "parent_email_id" => 0,
+            "extra_title"     => "Issue #" . $HTTP_GET_VARS['issue_id'] . ": Reply"
         ));
     }
 }
