@@ -517,7 +517,7 @@ class Mail_API
         ));
         $hdrs = $this->mime->headers($this->headers);
         $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id);
-        if (PEAR::isError($res)) {
+        if ((PEAR::isError($res)) || ($res == false)) {
             return $res;
         } else {
             // RFC 822 formatted date
