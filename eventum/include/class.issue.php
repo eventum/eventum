@@ -1485,9 +1485,11 @@ class Issue
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  (
-                    iss_prj_id,
-                    iss_prc_id,
-                    iss_pri_id,
+                    iss_prj_id,\n";
+        if (!empty($category)) {
+            $stmt .= "iss_prc_id,\n";
+        }
+        $stmt .= "iss_pri_id,
                     iss_usr_id,";
         if (!empty($initial_status)) {
             $stmt .= "iss_sta_id,";
@@ -1507,9 +1509,11 @@ class Issue
                     iss_summary,
                     iss_description
                  ) VALUES (
-                    " . $prj_id . ",
-                    " . $category . ",
-                    " . $priority . ",
+                    " . $prj_id . ",\n";
+        if (!empty($category)) {
+            $stmt .=  $category . ",\n";
+        }
+        $stmt .= $priority . ",
                     " . $reporter . ",";
         if (!empty($initial_status)) {
             $stmt .= "$initial_status,";
@@ -1634,10 +1638,14 @@ class Issue
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  (
-                    iss_prj_id,
-                    iss_prc_id,
-                    iss_pre_id,
-                    iss_pri_id,
+                    iss_prj_id,\n";
+        if (!empty($HTTP_POST_VARS["category"])) {
+            $stmt .= "iss_prc_id,\n";
+        }
+        if (!empty($HTTP_POST_VARS["release"])) {
+            $stmt .= "iss_pre_id,\n";
+        }
+        $stmt .= "iss_pri_id,
                     iss_usr_id,";
         if (!empty($initial_status)) {
             $stmt .= "iss_sta_id,";
@@ -1658,10 +1666,14 @@ class Issue
                     iss_description,
                     iss_dev_time
                  ) VALUES (
-                    " . $prj_id . ",
-                    " . $HTTP_POST_VARS["category"] . ",
-                    " . $HTTP_POST_VARS["release"] . ",
-                    " . $HTTP_POST_VARS["priority"] . ",
+                    " . $prj_id . ",\n";
+        if (!empty($HTTP_POST_VARS["category"])) {
+            $stmt .= $HTTP_POST_VARS["category"] . ",\n";
+        }
+        if (!empty($HTTP_POST_VARS["release"])) {
+            $stmt .= $HTTP_POST_VARS["release"] . ",\n";
+        }
+        $stmt .= $HTTP_POST_VARS["priority"] . ",
                     " . $usr_id . ",";
         if (!empty($initial_status)) {
             $stmt .= "$initial_status,";
