@@ -61,7 +61,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     if (@$HTTP_GET_VARS["cat"] == "edit") {
         $tpl->assign("info", Reminder_Action::getDetails($HTTP_GET_VARS["id"]));
     } elseif (@$HTTP_GET_VARS["cat"] == "change_rank") {
-        Reminder_Action::changeRank($HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
+        Reminder_Action::changeRank($HTTP_GET_VARS['rem_id'], $HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
     }
 
     $tpl->assign("rem_id", $rem_id);
