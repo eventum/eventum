@@ -61,6 +61,7 @@ include_once(APP_INC_PATH . "class.round_robin.php");
 include_once(APP_INC_PATH . "class.authorized_replier.php");
 include_once(APP_INC_PATH . "class.workflow.php");
 include_once(APP_INC_PATH . "class.priority.php");
+include_once(APP_INC_PATH . "class.reminder_action.php");
 
 class Issue
 {
@@ -185,35 +186,6 @@ class Issue
         } else {
             $returns[$issue_id] = $res;
             return $res;
-        }
-    }
-
-
-    /**
-     * Method used to set the status of a given issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @param   integer $status_id The new status ID
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    function setStatus($issue_id, $status_id)
-    {
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 SET
-                    iss_sta_id=$status_id,
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_public_action_type='update'
-                 WHERE
-                    iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            return 1;
         }
     }
 
@@ -369,6 +341,37 @@ class Issue
 
 
     /**
+     * Method used to set the status of a given issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   integer $status_id The new status ID
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    function setStatus($issue_id, $status_id)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 SET
+                    iss_sta_id=$status_id,
+                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_type='update'
+                 WHERE
+                    iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            // clear out the last-triggered-reminder flag when changing the status of an issue
+            Reminder_Action::clearLastTriggered($issue_id);
+            return 1;
+        }
+    }
+
+
+    /**
      * Method used to remotely set the status of a given issue.
      *
      * @access  public
@@ -381,24 +384,12 @@ class Issue
     {
         $sta_id = Status::getStatusID($new_status);
 
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 SET
-                    iss_sta_id=$sta_id,
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_public_action_type='updated'
-                 WHERE
-                    iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
+        $res = Issue::setStatus($issue_id, $sta_id);
+        if ($res == 1) {
             // record history entry
             History::add($issue_id, $usr_id, History::getTypeID('remote_status_change'), "Status remotely changed to '$new_status' by " . User::getFullName($usr_id));
-            return 1;
         }
+        return $res;
     }
 
 
@@ -1132,6 +1123,8 @@ class Issue
                 Workflow::handlePriorityChange($prj_id, $issue_id, $usr_id, $current, $HTTP_POST_VARS);
             }
             if ($current["iss_sta_id"] != $HTTP_POST_VARS["status"]) {
+                // clear out the last-triggered-reminder flag when changing the status of an issue
+                Reminder_Action::clearLastTriggered($issue_id);
                 $updated_fields["Status"] = History::formatChanges(Status::getStatusTitle($current["iss_sta_id"]), Status::getStatusTitle($HTTP_POST_VARS["status"]));
             }
             if ($current["iss_res_id"] != $HTTP_POST_VARS["resolution"]) {
@@ -1614,8 +1607,14 @@ class Issue
         if (!empty($HTTP_POST_VARS["release"])) {
             $stmt .= $HTTP_POST_VARS["release"] . ",\n";
         }
-        $stmt .= $HTTP_POST_VARS["priority"] . ",
-                    " . $usr_id . ",";
+        $stmt .= $HTTP_POST_VARS["priority"] . ",";
+        // if we are creating an issue for a customer, put the 
+        // main customer contact as the reporter for it
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            $stmt .= User::getUserIDByContactID($HTTP_POST_VARS['contact']) . ",";
+        } else {
+            $stmt .= $usr_id . ",";
+        }
         if (!empty($initial_status)) {
             $stmt .= "$initial_status,";
         }
