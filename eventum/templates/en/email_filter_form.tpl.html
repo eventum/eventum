@@ -11,7 +11,14 @@ function clearFilters(f)
     f.ema_id.selectedIndex = 0;
     var field = getFormElement(f, 'filter[arrival_date]');
     field.checked = false;
-    toggleDateFields(f, 'filter[arrival_date]');
+    toggleDateFields(f, 'arrival_date');
+    var checkbox = getFormElement(f, 'filter[arrival_date]');
+    // need to hack this value in the query string so the saved search options don't override this one
+    if (!checkbox.checked) {
+        var field = getFormElement(f, 'hidden1');
+        field.name = 'filter[arrival_date]';
+        field.value = 'no';
+    }
     f.submit();
 }
 function toggleDateFields(f, field_name)
@@ -76,6 +83,7 @@ function validateForm(f)
         field.name = 'filter[arrival_date]';
         field.value = 'no';
     }
+    return true;
 }
 //-->
 </script>
