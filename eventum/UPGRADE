@@ -25,7 +25,7 @@ instructions:
 
 For the upgrade from release 1.4 to 1.5, there are 3 scripts you need
 to run. For convenience, an index file is provided to list the scripts.
-Open /path-to-eventum/misc/upgrade/v1.3.1_to_v1.4/ in a web browser
+Open /path-to-eventum/misc/upgrade/v1.4_to_v1.5/ in a web browser
 and run the scripts in the order provided.
 
 
