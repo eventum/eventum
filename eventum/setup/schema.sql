@@ -938,3 +938,29 @@ CREATE TABLE %TABLE_PREFIX%project_link_filter (
   plf_lfi_id int(11) NOT NULL,
   PRIMARY KEY  (plf_prj_id, plf_lfi_id)
 );
+
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%columns_to_display;
+CREATE TABLE %TABLE_PREFIX%columns_to_display (
+    ctd_prj_id int(11) unsigned NOT NULL,
+    ctd_page varchar(20) NOT NULL,
+    ctd_field varchar(30) NOT NULL,
+    ctd_min_role tinyint(1) NOT NULL DEFAULT 0,
+    ctd_rank tinyint(2) NOT NULL DEFAULT 0,
+    PRIMARY KEY(ctd_prj_id, ctd_page, ctd_field),
+    INDEX(ctd_prj_id, ctd_page)
+);
+
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_summary',1,13);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','custom_fields',1,12
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','sta_change_date',1,
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','last_action_date',1
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_sta_id',1,9);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_customer_id',4,
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','pre_title',9,7);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','prc_title',9,6);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','time_spent',4,5);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','assigned',1,4);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_grp_id',1,3);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_id',1,2);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_pri_id',1,1);
