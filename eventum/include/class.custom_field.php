@@ -45,7 +45,6 @@ include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.history.php");
 
 
-
 class Custom_Field
 {
     /**

@@ -111,8 +111,8 @@ class DB_API
             return mysql_escape_string($str);
         }
     }
-    
-    
+
+
     /**
      * Returns the SQL used to calculate the difference of 2 dates, not counting weekends.
      * This thing is truly a work of art, the type of art that throws lemon juice in your eye and then laughs.

@@ -92,8 +92,8 @@ class Display_Column
         }
         return $returns[$page];
     }
-    
-    
+
+
     /**
      * Returns the columns that have been selected to be displayed on the specified page. This list
      * contains all selected columns, even if they won't actually be displayed.
@@ -133,8 +133,8 @@ class Display_Column
         }
         return $returns[$page];
     }
-    
-    
+
+
     /**
      * Returns the info of the column
      * 
@@ -148,8 +148,8 @@ class Display_Column
         $columns = Display_Column::getAllColumns($page);
         return $columns[$column];
     }
-    
-    
+
+
     /**
      * Returns all columns available for a page
      * 
@@ -159,60 +159,58 @@ class Display_Column
      */
     function getAllColumns($page)
     {
-        
         $columns = array(
             "list_issues"   =>  array(
-                    "pri_rank"    =>  array(
-                            "title" =>  "Priority"
-                    ),
-                    "iss_id"    =>  array(
-                            "title" =>  "Issue ID"
-                    ),
-                    "usr_full_name" =>  array(
-                            "title" =>  "Reporter"
-                    ),
-                    "iss_grp_id"    =>  array(
-                            "title" =>  "Group"
-                    ),
-                    "assigned"  =>  array(
-                            "title" =>  "Assigned"
-                    ),
-                    "time_spent"    =>  array(
-                            "title" =>  "Time Spent"
-                    ),
-                    "prc_title"     =>  array(
-                            "title" =>  "Category"
-                    ),
-                    "pre_title" =>  array(
-                            "title" =>  "Release"
-                    ),
-                    "iss_customer_id"   =>  array(
-                            "title" =>  "Customer"
-                    ),
-                    "iss_sta_id"    =>  array(
-                            "title" =>  "Status"
-                    ),
-                    "sta_change_date"   =>  array(
-                            "title" =>  "Status Change Date"
-                    ),
-                    "last_action_date"  =>  array(
-                            "title" =>  "Last Action Date"
-                    ),
-                    "custom_fields" =>  array(
-                            "title" =>  "Custom Fields"
-                    ),
-                    "iss_summary"   =>  array(
-                            "title" =>  "Summary",
-                            "align" =>  "left",
-                            "width" =>  '30%'
-                    )
+                "pri_rank"    =>  array(
+                    "title" =>  "Priority"
+                ),
+                "iss_id"    =>  array(
+                    "title" =>  "Issue ID"
+                ),
+                "usr_full_name" =>  array(
+                    "title" =>  "Reporter"
+                ),
+                "iss_grp_id"    =>  array(
+                    "title" =>  "Group"
+                ),
+                "assigned"  =>  array(
+                    "title" =>  "Assigned"
+                ),
+                "time_spent"    =>  array(
+                    "title" =>  "Time Spent"
+                ),
+                "prc_title"     =>  array(
+                    "title" =>  "Category"
+                ),
+                "pre_title" =>  array(
+                    "title" =>  "Release"
+                ),
+                "iss_customer_id"   =>  array(
+                    "title" =>  "Customer"
+                ),
+                "iss_sta_id"    =>  array(
+                    "title" =>  "Status"
+                ),
+                "sta_change_date"   =>  array(
+                    "title" =>  "Status Change Date"
+                ),
+                "last_action_date"  =>  array(
+                    "title" =>  "Last Action Date"
+                ),
+                "custom_fields" =>  array(
+                    "title" =>  "Custom Fields"
+                ),
+                "iss_summary"   =>  array(
+                    "title" =>  "Summary",
+                    "align" =>  "left",
+                    "width" =>  '30%'
+                )
             )
         );
-        
         return $columns[$page];
     }
-    
-    
+
+
     /**
      * Saves settings on which columns should be displayed.
      * 
@@ -257,8 +255,8 @@ class Display_Column
         }
         return 1;
     }
-    
-    
+
+
     /**
      * Adds records in database for new project.
      * 
@@ -290,6 +288,6 @@ class Display_Column
 
 // benchmarking the included file (aka setup time)
 if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Column Class');
+    $GLOBALS['bench']->setMarker('Included Display_Column Class');
 }
 ?>

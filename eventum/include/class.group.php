@@ -43,7 +43,7 @@ include_once(APP_INC_PATH . "class.project.php");
  * due to "group" being a reserved word and some users don't use table prefixes.
  *
  * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
+ * @author Bryan Alsdorf <bryan@mysql.com>
  */
 class Group
 {
@@ -55,8 +55,8 @@ class Group
      */
     function insert()
     {
-        GLOBAL $HTTP_POST_VARS;
-        
+        global $HTTP_POST_VARS;
+
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
                  (
@@ -93,8 +93,8 @@ class Group
      */
     function update()
     {
-        GLOBAL $HTTP_POST_VARS;
-        
+        global $HTTP_POST_VARS;
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
                  SET
@@ -109,7 +109,6 @@ class Group
             return -1;
         } else {
             Group::setProjects($HTTP_POST_VARS["id"], $HTTP_POST_VARS["projects"]);
-            
             // get old users so we can remove any ones that have been removed
             $existing_users = Group::getUsers($HTTP_POST_VARS["id"]);
             $diff = array_diff($existing_users, $HTTP_POST_VARS["users"]);
@@ -118,7 +117,6 @@ class Group
                     User::setGroupID($usr_id, false);
                 }
             }
-            
             foreach ($HTTP_POST_VARS["users"] as $usr_id) {
                 User::setGroupID($usr_id, $HTTP_POST_VARS["id"]);
             }
@@ -134,8 +132,8 @@ class Group
      */
     function remove()
     {
-        GLOBAL $HTTP_POST_VARS;
-        
+        global $HTTP_POST_VARS;
+
         foreach (@$HTTP_POST_VARS["items"] as $grp_id) {
             $users = Group::getUsers($grp_id);
             

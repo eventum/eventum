@@ -78,8 +78,8 @@ class Link_Filter
         }
         return $res;
     }
-    
-    
+
+
     /**
      * Lists the link filters currently in the system.
      * 
@@ -126,7 +126,7 @@ class Link_Filter
         return $res;
     }
 
-    
+
     /**
      * Inserts a new link filter into the database.
      * 
@@ -172,8 +172,8 @@ class Link_Filter
             return 1;
         }
     }
-    
-    
+
+
     /**
      * Removes link filters from the database
      * 
@@ -201,8 +201,8 @@ class Link_Filter
         }
         return 1;
     }
-    
-    
+
+
     /**
      * Updates link filter information.
      * 
@@ -252,8 +252,8 @@ class Link_Filter
             return 1;
         }
     }
-    
-    
+
+
     /**
      * Processes text through all link filters.
      * 
@@ -277,8 +277,8 @@ class Link_Filter
         
         return $text;
     }
-    
-    
+
+
     /**
      * Callback function to be used from template class.
      * 
@@ -290,8 +290,8 @@ class Link_Filter
     {
         return Link_Filter::processText(Auth::getCurrentProject(), $text);
     }
-    
-    
+
+
     /**
      * Returns an array of patterns and replacements.
      * 

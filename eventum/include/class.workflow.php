@@ -28,7 +28,6 @@
 
 class Workflow
 {
-
     /**
      * Returns a list of backends available
      * 

@@ -144,6 +144,7 @@ class Customer
     }
 
 
+    // XXX: put documentation here
     function getBackendImplementationName($prj_id)
     {
         if (!Customer::hasCustomerIntegration($prj_id)) {
@@ -438,7 +439,7 @@ class Customer
         return $backend->getAssocList();
     }
 
-    
+
     /**
      * Method used to get the customer names for the given customer id.
      *
@@ -673,7 +674,7 @@ class Customer
         return $backend->getListBySupportLevel($support_level_id, $support_options);
     }
 
-    
+
     /**
      * Returns an array of support levels grouped together.
      * 

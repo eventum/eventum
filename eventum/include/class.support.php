@@ -651,7 +651,7 @@ class Support
             'customer_id'   =>  @$customer_id
         );
     }
-    
+
 
     /**
      * Method used to close the existing connection to the email 
@@ -1933,8 +1933,8 @@ class Support
         }
         return $res;
     }
-    
-    
+
+
     /**
      * Returns the projectID based on the email account
      * 
@@ -1964,8 +1964,8 @@ class Support
         $returns[$ema_id] = $res;
         return $res;
     }
-    
-    
+
+
     /**
      * Moves an email from one account to another.
      * 
