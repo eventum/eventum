@@ -733,6 +733,9 @@ class Support
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
+                if (!empty($row["issue_id"])) {
+                    Workflow::handleNewEmail(Issue::getProjectID($row["issue_id"]), $row["issue_id"], $structure);
+                }
                 return 1;
             }
         }

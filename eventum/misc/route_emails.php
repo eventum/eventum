@@ -229,6 +229,4 @@ if ($res != -1) {
     // log blocked email
     History::add($issue_id, $usr_id, History::getTypeID('email_routed'), "Email routed from " . $structure->headers['from']);
 }
-
-Workflow::handleNewEmail($prj_id, $issue_id, $structure);
 ?>
