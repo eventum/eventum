@@ -1444,12 +1444,26 @@ class Issue
      * @param   string $description The issue description
      * @param   integer $category The category ID
      * @param   integer $priority The priority ID
-     * @param   integer $reporter The user ID of the issue reporter
      * @param   array $assignment The list of users to assign this issue to
      * @return  void
      */
-    function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $reporter, $assignment)
+    function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment)
     {
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            $sender_email = Mail_API::getEmailAddress($sender);
+            list($customer_id, $customer_contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
+            if (!empty($customer_id)) {
+                $contact = Customer::getContactDetails($prj_id, $customer_contact_id);
+                $reporter = User::getUserIDByContactID($customer_contact_id);
+                $contact_timezone = Date_API::getPreferredTimezone($reporter);
+            } else {
+                $reporter = APP_SYSTEM_USER_ID;
+            }
+        } else {
+            $customer_id = FALSE;
+            $reporter = APP_SYSTEM_USER_ID;
+        }
+
         $initial_status = Project::getInitialStatus($prj_id);
         // add new issue
         $stmt = "INSERT INTO
@@ -1462,6 +1476,16 @@ class Issue
         if (!empty($initial_status)) {
             $stmt .= "iss_sta_id,";
         }
+        if (!empty($customer_id)) {
+            $stmt .= "
+                    iss_customer_id,
+                    iss_customer_contact_id,
+                    iss_contact_person_lname,
+                    iss_contact_person_fname,
+                    iss_contact_email,
+                    iss_contact_phone,
+                    iss_contact_timezone,";
+        }
         $stmt .= "
                     iss_created_date,
                     iss_summary,
@@ -1473,6 +1497,16 @@ class Issue
                     " . $reporter . ",";
         if (!empty($initial_status)) {
             $stmt .= "$initial_status,";
+        }
+        if (!empty($customer_id)) {
+            $stmt .= "
+                    " . $customer_id . ",
+                    " . $customer_contact_id . ",
+                    '" . Misc::escapeString($contact['last_name']) . "',
+                    '" . Misc::escapeString($contact['first_name']) . "',
+                    '" . Misc::escapeString($sender_email) . "',
+                    '" . Misc::escapeString($contact['phone']) . "',
+                    '" . Misc::escapeString($contact_timezone) . "',";
         }
         $stmt .= "
                     '" . Date_API::getCurrentDateGMT() . "',
@@ -1487,9 +1521,37 @@ class Issue
             $new_issue_id = $GLOBALS["db_api"]->get_last_insert_id();
             // log the creation of the issue
             History::add($new_issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
+
+            $emails = array();
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                // if there are any technical account managers associated with this customer, add these users to the notification list
+                $managers = Customer::getAccountManagers($prj_id, $customer_id);
+                $manager_usr_ids = array_keys($managers);
+                $manager_emails = array_values($managers);
+                $emails = array_merge($emails, $manager_emails);
+            }
+            // add the reporter to the notification list
+            $emails[] = $sender;
+            $emails = array_unique($emails); // COMPAT: version >= 4.0.1
+            $actions = Notification::getAllActions();
+            foreach ($emails as $address) {
+                Notification::manualInsert($reporter, $new_issue_id, $address, $actions);
+            }
+
+            // only assign the issue to an user if the associated customer has any technical account managers
+            if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
+                foreach ($manager_usr_ids as $manager_usr_id) {
+                    Issue::addUserAssociation($new_issue_id, $manager_usr_id, false);
+                    History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
+                }
+                // XXX: need a workflow entry for this next line...
+                /*
+                Issue::setStatus($new_issue_id, Status::getStatusID('Assigned'));
+                */
+            }
             // now add the user/issue association
             $users = array();
-            if (count($assignment) > 0) {
+            if (@count($assignment) > 0) {
                 for ($i = 0; $i < count($assignment); $i++) {
                     Notification::insert($new_issue_id, $assignment[$i]);
                     Issue::addUserAssociation($new_issue_id, $assignment[$i]);
@@ -1498,20 +1560,26 @@ class Issue
                     }
                 }
             } else {
-                // try using the round-robin feature instead
-                $assignee = Round_Robin::getNextAssignee($prj_id);
-                // assign the issue to the round robin person
-                if (!empty($assignee)) {
-                    Issue::addUserAssociation($new_issue_id, $assignee, false);
-                    History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
-                    $users[] = $assignee;
+                // only use the round-robin feature if this new issue was not 
+                // already assigned to a customer account manager
+                if (!isset($manager_usr_ids)) {
+                    $assignee = Round_Robin::getNextAssignee($prj_id);
+                    // assign the issue to the round robin person
+                    if (!empty($assignee)) {
+                        Issue::addUserAssociation($new_issue_id, $assignee, false);
+                        History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
+                        // XXX: need a workflow entry for this next line...
+                        /*
+                        Issue::setStatus($new_issue_id, Status::getStatusID('Assigned'));
+                        */
+                        $users[] = $assignee;
+                    }
                 }
             }
             if (count($users)) {
                 Notification::notifyAssignedUsers($users, $new_issue_id);
             }
-            // add the sender to the notification list of this new issue
-            Notification::manualInsert(APP_SYSTEM_USER_ID, $new_issue_id, $sender, Notification::getAllActions());
+
             // send special 'an issue was auto-created for you' notification back to the sender
             Notification::notifyAutoCreatedIssue($new_issue_id, $sender);
             // also notify any users that want to receive emails anytime a new issue is created
@@ -1604,12 +1672,10 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            // XXX: also need to do all of these things in Issue::createFromEmail()
             $new_issue_id = $GLOBALS["db_api"]->get_last_insert_id();
             $info = User::getNameEmail($usr_id);
             // log the creation of the issue
             History::add($new_issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
-
 
             $emails = array();
             if (Customer::hasCustomerIntegration($prj_id)) {
