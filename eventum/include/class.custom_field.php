@@ -107,7 +107,7 @@ class Custom_Field
                         cfo_value
                      ) VALUES (
                         $fld_id,
-                        '" . Misc::runSlashes($option) . "'
+                        '" . Misc::escapeString($option) . "'
                      )";
             $res = $GLOBALS["db_api"]->dbh->query($stmt);
             if (PEAR::isError($res)) {
@@ -132,7 +132,7 @@ class Custom_Field
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
                  SET
-                    cfo_value='" . Misc::runSlashes($cfo_value) . "'
+                    cfo_value='" . Misc::escapeString($cfo_value) . "'
                  WHERE
                     cfo_id=" . $cfo_id;
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -170,7 +170,7 @@ class Custom_Field
                 $stmt = "UPDATE
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                          SET
-                            icf_value='" . Misc::runSlashes($value) . "'
+                            icf_value='" . Misc::escapeString($value) . "'
                          WHERE
                             icf_iss_id=" . $HTTP_POST_VARS["issue_id"] . " AND
                             icf_fld_id=$fld_id";
@@ -190,7 +190,7 @@ class Custom_Field
         }
         Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
         // need to save a history entry for this
-        History::add($HTTP_POST_VARS["issue_id"], 'Custom field updated by ' . User::getFullName(Auth::getUserID()));
+        History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), 'Custom field updated by ' . User::getFullName(Auth::getUserID()));
         return 1;
     }
 
@@ -220,7 +220,7 @@ class Custom_Field
                      ) VALUES (
                         $iss_id,
                         $fld_id,
-                        '" . Misc::runSlashes($item) . "'
+                        '" . Misc::escapeString($item) . "'
                      )";
             $GLOBALS["db_api"]->dbh->query($stmt);
         }
@@ -464,9 +464,9 @@ class Custom_Field
                     fld_anonymous_form,
                     fld_anonymous_form_required
                  ) VALUES (
-                    '" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["description"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["field_type"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["field_type"]) . "',
                     " . $HTTP_POST_VARS["report_form"] . ",
                     " . $HTTP_POST_VARS["report_form_required"] . ",
                     " . $HTTP_POST_VARS["anon_form"] . ",
@@ -633,7 +633,7 @@ class Custom_Field
                  WHERE
                     cfo_fld_id=$fld_id
                  ORDER BY
-                    cfo_value ASC";
+                    cfo_id ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -698,9 +698,9 @@ class Custom_Field
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  SET
-                    fld_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    fld_description='" . Misc::runSlashes($HTTP_POST_VARS["description"]) . "',
-                    fld_type='" . Misc::runSlashes($HTTP_POST_VARS["field_type"]) . "',
+                    fld_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    fld_description='" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
+                    fld_type='" . Misc::escapeString($HTTP_POST_VARS["field_type"]) . "',
                     fld_report_form=" . $HTTP_POST_VARS["report_form"] . ",
                     fld_report_form_required=" . $HTTP_POST_VARS["report_form_required"] . ",
                     fld_anonymous_form=" . $HTTP_POST_VARS["anon_form"] . ",

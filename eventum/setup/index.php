@@ -28,6 +28,10 @@
 // @(#) $Id: s.index.php 1.24 04/01/26 20:37:04-06:00 joao@kickass. $
 //
 
+// XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found
+// XXX: don't use array_map() when possible, but array_walk instead. array_walk() doesn't create a copy
+// XXX: dynamically check the email blob and skips the email if it is bigger than 16mb on PHP4 versions
+
 if (isset($_GET)) {
     $HTTP_POST_VARS = $_POST;
     $HTTP_GET_VARS = $_GET;

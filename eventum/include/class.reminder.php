@@ -42,6 +42,14 @@ include_once(APP_INC_PATH . "class.reminder_action.php");
 
 class Reminder
 {
+    // XXX: put documentation here
+    function isDebug()
+    {
+        return false;
+    }
+
+
+    // XXX: put documentation here
     function changeRank($rem_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
@@ -83,6 +91,7 @@ class Reminder
     }
 
 
+    // XXX: put documentation here
     function getRanking()
     {
         $stmt = "SELECT
@@ -102,6 +111,7 @@ class Reminder
     }
 
 
+    // XXX: put documentation here
     function getIssueAssocListByProject($prj_id)
     {
         $issues = Issue::getAssocListByProject($prj_id);
@@ -186,7 +196,7 @@ class Reminder
             if (!empty($requirements)) {
                 $res['type'] = $requirements['type'];
                 if ($res['type'] == 'issue') {
-                    $res['rer_iss_id'] = $requirements['values'];
+                    $res['rer_iss_id'] = array_values($requirements['values']);
                 }
             }
             $priorities = Reminder::getAssociatedPriorities($rem_id);
@@ -382,7 +392,7 @@ class Reminder
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
                     " . $HTTP_POST_VARS['rank'] . ",
-                    '" . Misc::runSlashes($HTTP_POST_VARS['title']) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
                     " . $HTTP_POST_VARS['project'] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -424,7 +434,7 @@ class Reminder
                  SET
                     rem_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     rem_rank=" . $HTTP_POST_VARS['rank'] . ",
-                    rem_title='" . Misc::runSlashes($HTTP_POST_VARS['title']) . "',
+                    rem_title='" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
                     rem_prj_id=" . $HTTP_POST_VARS['project'] . "
                  WHERE
                     rem_id=" . $HTTP_POST_VARS['id'];
@@ -629,6 +639,7 @@ class Reminder
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
         $stmt .= Reminder::getWhereClause($reminder, $conditions);
+        $stmt .= ' AND iss_trigger_reminders=1 ';
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

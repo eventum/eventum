@@ -62,6 +62,8 @@ if (@$HTTP_POST_VARS["cat"] == "insert") {
 }
 
 $tpl->assign("list", Notification::getSubscriberListing($issue_id));
+$t = Project::getAddressBook($prj_id, $issue_id);
+$tpl->assign("assoc_users", $t);
 
 $tpl->displayTemplate();
 ?>

@@ -132,6 +132,7 @@ class Stats
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
             $stats[$pre_title] = $res;
         }
+        arsort($stats);
         return $stats;
     }
 
@@ -159,6 +160,7 @@ class Stats
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
             $stats[$sta_title] = $res;
         }
+        arsort($stats);
         return $stats;
     }
 
@@ -184,7 +186,9 @@ class Stats
                     iss_sta_id=sta_id AND
                     iss_prj_id=$prj_id
                  GROUP BY
-                    iss_sta_id";
+                    iss_sta_id
+                 ORDER BY
+                    total_items DESC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -248,7 +252,9 @@ class Stats
                     iss_prj_id=$prj_id AND
                     iss_pre_id=pre_id
                  GROUP BY
-                    iss_pre_id";
+                    iss_pre_id
+                 ORDER BY
+                    total_items DESC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -282,6 +288,7 @@ class Stats
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
             $stats[$pri_title] = $res;
         }
+        arsort($stats);
         return $stats;
     }
 
@@ -307,7 +314,9 @@ class Stats
                     iss_pri_id=pri_id AND
                     iss_prj_id=$prj_id
                  GROUP BY
-                    iss_pri_id";
+                    iss_pri_id
+                 ORDER BY
+                    total_items DESC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -345,6 +354,7 @@ class Stats
                 $stats[$usr_full_name] = $res;
             }
         }
+        arsort($stats);
         return $stats;
     }
 
@@ -372,7 +382,9 @@ class Stats
                     isu_iss_id=iss_id AND
                     iss_prj_id=$prj_id
                  GROUP BY
-                    isu_usr_id";
+                    isu_usr_id
+                 ORDER BY
+                    total_items DESC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -394,6 +406,7 @@ class Stats
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
+                    IF(sup_iss_id > 0, 'associated', 'unassociated') type,
                     COUNT(*) AS total_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
@@ -401,27 +414,19 @@ class Stats
                  WHERE
                     sup_ema_id=ema_id AND
                     ema_prj_id=$prj_id AND
-                    sup_iss_id=0 AND
-                    sup_removed=0";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt, DB_FETCHMODE_ASSOC);
+                    sup_removed=0
+                 GROUP BY
+                    type";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         }
-        $stmt = "SELECT
-                    COUNT(*) AS total_items
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 WHERE
-                    sup_ema_id=ema_id AND
-                    ema_prj_id=$prj_id AND
-                    sup_iss_id > 0 AND
-                    sup_removed=0";
-        $res2 = $GLOBALS["db_api"]->dbh->getOne($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res2)) {
-            Error_Handler::logError(array($res2->getMessage(), $res2->getDebugInfo()), __FILE__, __LINE__);
-            return "";
+        if (empty($res['associated'])) {
+            $res['associated'] = 0;
+        }
+        if (empty($res['unassociated'])) {
+            $res['unassociated'] = 0;
         }
         $stmt = "SELECT
                     COUNT(*) AS total_items
@@ -438,8 +443,8 @@ class Stats
             return "";
         }
         return array(
-            "pending"    => $res,
-            "associated" => $res2,
+            "pending"    => $res['unassociated'],
+            "associated" => $res['associated'],
             "removed"    => $res3
         );
     }

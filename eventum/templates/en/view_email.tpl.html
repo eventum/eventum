@@ -45,11 +45,13 @@ function openRawHeaders()
 }
 function viewEmail(ema_id, id)
 {
-    if (issue_id != '') {
-        window.location.href = 'view_email.php?issue_id=' + issue_id + '&ema_id=' + ema_id + '&id=' + id;
-    } else {
-        window.location.href = 'view_email.php?ema_id=' + ema_id + '&id=' + id;
-    }
+{/literal}
+{if $smarty.get.cat == 'list_emails'}
+    window.location.href = 'view_email.php?cat=list_emails&ema_id=' + ema_id + '&id=' + id;
+{else}
+    window.location.href = 'view_email.php?issue_id=' + issue_id + '&ema_id=' + ema_id + '&id=' + id;
+{/if}
+{literal}
 }
 //-->
 </script>
@@ -147,8 +149,9 @@ function viewEmail(ema_id, id)
           <td colspan="2" bgcolor="{$cell_color}">
             <table width="100%">
               <tr>
-                <td class="default_white">
-                  <b>Message:</b>
+                <td>
+                  <span class="default_white"><b>Message:</b></span>
+                  <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="javascript:displayFixedWidth('email_message');">display in fixed width font</a>)</span>
                 </td>
                 <td align="right" class="default_white">
                   <a class="white_link" href="javascript:void(null);" onClick="javascript:openRawHeaders();">Raw Headers</a>
@@ -158,8 +161,8 @@ function viewEmail(ema_id, id)
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$light_color}" class="default">
-            {$email.message}
+          <td colspan="2" bgcolor="{$light_color}" id="email_message" class="default">
+{$email.message}
           </td>
         </tr>
         <tr>

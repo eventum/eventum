@@ -18,7 +18,7 @@ function viewDraft(draft_id, issue_id)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default" nowrap>
-            <b>Drafts</b>
+            <b>Drafts ({$drafts|@count})</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko}
@@ -29,15 +29,17 @@ function viewDraft(draft_id, issue_id)
         <tr id="drafts1" {get_display_style element_name="drafts"}>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
-              <tr bgcolor="{$cell_color}">
+              <tr bgcolor="{$internal_color}">
+                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getDraft" ec_id="draft"}</td>
                 <td class="default_white">From</td>
                 <td class="default_white">To</td>
                 <td class="default_white" nowrap>Last Updated Date</td>
-                <td width="55%" class="default_white">Subject</td>
+                <td width="45%" class="default_white">Subject</td>
               </tr>
               {section name="i" loop=$drafts}
               {cycle values=$cycle assign="row_color"}
               <tr>
+                <td class="default" NOWRAP bgcolor="{$row_color}">{include file="expandable_cell/buttons.tpl.html" ec_id="draft" list_id=$drafts[i].emd_id}</td>
                 <td class="default" bgcolor="{$row_color}">{$drafts[i].from|escape:"html"}</td>
                 <td class="default" bgcolor="{$row_color}">{$drafts[i].to|escape:"html"}</td>
                 <td class="default" nowrap bgcolor="{$row_color}">{$drafts[i].emd_updated_date}</td>
@@ -45,10 +47,11 @@ function viewDraft(draft_id, issue_id)
                   <a title="view email details" href="javascript:void(null);" onClick="javascript:viewDraft({$drafts[i].emd_id}, {$smarty.get.id});" class="link">{$drafts[i].emd_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
                 </td>
               </tr>
+              {include file="expandable_cell/body.tpl.html" ec_id="draft" list_id=$drafts[i].emd_id colspan="5"}
               {sectionelse}
               <tr>
-                <td colspan="4" bgcolor="{$light_color}" class="default" align="center">
-                  <b>No email drafts could be found.</b>
+                <td colspan="5" bgcolor="{$light_color}" class="default" align="center">
+                  <i>No email drafts could be found.</i>
                 </td>
               </tr>
               {/section}

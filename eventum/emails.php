@@ -47,9 +47,6 @@ $rows = Support::getParam('rows');
 if (empty($rows)) {
     $rows = APP_DEFAULT_PAGER_SIZE;
 }
-if (empty($HTTP_GET_VARS['filter']['arrival_date'])) {
-    $HTTP_GET_VARS['filter']['arrival_date'] = 'no';
-}
 
 $options = Support::saveSearchParams();
 $tpl->assign("options", $options);
@@ -60,7 +57,7 @@ $tpl->assign("list", $list["list"]);
 $tpl->assign("list_info", $list["info"]);
 
 $tpl->assign("issues", Issue::getColList());
-$tpl->assign("accounts", Support::getAssocList(Auth::getCurrentProject()));
+$tpl->assign("accounts", Email_Account::getAssocList(Auth::getCurrentProject()));
 
 $tpl->assign("assoc_issues", Issue::getAssocList());
 

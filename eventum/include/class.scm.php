@@ -103,7 +103,7 @@ class SCM
             // need to mark this issue as updated
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, 'SCM Checkins removed by ' . User::getFullName(Auth::getUserID()));
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('scm_checkin_removed'), 'SCM Checkins removed by ' . User::getFullName(Auth::getUserID()));
             return 1;
         }
     }
@@ -190,13 +190,13 @@ class SCM
                     isc_commit_msg
                  ) VALUES (
                     $issue_id,
-                    '" . $HTTP_GET_VARS["module"] . "',
-                    '" . $HTTP_GET_VARS["files"][$i] . "',
-                    '" . $HTTP_GET_VARS["old_versions"][$i] . "',
-                    '" . $HTTP_GET_VARS["new_versions"][$i] . "',
+                    '" . Misc::escapeString($HTTP_GET_VARS["module"]) . "',
+                    '" . Misc::escapeString($HTTP_GET_VARS["files"][$i]) . "',
+                    '" . Misc::escapeString($HTTP_GET_VARS["old_versions"][$i]) . "',
+                    '" . Misc::escapeString($HTTP_GET_VARS["new_versions"][$i]) . "',
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . $HTTP_GET_VARS["username"] . "',
-                    '" . addslashes($HTTP_GET_VARS["commit_msg"]) . "'
+                    '" . Misc::escapeString($HTTP_GET_VARS["username"]) . "',
+                    '" . Misc::escapeString($HTTP_GET_VARS["commit_msg"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -206,7 +206,8 @@ class SCM
             // need to mark this issue as updated
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, 'SCM Checkins associated SCM user \'' . $HTTP_GET_VARS["username"] . '\'.');
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('scm_checkin_associated'), 
+                            'SCM Checkins associated SCM user \'' . $HTTP_GET_VARS["username"] . '\'.');
             return 1;
         }
     }

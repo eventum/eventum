@@ -44,6 +44,43 @@ include_once(APP_INC_PATH . "class.setup.php");
 class Misc
 {
     /**
+     * Method used to simulate the correct behavior of array_diff().
+     *
+     * @access  public
+     * @param   array $foo The first array
+     * @param   array $bar The second array
+     * @return  array The different values
+     */
+    function arrayDiff($foo, $bar)
+    {
+        if (!is_array($bar)) {
+            $bar = array();
+        }
+        $diffs = array();
+        $foo_values = array_values($foo);
+        $bar_values = array_values($bar);
+        if (count($foo_values) > count($bar_values)) {
+            $total = count($foo_values);
+            $first = &$foo_values;
+            $second = &$bar_values;
+        } else {
+            $total = count($bar_values);
+            $first = &$bar_values;
+            $second = &$foo_values;
+        }
+        for ($i = 0; $i < $total; $i++) {
+            if ((!empty($first[$i])) && (!@in_array($first[$i], $second))) {
+                $diffs[] = $first[$i];
+            }
+            if ((!empty($second[$i])) && (!@in_array($second[$i], $first))) {
+                $diffs[] = $second[$i];
+            }
+        }
+        return $diffs;
+    }
+
+
+    /**
      * Method used to get the title given to the current installation of Eventum.
      *
      * @access  public
@@ -94,6 +131,12 @@ class Misc
      */
     function getInput($is_one_liner = FALSE)
     {
+        static $return;
+
+        if (!empty($return)) {
+            return $return;
+        }
+
         $terminator = "\n";
 
         $stdin = fopen("php://stdin", "r");
@@ -105,6 +148,8 @@ class Misc
                 break;
             }
         }
+        fclose($stdin);
+        $return = $input;
         return $input;
     }
 
@@ -274,21 +319,53 @@ class Misc
     }
 
 
+/**
+ * The Util:: class provides generally useful methods of different kinds.
+ *
+ * $Horde: framework/Util/Util.php,v 1.366 2004/03/30 17:03:58 jan Exp $
+ *
+ * Copyright 1999-2004 Chuck Hagenbuch <chuck@horde.org>
+ * Copyright 1999-2004 Jon Parise <jon@horde.org>
+ *
+ * See the enclosed file COPYING for license information (LGPL). If you
+ * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ *
+ * @author  Chuck Hagenbuch <chuck@horde.org>
+ * @author  Jon Parise <jon@horde.org>
+ * @version $Revision: 1.366 $
+ * @since   Horde 3.0
+ * @package Horde_Util
+ */
+    function dispelMagicQuotes(&$var)
+    {
+        static $magic_quotes;
+
+        if (!isset($magic_quotes)) {
+            $magic_quotes = get_magic_quotes_gpc();
+        }
+
+        if ($magic_quotes) {
+            if (!is_array($var)) {
+                $var = stripslashes($var);
+            } else {
+                array_walk($var, array('Misc', 'dispelMagicQuotes'));
+            }
+        }
+
+        return $var;
+    }
+
+
     /**
-     * Method used to check whether running addslashes() against a string is
-     * needed or not, and running it if required.
+     * Method used to escape a string before using it in a query.
      *
      * @access  public
      * @param   string $str The original string
-     * @return  string The slashed (or not) string
+     * @return  string The escaped (or not) string
      */
-    function runSlashes($str)
+    function escapeString($str)
     {
-        if (@get_magic_quotes_gpc() == 1) {
-            return $str;
-        } else {
-            return addslashes($str);
-        }
+        return $GLOBALS["db_api"]->escapeString($str);
     }
 
 
@@ -305,7 +382,7 @@ class Misc
         $boolean = array();
         $pieces = explode(" ", $value);
         for ($i = 0; $i < count($pieces); $i++) {
-            $boolean[] = "$field LIKE '%" . $pieces[$i] . "%'";
+            $boolean[] = "$field LIKE '%" . Misc::escapeString($pieces[$i]) . "%'";
         }
         return "(" . implode(" OR ", $boolean) . ")";
     }
@@ -433,13 +510,14 @@ class Misc
      *
      * @access  public
      * @param   integer $minutes The number of minutes to format
+     * @param   boolean $omit_days If days should not be used, hours will just show up as greater then 24.
      * @return  string The formatted time
      */
-    function getFormattedTime($minutes)
+    function getFormattedTime($minutes, $omit_days = false)
     {
         $hours = $minutes / 60;
         $mins = $minutes % 60;
-        if ($hours > 24) {
+        if ($hours > 24 && $omit_days == false) {
             $days = $hours / 24;
             $hours = $hours % 24;
             return sprintf("%02dd %02dh %02dm", $days, $hours, $mins);

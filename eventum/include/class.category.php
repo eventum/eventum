@@ -136,7 +136,7 @@ class Category
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  SET
-                    prc_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "'
+                    prc_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
                  WHERE
                     prc_prj_id=" . $HTTP_POST_VARS["prj_id"] . " AND
                     prc_id=" . $HTTP_POST_VARS["id"];
@@ -170,7 +170,7 @@ class Category
                     prc_title
                  ) VALUES (
                     " . $HTTP_POST_VARS["prj_id"] . ",
-                    '" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {

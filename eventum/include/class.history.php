@@ -66,23 +66,40 @@ class History
      *
      * @access  public
      * @param   integer $iss_id The issue ID
+     * @param   integer $usr_id The ID of the user.
+     * @param   integer $htt_id The type ID of this history event.
      * @param   string $summary The summary of the changes
+     * @param   boolean $hide If this history item should be hidden.
      * @return  void
      */
-    function add($iss_id, $summary)
+    function add($iss_id, $usr_id, $htt_id, $summary, $hide = false)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
                  (
                     his_iss_id,
+                    his_usr_id,
                     his_created_date,
-                    his_summary
-                 ) VALUES (
+                    his_summary,
+                    his_htt_id";
+        if ($hide == true) {
+            $stmt .= ", his_is_hidden";
+        }
+        $stmt .= ") VALUES (
                     $iss_id,
+                    $usr_id,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . addslashes($summary) . "'
-                 )";
-        $GLOBALS["db_api"]->dbh->query($stmt);
+                    '" . Misc::escapeString($summary) . "',
+                    $htt_id";
+        if ($hide == true) {
+            $stmt .= ", 1";
+        }
+        $stmt .= ")";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
     }
 
 
@@ -100,6 +117,7 @@ class History
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
                  WHERE
+                    his_is_hidden != 1 AND
                     his_iss_id=$iss_id
                  ORDER BY
                     his_id DESC";
@@ -138,6 +156,148 @@ class History
         } else {
             return true;
         }
+    }
+
+
+    /**
+     * Returns the id for the history type based on name.
+     * 
+     * @access  public
+     * @param   string The name of the history type
+     * @return  integer The id of this type.
+     */
+    function getTypeID($name)
+    {
+        static $returns;
+
+        if (!empty($returns[$name])) {
+            return $returns[$name];
+        }
+
+        $stmt = "SELECT
+                    htt_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "history_type
+                 WHERE
+                    htt_name='$name'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "unknown";
+        } else {
+            $returns[$name] = $res;
+            return $res;
+        }
+    }
+
+
+    /**
+     * Returns a list of issues touched by the specified user in the specified time frame.
+     * 
+     * @access  public
+     * @param   integer $usr_id The id of the user.
+     * @param   date $start The start date
+     * @param   date $end The end date
+     * @return  array An array of issues touched by the user.
+     */
+    function getTouchedIssuesByUser($usr_id, $start, $end)
+    {
+        $stmt = "SELECT
+                    iss_id,
+                    iss_summary
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                    his_iss_id = iss_id AND
+                    his_usr_id = $usr_id AND
+                    his_created_date BETWEEN '$start' AND '$end'
+                 GROUP BY
+                    iss_id";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        }
+        return $res;
+    }
+
+
+    /**
+     * Returns the number of issues for the specified user that are currently set to the specified status(es).
+     * 
+     * @access  public
+     * @param   integer $usr_id The id of the user.
+     * @param   date $start The start date
+     * @param   date $end The end date
+     * @param   array $statuses An array of status abreviations to return counts for.
+     * @return  array An array containing the number of issues for the user set tothe specified statuses.
+     */
+    function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses)
+    {
+        $stmt = "SELECT
+                    sta_title,
+                    count(DISTINCT iss_id) as total
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
+                 WHERE
+                    his_iss_id = iss_id AND
+                    iss_sta_id = sta_id AND
+                    his_usr_id = $usr_id AND
+                    his_created_date BETWEEN '$start' AND '$end' AND
+                    (
+                        sta_abbreviation IN('" . join("','", $statuses) . "') OR
+                        sta_is_closed = 1
+                    )
+                 GROUP BY
+                    sta_title
+                 ORDER BY
+                    sta_rank";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Returns the history for a specified user in a specified time frame for an optional type
+     * 
+     * @access  public
+     * @param   integer $usr_id The id of the user.
+     * @param   date $start The start date
+     * @param   date $end The end date
+     * @param   array $htt_id The htt_id or id's to to return history for.
+     * @return  array An array of history items
+     */
+    function getHistoryByUser($usr_id, $start, $end, $htt_id = false)
+    {
+        $stmt = "SELECT
+                    his_id,
+                    his_iss_id,
+                    his_created_date,
+                    his_summary,
+                    his_htt_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
+                 WHERE
+                    his_usr_id = $usr_id AND
+                    his_created_date BETWEEN '" . date("Y/m/d", $start) . "' AND '" . date("Y/m/d", $end) . "'";
+        if ($htt_id != false) {
+            $stmt .= "
+                    AND his_htt_id IN(" . join(",", $htt_id) . ")";
+        }
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+        return $res;
     }
 }
 

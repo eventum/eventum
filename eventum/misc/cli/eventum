@@ -42,7 +42,7 @@ if ($issue_id > 0) {
         Command_Line::printIssueDetails(&$client, $issue_id, $user_email);
     } else {
         if ($should_confirm) {
-            Command_Line::promptConfirmation(&$client, $issue_id);
+            Command_Line::promptConfirmation(&$client, $issue_id, @$HTTP_SERVER_VARS['argv']);
         }
         switch ($HTTP_SERVER_VARS['argv'][2]) {
             case 'lock':
@@ -61,6 +61,14 @@ if ($issue_id > 0) {
                     Command_Line::quit("Missing parameter for the developer");
                 }
                 Command_Line::assignIssue(&$client, $issue_id, $user_email, $HTTP_SERVER_VARS['argv'][3]);
+                break;
+            case 'add-replier':
+            case 'ar':
+                // adds a user to the list of authorized repliers
+                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                    Command_Line::quit("Missing parameter for the developer");
+                }
+                Command_Line::addAuthorizedReplier(&$client, $issue_id, $user_email, $HTTP_SERVER_VARS['argv'][3]);
                 break;
             case 'set-status':
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
@@ -87,6 +95,56 @@ if ($issue_id > 0) {
                 }
                 Command_Line::getFile(&$client, $issue_id, $user_email, $HTTP_SERVER_VARS['argv'][3]);
                 break;
+            case 'close':
+                Command_Line::closeIssue(&$client, $issue_id, $user_email);
+                break;
+
+            // email related commands
+            case 'list-emails':
+            case 'le':
+                // lists all emails for the given issue
+                Command_Line::listEmails(&$client, $issue_id, $user_email);
+                break;
+            case 'get-email':
+            case 'ge':
+                // views an email
+                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                    Command_Line::quit("Missing parameter for the email number");
+                }
+                if (@$HTTP_SERVER_VARS['argv'][4] == "--full") {
+                    $full = true;
+                } else {
+                    $full = false;
+                }
+                Command_Line::printEmail(&$client, $issue_id, $user_email, $HTTP_SERVER_VARS['argv'][3], $full);
+                break;
+
+            // note related commands
+            case 'list-notes':
+            case 'ln':
+                // list notes for the given issues
+                Command_Line::listNotes(&$client, $issue_id, $user_email);
+                break;
+            case 'get-note':
+            case 'gn':
+                // view a note
+                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                    Command_Line::quit("Missing parameter for the note number");
+                }
+                Command_Line::printNote(&$client, $issue_id, $user_email, $HTTP_SERVER_VARS['argv'][3]);
+                break;
+            case 'convert-note':
+            case 'cn':
+                // convert a note to an email
+                if (empty($HTTP_SERVER_VARS['argv'][3])) {
+                    Command_Line::quit("Missing parameter for the note number");
+                }
+                if (@$HTTP_SERVER_VARS['argv'][4] != 'draft' && @$HTTP_SERVER_VARS['argv'][4] != 'email' ) {
+                    Command_Line::quit("4th parameter must be 'draft' or 'email'");
+                }
+                Command_Line::convertNote(&$client, $issue_id, $HTTP_SERVER_VARS['argv'][3], $HTTP_SERVER_VARS['argv'][4], $user_email);
+                break;
+
             default:
                 Command_Line::quit("Unknown command '" . $HTTP_SERVER_VARS['argv'][2] . "'");
         }
@@ -117,6 +175,11 @@ if ($issue_id > 0) {
         Command_Line::printOpenIssues(&$client, $user_email, $show_all_issues, $status);
     } elseif ($HTTP_SERVER_VARS['argv'][1] == 'list-status') {
         Command_Line::printStatusList(&$client, $user_email);
+    } elseif (($HTTP_SERVER_VARS['argv'][1] == 'weekly-report') || ($HTTP_SERVER_VARS['argv'][1] == 'wr')) {
+        if (@$HTTP_SERVER_VARS['argv'][2] == '') {
+            @$HTTP_SERVER_VARS['argv'][2] = 0;
+        }
+        Command_Line::getWeeklyReport(&$client, $user_email, $HTTP_SERVER_VARS['argv'][2]);
     } else {
         Command_Line::quit("Unknown parameter '" . $HTTP_SERVER_VARS['argv'][1] . "'");
     }

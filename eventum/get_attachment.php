@@ -52,7 +52,8 @@ if (@$HTTP_GET_VARS["filename"] == 'Outlook.bmp') {
         'log',
         'cnf',
         'var',
-        'ini'
+        'ini',
+        'java'
     );
     // always force the browser to display the contents of these special files
     if (in_array(strtolower($parts["extension"]), $special_extensions)) {

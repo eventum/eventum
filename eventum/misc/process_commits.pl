@@ -4,7 +4,7 @@ use Socket;
 # set this to the hostname where Eventum is setup
 my $domain = '';
 # set this to the script that is used to record new check-ins
-my $ping_url = '/eventum/cvs_ping.php';
+my $ping_url = '/eventum/scm_ping.php';
 
 # load up the commit message (we use it more than once)
 my @commit;

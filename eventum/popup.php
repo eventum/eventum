@@ -44,6 +44,7 @@ include_once(APP_INC_PATH . "class.phone_support.php");
 include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.history.php");
 include_once(APP_INC_PATH . "class.user.php");
+include_once(APP_INC_PATH . "class.authorized_replier.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -116,15 +117,19 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
 } elseif (@$HTTP_GET_VARS["cat"] == "new_status") {
     $res = Issue::setStatus($HTTP_GET_VARS["iss_id"], $HTTP_GET_VARS["new_sta_id"]);
     if ($res != -1) {
-        History::add($HTTP_GET_VARS["iss_id"], "Issue manually set to status '" . Status::getStatusTitle($HTTP_GET_VARS["new_sta_id"]) . "' by " . User::getFullName($usr_id));
+        History::add($HTTP_GET_VARS["iss_id"], $usr_id, History::getTypeID('status_changed'), 
+                        "Issue manually set to status '" . Status::getStatusTitle($HTTP_GET_VARS["new_sta_id"]) . "' by " . User::getFullName($usr_id));
     }
     $tpl->assign("new_status_result", $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'lock') {
     $res = Issue::lock($HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign('lock_result', $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'unlock') {
-    $res = Issue::unlock($HTTP_GET_VARS["iss_id"]);
+    $res = Issue::unlock($HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign('unlock_result', $res);
+} elseif (@$HTTP_GET_VARS['cat'] == 'authorize_reply') {
+    $res = Authorized_Replier::addUser($HTTP_GET_VARS["iss_id"], $usr_id);
+    $tpl->assign('authorize_reply_result', $res);
 }
 
 $tpl->assign("current_user_prefs", Prefs::get($usr_id));

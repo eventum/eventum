@@ -61,8 +61,8 @@ class Email_Response
                     ere_title,
                     ere_response_body
                  ) VALUES (
-                    '" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["response_body"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["response_body"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -115,8 +115,8 @@ class Email_Response
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response
                  SET
-                    ere_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    ere_response_body='" . Misc::runSlashes($HTTP_POST_VARS["response_body"]) . "'
+                    ere_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    ere_response_body='" . Misc::escapeString($HTTP_POST_VARS["response_body"]) . "'
                  WHERE
                     ere_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);

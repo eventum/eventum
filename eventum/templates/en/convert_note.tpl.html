@@ -67,11 +67,23 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
+          <td bgcolor="{$dark_color}">&nbsp;</td>
+          <td bgcolor="{$dark_color}" class="small_default">
+            <b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, and without any attachments.
+          </td>
+        </tr>
+        <tr>
           <td bgcolor="{$dark_color}" align="right" valign="top">
             <input type="radio" name="target" value="email">
           </td>
           <td bgcolor="{$dark_color}" class="default">
             <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('convert_note_form', 'target', 1);">Convert to Email and Send Now</a></b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}">&nbsp;</td>
+          <td bgcolor="{$dark_color}" class="small_default">
+            <b>ALERT:</b> Email will be re-sent from original sender, including any attachments.
           </td>
         </tr>
         <tr>

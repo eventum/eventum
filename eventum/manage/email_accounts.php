@@ -49,17 +49,17 @@ if ($role_id == User::getRoleID('administrator')) {
     $tpl->assign("show_setup_links", true);
 
     if (@$HTTP_POST_VARS["cat"] == "new") {
-        $tpl->assign("result", Support::insert());
+        $tpl->assign("result", Email_Account::insert());
     } elseif (@$HTTP_POST_VARS["cat"] == "update") {
-        $tpl->assign("result", Support::update());
+        $tpl->assign("result", Email_Account::update());
     } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
-        Support::remove();
+        Email_Account::remove();
     }
 
     if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", Support::getDetails($HTTP_GET_VARS["id"]));
+        $tpl->assign("info", Email_Account::getDetails($HTTP_GET_VARS["id"]));
     }
-    $tpl->assign("list", Support::getList());
+    $tpl->assign("list", Email_Account::getList());
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }

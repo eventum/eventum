@@ -120,9 +120,9 @@ class News
                  ) VALUES (
                     " . Auth::getUserID() . ",
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["message"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["status"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["message"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["status"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -216,9 +216,9 @@ class News
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  SET
-                    nws_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    nws_message='" . Misc::runSlashes($HTTP_POST_VARS["message"]) . "',
-                    nws_status='" . Misc::runSlashes($HTTP_POST_VARS["status"]) . "'
+                    nws_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    nws_message='" . Misc::escapeString($HTTP_POST_VARS["message"]) . "',
+                    nws_status='" . Misc::escapeString($HTTP_POST_VARS["status"]) . "'
                  WHERE
                     nws_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);

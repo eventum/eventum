@@ -5,15 +5,11 @@ following URL:
 {$app_base_url}view.php?id={$data.iss_id}
 
 ----------------------------------------------------------------------
-               ID: {$data.iss_id}
+          Issue #: {$data.iss_id}
           Summary: {$data.iss_summary}
-           Status: {$data.sta_title}
-          Project: {$data.prj_title}
-      Reported By: {$data.usr_full_name}
-         Priority: {$data.pri_title}
-      Description: 
+   Changed Fields: 
 ----------------------------------------------------------------------
-{$data.iss_description}
+{$data.diffs}
 ----------------------------------------------------------------------
 
 Please Note: If you do not wish to receive any future email 

@@ -42,6 +42,9 @@ include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "class.status.php");
+include_once(APP_INC_PATH . "class.history.php");
+include_once(APP_INC_PATH . "class.phone_support.php");
+include_once(APP_INC_PATH . "class.prefs.php");
 
 class Report
 {
@@ -161,6 +164,88 @@ class Report
             }
             return $issues;
         }
+    }
+    
+    
+    /**
+     * Returns the data used by the weekly report.
+     * 
+     * @access  public
+     * @param   string $usr_id The ID of the user this report is for.
+     * @param   string The start date of this report.
+     * @param   string The end date of this report.
+     * @return  array An array of data containing all the elements of the weekly report.
+     */
+    function getWeeklyReport($usr_id, $start, $end)
+    {
+        // figure out timezone
+        $user_prefs = Prefs::get($usr_id);
+        $tz = $user_prefs["timezone"];
+        
+        $start_dt = new Date();
+        $end_dt = new Date();
+        // set timezone to that of user.
+        $start_dt->setTZById($tz);
+        $end_dt->setTZById($tz);
+        
+        // set the dates in the users time zone
+        $start_dt->setDate($start . " 00:00:00");
+        $end_dt->setDate($end . " 23:59:59");
+        
+        // convert time to GMT
+        $start_dt->toUTC();
+        $end_dt->toUTC();
+        
+        $start_ts = $start_dt->getDate();
+        $end_ts = $end_dt->getDate();
+        
+        $time_tracking = Time_Tracking::getSummaryByUser($usr_id, $start_ts, $end_ts);
+        
+        // replace spaces in index with _ and calculate total time
+        $total_time = 0;
+        foreach ($time_tracking as $category => $data) {
+            unset($time_tracking[$category]);
+            $time_tracking[str_replace(" ", "_", $category)] = $data;
+            $total_time += $data["total_time"];
+        }
+        
+        // get count of issues assigned in week of report.
+        $stmt = "SELECT
+                    COUNT(*)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                 WHERE
+                    iss_id = isu_iss_id AND
+                    iss_sta_id = sta_id AND
+                    isu_usr_id = $usr_id AND
+                    isu_assigned_date BETWEEN '$start_ts' AND '$end_ts'";
+        $newly_assigned = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($newly_assigned)) {
+            Error_Handler::logError(array($newly_assigned->getMessage(), $newly_assigned->getDebugInfo()), __FILE__, __LINE__);
+        }
+        
+        $email_count = array(
+            "associated"    =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, true),
+            "other"         =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false)
+        );
+        
+        $data = array(
+            "start"     => str_replace('-', '.', $start),
+            "end"       => str_replace('-', '.', $end),
+            "user"      => User::getDetails($usr_id),
+            "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts),
+            "status_counts" => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts, array("WOD", "WOC","WOF","WOB","WOL","WOA")),
+            "new_assigned_count"    =>  $newly_assigned,
+            "time_tracking" => $time_tracking,
+            "email_count"   => $email_count,
+            "phone_count"   => Phone_Support::getCountByUser($usr_id, $start_ts, $end_ts),
+            "note_count"    => Note::getCountByUser($usr_id, $start_ts, $end_ts),
+            "total_time"    => Misc::getFormattedTime($total_time, false)
+        );
+        
+        return $data;
     }
 }
 

@@ -44,19 +44,6 @@ if (!function_exists('is_a')) {
     }
 }
 
-if (isset($_GET)) {
-    $HTTP_POST_VARS = $_POST;
-    $HTTP_GET_VARS = $_GET;
-    $HTTP_SERVER_VARS = $_SERVER;
-    $HTTP_ENV_VARS = $_ENV;
-    $HTTP_POST_FILES = $_FILES;
-    // seems like PHP 4.1.0 didn't implement the $_SESSION auto-global...
-    if (isset($_SESSION)) {
-        $HTTP_SESSION_VARS = $_SESSION;
-    }
-    $HTTP_COOKIE_VARS = $_COOKIE;
-}
-
 // definitions of path related variables
 @define("APP_PATH", '%{APP_PATH}%');
 @define("APP_INC_PATH", APP_PATH . "include/");
@@ -110,10 +97,14 @@ if (stristr(PHP_OS, 'darwin')) {
 
 // define colors used by eventum
 @define("APP_CELL_COLOR", "#255282");
-@define("APP_LIGHT_COLOR", "#D6D6D6");
-@define("APP_MIDDLE_COLOR", "#CCCCCC");
-@define("APP_DARK_COLOR", "#CCCCCC");
-@define("APP_CYCLE_COLORS", "#D6D6D6,#CCCCCC");
+@define("APP_LIGHT_COLOR", "#DDDDDD");
+@define("APP_MIDDLE_COLOR", "#CACACA");
+@define("APP_DARK_COLOR", "#CACACA");
+@define("APP_CYCLE_COLORS", "#DDDDDD,#CACACA");
+@define("APP_INTERNAL_COLOR", APP_CELL_COLOR);
+
+// define the user_id of system user
+@define("APP_SYSTEM_USER_ID", 1);
 
 @define("APP_BENCHMARK", false);
 if (APP_BENCHMARK) {
@@ -122,6 +113,24 @@ if (APP_BENCHMARK) {
     $bench = new Benchmark_Timer;
     $bench->start();
 }
+
+include_once(APP_INC_PATH . "class.misc.php");
+
+if (isset($_GET)) {
+    $HTTP_POST_VARS = $_POST;
+    $HTTP_GET_VARS = $_GET;
+    $HTTP_SERVER_VARS = $_SERVER;
+    $HTTP_ENV_VARS = $_ENV;
+    $HTTP_POST_FILES = $_FILES;
+    // seems like PHP 4.1.0 didn't implement the $_SESSION auto-global...
+    if (isset($_SESSION)) {
+        $HTTP_SESSION_VARS = $_SESSION;
+    }
+    $HTTP_COOKIE_VARS = $_COOKIE;
+}
+// fix magic_quote_gpc'ed values (i wish i knew who is the person behind this)
+$HTTP_GET_VARS =& Misc::dispelMagicQuotes($HTTP_GET_VARS);
+$HTTP_POST_VARS =& Misc::dispelMagicQuotes($HTTP_POST_VARS);
 
 // handle the language preferences now
 @include_once(APP_INC_PATH . "class.language.php");

@@ -51,14 +51,14 @@ $tpl->bulkAssign(array(
     'extra_title' => "Email #" . $HTTP_GET_VARS['id'] . ": " . $email['sup_subject']
 ));
 
-if (!empty($issue_id)) {
-    $sides = Support::getIssueSides($issue_id, $HTTP_GET_VARS["id"]);
+if (@$HTTP_GET_VARS['cat'] == 'list_emails') {
+    $sides = Support::getListingSides($HTTP_GET_VARS["id"]);
     $tpl->assign(array(
         'previous' => $sides['previous'],
         'next'     => $sides['next']
     ));
 } else {
-    $sides = Support::getListingSides($HTTP_GET_VARS["id"]);
+    $sides = Support::getIssueSides($issue_id, $HTTP_GET_VARS["id"]);
     $tpl->assign(array(
         'previous' => $sides['previous'],
         'next'     => $sides['next']

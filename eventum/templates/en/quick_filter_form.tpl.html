@@ -30,10 +30,13 @@ function clearFilters(f)
     setHiddenFieldValue(f, 'closed_date[Month]', '');
     setHiddenFieldValue(f, 'closed_date[Day]', '');
     setHiddenFieldValue(f, 'closed_date[filter_type]', '');
+    setHiddenFieldValue(f, 'show_authorized_issues', '');
+    setHiddenFieldValue(f, 'show_notification_list_issues', '');
     f.submit();
 }
 {/literal}
 var get_urls = new Array();
+// XXX: where are the parameters for authorized issues and notification list?
 {section name="i" loop=$csts}
 get_urls[{$csts[i].cst_id}] = 'keywords={$csts[i].cst_keywords|escape:"html"}&users={$csts[i].cst_users}&category={$csts[i].cst_iss_prc_id}&status={$csts[i].cst_iss_sta_id}&priority={$csts[i].cst_iss_pri_id}&release={$csts[i].cst_iss_pre_id}&rows={$csts[i].cst_rows}&sort_by={$csts[i].cst_sort_by}&sort_order={$csts[i].cst_sort_order}&hide_closed={$csts[i].cst_hide_closed}';
 {/section}
@@ -62,6 +65,7 @@ function runCustomFilter(f)
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
         <form action="list.php" method="get">
         <input type="hidden" name="cat" value="search">
+        <input type="hidden" name="pagerRow" value="0">
         <input type="hidden" name="created_date[Year]" value="{$options.created_date.Year}">
         <input type="hidden" name="created_date[Month]" value="{$options.created_date.Month}">
         <input type="hidden" name="created_date[Day]" value="{$options.created_date.Day}">
@@ -82,6 +86,8 @@ function runCustomFilter(f)
         <input type="hidden" name="closed_date[Month]" value="{$options.closed_date.Month}">
         <input type="hidden" name="closed_date[Day]" value="{$options.closed_date.Day}">
         <input type="hidden" name="closed_date[filter_type]" value="{$options.closed_date.filter_type}">
+        <input type="hidden" name="show_authorized_issues" value="{$options.show_authorized_issues}">
+        <input type="hidden" name="show_notification_list_issues" value="{$options.show_notification_list_issues}">
         <tr>
           <td>
             <span class="default">Keyword(s):</span><br />

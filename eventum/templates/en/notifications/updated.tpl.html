@@ -20,25 +20,8 @@ To view more details of this issue, or to update it, please visit the following
           <td bgcolor="{$light_color}" width="85%" class="default">{$data.iss_summary|escape:"html"}</td>
         </tr>
         <tr> 
-          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Status:</td>
-          <td bgcolor="{$data.sta_color}" width="85%" class="default">{$data.sta_title}</td>
-        </tr>
-        <tr> 
-          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Project:</td>
-          <td bgcolor="{$light_color}" width="85%" class="default">{$data.prj_title}</td>
-        </tr>
-        <tr> 
-          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Reported 
-            By:</td>
-          <td bgcolor="{$light_color}" width="85%" class="default">{$data.usr_full_name}</td>
-        </tr>
-        <tr> 
-          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Priority:</td>
-          <td bgcolor="{$light_color}" width="85%" class="default">{$data.pri_title}</td>
-        </tr>
-        <tr> 
-          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Description:</td>
-          <td bgcolor="{$light_color}" width="85%" class="default">{$data.iss_description|escape:"html"|replace:"\n":"<br />"}</td>
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Changed Fields:</td>
+          <td bgcolor="{$light_color}" width="85%" class="default">{$data.diffs|escape:"html"|replace:"\n":"<br />"}</td>
         </tr>
       </table>
     </td>

@@ -114,8 +114,6 @@ class Template_API
      */
     function displayTemplate()
     {
-        global $HTTP_SERVER_VARS;
-
         if (APP_BENCHMARK) {
             // stop the benchmarking
             $GLOBALS["bench"]->stop();
@@ -124,6 +122,34 @@ class Template_API
             $this->assign(array("benchmark_total" => sprintf("%.4f", $profiling[count($profiling)-1]["total"]),
                                 "benchmark_results" => base64_encode(serialize($profiling))));
         }
+        $this->processTemplate();
+        // finally display the parsed template
+        $this->smarty->display($this->tpl_name);
+    }
+
+
+    /**
+     * Returns the contents of the parsed template
+     *
+     * @access public
+     * @return string The contents of the parsed template
+     */
+    function getTemplateContents()
+    {
+        $this->processTemplate();
+        return $this->smarty->fetch($this->tpl_name);
+    }
+
+
+    /**
+     * Processes the template and assigns common variables automatically.
+     * 
+     * @access	private
+     */
+    function processTemplate()
+    {
+        global $HTTP_SERVER_VARS;
+
         // determine the correct CSS file to use
         if (ereg('MSIE ([0-9].[0-9]{1,2})', $HTTP_SERVER_VARS["HTTP_USER_AGENT"], $log_version)) {
             $user_agent = 'ie';
@@ -172,26 +198,13 @@ class Template_API
         $this->assign("total_queries", $GLOBALS['TOTAL_QUERIES']);
 
         $this->assign(array(
-            "cell_color"   => APP_CELL_COLOR,
-            "light_color"  => APP_LIGHT_COLOR,
-            "middle_color" => APP_MIDDLE_COLOR,
-            "dark_color"   => APP_DARK_COLOR,
-            "cycle"        => APP_CYCLE_COLORS
+            "cell_color"     => APP_CELL_COLOR,
+            "light_color"    => APP_LIGHT_COLOR,
+            "middle_color"   => APP_MIDDLE_COLOR,
+            "dark_color"     => APP_DARK_COLOR,
+            "cycle"          => APP_CYCLE_COLORS,
+            "internal_color" => APP_INTERNAL_COLOR
         ));
-        // finally display the parsed template
-        $this->smarty->display($this->tpl_name);
-    }
-
-
-    /**
-     * Returns the contents of the parsed template
-     *
-     * @access public
-     * @return string The contents of the parsed template
-     */
-    function getTemplateContents()
-    {
-        return $this->smarty->fetch($this->tpl_name);
     }
 }
 

@@ -3,9 +3,9 @@
 {literal}
 <script language="JavaScript">
 <!--
-function reply(id)
+function reply(id, issue_id)
 {
-    window.location.href = 'post_note.php?cat=reply&id=' + id;
+    window.location.href = 'post_note.php?cat=reply&id=' + id + '&issue_id=' + issue_id;
 }
 function openRawHeaders()
 {
@@ -34,7 +34,7 @@ function viewNote(id)
         </tr>
         {if $next != "" || $previous != ""}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
+          <td colspan="2" bgcolor="{$internal_color}" align="center">
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
               <tr>
                 <td>
@@ -53,7 +53,7 @@ function viewNote(id)
         </tr>
         {/if}
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="120" bgcolor="{$internal_color}" class="default_white">
             <b>Posted Date:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -61,7 +61,7 @@ function viewNote(id)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="120" bgcolor="{$internal_color}" class="default_white">
             <b>From:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -69,7 +69,7 @@ function viewNote(id)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="120" bgcolor="{$internal_color}" class="default_white">
             <b>Title:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -78,7 +78,7 @@ function viewNote(id)
         </tr>
         {if $note.attachments}
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="120" bgcolor="{$internal_color}" class="default_white">
             <b>Attachments:</b>
           </td>
           <td bgcolor="{$dark_color}" class="default">
@@ -90,11 +90,12 @@ function viewNote(id)
         </tr>
         {/if}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}">
+          <td colspan="2" bgcolor="{$internal_color}">
             <table width="100%">
               <tr>
-                <td class="default_white">
-                  <b>Message:</b>
+                <td>
+                  <span class="default_white"><b>Message:</b></span>
+                  <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="javascript:displayFixedWidth('email_message');">display in fixed width font</a>)</span>
                 </td>
                 <td align="right" class="default_white">
                   {if $note.has_blocked_message}
@@ -106,19 +107,19 @@ function viewNote(id)
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$light_color}" class="default">
-            {$note.message}
+          <td colspan="2" bgcolor="{$light_color}" id="email_message" class="default">
+{$note.message}
           </td>
         </tr>
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
-            <input class="button" type="button" value="Reply" onClick="javascript:reply({$smarty.get.id});">&nbsp;&nbsp;
+          <td colspan="2" bgcolor="{$internal_color}" align="center">
+            <input class="button" type="button" value="Reply" onClick="javascript:reply({$smarty.get.id}, {$issue_id});">&nbsp;&nbsp;
             <input class="button" type="button" value="Close" onClick="javascript:window.close();">
           </td>
         </tr>
         {if $next != "" || $previous != ""}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
+          <td colspan="2" bgcolor="{$internal_color}" align="center">
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
               <tr>
                 <td>

@@ -100,7 +100,7 @@ class User
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_sms_email='" . Misc::runSlashes($sms_email) . "'
+                    usr_sms_email='" . Misc::escapeString($sms_email) . "'
                  WHERE
                     usr_id=$usr_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -127,7 +127,7 @@ class User
                  SET
                     usr_status='active'
                  WHERE
-                    usr_email='" . Misc::runSlashes($email) . "'";
+                    usr_email='" . Misc::escapeString($email) . "'";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -155,7 +155,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_email='" . Misc::runSlashes($email) . "'";
+                    usr_email='" . Misc::escapeString($email) . "'";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -205,11 +205,11 @@ class User
                     usr_status
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . md5(Misc::runSlashes($HTTP_POST_VARS["passwd"])) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["full_name"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["email"]) . "',
+                    '" . md5(Misc::escapeString($HTTP_POST_VARS["passwd"])) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["email"]) . "',
                     " . $role . ",
-                    '" . addslashes($prefs) . "',
+                    '" . Misc::escapeString($prefs) . "',
                     'pending'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -311,7 +311,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_email='" . Misc::runSlashes($email) . "'";
+                    usr_email='" . Misc::escapeString($email) . "'";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -357,7 +357,8 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_status='active'";
+                    usr_status='active' AND
+                    usr_id != " . APP_SYSTEM_USER_ID;
         if ($role != NULL) {
             $stmt .= " AND usr_role > $role ";
         }
@@ -398,6 +399,7 @@ class User
      * system.
      *
      * @access  public
+     * @param   array $exclude_role The list of roles to ignore
      * @return  array The list of roles
      */
     function getRoles($exclude_role = FALSE)
@@ -405,9 +407,13 @@ class User
         if ($exclude_role == false) {
             return $GLOBALS["roles"];
         } else {
+            if (!is_array($exclude_role)) {
+                $exclude_role = array($exclude_role);
+            }
+            $exclude_role = array_map('strtolower', $exclude_role);
             $t = array();
             foreach ($GLOBALS["roles"] as $role_id => $role_title) {
-                if (strtolower($role_title) != strtolower($exclude_role)) {
+                if (!in_array(strtolower($role_title), $exclude_role)) {
                     $t[$role_id] = $role_title;
                 }
             }
@@ -521,17 +527,67 @@ class User
      */
     function getFullName($usr_id)
     {
+        static $returns;
+
+        if (!is_array($usr_id)) {
+            $items = array($usr_id);
+        } else {
+            $items = $usr_id;
+        }
+
+        $key = md5(serialize($usr_id));
+        if (!empty($returns[$key])) {
+            return $returns[$key];
+        }
+
         $stmt = "SELECT
                     usr_full_name
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id=$usr_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                    usr_id IN (" . implode(', ', $items) . ")";
+        if (!is_array($usr_id)) {
+            $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        } else {
+            $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        }
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            $returns[$key] = $res;
+            return $res;
+        }
+    }
+
+
+    /**
+     * Returns the status of the user associated with the given email address.
+     *
+     * @access  public
+     * @param   string $email The email address
+     * @return  string The user status
+     */
+    function getStatusByEmail($email)
+    {
+        static $returns;
+
+        if (isset($returns[$email])) {
+            return $returns[$email];
+        }
+
+        $stmt = "SELECT
+                    usr_status
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_email='" . Misc::escapeString($email) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        } else {
+            $returns[$email] = $res;
             return $res;
         }
     }
@@ -625,7 +681,7 @@ class User
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_full_name='" . Misc::runSlashes($HTTP_POST_VARS["full_name"]) . "'
+                    usr_full_name='" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "'
                  WHERE
                     usr_id=$usr_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -653,7 +709,7 @@ class User
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_email='" . Misc::runSlashes($HTTP_POST_VARS["email"]) . "'
+                    usr_email='" . Misc::escapeString($HTTP_POST_VARS["email"]) . "'
                  WHERE
                     usr_id=$usr_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -677,11 +733,16 @@ class User
     {
         global $HTTP_POST_VARS;
 
+        // system account should not be updateable
+        if ($HTTP_POST_VARS["id"] == APP_SYSTEM_USER_ID) {
+            return 1;
+        }
+        
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_full_name='" . Misc::runSlashes($HTTP_POST_VARS["full_name"]) . "',
-                    usr_email='" . Misc::runSlashes($HTTP_POST_VARS["email"]) . "',
+                    usr_full_name='" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
+                    usr_email='" . Misc::escapeString($HTTP_POST_VARS["email"]) . "',
                     usr_role=" . $HTTP_POST_VARS["role"];
         if (!empty($HTTP_POST_VARS["password"])) {
             $stmt .= ",
@@ -754,11 +815,11 @@ class User
                     usr_preferences
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . md5(Misc::runSlashes($HTTP_POST_VARS["password"])) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["full_name"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["email"]) . "',
+                    '" . md5(Misc::escapeString($HTTP_POST_VARS["password"])) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["email"]) . "',
                     " . $HTTP_POST_VARS["role"] . ",
-                    '" . addslashes($prefs) . "'
+                    '" . Misc::escapeString($prefs) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -789,6 +850,8 @@ class User
                     *
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_id != " . APP_SYSTEM_USER_ID . "
                  ORDER BY
                     usr_status ASC,
                     usr_full_name ASC";

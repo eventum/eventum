@@ -41,6 +41,7 @@
 
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.setup.php");
+include_once(APP_INC_PATH . "class.mail_queue.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.mime_helper.php");
 
@@ -65,6 +66,73 @@ class Mail_API
         @include_once(APP_PEAR_PATH . 'Mail.php');
         @include_once(APP_PEAR_PATH . 'Mail/mime.php');
         $this->mime = new Mail_mime("\r\n");
+    }
+
+
+    /**
+     * Believe it or not, this is a method that will remove excess occurrences
+     * of 'Re:' that commonly are found in email subject lines.
+     *
+     * @access  public
+     * @param   string $subject The subject line
+     * @return  string The subject line with the extra occurrences removed from it
+     */
+    function removeExcessRe($subject)
+    {
+        $re_pattern = "/^(([Rr][Ee][Ss]?|Ответ|Antwort|SV|[Aa][Ww])(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
+        if (preg_match($re_pattern, $subject)) {
+            $subject = preg_replace($re_pattern, 'Re: $4', $subject);
+            return Mail_API::removeExcessRe($subject);
+        } else {
+            return $subject;
+        }
+    }
+
+
+    /**
+     * Returns the canned explanation about why an email message was blocked
+     * and saved into an internal note.
+     *
+     * @access  public
+     * @return  string The canned explanation
+     */
+    function getCannedBlockedMsgExplanation()
+    {
+        // XXX: fix this warning message later
+        $msg = "WARNING: This message was blocked because the sender was not allowed to send emails to the associated customer. ";
+        $msg .= "Only known customer contacts or staff members listed in the assignment or authorized replier fields can send emails.\n";
+        $msg .= str_repeat('-', 70) . "\n\n";
+        return $msg;
+    }
+
+
+    /**
+     * Checks whether the given string contains the magic cookie or not.
+     *
+     * @access  public
+     * @param   string $message The email message
+     * @return  boolean
+     */
+    function hasMagicCookie($message)
+    {
+        if (strstr($message, 'really-send-this-mail')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * Returns the given string without the magic cookie, if any.
+     *
+     * @access  public
+     * @param   string $message The email message
+     * @return  string The message without the magic cookie
+     */
+    function stripMagicCookie($message)
+    {
+        return str_replace('really-send-this-mail', '', $message);
     }
 
 
@@ -151,11 +219,26 @@ class Mail_API
      */
     function getEmailAddress($address)
     {
-        $address = Mail_API::fixAddressQuoting($address);
-        $address = Mime_Helper::encodeValue($address);
-        include_once(APP_PEAR_PATH . "Mail/RFC822.php");
-        $t = Mail_RFC822::parseAddressList($address);
-        return $t[0]->mailbox . '@' . $t[0]->host;
+        $info = Mail_API::getAddressInfo($address);
+        return $info['email'];
+    }
+
+
+    /**
+     * Method used to get the name portion of a given recipient information.
+     *
+     * @access  public
+     * @param   string $address The email address value
+     * @return  string The name
+     */
+    function getName($address)
+    {
+        $info = Mail_API::getAddressInfo($address);
+        if (!empty($info['sender_name'])) {
+            return $info['sender_name'];
+        } else {
+            return $info['email'];
+        }
     }
 
 
@@ -265,6 +348,43 @@ class Mail_API
 
 
     /**
+     * Removes the warning message contained in a message, so that customers
+     * don't receive that extra information since it is not relevant to them.
+     *
+     * @access  public
+     * @param   string $str The body of the email
+     * @return  string The body of the email, without the warning message
+     */
+    function stripWarningMessage($str)
+    {
+        $str = str_replace(Mail_API::getWarningMessage('allowed'), '', $str);
+        $str = str_replace(Mail_API::getWarningMessage('blocked'), '', $str);
+        return $str;
+    }
+
+
+    /**
+     * Returns the warning message that needs to be added to the top of routed
+     * issue emails to alert the recipient that he can (or not) reply to 
+     * customers associated with the issue.
+     *
+     * @access  public
+     * @param   string $type Whether the warning message is of an allowed recipient or not
+     * @return  string The warning message
+     */
+    function getWarningMessage($type)
+    {
+        // XXX: fix these warning messages
+        if ($type == 'allowed') {
+            $str = 'ADVISORY: Your reply will be sent directly to the customer.';
+        } else {
+            $str = 'WARNING: If replying, add yourself to Authorized Repliers list first.';
+        }
+        return $str;
+    }
+
+
+    /**
      * Method used to add a customized warning message to the body
      * of outgoing emails.
      *
@@ -305,6 +425,26 @@ class Mail_API
 
 
     /**
+     * Strips out email headers that should not be sent over to the recipient
+     * of the routed email. The 'Received:' header was sometimes being used to
+     * validate the sender of the message, and because of that some emails were
+     * not being delivered correctly.
+     *
+     * @access  public
+     * @param   string $headers The full headers of the email
+     * @return  string The headers of the email, without the stripped ones
+     */
+    function stripHeaders($headers)
+    {
+        $headers = preg_replace('/\r?\n([ \t])/', '$1', $headers);
+        $headers = preg_replace('/^(Received: .*\r?\n)/m', '', $headers);
+        // also remove the read-receipt header
+        $headers = preg_replace('/^(Disposition-Notification-To: .*\r?\n)/m', '', $headers);
+        return $headers;
+    }
+
+
+    /**
      * Method used to send the SMTP based email message.
      *
      * @access  public
@@ -313,7 +453,7 @@ class Mail_API
      * @param   string $subject The subject of the message
      * @return  string The full body of the message that was sent
      */
-    function send($from, $to, $subject, $save_email_copy = FALSE)
+    function send($from, $to, $subject, $save_email_copy = 0)
     {
         // encode the addresses
         $from = MIME_Helper::encodeAddress($from);
@@ -324,25 +464,17 @@ class Mail_API
         // an user that has its permission level lower than a configurable setting
         $this->setTextBody($this->addWarningMessage($from, $to, $this->text_body));
 
-        $setup = Setup::load();
         $body = $this->mime->get();
-        $params = $this->getSMTPSettings();
         $this->setHeaders(array(
             'From'    => $from,
             'To'      => Mail_API::fixAddressQuoting($to),
             'Subject' => $subject
         ));
         $hdrs = $this->mime->headers($this->headers);
-        $mail =& Mail::factory('smtp', $params);
-        $res = $mail->send($to, $hdrs, $body);
+        $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy);
         if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return $res;
         } else {
-            if ($save_email_copy) {
-                // send a copy of this email to eventum_sent@
-                $this->saveEmailInformation($from, $hdrs, $body);
-            }
             // RFC 822 formatted date
             $header = 'Date: ' . date('D, j M Y H:i:s O') . "\r\n";
             // return the full dump of the email
@@ -367,8 +499,8 @@ class Mail_API
     function getFullHeaders($from, $to, $subject)
     {
         // encode the addresses
-        $from = addslashes(MIME_Helper::encodeAddress($from));
-        $to = addslashes(MIME_Helper::encodeAddress($to));
+        $from = MIME_Helper::encodeAddress($from);
+        $to = MIME_Helper::encodeAddress($to);
         $subject = MIME_Helper::encode($subject);
 
         $body = $this->mime->get();
@@ -393,11 +525,10 @@ class Mail_API
      * Method used to save a copy of the given email to a configurable address.
      *
      * @access  public
-     * @param   string $from The sender of the email
-     * @param   array $hdrs The list of headers to be used in this email
+     * @param   string $hdrs The headers to be used in this email
      * @param   string $body The body of the email
      */
-    function saveEmailInformation($from, $hdrs, $body)
+    function saveEmailInformation($hdrs, $body)
     {
         static $subjects;
 
@@ -407,20 +538,28 @@ class Mail_API
             return false;
         }
 
+        // ok, now parse the headers text and build the assoc array
+        $structure = Mime_Helper::decode($hdrs . "\n\n" . $body, FALSE, FALSE);
+        $_headers =& $structure->headers;
+        $header_names = Mime_Helper::getHeaderNames($hdrs);
+        $headers = array();
+        foreach ($_headers as $lowercase_name => $value) {
+            $headers[$header_names[$lowercase_name]] = $value;
+        }
+
         // prevent duplicate emails from being sent out...
-        $subject = @$hdrs['Subject'];
+        $subject = @$headers['Subject'];
         if (@in_array($subject, $subjects)) {
             return false;
         }
 
         // replace the To: header with the requested address
         $address = $setup['smtp']['save_address'];
-        $body = preg_replace("/To: (.*)/i", "To: $address", $body, 1);
-        $hdrs['To'] = $address;
+        $headers['To'] = $address;
 
         $params = Mail_API::getSMTPSettings();
         $mail =& Mail::factory('smtp', $params);
-        $res = $mail->send($address, $hdrs, $body);
+        $res = $mail->send($address, $headers, $body);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         }

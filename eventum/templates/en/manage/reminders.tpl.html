@@ -73,12 +73,18 @@
               }
               function validateForm(f)
               {
+                  if (hasSelected(f.project, -1)) {
+                      alert('Please choose a project that will be associated with this reminder.');
+                      return false;
+                  }
                   if (isWhitespace(f.title.value)) {
+                      selectField(f, 'title');
                       alert('Please enter the title for this reminder.');
                       return false;
                   }
-                  if (hasSelected(f.project, -1)) {
-                      alert('Please choose a project that will be associated with this reminder.');
+                  if (isWhitespace(f.rank.value)) {
+                      selectField(f, 'rank');
+                      alert('Please enter the rank for this reminder.');
                       return false;
                   }
                   var field1 = getFormElement(f, 'reminder_type', 0);

@@ -186,26 +186,13 @@
                   field.style.backgroundColor = bgcolor;
                   field = getFormElement(f, 'email_routing[address_host]');
                   field.disabled = bool;
+                  field = getFormElement(f, 'email_routing[host_alias]');
+                  field.disabled = bool;
                   field.style.backgroundColor = bgcolor;
                   field = getFormElement(f, 'email_routing[warning][status]', 0);
                   field.disabled = bool;
                   field = getFormElement(f, 'email_routing[warning][status]', 1);
                   field.disabled = bool;
-                  disableWarningFields(f, bool);
-              }
-              function disableWarningFields(f, bool)
-              {
-                  if (bool) {
-                      var bgcolor = '#CCCCCC';
-                  } else {
-                      var bgcolor = '#FFFFFF';
-                  }
-                  var field = getFormElement(f, 'email_routing[warning][permission_level]', 0);
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'email_routing[warning][message]', 0);
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
               }
               function disableNoteRoutingFields(f, bool)
               {
@@ -446,31 +433,23 @@
                     </tr>
                     <tr>
                       <td width="100" class="default" align="right">
-                        Warn Users of External Email Context:&nbsp;
+                        Host Alias:&nbsp;
+                      </td>
+                      <td width="80%">
+                        <input type="text" name="email_routing[host_alias]" class="default" value="{$setup.email_routing.host_alias}">
+                        {include file="error_icon.tpl.html" field="email_routing[host_alias]"}
+                        <span class="small_default">(Alternate domains that point to 'Address Hostname')</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="100" class="default" align="right">
+                        Warn Users Whether They Can Send Emails to Issue:&nbsp;
                       </td>
                       <td width="80%" class="default">
                         <input type="radio" name="email_routing[warning][status]" value="enabled" {if $setup.email_routing.warning.status == 'enabled'}checked{/if} onClick="javascript:disableWarningFields(this.form, false);"> 
-                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[warning][status]', 0);disableWarningFields(getForm('general_setup_form'), false);">Yes</a>&nbsp;&nbsp;
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[warning][status]', 0);">Yes</a>&nbsp;&nbsp;
                         <input type="radio" name="email_routing[warning][status]" value="disabled" {if $setup.email_routing.warning.status != 'enabled'}checked{/if} onClick="javascript:disableWarningFields(this.form, true);"> 
-                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[warning][status]', 1);disableWarningFields(getForm('general_setup_form'), true);">No</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        Permission Level Cutoff:&nbsp;
-                      </td>
-                      <td width="80%">
-                        <select name="email_routing[warning][permission_level]" class="default">
-                          {html_options options=$user_roles selected=$setup.email_routing.warning.permission_level}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        Warning Message:&nbsp;
-                      </td>
-                      <td width="80%">
-                        <textarea name="email_routing[warning][message]" style="width: 97%" rows="6" class="default">{$setup.email_routing.warning.message}</textarea>
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[warning][status]', 1);">No</a>
                       </td>
                     </tr>
                   </table>
@@ -580,7 +559,7 @@
                 <td bgcolor="{$light_color}" class="default">
                   <input type="radio" name="daily_tips" value="enabled" {if $setup.daily_tips == 'enabled'}checked{/if}> 
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'daily_tips', 0);">Enabled</a>&nbsp;&nbsp;
-                  <input type="radio" name="daily_tips" value="disabled" {if not $setup.daily_tips == 'enabled'}checked{/if}> 
+                  <input type="radio" name="daily_tips" value="disabled" {if $setup.daily_tips != 'enabled'}checked{/if}> 
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'daily_tips', 1);">Disabled</a>
                 </td>
               </tr>
@@ -592,7 +571,7 @@
                   <span class="default">
                   <input type="radio" name="spell_checker" value="enabled" {if $setup.spell_checker == 'enabled'}checked{/if}> 
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'spell_checker', 0);">Enabled</a>&nbsp;&nbsp;
-                  <input type="radio" name="spell_checker" value="disabled" {if not $setup.spell_checker == 'enabled'}checked{/if}> 
+                  <input type="radio" name="spell_checker" value="disabled" {if $setup.spell_checker != 'enabled'}checked{/if}> 
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'spell_checker', 1);">Disabled</a></span>
                   &nbsp;&nbsp;<span class="small_default">(requires <a target="_aspell" class="link" href="http://aspell.sourceforge.net/">aspell</a> installed in your server)</span>
                 </td>

@@ -48,7 +48,7 @@ function deleteTimeEntry(time_id)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
         <tr>
           <td class="default" nowrap>
-            <b>Time Tracking</b>
+            <b>Time Tracking ({$time_entries|@count})</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko}
@@ -59,7 +59,7 @@ function deleteTimeEntry(time_id)
         <tr id="time_tracker1" {get_display_style element_name="time_tracker"}>
           <td colspan="2" class="default" width="100%">
             <table width="100%" cellpadding="2" cellspacing="1">
-              <tr bgcolor="{$cell_color}">
+              <tr bgcolor="{$internal_color}">
                 <td class="default_white">Date of Work</td>
                 <td class="default_white">User</td>
                 <td class="default_white">Time Spent</td>
@@ -80,14 +80,14 @@ function deleteTimeEntry(time_id)
               </tr>
               {if $smarty.section.i.last}
               <tr>
-                <td bgcolor="{$cell_color}" colspan="2" class="default_white" align="right">Total Time Spent:</td>
+                <td bgcolor="{$internal_color}" colspan="2" class="default_white" align="right">Total Time Spent:</td>
                 <td bgcolor="{$dark_color}" colspan="3" class="default">{$total_time_spent}</td>
               </tr>
               {/if}
               {sectionelse}
               <tr>
                 <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
-                  <b>No entries could be found.</b>
+                  <i>No time tracking entries could be found.</i>
                 </td>
               </tr>
               {/section}
@@ -99,11 +99,11 @@ function deleteTimeEntry(time_id)
           <td colspan="2" class="default"><b>Record Time Worked:</b></td>
         </tr>
         <tr id="time_tracker3" {get_display_style element_name="time_tracker"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Summary:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Summary:</b></td>
           <td bgcolor="{$light_color}" width="100%"><input class="default" type="text" name="summary" size="40">{include file="error_icon.tpl.html" field="summary"}</td>
         </tr>
         <tr id="time_tracker4" {get_display_style element_name="time_tracker"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Category:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Category:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             <select name="category" class="default">
               <option value="">Please choose a category</option>
@@ -113,11 +113,11 @@ function deleteTimeEntry(time_id)
           </td>
         </tr>
         <tr id="time_tracker5" {get_display_style element_name="time_tracker"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Time Spent:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Time Spent:</b></td>
           <td bgcolor="{$light_color}" width="100%"><input class="default" type="text" size="5" name="time_spent" class="default"> <span class="default">(in minutes)</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
         </tr>
         <tr id="time_tracker6" {get_display_style element_name="time_tracker"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Date of Work:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Date of Work:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             {html_select_date day_value_format='%02d' field_array='date' prefix='' all_extra=' class="default"'}&nbsp;
             {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' class="default"' display_seconds=false}
@@ -125,7 +125,7 @@ function deleteTimeEntry(time_id)
           </td>
         </tr>
         <tr id="time_tracker7" {get_display_style element_name="time_tracker"}>
-          <td colspan="2" bgcolor="{$cell_color}" align="center" width="100%" nowrap>
+          <td colspan="2" bgcolor="{$internal_color}" align="center" width="100%" nowrap>
             <input type="submit" value="Clock-In" class="button">
           </td>
         </tr>
@@ -138,6 +138,6 @@ function deleteTimeEntry(time_id)
 <script language="JavaScript">
 <!--
 updateTimeFields('add_time_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
--->
+//-->
 </script>
 

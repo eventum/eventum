@@ -41,46 +41,10 @@ $TOTAL_QUERIES = 0;
 
 include_once("DB.php");
 include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.misc.php");
 
 class DB_API
 {
     var $dbh;
-
-    var $required_tables = array(
-        "custom_field",
-        "custom_field_option",
-        "custom_filter",
-        "email_account",
-        "email_response",
-        "issue",
-        "issue_association",
-        "issue_attachment",
-        "issue_attachment_file",
-        "issue_checkin",
-        "issue_custom_field",
-        "issue_history",
-        "issue_requirement",
-        "issue_user",
-        "note",
-        "phone_support",
-        "priority",
-        "project",
-        "project_category",
-        "project_custom_field",
-        "project_release",
-        "project_status",
-        "project_user",
-        "resolution",
-        "status",
-        "subscription",
-        "subscription_type",
-        "support_email",
-        "time_tracking",
-        "time_tracking_category",
-        "user"
-    );
-
 
     /**
      * Connects to the database and creates a data dictionary array to be used
@@ -104,18 +68,6 @@ class DB_API
             include_once(APP_PATH . "offline.php");
             exit;
         }
-        // add the table prefix to all of the required tables
-        $this->required_tables = Misc::array_map_deep($this->required_tables, array('DB_API', 'add_table_prefix'));
-        // check if all of the required tables are really there
-        $stmt = "SHOW TABLES";
-        $table_list = $this->dbh->getCol($stmt);
-        for ($i = 0; $i < count($this->required_tables); $i++) {
-            if (!in_array($this->required_tables[$i], $table_list)) {
-                $error_type = "table";
-                include_once(APP_PATH . "offline.php");
-                exit;
-            }
-        }
     }
 
 
@@ -135,17 +87,25 @@ class DB_API
 
 
     /**
-     * Method used by the code that checks if the required tables
-     * do exist in the appropriate database. It returns the given
-     * table name prepended with the appropriate table prefix.
+     * Returns the escaped version of the given string.
      *
-     * @access  private
-     * @param   string $table_name The table name
-     * @return  string The table name with the prefix added to it
+     * @access  public
+     * @param   string $str The string that needs to be escaped
+     * @return  string The escaped string
      */
-    function add_table_prefix($table_name)
+    function escapeString($str)
     {
-        return APP_TABLE_PREFIX . $table_name;
+        static $real_escape_string;
+
+        if (!isset($real_escape_string)) {
+            $real_escape_string = function_exists('mysql_real_escape_string');
+        }
+
+        if ($real_escape_string) {
+            return mysql_real_escape_string($str, $this->dbh->connection);
+        } else {
+            return mysql_escape_string($str);
+        }
     }
 }
 

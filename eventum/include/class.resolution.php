@@ -123,7 +123,7 @@ class Resolution
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
                  SET
-                    res_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "'
+                    res_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
                  WHERE
                     res_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -232,7 +232,7 @@ class Resolution
                     res_title,
                     res_created_date
                  ) VALUES (
-                    '" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     '" . Date_API::getCurrentDateGMT() . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);

@@ -47,6 +47,7 @@ include_once(APP_INC_PATH . "class.validation.php");
 
 class Reminder_Action
 {
+    // XXX: put documentation here
     function changeRank($rma_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
@@ -88,6 +89,7 @@ class Reminder_Action
     }
 
 
+    // XXX: put documentation here
     function getRanking()
     {
         $stmt = "SELECT
@@ -183,7 +185,7 @@ class Reminder_Action
                     " . $HTTP_POST_VARS['rem_id'] . ",
                     " . $HTTP_POST_VARS['type'] . ",
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS['title']) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
                     '" . $HTTP_POST_VARS['rank'] . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -201,6 +203,7 @@ class Reminder_Action
     }
 
 
+    // XXX: put documentation here
     function getUserList($rma_id)
     {
         $stmt = "SELECT
@@ -228,6 +231,7 @@ class Reminder_Action
     }
 
 
+    // XXX: put documentation here
     function associateUserList($rma_id, $user_list)
     {
         for ($i = 0; $i < count($user_list); $i++) {
@@ -247,7 +251,7 @@ class Reminder_Action
                      ) VALUES (
                         $rma_id,
                         $usr_id,
-                        '" . Misc::runSlashes($email) . "'
+                        '" . Misc::escapeString($email) . "'
                      )";
             $GLOBALS["db_api"]->dbh->query($stmt);
         }
@@ -269,7 +273,7 @@ class Reminder_Action
                  SET
                     rma_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     rma_rank='" . $HTTP_POST_VARS['rank'] . "',
-                    rma_title='" . Misc::runSlashes($HTTP_POST_VARS['title']) . "',
+                    rma_title='" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
                     rma_rmt_id=" . $HTTP_POST_VARS['type'] . "
                  WHERE
                     rma_id=" . $HTTP_POST_VARS['id'];
@@ -289,6 +293,7 @@ class Reminder_Action
     }
 
 
+    // XXX: put documentation here
     function isUserList($rmt_id)
     {
         $stmt = "SELECT
@@ -315,6 +320,7 @@ class Reminder_Action
     }
 
 
+    // XXX: put documentation here
     function clearActionUserList($rma_id)
     {
         if (!is_array($rma_id)) {
@@ -523,7 +529,9 @@ class Reminder_Action
         $type = '';
         // - see which action type we're talking about here...
         $action_type = Reminder_Action::getActionType($action['rma_rmt_id']);
-        echo "- Performing action '$action_type' for issue #$issue_id\n";
+        if (Reminder::isDebug()) {
+           echo "  - Performing action '$action_type' for issue #$issue_id\n";
+        }
         switch ($action_type) {
             case 'email_assignee':
                 $type = 'email';
@@ -534,7 +542,9 @@ class Reminder_Action
                 }
                 // if there are no recipients, then just skip to the next action
                 if (count($to) == 0) {
-                    echo "- No assigned users could be found\n";
+                    if (Reminder::isDebug()) {
+                        echo "  - No assigned users could be found\n";
+                    }
                     return false;
                 }
                 break;
@@ -562,7 +572,9 @@ class Reminder_Action
                 }
                 // if there are no recipients, then just skip to the next action
                 if (count($to) == 0) {
-                    echo "- No assigned users with SMS email address could be found\n";
+                    if (Reminder::isDebug()) {
+                        echo "  - No assigned users with SMS email address could be found\n";
+                    }
                     return false;
                 }
                 break;
@@ -582,7 +594,9 @@ class Reminder_Action
                 }
                 // if there are no recipients, then just skip to the next action
                 if (count($to) == 0) {
-                    echo "- No assigned users with SMS email address could be found\n";
+                    if (Reminder::isDebug()) {
+                        echo "  - No assigned users with SMS email address could be found\n";
+                    }
                     return false;
                 }
                 break;
@@ -596,7 +610,6 @@ class Reminder_Action
             $tpl = new Template_API;
             $tpl->setTemplate('reminders/email_alert.tpl.text');
             $tpl->bulkAssign(array(
-                "app_base_url" => APP_BASE_URL,
                 "data"         => Notification::getIssueDetails($issue_id),
                 "reminder"     => $reminder,
                 "conditions"   => $conditions
@@ -614,7 +627,6 @@ class Reminder_Action
             $tpl = new Template_API;
             $tpl->setTemplate('reminders/sms_alert.tpl.text');
             $tpl->bulkAssign(array(
-                "app_base_url" => APP_BASE_URL,
                 "data"         => Notification::getIssueDetails($issue_id),
                 "reminder"     => $reminder,
                 "conditions"   => $conditions

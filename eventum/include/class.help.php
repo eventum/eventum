@@ -112,6 +112,10 @@ $topics = array(
     "view" => array(
         "title"  => "Viewing Issues",
         "parent" => "main"
+    ),
+    "email_blocking"    =>  array(
+        "title" =>  "Email Blocking",
+        "parent"    =>  "main"
     )
 );
 

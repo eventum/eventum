@@ -158,13 +158,15 @@ class Filter
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                      SET
                         cst_iss_pri_id='" . $HTTP_POST_VARS["priority"] . "',
-                        cst_keywords='" . Misc::runSlashes($HTTP_POST_VARS["keywords"]) . "',
+                        cst_keywords='" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
                         cst_users='" . $HTTP_POST_VARS["users"] . "',
                         cst_iss_sta_id='" . $HTTP_POST_VARS["status"] . "',
                         cst_rows='" . $HTTP_POST_VARS["rows"] . "',
                         cst_sort_by='" . $HTTP_POST_VARS["sort_by"] . "',
                         cst_sort_order='" . $HTTP_POST_VARS["sort_order"] . "',
                         cst_hide_closed='" . @$HTTP_POST_VARS["hide_closed"] . "',
+                        cst_show_authorized='" . @$HTTP_POST_VARS["show_authorized_issues"] . "',
+                        cst_show_notification_list='" . @$HTTP_POST_VARS["show_notification_list_issues"] . "',
                         cst_created_date=$created_date,
                         cst_created_date_filter_type=$created_date_filter_type,
                         cst_created_date_end=$created_date_end,
@@ -197,6 +199,8 @@ class Filter
                         cst_sort_by,
                         cst_sort_order,
                         cst_hide_closed,
+                        cst_show_authorized,
+                        cst_show_notification_list,
                         cst_created_date,
                         cst_created_date_filter_type,
                         cst_created_date_end,
@@ -215,15 +219,17 @@ class Filter
                      ) VALUES (
                         " . Auth::getUserID() . ",
                         " . Auth::getCurrentProject() . ",
-                        '" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
+                        '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                         '" . $HTTP_POST_VARS["priority"] . "',
-                        '" . Misc::runSlashes($HTTP_POST_VARS["keywords"]) . "',
+                        '" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
                         '" . $HTTP_POST_VARS["users"] . "',
                         '" . $HTTP_POST_VARS["status"] . "',
                         '" . $HTTP_POST_VARS["rows"] . "',
                         '" . $HTTP_POST_VARS["sort_by"] . "',
                         '" . $HTTP_POST_VARS["sort_order"] . "',
                         '" . @$HTTP_POST_VARS["hide_closed"] . "',
+                        '" . @$HTTP_POST_VARS["show_authorized_issues"] . "',
+                        '" . @$HTTP_POST_VARS["show_notification_list_issues"] . "',
                         $created_date,
                         $created_date_filter_type,
                         $created_date_end,
@@ -268,7 +274,7 @@ class Filter
                  WHERE
                     cst_usr_id=" . Auth::getUserID() . " AND
                     cst_prj_id=" . Auth::getCurrentProject() . " AND
-                    cst_title='" . Misc::runSlashes($cst_title) . "'";
+                    cst_title='" . Misc::escapeString($cst_title) . "'";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

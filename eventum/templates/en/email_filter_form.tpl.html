@@ -67,6 +67,16 @@ function checkDateFilterType(f, type_field)
 }
 function calendarCallback_arrival(day, month, year) { selectDateField('arrival_date', day, month, year); }
 function calendarCallback_arrival_end(day, month, year) { selectDateField('arrival_date_end', day, month, year); }
+function validateForm(f)
+{
+    var checkbox = getFormElement(f, 'filter[arrival_date]');
+    // need to hack this value in the query string so the saved search options don't override this one
+    if (!checkbox.checked) {
+        var field = getFormElement(f, 'hidden1');
+        field.name = 'filter[arrival_date]';
+        field.value = 'no';
+    }
+}
 //-->
 </script>
 {/literal}
@@ -77,8 +87,9 @@ function calendarCallback_arrival_end(day, month, year) { selectDateField('arriv
     </td>
     <td>
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
-        <form action="emails.php" method="get" name="email_filter_form">
+        <form action="emails.php" method="get" name="email_filter_form" onSubmit="javascript:return validateForm(this);">
         <input type="hidden" name="cat" value="search">
+        <input type="hidden" name="hidden1" value="">
         <tr>
           <td>
             <span class="default">Subject/Body:</span><br />

@@ -157,7 +157,7 @@ class Prefs
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_preferences='" . addslashes($data) . "'
+                    usr_preferences='" . Misc::escapeString($data) . "'
                  WHERE
                     usr_id=$usr_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);

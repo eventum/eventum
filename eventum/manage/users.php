@@ -61,13 +61,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
 
     $tpl->assign("list", User::getList());
     $tpl->assign("project_list", Project::getAll());
-    // don't allow manager users to set users as administrators
-    if ($role_id == User::getRoleID('manager')) {
-        $hide_role = 'administrator';
-    } else {
-        $hide_role = false;
-    }
-    $tpl->assign("user_roles", User::getRoles($hide_role));
+    $tpl->assign("user_roles", User::getRoles(array('administrator')));
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }

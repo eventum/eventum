@@ -62,13 +62,17 @@ for ($i = 0; $i < count($reminders); $i++) {
                     continue;
                 }
                 $triggered_issues[] = $issues[$z];
-                echo "Triggered Action for issue #" . $issues[$z] . "\n";
+                if (Reminder::isDebug()) {
+                    echo "Triggered Action '" . $reminders[$i]['actions'][$y]['rma_title'] . "' for issue #" . $issues[$z] . "\n";
+                }
                 Reminder_Action::perform($issues[$z], $reminders[$i], $reminders[$i]['actions'][$y]);
             }
             // perform just one action per reminder
             break;
         } else {
-            echo "No issues had any triggered action\n";
+            if (Reminder::isDebug()) {
+                echo "No triggered issues for action '" . $reminders[$i]['actions'][$y]['rma_title'] . "'\n";
+            }
         }
     }
 }

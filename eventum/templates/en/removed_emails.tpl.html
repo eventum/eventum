@@ -7,7 +7,7 @@
 {if $result_msg == -1}
   <b>An error occurred while trying to run your query</b>
 {elseif $result_msg == 1}
-  <b>Thank you, the emails were restored successfully.</b>
+  <b>Thank you, the emails were {if $smarty.post.cat == 'remove'}removed{else}restored{/if} successfully.</b>
 {/if}
   </span>
 </center>
@@ -39,11 +39,25 @@ setTimeout('window.close()', 2000);
                     alert('Please choose which emails need to be restored.');
                     return false;
                 }
+                f.submit();
+            }
+            function removeEmails(f)
+            {
+                if (!hasOneChecked(f, 'item[]')) {
+                    alert('Please choose which emails need to be permanently removed.');
+                    return false;
+                }
+                if (!confirm('WARNING: This action will permanently remove the selected emails from your email account.')) {
+                    return false;
+                } else {
+                    f.cat.value = 'remove';
+                    f.submit();
+                }
             }
             //-->
             </script>
             {/literal}
-            <form onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+            <form method="post" action="{$smarty.server.PHP_SELF}">
             <input type="hidden" name="cat" value="restore">
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
               <tr>
@@ -73,7 +87,7 @@ setTimeout('window.close()', 2000);
               {sectionelse}
               <tr>
                 <td colspan="4" bgcolor="{$light_color}" class="default" align="center">
-                  <b>No emails could be found.</b>
+                  <i>No emails could be found.</i>
                 </td>
               </tr>
               {/section}
@@ -82,8 +96,13 @@ setTimeout('window.close()', 2000);
                   <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
                 </td>
                 <td colspan="3" bgcolor="{$cell_color}">
-                  <input type="submit" class="button" value="Restore Emails">
+                  <input type="button" class="button" value="Restore Emails" onClick="javascript:validateForm(this.form);">
                   <input type="button" class="button" value="Close" onClick="javascript:window.close();">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4" bgcolor="{$dark_color}" align="left">
+                  <input type="button" class="button" value="Permanently Remove" onClick="javascript:removeEmails(this.form);">
                 </td>
               </tr>
             </table>

@@ -120,7 +120,7 @@ class Error_Handler
         global $HTTP_SERVER_VARS;
 
         if (is_array($error_msg)) {
-            $msg = "[" . date("D M d H:i:s Y") . "] Found error '" . $error_msg[0] . "' on line '" . $line . "' of script '" . $script . "' on page '" . $HTTP_SERVER_VARS["PHP_SELF"] . "'.\n";
+            $msg = "[" . date("D M d H:i:s Y") . "] Found error '" . $error_msg[0] . "/" . $error_msg[1] . "' on line '" . $line . "' of script '" . $script . "' on page '" . $HTTP_SERVER_VARS["PHP_SELF"] . "'.\n";
         } else {
             $msg = "[" . date("D M d H:i:s Y") . "] Found error '" . $error_msg . "' on line '" . $line . "' of script '" . $script . "' on page '" . $HTTP_SERVER_VARS["PHP_SELF"] . "'.\n";
         }

@@ -6,10 +6,10 @@
 {if $send_result == -1}
   <b>An error occurred while trying to run your query</b>
 {elseif $send_result == -2}
-  <b>Sorry, but the email could not be sent. This might be related to problems with your SMTP account settings. 
+  <b>Sorry, but the email could not be queued. This might be related to problems with your SMTP account settings. 
   Please contact the administrator of this application for further assistance.</b>
 {elseif $send_result == 1}
-  <b>Thank you, the email was sent successfully.</b>
+  <b>Thank you, the email was queued to be sent successfully.</b>
 {/if}
   </span>
 </center>
@@ -221,7 +221,7 @@ function setSignature(f)
             <b>Subject: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="subject" class="default" size="50" value="{if $smarty.get.cat != 'view_draft' and $email.sup_subject != ""}Re: {/if}{$email.sup_subject|escape:"html"}">
+            <input type="text" name="subject" class="default" size="50" value="{if $smarty.get.cat == 'view_draft'}{$email.sup_subject|escape:"html"}{else}{$email.reply_subject|escape:"html"}{/if}">
             {include file="error_icon.tpl.html" field="subject"}
           </td>
         </tr>

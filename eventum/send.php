@@ -58,7 +58,7 @@ if (@$HTTP_POST_VARS["cat"] == "send_email") {
         Draft::remove($HTTP_POST_VARS['draft_id']);
     }
 } elseif (@$HTTP_POST_VARS["cat"] == "save_draft") {
-    $res = Draft::saveEmail($issue_id, $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], Misc::runSlashes($HTTP_POST_VARS["subject"]), Misc::runSlashes($HTTP_POST_VARS["message"]), $HTTP_POST_VARS["parent_id"]);
+    $res = Draft::saveEmail($issue_id, $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"], $HTTP_POST_VARS["parent_id"]);
     $tpl->assign("draft_result", $res);
 } elseif (@$HTTP_POST_VARS["cat"] == "update_draft") {
     $res = Draft::update($issue_id, $HTTP_POST_VARS["draft_id"], $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"], $HTTP_POST_VARS["parent_id"]);
@@ -75,10 +75,10 @@ if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
     );
     // try to guess the correct email account to be associated with this email
     if (!empty($draft['emd_sup_id'])) {
-        $HTTP_GET_VARS['ema_id'] = Support::getAccountByEmail($draft['emd_sup_id']);
+        $HTTP_GET_VARS['ema_id'] = Email_Account::getAccountByEmail($draft['emd_sup_id']);
     } else {
         // if we are not replying to an existing message, just get the first email account you can find...
-        $HTTP_GET_VARS['ema_id'] = Support::getEmailAccount();
+        $HTTP_GET_VARS['ema_id'] = Email_Account::getEmailAccount();
     }
     $tpl->bulkAssign(array(
         "draft_id"        => $HTTP_GET_VARS['id'],
@@ -123,8 +123,12 @@ if (!empty($issue_id)) {
         ));
     }
     // list the available statuses
-    $tpl->assign("statuses", Status::getAssocStatusList($prj_id));
+    $tpl->assign("statuses", Status::getAssocStatusList($prj_id, false));
     $tpl->assign("current_issue_status", Issue::getStatusID($issue_id));
+    
+    // set if the issue is assigned to this user or not
+    $sender_details = User::getDetails($usr_id);
+    $tpl->assign("can_send_email", Support::isAllowedToEmail($issue_id, $sender_details["usr_email"]));
 }
 if ((!@empty($HTTP_GET_VARS["ema_id"])) || (!@empty($HTTP_POST_VARS["ema_id"]))) {
     @$tpl->assign("ema_id", $HTTP_GET_VARS["ema_id"] ? $HTTP_GET_VARS["ema_id"] : $HTTP_POST_VARS["ema_id"]);

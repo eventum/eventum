@@ -32,6 +32,8 @@ include_once(APP_INC_PATH . "class.support.php");
 include_once(APP_INC_PATH . "class.setup.php");
 include_once(APP_INC_PATH . "db_access.php");
 
+ini_set("memory_limit", "256M");
+
 // check for the required parameters
 if (@count($HTTP_SERVER_VARS['argv']) < 4 && @$HTTP_SERVER_VARS['argv'][1] != '--fix-lock') {
     echo "Error: Wrong number of parameters given. Expected parameters related to the email account:\n";
@@ -43,7 +45,7 @@ if (@count($HTTP_SERVER_VARS['argv']) < 4 && @$HTTP_SERVER_VARS['argv'][1] != '-
 }
 
 // get the account ID since we need it for locking.
-$account_id = Support::getAccountID(@$HTTP_SERVER_VARS["argv"][1], @$HTTP_SERVER_VARS["argv"][2], @$HTTP_SERVER_VARS["argv"][3]);
+$account_id = Email_Account::getAccountID(@$HTTP_SERVER_VARS["argv"][1], @$HTTP_SERVER_VARS["argv"][2], @$HTTP_SERVER_VARS["argv"][3]);
 if ($account_id == 0 && !in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
     echo "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again.\n";
     exit;
@@ -84,7 +86,7 @@ if (isset($setup['downloading_emails'][$account_id]) && @$setup['downloading_ema
     Setup::save($setup);
 }
 
-$account = Support::getDetails($account_id);
+$account = Email_Account::getDetails($account_id);
 $mbox = Support::connectEmailServer($account);
 if ($mbox == false) {
     echo "Error: Could not connect to the email server. Please verify your email account settings and try again.\n";

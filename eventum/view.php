@@ -58,23 +58,25 @@ $tpl->assign("extra_title", "Issue #$issue_id Details");
 $details = Issue::getDetails($issue_id);
 
 // check if the requested issue is a part of the 'current' project
-if ($details['iss_prj_id'] != $prj_id) {
+if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {
     $tpl->assign('issue', '');
 } else {
     $tpl->assign("issue", $details);
     $options = Issue::saveSearchParams();
     $sides = Issue::getSides($issue_id, $options);
     $tpl->assign(array(
-        "next_issue"     => @$sides["next"],
-        "previous_issue" => @$sides["previous"],
-        "subscribers"    => Notification::getSubscribers($issue_id),
-        "custom_fields"  => Custom_Field::getListByIssue($prj_id, $issue_id),
-        "files"          => Attachment::getList($issue_id),
-        "notes"          => Note::getListing($issue_id),
-        "emails"         => Support::getEmailsByIssue($issue_id),
-        "phone_entries"  => Phone_Support::getListing($issue_id),
-        "zones"          => Date_API::getTimezoneList(),
-        'users'          => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter'))
+        "next_issue"         => @$sides["next"],
+        "previous_issue"     => @$sides["previous"],
+        "subscribers"        => Notification::getSubscribers($issue_id),
+        "custom_fields"      => Custom_Field::getListByIssue($prj_id, $issue_id),
+        "files"              => Attachment::getList($issue_id),
+        "notes"              => Note::getListing($issue_id),
+        "emails"             => Support::getEmailsByIssue($issue_id),
+        "phone_entries"      => Phone_Support::getListing($issue_id),
+        "zones"              => Date_API::getTimezoneList(),
+        'users'              => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter')),
+        "ema_id"             => Email_Account::getEmailAccount(),
+        'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id)
     ));
     $tpl->assign("ema_id", Support::getEmailAccount());
     $time_entries = Time_Tracking::getListing($issue_id);

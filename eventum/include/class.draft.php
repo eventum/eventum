@@ -38,12 +38,18 @@ class Draft
      * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = FALSE)
+    function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = FALSE, $unknown_user = FALSE)
     {
         if (empty($parent_id)) {
             $parent_id = 'NULL';
         }
-        $usr_id = Auth::getUserID();
+        
+        // if unknown_user is not empty, set the usr_id to be the system user.
+        if (!empty($unknown_user)) {
+            $usr_id = APP_SYSTEM_USER_ID;
+        } else {
+            $usr_id = Auth::getUserID();
+        }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
                  (
@@ -52,15 +58,21 @@ class Draft
                     emd_iss_id,
                     emd_sup_id,
                     emd_subject,
-                    emd_body
-                 ) VALUES (
-                    NOW(),
+                    emd_body";
+        if (!empty($unknown_user)) {
+            $stmt .= ", emd_unknown_user";
+        }
+        $stmt .= ") VALUES (
+                    '" . Date_API::getCurrentDateGMT() . "',
                     $usr_id,
                     $issue_id,
                     $parent_id,
-                    '$subject',
-                    '$message'
-                 )";
+                    '" . Misc::escapeString($subject) . "',
+                    '" . Misc::escapeString($message) . "'";
+        if (!empty($unknown_user)) {
+            $stmt .= ", '" . Misc::escapeString($unknown_user) . "'";
+        }
+        $stmt .= ")";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -74,7 +86,7 @@ class Draft
                 Draft::addEmailRecipient($new_emd_id, $cc, true);
             }
             Issue::markAsUpdated($issue_id);
-            History::add($issue_id, 'Email message saved as a draft by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('draft_added'), 'Email message saved as a draft by ' . User::getFullName($usr_id));
             return 1;
         }
     }
@@ -89,12 +101,12 @@ class Draft
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
                  SET
-                    emd_updated_date=NOW(),
+                    emd_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     emd_usr_id=$usr_id,
                     emd_iss_id=$issue_id,
                     emd_sup_id=$parent_id,
-                    emd_subject='" . Misc::runSlashes($subject) . "',
-                    emd_body='" . Misc::runSlashes($message) . "'
+                    emd_subject='" . Misc::escapeString($subject) . "',
+                    emd_body='" . Misc::escapeString($message) . "'
                  WHERE
                     emd_id=$emd_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -110,7 +122,7 @@ class Draft
                 Draft::addEmailRecipient($emd_id, $cc, true);
             }
             Issue::markAsUpdated($issue_id);
-            History::add($issue_id, 'Email message draft updated by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), 'Email message draft updated by ' . User::getFullName($usr_id));
             return 1;
         }
     }
@@ -166,7 +178,7 @@ class Draft
                  ) VALUES (
                     $emd_id,
                     $is_cc,
-                    '" . Misc::runSlashes($email) . "'
+                    '" . Misc::escapeString($email) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -203,7 +215,8 @@ class Draft
                     emd_id,
                     emd_usr_id,
                     emd_subject,
-                    emd_updated_date
+                    emd_updated_date,
+                    emd_unknown_user
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
                  WHERE
@@ -214,7 +227,12 @@ class Draft
             return '';
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
+                $res[$i]["emd_updated_date"] = Date_API::getFormattedDate($res[$i]["emd_updated_date"]);
+                if (!empty($res[$i]['emd_unknown_user'])) {
+                    $res[$i]['from'] = $res[$i]["emd_unknown_user"];
+                } else {
+                    $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
+                }
                 list($res[$i]['to'], ) = Draft::getEmailRecipients($res[$i]['emd_id']);
             }
             return $res;

@@ -53,7 +53,13 @@ define("MONTH", WEEK * 4);
 
 class Date_API
 {
-    // XXX: put documentation here
+    /**
+     * Returns whether the given hour is AM or not.
+     *
+     * @access  public
+     * @param   integer $hour The hour number
+     * @return  boolean
+     */
     function isAM($hour)
     {
         if (($hour >= 0) && ($hour <= 11)) {
@@ -64,7 +70,13 @@ class Date_API
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Returns whether the given hour is PM or not.
+     *
+     * @access  public
+     * @param   integer $hour The hour number
+     * @return  boolean
+     */
     function isPM($hour)
     {
         if (($hour >= 12) && ($hour <= 23)) {
@@ -75,7 +87,12 @@ class Date_API
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Returns the current UNIX timestamp in the GMT timezone.
+     *
+     * @access  public
+     * @return  integer The current UNIX timestamp in GMT
+     */
     function getCurrentUnixTimestampGMT()
     {
         return gmmktime();
@@ -181,6 +198,7 @@ class Date_API
         return $date->format('%a, %d %b %Y, %H:%M:%S ') . $date->tz->getShortName();
     }
 
+
     /**
      * Method used to get the formatted date for a specific timestamp
      * and a specific timezone, provided by the user' preference.
@@ -259,6 +277,71 @@ class Date_API
     function getDateGMTByTS($timestamp)
     {
         return gmdate('Y-m-d H:i:s', $timestamp);
+    }
+    
+    
+    /**
+     * Returns a list of weeks (May 2 - May 8, May 9 - May 15).
+     * 
+     * @access public
+     * @param   integer $weeks_past The number of weeks in the past to include.
+     * @param   integer $weeks_future The number of weeks in the future to include.
+     * @return  array An array of weeks.
+     */
+    function getWeekOptions($weeks_past, $weeks_future)
+    {
+        $options = array();
+        
+        // get current week details
+        $current_start = date("U") - (DAY * (date("w") - 1));
+        
+        // previous weeks
+        for ($week = $weeks_past; $week > 0; $week--) {
+            $option = Date_API::formatWeekOption($current_start - ($week * WEEK));
+            $options[$option[0]] = $option[1];
+        }
+        
+        $option = Date_API::formatWeekOption($current_start);
+        $options[$option[0]] = $option[1];
+        
+        // future weeks
+        for ($week = 1; $week <= $weeks_future; $week++) {
+            $option = Date_API::formatWeekOption($current_start + ($week * WEEK));
+            $options[$option[0]] = $option[1];
+        }
+        
+        return $options;
+    }
+    
+    /**
+     * Returns the current week in the same format formatWeekOption users.
+     * 
+     * @access  public
+     * @return  string A string containg the current week.
+     */
+    function getCurrentWeek()
+    {
+        $value_format = "Y-m-d";
+        $start = date("U") - (DAY * (date("w") - 1));
+        return date($value_format, $start) . "_" . date($value_format, ($start + (DAY * 6)));
+    }
+    
+    
+    /**
+     * Formats a given week start and week end to a format useable by getWeekOptions().
+     * 
+     * @access  private
+     * @param   integer $start The start date of the week.
+     * @return  array An array usable as an option in getWeekOptions.
+     */
+    function formatWeekOption($start)
+    {
+        $value_format = "Y-m-d";
+        $display_format = "M jS";
+        $end = ($start + (DAY * 6));
+        $value = date($value_format, $start) . "_" . date($value_format, $end);
+        $display = date($display_format, $start) . " - " . date($display_format, $end);
+        return array($value,$display);
     }
 }
 

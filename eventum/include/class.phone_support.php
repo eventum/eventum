@@ -116,16 +116,16 @@ class Phone_Support
                     " . $HTTP_POST_VARS["issue_id"] . ",
                     $usr_id,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["type"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["phone_number"]) . "',
-                    " . Misc::runSlashes($HTTP_POST_VARS["call_length"]) . ",
-                    '" . Misc::runSlashes($HTTP_POST_VARS["description"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["reason"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["phone_type"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["from_lname"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["from_fname"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["to_lname"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["to_fname"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["phone_number"]) . "',
+                    " . $HTTP_POST_VARS["call_length"] . ",
+                    '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["reason"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["phone_type"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["from_lname"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["from_fname"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["to_lname"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["to_fname"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -134,7 +134,8 @@ class Phone_Support
         } else {
             Issue::markAsUpdated($HTTP_POST_VARS['issue_id']);
             // need to save a history entry for this
-            History::add($HTTP_POST_VARS['issue_id'], 'Phone Support entry submitted by ' . User::getFullName($usr_id));
+            History::add($HTTP_POST_VARS['issue_id'], $usr_id, History::getTypeID('phone_entry_added'), 
+                            'Phone Support entry submitted by ' . User::getFullName($usr_id));
             // XXX: send notifications for the issue being updated (new notification type phone_support?)
             return 1;
         }
@@ -170,7 +171,8 @@ class Phone_Support
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, 'Phone Support entry removed by ' . User::getFullName(Auth::getUserID()));
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('phone_entry_removed'), 
+                            'Phone Support entry removed by ' . User::getFullName(Auth::getUserID()));
             return 1;
         }
     }
@@ -198,6 +200,33 @@ class Phone_Support
         } else {
             return true;
         }
+    }
+    
+    
+    /**
+     * Returns the number of calls by a user in a time range.
+     * 
+     * @access  public
+     * @param   string $usr_id The ID of the user
+     * @param   integer $start The timestamp of the start date
+     * @param   integer $end The timestamp of the end date
+     * @return  integer The number of phone calls by the user.
+     */
+    function getCountByUser($usr_id, $start, $end)
+    {
+        $stmt = "SELECT
+                    COUNT(phs_id)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
+                 WHERE
+                    phs_created_date BETWEEN '$start' AND '$end' AND
+                    phs_usr_id = $usr_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        }
+        return $res;
     }
 }
 

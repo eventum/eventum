@@ -99,9 +99,19 @@ function validateForm(f)
 {
     // need to hack this value in the query string so the saved search options don't override this one
     if (!f.hide_closed.checked) {
-        var field = getFormElement(f, 'hidden');
+        var field = getFormElement(f, 'hidden1');
         field.name = 'hide_closed';
         field.value = '0';
+    }
+    if (!f.show_authorized_issues.checked) {
+        var field = getFormElement(f, 'hidden2');
+        field.name = 'show_authorized_issues';
+        field.value = '';
+    }
+    if (!f.show_notification_list_issues.checked) {
+        var field = getFormElement(f, 'hidden3');
+        field.name = 'show_notification_list_issues';
+        field.value = '';
     }
     return true;
 }
@@ -125,7 +135,9 @@ function validateForm(f)
         </tr>
         <form name="custom_filter_form" method="get" action="list.php" onSubmit="javascript:return validateForm(this);">
         <input type="hidden" name="cat" value="search">
-        <input type="hidden" name="hidden" value="">
+        <input type="hidden" name="hidden1" value="">
+        <input type="hidden" name="hidden2" value="">
+        <input type="hidden" name="hidden3" value="">
         <tr>
           <td>
             <span class="default">Keyword(s):</span><br />
@@ -193,6 +205,23 @@ function validateForm(f)
         </tr>
         <tr>
           <td colspan="4">
+            <table width="100%" cellspacing="0" border="0" cellpadding="0">
+              <tr>
+                <td nowrap class="default">
+                  Show Issues in Which I Am:&nbsp;
+                </td>
+                <td width="80%" class="default">
+                  <input type="checkbox" name="show_authorized_issues" value="yes" {if $options.cst_show_authorized == 'yes'}checked{/if}>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_filter_form', 'show_authorized_issues');">Authorized to Send Emails</a>
+                  <input type="checkbox" name="show_notification_list_issues" value="yes" {if $options.cst_show_notification_list == 'yes'}checked{/if}>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_filter_form', 'show_notification_list_issues');">In Notification List</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               <tr>
                 <td nowrap width="50%">
@@ -427,7 +456,7 @@ function validateForm(f)
         {sectionelse}
         <tr>
           <td class="default" colspan="3" align="center">
-            <b>No custom searches could be found.</b>
+            <i>No custom searches could be found.</i>
           </td>
         </tr>
         {/section}

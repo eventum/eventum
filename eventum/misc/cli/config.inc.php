@@ -48,7 +48,9 @@ if (isset($_GET)) {
 @define("APP_PATH", dirname(__FILE__) . '/');
 @define("APP_INC_PATH", APP_PATH . "include/");
 @define("APP_PEAR_PATH", APP_INC_PATH . "pear/");
-if (stristr(PHP_OS, "win")) {
+if (stristr(PHP_OS, 'darwin')) {
+    ini_set("include_path", ".:" . APP_PEAR_PATH);
+} elseif (stristr(PHP_OS, 'win')) {
     ini_set("include_path", ".;" . APP_PEAR_PATH);
 } else {
     ini_set("include_path", ".:" . APP_PEAR_PATH);

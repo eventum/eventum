@@ -41,20 +41,14 @@ function deletePhoneEntry(phone_id)
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
         <tr>
-          <td colspan="2">
-            <table width="100%">
-              <tr>
-                <td class="default">
-                  <b>Phone Calls</b>
-                </td>
-                <td align="right" class="default">
-                  {if $browser.ie5up or $browser.ns6up or $browser.gecko}
-                  [ <a id="phone_support_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('phone_support');">{get_innerhtml element_name="phone_support"}</a> ]
-                  {/if}
-                </td>
-              </tr>
-            </table>
-          </td>
+          <td class="default">
+          <b>Phone Calls ({$phone_entries|@count})</b>
+        </td>
+        <td align="right" class="default">
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko}
+            [ <a id="phone_support_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('phone_support');">{get_innerhtml element_name="phone_support"}</a> ]
+            {/if}
+        </td>
         </tr>
         <tr id="phone_support1" {get_display_style element_name="phone_support"}>
           <td colspan="2">
@@ -62,7 +56,7 @@ function deletePhoneEntry(phone_id)
               {section name="i" loop=$phone_entries}
               {cycle values=$cycle assign="row_color"}
               <tr>
-                <td align="center" bgcolor="{$cell_color}" class="default_white" width="220" nowrap>
+                <td align="center" bgcolor="{$internal_color}" class="default_white" width="220" nowrap>
                   Entered by {$phone_entries[i].usr_full_name}
                   {if $current_user_id == $phone_entries[i].phs_usr_id}
                   [ <a class="white_link" href="javascript:void(null);" onClick="javascript:deletePhoneEntry({$phone_entries[i].phs_id});">delete</a> ]
@@ -76,10 +70,10 @@ function deletePhoneEntry(phone_id)
                 </td>
               </tr>
               <tr>
-                <td bgcolor="{$cell_color}" align="center" class="default_white">{$phone_entries[i].phs_time_spent} in length</td>
+                <td bgcolor="{$internal_color}" align="center" class="default_white">{$phone_entries[i].phs_time_spent} in length</td>
               </tr>
               <tr>
-                <td bgcolor="{$cell_color}" align="center" class="default_white">
+                <td bgcolor="{$internal_color}" align="center" class="default_white">
                   Phone Number: {$phone_entries[i].phs_phone_number} ({$phone_entries[i].phs_phone_type})<br />
                   Reason: {$phone_entries[i].phs_reason}
                 </td>
@@ -87,7 +81,7 @@ function deletePhoneEntry(phone_id)
               {sectionelse}
               <tr>
                 <td colspan="2" bgcolor="{$light_color}" class="default" align="center">
-                  <b>No phone calls recorded yet.</b>
+                  <i>No phone calls recorded yet.</i>
                 </td>
               </tr>
               {/section}
@@ -98,7 +92,7 @@ function deletePhoneEntry(phone_id)
           <td colspan="2" class="default"><b>Record Phone Call:</b></td>
         </tr>
         <tr id="phone_support3" {get_display_style element_name="phone_support"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Date of Call:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Date of Call:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             {html_select_date day_value_format='%02d' field_array='date' prefix='' all_extra=' class="default"'}&nbsp;
             {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' class="default"' display_seconds=false}
@@ -106,7 +100,7 @@ function deletePhoneEntry(phone_id)
           </td>
         </tr>
         <tr id="phone_support4" {get_display_style element_name="phone_support"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Reason:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Reason:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             <select class="default" name="reason">
               <option value="consultation">410-288-7657 Consultation Call</option>
@@ -119,21 +113,21 @@ function deletePhoneEntry(phone_id)
           </td>
         </tr>
         <tr id="phone_support5" {get_display_style element_name="phone_support"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Call From:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Call From:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             <input type="text" class="default" name="from_lname" value="last name" onFocus="javascript:if (this.value == 'last name') this.value='';"><span class="default">,</span>
             <input type="text" class="default" name="from_fname" value="first name" onFocus="javascript:if (this.value == 'first name') this.value='';">
           </td>
         </tr>
         <tr id="phone_support6" {get_display_style element_name="phone_support"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Call To:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Call To:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             <input type="text" class="default" name="to_lname" value="last name" onFocus="javascript:if (this.value == 'last name') this.value='';"><span class="default">,</span>
             <input type="text" class="default" name="to_fname" value="first name" onFocus="javascript:if (this.value == 'first name') this.value='';">
           </td>
         </tr>
         <tr id="phone_support7" {get_display_style element_name="phone_support"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Type:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Type:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             <select class="default" name="type">
               <option value="incoming">Incoming</option>
@@ -142,7 +136,7 @@ function deletePhoneEntry(phone_id)
           </td>
         </tr>
         <tr id="phone_support8" {get_display_style element_name="phone_support"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Phone Number:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Customer Phone Number:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             <input type="text" size="20" maxlength="32" name="phone_number" class="default">
             {include file="error_icon.tpl.html" field="phone_number"}
@@ -156,18 +150,18 @@ function deletePhoneEntry(phone_id)
           </td>
         </tr>
         <tr id="phone_support9" {get_display_style element_name="phone_support"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Time Spent:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Time Spent:</b></td>
           <td bgcolor="{$light_color}" width="100%"><input type="text" size="5" name="call_length" class="default"> {include file="error_icon.tpl.html" field="call_length"} <span class="default">(in minutes)</span></td>
         </tr>
         <tr id="phone_support10" {get_display_style element_name="phone_support"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Description:</b></td>
+          <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Description:</b></td>
           <td bgcolor="{$light_color}">
             <textarea name="description" rows="8" style="width: 97%"></textarea>
             {include file="error_icon.tpl.html" field="description"}
           </td>
         </tr>
         <tr id="phone_support11" {get_display_style element_name="phone_support"}>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
+          <td colspan="2" bgcolor="{$internal_color}" align="center">
             <input type="submit" value="Save Phone Call" class="button">
           </td>
         </tr>
@@ -179,6 +173,6 @@ function deletePhoneEntry(phone_id)
 <script language="JavaScript">
 <!--
 updateTimeFields('add_phone_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
--->
+//-->
 </script>
 

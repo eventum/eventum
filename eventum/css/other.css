@@ -141,6 +141,12 @@ h4 {
   font-style: normal;
   font-size: 60%;
 }
+.small_default_white {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-size: 60%;
+  color: #FFFFFF;
+}
 .help {
   cursor: help;
   color: #FFFFFF;

@@ -92,10 +92,10 @@ class Status
                     sta_color,
                     sta_is_closed
                  ) VALUES (
-                    '" . Misc::runSlashes($HTTP_POST_VARS['title']) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS['abbreviation']) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS['abbreviation']) . "',
                     " . $HTTP_POST_VARS['rank'] . ",
-                    '" . Misc::runSlashes($HTTP_POST_VARS['color']) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS['color']) . "',
                     " . $HTTP_POST_VARS['is_closed'] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -129,10 +129,10 @@ class Status
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  SET
-                    sta_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    sta_abbreviation='" . Misc::runSlashes($HTTP_POST_VARS["abbreviation"]) . "',
+                    sta_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    sta_abbreviation='" . Misc::escapeString($HTTP_POST_VARS["abbreviation"]) . "',
                     sta_rank=" . $HTTP_POST_VARS['rank'] . ",
-                    sta_color='" . Misc::runSlashes($HTTP_POST_VARS["color"]) . "',
+                    sta_color='" . Misc::escapeString($HTTP_POST_VARS["color"]) . "',
                     sta_is_closed=" . $HTTP_POST_VARS['is_closed'] . "
                  WHERE
                     sta_id=" . $HTTP_POST_VARS["id"];
@@ -141,12 +141,33 @@ class Status
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
+            $projects = Status::getAssociatedProjects($HTTP_POST_VARS['id']);
+            $current_projects = array_keys($projects);
             // remove all of the associations with projects, then add them all again
             Status::removeProjectAssociations($HTTP_POST_VARS['id']);
             foreach ($HTTP_POST_VARS['projects'] as $prj_id) {
                 Status::addProjectAssociation($HTTP_POST_VARS['id'], $prj_id);
             }
-            // XXX: need to update all issues that are not supposed to have the sta_id to '0'
+            // need to update all issues that are not supposed to have the changed sta_id to '0'
+            $removed_projects = array();
+            foreach ($current_projects as $project_id) {
+                if (!in_array($project_id, $HTTP_POST_VARS['projects'])) {
+                    $removed_projects[] = $project_id;
+                }
+            }
+            if (count($removed_projects) > 0) {
+                $stmt = "UPDATE
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         SET
+                            iss_sta_id=0
+                         WHERE
+                            iss_sta_id=" . $HTTP_POST_VARS['id'] . " AND
+                            iss_prj_id IN (" . implode(', ', $removed_projects) . ")";
+                $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                if (PEAR::isError($res)) {
+                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                }
+            }
             return 1;
         }
     }
@@ -376,28 +397,69 @@ class Status
 
 
     /**
-     * Method used to get the list of available statuses as an associative array
-     * in the style of (abbreviation => title)
+     * Method used to get the list of available closed-context statuses as an 
+     * associative array in the style of (abbreviation => title)
      *
      * @access  public
      * @param   array $prj_id List of project IDs
-     * @return  array The list of statuses
+     * @return  array The list of closed-context statuses
      */
-    function getAbbreviationAssocList($prj_id)
+    function getClosedAbbreviationAssocList($prj_id)
     {
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);
         }
         $items = @implode(", ", $prj_id);
         $stmt = "SELECT
-                    sta_abbreviation,
+                    UPPER(sta_abbreviation),
                     sta_title
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status
                  WHERE
                     prs_prj_id IN ($items) AND
-                    prs_sta_id=sta_id
+                    prs_sta_id=sta_id AND
+                    sta_is_closed=1
+                 ORDER BY
+                    sta_rank ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the list of available statuses as an associative array
+     * in the style of (abbreviation => title)
+     *
+     * @access  public
+     * @param   array $prj_id List of project IDs
+     * @param   boolean $show_closed Whether to also return closed-context statuses or not
+     * @return  array The list of statuses
+     */
+    function getAbbreviationAssocList($prj_id, $show_closed)
+    {
+        if (!is_array($prj_id)) {
+            $prj_id = array($prj_id);
+        }
+        $items = @implode(", ", $prj_id);
+        $stmt = "SELECT
+                    UPPER(sta_abbreviation),
+                    sta_title
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status
+                 WHERE
+                    prs_prj_id IN ($items) AND
+                    prs_sta_id=sta_id";
+        if (!$show_closed) {
+            $stmt .= " AND sta_is_closed=0 ";
+        }
+        $stmt .= "
                  ORDER BY
                     sta_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);

@@ -11,6 +11,8 @@ CREATE TABLE %TABLE_PREFIX%custom_filter (
   cst_iss_prc_id int(10) unsigned default NULL,
   cst_iss_sta_id int(10) unsigned default NULL,
   cst_iss_pre_id int(10) unsigned default NULL,
+  cst_show_authorized char(3) default '',
+  cst_show_notification_list char(3) default '',
   cst_created_date date default NULL,
   cst_created_date_filter_type varchar(7) default NULL,
   cst_created_date_end date default NULL,
@@ -50,6 +52,72 @@ CREATE TABLE %TABLE_PREFIX%email_account (
   KEY ema_prj_id (ema_prj_id)
 );
 
+DROP TABLE IF EXISTS %TABLE_PREFIX%history_type;
+CREATE TABLE %TABLE_PREFIX%history_type (
+    htt_id tinyint(2) unsigned NOT NULL auto_increment,
+    htt_name varchar(25) NOT NULL,
+    PRIMARY KEY(htt_id),
+    KEY htt_name (htt_name),
+    unique(htt_name)
+);
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'attachment_removed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'attachment_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'custom_field_updated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'draft_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'draft_updated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'impact_analysis_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'impact_analysis_updated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'impact_analysis_removed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'status_changed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_locked';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_status_change';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_unlock';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_assigned';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_replier_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'details_updated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'customer_details_updated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_opened';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_auto_assigned';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'rr_issue_assigned';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_locked';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_unlocked';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'duplicate_update';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'duplicate_removed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'duplicate_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_opened_anon';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_issue_created';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_closed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_updated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'user_associated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'user_all_unassociated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'replier_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_note_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'note_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'note_removed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'note_converted_draft';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'note_converted_email';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'notification_removed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'notification_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'notification_updated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'phone_entry_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'phone_entry_removed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'scm_checkin_removed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'email_associated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'email_disassociated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'email_sent';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'time_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'time_removed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_time_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'email_blocked';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'email_routed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'note_routed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'replier_removed';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'replier_other_added';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_associated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_all_unassociated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'user_unassociated';
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_unassociated';
+
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue;
 CREATE TABLE %TABLE_PREFIX%issue (
   iss_id int(11) unsigned NOT NULL auto_increment,
@@ -78,6 +146,7 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_contact_email varchar(255) default NULL,
   iss_contact_phone varchar(32) default NULL,
   iss_contact_timezone varchar(64) default NULL,
+  iss_trigger_reminders tinyint(1) default 1,
   PRIMARY KEY  (iss_id),
   KEY iss_prj_id (iss_prj_id),
   KEY iss_prc_id (iss_prc_id),
@@ -98,6 +167,7 @@ CREATE TABLE %TABLE_PREFIX%issue_attachment (
   iat_usr_id int(10) unsigned NOT NULL default '0',
   iat_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   iat_description text,
+  iat_unknown_user varchar(255) NULL DEFAULT NULL,
   PRIMARY KEY  (iat_id),
   KEY iat_iss_id (iat_iss_id,iat_usr_id)
 );
@@ -133,8 +203,11 @@ DROP TABLE IF EXISTS %TABLE_PREFIX%issue_history;
 CREATE TABLE %TABLE_PREFIX%issue_history (
   his_id int(10) unsigned NOT NULL auto_increment,
   his_iss_id int(10) unsigned NOT NULL default '0',
+  his_usr_id int(11) unsigned NOT NULL default '0',
   his_created_date datetime NOT NULL default '0000-00-00 00:00:00',
-  his_summary text NOT NULL default '',
+  his_summary text NOT NULL,
+  his_htt_id varchar(20) NOT NULL default '',
+  his_is_hidden tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY  (his_id),
   KEY his_id (his_id),
   KEY his_iss_id (his_iss_id),
@@ -162,6 +235,7 @@ DROP TABLE IF EXISTS %TABLE_PREFIX%issue_user;
 CREATE TABLE %TABLE_PREFIX%issue_user (
   isu_iss_id int(10) unsigned NOT NULL default '0',
   isu_usr_id int(10) unsigned NOT NULL default '0',
+  isu_assigned_date datetime,
   PRIMARY KEY  (isu_iss_id,isu_usr_id),
   KEY isu_usr_id (isu_usr_id),
   KEY isu_iss_id (isu_iss_id)
@@ -177,6 +251,7 @@ CREATE TABLE %TABLE_PREFIX%note (
   not_note longtext NOT NULL,
   not_blocked_message longtext NULL,
   not_parent_id int(11) unsigned NULL,
+  not_unknown_user varchar(255) NULL DEFAULT NULL,
   PRIMARY KEY  (not_id),
   KEY not_bug_id (not_iss_id,not_usr_id)
 );
@@ -213,7 +288,7 @@ CREATE TABLE %TABLE_PREFIX%project (
   UNIQUE KEY prj_title (prj_title),
   KEY prj_lead_usr_id (prj_lead_usr_id)
 );
-INSERT INTO %TABLE_PREFIX%project (prj_id, prj_created_date, prj_title, prj_status, prj_lead_usr_id, prj_initial_sta_id, prj_remote_invocation, prj_remote_invocation_options, prj_anonymous_post, prj_anonymous_post_options, prj_outgoing_sender_name, prj_outgoing_sender_email) VALUES (1, NOW(), 'Default Project', 'active', 1, 1, '', NULL, '0', NULL, 'Default Project', 'default_project@domain.com');
+INSERT INTO %TABLE_PREFIX%project (prj_id, prj_created_date, prj_title, prj_status, prj_lead_usr_id, prj_initial_sta_id, prj_remote_invocation, prj_remote_invocation_options, prj_anonymous_post, prj_anonymous_post_options, prj_outgoing_sender_name, prj_outgoing_sender_email) VALUES (1, NOW(), 'Default Project', 'active', 2, 1, '', NULL, '0', NULL, 'Default Project', 'default_project@domain.com');
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_category;
 CREATE TABLE %TABLE_PREFIX%project_category (
@@ -249,7 +324,7 @@ CREATE TABLE %TABLE_PREFIX%project_user (
   PRIMARY KEY  (pru_id),
   KEY pru_prj_id (pru_prj_id,pru_usr_id)
 );
-INSERT INTO %TABLE_PREFIX%project_user (pru_id, pru_prj_id, pru_usr_id) VALUES (1, 1, 1);
+INSERT INTO %TABLE_PREFIX%project_user (pru_id, pru_prj_id, pru_usr_id) VALUES (1, 1, 2);
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%resolution;
 CREATE TABLE %TABLE_PREFIX%resolution (
@@ -358,7 +433,8 @@ CREATE TABLE %TABLE_PREFIX%user (
   UNIQUE KEY usr_email (usr_email),
   KEY usr_email_password (usr_email, usr_password)
 );
-INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (1, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@domain.com', 5, '');
+INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (1, NOW(), '14589714398751513457adf349173434', 'system', '', 7, '');
+INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@domain.com', 7, '');
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%custom_field;
 CREATE TABLE %TABLE_PREFIX%custom_field (
@@ -629,6 +705,7 @@ CREATE TABLE %TABLE_PREFIX%email_draft (
   emd_updated_date DATETIME NOT NULL,
   emd_subject VARCHAR(255) NOT NULL,
   emd_body LONGTEXT NOT NULL,
+  emd_unknown_user varchar(255) NULL DEFAULT NULL,
   PRIMARY KEY(emd_id)
 );
 
@@ -641,3 +718,48 @@ CREATE TABLE %TABLE_PREFIX%email_draft_recipient (
   PRIMARY KEY(edr_id)
 );
 
+DROP TABLE IF EXISTS %TABLE_PREFIX%irc_notice;
+CREATE TABLE %TABLE_PREFIX%irc_notice (
+  ino_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  ino_iss_id INT(11) UNSIGNED NOT NULL,
+  ino_created_date DATETIME NOT NULL,
+  ino_message VARCHAR(255) NOT NULL,
+  ino_status VARCHAR(8) NOT NULL DEFAULT 'pending',
+  PRIMARY KEY(ino_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%issue_user_replier;
+CREATE TABLE %TABLE_PREFIX%issue_user_replier (
+  iur_id int(11) unsigned NOT NULL auto_increment,
+  iur_iss_id int(10) unsigned NOT NULL default '0',
+  iur_usr_id int(10) unsigned NOT NULL default '0',
+  iur_email varchar(255) default NULL,
+  PRIMARY KEY  (iur_id),
+  KEY iur_usr_id (iur_usr_id),
+  KEY iur_iss_id (iur_iss_id)
+)
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%mail_queue;
+CREATE TABLE %TABLE_PREFIX%mail_queue (
+  maq_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  maq_queued_date DATETIME NOT NULL,
+  maq_status VARCHAR(8) NOT NULL DEFAULT 'pending',
+  maq_save_copy TINYINT(1) NOT NULL DEFAULT 1,
+  maq_sender_ip_address VARCHAR(15) NOT NULL,
+  maq_recipient VARCHAR(255) NOT NULL,
+  maq_headers TEXT NOT NULL,
+  maq_body LONGTEXT NOT NULL,
+  KEY maq_status (maq_status),
+  PRIMARY KEY(maq_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%mail_queue_log;
+CREATE TABLE %TABLE_PREFIX%mail_queue_log (
+  mql_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  mql_maq_id INT(11) UNSIGNED NOT NULL,
+  mql_created_date DATETIME NOT NULL,
+  mql_status VARCHAR(8) NOT NULL DEFAULT 'error',
+  mql_server_message TEXT NULL,
+  KEY mql_maq_id (mql_maq_id),
+  PRIMARY KEY(mql_id)
+);

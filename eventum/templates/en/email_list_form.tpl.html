@@ -10,7 +10,7 @@ var last_page = {$list_info.last_page};
 function viewEmail(account_id, email_id)
 {
     var features = 'width=740,height=580,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var emailWin = window.open('view_email.php?ema_id=' + account_id + '&id=' + email_id, '_email', features);
+    var emailWin = window.open('view_email.php?cat=list_emails&ema_id=' + account_id + '&id=' + email_id, '_email', features);
     emailWin.focus();
 }
 function goPage(f, new_page)
@@ -88,16 +88,20 @@ function associateEmails(f)
 function removeEmails(f)
 {
     if (!hasOneChecked(f, 'item[]')) {
-        alert('Please choose which emails need to be removed.');
+        alert('Please choose which emails need to be marked as deleted.');
         return false;
     }
-    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('', '_popup', features);
-    f.cat.value = 'remove_email';
-    f.method = 'post';
-    f.action = 'popup.php';
-    f.submit();
-    popupWin.focus();
+    if (!confirm('This action will mark the selected email messages as deleted.')) {
+        return false;
+    } else {
+        var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('', '_popup', features);
+        f.cat.value = 'remove_email';
+        f.method = 'post';
+        f.action = 'popup.php';
+        f.submit();
+        popupWin.focus();
+    }
 }
 //-->
 </script>
@@ -160,7 +164,7 @@ function removeEmails(f)
         {sectionelse}
         <tr bgcolor="gray">
           <td colspan="6" class="default_white" align="center">
-            <b>No emails could be found.</b>
+            <i>No emails could be found.</i>
           </td>
         </tr>
         {/section}

@@ -33,7 +33,15 @@ include_once(APP_INC_PATH . 'class.error_handler.php');
 
 class Round_Robin
 {
-    // XXX: put documentation here
+    /**
+     * Returns the blackout dates according to the user's timezone.
+     *
+     * @access  public
+     * @param   object $user The Date object associated with the user's timezone
+     * @param   integer $start The blackout start hour
+     * @param   integer $end The blackout end hour
+     * @return  array The blackout dates
+     */
     function getBlackoutDates($user, $start, $end)
     {
         $start = substr($start, 0, 2);
@@ -95,7 +103,13 @@ class Round_Robin
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Retrieves the next assignee in the given project's round robin queue.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  integer The assignee's user ID
+     */
     function getNextAssignee($prj_id)
     {
         // get the full list of users for the given project
@@ -167,7 +181,15 @@ class Round_Robin
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Marks the next user in the round robin list as the next assignee in the
+     * round robin queue.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $usr_id The assignee's user ID
+     * @return  boolean
+     */
     function markNextAssignee($prj_id, $usr_id)
     {
         $prr_id = Round_Robin::getID($prj_id);
@@ -178,18 +200,35 @@ class Round_Robin
                  WHERE
                     rru_prr_id=$prr_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user
-                 SET
-                    rru_next=1
-                 WHERE
-                    rru_usr_id=$usr_id AND
-                    rru_prr_id=$prr_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            $stmt = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user
+                     SET
+                        rru_next=1
+                     WHERE
+                        rru_usr_id=$usr_id AND
+                        rru_prr_id=$prr_id";
+            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Returns the round robin entry ID associated with a given project.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  integer The round robin entry ID
+     */
     function getID($prj_id)
     {
         $stmt = "SELECT
@@ -208,7 +247,14 @@ class Round_Robin
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Retrieves the list of users, round robin blackout hours and their 
+     * respective preferences with regards to timezones.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array The list of users
+     */
     function getUsersByProject($prj_id)
     {
         $stmt = "SELECT
@@ -253,7 +299,12 @@ class Round_Robin
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Creates a new round robin entry.
+     *
+     * @access  public
+     * @return  integer 1 if the creation worked, -1 otherwise
+     */
     function insert()
     {
         global $HTTP_POST_VARS;
@@ -286,7 +337,14 @@ class Round_Robin
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Associates a round robin entry with a user ID.
+     *
+     * @access  public
+     * @param   integer $prr_id The round robin entry ID
+     * @param   integer $usr_id The user ID
+     * @return  boolean
+     */
     function addUserAssociation($prr_id, $usr_id)
     {
         $stmt = "INSERT INTO
@@ -343,7 +401,14 @@ class Round_Robin
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Returns an associative array in the form of user id => name of the users
+     * associated to a given round robin entry ID.
+     *
+     * @access  public
+     * @param   integer $prr_id The round robin entry ID
+     * @return  array The list of users
+     */
     function getAssociatedUsers($prr_id)
     {
         $stmt = "SELECT
@@ -430,8 +495,8 @@ class Round_Robin
 
 
     /**
-     * Method used to remove the user associations for a given
-     * round robin entry.
+     * Method used to remove the user associations for a given round robin 
+     * entry ID.
      *
      * @access  public
      * @param   integer $prr_id The round robin ID

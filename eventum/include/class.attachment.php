@@ -192,7 +192,7 @@ class Attachment
                 }
                 Issue::markAsUpdated($res);
                 // need to save a history entry for this
-                History::add($res, 'Attachment removed by ' . User::getFullName($usr_id));
+                History::add($res, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
                 return 1;
             }
         }
@@ -262,7 +262,8 @@ class Attachment
                     iat_usr_id,
                     usr_full_name,
                     iat_created_date,
-                    iat_description
+                    iat_description,
+                    iat_unknown_user
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
@@ -280,6 +281,11 @@ class Attachment
                 $res[$i]["iat_description"] = Misc::activateIssueLinks(nl2br(htmlspecialchars($res[$i]["iat_description"])));
                 $res[$i]["files"] = Attachment::getFileList($res[$i]["iat_id"]);
                 $res[$i]["iat_created_date"] = Date_API::getFormattedDate($res[$i]["iat_created_date"]);
+                
+                // if there is an unknown user, user that instead of the user_full_name
+                if (!empty($res[$i]["iat_unknown_user"])) {
+                    $res[$i]["usr_full_name"] = $res[$i]["iat_unknown_user"];
+                }
             }
             return $res;
         }
@@ -312,7 +318,7 @@ class Attachment
         }
         Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
         // need to save a history entry for this
-        History::add($HTTP_POST_VARS["issue_id"], 'Attachment uploaded by ' . User::getFullName($usr_id));
+        History::add($HTTP_POST_VARS["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
         // send notifications for the issue being updated
         Notification::notify($HTTP_POST_VARS["issue_id"], 'files', $attachment_id);
         return 1;
@@ -341,9 +347,9 @@ class Attachment
                     iaf_file
                  ) VALUES (
                     $attachment_id,
-                    '" . Misc::runSlashes($filename) . "',
+                    '" . Misc::escapeString($filename) . "',
                     '" . $filesize . "',
-                    '" . Misc::runSlashes($filetype) . "',
+                    '" . Misc::escapeString($filetype) . "',
                     '" . addslashes($blob) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -363,9 +369,10 @@ class Attachment
      * @param   integer $issue_id The issue ID
      * @param   integer $usr_id The user ID
      * @param   string $description The description for this new attachment
+     * @param   string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
      * @return  integer The new attachment ID
      */
-    function add($issue_id, $usr_id, $description)
+    function add($issue_id, $usr_id, $description, $unknown_user = FALSE)
     {
         global $HTTP_POST_VARS;
 
@@ -375,13 +382,19 @@ class Attachment
                     iat_iss_id,
                     iat_usr_id,
                     iat_created_date,
-                    iat_description
-                 ) VALUES (
+                    iat_description";
+        if ($unknown_user != false) {
+            $stmt .= ", iat_unknown_user ";
+        }
+        $stmt .=") VALUES (
                     $issue_id,
                     $usr_id,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::runSlashes($description) . "'
-                 )";
+                    '" . Misc::escapeString($description) . "'";
+        if ($unknown_user != false) {
+            $stmt .= ", '$unknown_user'";
+        }
+        $stmt .= ")";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

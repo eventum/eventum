@@ -3,6 +3,39 @@
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));
 
+function str_replace(s, srch, rplc) {
+  var tmp = s;
+  var tmp_before = new String();
+  var tmp_after = new String();
+  var tmp_output = new String();
+  var int_before = 0;
+  var int_after = 0;
+
+  while (tmp.toUpperCase().indexOf(srch.toUpperCase()) > -1) {   
+    int_before = tmp.toUpperCase().indexOf(srch.toUpperCase());
+    tmp_before = tmp.substring(0, int_before);
+    tmp_output = tmp_output + tmp_before;
+    tmp_output = tmp_output + rplc;
+    int_after = tmp.length - srch.length + 1;
+    tmp = tmp.substring(int_before + srch.length);
+  }
+
+  return tmp_output + tmp;
+}
+
+function displayFixedWidth(element_name)
+{
+    var el = getPageElement(element_name);
+    // only do this for mozilla
+    if (is_nav6up) {
+        var content = el.innerHTML;
+        el.innerHTML = '<pre>' + str_replace(content, "<br>", '') + '</pre>';
+        el.className = '';
+    }
+    el.style.fontFamily = 'Mono, Monaco, Courier New, Courier';
+    el.style.whiteSpace = 'pre';
+}
+
 function showSelections(form_name, field_name)
 {
     var f = getForm(form_name);

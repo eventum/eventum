@@ -114,7 +114,7 @@ class Time_Tracking
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  SET
-                    ttc_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "'
+                    ttc_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
                  WHERE
                     ttc_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -146,7 +146,7 @@ class Time_Tracking
                     ttc_title,
                     ttc_created_date
                  ) VALUES (
-                    '" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     '" . Date_API::getCurrentDateGMT() . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -375,7 +375,7 @@ class Time_Tracking
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, 'Time tracking entry removed by ' . User::getFullName(Auth::getUserID()));
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('time_removed'), 'Time tracking entry removed by ' . User::getFullName(Auth::getUserID()));
             return 1;
         }
     }
@@ -414,7 +414,7 @@ class Time_Tracking
                     $usr_id,
                     '$created_date',
                     " . $HTTP_POST_VARS["time_spent"] . ",
-                    '" . Misc::runSlashes($HTTP_POST_VARS["summary"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -423,7 +423,7 @@ class Time_Tracking
         } else {
             Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
             // need to save a history entry for this
-            History::add($HTTP_POST_VARS["issue_id"], 'Time tracking entry submitted by ' . User::getFullName($usr_id));
+            History::add($HTTP_POST_VARS["issue_id"], $usr_id, History::getTypeID('time_added'), 'Time tracking entry submitted by ' . User::getFullName($usr_id));
             return 1;
         }
     }
@@ -457,7 +457,7 @@ class Time_Tracking
                     $usr_id,
                     '" . Date_API::getCurrentDateGMT() . "',
                     $time_spent,
-                    '" . Misc::runSlashes($summary) . "'
+                    '" . Misc::escapeString($summary) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -466,8 +466,47 @@ class Time_Tracking
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, 'Time tracking entry submitted remotely by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('remote_time_added'), 'Time tracking entry submitted remotely by ' . User::getFullName($usr_id));
             return 1;
+        }
+    }
+    
+    
+    /**
+     * Returns summary information about all time spent by a user in a specified time frame.
+     * 
+     * @access  public
+     * @param   string $usr_id The ID of the user this report is for.
+     * @param   integer The timestamp of the beginning of the report.
+     * @param   integer The timestamp of the end of this report.
+     * @return  array An array of data containing information about time trackinge
+     */
+    function getSummaryByUser($usr_id, $start, $end)
+    {
+        $stmt = "SELECT
+                    ttc_title,
+                    COUNT(ttr_id) as total,
+                    SUM(ttr_time_spent) as total_time
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
+                 WHERE
+                    ttr_ttc_id = ttc_id AND
+                    ttr_usr_id = $usr_id AND
+                    ttr_created_date BETWEEN '$start' AND '$end'
+                 GROUP BY
+                    ttc_title";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt, '', '', DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            if (count($res) > 0) {
+                foreach ($res as $index => $row) {
+                    $res[$index]["formatted_time"] = Misc::getFormattedTime($res[$index]["total_time"], true);
+                }
+            }
+            return $res;
         }
     }
 }

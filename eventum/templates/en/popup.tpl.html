@@ -114,7 +114,7 @@
 {if $remove_email_result == -1}
   <b>An error occurred while trying to run your query</b>
 {elseif $remove_email_result == 1}
-  <b>Thank you, the emails were removed successfully.</b>
+  <b>Thank you, the emails were marked as removed successfully.</b>
 {/if}
 
 {if $clear_duplicate_result == -1}
@@ -157,6 +157,12 @@
   <b>Error: the issue is already unlocked.</b>
 {elseif $unlock_result == 1}
   <b>Thank you, the issue was unlocked successfully.</b>
+{/if}
+
+{if $authorize_reply_result == -1}
+  <b>Error: you are already authorized to send emails in this issue.</b>
+{elseif $authorize_reply_result == 1}
+  <b>Thank you, you are now authorized to send emails in this issue.</b>
 {/if}
   </span>
 </center>

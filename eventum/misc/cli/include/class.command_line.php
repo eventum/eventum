@@ -31,8 +31,155 @@
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_PEAR_PATH . "XML_RPC/RPC.php");
 
+$_displayed_confirmation = false;
+
 class Command_Line
 {
+    /**
+     * Prompts the user for a status option, and returns the title of the 
+     * selected one.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $prj_id The project ID
+     * @return  string The selected status title
+     */
+    function promptStatusSelection($rpc_conn, $prj_id)
+    {
+        $msg = new XML_RPC_Message("getClosedAbbreviationAssocList", array(new XML_RPC_Value($prj_id, 'int')));
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $list = XML_RPC_decode($result->value());
+        if (count($list) > 1) {
+            // need to ask which status this person wants to use
+            $prompt = "Which status do you want to use in this action?\n";
+            foreach ($list as $key => $value) {
+                $prompt .= sprintf(" [%s] => %s\n", $key, $value);
+            }
+            $prompt .= "Please enter the status";
+            $status = Misc::prompt($prompt, false);
+            $lowercase_keys = array_map('strtolower', array_keys($list));
+            $lowercase_values = array_map('strtolower', array_values($list));
+            if ((!in_array(strtolower($status), $lowercase_keys)) &&
+                    (!in_array(strtolower($status), $lowercase_values)))  {
+                Command_Line::quit("Entered status doesn't match any in the list available to you");
+            } else {
+                if (in_array(strtolower($status), $lowercase_keys)) {
+                    $status_title = $list[strtoupper($status)];
+                } else {
+                    $status_title = $status;
+                }
+            }
+        } else {
+            $t = array_values($list);
+            $status_title = $t[0];
+        }
+        return $status_title;
+    }
+
+
+    /**
+     * Marks an issue as closed.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $email The user's email address
+     */
+    function closeIssue($rpc_conn, $issue_id, $email)
+    {
+        $details = Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
+        Command_Line::checkIssueAssignment(&$rpc_conn, $issue_id, $email);
+
+        // prompt for status selection (accept abbreviations)
+        $new_status = Command_Line::promptStatusSelection(&$rpc_conn, $details['iss_prj_id']);
+        // check if the issue already is set to the new status
+        if ((strtolower($details['sta_title']) == strtolower($new_status)) ||
+                (strtolower($details['sta_abbreviation']) == strtolower($new_status))) {
+            Command_Line::quit("Issue #$issue_id is already set to status '" . $details['sta_title'] . "'");
+        }
+
+        // ask whether to notify the customer or not (defaults to yes)
+        $msg = "Would you like to notify the customer about this issue being closed? [y/n]";
+        $ret = Misc::prompt($msg, false);
+        if (strtolower($ret) == 'y') {
+            $notify_customer = true;
+        } else {
+            $notify_customer = false;
+        }
+
+        // prompt for internal note
+        $prompt = "Please enter a reason for closing this issue (one line only)";
+        $note = Misc::prompt($prompt, false);
+
+        $params = array(
+            new XML_RPC_Value($email),
+            new XML_RPC_Value($issue_id, 'int'),
+            new XML_RPC_Value($new_status),
+            new XML_RPC_Value($notify_customer, 'boolean'),
+            new XML_RPC_Value($note)
+        );
+        $msg = new XML_RPC_Message("closeIssue", $params);
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        echo "OK - Issue #$issue_id successfully closed.\n";
+    }
+
+
+    /**
+     * Looks up customer information given a set of search parameters.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   string $email The user's email address
+     * @param   string $field The field in which to search
+     * @param   string $value The value to search against
+     */
+    function lookupCustomer($rpc_conn, $email, $field, $value)
+    {
+        $params = array(
+            new XML_RPC_Value($email),
+            new XML_RPC_Value($field),
+            new XML_RPC_Value($value)
+        );
+        $msg = new XML_RPC_Message("lookupCustomer", $params);
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $res = XML_RPC_decode($result->value());
+        if (!is_array($res)) {
+            echo "ERROR: Sorry, for security reasons you need to wait $res until your next customer lookup.\n";
+        } else {
+            if (count($res) == 0) {
+                echo "Sorry, no customers could be found.\n";
+            } else {
+                $out = array();
+                $out[] = "Customer Lookup Results:\n";
+                foreach ($res as $customer) {
+                    $out[] = '         Customer: ' . $customer['customer_name'];
+                    $out[] = '    Support Level: ' . $customer['support_level'];
+                    $out[] = '       Expiration: ' . $customer['expiration_date'];
+                    $out[] = '  Contract Status: ' . $customer['contract_status'];
+                    // contacts now...
+                    if (count($customer['contacts']) > 0) {
+                        $out[] = " Allowed Contacts: " . $customer['contacts'][0]['contact_name'] . ' - ' . $customer['contacts'][0]['email'];
+                        for ($i = 1; $i < count($customer['contacts']); $i++) {
+                            $out[] = "                   " . $customer['contacts'][$i]['contact_name'] . ' - ' . $customer['contacts'][$i]['email'];
+                        }
+                    }
+                    $out[] = "\n";
+                }
+                echo implode("\n", $out);
+            }
+        }
+    }
+
+
     /**
      * Method used to parse the eventum command line configuration file
      * and return the appropriate configuration settings.
@@ -90,6 +237,7 @@ class Command_Line
     function lockIssue($rpc_conn, $issue_id, $email, $force_lock)
     {
         Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
+        Command_Line::checkIssueAssignment(&$rpc_conn, $issue_id, $email);
 
         $params = array(
             new XML_RPC_Value($issue_id, 'int'),
@@ -103,7 +251,6 @@ class Command_Line
         }
         echo "OK - Issue #$issue_id successfully locked and assigned to you.\n";
     }
-
 
 
     /**
@@ -131,7 +278,14 @@ class Command_Line
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Prints out a list of attachments associated with the given issue ID.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $email The user's email address
+     */
     function printFileList($rpc_conn, $issue_id, $email)
     {
         Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
@@ -155,7 +309,15 @@ class Command_Line
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Downloads a given attachment file number.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $email The user's email address
+     * @param   integer $file_number The attachment file number
+     */
     function getFile($rpc_conn, $issue_id, $email, $file_number)
     {
         $details = Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
@@ -195,7 +357,7 @@ class Command_Line
 
         // check if the file already exists
         if (@file_exists($details['iaf_filename'])) {
-            $msg = "The request file ('" . $details['iaf_filename'] . "') already exists in the current directory. Would you like to overwrite this file? [y/n]";
+            $msg = "The requested file ('" . $details['iaf_filename'] . "') already exists in the current directory. Would you like to overwrite this file? [y/n]";
             $ret = Misc::prompt($msg, false);
             if (strtolower($ret) == 'y') {
                 @unlink($details['iaf_filename']);
@@ -213,12 +375,53 @@ class Command_Line
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Checks whether the given user email address is assigned to the given
+     * issue ID.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $email The user's email address
+     */
+    function checkIssueAssignment(&$rpc_conn, $issue_id, $email)
+    {
+        // check if the confirmation message was already displayed
+        if (!$GLOBALS['_displayed_confirmation']) {
+            // check if the current user is allowed to change the given issue
+            $msg = new XML_RPC_Message("mayChangeIssue", array(
+                new XML_RPC_Value($issue_id, 'int'),
+                new XML_RPC_Value($email)
+            ));
+            $result = $rpc_conn->send($msg);
+            if ($result->faultCode()) {
+                Command_Line::quit($result->faultString());
+            }
+            $may_change_issue = XML_RPC_decode($result->value());
+            // if not, show confirmation message
+            if ($may_change_issue != 'yes') {
+                echo "WARNING: You are not currently assigned to issue #$issue_id.\n";
+                Command_Line::promptConfirmation($rpc_conn, $issue_id, false);
+            }
+        }
+    }
+
+
+    /**
+     * Checks whether the given user email address is allowed to work with the
+     * given issue ID.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $email The user's email address
+     * @param   array The issue details, if the user is allowed to work on it
+     */
     function checkIssuePermissions($rpc_conn, $issue_id, $email)
     {
         $projects = Command_Line::getUserAssignedProjects($rpc_conn, $email);
 
-        $msg = new XML_RPC_Message("getIssueDetails", array(new XML_RPC_Value($issue_id, 'int')));
+        $msg = new XML_RPC_Message("getIssueDetails", array(new XML_RPC_Value($issue_id, 'int'), new XML_RPC_Value($email, 'string')));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             Command_Line::quit($result->faultString());
@@ -272,6 +475,38 @@ class Command_Line
 
 
     /**
+     * Method used to add an authorized replier
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $email The email address of the current user
+     * @param   string $new_replier The email address of the assignee
+     */
+    function addAuthorizedReplier($rpc_conn, $issue_id, $email, $new_replier)
+    {
+        // check if the given email address is indeed an email
+        if (!strstr($new_replier, '@')) {
+            Command_Line::quit("The third argument for this command needs to be a valid email address");
+        }
+        $details = Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
+
+        $params = array(
+            new XML_RPC_Value($issue_id, 'int'),
+            new XML_RPC_Value($details['iss_prj_id'], 'int'),
+            new XML_RPC_Value($email),
+            new XML_RPC_Value($new_replier)
+        );
+        $msg = new XML_RPC_Message("addAuthorizedReplier", $params);
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        echo "OK - '$new_replier' successfully added as an authorized replier to issue #$issue_id\n";
+    }
+
+
+    /**
      * Method used to change the status of an issue.
      *
      * @access  public
@@ -283,6 +518,7 @@ class Command_Line
     function setIssueStatus($rpc_conn, $issue_id, $email, $new_status)
     {
         $details = Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
+        Command_Line::checkIssueAssignment(&$rpc_conn, $issue_id, $email);
 
         // check if the issue already is set to the new status
         if ((strtolower($details['sta_title']) == strtolower($new_status)) ||
@@ -291,7 +527,10 @@ class Command_Line
         }
 
         // check if the given status is a valid option
-        $msg = new XML_RPC_Message("getStatusList", array(new XML_RPC_Value($details['iss_prj_id'], "int")));
+        $msg = new XML_RPC_Message("getAbbreviationAssocList", array(
+            new XML_RPC_Value($details['iss_prj_id'], 'int'),
+            new XML_RPC_Value(FALSE, 'boolean'),
+        ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             Command_Line::quit($result->faultString());
@@ -306,7 +545,8 @@ class Command_Line
 
         // if the user is passing an abbreviation, use the real title instead
         if (in_array(strtolower($new_status), $abbreviations)) {
-            $new_status = $statuses[$new_status];
+            $index = array_search(strtolower($new_status), $abbreviations);
+            $new_status = $titles[$index];
         }
         $params = array(
             new XML_RPC_Value($issue_id, 'int'),
@@ -334,6 +574,7 @@ class Command_Line
     function addTimeEntry($rpc_conn, $issue_id, $email, $time_spent)
     {
         Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
+        Command_Line::checkIssueAssignment(&$rpc_conn, $issue_id, $email);
 
         // list the time tracking categories
         $msg = new XML_RPC_Message("getTimeTrackingCategories");
@@ -388,6 +629,7 @@ class Command_Line
         Summary: " . $details['iss_summary'] . "
          Status: " . $details['sta_title'] . "
      Assignment: " . $details['assignments'] . "
+ Auth. Repliers: " . @implode(', ', $details['authorized_names']) . "
        Reporter: " . $details['reporter'] . "
   Last Response: " . $details['iss_last_response_date'] . "
    Last Updated: " . $details['iss_updated_date'] . "\n";
@@ -410,7 +652,10 @@ class Command_Line
         // check the status option
         // check if the given status is a valid option
         if (!empty($status)) {
-            $msg = new XML_RPC_Message("getStatusList", array(new XML_RPC_Value($project_id, "int")));
+            $msg = new XML_RPC_Message("getAbbreviationAssocList", array(
+                new XML_RPC_Value($project_id, 'int'),
+                new XML_RPC_Value(TRUE, 'boolean'),
+            ));
             $result = $rpc_conn->send($msg);
             if ($result->faultCode()) {
                 Command_Line::quit($result->faultString());
@@ -519,7 +764,10 @@ class Command_Line
     function printStatusList($rpc_conn, $email)
     {
         $project_id = Command_Line::promptProjectSelection(&$rpc_conn, $email);
-        $msg = new XML_RPC_Message("getStatusList", array(new XML_RPC_Value($project_id, "int")));
+        $msg = new XML_RPC_Message("getAbbreviationAssocList", array(
+            new XML_RPC_Value($project_id, 'int'),
+            new XML_RPC_Value(TRUE, 'boolean'),
+        ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             Command_Line::quit($result->faultString());
@@ -556,23 +804,327 @@ class Command_Line
 
 
     /**
+     * Method used to list emails for a given issue.
+     * 
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $user_email The email address of the current user
+     */
+    function listEmails($rpc_conn, $issue_id, $user_email)
+    {
+        Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $user_email);
+
+        $msg = new XML_RPC_Message("getEmailListing", array(new XML_RPC_Value($issue_id, "int")));
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $emails = XML_RPC_decode($result->value());
+        if (!is_array($emails) || count($emails) < 1) {
+            echo "No emails for this issue";
+            exit;
+        }
+        // since xml-rpc has issues, we have to base64 decode everything
+        for ($i = 0; $i < count($emails); $i++) {
+            foreach ($emails[$i] as $key => $val) {
+                $emails[$i][$key] = base64_decode($val);
+            }
+            $emails[$i]["id"] = ($i+1);
+        }
+        $format = array(
+            "id" => array(
+                "width" => 3,
+                "title" => "ID"
+            ),
+            "sup_date" => array(
+                "width" => 30,
+                "title" => "Date"
+            ),
+            "sup_from" => array(
+                "width" => 24,
+                "title" => "From"
+            ),
+            "sup_cc" => array(
+                "width" => 24,
+                "title" => "CC"
+            ),
+            "sup_subject" => array(
+                "width" => 30,
+                "title" => "Subject"
+            )
+        );
+        Command_Line::printTable($format, $emails);
+    }
+
+
+    /**
+     * Method to show the contents of an email.
+     * 
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $user_email The email address of the current user
+     * @param   integer $email_id The sequential id of the email to view
+     * @param   boolean $display_full If the full email should be displayed.
+     */
+    function printEmail($rpc_conn, $issue_id, $user_email, $email_id, $display_full)
+    {
+        Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $user_email);
+
+        $msg = new XML_RPC_Message("getEmail", array(new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($email_id, "int")));
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $email = XML_RPC_decode($result->value());
+        // since xml-rpc has issues, we have to base64 decode everything
+        foreach ($email as $key => $val) {
+            $email[$key] = base64_decode($val);
+        }
+        if ($display_full) {
+            echo $email["sup_full_email"];
+        } else {
+            echo sprintf("%15s: %s\n", "Date", $email["sup_date"]);
+            echo sprintf("%15s: %s\n", "From", $email["sup_from"]);
+            echo sprintf("%15s: %s\n", "To", $email["sup_to"]);
+            echo sprintf("%15s: %s\n", "CC", $email["sup_cc"]);
+            echo sprintf("%15s: %s\n", "Attachments?", (($email["sup_has_attachment"] == 1) ? 'yes' : 'no'));
+            echo sprintf("%15s: %s\n", "Subject", $email["sup_subject"]);
+            echo "------------------------------------------------------------------------\n";
+            echo $email["message"];
+        }
+    }
+
+
+    /**
+     * Method used to list notes for a given issue.
+     * 
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $user_email The email address of the current user
+     */
+    function listNotes($rpc_conn, $issue_id, $user_email)
+    {
+        Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $user_email);
+
+        $msg = new XML_RPC_Message("getNoteListing", array(new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($user_email, "string")));
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $notes = XML_RPC_decode($result->value());
+        // since xml-rpc has issues, we have to base64 decode everything
+        for ($i = 0; $i < count($notes); $i++) {
+            foreach ($notes[$i] as $key => $val) {
+                $notes[$i][$key] = base64_decode($val);
+            }
+            if ($notes[$i]["has_blocked_message"] == 1) {
+                $notes[$i]["not_title"] = '(BLOCKED) ' . $notes[$i]["not_title"];
+            }
+            $notes[$i]["id"] = ($i+1);
+        }
+        if (count($notes) < 1) {
+            echo "No notes for this issue";
+            exit;
+        }
+        $format = array(
+            "id" => array(
+                "width" => 3,
+                "title" => "ID"
+            ),
+            "usr_full_name" => array(
+                "width" => 24,
+                "title" => "User"
+            ),
+            "not_title" => array(
+                "width" => 50,
+                "title" => "Title"
+            ),
+            "not_created_date" => array(
+                "width" => 30,
+                "title" => "Date"
+            )
+        );
+        Command_Line::printTable($format, $notes);
+    }
+
+
+    /**
+     * Method to show the contents of a note.
+     * 
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $user_email The email address of the current user
+     * @param   integer $note_id The sequential id of the note to view
+     */
+    function printNote($rpc_conn, $issue_id, $user_email, $note_id)
+    {
+        Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $user_email);
+
+        $note = Command_Line::getNote($rpc_conn, $issue_id, $note_id);
+        echo sprintf("%15s: %s\n", "Date", $note["not_created_date"]);
+        echo sprintf("%15s: %s\n", "From", $note["not_from"]);
+        echo sprintf("%15s: %s\n", "Title", $note["not_title"]);
+        echo "------------------------------------------------------------------------\n";
+        echo $note["not_note"];
+    }
+
+
+    /**
+     * Returns the contents of a note via XML-RPC.
+     * 
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   integer $note_id The sequential id of the note to view
+     * @return  array An array containg note details.
+     */
+    function getNote(&$rpc_conn, $issue_id, $note_id)
+    {
+        $msg = new XML_RPC_Message("getNote", array(new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($note_id, "int")));
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $note = XML_RPC_decode($result->value());
+        // since xml-rpc has issues, we have to base64 decode everything
+        if (is_array($note)) {
+            foreach ($note as $key => $val) {
+                $note[$key] = base64_decode($val);
+            }
+        }
+        return $note;
+    }
+
+
+    /**
+     * Converts a note into a draft or an email.
+     * 
+     * @access  public
+     * @param   resource $rpc_conn The connection source
+     * @param   integer $issue_id The issue ID
+     * @param   integer $note_id The sequential id of the note to view
+     * @param   string $target What this note should be converted too, a draft or an email.
+     * @param   string $user_email The email address of the current user.
+     */
+    function convertNote(&$rpc_conn, $issue_id, $note_id, $target, $user_email)
+    {
+        Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $user_email);
+        Command_Line::checkIssueAssignment(&$rpc_conn, $issue_id, $user_email);
+
+        $note_details = Command_Line::getNote($rpc_conn, $issue_id, $note_id);
+        if (count($note_details) < 2) {
+            Command_Line::quit("Note #$note_id does not exist for issue #$issue_id");
+        } elseif ($note_details["has_blocked_message"] != 1) {
+            Command_Line::quit("Note #$note_id does not have a blocked message attached so cannot be converted");
+        }
+        $msg = new XML_RPC_Message("convertNote", array(
+            new XML_RPC_Value($issue_id, "int"),
+            new XML_RPC_Value($note_details["not_id"], "int"),
+            new XML_RPC_Value($target, "string"),
+            new XML_RPC_Value($user_email, "string")
+        ));
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $message = XML_RPC_decode($result->value());
+        if ($message == "OK") {
+            echo "OK - Note successfully converted to $target\n";
+        }
+    }
+
+
+    /**
+     * Fetches the weekly report for the current developer for the specified week.
+     * 
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   string $user_email The email address of the current user.
+     * @param   integer $week The week for the report.
+     */
+    function getWeeklyReport($rpc_conn, $user_email, $week)
+    {
+        // get summary, customer status and assignment of issue, then show confirmation prompt to user
+        $msg = new XML_RPC_Message("getWeeklyReport", array(new XML_RPC_Value($user_email, "string"), new XML_RPC_Value($week, "int")));
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        } else {
+            echo XML_RPC_decode($result->value());
+        }
+    }
+
+
+    /**
+     * Method to print data in a formatted table, according to the $format array.
+     * 
+     * @param   array $format An array containing how to format the data
+     * @param   array $data An array of data to be printed
+     */
+    function printTable($format, $data)
+    {
+        // loop through the fields, printing out the header row
+        $firstRow = '';
+        $secondRow = '';
+        foreach ($format as $column) {
+            $firstRow .= sprintf("%-" . $column["width"] . "s", $column["title"]) . " ";
+            $secondRow .= sprintf("%-'-" . $column["width"] . "s","") . " ";
+        }
+        echo $firstRow . "\n" . $secondRow . "\n";
+        // print out data
+        for ($i = 0; $i < count($data); $i++) {
+            foreach ($format as $key => $column) {
+                echo sprintf("%-" . $column["width"] . "s", substr($data[$i][$key], 0, $column["width"])) . " ";
+            }
+            echo "\n";
+        }
+    }
+
+
+    /**
      * Method used to print a confirmation prompt with the current details
-     * of the given issue.
+     * of the given issue. The $command parameter can be used to determine what type of
+     * confirmation to show to the user.
      *
      * @access  public
      * @param   resource $rpc_conn The connection resource
      * @param   integer $issue_id The issue ID
+     * @param   string $args The arguments passed to this script
      */
-    function promptConfirmation($rpc_conn, $issue_id)
+    function promptConfirmation($rpc_conn, $issue_id, $args)
     {
-        // get summary of issue, then show confirmation prompt to user
+        // this is needed to prevent multiple confirmations from being shown to the user
+        $GLOBALS['_displayed_confirmation'] = true;
+        // get summary, customer status and assignment of issue, then show confirmation prompt to user
         $msg = new XML_RPC_Message("getSimpleIssueDetails", array(new XML_RPC_Value($issue_id, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             Command_Line::quit($result->faultString());
         } else {
-            $details = XML_RPC_decode($result->value());
-            $msg = "These are the current details for issue #$issue_id:\n   Summary: " . $details['summary'] . "\nAre you sure you want to change this issue?";
+            switch ($args[2]) {
+                case 'convert-note':
+                case 'cn':
+                    $note_details = Command_Line::getNote($rpc_conn, $issue_id, $args[3]);
+                    $msg = "These are the current details for issue #$issue_id, note #" . $args[3] . ":\n" .
+                            "   Date: " . $note_details["not_created_date"] . "\n" .
+                            "   From: " . $note_details["not_from"] . "\n" . 
+                            "  Title: " . $note_details["not_title"] . "\n" . 
+                            "Are you sure you want to convert this note into a " . $args[4] . "?";
+                    break;
+                default:
+                    $details = XML_RPC_decode($result->value());
+                    $msg = "These are the current details for issue #$issue_id:\n" .
+                            "         Summary: " . $details['summary'] . "\n" .
+                            "        Customer: " . $details['customer'] . "\n" .
+                            "          Status: " . $details['status'] . "\n" .
+                            "      Assignment: " . $details["assignments"] . "\n" . 
+                            "  Auth. Repliers: " . $details["authorized_repliers"] . "\n" .
+                            "Are you sure you want to change this issue?";
+            }
             $ret = Misc::prompt($msg, 'y');
             if (strtolower($ret) != 'y') {
                 exit;
@@ -631,50 +1183,119 @@ class Command_Line
      */
     function usage($script)
     {
+        $usage = array();
+        $usage[] = array(
+            "command"   =>  "<ticket_number>",
+            "help"      =>  "View general details of an existing issue."
+        );
+        $usage[] = array(
+            "command"   =>  "<ticket_number> lock [--force] [--safe]",
+            "help"      =>  "Lock and assign an issue to yourself. NOTE: You can add keyword '--force'
+     at the end if you want to lock an issue even if this issue is already 
+     locked by someone else."
+        );
+        $usage[] = array(
+            "command"   =>  "<ticket_number> unlock [--safe]",
+            "help"      =>  "Unlocks the given issue."
+        );
+        $usage[] = array(
+            "command"   =>  "<ticket_number> assign <developer_email> [--safe]",
+            "help"      =>  "Assign an issue to another developer."
+        );
+        $usage[] = array(
+            "command"   =>  array("<ticket_number> add-replier <user_email> [--safe]","<ticket_number> ar <user_email> [--safe]"),
+            "help"      =>  "Adds the specified user to the list of authorized repliers."
+        );
+        $usage[] = array(
+            "command"   =>  "<ticket_number> set-status <status> [--safe]",
+            "help"      =>  "Sets the status of an issue to the desired value. If you are not sure
+     about the available statuses, use command 'list-status' described below."
+        );
+        $usage[] = array(
+            "command"   =>  "<ticket_number> add-time <time_worked> [--safe]",
+            "help"      =>  "Records time worked to the time tracking tool of the given issue."
+        );
+        $usage[] = array(
+            "command"   =>  "<ticket_number> close [--safe]",
+            "help"      =>  "Marks an issue as closed."
+        );
+        $usage[] = array(
+            "command"   =>  "<ticket_number> list-files",
+            "help"      =>  "List available attachments associated with the given issue.",
+        );
+        $usage[] = array(
+            "command"   =>  "<ticket_number> get-file <file_number>",
+            "help"      =>  "Download a specific file from the given issue."
+        );
+        $usage[] = array(
+            "command"   =>  array("<ticket_number> list-emails","<ticket_number> le"),
+            "help"      =>  "Lists emails from the given issue."
+        );
+        $usage[] = array(
+            "command"   =>  array("<ticket_number> get-email <email_number> [--full]","<ticket_number> ge <email_number> [--full]"),
+            "help"      =>  "Displays a specific email for the issue. If the optional --full parameter 
+     is specified, the full email including headers and attachments will be
+     displayed."
+        );
+        $usage[] = array(
+            "command"   =>  array("<ticket_number> list-notes","<ticket_number> ln"),
+            "help"      =>  "Lists notes from the given issue."
+        );
+        $usage[] = array(
+            "command"   =>  array("<ticket_number> get-note <note_number> [--full]","<ticket_number> gn <note_number>"),
+            "help"      =>  "Displays a specific note for the issue."
+        );
+        $usage[] = array(
+            "command"   =>  array("<ticket_number> convert-note <note_number> draft|email [--safe]","<ticket_number> cn <note_number> draft|email [--safe]"),
+            "help"      =>  "Converts the specified note to a draft or an email."
+        );
+        $usage[] = array(
+            "command"   =>  "developers",
+            "help"      =>  "List all available developers' email addresses."
+        );
+        $usage[] = array(
+            "command"   =>  "open-issues [<status>] [my]",
+            "help"      =>  "List all issues that are not set to a status with a 'closed' context. Use 
+     optional argument 'my' if you just wish to see issues assigned to you."
+        );
+        $usage[] = array(
+            "command"   =>  "list-status",
+            "help"      =>  "List all available statuses in the system."
+        );
+        $usage[] = array(
+            "command"   =>  "customer email|support|customer <value>",
+            "help"      =>  "Looks up a customer's record information from Spot."
+        );
+        $usage[] = array(
+            "command"   =>  array("weekly-report [<week>]", "wr [<week>]"),
+            "help"      =>  "Fetches the weekly report. Week is specified as an integer with 0 representing
+     the current week, -1 the previous week and so on. If the week is omitted it defaults 
+     to the current week."
+        );
         $script = basename($script);
+        $usage_text = "";
+        $explanation = "";
+        foreach ($usage as $command_num => $this_command) {
+            $item_num = sprintf("%2d.) ", ($command_num+1));
+            $usage_text .= $item_num . "$script ";
+            if (is_array($this_command["command"])) {
+                for ($i = 0; $i < count($this_command["command"]); $i++) {
+                    if ($i != 0) {
+                        $usage_text .= "     $script ";
+                    }
+                    $usage_text .= $this_command["command"][$i] . "\n";
+                }
+            } else {
+                $usage_text .= $this_command["command"] . "\n";
+            }
+            $explanation .= $item_num . $this_command["help"] . "\n\n";
+        }
         echo "
 General Usage:
-
- 1.) $script <ticket_number>
- 2.) $script <ticket_number> lock [--force] [--safe]
- 3.) $script <ticket_number> unlock [--safe]
- 4.) $script <ticket_number> assign <developer_email> [--safe]
- 5.) $script <ticket_number> set-status <status> [--safe]
- 6.) $script <ticket_number> add-time <time_worked> [--safe]
- 7.) $script <ticket_number> list-files
- 8.) $script <ticket_number> get-file <file_number>
- 9.) $script developers
-10.) $script open-issues [<status>] [my]
-11.) $script list-status
+$usage_text
 
 Explanations:
-
- 1.) View general details of an existing issue.
-
- 2.) Lock and assign an issue to yourself. NOTE: You can add keyword '--force'
-     at the end if you want to lock an issue even if this issue is already 
-     locked by someone else.
-
- 3.) Unlocks the given issue.
-
- 4.) Assign an issue to another developer.
-
- 5.) Sets the status of an issue to the desired value. If you are not sure about
-     the available statuses, use command 'list-status' described below.
-
- 6.) Records time worked to the time tracking tool of the given issue.
-
- 7.) List available attachments associated with the given issue.
-
- 8.) Download a specific file from the given issue.
-
- 9.) List all available developers' email addresses.
-
-10.) List all issues that are not set to a status with a 'closed' context. Use 
-    optional argument 'my' if you just wish to see issues assigned to you.
-
-11.) List all available statuses in the system.
-";
+$explanation";
         exit;
     }
 

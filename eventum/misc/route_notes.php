@@ -49,7 +49,7 @@ if (preg_match("/^(boundary=).*/m", $full_message)) {
 // need some validation here
 if (empty($full_message)) {
     echo "Error: The email message was empty.\n";
-    exit(111);
+    exit(66);
 }
 
 
@@ -66,17 +66,17 @@ if (preg_match("/^(reply-to:).*/im", $full_message)) {
 $setup = Setup::load();
 if (@$setup['note_routing']['status'] != 'enabled') {
     echo "Error: The internal note routing interface is disabled.\n";
-    exit(111);
+    exit(78);
 }
 $prefix = $setup['note_routing']['address_prefix'];
 $mail_domain = $setup['note_routing']['address_host'];
 if (empty($prefix)) {
     echo "Error: Please configure the email address prefix.\n";
-    exit(111);
+    exit(78);
 }
 if (empty($mail_domain)) {
     echo "Error: Please configure the email address domain.\n";
-    exit(111);
+    exit(78);
 }
 $structure = Mime_Helper::decode($full_message, true, false);
 
@@ -91,7 +91,7 @@ if (empty($issue_id)) {
         $issue_id = $matches[1];
     } else {
         echo "Error: The routed note had no associated Eventum issue ID or had an invalid recipient address.\n";
-        exit(111);
+        exit(65);
     }
 }
 
@@ -102,7 +102,7 @@ $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']
 $user_emails = array_map('strtolower', array_values($users));
 if (!in_array($sender_email, $user_emails)) {
     echo "Error: The sender of this email is not allowed in the project associated with issue #$issue_id.\n";
-    exit(111);
+    exit(77);
 }
 
 include_once(APP_INC_PATH . "private_key.php");
@@ -129,11 +129,11 @@ list(,$body) = Mime_Helper::splitBodyHeader($full_message);
 
 // insert the new note and send notification about it
 $HTTP_POST_VARS = array(
-    'title'                => @addslashes($structure->headers['subject']),
-    'note'                 => addslashes($body),
-    'issue_id'             => $issue_id,
+    'title'                => @$structure->headers['subject'],
+    'note'                 => $body,
     'note_cc'              => $cc_users,
     'add_extra_recipients' => 'yes'
 );
-Note::insert();
+Note::insert(Auth::getUserID(), $issue_id, false, false);
+History::add($issue_id, Auth::getUserID(), History::getTypeID('note_routed'), "Note routed from " . $structure->headers['from']);
 ?>

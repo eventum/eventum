@@ -41,6 +41,9 @@ Auth::checkAuthentication(APP_COOKIE, NULL, true);
 if (@$HTTP_POST_VARS["cat"] == "restore") {
     $res = Support::restoreEmails();
     $tpl->assign("result_msg", $res);
+} elseif (@$HTTP_POST_VARS["cat"] == "remove") {
+    $res = Support::expungeEmails($HTTP_POST_VARS["item"]);
+    $tpl->assign("result_msg", $res);
 }
 
 $tpl->assign("list", Support::getRemovedList());

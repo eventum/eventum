@@ -49,7 +49,7 @@ function sendEmail(account_id, issue_id)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default" nowrap>
-            <b>Associated Emails</b>
+            <b>Associated Emails ({if $emails|@is_array}{$emails|@count}{else}0{/if})</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko}
@@ -65,8 +65,11 @@ function sendEmail(account_id, issue_id)
                 <td width="5">
                   <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
                 </td>
-                <td width="5" class="default_white">Reply</td>
                 {/if}
+                <td align="center" bgcolor="{$row_color}" NOWRAP align="center">
+                    {include file="expandable_cell/buttons.tpl.html" ec_id="email" remote_func="getEmail"}
+                </td>
+                <td width="5" class="default_white">Reply</td>
                 <td class="default_white">From</td>
                 <td class="default_white">To</td>
                 <td class="default_white" nowrap>Date</td>
@@ -79,10 +82,13 @@ function sendEmail(account_id, issue_id)
                 <td align="center" bgcolor="{$row_color}">
                   <input type="checkbox" name="item[]" value="{$emails[i].sup_id}">
                 </td>
+                {/if}
+                <td align="center" bgcolor="{$row_color}" NOWRAP align="center">
+                    {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$emails[i].composite_id}
+                </td>
                 <td align="center" bgcolor="{$row_color}">
                   <a title="reply to this email" href="javascript:void(null);" onClick="javascript:reply({$emails[i].sup_ema_id}, {$emails[i].sup_id});" class="link"><img src="{$rel_url}images/icons/reply.gif" border="0"></a>
                 </td>
-                {/if}
                 <td class="default" bgcolor="{$row_color}">{$emails[i].sup_from|escape:"html"}</td>
                 <td class="default" bgcolor="{$row_color}">
                   {if $emails[i].sup_to == ""}
@@ -99,16 +105,17 @@ function sendEmail(account_id, issue_id)
                   {/if}
                 </td>
               </tr>
+              {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$emails[i].composite_id colspan=7 row_color=$row_color}
               {sectionelse}
               <tr>
-                <td colspan="{if $current_role > $roles.viewer}6{else}4{/if}" bgcolor="{$light_color}" class="default" align="center">
-                  <b>No associated emails could be found.</b>
+                <td colspan="{if $current_role > $roles.viewer}6{else}5{/if}" bgcolor="{$light_color}" class="default" align="center">
+                  <i>No associated emails could be found.</i>
                 </td>
               </tr>
               {/section}
               {if $current_role > $roles.viewer}
               <tr>
-                <td colspan="6" bgcolor="{$cell_color}">
+                <td colspan="7" bgcolor="{$cell_color}">
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td nowrap width="10">

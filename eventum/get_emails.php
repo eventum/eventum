@@ -32,6 +32,7 @@ include_once("config.inc.php");
 include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.support.php");
+include_once(APP_INC_PATH . "class.mime_helper.php");
 include_once(APP_INC_PATH . "db_access.php");
 error_reporting(0);
 
@@ -45,7 +46,7 @@ flush();
 
 $new_emails = 0;
 
-$account = Support::getDetails($HTTP_GET_VARS["ema_id"]);
+$account = Email_Account::getDetails($HTTP_GET_VARS["ema_id"]);
 $mbox = Support::connectEmailServer($account);
 echo "<span class='default'>";
 echo "<center><img src='" . APP_RELATIVE_URL . "images/uploading.gif'>&nbsp;<img src='" . APP_RELATIVE_URL . "images/computer.gif'>&nbsp;<img src='" . APP_RELATIVE_URL . "images/uploading.gif'></center><br />\n";
@@ -65,12 +66,12 @@ if ($mbox == false) {
         flush();
         if (is_array($email)) {
             $new_emails++;
-            $from = htmlspecialchars(Support::fixEncoding($email['from']));
-            echo "<b>Downloaded email</b> - '" . Support::fixEncoding($email['subject']) . "' from " . trim($from) . ".<br />\n";
+            $from = htmlspecialchars(Mime_Helper::fixEncoding($email['from']));
+            echo "<b>Downloaded email</b> - '" . Mime_Helper::fixEncoding($email['subject']) . "' from " . trim($from) . ".<br />\n";
             echo '<script language="JavaScript">scrollBottom();</script>' . "\n";
             flush();
         } else {
-            echo "<b>Skipping existing email</b> - " . Support::fixEncoding($email) . "<br />\n";
+            echo "<b>Skipping existing email</b> - " . Mime_Helper::fixEncoding($email) . "<br />\n";
             echo '<script language="JavaScript">scrollBottom();</script>' . "\n";
             flush();
         }

@@ -46,57 +46,7 @@ $tpl->setTemplate("convert_note.tpl.html");
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 if (@$HTTP_POST_VARS['cat'] == 'convert') {
-    $issue_id = Note::getIssueID($HTTP_POST_VARS['note_id']);
-    $email_account_id = Support::getEmailAccount();
-    $blocked_message = Note::getBlockedMessage($HTTP_POST_VARS['note_id']);
-    $structure = Mime_Helper::decode($blocked_message, true, true);
-    $body = Support::getMessageBody($structure);
-    $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
-    $parts = array();
-    Mime_Helper::parse_output($structure, $parts);
-    if ($HTTP_POST_VARS['target'] == 'email') {
-        // XXX: need to eventually reuse this code in a function
-        if (@count($parts["attachments"]) > 0) {
-            $has_attachments = 1;
-        } else {
-            $has_attachments = 0;
-        }
-        $t = array(
-            'issue_id'       => $issue_id,
-            'ema_id'         => $email_account_id,
-            'message_id'     => @addslashes(@$structure->headers['message-id']),
-            'date'           => Date_API::getCurrentDateGMT(),
-            'from'           => @addslashes($structure->headers['from']),
-            'to'             => @addslashes($structure->headers['to']),
-            'cc'             => @addslashes($structure->headers['cc']),
-            'subject'        => @addslashes($structure->headers['subject']),
-            'body'           => @addslashes($body),
-            'full_email'     => @addslashes($blocked_message),
-            'has_attachment' => $has_attachments
-        );
-        $res = Support::insertEmail($t, $structure);
-        if ($res != -1) {
-            Support::extractAttachments($issue_id, $blocked_message);
-            // notifications about new emails are always external
-            $internal_only = false;
-            // special case when emails are bounced back, so we don't want a notification about those
-            if (Notification::isBounceMessage($sender_email)) {
-                $internal_only = true;
-            }
-            Notification::notifyNewEmail($issue_id, $structure, $blocked_message, $internal_only);
-            Issue::markAsUpdated($issue_id);
-            Note::remove($HTTP_POST_VARS['note_id']);
-        }
-        $tpl->assign("convert_result", $res);
-    } else {
-        // save message as a draft
-        @$res = Draft::saveEmail($issue_id, $structure->headers['to'], $structure->headers['cc'], addslashes($structure->headers['subject']), addslashes($body));
-        // remove the note, if the draft was created successfully
-        if ($res) {
-            Note::remove($HTTP_POST_VARS['note_id']);
-        }
-        $tpl->assign("convert_result", $res);
-    }
+    $tpl->assign("convert_result", Note::convertNote($HTTP_POST_VARS['note_id'], $HTTP_POST_VARS['target']));
 } else {
     $tpl->assign("note_id", $HTTP_GET_VARS['id']);
 }

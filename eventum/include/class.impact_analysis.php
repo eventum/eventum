@@ -70,7 +70,7 @@ class Impact_Analysis
                     $issue_id,
                     $usr_id,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["new_requirement"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["new_requirement"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -79,7 +79,7 @@ class Impact_Analysis
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, 'New requirement submitted by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_added'), 'New requirement submitted by ' . User::getFullName($usr_id));
             return 1;
         }
     }
@@ -160,7 +160,7 @@ class Impact_Analysis
                     isr_updated_usr_id=$usr_id,
                     isr_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     isr_dev_time=$dev_time,
-                    isr_impact_analysis='" . Misc::runSlashes($HTTP_POST_VARS["impact_analysis"]) . "'
+                    isr_impact_analysis='" . Misc::escapeString($HTTP_POST_VARS["impact_analysis"]) . "'
                  WHERE
                     isr_id=$isr_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -170,7 +170,7 @@ class Impact_Analysis
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, 'Impact analysis submitted by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_updated'), 'Impact analysis submitted by ' . User::getFullName($usr_id));
             return 1;
         }
     }
@@ -206,7 +206,7 @@ class Impact_Analysis
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, 'Impact analysis submitted by ' . User::getFullName(Auth::getUserID()));
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_removed'), 'Impact analysis removed by ' . User::getFullName(Auth::getUserID()));
             return 1;
         }
     }

@@ -39,6 +39,7 @@
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.user.php");
+include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "private_key.php");
 
 class Auth
@@ -118,23 +119,11 @@ class Auth
      */
     function isPendingUser($email)
     {
-        $stmt = "SELECT
-                    COUNT(*)
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 WHERE
-                    usr_email='" . Misc::runSlashes($email) . "' AND
-                    usr_status='pending'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return true;
+        $status = User::getStatusByEmail($email);
+        if ($status != 'pending') {
+            return false;
         } else {
-            if ($res == 0) {
-                return false;
-            } else {
-                return true;
-            }
+            return true;
         }
     }
 
@@ -148,23 +137,11 @@ class Auth
      */
     function isActiveUser($email)
     {
-        $stmt = "SELECT
-                    COUNT(*)
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 WHERE
-                    usr_email='" . $email . "' AND
-                    usr_status='active'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        $status = User::getStatusByEmail($email);
+        if ($status != 'active') {
             return false;
         } else {
-            if ($res == 0) {
-                return false;
-            } else {
-                return true;
-            }
+            return true;
         }
     }
 
@@ -240,7 +217,8 @@ class Auth
            ($cookie["hash"] != md5($GLOBALS["private_key"] . md5($cookie["login_time"]) . $cookie["email"]))) {
             return false;
         } else {
-            if (!Auth::userExists($cookie["email"])) {
+            $usr_id = User::getUserIDByEmail(@$cookie["email"]);
+            if (empty($usr_id)) {
                 return false;
             } else {
                 return true;

@@ -321,6 +321,12 @@ class Project
      */
     function getName($prj_id)
     {
+        static $returns;
+
+        if (!empty($returns[$prj_id])) {
+            return $returns[$prj_id];
+        }
+
         $stmt = "SELECT
                     prj_title
                  FROM
@@ -332,6 +338,7 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            $returns[$prj_id] = $res;
             return $res;
         }
     }
@@ -388,7 +395,7 @@ class Project
             Category::removeByProjects($HTTP_POST_VARS["items"]);
             Release::removeByProjects($HTTP_POST_VARS["items"]);
             Filter::removeByProjects($HTTP_POST_VARS["items"]);
-            Support::removeAccountByProjects($HTTP_POST_VARS["items"]);
+            Email_Account::removeAccountByProjects($HTTP_POST_VARS["items"]);
             Issue::removeByProjects($HTTP_POST_VARS["items"]);
             Custom_Field::removeByProjects($HTTP_POST_VARS["items"]);
             $statuses = array_keys(Status::getAssocStatusList($HTTP_POST_VARS["items"]));
@@ -441,12 +448,12 @@ class Project
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  SET
-                    prj_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    prj_status='" . Misc::runSlashes($HTTP_POST_VARS["status"]) . "',
+                    prj_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    prj_status='" . Misc::escapeString($HTTP_POST_VARS["status"]) . "',
                     prj_lead_usr_id=" . $HTTP_POST_VARS["lead_usr_id"] . ",
                     prj_initial_sta_id=" . $HTTP_POST_VARS["initial_status"] . ",
-                    prj_outgoing_sender_name='" . Misc::runSlashes($HTTP_POST_VARS["outgoing_sender_name"]) . "',
-                    prj_outgoing_sender_email='" . Misc::runSlashes($HTTP_POST_VARS["outgoing_sender_email"]) . "'
+                    prj_outgoing_sender_name='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
+                    prj_outgoing_sender_email='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "'
                  WHERE
                     prj_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -524,12 +531,12 @@ class Project
                     prj_outgoing_sender_email
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["status"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["status"]) . "',
                     " . $HTTP_POST_VARS["lead_usr_id"] . ",
                     " . $HTTP_POST_VARS["initial_status"] . ",
-                    '" . Misc::runSlashes($HTTP_POST_VARS["outgoing_sender_name"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["outgoing_sender_email"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -633,7 +640,8 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     pru_prj_id=$prj_id AND
-                    pru_usr_id=usr_id";
+                    pru_usr_id=usr_id AND
+                    usr_id != " . APP_SYSTEM_USER_ID;
         if ($status != NULL) {
             $stmt .= " AND usr_status='active' ";
         }
@@ -728,7 +736,8 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     pru_prj_id=$prj_id AND
-                    pru_usr_id=usr_id
+                    pru_usr_id=usr_id AND
+                    usr_id != " . APP_SYSTEM_USER_ID . "
                  ORDER BY
                     usr_full_name ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);

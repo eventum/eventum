@@ -41,6 +41,7 @@ include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.note.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.status.php");
+include_once(APP_INC_PATH . "class.history.php");
 
 $email_account_id = $HTTP_SERVER_VARS['argv'][1];
 $full_message = Misc::getInput();
@@ -57,15 +58,15 @@ $associated_user = 'admin@domain.com'; // SETUP: this needs to be configured pro
 // need some validation here
 if (empty($email_account_id)) {
     echo "Error: Please provide the email account ID.\n";
-    exit(100);
+    exit(78);
 }
 if (empty($full_message)) {
     echo "Error: The email message was empty.\n";
-    exit(100);
+    exit(66);
 }
 if (empty($associated_user)) {
     echo "Error: The associated user for the email routing interface needs to be set.\n";
-    exit(100);
+    exit(78);
 }
 
 
@@ -76,6 +77,15 @@ if (empty($associated_user)) {
 // remove the reply-to: header
 if (preg_match("/^(reply-to:).*/im", $full_message)) {
     $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
+}
+
+// check for magic cookie
+if (Mail_API::hasMagicCookie($full_message)) {
+    // strip the magic cookie
+    $full_message = Mail_API::stripMagicCookie($full_message);
+    $has_magic_cookie = true;
+} else {
+    $has_magic_cookie = false;
 }
 
 include_once(APP_INC_PATH . "private_key.php");
@@ -92,19 +102,25 @@ $HTTP_COOKIE_VARS[APP_COOKIE] = $cookie;
 $setup = Setup::load();
 if ($setup['email_routing']['status'] != 'enabled') {
     echo "Error: The email routing interface is disabled.\n";
-    exit(100);
+    exit(78);
 }
 $prefix = $setup['email_routing']['address_prefix'];
 $mail_domain = $setup['email_routing']['address_host'];
+$mail_domain_alias = $setup['email_routing']['host_alias'];
+if (!empty($mail_domain_alias)) {
+    $mail_domain = "[" . $mail_domain . "|" . $mail_domain_alias . "]";
+}
 if (empty($prefix)) {
     echo "Error: Please configure the email address prefix.\n";
-    exit(100);
+    exit(78);
 }
 if (empty($mail_domain)) {
     echo "Error: Please configure the email address domain.\n";
-    exit(100);
+    exit(78);
 }
 $structure = Mime_Helper::decode($full_message, true, true);
+// remove extra 'Re: ' from subject
+@$structure->headers['subject'] = Mail_API::removeExcessRe($structure->headers['subject']);
 
 // find which issue ID this email refers to
 @preg_match("/$prefix(\d*)@$mail_domain/i", $structure->headers['to'], $matches);
@@ -117,7 +133,7 @@ if (empty($issue_id)) {
         $issue_id = $matches[1];
     } else {
         echo "Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.\n";
-        exit(100);
+        exit(65);
     }
 }
 
@@ -130,24 +146,36 @@ Mime_Helper::parse_output($structure, $parts);
 // get the sender's email address
 $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
 
-// strip out the warning message sent to non-support developers
-if (!empty($setup['email_routing']['warning']['message'])) {
-    $full_message = str_replace($setup['email_routing']['warning']['message'], '', $full_message);
-    $body = str_replace($setup['email_routing']['warning']['message'], '', $body);
+// strip out the warning message sent to staff users
+if (($setup['email_routing']['status'] == 'enabled') &&
+        ($setup['email_routing']['warning']['status'] == 'enabled')) {
+    $full_message = Mail_API::stripWarningMessage($full_message);
+    $body = Mail_API::stripWarningMessage($body);
 }
 
-// check if sender email address is associated with a real user
-if (!Support::isAllowedToEmail($issue_id, $sender_email)) {
-    $body = Support::getMessageBody($structure);
-    // add the message body as a note
-    $HTTP_POST_VARS = array(
-        'blocked_msg' => addslashes($full_message),
-        'title'       => "Blocked email message",
-        'note'        => addslashes($body),
-        'issue_id'    => $issue_id
-    );
-    Note::insert();
-    exit();
+if (!$has_magic_cookie) {
+    // check if sender email address is associated with a real user
+    if ((!Notification::isBounceMessage($sender_email)) &&
+            (!Support::isAllowedToEmail($issue_id, $sender_email))) {
+        $body = Support::getMessageBody($structure);
+        // add the message body as a note
+        $HTTP_POST_VARS = array(
+            'blocked_msg' => $full_message,
+            'title'       => @$structure->headers['subject'],
+            'note'        => Mail_API::getCannedBlockedMsgExplanation() . $body
+        );
+        Note::insert(Auth::getUserID(), $issue_id, $structure->headers['from'], false);
+        // notify the email being blocked to IRC
+        Notification::notifyIRCBlockedMessage($issue_id, $structure->headers['from']);
+        // try to get usr_id of sender, if not, use system account
+        $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
+        if (!$usr_id) {
+            $usr_id = APP_SYSTEM_USER_ID;
+        }
+        // log blocked email
+        History::add($issue_id, $usr_id, History::getTypeID('email_blocked'), "Email from '" . $structure->headers['from'] . "' blocked.");
+        exit();
+    }
 }
 
 if (@count($parts["attachments"]) > 0) {
@@ -158,14 +186,14 @@ if (@count($parts["attachments"]) > 0) {
 $t = array(
     'issue_id'       => $issue_id,
     'ema_id'         => $email_account_id,
-    'message_id'     => @addslashes(@$structure->headers['message-id']),
+    'message_id'     => @$structure->headers['message-id'],
     'date'           => Date_API::getCurrentDateGMT(),
-    'from'           => @addslashes($structure->headers['from']),
-    'to'             => @addslashes($structure->headers['to']),
-    'cc'             => @addslashes($structure->headers['cc']),
-    'subject'        => @addslashes($structure->headers['subject']),
-    'body'           => @addslashes($body),
-    'full_email'     => @addslashes($full_message),
+    'from'           => @$structure->headers['from'],
+    'to'             => @$structure->headers['to'],
+    'cc'             => @$structure->headers['cc'],
+    'subject'        => @$structure->headers['subject'],
+    'body'           => @$body,
+    'full_email'     => @$full_message,
     'has_attachment' => $has_attachments
 );
 $res = Support::insertEmail($t, $structure);
@@ -180,6 +208,14 @@ if ($res != -1) {
     }
     Notification::notifyNewEmail($issue_id, $structure, $full_message, $internal_only);
     Issue::markAsUpdated($issue_id);
+    
+    // try to get usr_id of sender, if not, use system account
+    $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
+    if (!$usr_id) {
+        $usr_id = APP_SYSTEM_USER_ID;
+    }
+    // log blocked email
+    History::add($issue_id, $usr_id, History::getTypeID('email_routed'), "Email routed from " . $structure->headers['from']);
 }
 
 if (Notification::isBounceMessage($sender_email)) {

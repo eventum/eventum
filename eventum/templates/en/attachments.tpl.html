@@ -45,7 +45,7 @@ function deleteAttachmentFile(file_id)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default" nowrap>
-            <b>Attached Files</b>
+            <b>Attached Files ({$files|@count})</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko}
@@ -82,7 +82,7 @@ function deleteAttachmentFile(file_id)
                   {/section}
                 </td>
                 <td class="default" width="15%" nowrap>
-                  {$files[i].usr_full_name}
+                  {$files[i].usr_full_name|escape:"html"}
                   {if $current_user_id == $files[i].iat_usr_id}[ <a class="link" title="delete attachment" href="javascript:void(null);" onClick="javascript:deleteAttachment({$files[i].iat_id});">delete</a> ]{/if}
                 </td>
                 <td class="default" width="20%">{$files[i].iat_created_date}</td>
@@ -91,7 +91,7 @@ function deleteAttachmentFile(file_id)
               {sectionelse}
               <tr>
                 <td colspan="4" bgcolor="{$light_color}" align="center" class="default">
-                  <b>No attachments could be found.</b>
+                  <i>No attachments could be found.</i>
                 </td>
               </tr>
               {/section}

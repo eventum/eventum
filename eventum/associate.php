@@ -51,13 +51,16 @@ if (@$HTTP_POST_VARS['cat'] == 'associate') {
             $structure = Mime_Helper::decode($full_message, true, true);
             $body = Support::getMessageBody($structure);
             // add the message body as a note
-            $HTTP_POST_VARS['blocked_msg'] = addslashes($full_message);
+            $HTTP_POST_VARS['blocked_msg'] = $full_message;
             $HTTP_POST_VARS['title'] = 'Message manually converted to an internal note';
-            $HTTP_POST_VARS['note'] = addslashes($body);
-            $HTTP_POST_VARS['issue_id'] = $HTTP_POST_VARS['issue'];
-            $res = Note::insert();
+            $HTTP_POST_VARS['note'] = $body;
+            // XXX: probably broken to use the current logged in user as the 'owner' of 
+            // XXX: this new note, but that's how it was already
+            $res = Note::insert(Auth::getUserID(), $HTTP_POST_VARS['issue']);
             // remove the associated email
             if ($res) {
+                // notify the email being blocked to IRC
+                Notification::notifyIRCBlockedMessage($HTTP_POST_VARS['issue'], $structure->headers['from']);
                 Support::removeEmail($HTTP_POST_VARS['item'][$i]);
             }
         }

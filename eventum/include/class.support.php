@@ -48,12 +48,68 @@ include_once(APP_INC_PATH . "class.mime_helper.php");
 include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "class.history.php");
 include_once(APP_INC_PATH . "class.issue.php");
+include_once(APP_INC_PATH . "class.email_account.php");
 
 class Support
 {
+    /**
+     * Permanently removes the given support emails from the associated email
+     * server.
+     *
+     * @access  public
+     * @param   array $sup_ids The list of support emails
+     * @return  integer 1 if the removal worked, -1 otherwise
+     */
+    function expungeEmails($sup_ids)
+    {
+        $accounts = array();
+
+        $stmt = "SELECT
+                    sup_id,
+                    sup_message_id,
+                    sup_ema_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                 WHERE
+                    sup_id IN (" . implode(', ', $sup_ids) . ")";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            for ($i = 0; $i < count($res); $i++) {
+                // try to re-use an open connection to the imap server
+                if (!in_array($res[$i]['sup_ema_id'], array_keys($accounts))) {
+                    $accounts[$res[$i]['sup_ema_id']] = Support::connectEmailServer(Email_Account::getDetails($res[$i]['sup_ema_id']));
+                }
+                $mbox = $accounts[$res[$i]['sup_ema_id']];
+                if ($mbox !== FALSE) {
+                    // now try to find the UID of the current message-id
+                    $matches = @imap_search($mbox, 'TEXT "' . $res[$i]['sup_message_id'] . '"');
+                    if (count($matches) > 0) {
+                        for ($y = 0; $y < count($matches); $y++) {
+                            $headers = imap_headerinfo($mbox, $matches[$y]);
+                            // if the current message also matches the message-id header, then remove it!
+                            if ($headers->message_id == $res[$i]['sup_message_id']) {
+                                @imap_delete($mbox, $matches[$y]);
+                                @imap_expunge($mbox);
+                                break;
+                            }
+                        }
+                    }
+                }
+                // remove the email record from the table
+                Support::removeEmail($res[$i]['sup_id']);
+            }
+            return 1;
+        }
+    }
+
+
     // XXX: put documentation here
     function isAllowedToEmail($issue_id, $sender_email)
     {
+        // XXX: need to fix this
         $is_allowed = true;
         if (!Notification::isSubscribedToEmails($issue_id, $sender_email)) {
             $is_allowed = false;
@@ -62,7 +118,13 @@ class Support
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Removes the given support email from the database table.
+     *
+     * @access  public
+     * @param   integer $sup_id The support email ID
+     * @return  boolean
+     */
     function removeEmail($sup_id)
     {
         $stmt = "DELETE FROM
@@ -235,39 +297,6 @@ class Support
 
 
     /**
-     * Method used to get the account ID for a given email account.
-     *
-     * @access  public
-     * @param   string $username The username for the specific email account
-     * @param   string $hostname The hostname for the specific email account
-     * @param   string $mailbox The mailbox for the specific email account
-     * @return  integer The support email account ID
-     */
-    function getAccountID($username, $hostname, $mailbox)
-    {
-        $stmt = "SELECT
-                    ema_id
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 WHERE
-                    ema_username='" . addslashes($username) . "' AND
-                    ema_hostname='" . addslashes($hostname) . "' AND
-                    ema_folder='" . addslashes($mailbox) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return 0;
-        } else {
-            if ($res == NULL) {
-                return 0;
-            } else {
-                return $res;
-            }
-        }
-    }
-
-
-    /**
      * Method used to restore the specified support emails from
      * 'removed' to 'active'.
      *
@@ -323,74 +352,10 @@ class Support
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["sup_date"] = Date_API::getFormattedDate($res[$i]["sup_date"]);
-                $res[$i]["sup_subject"] = Support::fixEncoding($res[$i]["sup_subject"]);
-                $res[$i]["sup_from"] = Support::fixEncoding($res[$i]["sup_from"]);
+                $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
+                $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
             }
             return $res;
-        }
-    }
-
-
-    /**
-     * Method used to get the details of a given support email 
-     * account.
-     *
-     * @access  public
-     * @param   integer $ema_id The support email account ID
-     * @return  array The account details
-     */
-    function getDetails($ema_id)
-    {
-        $stmt = "SELECT
-                    *
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 WHERE
-                    ema_id=$ema_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            return $res;
-        }
-    }
-
-
-    /**
-     * Method used to remove all support email accounts associated 
-     * with a specified set of projects.
-     *
-     * @access  public
-     * @param   array $ids The list of projects
-     * @return  boolean
-     */
-    function removeAccountByProjects($ids)
-    {
-        $items = @implode(", ", $ids);
-        $stmt = "SELECT
-                    ema_id
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 WHERE
-                    ema_prj_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return false;
-        } else {
-            Support::removeEmailByAccounts($res);
-            $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                     WHERE
-                        ema_prj_id IN ($items)";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                return false;
-            } else {
-                return true;
-            }
         }
     }
 
@@ -416,178 +381,6 @@ class Support
             return false;
         } else {
             return true;
-        }
-    }
-
-
-    /**
-     * Method used to remove the specified support email accounts.
-     *
-     * @access  public
-     * @return  boolean
-     */
-    function remove()
-    {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
-        $stmt = "DELETE FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 WHERE
-                    ema_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return false;
-        } else {
-            Support::removeEmailByAccounts($HTTP_POST_VARS["items"]);
-            return true;
-        }
-    }
-
-
-    /**
-     * Method used to add a new support email account.
-     *
-     * @access  public
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    function insert()
-    {
-        global $HTTP_POST_VARS;
-
-        if (empty($HTTP_POST_VARS["get_only_new"])) {
-            $HTTP_POST_VARS["get_only_new"] = 0;
-        }
-        if (empty($HTTP_POST_VARS["leave_copy"])) {
-            $HTTP_POST_VARS["leave_copy"] = 0;
-        }
-        $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 (
-                    ema_prj_id,
-                    ema_type,
-                    ema_hostname,
-                    ema_port,
-                    ema_folder,
-                    ema_username,
-                    ema_password,
-                    ema_get_only_new,
-                    ema_leave_copy
-                 ) VALUES (
-                    " . $HTTP_POST_VARS["project"] . ",
-                    '" . Misc::runSlashes($HTTP_POST_VARS["type"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["hostname"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["port"]) . "',
-                    '" . Misc::runSlashes(@$HTTP_POST_VARS["folder"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["username"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["password"]) . "',
-                    " . $HTTP_POST_VARS["get_only_new"] . ",
-                    " . $HTTP_POST_VARS["leave_copy"] . "
-                 )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            return 1;
-        }
-    }
-
-
-    /**
-     * Method used to update a support email account details.
-     *
-     * @access  public
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    function update()
-    {
-        global $HTTP_POST_VARS;
-
-        if (empty($HTTP_POST_VARS["get_only_new"])) {
-            $HTTP_POST_VARS["get_only_new"] = 0;
-        }
-        if (empty($HTTP_POST_VARS["leave_copy"])) {
-            $HTTP_POST_VARS["leave_copy"] = 0;
-        }
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 SET
-                    ema_prj_id=" . $HTTP_POST_VARS["project"] . ",
-                    ema_type='" . Misc::runSlashes($HTTP_POST_VARS["type"]) . "',
-                    ema_hostname='" . Misc::runSlashes($HTTP_POST_VARS["hostname"]) . "',
-                    ema_port='" . Misc::runSlashes($HTTP_POST_VARS["port"]) . "',
-                    ema_folder='" . Misc::runSlashes(@$HTTP_POST_VARS["folder"]) . "',
-                    ema_username='" . Misc::runSlashes($HTTP_POST_VARS["username"]) . "',
-                    ema_password='" . Misc::runSlashes($HTTP_POST_VARS["password"]) . "',
-                    ema_get_only_new=" . $HTTP_POST_VARS["get_only_new"] . ",
-                    ema_leave_copy=" . $HTTP_POST_VARS["leave_copy"] . "
-                 WHERE
-                    ema_id=" . $HTTP_POST_VARS["id"];
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            return 1;
-        }
-    }
-
-
-    /**
-     * Method used to get the list of available support email 
-     * accounts in the system.
-     *
-     * @access  public
-     * @return  array The list of accounts
-     */
-    function getList()
-    {
-        $stmt = "SELECT
-                    *
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 ORDER BY
-                    ema_hostname";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["prj_title"] = Project::getName($res[$i]["ema_prj_id"]);
-            }
-            return $res;
-        }
-    }
-
-
-    /**
-     * Method used to get an associative array of the support email
-     * accounts in the format of account ID => account title.
-     *
-     * @access  public
-     * @param   integer $prj_id The project ID
-     * @return  array The list of accounts
-     */
-    function getAssocList($prj_id)
-    {
-        $stmt = "SELECT
-                    ema_id,
-                    CONCAT(ema_username, '@', ema_hostname, ' ', ema_folder) AS ema_title
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 WHERE
-                    ema_prj_id=$prj_id
-                 ORDER BY
-                    ema_title";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            return $res;
         }
     }
 
@@ -694,14 +487,14 @@ class Support
 
             $t = array(
                 'ema_id'         => $info['ema_id'],
-                'message_id'     => @addslashes($email->message_id),
-                'date'           => @addslashes(Date_API::getDateGMTByTS($email->udate)),
-                'from'           => @addslashes($email->fromaddress),
-                'to'             => @addslashes($email->toaddress),
-                'cc'             => @addslashes($email->ccaddress),
-                'subject'        => @addslashes($email->subject),
-                'body'           => @addslashes($body),
-                'full_email'     => @addslashes($message),
+                'message_id'     => @$email->message_id,
+                'date'           => @Date_API::getDateGMTByTS($email->udate),
+                'from'           => @$email->fromaddress,
+                'to'             => @$email->toaddress,
+                'cc'             => @$email->ccaddress,
+                'subject'        => @$email->subject,
+                'body'           => @$body,
+                'full_email'     => @$message,
                 'has_attachment' => $has_attachments
             );
             if (!empty($email->in_reply_to)) {
@@ -836,15 +629,15 @@ class Support
                  ) VALUES (
                     " . $row["ema_id"] . ",
                     " . $row["issue_id"] . ",
-                    '" . $row["message_id"] . "',
-                    '" . $row["date"] . "',
-                    '" . $row["from"] . "',
-                    '" . $row["to"] . "',
-                    '" . $row["cc"] . "',
-                    '" . $row["subject"] . "',
-                    '" . $row["body"] . "',
-                    '" . $row["full_email"] . "',
-                    '" . $row["has_attachment"] . "'
+                    '" . Misc::escapeString($row["message_id"]) . "',
+                    '" . Misc::escapeString($row["date"]) . "',
+                    '" . Misc::escapeString($row["from"]) . "',
+                    '" . Misc::escapeString($row["to"]) . "',
+                    '" . Misc::escapeString($row["cc"]) . "',
+                    '" . Misc::escapeString($row["subject"]) . "',
+                    '" . Misc::escapeString($row["body"]) . "',
+                    '" . Misc::escapeString($row["full_email"]) . "',
+                    '" . Misc::escapeString($row["has_attachment"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -1036,9 +829,9 @@ class Support
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["sup_date"] = Date_API::getFormattedDate($res[$i]["sup_date"]);
-                $res[$i]["sup_subject"] = Support::fixEncoding($res[$i]["sup_subject"]);
-                $res[$i]["sup_from"] = Support::fixEncoding($res[$i]["sup_from"]);
-                $res[$i]["sup_to"] = Support::fixEncoding($res[$i]["sup_to"]);
+                $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
+                $res[$i]["sup_from"] = Mime_Helper::fixEncoding(Mail_API::getName($res[$i]["sup_from"]));
+                $res[$i]["sup_to"] = Mime_Helper::fixEncoding(Mail_API::getName($res[$i]["sup_to"]));
             }
             $total_pages = ceil($total_rows / $max);
             $last_page = $total_pages - 1;
@@ -1077,14 +870,14 @@ class Support
             $stmt .= " AND sup_iss_id = 0";
         }
         if (!empty($options['keywords'])) {
-            $stmt .= " AND (" . Misc::prepareBooleanSearch('sup_subject', Misc::runSlashes($options["keywords"]));
-            $stmt .= " OR " . Misc::prepareBooleanSearch('sup_body', Misc::runSlashes($options["keywords"])) . ")";
+            $stmt .= " AND (" . Misc::prepareBooleanSearch('sup_subject', $options["keywords"]);
+            $stmt .= " OR " . Misc::prepareBooleanSearch('sup_body', $options["keywords"]) . ")";
         }
         if (!empty($options['sender'])) {
-            $stmt .= " AND " . Misc::prepareBooleanSearch('sup_from', Misc::runSlashes($options["sender"]));
+            $stmt .= " AND " . Misc::prepareBooleanSearch('sup_from', $options["sender"]);
         }
         if (!empty($options['to'])) {
-            $stmt .= " AND " . Misc::prepareBooleanSearch('sup_to', Misc::runSlashes($options["to"]));
+            $stmt .= " AND " . Misc::prepareBooleanSearch('sup_to', $options["to"]);
         }
         if (!empty($options['ema_id'])) {
             $stmt .= " AND sup_ema_id=" . $options['ema_id'];
@@ -1107,40 +900,6 @@ class Support
 
 
     /**
-     * Method used to fix the encoding of MIME based strings.
-     *
-     * @access  public
-     * @param   string $input The string to be fixed
-     * @return  string The fixed string
-     */
-    function fixEncoding($input)
-    {
-        // Remove white space between encoded-words
-        $input = preg_replace('/(=\?[^?]+\?(q|b)\?[^?]*\?=)(\s)+=\?/i', '\1=?', $input);
-        // For each encoded-word...
-        while (preg_match('/(=\?([^?]+)\?(q|b)\?([^?]*)\?=)/i', $input, $matches)) {
-            $encoded  = $matches[1];
-            $charset  = $matches[2];
-            $encoding = $matches[3];
-            $text     = $matches[4];
-            switch (strtolower($encoding)) {
-                case 'b':
-                    $text = base64_decode($text);
-                    break;
-                case 'q':
-                    $text = str_replace('_', ' ', $text);
-                    preg_match_all('/=([a-f0-9]{2})/i', $text, $matches);
-                    foreach($matches[1] as $value)
-                        $text = str_replace('='.$value, chr(hexdec($value)), $text);
-                    break;
-            }
-            $input = str_replace($encoded, $text, $input);
-        }
-        return $input;
-    }
-
-
-    /**
      * Method used to extract and associate attachments in an email
      * to the given issue.
      *
@@ -1155,6 +914,7 @@ class Support
         $structure = Mime_Helper::decode($full_email, false, false);
         $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
         $usr_id = User::getUserIDByEmail($sender_email);
+        $unknown_user = false;
         if (empty($usr_id)) {
             // if we couldn't find a real user by that email, just use the first issue assignee as the owner
             $users = Issue::getAssignedUserIDs($issue_id);
@@ -1162,13 +922,14 @@ class Support
                 $usr_id = $users[0];
             } else {
                 // if we can't find any reasonable owner for this attachment, just use the current user
-                $usr_id = Auth::getUserID();
+                $usr_id = APP_SYSTEM_USER_ID;
+                $unknown_user = $structure->headers['from'];
             }
         }
         // now for the real thing
         $attachments = Mime_Helper::getAttachments($full_email);
         if (count($attachments) > 0) {
-            $attachment_id = Attachment::add($issue_id, $usr_id, 'Attachment originated from a support email');
+            $attachment_id = Attachment::add($issue_id, $usr_id, 'Attachment originated from a support email', $unknown_user);
             for ($i = 0; $i < count($attachments); $i++) {
                 Attachment::addFile($attachment_id, $issue_id, $attachments[$i]['filename'], $attachments[$i]['filetype'], $attachments[$i]['blob']);
             }
@@ -1215,7 +976,8 @@ class Support
                         sup_id IN ($items)";
             $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
             for ($i = 0; $i < count($res); $i++) {
-                History::add($HTTP_POST_VARS["issue"], 'Support email (subject: \'' . $res[$i]['sup_subject'] . '\') associated.');
+                History::add($HTTP_POST_VARS["issue"], Auth::getUserID(), History::getTypeID('email_associated'), 
+                                'Support email (subject: \'' . $res[$i]['sup_subject'] . '\') associated by ' . User::getFullName(Auth::getUserID()));
                 // send notifications for the issue being updated
                 // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
                 $structure = Mime_Helper::decode($res[$i]['sup_full_email'], true, false);
@@ -1226,7 +988,15 @@ class Support
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Returns the appropriate message body for a given MIME-based decoded
+     * structure.
+     *
+     * @access  public
+     * @param   object $output The parsed message structure
+     * @return  string The message body
+     * @see     Mime_Helper::decode()
+     */
     function getMessageBody(&$output)
     {
         $parts = array();
@@ -1285,10 +1055,41 @@ class Support
                 }
             }
             $res["sup_date"] = Date_API::getFormattedDate($res["sup_date"]);
-            $res["sup_subject"] = Support::fixEncoding($res["sup_subject"]);
-            $res["sup_from"] = Support::fixEncoding($res["sup_from"]);
-            $res["sup_to"] = Support::fixEncoding($res["sup_to"]);
+            $res["sup_subject"] = Mime_Helper::fixEncoding($res["sup_subject"]);
+            // remove extra 'Re: ' from subject
+            $res['reply_subject'] = Mail_API::removeExcessRe('Re: ' . $res["sup_subject"]);
+            $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
+            $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);
+            
             return $res;
+        }
+    }
+
+
+    /**
+     * Returns the nth note for a specific issue. The sequence starts at 1.
+     * 
+     * @access  public
+     * @param   integer $issue_id The id of the issue.
+     * @param   integer $sequence The sequential number of the email.
+     * @return  array An array of data containing details about the email.
+     */
+    function getEmailBySequence($issue_id, $sequence)
+    {
+        $stmt = "SELECT
+                    sup_id,
+                    sup_ema_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                WHERE
+                    sup_iss_id = $issue_id
+                LIMIT " . ($sequence - 1) . ", 1";
+        $res = $GLOBALS["db_api"]->dbh->getRow($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return Support::getEmailDetails($res[1], $res[0]);
         }
     }
 
@@ -1321,8 +1122,8 @@ class Support
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["sup_subject"] = Support::fixEncoding($res[$i]["sup_subject"]);
-                $res[$i]["sup_from"] = Support::fixEncoding($res[$i]["sup_from"]);
+                $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
+                $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
             }
             return $res;
         }
@@ -1370,15 +1171,20 @@ class Support
                     sup_ema_id,
                     sup_from,
                     sup_to,
+                    sup_cc,
                     sup_date,
                     sup_subject,
-                    sup_has_attachment
+                    sup_body,
+                    sup_has_attachment,
+                    CONCAT(sup_ema_id, '-', sup_id) AS composite_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     ema_id=sup_ema_id AND
-                    ema_prj_id=" . Auth::getCurrentProject() . " AND
+                    iss_id = sup_iss_id AND
+                    ema_prj_id=iss_prj_id AND
                     sup_iss_id=$issue_id
                  ORDER BY
                     sup_id ASC";
@@ -1392,9 +1198,10 @@ class Support
             } else {
                 for ($i = 0; $i < count($res); $i++) {
                     $res[$i]["sup_date"] = Date_API::getFormattedDate($res[$i]["sup_date"]);
-                    $res[$i]["sup_subject"] = Support::fixEncoding($res[$i]["sup_subject"]);
-                    $res[$i]["sup_from"] = Support::fixEncoding($res[$i]["sup_from"]);
-                    $res[$i]["sup_to"] = Support::fixEncoding($res[$i]["sup_to"]);
+                    $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
+                    $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
+                    $res[$i]["sup_to"] = Mime_Helper::fixEncoding($res[$i]["sup_to"]);
+                    $res[$i]["sup_cc"] = Mime_Helper::fixEncoding($res[$i]["sup_cc"]);
                 }
                 return $res;
             }
@@ -1472,7 +1279,8 @@ class Support
                         sup_id IN ($items)";
             $subjects = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
             for ($i = 0; $i < count($HTTP_POST_VARS["item"]); $i++) {
-                History::add($issue_id, 'Support email (subject: \'' . $subjects[$HTTP_POST_VARS["item"][$i]] . '\') disassociated.');
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'), 
+                                'Support email (subject: \'' . $subjects[$HTTP_POST_VARS["item"][$i]] . '\') disassociated by ' . User::getFullName(Auth::getUserID()));
             }
             return 1;
         }
@@ -1503,6 +1311,9 @@ class Support
     {
         global $HTTP_POST_VARS, $HTTP_SERVER_VARS;
 
+        // remove extra 'Re: ' from subject
+        $HTTP_POST_VARS['subject'] = Mail_API::removeExcessRe($HTTP_POST_VARS['subject']);
+
         $internal_only = false;
         // XXX: there should be a better way... maybe just looking at the References:/In-Reply-To: headers and 
         // XXX: then automatically associating the new email to the existing message that is attached to an issue
@@ -1528,6 +1339,26 @@ class Support
             }
         }
         $full_email = $mail->getFullHeaders($HTTP_POST_VARS['from'], $HTTP_POST_VARS['to'], $HTTP_POST_VARS['subject']);
+
+        // email blocking should only be done if this is an email about an associated issue
+        if (!empty($HTTP_POST_VARS['issue_id'])) {
+            $user_info = User::getNameEmail(Auth::getUserID());
+            // check whether the current user is allowed to send this email to customers or not
+            if (!Support::isAllowedToEmail($HTTP_POST_VARS["issue_id"], $user_info['usr_email'])) {
+                // add the message body as a note
+                $HTTP_POST_VARS = array(
+                    'issue_id'    => $HTTP_POST_VARS['issue_id'],
+                    'from'        => $HTTP_POST_VARS['from'],
+                    'blocked_msg' => $full_email,
+                    'title'       => $HTTP_POST_VARS["subject"],
+                    'note'        => Mail_API::getCannedBlockedMsgExplanation() . $HTTP_POST_VARS["message"]
+                );
+                Note::insert(Auth::getUserID(), $HTTP_POST_VARS["issue_id"]);
+                // notify the email being blocked to IRC
+                Notification::notifyIRCBlockedMessage($HTTP_POST_VARS['issue_id'], $HTTP_POST_VARS['from']);
+                return 1;
+            }
+        }
 
         // only send a direct email if the user doesn't want to add the Cc'ed people to the notification list
         if (@$HTTP_POST_VARS['add_unknown'] == 'yes') {
@@ -1556,6 +1387,8 @@ class Support
                         $full_message = $HTTP_POST_VARS["message"];
                         $subject = $HTTP_POST_VARS["subject"];
                     }
+                    // add the warning message about replies being blocked or not
+                    $full_message = Mail_API::addWarningMessage($HTTP_POST_VARS['issue_id'], $ccs[$i], $full_message);
                     $mail = new Mail_API;
                     $mail->setTextBody($full_message);
                     if (!empty($HTTP_POST_VARS["issue_id"])) {
@@ -1571,14 +1404,14 @@ class Support
         $t = array(
             'issue_id'       => $HTTP_POST_VARS["issue_id"],
             'ema_id'         => $HTTP_POST_VARS['ema_id'],
-            'message_id'     => Misc::runSlashes($message_id),
+            'message_id'     => $message_id,
             'date'           => Date_API::getCurrentDateGMT(),
-            'from'           => Misc::runSlashes($HTTP_POST_VARS['from']),
-            'to'             => Misc::runSlashes($HTTP_POST_VARS['to']),
-            'cc'             => @Misc::runSlashes($HTTP_POST_VARS['cc']),
-            'subject'        => @Misc::runSlashes($HTTP_POST_VARS['subject']),
-            'body'           => Misc::runSlashes($HTTP_POST_VARS['message']),
-            'full_email'     => Misc::runSlashes($full_email),
+            'from'           => $HTTP_POST_VARS['from'],
+            'to'             => $HTTP_POST_VARS['to'],
+            'cc'             => @$HTTP_POST_VARS['cc'],
+            'subject'        => @$HTTP_POST_VARS['subject'],
+            'body'           => $HTTP_POST_VARS['message'],
+            'full_email'     => $full_email,
             'has_attachment' => 0
         );
         $structure = Mime_Helper::decode($full_email, true, false);
@@ -1593,7 +1426,8 @@ class Support
         // mark this issue as updated
         Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
         // save a history entry for this
-        History::add($HTTP_POST_VARS["issue_id"], 'Outgoing email sent by ' . User::getFullName(Auth::getUserID()));
+        History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'), 
+                        'Outgoing email sent by ' . User::getFullName(Auth::getUserID()));
 
         $usr_id = Auth::getUserID();
         // also update the last_response_date field for the associated issue
@@ -1621,59 +1455,6 @@ class Support
 
 
     /**
-     * Method used to get the first support email account associated
-     * with the current activated project.
-     *
-     * @access  public
-     * @return  integer The email account ID
-     */
-    function getEmailAccount()
-    {
-        $stmt = "SELECT
-                    ema_id
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
-                 WHERE
-                    ema_prj_id=" . Auth::getCurrentProject() . "
-                 LIMIT
-                    0, 1";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            return $res;
-        }
-    }
-
-
-    /**
-     * Method used to get the support email account associated with a given
-     * support email message.
-     *
-     * @access  public
-     * @param   integer $sup_id The support email ID
-     * @return  integer The email account ID
-     */
-    function getAccountByEmail($sup_id)
-    {
-        $stmt = "SELECT
-                    sup_ema_id
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
-                 WHERE
-                    sup_id=$sup_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            return $res;
-        }
-    }
-
-
-    /**
      * Method used to get the issue ID associated with a given support
      * email entry.
      *
@@ -1696,6 +1477,41 @@ class Support
         } else {
             return $res;
         }
+    }
+    
+    
+    /**
+     * Returns the number of emails sent by a user in a time range.
+     * 
+     * @access  public
+     * @param   string $usr_id The ID of the user
+     * @param   integer $start The timestamp of the start date
+     * @param   integer $end The timestanp of the end date
+     * @param   boolean $associated If this should return emails associated with issues or non associated emails.
+     * @return  integer The number of emails sent by the user.
+     */
+    function getSentEmailCountByUser($usr_id, $start, $end, $associated)
+    {
+        $usr_info = User::getNameEmail($usr_id);
+        $stmt = "SELECT
+                    COUNT(sup_id)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                 WHERE
+                    sup_date BETWEEN '$start' AND '$end' AND
+                    sup_from LIKE '%" . $usr_info["usr_email"] . "%' AND
+                    sup_iss_id ";
+        if ($associated == true) {
+            $stmt .= "!= 0";
+        } else {
+            $stmt .= "= 0";
+        }
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        }
+        return $res;
     }
 }
 

@@ -207,7 +207,7 @@ class Release
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  SET
-                    pre_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
+                    pre_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     pre_scheduled_date='$scheduled_date',
                     pre_status='" . $HTTP_POST_VARS["status"] . "'
                  WHERE
@@ -247,7 +247,7 @@ class Release
                     pre_status
                  ) VALUES (
                     " . $HTTP_POST_VARS["prj_id"] . ",
-                    '" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     '$scheduled_date',
                     '" . $HTTP_POST_VARS["status"] . "'
                  )";

@@ -46,8 +46,7 @@ $usr_id = Auth::getUserID();
 $tpl->assign("issue_id", $issue_id);
 
 if (@$HTTP_POST_VARS["cat"] == "post_note") {
-    $HTTP_POST_VARS["note"] = Misc::runSlashes($HTTP_POST_VARS["note"]);
-    $res = Note::insert();
+    $res = Note::insert($usr_id, $issue_id);
     $tpl->assign("post_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "reply") {
     if (!@empty($HTTP_GET_VARS["id"])) {
