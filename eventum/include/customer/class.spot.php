@@ -1078,20 +1078,10 @@ class Spot_Customer_Backend
     function getContactDetails($contact_id)
     {
         $stmt = "SELECT
-                    eaddress.eaddress_code AS phone,
                     cust_entity.name2 AS first_name,
                     cust_entity.name AS last_name
                  FROM
                     cust_entity
-                 LEFT JOIN
-                    eaddress
-                 ON
-                    cust_entity.cust_no=eaddress.cust_no
-                 LEFT JOIN
-                    eaddress_type
-                 ON
-                    eaddress.eaddress_type_no=eaddress_type.eaddress_type_no AND
-                    eaddress_type.descript='telephone'
                  WHERE
                     cust_entity.cust_no=$contact_id";
         $res = $GLOBALS["customer_db"]->getRow($stmt, DB_FETCHMODE_ASSOC);
@@ -1099,6 +1089,7 @@ class Spot_Customer_Backend
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
+            $res['phone'] = $this->getPhoneNumber($contact_id);
             return $res;
         }
     }
