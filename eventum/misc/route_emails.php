@@ -253,7 +253,7 @@ if ($res != -1) {
         $usr_id = APP_SYSTEM_USER_ID;
     }
     // mark this issue as updated
-    if (!empty($t['customer_id'])) {
+    if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
         Issue::markAsUpdated($issue_id, 'customer action');
     } else {
         if ((!empty($usr_id)) && (User::getRoleByUser($usr_id) > User::getRoleID('Customer'))) {
