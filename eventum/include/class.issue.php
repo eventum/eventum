@@ -912,24 +912,26 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Issue::deleteAssociations($res);
-            Attachment::removeByIssues($res);
-            SCM::removeByIssues($res);
-            Impact_Analysis::removeByIssues($res);
-            Issue::deleteUserAssociations($res);
-            Note::removeByIssues($res);
-            Time_Tracking::removeByIssues($res);
-            Notification::removeByIssues($res);
-            Custom_Field::removeByIssues($res);
-            Phone_Support::removeByIssues($res);
-            History::removeByIssues($res);
-            // now really delete the issues
-            $items = implode(", ", $res);
-            $stmt = "DELETE FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                     WHERE
-                        iss_id IN ($items)";
-            $GLOBALS["db_api"]->dbh->query($stmt);
+            if (count($res) > 0) {
+                Issue::deleteAssociations($res);
+                Attachment::removeByIssues($res);
+                SCM::removeByIssues($res);
+                Impact_Analysis::removeByIssues($res);
+                Issue::deleteUserAssociations($res);
+                Note::removeByIssues($res);
+                Time_Tracking::removeByIssues($res);
+                Notification::removeByIssues($res);
+                Custom_Field::removeByIssues($res);
+                Phone_Support::removeByIssues($res);
+                History::removeByIssues($res);
+                // now really delete the issues
+                $items = implode(", ", $res);
+                $stmt = "DELETE FROM
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         WHERE
+                            iss_id IN ($items)";
+                $GLOBALS["db_api"]->dbh->query($stmt);
+            }
             return true;
         }
     }
