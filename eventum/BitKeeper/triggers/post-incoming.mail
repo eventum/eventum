@@ -1,0 +1,37 @@
+#!/bin/sh
+
+DOMAIN=mysql.com
+TO=web-commits@$DOMAIN
+FROM=$BKD_USER@$DOMAIN
+REPO=eventum
+ 
+[ "$BK_EVENT" = "incoming push" ] || exit
+[ "$BKD_REALHOST" = "stage.mysql.com" ] || exit
+[ "$BKD_ROOT" = "/home/www/bk/$REPO" ] || exit
+
+CHANGESET=`bk -R prs -r+ -h -d':P:::I:' ChangeSet`
+
+if [ "$BK_SIDE" = "server" -a "$BK_COMMIT" = "OK" -o "$BK_STATUS" = "OK" ]
+then 
+ echo "Push successful, notifying developers at $TO"
+ (
+   cat <<EOF
+List-ID: <bk.$REPO>
+From: $FROM
+To: $TO
+Subject: bk commit - $REPO ($CHANGESET)
+
+EOF
+  for a in `cat $BK_CSETLIST`; do
+    bk changes -v -r@$a
+    echo
+  done
+
+  for a in `cat $BK_CSETLIST`; do
+    bk cset -d -r@$a
+    echo
+  done
+ ) | /usr/sbin/sendmail -t
+else
+ echo "commit failed because '$BK_COMMIT', sorry life is hard..." 
+fi
