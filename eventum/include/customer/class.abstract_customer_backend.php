@@ -608,5 +608,16 @@ class Abstract_Customer_Backend
     function getMaximumFirstResponseTime($customer_id)
     {
     }
+    
+    
+    /**
+     * Returns an array of incident types
+     * 
+     * @return  array An array of incident types.
+     */
+    function getIncidentTypes()
+    {
+        return array();
+    }
 }
 ?>
