@@ -15,6 +15,7 @@ Eventum Issue Tracking System
 - Added feature to allow download_emails script to be called via the web (Bryan)
 - Fixed the issue update code to properly subscribe new assignees to the notification list (João)
 - Changed the behavior of the view issue screen to automatically hide tables without any data (João)
+- Fixed some caching problems that might be triggered when customizing the columns to be displayed at a project level (João)
 
 01 Mar 2005, Version 1.5
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
