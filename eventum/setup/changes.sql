@@ -464,3 +464,5 @@ CREATE TABLE eventum_reminder_triggered_action (
 # september 24th
 INSERT INTO eventum_history_type SET htt_name = 'issue_quarantine_removed', htt_role = 4;
 
+ALTER TABLE eventum_issue DROP COLUMN iss_lock_usr_id;
+

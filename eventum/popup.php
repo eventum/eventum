@@ -100,6 +100,10 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $res = Issue::addUserAssociation($usr_id, $HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign("self_assign_result", $res);
     Notification::subscribeUser($usr_id, $HTTP_GET_VARS["iss_id"], $usr_id, Notification::getAllActions());
+    Workflow::handleAssignment($prj_id, $HTTP_GET_VARS["iss_id"], $usr_id);
+} elseif (@$HTTP_GET_VARS['cat'] == 'unassign') {
+    $res = Issue::deleteUserAssociations($HTTP_GET_VARS["iss_id"], $usr_id);
+    $tpl->assign('unassign_result', $res);
 } elseif (@$HTTP_POST_VARS["cat"] == "remove_email") {
     $res = Support::removeEmails();
     $tpl->assign("remove_email_result", $res);
@@ -117,12 +121,6 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
                 "Issue manually set to status '" . Status::getStatusTitle($HTTP_GET_VARS["new_sta_id"]) . "' by " . User::getFullName($usr_id));
     }
     $tpl->assign("new_status_result", $res);
-} elseif (@$HTTP_GET_VARS['cat'] == 'lock') {
-    $res = Issue::lock($HTTP_GET_VARS["iss_id"], $usr_id);
-    $tpl->assign('lock_result', $res);
-} elseif (@$HTTP_GET_VARS['cat'] == 'unlock') {
-    $res = Issue::unlock($HTTP_GET_VARS["iss_id"], $usr_id);
-    $tpl->assign('unlock_result', $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'authorize_reply') {
     $res = Authorized_Replier::addUser($HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign('authorize_reply_result', $res);

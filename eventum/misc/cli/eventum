@@ -53,17 +53,6 @@ if ($issue_id > 0) {
             Command_Line::promptConfirmation(&$client, $auth, $issue_id, @$HTTP_SERVER_VARS['argv']);
         }
         switch ($HTTP_SERVER_VARS['argv'][2]) {
-            case 'lock':
-                if (@$HTTP_SERVER_VARS['argv'][3] == '--force') {
-                    $force_lock = 'yes';
-                } else {
-                    $force_lock = 'no';
-                }
-                Command_Line::lockIssue(&$client, $auth, $issue_id, $force_lock);
-                break;
-            case 'unlock':
-                Command_Line::unlockIssue(&$client, $auth, $issue_id);
-                break;
             case 'assign':
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the developer");

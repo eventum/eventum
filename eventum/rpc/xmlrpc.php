@@ -333,53 +333,6 @@ function addAuthorizedReplier($p)
     }
 }
 
-$lockIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String));
-function lockIssue($p)
-{
-    $email = XML_RPC_decode($p->getParam(0));
-    $password = XML_RPC_decode($p->getParam(1));
-    $auth = authenticate($email, $password);
-    if (is_object($auth)) {
-        return $auth;
-    }
-    $issue_id = XML_RPC_decode($p->getParam(2));
-    $force_lock = XML_RPC_decode($p->getParam(3));
-
-    $usr_id = User::getUserIDByEmail($email);
-    $res = Issue::remoteLock($issue_id, $usr_id, $force_lock);
-    if ($res == -1) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not lock and assign issue #$issue_id");
-    } elseif ($res == -2) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is already locked by you");
-    } elseif ($res == -3) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is already locked by another developer. Run with --force to override this security check");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
-    }
-}
-
-$unlockIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
-function unlockIssue($p)
-{
-    $email = XML_RPC_decode($p->getParam(0));
-    $password = XML_RPC_decode($p->getParam(1));
-    $auth = authenticate($email, $password);
-    if (is_object($auth)) {
-        return $auth;
-    }
-    $issue_id = XML_RPC_decode($p->getParam(2));
-
-    $usr_id = User::getUserIDByEmail($email);
-    $res = Issue::remoteUnlock($issue_id, $usr_id);
-    if ($res == -1) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not unlock issue #$issue_id");
-    } elseif ($res == -2) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is already unlocked");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
-    }
-}
-
 $getFileList_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getFileList($p)
 {
@@ -930,14 +883,6 @@ $services = array(
     "getFileList" => array(
         'function'  => "getFileList",
         'signature' => $getFileList_sig
-    ),
-    "unlockIssue" => array(
-        'function'  => "unlockIssue",
-        'signature' => $unlockIssue_sig
-    ),
-    "lockIssue" => array(
-        'function'  => "lockIssue",
-        'signature' => $lockIssue_sig
     ),
     "assignIssue" => array(
         'function'  => "assignIssue",

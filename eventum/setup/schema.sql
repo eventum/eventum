@@ -74,9 +74,7 @@ INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'impact_analysis_added';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'impact_analysis_updated';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'impact_analysis_removed';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'status_changed';
-INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_locked';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_status_change';
-INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_unlock';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_assigned';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_replier_added';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'details_updated';
@@ -84,8 +82,6 @@ INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'customer_details_updated'
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_opened';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_auto_assigned';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'rr_issue_assigned';
-INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_locked';
-INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_unlocked';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'duplicate_update';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'duplicate_removed';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'duplicate_added';
@@ -151,7 +147,6 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_dev_time float default NULL,
   iss_developer_est_time float default NULL,
   iss_impact_analysis text,
-  iss_lock_usr_id int(10) default NULL,
   iss_contact_person_lname varchar(64) default NULL,
   iss_contact_person_fname varchar(64) default NULL,
   iss_contact_email varchar(255) default NULL,

@@ -155,19 +155,19 @@ class Workflow
 
 
     /**
-     * Called when an issue is locked.
+     * Called when an issue is assigned.
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who locked the issue.
+     * @param   integer $usr_id The id of the user who assigned the issue.
      */
-    function handleLock($prj_id, $issue_id, $usr_id)
+    function handleAssignment($prj_id, $issue_id, $usr_id)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return;
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->handleLock($prj_id, $issue_id, $usr_id);
+        return $backend->handleAssignment($prj_id, $issue_id, $usr_id);
     }
 
 

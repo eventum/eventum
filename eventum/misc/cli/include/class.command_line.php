@@ -282,61 +282,6 @@ class Command_Line
 
 
     /**
-     * Method used to lock and assign an issue to the current user.
-     *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
-     * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     * @param   boolean $force_lock Whether to force the re-assignment or not
-     */
-    function lockIssue($rpc_conn, $auth, $issue_id, $force_lock)
-    {
-        Command_Line::checkIssuePermissions(&$rpc_conn, $auth, $issue_id);
-        Command_Line::checkIssueAssignment(&$rpc_conn, $auth, $issue_id);
-
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'), 
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-            new XML_RPC_Value($force_lock)
-        );
-        $msg = new XML_RPC_Message("lockIssue", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
-        }
-        echo "OK - Issue #$issue_id successfully locked and assigned to you.\n";
-    }
-
-
-    /**
-     * Method used to unlock an issue from the current user.
-     *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
-     * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     */
-    function unlockIssue($rpc_conn, $auth, $issue_id)
-    {
-        Command_Line::checkIssuePermissions(&$rpc_conn, $auth, $issue_id);
-
-        $params = array(
-            new XML_RPC_Value($auth[0], 'string'), 
-            new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int'),
-        );
-        $msg = new XML_RPC_Message("unlockIssue", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
-        }
-        echo "OK - Issue #$issue_id successfully unlocked.\n";
-    }
-
-
-    /**
      * Prints out a list of attachments associated with the given issue ID.
      *
      * @access  public
@@ -718,7 +663,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
 
 
     /**
-     * Method used to lock and assign an issue to the current user.
+     * Method used to print the list of open issues.
      *
      * @access  public
      * @param   resource $rpc_conn The connection resource
@@ -1535,16 +1480,6 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         $usage[] = array(
             "command"   =>  "<ticket_number>",
             "help"      =>  "View general details of an existing issue."
-        );
-        $usage[] = array(
-            "command"   =>  "<ticket_number> lock [--force] [--safe]",
-            "help"      =>  "Lock and assign an issue to yourself. NOTE: You can add keyword '--force'
-     at the end if you want to lock an issue even if this issue is already 
-     locked by someone else."
-        );
-        $usage[] = array(
-            "command"   =>  "<ticket_number> unlock [--safe]",
-            "help"      =>  "Unlocks the given issue."
         );
         $usage[] = array(
             "command"   =>  "<ticket_number> assign <developer_email> [--safe]",

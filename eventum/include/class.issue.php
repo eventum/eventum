@@ -342,114 +342,6 @@ class Issue
 
 
     /**
-     * Method used to remotely set a lock to a given issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID
-     * @param   boolean $force_lock Whether we should force the lock or not
-     * @return  integer The status ID
-     */
-    function remoteLock($issue_id, $usr_id, $force_lock)
-    {
-        if ($force_lock != 'yes') {
-            // check if the issue is not already locked by somebody else
-            $stmt = "SELECT
-                        iss_lock_usr_id
-                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                     WHERE
-                        iss_id=$issue_id";
-            $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                return -1;
-            } else {
-                if (!empty($res)) {
-                    if ($res == $usr_id) {
-                        return -2;
-                    } else {
-                        return -3;
-                    }
-                }
-            }
-        }
-
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_type='updated',
-                    iss_lock_usr_id=$usr_id
-                 WHERE
-                    iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            // clear up the assignments for this issue, and then assign it to the current user
-            Issue::deleteUserAssociations($issue_id, $usr_id);
-            Issue::addUserAssociation($usr_id, $issue_id, $usr_id, false);
-            // save a history entry about this...
-            History::add($issue_id, $usr_id, History::getTypeID('remote_locked'), "Issue remotely locked by " . User::getFullName($usr_id));
-            Notification::subscribeUser($usr_id, $issue_id, $usr_id, Notification::getAllActions(), false);
-            Workflow::handleLock(Issue::getProjectID($issue_id), $issue_id, $usr_id);
-            return 1;
-        }
-    }
-
-
-    /**
-     * Method used to remotely remove a lock on a given issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID
-     * @return  integer The status ID
-     */
-    function remoteUnlock($issue_id, $usr_id)
-    {
-        // check if the issue is not already locked by somebody else
-        $stmt = "SELECT
-                    iss_lock_usr_id
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 WHERE
-                    iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            if (empty($res)) {
-                return -2;
-            }
-        }
-
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_type='updated',
-                    iss_lock_usr_id=NULL
-                 WHERE
-                    iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            // save a history entry about this...
-            History::add($issue_id, $usr_id, History::getTypeID('remote_unlock'), "Issue remotely unlocked by " . User::getFullName($usr_id));
-            return 1;
-        }
-    }
-
-
-    /**
      * Method used to remotely assign a given issue to an user.
      *
      * @access  public
@@ -600,106 +492,6 @@ class Issue
         } else {
             $res['reply_subject'] = 'Re: [#' . $issue_id . '] ' . $res["sup_subject"];
             return $res;
-        }
-    }
-
-
-    /**
-     * Method used to get the user currently locking the given issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @return  integer The user ID
-     */
-    function getLockedUserID($issue_id)
-    {
-        $stmt = "SELECT
-                    iss_lock_usr_id
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 WHERE
-                    iss_id=$issue_id";
-        return $GLOBALS["db_api"]->dbh->getOne($stmt);
-    }
-
-
-    /**
-     * Method used to lock a given issue to a specific user.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID
-     * @return  boolean
-     */
-    function lock($issue_id, $usr_id)
-    {
-        $lock_usr_id = Issue::getLockedUserID($issue_id);
-        if (!empty($lock_usr_id)) {
-            if ($lock_usr_id == $usr_id) {
-                return -3;
-            } else {
-                return -2;
-            }
-        }
-
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_type='updated',
-                    iss_lock_usr_id=$usr_id
-                 WHERE
-                    iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            // clear up the assignments for this issue, and then assign it to the current user
-            Issue::deleteUserAssociations($issue_id, $usr_id);
-            Issue::addUserAssociation($usr_id, $issue_id, $usr_id);
-            // save a history entry about this...
-            History::add($issue_id, $usr_id, History::getTypeID('issue_locked'), "Issue locked by " . User::getFullName($usr_id));
-            Notification::subscribeUser($usr_id, $issue_id, $usr_id, Notification::getAllActions());
-            Workflow::handleLock(Issue::getProjectID($issue_id), $issue_id, $usr_id);
-            return 1;
-        }
-    }
-
-
-    /**
-     * Method used to unlock a given issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID of the person performing this change
-     * @return  boolean
-     */
-    function unlock($issue_id, $usr_id)
-    {
-        $lock_usr_id = Issue::getLockedUserID($issue_id);
-        if (empty($lock_usr_id)) {
-            return -2;
-        }
-
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_type='updated',
-                    iss_lock_usr_id=NULL
-                 WHERE
-                    iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            // save a history entry about this...
-            History::add($issue_id, $usr_id, History::getTypeID('issue_unlocked'), "Issue unlocked by " . User::getFullName($usr_id));
-            return 1;
         }
     }
 
@@ -1181,8 +973,6 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            // unlock the issue, if needed
-            Issue::unlock($issue_id, $usr_id);
             // add note with the reason to close the issue
             $HTTP_POST_VARS['title'] = 'Issue closed comments';
             $HTTP_POST_VARS["note"] = $reason;
@@ -1547,9 +1337,15 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
                  WHERE
                     isu_iss_id IN ($issue_id)";
-        $GLOBALS["db_api"]->dbh->query($stmt);
-        if ($usr_id) {
-            History::add($issue_id, $usr_id, History::getTypeID('user_all_unassociated'), 'Issue assignments removed by ' . User::getFullName($usr_id));
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            if ($usr_id) {
+                History::add($issue_id, $usr_id, History::getTypeID('user_all_unassociated'), 'Issue assignments removed by ' . User::getFullName($usr_id));
+            }
+            return 1;
         }
     }
 
@@ -2184,7 +1980,6 @@ class Issue
                     iss_prj_id,
                     iss_sta_id,
                     iss_customer_id,
-                    iss_lock_usr_id,
                     iss_created_date,
                     iss_updated_date,
                     iss_last_response_date,

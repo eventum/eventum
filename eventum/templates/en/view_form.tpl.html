@@ -26,16 +26,16 @@ function signupAsAuthorizedReplier(issue_id)
     var popupWin = window.open('popup.php?cat=authorize_reply&iss_id=' + issue_id, '_authorizeReply', features);
     popupWin.focus();
 }
-function lock(issue_id)
+function selfAssign(issue_id)
 {
     var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=lock&iss_id=' + issue_id, '_selfAssign', features);
+    var popupWin = window.open('popup.php?cat=self_assign&iss_id=' + issue_id, '_selfAssign', features);
     popupWin.focus();
 }
-function unlock(issue_id)
+function unassign(issue_id)
 {
     var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=unlock&iss_id=' + issue_id, '_selfAssign', features);
+    var popupWin = window.open('popup.php?cat=unassign&iss_id=' + issue_id, '_unassign', features);
     popupWin.focus();
 }
 function replyIssue(issue_id)
@@ -107,21 +107,6 @@ function validateForm(f)
     <td colspan="2"><img height="10" src="{$rel_url}images/blank.gif"></td>
   </tr>
 </table>
-{if $issue.iss_lock_usr_id and $issue.iss_lock_usr_id != $current_user_id and $current_role > $roles.customer}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td><img src="{$rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">This Issue is Currently Locked By {$issue.assignments}</span></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<br />
-{/if}
 
 {if $quarantine_status > 0}
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
@@ -159,7 +144,7 @@ function validateForm(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default" nowrap>
-            <b>Issue Overview</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" title="view issue details" class="link">{$issue.iss_id}</a>) {if $issue.iss_lock_usr_id and $current_role > $roles.customer}<b><font color="red">(Locked)</font></b>{/if}
+            <b>Issue Overview</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" title="view issue details" class="link">{$issue.iss_id}</a>)
           </td>
           <td colspan="2" align="right" class="default">
             {if $current_role > $roles.customer}
@@ -393,10 +378,10 @@ function validateForm(f)
               <tr>
                 {if $current_role > $roles.customer}
                 <td nowrap>
-                  {if $issue.iss_lock_usr_id != "" and $current_role > $roles.customer}
-                  <input class="button" type="button" value="Unlock Issue" onClick="javascript:unlock({$issue.iss_id});">&nbsp;
+                  {if $is_user_assigned == 1}
+                  <input class="button" type="button" value="Unassign Issue" onClick="javascript:unassign({$issue.iss_id});">&nbsp;
                   {else}
-                  <input class="button" type="button" value="Assign & Lock Issue" onClick="javascript:lock({$issue.iss_id});">&nbsp;
+                  <input class="button" type="button" value="Assign Issue To Myself" onClick="javascript:selfAssign({$issue.iss_id});">&nbsp;
                   {/if}
                 </td>
                 {/if}

@@ -214,9 +214,6 @@ function disableFields()
             {if $list[i].redeemed}
                 [Redeemed]
             {/if}
-            {if $list[i].iss_lock_usr_id != "" and $current_role != $roles.customer}
-            <a href="view.php?id={$list[i].iss_id}" class="link" title="issue currently locked"><img src="images/icons/lock.gif" border="0"></a>
-            {/if}
           </td>
         </tr>
         {sectionelse}

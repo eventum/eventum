@@ -132,22 +132,12 @@
   <b>Thank you, the issue was updated successfully.</b>
 {/if}
 
-{if $lock_result == -1}
+{if $unassign_result == -1}
   <b>An error occurred while trying to run your query</b>
-{elseif $lock_result == -2}
-  <b>Error: the issue is already locked by someone else.</b>
-{elseif $lock_result == -3}
-  <b>Error: the issue is already locked to you.</b>
-{elseif $lock_result == 1}
-  <b>Thank you, the issue is now locked and assigned to you.</b>
-{/if}
-
-{if $unlock_result == -1}
-  <b>An error occurred while trying to run your query</b>
-{elseif $unlock_result == -2}
-  <b>Error: the issue is already unlocked.</b>
-{elseif $unlock_result == 1}
-  <b>Thank you, the issue was unlocked successfully.</b>
+{elseif $unassign_result == -2}
+  <b>Error: the issue is already unassigned.</b>
+{elseif $unassign_result == 1}
+  <b>Thank you, the issue was unassigned successfully.</b>
 {/if}
 
 {if $authorize_reply_result == -1}

@@ -52,15 +52,15 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
 
 
     /**
-     * Called when an issue is locked. 
+     * Called when an issue is assigned.
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who locked the issue.
+     * @param   integer $usr_id The id of the user who assigned the issue.
      */
-    function handleLock($prj_id, $issue_id, $usr_id)
+    function handleAssignment($prj_id, $issue_id, $usr_id)
     {
-        echo "Workflow: Issue Locked<br />\n";
+        echo "Workflow: Issue Assigned<br />\n";
     }
 
 
