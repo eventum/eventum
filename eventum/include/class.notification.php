@@ -277,15 +277,10 @@ class Notification
             return;
         }
         $setup = Setup::load();
-        if (!empty($issue_id)) {
-            // change the sender of the message to {prefix}{issue_id}@{host}
-            //  - keep everything else in the message, except 'From:', 'Sender:', 'To:', 'Cc:'
-            // make 'Joe Blow <joe@domain.com>' become 'Joe Blow [CSC] <eventum_59@domain.com>'
-            $from = Notification::getFixedFromHeader($issue_id, $sender, 'issue');
-        } else {
-            // XXX: still not 100%, should the sender be changed to prj_outgoing_sender in these cases?
-            $from = $sender;
-        }
+        // change the sender of the message to {prefix}{issue_id}@{host}
+        //  - keep everything else in the message, except 'From:', 'Sender:', 'To:', 'Cc:'
+        // make 'Joe Blow <joe@domain.com>' become 'Joe Blow [CSC] <eventum_59@domain.com>'
+        $from = Notification::getFixedFromHeader($issue_id, $sender, 'issue');
 
         list($_headers, $body) = Mime_Helper::splitBodyHeader($full_message);
         // strip any 'Received:' headers
