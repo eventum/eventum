@@ -230,7 +230,7 @@ function validateAccount(f)
           </td>
           <td bgcolor="{$light_color}">
             <input type="text" size="10" class="default" name="list_refresh_rate" value="{$user_prefs.list_refresh_rate}">
-            <span class="small_default">(in minutes)</span>
+            <span class="small_default"><i>(in minutes)</i></span>
           </td>
         </tr>
         {if $current_role > $roles.customer}
@@ -240,7 +240,7 @@ function validateAccount(f)
           </td>
           <td bgcolor="{$light_color}">
             <input type="text" size="10" class="default" name="emails_refresh_rate" value="{$user_prefs.emails_refresh_rate}">
-            <span class="small_default">(in minutes)</span>
+            <span class="small_default"><i>(in minutes)</i></span>
           </td>
         </tr>
         <tr>
