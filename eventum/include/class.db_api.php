@@ -116,7 +116,7 @@ class DB_API
     /**
      * Returns the SQL used to calculate the difference of 2 dates, not counting weekends.
      * This thing is truly a work of art, the type of art that throws lemon juice in your eye and then laughs.
-     * If $end_date_field is null, now() is used.
+     * If $end_date_field is null, the current date is used instead.
      * 
      * @access  public
      * @param   string $start_date_field The name of the field the first date is.
@@ -126,7 +126,7 @@ class DB_API
     function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = false)
     {
         if ($end_date_field == false) {
-            $end_date_field = 'now()';
+            $end_date_field = "'" . Date_API::getCurrentDateGMT() . "'";
         }
         
         $sql = "((UNIX_TIMESTAMP($end_date_field) - UNIX_TIMESTAMP($start_date_field)) -
