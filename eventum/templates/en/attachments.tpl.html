@@ -121,7 +121,10 @@ function deleteAttachmentFile(file_id)
                       <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
                     </tr>
                     <tr>
-                      <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
+                      <td>
+                        <input size="50" name="attachment[]" type="file" class="shortcut"><br />
+                        <span class="default">Maximum file size is {$max_attachment_size}</span>
+                      </td>
                     </tr>
                   </table>
                 </td>
