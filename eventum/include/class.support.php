@@ -1092,6 +1092,8 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                 WHERE
                     sup_iss_id = $issue_id
+                ORDER BY
+                    sup_id
                 LIMIT " . ($sequence - 1) . ", 1";
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt);
         if (PEAR::isError($res)) {
