@@ -1,0 +1,18 @@
+{strip}
+{if $remote_func != ''}
+    <script>setRemoteFunction('{$ec_id}', '{$remote_func}');</script>
+{/if}
+{if $list_id == ''}
+    {assign var="js_expand_func" value="expandAll('$app_base_url', '$ec_id')"}
+    {assign var="expand_tip" value="Expand all collapsed cells"}
+    {assign var="js_collapse_func" value="collapseAll('$ec_id')"}
+    {assign var="collapse_tip" value="Collapse all expanded cells"}
+{else}
+    {assign var="js_expand_func" value="expand('$app_base_url', '$ec_id', '$list_id')"}
+    {assign var="expand_tip" value="Expand collapsed cell"}
+    {assign var="js_collapse_func" value="collapse('$ec_id', '$list_id')"}
+    {assign var="collapse_tip" value="Collapse expanded cell"}
+{/if}
+&nbsp;<a href="javascript:{$js_expand_func}" style="text-decoration: none"><img src="{$rel_url}images/icons/plus.gif" border="0" alt="{$expand_tip}"></a>&nbsp;
+<a href="javascript:{$js_collapse_func}"  style="text-decoration: none"><img src="{$rel_url}images/icons/minus.gif" border="0" alt="{$collapse_tip}"></a>&nbsp;
+{/strip}
