@@ -2,9 +2,9 @@
 Upgrade Process
 ===============
 
-We have tried to make upgrading from an earlier release as pain-free as 
-possible, and we provide scripts that should bring your current Eventum
-installation up-to-date.
+One of our objectives is to make upgrading from an earlier release as 
+painless as possible, and we provide scripts that should bring your 
+current Eventum installation up-to-date.
 
 IMPORTANT:
 ==========
