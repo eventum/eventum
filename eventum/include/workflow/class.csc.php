@@ -224,6 +224,23 @@ class CSC_Workflow_Backend
 
 
     /**
+     * Called when a note is routed.
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     */
+    function handleNewNote($prj_id, $issue_id)
+    {
+        // change the status of the issue automatically to 'Waiting on Developer'
+        $current_status_id = Issue::getStatusID($issue_id);
+        $status_id = Status::getStatusID('Waiting on Developer');
+        if ((!empty($status_id)) && ($current_status_id != Status::getStatusID('Pending'))) {
+            $this->markAsWaitingOnDeveloper($issue_id, $status_id, 'note');
+        }
+    }
+
+
+    /**
      * Updates the status of a given issue ID to 'Waiting on Developer' and 
      * saves a history entry about it.
      *

@@ -275,6 +275,22 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleNewEmail($prj_id, $issue_id, $message);
     }
+
+
+    /**
+     * Called when a note is routed.
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     */
+    function handleNewNote($prj_id, $issue_id)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->handleNewNote($prj_id, $issue_id);
+    }
 }
 
 
