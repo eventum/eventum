@@ -1304,7 +1304,7 @@ class Command_Line
             switch ($args[2]) {
                 case 'convert-note':
                 case 'cn':
-                    $note_details = Command_Line::getNote($rpc_conn, $issue_id, $args[3]);
+                    $note_details = Command_Line::getNote($rpc_conn, $auth, $issue_id, $args[3]);
                     $msg = "These are the current details for issue #$issue_id, note #" . $args[3] . ":\n" .
                             "   Date: " . $note_details["not_created_date"] . "\n" .
                             "   From: " . $note_details["not_from"] . "\n" . 
@@ -1317,7 +1317,7 @@ class Command_Line
                             "         Summary: " . $details['summary'] . "\n" .
                             "          Status: " . $details['status'] . "\n" .
                             "      Assignment: " . $details["assignments"] . "\n" . 
-                            "  Auth. Repliers: " . $details["authorized_repliers"] . "\n" .
+                            "  Auth. Repliers: " . $details["authorized_names"] . "\n" .
                             "Are you sure you want to change this issue?";
             }
             $ret = Misc::prompt($msg, 'y');
