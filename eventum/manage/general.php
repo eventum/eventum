@@ -47,7 +47,6 @@ if ($role_id == User::getRoleID('administrator')) {
     $tpl->assign("show_setup_links", true);
 
     $tpl->assign("project_list", Project::getAll());
-    $tpl->assign("user_roles", User::getRoles());
 
     if (@$HTTP_POST_VARS["cat"] == "update") {
         $setup = array();
@@ -79,7 +78,7 @@ if ($role_id == User::getRoleID('administrator')) {
     }
     $options = Setup::load();
     $tpl->assign("setup", $options);
-    $tpl->assign("user_roles", User::getRoles());
+    $tpl->assign("user_roles", User::getRoles(array('Customer')));
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }
