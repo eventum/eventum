@@ -97,7 +97,7 @@ function changeIssueStatus(f, issue_id, current_status_id)
 </table>
 <br />
 {/if}
-<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top: 1;padding-bottom: 0">
 <form method="get" action="update.php">
 <input type="hidden" name="id" value="{$issue.iss_id}">
   <tr>
@@ -114,7 +114,7 @@ function changeIssueStatus(f, issue_id, current_status_id)
           </td>
         </tr>
         <tr>
-          <td width="120" nowrap bgcolor="{$cell_color}" class="default_white">
+          <td width="130" nowrap bgcolor="{$cell_color}" class="default_white">
             <b>Category:</b>
           </td>
           <td width="50%" bgcolor="{$light_color}" class="default">
@@ -130,7 +130,7 @@ function changeIssueStatus(f, issue_id, current_status_id)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="130" bgcolor="{$cell_color}" class="default_white">
             <b>Status:</b>
           </td>
           <td bgcolor="{$issue.status_color}" class="default">
@@ -138,7 +138,7 @@ function changeIssueStatus(f, issue_id, current_status_id)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="130" bgcolor="{$cell_color}" class="default_white">
             <b>Priority:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -152,7 +152,7 @@ function changeIssueStatus(f, issue_id, current_status_id)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="130" bgcolor="{$cell_color}" class="default_white">
             <nobr><b>Scheduled Release:</b>&nbsp;</nobr>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -166,7 +166,7 @@ function changeIssueStatus(f, issue_id, current_status_id)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="130" bgcolor="{$cell_color}" class="default_white">
             <b>Resolution:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -182,7 +182,7 @@ function changeIssueStatus(f, issue_id, current_status_id)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="130" bgcolor="{$cell_color}" class="default_white">
             <b>Reporter:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -200,7 +200,7 @@ function changeIssueStatus(f, issue_id, current_status_id)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="130" bgcolor="{$cell_color}" class="default_white">
             <b>Assignment:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -223,21 +223,39 @@ function changeIssueStatus(f, issue_id, current_status_id)
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="130" bgcolor="{$cell_color}" class="default_white">
             <b>Summary:</b>
+            <img src="images/blank.gif" height="1" width="135">
           </td>
           <td colspan="3" bgcolor="{$dark_color}" class="default">
             {$issue.iss_summary|escape:"html"}
           </td>
         </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top:0">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0" style="border-collapse: separate; border-spacing: 1px 0px;">
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>Description:</b>
+          <td width="130" bgcolor="{$cell_color}" class="default_white">
+            <b>Description:</b><br />
+            <img src="images/blank.gif" height="1" width="135">
           </td>
           <td colspan="3" bgcolor="{$dark_color}" class="default">
             {$issue.iss_description}
           </td>
         </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top: 0;padding-bottom: 1">
+    <tr>
+      <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0" style="padding-top: 0px">
         <tr bgcolor="{$cell_color}">
           <td colspan="4">
             {if $current_role > $roles.reporter}
