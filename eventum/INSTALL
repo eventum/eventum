@@ -104,6 +104,20 @@ Monitor::checkConfiguration().
 Other Features Requiring System Setup
 =====================================
 
+Note: Starting with Eventum 1.5.2 there is a new way of routing emails,notes
+and drafts. You will need to setup up a wild card address to route all
+messages that should be in eventum (usually issue-<number>@<domain>, 
+note-<number>@<domain> and draft-<number>@<domain>) to an email account. Then
+add that email account to eventum by going to the email account administration
+page:
+
+  Administration >>> Manage Email Accounts
+  
+When setting up the account, check 'Use account for email/note/draft routing'.
+Once the account is added, set the account to be downloaded as describe above
+(2)- Email Download).
+
+
 1)- Email Routing Script (misc/route_emails.php)
 
 The email routing feature is used to automatically associate a thread of emails
