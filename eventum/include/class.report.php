@@ -475,7 +475,9 @@ class Report
                     icf_fld_id = $fld_id AND
                     cfo_id IN(" . join(",", $cfo_ids) . ")
                 GROUP BY
-                    cfo_value";
+                    cfo_value
+                ORDER BY
+                    cfo_id";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -492,9 +494,7 @@ class Report
                 WHERE
                     cfo_id = icf_value AND
                     icf_fld_id = $fld_id AND
-                    cfo_id NOT IN(" . join(",", $cfo_ids) . ")
-                GROUP BY
-                    cfo_value";
+                    cfo_id NOT IN(" . join(",", $cfo_ids) . ")";
         
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
