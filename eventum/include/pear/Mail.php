@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2002 The PHP Group                                |
+// | Copyright (c) 1997-2003 The PHP Group                                |
 // +----------------------------------------------------------------------+
 // | This source file is subject to version 2.02 of the PHP license,      |
 // | that is bundled with this package in the file LICENSE, and is        |
@@ -16,7 +16,7 @@
 // | Author: Chuck Hagenbuch <chuck@horde.org>                            |
 // +----------------------------------------------------------------------+
 //
-// $Id: s.Mail.php 1.1 02/08/22 04:15:51-00:00 jpm $
+// $Id: Mail.php,v 1.9 2004/09/03 20:32:50 chagenbu Exp $
 
 require_once 'PEAR.php';
 
@@ -26,11 +26,17 @@ require_once 'PEAR.php';
  * useful in multiple mailer backends.
  *
  * @access public
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.9 $
  * @package Mail
  */
-class Mail extends PEAR
+class Mail
 {
+    /**
+     * Line terminator used for separating header lines.
+     * @var string
+     */
+    var $sep = "\r\n";
+
     /**
      * Provides an interface for generating Mail:: objects of various
      * types
@@ -118,32 +124,42 @@ class Mail extends PEAR
      */
     function prepareHeaders($headers)
     {
-        // Look out for the From: value to use along the way.
-        $text_headers = '';  // text representation of headers
+        $lines = array();
         $from = null;
 
-        foreach ($headers as $key => $val) {
-            if ($key == 'From') {
+        foreach ($headers as $key => $value) {
+            if (strcasecmp($key, 'From') === 0) {
                 include_once 'Mail/RFC822.php';
+                $parser = &new Mail_RFC822();
+                $addresses = $parser->parseAddressList($value, 'localhost', false);
+                if (PEAR::isError($addresses)) {
+                    return $addresses;
+                }
 
-                $from_arr = Mail_RFC822::parseAddressList($val, 'localhost', false);
-                $from = $from_arr[0]->mailbox . '@' . $from_arr[0]->host;
+                $from = $addresses[0]->mailbox . '@' . $addresses[0]->host;
+
+                // Reject envelope From: addresses with spaces.
                 if (strstr($from, ' ')) {
-                    // Reject outright envelope From addresses with spaces.
                     return false;
                 }
-                $text_headers .= $key . ': ' . $val . "\n";
-            } else if ($key == 'Received') {
-                // put Received: headers at the top, since Receieved:
-                // after Subject: in the header order is somtimes used
-                // as a spam trap.
-                $text_headers = $key . ': ' . $val . "\n" . $text_headers;
+
+                $lines[] = $key . ': ' . $value;
+            } elseif (strcasecmp($key, 'Received') === 0) {
+                // Put Received: headers at the top.  Spam detectors often
+                // flag messages with Received: headers after the Subject:
+                // as spam.
+                array_unshift($lines, $key . ': ' . $value);
             } else {
-                $text_headers .= $key . ': ' . $val . "\n";
+                // If $value is an array (i.e., a list of addresses), convert
+                // it to a comma-delimited string of its elements (addresses).
+                if (is_array($value)) {
+                    $value = implode(', ', $value);
+                }
+                $lines[] = $key . ': ' . $value;
             }
         }
 
-        return array($from, $text_headers);
+        return array($from, join($this->sep, $lines) . $this->sep);
     }
 
     /**
@@ -183,4 +199,3 @@ class Mail extends PEAR
     }
 
 }
-?>

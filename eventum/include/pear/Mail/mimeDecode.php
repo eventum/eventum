@@ -1,6 +1,6 @@
 <?Php
 // +-----------------------------------------------------------------------+
-// | Copyright (c) 2002  Richard Heyes                                     |
+// | Copyright (c) 2002-2003  Richard Heyes                                |
 // | All rights reserved.                                                  |
 // |                                                                       |
 // | Redistribution and use in source and binary forms, with or without    |
@@ -60,11 +60,32 @@ require_once 'PEAR.php';
 * print_r($structure);
 *
 * TODO:
-*  - Implement further content types, eg. multipart/parallel,
-*    perhaps even message/partial.
+*  o Implement multipart/appledouble
+*  o UTF8: ???
+
+		> 4. We have also found a solution for decoding the UTF-8 
+		> headers. Therefore I made the following function:
+		> 
+		> function decode_utf8($txt) {
+		> $trans=array("Å&#8216;"=>"Ãµ","Å±"=>"Ã»","Å"=>"Ã&#8226;","Å°"
+		=>"Ã&#8250;");
+		> $txt=strtr($txt,$trans);
+		> return(utf8_decode($txt));
+		> }
+		> 
+		> And I have inserted the following line to the class:
+		> 
+		> if (strtolower($charset)=="utf-8") $text=decode_utf8($text);
+		> 
+		> ... before the following one in the "_decodeHeader" function:
+		> 
+		> $input = str_replace($encoded, $text, $input);
+		> 
+		> This way from now on it can easily decode the UTF-8 headers too.
+
 *
 * @author  Richard Heyes <richard@phpguru.org>
-* @version $Revision: 1.2 $
+* @version $Revision: 1.40 $
 * @package Mail
 */
 
@@ -202,6 +223,7 @@ class Mail_mimeDecode extends PEAR
     function _decode($headers, $body, $default_ctype = 'text/plain')
     {
         $return = new stdClass;
+        $return->headers = array();
         $headers = $this->_parseHeaders($headers);
 
         foreach ($headers as $value) {
@@ -291,7 +313,9 @@ class Mail_mimeDecode extends PEAR
 
                 case 'message/rfc822':
                     $obj = &new Mail_mimeDecode($body);
-                    $return->parts[] = $obj->decode(array('include_bodies' => $this->_include_bodies));
+                    $return->parts[] = $obj->decode(array('include_bodies' => $this->_include_bodies,
+					                                      'decode_bodies'  => $this->_decode_bodies,
+														  'decode_headers' => $this->_decode_headers));
                     unset($obj);
                     break;
 
@@ -460,10 +484,18 @@ class Mail_mimeDecode extends PEAR
      */
     function _boundarySplit($input, $boundary)
     {
-        $tmp = explode('--'.$boundary, $input);
-
         $parts = array();
-        for ($i=1; $i<count($tmp)-1; $i++) {
+
+        $bs_possible = substr($boundary, 2, -2);
+        $bs_check = '\"' . $bs_possible . '\"';
+
+        if ($boundary == $bs_check) {
+            $boundary = $bs_possible;
+        }
+
+        $tmp = explode('--' . $boundary, $input);
+
+        for ($i = 1; $i < count($tmp) - 1; $i++) {
             $parts[] = $tmp[$i];
         }
 
@@ -680,14 +712,6 @@ class Mail_mimeDecode extends PEAR
         $to = substr($to,1);
         return array($to,$header,$this->_body);
     } 
-
-
-
-
-
-
-
-
 
     /**
      * Returns a xml copy of the output of

@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2002 The PHP Group                                |
+// | Copyright (c) 1997-2003 The PHP Group                                |
 // +----------------------------------------------------------------------+
 // | This source file is subject to version 2.02 of the PHP license,      |
 // | that is bundled with this package in the file LICENSE, and is        |
@@ -16,22 +16,51 @@
 // | Author: Chuck Hagenbuch <chuck@horde.org>                            |
 // +----------------------------------------------------------------------+
 //
-// $Id: s.mail.php 1.1 02/08/22 04:15:51-00:00 jpm $
-
-require_once ('Mail.php');
+// $Id: mail.php,v 1.13 2004/09/09 02:08:55 jon Exp $
 
 /**
  * internal PHP-mail() implementation of the PEAR Mail:: interface.
- * @access public
  * @package Mail
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.13 $
  */
- 
- class Mail_mail extends Mail {
+class Mail_mail extends Mail {
+
+    /**
+     * Any arguments to pass to the mail() function.
+     * @var string
+     */
+    var $_params = '';
+
+    /**
+     * Constructor.
+     *
+     * Instantiates a new Mail_mail:: object based on the parameters
+     * passed in.
+     *
+     * @param array $params Extra arguments for the mail() function.
+     */
+    function Mail_mail($params = null)
+    {
+        /* The other mail implementations accept parameters as arrays.
+         * In the interest of being consistent, explode an array into
+         * a string of parameter arguments. */
+        if (is_array($params)) {
+            $this->_params = join(' ', $params);
+        } else {
+            $this->_params = $params;
+        }
+
+        /* Because the mail() function may pass headers as command
+         * line arguments, we can't guarantee the use of the standard
+         * "\r\n" separator.  Instead, we use the system's native line
+         * separator. */
+        $this->sep = (strstr(PHP_OS, 'WIN')) ? "\r\n" : "\n";
+    }
+
 	/**
      * Implements Mail_mail::send() function using php's built-in mail()
      * command.
-     * 
+     *
      * @param mixed $recipients Either a comma-seperated list of recipients
      *              (RFC822 compliant), or an array of recipients,
      *              each RFC822 valid. This may contain recipients not
@@ -51,27 +80,51 @@ require_once ('Mail.php');
      * @return mixed Returns true on success, or a PEAR_Error
      *               containing a descriptive error message on
      *               failure.
+     *
      * @access public
-     */	
+     */
     function send($recipients, $headers, $body)
     {
-        // if we're passed an array of recipients, implode it.
+        // If we're passed an array of recipients, implode it.
         if (is_array($recipients)) {
             $recipients = implode(', ', $recipients);
         }
-        
-        // get the Subject out of the headers array so that we can
+
+        // Get the Subject out of the headers array so that we can
         // pass it as a seperate argument to mail().
         $subject = '';
         if (isset($headers['Subject'])) {
             $subject = $headers['Subject'];
             unset($headers['Subject']);
         }
-        
-        // flatten the headers out.
-        list(,$text_headers) = Mail::prepareHeaders($headers);
-        
-        return mail($recipients, $subject, $body, $text_headers);
+
+        // Flatten the headers out.
+        $headerElements = $this->prepareHeaders($headers);
+        if (PEAR::isError($headerElements)) {
+            return $headerElements;
+        }
+        list(, $text_headers) = $headerElements;
+
+        /*
+         * We only use mail()'s optional fifth parameter if the additional
+         * parameters have been provided and we're not running in safe mode.
+         */
+        if (empty($this->_params) || ini_get('safe_mode')) {
+            $result = mail($recipients, $subject, $body, $text_headers);
+        } else {
+            $result = mail($recipients, $subject, $body, $text_headers,
+                           $this->_params);
+        }
+
+        /*
+         * If the mail() function returned failure, we need to create a
+         * PEAR_Error object and return it instead of the boolean result.
+         */
+        if ($result === false) {
+            $result = PEAR::raiseError('mail() returned failure');
+        }
+
+        return $result;
     }
-    
+
 }
