@@ -47,6 +47,7 @@ Eventum Issue Tracking System
 - Added the ability to rank custom priorities (João)
 - Fixed bug when sorting by category (Bryan)
 - Added specialized headers to outgoing emails (Bryan)
+- Added new CLI command 'takeIssue' (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
