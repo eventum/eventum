@@ -22,7 +22,9 @@ $stmts[] = "ALTER TABLE eventum_project_user ADD COLUMN pru_role tinyint(1) unsi
 $stmts[] = "ALTER TABLE eventum_project ADD COLUMN prj_segregate_reporter tinyint(1) DEFAULT 0";
 $stmts[] = "ALTER TABLE eventum_issue ADD COLUMN iss_private tinyint(1) NOT NULL DEFAULT 0";
 $stmts[] = "ALTER TABLE eventum_email_draft ADD COLUMN emd_status enum('pending', 'edited', 'sent') NOT NULL DEFAULT 'pending' AFTER emd_sup_id";
-$stmts[] = "INSERT INTO eventum_history_type (htt_id, htt_name, htt_role) VALUES (NULL, 'scm_checkin_associated', 0);";
+$stmts[] = "INSERT INTO eventum_history_type (htt_id, htt_name, htt_role) VALUES (NULL, 'scm_checkin_associated', 0)";
+$stmts[] = "ALTER TABLE eventum_project_priority ADD COLUMN pri_rank TINYINT(1) NOT NULL";
+$stmts[] = "UPDATE eventum_columns_to_display SET ctd_field='pri_rank' WHERE ctd_field='iss_pri_id'";
 
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
