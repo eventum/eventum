@@ -102,8 +102,10 @@ function validateForm(f)
             <b>Update Issue Overview</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" class="link">{$issue.iss_id}</a>) {if $issue.iss_lock_usr_id}<b><font color="red">(Locked)</font></b>{/if}
           </td>
           <td colspan="2" align="right" class="default">
+            {if $current_role != $roles.customer}
             [ <a class="link" title="edit the authorized repliers list for this issue" href="javascript:void(null);" onClick="javascript:openAuthorizedReplier({$smarty.get.id});">Edit Authorized Replier List</a> ]
             [ <a class="link" href="javascript:void(null);" onClick="javascript:openNotification({$smarty.get.id});">Edit Notification List</a> ]
+            {/if}
             [ <a class="link" href="javascript:void(null);" onClick="javascript:openHistory({$smarty.get.id});">History of Changes</a> ]
           </td>
         </tr>
