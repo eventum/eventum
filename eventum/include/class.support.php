@@ -1301,6 +1301,67 @@ class Support
     }
 
 
+    // XXX: put documentation here
+    function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body)
+    {
+        // hack needed to get the full headers of this web-based email
+        $mail = new Mail_API;
+        $mail->setTextBody($body);
+        if (!empty($issue_id)) {
+            $mail->setHeaders(array("Message-Id" => $message_id));
+        } else {
+            $issue_id = 0;
+        }
+        $cc = trim($cc);
+        if (!empty($cc)) {
+            $cc = str_replace(",", ";", $cc);
+            $ccs = explode(";", $cc);
+            for ($i = 0; $i < count($ccs); $i++) {
+                if (!empty($ccs[$i])) {
+                    $mail->addCc($ccs[$i]);
+                }
+            }
+        }
+        return $mail->getFullHeaders($from, $to, $subject);
+    }
+
+
+    // XXX: put documentation here
+    function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $message_id)
+    {
+        $recipients = Support::getRecipientsCC($cc);
+        $recipients[] = $to;
+        // send the emails now, one at a time
+        foreach ($recipients as $recipient) {
+            $mail = new Mail_API;
+            if (!empty($issue_id)) {
+                // add the warning message to the current message' body, if needed
+                $fixed_body = Mail_API::addWarningMessage($issue_id, $recipient, $body);
+                $mail->setHeaders(array(
+                    "Message-Id" => $message_id
+                ));
+            } else {
+                $fixed_body = $body;
+            }
+            $mail->setTextBody($fixed_body);
+            $mail->send($from, $recipient, $subject, TRUE);
+        }
+    }
+
+
+    // XXX: put documentation here
+    function getRecipientsCC($cc)
+    {
+        $cc = trim($cc);
+        if (empty($cc)) {
+            return array();
+        } else {
+            $cc = str_replace(",", ";", $cc);
+            return explode(";", $cc);
+        }
+    }
+
+
     /**
      * Method used to send an email from the user interface.
      *
@@ -1310,35 +1371,17 @@ class Support
     function sendEmail()
     {
         global $HTTP_POST_VARS, $HTTP_SERVER_VARS;
+        // XXX: there should be a better way... maybe just looking at the References:/In-Reply-To: headers and 
+        // XXX: then automatically associating the new email to the existing message that is attached to an issue
 
         // remove extra 'Re: ' from subject
         $HTTP_POST_VARS['subject'] = Mail_API::removeExcessRe($HTTP_POST_VARS['subject']);
 
         $internal_only = false;
-        // XXX: there should be a better way... maybe just looking at the References:/In-Reply-To: headers and 
-        // XXX: then automatically associating the new email to the existing message that is attached to an issue
         $message_id = Support::getMessageID($HTTP_POST_VARS["issue_id"]);
         // hack needed to get the full headers of this web-based email
-        $mail = new Mail_API;
-        $mail->setTextBody($HTTP_POST_VARS["message"]);
-        if (!empty($HTTP_POST_VARS["issue_id"])) {
-            $mail->setHeaders(array(
-                "Message-Id" => $message_id
-            ));
-        } else {
-            $HTTP_POST_VARS['issue_id'] = 0;
-        }
-        $HTTP_POST_VARS["cc"] = trim($HTTP_POST_VARS["cc"]);
-        if (!empty($HTTP_POST_VARS["cc"])) {
-            $cc = str_replace(",", ";", $HTTP_POST_VARS["cc"]);
-            $ccs = explode(";", $cc);
-            for ($i = 0; $i < count($ccs); $i++) {
-                if (!empty($ccs[$i])) {
-                    $mail->addCc($ccs[$i]);
-                }
-            }
-        }
-        $full_email = $mail->getFullHeaders($HTTP_POST_VARS['from'], $HTTP_POST_VARS['to'], $HTTP_POST_VARS['subject']);
+        $full_email = Support::buildFullHeaders($HTTP_POST_VARS["issue_id"], $message_id, $HTTP_POST_VARS["from"],
+                $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"]);
 
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($HTTP_POST_VARS['issue_id'])) {
@@ -1362,47 +1405,59 @@ class Support
 
         // only send a direct email if the user doesn't want to add the Cc'ed people to the notification list
         if (@$HTTP_POST_VARS['add_unknown'] == 'yes') {
-            // add these people to the notification list
-            $ccs[] = $HTTP_POST_VARS['to'];
-            for ($i = 0; $i < count($ccs); $i++) {
-                if (!Notification::isIssueRoutingSender($HTTP_POST_VARS["issue_id"], $ccs[$i])) {
-                    Notification::manualInsert($HTTP_POST_VARS["issue_id"], Mail_API::getEmailAddress($ccs[$i]), array('emails'));
+            if (!empty($HTTP_POST_VARS['issue_id'])) {
+                // add the recipients to the notification list of the associated issue
+                $recipients = array($HTTP_POST_VARS['to']);
+                $recipients = array_merge($recipients, Support::getRecipientsCC($HTTP_POST_VARS['cc']));
+                for ($i = 0; $i < count($recipients); $i++) {
+                    if (!Notification::isIssueRoutingSender($HTTP_POST_VARS["issue_id"], $recipients[$i])) {
+                        Notification::manualInsert($HTTP_POST_VARS["issue_id"], Mail_API::getEmailAddress($recipients[$i]), array('emails'));
+                    }
                 }
             }
         } else {
-            // send direct emails
-            unset($mail);
-
-            $from = Notification::getFixedFromHeader($HTTP_POST_VARS['issue_id'], $HTTP_POST_VARS['from'], 'issue');
-            $ccs = str_replace(",", ";", $HTTP_POST_VARS["cc"]);
-            $ccs = explode(";", $ccs);
-            $ccs[] = $HTTP_POST_VARS['to'];
-            for ($i = 0; $i < count($ccs); $i++) {
-                if ((!empty($ccs[$i])) && (!Notification::isSubscribedToEmails($HTTP_POST_VARS['issue_id'], $ccs[$i]))) {
-                    // fix double quoting...
-                    if (@get_magic_quotes_gpc() == 1) {
-                        $full_message = stripslashes($HTTP_POST_VARS["message"]);
-                        $subject = stripslashes($HTTP_POST_VARS["subject"]);
-                    } else {
-                        $full_message = $HTTP_POST_VARS["message"];
-                        $subject = $HTTP_POST_VARS["subject"];
+            // Usually when sending out emails associated to an issue, we would
+            // simply insert the email in the table and call the Notification::notifyNewEmail() method,
+            // but on this case we need to actually send the email to the recipients that are not
+            // already in the notification list for the associated issue, if any.
+            // In the case of replying to an email that is not yet associated with an issue, then
+            // we are always directly sending the email, without using any notification list
+            // functionality.
+            if (!empty($HTTP_POST_VARS['issue_id'])) {
+                // send direct emails only to the unknown addresses, and leave the rest to be
+                // catched by the notification list
+                $from = Notification::getFixedFromHeader($HTTP_POST_VARS['issue_id'], $HTTP_POST_VARS['from'], 'issue');
+                // build the list of unknown recipients
+                $recipients = array($HTTP_POST_VARS['to']);
+                $recipients = array_merge($recipients, Support::getRecipientsCC($HTTP_POST_VARS['cc']));
+                $unknowns = array();
+                for ($i = 0; $i < count($recipients); $i++) {
+                    if (!Notification::isSubscribedToEmails($HTTP_POST_VARS['issue_id'], $recipients[$i])) {
+                        $unknowns[] = $recipients[$i];
                     }
-                    // add the warning message about replies being blocked or not
-                    $full_message = Mail_API::addWarningMessage($HTTP_POST_VARS['issue_id'], $ccs[$i], $full_message);
-                    $mail = new Mail_API;
-                    $mail->setTextBody($full_message);
-                    if (!empty($HTTP_POST_VARS["issue_id"])) {
-                        $mail->setHeaders(array(
-                            "Message-Id" => $message_id
-                        ));
-                    }
-                    $res = $mail->send($from, $ccs[$i], $subject, TRUE);
                 }
+                $to = array_shift($unknowns);
+                $cc = implode('; ', $unknowns);
+            } else {
+                // send direct emails to all recipients, since we don't have an associated issue
+                $project_info = Project::getOutgoingSenderAddress(Auth::getCurrentProject());
+                // use the project-related outgoing email address, if there is one
+                if (!empty($project_info['email'])) {
+                    $from = Mail_API::getFormattedName(User::getFullName(Auth::getUserID()), $project_info['email']);
+                } else {
+                    // otherwise, use the real email address for the current user
+                    $from = User::getFromHeader(Auth::getUserID());
+                }
+                $to = $HTTP_POST_VARS['to'];
+                $cc = $HTTP_POST_VARS['cc'];
             }
+            // send direct emails
+            Support::sendDirectEmail($HTTP_POST_VARS['issue_id'], $from, $to, $cc,
+                    $HTTP_POST_VARS['subject'], $HTTP_POST_VARS['message'], $message_id);
         }
 
         $t = array(
-            'issue_id'       => $HTTP_POST_VARS["issue_id"],
+            'issue_id'       => $HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : 0,
             'ema_id'         => $HTTP_POST_VARS['ema_id'],
             'message_id'     => $message_id,
             'date'           => Date_API::getCurrentDateGMT(),
@@ -1416,38 +1471,34 @@ class Support
         );
         $structure = Mime_Helper::decode($full_email, true, false);
         $res = Support::insertEmail($t, $structure);
-        // strip any slashes that may have been added by PHP when the form was posted...
-        if (@get_magic_quotes_gpc() == 1) {
-            $full_email = stripslashes($full_email);
-            $structure->headers = Misc::array_map_deep($structure->headers, "stripslashes");
-        }
-        // need to send a notification
-        Notification::notifyNewEmail($HTTP_POST_VARS["issue_id"], $structure, $full_email, $internal_only);
-        // mark this issue as updated
-        Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
-        // save a history entry for this
-        History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'), 
-                        'Outgoing email sent by ' . User::getFullName(Auth::getUserID()));
+        if (!empty($HTTP_POST_VARS["issue_id"])) {
+            // need to send a notification
+            Notification::notifyNewEmail($HTTP_POST_VARS["issue_id"], $structure, $full_email, $internal_only);
+            // mark this issue as updated
+            Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
+            // save a history entry for this
+            History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'), 
+                            'Outgoing email sent by ' . User::getFullName(Auth::getUserID()));
 
-        $usr_id = Auth::getUserID();
-        // also update the last_response_date field for the associated issue
-        if ((!empty($HTTP_POST_VARS["issue_id"])) && (User::getRoleByUser($usr_id) > User::getRoleID('Reporter'))) {
-            $stmt = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                     SET
-                        iss_last_response_date='" . Date_API::getCurrentDateGMT() . "'
-                     WHERE
-                        iss_id=" . $HTTP_POST_VARS["issue_id"];
-            $GLOBALS["db_api"]->dbh->query($stmt);
+            // also update the last_response_date field for the associated issue
+            if (User::getRoleByUser(Auth::getUserID()) > User::getRoleID('Reporter')) {
+                $stmt = "UPDATE
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         SET
+                            iss_last_response_date='" . Date_API::getCurrentDateGMT() . "'
+                         WHERE
+                            iss_id=" . $HTTP_POST_VARS["issue_id"];
+                $GLOBALS["db_api"]->dbh->query($stmt);
 
-            $stmt = "UPDATE
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                     SET
-                        iss_first_response_date='" . Date_API::getCurrentDateGMT() . "'
-                     WHERE
-                        iss_first_response_date IS NULL AND
-                        iss_id=" . $HTTP_POST_VARS["issue_id"];
-            $GLOBALS["db_api"]->dbh->query($stmt);
+                $stmt = "UPDATE
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         SET
+                            iss_first_response_date='" . Date_API::getCurrentDateGMT() . "'
+                         WHERE
+                            iss_first_response_date IS NULL AND
+                            iss_id=" . $HTTP_POST_VARS["issue_id"];
+                $GLOBALS["db_api"]->dbh->query($stmt);
+            }
         }
 
         return 1;
