@@ -45,7 +45,8 @@ $tpl->setTemplate("update.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 
 $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["id"];
-$tpl->assign("issue", Issue::getDetails($issue_id));
+$details = Issue::getDetails($issue_id);
+$tpl->assign("issue", $details);
 $tpl->assign("extra_title", "Update Issue #$issue_id");
 
 if (@$HTTP_POST_VARS["cat"] == "update") {
@@ -60,12 +61,18 @@ $prj_id = Auth::getCurrentProject();
 
 $setup = Setup::load();
 
+// if currently selected release is in the past, manually add it to list
+$releases = Release::getAssocList($prj_id);
+if ($details["iss_pre_id"] != 0 && empty($releases[$details["iss_pre_id"]])){
+    $releases = array($details["iss_pre_id"] => $details["pre_title"]) + $releases;
+}
+
 $tpl->assign(array(
     "subscribers"  => Notification::getSubscribers($issue_id),
     "categories"   => Category::getAssocList($prj_id),
     "priorities"   => Misc::getAssocPriorities(),
     "status"       => Status::getAssocStatusList($prj_id),
-    "releases"     => Release::getAssocList($prj_id),
+    "releases"     => $releases,
     "resolutions"  => Resolution::getAssocList(),
     "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter')),
     "issues"       => Issue::getColList(),
