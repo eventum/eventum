@@ -242,7 +242,11 @@ class Customer
     function getTitle($prj_id, $customer_id)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getTitle($customer_id);
+        if ($backend === FALSE) {
+            return '';
+        } else {
+            return $backend->getTitle($customer_id);
+        }
     }
 
 
