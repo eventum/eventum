@@ -909,3 +909,13 @@ CREATE TABLE %TABLE_PREFIX%reminder_triggered_action (
   rta_rma_id int(11) unsigned not null,
   PRIMARY KEY (rta_iss_id)
 );
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%issue_quarantine;
+CREATE TABLE %TABLE_PREFIX%issue_quarantine (
+    iqu_iss_id int(11) unsigned auto_increment,
+    iqu_expiration datetime NULL,
+    iqu_status tinyint(1),
+    PRIMARY KEY(iqu_iss_id),
+    INDEX(iqu_expiration)
+);
+
