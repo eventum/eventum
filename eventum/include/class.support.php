@@ -52,6 +52,17 @@ include_once(APP_INC_PATH . "class.issue.php");
 class Support
 {
     // XXX: put documentation here
+    function isAllowedToEmail($issue_id, $sender_email)
+    {
+        $is_allowed = true;
+        if (!Notification::isSubscribedToEmails($issue_id, $sender_email))
+            $is_allowed = false;
+        }
+        return $is_allowed;
+    }
+
+
+    // XXX: put documentation here
     function removeEmail($sup_id)
     {
         $stmt = "DELETE FROM
