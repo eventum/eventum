@@ -24,7 +24,7 @@
             {if $current_role >= $roles.customer}
             <a target="_top" title="list all issues assigned to you" href="{$rel_url}list.php?users={$current_user_id}" class="white_link">My Assignments</a>&nbsp;|
             {/if}
-            <a target="_top" title="profile / statistics" href="{$rel_url}main.php" class="white_link">Profile</a>&nbsp;|
+            <a target="_top" title="general statistics" href="{$rel_url}main.php" class="white_link">Stats</a>&nbsp;|
             {if $current_role > $roles.customer}
             <a target="_top" title="reporting system" href="{$rel_url}reports/" class="white_link">Reports</a>&nbsp;|
             {/if}
