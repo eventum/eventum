@@ -31,6 +31,7 @@ Eventum Issue Tracking System
 - Added option to let reporters only view issues they reported (Bryan)
 - Forced timezone library to realize all dates in Eventum are stored as GMT (Bryan)
 - Added option to mark issues as private (Bryan)
+- Fixed bug with remembering the row count on the 'My Assignment' link (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)

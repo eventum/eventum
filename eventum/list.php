@@ -59,7 +59,7 @@ if (empty($rows)) {
 
 if (@$_REQUEST['view'] == 'my_assignments') {
     setcookie(APP_LIST_COOKIE, '', APP_LIST_COOKIE_EXPIRE);
-    Auth::redirect(APP_BASE_URL . "list.php?users=" . Auth::getUserID() . "&hide_closed=1");
+    Auth::redirect(APP_BASE_URL . "list.php?users=" . Auth::getUserID() . "&hide_closed=1&rows=$rows");
 }
 
 $options = Issue::saveSearchParams();
