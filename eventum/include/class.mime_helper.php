@@ -449,7 +449,7 @@ class Mime_Helper
                 );
                 continue;
             }
-            if ((!in_array(strtolower($filetype), Mime_Helper::_getInvalidContentTypes())) &&
+            if ((!in_array(strtolower($output->parts[$i]->ctype_primary), Mime_Helper::_getInvalidContentTypes())) &&
                     (in_array(@strtolower($output->parts[$i]->disposition), Mime_Helper::_getValidDispositions())) && 
                     (!empty($output->parts[$i]->d_parameters["filename"]))) {
                 $attachments[] = array(
@@ -488,7 +488,7 @@ class Mime_Helper
                     break;
                 }
             } else {
-                if ((!in_array(strtolower($filetype), Mime_Helper::_getInvalidContentTypes())) &&
+                if ((!in_array(strtolower($output->parts[$i]->ctype_primary), Mime_Helper::_getInvalidContentTypes())) &&
                         (in_array(@strtolower($output->parts[$i]->disposition), Mime_Helper::_getValidDispositions())) && 
                         (!empty($output->parts[$i]->d_parameters["filename"])) &&
                         (@$output->parts[$i]->d_parameters["filename"] == $filename)) {
