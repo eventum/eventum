@@ -712,7 +712,7 @@ CREATE TABLE %TABLE_PREFIX%reminder_field (
   PRIMARY KEY(rmf_id),
   UNIQUE INDEX rmf_title(rmf_title)
 );
-INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation, rmf_allow_column_compare) VALUES ('Status', 'iss_sta_id', 'iss_sta_id', 1);
+INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation, rmf_allow_column_compare) VALUES ('Status', 'iss_sta_id', 'iss_sta_id', 0);
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation, rmf_allow_column_compare) VALUES ('Last Response Date', 'iss_last_response_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_last_response_date), 0))', 1);
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation, rmf_allow_column_compare) VALUES ('Last Customer Action Date', 'iss_last_customer_action_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_last_customer_action_date), 0))', 1);
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation, rmf_allow_column_compare) VALUES ('Last Update Date', 'iss_updated_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_updated_date), 0))', 1);

@@ -559,3 +559,6 @@ ALTER TABLE eventum_email_draft ADD COLUMN emd_status enum('pending', 'edited', 
 ALTER TABLE eventum_project ADD COLUMN prj_segregate_reporter tinyint(1) DEFAULT 0;
 
 ALTER TABLE eventum_issue ADD COLUMN iss_private tinyint(1) NOT NULL DEFAULT 0;
+
+# February 16th
+UPDATE eventum_reminder_field SET rmf_allow_column_compare = 0 WHERE rmf_title='Status';
