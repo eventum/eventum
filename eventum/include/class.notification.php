@@ -675,6 +675,27 @@ class Notification
                 $emails[] = $email;
             }
         }
+        // prevent the primary customer contact from receiving two emails about the issue being closed
+        if ($type == 'closed') {
+            $stmt = "SELECT
+                        iss_customer_contact_id
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                     WHERE
+                        iss_id=$issue_id";
+            $customer_contact_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            if (!empty($customer_contact_id)) {
+                list($contact_email,,) = Customer::getContactLoginDetails(Issue::getProjectID($issue_id), $customer_contact_id);
+                for ($i = 0; $i < count($emails); $i++) {
+                    $email = Mail_API::getEmailAddress($emails[$i]);
+                    if ($email == $contact_email) {
+                        unset($emails[$i]);
+                        $emails = array_values($emails);
+                        break;
+                    }
+                }
+            }
+        }
         if (count($emails) > 0) {
             switch ($type) {
                 case 'closed':
