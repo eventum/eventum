@@ -230,32 +230,5 @@ if ($res != -1) {
     History::add($issue_id, $usr_id, History::getTypeID('email_routed'), "Email routed from " . $structure->headers['from']);
 }
 
-if (Notification::isBounceMessage($sender_email)) {
-    // only change the status of the associated issue if the current status is not
-    // currently marked to a status with a closed context
-    $current_status_id = Issue::getStatusID($issue_id);
-    if (!Status::hasClosedContext($current_status_id)) {
-        Issue::markAsUpdated($issue_id);
-    }
-} else {
-    // handle the first_response_date / last_response_date fields
-    if (in_array($sender_email, array_values($staff_emails))) {
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 SET
-                    iss_last_response_date='" . Date_API::getCurrentDateGMT() . "'
-                 WHERE
-                    iss_id=$issue_id";
-        $GLOBALS["db_api"]->dbh->query($stmt);
-
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 SET
-                    iss_first_response_date='" . Date_API::getCurrentDateGMT() . "'
-                 WHERE
-                    iss_first_response_date IS NULL AND
-                    iss_id=$issue_id";
-        $GLOBALS["db_api"]->dbh->query($stmt);
-    }
-}
+Workflow::handleNewEmail($prj_id, $issue_id, $structure);
 ?>
