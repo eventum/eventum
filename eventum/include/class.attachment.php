@@ -130,7 +130,7 @@ class Attachment
             highlight_string($data);
         } else {
             // always force the browser to display the contents of these special files
-            if (in_array(strtolower($parts["extension"]), Attachment::_getTextPlainExtensions())) {
+            if ((in_array(strtolower($parts["extension"]), Attachment::_getTextPlainExtensions())) && ($filesize < 5000)) {
                 header('Content-Type: text/plain');
             } else {
                 if (empty($filetype)) {
@@ -536,7 +536,7 @@ class Attachment
      * @param   integer $maxlen The maximum length of the filename
      * @return  string The 'safe' version of the filename
      */
-    function nameToSafe($name, $maxlen=250)
+    function nameToSafe($name, $maxlen = 250)
     {
         $noalpha = 'áéíóúàèìòùäëïöüÁÉÍÓÚÀÈÌÒÙÄËÏÖÜâêîôûÂÊÎÔÛñçÇ@';
         $alpha = 'aeiouaeiouaeiouAEIOUAEIOUAEIOUaeiouAEIOUncCa';
