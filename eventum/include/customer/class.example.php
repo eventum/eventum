@@ -644,7 +644,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     {
         foreach ($this->data as $id => $details) {
             foreach ($details['contacts'] as $contact) {
-                if ($details['contacts']['contact_id'] == $customer_contact_id) {
+                if ($contact['contact_id'] == $customer_contact_id) {
                     return true;
                 }
             }
