@@ -1140,10 +1140,6 @@ class Spot_Customer_Backend
      */
     function getCustomerIDsLikeEmail($email)
     {
-        // need to restrict the customer lookup
-        if (strlen($email) < 5) {
-            return array();
-        }
         $stmt = "SELECT
                     DISTINCT C.up_cust_no
                  FROM

@@ -91,6 +91,15 @@ if (@$HTTP_GET_VARS["cat"] == "associate") {
                 'contacts'      => $info['contacts']
             ));
         }
+        // if we are dealing with just one message, use the subject line as the 
+        // summary for the issue, and the body as the description
+        if (count($HTTP_GET_VARS["item"]) == 1) {
+            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($HTTP_GET_VARS["item"][0]), $HTTP_GET_VARS["item"][0]);
+            $tpl->assign(array(
+                'issue_summary'     => $email_details['sup_subject'],
+                'issue_description' => $email_details['message']
+            ));
+        }
     }
 }
 
