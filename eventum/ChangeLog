@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Fixed the email routing interface to allow 'issue+1@example.com' as a valid address (João)
 - Changed the session code as to prevent it from messing up the browser cache (João)
 - Removed the Lock/Unlock issue feature since it wasn't really restricting anything (João)
+- Added 'Link Filters' so text matching a regular expression could be linked to other systems (Bryan)
 
 15 Sep 2004, Version 1.3.1
 - Added the missing maq_iss_id and maq_subject columns to the mail_queue table schema (João)
