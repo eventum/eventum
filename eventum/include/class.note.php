@@ -251,10 +251,10 @@ class Note
         $path = APP_PATH . "misc/routed_notes/";
         list($usec,) = explode(" ", microtime());
         $filename = date('dmY.His.') . $usec . '.note.txt';
-        $fp = fopen($path . $filename, 'w');
-        fwrite($fp, $message);
-        fclose($fp);
-        chmod($path . $filename, 0777);
+        $fp = @fopen($path . $filename, 'w');
+        @fwrite($fp, $message);
+        @fclose($fp);
+        @chmod($path . $filename, 0777);
     }
 
 
