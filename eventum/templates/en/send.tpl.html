@@ -292,8 +292,8 @@ function setSignature(f)
               <tr>
                 <td align="center">
                   <input class="button" type="submit" value="Send Email">&nbsp;&nbsp;
-                  <input class="button" type="reset" value="Reset">&nbsp;&nbsp;
-                  <input class="button" type="button" value="Cancel" onClick="javascript:window.close();">
+                  <input class="button" type="button" value="Reset" onClick="javascript:resetForm(this.form);">&nbsp;&nbsp;
+                  <input class="button" type="button" value="Cancel" onClick="javascript:confirmCloseWindow();">
                 </td>
                 {if $app_setup.spell_checker == 'enabled'}
                 <td align="center" width="150">

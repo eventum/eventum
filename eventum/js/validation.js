@@ -1,5 +1,22 @@
 <!--
 // @(#) $Id: s.validation.js 1.13 03/10/20 21:24:54-00:00 jpradomaia $
+function resetForm(f)
+{
+    if (confirm('This action will clear out any changes you performed on this form.')) {
+        f.reset();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function confirmCloseWindow()
+{
+    if (confirm('Closing this window will mean losing any changes you may have performed.')) {
+        window.close();
+    }
+}
+
 function isWhitespace(s)
 {
     var whitespace = " \t\n\r";
