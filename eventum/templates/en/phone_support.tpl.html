@@ -34,7 +34,7 @@ function addPhoneCall()
           <b>Phone Calls ({$phone_entries|@count})</b>
         </td>
         <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
             [ <a id="phone_support_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('phone_support');">{get_innerhtml element_name="phone_support"}</a> ]
             {/if}
         </td>
@@ -44,6 +44,7 @@ function addPhoneCall()
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
               <tr bgcolor="{$internal_color}">
                 <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getPhoneSupport" ec_id="phone"}</td>
+                <td width="5" class="default_white" align="center">#</td>
                 <td width="20%" class="default_white" nowrap>Recorded Date</td>
                 <td width="20%" class="default_white">User</td>
                 <td width="20%" class="default_white">Call Type</td>
@@ -54,6 +55,7 @@ function addPhoneCall()
               {cycle values=$cycle assign="row_color"}
               <tr bgcolor="{$row_color}">
                 <td class="default" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id}</td>
+                <td class="default" nowrap>{$smarty.section.i.iteration}</td>
                 <td class="default" nowrap>{$phone_entries[i].phs_created_date}</td>
                 <td class="default">
                     {$phone_entries[i].usr_full_name}
@@ -65,17 +67,17 @@ function addPhoneCall()
                 <td class="default">{$phone_entries[i].phc_title}</td>
                 <td class="default">{$phone_entries[i].phs_phone_number} ({$phone_entries[i].phs_phone_type})</td>
               </tr>
-              {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id colspan="6"}
+              {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id colspan="7"}
               {sectionelse}
               <tr>
-                <td colspan="6" bgcolor="{$light_color}" class="default" align="center">
+                <td colspan="7" bgcolor="{$light_color}" class="default" align="center">
                   <i>No phone calls recorded yet.</i>
                 </td>
               </tr>
               {/section}
               {if $current_role > $roles.customer}
               <tr id="phone_support11" {get_display_style element_name="phone_support"}>
-                <td colspan="6" bgcolor="{$internal_color}" align="center">
+                <td colspan="7" bgcolor="{$internal_color}" align="center">
                   <input type="submit" value="Add Phone Call" class="button" onClick="javascript:addPhoneCall();">
                 </td>
               </tr>

@@ -15,6 +15,7 @@ Eventum Issue Tracking System
 - Added option to hide priority and file field on create issue page (Bryan)
 - Drafts are now never deleted (Bryan)
 - Issues Descriptions are now collapsible (Bryan)
+- Added #s to drafts, notes, phone calls, emails and time tracking entries (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)

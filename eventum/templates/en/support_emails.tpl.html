@@ -41,6 +41,11 @@ function sendEmail(account_id, issue_id)
 </script>
 {/literal}
 <br />
+{if $current_role > $roles.viewer}
+    {assign var="email_col_count" value="8"}
+{else}
+    {assign var="email_col_count" value="7"}
+{/if}
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
 <form onSubmit="javascript:return removeEmails(this);" target="_removeEmails" action="popup.php" method="post">
 <input type="hidden" name="cat" value="remove_support_email">
@@ -55,7 +60,7 @@ function sendEmail(account_id, issue_id)
             {if $current_role >= $roles.standard_user}
             [ <a href="mail_queue.php?iss_id={$smarty.get.id}" class="link" title="view the history of sent emails">Mail Queue Log</a> ]
             {/if}
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
             [ <a id="support_emails_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('support_emails');">{get_innerhtml element_name="support_emails"}</a> ]
             {/if}
           </td>
@@ -68,6 +73,7 @@ function sendEmail(account_id, issue_id)
                 <td width="5"><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');"></td>
                 {/if}
                 <td class="default_white" align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email" remote_func="getEmail"}</td>
+                <td width="5" class="default_white" align="center">#</td>
                 <td width="5" class="default_white">Reply</td>
                 <td width="15%" class="default_white">From</td>
                 <td width="20%" class="default_white">To</td>
@@ -85,6 +91,7 @@ function sendEmail(account_id, issue_id)
                 <td align="center" bgcolor="{$row_color}" NOWRAP align="center">
                     {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$emails[i].composite_id}
                 </td>
+                <td class="default" align="center" bgcolor="{$row_color}">{$smarty.section.i.iteration}</td>
                 <td align="center" bgcolor="{$row_color}">
                   <a title="reply to this email" href="javascript:void(null);" onClick="javascript:reply({$emails[i].sup_ema_id}, {$emails[i].sup_id});" class="link"><img src="{$rel_url}images/icons/reply.gif" border="0"></a>
                 </td>
@@ -104,17 +111,17 @@ function sendEmail(account_id, issue_id)
                   {/if}
                 </td>
               </tr>
-              {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$emails[i].composite_id colspan=7 row_color=$row_color}
+              {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$emails[i].composite_id colspan=$email_col_count row_color=$row_color}
               {sectionelse}
               <tr>
-                <td colspan="{if $current_role > $roles.viewer}7{else}6{/if}" bgcolor="{$light_color}" class="default" align="center">
+                <td colspan="{$email_col_count}" bgcolor="{$light_color}" class="default" align="center">
                   <i>No associated emails could be found.</i>
                 </td>
               </tr>
               {/section}
               {if $current_role > $roles.viewer}
               <tr>
-                <td colspan="7" bgcolor="{$cell_color}">
+                <td colspan="{$email_col_count}" bgcolor="{$cell_color}">
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td nowrap width="10">

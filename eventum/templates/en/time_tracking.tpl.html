@@ -35,7 +35,7 @@ function addTimeEntry()
             <b>Time Tracking ({$time_entries|@count})</b>
           </td>
           <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
             [ <a id="time_tracker_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('time_tracker');">{get_innerhtml element_name="time_tracker"}</a> ]
             {/if}
           </td>
@@ -44,6 +44,7 @@ function addTimeEntry()
           <td colspan="2" class="default" width="100%">
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr bgcolor="{$internal_color}">
+                <td class="default_white" align="center" width="5">#</td>
                 <td class="default_white" nowrap>Date of Work</td>
                 <td class="default_white" nowrap>User</td>
                 <td class="default_white">Time Spent</td>
@@ -53,6 +54,7 @@ function addTimeEntry()
               {section name="i" loop=$time_entries}
               {cycle values=$cycle assign="row_color"}
               <tr bgcolor="{$row_color}">
+                <td class="default" align="center">{$smarty.section.i.iteration}</td>
                 <td class="default" nowrap>{$time_entries[i].ttr_created_date}</td>
                 <td class="default" nowrap>
                   {$time_entries[i].usr_full_name}
@@ -64,20 +66,20 @@ function addTimeEntry()
               </tr>
               {if $smarty.section.i.last}
               <tr>
-                <td bgcolor="{$internal_color}" colspan="2" class="default_white" align="right">Total Time Spent:</td>
+                <td bgcolor="{$internal_color}" colspan="3" class="default_white" align="right">Total Time Spent:</td>
                 <td bgcolor="{$dark_color}" colspan="3" class="default">{$total_time_spent}</td>
               </tr>
               {/if}
               {sectionelse}
               <tr>
-                <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
                   <i>No time tracking entries could be found.</i>
                 </td>
               </tr>
               {/section}
               {if $current_role > $roles.viewer}
               <tr id="time_tracker7" {get_display_style element_name="time_tracker"}>
-                <td colspan="5" bgcolor="{$internal_color}" align="center" width="100%" nowrap>
+                <td colspan="6" bgcolor="{$internal_color}" align="center" width="100%" nowrap>
                   <input type="button" value="Add Time Entry" class="button" onClick="addTimeEntry()">
                 </td>
               </tr>
