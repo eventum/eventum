@@ -279,20 +279,33 @@ function lookupField(f, search_field, field_name, callbacks)
     var target_field = getFormElement(f, field_name);
     for (var i = 0; i < target_field.options.length; i++) {
         var value = target_field.options[i].text.toUpperCase();
-        if (startsWith(value, search.toUpperCase())) {
+        if (target_field.type == 'select-multiple') {
             // if we are targetting a multiple select box, then unselect everything
             // before selecting the matched option
-            if (target_field.type == 'select-multiple') {
+            if (startsWith(value, search.toUpperCase())) {
                 clearSelectedOptions(target_field);
-            }
-            target_field.options[i].selected = true;
-            // handle calling any callbacks
-            if (callbacks != null) {
-                for (var y = 0; y < callbacks.length; y++) {
-                    eval(callbacks[y] + ';');
+                target_field.options[i].selected = true;
+                // handle calling any callbacks
+                if (callbacks != null) {
+                    for (var y = 0; y < callbacks.length; y++) {
+                        eval(callbacks[y] + ';');
+                    }
                 }
+                return true;
             }
-            return true;
+        } else {
+            // normal drop-down boxes will search across the option value, and 
+            // not just the beginning of it (i.e. '*hello*' instead of 'hello*')
+            if (value.indexOf(search.toUpperCase()) != -1) {
+                target_field.options[i].selected = true;
+                // handle calling any callbacks
+                if (callbacks != null) {
+                    for (var y = 0; y < callbacks.length; y++) {
+                        eval(callbacks[y] + ';');
+                    }
+                }
+                return true;
+            }
         }
     }
     target_field.selectedIndex = 0;
