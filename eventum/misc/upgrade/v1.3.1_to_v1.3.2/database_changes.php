@@ -59,6 +59,9 @@ $stmts[] = 'ALTER TABLE eventum_custom_field ADD COLUMN fld_list_display tinyint
 
 $stmts[] = 'ALTER TABLE eventum_reminder_level ADD COLUMN rem_skip_weekend tinyint(1) NOT NULL DEFAULT 0';
 
+// fix wrong column type
+$stmts[] = 'ALTER TABLE eventum_issue_history CHANGE COLUMN his_htt_id his_htt_id tinyint(2) NOT NULL DEFAULT 0';
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);

@@ -217,7 +217,7 @@ CREATE TABLE %TABLE_PREFIX%issue_history (
   his_usr_id int(11) unsigned NOT NULL default 0,
   his_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   his_summary text NOT NULL,
-  his_htt_id varchar(20) NOT NULL default '',
+  his_htt_id tinyint(2) NOT NULL,
   his_is_hidden tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY  (his_id),
   KEY his_id (his_id),
