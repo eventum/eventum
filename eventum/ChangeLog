@@ -39,6 +39,7 @@ Eventum Issue Tracking System
 - Always allow issue reporter to send emails (Bryan)
 - Changed attachment handling to work with inline attachments (Bryan)
 - Apply encoding fixes in more places (Elan Ruusamäe <glen@delfi.ee>)
+- Silence console errors when adding new directory to CVS (Elan Ruusamäe <glen@delfi.ee>)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)

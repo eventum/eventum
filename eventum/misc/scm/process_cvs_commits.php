@@ -56,7 +56,7 @@ $cvs_module = array_shift($pieces);
 // now parse the list of modified files
 $modified_files = array();
 foreach ($pieces as $file_info) {
-    list($filename, $old_revision, $new_revision) = explode(',', $file_info);
+    @list($filename, $old_revision, $new_revision) = explode(',', $file_info);
     $modified_files[] = array(
         'filename'     => $filename,
         'old_revision' => $old_revision,
