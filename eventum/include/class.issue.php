@@ -1855,6 +1855,8 @@ class Issue
             // advanced search form
             'show_authorized_issues'        => Issue::getParam('show_authorized_issues'),
             'show_notification_list_issues' => Issue::getParam('show_notification_list_issues'),
+            // other fields
+            'release'        => Issue::getParam('release')
         );
         // now do some magic to properly format the date fields
         $date_fields = array(
@@ -2279,6 +2281,9 @@ class Issue
         }
         if (!empty($options["hide_closed"])) {
             $stmt .= " AND sta_is_closed=0";
+        }
+        if (!empty($options['release'])) {
+            $stmt .= " AND iss_pre_id = " . $options['release'];
         }
         // check if the user is trying to search by customer email
         if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($options['customer_email']))) {
