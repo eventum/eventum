@@ -1092,7 +1092,7 @@ class Notification
     {
         $info = User::getDetails($usr_id);
         $info["role"] = User::getRole($info["usr_role"]);
-        $info["projects"] = @implode(", ", array_values(Project::getAssocList($usr_id)));
+        $info["projects"] = @implode(", ", array_values(Project::getAssocList($usr_id, true)));
         // open text template
         $tpl = new Template_API;
         $tpl->setTemplate('notifications/updated_account.tpl.text');
