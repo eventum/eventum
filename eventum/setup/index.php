@@ -278,7 +278,7 @@ $private_key = "' . md5(microtime()) . '";
     if (!is_writable('../include/private_key.php')) {
         return "The file 'include/private_key.php' needs to be writable by the web server user. Please correct this problem and try again.";
     }
-    $fp = fopen('../include/private_key.php', 'w');
+    $fp = @fopen('../include/private_key.php', 'w');
     if ($fp === FALSE) {
         return "Could not open the file 'include/private_key.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     }
