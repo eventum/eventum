@@ -47,6 +47,7 @@ Eventum Issue Tracking System
 - Fixed the phone entry window to automatically close after submitting the form (João)
 - Added the ability to create custom filters for "un-assigned" issues and issues assigned to "myself or un-assigned" (João)
 - Fixed bug that was causing a SQL error when deleting projects if no email accounts were associated with it (Bryan)
+- Added 'Recent Activity Report' to show phone calls added recently (Bryan)
 
 15 Sep 2004, Version 1.3.1
 - Added the missing maq_iss_id and maq_subject columns to the mail_queue table schema (João)
