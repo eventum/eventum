@@ -185,7 +185,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          {if $current_role > $roles.customer && $show_releases == 1}
+          {if $current_role != $roles.customer && $show_releases == 1}
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <nobr><b>Scheduled Release:</b>&nbsp;</nobr>
           </td>
@@ -224,7 +224,7 @@ function validateForm(f)
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Reporter:</b>
           </td>
-          <td {if $current_role == $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
+          <td {if $current_role <= $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
             {$issue.reporter}
           </td>
           {if $current_role > $roles.customer}
@@ -249,7 +249,7 @@ function validateForm(f)
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Assignment:</b>
           </td>
-          <td {if $current_role == $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
+          <td {if $current_role <= $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
             {$issue.assignments}
           </td>
           {if $current_role > $roles.customer}
@@ -313,9 +313,9 @@ function validateForm(f)
     <tr>
       <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0" style="padding-top: 0px">
+        {if $current_role > $roles.reporter}
         <tr bgcolor="{$cell_color}">
           <td colspan="4">
-            {if $current_role > $roles.reporter}
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 {if $current_role > $roles.customer}
@@ -351,9 +351,9 @@ function validateForm(f)
                 {/if}
               </tr>
             </table>
-            {/if}
           </td>
         </tr>
+        {/if}
         {if $current_role > $roles.customer}
         <tr bgcolor="{$dark_color}">
           <td colspan="4" align="right">
