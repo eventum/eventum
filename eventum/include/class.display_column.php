@@ -287,15 +287,15 @@ class Display_Column
             } else {
                 $min_role = 1;
             }
-            $sql = "INSERT INTO
+            $stmt = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
-                    SET
+                     SET
                         ctd_prj_id = $prj_id,
                         ctd_page = '$page',
                         ctd_field = '$field_name',
                         ctd_min_role = $min_role,
                         ctd_rank = $rank";
-            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            $res = $GLOBALS["db_api"]->dbh->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
