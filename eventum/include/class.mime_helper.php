@@ -524,13 +524,13 @@ class Mime_Helper
         }
 
         $params = array(
-            'input'          => $message,
             'crlf'           => "\r\n",
             'include_bodies' => $include_bodies,
             'decode_headers' => TRUE,
             'decode_bodies'  => $decode_bodies
         );
-        return Mail_mimeDecode::decode($params);
+        $decode = new Mail_mimeDecode($message);
+        return $decode->decode($params);
     }
 
 
