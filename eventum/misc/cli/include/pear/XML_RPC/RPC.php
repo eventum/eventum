@@ -611,11 +611,9 @@ class XML_RPC_Message
                 return $r;
         }
         // gotta get rid of headers here
-          
-        
-        if ((!$hdrfnd) && ($brpos = strpos($data,"\r\n\r\n"))) {
-            $XML_RPC_xh[$parser]['ha'] = substr($data,0,$brpos);
-            $data= substr($data,$brpos+4);
+        if (!$hdrfnd) {
+            $XML_RPC_xh[$parser]['ha'] = substr($data, 0, strpos($data, '<methodResponse>'));
+            $data= substr($data, strpos($data, '<methodResponse>'));
             $hdrfnd=1;
         }
         $data = utf8_encode($data);
