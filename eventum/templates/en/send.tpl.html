@@ -90,9 +90,13 @@ function validate(f)
     {if !$can_send_email}
     var warning_msg = "WARNING: You are not assigned to this issue so your email will be blocked. Your blocked email will be converted ";
     warning_msg += "to a note that can be recovered later.\n\nFor more information, please see the topic \"email blocking\" in help.";
-    {else}
+    {elseif $has_customer_integration}
     var warning_msg = "WARNING: This email will be sent to all names on this issue's Notification List, including CUSTOMERS.\n";
     warning_msg += "If you want the CUSTOMER to receive your message now, press OK.\n";
+    warning_msg += "Otherwise, to return to your editing window, press CANCEL.";
+    {else}
+    var warning_msg = "WARNING: This email will be sent to all names on this issue's Notification List.\n";
+    warning_msg += "If you all users to receive your message now, press OK.\n";
     warning_msg += "Otherwise, to return to your editing window, press CANCEL.";
     {/if}
 {literal}

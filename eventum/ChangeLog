@@ -27,6 +27,7 @@ Eventum Issue Tracking System
 - Added option to force reminders to not count weekends when performing date calculations (Bryan)
 - Made certain popups resizable (Bryan)
 - Fixed bug with outdated information being emailed to a user when a new project is assigned to them (Bryan)
+- If customer integration is not enabled, don't mention customers in warning message (Bryan)
 
 15 Sep 2004, Version 1.3.1
 - Added the missing maq_iss_id and maq_subject columns to the mail_queue table schema (João)
