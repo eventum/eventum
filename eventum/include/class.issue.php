@@ -1106,8 +1106,12 @@ class Issue
                     iss_description='" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
                     iss_dev_time=" . $HTTP_POST_VARS["estimated_dev_time"] . ",
                     iss_trigger_reminders=" . $HTTP_POST_VARS["trigger_reminders"] . ",
-                    iss_grp_id ='" . $HTTP_POST_VARS["group"] . "',
-                    iss_private = " . $HTTP_POST_VARS['private'] . "
+                    iss_grp_id ='" . $HTTP_POST_VARS["group"] . "'";
+        if (isset($HTTP_POST_VARS['private'])) {
+            $stmt .= ",
+                    iss_private = " . $HTTP_POST_VARS['private'];
+        }
+        $stmt .= "
                  WHERE
                     iss_id=$issue_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
