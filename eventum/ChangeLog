@@ -9,3 +9,5 @@ Eventum Issue Tracking System
 - Fixed a problem with a duplicate key name in the history_type table (João)
 - Fixed a few database migration problems when upgrading from an old snapshot release (João)
 - Added a missing directory required in order for the IRC bot to work (João)
+- Added a feature to auto-create issues from downloaded emails (João)
+- Reworked the code that handles the automatic association of email into issues (João)

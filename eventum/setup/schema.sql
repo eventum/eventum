@@ -48,6 +48,8 @@ CREATE TABLE %TABLE_PREFIX%email_account (
   ema_password varchar(64) NOT NULL default '',
   ema_get_only_new int(1) NOT NULL DEFAULT 0,
   ema_leave_copy int(1) NOT NULL DEFAULT 0,
+  ema_issue_auto_creation varchar(8) NOT NULL DEFAULT 'disabled',
+  ema_issue_auto_creation_options text,
   PRIMARY KEY  (ema_id),
   KEY ema_prj_id (ema_prj_id)
 );

@@ -34,6 +34,61 @@ include_once(APP_INC_PATH . "class.error_handler.php");
 class Email_Account
 {
     /**
+     * Method used to get the options related to the auto creation of 
+     * new issues.
+     *
+     * @access  public
+     * @param   integer $ema_id The email account ID
+     * @return  array The issue auto creation options
+     */
+    function getIssueAutoCreationOptions($ema_id)
+    {
+        $stmt = "SELECT
+                    ema_issue_auto_creation_options
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                 WHERE
+                    ema_id=$ema_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            if (!is_string($res)) {
+                $res = (string) $res;
+            }
+            return @unserialize($res);
+        }
+    }
+
+
+    /**
+     * Method used to update the issue auto creation related options.
+     *
+     * @access  public
+     * @param   integer $ema_id The email account ID
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    function updateIssueAutoCreation($ema_id, $auto_creation, $options)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                 SET
+                    ema_issue_auto_creation='" . Misc::escapeString($auto_creation) . "',
+                    ema_issue_auto_creation_options='" . @serialize($options) . "'
+                 WHERE
+                    ema_id=$ema_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+
+    /**
      * Method used to get the support email account associated with a given
      * support email message.
      *
@@ -89,6 +144,20 @@ class Email_Account
                 return $res;
             }
         }
+    }
+
+
+    /**
+     * Method used to get the project ID associated with a given email account.
+     *
+     * @access  public
+     * @param   integer $ema_id The support email account ID
+     * @return  integer The project ID
+     */
+    function getProjectID($ema_id)
+    {
+        $details = Email_Account::getDetails($ema_id);
+        return $details['ema_prj_id'];
     }
 
 

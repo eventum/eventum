@@ -1376,6 +1376,76 @@ class Issue
     }
 
 
+    // XXX: put documentation here
+    function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $reporter, $assignment)
+    {
+        $initial_status = Project::getInitialStatus($prj_id);
+        // add new issue
+        $stmt = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 (
+                    iss_prj_id,
+                    iss_prc_id,
+                    iss_pri_id,
+                    iss_usr_id,";
+        if (!empty($initial_status)) {
+            $stmt .= "iss_sta_id,";
+        }
+        $stmt .= "
+                    iss_created_date,
+                    iss_summary,
+                    iss_description
+                 ) VALUES (
+                    " . $prj_id . ",
+                    " . $category . ",
+                    " . $priority . ",
+                    " . $reporter . ",";
+        if (!empty($initial_status)) {
+            $stmt .= "$initial_status,";
+        }
+        $stmt .= "
+                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Misc::escapeString($summary) . "',
+                    '" . Misc::escapeString($description) . "'
+                 )";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            $new_issue_id = $GLOBALS["db_api"]->get_last_insert_id();
+            // log the creation of the issue
+            History::add($new_issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
+            // now add the user/issue association
+            $users = array();
+            if (count($assignment) > 0) {
+                for ($i = 0; $i < count($assignment); $i++) {
+                    Notification::insert($new_issue_id, $assignment[$i]);
+                    Issue::addUserAssociation($new_issue_id, $assignment[$i]);
+                    if ($assignment[$i] != $usr_id) {
+                        $users[] = $assignment[$i];
+                    }
+                }
+            } else {
+                // try using the round-robin feature instead
+                $assignee = Round_Robin::getNextAssignee($prj_id);
+                // assign the issue to the round robin person
+                if (!empty($assignee)) {
+                    Issue::addUserAssociation($new_issue_id, $assignee, false);
+                    History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
+                    $users[] = $assignee;
+                }
+            }
+            if (count($users)) {
+                Notification::notifyAssignedUsers($users, $new_issue_id);
+            }
+            // also notify any users that want to receive emails anytime a new issue is created
+            Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
+            return $new_issue_id;
+        }
+    }
+
+
     /**
      * Method used to add a new issue using the normal report form.
      *
@@ -1486,9 +1556,8 @@ class Issue
             }
             // need to associate any emails ?
             if (!empty($HTTP_POST_VARS["attached_emails"])) {
-                $HTTP_POST_VARS["item"] = explode(",", $HTTP_POST_VARS["attached_emails"]);
-                $HTTP_POST_VARS["issue"] = $new_issue_id;
-                Support::associate();
+                $items = explode(",", $HTTP_POST_VARS["attached_emails"]);
+                Support::associate($usr_id, $new_issue_id, $items);
             }
             // need to process any custom fields ?
             if (@count($HTTP_POST_VARS["custom_fields"]) > 0) {

@@ -40,12 +40,13 @@ $tpl->setTemplate("notification.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
+$usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["iss_id"];
 $tpl->assign("issue_id", $issue_id);
 
 if (@$HTTP_POST_VARS["cat"] == "insert") {
-    $res = Notification::manualInsert($issue_id, $HTTP_POST_VARS['email'], $HTTP_POST_VARS['actions']);
+    $res = Notification::manualInsert($usr_id, $issue_id, $HTTP_POST_VARS['email'], $HTTP_POST_VARS['actions']);
     $tpl->assign("insert_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "edit") {
     $res = Notification::getDetails($HTTP_GET_VARS["id"]);
@@ -57,7 +58,6 @@ if (@$HTTP_POST_VARS["cat"] == "insert") {
     $res = Notification::remove($HTTP_POST_VARS["items"]);
     $tpl->assign("delete_result", $res);
 } else {
-    $usr_id = Auth::getUserID();
     $tpl->assign("info", Prefs::getNotification($usr_id));
 }
 

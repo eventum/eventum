@@ -241,3 +241,6 @@ CREATE TABLE eventum_project_status_date (
   PRIMARY KEY (psd_id),
   UNIQUE KEY (psd_prj_id, psd_sta_id)
 );
+
+ALTER TABLE eventum_email_account ADD COLUMN ema_issue_auto_creation varchar(8) NOT NULL DEFAULT 'disabled';
+ALTER TABLE eventum_email_account ADD COLUMN ema_issue_auto_creation_options text;

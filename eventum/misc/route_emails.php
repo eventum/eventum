@@ -208,9 +208,8 @@ if ($res != -1) {
     if (Notification::isBounceMessage($sender_email)) {
         $internal_only = true;
     }
-    Notification::notifyNewEmail($issue_id, $structure, $full_message, $internal_only);
+    Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $structure, $full_message, $internal_only);
     Issue::markAsUpdated($issue_id);
-    
     // try to get usr_id of sender, if not, use system account
     $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
     if (!$usr_id) {

@@ -229,16 +229,15 @@ class Notification
      * Method used to forward the new email to the list of subscribers.
      *
      * @access  public
+     * @param   integer $user_id The user ID of the person performing this action
      * @param   integer $issue_id The issue ID
      * @param   object $structure The parsed email structure
      * @param   string $full_message The full email message
      * @param   boolean $internal_only Whether the email should only be redirected to internal users or not
      * @return  void
      */
-    function notifyNewEmail($issue_id, $structure, $full_message, $internal_only = FALSE)
+    function notifyNewEmail($usr_id, $issue_id, $structure, $full_message, $internal_only = FALSE)
     {
-        // XXX: need to rewrite the full email and change the To: header manually
-
         $sender = $structure->headers['from'];
         // automatically subscribe this sender to all email notifications for this issue
         $subscribed_emails = Notification::getSubscribedEmails($issue_id, 'emails');
@@ -247,7 +246,7 @@ class Notification
         if ((!Notification::isIssueRoutingSender($issue_id, $sender)) &&
                 (!Notification::isBounceMessage($sender_email)) &&
                 (!in_array($sender_email, $subscribed_emails))) {
-            Notification::manualInsert($issue_id, $sender_email, array('emails'));
+            Notification::manualInsert($usr_id, $issue_id, $sender_email, array('emails'));
         }
 
         // get the subscribers
@@ -1446,12 +1445,13 @@ class Notification
      * email notification interface.
      *
      * @access  public
+     * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
      * @param   string $form_email The email address to subscribe
      * @param   array $actions The actions to subcribe to
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function manualInsert($issue_id, $form_email, $actions)
+    function manualInsert($usr_id, $issue_id, $form_email, $actions)
     {
         $form_email = strtolower(Mail_API::getEmailAddress($form_email));
         // first check if this is an actual user or just an email address
@@ -1461,12 +1461,10 @@ class Notification
             return Notification::subscribeUser($issue_id, $user_emails[$form_email], $actions);
         }
 
-        $usr_id = Auth::getUserID();
         $info = User::getNameEmail($usr_id);
         if (strtolower($info["usr_email"]) == $form_email) {
             return Notification::subscribeUser($issue_id, $usr_id, $actions);
         }
-        $usr_id = 0;
         $email = Misc::escapeString($form_email);
         // manual check to prevent duplicates
         if (!empty($email)) {
@@ -1492,7 +1490,7 @@ class Notification
                     sub_email
                  ) VALUES (
                     $issue_id,
-                    $usr_id,
+                    0,
                     '" . Date_API::getCurrentDateGMT() . "',
                     'issue',
                     '$email'
@@ -1509,8 +1507,8 @@ class Notification
             // need to mark the issue as updated
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_added'), 
-                            "Notification list entry ('$email') added by " . User::getFullName(Auth::getUserID()));
+            History::add($issue_id, $usr_id, History::getTypeID('notification_added'), 
+                            "Notification list entry ('$email') added by " . User::getFullName($usr_id));
             return 1;
         }
     }

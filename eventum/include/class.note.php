@@ -508,7 +508,7 @@ class Note
                 if (Notification::isBounceMessage($sender_email)) {
                     $internal_only = true;
                 }
-                Notification::notifyNewEmail($issue_id, $structure, $blocked_message, $internal_only);
+                Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $structure, $blocked_message, $internal_only);
                 Issue::markAsUpdated($issue_id);
                 Note::remove($note_id, false);
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_email'), 

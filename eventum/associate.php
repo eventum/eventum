@@ -43,7 +43,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 if (@$HTTP_POST_VARS['cat'] == 'associate') {
     if ($HTTP_POST_VARS['target'] == 'email') {
-        $res = Support::associate();
+        $res = Support::associate(Auth::getUserID(), $HTTP_POST_VARS['issue'], $HTTP_POST_VARS['item']);
         $tpl->assign("associate_result", $res);
     } else {
         for ($i = 0; $i < count($HTTP_POST_VARS['item']); $i++) {
