@@ -259,6 +259,16 @@
                 </td>
               </tr>
               <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Skip Weekends:</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <input type="radio" name="skip_weekend" value="1" {if $info.rem_skip_weekend == 1}CHECKED{/if}>Yes
+                  <input type="radio" name="skip_weekend" value="0" {if $info.rem_skip_weekend != 1}CHECKED{/if}>No<br />
+                  &nbsp;If yes, this reminder will not activate on weekends and time will not accumulate on the weekends.
+                </td>
+              </tr>
+              <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
                   <input class="button" type="submit" value="Update Reminder">

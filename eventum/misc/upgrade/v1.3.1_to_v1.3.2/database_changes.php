@@ -57,6 +57,8 @@ $stmts[] = 'ALTER TABLE eventum_irc_notice ADD COLUMN ino_prj_id int(11) NOT NUL
 
 $stmts[] = 'ALTER TABLE eventum_custom_field ADD COLUMN fld_list_display tinyint(1) NOT NULL DEFAULT 0';
 
+$stmts[] = 'ALTER TABLE eventum_reminder_level ADD COLUMN rem_skip_weekend tinyint(1) NOT NULL DEFAULT 0';
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);

@@ -613,6 +613,7 @@ CREATE TABLE %TABLE_PREFIX%reminder_level (
   rem_last_updated_date DATETIME NULL,
   rem_title VARCHAR(64) NOT NULL,
   rem_prj_id INT(11) UNSIGNED NOT NULL,
+  rem_skip_weekend TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY(rem_id)
 );
 

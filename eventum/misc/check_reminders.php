@@ -48,6 +48,14 @@ $triggered_issues = array();
 
 $reminders = Reminder::getList();
 for ($i = 0; $i < count($reminders); $i++) {
+    // if this is the weekend and this reminder isn't supposed to run on weekends skip
+    if (($reminders[$i]['rem_skip_weekend'] == 1) && (in_array(date("w"), array(0,6)))) {
+        if (Reminder::isDebug()) {
+            echo "Skipping Reminder '" . $reminders[$i]['rem_title'] . "' due to weekend exclusion\n";
+        }
+        continue;
+    }
+    
     // for each action, get the conditions and see if it triggered any issues
     $found = 0;
     for ($y = 0; $y < count($reminders[$i]['actions']); $y++) {

@@ -456,12 +456,14 @@ class Reminder
                     rem_created_date,
                     rem_rank,
                     rem_title,
-                    rem_prj_id
+                    rem_prj_id,
+                    rem_skip_weekend
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
                     " . $HTTP_POST_VARS['rank'] . ",
                     '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    " . $HTTP_POST_VARS['project'] . "
+                    " . $HTTP_POST_VARS['project'] . ",
+                    " . $HTTP_POST_VARS['skip_weekend'] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -511,7 +513,8 @@ class Reminder
                     rem_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     rem_rank=" . $HTTP_POST_VARS['rank'] . ",
                     rem_title='" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    rem_prj_id=" . $HTTP_POST_VARS['project'] . "
+                    rem_prj_id=" . $HTTP_POST_VARS['project'] . ",
+                    rem_skip_weekend=" . $HTTP_POST_VARS['skip_weekend'] . "
                  WHERE
                     rem_id=" . $HTTP_POST_VARS['id'];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -753,7 +756,7 @@ class Reminder
      * Method used to generate a where clause from the given list of conditions.
      *
      * @access  public
-     * @param   integer $rem_id The reminder ID
+     * @param   array $reminder An array of reminder info.
      * @param   array $conditions The list of conditions
      * @return  string The where clause
      */
@@ -802,6 +805,11 @@ class Reminder
                     } else {
                         $conditions[$i]['rlc_value'] = $conditions[$i]['rlc_value'] * 60 * 60;
                     }
+                }
+                
+                if ($reminder["rem_skip_weekend"] == 1) {
+                    $sql_field = Reminder_Condition::getSQLField($conditions[$i]['rlc_rmf_id']);
+                    $conditions[$i]['rmf_sql_representation'] = DB_API::getNoWeekendDateDiffSQL($sql_field);
                 }
                 $stmt .= sprintf(" AND %s %s %s\n", $conditions[$i]['rmf_sql_representation'],
                                                   $conditions[$i]['rmo_sql_representation'],
