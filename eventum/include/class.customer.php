@@ -64,7 +64,7 @@ class Customer
      * @param   integer $prj_id The project ID
      * @return  string The customer backend class filename
      */
-    function _getBackendByProject($prj_id)
+    function _getBackendNameByProject($prj_id)
     {
         static $backends;
 
@@ -92,26 +92,30 @@ class Customer
 
     /**
      * Includes the appropriate customer backend class associated with the
-     * given project ID.
+     * given project ID, instantiates it and returns the class.
      *
      * @access  public
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    function _setupBackend($prj_id)
+    function &_getBackend($prj_id)
     {
         static $setup_backends;
 
-        if (@!$setup_backends[$prj_id]) {
-            $backend_class = Customer::_getBackendByProject($prj_id);
+        if (empty($setup_backends[$prj_id])) {
+            $backend_class = Customer::_getBackendNameByProject($prj_id);
             if (empty($backend_class)) {
                 return false;
             }
+            $file_name_chunks = explode(".", $backend_class);
+            $class_name = $file_name_chunks[1] . "_Customer_Backend";
+            
             include_once(APP_INC_PATH . "customer/$backend_class");
-            Customer_Backend::connect();
-            $setup_backends[$prj_id] = true;
+            
+            $setup_backends[$prj_id] = new $class_name;
+            $setup_backends[$prj_id]->connect();
         }
-        return true;
+        return $setup_backends[$prj_id];
     }
 
 
@@ -125,7 +129,7 @@ class Customer
      */
     function hasCustomerIntegration($prj_id)
     {
-        $backend = Customer::_getBackendByProject($prj_id);
+        $backend = Customer::_getBackendNameByProject($prj_id);
         if (empty($backend)) {
             return false;
         } else {
@@ -168,8 +172,8 @@ class Customer
     function getContractStatus($prj_id, $customer_id)
     {
         echo "getContractStatus($prj_id, $customer_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getContractStatus($customer_id);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getContractStatus($customer_id);
     }
 
 
@@ -185,8 +189,9 @@ class Customer
     function getCustomerTitlesByIssues($prj_id, &$result)
     {
         echo "getCustomerTitlesByIssues($prj_id, $result)<br />";
-        Customer::_setupBackend($prj_id);
-        Customer_Backend::getCustomerTitlesByIssues($result);
+        $backend =& Customer::_getBackend($prj_id);
+        var_dump($backend);
+        $backend->getCustomerTitlesByIssues($result);
     }
 
 
@@ -201,112 +206,112 @@ class Customer
     function getDetails($prj_id, $customer_id)
     {
         echo "getDetails($prj_id, $customer_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getDetails($customer_id);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getDetails($customer_id);
     }
 
 
     function isRedeemedIncident($prj_id, $issue_id)
     {
         echo "isRedeemedIncident($prj_id, $issue_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::isRedeemedIncident($issue_id);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->isRedeemedIncident($issue_id);
     }
 
 
     function getAssocList($prj_id)
     {
         echo "getAssocList($prj_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getAssocList();
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getAssocList();
     }
 
 
     function getTitle($prj_id, $customer_id)
     {
         echo "getTitle($prj_id, $customer_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getTitle($customer_id);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getTitle($customer_id);
     }
 
 
     function getTitles($prj_id, $customer_ids)
     {
         echo "getTitles($prj_id, $customer_ids)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getTitles($customer_ids);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getTitles($customer_ids);
     }
 
 
     function getContactEmailAssocList($prj_id, $customer_id)
     {
         echo "getContactEmailAssocList($customer_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getContactEmailAssocList($customer_id);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getContactEmailAssocList($customer_id);
     }
 
 
     function getCustomerIDByEmails($prj_id, $emails)
     {
         echo "getCustomerIDByEmails($emails)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getCustomerIDByEmails($emails);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getCustomerIDByEmails($emails);
     }
 
 
     function getOverallStats($prj_id, $customer_id)
     {
         echo "getOverallStats($prj_id, $customer_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getOverallStats($customer_id);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getOverallStats($customer_id);
     }
 
 
     function getProfile($prj_id, $usr_id)
     {
         echo "getProfile($prj_id, $usr_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getProfile($usr_id);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getProfile($usr_id);
     }
 
 
     function getContractDetails($prj_id, $contact_id, $restrict_expiration = TRUE)
     {
         echo "getContractDetails($prj_id, $contact_id, $restrict_expiration)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getContractDetails($contact_id, $restrict_expiration);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getContractDetails($contact_id, $restrict_expiration);
     }
 
 
     function getContactDetails($prj_id, $contact_id)
     {
         echo "getContactDetails($prj_id, $contact_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getContactDetails($contact_id);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getContactDetails($contact_id);
     }
 
 
     function getCustomerIDsLikeEmail($prj_id, $email)
     {
         echo "getCustomerIDsLikeEmail($prj_id, $email)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::getCustomerIDsLikeEmail($email);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getCustomerIDsLikeEmail($email);
     }
 
 
     function flagIncident($prj_id, $issue_id)
     {
         echo "flagIncident($prj_id, $issue_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::flagIncident($issue_id);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->flagIncident($issue_id);
     }
 
 
     function unflagIncident($prj_id, $issue_id)
     {
         echo "unflagIncident($prj_id, $issue_id)<br />";
-        Customer::_setupBackend($prj_id);
-        return Customer_Backend::unflagIncident($issue_id);
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->unflagIncident($issue_id);
     }
 
 
