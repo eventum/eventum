@@ -62,16 +62,10 @@ function changeIssueStatus(f, issue_id, current_status_id)
         popupWin.focus();
     }
 }
-function markIncidentIssue(issue_id)
+function editIncidentRedemption(issue_id)
 {
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=flag_incident&iss_id=' + issue_id, '_flagIncident', features);
-    popupWin.focus();
-}
-function unmarkIncidentIssue(issue_id)
-{
-    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=unflag_incident&iss_id=' + issue_id, '_unflagIncident', features);
+    var features = 'width=300,height=300,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('redeem_incident.php?iss_id=' + issue_id, '_flagIncident', features);
     popupWin.focus();
 }
 function removeQuarantine(issue_id)
@@ -174,6 +168,19 @@ function validateForm(f)
             {if $issue.customer_info.support_options}
             <br />
             Support Options: {$issue.customer_info.support_options}
+            {/if}
+            {if $issue.customer_info.is_per_incident}
+              <br />
+              Redeemed Incident Types: 
+              {strip}
+              {foreach from=$issue.redeemed_incidents item=incident_details name=incident_loop}
+                {if $incident_details.is_redeemed == 1}
+                {if not $smarty.foreach.incident_loop.first}, {/if}{$incident_details.title}
+                {assign var=has_redeemed_incident value=1}
+                {/if}
+              {/foreach}
+              {/strip}
+              {if $has_redeemed_incident != 1}<i>None</i>{/if}
             {/if}
           </td>
         </tr>
@@ -358,7 +365,7 @@ function validateForm(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0" style="border-collapse: separate; border-spacing: 1px 0px;">
         <tr>
           <td width="150" bgcolor="{$cell_color}">
-            <span class="default_white"><b>Description:</b></span><br />
+            <span class="default_white"><b>Initial Description:</b></span><br />
             <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="javascript:displayFixedWidth('issue_description');">fixed width font</a>)</span>
             <img src="images/blank.gif" height="1" width="150">
           </td>
@@ -425,11 +432,7 @@ function validateForm(f)
                   <input type="button" value="Signup as Authorized Replier" class="button" onClick="javascript:signupAsAuthorizedReplier({$issue.iss_id});">
                   {/if}
                   {if $issue.customer_info.is_per_incident}
-                    {if $issue.marked_as_redeemed_incident}
-                    <input type="button" value="Un-Mark as Redeemed Incident" class="button" onClick="javascript:unmarkIncidentIssue({$issue.iss_id});">
-                    {else}
-                    <input type="button" value="Mark as Redeemed Incident" class="button" onClick="javascript:markIncidentIssue({$issue.iss_id});">
-                    {/if}
+                    <input type="button" value="Edit Incident Redemption" class="button" onClick="javascript:editIncidentRedemption({$issue.iss_id});">
                   {/if}
                 </td>
                 <td width="50%" align="right">

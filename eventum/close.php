@@ -47,11 +47,24 @@ $tpl->assign("extra_title", "Close Issue #$issue_id");
 
 if (@$HTTP_POST_VARS["cat"] == "close") {
     $res = Issue::close(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $HTTP_POST_VARS["send_notification"], $HTTP_POST_VARS["resolution"], $HTTP_POST_VARS["status"], $HTTP_POST_VARS["reason"]);
+    
+    if (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id))) {
+        Customer::updateRedeemedIncidents($prj_id, $issue_id, @$_REQUEST['redeem']);
+    }
+    
     $tpl->assign("close_result", $res);
 }
 
 $tpl->assign("statuses", Status::getClosedAssocList($prj_id));
 $tpl->assign("resolutions", Resolution::getAssocList());
+
+if (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id))) {
+    $details = Issue::getDetails($issue_id);
+    $tpl->assign(array(
+            'redeemed'  =>  Customer::getRedeemedIncidentDetails($prj_id, $issue_id),
+            'incident_details'  =>  $details['customer_info']['incident_details']
+    ));
+}
 
 $tpl->displayTemplate();
 ?>

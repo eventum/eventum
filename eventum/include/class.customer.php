@@ -210,12 +210,13 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
+     * @param   boolean $force_refresh If the cache should not be used.
      * @return  array The customer details
      */
-    function getDetails($prj_id, $customer_id)
+    function getDetails($prj_id, $customer_id, $force_refresh = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getDetails($customer_id);
+        return $backend->getDetails($customer_id, $force_refresh);
     }
 
 
@@ -226,12 +227,72 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
+     * @param   integer $incident_type The type of incident
      * @return  boolean True if this is a redeemed incident.
      */
-    function isRedeemedIncident($prj_id, $issue_id)
+    function isRedeemedIncident($prj_id, $issue_id, $incident_type = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->isRedeemedIncident($issue_id);
+        return $backend->isRedeemedIncident($issue_id, $incident_type);
+    }
+    
+    
+    /**
+     * Returns an array of the curently redeemed incident types for the issue.
+     *
+     * @see /docs/Customer_API.html
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array An array containing the redeemed incident types
+     */
+    function getRedeemedIncidentDetails($prj_id, $issue_id)
+    {
+        $types = Customer::getIncidentTypes($prj_id);
+        $data = array();
+        foreach ($types as $id => $title) {
+            if (Customer::isRedeemedIncident($prj_id, $issue_id, $id)) {
+                $data[$id] = array(
+                    'title' =>  $title,
+                    'is_redeemed'   =>  1
+                );
+            }
+        }
+        return $data;
+    }
+    
+    
+    /**
+     * Updates the incident counts
+     * 
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @param   array $data An array of data containing which incident types to update.
+     * @return  integer 1 if all updates were successful, -1 or -2 otherwise.
+     */
+    function updateRedeemedIncidents($prj_id, $issue_id, $data)
+    {
+        $details = Customer::getDetails($prj_id, Issue::getCustomerID($issue_id));
+        foreach ($details['incident_details'] as $type_id => $type_details) {
+            $is_redeemed = Customer::isRedeemedIncident($prj_id, $issue_id, $type_id);
+            if (($is_redeemed) && (@$data[$type_id] != 1)) {
+                // un-redeem issue
+                $res = Customer::unflagIncident($prj_id, $issue_id, $type_id);
+            } elseif ((!$is_redeemed) && (@$data[$type_id] == 1)) {
+                // redeem issue
+                if (($type_details['total'] - $type_details['redeemed']) > 0) {
+                    $res = Customer::flagIncident($prj_id, $issue_id, $type_id);
+                } else {
+                    $res = -1;
+                }
+            } else {
+                $res = 1;
+            }
+            if ($res != 1) {
+                return $res;
+            }
+        }
+        return $res;
     }
 
 
@@ -241,11 +302,12 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
+     * @param   integer $incident_type The type of incident
      */
-    function flagIncident($prj_id, $issue_id)
+    function flagIncident($prj_id, $issue_id, $incident_type)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->flagIncident($issue_id);
+        return $backend->flagIncident($issue_id, $incident_type);
     }
 
 
@@ -256,11 +318,12 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
+     * @param   integer $incident_type The type of incident
      */
-    function unflagIncident($prj_id, $issue_id)
+    function unflagIncident($prj_id, $issue_id, $incident_type)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->unflagIncident($issue_id);
+        return $backend->unflagIncident($issue_id, $incident_type);
     }
 
 
@@ -271,12 +334,13 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
+     * @param   integer $incident_type The type of incident
      * @return  boolean
      */
-    function hasIncidentsLeft($prj_id, $customer_id)
+    function hasIncidentsLeft($prj_id, $customer_id, $incident_type = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->hasIncidentsLeft($customer_id);
+        return $backend->hasIncidentsLeft($customer_id, $incident_type);
     }
 
 
@@ -303,12 +367,13 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $support_no The support contract ID
+     * @param   integer $incident_type The type of incident
      * @return  integer The total number of incidents
      */
-    function getTotalIncidents($prj_id, $support_no)
+    function getTotalIncidents($prj_id, $support_no, $incident_type)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getTotalIncidents($support_no);
+        return $backend->getTotalIncidents($support_no, $incident_type);
     }
 
 
@@ -319,12 +384,27 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $support_no The support contract ID
+     * @param   integer $incident_type The type of incident
      * @return  integer The number of incidents remaining.
      */
-    function getIncidentsRemaining($prj_id, $support_no)
+    function getIncidentsRemaining($prj_id, $support_no, $incident_type)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getIncidentsRemaining($support_no);
+        return $backend->getIncidentsRemaining($support_no, $incident_type);
+    }
+
+
+    /**
+     * Returns the incident types available.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array An array of per incident types
+     */
+    function getIncidentTypes($prj_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getIncidentTypes();
     }
 
 

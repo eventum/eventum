@@ -116,12 +116,6 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
 } elseif (@$HTTP_GET_VARS['cat'] == 'authorize_reply') {
     $res = Authorized_Replier::addUser($HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign('authorize_reply_result', $res);
-} elseif (@$HTTP_GET_VARS['cat'] == 'flag_incident') {
-    $res = Customer::flagIncident($prj_id, $HTTP_GET_VARS['iss_id']);
-    $tpl->assign('flag_incident_result', $res);
-} elseif (@$HTTP_GET_VARS['cat'] == 'unflag_incident') {
-    $res = Customer::unflagIncident($prj_id, $HTTP_GET_VARS['iss_id']);
-    $tpl->assign('unflag_incident_result', $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'remove_quarantine') {
     if (User::getRoleByUser($usr_id) > User::getRoleID('Developer')) {
         $res = Issue::setQuarantine($HTTP_GET_VARS['iss_id'], 0);

@@ -749,7 +749,7 @@ function sendDraft($p)
     }
 }
 
-$redeemIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
+$redeemIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Struct));
 function redeemIssue($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
@@ -759,10 +759,13 @@ function redeemIssue($p)
         return $auth;
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
+    $types = XML_RPC_decode($p->getParam(3));
 
     $prj_id = Issue::getProjectID($issue_id);
     createFakeCookie($email, $prj_id);
     $customer_id = Issue::getCustomerID($issue_id);
+    
+    $all_types = Customer::getIncidentTypes($prj_id);
     
     if (!Customer::hasCustomerIntegration($prj_id)) {
         // no customer integration
@@ -770,22 +773,27 @@ function redeemIssue($p)
     } elseif (!Customer::hasPerIncidentContract($prj_id, $customer_id)) {
         // check if is per incident contract
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
-    } elseif (!Customer::hasIncidentsLeft($prj_id, $customer_id)) {
+    } else {
         // check if incidents are remaining
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id has no remaining incidents");
+        foreach ($types as $type_id) {
+            if (Customer::isRedeemedIncident($prj_id, $issue_id, $type_id)) {
+                return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is already marked as redeemed incident of type " . $all_types[$type_id]);
+            } elseif (!Customer::hasIncidentsLeft($prj_id, $customer_id, $type_id)) {
+                return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id has no remaining incidents of type " . $all_types[$type_id]);
+            }
+        }
     }
     
-    $res = Customer::flagIncident($prj_id, $issue_id);
-    if ($res == -2) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is already marked as redeemed incident");
-    } elseif ($res == -1) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "An error occured trying to mark issue as redeemed.");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+    foreach ($types as $type_id) {
+        $res = Customer::flagIncident($prj_id, $issue_id, $type_id);
+        if ($res == -1) {
+            return new XML_RPC_Response(0, $XML_RPC_erruser+1, "An error occured trying to mark issue as redeemed.");
+        }
     }
+    return new XML_RPC_Response(XML_RPC_Encode('OK'));
 }
 
-$unredeemIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
+$unredeemIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Struct));
 function unredeemIssue($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
@@ -795,6 +803,48 @@ function unredeemIssue($p)
         return $auth;
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
+    $types = XML_RPC_decode($p->getParam(3));
+
+    $prj_id = Issue::getProjectID($issue_id);
+    createFakeCookie($email, $prj_id);
+    
+    $customer_id = Issue::getCustomerID($issue_id);
+    
+    if (!Customer::hasCustomerIntegration($prj_id)) {
+        // no customer integration
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
+    } elseif (!Customer::hasPerIncidentContract($prj_id, $customer_id)) {
+        // check if is per incident contract
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
+    } else {
+        // check if incidents are remaining
+        foreach ($types as $type_id) {
+            if (!Customer::isRedeemedIncident($prj_id, $issue_id, $type_id)) {
+                return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is not marked as redeemed incident of type " . $all_types[$type_id]);
+            }
+        }
+    }
+    
+    foreach ($types as $type_id) {
+        $res = Customer::unflagIncident($prj_id, $issue_id, $type_id);
+        if ($res == -1) {
+            return new XML_RPC_Response(0, $XML_RPC_erruser+1, "An error occured trying to mark issue as unredeemed.");
+        }
+    }
+    return new XML_RPC_Response(XML_RPC_Encode('OK'));
+}
+
+$getIncidentTypes_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Boolean));
+function getIncidentTypes($p)
+{
+    $email = XML_RPC_decode($p->getParam(0));
+    $password = XML_RPC_decode($p->getParam(1));
+    $auth = authenticate($email, $password);
+    if (is_object($auth)) {
+        return $auth;
+    }
+    $issue_id = XML_RPC_decode($p->getParam(2));
+    $redeemed_only = XML_RPC_decode($p->getParam(3));
 
     $prj_id = Issue::getProjectID($issue_id);
     createFakeCookie($email, $prj_id);
@@ -808,14 +858,16 @@ function unredeemIssue($p)
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
     }
     
-    $res = Customer::unflagIncident($prj_id, $issue_id);
-    if ($res == -2) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is not marked as redeemed incident");
-    } elseif ($res == -1) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "An error occured trying to mark issue as unredeemed.");
-    } else {
-        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+    $details = Customer::getDetails($prj_id, $customer_id);
+    
+    foreach ($details['incident_details'] as $type_id => $type_details) {
+        $is_redeemed = Customer::isRedeemedIncident($prj_id, $issue_id, $type_id);
+        if ((($redeemed_only) && (!$is_redeemed)) || ((!$redeemed_only) && ($is_redeemed))) {
+            unset($details['incident_details'][$type_id]);
+        }
     }
+    
+    return new XML_RPC_Response(XML_RPC_Encode($details['incident_details']));
 }
 
 $logCommand_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_String));
@@ -983,6 +1035,10 @@ $services = array(
     "unredeemIssue" =>  array(
         "function"  =>  "unredeemIssue",
         "signature" =>  $unredeemIssue_sig
+    ),
+    "getIncidentTypes"  =>  array(
+        "function"  =>  "getIncidentTypes",
+        "signature" =>  $getIncidentTypes_sig
     ),
     "logCommand"    => array(
         "function"  => "logCommand",

@@ -528,6 +528,10 @@ INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','last_action_date
 INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','custom_fields',1,12);
 INSERT INTO eventum_columns_to_display VALUES (1,'list_issues','iss_summary',1,13);
 
+# November 24
+INSERT INTO eventum_history_type (htt_name, htt_role) VALUES ('incident_redeemed', 4);
+INSERT INTO eventum_history_type (htt_name, htt_role) VALUES ('incident_unredeemed', 4);
+
 
 # December 4th
 

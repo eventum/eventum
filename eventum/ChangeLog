@@ -51,6 +51,8 @@ Eventum Issue Tracking System
 - Fixed bug with phone call entry not defaulting to current local time (Bryan)
 - Fixed bug with reminder system where expired contracts were not being excluded (Bryan)
 - Added option to search by events in past X hours on advanced search page (Bryan)
+- Added support for multiple incident types.
+
 
 15 Sep 2004, Version 1.3.1
 - Added the missing maq_iss_id and maq_subject columns to the mail_queue table schema (João)

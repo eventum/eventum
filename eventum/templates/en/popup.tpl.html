@@ -133,22 +133,6 @@
   <b>Thank you, you are now authorized to send emails in this issue.</b>
 {/if}
 
-{if $flag_incident_result == -1}
-  <b>An error occurred while trying to run your query</b>
-{elseif $flag_incident_result == -2}
-  <b>Error: this issue was already marked as a redeemed support ticket.</b>
-{elseif $flag_incident_result == 1}
-  <b>Thank you, this issue was marked as a redeemed support incident.</b>
-{/if}
-
-{if $unflag_incident_result == -1}
-  <b>An error occurred while trying to run your query</b>
-{elseif $unflag_incident_result == -2}
-  <b>Error: this issue was already unmarked as a redeemed support ticket.</b>
-{elseif $unflag_incident_result == 1}
-  <b>Thank you, this issue was unmarked as a redeemed support incident.</b>
-{/if}
-
 {if $remove_quarantine_result == -1}
     <b>An error occurred while trying to run your query</b>
 {elseif $remove_quarantine_result == 1}

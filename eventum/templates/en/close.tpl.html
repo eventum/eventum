@@ -108,6 +108,20 @@ function validateClose(f)
             {include file="error_icon.tpl.html" field="reason"}
           </td>
         </tr>
+        {if $incident_details|@count > 0}
+        <tr>
+          <td width="160" bgcolor="{$internal_color}" class="default_white">
+            <b>Incident Types to Redeem: </b><br />
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {foreach from=$incident_details item=type_details key=type_id}
+              {cycle values=$cycle assign="row_color"}
+              {if $res == ''}<input type="checkbox" name="redeem[{$type_id}]" value="1" {if $redeemed[$type_id].is_redeemed == 1}checked{/if}>{/if}
+              <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('close_form', 'redeem[{$type_id}]', 0);">{$type_details.title} (Total: {$type_details.total}; Left: {$type_details.total-$type_details.redeemed})</a><br />
+            {/foreach}
+          </td>
+        </tr>
+        {/if}
         <tr bgcolor="{$cell_color}">
           <td colspan="2">
             <table cellpadding="0" cellspacing="0" border="0" width="100%">

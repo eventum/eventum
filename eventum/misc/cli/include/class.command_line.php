@@ -1296,11 +1296,17 @@ Account Manager: " . @$details['customer_info']['account_manager'];
     {
         Command_Line::checkIssuePermissions(&$rpc_conn, $auth, $issue_id);
         Command_Line::checkIssueAssignment(&$rpc_conn, $auth, $issue_id);
-
+        
+        $types = Command_Line::promptIncidentTypes(&$rpc_conn, $auth, $issue_id);
+        foreach ($types as $type_id => $type_value) {
+            $types[$type_id] = new XML_RPC_Value($type_value, 'string');
+        }
+        
         $params = array(
             new XML_RPC_Value($auth[0], 'string'), 
             new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int')
+            new XML_RPC_Value($issue_id, 'int'),
+            new XML_RPC_Value($types, 'struct')
         );
         $msg = new XML_RPC_Message("redeemIssue", $params);
         $result = $rpc_conn->send($msg);
@@ -1324,17 +1330,77 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         Command_Line::checkIssuePermissions(&$rpc_conn, $auth, $issue_id);
         Command_Line::checkIssueAssignment(&$rpc_conn, $auth, $issue_id);
 
+        $types = Command_Line::promptIncidentTypes(&$rpc_conn, $auth, $issue_id, true);
+        foreach ($types as $type_id => $type_value) {
+            $types[$type_id] = new XML_RPC_Value($type_value, 'string');
+        }
+        
         $params = array(
             new XML_RPC_Value($auth[0], 'string'), 
             new XML_RPC_Value($auth[1], 'string'),
-            new XML_RPC_Value($issue_id, 'int')
+            new XML_RPC_Value($issue_id, 'int'),
+            new XML_RPC_Value($types, 'struct')
         );
         $msg = new XML_RPC_Message("unredeemIssue", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             Command_Line::quit($result->faultString());
         }
-        echo "OK - Issue #$issue_id successfully marked as redeemed incident.\n";
+        echo "OK - Issue #$issue_id successfully marked as unredeemed incident.\n";
+    }
+    
+    
+    /**
+     * Returns the list of incident types available.
+     * 
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   array $auth Array of authentication information (email, password)
+     * @param   integer $issue_id The issue ID
+     * @param   boolean $redeemed_only If this should only show items that have been redeemed.
+     */
+    function promptIncidentTypes($rpc_conn, $auth, $issue_id, $redeemed_only = false)
+    {
+        $params = array(
+            new XML_RPC_Value($auth[0], 'string'), 
+            new XML_RPC_Value($auth[1], 'string'),
+            new XML_RPC_Value($issue_id, 'int'),
+            new XML_RPC_Value($redeemed_only, 'boolean')
+        );
+        $msg = new XML_RPC_Message("getIncidentTypes", $params);
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $types =  XML_RPC_decode($result->value());
+        if (count($types) < 1) {
+            if ($redeemed_only) {
+                Command_Line::quit("No incident types have been redeemed for this issue");
+            } else {
+                Command_Line::quit("All incident types have already been redeemed for this issue");
+            }
+        }
+        $prompt = "Please enter a comma seperated list of incident types to ";
+        if ($redeemed_only) {
+            $prompt .= "un";
+        }
+        $prompt .= "redeem for this issue.\n";
+        foreach ($types as $id => $data) {
+            $prompt .= sprintf(" [%s] => %s (Total: %s; Left: %s)\n", $id, $data['title'], $data['total'], ($data['total'] - $data['redeemed']));
+        }
+        $requested_types = Misc::prompt($prompt, false);
+        $requested_types = explode(',', $requested_types);
+        if (count($requested_types) < 1) {
+            Command_Line::quit("Please enter a comma seperated list of issue types");
+        } else {
+            $type_keys = array_keys($types);
+            foreach ($requested_types as $type_id) {
+                if (!in_array($type_id, $type_keys)) {
+                    Command_Line::quit("Input '$type_id' is not a valid incident type");
+                }
+            }
+            return $requested_types;
+        }
     }
 
 

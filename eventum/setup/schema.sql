@@ -16,23 +16,23 @@ CREATE TABLE %TABLE_PREFIX%custom_filter (
   cst_show_notification_list char(3) default '',
   cst_created_date date default NULL,
   cst_created_date_filter_type varchar(7) default NULL,
-  cst_created_date_time_perios smallint(4) default NULL,
+  cst_created_date_time_period smallint(4) default NULL,
   cst_created_date_end date default NULL,
   cst_updated_date date default NULL,
   cst_updated_date_filter_type varchar(7) default NULL,
-  cst_updated_date_time_perios smallint(4) default NULL,
+  cst_updated_date_time_period smallint(4) default NULL,
   cst_updated_date_end date default NULL,
   cst_last_response_date date default NULL,
   cst_last_response_date_filter_type varchar(7) default NULL,
-  cst_last_response_date_time_perios smallint(4) default NULL,
+  cst_last_response_date_time_period smallint(4) default NULL,
   cst_last_response_date_end date default NULL,
   cst_first_response_date date default NULL,
   cst_first_response_date_filter_type varchar(7) default NULL,
-  cst_first_response_date_time_perios smallint(4) default NULL,
+  cst_first_response_date_time_period smallint(4) default NULL,
   cst_first_response_date_end date default NULL,
   cst_closed_date date default NULL,
   cst_closed_date_filter_type varchar(7) default NULL,
-  cst_closed_date_time_perios smallint(4) default NULL,
+  cst_closed_date_time_period smallint(4) default NULL,
   cst_closed_date_end date default NULL,
   cst_rows char(3) default NULL,
   cst_sort_by varchar(32) default NULL,
@@ -125,6 +125,8 @@ INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'user_unassociated';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_unassociated';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'group_changed', htt_role = 4;
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'status_auto_changed', htt_role = 4;
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'incident_redeemed',  htt_role = 4;
+INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'incident_unredeemed',  htt_role = 4;
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue;
 CREATE TABLE %TABLE_PREFIX%issue (
@@ -776,6 +778,7 @@ CREATE TABLE %TABLE_PREFIX%email_draft (
   emd_usr_id INT(11) UNSIGNED NOT NULL,
   emd_iss_id INT(11) unsigned NOT NULL,
   emd_sup_id INT(11) UNSIGNED NULL DEFAULT NULL,
+  emd_status enum('pending', 'edited', 'sent') NOT NULL DEFAULT 'pending',
   emd_updated_date DATETIME NOT NULL,
   emd_subject VARCHAR(255) NOT NULL,
   emd_body LONGTEXT NOT NULL,
