@@ -3,7 +3,7 @@
  * Since priorities were change to be project specific, this script adds priorities to all
  * projects and updates existing issues.
  */
-include_once("../../config.inc.php");
+include_once("../../../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 // get current priorities

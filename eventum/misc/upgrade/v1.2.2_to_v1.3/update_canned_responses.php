@@ -3,7 +3,7 @@
  * Since canned email responses were changed to be project specific, this script
  * updates canned responses to be valid for all projects.
  */
-include_once("../../config.inc.php");
+include_once("../../../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 
