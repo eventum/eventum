@@ -1555,6 +1555,11 @@ class Support
                 Note::insert(Auth::getUserID(), $HTTP_POST_VARS["issue_id"]);
                 // notify the email being blocked to IRC
                 Notification::notifyIRCBlockedMessage($HTTP_POST_VARS['issue_id'], $HTTP_POST_VARS['from']);
+                // XXX: change the status of the issue automatically to 'Waiting on Developer'
+                $status_id = Status::getStatusID('Waiting on Developer');
+                if ((!empty($status_id)) && (Issue::getStatusID($HTTP_POST_VARS["issue_id"]) != Status::getStatusID('Pending'))) {
+                    Issue::markAsWaitingOnDeveloper($HTTP_POST_VARS["issue_id"], $status_id, 'blocked_email');
+                }
                 return 1;
             }
         }
@@ -1620,7 +1625,7 @@ class Support
         }
 
         $t = array(
-            'customer_id'    => 'NULL', // XXX: not always, what if the current user is a customer?
+            'customer_id'    => 'NULL',
             'issue_id'       => $HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : 0,
             'ema_id'         => $HTTP_POST_VARS['ema_id'],
             'message_id'     => $message_id,
@@ -1633,6 +1638,13 @@ class Support
             'full_email'     => $full_email,
             'has_attachment' => 0
         );
+        // associate this new email with a customer, if appropriate
+        if (User::getRoleByUser(Auth::getUserID()) == User::getRoleID('Customer')) {
+            $customer_id = User::getCustomerID(Auth::getUserID());
+            if ((empty($customer_id)) && ($customer_id != -1)) {
+                $t['customer_id'] = $customer_id;
+            }
+        }
         $structure = Mime_Helper::decode($full_email, true, false);
         $res = Support::insertEmail($t, $structure);
         if (!empty($HTTP_POST_VARS["issue_id"])) {
