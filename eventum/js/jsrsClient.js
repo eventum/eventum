@@ -146,13 +146,13 @@ function contextGET( rsPage, func, parms ){
 
   // build URL to call
   var URL = rsPage;
-
+  
   // handle URL already having arguments.
   if (URL.substr(URL.length-1,1) != '&') {
     URL += '?';
   }
   
-   // always send context
+  // always send context
   URL += "C=" + this.id;
 
   // func and parms are optional
@@ -175,7 +175,7 @@ function contextGET( rsPage, func, parms ){
   // unique string to defeat cache
   var d = new Date();
   URL += "&U=" + d.getTime();
- 
+
   // make the call
   switch( jsrsBrowser ) {
     case 'NS':
