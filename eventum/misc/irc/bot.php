@@ -30,6 +30,7 @@
 
 include_once("../../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
+include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_PEAR_PATH . 'Net/SmartIRC.php');
@@ -41,8 +42,187 @@ $channels = array(
     )
 );
 
+$auth = array();
+
 class Eventum_Bot
 {
+    function _isAuthenticated(&$irc, &$data)
+    {
+        global $auth;
+
+        if (in_array($data->nick, array_keys($auth))) {
+            return true;
+        } else {
+            $this->sendResponse($irc, $data->nick, 'Error: You need to be authenticated to run this command.');
+            return false;
+        }
+    }
+
+
+    function _getEmailByNickname($nickname)
+    {
+        global $auth;
+
+        if (in_array($nickname, array_keys($auth))) {
+            return $auth[$nickname];
+        } else {
+            return '';
+        }
+    }
+
+
+    function clockUser(&$irc, &$data)
+    {
+        if (!$this->_isAuthenticated($irc, $data)) {
+            return;
+        }
+        $email = $this->_getEmailByNickname($data->nick);
+
+        $pieces = explode(' ', $data->message);
+        if ((count($pieces) == 2) && ($pieces[1] != 'in') && ($pieces[1] != 'out')) {
+            $this->sendResponse($irc, $data->nick, 'Error: wrong parameter count for "CLOCK" command. Format is "!clock [in|out]".');
+            return;
+        }
+        if (@$pieces[1] == 'in') {
+            $res = User::clockIn(User::getUserIDByEmail($email));
+        } elseif (@$pieces[1] == 'out') {
+            $res = User::clockOut(User::getUserIDByEmail($email));
+        } else {
+            if (User::isClockedIn(User::getUserIDByEmail($email))) {
+                $msg = "clocked in";
+            } else {
+                $msg = "clocked out";
+            }
+            $this->sendResponse($irc, $data->nick, "You are currently $msg.");
+            return;
+        }
+        if ($res == 1) {
+            $this->sendResponse($irc, $data->nick, 'Thank you, you are now clocked ' . $pieces[1] . '.');
+        } else {
+            $this->sendResponse($irc, $data->nick, 'Error clocking ' . $pieces[1] . '.');
+        }
+    }
+
+
+    function listClockedInUsers(&$irc, &$data)
+    {
+        if (!$this->_isAuthenticated($irc, $data)) {
+            return;
+        }
+
+        $list = User::getClockedInList();
+        if (count($list) == 0) {
+            $this->sendResponse($irc, $data->nick, 'There are no clocked-in users as of now.');
+        } else {
+            $this->sendResponse($irc, $data->nick, 'The following is the list of clocked-in users:');
+            foreach ($list as $name => $email) {
+                $this->sendResponse($irc, $data->nick, "$name: $email");
+            }
+        }
+    }
+
+
+    function listQuarantinedIssues(&$irc, &$data)
+    {
+        if (!$this->_isAuthenticated($irc, $data)) {
+            return;
+        }
+
+        $list = Issue::getQuarantinedIssueList();
+        if (count($list) == 0) {
+            $this->sendResponse($irc, $data->nick, 'There are no quarantined issues as of now.');
+        } else {
+            $this->sendResponse($irc, $data->nick, 'The following are the details of the ' . count($list) . ' quarantined issue(s):');
+            for ($i = 0; $i < count($list); $i++) {
+                $url = APP_BASE_URL . 'view.php?id=' . $list[$i]['iss_id'];
+                $msg = sprintf('Issue #%d: %s, Assignment: %s, %s', $list[$i]['iss_id'], $list[$i]['iss_summary'], $list[$i]['assigned_users'], $url);
+                $this->sendResponse($irc, $data->nick, $msg);
+            }
+        }
+    }
+
+
+    function listAvailableCommands(&$irc, &$data)
+    {
+        $commands = array(
+            'auth'             => 'Format is "auth user@example.com password"',
+            'clock'            => 'Format is "clock [in|out]"',
+            'list-clocked-in'  => 'Format is "list-clocked-in"',
+            'list-quarantined' => 'Format is "list-quarantined"'
+        );
+        $this->sendResponse($irc, $data->nick, "This is the list of available commands:");
+        foreach ($commands as $command => $description) {
+            $this->sendResponse($irc, $data->nick, "$command: $description");
+        }
+    }
+
+
+    function _updateAuthenticatedUser(&$irc, &$data)
+    {
+        global $auth;
+
+        $old_nick = $data->nick;
+        $new_nick = $data->message;
+        if (in_array($data->nick, array_keys($auth))) {
+            $auth[$new_nick] = $auth[$old_nick];
+            unset($auth[$old_nick]);
+        }
+    }
+
+
+    function _removeAuthenticatedUser(&$irc, &$data)
+    {
+        global $auth;
+
+        if (in_array($data->nick, array_keys($auth))) {
+            unset($auth[$data->nick]);
+        }
+    }
+
+
+    function listAuthenticatedUsers(&$irc, &$data)
+    {
+        global $auth;
+
+        foreach ($auth as $nickname => $email) {
+            $this->sendResponse($irc, $data->nick, "$nickname => $email");
+        }
+    }
+
+
+    function authenticate(&$irc, &$data)
+    {
+        global $auth;
+
+        $pieces = explode(' ', $data->message);
+        if (count($pieces) != 3) {
+            $this->sendResponse($irc, $data->nick, 'Error: wrong parameter count for "AUTH" command. Format is "!auth user@example.com password".');
+            return;
+        }
+        $email = $pieces[1];
+        $password = $pieces[2];
+        // check if the email exists
+        if (!Auth::userExists($email)) {
+            $this->sendResponse($irc, $data->nick, 'Error: could not find a user account for the given email address "$email".');
+            return;
+        }
+        // check if the given password is correct
+        if (!Auth::isCorrectPassword($email, $password)) {
+            $this->sendResponse($irc, $data->nick, 'Error: The email address / password combination could not be found in the system.');
+            return;
+        }
+        // check if the user account is activated
+        if (!Auth::isActiveUser($email)) {
+            $this->sendResponse($irc, $data->nick, 'Error: Your user status is currently set as inactive. Please contact your local system administrator for further information.');
+            return;
+        } else {
+            $auth[$data->nick] = $email;
+            $this->sendResponse($irc, $data->nick, 'Thank you, you have been successfully authenticated.');
+            return;
+        }
+    }
+
+
     /**
      * Helper method to get the list of channels that should be used in the
      * notifications
@@ -139,6 +319,19 @@ $irc->setAutoRetry(TRUE);
 
 // register saytime() to be called every 30 sec. (30,000 milliseconds)
 $irc->registerTimehandler(3000, $bot, 'notifyEvents');
+
+// methods that keep track of who is authenticated
+$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-auth', $bot, 'listAuthenticatedUsers');
+$irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $bot, '_updateAuthenticatedUser');
+$irc->registerActionhandler(SMARTIRC_TYPE_KICK|SMARTIRC_TYPE_QUIT|SMARTIRC_TYPE_PART, '.*', $bot, '_removeAuthenticatedUser');
+
+// real bot commands
+$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?help', $bot, 'listAvailableCommands');
+$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?auth ', $bot, 'authenticate');
+$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?clock', $bot, 'clockUser');
+$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-clocked-in', $bot, 'listClockedInUsers');
+$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-quarantined', $bot, 'listQuarantinedIssues');
+
 
 $irc->connect('localhost', 6667);
 $irc->login('EventumBOT', 'EventumBOT', 0, 'EventumBOT');

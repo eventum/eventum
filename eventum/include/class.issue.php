@@ -3063,6 +3063,37 @@ class Issue
 
 
     /**
+     * Returns a simple list of issues that are currently set to some
+     * form of quarantine. This is mainly used by the IRC interface.
+     *
+     * @access  public
+     * @return  array List of quarantined issues
+     */
+    function getQuarantinedIssueList()
+    {
+        // XXX: would be nice to restrict the result list to only one project
+        $stmt = "SELECT
+                    iss_id,
+                    iss_summary
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
+                 WHERE
+                    iqu_iss_id=iss_id AND
+                    iqu_expiration >= '" . Date_API::getCurrentDateGMT() . "' AND
+                    iqu_expiration IS NOT NULL";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            Issue::getAssignedUsersByIssues($res);
+            return $res;
+        }
+    }
+
+
+    /**
      * Returns the status of a quarantine.
      * 
      * @param   integer $issue_id The issue ID

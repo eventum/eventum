@@ -1151,8 +1151,34 @@ class User
         $info = User::getNameEmail($usr_id);
         return $info["usr_full_name"] . " <" . $info["usr_email"] . ">";
     }
-    
-    
+
+
+    /**
+     * Returns the list of all users who are currently marked as 
+     * clocked-in.
+     *
+     * @access  public
+     * @return  array The list of clocked-in users
+     */
+    function getClockedInList()
+    {
+        $stmt = "SELECT
+                    usr_full_name,
+                    usr_email
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_clocked_in=1";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
     /**
      * Marks a user as clocked in.
      * 
@@ -1174,8 +1200,8 @@ class User
         }
         return 1;
     }
-    
-    
+
+
     /**
      * Marks a user as clocked out.
      * 
@@ -1197,8 +1223,8 @@ class User
         }
         return 1;
     }
-    
-    
+
+
     /**
      * Returns true if a user is clocked in.
      * 
