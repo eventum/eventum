@@ -317,6 +317,9 @@ function lookupField(f, search_field, field_name, callbacks)
         return false;
     }
     var target_field = getFormElement(f, field_name);
+    if (!target_field) {
+        target_field = getFormElement(f, field_name + '[]');
+    }
     for (var i = 0; i < target_field.options.length; i++) {
         var value = target_field.options[i].text.toUpperCase();
         if (target_field.type == 'select-multiple') {
