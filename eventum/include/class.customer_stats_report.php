@@ -80,12 +80,6 @@ class Customer_Stats_Report
     var $current_customers;
     
     /**
-     * If the customers should be split by  those that have innoDB support.
-     * @var boolean
-     */
-    var $split_by_innoDB;
-    
-    /**
      * If expired contracts should be excluded.
      * @var boolean
      */
@@ -155,16 +149,8 @@ class Customer_Stats_Report
                     if ($this->exclude_expired_contracts) {
                         $support_options[] = CUSTOMER_EXCLUDE_EXPIRED;
                     }
-                    // XXX: internal only. Remove innoDB for GPL.
-                    if ($this->split_by_innoDB) {
-                        $customers = Customer::getListBySupportLevel($this->prj_id, $grouped_levels[$level_name], array_merge($support_options, array(SPOT_CUSTOMER_OPTION_NO_INNODB_SUPPORT)));
-                        $data[] = $this->getDataRow($level_name . " w/o InnoDB", $customers);
-                        $customers = Customer::getListBySupportLevel($this->prj_id, $grouped_levels[$level_name], array_merge($support_options, array(SPOT_CUSTOMER_OPTION_INNODB_SUPPORT)));
-                        $data[] = $this->getDataRow($level_name . " w/ InnoDB", $customers);
-                    } else {
-                        $customers = Customer::getListBySupportLevel($this->prj_id, $grouped_levels[$level_name], $support_options);
-                        $data[] = $this->getDataRow($level_name, $customers);
-                    }
+                    $customers = Customer::getListBySupportLevel($this->prj_id, $grouped_levels[$level_name], $support_options);
+                    $data[] = $this->getDataRow($level_name, $customers);
                 }
             }
         }
@@ -220,7 +206,7 @@ class Customer_Stats_Report
         }
         $this->current_customers = Customer::getListBySupportLevel($this->prj_id, $all_levels, $support_option);
         
-        // get customers in spot,
+        // get customers
         $row["customer_counts"] = $this->getCustomerCounts("All");
         
         // get total # of issues, avg issues per customer, median issues per customer
@@ -279,7 +265,7 @@ class Customer_Stats_Report
         }
         
         return array(
-                "customers_in_spot" =>  $customer_count,
+                "customer_count"    =>  $customer_count,
                 "activity"  =>  $activity,
                 "active"    =>  count($issue_counts),
                 "inactive"  =>  $inactive_count
@@ -611,18 +597,6 @@ class Customer_Stats_Report
     function isCustomerBased()
     {
         return ((is_array($this->customers)) && (count($this->customers) > 0) && (!in_array("", $this->customers)));
-    }
-    
-    
-    /**
-     * Sets if customers should be seperated if they have innoDB or not.
-     * 
-     * @access  public
-     * @param   boolean $split If the customers should be split
-     */
-    function splitByInnoDB($split)
-    {
-        $this->split_by_innoDB = $split;
     }
     
     
