@@ -45,6 +45,9 @@ $role_id = User::getRoleByUser(Auth::getUserID());
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
     if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("show_setup_links", true);
+        $excluded_roles = false;
+    } else {
+        $excluded_roles = array('administrator');
     }
 
     if (@$HTTP_POST_VARS["cat"] == "new") {
@@ -61,7 +64,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
 
     $tpl->assign("list", User::getList());
     $tpl->assign("project_list", Project::getAll());
-    $tpl->assign("user_roles", User::getRoles(array('administrator')));
+    $tpl->assign("user_roles", User::getRoles($excluded_roles));
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }
