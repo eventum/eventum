@@ -27,6 +27,7 @@
 //
 // @(#) $Id: s.config.inc.php 1.8 04/01/19 15:19:26-00:00 jpradomaia $
 //
+ini_set('allow_url_fopen', 0);
 ini_set("display_errors", 0);
 error_reporting(0);
 set_time_limit(0);
