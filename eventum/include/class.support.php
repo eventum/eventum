@@ -1559,10 +1559,12 @@ class Support
                 // notify the email being blocked to IRC
                 Notification::notifyIRCBlockedMessage($HTTP_POST_VARS['issue_id'], $HTTP_POST_VARS['from']);
                 // XXX: change the status of the issue automatically to 'Waiting on Developer'
+                /*
                 $status_id = Status::getStatusID('Waiting on Developer');
                 if ((!empty($status_id)) && (Issue::getStatusID($HTTP_POST_VARS["issue_id"]) != Status::getStatusID('Pending'))) {
                     Issue::markAsWaitingOnDeveloper($HTTP_POST_VARS["issue_id"], $status_id, 'blocked_email');
                 }
+                */
                 return 1;
             }
         }
