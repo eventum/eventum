@@ -32,7 +32,10 @@ if (!in_array('cno_prj_id', $columns)) {
     $stmts[] = "ALTER TABLE eventum_customer_note ADD COLUMN cno_prj_id int(11) unsigned NOT NULL";
 }
 
+$stmts[] = 'ALTER TABLE eventum_issue DROP COLUMN iss_lock_usr_id';
+
 foreach ($stmts as $stmt) {
+    $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
     if (PEAR::isError($res)) {
         echo "<pre>";var_dump($res);echo "</pre>";
