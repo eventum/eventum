@@ -173,12 +173,16 @@ function disableFields()
               {$list[i].customer_title|escape:"html"}
             {elseif $field_name == 'iss_sta_id'}
               {$list[i].sta_title|escape:"html"}
+            {elseif $field_name == 'iss_dev_time'}
+              {$list[i].iss_dev_time|escape:"html"}
             {elseif $field_name == 'sta_change_date'}
               {$list[i].status_change_date|escape:"html"}
             {elseif $field_name == 'last_action_date'}
               {$list[i].last_action_date|escape:"html"}
             {elseif $field_name == 'usr_full_name'}
               {$list[i].usr_full_name|escape:"html"}
+            {elseif $field_name == 'iss_percent_complete'}
+              {$list[i].iss_percent_complete|escape:"html"}%
             {elseif $field_name == 'custom_fields'}
               <nobr>
               {foreach from=$list[i].custom_field key=fld_id item=fld_value}
