@@ -55,10 +55,8 @@ $tpl->assign("sorting", Support::getSortingInfo($options));
 $list = Support::getEmailListing($options, $pagerRow, $rows);
 $tpl->assign("list", $list["list"]);
 $tpl->assign("list_info", $list["info"]);
-
 $tpl->assign("issues", Issue::getColList());
 $tpl->assign("accounts", Email_Account::getAssocList(Auth::getCurrentProject()));
-
 $tpl->assign("assoc_issues", Issue::getAssocList());
 
 $prefs = Prefs::get(Auth::getUserID());
