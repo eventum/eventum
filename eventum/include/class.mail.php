@@ -171,11 +171,15 @@ class Mail_API
         // check if we have a <
         if (strstr($address, '<')) {
             $address = stripslashes($address);
+            // is the address in the format 'name' <address> ?
             if (strstr($address, "'")) {
                 $first_part = substr($address, 0, strpos($address, '<') - 1);
                 $first_part = '"' . $first_part . '"';
                 $second_part = substr($address, strpos($address, '<'));
-                return $first_part . ' ' . $second_part;
+                $address = $first_part . ' ' . $second_part;
+                // if the address was already in the format "'name'" <address>, then this code
+                // will end up adding even more double quotes, so let's remove any excess
+                return str_replace('""', '"', $address);
             } else {
                 return $address;
             }
