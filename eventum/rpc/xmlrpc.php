@@ -44,8 +44,8 @@ include_once(APP_PEAR_PATH . "XML_RPC/Server.php");
 
 function authenticate($email, $password)
 {
-    if (!Auth::isCorrectPassword($email, $password)) {
-        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Authentication failed for $email");
+    if ((!Auth::isCorrectPassword($email, $password)) || (User::getRoleByUser(User::getUserIDByEmail($email)) <= User::getRoleID("Customer"))) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role");
     } else {
         return true;
     }
