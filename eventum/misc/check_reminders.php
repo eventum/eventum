@@ -56,8 +56,16 @@ for ($i = 0; $i < count($reminders); $i++) {
             continue;
         }
         $issues = Reminder::getTriggeredIssues($reminders[$i], $conditions);
-        // avoid repeating reminder actions, so first check if the last triggered action is the same one as "now"
-        $issues = Reminder_Action::removeRepeatActions($issues, $reminders[$i]['actions'][$y]['rma_id']);
+        // avoid repeating reminder actions, so get the list of issues 
+        // that were last triggered with this reminder action ID
+        $repeat_issues = Reminder_Action::getRepeatActions($issues, $reminders[$i]['actions'][$y]['rma_id']);
+        if (count($repeat_issues) > 0) {
+            // add the repeated issues to the list of already triggered 
+            // issues, so they get ignored for the next reminder actions
+            for ($w = 0; $w < count($repeat_issues); $w++) {
+                $triggered_issues[] = $repeat_issues[$w];
+            }
+        }
         if (count($issues) > 0) {
             for ($z = 0; $z < count($issues); $z++) {
                 // only perform one action per issue id

@@ -763,15 +763,14 @@ class Reminder_Action
 
     /**
      * Returns the given list of issues with only the issues that 
-     * should be triggered, given the no-repeats rule of reminder
-     * actions.
+     * were last triggered for the given reminder action ID.
      *
      * @access  public
      * @param   array $issues The list of issue IDs
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of issue IDs
      */
-    function removeRepeatActions($issues, $rma_id)
+    function getRepeatActions($issues, $rma_id)
     {
         if (count($issues) == 0) {
             return $issues;
@@ -789,15 +788,15 @@ class Reminder_Action
             Error_Handler::logError(array($triggered_actions->getMessage(), $triggered_actions->getDebugInfo()), __FILE__, __LINE__);
             return $issues;
         } else {
-            $allowed_issues = array();
+            $repeat_issues = array();
             foreach ($issues as $issue_id) {
-                // if no action was ever triggered for this issue, OR
-                // if the latest triggered action is not the same as the current one
-                if ((!in_array($issue_id, array_keys($triggered_actions))) || ($triggered_actions[$issue_id] != $rma_id)) {
-                    $allowed_issues[] = $issue_id;
+                // if the issue was already triggered and the last triggered 
+                // action was the given one, then add it to the list of repeat issues
+                if ((in_array($issue_id, array_keys($triggered_actions))) && ($triggered_actions[$issue_id] == $rma_id)) {
+                    $repeat_issues[] = $issue_id;
                 }
             }
-            return $allowed_issues;
+            return $repeat_issues;
         }
     }
 
