@@ -1347,6 +1347,8 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 ON
+                    usr_email = sub_email
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  ON
