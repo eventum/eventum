@@ -239,7 +239,7 @@ function selectField(f, field_name)
 function getSelectedOption(f, field_name)
 {
     for (var i = 0; i < f.elements.length; i++) {
-        if (f.elements[i].name == field_name) {
+        if ((f.elements[i].name == field_name) && (f.elements[i].options.length > 0)) {
             return f.elements[i].options[f.elements[i].selectedIndex].value;
         }
     }
