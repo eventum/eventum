@@ -1,7 +1,8 @@
 Automated Issue #{$data.iss_id} Reminder Alert!
 
-      URL: {$app_base_url}view.php?id={$data.iss_id}
-  Summary: {$data.iss_summary}
+         URL: {$app_base_url}view.php?id={$data.iss_id}
+     Summary: {$data.iss_summary}
+  Assignment: {$data.assigned_users}
   
   Alert Reason:  
     Triggered "{$reminder.rem_title}"

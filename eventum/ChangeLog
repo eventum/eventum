@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+???, Version ???
+- Changed the reminder email alert so it displays the current assignment list (João)
+
 14 Jun 2004, Version 1.2
 - SMS email address can now be set back to empty. (Bryan)
 - Fixed a problem with a duplicate key name in the history_type table (João)
