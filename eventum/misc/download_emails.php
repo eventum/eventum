@@ -65,7 +65,7 @@ if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
         $prj_ids = array_keys(Project::getAll());
         foreach ($prj_ids as $prj_id) {
             $ema_ids = Email_Account::getAssocList($prj_id);
-            foreach ($ema_ids as $ema_id) {
+            foreach ($ema_ids as $ema_id => $ema_title) {
                 Lock::release('download_emails_' . $ema_id);
             }
         }
