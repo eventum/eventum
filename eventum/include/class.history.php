@@ -206,6 +206,7 @@ class History
     {
         $stmt = "SELECT
                     iss_id,
+                    iss_prj_id,
                     iss_summary,
                     iss_customer_id
                  FROM
@@ -223,10 +224,9 @@ class History
             return "";
         } else {
             if (count($res) > 0) {
-                include_once(APP_INC_PATH . "class.customer.php");
                 foreach ($res as $index => $row) {
                     if (!empty($row["iss_customer_id"])) {
-                        $details = Customer::getDetails($row["iss_customer_id"]);
+                        $details = Customer::getDetails($row["iss_prj_id"], $row["iss_customer_id"]);
                         $res[$index]["customer_name"] = $details["customer_name"];
                     }
                 }
