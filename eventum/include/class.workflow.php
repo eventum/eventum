@@ -329,6 +329,23 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->getAllowedStatuses($prj_id, $issue_id);
     }
+    
+    
+    /**
+     * Called when issue is closed.
+     * 
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue.
+     * @return  array An associative array of statuses valid for this issue.
+     */
+    function handleIssueClosed($prj_id, $issue_id)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->handleIssueClosed($prj_id, $issue_id);
+    }
 }
 
 
