@@ -1060,7 +1060,11 @@ class Issue
         if (@$HTTP_POST_VARS["keep_assignments"] == "no") {
             // only change the issue-user associations if there really were any changes
             $old_assignees = $current['assigned_users'];
-            $new_assignees = @$HTTP_POST_VARS['assignments'];
+            if (!empty($HTTP_POST_VARS['assignments'])) {
+                $new_assignees = @$HTTP_POST_VARS['assignments'];
+            } else {
+                $new_assignees = array();
+            }
             $assignment_notifications = array();
 
             // remove people from the assignment list, if appropriate
