@@ -1024,10 +1024,12 @@ class Project
     {
         return array(
             "category"  =>  "Category",
+            "priority"  =>  "Priority",
             "assignment"    =>  "Assignment",
             "release"   =>  "Scheduled Release",
             "estimated_dev_time"    =>  "Estimated Dev. Time",
-            "group"     =>  "Group"
+            "group"     =>  "Group",
+            "file"  =>  "File"
         );
     }
 }
