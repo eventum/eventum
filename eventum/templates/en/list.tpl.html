@@ -187,7 +187,7 @@ function disableFields()
           </td>
         </tr>
         {section name="i" loop=$list}
-        <tr {if $current_role > $roles.developer AND $list[i].iqu_status > 0}style="text-decoration : line-through;"{/if}>
+        <tr {if $current_role >= $roles.developer AND $list[i].iqu_status > 0}style="text-decoration : line-through;"{/if}>
           {if $current_role > $roles.developer}
           <td bgcolor="{$list[i].status_color}" width="1%" class="default" align="center"><input type="checkbox" name="item[]" value="{$list[i].iss_id}"></td>
           {/if}
