@@ -117,6 +117,8 @@ $irc->setDebug(SMARTIRC_DEBUG_ALL);
 $irc->setLogdestination(SMARTIRC_FILE);
 $irc->setLogfile('irclog.txt');
 $irc->setUseSockets(TRUE);
+$irc->setAutoReconnect(TRUE);
+$irc->setAutoRetry(TRUE);
 
 // register saytime() to be called every 30 sec. (30,000 milliseconds)
 $irc->registerTimehandler(3000, $bot, 'notifyEvents');
