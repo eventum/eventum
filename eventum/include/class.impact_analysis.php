@@ -121,8 +121,8 @@ class Impact_Analysis
                 return "";
             } else {
                 for ($i = 0; $i < count($res); $i++) {
-                    $res[$i]["isr_requirement"] = Link_Filter::processText(nl2br(htmlspecialchars($res[$i]["isr_requirement"])));
-                    $res[$i]["isr_impact_analysis"] = Link_Filter::processText(nl2br(htmlspecialchars($res[$i]["isr_impact_analysis"])));
+                    $res[$i]["isr_requirement"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isr_requirement"])));
+                    $res[$i]["isr_impact_analysis"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isr_impact_analysis"])));
                     $res[$i]["formatted_dev_time"] = Misc::getFormattedTime($res[$i]["isr_dev_time"]);
                 }
                 return $res;

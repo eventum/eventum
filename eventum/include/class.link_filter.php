@@ -258,13 +258,14 @@ class Link_Filter
      * Processes text through all link filters.
      * 
      * @access  public
+     * @param   integer $prj_id The ID of the project
      * @param   string $text The text to process
      * @param   string $class The CSS class to use on the actual links
      * @return  string The processed text.
      */
-    function processText($text, $class = "link")
+    function processText($prj_id, $text, $class = "link")
     {
-        $filters = Link_Filter::getFilters();
+        $filters = Link_Filter::getFilters($prj_id);
         
         if (count($filters) > 0) {
             foreach ($filters as $filter) {
@@ -279,12 +280,26 @@ class Link_Filter
     
     
     /**
+     * Callback function to be used from template class.
+     * 
+     * @access  public
+     * @param   string $text The text to process
+     * @return  string the processed text.
+     */
+    function activateLinks($text)
+    {
+        return Link_Filter::processText(Auth::getCurrentProject(), $text);
+    }
+    
+    
+    /**
      * Returns an array of patterns and replacements.
      * 
      * @access  private
+     * @param   integer $prj_id The ID of the project
      * @return  array An array of patterns and replacements
      */
-    function getFilters()
+    function getFilters($prj_id)
     {
         static $filters;
         if (is_null($filters)) {
@@ -297,7 +312,7 @@ class Link_Filter
                     WHERE
                         lfi_id = plf_lfi_id AND
                         lfi_usr_role < " . Auth::getCurrentRole() . " AND
-                        plf_prj_id = " . Auth::getCurrentProject() . "
+                        plf_prj_id = $prj_id
                     ORDER BY
                         lfi_id";
             $res = $GLOBALS["db_api"]->dbh->getAll($sql);

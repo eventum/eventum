@@ -258,7 +258,8 @@ class Phone_Support
         $stmt = "SELECT
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support.*,
                     usr_full_name,
-                    phc_title
+                    phc_title,
+                    iss_prj_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category,
@@ -279,7 +280,7 @@ class Phone_Support
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["phs_description"] = Misc::activateLinks(nl2br(htmlspecialchars($res[$i]["phs_description"])));
-                $res[$i]["phs_description"] = Link_Filter::processText($res[$i]["phs_description"]);
+                $res[$i]["phs_description"] = Link_Filter::processText($res[$i]['iss_prj_id'], $res[$i]["phs_description"]);
                 $res[$i]["phs_created_date"] = Date_API::getFormattedDate($res[$i]["phs_created_date"]);
             }
             return $res;

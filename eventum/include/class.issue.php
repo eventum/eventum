@@ -2685,7 +2685,7 @@ class Issue
                     $res["iss_description"] = Misc::activateLinks(nl2br(htmlspecialchars($res["iss_description"])));
                     $res["iss_resolution"] = Resolution::getTitle($res["iss_res_id"]);
                 }
-                $res["iss_impact_analysis"] = Link_Filter::processText(nl2br(htmlspecialchars($res["iss_impact_analysis"])));
+                $res["iss_impact_analysis"] = Link_Filter::processText($res['iss_prj_id'], nl2br(htmlspecialchars($res["iss_impact_analysis"])));
                 $res["iss_created_date"] = Date_API::getFormattedDate($res["iss_created_date"]);
                 $res["assignments"] = @implode(", ", array_values(Issue::getAssignedUsers($res["iss_id"])));
                 list($res['authorized_names'], $res['authorized_repliers']) = Authorized_Replier::getAuthorizedRepliers($res["iss_id"]);

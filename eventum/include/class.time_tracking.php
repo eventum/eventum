@@ -333,7 +333,7 @@ class Time_Tracking
         } else {
             $total_time_spent = 0;
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["ttr_summary"] = Link_Filter::processText(nl2br(htmlspecialchars($res[$i]["ttr_summary"])));
+                $res[$i]["ttr_summary"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["ttr_summary"])));
                 $res[$i]["formatted_time"] = Misc::getFormattedTime($res[$i]["ttr_time_spent"]);
                 $res[$i]["ttr_created_date"] = Date_API::getFormattedDate($res[$i]["ttr_created_date"]);
 

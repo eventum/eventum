@@ -154,7 +154,7 @@ class SCM
                 return "";
             } else {
                 for ($i = 0; $i < count($res); $i++) {
-                    $res[$i]["isc_commit_msg"] = Link_Filter::processText(nl2br(htmlspecialchars($res[$i]["isc_commit_msg"])));
+                    $res[$i]["isc_commit_msg"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isc_commit_msg"])));
                     @$res[$i]["checkout_url"] = SCM::parseURL($setup["checkout_url"], $res[$i]);
                     @$res[$i]["diff_url"] = SCM::parseURL($setup["diff_url"], $res[$i]);
                     $res[$i]["isc_created_date"] = Date_API::getFormattedDate($res[$i]["isc_created_date"]);
