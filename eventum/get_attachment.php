@@ -41,7 +41,7 @@ if (@$HTTP_GET_VARS['cat'] == 'blocked_email') {
     $email = Support::getFullEmail($HTTP_GET_VARS["sup_id"]);
 }
 
-if (@$HTTP_GET_VARS["filename"] == 'Outlook.bmp') {
+if (substr(@$HTTP_GET_VARS["filename"], -4) == '.bmp') {
     list(, $data) = Mime_Helper::getAttachment($email, $HTTP_GET_VARS["filename"], $HTTP_GET_VARS["cid"]);
     header("Content-Type: image/bmp");
 } else {
