@@ -162,10 +162,13 @@ class Template_API
         $usr_id = Auth::getUserID();
         if ($usr_id != '') {
             $prj_id = Auth::getCurrentProject();
+            if (!empty($prj_id)) {
+                $this->assign("current_project", $prj_id);
+                $this->assign("current_project_name", Auth::getCurrentProjectName());
+                $this->assign("has_customer_integration", Customer::hasCustomerIntegration($prj_id));
+            }
             $info = User::getNameEmail($usr_id);
             $this->assign("active_projects", Project::getAssocList($usr_id));
-            $this->assign("current_project", $prj_id);
-            $this->assign("current_project_name", Auth::getCurrentProjectName());
             $this->assign("current_full_name", $info["usr_full_name"]);
             $this->assign("current_email", $info["usr_email"]);
             $this->assign("current_user_id", $usr_id);
@@ -176,7 +179,6 @@ class Template_API
             $this->assign("current_role", (integer) $role_id);
             $this->assign("current_role_name", User::getRole($role_id));
             $this->assign("roles", User::getAssocRoleIDs());
-            $this->assign("has_customer_integration", Customer::hasCustomerIntegration($prj_id));
         }
         $this->assign("app_setup", Setup::load());
         $this->assign("app_setup_path", APP_SETUP_PATH);
