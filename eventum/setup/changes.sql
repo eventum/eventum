@@ -227,3 +227,7 @@ INSERT INTO eventum_history_type SET htt_name = 'issue_unassociated';
 # may 25
 
 ALTER TABLE eventum_issue ADD COLUMN iss_trigger_reminders tinyint(1) default 1;
+
+# june 2
+
+UPDATE eventum_user SET usr_email='system-account@domain.com' WHERE usr_id=1;
