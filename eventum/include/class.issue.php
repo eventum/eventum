@@ -75,6 +75,25 @@ $list_headings = array(
 class Issue
 {
     /**
+     * Method used to get the full list of date fields available to issues, to
+     * be used when customizing the issue listing screen in the 'last status
+     * change date' column.
+     *
+     * @access  public
+     * @return  array The list of available date fields
+     */
+    function getDateFieldsAssocList()
+    {
+        return array(
+            'iss_created_date'              => 'Created Date',
+            'iss_updated_date'              => 'Last Updated Date',
+            'iss_last_response_date'        => 'Last Response Date',
+            'iss_closed_date'               => 'Closed Date'
+        );
+    }
+
+
+    /**
      * Method used to get the full list of issue IDs and their respective 
      * titles associated to a given project.
      *
@@ -1423,18 +1442,27 @@ class Issue
             History::add($new_issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
             // now add the user/issue association
             $users = array();
-            for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
-                Notification::insert($new_issue_id, $HTTP_POST_VARS["users"][$i]);
-                Issue::addUserAssociation($new_issue_id, $HTTP_POST_VARS["users"][$i]);
-                if ($HTTP_POST_VARS["users"][$i] != $usr_id) {
-                    $users[] = $HTTP_POST_VARS["users"][$i];
+            if (count($HTTP_POST_VARS["users"]) > 0) {
+                for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
+                    Notification::insert($new_issue_id, $HTTP_POST_VARS["users"][$i]);
+                    Issue::addUserAssociation($new_issue_id, $HTTP_POST_VARS["users"][$i]);
+                    if ($HTTP_POST_VARS["users"][$i] != $usr_id) {
+                        $users[] = $HTTP_POST_VARS["users"][$i];
+                    }
+                }
+            } else {
+                // try using the round-robin feature instead
+                $assignee = Round_Robin::getNextAssignee($prj_id);
+                // assign the issue to the round robin person
+                if (!empty($assignee)) {
+                    Issue::addUserAssociation($new_issue_id, $assignee, false);
+                    History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
+                    $users[] = $assignee;
                 }
             }
             if (count($users)) {
                 Notification::notifyAssignedUsers($users, $new_issue_id);
             }
-            // also notify any users that want to receive emails anytime a new issue is created
-            Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
             // now process any files being uploaded
             $found = 0;
             for ($i = 0; $i < count(@$HTTP_POST_FILES["file"]["name"]); $i++) {
@@ -1477,6 +1505,8 @@ class Issue
                     Notification::subscribeReporter($new_issue_id, $usr_id, $HTTP_POST_VARS["actions"]);
                 }
             }
+            // also notify any users that want to receive emails anytime a new issue is created
+            Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
             return $new_issue_id;
         }
     }
@@ -1646,6 +1676,8 @@ class Issue
 
         $stmt = "SELECT
                     iss_id,
+                    iss_prj_id,
+                    iss_sta_id,
                     iss_lock_usr_id,
                     iss_created_date,
                     iss_updated_date,
@@ -1878,23 +1910,23 @@ class Issue
      */
     function getLastStatusChangeDate($issue_id, $row)
     {
-        $sta_title = strtolower($row['sta_title']);
-        if (($sta_title == 'pending') || ($sta_title == 'assigned')) {
-            $target_date = $row['iss_created_date'];
-            $current = new Date(Date_API::getCurrentDateGMT());
-            $desc = "Created: %s ago";
-        } elseif ($sta_title == 'closed') {
-            $target_date = $row['iss_closed_date'];
-            $current = new Date(Date_API::getCurrentDateGMT());
-            $desc = "Closed: %s ago";
+        // get target date and label for the given status id
+        if (empty($row['iss_sta_id'])) {
+            return '';
         } else {
-            return '';
+            list($label, $date_field_name) = Status::getProjectStatusCustomization($row['iss_prj_id'], $row['iss_sta_id']);
+            if ((empty($label)) || (empty($date_field_name))) {
+                return '';
+            }
+            $current = new Date(Date_API::getCurrentDateGMT());
+            $desc = "$label: %s ago";
+            $target_date = $row[$date_field_name];
+            if (empty($target_date)) {
+                return '';
+            }
+            $date = new Date($target_date);
+            return sprintf($desc, Date_API::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
         }
-        if (empty($target_date)) {
-            return '';
-        }
-        $date = new Date($target_date);
-        return sprintf($desc, Date_API::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
     }
 
 
@@ -2003,6 +2035,13 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
                  ON
                     iur_iss_id=iss_id";
+        }
+        if (!empty($options["show_notification_list_issues"])) {
+            $stmt .= "
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                 ON
+                    sub_iss_id=iss_id";
         }
         $stmt .= "
                  LEFT JOIN
