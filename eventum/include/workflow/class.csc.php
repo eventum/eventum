@@ -153,6 +153,22 @@ class CSC_Workflow_Backend
 
 
     /**
+     * Called when a new issue is created.
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   boolean $has_TAM If this issue has a technical account manager.
+     * @param   boolean $has_RR If Round Robin was used to assign this issue.
+     */
+    function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
+    {
+        if ($has_TAM || $has_RR) {
+            Issue::setStatus($issue_id, Status::getStatusID('Assigned'));
+        }
+    }
+
+
+    /**
      * Updates the status of a given issue ID to 'Waiting on Developer' and 
      * saves a history entry about it.
      *

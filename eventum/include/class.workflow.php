@@ -240,6 +240,24 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment);
     }
+
+
+    /**
+     * Called when a new issue is created.
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   boolean $has_TAM If this issue has a technical account manager.
+     * @param   boolean $has_RR If Round Robin was used to assign this issue.
+     */
+    function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
+    }
 }
 
 
