@@ -152,3 +152,11 @@ h4 {
   color: #FFFFFF;
   text-decoration: underline;
 }
+.banner_red {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-size: 70%;
+  font-weight: bold;
+  border: 1px solid Red;
+  padding: 2px 2px 2px 2px;
+}
