@@ -6,6 +6,20 @@ We have tried to make upgrading from an earlier release as pain-free as
 possible, and we provide scripts that should bring your current Eventum
 installation up-to-date.
 
+- Upgrading from version 1.2.1 to 1.2.2:
+----------------------------------------
+
+For the upgrade from release 1.2.1 to 1.2.2, there's a set of scripts in the 
+following directory that will upgrade your database schema:
+
+  /path-to-eventum/misc/upgrade/v1.2.1_to_v1.2.2/
+
+Run the scripts in the following order:
+
+- database_changes.php
+- fix_email_bodies.php
+
+
 - Upgrading from version 1.2 to 1.2.1:
 --------------------------------------
 
