@@ -3161,9 +3161,10 @@ class Issue
         
         $details = Issue::getDetails($issue_id);
         $usr_details = User::getDetails($usr_id);
+        $usr_role = User::getRoleByUser($usr_id, $details['iss_prj_id']);
         
         // check customer permissions
-        if ((Customer::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_details['usr_role'] == User::getRoleID("Customer")) &&
+        if ((Customer::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID("Customer")) &&
                 ($details['iss_customer_id'] != $usr_details['usr_customer_id'])) {
             $return = false;
         } elseif ($details['iss_private'] == 1) {
