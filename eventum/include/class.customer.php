@@ -88,7 +88,7 @@ class Customer
             return '';
         } else {
             $backends = $res;
-            return $backends[$prj_id];
+            return @$backends[$prj_id];
         }
     }
 
