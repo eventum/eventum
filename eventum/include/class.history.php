@@ -55,6 +55,8 @@ class History
     {
         if (empty($old_value)) {
             return '<i>no value set</i> -> ' . $new_value;
+        } elseif (empty($new_value)) {
+            return $old_value . ' -> <i>no value set</i>';
         } else {
             return $old_value . ' -> ' . $new_value;
         }
