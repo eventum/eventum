@@ -66,7 +66,7 @@ class Group
                  ) VALUES (
                     '" . Misc::escapeString($HTTP_POST_VARS["group_name"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    '" . $HTTP_POST_VARS["manager"] . "'
+                    '" . Misc::escapeInteger($HTTP_POST_VARS["manager"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -95,12 +95,14 @@ class Group
     {
         global $HTTP_POST_VARS;
 
+        $HTTP_POST_VARS['id'] = Misc::escapeInteger($HTTP_POST_VARS['id']);
+        
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
                  SET
                     grp_name = '" . Misc::escapeString($HTTP_POST_VARS["group_name"]) . "',
                     grp_description = '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    grp_manager_usr_id = '" . $HTTP_POST_VARS["manager"] . "'
+                    grp_manager_usr_id = '" . Misc::escapeInteger($HTTP_POST_VARS["manager"]) . "'
                  WHERE
                     grp_id = " . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -111,7 +113,7 @@ class Group
             Group::setProjects($HTTP_POST_VARS["id"], $HTTP_POST_VARS["projects"]);
             // get old users so we can remove any ones that have been removed
             $existing_users = Group::getUsers($HTTP_POST_VARS["id"]);
-            $diff = array_diff($existing_users, $HTTP_POST_VARS["users"]);
+            $diff = array_diff($existing_users, Misc::escapeInteger($HTTP_POST_VARS["users"]));
             if (count($diff) > 0) {
                 foreach ($diff as $usr_id) {
                     User::setGroupID($usr_id, false);
@@ -134,7 +136,7 @@ class Group
     {
         global $HTTP_POST_VARS;
 
-        foreach (@$HTTP_POST_VARS["items"] as $grp_id) {
+        foreach (Misc::escapeInteger(@$HTTP_POST_VARS["items"]) as $grp_id) {
             $users = Group::getUsers($grp_id);
             
             $stmt = "DELETE FROM
@@ -166,6 +168,8 @@ class Group
      */
     function setProjects($grp_id, $projects)
     {
+        $grp_id = Misc::escapeInteger($grp_id);
+        $projects = Misc::escapeInteger($projects);
         Group::removeProjectsByGroup($grp_id);
         
         // make new associations
@@ -201,7 +205,7 @@ class Group
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
                  WHERE
-                    pgr_grp_id = $grp_id";
+                    pgr_grp_id = " . Misc::escapeInteger($grp_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -224,7 +228,7 @@ class Group
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
                  WHERE
-                    pgr_prj_id IN(" . join(",", $projects) . ")";
+                    pgr_prj_id IN(" . join(",", Misc::escapeInteger($projects)) . ")";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -244,6 +248,8 @@ class Group
     function getDetails($grp_id)
     {
         static $returns;
+        
+        $grp_id = Misc::escapeInteger($grp_id);
         
         if (!empty($returns[$grp_id])) {
             return $returns[$grp_id];
@@ -285,6 +291,7 @@ class Group
      */
     function getName($grp_id)
     {
+        $grp_id = Misc::escapeInteger($grp_id);
         if (empty($grp_id)) {
             return "";
         }
@@ -340,6 +347,8 @@ class Group
     {
         static $list;
 
+        $prj_id = Misc::escapeInteger($prj_id); 
+        
         if (!empty($list[$prj_id])) {
             return $list[$prj_id];
         }
@@ -380,7 +389,7 @@ class Group
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_grp_id = $grp_id";
+                    usr_grp_id = " . Misc::escapeInteger($grp_id);
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -407,7 +416,7 @@ class Group
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
                     pgr_prj_id = prj_id AND
-                    pgr_grp_id = $grp_id";
+                    pgr_grp_id = " . Misc::escapeInteger($grp_id);
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

@@ -77,7 +77,7 @@ class Category
      */
     function removeByProjects($ids)
     {
-        $items = @implode(", ", $ids);
+        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
@@ -103,7 +103,7 @@ class Category
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
@@ -138,8 +138,8 @@ class Category
                  SET
                     prc_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
                  WHERE
-                    prc_prj_id=" . $HTTP_POST_VARS["prj_id"] . " AND
-                    prc_id=" . $HTTP_POST_VARS["id"];
+                    prc_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . " AND
+                    prc_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -169,7 +169,7 @@ class Category
                     prc_prj_id,
                     prc_title
                  ) VALUES (
-                    " . $HTTP_POST_VARS["prj_id"] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -192,6 +192,7 @@ class Category
      */
     function getList($prj_id)
     {
+        $prj_id = Misc::escapeInteger($prj_id);
         $stmt = "SELECT
                     prc_id,
                     prc_title
@@ -222,6 +223,8 @@ class Category
     function getAssocList($prj_id)
     {
         static $list;
+        
+        $prj_id = Misc::escapeInteger($prj_id);
 
         if (!empty($list[$prj_id])) {
             return $list[$prj_id];
@@ -261,7 +264,7 @@ class Category
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
-                    prc_id=$prc_id";
+                    prc_id=" . Misc::escapeInteger($prc_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

@@ -378,7 +378,13 @@ class Misc
      */
     function escapeInteger($input)
     {
-        settype($input, 'integer');
+        if (is_array($input)) {
+            foreach ($input as $key => $value) {
+                $input[$key] = Misc::escapeInteger($value);
+            }
+        } else {
+            settype($input, 'integer');
+        }
         return $input;
     }
 

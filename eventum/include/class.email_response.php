@@ -59,8 +59,8 @@ class Email_Response
                     per_ere_id,
                     per_prj_id
                  ) VALUES (
-                    $ere_id,
-                    $prj_id
+                    " . Misc::escapeInteger($ere_id) . ",
+                    " . Misc::escapeInteger($prj_id) . "
                  )";
         $GLOBALS["db_api"]->dbh->query($stmt);
     }
@@ -113,7 +113,7 @@ class Email_Response
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response
                  WHERE
@@ -140,6 +140,7 @@ class Email_Response
      */
     function removeProjectAssociations($ere_id, $prj_id=FALSE)
     {
+        $ere_id = Misc::escapeInteger($ere_id);
         if (!is_array($ere_id)) {
             $ere_id = array($ere_id);
         }
@@ -170,6 +171,8 @@ class Email_Response
     function update()
     {
         global $HTTP_POST_VARS;
+        
+        $HTTP_POST_VARS['id'] = Misc::escapeInteger($HTTP_POST_VARS['id']);
 
         if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
             return -2;
@@ -206,6 +209,7 @@ class Email_Response
      */
     function getDetails($ere_id)
     {
+        $ere_id = Misc::escapeInteger($ere_id);
         $stmt = "SELECT
                     *
                  FROM
@@ -234,6 +238,7 @@ class Email_Response
      */
     function getAssociatedProjects($ere_id)
     {
+        $ere_id = Misc::escapeInteger($ere_id);
         $stmt = "SELECT
                     prj_id,
                     prj_title
@@ -301,7 +306,7 @@ class Email_Response
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_email_response
                  WHERE
                     per_ere_id=ere_id AND
-                    per_prj_id=$prj_id
+                    per_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     ere_title ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -332,7 +337,7 @@ class Email_Response
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_email_response
                  WHERE
                     per_ere_id=ere_id AND
-                    per_prj_id=$prj_id";
+                    per_prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

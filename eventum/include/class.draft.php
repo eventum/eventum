@@ -66,6 +66,8 @@ class Draft
      */
     function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = FALSE, $unknown_user = FALSE, $add_history_entry = TRUE)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $parent_id = Misc::escapeInteger($parent_id);
         if (empty($parent_id)) {
             $parent_id = 'NULL';
         }
@@ -122,6 +124,9 @@ class Draft
     // XXX: put some documentation here
     function update($issue_id, $emd_id, $to, $cc, $subject, $message, $parent_id = FALSE)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $emd_id = Misc::escapeInteger($emd_id);
+        $parent_id = Misc::escapeInteger($issue_id);
         if (empty($parent_id)) {
             $parent_id = 'NULL';
         }
@@ -151,6 +156,7 @@ class Draft
     // XXX: put some documentation here
     function remove($emd_id)
     {
+        $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
                  SET
@@ -170,6 +176,7 @@ class Draft
     // XXX: put some documentation here
     function removeRecipients($emd_id)
     {
+        $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft_recipient
                  WHERE
@@ -187,6 +194,7 @@ class Draft
     // XXX: put some documentation here
     function addEmailRecipient($emd_id, $email, $is_cc)
     {
+        $emd_id = Misc::escapeInteger($emd_id);
         if (!$is_cc) {
             $is_cc = 0;
         } else {
@@ -217,6 +225,7 @@ class Draft
     // XXX: put some documentation here
     function getDetails($emd_id)
     {
+        $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "SELECT
                     *
                  FROM
@@ -250,6 +259,7 @@ class Draft
      */
     function getList($issue_id, $show_all = false)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
                     emd_id,
                     emd_usr_id,
@@ -291,6 +301,7 @@ class Draft
     // XXX: put some documentation here
     function getEmailRecipients($emd_id)
     {
+        $emd_id = Misc::escapeInteger($emd_id);
         $stmt = "SELECT
                     edr_email,
                     edr_is_cc
@@ -330,6 +341,8 @@ class Draft
      */
     function getDraftBySequence($issue_id, $sequence)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $sequence = Misc::escapeInteger($sequence);
         $stmt = "SELECT
                     emd_id
                 FROM
@@ -364,6 +377,7 @@ class Draft
     {
         global $HTTP_POST_VARS;
 
+        $draft_id = Misc::escapeInteger($draft_id);
         $draft = Draft::getDetails($draft_id);
         $HTTP_POST_VARS["issue_id"] = $draft["emd_iss_id"];
         $HTTP_POST_VARS["subject"] = $draft["emd_subject"];

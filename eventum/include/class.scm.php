@@ -57,7 +57,7 @@ class SCM
      */
     function removeByIssues($ids)
     {
-        $items = implode(", ", $ids);
+        $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
                  WHERE
@@ -82,7 +82,7 @@ class SCM
     {
         global $HTTP_POST_VARS;
 
-        $items = implode(", ", $HTTP_POST_VARS["item"]);
+        $items = implode(", ", Misc::escapeInteger($HTTP_POST_VARS["item"]));
         $stmt = "SELECT
                     isc_iss_id
                  FROM
@@ -142,7 +142,7 @@ class SCM
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
                  WHERE
-                    isc_iss_id=$issue_id
+                    isc_iss_id=" . Misc::escapeInteger($issue_id) . "
                  ORDER BY
                     isc_created_date ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);

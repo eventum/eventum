@@ -77,17 +77,17 @@ class Priority
             $stmt = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                      SET
-                        pri_rank=" . $ranking[$pri_id] . "
+                        pri_rank=" . Misc::escapeInteger($ranking[$pri_id]) . "
                      WHERE
-                        pri_id=" . $replaced_pri_id;
+                        pri_id=" . Misc::escapeInteger($replaced_pri_id);
             $GLOBALS["db_api"]->dbh->query($stmt);
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  SET
-                    pri_rank=" . $new_rank . "
+                    pri_rank=" . Misc::escapeInteger($new_rank) . "
                  WHERE
-                    pri_id=" . $pri_id;
+                    pri_id=" . Misc::escapeInteger($pri_id);
         $GLOBALS["db_api"]->dbh->query($stmt);
         return true;
     }
@@ -133,7 +133,7 @@ class Priority
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
-                    pri_id=$pri_id";
+                    pri_id=" . Misc::escapeInteger($pri_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -154,7 +154,7 @@ class Priority
      */
     function removeByProjects($ids)
     {
-        $items = @implode(", ", $ids);
+        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
@@ -180,7 +180,7 @@ class Priority
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
@@ -214,10 +214,10 @@ class Priority
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  SET
                     pri_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    pri_rank=" . $HTTP_POST_VARS['rank'] . "
+                    pri_rank=" . Misc::escapeInteger($HTTP_POST_VARS['rank']) . "
                  WHERE
-                    pri_prj_id=" . $HTTP_POST_VARS["prj_id"] . " AND
-                    pri_id=" . $HTTP_POST_VARS["id"];
+                    pri_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . " AND
+                    pri_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -248,9 +248,9 @@ class Priority
                     pri_title,
                     pri_rank
                  ) VALUES (
-                    " . $HTTP_POST_VARS["prj_id"] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    " . $HTTP_POST_VARS['rank'] . "
+                    " . Misc::escapeInteger($HTTP_POST_VARS['rank']) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -279,7 +279,7 @@ class Priority
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
-                    pri_prj_id=$prj_id
+                    pri_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     pri_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -306,7 +306,7 @@ class Priority
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
-                    pri_id=$pri_id";
+                    pri_id=" . Misc::escapeInteger($pri_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -339,7 +339,7 @@ class Priority
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
-                    pri_prj_id=$prj_id
+                    pri_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     pri_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);

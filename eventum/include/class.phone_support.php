@@ -66,7 +66,7 @@ class Phone_Support
                     phc_prj_id,
                     phc_title
                  ) VALUES (
-                    " . $HTTP_POST_VARS["prj_id"] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -99,8 +99,8 @@ class Phone_Support
                  SET
                     phc_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
                  WHERE
-                    phc_prj_id=" . $HTTP_POST_VARS["prj_id"] . " AND
-                    phc_id=" . $HTTP_POST_VARS["id"];
+                    phc_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . " AND
+                    phc_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -122,7 +122,7 @@ class Phone_Support
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
                  WHERE
@@ -151,7 +151,7 @@ class Phone_Support
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
                  WHERE
-                    phc_id=$phc_id";
+                    phc_id=" . Misc::escapeInteger($phc_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -178,7 +178,7 @@ class Phone_Support
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
                  WHERE
-                    phc_prj_id=$prj_id
+                    phc_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     phc_title ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -207,7 +207,7 @@ class Phone_Support
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
                  WHERE
-                    phc_prj_id=$prj_id
+                    phc_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     phc_id ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -234,7 +234,7 @@ class Phone_Support
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  WHERE
-                    phs_id=$phs_id";
+                    phs_id=" . Misc::escapeInteger($phs_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -270,7 +270,7 @@ class Phone_Support
                     iss_prj_id=phc_prj_id AND
                     phs_phc_id=phc_id AND
                     phs_usr_id=usr_id AND
-                    phs_iss_id=$issue_id
+                    phs_iss_id=" .  Misc::escapeInteger($issue_id) . "
                  ORDER BY
                     phs_created_date ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -323,9 +323,9 @@ class Phone_Support
                     phs_call_to_lname,
                     phs_call_to_fname
                  ) VALUES (
-                    " . $HTTP_POST_VARS["issue_id"] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["issue_id"]) . ",
                     $usr_id,
-                    " . $HTTP_POST_VARS["phone_category"] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["phone_category"]) . ",
                     '" . Misc::escapeString($created_date) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["phone_number"]) . "',
@@ -352,7 +352,7 @@ class Phone_Support
                      FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
                      WHERE
-                        ttr_iss_id = " . $HTTP_POST_VARS["issue_id"] . " AND
+                        ttr_iss_id = " . Misc::escapeInteger($HTTP_POST_VARS["issue_id"]) . " AND
                         ttr_usr_id = $usr_id";
             $ttr_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
             
@@ -369,7 +369,7 @@ class Phone_Support
                          SET
                             phs_ttr_id = $ttr_id
                          WHERE
-                            phs_id = $phs_id";
+                            phs_id = " . Misc::escapeInteger($phs_id);
                 $res = $GLOBALS["db_api"]->dbh->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -391,6 +391,8 @@ class Phone_Support
      */
     function remove($phone_id)
     {
+        $phone_id = Misc::escapeInteger($phone_id);
+        
         $stmt = "SELECT
                     phs_iss_id,
                     phs_ttr_id,
@@ -400,6 +402,9 @@ class Phone_Support
                  WHERE
                     phs_id=$phone_id";
         $details = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if ($details['phs_usr_id'] != Auth::getUserID()) {
+            return -2;
+        }
 
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
@@ -439,7 +444,7 @@ class Phone_Support
      */
     function removeByIssues($ids)
     {
-        $items = implode(", ", $ids);
+        $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  WHERE
@@ -470,8 +475,8 @@ class Phone_Support
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  WHERE
-                    phs_created_date BETWEEN '$start' AND '$end' AND
-                    phs_usr_id = $usr_id";
+                    phs_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
+                    phs_usr_id = " . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

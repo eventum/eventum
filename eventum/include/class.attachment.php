@@ -165,6 +165,7 @@ class Attachment
     function removeIndividualFile($iaf_id)
     {
         $usr_id = Auth::getUserID();
+        $iaf_id = Misc::escapeInteger($iaf_id);
         $stmt = "SELECT
                     iat_iss_id
                  FROM
@@ -214,6 +215,7 @@ class Attachment
      */
     function getDetails($file_id)
     {
+        $file_id = Misc::escapeInteger($file_id);
         $stmt = "SELECT
                     *
                  FROM
@@ -270,6 +272,7 @@ class Attachment
      */
     function remove($iat_id)
     {
+        $iat_id = Misc::escapeInteger($iat_id);
         $usr_id = Auth::getUserID();
         $stmt = "SELECT
                     iat_iss_id
@@ -316,6 +319,7 @@ class Attachment
      */
     function removeFile($iaf_id)
     {
+        $iaf_id = Misc::escapeInteger($iaf_id);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
                  WHERE
@@ -333,6 +337,7 @@ class Attachment
      */
     function getFileList($attachment_id)
     {
+        $attachment_id = Misc::escapeInteger($attachment_id);
         $stmt = "SELECT
                     iaf_id,
                     iaf_filename,
@@ -364,6 +369,7 @@ class Attachment
      */
     function getList($issue_id)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
                     iat_id,
                     iat_usr_id,

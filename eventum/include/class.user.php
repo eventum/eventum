@@ -77,7 +77,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_customer_contact_id=$customer_contact_id";
+                    usr_customer_contact_id=" . Misc::escapeInteger($customer_contact_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -103,7 +103,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_customer_contact_id=$customer_contact_id";
+                    usr_customer_contact_id=" . Misc::escapeInteger($customer_contact_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -129,7 +129,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id=$usr_id";
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -156,7 +156,7 @@ class User
                  SET
                     usr_sms_email='" . Misc::escapeString($sms_email) . "'
                  WHERE
-                    usr_id=$usr_id";
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -182,7 +182,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id=$usr_id";
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -214,7 +214,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id=$usr_id";
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -483,6 +483,7 @@ class User
      */
     function getActiveAssocList($prj_id = false, $role = NULL, $exclude_grouped = false, $grp_id = false)
     {
+        $grp_id = Misc::escapeInteger($grp_id);
         $stmt = "SELECT
                     usr_id,
                     usr_full_name
@@ -497,7 +498,7 @@ class User
                     usr_status='active' AND
                     usr_id != " . APP_SYSTEM_USER_ID;
         if ($prj_id != false) {
-            $stmt .= " AND pru_prj_id = $prj_id AND
+            $stmt .= " AND pru_prj_id = " . Misc::escapeInteger($prj_id) . " AND
                        usr_id = pru_usr_id";
         }
         if ($role != NULL) {
@@ -625,8 +626,8 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
-                    pru_usr_id=$usr_id AND
-                    pru_prj_id = $prj_id";
+                    pru_usr_id=" . Misc::escapeInteger($usr_id) . " AND
+                    pru_prj_id = " . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             return "";
@@ -657,7 +658,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id=$usr_id";
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -699,7 +700,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id IN (" . implode(', ', $items) . ")";
+                    usr_id IN (" . implode(', ', Misc::escapeInteger($items)) . ")";
         if (!is_array($usr_id)) {
             $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         } else {
@@ -742,7 +743,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id IN (" . implode(', ', $items) . ")";
+                    usr_id IN (" . implode(', ', Misc::escapeInteger($items)) . ")";
         if (!is_array($usr_id)) {
             $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         } else {
@@ -813,7 +814,7 @@ class User
             return false;
         }
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
@@ -850,7 +851,7 @@ class User
                  SET
                     usr_password='" . md5($HTTP_POST_VARS["new_password"]) . "'
                  WHERE
-                    usr_id=$usr_id";
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -880,7 +881,7 @@ class User
                  SET
                     usr_full_name='" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "'
                  WHERE
-                    usr_id=$usr_id";
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -908,7 +909,7 @@ class User
                  SET
                     usr_email='" . Misc::escapeString($HTTP_POST_VARS["email"]) . "'
                  WHERE
-                    usr_id=$usr_id";
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -946,7 +947,7 @@ class User
         }
         $stmt .= "
                  WHERE
-                    usr_id=" . $HTTP_POST_VARS["id"];
+                    usr_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -956,7 +957,7 @@ class User
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                      WHERE
-                        pru_usr_id=" . $HTTP_POST_VARS["id"];
+                        pru_usr_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
             $res = $GLOBALS["db_api"]->dbh->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -974,7 +975,7 @@ class User
                                 pru_role
                              ) VALUES (
                                 " . $prj_id . ",
-                                " . $HTTP_POST_VARS["id"] . ",
+                                " . Misc::escapeInteger($HTTP_POST_VARS["id"]) . ",
                                 " . $role . "
                              )";
                     $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -1175,7 +1176,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id=$usr_id";
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1241,7 +1242,7 @@ class User
                  SET
                     usr_clocked_in = 1
                  WHERE
-                    usr_id = $usr_id";
+                    usr_id = " . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1264,7 +1265,7 @@ class User
                  SET
                     usr_clocked_in = 0
                  WHERE
-                    usr_id = $usr_id";
+                    usr_id = " . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1288,7 +1289,7 @@ class User
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id = $usr_id";
+                    usr_id = " . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1313,6 +1314,8 @@ class User
     {
         if ($grp_id == false) {
             $grp_id = 'null';
+        } else {
+            $grp_id = Misc::escapeInteger($grp_id);
         }
         
         $stmt = "UPDATE
@@ -1320,7 +1323,7 @@ class User
                  SET
                     usr_grp_id = $grp_id
                  WHERE
-                    usr_id = $usr_id";
+                    usr_id = " . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

@@ -48,7 +48,7 @@ class News
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_news
                  WHERE
                     prn_nws_id=nws_id AND
-                    prn_prj_id=$prj_id AND
+                    prn_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     nws_status='active'
                  ORDER BY
                     nws_created_date DESC
@@ -87,8 +87,8 @@ class News
                     prn_nws_id,
                     prn_prj_id
                  ) VALUES (
-                    $nws_id,
-                    $prj_id
+                    " . Misc::escapeInteger($nws_id) . ",
+                    " . $prj_id . "
                  )";
         $GLOBALS["db_api"]->dbh->query($stmt);
     }
@@ -150,7 +150,7 @@ class News
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  WHERE
@@ -180,13 +180,13 @@ class News
         if (!is_array($nws_id)) {
             $nws_id = array($nws_id);
         }
-        $items = @implode(", ", $nws_id);
+        $items = @implode(", ", Misc::escapeInteger($nws_id));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_news
                  WHERE
                     prn_nws_id IN ($items)";
         if ($prj_id) {
-            $stmt .= " AND prn_prj_id=$prj_id";
+            $stmt .= " AND prn_prj_id=" . Misc::escapeInteger($prj_id);
         }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -221,7 +221,7 @@ class News
                     nws_message='" . Misc::escapeString($HTTP_POST_VARS["message"]) . "',
                     nws_status='" . Misc::escapeString($HTTP_POST_VARS["status"]) . "'
                  WHERE
-                    nws_id=" . $HTTP_POST_VARS["id"];
+                    nws_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -251,7 +251,7 @@ class News
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  WHERE
-                    nws_id=$nws_id";
+                    nws_id=" . Misc::escapeInteger($nws_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -312,7 +312,7 @@ class News
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_news
                  WHERE
                     prj_id=prn_prj_id AND
-                    prn_nws_id=$nws_id";
+                    prn_nws_id=" . Misc::escapeInteger($nws_id);
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

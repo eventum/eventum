@@ -81,6 +81,8 @@ class Prefs
     {
         static $returns;
 
+        $usr_id = Misc::escapeInteger($usr_id);
+        
         if (!empty($returns[$usr_id])) {
             return $returns[$usr_id];
         }
@@ -142,7 +144,7 @@ class Prefs
                  SET
                     usr_preferences='" . Misc::escapeString($data) . "'
                  WHERE
-                    usr_id=$usr_id";
+                    usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

@@ -209,7 +209,7 @@ class Round_Robin
                      SET
                         rru_next=1
                      WHERE
-                        rru_usr_id=$usr_id AND
+                        rru_usr_id=" . Misc::escapeInteger($usr_id) . " AND
                         rru_prr_id=$prr_id";
             $res = $GLOBALS["db_api"]->dbh->query($stmt);
             if (PEAR::isError($res)) {
@@ -236,7 +236,7 @@ class Round_Robin
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
                  WHERE
-                    prr_prj_id=$prj_id";
+                    prr_prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -268,7 +268,7 @@ class Round_Robin
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    prr_prj_id=$prj_id AND
+                    prr_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     prr_id=rru_prr_id AND
                     rru_usr_id=usr_id
                  ORDER BY
@@ -318,9 +318,9 @@ class Round_Robin
                     prr_blackout_start,
                     prr_blackout_end
                  ) VALUES (
-                    " . $HTTP_POST_VARS["project"] . ",
-                    '" . $blackout_start . "',
-                    '" . $blackout_end . "'
+                    " . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
+                    '" . Misc::escapeString($blackout_start) . "',
+                    '" . Misc::escapeString($blackout_end) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -354,8 +354,8 @@ class Round_Robin
                     rru_usr_id,
                     rru_next
                  ) VALUES (
-                    $prr_id,
-                    $usr_id,
+                    " . Misc::escapeInteger($prr_id) . ",
+                    " . Misc::escapeInteger($usr_id) . ",
                     0
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -419,7 +419,7 @@ class Round_Robin
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
                     rru_usr_id=usr_id AND
-                    rru_prr_id=$prr_id
+                    rru_prr_id=" . Misc::escapeInteger($prr_id) . "
                  ORDER BY
                     usr_id ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -446,7 +446,7 @@ class Round_Robin
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
                  WHERE
-                    prr_id=$prr_id";
+                    prr_id=" . Misc::escapeInteger($prr_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -474,11 +474,11 @@ class Round_Robin
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
                  SET
-                    prr_prj_id=" . $HTTP_POST_VARS["project"] . ",
-                    prr_blackout_start='" . $blackout_start . "',
-                    prr_blackout_end='" . $blackout_end . "'
+                    prr_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
+                    prr_blackout_start='" . Misc::escapeString($blackout_start) . "',
+                    prr_blackout_end='" . Misc::escapeString($blackout_end) . "'
                  WHERE
-                    prr_id=" . $HTTP_POST_VARS["id"];
+                    prr_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -507,7 +507,7 @@ class Round_Robin
         if (!is_array($prr_id)) {
             $prr_id = array($prr_id);
         }
-        $items = @implode(", ", $prr_id);
+        $items = @implode(", ", Misc::escapeInteger($prr_id));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user
                  WHERE
@@ -532,7 +532,7 @@ class Round_Robin
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
                  WHERE

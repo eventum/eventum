@@ -68,7 +68,7 @@ class Project
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
-                    prj_id=$prj_id";
+                    prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -107,7 +107,7 @@ class Project
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
-                    prj_id=$prj_id";
+                    prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -133,7 +133,7 @@ class Project
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
-                    prj_id=$prj_id";
+                    prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -161,10 +161,10 @@ class Project
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  SET
-                    prj_anonymous_post='" . $HTTP_POST_VARS["anonymous_post"] . "',
-                    prj_anonymous_post_options='" . @serialize($HTTP_POST_VARS["options"]) . "'
+                    prj_anonymous_post='" . Misc::escapeString($HTTP_POST_VARS["anonymous_post"]) . "',
+                    prj_anonymous_post_options='" . Misc::escapeString(@serialize($HTTP_POST_VARS["options"])) . "'
                  WHERE
-                    prj_id=$prj_id";
+                    prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -217,7 +217,7 @@ class Project
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
-                    prj_id=$prj_id";
+                    prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -246,7 +246,7 @@ class Project
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
-                    prj_title='$prj_title'";
+                    prj_title='" . Misc::escapeString($prj_title) . "'";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -277,7 +277,7 @@ class Project
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
-                    prj_id=$prj_id";
+                    prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -309,7 +309,7 @@ class Project
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
-                    prj_id=$prj_id";
+                    prj_id="  . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -340,7 +340,7 @@ class Project
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
-                    prj_id=$prj_id";
+                    prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -363,7 +363,7 @@ class Project
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
@@ -401,13 +401,13 @@ class Project
      */
     function removeUserByProjects($ids, $users_to_not_remove = false)
     {
-        $items = @implode(", ", $ids);
+        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     pru_prj_id IN ($items)";
         if ($users_to_not_remove != false) {
-            $stmt .= " AND\n pru_usr_id NOT IN(" . join(', ', $users_to_not_remove) . ")";
+            $stmt .= " AND\n pru_usr_id NOT IN(" . join(', ', Misc::escapeInteger($users_to_not_remove)) . ")";
         }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -437,8 +437,8 @@ class Project
                  SET
                     prj_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     prj_status='" . Misc::escapeString($HTTP_POST_VARS["status"]) . "',
-                    prj_lead_usr_id=" . $HTTP_POST_VARS["lead_usr_id"] . ",
-                    prj_initial_sta_id=" . $HTTP_POST_VARS["initial_status"] . ",
+                    prj_lead_usr_id=" . Misc::escapeInteger($HTTP_POST_VARS["lead_usr_id"]) . ",
+                    prj_initial_sta_id=" . Misc::escapeInteger($HTTP_POST_VARS["initial_status"]) . ",
                     prj_outgoing_sender_name='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
                     prj_outgoing_sender_email='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
                     prj_remote_invocation='" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
@@ -446,7 +446,7 @@ class Project
                     prj_customer_backend='" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "',
                     prj_workflow_backend='" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "'
                  WHERE
-                    prj_id=" . $HTTP_POST_VARS["id"];
+                    prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -480,6 +480,8 @@ class Project
      */
     function associateUser($prj_id, $usr_id, $role)
     {
+        $prj_id = Misc::escapeInteger($prj_id);
+        $usr_id = Misc::escapeInteger($usr_id);
         // see if association already exists
         $sql = "SELECT
                     pru_id
@@ -503,7 +505,7 @@ class Project
                          ) VALUES (
                             $usr_id,
                             $prj_id,
-                            $role
+                            " . Misc::escapeInteger($role) . "
                          )";
                 $res = $GLOBALS["db_api"]->dbh->query($stmt);
                 if (PEAR::isError($res)) {
@@ -548,8 +550,8 @@ class Project
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["status"]) . "',
-                    " . $HTTP_POST_VARS["lead_usr_id"] . ",
-                    " . $HTTP_POST_VARS["initial_status"] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["lead_usr_id"]) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["initial_status"]) . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
@@ -637,7 +639,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     prj_id=pru_prj_id AND
-                    pru_usr_id=$usr_id
+                    pru_usr_id=" .  Misc::escapeInteger($usr_id) . "
                  ORDER BY
                     prj_title";
         if ($include_role) {
@@ -678,14 +680,14 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
-                    pru_prj_id=$prj_id AND
+                    pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     pru_usr_id=usr_id AND
                     usr_id != " . APP_SYSTEM_USER_ID;
         if ($status != NULL) {
             $stmt .= " AND usr_status='active' ";
         }
         if ($role != NULL) {
-            $stmt .= " AND pru_role > $role ";
+            $stmt .= " AND pru_role > " . Misc::escapeInteger($role);
         }
         $stmt .= "
                  ORDER BY
@@ -716,7 +718,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
-                    pru_prj_id=$prj_id AND
+                    pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     pru_usr_id=usr_id
                  ORDER BY
                     usr_full_name ASC";
@@ -835,11 +837,11 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
-                    pru_prj_id=$prj_id AND
+                    pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     pru_usr_id=usr_id AND
                     usr_id <> " . APP_SYSTEM_USER_ID;
         if (!empty($customer_id)) {
-            $stmt .= " AND (usr_customer_id IS NULL OR usr_customer_id IN (0, $customer_id)) ";
+            $stmt .= " AND (usr_customer_id IS NULL OR usr_customer_id IN (0, " . Misc::escapeInteger($customer_id) . ")) ";
         } else {
             $stmt .= " AND (usr_customer_id IS NULL OR usr_customer_id=0) ";
         }
@@ -910,7 +912,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     prj_id=pru_prj_id AND
-                    pru_usr_id=$usr_id AND
+                    pru_usr_id=" . Misc::escapeInteger($usr_id) . " AND
                     prj_remote_invocation='enabled'";
         if ($only_customer_projects) {
             $stmt .= " AND prj_customer_backend <> '' AND prj_customer_backend IS NOT NULL ";
@@ -955,7 +957,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
-                    pru_prj_id=$prj_id AND
+                    pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     pru_usr_id=usr_id";
         if ($status != NULL) {
             $stmt .= " AND usr_status='active' ";
@@ -991,7 +993,7 @@ class Project
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_field_display
                  WHERE
-                    pfd_prj_id = $prj_id";
+                    pfd_prj_id = " . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1007,9 +1009,9 @@ class Project
                         pfd_field,
                         pfd_min_role
                      ) VALUES (
-                        $prj_id,
-                        '$field',
-                        $min_role
+                        " . Misc::escapeInteger($prj_id) . ",
+                        '" . Misc::escapeString($field) . "',
+                        " . Misc::escapeInteger($min_role) . "
                      )";
             $res = $GLOBALS["db_api"]->dbh->query($stmt);
             if (PEAR::isError($res)) {
@@ -1036,7 +1038,7 @@ class Project
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_field_display
                  WHERE
-                    pfd_prj_id = $prj_id";
+                    pfd_prj_id = " . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

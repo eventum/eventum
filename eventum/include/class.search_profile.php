@@ -49,9 +49,9 @@ class Search_Profile
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
                  WHERE
-                    sep_usr_id=$usr_id AND
-                    sep_prj_id=$prj_id AND
-                    sep_type='$type'";
+                    sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
+                    sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    sep_type='" . Misc::escapeString($type) . "'";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -85,9 +85,9 @@ class Search_Profile
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
                  WHERE
-                    sep_usr_id=$usr_id AND
-                    sep_prj_id=$prj_id AND
-                    sep_type='$type'";
+                    sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
+                    sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    sep_type='" . Misc::escapeString($type) . "'";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -120,9 +120,9 @@ class Search_Profile
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "search_profile
                  WHERE
-                    sep_usr_id=$usr_id AND
-                    sep_prj_id=$prj_id AND
-                    sep_type='$type'";
+                    sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
+                    sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    sep_type='" . Misc::escapeString($type) . "'";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -179,9 +179,9 @@ class Search_Profile
                     sep_type,
                     sep_user_profile
                  ) VALUES (
-                    $usr_id,
-                    $prj_id,
-                    '$type',
+                    " . Misc::escapeInteger($usr_id) . ",
+                    " . Misc::escapeInteger($prj_id) . ",
+                    '" . Misc::escapeString($type) . "',
                     '" . Misc::escapeString(serialize($profile)) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -212,9 +212,9 @@ class Search_Profile
                  SET
                     sep_user_profile='" . Misc::escapeString(serialize($profile)) . "'
                  WHERE
-                    sep_usr_id=$usr_id AND
-                    sep_prj_id=$prj_id AND
-                    sep_type='$type'";
+                    sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
+                    sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    sep_type='" . Misc::escapeString($type) . "'";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

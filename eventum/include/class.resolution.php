@@ -56,7 +56,7 @@ class Resolution
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
                  WHERE
-                    res_id=$res_id";
+                    res_id=" . Misc::escapeInteger($res_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -78,7 +78,7 @@ class Resolution
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         // gotta fix the issues before removing the resolution
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -125,7 +125,7 @@ class Resolution
                  SET
                     res_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
                  WHERE
-                    res_id=" . $HTTP_POST_VARS["id"];
+                    res_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -150,7 +150,7 @@ class Resolution
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "resolution
                  WHERE
-                    res_id=$res_id";
+                    res_id=" . Misc::escapeInteger($res_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

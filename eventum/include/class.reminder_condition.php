@@ -56,7 +56,7 @@ class Reminder_Condition
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
                  WHERE
-                    rlc_id=$rlc_id";
+                    rlc_id=" . Misc::escapeInteger($rlc_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -88,11 +88,11 @@ class Reminder_Condition
                     rlc_comparison_rmf_id
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
-                    " . $HTTP_POST_VARS['rma_id'] . ",
-                    " . $HTTP_POST_VARS['field'] . ",
-                    " . $HTTP_POST_VARS['operator'] . ",
-                    '" . @$HTTP_POST_VARS['value'] . "',
-                    '" . @$HTTP_POST_VARS['comparison_field'] . "'
+                    " . Misc::escapeInteger($HTTP_POST_VARS['rma_id']) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS['field']) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS['operator']) . ",
+                    '" . Misc::escapeString(@$HTTP_POST_VARS['value']) . "',
+                    '" . Misc::escapeInteger(@$HTTP_POST_VARS['comparison_field']) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -118,12 +118,12 @@ class Reminder_Condition
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
                  SET
                     rlc_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    rlc_rmf_id=" . $HTTP_POST_VARS['field'] . ",
-                    rlc_rmo_id=" . $HTTP_POST_VARS['operator'] . ",
-                    rlc_value='" . @$HTTP_POST_VARS['value'] . "',
-                    rlc_comparison_rmf_id = '" . @$HTTP_POST_VARS['comparison_field'] . "'
+                    rlc_rmf_id=" . Misc::escapeInteger($HTTP_POST_VARS['field']) . ",
+                    rlc_rmo_id=" . Misc::escapeInteger($HTTP_POST_VARS['operator']) . ",
+                    rlc_value='" . Misc::escapeString(@$HTTP_POST_VARS['value']) . "',
+                    rlc_comparison_rmf_id = '" . Misc::escapeInteger(@$HTTP_POST_VARS['comparison_field']) . "'
                  WHERE
-                    rlc_id=" . $HTTP_POST_VARS['id'];
+                    rlc_id=" . Misc::escapeInteger($HTTP_POST_VARS['id']);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -145,7 +145,7 @@ class Reminder_Condition
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
                  WHERE
@@ -171,7 +171,7 @@ class Reminder_Condition
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_operator
                  WHERE
-                    rlc_rma_id=$action_id AND
+                    rlc_rma_id=" . Misc::escapeInteger($action_id) . " AND
                     rlc_rmf_id=rmf_id AND
                     rlc_rmo_id=rmo_id";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -211,7 +211,7 @@ class Reminder_Condition
                  WHERE
                     rlc_rmf_id=rmf_id AND
                     rlc_rmo_id=rmo_id AND
-                    rlc_rma_id=$rma_id
+                    rlc_rma_id=" . Misc::escapeInteger($rma_id) . "
                  ORDER BY
                     rlc_id ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -249,7 +249,7 @@ class Reminder_Condition
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field
                  WHERE
-                    rmf_id=$field_id";
+                    rmf_id=" . Misc::escapeInteger($field_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -274,7 +274,7 @@ class Reminder_Condition
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field
                  WHERE
-                    rmf_id=$field_id";
+                    rmf_id=" . Misc::escapeInteger($field_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -355,7 +355,7 @@ class Reminder_Condition
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field
                  WHERE
-                    rmf_id=$field_id";
+                    rmf_id=" . Misc::escapeInteger($field_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

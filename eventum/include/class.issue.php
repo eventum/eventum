@@ -146,7 +146,7 @@ class Issue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
-                    iss_prj_id=$prj_id
+                    iss_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     iss_id ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -170,6 +170,8 @@ class Issue
     {
         static $returns;
 
+        $issue_id = Misc::escapeInteger($issue_id);
+        
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -207,7 +209,7 @@ class Issue
                     iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_public_action_type='customer action'
                  WHERE
-                    iss_id=$issue_id";
+                    iss_id=" . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -229,6 +231,8 @@ class Issue
     {
         static $returns;
 
+        $issue_id = Misc::escapeInteger($issue_id);
+        
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -261,6 +265,8 @@ class Issue
     {
         static $returns;
 
+        $issue_id = Misc::escapeInteger($issue_id);
+        
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -293,6 +299,8 @@ class Issue
     {
         static $returns;
 
+        $issue_id = Misc::escapeInteger($issue_id);
+        
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -352,6 +360,9 @@ class Issue
      */
     function setStatus($issue_id, $status_id, $notify = false)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $status_id = Misc::escapeInteger($status_id);
+        
         // check if the status is already set to the 'new' one
         if (Issue::getStatusID($issue_id) == $status_id) {
             return -1;
@@ -422,6 +433,9 @@ class Issue
      */
     function getOpenIssues($prj_id, $email, $show_all_issues, $status_id)
     {
+        $prj_id = Misc::escapeInteger($prj_id);
+        $status_id = Misc::escapeInteger($status_id);
+        
         $usr_id = User::getUserIDByEmail($email);
         if (empty($usr_id)) {
             return '';
@@ -480,6 +494,8 @@ class Issue
      */
     function getReplyDetails($issue_id)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        
         $stmt = "SELECT
                     UNIX_TIMESTAMP(iss_created_date) AS created_date_ts,
                     usr_full_name AS reporter,
@@ -526,10 +542,10 @@ class Issue
                 $field = "iss_last_internal_action_";
             }
             $stmt .= ",\n " . $field . "date = '" . Date_API::getCurrentDateGMT() . "',\n" . 
-                $field . "type  ='$type'\n";
+                $field . "type  ='" . Misc::escapeString($type) . "'\n";
         }
         $stmt .= "WHERE
-                    iss_id=$issue_id";
+                    iss_id=" . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -555,7 +571,7 @@ class Issue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
-                    iss_duplicated_iss_id=$issue_id";
+                    iss_duplicated_iss_id=" . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -582,6 +598,8 @@ class Issue
     {
         global $HTTP_POST_VARS;
 
+        $issue_id = Misc::escapeInteger($issue_id);
+        
         $ids = Issue::getDuplicateList($issue_id);
         if ($ids == '') {
             return -1;
@@ -593,14 +611,14 @@ class Issue
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_type='updated',
-                    iss_prc_id=" . $HTTP_POST_VARS["category"] . ",";
+                    iss_prc_id=" . Misc::escapeInteger($HTTP_POST_VARS["category"]) . ",";
         if (@$HTTP_POST_VARS["keep"] == "no") {
-            $stmt .= "iss_pre_id=" . $HTTP_POST_VARS["release"] . ",";
+            $stmt .= "iss_pre_id=" . Misc::escapeInteger($HTTP_POST_VARS["release"]) . ",";
         }
         $stmt .= "
-                    iss_pri_id=" . $HTTP_POST_VARS["priority"] . ",
-                    iss_sta_id=" . $HTTP_POST_VARS["status"] . ",
-                    iss_res_id=" . $HTTP_POST_VARS["resolution"] . "
+                    iss_pri_id=" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . ",
+                    iss_sta_id=" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . ",
+                    iss_res_id=" . Misc::escapeInteger($HTTP_POST_VARS["resolution"]) . "
                  WHERE
                     iss_id IN (" . implode(", ", $ids) . ")";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -634,7 +652,7 @@ class Issue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
-                    iss_duplicated_iss_id=$issue_id";
+                    iss_duplicated_iss_id=" . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -658,6 +676,7 @@ class Issue
      */
     function clearDuplicateStatus($issue_id)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
@@ -690,13 +709,15 @@ class Issue
     {
         global $HTTP_POST_VARS;
 
+        $issue_id = Misc::escapeInteger($issue_id);
+        
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_type='updated',
-                    iss_duplicated_iss_id=" . $HTTP_POST_VARS["duplicated_issue"] . "
+                    iss_duplicated_iss_id=" . Misc::escapeInteger($HTTP_POST_VARS["duplicated_issue"]) . "
                  WHERE
                     iss_id=$issue_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -735,7 +756,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    isu_iss_id=$issue_id AND
+                    isu_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     isu_usr_id=usr_id";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
@@ -761,7 +782,7 @@ class Issue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
-                    iss_id=$issue_id";
+                    iss_id=" . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -831,7 +852,7 @@ class Issue
                     iss_summary,
                     iss_description
                  ) VALUES (
-                    " . $HTTP_POST_VARS["project"] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
                     " . $options["category"] . ",
                     0,
                     " . $options["priority"] . ",
@@ -911,7 +932,7 @@ class Issue
      */
     function removeByProjects($ids)
     {
-        $items = @implode(", ", $ids);
+        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
                     iss_id
                  FROM
@@ -964,6 +985,11 @@ class Issue
     {
         global $HTTP_POST_VARS;
 
+        $usr_id = Misc::escapeInteger($usr_id);
+        $issue_id = Misc::escapeInteger($issue_id);
+        $resolution_id = Misc::escapeInteger($resolution_id);
+        $status_id = Misc::escapeInteger($status_id);
+        
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
@@ -1021,6 +1047,8 @@ class Issue
     function update($issue_id)
     {
         global $HTTP_POST_VARS;
+        
+        $issue_id = Misc::escapeInteger($issue_id);
 
         $usr_id = Auth::getUserID();
         $prj_id = Issue::getProjectID($issue_id);
@@ -1098,30 +1126,30 @@ class Issue
                     iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_public_action_type='updated',";
         if (!empty($HTTP_POST_VARS["category"])) {
-            $stmt .= "iss_prc_id=" . $HTTP_POST_VARS["category"] . ",";
+            $stmt .= "iss_prc_id=" . Misc::escapeInteger($HTTP_POST_VARS["category"]) . ",";
         }
         if (@$HTTP_POST_VARS["keep"] == "no") {
-            $stmt .= "iss_pre_id=" . $HTTP_POST_VARS["release"] . ",";
+            $stmt .= "iss_pre_id=" . Misc::escapeInteger($HTTP_POST_VARS["release"]) . ",";
         }
         if (!empty($HTTP_POST_VARS['expected_resolution_date'])) {
-            $stmt .= "iss_expected_resolution_date='" . $HTTP_POST_VARS['expected_resolution_date'] . "',";
+            $stmt .= "iss_expected_resolution_date='" . Misc::escapeString($HTTP_POST_VARS['expected_resolution_date']) . "',";
         } else {
             $stmt .= "iss_expected_resolution_date=null,";
         }
         $stmt .= "
-                    iss_pre_id=" . $HTTP_POST_VARS["release"] . ",
-                    iss_pri_id=" . $HTTP_POST_VARS["priority"] . ",
-                    iss_sta_id=" . $HTTP_POST_VARS["status"] . ",
-                    iss_res_id=" . $HTTP_POST_VARS["resolution"] . ",
+                    iss_pre_id=" . Misc::escapeInteger($HTTP_POST_VARS["release"]) . ",
+                    iss_pri_id=" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . ",
+                    iss_sta_id=" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . ",
+                    iss_res_id=" . Misc::escapeInteger($HTTP_POST_VARS["resolution"]) . ",
                     iss_summary='" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
                     iss_description='" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
                     iss_dev_time='" . Misc::escapeString($HTTP_POST_VARS["estimated_dev_time"]) . "',
                     iss_percent_complete= '" . Misc::escapeString($HTTP_POST_VARS["percent_complete"]) . "',
-                    iss_trigger_reminders=" . $HTTP_POST_VARS["trigger_reminders"] . ",
-                    iss_grp_id ='" . $HTTP_POST_VARS["group"] . "'";
+                    iss_trigger_reminders=" . Misc::escapeInteger($HTTP_POST_VARS["trigger_reminders"]) . ",
+                    iss_grp_id ='" . Misc::escapeInteger($HTTP_POST_VARS["group"]) . "'";
         if (isset($HTTP_POST_VARS['private'])) {
             $stmt .= ",
-                    iss_private = " . $HTTP_POST_VARS['private'];
+                    iss_private = " . Misc::escapeInteger($HTTP_POST_VARS['private']);
         }
         $stmt .= "
                  WHERE
@@ -1229,6 +1257,9 @@ class Issue
      */
     function addAssociation($issue_id, $associated_id, $usr_id, $link_issues = TRUE)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $associated_id = Misc::escapeInteger($associated_id);
+        
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_association
                  (
@@ -1256,6 +1287,7 @@ class Issue
      */
     function deleteAssociations($issue_id, $usr_id = FALSE)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
         if (is_array($issue_id)) {
             $issue_id = implode(", ", $issue_id);
         }
@@ -1281,6 +1313,8 @@ class Issue
      */
     function deleteAssociation($issue_id, $associated_id)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $associated_id = Misc::escapeInteger($associated_id);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_association
                  WHERE
@@ -1312,6 +1346,8 @@ class Issue
      */
     function addUserAssociation($usr_id, $issue_id, $assignee_usr_id, $add_history = TRUE)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $assignee_usr_id = Misc::escapeInteger($assignee_usr_id);
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
                  (
@@ -1347,6 +1383,7 @@ class Issue
      */
     function deleteUserAssociations($issue_id, $usr_id = FALSE)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
         if (is_array($issue_id)) {
             $issue_id = implode(", ", $issue_id);
         }
@@ -1377,6 +1414,8 @@ class Issue
      */
     function deleteUserAssociation($issue_id, $usr_id)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $usr_id = Misc::escapeInteger($usr_id);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
                  WHERE
@@ -1462,17 +1501,17 @@ class Issue
                  ) VALUES (
                     " . $prj_id . ",\n";
         if (!empty($category)) {
-            $stmt .=  $category . ",\n";
+            $stmt .=  Misc::escapeInteger($category) . ",\n";
         }
-        $stmt .= $priority . ",
-                    " . $reporter . ",";
+        $stmt .= Misc::escapeInteger($priority) . ",
+                    " . Misc::escapeInteger($reporter) . ",";
         if (!empty($initial_status)) {
-            $stmt .= "$initial_status,";
+            $stmt .= Misc::escapeInteger($initial_status) . ",";
         }
         if (!empty($customer_id)) {
             $stmt .= "
-                    " . $customer_id . ",
-                    " . $customer_contact_id . ",
+                    " . Misc::escapeInteger($customer_id) . ",
+                    " . Misc::escapeInteger($customer_contact_id) . ",
                     '" . Misc::escapeString($contact['last_name']) . "',
                     '" . Misc::escapeString($contact['first_name']) . "',
                     '" . Misc::escapeString($sender_email) . "',
@@ -1630,16 +1669,16 @@ class Issue
                  ) VALUES (
                     " . $prj_id . ",\n";
         if (!empty($HTTP_POST_VARS["group"])) {
-            $stmt .= $HTTP_POST_VARS["group"] . ",\n";
+            $stmt .= Misc::escapeInteger($HTTP_POST_VARS["group"]) . ",\n";
         }
         if (!empty($HTTP_POST_VARS["category"])) {
-            $stmt .= $HTTP_POST_VARS["category"] . ",\n";
+            $stmt .= Misc::escapeInteger($HTTP_POST_VARS["category"]) . ",\n";
         }
         if (!empty($HTTP_POST_VARS["release"])) {
-            $stmt .= $HTTP_POST_VARS["release"] . ",\n";
+            $stmt .= Misc::escapeInteger($HTTP_POST_VARS["release"]) . ",\n";
         }
         if (!empty($HTTP_POST_VARS["priority"])) {
-            $stmt .= $HTTP_POST_VARS["priority"] . ",";
+            $stmt .= Misc::escapeInteger($HTTP_POST_VARS["priority"]) . ",";
         }
         // if we are creating an issue for a customer, put the 
         // main customer contact as the reporter for it
@@ -1648,17 +1687,17 @@ class Issue
             if (empty($contact_usr_id)) {
                 $contact_usr_id = $usr_id;
             }
-            $stmt .= $contact_usr_id . ",";
+            $stmt .= Misc::escapeInteger($contact_usr_id) . ",";
         } else {
             $stmt .= $usr_id . ",";
         }
         if (!empty($initial_status)) {
-            $stmt .= "$initial_status,";
+            $stmt .= Misc::escapeInteger($initial_status) . ",";
         }
         if (Customer::hasCustomerIntegration($prj_id)) {
             $stmt .= "
-                    " . $HTTP_POST_VARS['customer'] . ",
-                    " . $HTTP_POST_VARS['contact'] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS['customer']) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS['contact']) . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["contact_person_lname"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["contact_person_fname"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["contact_email"]) . "',
@@ -1671,8 +1710,8 @@ class Issue
                     'created',
                     '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    " . $HTTP_POST_VARS["estimated_dev_time"] . ",
-                    " . $HTTP_POST_VARS["private"] . "
+                    " . Misc::escapeString($HTTP_POST_VARS["estimated_dev_time"]) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["private"]) . " 
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -2089,15 +2128,15 @@ class Issue
                     iss_id=iqu_iss_id AND
                     (iqu_expiration > '" . Date_API::getCurrentDateGMT() . "' OR iqu_expiration IS NULL)
                  WHERE
-                    iss_prj_id=$prj_id";
+                    iss_prj_id= " . Misc::escapeInteger($prj_id);
         $stmt .= Issue::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
-                    " . $options["sort_by"] . " " . $options["sort_order"];
+                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]);
         $total_rows = Pager::getTotalRows($stmt);
         $stmt .= "
                  LIMIT
-                    $start, $max";
+                    " . Misc::escapeInteger($start) . ", " . Misc::escapeInteger($max);
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -2280,7 +2319,7 @@ class Issue
         if (User::getRole($role_id) == "Customer") {
             $stmt .= " AND iss_customer_id=" . User::getCustomerID($usr_id);
         } elseif (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
-            $stmt .= " AND iss_usr_id = $usr_id";
+            $stmt .= " AND iss_usr_id = " . Misc::escapeInteger($usr_id);
         }
             
         if (!empty($options["users"])) {
@@ -2298,7 +2337,7 @@ class Issue
                 } elseif ($options['users'] == '-4') {
                     $stmt .= 'isu_usr_id IS NULL OR isu_usr_id = ' . $usr_id . ' OR iss_grp_id = ' . User::getGroupID($usr_id);
                 } else {
-                    $stmt .= 'isu_usr_id =' . $options["users"];
+                    $stmt .= 'isu_usr_id =' . Misc::escapeInteger($options["users"]);
                 }
             }
             $stmt .= ')';
@@ -2350,13 +2389,13 @@ class Issue
             if (!empty($options[$field_name])) {
                 switch ($options[$field_name]['filter_type']) {
                     case 'greater':
-                        $stmt .= " AND iss_$field_name >= '" . $options[$field_name]['start'] . "'";
+                        $stmt .= " AND iss_$field_name >= '" . Misc::escapeString($options[$field_name]['start']) . "'";
                         break;
                     case 'less':
-                        $stmt .= " AND iss_$field_name <= '" . $options[$field_name]['start'] . "'";
+                        $stmt .= " AND iss_$field_name <= '" . Misc::escapeString($options[$field_name]['start']) . "'";
                         break;
                     case 'between':
-                        $stmt .= " AND iss_$field_name BETWEEN '" . $options[$field_name]['start'] . "' AND '" . $options[$field_name]['end'] . "'";
+                        $stmt .= " AND iss_$field_name BETWEEN '" . Misc::escapeString($options[$field_name]['start']) . "' AND '" . Misc::escapeString($options[$field_name]['end']) . "'";
                         break;
                     case 'null':
                         $stmt .= " AND iss_$field_name IS NULL";
@@ -2438,7 +2477,7 @@ class Issue
         $stmt .= Issue::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
-                    " . $options["sort_by"] . " " . $options["sort_order"];
+                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]);
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -2476,7 +2515,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    isu_iss_id=$issue_id AND
+                    isu_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     isu_usr_id=usr_id";
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
@@ -2604,7 +2643,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    isu_iss_id=$issue_id AND
+                    isu_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     isu_usr_id=usr_id";
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
@@ -2773,6 +2812,8 @@ class Issue
             return -1;
         }
         
+        $HTTP_POST_VARS['item'] = Misc::escapeInteger($HTTP_POST_VARS['item']);
+        $HTTP_POST_VARS['users'] = Misc::escapeInteger($HTTP_POST_VARS['users']);
         
         for ($i = 0; $i < count($HTTP_POST_VARS["item"]); $i++) {
             // check if the issue is already assigned to this person
@@ -2830,10 +2871,10 @@ class Issue
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_type='update',
-                    iss_developer_est_time=" . $HTTP_POST_VARS["dev_time"] . ",
+                    iss_developer_est_time=" . Misc::escapeInteger($HTTP_POST_VARS["dev_time"]) . ",
                     iss_impact_analysis='" . Misc::escapeString($HTTP_POST_VARS["impact_analysis"]) . "'
                  WHERE
-                    iss_id=$issue_id";
+                    iss_id=" . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -2952,7 +2993,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
-                    iss_id=$issue_id AND
+                    iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     iss_sta_id=sta_id AND
                     sta_is_closed=1";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
@@ -3014,7 +3055,7 @@ class Issue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
                  WHERE
-                    iqu_iss_id = $issue_id AND
+                    iqu_iss_id = " . Misc::escapeInteger($issue_id) . " AND
                         (iqu_expiration > '" . Date_API::getCurrentDateGMT() . "' OR
                         iqu_expiration IS NULL)";
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
@@ -3042,6 +3083,9 @@ class Issue
      */
     function setQuarantine($issue_id, $status, $expiration = '')
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $status = Misc::escapeInteger($status);
+        
         // see if there is an existing record
         $stmt = "SELECT
                     COUNT(*)
@@ -3061,7 +3105,7 @@ class Issue
                      SET
                         iqu_status = $status";
             if (!empty($expiration)) {
-                $stmt .= ",\niqu_expiration = '$expiration'";
+                $stmt .= ",\niqu_expiration = '" . Misc::escapeString($expiration) . "'";
             }
             $stmt .= "\nWHERE
                         iqu_iss_id = $issue_id";
@@ -3090,7 +3134,7 @@ class Issue
                         $issue_id,
                         $status";
             if (!empty($expiration)) {
-                $stmt .= ",\n'$expiration'\n";
+                $stmt .= ",\n'" . Misc::escapeString($expiration) . "'\n";
             }
             $stmt .= ")";
             $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -3113,6 +3157,9 @@ class Issue
      */
     function setGroup($issue_id, $group_id)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $group_id = Misc::escapeInteger($group_id);
+        
         $current = Issue::getDetails($issue_id);
         if ($current["iss_grp_id"] == $group_id) {
             return -2;
@@ -3148,7 +3195,7 @@ class Issue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
-                    iss_id=$issue_id";
+                    iss_id=" . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

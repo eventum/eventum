@@ -59,8 +59,8 @@ class Status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
                  WHERE
-                    psd_prj_id=$prj_id AND
-                    psd_sta_id IN (" . implode(', ', $sta_ids) . ")";
+                    psd_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    psd_sta_id IN (" . implode(', ', Misc::escapeInteger($sta_ids)) . ")";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -85,7 +85,7 @@ class Status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
                  WHERE
-                    psd_id=$psd_id";
+                    psd_id=" . Misc::escapeInteger($psd_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -105,7 +105,7 @@ class Status
      */
     function removeCustomization($items)
     {
-        $items = @implode(", ", $items);
+        $items = @implode(", ", Misc::escapeInteger($items));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
                  WHERE
@@ -136,12 +136,12 @@ class Status
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
                  SET
-                    psd_prj_id=$prj_id,
-                    psd_sta_id=$sta_id,
+                    psd_prj_id=" . Misc::escapeInteger($prj_id) . ",
+                    psd_sta_id=" . Misc::escapeInteger($sta_id) . ",
                     psd_date_field='" . Misc::escapeString($date_field) . "',
                     psd_label='" . Misc::escapeString($label) . "'
                  WHERE
-                    psd_id=$psd_id";
+                    psd_id=" . Misc::escapeInteger($psd_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -172,8 +172,8 @@ class Status
                     psd_date_field,
                     psd_label
                  ) VALUES (
-                    $prj_id,
-                    $sta_id,
+                    " . Misc::escapeInteger($prj_id) . ",
+                    " . Misc::escapeInteger($sta_id) . ",
                     '" . Misc::escapeString($date_field) . "',
                     '" . Misc::escapeString($label) . "'
                  )";
@@ -240,7 +240,7 @@ class Status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
-                    sta_id=$sta_id";
+                    sta_id=" . Misc::escapeInteger($sta_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -279,9 +279,9 @@ class Status
                  ) VALUES (
                     '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS['abbreviation']) . "',
-                    " . $HTTP_POST_VARS['rank'] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
                     '" . Misc::escapeString($HTTP_POST_VARS['color']) . "',
-                    " . $HTTP_POST_VARS['is_closed'] . "
+                    " . Misc::escapeInteger($HTTP_POST_VARS['is_closed']) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -316,11 +316,11 @@ class Status
                  SET
                     sta_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     sta_abbreviation='" . Misc::escapeString($HTTP_POST_VARS["abbreviation"]) . "',
-                    sta_rank=" . $HTTP_POST_VARS['rank'] . ",
+                    sta_rank=" . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
                     sta_color='" . Misc::escapeString($HTTP_POST_VARS["color"]) . "',
-                    sta_is_closed=" . $HTTP_POST_VARS['is_closed'] . "
+                    sta_is_closed=" . Misc::escapeInteger($HTTP_POST_VARS['is_closed']) . "
                  WHERE
-                    sta_id=" . $HTTP_POST_VARS["id"];
+                    sta_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -346,7 +346,7 @@ class Status
                          SET
                             iss_sta_id=0
                          WHERE
-                            iss_sta_id=" . $HTTP_POST_VARS['id'] . " AND
+                            iss_sta_id=" . Misc::escapeInteger($HTTP_POST_VARS['id']) . " AND
                             iss_prj_id IN (" . implode(', ', $removed_projects) . ")";
                 $res = $GLOBALS["db_api"]->dbh->query($stmt);
                 if (PEAR::isError($res)) {
@@ -368,7 +368,7 @@ class Status
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
@@ -408,8 +408,8 @@ class Status
                     prs_sta_id,
                     prs_prj_id
                  ) VALUES (
-                    $sta_id,
-                    $prj_id
+                    " . Misc::escapeInteger($sta_id) . ",
+                    " . Misc::escapeInteger($prj_id) . "
                  )";
         $GLOBALS["db_api"]->dbh->query($stmt);
     }
@@ -429,13 +429,13 @@ class Status
         if (!is_array($sta_id)) {
             $sta_id = array($sta_id);
         }
-        $items = @implode(", ", $sta_id);
+        $items = @implode(", ", Misc::escapeInteger($sta_id));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status
                  WHERE
                     prs_sta_id IN ($items)";
         if ($prj_id) {
-            $stmt .= " AND prs_prj_id=$prj_id";
+            $stmt .= " AND prs_prj_id=" . Misc::escapeInteger($prj_id);
         }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -461,7 +461,7 @@ class Status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
-                    sta_id=$sta_id";
+                    sta_id=" . Misc::escapeInteger($sta_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -521,7 +521,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status
                  WHERE
                     prj_id=prs_prj_id AND
-                    prs_sta_id=$sta_id";
+                    prs_sta_id=" . Misc::escapeInteger($sta_id);
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -546,7 +546,7 @@ class Status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
-                    sta_title='$sta_title'";
+                    sta_title='" . Misc::escapeString($sta_title) . "'";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -571,7 +571,7 @@ class Status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
-                    sta_id=$sta_id";
+                    sta_id=" . Misc::escapeInteger($sta_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -595,7 +595,7 @@ class Status
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);
         }
-        $items = @implode(", ", $prj_id);
+        $items = @implode(", ", Misc::escapeInteger($prj_id));
         $stmt = "SELECT
                     UPPER(sta_abbreviation),
                     sta_title
@@ -632,7 +632,7 @@ class Status
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);
         }
-        $items = @implode(", ", $prj_id);
+        $items = @implode(", ", Misc::escapeInteger($prj_id));
         $stmt = "SELECT
                     UPPER(sta_abbreviation),
                     sta_title
@@ -672,7 +672,7 @@ class Status
         if (!is_array($prj_id)) {
             $prj_id = array($prj_id);
         }
-        $items = @implode(", ", $prj_id);
+        $items = @implode(", ", Misc::escapeInteger($prj_id));
         $stmt = "SELECT
                     sta_id,
                     sta_title
@@ -742,7 +742,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status
                  WHERE
-                    prs_prj_id=$prj_id AND
+                    prs_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     prs_sta_id=sta_id AND
                     sta_is_closed=1
                  ORDER BY

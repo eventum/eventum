@@ -77,7 +77,7 @@ class Email_Account
                     ema_issue_auto_creation='" . Misc::escapeString($auto_creation) . "',
                     ema_issue_auto_creation_options='" . @serialize($options) . "'
                  WHERE
-                    ema_id=$ema_id";
+                    ema_id=" . Misc::escapeInteger($ema_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -171,6 +171,7 @@ class Email_Account
      */
     function getDetails($ema_id)
     {
+        $ema_id = Misc::escapeInteger($ema_id);
         $stmt = "SELECT
                     *
                  FROM
@@ -198,7 +199,7 @@ class Email_Account
      */
     function removeAccountByProjects($ids)
     {
-        $items = @implode(", ", $ids);
+        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
                     ema_id
                  FROM
@@ -236,7 +237,7 @@ class Email_Account
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
@@ -288,16 +289,16 @@ class Email_Account
                     ema_leave_copy,
                     ema_use_routing
                  ) VALUES (
-                    " . $HTTP_POST_VARS["project"] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["hostname"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["port"]) . "',
                     '" . Misc::escapeString(@$HTTP_POST_VARS["folder"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["username"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["password"]) . "',
-                    " . $HTTP_POST_VARS["get_only_new"] . ",
-                    " . $HTTP_POST_VARS["leave_copy"] . ",
-                    " . $HTTP_POST_VARS["use_routing"] . "
+                    " . Misc::escapeInteger($HTTP_POST_VARS["get_only_new"]) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["leave_copy"]) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["use_routing"]) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -334,16 +335,16 @@ class Email_Account
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  SET
-                    ema_prj_id=" . $HTTP_POST_VARS["project"] . ",
+                    ema_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
                     ema_type='" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
                     ema_hostname='" . Misc::escapeString($HTTP_POST_VARS["hostname"]) . "',
                     ema_port='" . Misc::escapeString($HTTP_POST_VARS["port"]) . "',
                     ema_folder='" . Misc::escapeString(@$HTTP_POST_VARS["folder"]) . "',
                     ema_username='" . Misc::escapeString($HTTP_POST_VARS["username"]) . "',
                     ema_password='" . Misc::escapeString($HTTP_POST_VARS["password"]) . "',
-                    ema_get_only_new=" . $HTTP_POST_VARS["get_only_new"] . ",
-                    ema_leave_copy=" . $HTTP_POST_VARS["leave_copy"] . ",
-                    ema_use_routing=" . $HTTP_POST_VARS["use_routing"] . "
+                    ema_get_only_new=" . Misc::escapeInteger($HTTP_POST_VARS["get_only_new"]) . ",
+                    ema_leave_copy=" . Misc::escapeInteger($HTTP_POST_VARS["leave_copy"]) . ",
+                    ema_use_routing=" . Misc::escapeInteger($HTTP_POST_VARS["use_routing"]) . "
                  WHERE
                     ema_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -394,6 +395,7 @@ class Email_Account
      */
     function getAssocList($projects, $include_project_title = false)
     {
+        $projects = Misc::escapeInteger($projects);
         if (!is_array($projects)) {
             $projects = array($projects);
         }

@@ -62,6 +62,8 @@ class Note
      */
     function getSideLinks($issue_id, $not_id)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $not_id = Misc::escapeInteger($not_id);
         $stmt = "SELECT
                     not_id
                  FROM
@@ -100,6 +102,7 @@ class Note
      */
     function getDetails($note_id)
     {
+        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     " . APP_TABLE_PREFIX . "note.*,
                     UNIX_TIMESTAMP(not_created_date) timestamp,
@@ -146,6 +149,7 @@ class Note
      */
     function getBlockedMessage($note_id)
     {
+        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     not_blocked_message
                  FROM
@@ -171,6 +175,7 @@ class Note
      */
     function getIssueID($note_id)
     {
+        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     not_iss_id
                  FROM
@@ -197,6 +202,8 @@ class Note
      */
     function getNoteBySequence($issue_id, $sequence)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $sequence = Misc::escapeInteger($sequence);
         $stmt = "SELECT
                     not_id
                 FROM
@@ -224,6 +231,7 @@ class Note
      */
     function getUnknownUser($note_id)
     {
+        $note_id = Misc::escapeInteger($note_id);
         $sql = "SELECT
                     not_unknown_user
                 FROM
@@ -273,6 +281,8 @@ class Note
     function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true, $closing = false)
     {
         global $HTTP_POST_VARS;
+        
+        $issue_id = Misc::escapeInteger($issue_id);
 
         if (@$HTTP_POST_VARS['add_extra_recipients'] != 'yes') {
             $note_cc = array();
@@ -318,7 +328,7 @@ class Note
             $stmt .= ", '" . Misc::escapeString($HTTP_POST_VARS['blocked_msg']) . "'";
         }
         if (!@empty($HTTP_POST_VARS['parent_id'])) {
-            $stmt .= ", " . $HTTP_POST_VARS['parent_id'] . "";
+            $stmt .= ", " . Misc::escapeInteger($HTTP_POST_VARS['parent_id']) . "";
         }
         if ($unknown_user != false) {
             $stmt .= ", '" . Misc::escapeString($unknown_user) . "'";
@@ -384,13 +394,18 @@ class Note
      */
     function remove($note_id, $log = true)
     {
+        $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
-                    not_iss_id
+                    not_iss_id,
+                    not_usr_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_id=$note_id";
-        $issue_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $details = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if ($details['not_usr_id'] != Auth::getUserID()) {
+            return -2;
+        }
 
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
@@ -401,10 +416,10 @@ class Note
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Issue::markAsUpdated($issue_id);
+            Issue::markAsUpdated($details['not_iss_id']);
             if ($log) {
                 // need to save a history entry for this
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('note_removed'), 'Note removed by ' . User::getFullName(Auth::getUserID()));
+                History::add($details['not_iss_id'], Auth::getUserID(), History::getTypeID('note_removed'), 'Note removed by ' . User::getFullName(Auth::getUserID()));
             }
             return 1;
         }
@@ -421,6 +436,7 @@ class Note
      */
     function getListing($issue_id)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
                     not_id,
                     not_created_date,
@@ -474,6 +490,7 @@ class Note
      */
     function convertNote($note_id, $target, $authorize_sender = false)
     {
+        $note_id = Misc::escapeInteger($note_id);
         $issue_id = Note::getIssueID($note_id);
         $email_account_id = Email_Account::getEmailAccount();
         $blocked_message = Note::getBlockedMessage($note_id);

@@ -40,6 +40,7 @@ class FAQ
      */
     function getListBySupportLevel($support_level_id)
     {
+        $support_level_id = Misc::escapeInteger($support_level_id);
         if ($support_level_id == -1) {
             $stmt = "SELECT
                         *
@@ -82,7 +83,7 @@ class FAQ
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
                  WHERE
@@ -108,6 +109,7 @@ class FAQ
      */
     function removeSupportLevelAssociations($faq_id)
     {
+        $faq_id = Misc::escapeInteger($faq_id);
         if (!is_array($faq_id)) {
             $faq_id = array($faq_id);
         }
@@ -136,6 +138,8 @@ class FAQ
     {
         global $HTTP_POST_VARS;
 
+        $HTTP_POST_VARS['id'] = Misc::escapeInteger($HTTP_POST_VARS['id']);
+        
         if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
             return -2;
         }
@@ -205,7 +209,7 @@ class FAQ
             return -1;
         } else {
             $new_faq_id = $GLOBALS["db_api"]->get_last_insert_id();
-            if (Customer::doesBackendUseSupportLevels($HTTP_POST_VARS['project'])) {
+            if (Customer::doesBackendUseSupportLevels(Misc::escapeInteger($HTTP_POST_VARS['project']))) {
                 // now populate the faq-support level mapping table
                 foreach ($HTTP_POST_VARS['support_levels'] as $support_level_id) {
                     FAQ::addSupportLevelAssociation($new_faq_id, $support_level_id);
@@ -232,8 +236,8 @@ class FAQ
                     fsl_faq_id,
                     fsl_support_level_id
                  ) VALUES (
-                    $faq_id,
-                    $support_level_id
+                    " . Misc::escapeInteger($faq_id) . ",
+                    " . Misc::escapeInteger($support_level_id) . "
                  )";
         $GLOBALS["db_api"]->dbh->query($stmt);
     }
@@ -253,7 +257,7 @@ class FAQ
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
                  WHERE
-                    faq_id=$faq_id";
+                    faq_id=" . Misc::escapeInteger($faq_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -318,11 +322,11 @@ class FAQ
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
                  WHERE
-                    fsl_faq_id=$faq_id";
+                    fsl_faq_id=" . Misc::escapeInteger($faq_id);
         $ids = $GLOBALS["db_api"]->dbh->getCol($stmt);
 
         $t = array();
-        $levels = Customer::getSupportLevelAssocList($prj_id);
+        $levels = Customer::getSupportLevelAssocList(Misc::escapeInteger($prj_id));
         foreach ($levels as $support_level_id => $support_level) {
             if (in_array($support_level_id, $ids)) {
                 $t[$support_level_id] = $support_level;

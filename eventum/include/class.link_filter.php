@@ -55,7 +55,7 @@ class Link_Filter
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
                 WHERE
-                    lfi_id = $lfi_id";
+                    lfi_id = " . Misc::escapeInteger($lfi_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -144,7 +144,7 @@ class Link_Filter
                 ) VALUES (
                     '" . Misc::escapeString($_REQUEST["pattern"]) . "',
                     '" . Misc::escapeString($_REQUEST["replacement"]) . "',
-                    '" . $_REQUEST["usr_role"] . "',
+                    '" . Misc::escapeInteger($_REQUEST["usr_role"]) . "',
                     '" . Misc::escapeString($_REQUEST["description"]) . "'
                 )";
         $res = $GLOBALS["db_api"]->dbh->query($sql);
@@ -184,7 +184,7 @@ class Link_Filter
         $sql = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
                 WHERE
-                    lfi_id IN(" . join(',', $_REQUEST["items"]) . ")";
+                    lfi_id IN(" . join(',', Misc::escapeInteger($_REQUEST["items"])) . ")";
         $res = $GLOBALS["db_api"]->dbh->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -193,7 +193,7 @@ class Link_Filter
         $sql = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
                 WHERE
-                    plf_lfi_id IN(" . join(',', $_REQUEST["items"]) . ")";
+                    plf_lfi_id IN(" . join(',', Misc::escapeInteger($_REQUEST["items"])) . ")";
         $res = $GLOBALS["db_api"]->dbh->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -215,7 +215,7 @@ class Link_Filter
                 SET
                     lfi_pattern = '" . Misc::escapeString($_REQUEST["pattern"]) . "',
                     lfi_replacement = '" . Misc::escapeString($_REQUEST["replacement"]) . "',
-                    lfi_usr_role = '" . $_REQUEST["usr_role"] . "',
+                    lfi_usr_role = '" . Misc::escapeInteger($_REQUEST["usr_role"]) . "',
                     lfi_description = '" . Misc::escapeString($_REQUEST["description"]) . "'
                 WHERE
                     lfi_id = " . $_REQUEST["id"];
@@ -227,13 +227,13 @@ class Link_Filter
             $sql = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
                     WHERE
-                        plf_lfi_id = " . $_REQUEST["id"];
+                        plf_lfi_id = " . Misc::escapeInteger($_REQUEST["id"]);
             $res = $GLOBALS["db_api"]->dbh->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             }
-            foreach ($_REQUEST["projects"] as $prj_id) {
+            foreach (Misc::escapeInteger($_REQUEST["projects"]) as $prj_id) {
                 $sql = "INSERT INTO
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
                         (
@@ -241,7 +241,7 @@ class Link_Filter
                             plf_lfi_id
                         ) VALUES (
                             $prj_id,
-                            " . $_REQUEST["id"] . "
+                            " . Misc::escapeInteger($_REQUEST["id"]) . "
                         )";
                 $res = $GLOBALS["db_api"]->dbh->query($sql);
                 if (PEAR::isError($res)) {
@@ -303,6 +303,8 @@ class Link_Filter
     {
         static $filters;
 
+        $prj_id = Misc::escapeInteger($prj_id);
+        
         // poor man's caching system
         if (!empty($filters[$prj_id])) {
             return $filters[$prj_id];

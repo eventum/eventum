@@ -59,6 +59,8 @@ class Report
      */
     function getOpenIssuesByUser($prj_id, $cutoff_days)
     {
+        $prj_id = Misc::escapeInteger($prj_id);
+        $cutoff_days = Misc::escapeInteger($cutoff_days);
         $ts = Date_API::getCurrentUnixTimestampGMT();
         $cutoff_ts = $ts - ($cutoff_days * DAY);
 
@@ -144,7 +146,7 @@ class Report
                  ON
                     iss_sta_id=sta_id
                  WHERE
-                    iss_prj_id=$prj_id AND
+                    iss_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     iss_id=isu_iss_id AND
                     isu_usr_id=usr_id
                  ORDER BY
@@ -182,6 +184,8 @@ class Report
      */
     function getWeeklyReport($usr_id, $start, $end, $separate_closed = false)
     {
+        $usr_id = Misc::escapeInteger($usr_id);
+        
         // figure out timezone
         $user_prefs = Prefs::get($usr_id);
         $tz = @$user_prefs["timezone"];
@@ -473,6 +477,8 @@ class Report
      */
     function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue")
     {
+        $fld_id = Misc::escapeInteger($fld_id);
+        
         // get field values
         $stmt = "SELECT
                     cfo_id,
@@ -554,6 +560,8 @@ class Report
     function getWorkloadByDateRange($interval, $type, $start, $end)
     {
         $data = array();
+        $start = Misc::escapeString($start);
+        $end = Misc::escapeString($end);
         
         // figure out the correct format code
         switch ($interval) {

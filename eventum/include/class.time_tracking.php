@@ -87,7 +87,7 @@ class Time_Tracking
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
-                    ttc_id=$ttc_id";
+                    ttc_id=" . Misc::escapeInteger($ttc_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -108,7 +108,7 @@ class Time_Tracking
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
@@ -141,7 +141,7 @@ class Time_Tracking
                  SET
                     ttc_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
                  WHERE
-                    ttc_id=" . $HTTP_POST_VARS["id"];
+                    ttc_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -254,7 +254,7 @@ class Time_Tracking
         if (count($ids) == 0) {
             return false;
         }
-        $ids = implode(", ", $ids);
+        $ids = implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
                     ttr_iss_id,
                     SUM(ttr_time_spent)
@@ -289,7 +289,7 @@ class Time_Tracking
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
                  WHERE
-                    ttr_iss_id=$issue_id";
+                    ttr_iss_id=" . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -325,7 +325,7 @@ class Time_Tracking
                  WHERE
                     ttr_ttc_id=ttc_id AND
                     ttr_usr_id=usr_id AND
-                    ttr_iss_id=$issue_id
+                    ttr_iss_id=" . Misc::escapeInteger($issue_id) . "
                  ORDER BY
                     ttr_created_date ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -359,7 +359,7 @@ class Time_Tracking
      */
     function removeByIssues($ids)
     {
-        $items = @implode(", ", $ids);
+        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
                  WHERE
@@ -384,6 +384,7 @@ class Time_Tracking
      */
     function removeEntry($time_id, $usr_id)
     {
+        $time_id = Misc::escapeInteger($time_id);
         $stmt = "SELECT
                     ttr_iss_id issue_id,
                     ttr_usr_id owner_usr_id
@@ -393,7 +394,7 @@ class Time_Tracking
                     ttr_id=$time_id";
         $details = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         // check if the owner is the one trying to remove this entry
-        if ($details['owner_usr_id'] != $usr_id) {
+        if (($details['owner_usr_id'] != $usr_id) || (!Issue::canAccess($details['issue_id'], $usr_id))) {
             return -1;
         }
 
@@ -489,11 +490,11 @@ class Time_Tracking
                     ttr_time_spent,
                     ttr_summary
                  ) VALUES (
-                    $cat_id,
-                    $issue_id,
-                    $usr_id,
+                    " . Misc::escapeInteger($cat_id) . ",
+                    " . Misc::escapeInteger($issue_id) . ",
+                    " . Misc::escapeInteger($usr_id) . ",
                     '" . Date_API::getCurrentDateGMT() . "',
-                    $time_spent,
+                    " . Misc::escapeInteger($time_spent) . ",
                     '" . Misc::escapeString($summary) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -529,8 +530,8 @@ class Time_Tracking
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
                     ttr_ttc_id = ttc_id AND
-                    ttr_usr_id = $usr_id AND
-                    ttr_created_date BETWEEN '$start' AND '$end'
+                    ttr_usr_id = " . Misc::escapeInteger($usr_id) . " AND
+                    ttr_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'
                  GROUP BY
                     ttc_title";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt, '', '', DB_FETCHMODE_ASSOC);

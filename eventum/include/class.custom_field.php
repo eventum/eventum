@@ -57,6 +57,8 @@ class Custom_Field
      */
     function removeOptions($fld_id, $cfo_id)
     {
+        $fld_id = Misc::escapeInteger($fld_id);
+        $cfo_id = Misc::escapeInteger($cfo_id);
         if (!is_array($fld_id)) {
             $fld_id = array($fld_id);
         }
@@ -95,6 +97,7 @@ class Custom_Field
      */
     function addOptions($fld_id, $options)
     {
+        $fld_id = Misc::escapeInteger($fld_id);
         if (!is_array($options)) {
             $options = array($options);
         }
@@ -128,6 +131,7 @@ class Custom_Field
      */
     function updateOption($cfo_id, $cfo_value)
     {
+        $cfo_id = Misc::escapeInteger($cfo_id);
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
                  SET
@@ -218,6 +222,7 @@ class Custom_Field
             } else {
                 // need to remove all associated options from issue_custom_field and then 
                 // add the selected options coming from the form
+                $HTTP_POST_VARS['issue_id'] = Misc::escapeInteger($HTTP_POST_VARS['issue_id']);
                 Custom_Field::removeIssueAssociation($fld_id, $HTTP_POST_VARS["issue_id"]);
                 if (@count($value) > 0) {
                     Custom_Field::associateIssue($HTTP_POST_VARS["issue_id"], $fld_id, $value);
@@ -254,8 +259,8 @@ class Custom_Field
                         icf_fld_id,
                         icf_value
                      ) VALUES (
-                        $iss_id,
-                        $fld_id,
+                        " . Misc::escapeInteger($iss_id) . ",
+                        " . Misc::escapeInteger($fld_id) . ",
                         '" . Misc::escapeString($item) . "'
                      )";
             $GLOBALS["db_api"]->dbh->query($stmt);
@@ -322,6 +327,7 @@ class Custom_Field
      */
     function getOptionValue($fld_id, $value)
     {
+        $fld_id = Misc::escapeInteger($fld_id);
         if (empty($value)) {
             return "";
         }
@@ -357,6 +363,8 @@ class Custom_Field
      */
     function getListByIssue($prj_id, $iss_id)
     {
+        $prj_id = Misc::escapeInteger($prj_id);
+        $iss_id = Misc::escapeInteger($iss_id);
         $stmt = "SELECT
                     fld_id,
                     fld_title,
@@ -428,7 +436,7 @@ class Custom_Field
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  WHERE
@@ -556,8 +564,8 @@ class Custom_Field
                     pcf_prj_id,
                     pcf_fld_id
                  ) VALUES (
-                    $prj_id,
-                    $fld_id
+                    " . Misc::escapeInteger($prj_id) . ",
+                    " . Misc::escapeInteger($fld_id) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -618,7 +626,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                  WHERE
                     pcf_prj_id=prj_id AND
-                    pcf_fld_id=$fld_id
+                    pcf_fld_id=" . Misc::escapeInteger($fld_id) . "
                  ORDER BY
                     prj_title ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -640,6 +648,7 @@ class Custom_Field
      */
     function getDetails($fld_id)
     {
+        $fld_id = Misc::escapeInteger($fld_id);
         $stmt = "SELECT
                     *
                  FROM
@@ -678,7 +687,7 @@ class Custom_Field
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
                  WHERE
-                    cfo_fld_id=$fld_id
+                    cfo_fld_id=" . Misc::escapeInteger($fld_id) . "
                  ORDER BY
                     cfo_id ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -848,7 +857,7 @@ class Custom_Field
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                  WHERE
-                    pcf_prj_id=$prj_id";
+                    pcf_prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -870,6 +879,8 @@ class Custom_Field
      */
     function removeIssueAssociation($fld_id, $issue_id = FALSE)
     {
+        $fld_id = Misc::escapeInteger($fld_id);
+        $issue_id = Misc::escapeInteger($issue_id);
         if (is_array($fld_id)) {
             $fld_id = implode(", ", $fld_id);
         }
@@ -900,6 +911,7 @@ class Custom_Field
      */
     function removeOptionsByFields($ids)
     {
+        $ids = Misc::escapeInteger($ids);
         if (!is_array($ids)) {
             $ids = array($ids);
         }
@@ -931,6 +943,7 @@ class Custom_Field
      */
     function removeByIssues($ids)
     {
+        $ids = Misc::escapeInteger($ids);
         $items = implode(", ", $ids);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
@@ -956,6 +969,7 @@ class Custom_Field
      */
     function removeByProjects($ids)
     {
+        $ids = Misc::escapeInteger($ids);
         $items = implode(", ", $ids);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
@@ -988,7 +1002,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                 WHERE
                     fld_id = pcf_fld_id AND
-                    pcf_prj_id = $prj_id AND
+                    pcf_prj_id = " . Misc::escapeInteger($prj_id) . " AND
                     fld_list_display = 1";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($sql);
         if (PEAR::isError($res)) {

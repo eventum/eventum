@@ -96,29 +96,10 @@ class Monitor
      * and directories.
      *
      * @access  public
+     * @param   array $required_files An array of files that should be checked on.
      */
-    function checkConfiguration()
+    function checkConfiguration($required_files)
     {
-        $required_files = array(
-            APP_PATH . 'config.inc.php' => array(
-                'check_owner'      => true,
-                'owner'            => 'apache',
-                'check_group'      => true,
-                'group'            => 'apache',
-                'check_permission' => true,
-                'permission'       => 755,
-            ),
-            APP_PATH . 'setup.conf.php' => array(
-                'check_owner'      => true,
-                'owner'            => 'apache',
-                'check_group'      => true,
-                'group'            => 'apache',
-                'check_permission' => true,
-                'permission'       => 750,
-                'check_filesize'   => true,
-                'filesize'         => 1024
-            ),
-        );
         foreach ($required_files as $file_path => $options) {
             // check if file exists
             if (!file_exists($file_path)) {

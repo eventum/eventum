@@ -58,7 +58,7 @@ class Filter
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                  WHERE
-                    cst_id=$cst_id AND
+                    cst_id=" . Misc::escapeInteger($cst_id) . " AND
                     cst_is_global=1";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
@@ -90,8 +90,8 @@ class Filter
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                  WHERE
-                    cst_id=$cst_id AND
-                    cst_usr_id=$usr_id";
+                    cst_id=" . Misc::escapeInteger($cst_id) . " AND
+                    cst_usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -131,10 +131,10 @@ class Filter
             $filter_type_var = $field_name . '_filter_type';
             $date_end_var = $field_name . '_end';
             if (@$HTTP_POST_VARS['filter'][$field_name] == 'yes') {
-                $$date_var = "'" . $HTTP_POST_VARS[$field_name]["Year"] . "-" . $HTTP_POST_VARS[$field_name]["Month"] . "-" . $HTTP_POST_VARS[$field_name]["Day"] . "'";
+                $$date_var = "'" . Misc::escapeString($HTTP_POST_VARS[$field_name]["Year"] . "-" . $HTTP_POST_VARS[$field_name]["Month"] . "-" . $HTTP_POST_VARS[$field_name]["Day"]) . "'";
                 $$filter_type_var = "'" . $HTTP_POST_VARS[$field_name]['filter_type'] . "'";
                 if ($$filter_type_var == "'between'") {
-                    $$date_end_var = "'" . $HTTP_POST_VARS[$date_end_var]["Year"] . "-" . $HTTP_POST_VARS[$date_end_var]["Month"] . "-" . $HTTP_POST_VARS[$date_end_var]["Day"] . "'";
+                    $$date_end_var = "'" . Misc::escapeString($HTTP_POST_VARS[$date_end_var]["Year"] . "-" . $HTTP_POST_VARS[$date_end_var]["Month"] . "-" . $HTTP_POST_VARS[$date_end_var]["Day"]) . "'";
                 } elseif (($$filter_type_var == "'null'") || ($$filter_type_var == "'in_past'")) {
                     $$date_var = "NULL";
                     $$date_end_var = "NULL";
@@ -156,40 +156,40 @@ class Filter
             $stmt = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                      SET
-                        cst_iss_pri_id='" . $HTTP_POST_VARS["priority"] . "',
+                        cst_iss_pri_id='" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . "',
                         cst_keywords='" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
-                        cst_users='" . $HTTP_POST_VARS["users"] . "',
-                        cst_iss_sta_id='" . $HTTP_POST_VARS["status"] . "',
-                        cst_iss_pre_id='" . @$HTTP_POST_VARS["release"] . "',
-                        cst_iss_prc_id='" . @$HTTP_POST_VARS["category"] . "',
-                        cst_rows='" . $HTTP_POST_VARS["rows"] . "',
-                        cst_sort_by='" . $HTTP_POST_VARS["sort_by"] . "',
-                        cst_sort_order='" . $HTTP_POST_VARS["sort_order"] . "',
-                        cst_hide_closed='" . @$HTTP_POST_VARS["hide_closed"] . "',
+                        cst_users='" . Misc::escapeString($HTTP_POST_VARS["users"]) . "',
+                        cst_iss_sta_id='" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "',
+                        cst_iss_pre_id='" . Misc::escapeInteger(@$HTTP_POST_VARS["release"]) . "',
+                        cst_iss_prc_id='" . Misc::escapeInteger(@$HTTP_POST_VARS["category"]) . "',
+                        cst_rows='" . Misc::escapeInteger($HTTP_POST_VARS["rows"]) . "',
+                        cst_sort_by='" . Misc::escapeString($HTTP_POST_VARS["sort_by"]) . "',
+                        cst_sort_order='" . Misc::escapeString($HTTP_POST_VARS["sort_order"]) . "',
+                        cst_hide_closed='" . Misc::escapeInteger(@$HTTP_POST_VARS["hide_closed"]) . "',
                         cst_customer_email='" . Misc::escapeString(@$HTTP_POST_VARS["customer_email"]) . "',
-                        cst_show_authorized='" . @$HTTP_POST_VARS["show_authorized_issues"] . "',
-                        cst_show_notification_list='" . @$HTTP_POST_VARS["show_notification_list_issues"] . "',
+                        cst_show_authorized='" . Misc::escapeInteger(@$HTTP_POST_VARS["show_authorized_issues"]) . "',
+                        cst_show_notification_list='" . Misc::escapeInteger(@$HTTP_POST_VARS["show_notification_list_issues"]) . "',
                         cst_created_date=$created_date,
                         cst_created_date_filter_type=$created_date_filter_type,
-                        cst_created_date_time_period='" . @$_REQUEST['created_date']['time_period'] . "',
+                        cst_created_date_time_period='" . Misc::escapeInteger(@$_REQUEST['created_date']['time_period']) . "',
                         cst_created_date_end=$created_date_end,
                         cst_updated_date=$updated_date,
                         cst_updated_date_filter_type=$updated_date_filter_type,
-                        cst_updated_date_time_period='" . @$_REQUEST['updated_date']['time_period'] . "',
+                        cst_updated_date_time_period='" . Misc::escapeInteger(@$_REQUEST['updated_date']['time_period']) . "',
                         cst_updated_date_end=$updated_date_end,
                         cst_last_response_date=$last_response_date,
                         cst_last_response_date_filter_type=$last_response_date_filter_type,
-                        cst_last_response_date_time_period='" . @$_REQUEST['last_response_date']['time_period'] . "',
+                        cst_last_response_date_time_period='" . Misc::escapeInteger(@$_REQUEST['last_response_date']['time_period']) . "',
                         cst_last_response_date_end=$last_response_date_end,
                         cst_first_response_date=$first_response_date,
                         cst_first_response_date_filter_type=$first_response_date_filter_type,
-                        cst_first_response_date_time_period='" . @$_REQUEST['first_response_date']['time_period'] . "',
+                        cst_first_response_date_time_period='" . Misc::escapeInteger(@$_REQUEST['first_response_date']['time_period']) . "',
                         cst_first_response_date_end=$first_response_date_end,
                         cst_closed_date=$closed_date,
                         cst_closed_date_filter_type=$closed_date_filter_type,
-                        cst_closed_date_time_period='" . @$_REQUEST['closed_date']['time_period'] . "',
-                        cst_closed_date_end=$closed_date_end,
-                        cst_is_global=$is_global_filter
+                        cst_closed_date_time_period='" . Misc::escapeInteger(@$_REQUEST['closed_date']['time_period']) . "',
+                        cst_closed_date_end=" . Misc::escapeString($closed_date_end) . ",
+                        cst_is_global=" . Misc::escapeInteger($is_global_filter) . "
                      WHERE
                         cst_id=$cst_id";
         } else {
@@ -237,40 +237,40 @@ class Filter
                         " . Auth::getUserID() . ",
                         " . Auth::getCurrentProject() . ",
                         '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                        '" . $HTTP_POST_VARS["priority"] . "',
+                        '" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . "',
                         '" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
-                        '" . $HTTP_POST_VARS["users"] . "',
-                        '" . $HTTP_POST_VARS["status"] . "',
-                        '" . @$HTTP_POST_VARS["release"] . "',
-                        '" . @$HTTP_POST_VARS["category"] . "',
-                        '" . $HTTP_POST_VARS["rows"] . "',
-                        '" . $HTTP_POST_VARS["sort_by"] . "',
-                        '" . $HTTP_POST_VARS["sort_order"] . "',
-                        '" . @$HTTP_POST_VARS["hide_closed"] . "',
+                        '" . Misc::escapeString($HTTP_POST_VARS["users"]) . "',
+                        '" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "',
+                        '" . Misc::escapeInteger(@$HTTP_POST_VARS["release"]) . "',
+                        '" . Misc::escapeInteger(@$HTTP_POST_VARS["category"]) . "',
+                        '" . Misc::escapeInteger($HTTP_POST_VARS["rows"]) . "',
+                        '" . Misc::escapeString($HTTP_POST_VARS["sort_by"]) . "',
+                        '" . Misc::escapeString($HTTP_POST_VARS["sort_order"]) . "',
+                        '" . Misc::escapeInteger(@$HTTP_POST_VARS["hide_closed"]) . "',
                         '" . Misc::escapeString(@$HTTP_POST_VARS["customer_email"]) . "',
-                        '" . @$HTTP_POST_VARS["show_authorized_issues"] . "',
-                        '" . @$HTTP_POST_VARS["show_notification_list_issues"] . "',
+                        '" . Misc::escapeInteger(@$HTTP_POST_VARS["show_authorized_issues"]) . "',
+                        '" . Misc::escapeInteger(@$HTTP_POST_VARS["show_notification_list_issues"]) . "',
                         $created_date,
                         $created_date_filter_type,
-                        '" . @$_REQUEST['created_date']['time_period'] . "',
+                        '" . Misc::escapeInteger(@$_REQUEST['created_date']['time_period']) . "',
                         $created_date_end,
                         $updated_date,
                         $updated_date_filter_type,
-                        '" . @$_REQUEST['updated_date']['time_period'] . "',
+                        '" . Misc::escapeInteger(@$_REQUEST['updated_date']['time_period']) . "',
                         $updated_date_end,
                         $last_response_date,
                         $last_response_date_filter_type,
-                        '" . @$_REQUEST['response_date']['time_period'] . "',
+                        '" . Misc::escapeInteger(@$_REQUEST['response_date']['time_period']) . "',
                         $last_response_date_end,
                         $first_response_date,
                         $first_response_date_filter_type,
-                        '" . @$_REQUEST['first_response_date']['time_period'] . "',
+                        '" . Misc::escapeInteger(@$_REQUEST['first_response_date']['time_period']) . "',
                         $first_response_date_end,
                         $closed_date,
                         $closed_date_filter_type,
-                        '" . @$_REQUEST['closed_date']['time_period'] . "',
+                        '" . Misc::escapeInteger(@$_REQUEST['closed_date']['time_period']) . "',
                         $closed_date_end,
-                        $is_global_filter
+                        " . Misc::escapeInteger($is_global_filter) . "
                      )";
         }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -452,7 +452,7 @@ class Filter
     {
         global $HTTP_POST_VARS;
 
-        $items = implode(", ", $HTTP_POST_VARS["item"]);
+        $items = implode(", ", Misc::escapeInteger($HTTP_POST_VARS["item"]));
         foreach ($HTTP_POST_VARS["item"] as $cst_id) {
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
@@ -491,7 +491,7 @@ class Filter
      */
     function removeByProjects($ids)
     {
-        $items = implode(", ", $ids);
+        $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                  WHERE

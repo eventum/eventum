@@ -47,6 +47,7 @@ class Authorized_Replier
      */
     function getAuthorizedRepliers($issue_id)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
         // split into users and others (those with email address but no real user accounts)
         $repliers = array(
             "users" =>  array(),
@@ -102,6 +103,7 @@ class Authorized_Replier
      */
     function removeRepliers($iur_ids)
     {
+        $iur_ids = Misc::escapeInteger($iur_ids);
         // get issue_id for logging
         $stmt = "SELECT
                     iur_iss_id

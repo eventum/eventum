@@ -92,17 +92,17 @@ class Reminder
             $stmt = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                      SET
-                        rem_rank=" . $ranking[$rem_id] . "
+                        rem_rank=" . Misc::escapeInteger($ranking[$rem_id]) . "
                      WHERE
-                        rem_id=" . $replaced_rem_id;
+                        rem_id=" . Misc::escapeInteger($replaced_rem_id);
             $GLOBALS["db_api"]->dbh->query($stmt);
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  SET
-                    rem_rank=" . $new_rank . "
+                    rem_rank=" . Misc::escapeInteger($new_rank) . "
                  WHERE
-                    rem_id=" . $rem_id;
+                    rem_id=" . Misc::escapeInteger($rem_id);
         $GLOBALS["db_api"]->dbh->query($stmt);
         return true;
     }
@@ -166,7 +166,7 @@ class Reminder
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  WHERE
-                    rem_id=$rem_id";
+                    rem_id=" . Misc::escapeInteger($rem_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -191,7 +191,7 @@ class Reminder
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  WHERE
-                    rem_id=$rem_id";
+                    rem_id=" . Misc::escapeInteger($rem_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -216,7 +216,7 @@ class Reminder
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  WHERE
-                    rem_id=$rem_id";
+                    rem_id=" . Misc::escapeInteger($rem_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -258,7 +258,7 @@ class Reminder
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_priority
                  WHERE
-                    rep_rem_id=$rem_id";
+                    rep_rem_id=" . Misc::escapeInteger($rem_id);
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -286,8 +286,8 @@ class Reminder
                     rer_rem_id,
                     rer_support_level_id
                  ) VALUES (
-                    $rem_id,
-                    $support_level_id
+                    " . Misc::escapeInteger($rem_id) . ",
+                    " . Misc::escapeInteger($support_level_id) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -315,8 +315,8 @@ class Reminder
                     rer_rem_id,
                     rer_iss_id
                  ) VALUES (
-                    $rem_id,
-                    $issue_id
+                    " . Misc::escapeInteger($rem_id) . ",
+                    " . Misc::escapeInteger($issue_id) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -345,8 +345,8 @@ class Reminder
                     rer_rem_id,
                     rer_customer_id
                  ) VALUES (
-                    $rem_id,
-                    $customer_id
+                    " . Misc::escapeInteger($rem_id) . ",
+                    " . Misc::escapeInteger($customer_id) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -373,7 +373,7 @@ class Reminder
                     rer_rem_id,
                     rer_trigger_all_issues
                  ) VALUES (
-                    $rem_id,
+                    " . Misc::escapeInteger($rem_id) . ",
                     1
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -402,8 +402,8 @@ class Reminder
                     rep_rem_id,
                     rep_pri_id
                  ) VALUES (
-                    $rem_id,
-                    $priority_id
+                    " . Misc::escapeInteger($rem_id) . ",
+                    " . Misc::escapeInteger($priority_id) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -424,6 +424,7 @@ class Reminder
      */
     function removeAllAssociations($rem_id)
     {
+        $rem_id = Misc::escapeInteger($rem_id);
         if (!is_array($rem_id)) {
             $rem_id = array($rem_id);
         }
@@ -460,10 +461,10 @@ class Reminder
                     rem_skip_weekend
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
-                    " . $HTTP_POST_VARS['rank'] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
                     '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    " . $HTTP_POST_VARS['project'] . ",
-                    " . $HTTP_POST_VARS['skip_weekend'] . "
+                    " . Misc::escapeInteger($HTTP_POST_VARS['project']) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS['skip_weekend']) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -511,12 +512,12 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  SET
                     rem_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    rem_rank=" . $HTTP_POST_VARS['rank'] . ",
+                    rem_rank=" . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
                     rem_title='" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    rem_prj_id=" . $HTTP_POST_VARS['project'] . ",
-                    rem_skip_weekend=" . $HTTP_POST_VARS['skip_weekend'] . "
+                    rem_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS['project']) . ",
+                    rem_skip_weekend=" . Misc::escapeInteger($HTTP_POST_VARS['skip_weekend']) . "
                  WHERE
-                    rem_id=" . $HTTP_POST_VARS['id'];
+                    rem_id=" . Misc::escapeInteger($HTTP_POST_VARS['id']);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -560,7 +561,7 @@ class Reminder
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  WHERE
@@ -604,7 +605,7 @@ class Reminder
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_requirement
                  WHERE
-                    rer_rem_id=$rem_id";
+                    rer_rem_id=" . Misc::escapeInteger($rem_id);
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -861,7 +862,7 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
                  WHERE
-                    rmh_iss_id=$iss_id AND
+                    rmh_iss_id=" . Misc::escapeInteger($iss_id) . " AND
                     rmh_rma_id=rma_id
                  ORDER BY
                     rmh_created_date DESC";

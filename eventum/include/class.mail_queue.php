@@ -130,7 +130,7 @@ class Mail_Queue
                     '" . Misc::escapeString($recipient) . "',
                     '" . Misc::escapeString($text_headers) . "',
                     '" . Misc::escapeString($body) . "',
-                    $issue_id,
+                    " . Misc::escapeInteger($issue_id) . ",
                     '" . Misc::escapeString($headers["Subject"]) . "',
                     '$type'";
         if ($sender_usr_id != false) {
@@ -346,6 +346,7 @@ class Mail_Queue
      */
     function getListByIssueID($issue_id)
     {
+        $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "SELECT
                     maq_id,
                     maq_queued_date,
@@ -355,7 +356,7 @@ class Mail_Queue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
                  WHERE
-                    maq_iss_id = $issue_id";
+                    maq_iss_id = " . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -379,6 +380,7 @@ class Mail_Queue
      */
     function getEntry($maq_id)
     {
+        $maq_id = Misc::escapeInteger($maq_id);
         $stmt = "SELECT
                     maq_iss_id,
                     maq_queued_date,
@@ -390,7 +392,7 @@ class Mail_Queue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
                  WHERE
-                    maq_id = $maq_id";
+                    maq_id = " . Misc::escapeInteger($maq_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

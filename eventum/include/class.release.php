@@ -57,7 +57,7 @@ class Release
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  WHERE
-                    pre_id=$pre_id AND
+                    pre_id=" . Misc::escapeInteger($pre_id) . " AND
                     pre_status='available'";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
@@ -89,7 +89,7 @@ class Release
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  WHERE
-                    pre_id=$pre_id";
+                    pre_id=" . Misc::escapeInteger($pre_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -114,7 +114,7 @@ class Release
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  WHERE
-                    pre_id=$pre_id";
+                    pre_id=" . Misc::escapeInteger($pre_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -135,7 +135,7 @@ class Release
      */
     function removeByProjects($ids)
     {
-        $items = @implode(", ", $ids);
+        $items = @implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  WHERE
@@ -161,7 +161,7 @@ class Release
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         // gotta fix the issues that are using this release
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -208,11 +208,11 @@ class Release
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  SET
                     pre_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    pre_scheduled_date='$scheduled_date',
-                    pre_status='" . $HTTP_POST_VARS["status"] . "'
+                    pre_scheduled_date='" . Misc::escapeString($scheduled_date) . "',
+                    pre_status='" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "'
                  WHERE
-                    pre_prj_id=" . $HTTP_POST_VARS["prj_id"] . " AND
-                    pre_id=" . $HTTP_POST_VARS["id"];
+                    pre_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . " AND
+                    pre_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -248,8 +248,8 @@ class Release
                  ) VALUES (
                     " . $HTTP_POST_VARS["prj_id"] . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    '$scheduled_date',
-                    '" . $HTTP_POST_VARS["status"] . "'
+                    '" . Misc::escapeString($scheduled_date) . "',
+                    '" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -279,7 +279,7 @@ class Release
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  WHERE
-                    pre_prj_id=$prj_id
+                    pre_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     pre_scheduled_date ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -308,7 +308,7 @@ class Release
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  WHERE
-                    pre_prj_id=$prj_id AND
+                    pre_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     (
                       pre_status='available' AND
                       UNIX_TIMESTAMP() < UNIX_TIMESTAMP(pre_scheduled_date)

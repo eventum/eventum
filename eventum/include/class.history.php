@@ -89,8 +89,8 @@ class History
             $stmt .= ", his_is_hidden";
         }
         $stmt .= ") VALUES (
-                    $iss_id,
-                    $usr_id,
+                    " . Misc::escapeInteger($iss_id) . ",
+                    " . Misc::escapeInteger($usr_id) . ",
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($summary) . "',
                     $htt_id";
@@ -123,7 +123,7 @@ class History
                  WHERE
                     htt_id = his_htt_id AND
                     his_is_hidden != 1 AND
-                    his_iss_id=$iss_id AND
+                    his_iss_id=" . Misc::escapeInteger($iss_id) . " AND
                     htt_role <= " . Auth::getCurrentRole() . "
                  ORDER BY
                     his_id DESC";
@@ -234,8 +234,8 @@ class History
                         iss_sta_id = sta_id
                  WHERE
                     his_iss_id = iss_id AND
-                    his_usr_id = $usr_id AND
-                    his_created_date BETWEEN '$start' AND '$end' AND
+                    his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
+                    his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
                     his_htt_id NOT IN(" . join(',', History::getTypeID(array(
                         'notification_removed',
                         'notification_added',
@@ -298,8 +298,8 @@ class History
                  WHERE
                     his_iss_id = iss_id AND
                     iss_sta_id = sta_id AND
-                    his_usr_id = $usr_id AND
-                    his_created_date BETWEEN '$start' AND '$end' AND
+                    his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
+                    his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
                     (
                         sta_abbreviation IN('" . join("','", $statuses) . "') OR
                         sta_is_closed = 1
@@ -339,11 +339,11 @@ class History
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
                  WHERE
-                    his_usr_id = $usr_id AND
+                    his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
                     his_created_date BETWEEN '" . date("Y/m/d", $start) . "' AND '" . date("Y/m/d", $end) . "'";
         if ($htt_id != false) {
             $stmt .= "
-                    AND his_htt_id IN(" . join(",", $htt_id) . ")";
+                    AND his_htt_id IN(" . join(",", Misc::escapeInteger($htt_id)) . ")";
         }
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
