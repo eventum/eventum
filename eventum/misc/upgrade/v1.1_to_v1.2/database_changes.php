@@ -11,7 +11,7 @@ $changes[] = 'CREATE TABLE eventum_support_email_body (
   PRIMARY KEY (seb_sup_id)
 );
 ';
-$changes[] = 'INSERT INTO eventum_support_email_body (SELECT sup_id, sup_body, sup_full_email FROM eventum_support_email);'
+$changes[] = 'INSERT INTO eventum_support_email_body (SELECT sup_id, sup_body, sup_full_email FROM eventum_support_email);';
 $changes[] = 'ALTER TABLE eventum_support_email DROP COLUMN sup_body;';
 $changes[] = 'ALTER TABLE eventum_support_email DROP COLUMN sup_full_email;';
 $changes[] = 'ALTER TABLE eventum_support_email ADD COLUMN sup_usr_id int(11) unsigned DEFAULT NULL AFTER sup_iss_id;';
