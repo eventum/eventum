@@ -44,6 +44,9 @@ class Workflow
             if (preg_match('/^class\./', $files[$i])) {
                 // display a prettyfied backend name in the admin section
                 preg_match('/class\.(.*)\.php/', $files[$i], $matches);
+                if ($matches[1] == 'abstract_workflow_backend') {
+                    continue;
+                }
                 $name = ucwords(str_replace('_', ' ', $matches[1]));
                 $list[$files[$i]] = $name;
             }
