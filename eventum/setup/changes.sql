@@ -89,34 +89,6 @@ ALTER TABLE eventum_note ADD COLUMN not_unknown_user VARCHAR(255) NULL DEFAULT N
 
 ALTER TABLE eventum_issue_attachment ADD column iat_unknown_user varchar(255) NULL DEFAULT NULL;
 
-# XXX: need an upgrade script for this...
-# get current max usr_id
-SELECT max(usr_id) FROM eventum_user;
-#update record #1 to be the new usr_id;
-UPDATE eventum_user SET usr_id = %NEW_ID% WHERE usr_id = 1;
-
-#insert system account
-INSERT INTO eventum_user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (1, NOW(), '14589714398751513457adf349173434', 'system', '', 7, '');
-
-
-UPDATE eventum_custom_filter SET cst_usr_id = %NEW_ID% WHERE cst_usr_id = 1;
-UPDATE eventum_issue SET iss_usr_id = %NEW_ID% WHERE iss_usr_id = 1;
-UPDATE eventum_issue_attachment SET iat_usr_id = %NEW_ID% WHERE iat_usr_id = 1;
-UPDATE eventum_issue_requirement SET isr_usr_id = %NEW_ID% WHERE isr_usr_id = 1;
-UPDATE eventum_issue_user SET isu_usr_id = %NEW_ID% WHERE isu_usr_id = 1;
-UPDATE eventum_note SET not_usr_id = %NEW_ID% WHERE not_usr_id = 1;
-UPDATE eventum_project SET prj_lead_usr_id = %NEW_ID% WHERE prj_lead_usr_id = 1;
-UPDATE eventum_project_user SET pru_usr_id = %NEW_ID% WHERE pru_usr_id = 1;
-UPDATE eventum_subscription SET sub_usr_id = %NEW_ID% WHERE sub_usr_id = 1;
-UPDATE eventum_time_tracking SET ttr_usr_id = %NEW_ID% WHERE ttr_usr_id = 1;
-UPDATE eventum_phone_support SET phs_usr_id = %NEW_ID% WHERE phs_usr_id = 1;
-UPDATE eventum_customer_account_manager SET cam_usr_id = %NEW_ID% WHERE cam_usr_id = 1;
-UPDATE eventum_reminder_action_list SET ral_usr_id = %NEW_ID% WHERE ral_usr_id = 1;
-UPDATE eventum_news SET nws_usr_id = %NEW_ID% WHERE nws_usr_id = 1;
-UPDATE eventum_round_robin_user SET rru_usr_id = %NEW_ID% WHERE rru_usr_id = 1;
-UPDATE eventum_email_draft SET emd_usr_id = %NEW_ID% WHERE emd_usr_id = 1;
-UPDATE eventum_faq SET faq_usr_id = %NEW_ID% WHERE faq_usr_id = 1;
-
 ALTER TABLE eventum_email_draft ADD COLUMN emd_updated_date DATETIME NOT NULL;
 
 # after cancun
