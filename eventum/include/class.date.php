@@ -221,11 +221,14 @@ class Date_API
      * Method used to get the timezone preferred by the user.
      *
      * @access  public
+     * @param   integer $usr_id The user ID
      * @return  string The timezone preferred by the user
      */
-    function getPreferredTimezone()
+    function getPreferredTimezone($usr_id = FALSE)
     {
-        $usr_id = Auth::getUserID();
+        if ($usr_id === FALSE) {
+            $usr_id = Auth::getUserID();
+        }
         if (empty($usr_id)) {
             return Date_API::getDefaultTimezone();
         }
