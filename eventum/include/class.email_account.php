@@ -192,9 +192,6 @@ class Email_Account
     {
         global $HTTP_POST_VARS;
 
-        if (empty($HTTP_POST_VARS["check_spot"])) {
-            $HTTP_POST_VARS["check_spot"] = 0;
-        }
         if (empty($HTTP_POST_VARS["get_only_new"])) {
             $HTTP_POST_VARS["get_only_new"] = 0;
         }
@@ -205,7 +202,6 @@ class Email_Account
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  (
                     ema_prj_id,
-                    ema_check_spot,
                     ema_type,
                     ema_hostname,
                     ema_port,
@@ -216,7 +212,6 @@ class Email_Account
                     ema_leave_copy
                  ) VALUES (
                     " . $HTTP_POST_VARS["project"] . ",
-                    " . $HTTP_POST_VARS["check_spot"] . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["hostname"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["port"]) . "',
@@ -246,9 +241,6 @@ class Email_Account
     {
         global $HTTP_POST_VARS;
 
-        if (empty($HTTP_POST_VARS["check_spot"])) {
-            $HTTP_POST_VARS["check_spot"] = 0;
-        }
         if (empty($HTTP_POST_VARS["get_only_new"])) {
             $HTTP_POST_VARS["get_only_new"] = 0;
         }
@@ -259,7 +251,6 @@ class Email_Account
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  SET
                     ema_prj_id=" . $HTTP_POST_VARS["project"] . ",
-                    ema_check_spot=" . $HTTP_POST_VARS["check_spot"] . ",
                     ema_type='" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
                     ema_hostname='" . Misc::escapeString($HTTP_POST_VARS["hostname"]) . "',
                     ema_port='" . Misc::escapeString($HTTP_POST_VARS["port"]) . "',
