@@ -125,20 +125,24 @@ class Attachment
     {
         $filename = Attachment::nameToSafe($filename);
         $parts = pathinfo($filename);
-        if (in_array(strtolower($parts["extension"]), Attachment::_getPHPExtensions())) {
+        if (in_array(strtolower(@$parts["extension"]), Attachment::_getPHPExtensions())) {
             // instead of redirecting the user to a PHP script that may contain malicious code, we highlight the code
             highlight_string($data);
         } else {
-            // always force the browser to display the contents of these special files
-            if ((in_array(strtolower($parts["extension"]), Attachment::_getTextPlainExtensions())) && ($filesize < 5000)) {
+            if ((empty($filename)) && (!empty($filetype))) {
+                // inline images
+                header("Content-Type: $filetype");
+            } elseif ((in_array(strtolower(@$parts["extension"]), Attachment::_getTextPlainExtensions())) && ($filesize < 5000)) {
+                // always force the browser to display the contents of these special files
                 header('Content-Type: text/plain');
+                header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
             } else {
                 if (empty($filetype)) {
                     header("Content-Type: application/unknown");
                 } else {
                     header("Content-Type: " . urlencode($filetype));
                 }
-                if (!in_array(strtolower($parts["extension"]), Attachment::_getNoDownloadExtensions())) {
+                if (!in_array(strtolower(@$parts["extension"]), Attachment::_getNoDownloadExtensions())) {
                     header("Content-Disposition: attachment; filename=" . urlencode($filename));
                 } else {
                     header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
