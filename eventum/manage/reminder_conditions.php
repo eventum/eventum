@@ -62,8 +62,13 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
 
     if (@$HTTP_GET_VARS["cat"] == "edit") {
         $info = Reminder_Condition::getDetails($HTTP_GET_VARS["id"]);
+        if (!empty($HTTP_GET_VARS['field'])) {
+            $info['rlc_rmf_id'] = $HTTP_GET_VARS['field'];
+        } else {
+            $HTTP_GET_VARS['field'] = $info['rlc_rmf_id'];
+        }
         $tpl->assign("info", $info);
-        $HTTP_GET_VARS['field'] = $info['rlc_rmf_id'];
+        
     }
 
     if (!empty($HTTP_GET_VARS['field'])) {
