@@ -89,10 +89,8 @@ function toggleAlternateUserFields()
     var element = getPageElement('alternate_user_row');
     if (f.alternate_user.checked) {
         element.style.display = '';
-        f.eventum_user.focus();
     } else {
         element.style.display = 'none';
-        f.alternate_user.focus();
     }
 }
 
