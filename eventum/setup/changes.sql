@@ -333,4 +333,9 @@ CREATE TABLE eventum_faq_support_level (
 ALTER TABLE eventum_reminder_requirement ADD COLUMN rer_support_level_id INT(11) UNSIGNED NULL;
 ALTER TABLE eventum_reminder_requirement ADD COLUMN rer_customer_id INT(11) UNSIGNED NULL;
 
-ALTER TABLE eventum_project ADD COLUMN prj_hide_fields_from_reporter tinyint(1) NOT NULL DEFAULT 0;
+CREATE TABLE eventum_project_field_display (
+  pfd_prj_id int(11) unsigned NOT NULL,
+  pfd_field varchar(20) NOT NULL,
+  pfd_min_role tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (pfd_prj_id, pfd_field)
+);
