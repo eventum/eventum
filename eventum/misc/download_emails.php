@@ -133,6 +133,7 @@ if ($mbox == false) {
             Support::getEmailInfo($mbox, $account, $i);
         }
     }
+    imap_expunge($mbox);
     Support::clearErrors();
 }
 
