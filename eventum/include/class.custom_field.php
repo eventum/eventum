@@ -167,17 +167,50 @@ class Custom_Field
 
         foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
             if (($field_types[$fld_id] != 'multiple') && ($field_types[$fld_id] != 'combo')) {
-                $stmt = "UPDATE
+                // first check if there is actually a record for this field for the issue
+                $stmt = "SELECT
+                            icf_id
+                         FROM
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
-                         SET
-                            icf_value='" . Misc::escapeString($value) . "'
                          WHERE
                             icf_iss_id=" . $HTTP_POST_VARS["issue_id"] . " AND
                             icf_fld_id=$fld_id";
-                $res = $GLOBALS["db_api"]->dbh->query($stmt);
-                if (PEAR::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                $icf_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                if (PEAR::isError($icf_id)) {
+                    Error_Handler::logError(array($icf_id->getMessage(), $icf_id->getDebugInfo()), __FILE__, __LINE__);
                     return -1;
+                }
+                if (empty($icf_id)) {
+                    // record doesn't exist, insert new record
+                    $stmt = "INSERT INTO
+                                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                             (
+                                icf_iss_id,
+                                icf_fld_id,
+                                icf_value
+                             ) VALUES (
+                                " . $HTTP_POST_VARS["issue_id"] . ",
+                                $fld_id,
+                                '" . Misc::escapeString($value) . "'
+                             )";
+                    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                    if (PEAR::isError($res)) {
+                        Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                        return -1;
+                    }
+                } else {
+                    // record exists, update it
+                    $stmt = "UPDATE
+                                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                             SET
+                                icf_value='" . Misc::escapeString($value) . "'
+                             WHERE
+                                icf_id=$icf_id";
+                    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                    if (PEAR::isError($res)) {
+                        Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                        return -1;
+                    }
                 }
             } else {
                 // need to remove all associated options from issue_custom_field and then 

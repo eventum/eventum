@@ -10,6 +10,7 @@ Euventum Issue Tracking System
 - Weekly report can now be generated for any time period. (Bryan)
 - Added new Custom Field Report. (Bryan)
 - Download emails script no longer requires a mailbox name if using a pop3 account. (Bryan)
+- Fixed bug where values for new custom fields could not be set on existing issues. (Bryan)
 
 15 Jun 2004, Version 1.2.1
 - Fixed the email download routine to properly handle emails without any issue association (João)
