@@ -1103,17 +1103,20 @@ class Issue
             // record the change
             History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
             if ($send_notification) {
-                // send a special confirmation email when customer issues are closed
-                $stmt = "SELECT
-                            iss_customer_contact_id
-                         FROM
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                         WHERE
-                            iss_id=$issue_id";
-                $customer_contact_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
-                if (!empty($customer_contact_id)) {
-                    include_once(APP_INC_PATH . "class.customer.php");
-                    Customer::notifyCustomerIssueClosed($issue_id, $customer_contact_id);
+                $prj_id = Issue::getProjectID($issue_id);
+                if (Customer::hasCustomerIntegration($prj_id)) {
+                    // send a special confirmation email when customer issues are closed
+                    $stmt = "SELECT
+                                iss_customer_contact_id
+                             FROM
+                                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                             WHERE
+                                iss_id=$issue_id";
+                    $customer_contact_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                    if (!empty($customer_contact_id)) {
+                        include_once(APP_INC_PATH . "class.customer.php");
+                        Customer::notifyIssueClosed($prj_id, $issue_id, $customer_contact_id);
+                    }
                 }
                 // send notifications for the issue being closed
                 Notification::notify($issue_id, 'closed');
