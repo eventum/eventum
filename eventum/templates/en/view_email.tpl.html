@@ -167,25 +167,8 @@ function viewEmail(ema_id, id)
         </tr>
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center">
-            <table border="0" width="100%" cellspacing="0" cellpadding="1">
-              <tr>
-                <td>
-                  <input class="button" type="button" value="Reply" onClick="javascript:reply({$smarty.get.ema_id}, {$smarty.get.id});">
-                  <input class="button" type="button" value="Close" onClick="javascript:window.close();">
-                </td>
-                {if $email.sup_iss_id == 0}
-                <td align="right">
-                  <!-- XXX: fix this later
-                  <input type="submit" value="Associate &gt;" class="button" onClick="javascript:associate(this.form);">
-                  <select name="issue" class="default">
-                    <option value="new">New Issue</option>
-                    {html_options output=$issues values=$issues}
-                  </select>
-                  -->
-                </td>
-                {/if}
-              </tr>
-            </table>
+            <input class="button" type="button" value="Reply" onClick="javascript:reply({$smarty.get.ema_id}, {$smarty.get.id});">
+            <input class="button" type="button" value="Close" onClick="javascript:window.close();">
           </td>
         </tr>
         {if $next.sup_id != "" || $previous.sup_id != ""}
