@@ -101,10 +101,10 @@ function selectCustomerContact(customer_id, customer_name, contact_id, contact_l
         }
     }
 
-    window.opener.report_form.contact_person_lname.value = contact_last_name;
-    window.opener.report_form.contact_person_fname.value = contact_first_name;
-    window.opener.report_form.contact_email.value = contact_email;
-    window.opener.report_form.contact_phone.value = contact_phone;
+    f.contact_person_lname.value = contact_last_name;
+    f.contact_person_fname.value = contact_first_name;
+    f.contact_email.value = contact_email;
+    f.contact_phone.value = contact_phone;
 
     window.close();
 }

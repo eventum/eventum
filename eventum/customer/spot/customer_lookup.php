@@ -37,6 +37,7 @@ $tpl->setTemplate("customer/spot/customer_lookup.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
+$prj_id = Auth::getCurrentProject();
 
 // only customers should be able to use this page
 $role_id = User::getRoleByUser($usr_id);
@@ -45,7 +46,7 @@ if ($role_id < User::getRoleID('Developer')) {
 }
 
 if (@$HTTP_POST_VARS['cat'] == 'lookup') {
-    $tpl->assign("results", Customer::lookup($HTTP_POST_VARS['field'], $HTTP_POST_VARS['value']));
+    $tpl->assign("results", Customer::lookup($prj_id, $HTTP_POST_VARS['field'], $HTTP_POST_VARS['value']));
 }
 
 $tpl->displayTemplate();

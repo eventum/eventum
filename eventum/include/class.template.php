@@ -164,7 +164,11 @@ class Template_API
             if (!empty($prj_id)) {
                 $this->assign("current_project", $prj_id);
                 $this->assign("current_project_name", Auth::getCurrentProjectName());
-                $this->assign("has_customer_integration", Customer::hasCustomerIntegration($prj_id));
+                $has_customer_integration = Customer::hasCustomerIntegration($prj_id);
+                $this->assign("has_customer_integration", $has_customer_integration);
+                if ($has_customer_integration) {
+                    $this->assign("customer_backend_name", Customer::getBackendImplementationName($prj_id));
+                }
             }
             $info = User::getNameEmail($usr_id);
             $this->assign("active_projects", Project::getAssocList($usr_id));

@@ -1582,6 +1582,16 @@ class Issue
         if (!empty($initial_status)) {
             $stmt .= "iss_sta_id,";
         }
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            $stmt .= "
+                    iss_customer_id,
+                    iss_customer_contact_id,
+                    iss_contact_person_lname,
+                    iss_contact_person_fname,
+                    iss_contact_email,
+                    iss_contact_phone,
+                    iss_contact_timezone,";
+        }
         $stmt .= "
                     iss_created_date,
                     iss_summary,
@@ -1596,6 +1606,16 @@ class Issue
         if (!empty($initial_status)) {
             $stmt .= "$initial_status,";
         }
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            $stmt .= "
+                    " . $HTTP_POST_VARS['customer'] . ",
+                    " . $HTTP_POST_VARS['contact'] . ",
+                    '" . Misc::escapeString($HTTP_POST_VARS["contact_person_lname"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["contact_person_fname"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["contact_email"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["contact_phone"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["contact_timezone"]) . "',";
+        }
         $stmt .= "
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
@@ -1608,8 +1628,10 @@ class Issue
             return -1;
         } else {
             $new_issue_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $info = User::getNameEmail($usr_id);
             // log the creation of the issue
             History::add($new_issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
+
             // now add the user/issue association
             $users = array();
             if (count($HTTP_POST_VARS["users"]) > 0) {
@@ -1641,7 +1663,6 @@ class Issue
                     break;
                 }
             }
-            
             if ($found) {
                 $files = array();
                 for ($i = 0; $i < count($HTTP_POST_FILES["file"]["name"]); $i++) {
@@ -1656,9 +1677,9 @@ class Issue
                         continue;
                     }
                     $files[] = array(
-                        "filename"  =>  $filename,
-                        "type"      =>  $HTTP_POST_FILES['file']['type'][$i],
-                        "blob"      =>  $blob
+                        "filename" => $filename,
+                        "type"     => $HTTP_POST_FILES['file']['type'][$i],
+                        "blob"     => $blob
                     );
                 }
                 if (count($files) > 0) {

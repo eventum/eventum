@@ -1176,5 +1176,186 @@ class Spot_Customer_Backend
             }
         }
     }
+
+
+    /**
+     * Performs a customer lookup in Spot and returns the matches, if 
+     * appropriate. It will also provide a limitation on the number of searches
+     * that a given user may run against the list of customers.
+     *
+     * @access  public
+     * @param   string $field The field that we are trying to search against
+     * @param   string $value The value that we are searching for
+     * @return  array The list of customers
+     */
+    function lookup($field, $value)
+    {
+        // if field is support_id and value contains a dash (2003-1678), then parse the numbers after the dash
+        if (($field == 'support') && (strstr($value, '-'))) {
+            $value = substr($value, strpos($value, '-') + 1);
+        }
+
+        $info = User::getNameEmail(Auth::getUserID());
+        // check if this user is not trying to search too much
+        $stmt = "SELECT
+                    user_no
+                 FROM
+                    user
+                 WHERE
+                    email='" . $info['usr_email'] . "'";
+        $user_no = $GLOBALS["customer_db"]->getOne($stmt);
+        if ((PEAR::isError($user_no)) || (empty($user_no))) {
+            return array();
+        }
+
+        $stmt = "SELECT
+                    COUNT(*) cnt,
+                    SEC_TO_TIME(UNIX_TIMESTAMP(DATE_ADD(MIN(log_when), INTERVAL 1 HOUR)) - UNIX_TIMESTAMP()) retry
+                 FROM
+                    cust_log
+                 WHERE
+                    log_type='select' AND
+                    log_table='support' AND
+                    log_when > DATE_SUB(NOW(), INTERVAL 1 HOUR) AND
+                    user_no=$user_no";
+        $res = $GLOBALS["customer_db"]->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        }
+        if (empty($res)) {
+            return array();
+        }
+        if ($res['cnt'] > 15) {
+            return $res['retry'];
+        }
+
+        // now for the real thing
+        $stmt = "SELECT
+                    DISTINCT cust_entity.name customer_name,
+                    cust_entity.cust_no customer_id,
+                    CONCAT(support_type.level, ', ', support_type.customer_type) support_level,
+                    CONCAT(YEAR(support.startdate), '-', support.support_id) contract_id,
+                    support.enddate expiration_date,
+                    IF(support.status = 'Cancelled', 'cancelled', IF(support.enddate < NOW(), 'expired', 'active')) contract_status
+                 FROM
+                    cust_entity,
+                    support,
+                    support_type,
+                    cust_role";
+        if ($field == 'email') {
+            $stmt .= ', eaddress, cnt_support';
+        }
+        $stmt .= " WHERE ";
+        if ($field == 'email') {
+            $stmt .= "
+                    eaddress_code LIKE '%" . Misc::escapeString($value) . "%' AND
+                    cust_role.cust_no=eaddress.cust_no AND
+                    eaddress.eaddress_type_no=1 AND
+                    cnt_support.support_no=support.support_no AND
+                    cnt_support.cust_no=eaddress.cust_no AND ";
+        } elseif ($field == 'customer') {
+            $stmt .= "cust_id='" . Misc::escapeString($value) . "' AND ";
+        } else {
+            // search for support_id
+            $stmt .= "support_id='" . Misc::escapeString($value) . "' AND ";
+        }
+        $stmt .= "
+                    cust_entity.cust_no=support.cust_no AND
+                    cust_entity.cust_no=cust_role.up_cust_no AND
+                    support.support_type_no=support_type.support_type_no
+                 LIMIT
+                    0, 10";
+        $res = $GLOBALS["customer_db"]->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            if (empty($res)) {
+                return array();
+            }
+            // record the search in the log table
+            $spot_values = array(
+                'email'    => 'email',
+                'customer' => 'cust_id',
+                'support'  => 'support_id'
+            );
+
+            $stmt = "INSERT INTO
+                        cust_log
+                     (
+                        cust_no,
+                        user_no,
+                        log_type,
+                        log_table,
+                        log_where,
+                        log_what
+                     ) VALUES (
+                        0,
+                        $user_no,
+                        'select',
+                        'support',
+                        '" . $spot_values[$field] . "=\'" . Misc::escapeString($value) . "\'',
+                        'Support QF search for " . $spot_values[$field] . " = " . Misc::escapeString($value) . ".'
+                     )";
+            $pres = $GLOBALS["customer_db"]->query($stmt);
+            if (PEAR::isError($pres)) {
+                Error_Handler::logError(array($pres->getMessage(), $pres->getDebugInfo()), __FILE__, __LINE__);
+            }
+
+            for ($i = 0; $i < count($res); $i++) {
+                $res[$i]['contacts'] = $this->_getContactList($res[$i]['customer_id']);
+            }
+            return $res;
+        }
+    }
+
+
+    /**
+     * Returns the list of technical contacts associated with the current
+     * support contract of a given customer ID.
+     *
+     * @access  private
+     * @param   integer $customer_id The customer ID
+     * @return  array The list of technical contacts
+     */
+    function _getContactList($customer_id)
+    {
+        // XXX: need to check what happens if you pass a customer that has more than one support contract on file
+        $stmt = "SELECT
+                    A.cust_no contact_id,
+                    CONCAT(A.name, ', ', A.name2) contact_name,
+                    C.eaddress_code email,
+                    A.name2 contact_first_name,
+                    A.name contact_last_name,
+                    F.eaddress_code phone
+                 FROM
+                    cust_entity A,
+                    cust_role B,
+                    eaddress C,
+                    cnt_support D,
+                    support E
+                 LEFT JOIN
+                    eaddress F
+                 ON
+                    F.cust_no=A.cust_no AND
+                    F.eaddress_type_no=3
+                 WHERE
+                    D.support_no=E.support_no AND
+                    D.cust_no=B.cust_no AND
+                    E.cust_no=B.up_cust_no AND
+                    C.cust_no=A.cust_no AND
+                    C.eaddress_type_no=1 AND
+                    A.cust_type='P' AND
+                    A.cust_no=B.cust_no AND
+                    B.up_cust_no=$customer_id";
+        $res = $GLOBALS["customer_db"]->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
 }
 ?>

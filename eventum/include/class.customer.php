@@ -339,6 +339,12 @@ class Customer
     }
 
 
+    function lookup($prj_id, $field, $value)
+    {
+        echo "lookup($prj_id, $field, $value)<br />";
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->lookup($field, $value);
+    }
 
 
 

@@ -43,6 +43,8 @@ $tpl = new Template_API();
 $tpl->setTemplate("new.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
+$usr_id = Auth::getUserID();
+$prj_id = Auth::getCurrentProject();
 
 if (@$HTTP_POST_VARS["cat"] == "report") {
     $res = Issue::insert();
@@ -63,19 +65,31 @@ if (@$HTTP_GET_VARS["cat"] == "associate") {
     $tpl->assign("attached_emails", @implode(",", $HTTP_GET_VARS["item"]));
 }
 
-$prj_id = Auth::getCurrentProject();
-$tpl->assign("cats", Category::getAssocList($prj_id));
-$tpl->assign("priorities", Misc::getPriorities());
-$tpl->assign("users", Project::getUserAssocList($prj_id, 'active'));
-$tpl->assign("releases", Release::getAssocList($prj_id));
-$tpl->assign("custom_fields", Custom_Field::getListByProject($prj_id, 'report_form'));
-$tpl->assign("max_attachment_size", Attachment::getMaxAttachmentSize());
+$tpl->assign(array(
+    "cats"                => Category::getAssocList($prj_id),
+    "priorities"          => Misc::getPriorities(),
+    "users"               => Project::getUserAssocList($prj_id, 'active'),
+    "releases"            => Release::getAssocList($prj_id),
+    "custom_fields"       => Custom_Field::getListByProject($prj_id, 'report_form'),
+    "max_attachment_size" => Attachment::getMaxAttachmentSize()
+));
 
 $setup = Setup::load();
 $tpl->assign("allow_unassigned_issues", $setup["allow_unassigned_issues"]);
 
-$prefs = Prefs::get(Auth::getUserID());
+$prefs = Prefs::get($usr_id);
 $tpl->assign("user_prefs", $prefs);
+$tpl->assign("zones", Date_API::getTimezoneList());
+if (User::getRole(User::getRoleByUser($usr_id)) == "Customer") {
+    $customer_contact_id = User::getCustomerContactID($usr_id);
+    $tpl->assign("contact_details", Customer::getContactDetails($prj_id, $customer_contact_id));
+    $customer_id = User::getCustomerID($usr_id);
+    $tpl->assign("contacts", Customer::getContactEmailAssocList($prj_id, $customer_id));
+    $tpl->assign(array(
+        "customer_id" => User::getCustomerID($usr_id),
+        "contact_id"  => User::getCustomerContactID($usr_id)
+    ));
+}
 
 $tpl->displayTemplate();
 ?>
