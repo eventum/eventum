@@ -592,3 +592,6 @@ ALTER TABLE eventum_time_tracking ADD INDEX (ttr_iss_id)
  
 # March 7th
 ALTER TABLE eventum_issue ADD COLUMN iss_percent_complete tinyint(3) unsigned DEFAULT 0;
+
+# March 17th
+ALTER TABLE eventum_email_account ADD column ema_use_routing tinyint(1) DEFAULT 0;
