@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 - Fixed the time tracking remove routine to check if the person removing the entry is really its owner (Bug #9137) (João)
 - Fixed the issue assignment feature of the listing screen to work again (João)
 - Fixed bug that was causing php error when removing all assigned users from an issue (Bryan)
+- Fixed bug with searching by date range on recent activity report (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
