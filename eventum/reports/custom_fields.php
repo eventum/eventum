@@ -60,12 +60,18 @@ if (is_array($fields) && count($fields) > 0) {
     exit;
 }
 
+if (count(@$_GET['custom_field']) > 0) {
+    $data = Report::getCustomFieldReport(@$HTTP_GET_VARS["custom_field"], @$HTTP_GET_VARS["custom_options"], @$HTTP_GET_VARS["group_by"], true);
+}
+
 $tpl->assign(array(
     "custom_fields" =>  $custom_fields,
     "custom_field"  =>  @$HTTP_GET_VARS["custom_field"],
     "options"   =>  $options,
     "custom_options"    =>  @$HTTP_GET_VARS["custom_options"],
-    "group_by"      =>  @$HTTP_GET_VARS["group_by"]
+    "group_by"      =>  @$HTTP_GET_VARS["group_by"],
+    "selected_options"  => @$_REQUEST['custom_options'],
+    "data"  =>  @$data
 ));
 
 $tpl->displayTemplate();

@@ -473,10 +473,12 @@ class Report
      * @param   integer $fld_id The id of the custom field.
      * @param   array $cfo_ids An array of option ids.
      * @param   string $group_by How the data should be grouped.
+     * @param   boolean $list If the values should be listed out instead of just counted.
      * @return  array An array of data.
      */
-    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue")
+    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $list = false)
     {
+        $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
         
         // get field values
@@ -502,7 +504,47 @@ class Report
             $group_by_field = "iss_id";
         }
         
-        $data = array();
+        if ($list == true) {
+            $sql = "SELECT
+                        DISTINCT($group_by_field),
+                        iss_id,
+                        iss_summary,
+                        iss_customer_id,
+                        count(DISTINCT(iss_id)) as row_count
+                    FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    WHERE
+                        cfo_id = icf_value AND
+                        icf_iss_id = iss_id AND
+                        icf_fld_id = $fld_id AND
+                        cfo_id IN(" . join(",", array_keys($options)) . ")
+                    GROUP BY
+                        $group_by_field
+                    ORDER BY
+                        row_count DESC";
+            $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return array();
+            }
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                Customer::getCustomerTitlesByIssues($prj_id, $res);
+                if ($group_by == "issue") {
+                    usort($res, create_function('$a,$b', 'if ($a["customer_title"] < $b["customer_title"]) {
+                        return -1;
+                    } elseif ($a["customer_title"] > $b["customer_title"]) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }'));
+                }
+            }
+            return $res;
+        }
+        
+        $data = array();    
         foreach ($options as $cfo_id => $value) {
             $stmt = "SELECT
                         COUNT(DISTINCT $group_by_field)

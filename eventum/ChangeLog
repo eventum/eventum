@@ -20,6 +20,7 @@ Eventum Issue Tracking System
 - Fixed Misc::activateLinks() method to handle links with tildes (Elan Ruusamäe)
 - Properly escape values to prevent SQL-Injection attacks (Bryan)
 - Strip CC and BCC headers from outgoing emails (Bryan)
+- List issues on Custom Fields report (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)

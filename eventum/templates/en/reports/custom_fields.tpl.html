@@ -49,17 +49,23 @@ function validateForm(f)
         </tr>
         <tr>
           <td width="30%" class="default" align="center" height="10">
-            <b>Group By</b>
+            {if $has_customer_integration}
+              <b>Group By</b>
+            {/if}
           </td>
         </tr>
         <tr>
           <td align="left" valign="top"class="default">
+            {if $has_customer_integration}
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="issue" {if $group_by != 'customer'}CHECKED{/if}>
                 <a id="link" class="link" href="javascript:void(null)" 
                             onClick="javascript:checkRadio('custom_fields_report', 'group_by', 0);">Issue</a><br />
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="customer" {if $group_by == 'customer'}CHECKED{/if}>
                 <a id="link" class="link" href="javascript:void(null)" 
                             onClick="javascript:checkRadio('custom_fields_report', 'group_by', 1);">Customer</a><br />
+            {else}
+              <input type="hidden" name="group_by" value="issue">
+            {/if}
           </td>
         </tr>
         <tr>
@@ -108,7 +114,13 @@ function setOptions(fld_id, auto_select)
 setOptions('{$custom_field}', false);
 {if $custom_options|@count > 0}
     {foreach from=$custom_options key=option_index item=option}
-        options_field.options[{$option_index}].selected = true;
+      {literal}
+      for (i = 0; i < options_field.options.length; i++) {
+        if (options_field.options[i].value == {/literal}{$option}{literal}) {
+          options_field.options[i].selected = true;
+        }
+      }
+      {/literal}
     {/foreach}
 {/if}
 </script>
@@ -119,6 +131,54 @@ setOptions('{$custom_field}', false);
     <img src="custom_fields_graph.php?{$smarty.server.QUERY_STRING}&type=pie"><br />
     Percentages may not add up to exactly 100% due to rounding.<br /><br />
 </div>
+{/if}
+
+{if $data|@count > 0}
+{assign var="colspan" value=3}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="{$colspan}" class="default_white">
+            <b>Issues/Customers matching criteria</b>
+          </td>
+        </tr>
+        <tr>
+          {if $has_customer_integration}
+          <td bgcolor="{$cell_color}" class="default_white">Customer</td>
+          {/if}
+          {if $smarty.request.group_by == 'customer'}
+          <td bgcolor="{$cell_color}" class="default_white">Issue Count</td>
+          {else}
+          <td bgcolor="{$cell_color}" class="default_white">Issue ID</td>
+          <td bgcolor="{$cell_color}" class="default_white">Summary</td>
+          {/if}
+        </tr>
+        {foreach from=$data item=row}
+        {cycle values=$cycle assign="row_color"}
+        <tr>
+          {if $has_customer_integration}
+          <td class="default" bgcolor="{$row_color}">{$row.customer_title}</td>
+          {/if}
+          {if $smarty.request.group_by == 'customer'}
+          <td class="default" bgcolor="{$row_color}" align="center">{$row.row_count}</td>
+          {else}
+          <td class="default" bgcolor="{$row_color}" align="right">
+            <a href="{$app_base_url}view.php?id={$row.iss_id}" class="link">{$row.iss_id}</a>
+          </td>
+          <td class="default" bgcolor="{$row_color}">{$row.iss_summary}</td>
+          {/if}
+        </tr>
+        {foreachelse}
+        <tr>
+            <td colspan="8" class="default" align="center" bgcolor="{$dark_color}"><i>No data found</i></td>
+        </tr>
+        {/foreach}
+      </table>
+    </td>
+  </tr>
+</table>
 {/if}
 
 
