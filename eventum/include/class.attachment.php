@@ -304,7 +304,7 @@ class Attachment
     {
         global $HTTP_POST_VARS, $HTTP_POST_FILES;
 
-        $attachment_id = Attachment::add($HTTP_POST_VARS["issue_id"], $usr_id, $HTTP_POST_VARS["file_description"]);
+        $files = array();
         for ($i = 0; $i < count($HTTP_POST_FILES["attachment"]["name"]); $i++) {
             $filename = @$HTTP_POST_FILES["attachment"]["name"][$i];
             if (empty($filename)) {
@@ -314,8 +314,20 @@ class Attachment
             if (empty($blob)) {
                 return -1;
             }
-            Attachment::addFile($attachment_id, $HTTP_POST_VARS["issue_id"], $filename, $HTTP_POST_FILES['attachment']['type'][$i], $blob);
+            $files[] = array(
+                "filename"  =>  $filename,
+                "type"      =>  $HTTP_POST_FILES['attachment']['type'][$i],
+                "blob"      =>  $blob
+            );
         }
+        if (count($files) < 1) {
+            return -1;
+        }
+        $attachment_id = Attachment::add($HTTP_POST_VARS["issue_id"], $usr_id, $HTTP_POST_VARS["file_description"]);
+        foreach ($files as $file) {
+            Attachment::addFile($attachment_id, $HTTP_POST_VARS["issue_id"], $file["filename"], $file["type"], $file["blob"]);
+        }
+        
         Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
         // XXX: check if we need to change the issue status to 'Waiting on Developer'
         if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
@@ -429,6 +441,19 @@ class Attachment
         $name = strtr($name, $noalpha, $alpha);
         // not permitted chars are replaced with "_"
         return ereg_replace('[^a-zA-Z0-9,._\+\()\-]', '_', $name);
+    }
+
+
+    /**
+     * Returns the current maximum file upload size.
+     *
+     * @access  public
+     * @return  string A string containing the formatted max file size.
+     */
+    function getMaxAttachmentSize()
+    {
+        $size = ini_get('upload_max_filesize');
+        return Misc::formatFileSize($size);
     }
 }
 
