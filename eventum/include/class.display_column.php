@@ -49,48 +49,50 @@ class Display_Column
     function getColumnsToDisplay($prj_id, $page)
     {
         static $returns;
-        
-        if (empty($returns[$page])) {
-            $current_role = Auth::getCurrentRole();
-            $data = Display_Column::getSelectedColumns($prj_id, $page);
-            $has_customer_integration = Customer::hasCustomerIntegration($prj_id);
-            $only_with_customers = array('iss_customer_id');
-            
-            // remove groups if there are no groups in the system.
-            if (count(Group::getAssocList($prj_id)) < 1) {
-                unset($data['iss_grp_id']);
-            }
-            // remove category column if there are no categories in the system
-            if (count(Category::getAssocList($prj_id)) < 1) {
-                unset($data['prc_title']);
-            }
-            // remove custom fields column if there are no custom fields
-            if (count(Custom_Field::getFieldsToBeListed($prj_id)) < 1) {
-                unset($data['custom_fields']);
-            }
-            // remove customer field if user has a role of customer
-            if (Auth::getCurrentRole() == User::getRoleID("Customer")) {
-                unset($data['iss_customer_id']);
-            }
-            
-            foreach ($data as $field => $info) {
-                // remove fields based on role
-                if ($info['min_role'] > $current_role) {
-                    unset($data[$field]);
-                    continue;
-                }
-                
-                // remove fields based on customer integration
-                if (!$has_customer_integration && (in_array($field, $only_with_customers))) {
-                    unset($data[$field]);
-                    continue;
-                }
-                // get title
-                $data[$field] = Display_Column::getColumnInfo($page, $field);
-            }
-            $returns[$page] = $data;
+
+        // poor man's caching system
+        if (empty($returns[$prj_id][$page])) {
+            return $returns[$prj_id][$page];
         }
-        return $returns[$page];
+
+        $current_role = Auth::getCurrentRole();
+        $data = Display_Column::getSelectedColumns($prj_id, $page);
+        $has_customer_integration = Customer::hasCustomerIntegration($prj_id);
+        $only_with_customers = array('iss_customer_id');
+
+        // remove groups if there are no groups in the system.
+        if (count(Group::getAssocList($prj_id)) < 1) {
+            unset($data['iss_grp_id']);
+        }
+        // remove category column if there are no categories in the system
+        if (count(Category::getAssocList($prj_id)) < 1) {
+            unset($data['prc_title']);
+        }
+        // remove custom fields column if there are no custom fields
+        if (count(Custom_Field::getFieldsToBeListed($prj_id)) < 1) {
+            unset($data['custom_fields']);
+        }
+        // remove customer field if user has a role of customer
+        if ($current_role == User::getRoleID("Customer")) {
+            unset($data['iss_customer_id']);
+        }
+
+        foreach ($data as $field => $info) {
+            // remove fields based on role
+            if ($info['min_role'] > $current_role) {
+                unset($data[$field]);
+                continue;
+            }
+            // remove fields based on customer integration
+            if (!$has_customer_integration && (in_array($field, $only_with_customers))) {
+                unset($data[$field]);
+                continue;
+            }
+            // get title
+            $data[$field] = Display_Column::getColumnInfo($page, $field);
+        }
+        $returns[$prj_id][$page] = $data;
+        return $data;
     }
 
 
@@ -106,32 +108,36 @@ class Display_Column
     function getSelectedColumns($prj_id, $page)
     {
         static $returns;
-        
-        if (empty($returns[$page])) {
-            $sql = "SELECT
-                        ctd_field,
-                        ctd_min_role,
-                        ctd_rank
-                    FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
-                    WHERE
-                        ctd_prj_id = $prj_id AND
-                        ctd_page = '$page'
-                    ORDER BY
-                        ctd_rank";
-            $res = $GLOBALS["db_api"]->dbh->getAssoc($sql, '', '', DB_FETCHMODE_ASSOC);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                return array();
-            }
-            $returns[$page] = array();
-            foreach ($res as $field_name => $row) {
-                $returns[$page][$field_name] = Display_Column::getColumnInfo($page, $field_name);
-                $returns[$page][$field_name]['min_role'] = $row['ctd_min_role'];
-                $returns[$page][$field_name]['rank'] = $row['ctd_rank'];
-            }
+
+        // poor man's caching system
+        if (!empty($returns[$prj_id][$page])) {
+            return $returns[$prj_id][$page];
         }
-        return $returns[$page];
+
+        $stmt = "SELECT
+                    ctd_field,
+                    ctd_min_role,
+                    ctd_rank
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
+                WHERE
+                    ctd_prj_id = $prj_id AND
+                    ctd_page = '$page'
+                ORDER BY
+                    ctd_rank";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt, '', '', DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            $returns[$prj_id][$page] = array();
+            foreach ($res as $field_name => $row) {
+                $returns[$prj_id][$page][$field_name] = Display_Column::getColumnInfo($page, $field_name);
+                $returns[$prj_id][$page][$field_name]['min_role'] = $row['ctd_min_role'];
+                $returns[$prj_id][$page][$field_name]['rank'] = $row['ctd_rank'];
+            }
+            return $returns[$prj_id][$page];
+        }
     }
 
 
@@ -226,19 +232,19 @@ class Display_Column
         asort($ranks);
         
         // delete current entries
-        $sql = "DELETE FROM
+        $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
                 WHERE
                     ctd_prj_id = $prj_id AND
                     ctd_page = '$page'";
-        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
         $rank = 1;
         foreach ($ranks as $field_name => $requested_rank) {
-            $sql = "INSERT INTO
+            $stmt = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
                     SET
                         ctd_prj_id = $prj_id,
@@ -246,7 +252,7 @@ class Display_Column
                         ctd_field = '$field_name',
                         ctd_min_role = " . $_REQUEST['min_role'][$field_name] . ",
                         ctd_rank = $rank";
-            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            $res = $GLOBALS["db_api"]->dbh->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -268,7 +274,7 @@ class Display_Column
         $columns = Display_Column::getAllColumns($page);
         $rank = 1;
         foreach ($columns as $field_name => $column) {
-            $sql = "INSERT INTO
+            $stmt = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
                     SET
                         ctd_prj_id = $prj_id,
@@ -276,7 +282,7 @@ class Display_Column
                         ctd_field = '$field_name',
                         ctd_min_role = 1,
                         ctd_rank = $rank";
-            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            $res = $GLOBALS["db_api"]->dbh->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
