@@ -99,7 +99,7 @@ if (stristr(PHP_OS, 'darwin')) {
 @define("APP_PROJECT_COOKIE", "eventum_project");
 @define("APP_PROJECT_COOKIE_EXPIRE", time() + (60 * 60 * 24));
 
-@define("APP_VERSION", "1.4");
+@define("APP_VERSION", "%{APP_VERSION}");
 
 @define("APP_LIST_COOKIE", 'eventum_list');
 @define("APP_LIST_COOKIE_EXPIRE", time() + (60 * 60 * 24 * 30 * 48));
