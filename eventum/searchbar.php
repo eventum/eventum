@@ -47,12 +47,12 @@ $prj_id = Auth::getCurrentProject();
 $tpl->assign("priorities", Misc::getPriorities());
 $tpl->assign("status", Status::getAssocStatusList($prj_id));
 $tpl->assign("users", Project::getUserAssocList($prj_id));
+$tpl->assign("categories", Category::getAssocList($prj_id));
 
 $tpl->assign("custom", Filter::getListing($prj_id));
 
-if (!empty($HTTP_GET_VARS["custom_id"])) {
-    $tpl->assign("options", Filter::getDetails($HTTP_GET_VARS["custom_id"]));
-}
+$options = Issue::saveSearchParams();
+$tpl->assign("options", $options);
 
 $tpl->displayTemplate();
 ?>
