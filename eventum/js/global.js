@@ -14,10 +14,21 @@ function addFileRow(element_name, field_name)
         return;
     }
     rows = fileTable.rows.length;
+    
+    // check if last box is empty and if it is, don't add another
+    if (document.all) {
+        var last_field = document.all[field_name + '_' + rows];
+    } else if (!document.all && document.getElementById) {
+        var last_field = document.getElementById(field_name + '_' + rows);
+    }
+    if (last_field && last_field.value == '') {
+        return;
+    }
+    
     newRow = fileTable.insertRow(rows);
     cell = newRow.insertCell(0);
     if (document.all) {
-        cell.innerHTML = '<input class="shortcut" size="40" type="file" name="' + field_name + '" onChange="javascript:addFileRow(\'' + element_name + '\', \'' + field_name + '\');">';
+        cell.innerHTML = '<input id="' + field_name + '_' + (rows+1) + '" class="shortcut" size="40" type="file" name="' + field_name + '" onChange="javascript:addFileRow(\'' + element_name + '\', \'' + field_name + '\');">';
     } else {
         var input = document.createElement('INPUT');
         input.setAttribute('type', 'file');
@@ -25,6 +36,7 @@ function addFileRow(element_name, field_name)
         input.className = 'shortcut';
         input.size = 40;
         input.onchange = new Function('addFileRow(\'' + element_name + '\', \'' + field_name + '\');');
+        input.id = field_name + '_' + (rows+1);
         cell.appendChild(input);
     }
 }
