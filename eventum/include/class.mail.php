@@ -406,34 +406,34 @@ class Mail_API
      * of outgoing emails.
      *
      * @access  public
-     * @param   string $from The originator of the message
+     * @param   integer $issue_id The issue ID
      * @param   string $to The recipient of the message
      * @param   string $body The body of the message
      * @return  string The body of the message with the warning message, if appropriate
      */
-    function addWarningMessage($from, $to, $body)
+    function addWarningMessage($issue_id, $to, $body)
     {
         $setup = Setup::load();
-        if (($setup['email_routing']['status'] == 'enabled') && ($setup['email_routing']['warning']['status'] == 'enabled')) {
-            $sender_email = Mail_API::getEmailAddress($from);
+        if (($setup['email_routing']['status'] == 'enabled') &&
+                ($setup['email_routing']['warning']['status'] == 'enabled')) {
+            // check if the recipient can send emails to the customer
             $recipient_email = Mail_API::getEmailAddress($to);
             $recipient_usr_id = User::getUserIDByEmail($recipient_email);
             // don't add the warning message if the recipient is an unknown email address
             if (empty($recipient_usr_id)) {
                 return $body;
-            }
-            $recipient_role_id = User::getRoleByUser($recipient_usr_id);
-            if (($recipient_role_id <= $setup['email_routing']['warning']['permission_level']) &&
-                    (!empty($setup['email_routing']['warning']['message'])) && 
-                    (substr($sender_email, 0, strlen($setup['email_routing']['address_prefix'])) == $setup['email_routing']['address_prefix']) && 
-                    (substr($sender_email, strpos($sender_email, '@')+1) == $setup['email_routing']['address_host'])) {
-                $issue_id = substr($sender_email, strlen($setup['email_routing']['address_prefix']), strpos($sender_email, '@')-strlen($setup['email_routing']['address_prefix']));
-                $warning_msg = $setup['email_routing']['warning']['message'];
-                $warning_msg = str_replace('%APP_URL%', APP_BASE_URL, $warning_msg);
-                $warning_msg = str_replace('%ISSUE_ID%', $issue_id, $warning_msg);
-                return $warning_msg . "\n\n" . $body;
             } else {
-                return $body;
+                // don't add anything if the recipient is a known customer contact
+                $recipient_role_id = User::getRoleByUser($recipient_usr_id);
+                if ($recipient_role_id == User::getRoleID('Customer')) {
+                    return $body;
+                } else {
+                    if (!Support::isAllowedToEmail($issue_id, $recipient_email)) {
+                        return Mail_API::getWarningMessage('blocked') . "\n\n" . $body;
+                    } else {
+                        return Mail_API::getWarningMessage('allowed') . "\n\n" . $body;
+                    }
+                }
             }
         } else {
             return $body;
@@ -476,10 +476,6 @@ class Mail_API
         $from = MIME_Helper::encodeAddress($from);
         $to = MIME_Helper::encodeAddress($to);
         $subject = MIME_Helper::encode($subject);
-
-        // add a warning if we are sending an issue related email to
-        // an user that has its permission level lower than a configurable setting
-        $this->setTextBody($this->addWarningMessage($from, $to, $this->text_body));
 
         $body = $this->mime->get();
         $this->setHeaders(array(

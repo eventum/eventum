@@ -1491,7 +1491,8 @@ class Support
         foreach ($recipients as $recipient) {
             $mail = new Mail_API;
             if (!empty($issue_id)) {
-                // add the warning message to the current message' body, if needed
+                // add a warning if we are sending an issue related email to
+                // an user that has its permission level lower than a configurable setting
                 $fixed_body = Mail_API::addWarningMessage($issue_id, $recipient, $body);
                 $mail->setHeaders(array(
                     "Message-Id" => $message_id
