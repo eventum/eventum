@@ -157,7 +157,7 @@ function disableFields()
           <td bgcolor="{$list[i].status_color}" align="{$column.align|default:'center'}" class="default">
             {if $field_name == 'iss_id'}
               <a href="view.php?id={$list[i].iss_id}" class="link" title="view issue details">{$list[i].iss_id}</a>
-            {elseif $field_name == 'iss_pri_id'}
+            {elseif $field_name == 'pri_rank'}
               {$list[i].pri_title|escape:"html"}
             {elseif $field_name == 'iss_grp_id'}
               {$list[i].group}

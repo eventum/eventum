@@ -281,14 +281,15 @@ CREATE TABLE %TABLE_PREFIX%project_priority (
   pri_id smallint(3) unsigned NOT NULL auto_increment,
   pri_prj_id int(11) unsigned NOT NULL,
   pri_title varchar(64) NOT NULL default '',
+  pri_rank TINYINT(1) NOT NULL,
   PRIMARY KEY (pri_id),
   UNIQUE KEY pri_title (pri_title, pri_prj_id)
 );
-INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (5, 1, 'Not Prioritized');
-INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (1, 1, 'Critical');
-INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (2, 1, 'High');
-INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (3, 1, 'Medium');
-INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (4, 1, 'Low');
+INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title, pri_rank) VALUES (1, 1, 'Critical', 1);
+INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title, pri_rank) VALUES (2, 1, 'High', 2);
+INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title, pri_rank) VALUES (3, 1, 'Medium', 3);
+INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title, pri_rank) VALUES (4, 1, 'Low', 4);
+INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title, pri_rank) VALUES (5, 1, 'Not Prioritized', 5);
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project;
 CREATE TABLE %TABLE_PREFIX%project (
@@ -963,7 +964,7 @@ CREATE TABLE %TABLE_PREFIX%columns_to_display (
 );
 
 
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_pri_id',1,1);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','pri_rank',1,1);
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_id',1,2);
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_grp_id',1,3);
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','assigned',1,4);

@@ -565,3 +565,6 @@ UPDATE eventum_reminder_field SET rmf_allow_column_compare = 0 WHERE rmf_title='
 
 INSERT INTO eventum_history_type (htt_id, htt_name, htt_role) VALUES (NULL, 'scm_checkin_associated', 0);
 
+ALTER TABLE eventum_project_priority ADD COLUMN pri_rank TINYINT(1) NOT NULL;
+UPDATE eventum_columns_to_display SET ctd_field='pri_rank' WHERE ctd_field='iss_pri_id';
+

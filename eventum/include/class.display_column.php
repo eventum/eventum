@@ -162,7 +162,7 @@ class Display_Column
         
         $columns = array(
             "list_issues"   =>  array(
-                    "iss_pri_id"    =>  array(
+                    "pri_rank"    =>  array(
                             "title" =>  "Priority"
                     ),
                     "iss_id"    =>  array(

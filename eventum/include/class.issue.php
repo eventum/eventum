@@ -1868,7 +1868,7 @@ class Issue
             'rows'           => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
             'pagerRow'       => Issue::getParam('pagerRow'),
             'hide_closed'    => Issue::getParam('hide_closed'),
-            "sort_by"        => $sort_by ? $sort_by : "iss_pri_id",
+            "sort_by"        => $sort_by ? $sort_by : "pri_rank",
             "sort_order"     => $sort_order ? $sort_order : "ASC",
             // quick filter form
             'keywords'       => Issue::getParam('keywords'),
@@ -1942,7 +1942,7 @@ class Issue
         global $HTTP_SERVER_VARS;
 
         $fields = array(
-            "iss_pri_id",
+            "pri_rank",
             "iss_id",
             "iss_customer_id",
             "prc_title",
