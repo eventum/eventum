@@ -168,6 +168,9 @@ class Display_Column
                     "iss_id"    =>  array(
                             "title" =>  "Issue ID"
                     ),
+                    "usr_full_name" =>  array(
+                            "title" =>  "Reporter"
+                    ),
                     "iss_grp_id"    =>  array(
                             "title" =>  "Group"
                     ),
