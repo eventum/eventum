@@ -911,7 +911,7 @@ class Notification
             $tpl->assign(array(
                 'email' => array(
                     'date'    => $date,
-                    'from'    => $sender,
+                    'from'    => Mime_Helper::fixEncoding($sender),
                     'subject' => $subject
                 )
             ));
@@ -922,6 +922,7 @@ class Notification
             $mail->setTextBody($text_message);
             $setup = $mail->getSMTPSettings();
             $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
+            $sender = Mime_Helper::fixEncoding($sender);
             $mail->send($from, $sender, 'New Issue Created');
         }
     }

@@ -216,7 +216,7 @@ class Mime_Helper
      * @return string  The text, encoded only if it contains non-ASCII
      *                 characters.
      */
-    function encode($text, $charset = 'iso-8859-1')
+    function encode($text, $charset = APP_CHARSET)
     {
         /* Return if nothing needs to be encoded. */
         if (!MIME_Helper::is8bit($text)) {

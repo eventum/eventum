@@ -146,7 +146,7 @@ $issues = $issues['list'];
 $project_title = Project::getName($filter['cst_prj_id']);
 
 header("Content-Type: text/xml");
-echo '<?xml version="1.0"?>' . "\n";
+echo '<?xml version="1.0" encoding="'. APP_CHARSET .'"?>' . "\n";
 ?>
 <rss version="0.91">
   <channel>

@@ -256,7 +256,7 @@ class Mail_API
     {
         $info = Mail_API::getAddressInfo($address);
         if (!empty($info['sender_name'])) {
-            return $info['sender_name'];
+            return Mime_Helper::fixEncoding($info['sender_name']);
         } else {
             return $info['email'];
         }
