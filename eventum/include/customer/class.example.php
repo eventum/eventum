@@ -56,14 +56,14 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                         'contact_id' => 87,
                         'first_name' => 'Bryan',
                         'last_name'  => 'Alsdorf',
-                        'email'      => 'bryan@mysql.com',
+                        'email'      => 'bryan@widgetfactory.com',
                         'phone'      => '+1 (123) 456-7890'
                     ),
                     array(
                         'contact_id' => 93,
                         'first_name' => 'Bob',
                         'last_name'  => 'Smith',
-                        'email'      => 'bob.smith@example.com',
+                        'email'      => 'bob@widgetfactory.com',
                         'phone'      => '+1 (123) 456-7890'
                     )
                 ),
@@ -71,7 +71,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                 "support_level_id" => 1,
                 "account_manager"  => array("Sales guy", "Salesguy@example.com")
             ),
-            2   =>  array(
+            2 => array(
                 "customer_id"      => 2,
                 "customer_name"    => "Joao, Inc.",
                 "start_date"       => '2004-08-01',
@@ -81,7 +81,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                         'contact_id' => 67,
                         'first_name' => 'Joao',
                         'last_name'  => 'Prado Maia',
-                        'email'      => 'joao@mysql.com',
+                        'email'      => 'jpm@joaoinc.com',
                         'phone'      => '+1 (123) 456-7890'
                     )
                 ),
@@ -89,9 +89,9 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                 "support_level_id" => 3,
                 "account_manager"  => array("Sales guy", "Salesguy@example.com")
             ),
-            3   =>  array(
+            3 => array(
                 "customer_id"     => 3,
-                "customer_name"   => "JesusHatesJava.com",
+                "customer_name"   => "Example Corp.",
                 "start_date"      => '2002-01-01',
                 "expiration_date" => '2003-01-01',
                 "contacts"        => array(
@@ -99,14 +99,14 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                         'contact_id' => 21,
                         'first_name' => 'J',
                         'last_name'  => 'Man',
-                        'email'      => 'j-man@jesushatesjava.com',
+                        'email'      => 'j-man@examplecorp.com',
                         'phone'      => '+1 (123) 456-7890'
                     ),
                     array(
                         'contact_id' => 22,
                         'first_name' => 'John',
                         'last_name'  => 'Doe',
-                        'email'      => 'John.Doe@example.com',
+                        'email'      => 'John.Doe@examplecorp.com',
                         'phone'      => '+1 (123) 456-7890'
                     )
                 ),
@@ -286,6 +286,8 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         $assoc = array();
         foreach ($this->data as $company_id => $details) {
             foreach ($details['contacts'] as $contact) {
+                // in a perfect world you would want to do partial searches 
+                // here, but as an example in_array() will do
                 if (in_array($contact["email"], $emails)) {
                     return array(
                         "customer_id" => $company_id,
