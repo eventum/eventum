@@ -15,14 +15,10 @@
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
 // | Authors: Dan Allen <dan@mojavelinux.com>                             |
+// |          Jason Rust <jrust@php.net>                                  |
 // +----------------------------------------------------------------------+
 
-// $Id: s.Detect.php 1.2 03/03/27 05:25:47-00:00 jpm $
-
-// }}}
-// {{{ description
-
-// Net_UserAgent_Detect Determine the Web browser, version, and platform from an HTTP user agent string
+// $Id: Detect.php,v 1.12 2004/03/10 20:22:34 jrust Exp $
 
 // }}}
 // {{{ constants
@@ -35,134 +31,41 @@ define('NET_USERAGENT_DETECT_ACCEPT',   'accept');
 define('NET_USERAGENT_DETECT_ALL',      'all');
 
 // }}}
-
 // {{{ class Net_UserAgent_Detect
 
 /**
  * The Net_UserAgent_Detect object does a number of tests on an HTTP user
  * agent string.  The results of these tests are available via methods of
- * the object.
+ * the object.  Note that all methods in this class can be called
+ * statically.  The constructor and singleton methods are only retained
+ * for BC.
  *
  * This module is based upon the JavaScript browser detection code
  * available at http://www.mozilla.org/docs/web-developer/sniffer/browser_type.html.
  * This module had many influences from the lib/Browser.php code in
  * version 1.3 of Horde.
  *
- * @version  Revision: 0.1
+ * @author   Jason Rust <jrust@php.net>
  * @author   Dan Allen <dan@mojavelinux.com>
  * @author   Chuck Hagenbuch <chuck@horde.org>
  * @author   Jon Parise <jon@horde.org>
- * @access   public
- * @since    PHP 4.1
  * @package  Net_UserAgent
  */
 
 // }}}
 class Net_UserAgent_Detect {
-    // {{{ properties
+    // {{{ constructor
 
-    /**
-     * User agent string that is being analyzed
-     * @var string $userAgent
-     */
-    var $userAgent = '';
-
-    /**
-     * Array that stores all of the flags for the vendor and version of
-     * the different browsers.  The flags key values are show in the array.
-     * @var array $browser
-     */
-    var $browser = array('ns', 'ns2', 'ns3', 'ns4', 'ns4up', 'nav', 'ns6', 'ns6up', 'gecko', 'ie', 'ie3', 'ie4', 'ie4up', 'ie5', 'ie5_5', 'ie5up', 'ie6', 'ie6up', 'opera', 'opera2', 'opera3', 'opera4', 'opera5', 'opera5up', 'aol', 'aol3', 'aol4', 'aol5', 'aol6', 'aol7', 'webtv', 'aoltv', 'tvnavigator', 'hotjava', 'hotjava3', 'hotjava3up');
-
-    /**
-     * Array that stores all of the flags for the operating systems, and in some cases
-     * the versions of those operating systems (windows)
-     * @var array $os
-     */
-    var $os = array('win', 'win95', 'win16', 'win31', 'win9x', 'win98', 'winme', 'win2k', 'winxp', 'winnt', 'os2', 'mac', 'mac68k', 'macppc', 'linux', 'unix', 'vms', 'sun', 'sun4', 'sun5', 'suni86', 'irix', 'irix5', 'irix6', 'hpux', 'hpux9', 'hpux10', 'aix', 'aix1', 'aix2', 'aix3', 'aix4', 'sco', 'unixware', 'mpras', 'reliant', 'dec', 'sinix', 'freebsd', 'bsd');
-
-    /**
-     * Array that stores credentials for each of the browser/os combinations.  These allow
-     * quick access to determine if the current client has a feature that is going to be
-     * implemented in the script.
-     * @var array $features
-     */
-    var $features = array(
-        'javascript'   => false,
-        'dhtml'        => false,
-        'dom'          => false,
-        'sidebar'      => false,
-        'gecko'        => false,
-    );
-
-    /**
-     * Array which stores known issues with the given client that can be used for on the
-     * fly tweaking so that the client may recieve the proper handling of this quirk.
-     * @var array $quirks
-     */
-    var $quirks = array(
-        'must_cache_forms'         => false,
-        'popups_disabled'          => false,
-        'empty_file_input_value'   => false,
-        'cache_ssl_downloads'      => false,
-        'scrollbar_in_way'         => false,
-        'break_disposition_header' => false,
-        'nested_table_render_bug'  => false,
-    );
-
-    /**
-     * The leading identifier is the very first term in the user agent string, which is
-     * used to identify clients which are not Mosaic-based browsers.
-     * @var string $leadingIdentifier
-     */
-    var $leadingIdentifier = '';
-
-    /**
-     * The full version of the client as supplied by the very first numbers in the user agent
-     * @var float $version
-     */
-    var $version = 0;
-
-    /**
-     * The major part of the client version, which is the integer value of the version.
-     * @var integer $majorVersion
-     */
-    var $majorVersion = 0;
-
-    /**
-     * The minor part of the client version, which is the decimal parts of the version
-     * @var float $subVersion
-     */
-    var $subVersion = 0;
-
-    /**
-     * This level determins how much checking we do.  When time is of the essences, filtering
-     * the AOL versions might seem like overkill.  There are three levels, normal|detailed|basic
-     * @var string $level
-     */
-    var $detectOptions = array(NET_USERAGENT_DETECT_BROWSER, NET_USERAGENT_DETECT_OS, NET_USERAGENT_DETECT_FEATURES, NET_USERAGENT_DETECT_QUIRKS, NET_USERAGENT_DETECT_ACCEPT, NET_USERAGENT_DETECT_ALL);
-    
-    var $mimetype = array();
-
-    var $language = array();
-
-    var $charset = array();
-
-    var $encoding = array();
+    function Net_UserAgent_Detect($in_userAgent = null, $in_detect = null)
+    {
+        $this->detect($in_userAgent, $in_detect);
+    }
 
     // }}}
     // {{{ singleton
 
     /**
-     * To be used in place of the contructor to return any open instance.
-     *
-     * Most of the time we want to evaluate the client's user agent string,
-     * so we want to make sure that we only have to run the detect() function
-     * once.  Therefore, all of the all of the properties and methods must map
-     * to a single state.  Therefore, this function is used in place of the
-     * contructor to return any open instances of the client object, and if none
-     * are open will create a new instance and cache it using a static
-     * variable.
+     * To be used in place of the contructor to return only open instance.
      *
      * @access public 
      * @return object Net_UserAgent_Detect instance
@@ -172,65 +75,133 @@ class Net_UserAgent_Detect {
         static $instance;
        
         if (!isset($instance)) { 
-            $instance = new Net_UserAgent_Detect($in_userAgent); 
+            $instance = new Net_UserAgent_Detect($in_userAgent, $in_detect); 
         }
         
         return $instance; 
     }
 
     // }}}
-    // {{{ constructor
-
-    function Net_UserAgent_Detect($in_userAgent = null, $in_detect = null)
-    {
-        $this->detect($in_userAgent, $in_detect);
-    }
-
-    // }}}
     // {{{ detect()
 
     /**
-     * Detect the user agent and prepare flags, features and quirks based on what is found
+     * Detect the user agent and prepare flags, features and quirks
+     * based on what is found
      *
-     * This is the core of the Net_UserAgent_Detect class.  It moves its way through the user agent
-     * string setting up the flags based on the vendors and versions of the browsers, determining
-     * the OS and setting up the features and quirks owned by each of the relevant clients.
+     * This is the core of the Net_UserAgent_Detect class.  It moves its
+     * way through the user agent string setting up the flags based on
+     * the vendors and versions of the browsers, determining the OS and
+     * setting up the features and quirks owned by each of the relevant
+     * clients.  Note that if you are going to be calling methods of
+     * this class statically then set all the parameters using th
+     * setOption()
      *
-     * @param  string (optional) user agent override
+     * @param  string $in_userAgent (optional) User agent override.  
+     * @param  mixed $in_detect (optional) The level of checking to do. 
      *
      * @access public
      * @return void
      */
     function detect($in_userAgent = null, $in_detect = null)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
+        static $hasRun;
+        if (!empty($hasRun)) {
+            return;
         }
 
+        $hasRun = true;
+        // {{{ set up static properties
+
+        $options = &Net_UserAgent_Detect::_getStaticProperty('options');
+        $in_userAgent = isset($options['userAgent']) && is_null($in_userAgent) ? $options['userAgent'] : null;
+        $in_detect = isset($options['detectOptions']) && is_null($in_detect) ? $options['detectOptions'] : null;
+
+        // User agent string that is being analyzed
+        $userAgent = &Net_UserAgent_Detect::_getStaticProperty('userAgent');
+
+        // Array that stores all of the flags for the vendor and version
+        // of the different browsers
+        $browser = &Net_UserAgent_Detect::_getStaticProperty('browser');
+        $browser = array_flip(array('ns', 'ns2', 'ns3', 'ns4', 'ns4up', 'nav', 'ns6', 'ns6up', 'gecko', 'ie', 'ie3', 'ie4', 'ie4up', 'ie5', 'ie5_5', 'ie5up', 'ie6', 'ie6up', 'opera', 'opera2', 'opera3', 'opera4', 'opera5', 'opera5up', 'aol', 'aol3', 'aol4', 'aol5', 'aol6', 'aol7', 'webtv', 'aoltv', 'tvnavigator', 'hotjava', 'hotjava3', 'hotjava3up', 'konq', 'safari'));
+        
+        // Array that stores all of the flags for the operating systems,
+        // and in some cases the versions of those operating systems (windows)
+        $os = &Net_UserAgent_Detect::_getStaticProperty('os');
+        $os = array_flip(array('win', 'win95', 'win16', 'win31', 'win9x', 'win98', 'winme', 'win2k', 'winxp', 'winnt', 'os2', 'mac', 'mac68k', 'macppc', 'linux', 'unix', 'vms', 'sun', 'sun4', 'sun5', 'suni86', 'irix', 'irix5', 'irix6', 'hpux', 'hpux9', 'hpux10', 'aix', 'aix1', 'aix2', 'aix3', 'aix4', 'sco', 'unixware', 'mpras', 'reliant', 'dec', 'sinix', 'freebsd', 'bsd'));
+
+        // Array which stores known issues with the given client that can
+        // be used for on the fly tweaking so that the client may recieve
+        // the proper handling of this quirk.
+        $quirks = &Net_UserAgent_Detect::_getStaticProperty('quirks');
+        $quirks = array(
+                'must_cache_forms'         => false,
+                'popups_disabled'          => false,
+                'empty_file_input_value'   => false,
+                'cache_ssl_downloads'      => false,
+                'scrollbar_in_way'         => false,
+                'break_disposition_header' => false,
+                'nested_table_render_bug'  => false);
+
+        // Array that stores credentials for each of the browser/os
+        // combinations.  These allow quick access to determine if the
+        // current client has a feature that is going to be implemented
+        // in the script.
+        $features = &Net_UserAgent_Detect::_getStaticProperty('features');
+        $features = array(
+                'javascript'   => false,
+                'dhtml'        => false,
+                'dom'          => false,
+                'sidebar'      => false,
+                'gecko'        => false);
+
+        // The leading identifier is the very first term in the user
+        // agent string, which is used to identify clients which are not
+        // Mosaic-based browsers.
+        $leadingIdentifier = &Net_UserAgent_Detect::_getStaticProperty('leadingIdentifier');
+
+        // The full version of the client as supplied by the very first
+        // numbers in the user agent
+        $version = &Net_UserAgent_Detect::_getStaticProperty('version');
+        $version = 0;
+
+        // The major part of the client version, which is the integer
+        // value of the version.
+        $majorVersion = &Net_UserAgent_Detect::_getStaticProperty('majorVersion');
+        $majorVersion = 0;
+
+        // The minor part of the client version, which is the decimal
+        // parts of the version
+        $subVersion = &Net_UserAgent_Detect::_getStaticProperty('subVersion');
+        $subVersion = 0;
+
+        // }}}
         // detemine what user agent we are using
         if (is_null($in_userAgent)) {
             if (isset($_SERVER['HTTP_USER_AGENT'])) {
-                $this->userAgent = $_SERVER['HTTP_USER_AGENT'];
+                $userAgent = $_SERVER['HTTP_USER_AGENT'];
             }
             elseif (isset($GLOBALS['HTTP_SERVER_VARS']['HTTP_USER_AGENT'])) {
-                $this->userAgent = $GLOBALS['HTTP_SERVER_VARS']['HTTP_USER_AGENT'];
+                $userAgent = $GLOBALS['HTTP_SERVER_VARS']['HTTP_USER_AGENT'];
             }
-            // fallback on a default one for testing from commandline
             else {
-                $this->userAgent = '';
+                $userAgent = '';
             }
         }
         else {
-            $this->userAgent = $in_userAgent;
+            $userAgent = $in_userAgent;
         }
 
         // get the lowercase version for case-insensitive searching
-        $agt = strtolower($this->userAgent);
+        $agt = strtolower($userAgent);
 
         // figure out what we need to look for
+        $detectOptions = array(NET_USERAGENT_DETECT_BROWSER,
+                NET_USERAGENT_DETECT_OS, NET_USERAGENT_DETECT_FEATURES,
+                NET_USERAGENT_DETECT_QUIRKS, NET_USERAGENT_DETECT_ACCEPT, 
+                NET_USERAGENT_DETECT_ALL);
         $detect = is_null($in_detect) ? NET_USERAGENT_DETECT_ALL : $in_detect;
         settype($detect, 'array');
-        foreach($this->detectOptions as $option) {
+        foreach($detectOptions as $option) {
             if (in_array($option, $detect)) {
                 $detectFlags[$option] = true; 
             }
@@ -239,90 +210,87 @@ class Net_UserAgent_Detect {
             }
         }
 
-        // initialize the flag arrays
-        $brwsr =& $this->browser;
-        $brwsr = array_flip($brwsr);
-        $os =& $this->os;
-        $os = array_flip($os);
+        // initialize the arrays of browsers and operating systems
 
         // Get the type and version of the client
-        if (preg_match(";^([[:alpha:]]+)[ /\(]*[[:alpha:]]*([\d]*)(\.[\d\.]*);", $agt, $matches)) {
-            list(, $this->leadingIdentifier, $this->majorVersion, $this->subVersion) = $matches;
+        if (preg_match(";^([[:alnum:]]+)[ /\(]*[[:alpha:]]*([\d]*)(\.[\d\.]*);", $agt, $matches)) {
+            list(, $leadingIdentifier, $majorVersion, $subVersion) = $matches;
         }
 
-        if (empty($this->leadingIdentifier)) {
-            $this->leadingIdentifier = 'Unknown';
+        if (empty($leadingIdentifier)) {
+            $leadingIdentifier = 'Unknown';
         }
 
-        $this->version = $this->majorVersion . $this->subVersion;
+        $version = $majorVersion . $subVersion;
     
         // Browser type
         if ($detectFlags[NET_USERAGENT_DETECT_ALL] || $detectFlags[NET_USERAGENT_DETECT_BROWSER]) {
-            $brwsr['konq']    = (strpos($agt, 'konqueror') !== false);
-            $brwsr['text']    = (strpos($agt, 'links') !== false) || (strpos($agt, 'lynx') !== false) || (strpos($agt, 'w3m') !== false);
-            $brwsr['ns']      = (strpos($agt, 'mozilla') !== false) && !(strpos($agt, 'spoofer') !== false) && !(strpos($agt, 'compatible') !== false) && !(strpos($agt, 'hotjava') !== false) && !(strpos($agt, 'opera') !== false) && !(strpos($agt, 'webtv') !== false) ? 1 : 0;
-            $brwsr['ns2']     = $brwsr['ns'] && $this->majorVersion == 2;
-            $brwsr['ns3']     = $brwsr['ns'] && $this->majorVersion == 3;
-            $brwsr['ns4']     = $brwsr['ns'] && $this->majorVersion == 4;
-            $brwsr['ns4up']   = $brwsr['ns'] && $this->majorVersion >= 4;
+            $browser['konq']    = $browser['safari'] = (strpos($agt, 'konqueror') !== false || strpos($agt, 'safari') !== false);
+            $browser['text']    = (strpos($agt, 'links') !== false) || (strpos($agt, 'lynx') !== false) || (strpos($agt, 'w3m') !== false);
+            $browser['ns']      = (strpos($agt, 'mozilla') !== false) && !(strpos($agt, 'spoofer') !== false) && !(strpos($agt, 'compatible') !== false) && !(strpos($agt, 'hotjava') !== false) && !(strpos($agt, 'opera') !== false) && !(strpos($agt, 'webtv') !== false) ? 1 : 0;
+            $browser['ns2']     = $browser['ns'] && $majorVersion == 2;
+            $browser['ns3']     = $browser['ns'] && $majorVersion == 3;
+            $browser['ns4']     = $browser['ns'] && $majorVersion == 4;
+            $browser['ns4up']   = $browser['ns'] && $majorVersion >= 4;
             // determine if this is a Netscape Navigator
-            $brwsr['nav']     = $brwsr['ns'] && $this->majorVersion < 5;
-            $brwsr['ns6']     = !$brwsr['konq'] && $brwsr['ns'] && $this->majorVersion == 5;
-            $brwsr['ns6up']   = $brwsr['ns6'] && $this->majorVersion >= 5;
-            $brwsr['gecko']   = (strpos($agt, 'gecko') !== false);
-            $brwsr['ie']      = (strpos($agt, 'msie') !== false) && !(strpos($agt, 'opera') !== false);
-            $brwsr['ie3']     = $brwsr['ie'] && $this->majorVersion < 4;
-            $brwsr['ie4']     = $brwsr['ie'] && $this->majorVersion == 4 && (strpos($agt, 'msie 4') !== false);
-            $brwsr['ie4up']   = $brwsr['ie'] && !$brwsr['ie3'];
-            $brwsr['ie5']     = $brwsr['ie4up'] && (strpos($agt, 'msie 5.0') !== false);
-            $brwsr['ie5_5']   = $brwsr['ie4up'] && (strpos($agt, 'msie 5.5') !== false);
-            $brwsr['ie5up']   = $brwsr['ie4up'] && !$brwsr['ie3'] && !$brwsr['ie4'];
-            $brwsr['ie5_5up'] = $brwsr['ie5up'] && !$brwsr['ie5'];
-            $brwsr['ie6']     = (strpos($agt, 'msie 6') !== false);
-            $brwsr['ie6up']   = $brwsr['ie5up'] && !$brwsr['ie5'] && !$brwsr['ie5_5'];
-            $brwsr['opera']   = (strpos($agt, 'opera') !== false);
-            $brwsr['opera2']  = (strpos($agt, 'opera 2') !== false) || (strpos($agt, 'opera/2') !== false);
-            $brwsr['opera3']  = (strpos($agt, 'opera 3') !== false) || (strpos($agt, 'opera/3') !== false);
-            $brwsr['opera4']  = (strpos($agt, 'opera 4') !== false) || (strpos($agt, 'opera/4') !== false);
-            $brwsr['opera5']  = (strpos($agt, 'opera 5') !== false) || (strpos($agt, 'opera/5') !== false);
-            $brwsr['opera5up'] = $brwsr['opera'] && !$brwsr['opera2'] && !$brwsr['opera3'] && !$brwsr['opera4'];
+            $browser['nav']     = $browser['ns'] && $majorVersion < 5;
+            $browser['ns6']     = !$browser['konq'] && $browser['ns'] && $majorVersion == 5;
+            $browser['ns6up']   = $browser['ns6'] && $majorVersion >= 5;
+            $browser['gecko']   = (strpos($agt, 'gecko') !== false && !$browser['konq']);
+            $browser['ie']      = (strpos($agt, 'msie') !== false) && !(strpos($agt, 'opera') !== false);
+            $browser['ie3']     = $browser['ie'] && $majorVersion < 4;
+            $browser['ie4']     = $browser['ie'] && $majorVersion == 4 && (strpos($agt, 'msie 4') !== false);
+            $browser['ie4up']   = $browser['ie'] && !$browser['ie3'];
+            $browser['ie5']     = $browser['ie4up'] && (strpos($agt, 'msie 5.0') !== false);
+            $browser['ie5_5']   = $browser['ie4up'] && (strpos($agt, 'msie 5.5') !== false);
+            $browser['ie5up']   = $browser['ie4up'] && !$browser['ie3'] && !$browser['ie4'];
+            $browser['ie5_5up'] = $browser['ie5up'] && !$browser['ie5'];
+            $browser['ie6']     = (strpos($agt, 'msie 6') !== false);
+            $browser['ie6up']   = $browser['ie5up'] && !$browser['ie5'] && !$browser['ie5_5'];
+            $browser['opera']   = (strpos($agt, 'opera') !== false);
+            $browser['opera2']  = (strpos($agt, 'opera 2') !== false) || (strpos($agt, 'opera/2') !== false);
+            $browser['opera3']  = (strpos($agt, 'opera 3') !== false) || (strpos($agt, 'opera/3') !== false);
+            $browser['opera4']  = (strpos($agt, 'opera 4') !== false) || (strpos($agt, 'opera/4') !== false);
+            $browser['opera5']  = (strpos($agt, 'opera 5') !== false) || (strpos($agt, 'opera/5') !== false);
+            $browser['opera5up'] = $browser['opera'] && !$browser['opera2'] && !$browser['opera3'] && !$browser['opera4'];
 
-            $brwsr['aol']   = (strpos($agt, 'aol') !== false);
-            $brwsr['aol3']  = $brwsr['aol'] && $brwsr['ie3'];
-            $brwsr['aol4']  = $brwsr['aol'] && $brwsr['ie4'];
-            $brwsr['aol5']  = (strpos($agt, 'aol 5') !== false);
-            $brwsr['aol6']  = (strpos($agt, 'aol 6') !== false);
-            $brwsr['aol7']  = (strpos($agt, 'aol 7') !== false);
-            $brwsr['webtv'] = (strpos($agt, 'webtv') !== false); 
-            $brwsr['aoltv'] = $brwsr['tvnavigator'] = (strpos($agt, 'navio') !== false) || (strpos($agt, 'navio_aoltv') !== false); 
-            $brwsr['hotjava'] = (strpos($agt, 'hotjava') !== false);
-            $brwsr['hotjava3'] = $brwsr['hotjava'] && $this->majorVersion == 3;
-            $brwsr['hotjava3up'] = $brwsr['hotjava'] && $this->majorVersion >= 3;
+            $browser['aol']   = (strpos($agt, 'aol') !== false);
+            $browser['aol3']  = $browser['aol'] && $browser['ie3'];
+            $browser['aol4']  = $browser['aol'] && $browser['ie4'];
+            $browser['aol5']  = (strpos($agt, 'aol 5') !== false);
+            $browser['aol6']  = (strpos($agt, 'aol 6') !== false);
+            $browser['aol7']  = (strpos($agt, 'aol 7') !== false);
+            $browser['webtv'] = (strpos($agt, 'webtv') !== false); 
+            $browser['aoltv'] = $browser['tvnavigator'] = (strpos($agt, 'navio') !== false) || (strpos($agt, 'navio_aoltv') !== false); 
+            $browser['hotjava'] = (strpos($agt, 'hotjava') !== false);
+            $browser['hotjava3'] = $browser['hotjava'] && $majorVersion == 3;
+            $browser['hotjava3up'] = $browser['hotjava'] && $majorVersion >= 3;
         }
 
-        if ($detectFlags[NET_USERAGENT_DETECT_ALL] || ($detectFlags[NET_USERAGENT_DETECT_BROWSER] && $detectFlags[NET_USERAGENT_DETECT_FEATURES])) {
+        if ($detectFlags[NET_USERAGENT_DETECT_ALL] || 
+            ($detectFlags[NET_USERAGENT_DETECT_BROWSER] && $detectFlags[NET_USERAGENT_DETECT_FEATURES])) {
             // Javascript Check
-            if ($brwsr['ns2'] || $brwsr['ie3']) {
-                $this->setFeature('javascript', 1.0);
+            if ($browser['ns2'] || $browser['ie3']) {
+                Net_UserAgent_Detect::setFeature('javascript', 1.0);
             }
-            elseif ($brwsr['opera5up']) {
-                $this->setFeature('javascript', 1.3);
+            elseif ($browser['opera5up']) {
+                Net_UserAgent_Detect::setFeature('javascript', 1.3);
             }
-            elseif ($brwsr['opera'] || $brwsr['ns3']) {
-                $this->setFeature('javascript', 1.1);
+            elseif ($browser['opera'] || $browser['ns3']) {
+                Net_UserAgent_Detect::setFeature('javascript', 1.1);
             }
-            elseif (($brwsr['ns4'] && ($this->version <= 4.05)) || $brwsr['ie4']) {
-                $this->setFeature('javascript', 1.2);
+            elseif (($browser['ns4'] && ($version <= 4.05)) || $browser['ie4']) {
+                Net_UserAgent_Detect::setFeature('javascript', 1.2);
             }
-            elseif ($brwsr['ie5up'] && (strpos($agt, 'mac') !== false)) {
-                $this->setFeature('javascript', 1.4);
+            elseif (($browser['ie5up'] && strpos($agt, 'mac') !== false) || $browser['konq']) {
+                Net_UserAgent_Detect::setFeature('javascript', 1.4);
             }
             // I can't believe IE6 still has javascript 1.3, what a shitty browser
-            elseif (($brwsr['ns4'] && ($this->version > 4.05)) || $brwsr['ie5up'] || $brwsr['hotjava3up']) {
-                $this->setFeature('javascript', 1.3);
+            elseif (($browser['ns4'] && ($version > 4.05)) || $browser['ie5up'] || $browser['hotjava3up']) {
+                Net_UserAgent_Detect::setFeature('javascript', 1.3);
             }
-            elseif ($brwsr['ns6up'] || $brwsr['gecko']) {
-                $this->setFeature('javascript', 1.5);
+            elseif ($browser['ns6up'] || $browser['gecko']) {
+                Net_UserAgent_Detect::setFeature('javascript', 1.5);
             }
         }
         
@@ -338,7 +306,7 @@ class Net_UserAgent_Detect {
             $os['win98'] = (strpos($agt, 'win98') !== false) || (strpos($agt, 'windows 98') !== false);
             $os['win9x'] = $os['win95'] || $os['win98'];
             $os['winnt'] = ((strpos($agt, 'winnt') !== false) || (strpos($agt, 'windows nt') !== false)) && (strpos($agt, 'windows nt 5') === false);
-            $os['win32'] = $os['win95'] || $os['winnt'] || $os['win98'] || $this->majorVersion >= 4 && (strpos($agt, 'win32') !== false) || (strpos($agt, '32bit') !== false);
+            $os['win32'] = $os['win95'] || $os['winnt'] || $os['win98'] || $majorVersion >= 4 && (strpos($agt, 'win32') !== false) || (strpos($agt, '32bit') !== false);
             $os['os2']   = (strpos($agt, 'os/2') !== false) || (strpos($agt, 'ibm-webexplorer') !== false);
             $os['mac']   = (strpos($agt, 'mac') !== false);
             $os['mac68k']   = $os['mac'] && ((strpos($agt, '68k') !== false) || (strpos($agt, '68000') !== false));
@@ -372,69 +340,89 @@ class Net_UserAgent_Detect {
         }
 
         // Setup the quirks
-        if ($detectFlags[NET_USERAGENT_DETECT_ALL] || ($detectFlags[NET_USERAGENT_DETECT_BROWSER] && $detectFlags[NET_USERAGENT_DETECT_QUIRKS])) {
-            if ($brwsr['konq']) {
-                $this->setQuirk('empty_file_input_value');
+        if ($detectFlags[NET_USERAGENT_DETECT_ALL] || 
+            ($detectFlags[NET_USERAGENT_DETECT_BROWSER] && $detectFlags[NET_USERAGENT_DETECT_QUIRKS])) {
+            if ($browser['konq']) {
+                Net_UserAgent_Detect::setQuirk('empty_file_input_value');
             }
 
-            if ($brwsr['ie']) {
-                $this->setQuirk('cache_ssl_downloads');
+            if ($browser['ie']) {
+                Net_UserAgent_Detect::setQuirk('cache_ssl_downloads');
             }
 
-            if ($brwsr['ie6']) {
-                $this->setQuirk('scrollbar_in_way');
+            if ($browser['ie6']) {
+                Net_UserAgent_Detect::setQuirk('scrollbar_in_way');
             }
 
-            if ($brwsr['ie5']) {
-                $this->setQuirk('break_disposition_header');
+            if ($browser['ie5']) {
+                Net_UserAgent_Detect::setQuirk('break_disposition_header');
             }
 
-            if ($brwsr['ns6']) {
-                $this->setQuirk('popups_disabled');
-                $this->setQuirk('must_cache_forms');
+            if ($browser['ns6']) {
+                Net_UserAgent_Detect::setQuirk('popups_disabled');
+                Net_UserAgent_Detect::setQuirk('must_cache_forms');
             }
             
-            if ($brwsr['nav'] && $this->subVersion < .79) {
-                $this->setQuirk('nested_table_render_bug');
+            if ($browser['nav'] && $subVersion < .79) {
+                Net_UserAgent_Detect::setQuirk('nested_table_render_bug');
             }
         }
             
         // Set features
-        if ($detectFlags[NET_USERAGENT_DETECT_ALL] || ($detectFlags[NET_USERAGENT_DETECT_BROWSER] && $detectFlags[NET_USERAGENT_DETECT_FEATURES])) {
-            if ($brwsr['gecko']) {
+        if ($detectFlags[NET_USERAGENT_DETECT_ALL] || 
+            ($detectFlags[NET_USERAGENT_DETECT_BROWSER] && $detectFlags[NET_USERAGENT_DETECT_FEATURES])) {
+            if ($browser['gecko']) {
                 preg_match(';gecko/([\d]+)\b;i', $agt, $matches);
-                @$this->setFeature('gecko', $matches[1]);
+                Net_UserAgent_Detect::setFeature('gecko', $matches[1]);
             }
 
-            if ($brwsr['ns6up'] || $brwsr['opera5up'] || $brwsr['konq']) {
-                $this->setFeature('dom');
+            if ($browser['ns6up'] || $browser['opera5up'] || $browser['konq']) {
+                Net_UserAgent_Detect::setFeature('dom');
             }
 
-            if ($brwsr['ie4up'] || $brwsr['ns4up'] || $brwsr['opera5up'] || $brwsr['konq']) {
-                $this->setFeature('dhtml');
+            if ($browser['ie4up'] || $browser['ns4up'] || $browser['opera5up'] || $browser['konq']) {
+                Net_UserAgent_Detect::setFeature('dhtml');
             }
         }
 
         if ($detectFlags[NET_USERAGENT_DETECT_ALL] || $detectFlags[NET_USERAGENT_DETECT_ACCEPT]) {
             $mimetypes = preg_split(';[\s,]+;', substr(getenv('HTTP_ACCEPT'), 0, strpos(getenv('HTTP_ACCEPT') . ';', ';')), -1, PREG_SPLIT_NO_EMPTY);
-            $this->setAcceptType((array) $mimetypes, 'mimetype');
+            Net_UserAgent_Detect::setAcceptType((array) $mimetypes, 'mimetype');
 
             $languages = preg_split(';[\s,]+;', substr(getenv('HTTP_ACCEPT_LANGUAGE'), 0, strpos(getenv('HTTP_ACCEPT_LANGUAGE') . ';', ';')), -1, PREG_SPLIT_NO_EMPTY);
             if (empty($languages)) {
                 $languages = 'en';
             }
 
-            $this->setAcceptType((array) $languages, 'language');
+            Net_UserAgent_Detect::setAcceptType((array) $languages, 'language');
 
             $encodings = preg_split(';[\s,]+;', substr(getenv('HTTP_ACCEPT_ENCODING'), 0, strpos(getenv('HTTP_ACCEPT_ENCODING') . ';', ';')), -1, PREG_SPLIT_NO_EMPTY);
-            $this->setAcceptType((array) $encodings, 'encoding');
+            Net_UserAgent_Detect::setAcceptType((array) $encodings, 'encoding');
             
             $charsets = preg_split(';[\s,]+;', substr(getenv('HTTP_ACCEPT_CHARSET'), 0, strpos(getenv('HTTP_ACCEPT_CHARSET') . ';', ';')), -1, PREG_SPLIT_NO_EMPTY);
-
-            $this->setAcceptType((array) $charsets, 'charset');
+            Net_UserAgent_Detect::setAcceptType((array) $charsets, 'charset');
         }
     }
     
+    // }}}
+    // {{{ setOption()
+
+    /**
+     * Sets a class option.  The available settings are:
+     * o 'userAgent' => The user agent string to detect (useful for
+     * checking a string manually).
+     * o 'detectOptions' => The level of checking to do.  A single level
+     * or an array of options.  Default is NET_USERAGENT_DETECT_ALL.
+     *
+     * @param string $in_field The option field (userAgent or detectOptions)
+     * @param mixed $in_value The value for the field
+     */
+    function setOption($in_field, $in_value)
+    {
+        $options = &Net_UserAgent_Detect::_getStaticProperty('options');
+        $options[$in_field] = $in_value;
+    }
+
     // }}}
     // {{{ isBrowser()
 
@@ -451,12 +439,9 @@ class Net_UserAgent_Detect {
      */
     function isBrowser($in_match)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        $match = strtolower($in_match);
-        return isset($this->browser[$match]) ? $this->browser[$match] : false;
+        Net_UserAgent_Detect::detect();
+        $browser = &Net_UserAgent_Detect::_getStaticProperty('browser');
+        return isset($browser[strtolower($in_match)]) ? $browser[strtolower($in_match)] : false;
     }
 
     // }}}
@@ -475,13 +460,11 @@ class Net_UserAgent_Detect {
      */
     function getBrowser($in_expectList)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        foreach((array) $in_expectList as $browser) {
-            if (!empty($this->browser[strtolower($browser)])) {
-                return $browser;
+        Net_UserAgent_Detect::detect();
+        $browser = &Net_UserAgent_Detect::_getStaticProperty('browser');
+        foreach((array) $in_expectList as $brwsr) {
+            if (!empty($browser[strtolower($brwsr)])) {
+                return $brwsr;
             }
         }
     }
@@ -513,22 +496,21 @@ class Net_UserAgent_Detect {
         'nav'      => 'Netscape Navigator',
         'ns4'      => 'Netscape 4.x',
         'ns6up'    => 'Mozilla/Netscape 6.x',
-        'konq'     => 'Konqueror',
+        'konq'     => 'Konqueror/Safari',
     ))
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
+        Net_UserAgent_Detect::detect();
+        $browser = &Net_UserAgent_Detect::_getStaticProperty('browser');
         foreach((array) $in_vendorStrings as $flag => $string) {
-            if (!empty($this->browser[$flag])) {
+            if (!empty($browser[$flag])) {
                 $vendorString = $string;
             }
         }
 
         // if there are no matches just use the user agent leading idendifier (usually Mozilla)
         if (!isset($vendorString)) {
-            $vendorString = $this->leadingIdentifier;
+            $leadingIdentifier = &Net_UserAgent_Detect::_getStaticProperty('leadingIdentifier');
+            $vendorString = $leadingIdentifier;
         }
         
         return $vendorString;
@@ -545,11 +527,9 @@ class Net_UserAgent_Detect {
      */
     function isIE()
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        return !empty($this->browser['ie']);
+        Net_UserAgent_Detect::detect();
+        $browser = &Net_UserAgent_Detect::_getStaticProperty('browser');
+        return !empty($browser['ie']);
     }
 
     // }}}
@@ -563,11 +543,9 @@ class Net_UserAgent_Detect {
      */
     function isNavigator()
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        return !empty($this->browser['nav']);
+        Net_UserAgent_Detect::detect();
+        $browser = &Net_UserAgent_Detect::_getStaticProperty('browser');
+        return !empty($browser['nav']);
     }
 
     // }}}
@@ -585,11 +563,9 @@ class Net_UserAgent_Detect {
      */
     function isNetscape()
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        return !empty($this->browser['ns4up']);
+        Net_UserAgent_Detect::detect();
+        $browser = &Net_UserAgent_Detect::_getStaticProperty('browser');
+        return !empty($browser['ns4up']);
     }
     
     // }}}
@@ -608,12 +584,9 @@ class Net_UserAgent_Detect {
      */
     function isOS($in_match)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        $match = strtolower($in_match);
-        return isset($this->os[$match]) ? $this->os[$match] : false;
+        Net_UserAgent_Detect::detect();
+        $os = &Net_UserAgent_Detect::_getStaticProperty('os');
+        return isset($os[strtolower($in_match)]) ? $os[strtolower($in_match)] : false;
     }
 
     // }}}
@@ -630,13 +603,11 @@ class Net_UserAgent_Detect {
      */
     function getOS($in_expectList)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        foreach((array) $in_expectList as $os) {
-            if (!empty($this->os[strtolower($os)])) {
-                return $os;
+        Net_UserAgent_Detect::detect();
+        $os = &Net_UserAgent_Detect::_getStaticProperty('os');
+        foreach((array) $in_expectList as $expectOs) {
+            if (!empty($os[strtolower($expectOs)])) {
+                return $expectOs;
             }
         }
     }
@@ -669,14 +640,12 @@ class Net_UserAgent_Detect {
        'unix'  => 'Linux/Unix',
     ))
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
+        Net_UserAgent_Detect::detect();
         $osString = 'Unknown';
 
+        $os = &Net_UserAgent_Detect::_getStaticProperty('os');
         foreach((array) $in_osStrings as $flag => $string) {
-            if (!empty($this->os[$flag])) {
+            if (!empty($os[$flag])) {
                 $osString = $string;
             }
         }
@@ -699,12 +668,9 @@ class Net_UserAgent_Detect {
      */
     function setQuirk($in_quirk, $in_hasQuirk = true)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
+        $quirks = &Net_UserAgent_Detect::_getStaticProperty('quirks');
         $hasQuirk = !empty($in_hasQuirk); 
-        $this->quirks[strtolower($in_quirk)] = $hasQuirk;
+        $quirks[strtolower($in_quirk)] = $hasQuirk;
     }
 
     // }}}
@@ -722,11 +688,9 @@ class Net_UserAgent_Detect {
      */
     function hasQuirk($in_quirk)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        return !empty($this->quirks[strtolower($in_quirk)]);
+        Net_UserAgent_Detect::detect();
+        $quirks = &Net_UserAgent_Detect::_getStaticProperty('quirks');
+        return !empty($quirks[strtolower($in_quirk)]);
     }
     
     // }}}
@@ -744,11 +708,9 @@ class Net_UserAgent_Detect {
      */
     function getQuirk()
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        return isset($this->quirks[strtolower($in_quirks)]) ? $this->quirks[strtolower($in_quirks)] : null; 
+        Net_UserAgent_Detect::detect();
+        $quirks = &Net_UserAgent_Detect::_getStaticProperty('quirks');
+        return isset($quirks[strtolower($in_quirks)]) ? $quirks[strtolower($in_quirks)] : null; 
     }
 
     // }}}
@@ -766,11 +728,8 @@ class Net_UserAgent_Detect {
      */
     function setFeature($in_feature, $in_hasFeature = true)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        $this->features[strtolower($in_feature)] = $in_hasFeature;
+        $features = &Net_UserAgent_Detect::_getStaticProperty('features');
+        $features[strtolower($in_feature)] = $in_hasFeature;
     }
 
     // }}}
@@ -788,11 +747,9 @@ class Net_UserAgent_Detect {
      */
     function hasFeature($in_feature)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        return !empty($this->features[strtolower($in_feature)]);
+        Net_UserAgent_Detect::detect();
+        $features = &Net_UserAgent_Detect::_getStaticProperty('features');
+        return !empty($features[strtolower($in_feature)]);
     }
     
     // }}}
@@ -810,11 +767,9 @@ class Net_UserAgent_Detect {
      */
     function getFeature($in_feature)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
-        return isset($this->features[strtolower($in_feature)]) ? $this->features[strtolower($in_feature)] : null; 
+        Net_UserAgent_Detect::detect();
+        $features = &Net_UserAgent_Detect::_getStaticProperty('features');
+        return isset($features[strtolower($in_feature)]) ? $features[strtolower($in_feature)] : null; 
     }
 
     // }}}
@@ -838,14 +793,11 @@ class Net_UserAgent_Detect {
      */
     function getAcceptType($in_expectList, $in_type)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
+        Net_UserAgent_Detect::detect();
         $type = strtolower($in_type);
 
         if ($type == 'mimetype' || $type == 'language' || $type == 'charset' || $type == 'encoding') {
-            $typeArray =& $this->$type;
+            $typeArray = &Net_UserAgent_Detect::_getStaticProperty($type);
             foreach((array) $in_expectList as $match) {
                 if (!empty($typeArray[$match])) {
                     return $match;
@@ -875,14 +827,10 @@ class Net_UserAgent_Detect {
      */
     function setAcceptType($in_values, $in_type)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
         $type = strtolower($in_type);
 
         if ($type == 'mimetype' || $type == 'language' || $type == 'charset' || $type == 'encoding') {
-            $typeArray =& $this->$type;
+            $typeArray = &Net_UserAgent_Detect::_getStaticProperty($type);
             foreach((array) $in_values as $value) {
                 $typeArray[$value] = true;
             }
@@ -908,14 +856,11 @@ class Net_UserAgent_Detect {
      */
     function hasAcceptType($in_value, $in_type)
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
-
+        Net_UserAgent_Detect::detect();
         $type = strtolower($in_type);
 
         if ($type == 'mimetype' || $type == 'language' || $type == 'charset' || $type == 'encoding') {
-            $typeArray =& $this->$type;
+            $typeArray = &Net_UserAgent_Detect::_getStaticProperty($type);
             return !empty($typeArray[$in_value]);
         }
         else {
@@ -934,11 +879,27 @@ class Net_UserAgent_Detect {
      */
     function getUserAgent()
     {
-        if (!isset($this) || get_class($this) != 'net_useragent_detect') {
-            $this =& Net_UserAgent_Detect::singleton();
-        }
+        Net_UserAgent_Detect::detect();
+        $userAgent = &Net_UserAgent_Detect::_getStaticProperty('userAgent');
+        return $userAgent;
+    }
 
-        return $this->userAgent;
+    // }}}
+    // {{{ _getStaticProperty()
+
+    /**
+     * Copy of getStaticProperty() from PEAR.php to avoid having to
+     * include PEAR.php
+     *
+     * @access private
+     * @param  string $var    The variable to retrieve.
+     * @return mixed   A reference to the variable. If not set it will be
+     *                 auto initialised to NULL.
+     */
+    function &_getStaticProperty($var)
+    {
+        static $properties;
+        return $properties[$var];
     }
 
     // }}}
