@@ -198,9 +198,9 @@ class Template_API
         $this->assign("SID", SID);
 
         // now for the browser detection stuff
-        $detect = new Net_UserAgent_Detect();
-        $this->assign("browser", $detect->browser);
-        $this->assign("os", $detect->os);
+        Net_UserAgent_Detect::detect();
+        $this->assign("browser", Net_UserAgent_Detect::_getStaticProperty('browser'));
+        $this->assign("os", Net_UserAgent_Detect::_getStaticProperty('os'));
 
         // this is only used by the textarea resize script
         $js_script_name = str_replace('/', '_', str_replace('.php', '', $HTTP_SERVER_VARS['PHP_SELF']));
