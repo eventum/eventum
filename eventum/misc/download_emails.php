@@ -33,38 +33,57 @@ include_once(APP_INC_PATH . "class.setup.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 // check for the required parameters
-if (@$HTTP_SERVER_VARS['argv'][1] == '--fix-lock') {
+if (@count($HTTP_SERVER_VARS['argv']) < 4 && @$HTTP_SERVER_VARS['argv'][1] != '--fix-lock') {
+    echo "Error: Wrong number of parameters given. Expected parameters related to the email account:\n";
+    echo " 1 - username\n";
+    echo " 2 - hostname\n";
+    echo " 3 - mailbox\n";
+    echo "Example: php -q download_emails.php bobby silly.org INBOX\n";
+    exit;
+}
+
+// get the account ID since we need it for locking.
+$account_id = Support::getAccountID(@$HTTP_SERVER_VARS["argv"][1], @$HTTP_SERVER_VARS["argv"][2], @$HTTP_SERVER_VARS["argv"][3]);
+if ($account_id == 0 && !in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
+    echo "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again.\n";
+    exit;
+}
+
+if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
     $setup = Setup::load();
-    $setup['downloading_emails'] = 'no';
+    // if there is no account id, unlock all accounts
+    if (empty($account_id)) {
+        if (!is_array($setup['downloading_emails'])) {
+            $setup['downloading_emails'] = array();
+        } else {
+            foreach ($setup['downloading_emails'] as $key => $val) {
+                $setup['downloading_emails'][$key] = 'no';
+            }
+        }
+    } else {
+        $setup['downloading_emails'][$account_id] = 'no';
+    }
     Setup::save($setup);
     echo "The lock key was fixed successfully.\n";
     exit;
-} else {
-    if (@count($HTTP_SERVER_VARS['argv']) != 4) {
-        echo "Error: Wrong number of parameters given. Expected parameters related to the email account:\n";
-        echo " 1 - username\n";
-        echo " 2 - hostname\n";
-        echo " 3 - mailbox\n";
-        echo "Example: php -q download_emails.php bobby silly.org INBOX\n";
-        exit;
-    }
 }
 
 // check if there is another instance of this script already running
 $setup = Setup::load();
-if (@$setup['downloading_emails'] == 'yes') {
-    echo "Error: Another instance of the script is still running. If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n";
+if (isset($setup['downloading_emails'][$account_id]) && @$setup['downloading_emails'][$account_id] == 'yes') {
+    echo "Error: Another instance of the script is still running for the specified account. " . 
+                "If this is not accurate, you may fix it by running this script with '--fix-lock' " . 
+                "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock' " . 
+                "as the only parameter.\n";
     exit;
 } else {
-    $setup['downloading_emails'] = 'yes';
+    if (!is_array($setup['downloading_emails'])) {
+        $setup['downloading_emails'] = array();
+    }
+    $setup['downloading_emails'][$account_id] = 'yes';
     Setup::save($setup);
 }
 
-$account_id = Support::getAccountID($HTTP_SERVER_VARS["argv"][1], $HTTP_SERVER_VARS["argv"][2], $HTTP_SERVER_VARS["argv"][3]);
-if ($account_id == 0) {
-    echo "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again.\n";
-    exit;
-}
 $account = Support::getDetails($account_id);
 $mbox = Support::connectEmailServer($account);
 if ($mbox == false) {
@@ -82,6 +101,6 @@ if ($mbox == false) {
 
 // clear the "lock" key
 $setup = Setup::load();
-$setup['downloading_emails'] = 'no';
+$setup['downloading_emails'][$account_id] = 'no';
 Setup::save($setup);
 ?>

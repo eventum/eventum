@@ -754,9 +754,35 @@ class Support
 
 
     /**
-     * Method used to check whether a specified message-id already
-     * exists in the system.
-     *
+     * Builds a list of all distinct message-ids available in the provided
+     * email account.
+     * 
+     * @access  public
+     * @param   integer $ema_id The support email account ID
+     * @return  array The list of message-ids
+     */
+    function getMessageIDs($ema_id)
+    {
+        $stmt = "SELECT
+                    DISTINCT sup_message_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                 WHERE
+                    sup_ema_id=$ema_id";
+        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Checks if a message already is downloaded. If available, the global variable $support_email_message_ids will be used,
+     * otherwise the database will be checked directly.
+     * 
      * @access  public
      * @param   integer $ema_id The support email account ID
      * @param   string $message_id The Message-ID header
@@ -764,23 +790,16 @@ class Support
      */
     function exists($ema_id, $message_id)
     {
-        $stmt = "SELECT
-                    COUNT(*) AS total
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
-                 WHERE
-                    sup_ema_id=$ema_id AND
-                    sup_message_id='" . addslashes($message_id) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        static $message_ids;
+
+        // if the static variable doesn't exist, build it
+        if (@count($message_ids) == 0) {
+            $message_ids = Support::getMessageIDs($ema_id);
+        }
+        if (in_array($message_id, $message_ids)) {
             return true;
         } else {
-            if ($res == 1) {
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 
