@@ -594,6 +594,7 @@ class Report
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
+                    iss_prj_id=" . Auth::getCurrentProject() . " AND
                     iss_created_date BETWEEN '$start' AND '$end'
                  GROUP BY
                     DATE_FORMAT(iss_created_date, '$format')";
@@ -632,8 +633,11 @@ class Report
                     DATE_FORMAT(sup_date, '$format'),
                     count(*)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
+                    sup_ema_id=ema_id AND
+                    ema_prj_id=" . Auth::getCurrentProject() . " AND
                     sup_date BETWEEN '$start' AND '$end'
                  GROUP BY
                     DATE_FORMAT(sup_date, '$format')";
