@@ -209,9 +209,9 @@
                 </td>
                 <td bgcolor="{$light_color}">
                   <span class="default">
-                  <input type="checkbox" name="report_form" value="1" {if $info.fld_report_form == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form', 0);checkRequiredFields();">Report Form</a><br />
+                  <input type="checkbox" name="report_form" value="1" {if $info.fld_report_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form', 0);checkRequiredFields();">Report Form</a><br />
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="report_form_required" value="1" {if $info.fld_report_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form_required', 0);">Required Field</a><br />
-                  <input type="checkbox" name="anon_form" value="1" {if $info.fld_anonymous_form == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form', 0);checkRequiredFields();">Anonymous Form</a><br />
+                  <input type="checkbox" name="anon_form" value="1" {if $info.fld_anonymous_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form', 0);checkRequiredFields();">Anonymous Form</a><br />
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="anon_form_required" value="1" {if $info.fld_anonymous_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form_required', 0);">Required Field</a>
                   </span>
                 </td>

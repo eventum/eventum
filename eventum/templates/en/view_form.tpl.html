@@ -130,15 +130,17 @@ function validateForm(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td><img src="{$rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%" class="default" align="center">
+          <td width="100%" align="center">
+            <span class="default">
             <span style="font-weight: bold; font-size: 160%; color: red;">
                 This Issue is Currently Quarantined
             </span>
             {include file="customer/$customer_backend_name/quarantine.tpl.html"}<br />
             Please see the <a href="faq.php">FAQ</a> for information regarding quarantined issues.
+            </span>
             {if $current_role > $roles.developer}
             <br /><br />
-            <input type="button" name="remove_quarantine" value="Remove Quarantine" onClick="removeQuarantine({$issue.iss_id})">
+            <input class="button" type="button" name="remove_quarantine" value="Remove Quarantine" onClick="removeQuarantine({$issue.iss_id})">
             {/if}
           </td>
         </tr>
