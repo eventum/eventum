@@ -441,9 +441,9 @@ function collapseDescription()
                 </td>
                 {/if}
                 <td width="100%" align="center">
-                  <input class="button" type="submit" value="Update Issue">&nbsp;
-                  {if $current_role >= $roles.standard_user}
-                  <input class="button" type="button" value="Reply" onClick="javascript:replyIssue({$issue.iss_id});">&nbsp;
+                  <input class="button" type="submit" value="Update Issue">
+                  {if $current_role >= $roles.standard_user and $app_setup.support_email == 'enabled'}
+                  &nbsp;<input class="button" type="button" value="Reply" onClick="javascript:replyIssue({$issue.iss_id});">
                   {/if}
                 </td>
                 {if $current_role > $roles.customer}
