@@ -248,6 +248,7 @@ class Customer
         return $backend->flagIncident($issue_id);
     }
 
+
     /**
      * Marks an issue as not a redeemed incident.
      * 
@@ -259,7 +260,7 @@ class Customer
     function unflagIncident($prj_id, $issue_id)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getTitle($customer_id);
+        return $backend->unflagIncident($issue_id);
     }
 
 
@@ -326,7 +327,7 @@ class Customer
         return $backend->getIncidentsRemaining($support_no);
     }
 
-    
+
     /**
      * Method used to send a notice that the per-incident limit being reached.
      *
