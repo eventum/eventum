@@ -660,6 +660,49 @@ class Notification
         $data['updated_by'] = User::getFullName(Auth::getUserID());
         Notification::notifySubscribers($issue_id, $emails, 'updated', $data, 'Updated', FALSE);
     }
+    
+
+    /**
+     * Method used to send a diff-style notification email to the issue 
+     * subscribers about status changes
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   array $old_status The old issue status
+     * @param   array $new_status The new issue status
+     */
+    function notifyStatusChange($issue_id, $old_status, $new_status)
+    {
+        $diffs = array();
+        if ($old_status != $new_status) {
+            $diffs[] = '-Status: ' . Status::getStatusTitle($old_status);
+            $diffs[] = '+Status: ' . Status::getStatusTitle($new_status);
+        }
+
+        if (count($diffs) < 1) {
+            return false;
+        }
+        
+        $emails = array();
+        $users = Notification::getUsersByIssue($issue_id, 'updated');
+        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
+        $user_emails = array_map('strtolower', $user_emails);
+        for ($i = 0; $i < count($users); $i++) {
+            if (empty($users[$i]["sub_usr_id"])) {
+                $email = $users[$i]["sub_email"];
+            } else {
+                $email = User::getFromHeader($users[$i]["sub_usr_id"]);
+            }
+            // now add it to the list of emails
+            if ((!empty($email)) && (!in_array($email, $emails))) {
+                $emails[] = $email;
+            }
+        }
+        $data = Notification::getIssueDetails($issue_id);
+        $data['diffs'] = implode("\n", $diffs);
+        $data['updated_by'] = User::getFullName(Auth::getUserID());
+        Notification::notifySubscribers($issue_id, $emails, 'updated', $data, 'Status Change', FALSE);
+    }
 
 
     /**

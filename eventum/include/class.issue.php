@@ -346,15 +346,20 @@ class Issue
      * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $status_id The new status ID
+     * @param   boolean $notify If a notification should be sent about this change.
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function setStatus($issue_id, $status_id)
+    function setStatus($issue_id, $status_id, $notify = false)
     {
         // check if the status is already set to the 'new' one
         if (Issue::getStatusID($issue_id) == $status_id) {
             return -1;
         }
-
+        
+        if ($notify) {
+            $old_status = Issue::getStatusID($issue_id);
+        }
+        
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
@@ -371,6 +376,11 @@ class Issue
         } else {
             // clear out the last-triggered-reminder flag when changing the status of an issue
             Reminder_Action::clearLastTriggered($issue_id);
+            
+            if ($notify) {
+                Notification::notifyStatusChange($issue_id, $old_status, $status_id);
+            }
+            
             return 1;
         }
     }
