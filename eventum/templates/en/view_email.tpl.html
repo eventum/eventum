@@ -162,7 +162,7 @@ function viewEmail(ema_id, id)
         </tr>
         <tr>
           <td colspan="2" bgcolor="{$light_color}" id="email_message" class="default">
-{$email.message}
+{$email.message|activateLinks}
           </td>
         </tr>
         <tr>

@@ -363,7 +363,7 @@ function validateForm(f)
             <img src="images/blank.gif" height="1" width="150">
           </td>
           <td colspan="3" bgcolor="{$dark_color}" id="issue_description" class="default">
-{$issue.iss_description}
+{$issue.iss_description|activateLinks:"link"}
           </td>
         </tr>
       </table>
