@@ -272,7 +272,7 @@ class Email_Account
             $HTTP_POST_VARS["use_routing"] = 0;
         } elseif ($HTTP_POST_VARS['use_routing'] == 1) {
             // if an account will be used for routing, you can't leave the message on the server
-            $HTTP_POST_VARS['leave_copy'] = 1;
+            $HTTP_POST_VARS['leave_copy'] = 0;
         }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
@@ -329,7 +329,7 @@ class Email_Account
             $HTTP_POST_VARS["use_routing"] = 0;
         } elseif ($HTTP_POST_VARS['use_routing'] == 1) {
             // if an account will be used for routing, you can't leave the message on the server
-            $HTTP_POST_VARS['leave_copy'] = 1;
+            $HTTP_POST_VARS['leave_copy'] = 0;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
