@@ -61,6 +61,27 @@ include_once(APP_PEAR_PATH . "Mail/mimeDecode.php");
 class Mime_Helper
 {
     /**
+     * Returns the appropriate message body for a given MIME-based decoded
+     * structure.
+     *
+     * @access  public
+     * @param   object $output The parsed message structure
+     * @return  string The message body
+     * @see     Mime_Helper::decode()
+     */
+    function getMessageBody(&$output)
+    {
+        $parts = array();
+        Mime_Helper::parse_output($output, $parts);
+        if (isset($parts["text"])) {
+            return $parts["text"][0];
+        } elseif (isset($parts["html"])) {
+            return $parts["html"][0];
+        }
+    }
+
+
+    /**
      * Method used to fix the encoding of MIME based strings.
      *
      * @access  public

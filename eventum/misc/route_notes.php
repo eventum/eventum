@@ -125,7 +125,7 @@ foreach ($addresses as $cc_email) {
     }
 }
 
-list(,$body) = Mime_Helper::splitBodyHeader($full_message);
+$body = Mime_Helper::getMessageBody($structure);
 
 // insert the new note and send notification about it
 $HTTP_POST_VARS = array(

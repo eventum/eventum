@@ -1,9 +1,10 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 1.?
+???, Version 1.2.2
 - Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being created. (Bryan)
 - Properly handling email attachments with uppercase MIME related values (João)
+- Fixed the email and note routing scripts to parse MIME emails and fetch the appropriate message body (João)
 
 15 Jun 2004, Version 1.2.1
 - Fixed the email download routine to properly handle emails without any issue association (João)

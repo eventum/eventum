@@ -238,10 +238,10 @@ class Support
         $path = APP_PATH . "misc/routed_emails/";
         list($usec,) = explode(" ", microtime());
         $filename = date('dmY.His.') . $usec . '.email.txt';
-        $fp = fopen($path . $filename, 'w');
-        fwrite($fp, $message);
-        fclose($fp);
-        chmod($path . $filename, 0777);
+        $fp = @fopen($path . $filename, 'w');
+        @fwrite($fp, $message);
+        @fclose($fp);
+        @chmod($path . $filename, 0777);
     }
 
 
@@ -478,7 +478,7 @@ class Support
             }
             $parts = array();
             $structure = Mime_Helper::decode($message, true, true);
-            $message_body = Support::getMessageBody(&$structure);
+            $message_body = Mime_Helper::getMessageBody(&$structure);
             Mime_Helper::parse_output($structure, $parts);
             if (@count($parts["attachments"]) > 0) {
                 $has_attachments = 1;
@@ -1059,27 +1059,6 @@ class Support
 
 
     /**
-     * Returns the appropriate message body for a given MIME-based decoded
-     * structure.
-     *
-     * @access  public
-     * @param   object $output The parsed message structure
-     * @return  string The message body
-     * @see     Mime_Helper::decode()
-     */
-    function getMessageBody(&$output)
-    {
-        $parts = array();
-        Mime_Helper::parse_output($output, $parts);
-        if (isset($parts["text"])) {
-            return $parts["text"][0];
-        } elseif (isset($parts["html"])) {
-            return $parts["html"][0];
-        }
-    }
-
-
-    /**
      * Method used to get the support email entry details.
      *
      * @access  public
@@ -1107,7 +1086,7 @@ class Support
         } else {
             // gotta parse MIME based emails now
             $output = Mime_Helper::decode($res["seb_full_email"], true);
-            $res["message"] = Support::getMessageBody($output);
+            $res["message"] = Mime_Helper::getMessageBody($output);
             $res["attachments"] = array();
             // now get any eventual attachments
             for ($i = 0; $i < @count($output->parts); $i++) {

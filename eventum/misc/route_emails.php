@@ -108,7 +108,7 @@ if ($setup['email_routing']['status'] != 'enabled') {
 }
 $prefix = $setup['email_routing']['address_prefix'];
 $mail_domain = $setup['email_routing']['address_host'];
-$mail_domain_alias = $setup['email_routing']['host_alias'];
+$mail_domain_alias = @$setup['email_routing']['host_alias'];
 if (!empty($mail_domain_alias)) {
     $mail_domain = "[" . $mail_domain . "|" . $mail_domain_alias . "]";
 }
@@ -139,7 +139,7 @@ if (empty($issue_id)) {
     }
 }
 
-list($headers, $body) = Mime_Helper::splitBodyHeader($full_message);
+$body = Mime_Helper::getMessageBody($structure);
 
 // associate the email to the issue
 $parts = array();
@@ -159,7 +159,6 @@ if (!$has_magic_cookie) {
     // check if sender email address is associated with a real user
     if ((!Notification::isBounceMessage($sender_email)) &&
             (!Support::isAllowedToEmail($issue_id, $sender_email))) {
-        $body = Support::getMessageBody($structure);
         // add the message body as a note
         $HTTP_POST_VARS = array(
             'blocked_msg' => $full_message,

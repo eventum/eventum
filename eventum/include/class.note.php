@@ -476,7 +476,7 @@ class Note
         $blocked_message = Note::getBlockedMessage($note_id);
         $unknown_user = Note::getUnknownUser($note_id);
         $structure = Mime_Helper::decode($blocked_message, true, true);
-        $body = Support::getMessageBody($structure);
+        $body = Mime_Helper::getMessageBody($structure);
         $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
         $parts = array();
         Mime_Helper::parse_output($structure, $parts);
