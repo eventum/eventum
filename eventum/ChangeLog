@@ -13,6 +13,8 @@ Eventum Issue Tracking System
 - Back button on mail queue log page uses app_base_url now (Bryan)
 - Users can now have seperate roles per project (Bryan)
 - Added option to hide priority and file field on create issue page (Bryan)
+- Drafts are now never deleted (Bryan)
+- Issues Descriptions are now collapsible (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
