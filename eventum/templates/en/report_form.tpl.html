@@ -90,6 +90,8 @@ function validateForm(f)
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="report">
+<input type="hidden" name="customer" value="{$customer_id}">
+<input type="hidden" name="contact" value="{$contact_id}">
 <input type="hidden" name="attached_emails" value="{$attached_emails}">
   <tr>
     <td>
@@ -214,9 +216,17 @@ function validateForm(f)
           </td>
         </tr>
         {/section}
+        {if $has_customer_integration}
+        {include file="customer/$customer_backend_name/report_form_fields.tpl.html"}
+        {/if}
+        <tr>
+          <td colspan="2" class="default">
+            <b>Add Files</b>
+          </td>
+        </tr>
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>Attach Files:</b>
+            <b>Files:</b>
           </td>
           <td bgcolor="{$light_color}">
             <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
@@ -226,7 +236,7 @@ function validateForm(f)
                 </td>
               </tr>
             </table>
-            <span class="default"><i>Note: The current maximum upload file size allowed is {$max_attachment_size}</i></span>
+            <span class="small_default"><i>Note: The current maximum allowed upload file size is {$max_attachment_size}</i></span>
           </td>
         </tr>
         <script language="JavaScript">
