@@ -1,0 +1,27 @@
+Eventum FAQ
+Last updated 2004-06-28 by Bryan Alsdorf <bryan@mysql.com>
+
+Please note this FAQ is a work in progress and will be updated as needed. If
+you cannot find the answers in this document, please see the eventum mailing
+list at http://lists.mysql.com/eventum-users. You can search the archive for
+answers, or subscribe and send your questions to the list.
+
+
+
+Trouble Shooting
+
+Problem: I get the message "Error: Cookies support seem to be disabled in 
+    your browser. Please enable this feature and try again".
+Solution: There are many things that could cause this problem.
+ - Double check that cookies are enabled in your browser.
+ - Check that time settings on the client and server are correct. If the client
+    time is set ahead of the server, the cookie could automatically delete
+    itself.
+ - Check if you have a firewall or antivirus program that could be blocking
+    cookies from being set.
+
+Problem: The filters on /list.php aren't working.
+Solution: Are you using suPHP? There is a known bug in suPHP 
+(see http://lists.marsching.biz/pipermail/suphp/2004-June/000746.html) where if
+a URL ends with '=', parameters to a page are not processed correctly. Please
+disable suPHP and see if the problem is fixed.
