@@ -115,7 +115,7 @@ function replaceWordsOnLine(str, original, replacement)
 
 function checkSpelling(form_name, field_name)
 {
-    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('spell_check.php?form_name=' + form_name + '&field_name=' + field_name, '_spellChecking', features);
     popupWin.focus();
 }
@@ -217,7 +217,7 @@ function getOverlibContents(options, target_form, target_field, is_multiple)
         html += '[]';
     }
     html += '\');"><input class="button_overlib" type="submit" value="Lookup"><br />'
-        + '<input type="text" name="id_number" size="24" class="lookup_field_overlib" value="id #" onFocus="javascript:this.value=\'\';" onClick>'
+        + '<input type="text" name="id_number" size="24" class="lookup_field_overlib" value="id #" onFocus="javascript:this.value=\'\';">'
         + '<input type="button" class="button_overlib" value="Add By ID" onClick="lookupByID(document.forms[\'overlib_form\'].id_number, \'' + target_form + '\', \'' + target_field + '\')"></form>';
     return html;
 }
@@ -446,6 +446,18 @@ function getSelectedItems(field)
     return selected;
 }
 
+function getSelectedOptionValues(f, field_name)
+{
+    var field = getFormElement(f, field_name);
+    var selected = new Array();
+    for (var i = 0; i < field.options.length; i++) {
+        if (field.options[i].selected) {
+            selected[selected.length] = field.options[i].value;
+        }
+    }
+    return selected;
+}
+
 function removeAllOptions(f, field_name)
 {
     var field = getFormElement(f, field_name);
@@ -654,7 +666,7 @@ function openHelp(rel_url, topic)
     if (screen.width) {
         location = 'top=' + h_offset + ',left=' + (screen.width - (width + w_offset)) + ',';
     }
-    var features = 'width=' + width + ',height=' + height + ',' + location + 'resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=' + width + ',height=' + height + ',' + location + 'resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var helpWin = window.open(rel_url + 'help.php?topic=' + topic, '_help', features);
     helpWin.focus();
 }
