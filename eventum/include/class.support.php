@@ -591,7 +591,7 @@ class Support
                         Issue::markAsUpdated($t["issue_id"], "customer action");
                     } else {
                         $sender_usr_id = User::getUserIDByEmail($sender_email);
-                        if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue)) > User::getRoleID('Customer'))) {
+                        if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($t['issue_id'])) > User::getRoleID('Customer'))) {
                             Issue::markAsUpdated($t["issue_id"], "staff response");
                         }
                     }
