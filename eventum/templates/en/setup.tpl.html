@@ -203,9 +203,10 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>Server Hostname: *</b>
           </td>
           <td>
-            <input type="text" name="hostname" value="{$smarty.post.hostname|default:$smarty.server.HTTP_HOST}" class="default" size="30" tabindex="1">
+            {assign var="tabindex" value="1"}
+            <input type="text" name="hostname" value="{$smarty.post.hostname|default:$smarty.server.HTTP_HOST}" class="default" size="30" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="hostname"}
-            <input type="checkbox" name="is_ssl" value="yes" {if $ssl_mode == 'enabled'}checked{/if}> <span class="default"><b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'is_ssl');">SSL Server</a></b></span>
+            <input type="checkbox" name="is_ssl" value="yes" tabindex="{$tabindex}" {if $ssl_mode == 'enabled'}checked{/if}> <span class="default"><b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'is_ssl');">SSL Server</a></b></span>
           </td>
         </tr>
         <tr>
@@ -213,7 +214,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>Eventum Relative URL: *</b>
           </td>
           <td>
-            <input type="text" name="relative_url" value="{$smarty.post.rel_url|default:$rel_url}" class="default" size="30" tabindex="1">
+            <input type="text" name="relative_url" value="{$smarty.post.rel_url|default:$rel_url}" class="default" size="30" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="relative_url"}
           </td>
         </tr>
@@ -222,7 +223,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>Installation Path: *</b>
           </td>
           <td>
-            <input type="text" name="path" value="{$smarty.post.path|default:$installation_path}" class="default" size="50" tabindex="2">
+            <input type="text" name="path" value="{$smarty.post.path|default:$installation_path}" class="default" size="50" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="path"}
           </td>
         </tr>
@@ -231,7 +232,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <nobr>&nbsp;<b>MySQL Server Hostname: *</b></nobr>
           </td>
           <td>
-            <input type="text" name="db_hostname" class="default" size="30" tabindex="3" value="{$smarty.post.db_hostname}">
+            <input type="text" name="db_hostname" class="default" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_hostname}">
             {include file="error_icon.tpl.html" field="db_hostname"}
           </td>
         </tr>
@@ -240,9 +241,9 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>MySQL Database: *</b>
           </td>
           <td>
-            <input type="text" name="db_name" class="default" size="30" tabindex="3" value="{$smarty.post.db_name}">
+            <input type="text" name="db_name" class="default" size="30" tabindex="{$tabindex}" value="{$smarty.post.db_name}">
             {include file="error_icon.tpl.html" field="db_name"}
-            <input type="checkbox" name="create_db" value="yes" {if $smarty.post.create_db == 'yes'}checked{/if}> <span class="default"><b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'create_db');">Create Database</a></b></span>
+            <input type="checkbox" name="create_db" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_db == 'yes'}checked{/if}> <span class="default"><b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'create_db');">Create Database</a></b></span>
           </td>
         </tr>
         <tr>
@@ -250,12 +251,12 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>MySQL Table Prefix:</b>
           </td>
           <td>
-            <input type="text" name="db_table_prefix" value="{$smarty.post.db_table_prefix|default:'eventum_'}" class="default" size="30" tabindex="4">
+            <input type="text" name="db_table_prefix" value="{$smarty.post.db_table_prefix|default:'eventum_'}" class="default" size="30" tabindex="{$tabindex}">
           </td>
         </tr>
         <tr>
           <td colspan="2" class="default" align="center">
-            <input type="checkbox" name="drop_tables" value="yes" {if $smarty.post.drop_tables == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'drop_tables');">Drop Tables If They Already Exist</a></b>
+            <input type="checkbox" name="drop_tables" value="yes" tabindex="{$tabindex}" {if $smarty.post.drop_tables == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'drop_tables');">Drop Tables If They Already Exist</a></b>
           </td>
         </tr>
         <tr>
@@ -263,7 +264,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>MySQL Username: *</b>
           </td>
           <td>
-            <input type="text" name="db_username" class="default" size="20" tabindex="5" value="{$smarty.post.db_username}">
+            <input type="text" name="db_username" class="default" size="20" tabindex="{$tabindex}" value="{$smarty.post.db_username}">
             {include file="error_icon.tpl.html" field="db_username"}
           </td>
         </tr>
@@ -277,12 +278,12 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>MySQL Password:</b>
           </td>
           <td>
-            <input type="password" name="db_password" class="default" size="20" tabindex="6" value="{$smarty.post.db_password}">
+            <input type="password" name="db_password" class="default" size="20" tabindex="{$tabindex}" value="{$smarty.post.db_password}">
           </td>
         </tr>
         <tr>
           <td colspan="2" class="default" align="center">
-            <input type="checkbox" name="alternate_user" value="yes" onClick="javascript:toggleAlternateUserFields();" {if $smarty.post.alternate_user == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'alternate_user');toggleAlternateUserFields();">Use a Separate MySQL User for Normal Eventum Use</a></b>
+            <input type="checkbox" name="alternate_user" value="yes" onClick="javascript:toggleAlternateUserFields();"  tabindex="{$tabindex}" {if $smarty.post.alternate_user == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'alternate_user');toggleAlternateUserFields();">Use a Separate MySQL User for Normal Eventum Use</a></b>
           </td>
         </tr>
         <tr id="alternate_user_row">
@@ -304,7 +305,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
                               <nobr>&nbsp;<b>Username: *</b>&nbsp;</nobr>
                             </td>
                             <td>
-                              <nobr><input type="text" class="default" name="eventum_user" size="20" value="{$smarty.post.eventum_user}">&nbsp;</nobr>
+                              <nobr><input type="text" class="default" name="eventum_user" size="20" value="{$smarty.post.eventum_user}" tabindex="{$tabindex}">&nbsp;</nobr>
                               {include file="error_icon.tpl.html" field="eventum_user"}
                             </td>
                           </tr>
@@ -313,12 +314,12 @@ Please report any problems you find to eventum-users@lists.mysql.com.
                               <nobr>&nbsp;<b>Password:</b>&nbsp;</nobr>
                             </td>
                             <td>
-                              <nobr><input type="password" class="default" name="eventum_password" size="20" value="{$smarty.post.eventum_password}">&nbsp;</nobr>
+                              <nobr><input type="password" class="default" name="eventum_password" size="20" value="{$smarty.post.eventum_password}" tabindex="{$tabindex}">&nbsp;</nobr>
                             </td>
                           </tr>
                           <tr>
                             <td colspan="2" class="default" align="center">
-                              <input type="checkbox" name="create_user" value="yes" {if $smarty.post.create_user == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'create_user');">Create User and Permissions</a></b>
+                              <input type="checkbox" name="create_user" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_user == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'create_user');">Create User and Permissions</a></b>
                             </td>
                           </tr>
                         </table>
@@ -346,7 +347,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>Sender:&nbsp;</b>
           </td>
           <td width="80%">
-            <input type="text" class="default" name="setup[smtp][from]" size="30" value="{$smarty.request.setup.smtp.from|escape:"html"}">
+            <input type="text" class="default" name="setup[smtp][from]" size="30" value="{$smarty.request.setup.smtp.from|escape:"html"}" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][from]"}
             <span class="small_default"><i>(must be a valid email address)</i></span>
           </td>
@@ -356,7 +357,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>Hostname:&nbsp;</b>
           </td>
           <td width="80%">
-            <input type="text" class="default" name="setup[smtp][host]" size="30" value="{$smarty.request.setup.smtp.host|escape:"html"}">
+            <input type="text" class="default" name="setup[smtp][host]" size="30" value="{$smarty.request.setup.smtp.host|escape:"html"}" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][host]"}
           </td>
         </tr>
@@ -365,7 +366,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>Port:&nbsp;</b>
           </td>
           <td width="80%">
-            <input type="text" class="default" name="setup[smtp][port]" size="5" value="{$smarty.request.setup.smtp.port}">
+            <input type="text" class="default" name="setup[smtp][port]" size="5" value="{$smarty.request.setup.smtp.port}" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][port]"}
           </td>
         </tr>
@@ -374,9 +375,9 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>Requires Authentication?&nbsp;</b>
           </td>
           <td width="80%" class="default">
-            <input type="radio" name="setup[smtp][auth]" value="1" {if $smarty.request.setup.smtp.auth == 1}checked{/if} onClick="javascript:disableAuthFields(this.form, false);"> 
+            <input type="radio" name="setup[smtp][auth]" value="1" {if $smarty.request.setup.smtp.auth == 1}checked{/if} onClick="javascript:disableAuthFields(this.form, false);" tabindex="{$tabindex}"> 
             <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('install_form', 'setup[smtp][auth]', 0);disableAuthFields(getForm('install_form'), false);">Yes</a>&nbsp;&nbsp;
-            <input type="radio" name="setup[smtp][auth]" value="0" {if $smarty.request.setup.smtp.auth != 1}checked{/if} onClick="javascript:disableAuthFields(this.form, true);"> 
+            <input type="radio" name="setup[smtp][auth]" value="0" {if $smarty.request.setup.smtp.auth != 1}checked{/if} onClick="javascript:disableAuthFields(this.form, true);" tabindex="{$tabindex}"> 
             <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('install_form', 'setup[smtp][auth]', 1);disableAuthFields(getForm('install_form'), true);">No</a>
           </td>
         </tr>
@@ -385,7 +386,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>Username:&nbsp;</b>
           </td>
           <td width="80%">
-            <input type="text" class="default" name="setup[smtp][username]" size="20" value="{$smarty.request.setup.smtp.username|escape:"html"}">
+            <input type="text" class="default" name="setup[smtp][username]" size="20" value="{$smarty.request.setup.smtp.username|escape:"html"}" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][username]"}
           </td>
         </tr>
@@ -394,7 +395,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>Password:&nbsp;</b>
           </td>
           <td width="80%">
-            <input type="password" class="default" name="setup[smtp][password]" size="20" value="{$smarty.request.setup.smtp.password|escape:"html"}">
+            <input type="password" class="default" name="setup[smtp][password]" size="20" value="{$smarty.request.setup.smtp.password|escape:"html"}" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="setup[smtp][password]"}
           </td>
         </tr>
@@ -406,7 +407,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
         </tr>
         <tr>
           <td colspan="2" bgcolor="#666666" align="right">
-            <input style="font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 90%;" type="submit" value="Start Installation &gt;&gt;" tabindex="7">
+            <input style="font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 90%;" type="submit" value="Start Installation &gt;&gt;" tabindex="{$tabindex}">
           </td>
         </tr>
       </table>
