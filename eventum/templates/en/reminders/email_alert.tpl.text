@@ -1,15 +1,16 @@
 Automated Issue #{$data.iss_id} Reminder Alert!
 
-         URL: {$app_base_url}view.php?id={$data.iss_id}
-     Summary: {$data.iss_summary}
-  Assignment: {$data.assigned_users}
+          URL: {$app_base_url}view.php?id={$data.iss_id}
+      Summary: {$data.iss_summary}
+   Assignment: {$data.assigned_users}
   
-  Alert Reason:  
-    Triggered "{$reminder.rem_title}"
+ Alert Reason:  
+     Triggered Reminder "{$reminder.rem_title}"
+               Action "{$action.rma_title}"
     
   Alert Query:
-    {section name="i" loop=$conditions}
-    {$conditions[i].rmf_title} - {$conditions[i].rmo_title} - {$conditions[i].rlc_value}
-    {/section}
+     {section name="i" loop=$conditions}
+     {$conditions[i].rmf_title} - {$conditions[i].rmo_title} - {$conditions[i].rlc_value}
+     {/section}
 
 Please take immediate action!
