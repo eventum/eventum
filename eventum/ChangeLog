@@ -15,6 +15,7 @@ Eventum Issue Tracking System
 - Added feature to allow issue/note/draft routing to use normal email accounts instead of specialized setup (Bryan)
 - Changed statuses to always be sorted by rank (Bryan)
 - Fixed bug with array_merge() on manage users page (Bryan)
+- Fixed bug with not being able to un-assign inactive users from issues (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
