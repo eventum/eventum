@@ -97,7 +97,7 @@ function checkRequirements()
     phpinfo();
     $contents = ob_get_contents();
     ob_end_clean();
-    if (!stristr($contents, 'GD Support </td><td class="v">enabled')) {
+    if (!preg_match("/GD Support.*<\/td><td.*>enabled/U", $contents)) {
         $errors[] = "The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
     }
     // check for MySQL support
