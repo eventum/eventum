@@ -209,6 +209,18 @@ $t = array(
     'full_email'     => @$full_message,
     'has_attachment' => $has_attachments
 );
+// automatically associate this incoming email with a customer
+if (Customer::hasCustomerIntegration($prj_id)) {
+    if (!empty($structure->headers['from'])) {
+        list($customer_id,) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
+        if (!empty($customer_id)) {
+            $t['customer_id'] = $customer_id;
+        }
+    }
+}
+if (empty($t['customer_id'])) {
+    $t['customer_id'] = "NULL";
+}
 $res = Support::insertEmail($t, $structure);
 if ($res != -1) {
     Support::extractAttachments($issue_id, $full_message);

@@ -57,6 +57,7 @@ class Spot_Customer_Backend
         return "spot";
     }
 
+
     function usesSupportLevels()
     {
         return true;
@@ -1125,6 +1126,35 @@ class Spot_Customer_Backend
 
 
     /**
+     * Method used to get the phone number associated with a given
+     * customer ID.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  string The phone number
+     */
+    function getPhoneNumber($customer_id)
+    {
+        $stmt = "SELECT
+                    A.eaddress_code
+                 FROM
+                    eaddress A,
+                    eaddress_type B
+                 WHERE
+                    A.cust_no=$customer_id AND
+                    A.eaddress_type_no=B.eaddress_type_no AND
+                    B.descript='telephone'";
+        $res = $GLOBALS["customer_db"]->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get the customer ID associated with a given
      * customer contact ID.
      *
@@ -1889,6 +1919,64 @@ class Spot_Customer_Backend
         $mail->setTextBody($text_message);
         $from = Notification::getFixedFromHeader($issue_id, "Indrek Siitan <support-feedback@mysql.com>", 'issue');
         $mail->send($from, $sender, 'New MySQL Support Issue Created');
+    }
+
+
+    /**
+     * Returns the end date of the current support contract for a given 
+     * customer ID.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  string The support contract end date
+     */
+    function getContractEndDate($customer_id)
+    {
+        $stmt = "SELECT
+                    enddate
+                 FROM
+                    support
+                 WHERE
+                    cust_no=$customer_id
+                 ORDER BY
+                    enddate DESC
+                 LIMIT 0, 1";
+        $res = $GLOBALS["customer_db"]->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Returns the start date of the current support contract for a given 
+     * customer ID.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  string The support contract start date
+     */
+    function getContractStartDate($customer_id)
+    {
+        $stmt = "SELECT
+                    startdate
+                 FROM
+                    support
+                 WHERE
+                    cust_no=$customer_id
+                 ORDER BY
+                    enddate DESC
+                 LIMIT 0, 1";
+        $res = $GLOBALS["customer_db"]->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
     }
 }
 ?>
