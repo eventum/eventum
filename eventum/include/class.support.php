@@ -55,7 +55,7 @@ class Support
     function isAllowedToEmail($issue_id, $sender_email)
     {
         $is_allowed = true;
-        if (!Notification::isSubscribedToEmails($issue_id, $sender_email))
+        if (!Notification::isSubscribedToEmails($issue_id, $sender_email)) {
             $is_allowed = false;
         }
         return $is_allowed;
