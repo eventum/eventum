@@ -13,6 +13,8 @@
 
 {if $note_delete_result == -1}
   <b>An error occurred while trying to run your query</b>
+{elseif $note_delete_result == -2}
+  <b>You do not have permission to delete this note.</b>
 {elseif $note_delete_result == 1}
   <b>Thank you, the note was removed successfully.</b>
 {/if}
@@ -108,6 +110,8 @@
 
 {if $delete_phone_result == -1}
   <b>An error occurred while trying to run your query</b>
+{elseif $delete_phone_result == -2}
+  <b>You do not have permission to remove this phone support entry.</b>
 {elseif $delete_phone_result == 1}
   <b>Thank you, the phone support entry was removed successfully.</b>
 {elseif $delete_phone_result == 2}
