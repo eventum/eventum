@@ -268,6 +268,12 @@ class Email_Account
         if (empty($HTTP_POST_VARS["leave_copy"])) {
             $HTTP_POST_VARS["leave_copy"] = 0;
         }
+        if (empty($HTTP_POST_VARS["use_routing"])) {
+            $HTTP_POST_VARS["use_routing"] = 0;
+        } elseif ($HTTP_POST_VARS['use_routing'] == 1) {
+            // if an account will be used for routing, you can't leave the message on the server
+            $HTTP_POST_VARS['leave_copy'] = 1;
+        }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  (
@@ -279,7 +285,8 @@ class Email_Account
                     ema_username,
                     ema_password,
                     ema_get_only_new,
-                    ema_leave_copy
+                    ema_leave_copy,
+                    ema_use_routing
                  ) VALUES (
                     " . $HTTP_POST_VARS["project"] . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
@@ -289,7 +296,8 @@ class Email_Account
                     '" . Misc::escapeString($HTTP_POST_VARS["username"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["password"]) . "',
                     " . $HTTP_POST_VARS["get_only_new"] . ",
-                    " . $HTTP_POST_VARS["leave_copy"] . "
+                    " . $HTTP_POST_VARS["leave_copy"] . ",
+                    " . $HTTP_POST_VARS["use_routing"] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -317,6 +325,12 @@ class Email_Account
         if (empty($HTTP_POST_VARS["leave_copy"])) {
             $HTTP_POST_VARS["leave_copy"] = 0;
         }
+        if (empty($HTTP_POST_VARS["use_routing"])) {
+            $HTTP_POST_VARS["use_routing"] = 0;
+        } elseif ($HTTP_POST_VARS['use_routing'] == 1) {
+            // if an account will be used for routing, you can't leave the message on the server
+            $HTTP_POST_VARS['leave_copy'] = 1;
+        }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  SET
@@ -328,7 +342,8 @@ class Email_Account
                     ema_username='" . Misc::escapeString($HTTP_POST_VARS["username"]) . "',
                     ema_password='" . Misc::escapeString($HTTP_POST_VARS["password"]) . "',
                     ema_get_only_new=" . $HTTP_POST_VARS["get_only_new"] . ",
-                    ema_leave_copy=" . $HTTP_POST_VARS["leave_copy"] . "
+                    ema_leave_copy=" . $HTTP_POST_VARS["leave_copy"] . ",
+                    ema_use_routing=" . $HTTP_POST_VARS["use_routing"] . "
                  WHERE
                     ema_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -413,16 +428,20 @@ class Email_Account
      * with the current activated project.
      *
      * @access  public
+     * @param   integer $prj_id The ID of the project. If blank the currently project will be used.
      * @return  integer The email account ID
      */
-    function getEmailAccount()
+    function getEmailAccount($prj_id = false)
     {
+        if ($prj_id == false) {
+            $prj_id = Auth::getCurrentProject();
+        }
         $stmt = "SELECT
                     ema_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
-                    ema_prj_id=" . Auth::getCurrentProject() . "
+                    ema_prj_id=" . $prj_id . "
                  LIMIT
                     0, 1";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
