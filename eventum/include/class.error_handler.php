@@ -109,7 +109,7 @@ class Error_Handler
             array_shift($backtrace);
             array_shift($backtrace);
             // now we can print it out
-            var_dump($backtrace);
+            print_r($backtrace);
             $contents = ob_get_contents();
             $msg .= $contents;
             ob_end_clean();
@@ -134,10 +134,29 @@ class Error_Handler
     {
         global $HTTP_SERVER_VARS;
 
-        if (is_array($error_msg)) {
-            $msg = "[" . date("D M d H:i:s Y") . "] Found error '" . $error_msg[0] . "/" . $error_msg[1] . "' on line '" . $line . "' of script '" . $script . "' on page '" . $HTTP_SERVER_VARS["PHP_SELF"] . "'.\n";
+        $msg = "[" . date("D M d H:i:s Y") . "] ";
+        $msg .= "An error was found on line '" . $line . "' of script " . "'$script'.\n\n";
+        $msg .= "The error message passed to us was:\n\n";
+        if ((is_array($error_msg)) && (count($error_msg) > 1)) {
+            $msg .= "'" . $error_msg[0] . "'\n\n";
+            $msg .= "A more detailed error message follows:\n\n";
+            $msg .= "'" . $error_msg[1] . "'\n\n";
         } else {
-            $msg = "[" . date("D M d H:i:s Y") . "] Found error '" . $error_msg . "' on line '" . $line . "' of script '" . $script . "' on page '" . $HTTP_SERVER_VARS["PHP_SELF"] . "'.\n";
+            $msg .= "'$error_msg'\n\n";
+        }
+        // only try to include the backtrace if we are on PHP 4.3.0 or later
+        if (version_compare(phpversion(), "4.3.0", ">=")) {
+            $msg .= "\n\nA backtrace is available:\n\n";
+            ob_start();
+            $backtrace = debug_backtrace();
+            // remove the two entries related to the error handling stuff itself
+            array_shift($backtrace);
+            array_shift($backtrace);
+            // now we can print it out
+            print_r($backtrace);
+            $contents = ob_get_contents();
+            $msg .= $contents;
+            ob_end_clean();
         }
         $fp = @fopen(APP_ERROR_LOG, "a");
         @fwrite($fp, $msg);
