@@ -1351,6 +1351,24 @@ class Command_Line
 
 
     /**
+     * Logs the current command
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   array $auth Array of authentication information (email, password)
+     * @param   string $command The command used to run this script.
+     */
+    function log($rpc_conn, $auth, $command)
+    {
+        $msg = new XML_RPC_Message("logCommand", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'), new XML_RPC_Value($command, 'string')));
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+    }
+
+
+    /**
      * Method used to check whether the current execution needs to have a 
      * confirmation message shown before performing the requested action or not.
      *

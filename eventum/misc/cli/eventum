@@ -41,6 +41,9 @@ Command_Line::checkAuthentication(&$client, $user_email, $user_password);
 
 $auth = array($user_email, $user_password);
 
+// log command
+Command_Line::log(&$client, $auth, join(" ", $HTTP_SERVER_VARS['argv']));
+
 $issue_id = (integer) $HTTP_SERVER_VARS['argv'][1];
 if ($issue_id > 0) {
     if (count($HTTP_SERVER_VARS['argv']) == 2) {

@@ -78,6 +78,7 @@ if (stristr(PHP_OS, 'darwin')) {
 @define("APP_TABLE_PREFIX", "%{APP_TABLE_PREFIX}%");
 
 @define("APP_ERROR_LOG", APP_PATH . "error_handler.log");
+@define("APP_CLI_LOG", APP_PATH . "cli.log");
 
 @define("APP_NAME", "Eventum");
 @define("APP_SHORT_NAME", APP_NAME); // used in the subject of notification emails
