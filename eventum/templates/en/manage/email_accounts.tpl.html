@@ -23,6 +23,16 @@
                       selectField(f, 'hostname');
                       return false;
                   }
+                  if (isWhitespace(f.port.value)) {
+                      alert('Please enter the port number for this email account.');
+                      selectField(f, 'port');
+                      return false;
+                  }
+                  if (!isNumberOnly(f.port.value)) {
+                      alert('Please enter a valid port number for this email account.');
+                      selectField(f, 'port');
+                      return false;
+                  }
                   if (!isNumberOnly(f.port.value)) {
                       alert('Please enter the port number for this email account.');
                       selectField(f, 'port');
@@ -152,7 +162,7 @@
                   <b>Port:</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <input type="text" class="default" name="port" size="10" value="{$info.ema_port}"> <span class="default">(defaults are 110 for POP3 servers and 143 for IMAP ones)</span>
+                  <input type="text" class="default" name="port" size="10" value="{$info.ema_port}"> <span class="default">(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)</span>
                   {include file="error_icon.tpl.html" field="port"}
                 </td>
               </tr>
