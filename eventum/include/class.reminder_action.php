@@ -754,7 +754,7 @@ class Reminder_Action
                 echo "  - Processing IRC notification\n";
             }
             $notice = "Issue #$issue_id: Reminder action '" . $action['rma_title'] . "' was just triggered.";
-            Notification::notifyIRC($issue_id, $notice);
+            Notification::notifyIRC(Issue::getProjectID($issue_id), $notice, $issue_id);
         }
         // - eventum saves the day once again
         return true;
