@@ -613,7 +613,7 @@ class Reminder_Action
                 // add the group leader to the recipient list, if needed
                 if (!empty($group_leader_usr_id)) {
                     $leader_email = User::getFromHeader($group_leader_usr_id);
-                    if (!in_array($leader_email, $to)) {
+                    if ((!empty($leader_email)) && (!in_array($leader_email, $to))) {
                         $to[] = $leader_email;
                     }
                 }
@@ -640,7 +640,7 @@ class Reminder_Action
                 // add the group leader to the recipient list, if needed
                 if (!empty($group_leader_usr_id)) {
                     $leader_email = User::getFromHeader($group_leader_usr_id);
-                    if (!in_array($leader_email, $to)) {
+                    if ((!empty($leader_email)) && (!in_array($leader_email, $to))) {
                         $to[] = $leader_email;
                     }
                 }
@@ -660,7 +660,7 @@ class Reminder_Action
                 // add the group leader to the recipient list, if needed
                 if ((!empty($group_leader_usr_id)) && (User::isClockedIn($group_leader_usr_id))) {
                     $leader_sms_email = User::getSMS($group_leader_usr_id);
-                    if (!in_array($leader_sms_email, $to)) {
+                    if ((!empty($leader_sms_email)) && (!in_array($leader_sms_email, $to))) {
                         $to[] = $leader_sms_email;
                     }
                 }
@@ -693,7 +693,7 @@ class Reminder_Action
                 // add the group leader to the recipient list, if needed
                 if ((!empty($group_leader_usr_id)) && (User::isClockedIn($group_leader_usr_id))) {
                     $leader_sms_email = User::getSMS($group_leader_usr_id);
-                    if (!in_array($leader_sms_email, $to)) {
+                    if ((!empty($leader_sms_email)) && (!in_array($leader_sms_email, $to))) {
                         $to[] = $leader_sms_email;
                     }
                 }
