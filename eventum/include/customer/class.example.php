@@ -197,6 +197,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         $details = $this->data[$customer_id];
         $details["support_level"] = $support_levels[$details["support_level_id"]];
         $details["contract_status"] = $this->getContractStatus($customer_id);
+        $details["note"] = Customer::getNoteDetailsByCustomer($customer_id);
         return $details;
     }
 
