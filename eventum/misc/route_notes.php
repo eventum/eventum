@@ -144,6 +144,4 @@ $HTTP_POST_VARS = array(
 );
 Note::insert(Auth::getUserID(), $issue_id, false, false);
 History::add($issue_id, Auth::getUserID(), History::getTypeID('note_routed'), "Note routed from " . $structure->headers['from']);
-
-Workflow::handleNewNote($prj_id, $issue_id);
 ?>
