@@ -281,6 +281,22 @@ class Workflow
 
 
     /**
+     * Called when an email is manually associated with an existing issue.
+     *
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The ID of the issue.
+     */
+    function handleManualEmailAssociation($prj_id, $issue_id)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->handleManualEmailAssociation($prj_id, $issue_id);
+    }
+
+
+    /**
      * Called when a note is routed.
      *
      * @param   integer $prj_id The projectID

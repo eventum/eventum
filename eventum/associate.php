@@ -44,9 +44,15 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 if (@$HTTP_POST_VARS['cat'] == 'associate') {
     if ($HTTP_POST_VARS['target'] == 'email') {
         $res = Support::associate(Auth::getUserID(), $HTTP_POST_VARS['issue'], $HTTP_POST_VARS['item']);
+        if ($res == 1) {
+            Workflow::handleManualEmailAssociation(Issue::getProjectID($HTTP_POST_VARS['issue']), $HTTP_POST_VARS['issue']);
+        }
         $tpl->assign("associate_result", $res);
     } elseif ($HTTP_POST_VARS['target'] == 'reference') {
         $res = Support::associateEmail(Auth::getUserID(), $HTTP_POST_VARS['issue'], $HTTP_POST_VARS['item']);
+        if ($res == 1) {
+            Workflow::handleManualEmailAssociation(Issue::getProjectID($HTTP_POST_VARS['issue']), $HTTP_POST_VARS['issue']);
+        }
         $tpl->assign("associate_result", $res);
     } else {
         for ($i = 0; $i < count($HTTP_POST_VARS['item']); $i++) {
@@ -62,7 +68,6 @@ if (@$HTTP_POST_VARS['cat'] == 'associate') {
             if ($res) {
                 list($HTTP_POST_VARS["from"]) = Support::getSender(array($HTTP_POST_VARS['item'][$i]));
                 Workflow::handleBlockedEmail(Issue::getProjectID($HTTP_POST_VARS['issue']), $HTTP_POST_VARS['issue'], $HTTP_POST_VARS, 'associated');
-
                 Support::removeEmail($HTTP_POST_VARS['item'][$i]);
             }
         }

@@ -149,6 +149,22 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     }
 
 
+
+
+    /**
+     * Updates the existing issue to a different status when an email is 
+     * manually associated to an existing issue.
+     *
+     * @access  public
+     * @param   integer $prj_id The projectID
+     * @param   integer $issue_id The issue ID
+     */
+    function handleManualEmailAssociation($prj_id, $issue_id)
+    {
+        echo "Workflow: Manually associating email to issue<br />\n";
+    }
+
+
     /**
      * Called when a new message is recieved. 
      *

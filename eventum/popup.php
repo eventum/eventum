@@ -116,10 +116,11 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $res = Phone_Support::remove($HTTP_GET_VARS["id"]);
     $tpl->assign("delete_phone_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "new_status") {
+    // XXX: need to call the workflow api in the following function?
     $res = Issue::setStatus($HTTP_GET_VARS["iss_id"], $HTTP_GET_VARS["new_sta_id"]);
     if ($res != -1) {
         History::add($HTTP_GET_VARS["iss_id"], $usr_id, History::getTypeID('status_changed'), 
-                        "Issue manually set to status '" . Status::getStatusTitle($HTTP_GET_VARS["new_sta_id"]) . "' by " . User::getFullName($usr_id));
+                "Issue manually set to status '" . Status::getStatusTitle($HTTP_GET_VARS["new_sta_id"]) . "' by " . User::getFullName($usr_id));
     }
     $tpl->assign("new_status_result", $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'lock') {

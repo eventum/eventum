@@ -3157,6 +3157,12 @@ class Issue
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
+            } else {
+                // add history entry about this change taking place
+                if ($status == 0) {
+                    History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_quarantine_removed'), 
+                            "Issue quarantine status cleared by " . User::getFullName(Auth::getUserID()));
+                }
             }
         } else {
             // insert

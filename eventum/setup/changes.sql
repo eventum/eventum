@@ -461,3 +461,6 @@ CREATE TABLE eventum_reminder_triggered_action (
   PRIMARY KEY (rta_iss_id)
 );
 
+# september 24th
+INSERT INTO eventum_history_type SET htt_name = 'issue_quarantine_removed', htt_role = 4;
+
