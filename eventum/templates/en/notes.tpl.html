@@ -24,19 +24,19 @@ function convertNote(note_id)
 }
 function viewNote(note_id)
 {
-    var features = 'width=560,height=500,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=560,height=500,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var noteWin = window.open('view_note.php?id=' + note_id, '_note' + note_id, features);
     noteWin.focus();
 }
 function postInternalNote(issue_id)
 {
-    var features = 'width=560,height=560,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=560,height=560,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var noteWin = window.open('post_note.php?issue_id=' + issue_id, '_postNote', features);
     noteWin.focus();
 }
 function replyNote(note_id, issue_id)
 {
-    var features = 'width=560,height=500,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=560,height=500,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var noteWin = window.open('post_note.php?cat=reply&id=' + note_id + '&issue_id=' + issue_id, '_postNote', features);
     noteWin.focus();
 }

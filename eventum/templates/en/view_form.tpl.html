@@ -4,49 +4,49 @@
 <!--
 function openHistory(issue_id)
 {
-    var features = 'width=520,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=520,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('history.php?iss_id=' + issue_id, '_impact', features);
     popupWin.focus();
 }
 function openNotification(issue_id)
 {
-    var features = 'width=440,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('notification.php?iss_id=' + issue_id, '_notification', features);
     popupWin.focus();
 }
 function openAuthorizedReplier(issue_id)
 {
-    var features = 'width=440,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('authorized_replier.php?iss_id=' + issue_id, '_replier', features);
     popupWin.focus();
 }
 function signupAsAuthorizedReplier(issue_id)
 {
-    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?cat=authorize_reply&iss_id=' + issue_id, '_authorizeReply', features);
     popupWin.focus();
 }
 function selfAssign(issue_id)
 {
-    var features = 'width=420,height=150,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=420,height=150,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('self_assign.php?iss_id=' + issue_id, '_selfAssign', features);
     popupWin.focus();
 }
 function unassign(issue_id)
 {
-    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?cat=unassign&iss_id=' + issue_id, '_unassign', features);
     popupWin.focus();
 }
 function replyIssue(issue_id)
 {
-    var features = 'width=740,height=580,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('send.php?cat=reply&ema_id=1&issue_id=' + issue_id, '_replyIssue' + issue_id, features);
     popupWin.focus();
 }
 function clearDuplicateStatus(issue_id)
 {
-    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?cat=clear_duplicate&iss_id=' + issue_id, '_clearDuplicate', features);
     popupWin.focus();
 }
@@ -57,26 +57,26 @@ function changeIssueStatus(f, issue_id, current_status_id)
         selectField(f, 'new_status');
         alert('Please select the new status for this issue.');
     } else {
-        var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
         var popupWin = window.open('popup.php?cat=new_status&iss_id=' + issue_id + '&new_sta_id=' + new_status, '_newStatus', features);
         popupWin.focus();
     }
 }
 function markIncidentIssue(issue_id)
 {
-    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?cat=flag_incident&iss_id=' + issue_id, '_flagIncident', features);
     popupWin.focus();
 }
 function unmarkIncidentIssue(issue_id)
 {
-    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?cat=unflag_incident&iss_id=' + issue_id, '_unflagIncident', features);
     popupWin.focus();
 }
 function removeQuarantine(issue_id)
 {
-    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?cat=remove_quarantine&iss_id=' + issue_id, '_removeQuarantine', features);
     popupWin.focus();
 }
