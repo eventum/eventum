@@ -22,6 +22,31 @@ function addOptionToEmailsField(value)
     var field = getFormElement(f, 'contact_extra_emails[]');
     field.options[field.options.length] = new Option(value, value);
 }
+
+function validateCustomer(f)
+{
+    if (f.customer != null) {
+        if (isWhitespace(f.customer.value)) {
+            errors[errors.length] = new Option('Customer', 'customer');
+        }
+        if (isWhitespace(f.contact.value)) {
+            errors[errors.length] = new Option('Contact', 'contact');
+        }
+    }
+    if (isWhitespace(f.contact_person_lname.value)) {
+        errors[errors.length] = new Option('Contact Person Last Name', 'contact_person_lname');
+    }
+    if (isWhitespace(f.contact_person_fname.value)) {
+        errors[errors.length] = new Option('Contact Person First Name', 'contact_person_fname');
+    }
+    if (isWhitespace(f.contact_email.value)) {
+        errors[errors.length] = new Option('Contact Email', 'contact_email');
+    } else {
+        if (!isEmail(f.contact_email.value)) {
+            errors[errors.length] = new Option('Contact Email', 'contact_email');
+        }
+    }
+}
 //-->
 </script>
 {/literal}
