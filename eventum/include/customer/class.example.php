@@ -195,7 +195,9 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     }
 
 
-    // this example does not include per incident support example so those methods will not be implemented
+    // PLEASE NOTE:
+    // This example does not implement per-incident 
+    // support so those methods will not be included here
 
 
     /**
@@ -213,7 +215,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         return $assoc;
     }
 
-    
+
     /**
      * Method used to get the customer names for the given customer id.
      *
@@ -280,8 +282,8 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
             foreach ($details['contacts'] as $contact) {
                 if (in_array($contact["email"], $emails)) {
                     return array(
-                            "customer_id"   =>  $company_id,
-                            "contact_id"    =>  $contact['contact_id']
+                        "customer_id" => $company_id,
+                        "contact_id"  => $contact['contact_id']
                     );
                 }
             }
@@ -592,10 +594,10 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     function getSupportLevelAssocList()
     {
         return array(
-                    1   =>  "Normal 1",
-                    2   =>  "Normal 2",
-                    3   =>  "Enhanced",
-                    4   =>  "Ultra-Special"
+            1 => "Normal 1",
+            2 => "Normal 2",
+            3 => "Enhanced",
+            4 => "Ultra-Special"
         );
     }
 
@@ -633,7 +635,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         return $assoc;
     }
 
-    
+
     /**
      * Returns an array of support levels grouped together.
      * 
@@ -643,9 +645,9 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     function getGroupedSupportLevels()
     {
         return array(
-            "Normal"    =>  array(1,2),
-            "Enhanced"  =>  array(3),
-            "Ultra-Special" =>  array(4)
+            "Normal"        => array(1,2),
+            "Enhanced"      => array(3),
+            "Ultra-Special" => array(4)
         );
     }
 
@@ -856,7 +858,6 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     }
 
 
-
     /**
      * Checks whether the given customer has a support contract that
      * enforces limits for the minimum first response time or not.
@@ -914,6 +915,5 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
             return (60 *30);
         }
     }
-
 }
 ?>
