@@ -69,7 +69,7 @@ if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
     $draft = Draft::getDetails($HTTP_GET_VARS['id']);
     $email = array(
         'sup_subject' => $draft['emd_subject'],
-        'sup_body'    => $draft['emd_body'],
+        'seb_body'    => $draft['emd_body'],
         'sup_from'    => $draft['to'],
         'cc'          => implode('; ', $draft['cc'])
     );
@@ -90,7 +90,7 @@ if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
         $email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]);
         $date = Misc::formatReplyDate($email["timestamp"]);
         $header = "\n\n\nOn $date, " . $email["sup_from"] . " wrote:\n>\n";
-        $email["sup_body"] = $header . Misc::formatReply($email["message"]);
+        $email["seb_body"] = $header . Misc::formatReply($email["message"]);
         $tpl->bulkAssign(array(
             "email"           => $email,
             "parent_email_id" => $HTTP_GET_VARS["id"]
@@ -104,7 +104,7 @@ if (@$HTTP_GET_VARS["cat"] == 'reply') {
     if ($details != '') {
         $date = Misc::formatReplyDate($details['created_date_ts']);
         $header = "\n\n\nOn $date, " . $details['reporter'] . " wrote:\n>\n";
-        $details['sup_body'] = $header . Misc::formatReply($details['description']);
+        $details['seb_body'] = $header . Misc::formatReply($details['description']);
         $details['sup_from'] = Mail_API::getFormattedName($details['reporter'], $details['reporter_email']);
         $tpl->bulkAssign(array(
             "email"           => $details,

@@ -876,7 +876,7 @@ class Command_Line
             $email[$key] = base64_decode($val);
         }
         if ($display_full) {
-            echo $email["sup_full_email"];
+            echo $email["seb_full_email"];
         } else {
             echo sprintf("%15s: %s\n", "Date", $email["sup_date"]);
             echo sprintf("%15s: %s\n", "From", $email["sup_from"]);

@@ -106,27 +106,6 @@ class Support
     }
 
 
-    // XXX: put documentation here
-    function isAllowedToEmail($issue_id, $sender_email)
-    {
-        $is_allowed = true;
-        $sender_usr_id = User::getUserIDByEmail($sender_email);
-        if (empty($sender_usr_id)) {
-            if (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) {
-                $is_allowed = false;
-            }
-        } else {
-            // check if this user is not in the assignment list for the current issue and
-            // also not in the authorized repliers list
-            if ((!Authorized_Replier::isUserAuthorizedReplier($issue_id, $sender_usr_id)) &&
-                    (!Issue::isAssignedToUser($issue_id, $sender_usr_id))) {
-                $is_allowed = false;
-            }
-        }
-        return $is_allowed;
-    }
-
-
     /**
      * Removes the given support email from the database table.
      *
@@ -217,7 +196,9 @@ class Support
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
-                    sup_iss_id=$issue_id";
+                    sup_iss_id=$issue_id
+                 ORDER BY
+                    sup_id ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -663,31 +644,37 @@ class Support
      */
     function insertEmail($row, $structure)
     {
+        // get usr_id from FROM header
+        $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
+        
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  (
                     sup_ema_id,
-                    sup_iss_id,
-                    sup_message_id,
+                    sup_iss_id,";
+        if (!empty($usr_id)) {
+            $stmt .= "\nsup_usr_id,\n";
+        }
+        $stmt .= "  sup_message_id,
                     sup_date,
                     sup_from,
                     sup_to,
                     sup_cc,
                     sup_subject,
-                    sup_body,
-                    sup_full_email,
                     sup_has_attachment
                  ) VALUES (
                     " . $row["ema_id"] . ",
-                    " . $row["issue_id"] . ",
+                    " . $row["issue_id"] . ",";
+        if (!empty($usr_id)) {
+            $stmt .= "\n$usr_id,\n";
+        }
+        $stmt .= "  
                     '" . Misc::escapeString($row["message_id"]) . "',
                     '" . Misc::escapeString($row["date"]) . "',
                     '" . Misc::escapeString($row["from"]) . "',
                     '" . Misc::escapeString($row["to"]) . "',
                     '" . Misc::escapeString($row["cc"]) . "',
                     '" . Misc::escapeString($row["subject"]) . "',
-                    '" . Misc::escapeString($row["body"]) . "',
-                    '" . Misc::escapeString($row["full_email"]) . "',
                     '" . Misc::escapeString($row["has_attachment"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -695,7 +682,26 @@ class Support
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            return 1;
+            $new_sup_id = $GLOBALS["db_api"]->get_last_insert_id();
+            // now add the body and full email to the separate table
+            $stmt = "INSERT INTO
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
+                     (
+                        seb_sup_id,
+                        seb_body,
+                        seb_full_email
+                     ) VALUES (
+                        $new_sup_id,
+                        '" . Misc::escapeString($row["body"]) . "',
+                        '" . Misc::escapeString($row["full_email"]) . "'
+                     )";
+            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            } else {
+                return 1;
+            }
         }
     }
 
@@ -862,6 +868,9 @@ class Support
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account";
+        if (!empty($options['keywords'])) {
+            $stmt .= "," . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body";
+        }
         $stmt .= Support::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
@@ -921,8 +930,9 @@ class Support
             $stmt .= " AND sup_iss_id = 0";
         }
         if (!empty($options['keywords'])) {
+            $stmt .= " AND sup_id=seb_sup_id ";
             $stmt .= " AND (" . Misc::prepareBooleanSearch('sup_subject', $options["keywords"]);
-            $stmt .= " OR " . Misc::prepareBooleanSearch('sup_body', $options["keywords"]) . ")";
+            $stmt .= " OR " . Misc::prepareBooleanSearch('seb_body', $options["keywords"]) . ")";
         }
         if (!empty($options['sender'])) {
             $stmt .= " AND " . Misc::prepareBooleanSearch('sup_from', $options["sender"]);
@@ -1020,10 +1030,12 @@ class Support
             $stmt = "SELECT
                         sup_id,
                         sup_subject,
-                        sup_full_email
+                        seb_full_email
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                      WHERE
+                        sup_id=seb_sup_id AND
                         sup_id IN (" . @implode(", ", $items) . ")";
             $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
             for ($i = 0; $i < count($res); $i++) {
@@ -1031,8 +1043,8 @@ class Support
                                 'Support email (subject: \'' . $res[$i]['sup_subject'] . '\') associated by ' . User::getFullName($usr_id));
                 // send notifications for the issue being updated
                 // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
-                $structure = Mime_Helper::decode($res[$i]['sup_full_email'], true, false);
-                Notification::notifyNewEmail($usr_id, $issue_id, $structure, $res[$i]['sup_full_email'], false);
+                $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
+                Notification::notifyNewEmail($usr_id, $issue_id, $structure, $res[$i]['seb_full_email'], false);
             }
             return 1;
         }
@@ -1071,11 +1083,14 @@ class Support
     function getEmailDetails($ema_id, $sup_id)
     {
         $stmt = "SELECT
-                    *,
+                    " . APP_TABLE_PREFIX . "support_email.*,
+                    " . APP_TABLE_PREFIX . "support_email_body.*,
                     UNIX_TIMESTAMP(sup_date) AS timestamp
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                  WHERE
+                    sup_id=seb_sup_id AND
                     sup_id=$sup_id AND
                     sup_ema_id=$ema_id";
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
@@ -1084,7 +1099,7 @@ class Support
             return "";
         } else {
             // gotta parse MIME based emails now
-            $output = Mime_Helper::decode($res["sup_full_email"], true);
+            $output = Mime_Helper::decode($res["seb_full_email"], true);
             $res["message"] = Support::getMessageBody($output);
             $res["attachments"] = array();
             // now get any eventual attachments
@@ -1141,6 +1156,8 @@ class Support
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
+        } else if (count($res) < 1) {
+            return array();
         } else {
             return Support::getEmailDetails($res[1], $res[0]);
         }
@@ -1194,11 +1211,11 @@ class Support
     function getFullEmail($sup_id)
     {
         $stmt = "SELECT
-                    sup_full_email
+                    seb_full_email
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                  WHERE
-                    sup_id=$sup_id";
+                    seb_sup_id=$sup_id";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1227,14 +1244,16 @@ class Support
                     sup_cc,
                     sup_date,
                     sup_subject,
-                    sup_body,
+                    seb_body,
                     sup_has_attachment,
                     CONCAT(sup_ema_id, '-', sup_id) AS composite_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
+                    sup_id=seb_sup_id AND
                     ema_id=sup_ema_id AND
                     iss_id = sup_iss_id AND
                     ema_prj_id=iss_prj_id AND
@@ -1356,6 +1375,35 @@ class Support
         $rand = mt_rand();
         $second = base_convert($rand, 10, 36);
         return "<eventum." . $first . "." . $second . "@" . APP_HOSTNAME . ">";
+    }
+
+
+    /**
+     * Checks whether the given email address is allowed to send emails in the
+     * issue ID.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   string $sender_email The email address
+     * @return  boolean
+     */
+    function isAllowedToEmail($issue_id, $sender_email)
+    {
+        $is_allowed = true;
+        $sender_usr_id = User::getUserIDByEmail($sender_email);
+        if (empty($sender_usr_id)) {
+            if (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) {
+                $is_allowed = false;
+            }
+        } else {
+            // check if this user is not in the assignment list for the current issue and
+            // also not in the authorized repliers list
+            if ((!Authorized_Replier::isUserAuthorizedReplier($issue_id, $sender_usr_id)) &&
+                    (!Issue::isAssignedToUser($issue_id, $sender_usr_id))) {
+                $is_allowed = false;
+            }
+        }
+        return $is_allowed;
     }
 
 
@@ -1492,8 +1540,13 @@ class Support
                         $unknowns[] = $recipients[$i];
                     }
                 }
-                $to = array_shift($unknowns);
-                $cc = implode('; ', $unknowns);
+                if (count($unknowns) > 0) {
+                    $to = array_shift($unknowns);
+                    $cc = implode('; ', $unknowns);
+                    // send direct emails
+                    Support::sendDirectEmail($HTTP_POST_VARS['issue_id'], $from, $to, $cc,
+                            $HTTP_POST_VARS['subject'], $HTTP_POST_VARS['message'], $message_id);
+                }
             } else {
                 // send direct emails to all recipients, since we don't have an associated issue
                 $project_info = Project::getOutgoingSenderAddress(Auth::getCurrentProject());
@@ -1504,12 +1557,10 @@ class Support
                     // otherwise, use the real email address for the current user
                     $from = User::getFromHeader(Auth::getUserID());
                 }
-                $to = $HTTP_POST_VARS['to'];
-                $cc = $HTTP_POST_VARS['cc'];
+                // send direct emails
+                Support::sendDirectEmail($HTTP_POST_VARS['issue_id'], $from, $HTTP_POST_VARS['to'], $HTTP_POST_VARS['cc'],
+                        $HTTP_POST_VARS['subject'], $HTTP_POST_VARS['message'], $message_id);
             }
-            // send direct emails
-            Support::sendDirectEmail($HTTP_POST_VARS['issue_id'], $from, $to, $cc,
-                    $HTTP_POST_VARS['subject'], $HTTP_POST_VARS['message'], $message_id);
         }
 
         $t = array(

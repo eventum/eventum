@@ -12,3 +12,5 @@ Eventum Issue Tracking System
 - Added a feature to auto-create issues from downloaded emails (João)
 - Reworked the code that handles the automatic association of email into issues (João)
 - Added a missing directory required in order for the diff-style issue updated notification emails to work (João)
+- Added a usr_id field to the email table to make reporting on that table easier (Bryan)
+- Separated the body and full email fields from the email table into a separate one to improve query performance (João)

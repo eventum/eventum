@@ -52,9 +52,9 @@ function getEmail($id)
     $split = explode("-", $id);
     $info = Support::getEmailDetails($split[0],$split[1]);
     if (!empty($_GET["ec_id"])) {
-        return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $info["sup_body"]));
+        return nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $info["seb_body"]));
     } else {
-        return $info["sup_body"];
+        return $info["seb_body"];
     }
 }
 

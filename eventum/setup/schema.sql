@@ -370,14 +370,13 @@ CREATE TABLE %TABLE_PREFIX%support_email (
   sup_ema_id int(10) unsigned NOT NULL default '0',
   sup_parent_id int(11) unsigned NOT NULL default '0',
   sup_iss_id int(11) unsigned default '0',
+  sup_usr_id int(11) unsigned default NULL,
   sup_message_id varchar(255) NOT NULL default '',
   sup_date datetime NOT NULL default '0000-00-00 00:00:00',
   sup_from varchar(255) NOT NULL default '',
   sup_to varchar(255) NOT NULL default '',
   sup_cc varchar(255) default NULL,
   sup_subject varchar(255) NOT NULL default '',
-  sup_body longtext NOT NULL,
-  sup_full_email longtext NOT NULL,
   sup_has_attachment tinyint(1) NOT NULL default '0',
   sup_removed tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (sup_id),
@@ -385,7 +384,16 @@ CREATE TABLE %TABLE_PREFIX%support_email (
   KEY sup_ema_id (sup_ema_id),
   KEY sup_removed (sup_removed),
   KEY (sup_removed, sup_ema_id, sup_iss_id),
-  KEY (sup_removed, sup_ema_id, sup_date)
+  KEY (sup_removed, sup_ema_id, sup_date),
+  KEY sup_usr_id(sup_usr_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%support_email_body;
+CREATE TABLE %TABLE_PREFIX%support_email_body (
+  seb_sup_id int(11) unsigned NOT NULL,
+  seb_body longtext NOT NULL,
+  seb_full_email longtext NOT NULL,
+  PRIMARY KEY (seb_sup_id)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%time_tracking;

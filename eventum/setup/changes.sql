@@ -242,5 +242,25 @@ CREATE TABLE eventum_project_status_date (
   UNIQUE KEY (psd_prj_id, psd_sta_id)
 );
 
+# june 7
+
+DROP TABLE IF EXISTS eventum_support_email_body;
+CREATE TABLE eventum_support_email_body (
+  seb_sup_id int(11) unsigned NOT NULL,
+  seb_body longtext NOT NULL,
+  seb_full_email longtext NOT NULL,
+  PRIMARY KEY (seb_sup_id)
+);
+INSERT INTO eventum_support_email_body (SELECT sup_id, sup_body, sup_full_email FROM eventum_support_email);
+# Run the next 2 lines ONLY after you have run the above line and check that eventum_support_email_body has the data correctly.
+# ALTER TABLE eventum_support_email DROP COLUMN sup_body;
+# ALTER TABLE eventum_support_email DROP COLUMN sup_full_email;
+
+# june 8
+ALTER TABLE eventum_support_email ADD COLUMN sup_usr_id int(11) unsigned DEFAULT NULL AFTER sup_iss_id;
+ALTER TABLE eventum_support_email ADD KEY sup_usr_id(sup_usr_id);
+
+# please run /misc/upgrade/v1.1_to_v1.2/set_support_email_usr_id.php
+
 ALTER TABLE eventum_email_account ADD COLUMN ema_issue_auto_creation varchar(8) NOT NULL DEFAULT 'disabled';
 ALTER TABLE eventum_email_account ADD COLUMN ema_issue_auto_creation_options text;
