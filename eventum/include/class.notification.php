@@ -268,7 +268,7 @@ class Notification
                 }
             } else {
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
-                if (($internal_only == true) && (User::getRoleByUser($users[$i]["sub_usr_id"]) < User::getRoleID('standard user'))) {
+                if (($internal_only == true) && (User::getRoleByUser($users[$i]["sub_usr_id"], Issue::getProjectID($issue_id)) < User::getRoleID('standard user'))) {
                     continue;
                 }
                 // check if we are only supposed to send email to the assignees
@@ -688,7 +688,7 @@ class Notification
                     continue;
                 }
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
-                if (($internal_only == true) && (User::getRoleByUser($users[$i]["sub_usr_id"]) < User::getRoleID('standard user'))) {
+                if (($internal_only == true) && (User::getRoleByUser($users[$i]["sub_usr_id"], Issue::getProjectID($issue_id)) < User::getRoleID('standard user'))) {
                     continue;
                 }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
@@ -824,7 +824,7 @@ class Notification
                     usr_full_name,
                     usr_email,
                     usr_preferences,
-                    usr_role,
+                    pru_role,
                     usr_customer_id,
                     usr_customer_contact_id
                  FROM
@@ -843,11 +843,11 @@ class Notification
             @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
             $subscriber = Mail_API::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
             // don't send these emails to customers
-            if (($res[$i]['usr_role'] == User::getRoleID('Customer')) || (!empty($res[$i]['usr_customer_id']))
+            if (($res[$i]['pru_role'] == User::getRoleID('Customer')) || (!empty($res[$i]['usr_customer_id']))
                     || (!empty($res[$i]['usr_customer_contact_id']))) {
                 continue;
             }
-            if ((@$res[$i]['usr_preferences']['receive_new_emails']) && (!in_array($subscriber, $emails))) {
+            if ((@$res[$i]['usr_preferences']['receive_new_emails'][$prj_id]) && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
         }
@@ -1107,8 +1107,7 @@ class Notification
     function notifyUserAccount($usr_id)
     {
         $info = User::getDetails($usr_id);
-        $info["role"] = User::getRole($info["usr_role"]);
-        $info["projects"] = @implode(", ", array_values(Project::getAssocList($usr_id, true)));
+        $info["projects"] = Project::getAssocList($usr_id, true, true);
         // open text template
         $tpl = new Template_API;
         $tpl->setTemplate('notifications/updated_account.tpl.text');
@@ -1139,8 +1138,7 @@ class Notification
     {
         $info = User::getDetails($usr_id);
         $info["usr_password"] = $password;
-        $info["role"] = User::getRole($info["usr_role"]);
-        $info["projects"] = @implode(", ", array_values(Project::getAssocList($usr_id)));
+        $info["projects"] = Project::getAssocList($usr_id, true, true);
         // open text template
         $tpl = new Template_API;
         $tpl->setTemplate('notifications/updated_password.tpl.text');
@@ -1171,7 +1169,7 @@ class Notification
     {
         $info = User::getDetails($usr_id);
         $info["usr_password"] = $password;
-        $info["role"] = User::getRole($info["usr_role"]);
+        $info["projects"] = Project::getAssocList($usr_id, true, true);
         // open text template
         $tpl = new Template_API;
         $tpl->setTemplate('notifications/new_user.tpl.text');
@@ -1200,10 +1198,11 @@ class Notification
      */
     function notifyAssignedUsers($users, $issue_id)
     {
+        $prj_id = Issue::getProjectID($issue_id);
         $emails = array();
         for ($i = 0; $i < count($users); $i++) {
             $prefs = Prefs::get($users[$i]);
-            if ((!empty($prefs)) && (@$prefs["receive_assigned_emails"])) {
+            if ((!empty($prefs)) && (@$prefs["receive_assigned_emails"][$prj_id])) {
                 $emails[] = User::getFromHeader($users[$i]);
             }
         }
@@ -1241,10 +1240,11 @@ class Notification
      */
     function notifyNewAssignment($users, $issue_id)
     {
+        $prj_id = Issue::getProjectID($issue_id);
         $emails = array();
         for ($i = 0; $i < count($users); $i++) {
             $prefs = Prefs::get($users[$i]);
-            if ((!empty($prefs)) && (@$prefs["receive_assigned_emails"])) {
+            if ((!empty($prefs)) && (@$prefs["receive_assigned_emails"][$prj_id])) {
                 $emails[] = User::getFromHeader($users[$i]);
             }
         }
@@ -1282,8 +1282,7 @@ class Notification
     function notifyAccountDetails($usr_id)
     {
         $info = User::getDetails($usr_id);
-        $info["role"] = User::getRole($info["usr_role"]);
-        $info["projects"] = @implode(", ", array_values(Project::getAssocList($usr_id)));
+        $info["projects"] = Project::getAssocList($usr_id, true, true);
         // open text template
         $tpl = new Template_API;
         $tpl->setTemplate('notifications/account_details.tpl.text');
@@ -1314,19 +1313,23 @@ class Notification
             'staff'     => array(),
             'customers' => array()
         );
+        $prj_id = Issue::getProjectID($issue_id);
         $stmt = "SELECT
                     sub_usr_id,
                     usr_full_name,
-                    usr_role
+                    pru_role
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     sub_usr_id=usr_id AND
+                    sub_usr_id = pru_usr_id AND
+                    pru_prj_id = $prj_id AND
                     sub_iss_id=$issue_id";
         $users = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($users); $i++) {
-            if ($users[$i]['usr_role'] != User::getRoleID('Customer')) {
+            if ($users[$i]['pru_role'] != User::getRoleID('Customer')) {
                 $subscribers['staff'][] = $users[$i]['usr_full_name'];
             } else {
                 $subscribers['customers'][] = $users[$i]['usr_full_name'];
@@ -1336,13 +1339,16 @@ class Notification
         $stmt = "SELECT
                     sub_email,
                     usr_full_name,
-                    usr_role
+                    pru_role
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  ON
-                    sub_email=usr_email
+                    usr_id = pru_usr_id AND
+                    pru_prj_id = $prj_id
                  WHERE
                     sub_iss_id=$issue_id";
         $emails = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -1350,7 +1356,7 @@ class Notification
             if (empty($emails[$i]['sub_email'])) {
                 continue;
             }
-            if ((!empty($emails[$i]['usr_role'])) && ($emails[$i]['usr_role'] != User::getRoleID('Customer'))) {
+            if ((!empty($emails[$i]['pru_role'])) && ($emails[$i]['pru_role'] != User::getRoleID('Customer'))) {
                 $subscribers['staff'][] = $emails[$i]['usr_full_name'];
             } else {
                 $subscribers['customers'][] = $emails[$i]['sub_email'];
