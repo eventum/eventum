@@ -267,6 +267,8 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
 
 function createWhereClause($date_field, $user_field = false)
 {
+    GLOBAL $start_date, $end_date;
+    
     $sql = '';
     if ($_REQUEST['report_type'] == 'recent') {
         $sql .= "$date_field >= DATE_SUB('" . Date_API::getCurrentDateGMT() . "', INTERVAL " . $_REQUEST['amount'] . " " . $_REQUEST['unit'] . ")";
