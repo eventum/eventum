@@ -440,12 +440,15 @@ class Auth
      * @param   integer $remember Whether to automatically remember the setting or not
      * @return  void
      */
-    function setCurrentProject($project, $remember)
+    function setCurrentProject($project, $remember, $auto_switched = false)
     {
         $cookie = array(
             "prj_id"   => $project,
             "remember" => $remember
         );
+        if ($auto_switched == true) {
+            $cookie['auto_switched_from'] = Auth::getCurrentProject();
+        }
         $cookie = base64_encode(serialize($cookie));
         setcookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE, APP_RELATIVE_URL);
     }
