@@ -138,7 +138,7 @@ class Mail_Queue
         if (!in_array('Date', array_keys($headers))) {
             $headers['Date'] = MIME_Helper::encode(date('D, j M Y H:i:s O'));
         }
-        list(,$text_headers) = Mail::prepareHeaders($headers);
+        list(,$text_headers) = Mail_API::prepareHeaders($headers);
 
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
