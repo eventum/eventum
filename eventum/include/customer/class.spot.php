@@ -45,7 +45,7 @@ class Spot_Customer_Backend
             'phptype'  => "mysql",
             'hostspec' => "localhost",
             'database' => "spot",
-            'username' => "root",
+            'username' => "spot",
             'password' => ""
         );
         $GLOBALS['customer_db'] = DB::connect($dsn);
@@ -1035,7 +1035,7 @@ class Spot_Customer_Backend
                     B.support_no,
                     CONCAT(YEAR(B.startdate), '-', B.support_id) AS contract_id,
                     CONCAT(C.level, ', ', C.customer_type) AS support_level,
-                    DATE_FORMAT(enddate, '%M %e, %Y') AS expiration_date
+                    DATE_FORMAT(enddate, '%a, %e %b %Y, %H:%i:%s GMT') AS expiration_date
                  FROM
                     cust_entity A,
                     support B,
@@ -1090,6 +1090,35 @@ class Spot_Customer_Backend
             return '';
         } else {
             $res['phone'] = $this->getPhoneNumber($contact_id);
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the phone number associated with a given
+     * customer ID.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  string The phone number
+     */
+    function getPhoneNumber($customer_id)
+    {
+        $stmt = "SELECT
+                    A.eaddress_code
+                 FROM
+                    eaddress A,
+                    eaddress_type B
+                 WHERE
+                    A.cust_no=$customer_id AND
+                    A.eaddress_type_no=B.eaddress_type_no AND
+                    B.descript='telephone'";
+        $res = $GLOBALS["customer_db"]->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
             return $res;
         }
     }
