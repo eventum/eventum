@@ -78,7 +78,6 @@ if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {
         "ema_id"             => Email_Account::getEmailAccount(),
         'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id)
     ));
-    $tpl->assign("ema_id", Support::getEmailAccount());
     $time_entries = Time_Tracking::getListing($issue_id);
     $tpl->assign(array(
         "checkins"         => SCM::getCheckinList($issue_id),
