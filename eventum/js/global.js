@@ -672,4 +672,27 @@ function selectOnlyValidOption(selectObj)
         }
     }
 }
+
+// this method will confirm that you want the window to close
+var checkClose = false;
+var closeConfirmMessage = 'Do you want to close this window?';
+function handleClose()
+{
+    if (checkClose == true) {
+        return closeConfirmMessage;
+    } else {
+        return;
+    }
+}
+
+function checkWindowClose(msg)
+{
+    if (msg == false) {
+        checkClose = false;
+    } else {
+        checkClose = true;
+        closeConfirmMessage = msg;
+    }
+}
+
 //-->
