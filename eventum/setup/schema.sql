@@ -61,6 +61,7 @@ DROP TABLE IF EXISTS %TABLE_PREFIX%history_type;
 CREATE TABLE %TABLE_PREFIX%history_type (
     htt_id tinyint(2) unsigned NOT NULL auto_increment,
     htt_name varchar(25) NOT NULL,
+    htt_role tinyint(1) DEFAULT 0,
     PRIMARY KEY(htt_id),
     UNIQUE (htt_name)
 );
