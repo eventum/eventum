@@ -50,6 +50,7 @@ include_once(APP_INC_PATH . "class.history.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.email_account.php");
 include_once(APP_INC_PATH . "class.search_profile.php");
+include_once(APP_INC_PATH . "class.routing.php");
 
 class Support
 {
@@ -503,6 +504,82 @@ class Support
                 $has_attachments = 0;
             }
             
+            // route emails if neccassary
+            if ($info['ema_use_routing'] == 1) {
+                $setup = Setup::load();
+                
+                if ($setup['email_routing']['status'] == 'enabled') {
+                    $prefix = $setup['email_routing']['address_prefix'];
+                    // escape plus signs so 'issue+1@example.com' becomes a valid routing address
+                    $prefix = str_replace('+', '\+', $prefix);
+                    $mail_domain = $setup['email_routing']['address_host'];
+                    $mail_domain_alias = @$setup['email_routing']['host_alias'];
+                    if (!empty($mail_domain_alias)) {
+                        $mail_domain = "[" . $mail_domain . "|" . $mail_domain_alias . "]";
+                    }
+                    if (empty($prefix)) {
+                        return false;
+                    }
+                    if (empty($mail_domain)) {
+                        return false;
+                    }
+                    if (preg_match("/$prefix(\d*)@$mail_domain/i", $email->toaddress, $matches)) {
+                        $issue_prj_id = Issue::getProjectID($matches[1]);
+                        if (empty($issue_prj_id)) {
+                            return false;
+                        }
+                        $issue_ema_id = Email_Account::getEmailAccount($issue_prj_id);
+                        
+                        $return = Routing::route_emails($issue_ema_id, $message);
+                        if ($return == true) {
+                            Support::deleteMessage($info, $mbox, $num);
+                        }
+                        return $return;
+                    }
+                }
+                if (@$setup['note_routing']['status'] == 'enabled') {
+                    $prefix = $setup['note_routing']['address_prefix'];
+                    // escape plus signs so 'note+1@example.com' becomes a valid routing address
+                    $prefix = str_replace('+', '\+', $prefix);
+                    $mail_domain = $setup['note_routing']['address_host'];
+                    if (empty($prefix)) {
+                        return false;
+                    }
+                    if (empty($mail_domain)) {
+                        return false;
+                    }
+
+                    if (preg_match("/$prefix(\d*)@$mail_domain/i", $email->toaddress, $matches)) {
+                        $return = Routing::route_notes($message);
+                        if ($return == true) {
+                            Support::deleteMessage($info, $mbox, $num);
+                        }
+                        return $return;
+                    }
+                }
+                if (@$setup['draft_routing']['status'] == 'enabled') {
+                    $prefix = $setup['draft_routing']['address_prefix'];
+                    // escape plus signs so 'draft+1@example.com' becomes a valid routing address
+                    $prefix = str_replace('+', '\+', $prefix);
+                    $mail_domain = $setup['draft_routing']['address_host'];
+                    if (empty($prefix)) {
+                        return false;
+                    }
+                    if (empty($mail_domain)) {
+                        return false;
+                    }
+
+                    if (preg_match("/$prefix(\d*)@$mail_domain/i", $email->toaddress, $matches)) {
+                        $return = Routing::route_drafts($message);
+                        if ($return == true) {
+                            Support::deleteMessage($info, $mbox, $num);
+                        }
+                        return $return;
+                    }
+                }
+                return false;
+            }
+            
             $sender_email = Mail_API::getEmailAddress($email->fromaddress);
 
             $t = array(
@@ -549,13 +626,7 @@ class Support
                     }
                 }
                 // need to delete the message from the server?
-                if (!$info['ema_leave_copy']) {
-                    @imap_delete($mbox, $num);
-                    @imap_expunge($mbox);
-                } else {
-                    // mark the message as already read
-                    @imap_setflag_full($mbox, $num, "\\Seen");
-                }
+                Support::deleteMessage($info, $mbox, $num);
             }
             return true;
         } else {
@@ -1508,6 +1579,10 @@ class Support
                         (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
                     $is_allowed = false;
                 }
+            } else {
+                if (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) {
+                    $is_allowed = false;
+                }
             }
         } else {
             // check if this user is not a customer and 
@@ -2038,6 +2113,26 @@ class Support
         );
         Workflow::handleNewEmail(Support::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
         return 1;
+    }
+    
+    
+    /**
+     * Deletes the specified message from the server
+     * NOTE: YOU STILL MUST call imap_expunge($mbox) to permanently delete the message.
+     * 
+     * @param   array $info Ana rray of email account information
+     * @param   object $mbox The mailbox object
+     * @param   integer $num The number of the message to delete.
+     */
+    function deleteMessage($info, $mbox, $num)
+    {
+        // need to delete the message from the server?
+        if (!$info['ema_leave_copy']) {
+            @imap_delete($mbox, $num);
+        } else {
+            // mark the message as already read
+            @imap_setflag_full($mbox, $num, "\\Seen");
+        }
     }
 }
 
