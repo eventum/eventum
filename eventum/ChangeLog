@@ -21,6 +21,7 @@ Eventum Issue Tracking System
 - If text file is > 5K force download instead of displaying (Bryan)
 - Add confirmation if you do not redeem incidents when closing an issue (Bryan)
 - Fixed tab order on new issue form (Bryan)
+- Add attachments to new issue notification (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)

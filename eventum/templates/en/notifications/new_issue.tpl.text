@@ -24,6 +24,19 @@ Issue Details
 {$data.custom_fields[i].fld_title}: {$data.custom_fields[i].icf_value}
 {/section}
 ----------------------------------------------------------------------
+{if $data.attachments|@count > 0}
+
+Attachments
+----------------------------------------------------------------------
+{section name="i" loop=$data.attachments}
+      Files: {$data.attachments[i].files[0].iaf_filename}
+{section name="files" loop=$data.attachments[i].files start=1}
+             {$data.attachments[i].files[files].iaf_filename}
+{/section}
+Description: {$data.attachments[i].iat_description}
+----------------------------------------------------------------------
+{/section}
+{/if}
 
 Please Note: If you do not wish to receive any future email 
 notifications from {$app_title}, please change your account preferences by 

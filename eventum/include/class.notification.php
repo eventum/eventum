@@ -852,6 +852,8 @@ class Notification
             }
         }
         $data = Issue::getDetails($issue_id, true);
+        $data['attachments'] = Attachment::getList($issue_id);
+        
         // notify new issue to irc channel
         $irc_notice = "New Issue #$issue_id (";
         $quarantine = Issue::getQuarantineInfo($issue_id);
