@@ -34,9 +34,14 @@
 <!--
 function validateClose(f)
 {
+    if (getSelectedOption(f, 'status') == -1) {
+        selectField(f, 'status');
+        alert('Please choose the new status for this issue.');
+        return false;
+    }
     if (isWhitespace(f.reason.value)) {
-        alert('Please enter the reason for closing this issue.');
         selectField(f, 'reason');
+        alert('Please enter the reason for closing this issue.');
         return false;
     }
     return true;
@@ -58,12 +63,14 @@ function validateClose(f)
         </tr>
         <tr>
           <td width="160" bgcolor="{$cell_color}" class="default_white">
-            <b>Status:</b><br />
+            <b>Status: *</b><br />
           </td>
           <td bgcolor="{$light_color}">
             <select class="default" name="status">
+              <option value="-1">Please choose a status</option>
               {html_options options=$statuses}
             </select>
+            {include file="error_icon.tpl.html" field="status"}
           </td>
         </tr>
         {if $resolutions|@count > 0}
