@@ -61,10 +61,12 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     if (!Customer::hasCustomerIntegration($prj_id)) {
         $excluded_roles[] = "customer";
     }
+    $user_roles = User::getRoles($excluded_roles);
+    $user_roles[9] = "Never Display";
     
     $tpl->assign("prj_id", $prj_id);
     $tpl->assign("fields", $fields);
-    $tpl->assign("user_roles", User::getRoles($excluded_roles));
+    $tpl->assign("user_roles", $user_roles);
     $tpl->assign("display_settings", Project::getFieldDisplaySettings($prj_id));
 } else {
     $tpl->assign("show_not_allowed_msg", true);
