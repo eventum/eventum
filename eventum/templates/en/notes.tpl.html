@@ -7,7 +7,7 @@ function deleteNote(note_id)
     if (!confirm('This action will permanently delete the specified note.')) {
         return false;
     } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
         var popupWin = window.open('popup.php?cat=delete_note&id=' + note_id, '_popup', features);
         popupWin.focus();
     }
@@ -17,7 +17,7 @@ function convertNote(note_id)
     if (!confirm('This note will be deleted & converted to an email, one either sent immediately or saved as a draft.')) {
         return false;
     } else {
-        var features = 'width=420,height=180,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var features = 'width=420,height=180,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
         var popupWin = window.open('convert_note.php?id=' + note_id, '_convertNote', features);
         popupWin.focus();
     }

@@ -10,7 +10,7 @@ function reply(id, issue_id)
 function openRawHeaders()
 {
 {/literal}
-    var features = 'width=740,height=580,top=60,left=60,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=740,height=580,top=60,left=60,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var headersWin = window.open('view_headers.php?cat=note&id={$smarty.get.id}', '_headers', features);
     headersWin.focus();
 {literal}

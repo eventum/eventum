@@ -24,7 +24,7 @@
                 selectField(f, 'impact_analysis');
                 return false;
             }
-            var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+            var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
             var popupWin = window.open('', '_impact', features);
             popupWin.focus();
             return true;
@@ -89,7 +89,7 @@
             if (!confirm('This action will permanently delete the selected entries.')) {
                 return false;
             } else {
-                var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+                var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
                 var popupWin = window.open('', '_setImpact', features);
                 popupWin.focus();
                 return true;
@@ -97,7 +97,7 @@
         }
         function openReqDetails(isr_id)
         {
-            var features = 'width=520,height=350,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+            var features = 'width=520,height=350,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
             var popupWin = window.open('requirement.php?isr_id=' + isr_id, '_reqDetails', features);
             popupWin.focus();
         }
@@ -175,7 +175,7 @@
                       selectField(f, 'new_requirement');
                       return false;
                   }
-                  var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+                  var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
                   var popupWin = window.open('', '_requirement', features);
                   popupWin.focus();
                   return true;
