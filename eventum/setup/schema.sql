@@ -52,7 +52,8 @@ CREATE TABLE %TABLE_PREFIX%email_account (
   ema_issue_auto_creation varchar(8) NOT NULL DEFAULT 'disabled',
   ema_issue_auto_creation_options text,
   PRIMARY KEY  (ema_id),
-  KEY ema_prj_id (ema_prj_id)
+  KEY ema_prj_id (ema_prj_id),
+  UNIQUE (ema_username, ema_hostname(100), ema_folder(100))
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%history_type;
