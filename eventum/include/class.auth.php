@@ -470,6 +470,37 @@ class Auth
         $cookie = base64_encode(serialize($cookie));
         setcookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE, APP_RELATIVE_URL);
     }
+    
+    
+    /**
+     * Creates a fake cookie so processes not run from a browser can access current user and project
+     * 
+     * @param   integer $usr_id The ID of the user.
+     * @param   integer $prj_id The ID of the project.
+     */
+    function createFakeCookie($usr_id, $project = false)
+    {
+        global $HTTP_COOKIE_VARS;
+        include_once(APP_INC_PATH . "private_key.php");
+        
+        $user_details = User::getDetails($usr_id);
+        
+        $time = time();
+        $cookie = array(
+            "email" => $user_details['usr_email'],
+            "login_time"    =>  $time,
+            "hash"       => md5($GLOBALS["private_key"] . md5($time) . $user_details['usr_email']),
+            "autologin" =>  0
+        );
+        $HTTP_COOKIE_VARS[APP_COOKIE] = base64_encode(serialize($cookie));
+        if ($project) {
+            $cookie = array(
+                "prj_id"   => $project,
+                "remember" => false
+            );
+        }
+        $HTTP_COOKIE_VARS[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
+    }
 }
 
 // benchmarking the included file (aka setup time)
