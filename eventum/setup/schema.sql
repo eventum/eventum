@@ -433,8 +433,8 @@ CREATE TABLE %TABLE_PREFIX%user (
   UNIQUE KEY usr_email (usr_email),
   KEY usr_email_password (usr_email, usr_password)
 );
-INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (1, NOW(), '14589714398751513457adf349173434', 'system', '', 7, '');
-INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@domain.com', 7, '');
+INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (1, NOW(), '14589714398751513457adf349173434', 'system', '', 5, '');
+INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_role, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@domain.com', 5, '');
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%custom_field;
 CREATE TABLE %TABLE_PREFIX%custom_field (

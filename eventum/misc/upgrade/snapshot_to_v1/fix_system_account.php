@@ -64,7 +64,7 @@ $stmt = "INSERT INTO
             '14589714398751513457adf349173434',
             'system',
             '',
-            7,
+            5,
             ''
          )";
 $res = $GLOBALS["db_api"]->dbh->query($stmt);
