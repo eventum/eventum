@@ -547,6 +547,7 @@ ALTER TABLE eventum_custom_filter ADD COLUMN cst_closed_date_time_period smallin
 UPDATE eventum_user SET usr_status = 'inactive' WHERE usr_id = 1;
 
 
+
 # January 6th
 ALTER TABLE eventum_project_user ADD COLUMN pru_role tinyint(1) unsigned default 1;
 
@@ -567,4 +568,10 @@ INSERT INTO eventum_history_type (htt_id, htt_name, htt_role) VALUES (NULL, 'scm
 
 ALTER TABLE eventum_project_priority ADD COLUMN pri_rank TINYINT(1) NOT NULL;
 UPDATE eventum_columns_to_display SET ctd_field='pri_rank' WHERE ctd_field='iss_pri_id';
+
+
+# February 28th
+ALTER TABLE eventum_mail_queue ADD COLUMN maq_type varchar(30) DEFAULT '';
+ALTER TABLE eventum_mail_queue ADD COLUMN maq_usr_id int(11) unsigned NULL DEFAULT NULL;
+
 

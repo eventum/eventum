@@ -760,7 +760,7 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "[#$issue_id] Reminder: " . $action['rma_title'], 0, $issue_id);
+                $mail->send($setup["from"], $address, "[#$issue_id] Reminder: " . $action['rma_title'], 0, $issue_id, 'reminder');
             }
         }
         // - eventum saves the day once again

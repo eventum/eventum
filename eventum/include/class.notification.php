@@ -257,6 +257,12 @@ class Notification
                 (!in_array($sender_email, $subscribed_emails))) {
             Notification::subscribeEmail($usr_id, $issue_id, $sender_email, array('emails'));
         }
+        
+        // get ID of whoever is sending this.
+        $sender_usr_id = User::getUserIDByEmail($sender_email);
+        if (empty($sender_usr_id)) {
+            $sender_usr_id = false;
+        }
 
         // get the subscribers
         $emails = array();
@@ -323,6 +329,13 @@ class Notification
                 $headers[$header_names[$header_name]] = $value;
             }
         }
+        
+        if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
+            $type = 'customer_email';
+        } else {
+            $type = 'other_email';
+        }
+        
         @include_once(APP_PEAR_PATH . 'Mail/mime.php');
         foreach ($emails as $to) {
             $to = MIME_Helper::encodeAddress($to);
@@ -331,7 +344,7 @@ class Notification
             $headers['To'] = $to;
             $mime = new Mail_mime("\r\n");
             $hdrs = $mime->headers($headers);
-            Mail_Queue::add($to, $hdrs, $fixed_body, 1, $issue_id);
+            Mail_Queue::add($to, $hdrs, $fixed_body, 1, $issue_id, $type, $sender_usr_id);
         }
     }
 
@@ -768,8 +781,10 @@ class Notification
             "data"         => $data
         ));
         $text_message = $tpl->getTemplateContents();
-
+        
         $setup = Setup::load();
+        $final_type = $type;
+        $sender_usr_id = false;
         for ($i = 0; $i < count($emails); $i++) {
             // send email (use PEAR's classes)
             $mail = new Mail_API;
@@ -778,12 +793,18 @@ class Notification
                 // special handling of blocked messages
                 if (!empty($data['note']['not_blocked_message'])) {
                     $subject = 'BLOCKED';
+                    $final_type = 'blocked_email';
                 }
                 if (!empty($data["note"]["not_unknown_user"])) {
                     $sender = $data["note"]["not_unknown_user"];
                 } else {
                     $sender = User::getFromHeader($data["note"]["not_usr_id"]);
                 }
+                $sender_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($sender));
+                if (empty($sender_usr_id)) {
+                    $sender_usr_id = false;
+                }
+                
                 $from = Notification::getFixedFromHeader($issue_id, $sender, 'note');
             } else {
                 $from = Notification::getFixedFromHeader($issue_id, $setup['smtp']['from'], 'issue');
@@ -801,7 +822,7 @@ class Notification
                 $extra_subject = $data['iss_summary'];
                 $full_subject = "[#$issue_id] $subject: $extra_subject";
             }
-            $mail->send($from, $emails[$i], $full_subject, TRUE, $issue_id);
+            $mail->send($from, $emails[$i], $full_subject, TRUE, $issue_id, $final_type, $sender_usr_id);
         }
     }
 
@@ -923,7 +944,7 @@ class Notification
             $setup = $mail->getSMTPSettings();
             $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
             $sender = Mime_Helper::fixEncoding($sender);
-            $mail->send($from, $sender, 'New Issue Created');
+            $mail->send($from, $sender, 'New Issue Created', 0, $issue_id, 'auto_created_issue');
         }
     }
 
@@ -984,7 +1005,7 @@ class Notification
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
                 $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
-                $mail->send($from, $recipient, 'New Issue Created');
+                $mail->send($from, $recipient, 'New Issue Created', 1, $issue_id, 'email_converted_to_issue');
             }
             return $recipient_emails;
         }

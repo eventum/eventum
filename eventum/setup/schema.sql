@@ -833,6 +833,8 @@ CREATE TABLE %TABLE_PREFIX%mail_queue (
   maq_subject varchar(255) NOT NULL,
   maq_headers TEXT NOT NULL,
   maq_body LONGTEXT NOT NULL,
+  maq_type varchar(30) NULL,
+  maq_usr_id int(11) unsigned NULL DEFAULT NULL,
   KEY maq_status (maq_status),
   KEY maq_iss_id (maq_iss_id),
   PRIMARY KEY(maq_id)

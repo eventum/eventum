@@ -72,9 +72,11 @@ class Mail_Queue
      * @param   string $body The body of the message
      * @param   integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
      * @param   integer $issue_id The ID of the issue. If false, email will not be associated with issue.
+     * @param   string $type The type of message this is.
+     * @param   integer $sender_usr_id The id of the user sending this email.
      * @return  true, or a PEAR_Error object
      */
-    function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false)
+    function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false)
     {
         // avoid sending emails out to users with inactive status
         $recipient_email = Mail_API::getEmailAddress($recipient);
@@ -86,6 +88,17 @@ class Mail_Queue
                 return false;
             }
         }
+
+        $to_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient));
+        
+        $reminder_addresses = Reminder::_getReminderAlertAddresses();
+        
+        // add specialized headers
+        if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) > User::getRoleID("Customer"))) ||
+                (@in_array(Mail_API::getEmailAddress($to), $reminder_addresses))) {
+            $headers += Mail_API::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
+        }
+        
         if (empty($issue_id)) {
             $issue_id = 'null';
         }
@@ -105,8 +118,12 @@ class Mail_Queue
                     maq_headers,
                     maq_body,
                     maq_iss_id,
-                    maq_subject
-                 ) VALUES (
+                    maq_subject,
+                    maq_type";
+        if ($sender_usr_id != false) {
+            $stmt .= ",\nmaq_usr_id";
+        }
+        $stmt .= ") VALUES (
                     $save_email_copy,
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . getenv("REMOTE_ADDR") . "',
@@ -114,8 +131,12 @@ class Mail_Queue
                     '" . Misc::escapeString($text_headers) . "',
                     '" . Misc::escapeString($body) . "',
                     $issue_id,
-                    '" . Misc::escapeString($headers["Subject"]) . "'
-                 )";
+                    '" . Misc::escapeString($headers["Subject"]) . "',
+                    '$type'";
+        if ($sender_usr_id != false) {
+            $stmt .= ",\n" . $sender_usr_id;
+        }
+        $stmt .= ")";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -148,7 +169,7 @@ class Mail_Queue
                 Mail_Queue::_saveLog($emails[$i]['id'], 'sent', '');
                 if ($emails[$i]['save_copy']) {
                     // send a copy of this email to eventum_sent@
-                    Mail_API::saveEmailInformation($emails[$i]['headers'], $emails[$i]['body']);
+                    Mail_API::saveEmailInformation($emails[$i]);
                 }
             }
         }
@@ -183,7 +204,7 @@ class Mail_Queue
             }
             $headers[$header_names[$lowercase_name]] = $value;
         }
-        // remove any Reply-To: value from outgoing messages
+        // remove any Reply-To:/Return-Path: values from outgoing messages
         unset($headers['Reply-To']);
         unset($headers['Return-Path']);
         // mutt sucks, so let's remove the broken Mime-Version header and add the proper one
@@ -235,10 +256,13 @@ class Mail_Queue
     {
         $stmt = "SELECT
                     maq_id id,
+                    maq_iss_id,
                     maq_save_copy save_copy,
                     maq_recipient recipient,
                     maq_headers headers,
-                    maq_body body
+                    maq_body body,
+                    maq_type,
+                    maq_usr_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
                  WHERE
@@ -314,20 +338,6 @@ class Mail_Queue
 
 
     /**
-     * Returns the configuration parameters for the SMTP server that should
-     * be used for outgoing email messages.
-     *
-     * @access  private
-     * @return  array The SMTP related configuration parameters
-     */
-    function _getSMTPSettings()
-    {
-        $settings = Setup::load();
-        return $settings["smtp"];
-    }
-
-
-    /**
      * Returns the mail queue for a specific issue.
      * 
      * @access  public
@@ -350,6 +360,11 @@ class Mail_Queue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
+        }
+        if (count($res) > 0) {
+            for ($i = 0; $i < count($res); $i++) {
+                $res[$i]['maq_recipient'] = Mime_Helper::decodeAddress($res[$i]['maq_recipient']);
+            }
         }
         return $res;
     }

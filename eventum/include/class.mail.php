@@ -44,6 +44,7 @@ include_once(APP_INC_PATH . "class.setup.php");
 include_once(APP_INC_PATH . "class.mail_queue.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.mime_helper.php");
+include_once(APP_INC_PATH . "class.reminder.php");
 
 class Mail_API
 {
@@ -500,23 +501,29 @@ class Mail_API
      * @param   string $to The recipient of the message
      * @param   string $subject The subject of the message
      * @param   integer $issue_id The ID of the issue. If false, email will not be associated with issue.
+     * @param   string $type The type of message this is
+     * @param   integer $sender_usr_id The id of the user sending this email.
      * @return  string The full body of the message that was sent
      */
-    function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false)
+    function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false)
     {
+        static $support_levels;
+        
         // encode the addresses
         $from = MIME_Helper::encodeAddress($from);
         $to = MIME_Helper::encodeAddress($to);
         $subject = MIME_Helper::encode($subject);
 
         $body = $this->mime->get();
-        $this->setHeaders(array(
+        $headers = array(
             'From'    => $from,
             'To'      => Mail_API::fixAddressQuoting($to),
             'Subject' => $subject
-        ));
+        );
+        
+        $this->setHeaders($headers);
         $hdrs = $this->mime->headers($this->headers);
-        $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id);
+        $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id);
         if ((PEAR::isError($res)) || ($res == false)) {
             return $res;
         } else {
@@ -570,12 +577,16 @@ class Mail_API
      * Method used to save a copy of the given email to a configurable address.
      *
      * @access  public
-     * @param   string $hdrs The headers to be used in this email
-     * @param   string $body The body of the email
+     * @param   array $email The email to save.
      */
-    function saveEmailInformation($hdrs, $body)
+    function saveEmailInformation($email)
     {
         static $subjects;
+        
+        $hdrs = $email['headers'];
+        $body = $email['body'];
+        $issue_id = $email['maq_iss_id'];
+        $sender_usr_id = $email['maq_usr_id'];
 
         // do we really want to save every outgoing email?
         $setup = Setup::load();
@@ -591,6 +602,9 @@ class Mail_API
         foreach ($_headers as $lowercase_name => $value) {
             $headers[$header_names[$lowercase_name]] = $value;
         }
+        // remove any Reply-To:/Return-Path: values from outgoing messages
+        unset($headers['Reply-To']);
+        unset($headers['Return-Path']);
 
         // prevent duplicate emails from being sent out...
         $subject = @$headers['Subject'];
@@ -601,8 +615,13 @@ class Mail_API
         // replace the To: header with the requested address
         $address = $setup['smtp']['save_address'];
         $headers['To'] = $address;
-
-        $params = Mail_API::getSMTPSettings();
+        
+        // add specialized headers if they are not already added
+        if (empty($headers['X-Eventum-Type'])) {
+            $headers += Mail_API::getSpecializedHeaders($issue_id, $email['maq_type'], $headers, $sender_usr_id);
+        }
+        
+        $params = Mail_API::getSMTPSettings($address);
         $mail =& Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
         if (PEAR::isError($res)) {
@@ -632,6 +651,59 @@ class Mail_API
         $params = Mail_API::getSMTPSettings();
         $mail =& Mail::factory('smtp', $params);
         return $mail->prepareHeaders($headers);
+    }
+    
+    
+    /**
+     * Generates the specialized headers for an email.
+     * 
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   string $type The type of message this is
+     * @param   string $headers The existing headers of this message.
+     * @param   integer $sender_usr_id The id of the user sending this email.
+     * @return  array An array of specialized headers
+     */
+    function getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id)
+    {
+        $new_headers = array();
+        if (!empty($issue_id)) {
+            $prj_id = Issue::getProjectID($issue_id);
+            if (count(Group::getAssocList($prj_id)) > 0) {
+                // group issue is currently assigned too
+                $new_headers['X-Eventum-Group-Issue'] = Group::getName(Issue::getGroupID($issue_id));
+
+                // group of whoever is sending this message.
+                if (empty($sender_usr_id)) {
+                    $new_headers['X-Eventum-Group-Replier'] = $new_headers['X-Eventum-Group-Issue'];
+                } else {
+                    $new_headers['X-Eventum-Group-Replier'] = Group::getName(User::getGroupID($sender_usr_id));
+                }
+                
+                // group of current assignee
+                $assignees = Issue::getAssignedUserIDs($issue_id);
+                if (empty($assignees[0])) {
+                    $new_headers['X-Eventum-Group-Assignee'] = '';
+                } else {
+                    $new_headers['X-Eventum-Group-Assignee'] = @Group::getName(User::getGroupID($assignees[0]));
+                }
+            }
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                if (empty($support_levels)) {
+                    $support_levels = Customer::getSupportLevelAssocList($prj_id);
+                }
+                $customer_id = Issue::getCustomerID($issue_id);
+                if (!empty($customer_id)) {
+                    $customer_details = Customer::getDetails($prj_id, $customer_id);
+                    $new_headers['X-Eventum-Customer'] = $customer_details['customer_name'];
+                }
+                if (count($support_levels) > 0) {
+                    $new_headers['X-Eventum-Level'] = $support_levels[Customer::getSupportLevelID($prj_id, $customer_id)];
+                }
+            }
+        }
+        $new_headers['X-Eventum-Type'] = $type;
+        return $new_headers;
     }
 }
 

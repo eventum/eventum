@@ -1567,9 +1567,10 @@ class Support
      * @param   string $subject The subject of this message
      * @param   string $body The message body
      * @param   string $message_id The message-id
+     * @param   integer $sender_usr_id The ID of the user sending this message.
      * @return  void
      */
-    function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $message_id)
+    function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $message_id, $sender_usr_id = false)
     {
         $recipients = Support::getRecipientsCC($cc);
         $recipients[] = $to;
@@ -1585,8 +1586,13 @@ class Support
             } else {
                 $fixed_body = $body;
             }
+            if (User::getRoleByUser(User::getUserIDByEmail(Mail_API::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
+                $type = 'customer_email';
+            } else {
+                $type = 'other_email';
+            }
             $mail->setTextBody($fixed_body);
-            $mail->send($from, $recipient, $subject, TRUE, $issue_id);
+            $mail->send($from, $recipient, $subject, TRUE, $issue_id, $type, $sender_usr_id);
         }
     }
 
@@ -1627,6 +1633,13 @@ class Support
         } else {
             $in_reply_to = false;
         }
+        
+        // get ID of whoever is sending this.
+        $sender_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($HTTP_POST_VARS["from"]));
+        if (empty($sender_usr_id)) {
+            $sender_usr_id = false;
+        }
+        
         // remove extra 'Re: ' from subject
         $HTTP_POST_VARS['subject'] = Mail_API::removeExcessRe($HTTP_POST_VARS['subject']);
         $internal_only = false;
@@ -1692,7 +1705,7 @@ class Support
                     $cc = implode('; ', $unknowns);
                     // send direct emails
                     Support::sendDirectEmail($HTTP_POST_VARS['issue_id'], $from, $to, $cc,
-                            $HTTP_POST_VARS['subject'], $HTTP_POST_VARS['message'], $message_id);
+                            $HTTP_POST_VARS['subject'], $HTTP_POST_VARS['message'], $message_id, $sender_usr_id);
                 }
             } else {
                 // send direct emails to all recipients, since we don't have an associated issue
@@ -1737,7 +1750,7 @@ class Support
             // need to send a notification
             Notification::notifyNewEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $structure, $full_email, $internal_only);
             // mark this issue as updated
-            if (!empty($t['customer_id'])) {
+            if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
                 Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'customer action');
             } else {
                 Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'staff response');
