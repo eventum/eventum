@@ -41,6 +41,7 @@ Euventum Issue Tracking System
 - Added option to hide fields from users of a specific role on the create issue form (Bryan)
 - Added ability for issues to be 'Quarantined' when they are created (Bryan)
 - Added sorting on 'Last Action Date' column (Bryan, João)
+- Changed the history of changes window to dynamically hide internal-only actions from customer users (Bryan)
 
 30 Jun 2004, Version 1.2.2
 - Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being created. (Bryan)
