@@ -25,3 +25,17 @@ Solution: Are you using suPHP? There is a known bug in suPHP
 (see http://lists.marsching.biz/pipermail/suphp/2004-June/000746.html) where if
 a URL ends with '=', parameters to a page are not processed correctly. Please
 disable suPHP and see if the problem is fixed.
+
+Problem: None of the pages work.
+Solution: In the file /path-to-eventum/config.inc.php change the following lines
+
+ini_set("display_errors", 0);
+error_reporting(0);
+
+to:
+
+ini_set("display_errors", 1);
+error_reporting(E_ALL);
+
+This enables PHP error reporting so any problems you have will be displayed to
+the screen when you try to access a page.
