@@ -25,6 +25,7 @@ Eventum Issue Tracking System
 - Changed history of changes screen to properly decode quoted-printable subject (Elan Ruusamäe)
 - Changed the expandable cell feature to also automatically activate links (Elan Ruusamäe)
 - Changed the error handling routines to save an error log with more detailed information (João)
+- Fixed bug that would prevent users from downloading files because of encoded content-type headers (João)
 
 01 Mar 2005, Version 1.5
 - Fixed bug with looking up addresses not working when replying to email (Bryan)

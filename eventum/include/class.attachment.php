@@ -140,7 +140,7 @@ class Attachment
                 if (empty($filetype)) {
                     header("Content-Type: application/unknown");
                 } else {
-                    header("Content-Type: " . urlencode($filetype));
+                    header("Content-Type: " . $filetype);
                 }
                 if (!in_array(strtolower(@$parts["extension"]), Attachment::_getNoDownloadExtensions())) {
                     header("Content-Disposition: attachment; filename=" . urlencode($filename));
