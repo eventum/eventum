@@ -518,21 +518,6 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
 
     /**
-     * Method used to notify the customer contact that an existing issue
-     * associated with him was just marked as closed.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @param   integer $contact_id The customer contact ID
-     * @return  void
-     */
-    function notifyIssueClosed($issue_id, $contact_id)
-    {
-        // email here
-    }
-
-
-    /**
      * Performs a customer lookup and returns the matches, if 
      * appropriate. 
      *
@@ -574,7 +559,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
      */
     function notifyCustomerIssue($issue_id, $contact_id)
     {
-        // email customer here
+        // send a notification email to your customer here
     }
 
 
@@ -646,20 +631,6 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
 
     /**
-     * Method used to send an expiration notice.
-     *
-     * @access  public
-     * @param   integer $contact_id The customer contact ID
-     * @param   boolean $is_expired Whether this customer is expired or not
-     * @return  void
-     */
-    function sendExpirationNotice($contact_id, $is_expired = FALSE)
-    {
-        // send email here
-    }
-
-
-    /**
      * Checks whether the given technical contact ID is allowed in the current
      * support contract or not.
      *
@@ -717,40 +688,6 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                 'contacts'      => ''
             );
         }
-    }
-
-
-    /**
-     * Method used to send an email notification to the sender of a
-     * set of email messages that were manually converted into an 
-     * issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @param   array $sup_ids The email IDs
-     * @param   integer $customer_id The customer ID
-     * @return  array The list of recipient emails
-     */
-    function notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id = FALSE)
-    {
-        // email here
-    }
-
-
-    /**
-     * Method used to send an email notification to the sender of an
-     * email message that was automatically converted into an issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @param   string $sender The sender of the email message (and the recipient of this notification)
-     * @param   string $date The arrival date of the email message
-     * @param   string $subject The subject line of the email message
-     * @return  void
-     */
-    function notifyAutoCreatedIssue($issue_id, $sender, $date, $subject)
-    {
-        // email here
     }
 
 
@@ -907,6 +844,69 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
             // 30 minutes for special
             return (60 *30);
         }
+    }
+
+
+    /**
+     * Method used to send an expiration notice.
+     *
+     * @access  public
+     * @param   integer $contact_id The customer contact ID
+     * @param   boolean $is_expired Whether this customer is expired or not
+     * @return  void
+     */
+    function sendExpirationNotice($contact_id, $is_expired = FALSE)
+    {
+        // send a support expiration notice email to your customer here
+    }
+
+
+    /**
+     * Method used to notify the customer contact that an existing issue
+     * associated with him was just marked as closed.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   integer $contact_id The customer contact ID
+     * @return  void
+     */
+    function notifyIssueClosed($issue_id, $contact_id)
+    {
+        // send a notification email to your customer here
+    }
+
+
+    /**
+     * Method used to send an email notification to the sender of a
+     * set of email messages that were manually converted into an 
+     * issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   array $sup_ids The email IDs
+     * @param   integer $customer_id The customer ID
+     * @return  array The list of recipient emails
+     */
+    function notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id = FALSE)
+    {
+        // send a notification email to your customer here
+    }
+
+
+    /**
+     * Method used to send an email notification to the sender of an
+     * email message that was automatically converted into an issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   string $sender The sender of the email message (and the recipient of this notification)
+     * @param   string $date The arrival date of the email message
+     * @param   string $subject The subject line of the email message
+     * @return  void
+     */
+    function notifyAutoCreatedIssue($issue_id, $sender, $date, $subject)
+    {
+        // send a notification email to your customer here
     }
 }
 ?>
