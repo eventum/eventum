@@ -445,13 +445,16 @@ class Misc
     function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
     {
         $hours = $minutes / 60;
-        $mins = $minutes % 60;
-        if ($hours > 24 && $omit_days == false) {
+        $mins = (($minutes % 60)/10);
+        if ((!empty($minutes)) && ($minutes < 6 )) {
+            $return = sprintf("%02dm", $minutes);
+        } elseif ($hours > 24 && $omit_days == false) {
             $days = $hours / 24;
             $hours = $hours % 24;
-            $return = sprintf("%02dd %02dh %02dm", $days, $hours, $mins);
+            $hours += $mins;
+            $return = sprintf("%02dd %.1fh", $days, $hours);
         } else {
-            $return = sprintf("%02dh %02dm", $hours, $mins);
+            $return = round($hours,1) . 'h';
         }
         if ($omit_empty) {
             $chunks = explode(" ", $return);
