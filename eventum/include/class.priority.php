@@ -339,7 +339,9 @@ class Priority
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
-                    pri_prj_id=$prj_id";
+                    pri_prj_id=$prj_id
+                 ORDER BY
+                    pri_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
