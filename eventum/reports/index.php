@@ -33,6 +33,11 @@ include_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
+    echo "Invalid role";
+    exit;
+}
+
 $tpl = new Template_API();
 $tpl->setTemplate("reports/index.tpl.html");
 

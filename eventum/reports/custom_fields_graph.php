@@ -39,6 +39,11 @@ include_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
+    echo "Invalid role";
+    exit;
+}
+
 /**
  * Generates a graph for the selected custom field
  */

@@ -38,6 +38,11 @@ $tpl->setTemplate("reports/open_issues.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
+    echo "Invalid role";
+    exit;
+}
+
 $prj_id = Auth::getCurrentProject();
 
 if (empty($HTTP_GET_VARS['cutoff_days'])) {

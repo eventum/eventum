@@ -39,6 +39,11 @@ $tpl->setTemplate("reports/workload_time_period.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
+    echo "Invalid role";
+    exit;
+}
+
 $prj_id = Auth::getCurrentProject();
 
 // get timezone of current user

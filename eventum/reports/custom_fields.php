@@ -39,6 +39,11 @@ $tpl->setTemplate("reports/custom_fields.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
+    echo "Invalid role";
+    exit;
+}
+
 $prj_id = Auth::getCurrentProject();
 
 // get list of fields and convert info useful arrays

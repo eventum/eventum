@@ -15,6 +15,7 @@ Euventum Issue Tracking System
 - Phone call module now uses expandable cell to save space. (João; Bryan)
 - When Phone call is added, time tracking entry is also added. (João; Bryan)
 - Moved description to seperate table to prevent wide descriptions from pushing the rest of the table over. (Bryan)
+- Added security to reports to prevent users with a role lower then "Standard User" from accessing them. (Bryan)
 
 15 Jun 2004, Version 1.2.1
 - Fixed the email download routine to properly handle emails without any issue association (João)

@@ -38,6 +38,11 @@ include_once(APP_JPGRAPH_PATH . "jpgraph_bar.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+if (User::getRoleByUser(Auth::getUserID()) <= User::getRoleID("Viewer")) {
+    echo "Invalid role";
+    exit;
+}
+
 /**
  * Generates the workload by time period graph.
  */
