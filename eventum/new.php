@@ -97,7 +97,7 @@ if (@$HTTP_GET_VARS["cat"] == "associate") {
 $tpl->assign(array(
     "cats"                => Category::getAssocList($prj_id),
     "priorities"          => Misc::getPriorities(),
-    "users"               => Project::getUserAssocList($prj_id, 'active'),
+    "users"               => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "releases"            => Release::getAssocList($prj_id),
     "custom_fields"       => Custom_Field::getListByProject($prj_id, 'report_form'),
     "max_attachment_size" => Attachment::getMaxAttachmentSize()
