@@ -301,3 +301,4 @@ CREATE TABLE eventum_customer_account_manager (
   KEY cam_customer_id (cam_customer_id),
   UNIQUE KEY cam_manager (cam_customer_id, cam_usr_id)
 );
+

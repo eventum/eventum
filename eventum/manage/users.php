@@ -45,9 +45,9 @@ $role_id = User::getRoleByUser(Auth::getUserID());
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
     if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("show_setup_links", true);
-        $excluded_roles = false;
+        $excluded_roles = array('customer');
     } else {
-        $excluded_roles = array('administrator');
+        $excluded_roles = array('customer', 'administrator');
     }
 
     if (@$HTTP_POST_VARS["cat"] == "new") {
@@ -62,7 +62,12 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("info", User::getDetails($HTTP_GET_VARS["id"]));
     }
 
-    $tpl->assign("list", User::getList());
+    if (@$HTTP_GET_VARS['show_customers'] == 1) {
+        $show_customer = true;
+    } else {
+        $show_customer = false;
+    }
+    $tpl->assign("list", User::getList($show_customer));
     $tpl->assign("project_list", Project::getAll());
     $tpl->assign("user_roles", User::getRoles($excluded_roles));
 } else {

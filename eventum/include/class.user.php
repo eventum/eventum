@@ -867,6 +867,8 @@ class User
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
+                    usr_customer_id,
+                    usr_customer_contact_id,
                     usr_created_date,
                     usr_password,
                     usr_full_name,
@@ -874,6 +876,8 @@ class User
                     usr_role,
                     usr_preferences
                  ) VALUES (
+                    NULL,
+                    NULL,
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . md5(Misc::escapeString($HTTP_POST_VARS["password"])) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
@@ -902,16 +906,21 @@ class User
      * Method used to get the list of users available in the system.
      *
      * @access  public
+     * @param   boolean $show_customers Whether to return customers or not
      * @return  array The list of users
      */
-    function getList()
+    function getList($show_customers)
     {
         $stmt = "SELECT
                     *
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    usr_id != " . APP_SYSTEM_USER_ID . "
+                    usr_id != " . APP_SYSTEM_USER_ID;
+        if ($show_customers == false) {
+            $stmt .= " AND usr_role <> '" . User::getRoleID('Customer') . "' ";
+        }
+        $stmt .= "
                  ORDER BY
                     usr_status ASC,
                     usr_full_name ASC";

@@ -79,7 +79,7 @@
               {/if}
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>E-mail:</b>
+                  <b>Email Address:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" name="email" size="40" class="default" value="{$info.usr_email}">
@@ -180,6 +180,15 @@
                           return true;
                       }
                   }
+                  function showCustomerUsers(f)
+                  {
+                      var field = getFormElement(f, 'show_customers', 0);
+                      if (field.checked) {
+                          window.location.href = page_url + "?" + replaceParam(window.location.href, 'show_customers', '1');
+                      } else {
+                          window.location.href = page_url + "?" + replaceParam(window.location.href, 'show_customers', '0');
+                      }
+                  }
                   //-->
                   </script>
                   {/literal}
@@ -188,9 +197,9 @@
                     <input type="hidden" name="cat" value="change_status">
                     <tr>
                       <td bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Name</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Full Name</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Role</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>E-mail</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Email Address</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Status</b></td>
                     </tr>
                     {section name="i" loop=$list}
@@ -230,6 +239,10 @@
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
                               </select>
+                            </td>
+                            <td align="right" bgcolor="{$cell_color}" class="default_white">
+                              <input type="checkbox" id="show_customers" name="show_customers" value="yes" {if $smarty.get.show_customers == 1}checked{/if} onClick="javascript:showCustomerUsers(this.form);">
+                              <label for="show_customers">Show Customers</label>&nbsp;
                             </td>
                           </tr>
                         </table>
