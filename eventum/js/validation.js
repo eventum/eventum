@@ -13,6 +13,7 @@ function resetForm(f)
 function confirmCloseWindow()
 {
     if (confirm('Closing this window will mean losing any changes you may have performed.')) {
+        checkWindowClose(false);
         window.close();
     }
 }
