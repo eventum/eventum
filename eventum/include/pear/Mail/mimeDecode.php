@@ -462,6 +462,7 @@ class Mail_mimeDecode extends PEAR
     {
         $tmp = explode('--'.$boundary, $input);
 
+        $parts = array();
         for ($i=1; $i<count($tmp)-1; $i++) {
             $parts[] = $tmp[$i];
         }
