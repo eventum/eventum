@@ -455,6 +455,24 @@ class User
 
 
     /**
+     * Method used to check whether an user is set to status pending 
+     * or not.
+     *
+     * @access  public
+     * @param   string $status The status of the user
+     * @return  boolean
+     */
+    function isPendingStatus($status)
+    {
+        if ($status == 'pending') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
      * Method used to get the list of all active users available in the system 
      * as an associative array of user IDs => user full names.
      *
