@@ -379,17 +379,23 @@ class Time_Tracking
      *
      * @access  public
      * @param   integer $time_id The time entry ID
+     * @param   integer $usr_id The user ID of the person trying to remove this entry
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function removeEntry($time_id)
+    function removeEntry($time_id, $usr_id)
     {
         $stmt = "SELECT
-                    ttr_iss_id
+                    ttr_iss_id issue_id,
+                    ttr_usr_id owner_usr_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
                  WHERE
                     ttr_id=$time_id";
-        $issue_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $details = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        // check if the owner is the one trying to remove this entry
+        if ($details['owner_usr_id'] != $usr_id) {
+            return -1;
+        }
 
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
@@ -400,9 +406,9 @@ class Time_Tracking
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Issue::markAsUpdated($issue_id);
+            Issue::markAsUpdated($details['issue_id']);
             // need to save a history entry for this
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('time_removed'), 'Time tracking entry removed by ' . User::getFullName(Auth::getUserID()));
+            History::add($details['issue_id'], $usr_id, History::getTypeID('time_removed'), 'Time tracking entry removed by ' . User::getFullName($usr_id));
             return 1;
         }
     }

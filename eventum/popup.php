@@ -58,7 +58,7 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $res = Note::remove($HTTP_GET_VARS["id"]);
     $tpl->assign("note_delete_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "delete_time") {
-    $res = Time_Tracking::removeEntry($HTTP_GET_VARS["id"]);
+    $res = Time_Tracking::removeEntry($HTTP_GET_VARS["id"], $usr_id);
     $tpl->assign("time_delete_result", $res);
 } elseif (@$HTTP_POST_VARS["cat"] == "assign") {
     $res = Issue::assign();

@@ -416,7 +416,7 @@ class Phone_Support
                             'Phone Support entry removed by ' . User::getFullName(Auth::getUserID()));
             
             if (!empty($details["phs_ttr_id"])) {
-                $time_result = Time_Tracking::removeEntry($details["phs_ttr_id"]);
+                $time_result = Time_Tracking::removeEntry($details["phs_ttr_id"], $details['phs_usr_id']);
                 if ($time_result == 1) {
                     return 2;
                 } else {
