@@ -532,9 +532,10 @@ class Support
                 $should_create_issue = true;
             }
             // only create a new issue if this email is coming from a known customer
-            if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes')) {
+            if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
+                    (Customer::hasCustomerIntegration($info['ema_prj_id']))) {
                 $sender_email = Mail_API::getEmailAddress($email->fromaddress);
-                list($customer_id,) = Customer::getCustomerIDByEmails(array($sender_email));
+                list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
                 if (empty($customer_id)) {
                     $should_create_issue = false;
                 }
@@ -552,16 +553,14 @@ class Support
                 $reference_sup_id = Support::getIDByMessageID($associate_email);
                 Support::associate(APP_SYSTEM_USER_ID, $t['issue_id'], array($reference_sup_id));
             }
-            // need to check spot for customer association
+            // need to check crm for customer association
             if (!empty($email->fromaddress)) {
                 $details = Email_Account::getDetails($info['ema_id']);
-                if (@$details['ema_check_spot']) {
+                if ((!empty($customer_id)) && (Customer::hasCustomerIntegration($info['ema_prj_id']))) {
                     // get the sender's email address and check for any customer contact association in spot
                     $sender_email = Mail_API::getEmailAddress($email->fromaddress);
-                    list($customer_id,) = Customer::getCustomerIDByEmails(array($sender_email));
-                    if (!empty($customer_id)) {
-                        $t['customer_id'] = $customer_id;
-                    }
+                    list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
+                    $t['customer_id'] = $customer_id;
                 }
             }
             if (empty($t['customer_id'])) {
@@ -1428,12 +1427,15 @@ class Support
         $is_allowed = true;
         $sender_usr_id = User::getUserIDByEmail($sender_email);
         if (empty($sender_usr_id)) {
-            // check for a customer contact with several email addresses
-            $customer_id = Issue::getCustomerID($issue_id);
-            $contact_emails = array_keys(Customer::getContactEmailAssocList($customer_id));
-            if ((!in_array($sender_email, $contact_emails)) &&
-                    (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
-                $is_allowed = false;
+            $prj_id = Issue::getProjectID($issue_id);
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                // check for a customer contact with several email addresses
+                $customer_id = Issue::getCustomerID($issue_id);
+                $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id));
+                if ((!in_array($sender_email, $contact_emails)) &&
+                        (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
+                    $is_allowed = false;
+                }
             }
         } else {
             // check if this user is not a customer and 
