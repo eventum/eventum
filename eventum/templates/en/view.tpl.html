@@ -37,9 +37,11 @@
   {include file="checkins.tpl.html"}
   {include file="top_link.tpl.html"}
   {/if}
-  {if $current_role > $roles.customer}
+  {if $current_role >= $roles.reporter and $current_role != $roles.customer}
   {include file="time_tracking.tpl.html"}
   {include file="top_link.tpl.html"}
+  {/if}
+  {if $current_role > $roles.customer}
   {include file="notes.tpl.html"}
   {include file="top_link.tpl.html"}
   {/if}

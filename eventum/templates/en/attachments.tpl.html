@@ -98,10 +98,10 @@ function deleteAttachmentFile(file_id)
             </table>
           </td>
         </tr>
+        {if $current_role >= $roles.reporter}
         <tr id="attachments2" {get_display_style element_name="attachments"}>
           <td colspan="2" class="default"><b>Add New Files:</b></td>
         </tr>
-        {if $current_role > $roles.reporter}
         <form name="attachment_form" action="popup.php" method="post" enctype="multipart/form-data" target="_uploadFile" onSubmit="javascript:return checkFormSubmission(this, 'validateUpload');">
         <input type="hidden" name="cat" value="upload_file">
         <input type="hidden" name="issue_id" value="{$smarty.get.id}">

@@ -11,7 +11,7 @@
             {if $current_role > $roles.developer}
             <a target="_top" title="manage the application settings, users, projects, etc" href="{$rel_url}manage/projects.php" class="white_link">Administration</a>&nbsp;|
             {/if}
-            {if $current_role == $roles.customer or $current_role > $roles.reporter}
+            {if $current_role >= $roles.reporter}
             <a target="_top" title="create a new issue" href="{$rel_url}new.php" class="white_link">Create Issue</a>&nbsp;|
             {/if}
             <a target="_top" title="list the issues stored in the system" href="{$rel_url}list.php" class="white_link">List Issues</a>&nbsp;|
@@ -21,7 +21,7 @@
             {if $app_setup.support_email == 'enabled' and $current_role > $roles.customer}
             <a target="_top" title="list available emails" href="{$rel_url}emails.php" class="white_link">Associate Emails</a>&nbsp;|
             {/if}
-            {if $current_role != $roles.customer}
+            {if $current_role >= $roles.customer}
             <a target="_top" title="list all issues assigned to you" href="{$rel_url}list.php?users={$current_user_id}" class="white_link">My Assignments</a>&nbsp;|
             {/if}
             <a target="_top" title="profile / statistics" href="{$rel_url}main.php" class="white_link">Profile</a>&nbsp;|
