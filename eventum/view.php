@@ -61,36 +61,37 @@ if (@$HTTP_GET_VARS['cat'] == 'lock') {
 }
 
 $details = Issue::getDetails($issue_id);
-$tpl->assign("issue", $details);
 
-// XXX: need to check if the current user has access to the project associated with this issue id
-
-$options = Issue::saveSearchParams();
-$sides = Issue::getSides($issue_id, $options);
-$tpl->assign(array(
-    "next_issue"     => @$sides["next"],
-    "previous_issue" => @$sides["previous"],
-    "subscribers"    => Notification::getSubscribers($issue_id),
-    "custom_fields"  => Custom_Field::getListByIssue($prj_id, $issue_id),
-    "files"          => Attachment::getList($issue_id),
-    "notes"          => Note::getListing($issue_id),
-    "emails"         => Support::getEmailsByIssue($issue_id),
-    "phone_entries"  => Phone_Support::getListing($issue_id),
-    "zones"          => Date_API::getTimezoneList(),
-    'users'          => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter'))
-));
-
-$tpl->assign("ema_id", Support::getEmailAccount());
-
-$time_entries = Time_Tracking::getListing($issue_id);
-$tpl->assign(array(
-    "checkins"         => SCM::getCheckinList($issue_id),
-    "time_categories"  => Time_Tracking::getAssocCategories(),
-    "time_entries"     => $time_entries['list'],
-    "total_time_spent" => $time_entries['total_time_spent'],
-    "impacts"          => Impact_Analysis::getListing($issue_id),
-    "statuses"         => Status::getAssocStatusList($prj_id)
-));
+// check if the requested issue is a part of the 'current' project
+if ($details['iss_prj_id'] != $prj_id) {
+    $tpl->assign('issue', '');
+} else {
+    $tpl->assign("issue", $details);
+    $options = Issue::saveSearchParams();
+    $sides = Issue::getSides($issue_id, $options);
+    $tpl->assign(array(
+        "next_issue"     => @$sides["next"],
+        "previous_issue" => @$sides["previous"],
+        "subscribers"    => Notification::getSubscribers($issue_id),
+        "custom_fields"  => Custom_Field::getListByIssue($prj_id, $issue_id),
+        "files"          => Attachment::getList($issue_id),
+        "notes"          => Note::getListing($issue_id),
+        "emails"         => Support::getEmailsByIssue($issue_id),
+        "phone_entries"  => Phone_Support::getListing($issue_id),
+        "zones"          => Date_API::getTimezoneList(),
+        'users'          => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter'))
+    ));
+    $tpl->assign("ema_id", Support::getEmailAccount());
+    $time_entries = Time_Tracking::getListing($issue_id);
+    $tpl->assign(array(
+        "checkins"         => SCM::getCheckinList($issue_id),
+        "time_categories"  => Time_Tracking::getAssocCategories(),
+        "time_entries"     => $time_entries['list'],
+        "total_time_spent" => $time_entries['total_time_spent'],
+        "impacts"          => Impact_Analysis::getListing($issue_id),
+        "statuses"         => Status::getAssocStatusList($prj_id)
+    ));
+}
 
 $tpl->displayTemplate();
 ?>
