@@ -407,7 +407,12 @@ class Mime_Helper
                 if ($filetype == '/') {
                     $filetype = '';
                 }
-                if (@strtolower($output->parts[$i]->disposition) == 'attachment') {
+                $valid_dispositions = array(
+                    'attachment',
+                    'inline'
+                );
+                if ((in_array(@strtolower($output->parts[$i]->disposition), $valid_dispositions)) && 
+                        (!empty($output->parts[$i]->d_parameters["filename"]))) {
                     $name = MIME_Helper::getAttachmentName($filenames, @$output->parts[$i]->d_parameters["filename"]);
                     $filenames[] = $name;
                     $attachments[] = array(
@@ -447,7 +452,12 @@ class Mime_Helper
                 );
                 continue;
             }
-            if (@strtolower($output->parts[$i]->disposition) == 'attachment') {
+            $valid_dispositions = array(
+                'attachment',
+                'inline'
+            );
+            if ((in_array(@strtolower($output->parts[$i]->disposition), $valid_dispositions)) && 
+                    (!empty($output->parts[$i]->d_parameters["filename"]))) {
                 $attachments[] = array(
                     'filename' => $output->parts[$i]->d_parameters["filename"]
                 );
@@ -484,7 +494,12 @@ class Mime_Helper
                     break;
                 }
             } else {
-                if ((@strtolower($output->parts[$i]->disposition) == 'attachment') && 
+                $valid_dispositions = array(
+                    'attachment',
+                    'inline'
+                );
+                if ((in_array(@strtolower($output->parts[$i]->disposition), $valid_dispositions)) && 
+                        (!empty($output->parts[$i]->d_parameters["filename"])) &&
                         (@$output->parts[$i]->d_parameters["filename"] == $filename)) {
                     break;
                 }
@@ -569,7 +584,9 @@ class Mime_Helper
                     }
                     break;
                 default:
-                    @$parts['attachments'][] = $obj->body;
+                    if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'inline')) {
+                        @$parts['attachments'][] = $obj->body;
+                    }
             }
         }
     }
