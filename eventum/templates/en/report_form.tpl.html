@@ -196,7 +196,7 @@ function validateForm(f)
             <select name="priority" class="default" tabindex="2">
               <option value="-1">Please choose a priority</option>
               {section name="i" loop=$priorities}
-              <option value="{$priorities[i].pri_id}" {if ($priorities[i].pri_id == $smarty.post.priority) OR ($smarty.post.priority == '' AND $priorities[i].pri_title == 'Medium')}selected{/if}>{$priorities[i].pri_title}</option>
+              <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $smarty.post.priority}selected{/if}>{$priorities[i].pri_title}</option>
               {/section}
             </select>
             {include file="error_icon.tpl.html" field="priority"}
