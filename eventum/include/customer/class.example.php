@@ -46,81 +46,78 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     function connect()
     {
         $this->data = array(
-                1   =>  array(
-                            "customer_id"   =>  1,
-                            "customer_name" =>  "Bryan's widget factory",
-                            "start_date"    =>  '2004-03-10',
-                            "expiration_date"      =>  '2005-03-10',
-                            "contacts"      =>  array(
-                                                0   =>  array(
-                                                            'contact_id'    =>  87,
-                                                            'first_name'    =>  'Bryan',
-                                                            'last_name'     =>  'Alsdorf',
-                                                            'email' =>  'bryan@mysql.com',
-                                                            'phone' =>  '+1 (123) 456-7890'
-                                                ),
-                                                1   =>  array(
-                                                            'contact_id'    =>  93,
-                                                            'first_name'    =>  'Bob',
-                                                            'last_name'     =>  'Smith',
-                                                            'email' =>  'bob.smith@example.com',
-                                                            'phone' =>  '+1 (123) 456-7890'
-                                                )
-                            ),
-                            "address"       =>  '1234 Blah Street,
-                                                 Houston, TX 12345',
-                            "support_level_id"  =>  1,
-                            "account_manager"   =>  array("Sales guy", "Salesguy@example.com")
+            1 => array(
+                "customer_id"     => 1,
+                "customer_name"   => "Bryan's widget factory",
+                "start_date"      => '2004-03-10',
+                "expiration_date" => '2005-03-10',
+                "contacts" => array(
+                    array(
+                        'contact_id' => 87,
+                        'first_name' => 'Bryan',
+                        'last_name'  => 'Alsdorf',
+                        'email'      => 'bryan@mysql.com',
+                        'phone'      => '+1 (123) 456-7890'
+                    ),
+                    array(
+                        'contact_id' => 93,
+                        'first_name' => 'Bob',
+                        'last_name'  => 'Smith',
+                        'email'      => 'bob.smith@example.com',
+                        'phone'      => '+1 (123) 456-7890'
+                    )
                 ),
-                2   =>  array(
-                            "customer_id"   =>  2,
-                            "customer_name" =>  "Joao, Inc.",
-                            "start_date"    =>  '2004-08-01',
-                            "expiration_date"      =>  '2005-08-01',
-                            "contacts"      =>  array(
-                                                0   =>  array(
-                                                            'contact_id'    =>  67,
-                                                            'first_name'    =>  'Joao',
-                                                            'last_name'     =>  'Prado Maia',
-                                                            'email' =>  'joao@mysql.com',
-                                                            'phone' =>  '+1 (123) 456-7890'
-                                                )
-                            ),
-                            "address"       =>  '123 Fake Street,
-                                                 Springfield, USA',
-                            "support_level_id"  =>  3,
-                            "account_manager"   =>  array("Sales guy", "Salesguy@example.com")
+                "address"          => "1234 Blah Street,\nHouston, TX 12345",
+                "support_level_id" => 1,
+                "account_manager"  => array("Sales guy", "Salesguy@example.com")
+            ),
+            2   =>  array(
+                "customer_id"      => 2,
+                "customer_name"    => "Joao, Inc.",
+                "start_date"       => '2004-08-01',
+                "expiration_date"  => '2005-08-01',
+                "contacts"         => array(
+                    array(
+                        'contact_id' => 67,
+                        'first_name' => 'Joao',
+                        'last_name'  => 'Prado Maia',
+                        'email'      => 'joao@mysql.com',
+                        'phone'      => '+1 (123) 456-7890'
+                    )
                 ),
-                3   =>  array(
-                            "customer_id"   =>  3,
-                            "customer_name" =>  "JesusHatesJava.com",
-                            "start_date"    =>  '2002-01-01',
-                            "expiration_date"      =>  '2003-01-01',
-                            "contacts"      =>  array(
-                                                0   =>  array(
-                                                            'contact_id'    =>  21,
-                                                            'first_name'    =>  'J',
-                                                            'last_name'     =>  'Man',
-                                                            'email' =>  'j-man@jesushatesjava.com',
-                                                            'phone' =>  '+1 (123) 456-7890'
-                                                ),
-                                                1   =>  array(
-                                                            'contact_id'    =>  22,
-                                                            'first_name'    =>  'John',
-                                                            'last_name'     =>  'Doe',
-                                                            'email' =>  'John.Doe@example.com',
-                                                            'phone' =>  '+1 (123) 456-7890'
-                                                )
-                            ),
-                            "address"       =>  '56789 Some drive,
-                                                 Fooo, Foo 12345',
-                            "support_level_id"  =>  4,
-                            "account_manager"   =>  array("Sales guy", "Salesguy@example.com")
-                )
+                "address"          => "123 Fake Street,\nSpringfield, USA",
+                "support_level_id" => 3,
+                "account_manager"  => array("Sales guy", "Salesguy@example.com")
+            ),
+            3   =>  array(
+                "customer_id"     => 3,
+                "customer_name"   => "JesusHatesJava.com",
+                "start_date"      => '2002-01-01',
+                "expiration_date" => '2003-01-01',
+                "contacts"        => array(
+                    array(
+                        'contact_id' => 21,
+                        'first_name' => 'J',
+                        'last_name'  => 'Man',
+                        'email'      => 'j-man@jesushatesjava.com',
+                        'phone'      => '+1 (123) 456-7890'
+                    ),
+                    array(
+                        'contact_id' => 22,
+                        'first_name' => 'John',
+                        'last_name'  => 'Doe',
+                        'email'      => 'John.Doe@example.com',
+                        'phone'      => '+1 (123) 456-7890'
+                    )
+                ),
+                "address"            => "56789 Some drive,\nFooo, Foo 12345",
+                "support_level_id"   => 4,
+                "account_manager"    => array("Sales guy", "Salesguy@example.com")
+            )
         );
     }
-    
-    
+
+
     /**
      * Returns the name of the backend
      *
@@ -130,8 +127,8 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     {
         return "example";
     }
-    
-    
+
+
     /**
      * Returns true if the backend uses support levels, false otherwise
      * 
