@@ -59,7 +59,6 @@ if (@$HTTP_POST_VARS["cat"] == "send_email") {
     if (!@empty($HTTP_POST_VARS['new_status'])) {
         Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
     }
-    
     // remove the existing email draft, if appropriate
     if (!empty($HTTP_POST_VARS['draft_id'])) {
         Draft::remove($HTTP_POST_VARS['draft_id']);

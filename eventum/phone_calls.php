@@ -49,8 +49,8 @@ if (@$HTTP_POST_VARS["cat"] == "add_phone") {
 $prj_id = Issue::getProjectID($issue_id);
 
 $tpl->assign(array(
-            "issue_id"         => $issue_id,
-            "phone_categories" => Phone_Support::getCategoryAssocList($prj_id),
+    "issue_id"         => $issue_id,
+    "phone_categories" => Phone_Support::getCategoryAssocList($prj_id),
 ));
 
 $tpl->displayTemplate();
