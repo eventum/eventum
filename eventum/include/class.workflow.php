@@ -268,15 +268,16 @@ class Workflow
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
-     * @param   array $message An array containing the new email
+     * @param   array $message An object containing the new email
+     * @param   array $row The array of data that was inserted into the database.
      */
-    function handleNewEmail($prj_id, $issue_id, $message)
+    function handleNewEmail($prj_id, $issue_id, $message, $row = false)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return;
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->handleNewEmail($prj_id, $issue_id, $message);
+        return $backend->handleNewEmail($prj_id, $issue_id, $message, $row);
     }
 
 
