@@ -36,6 +36,42 @@ $_displayed_confirmation = false;
 class Command_Line
 {
     /**
+     * Prompts the user for a resolution option, and returns the ID of the 
+     * selected one.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @return  integer The selected resolution id
+     */
+    function promptResolutionSelection($rpc_conn)
+    {
+        $msg = new XML_RPC_Message("getResolutionAssocList");
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $list = XML_RPC_decode($result->value());
+        if (count($list) > 1) {
+            // need to ask which status this person wants to use
+            $prompt = "Which resolution do you want to use in this action?\n";
+            foreach ($list as $key => $value) {
+                $prompt .= sprintf(" [%s] => %s\n", $key, $value);
+            }
+            $prompt .= "Please enter the resolution";
+            $resolution_id = Misc::prompt($prompt, false);
+            $available_ids = array_keys($list);
+            if (!in_array($resolution_id, $available_ids)) {
+                Command_Line::quit("Entered resolution doesn't match any in the list available to you");
+            }
+        } else {
+            $t = array_keys($list);
+            $resolution_id = $t[0];
+        }
+        return $resolution_id;
+    }
+
+
+    /**
      * Prompts the user for a status option, and returns the title of the 
      * selected one.
      *
@@ -101,6 +137,18 @@ class Command_Line
             Command_Line::quit("Issue #$issue_id is already set to status '" . $details['sta_title'] . "'");
         }
 
+        // prompt for status selection (accept abbreviations)
+        $resolution_id = Command_Line::promptResolutionSelection(&$rpc_conn);
+
+        // ask whether to send a notification email about this action or not (defaults to yes)
+        $msg = "Would you like to send a notification email about this issue being closed? [y/n]";
+        $ret = Misc::prompt($msg, false);
+        if (strtolower($ret) == 'y') {
+            $send_notification = true;
+        } else {
+            $send_notification = false;
+        }
+
         // prompt for internal note
         $prompt = "Please enter a reason for closing this issue (one line only)";
         $note = Misc::prompt($prompt, false);
@@ -109,6 +157,8 @@ class Command_Line
             new XML_RPC_Value($email),
             new XML_RPC_Value($issue_id, 'int'),
             new XML_RPC_Value($new_status),
+            new XML_RPC_Value($resolution_id, 'int'),
+            new XML_RPC_Value($send_notification, 'boolean'),
             new XML_RPC_Value($note)
         );
         $msg = new XML_RPC_Message("closeIssue", $params);

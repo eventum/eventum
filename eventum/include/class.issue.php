@@ -1003,19 +1003,19 @@ class Issue
      * @param   integer $usr_id The user ID
      * @param   integer $issue_id The issue ID
      * @param   bool $send_notification Whether to send a notification about this action or not
+     * @param   integer $resolution_id The resolution ID
+     * @param   integer $status_id The status ID
+     * @param   string $reason The reason for closing this issue
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function close($usr_id, $issue_id, $send_notification, $status_id, $reason)
+    function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason)
     {
-        global $HTTP_POST_VARS;
-
-        // XXX: need to fix the usage of the resolution field here for xmlrpc calls
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_closed_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_res_id=" . $HTTP_POST_VARS["resolution"] . ",
+                    iss_res_id=$resolution_id,
                     iss_sta_id=$status_id
                  WHERE
                     iss_id=$issue_id";

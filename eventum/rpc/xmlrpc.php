@@ -328,7 +328,7 @@ function getFile($p)
     }
 }
 
-$closeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
+$closeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_Boolean, $XML_RPC_String));
 function closeIssue($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
@@ -336,9 +336,11 @@ function closeIssue($p)
     $issue_id = XML_RPC_decode($p->getParam(1));
     $new_status = XML_RPC_decode($p->getParam(2));
     $status_id = Status::getStatusID($new_status);
-    $note = XML_RPC_decode($p->getParam(3));
+    $resolution_id = XML_RPC_decode($p->getParam(3));
+    $send_notification = XML_RPC_decode($p->getParam(4));
+    $note = XML_RPC_decode($p->getParam(5));
 
-    $res = Issue::close($usr_id, $issue_id, $status_id, $note);
+    $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
     if ($res == -1) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not close issue #$issue_id");
     } else {
@@ -489,6 +491,14 @@ function getWeeklyReport($p)
     return new XML_RPC_Response(XML_RPC_Encode($tpl->getTemplateContents() . "\n"));
 }
 
+$getResolutionAssocList_sig = array(array($XML_RPC_String));
+function getResolutionAssocList($p)
+{
+
+    $res = Resolution::getAssocList();
+    return new XML_RPC_Response(XML_RPC_Encode($res));
+}
+
 /**
  * Fakes the creation of the login cookie
  */
@@ -588,28 +598,32 @@ $services = array(
         'signature' => $getDeveloperList_sig
     ),
     "getEmailListing" => array(
-        "function"  =>  "getEmailListing",
-        "signature" =>  $getEmailListing_sig
+        "function"  => "getEmailListing",
+        "signature" => $getEmailListing_sig
     ),
     "getEmail" => array(
-        "function"  =>  "getEmail",
-        "signature" =>  $getEmail_sig
+        "function"  => "getEmail",
+        "signature" => $getEmail_sig
     ),
     "getNoteListing" => array(
-        "function"  =>  "getNoteListing",
-        "signature" =>  $getNoteListing_sig
+        "function"  => "getNoteListing",
+        "signature" => $getNoteListing_sig
     ),
     "getNote" => array(
-        "function"  =>  "getNote",
-        "signature" =>  $getNote_sig
+        "function"  => "getNote",
+        "signature" => $getNote_sig
     ),
     "convertNote" => array(
-        "function"  =>  "convertNote",
-        "signature" =>  $convertNote_sig
+        "function"  => "convertNote",
+        "signature" => $convertNote_sig
     ),
-    "getWeeklyReport"   => array(
-        "function"  =>  "getWeeklyReport",
-        "signature" =>  $getWeeklyReport_sig
+    "getWeeklyReport" => array(
+        "function"  => "getWeeklyReport",
+        "signature" => $getWeeklyReport_sig
+    ),
+    "getResolutionAssocList" => array(
+        "function"  => "getResolutionAssocList",
+        "signature" => $getResolutionAssocList_sig
     )
 );
 $server = new XML_RPC_Server($services);
