@@ -48,7 +48,7 @@ $tpl->assign("extra_title", "Close Issue #$issue_id");
 if (@$HTTP_POST_VARS["cat"] == "close") {
     $res = Issue::close(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $HTTP_POST_VARS["send_notification"], $HTTP_POST_VARS["resolution"], $HTTP_POST_VARS["status"], $HTTP_POST_VARS["reason"]);
     
-    if (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id))) {
+    if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {
         Customer::updateRedeemedIncidents($prj_id, $issue_id, @$_REQUEST['redeem']);
     }
     
