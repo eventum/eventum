@@ -58,7 +58,7 @@ if (@$HTTP_POST_VARS["cat"] == "close") {
 $tpl->assign("statuses", Status::getClosedAssocList($prj_id));
 $tpl->assign("resolutions", Resolution::getAssocList());
 
-if (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id))) {
+if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {
     $details = Issue::getDetails($issue_id);
     $tpl->assign(array(
             'redeemed'  =>  Customer::getRedeemedIncidentDetails($prj_id, $issue_id),
