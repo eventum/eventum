@@ -472,6 +472,25 @@ class Customer
     }
 
 
+    function getCustomerInfoFromEmails($prj_id, $sup_ids)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getCustomerInfoFromEmails($sup_ids);
+    }
+
+
+    function notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id = FALSE)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id);
+    }
+
+
+    function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->notifyAutoCreatedIssue($issue_id, $sender, $date, $subject);
+    }
 
 
 
