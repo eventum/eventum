@@ -120,6 +120,17 @@ function toggleAlternateUserFields()
 </table>
 {else}
 <br />
+{if $phpversion >= 5}
+<table align="center" width="600" bgcolor="red">
+<tr>
+<td align="center" class="default" bgcolor="white">
+<span style="font-weight: bold; font-size: 160%; color: red;">Warning!</span><br />You are running PHP version {$phpversion}. While all effort has been made to ensure eventum works correctly with
+PHP 5 and greater, it has not been thoroughly tested and may not work properly. <br /><br />
+Please report any problems you find to eventum-users@lists.mysql.com.
+</td></tr>
+</table>
+<br />
+{/if}
 <table width="600" bgcolor="#000000" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="install_form" action="{$smarty.server.PHP_SELF}" method="post" onSubmit="javascript:return validateForm(this);">
 <input type="hidden" name="cat" value="install">

@@ -420,6 +420,7 @@ if (substr($HTTP_SERVER_VARS['DOCUMENT_ROOT'], -1) == '/') {
 }
 $installation_path = $HTTP_SERVER_VARS['DOCUMENT_ROOT'] . $relative_url;
 
+$tpl->assign("phpversion", phpversion());
 $tpl->assign("rel_url", $relative_url);
 $tpl->assign("installation_path", $installation_path);
 if (@$HTTP_SERVER_VARS['HTTPS'] == 'on') {
