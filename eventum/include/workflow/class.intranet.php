@@ -75,11 +75,9 @@ class Intranet_Workflow_Backend extends Abstract_Workflow_Backend
     {
         if (empty($row["issue_id"])) {
             // email not associated with issue
-            if ($row["ema_id"] == 2) {
-                $irc_message = "New Pending Email ("; 
-                $irc_message .= "Subject: " . $message->headers['subject'] . ")";
-                Notification::notifyIRC($prj_id, $irc_message, 0);
-            }
+            $irc_message = "New Pending Email ("; 
+            $irc_message .= "Subject: " . $message->headers['subject'] . ")";
+            Notification::notifyIRC($prj_id, $irc_message, 0);
         }
     }
 }
