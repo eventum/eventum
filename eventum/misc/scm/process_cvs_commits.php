@@ -68,7 +68,7 @@ foreach ($pieces as $file_info) {
 $commit_msg = substr($input, strpos($input, 'Log Message:')+strlen('Log Message:')+1);
 
 // parse the commit message and get the first issue number we can find
-$pattern = "/[issue|bug] ?:? ?#?(\d+)/i";
+$pattern = "/(?:issue|bug) ?:? ?#?(\d+)/i";
 preg_match($pattern, $commit_msg, $matches);
 
 if (count($matches) > 1) {
