@@ -146,6 +146,11 @@ class Mail_API
      */
     function isVacationAutoResponder($headers)
     {
+        // loop through the headers and make sure they are all lowercase.
+        foreach ($headers as $key => $value) {
+            $headers[strtolower($key)] = $value;
+        }
+        
         if (@$headers['x-vacationmessage'] == 'Yes') {
             return true;
         } else {
