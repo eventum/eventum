@@ -74,11 +74,10 @@ class Monitor
      *
      * @access  public
      */
-    function checkDiskspace()
+    function checkDiskspace($partition)
     {
         $low_limit = 5;
         $high_limit = 15;
-        $partition = '/';
         $total_space = disk_total_space($partition);
         $free_space = disk_free_space($partition);
         $free_percentage = ($free_space * 100) / $total_space;
