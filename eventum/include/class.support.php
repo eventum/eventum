@@ -891,7 +891,11 @@ class Support
                 $res[$i]["sup_date"] = Date_API::getFormattedDate($res[$i]["sup_date"]);
                 $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
                 $res[$i]["sup_from"] = Mime_Helper::fixEncoding(Mail_API::getName($res[$i]["sup_from"]));
-                $res[$i]["sup_to"] = Mime_Helper::fixEncoding(Mail_API::getName($res[$i]["sup_to"]));
+                if ((empty($res[$i]["sup_to"])) && (!empty($res[$i]["sup_iss_id"]))) {
+                    $res[$i]["sup_to"] = "Notification List";
+                } else {
+                    $res[$i]["sup_to"] = Mime_Helper::fixEncoding(Mail_API::getName($res[$i]["sup_to"]));
+                }
             }
             $total_pages = ceil($total_rows / $max);
             $last_page = $total_pages - 1;
@@ -1532,8 +1536,12 @@ class Support
                 // catched by the notification list
                 $from = Notification::getFixedFromHeader($HTTP_POST_VARS['issue_id'], $HTTP_POST_VARS['from'], 'issue');
                 // build the list of unknown recipients
-                $recipients = array($HTTP_POST_VARS['to']);
-                $recipients = array_merge($recipients, Support::getRecipientsCC($HTTP_POST_VARS['cc']));
+                if (!empty($HTTP_POST_VARS['to'])) {
+                    $recipients = array($HTTP_POST_VARS['to']);
+                    $recipients = array_merge($recipients, Support::getRecipientsCC($HTTP_POST_VARS['cc']));
+                } else {
+                    $recipients = Support::getRecipientsCC($HTTP_POST_VARS['cc']);
+                }
                 $unknowns = array();
                 for ($i = 0; $i < count($recipients); $i++) {
                     if (!Notification::isSubscribedToEmails($HTTP_POST_VARS['issue_id'], $recipients[$i])) {
