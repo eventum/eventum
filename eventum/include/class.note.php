@@ -502,10 +502,10 @@ class Note
             // need to check spot for customer association
             if (!empty($structure->headers['from'])) {
                 $details = Email_Account::getDetails($email_account_id);
-                if (@$details['ema_check_spot']) {
-                    include_once(APP_INC_PATH . "class.customer.php");
-                    // check for any customer contact association in spot
-                    list($customer_id,) = Customer::getCustomerIDByEmails(array($sender_email));
+                // check from the associated project if we need to lookup any customers by this email address
+                if (Customer::hasCustomerIntegration($details['ema_prj_id'])) {
+                    // check for any customer contact association
+                    list($customer_id,) = Customer::getCustomerIDByEmails($details['ema_prj_id'], array($sender_email));
                     if (!empty($customer_id)) {
                         $t['customer_id'] = $customer_id;
                     }
