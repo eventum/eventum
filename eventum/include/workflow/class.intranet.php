@@ -61,5 +61,26 @@ class Intranet_Workflow_Backend extends Abstract_Workflow_Backend
             }
         }
     }
+
+
+    /**
+     * Called when a new message is recieved. 
+     *
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   array $message An array containing the new email
+     * @param   array $row The array of data that was inserted into the database.
+     */
+    function handleNewEmail($prj_id, $issue_id, $message, $row)
+    {
+        if (empty($row["issue_id"])) {
+            // email not associated with issue
+            if ($row["ema_id"] == 2) {
+                $irc_message = "New Pending Email ("; 
+                $irc_message .= "Subject: " . $message->headers['subject'] . ")";
+                Notification::notifyIRC($prj_id, $irc_message, 0);
+            }
+        }
+    }
 }
 ?>
