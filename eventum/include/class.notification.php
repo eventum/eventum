@@ -149,7 +149,11 @@ class Notification
                 if (!empty($info['sender_name'])) {
                     $from = Mail_API::getFormattedName($info['sender_name'], $project_info['email']);
                 } else {
-                    $from = Mail_API::getFormattedName($project_info['name'], $project_info['email']);
+                    if (!empty($project_info['name'])) {
+                        $from = Mail_API::getFormattedName($project_info['name'], $project_info['email']);
+                    } else {
+                        $from = $project_info['email'];
+                    }
                 }
             }
         } else {
@@ -343,8 +347,10 @@ class Notification
     {
         $stmt = "SELECT
                     iss_id,
+                    iss_customer_id,
                     iss_summary,
                     iss_description,
+                    prj_id,
                     prj_title,
                     usr_full_name,
                     prc_title,
@@ -382,6 +388,10 @@ class Notification
             return "";
         } else {
             $res['assigned_users'] = implode(", ", Issue::getAssignedUsers($issue_id));
+            // get customer information, if any
+            if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['prj_id']))) {
+                $res['customer_info'] = Customer::getDetails($res['prj_id'], $res['iss_customer_id']);
+            }
             return $res;
         }
     }
@@ -843,7 +853,12 @@ class Notification
         }
         $data = Issue::getDetails($issue_id, true);
         // notify new issue to irc channel
-        $irc_notice = "New Issue #$issue_id (Priority: " . $data['pri_title'];
+        $irc_notice = "New Issue #$issue_id (";
+        $quarantine = Issue::getQuarantineInfo($issue_id);
+        if (!empty($quarantine)) {
+            $irc_notice .= "Quarantined; ";
+        }
+        $irc_notice .= "Priority: " . $data['pri_title'];
         // also add information about the assignee, if any
         $assignment = Issue::getAssignedUsers($issue_id);
         if (count($assignment) > 0) {
@@ -1253,7 +1268,7 @@ class Notification
             $mail = new Mail_API;
             $mail->setTextBody($text_message);
             $setup = $mail->getSMTPSettings();
-            $mail->send($setup["from"], $emails[$i], APP_SHORT_NAME . ": Issue assignment notification (ID: $issue_id)", TRUE, $issue_id);
+            $mail->send($setup["from"], $emails[$i], "[#$issue_id] New Assignment: " . $issue['iss_summary'], TRUE, $issue_id);
         }
     }
 
