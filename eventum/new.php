@@ -76,9 +76,22 @@ if (@$HTTP_POST_VARS["cat"] == "report") {
 }
 
 if (@$HTTP_GET_VARS["cat"] == "associate") {
-    $res = Support::getListDetails($HTTP_GET_VARS["item"]);
-    $tpl->assign("emails", $res);
-    $tpl->assign("attached_emails", @implode(",", $HTTP_GET_VARS["item"]));
+    if (@count($HTTP_GET_VARS["item"]) > 0) {
+        $res = Support::getListDetails($HTTP_GET_VARS["item"]);
+        $tpl->assign("emails", $res);
+        $tpl->assign("attached_emails", @implode(",", $HTTP_GET_VARS["item"]));
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            // also need to guess the contact_id from any attached emails
+            $info = Customer::getCustomerInfoFromEmails($prj_id, $HTTP_GET_VARS["item"]);
+            $tpl->assign(array(
+                "customer_id"   => $info['customer_id'],
+                'customer_name' => $info['customer_name'],
+                "contact_id"    => $info['contact_id'],
+                'contact_name'  => $info['contact_name'],
+                'contacts'      => $info['contacts']
+            ));
+        }
+    }
 }
 
 $tpl->assign(array(

@@ -1735,5 +1735,145 @@ class Spot_Customer_Backend
             }
         }
     }
+
+
+    /**
+     * Method used to get the associated customer and customer contact from
+     * a given set of support emails. This is especially useful to automatically
+     * associate an issue to the appropriate customer contact that sent a
+     * support email.
+     *
+     * @access  public
+     * @param   array $sup_ids The list of support email IDs
+     * @return  array The customer and customer contact ID
+     */
+    function getCustomerInfoFromEmails($sup_ids)
+    {
+        $senders = Support::getSender($sup_ids);
+        if (count($senders) > 0) {
+            $emails = array();
+            for ($i = 0; $i < count($senders); $i++) {
+                $emails[] = Mail_API::getEmailAddress($senders[$i]);
+            }
+            list($customer_id, $contact_id) = $this->getCustomerIDByEmails($emails);
+            $stmt = "SELECT
+                        A.name customer_name,
+                        CONCAT(B.name, ', ', B.name2) contact_name
+                     FROM
+                        cust_entity A,
+                        cust_entity B,
+                        cust_role C
+                     WHERE
+                        A.cust_no=$customer_id AND
+                        A.cust_type='C' AND
+                        B.cust_no=$contact_id AND
+                        B.cust_type='P' AND
+                        A.cust_no=C.up_cust_no AND
+                        B.cust_no=C.cust_no";
+            $info = $GLOBALS["customer_db"]->getRow($stmt, DB_FETCHMODE_ASSOC);
+            return array(
+                'customer_id'   => $customer_id,
+                'customer_name' => $info['customer_name'],
+                'contact_id'    => $contact_id,
+                'contact_name'  => $info['contact_name'],
+                'contacts'      => $this->getContactEmailAssocList($customer_id)
+            );
+        } else {
+            return array(
+                'customer_id'   => '',
+                'customer_name' => '',
+                'contact_id'    => '',
+                'contact_name'  => '',
+                'contacts'      => ''
+            );
+        }
+    }
+
+
+    // XXX: put documentation here
+    function notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id = FALSE)
+    {
+        // build the list of allowed recipients if we are handling a customer issue
+        if ($customer_id) {
+            $contact_emails = array_keys($this->getContactEmailAssocList($customer_id));
+        }
+
+        // build the list of recipients
+        $recipients = array();
+        $recipient_emails = array();
+        for ($i = 0; $i < count($sup_ids); $i++) {
+            $senders = Support::getSender(array($sup_ids[$i]));
+            if (count($senders) > 0) {
+                $sender_email = Mail_API::getEmailAddress($senders[0]);
+                if ($customer_id) {
+                    // only add known customer contacts if we need to notify the sender of an email
+                    // about this email being converted into an issue
+                    if ((count($contact_emails) > 0) && (in_array($sender_email, $contact_emails))) {
+                        $recipients[$sup_ids[$i]] = $senders[0];
+                        $recipient_emails[] = $sender_email;
+                    }
+                }
+            }
+        }
+        if (count($recipients) == 0) {
+            return false;
+        }
+
+        $data = Issue::getDetails($issue_id);
+        foreach ($recipients as $sup_id => $recipient) {
+            // open text template
+            $tpl = new Template_API;
+            $tpl->setTemplate('customer/spot/customer_new_issue_from_email.tpl.text');
+            $tpl->bulkAssign(array(
+                "data"        => $data,
+                "sender_name" => Mail_API::getName($recipient)
+            ));
+            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($sup_id), $sup_id);
+            $tpl->assign(array(
+                'email' => array(
+                    'date'    => $email_details['sup_date'],
+                    'from'    => $email_details['sup_from'],
+                    'subject' => $email_details['sup_subject']
+                )
+            ));
+            $text_message = $tpl->getTemplateContents();
+
+            // send email (use PEAR's classes)
+            $mail = new Mail_API;
+            $mail->setTextBody($text_message);
+            $from = Notification::getFixedFromHeader($issue_id, "Indrek Siitan <support-feedback@mysql.com>", 'issue');
+            $mail->send($from, $recipient, 'New MySQL Support Issue Created');
+        }
+        return $recipient_emails;
+    }
+
+
+    // XXX: put documentation here
+    function notifyAutoCreatedIssue($issue_id, $sender, $date, $subject)
+    {
+        $data = Issue::getDetails($issue_id);
+
+        // open text template
+        $tpl = new Template_API;
+        $tpl->setTemplate('customer/spot/customer_new_issue_from_email.tpl.text');
+        $tpl->bulkAssign(array(
+            "data"        => $data,
+            "sender_name" => Mail_API::getName($sender)
+        ));
+        $tpl->assign(array(
+            'email' => array(
+                'date'    => $date,
+                'from'    => $sender,
+                'subject' => $subject
+            )
+        ));
+        $text_message = $tpl->getTemplateContents();
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_API;
+        $mail->setTextBody($text_message);
+        $from = Notification::getFixedFromHeader($issue_id, "Indrek Siitan <support-feedback@mysql.com>", 'issue');
+        $mail->send($from, $sender, 'New MySQL Support Issue Created');
+    }
 }
 ?>

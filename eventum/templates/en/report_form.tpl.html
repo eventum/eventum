@@ -363,8 +363,12 @@ function validateForm(f)
       </table>
     </td>
   </tr>
-</form>
 </table>
+
+{if $emails != ""}
+    {include file="attached_emails.tpl.html"}
+{/if}
+</form>
 
 {literal}
 <script language="JavaScript">
