@@ -92,6 +92,9 @@ function runCustomFilter(f)
         <input type="hidden" name="closed_date[filter_type]" value="{$options.closed_date.filter_type}">
         <input type="hidden" name="show_authorized_issues" value="{$options.show_authorized_issues}">
         <input type="hidden" name="show_notification_list_issues" value="{$options.show_notification_list_issues}">
+        {if $categories|@count < 1}
+        <input type="hidden" name="category" value="">
+        {/if}
         <tr>
           <td>
             <span class="default">Keyword(s):</span><br />
@@ -121,6 +124,7 @@ function runCustomFilter(f)
               {/foreach}
             </select>
           </td>
+          {if $categories|@count > 0}
           <td>
             <span class="default">Category:</span><br />
             <select name="category" class="default">
@@ -128,6 +132,7 @@ function runCustomFilter(f)
               {html_options options=$categories selected=$options.category}
             </select>
           </td>
+          {/if}
           <td>
             <span class="default">Priority:</span><br />
             <select name="priority" class="default">
@@ -157,9 +162,11 @@ function runCustomFilter(f)
       <table bgcolor="{$light_color}" width="100%" border="0" cellspacing="0" cellpadding="4">
         <form action="list.php" method="get">
         <tr>
+          {if $browser.ie5up}
           <td class="default">
             [ <a class="link" href="javascript:void(open('{$rel_url}searchbar.php', '_search'));">quick search bar</a> ]
           </td>
+          {/if}
           <td class="default" align="center">
             <a target="_top" title="create advanced searches" href="{$rel_url}adv_search.php" class="link">Advanced Search</a>
           </td>

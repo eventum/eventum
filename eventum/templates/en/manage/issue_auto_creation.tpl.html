@@ -15,12 +15,18 @@
                       return false;
                   }
                   if (field1.checked) {
+                      {/literal}
+                      {if $cats|@count > 0}
+                      {literal}
                       var field = getFormElement(f, 'options[category]');
                       if (field.selectedIndex == 0) {
                           selectField(f, 'options[category]');
                           alert('Please choose the default category.');
                           return false;
                       }
+                      {/literal}
+                      {/if}
+                      {literal}
                       field = getFormElement(f, 'options[priority]');
                       if (field.selectedIndex == 0) {
                           selectField(f, 'options[priority]');
@@ -43,9 +49,15 @@
                       field = getFormElement(f, 'options[only_known_customers]', 1);
                       field.disabled = bool;
                   }
+                  {/literal}
+                  {if $cats|@count > 0}
+                  {literal}
                   field = getFormElement(f, 'options[category]');
                   field.disabled = bool;
                   field.style.backgroundColor = bgcolor;
+                  {/literal}
+                  {/if}
+                  {literal}
                   field = getFormElement(f, 'options[priority]');
                   field.disabled = bool;
                   field.style.backgroundColor = bgcolor;
@@ -95,6 +107,7 @@
               {else}
               <input type="hidden" name="options[only_known_customers]" value="no">
               {/if}
+              {if $cats|@count > 0}
               <tr>
                 <td width="130" bgcolor="{$cell_color}" class="default_white">
                   <b>Default Category: *</b>
@@ -107,6 +120,7 @@
                   {include file="error_icon.tpl.html" field="options[category]"}
                 </td>
               </tr>
+              {/if}
               <tr>
                 <td width="130" bgcolor="{$cell_color}" class="default_white">
                   <b>Default Priority: *</b>

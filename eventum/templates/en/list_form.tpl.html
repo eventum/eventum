@@ -127,10 +127,12 @@ function disableFields()
           {if $current_role != $roles.customer}
           <td align="center" class="default_white" nowrap>Time Spent</td>
           {/if}
+          {if $categories|@count > 0}
           <td align="center" class="default_white" nowrap>
             <a title="sort by category" href="{$sorting.links.iss_prc_id}" class="white_link">Category</a>
             {if $sorting.images.iss_prc_id != ""}<a title="sort by category" href="{$sorting.links.iss_prc_id}" class="white_link"><img border="0" src="{$sorting.images.iss_prc_id}"></a>{/if}
           </td>
+          {/if}
           {if $has_customer_integration}
           <td align="center" class="default_white" nowrap>
             <a title="sort by customer" href="{$sorting.links.iss_customer_id}" class="white_link">Customer</a>
@@ -168,7 +170,9 @@ function disableFields()
           {if $current_role != $roles.customer}
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].time_spent}</td>
           {/if}
+          {if $categories|@count > 0}
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].prc_title|escape:"html"}</td>
+          {/if}
           {if $has_customer_integration}
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].customer_title|escape:"html"}</td>
           {/if}

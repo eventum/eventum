@@ -83,6 +83,14 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                 $show_releases = 0;
             }
             
+            // get if categories should be displayed
+            $cats = Category::getList($prj_id);
+            if (count($cats) > 0) {
+                $show_category = 1;
+            } else {
+                $show_category = 0;
+            }
+            
             $tpl->assign(array(
                 "next_issue"         => @$sides["next"],
                 "previous_issue"     => @$sides["previous"],
@@ -97,7 +105,8 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                 "ema_id"             => Email_Account::getEmailAccount(),
                 'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id),
                 'max_attachment_size'=> Attachment::getMaxAttachmentSize(),
-                'show_releases'      => $show_releases
+                'show_releases'      => $show_releases,
+                'show_category'      => $show_category
             ));
 
             if ($role_id != User::getRoleID('customer')) {

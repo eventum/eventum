@@ -111,6 +111,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
+          {if $categories|@count > 0}
           <td width="120" nowrap bgcolor="{$cell_color}" class="default_white">
             <b>Category:</b>
           </td>
@@ -119,6 +120,16 @@ function validateForm(f)
               {html_options options=$categories selected=$issue.iss_prc_id}
             </select>
           </td>
+          {else}
+          <td width="120" bgcolor="{$cell_color}" class="default_white" rowspan="2">
+            <b>Status:</b>
+          </td>
+          <td width="50%" bgcolor="{$issue.status_color}" rowspan="2">
+            <select class="default" name="status">
+              {html_options options=$status selected=$issue.iss_sta_id}
+            </select>
+          </td>
+          {/if}
           <td width="120" bgcolor="{$cell_color}" valign="top" class="default_white" nowrap>
             <b>Notification List:</b>
           </td>
@@ -129,6 +140,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
+          {if $categories|@count > 0}
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Status:</b>
           </td>
@@ -137,6 +149,7 @@ function validateForm(f)
               {html_options options=$status selected=$issue.iss_sta_id}
             </select>
           </td>
+          {/if}
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Submitted Date:</b>
           </td>

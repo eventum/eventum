@@ -141,12 +141,22 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
+          {* If we are not showing categories, put status here *}
+          {if $show_category == 1}
           <td width="150" nowrap bgcolor="{$cell_color}" class="default_white">
             <b>Category:</b>
           </td>
           <td width="50%" bgcolor="{$light_color}" class="default">
             {$issue.prc_title|escape:"html"}
           </td>
+          {else}
+          <td width="150" bgcolor="{$cell_color}" class="default_white" rowspan="2">
+            <b>Status:</b>
+          </td>
+          <td bgcolor="{$issue.status_color}" class="default" rowspan="2">
+            {$issue.sta_title|escape:"html"}
+          </td>
+          {/if}
           <td width="140" bgcolor="{$cell_color}" valign="top" class="default_white" nowrap>
             <b>Notification List:</b>
           </td>
@@ -157,12 +167,14 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
+          {if $show_category == 1}
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Status:</b>
           </td>
           <td bgcolor="{$issue.status_color}" class="default">
             {$issue.sta_title|escape:"html"}
           </td>
+          {/if}
           <td width="140" bgcolor="{$cell_color}" class="default_white">
             <b>Submitted Date:</b>
           </td>
