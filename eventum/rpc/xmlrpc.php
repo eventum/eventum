@@ -100,7 +100,7 @@ function getSimpleIssueDetails($p)
                 "summary"     => new XML_RPC_Value($details['iss_summary']),
                 "status"      => new XML_RPC_Value(@$details['sta_title']),
                 "assignments" => new XML_RPC_Value(@$details["assignments"]),
-                "authorized_repliers"   =>  new XML_RPC_Value(@$details['authorized_repliers'])
+                "authorized_names"  =>  new XML_RPC_Value(@implode(', ', $details['authorized_names']))
             ), "struct"));
 }
 
