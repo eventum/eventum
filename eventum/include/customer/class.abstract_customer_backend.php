@@ -42,8 +42,8 @@ class Abstract_Customer_Backend
     function connect()
     {
     }
-     
-    
+
+
     /**
      * Returns true if the backend uses support levels, false otherwise
      * 
@@ -118,7 +118,7 @@ class Abstract_Customer_Backend
     {
     }
 
-    
+
     /**
      * Marks an issue as not a redeemed incident.
      * 
@@ -184,7 +184,7 @@ class Abstract_Customer_Backend
     {
     }
 
-    
+
     /**
      * Method used to send a notice that the per-incident limit being reached.
      *
@@ -209,7 +209,7 @@ class Abstract_Customer_Backend
     {
     }
 
-    
+
     /**
      * Method used to get the customer names for the given customer id.
      *
@@ -402,7 +402,7 @@ class Abstract_Customer_Backend
     {
     }
 
-    
+
     /**
      * Returns an array of support levels grouped together.
      * 
@@ -608,6 +608,5 @@ class Abstract_Customer_Backend
     function getMaximumFirstResponseTime($customer_id)
     {
     }
-
 }
 ?>
