@@ -2760,8 +2760,14 @@ class Issue
     {
         global $HTTP_POST_VARS;
 
+        // check if user performing this chance has the proper role
+        if (Auth::getCurrentRole() < User::getRoleID('Standard User')) {
+            return -1;
+        }
+        
+        
         for ($i = 0; $i < count($HTTP_POST_VARS["item"]); $i++) {
-            // check if the bug is already assigned to this person
+            // check if the issue is already assigned to this person
             $stmt = "SELECT
                         COUNT(*) AS total
                      FROM
@@ -2773,6 +2779,12 @@ class Issue
             if ($total > 0) {
                 continue;
             } else {
+                
+                // make sure issue is not in another project
+                if (Issue::getProjectID($HTTP_POST_VARS['items'][$i]) != Auth::getCurrentProject()) {
+                    return -1;
+                }
+                
                 // add the assignment
                 $stmt = "INSERT INTO
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user

@@ -25,6 +25,8 @@
 
 {if $assign_result == 1}
   <b>Thank you, the selected issues were assigned successfully.</b>
+{elseif $assign_result == -1}
+  <b>An error occurred while trying to run your query</b>
 {/if}
 
 {if $set_initial_impact_result == -1}
