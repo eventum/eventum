@@ -1,7 +1,7 @@
 Euventum Issue Tracking System
 =============================
 
-????, Version 2.0
+????, Version 1.3
 - Customer integration API (João, Bryan)
 - Custom Workflow API (Bryan)
 - Made canned email responses be customizable in a per-project basis (João)
@@ -9,7 +9,6 @@ Euventum Issue Tracking System
 - Fixed the SQL schema to avoid the mystic "Invalid default value for 'sta_id'" error message when installing the application (João)
 - Fixed bug in custom field report when not graphing all options. (Bryan)
 - Forced order of graph bars on custom field report to match order options are listed in the select box. (Bryan)
-- Added initial support for custom workflows. (Bryan)
 - Added customer stats report. (Bryan)
 - Added ability to specify which fields should be displayed on the issue creation form. (Bryan)
 - Fixed the "Forgot My Password" code to check for null results (Clay Loveless)
@@ -33,6 +32,14 @@ Euventum Issue Tracking System
 - Fixed the issue-xxxx@ code to properly ignore vacation auto-responder messages (João)
 - Improved the Mail_Queue class code to remove any Reply-To: values prior to sending the messages out (João)
 - Added some performance tweaks to a few screens (João)
+- Added a feature to hide issue resolution from interface if no resolutions are set (Bryan)
+- CLI open-issues now uses case insensitive search (Bryan)
+- Added email notification for when issue assignment is changed (Bryan)
+- Added Group support (Bryan)
+- Display who performed the action when sending notification messages (Bryan)
+- Changed titled of draft window to 'Create Draft' (Bryan)
+- Added option to hide fields from users of a specific role on the create issue form (Bryan)
+- Added ability for issues to be 'Quarantined' when they are created (Bryan)
 
 30 Jun 2004, Version 1.2.2
 - Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being created. (Bryan)

@@ -52,7 +52,17 @@ class Pager
     {
         $stmt = str_replace("\n", "", $stmt);
         $stmt = str_replace("\r", "", $stmt);
+        if (stristr($stmt, 'GROUP BY')) {
+            // go the extra mile and try to use the grouped by column in the count() call
+            preg_match("/.*\s+GROUP BY\s+(\w*)\s+.*/i", $stmt, $matches);
+            if (!empty($matches[1])) {
+                $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(" . $matches[1] . ") AS total_rows FROM '", $stmt);
+            }
+        } else {
         $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(*) AS total_rows FROM '", $stmt);
+        }
+        // remove any order by clauses
+        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(.*)/sei", "'\\1\\3'", $stmt);
         $rows = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($rows)) {
             Error_Handler::logError(array($rows->getMessage(), $rows->getDebugInfo()), __FILE__, __LINE__);

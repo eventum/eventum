@@ -329,7 +329,7 @@ class Attachment
             Attachment::addFile($attachment_id, $HTTP_POST_VARS["issue_id"], $file["filename"], $file["type"], $file["blob"]);
         }
         
-        Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
+        Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], "file uploaded");
         // need to save a history entry for this
         History::add($HTTP_POST_VARS["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
         

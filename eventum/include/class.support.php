@@ -540,10 +540,10 @@ class Support
                 //  -> create new issue and associate current email with it
                 $should_create_issue = true;
             }
+            $sender_email = Mail_API::getEmailAddress($email->fromaddress);
             // only create a new issue if this email is coming from a known customer
             if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
                     (Customer::hasCustomerIntegration($info['ema_prj_id']))) {
-                $sender_email = Mail_API::getEmailAddress($email->fromaddress);
                 list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
                 if (empty($customer_id)) {
                     $should_create_issue = false;
@@ -566,8 +566,7 @@ class Support
             if (!empty($email->fromaddress)) {
                 $details = Email_Account::getDetails($info['ema_id']);
                 if (Customer::hasCustomerIntegration($info['ema_prj_id'])) {
-                    // get the sender's email address and check for any customer contact association in spot
-                    $sender_email = Mail_API::getEmailAddress($email->fromaddress);
+                    // check for any customer contact association in spot
                     list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
                     $t['customer_id'] = $customer_id;
                 }
@@ -585,7 +584,14 @@ class Support
                         // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
                         Notification::notifyNewEmail(APP_SYSTEM_USER_ID, $t["issue_id"], $structure, $message, false);
                     }
-                    Issue::markAsUpdated($t["issue_id"]);
+                    if (!empty($t['customer_id'])) {
+                        Issue::markAsUpdated($t["issue_id"], "customer action");
+                    } else {
+                        $sender_usr_id = User::getUserIDByEmail($sender_email);
+                        if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id) > User::getRoleID('Customer'))) {
+                            Issue::markAsUpdated($t["issue_id"], "staff response");
+                        }
+                    }
                 }
                 // need to delete the message from the server?
                 if (!$info['ema_leave_copy']) {
@@ -1106,7 +1112,7 @@ class Support
                 $full_email = Support::getFullEmail($items[$i]);
                 Support::extractAttachments($issue_id, $full_email);
             }
-            Issue::markAsUpdated($issue_id);
+            Issue::markAsUpdated($issue_id, "email");
             // save a history entry for each email being associated to this issue
             $stmt = "SELECT
                         sup_subject
@@ -1733,7 +1739,11 @@ class Support
             // need to send a notification
             Notification::notifyNewEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $structure, $full_email, $internal_only);
             // mark this issue as updated
-            Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
+            if (!empty($t['customer_id'])) {
+                Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'customer action');
+            } else {
+                Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'staff response');
+            }
             // save a history entry for this
             History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'), 
                             'Outgoing email sent by ' . User::getFullName(Auth::getUserID()));

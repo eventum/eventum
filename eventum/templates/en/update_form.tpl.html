@@ -286,6 +286,8 @@ function validateForm(f)
                 </select>
             </td>
         </tr>
+        {else}
+            <input type="hidden" name="group" value="{$issue.iss_grp_id}">
         {/if}
         {else}
         <input type="hidden" name="keep_assignments" value="yes">
@@ -294,6 +296,7 @@ function validateForm(f)
         {/foreach}
         <input type="hidden" name="estimated_dev_time" value="{$issue.iss_dev_time|escape:"html"}">
         <input type="hidden" name="release" value="{$issue.iss_pre_id}">
+        <input type="hidden" name="group" value="{$issue.iss_grp_id}">
         {/if}
         {if $releases|@count < 1}
             <input type="hidden" name="release" value="{$issue.iss_pre_id}">

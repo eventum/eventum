@@ -434,3 +434,28 @@ ALTER TABLE eventum_phone_support DROP COLUMN phs_reason;
 
 ALTER TABLE eventum_reminder_action ADD COLUMN rma_alert_irc TINYINT(1) unsigned NOT NULL DEFAULT 0;
 
+# August 30th
+# new fixes to project_priority (adding auto_increment, better indexes)
+ALTER TABLE eventum_project_priority CHANGE column pri_id pri_id tinyint(1) unsigned NOT NULL default '0' auto_increment;
+ALTER TABLE eventum_project_priority DROP PRIMARY KEY;
+ALTER TABLE eventum_project_priority ADD PRIMARY KEY(pri_id);
+ALTER TABLE eventum_project_priority DROP KEY pri_id;
+ALTER TABLE eventum_project_priority DROP KEY pri_id_2;
+ALTER TABLE eventum_project_priority ADD KEY(pri_title);
+ALTER TABLE eventum_project_priority ADD UNIQUE(pri_prj_id, pri_title);
+
+
+
+# August 31st
+ALTER TABLE eventum_issue ADD COLUMN iss_last_public_action_date datetime NULL;
+ALTER TABLE eventum_issue ADD COLUMN iss_last_public_action_type varchar(20) NULL;
+ALTER TABLE eventum_issue ADD COLUMN iss_last_internal_action_date datetime NULL;
+ALTER TABLE eventum_issue ADD COLUMN iss_last_internal_action_type varchar(20) NULL;
+
+ALTER TABLE eventum_reminder_action ADD COLUMN rma_alert_group_leader TINYINT(1) unsigned NOT NULL DEFAULT 0;
+
+
+# september 2nd
+ALTER TABLE eventum_project_user DROP KEY pru_prj_id;
+ALTER TABLE eventum_project_user ADD UNIQUE KEY pru_prj_id (pru_prj_id,pru_usr_id);
+

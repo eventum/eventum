@@ -165,6 +165,17 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Alert Group Leader:</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <input type="radio" name="alert_group_leader" value="1" {if $info.rma_alert_group_leader}checked{/if}> 
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_group_leader', 0);">Yes</a>&nbsp;&nbsp;
+                  <input type="radio" name="alert_group_leader" value="0" {if not $info.rma_alert_group_leader}checked{/if}> 
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_group_leader', 1);">No</a>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
                   <b>Alert IRC:</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
@@ -232,7 +243,11 @@
                       <td width="20%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&rem_id={$rem_id}&id={$list[i].rma_id}" title="update this entry">{$list[i].rma_title|escape:"html"}</a>
                       </td>
-                      <td width="50%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].rmt_title}{if $list[i].rma_alert_irc} (Also alert IRC){/if}</td>
+                      <td width="50%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{$list[i].rmt_title}
+                        {if $list[i].rma_alert_irc} [Alert IRC]{/if}
+                        {if $list[i].rma_alert_group_leader} [Alert Group Leader]{/if}
+                      </td>
                       <td bgcolor="{$row_color}" class="default">&nbsp;<a href="reminder_conditions.php?rem_id={$list[i].rma_rem_id}&rma_id={$list[i].rma_id}" class="link">{$list[i].total_conditions} Condition{if $list[i].total_conditions != 1}s{/if}</a></td>
                     </tr>
                     {sectionelse}

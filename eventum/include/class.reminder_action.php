@@ -196,14 +196,16 @@ class Reminder_Action
                     rma_created_date,
                     rma_title,
                     rma_rank,
-                    rma_alert_irc
+                    rma_alert_irc,
+                    rma_alert_group_leader
                  ) VALUES (
                     " . $HTTP_POST_VARS['rem_id'] . ",
                     " . $HTTP_POST_VARS['type'] . ",
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
                     '" . $HTTP_POST_VARS['rank'] . "',
-                    " . $HTTP_POST_VARS['alert_irc'] . "
+                    " . $HTTP_POST_VARS['alert_irc'] . ",
+                    " . $HTTP_POST_VARS['alert_group_leader'] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -307,7 +309,8 @@ class Reminder_Action
                     rma_rank='" . $HTTP_POST_VARS['rank'] . "',
                     rma_title='" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
                     rma_rmt_id=" . $HTTP_POST_VARS['type'] . ",
-                    rma_alert_irc=" . $HTTP_POST_VARS['alert_irc'] . "
+                    rma_alert_irc=" . $HTTP_POST_VARS['alert_irc'] . ",
+                    rma_alert_group_leader=" . $HTTP_POST_VARS['alert_group_leader'] . "
                  WHERE
                     rma_id=" . $HTTP_POST_VARS['id'];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -451,7 +454,8 @@ class Reminder_Action
                     rma_title,
                     rmt_title,
                     rma_rank,
-                    rma_alert_irc
+                    rma_alert_irc,
+                    rma_alert_group_leader
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_type
@@ -576,6 +580,25 @@ class Reminder_Action
         $type = '';
         // - see which action type we're talking about here...
         $action_type = Reminder_Action::getActionType($action['rma_rmt_id']);
+        // - do we also need to alert the group leader about this?
+        $group_leader_usr_id = 0;
+        if ($action['rma_alert_group_leader']) {
+            if (Reminder::isDebug()) {
+                echo "  - Processing Group Leader notification\n";
+            }
+            $group_id = Issue::getGroupID($issue_id);
+            // check if there's even a group associated with this issue
+            if (empty($group_id)) {
+                if (Reminder::isDebug()) {
+                    echo "  - No group associated with issue $issue_id\n";
+                }
+            } else {
+                $group_details = Group::getDetails($group_id);
+                if (!empty($group_details['grp_manager_usr_id'])) {
+                    $group_leader_usr_id = $group_details['grp_manager_usr_id'];
+                }
+            }
+        }
         if (Reminder::isDebug()) {
            echo "  - Performing action '$action_type' for issue #$issue_id\n";
         }
@@ -587,6 +610,13 @@ class Reminder_Action
                 foreach ($assignees as $assignee) {
                     if (User::isClockedIn($assignee)) {
                         $to[] = User::getFromHeader($assignee);
+                    }
+                }
+                // add the group leader to the recipient list, if needed
+                if ((!empty($group_leader_usr_id)) && (User::isClockedIn($group_leader_usr_id))) {
+                    $leader_email = User::getFromHeader($group_leader_usr_id);
+                    if (!in_array($leader_email, $to)) {
+                        $to[] = $leader_email;
                     }
                 }
                 // if there are no recipients, then just skip to the next action
@@ -602,12 +632,21 @@ class Reminder_Action
                 $list = Reminder_Action::getUserList($action['rma_id']);
                 $to = array();
                 foreach ($list as $key => $value) {
+                    // add the recipient to the list if it's a simple email address
                     if (Validation::isEmail($key)) {
                         $to[] = $key;
                     } else {
+                        // otherwise, check for the clocked-in status
                         if (User::isClockedIn($key)) {
                             $to[] = User::getFromHeader($key);
                         }
+                    }
+                }
+                // add the group leader to the recipient list, if needed
+                if ((!empty($group_leader_usr_id)) && (User::isClockedIn($group_leader_usr_id))) {
+                    $leader_email = User::getFromHeader($group_leader_usr_id);
+                    if (!in_array($leader_email, $to)) {
+                        $to[] = $leader_email;
                     }
                 }
                 break;
@@ -623,6 +662,13 @@ class Reminder_Action
                         }
                     }
                 }
+                // add the group leader to the recipient list, if needed
+                if ((!empty($group_leader_usr_id)) && (User::isClockedIn($group_leader_usr_id))) {
+                    $leader_sms_email = User::getSMS($group_leader_usr_id);
+                    if (!in_array($leader_sms_email, $to)) {
+                        $to[] = $leader_sms_email;
+                    }
+                }
                 // if there are no recipients, then just skip to the next action
                 if (count($to) == 0) {
                     if (Reminder::isDebug()) {
@@ -636,13 +682,24 @@ class Reminder_Action
                 $list = Reminder_Action::getUserList($action['rma_id']);
                 $to = array();
                 foreach ($list as $key => $value) {
+                    // add the recipient to the list if it's a simple email address
                     if (Validation::isEmail($key)) {
                         $to[] = $key;
                     } else {
+                        // otherwise, check for the clocked-in status
+                        if (User::isClockedIn($key)) {
                         $sms_email = User::getSMS($key);
                         if (!empty($sms_email)) {
                             $to[] = $sms_email;
                         }
+                    }
+                }
+                }
+                // add the group leader to the recipient list, if needed
+                if ((!empty($group_leader_usr_id)) && (User::isClockedIn($group_leader_usr_id))) {
+                    $leader_sms_email = User::getSMS($group_leader_usr_id);
+                    if (!in_array($leader_sms_email, $to)) {
+                        $to[] = $leader_sms_email;
                     }
                 }
                 // if there are no recipients, then just skip to the next action

@@ -156,6 +156,10 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_contact_phone varchar(32) default NULL,
   iss_contact_timezone varchar(64) default NULL,
   iss_trigger_reminders tinyint(1) default 1,
+  iss_last_public_action_date datetime default NULL,
+  iss_last_public_action_type varchar(20) default NULL,
+  iss_last_internal_action_date datetime default NULL,
+  iss_last_internal_action_type varchar(20) default NULL,
   PRIMARY KEY  (iss_id),
   KEY iss_prj_id (iss_prj_id),
   KEY iss_prc_id (iss_prc_id),
@@ -268,12 +272,12 @@ CREATE TABLE %TABLE_PREFIX%note (
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_priority;
 CREATE TABLE %TABLE_PREFIX%project_priority (
-  pri_id tinyint(1) unsigned NOT NULL default '0' auto_increment,
+  pri_id tinyint(1) NOT NULL default '0',
   pri_prj_id int(11) unsigned NOT NULL,
   pri_title varchar(64) NOT NULL default '',
-  PRIMARY KEY  (pri_id),
-  UNIQUE KEY pri_id (pri_prj_id, pri_title),
-  KEY pri_title (pri_title)
+  PRIMARY KEY  (pri_title),
+  UNIQUE KEY pri_id (pri_id),
+  KEY pri_id_2 (pri_id)
 );
 INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (5, 1, 'Not Prioritized');
 INSERT INTO %TABLE_PREFIX%project_priority (pri_id, pri_prj_id, pri_title) VALUES (1, 1, 'Critical');
@@ -342,7 +346,7 @@ CREATE TABLE %TABLE_PREFIX%project_user (
   pru_prj_id int(11) unsigned NOT NULL default '0',
   pru_usr_id int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (pru_id),
-  KEY pru_prj_id (pru_prj_id,pru_usr_id)
+  UNIQUE KEY pru_prj_id (pru_prj_id,pru_usr_id)
 );
 INSERT INTO %TABLE_PREFIX%project_user (pru_id, pru_prj_id, pru_usr_id) VALUES (1, 1, 2);
 
@@ -652,6 +656,7 @@ CREATE TABLE %TABLE_PREFIX%reminder_action (
   rma_title VARCHAR(64) NOT NULL,
   rma_rank TINYINT(2) UNSIGNED NOT NULL,
   rma_alert_irc TINYINT(1) unsigned NOT NULL DEFAULT 0,
+  rma_alert_group_leader TINYINT(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY(rma_id)
 );
 

@@ -247,11 +247,18 @@ if ($res != -1) {
         $assignee_only = true;
     }
     Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $structure, $full_message, $internal_only, $assignee_only);
-    Issue::markAsUpdated($issue_id);
     // try to get usr_id of sender, if not, use system account
     $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
     if (!$usr_id) {
         $usr_id = APP_SYSTEM_USER_ID;
+    }
+    // mark this issue as updated
+    if (!empty($t['customer_id'])) {
+        Issue::markAsUpdated($issue_id, 'customer action');
+    } else {
+        if ((!empty($usr_id)) && (User::getRoleByUser($usr_id) > User::getRoleID('Customer'))) {
+            Issue::markAsUpdated($issue_id, 'staff response');
+        }
     }
     // log blocked email
     History::add($issue_id, $usr_id, History::getTypeID('email_routed'), "Email routed from " . $structure->headers['from']);

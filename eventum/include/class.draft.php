@@ -85,7 +85,7 @@ class Draft
             foreach ($ccs as $cc) {
                 Draft::addEmailRecipient($new_emd_id, $cc, true);
             }
-            Issue::markAsUpdated($issue_id);
+            Issue::markAsUpdated($issue_id, "draft saved");
             History::add($issue_id, $usr_id, History::getTypeID('draft_added'), 'Email message saved as a draft by ' . User::getFullName($usr_id));
             return 1;
         }
@@ -121,7 +121,7 @@ class Draft
             foreach ($ccs as $cc) {
                 Draft::addEmailRecipient($emd_id, $cc, true);
             }
-            Issue::markAsUpdated($issue_id);
+            Issue::markAsUpdated($issue_id, "draft saved");
             History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), 'Email message draft updated by ' . User::getFullName($usr_id));
             return 1;
         }

@@ -771,7 +771,7 @@ class Reminder
                     $stmt .= ' AND iss_customer_id IN (' . implode(', ', $requirement['values']) . ")\n";
                 } elseif ($requirement['type'] == 'support_level') {
                     if (Customer::doesBackendUseSupportLevels($reminder['rem_prj_id'])) {
-                        $customer_ids = Customer::getListBySupportLevel($requirement['values']);
+                        $customer_ids = Customer::getListBySupportLevel($reminder['rem_prj_id'], $requirement['values']);
                         $stmt .= ' AND iss_customer_id IN (' . implode(', ', $customer_ids) . ")\n";
                     }
                 }

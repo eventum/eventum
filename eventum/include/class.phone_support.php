@@ -355,7 +355,7 @@ class Phone_Support
                         ttr_usr_id = $usr_id";
             $ttr_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
             
-            Issue::markAsUpdated($HTTP_POST_VARS['issue_id']);
+            Issue::markAsUpdated($HTTP_POST_VARS['issue_id'], 'phone call');
             // need to save a history entry for this
             History::add($HTTP_POST_VARS['issue_id'], $usr_id, History::getTypeID('phone_entry_added'), 
                             'Phone Support entry submitted by ' . User::getFullName($usr_id));

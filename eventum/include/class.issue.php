@@ -192,7 +192,9 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_sta_id=$status_id,
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "'
+                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_type='update'
                  WHERE
                     iss_id=$issue_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -217,7 +219,9 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_last_customer_action_date='" . Date_API::getCurrentDateGMT() . "'
+                    iss_last_customer_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_type='customer action'
                  WHERE
                     iss_id=$issue_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -364,6 +368,8 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_type='updated',
                     iss_lock_usr_id=$usr_id
                  WHERE
                     iss_id=$issue_id";
@@ -415,6 +421,8 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_type='updated',
                     iss_lock_usr_id=NULL
                  WHERE
                     iss_id=$issue_id";
@@ -474,7 +482,9 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_sta_id=$sta_id,
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "'
+                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_type='updated'
                  WHERE
                     iss_id=$issue_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -483,8 +493,7 @@ class Issue
             return -1;
         } else {
             // record history entry
-            $info = User::getNameEmail($usr_id);
-            History::add($issue_id, $usr_id, History::getTypeID('remote_status_change'), "Status remotely changed to '$new_status' by " . $info['usr_full_name']);
+            History::add($issue_id, $usr_id, History::getTypeID('remote_status_change'), "Status remotely changed to '$new_status' by " . User::getFullName($usr_id));
             return 1;
         }
     }
@@ -626,6 +635,8 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_type='updated',
                     iss_lock_usr_id=$usr_id
                  WHERE
                     iss_id=$issue_id";
@@ -665,6 +676,8 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_type='updated',
                     iss_lock_usr_id=NULL
                  WHERE
                     iss_id=$issue_id";
@@ -686,15 +699,26 @@ class Issue
      *
      * @access  public
      * @param   integer $issue_id The issue ID
+     * @param   string $type The type of update that was made (optional)
      * @return  boolean
      */
-    function markAsUpdated($issue_id)
+    function markAsUpdated($issue_id, $type = false)
     {
+        $public = array("staff response", "customer action", "file uploaded");
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "'
-                 WHERE
+                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "'\n";
+        if ($type != false) {
+            if (in_array($type, $public)) {
+                $field = "iss_last_public_action_";
+            } else {
+                $field = "iss_last_internal_action_";
+            }
+            $stmt .= ",\n " . $field . "date = '" . Date_API::getCurrentDateGMT() . "',\n" . 
+                $field . "type  ='$type'\n";
+        }
+        $stmt .= "WHERE
                     iss_id=$issue_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -757,6 +781,8 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_type='updated',
                     iss_prc_id=" . $HTTP_POST_VARS["category"] . ",";
         if (@$HTTP_POST_VARS["keep"] == "no") {
             $stmt .= "iss_pre_id=" . $HTTP_POST_VARS["release"] . ",";
@@ -826,6 +852,8 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_type='updated',
                     iss_duplicated_iss_id=NULL
                  WHERE
                     iss_id=$issue_id";
@@ -856,6 +884,8 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_type='updated',
                     iss_duplicated_iss_id=" . $HTTP_POST_VARS["duplicated_issue"] . "
                  WHERE
                     iss_id=$issue_id";
@@ -986,6 +1016,8 @@ class Issue
         }
         $stmt .= "
                     iss_created_date,
+                    iss_last_public_action_date,
+                    iss_last_public_action_type,
                     iss_summary,
                     iss_description
                  ) VALUES (
@@ -999,6 +1031,8 @@ class Issue
         }
         $stmt .= "
                     '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_API::getCurrentDateGMT() . "',
+                    'created',
                     '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "'
                  )";
@@ -1122,6 +1156,8 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_type='closed',
                     iss_closed_date='" . Date_API::getCurrentDateGMT() . "',\n";
         if (!empty($resolution_id)) {
             $stmt .= "iss_res_id=$resolution_id,\n";
@@ -1248,7 +1284,9 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',\n";
+                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_public_action_type='updated',";
         if (!empty($HTTP_POST_VARS["category"])) {
             $stmt .= "iss_prc_id=" . $HTTP_POST_VARS["category"] . ",";
         }
@@ -1583,6 +1621,8 @@ class Issue
         }
         $stmt .= "
                     iss_created_date,
+                    iss_last_public_action_date,
+                    iss_last_public_action_type,
                     iss_summary,
                     iss_description
                  ) VALUES (
@@ -1607,6 +1647,8 @@ class Issue
         }
         $stmt .= "
                     '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_API::getCurrentDateGMT() . "',
+                    'created',
                     '" . Misc::escapeString($summary) . "',
                     '" . Misc::escapeString($description) . "'
                  )";
@@ -1743,6 +1785,8 @@ class Issue
         }
         $stmt .= "
                     iss_created_date,
+                    iss_last_public_action_date,
+                    iss_last_public_action_type,
                     iss_summary,
                     iss_description,
                     iss_dev_time
@@ -1774,6 +1818,8 @@ class Issue
         }
         $stmt .= "
                     '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_API::getCurrentDateGMT() . "',
+                    'created',
                     '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
                     " . $HTTP_POST_VARS["estimated_dev_time"] . "
@@ -2054,7 +2100,8 @@ class Issue
             "iss_prc_id",
             "iss_sta_id",
             "iss_created_date",
-            "iss_summary"
+            "iss_summary",
+            "last_action_date"
         );
         $items = array(
             "links"  => array(),
@@ -2074,6 +2121,29 @@ class Issue
             }
         }
         return $items;
+    }
+
+
+    /**
+     * Returns the list of action date fields appropriate for the
+     * current user ID.
+     *
+     * @access  public
+     * @return  array The list of action date fields
+     */
+    function getLastActionFields()
+    {
+        $last_action_fields = array(
+            "iss_last_public_action_date"
+        );
+        if (User::getRoleByUser(Auth::getUserID()) > User::getRoleID('Customer')) {
+            $last_action_fields[] = "iss_last_internal_action_date";
+        }
+        if (count($last_action_fields) > 1) {
+            return "GREATEST(" . implode(', ', $last_action_fields) . ") AS last_action_date";
+        } else {
+            return $last_action_fields[0] . " AS last_action_date";
+        }
     }
 
 
@@ -2117,7 +2187,13 @@ class Issue
                     sta_color status_color,
                     sta_id,
                     iqu_status,
-                    grp_name `group`
+                    grp_name `group`,
+                    iss_last_public_action_date,
+                    iss_last_public_action_type,
+                    iss_last_internal_action_date,
+                    iss_last_internal_action_type,
+                    " . Issue::getLastActionFields() . ",
+                    IF(iss_last_internal_action_date > iss_last_public_action_date, 'internal', 'public') AS action_type
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
         if (!empty($options["users"])) {
@@ -2191,7 +2267,7 @@ class Issue
                 if (Customer::hasCustomerIntegration($prj_id)) {
                     Customer::getCustomerTitlesByIssues($prj_id, $res);
                 }
-                Issue::getLastActionDates($res);
+                Issue::formatLastActionDates($res);
                 Issue::getLastStatusChangeDates($prj_id, $res);
             }
             $csv[] = @implode("\t", Issue::getColumnHeadings($prj_id));
@@ -2242,115 +2318,26 @@ class Issue
 
 
     /**
-     * Retrieves the last action dates for the given list of issues.
+     * Processes a result set to format the "Last Action Date" column.
      *
      * @access  public
-     * @param   array $result The list of issues
-     * @see     Issue::getListing()
+     * @param   array $result The result set
      */
-    function getLastActionDates(&$result)
+    function formatLastActionDates(&$result)
     {
-        $ids = array();
         for ($i = 0; $i < count($result); $i++) {
-            $ids[] = $result[$i]["iss_id"];
-        }
-        $ids = implode(", ", $ids);
-
-        // get the latest file
-        $stmt = "SELECT
-                    iat_iss_id,
-                    UNIX_TIMESTAMP(MAX(iat_created_date))
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
-                 WHERE
-                    iat_iss_id IN ($ids)
-                 GROUP BY
-                    iat_iss_id";
-        $files = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-        // get latest email
-        $stmt = "SELECT
-                    sup_iss_id,
-                    UNIX_TIMESTAMP(MAX(sup_date))
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
-                 WHERE
-                    sup_iss_id IN ($ids)
-                 GROUP BY
-                    sup_iss_id";
-        $emails = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        // only show the internal fields to staff users
-        if (User::getRoleByUser(Auth::getUserID()) > User::getRoleID('Customer')) {
-            // get latest draft
-            $stmt = "SELECT
-                        emd_iss_id,
-                        UNIX_TIMESTAMP(MAX(emd_updated_date))
-                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
-                     WHERE
-                        emd_iss_id IN ($ids)
-                     GROUP BY
-                        emd_iss_id";
-            $drafts = $GLOBALS["db_api"]->dbh->getOne($stmt);
-            // get latest phone call
-            $stmt = "SELECT
-                        phs_iss_id,
-                        UNIX_TIMESTAMP(MAX(phs_created_date))
-                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
-                     WHERE
-                        phs_iss_id IN ($ids)
-                     GROUP BY
-                        phs_iss_id";
-            $calls = $GLOBALS["db_api"]->dbh->getOne($stmt);
-            // get last note
-            $stmt = "SELECT
-                        not_iss_id,
-                        UNIX_TIMESTAMP(MAX(not_created_date))
-                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
-                     WHERE
-                        not_iss_id IN ($ids)
-                     GROUP BY
-                        not_iss_id";
-            $notes = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        }
-        // now sort out the fields for each issue
-        for ($i = 0; $i < count($result); $i++) {
-            // check attachments, notes, emails, updated date
-            $date_fields = array(
-                'created'         => $result[$i]['iss_created_date'],
-                'updated'         => $result[$i]['iss_updated_date'],
-                'staff response'  => $result[$i]['iss_last_response_date'],
-                'customer action' => $result[$i]['iss_last_customer_action_date'],
-                'closed'          => $result[$i]['iss_closed_date']
-            );
-            @$date_fields['file'] = $files[$result[$i]['iss_id']];
-            @$date_fields['email'] = $emails[$result[$i]['iss_id']];
-            @$date_fields['draft'] = $drafts[$result[$i]['iss_id']];
-            @$date_fields['phone call'] = $calls[$result[$i]['iss_id']];
-            @$date_fields['note'] = $notes[$result[$i]['iss_id']];
-            asort($date_fields);
-            // need to show something else besides the updated date field, if there are other fields with the same timestamp
-            $stamps = array_values($date_fields);
-            if ($stamps[count($stamps)-1] == $stamps[count($stamps)-2]) {
-                $keys = array_keys($date_fields);
-                if (($keys[count($keys)-1] == 'updated') || 
-                        ($keys[count($keys)-2] == 'updated')) {
-                    unset($date_fields['updated']);
-                }
-            }
-            $original_date_fields = $date_fields;
-            $latest_field = array_pop($date_fields);
-            if (empty($latest_field)) {
-                $result[$i]['last_action_date'] = '';
+            if (($result[$i]['action_type'] == "internal") && 
+                    (User::getRoleByUser(Auth::getUserID()) > User::getRoleID('Customer'))) {
+                $label = $result[$i]["iss_last_internal_action_type"];
+                $last_date = $result[$i]["iss_last_internal_action_date"];
             } else {
-                $flipped = @array_flip($original_date_fields);
-                // use the pear classes to get the date difference
-                $date = new Date($latest_field);
-                $current = new Date(Date_API::getCurrentDateGMT());
-                $result[$i]['last_action_date'] = sprintf("%s: %s ago", ucwords($flipped[$latest_field]),
-                        Date_API::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
+                $label = $result[$i]["iss_last_public_action_type"];
+                $last_date = $result[$i]["iss_last_public_action_date"];
             }
+            $date = new Date($last_date);
+                $current = new Date(Date_API::getCurrentDateGMT());
+            $result[$i]['last_action_date'] = sprintf("%s: %s ago", ucwords($label),
+                        Date_API::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
         }
     }
 
@@ -2511,7 +2498,8 @@ class Issue
         $role_id = User::getRoleByUser($usr_id);
 
         $stmt = "SELECT
-                    iss_id
+                    iss_id,
+                    " . Issue::getLastActionFields() . "
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
         if (!empty($options["users"])) {
@@ -2908,6 +2896,8 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_internal_action_type='update',
                     iss_developer_est_time=" . $HTTP_POST_VARS["dev_time"] . ",
                     iss_impact_analysis='" . Misc::escapeString($HTTP_POST_VARS["impact_analysis"]) . "'
                  WHERE
@@ -3167,6 +3157,31 @@ class Issue
         History::add($issue_id, Auth::getUserID(), History::getTypeID('group_changed'), 
                 "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($group_id)) . ") by " . User::getFullName(Auth::getUserID()));
         return 1;
+    }
+
+
+    /**
+     * Returns the group ID associated with the given issue ID.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  integer The associated group ID
+     */
+    function getGroupID($issue_id)
+    {
+        $stmt = "SELECT
+                    iss_grp_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                    iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
     }
 }
 

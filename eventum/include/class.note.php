@@ -331,7 +331,7 @@ class Note
             return -1;
         } else {
             $new_note_id = $GLOBALS["db_api"]->get_last_insert_id();
-            Issue::markAsUpdated($issue_id);
+            Issue::markAsUpdated($issue_id, 'note');
             if ($log) {
                 // need to save a history entry for this
                 History::add($issue_id, $usr_id, History::getTypeID('note_added'), 'Note added by ' . User::getFullName($usr_id));
