@@ -43,6 +43,83 @@ include_once(APP_INC_PATH . "class.validation.php");
 class Priority
 {
     /**
+     * Method used to quickly change the ranking of a reminder entry
+     * from the administration screen.
+     *
+     * @access  public
+     * @param   integer $pri_id The reminder entry ID
+     * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
+     * @return  boolean
+     */
+    function changeRank($pri_id, $rank_type)
+    {
+        // check if the current rank is not already the first or last one
+        $ranking = Priority::_getRanking();
+        $ranks = array_values($ranking);
+        $ids = array_keys($ranking);
+        $last = end($ids);
+        $first = reset($ids);
+        if ((($rank_type == 'asc') && ($pri_id == $first)) ||
+                (($rank_type == 'desc') && ($pri_id == $last))) {
+            return false;
+        }
+
+        if ($rank_type == 'asc') {
+            $diff = -1;
+        } else {
+            $diff = 1;
+        }
+        $new_rank = $ranking[$pri_id] + $diff;
+        if (in_array($new_rank, $ranks)) {
+            // switch the rankings here...
+            $index = array_search($new_rank, $ranks);
+            $replaced_pri_id = $ids[$index];
+            $stmt = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                     SET
+                        pri_rank=" . $ranking[$pri_id] . "
+                     WHERE
+                        pri_id=" . $replaced_pri_id;
+            $GLOBALS["db_api"]->dbh->query($stmt);
+        }
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                 SET
+                    pri_rank=" . $new_rank . "
+                 WHERE
+                    pri_id=" . $pri_id;
+        $GLOBALS["db_api"]->dbh->query($stmt);
+        return true;
+    }
+
+
+    /**
+     * Returns an associative array with the list of reminder IDs and
+     * their respective ranking.
+     *
+     * @access  private
+     * @return  array The list of reminders
+     */
+    function _getRanking()
+    {
+        $stmt = "SELECT
+                    pri_id,
+                    pri_rank
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                 ORDER BY
+                    pri_rank ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get the full details of a priority.
      *
      * @access  public
@@ -136,7 +213,8 @@ class Priority
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  SET
-                    pri_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
+                    pri_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    pri_rank=" . $HTTP_POST_VARS['rank'] . "
                  WHERE
                     pri_prj_id=" . $HTTP_POST_VARS["prj_id"] . " AND
                     pri_id=" . $HTTP_POST_VARS["id"];
@@ -167,10 +245,12 @@ class Priority
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  (
                     pri_prj_id,
-                    pri_title
+                    pri_title,
+                    pri_rank
                  ) VALUES (
                     " . $HTTP_POST_VARS["prj_id"] . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    " . $HTTP_POST_VARS['rank'] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -194,13 +274,14 @@ class Priority
     {
         $stmt = "SELECT
                     pri_id,
-                    pri_title
+                    pri_title,
+                    pri_rank
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
                     pri_prj_id=$prj_id
                  ORDER BY
-                    pri_title ASC";
+                    pri_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

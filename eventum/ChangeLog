@@ -44,6 +44,7 @@ Eventum Issue Tracking System
 - Added workload by date range report (Bryan)
 - Added missing "scm_checkin_associated" history type (João)
 - Fixed bug on CVS integration script that was not encoding the URL arguments (João)
+- Added the ability to rank custom priorities (João)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
