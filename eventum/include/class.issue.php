@@ -2287,7 +2287,7 @@ class Issue
             $stmt .= " AND (\n";
             if (stristr($options["users"], "grp") !== false) {
                 $chunks = explode(":", $options["users"]);
-                $stmt .= 'iss_grp_id = ' . $chunks[1];
+                $stmt .= 'iss_grp_id = ' . Misc::escapeInteger($chunks[1]);
             } else {
                 if ($options['users'] == '-1') {
                     $stmt .= 'isu_usr_id IS NULL';
@@ -2314,19 +2314,19 @@ class Issue
             $stmt .= " OR " . Misc::prepareBooleanSearch('iss_description', $options["keywords"]) . ")";
         }
         if (!empty($options["priority"])) {
-            $stmt .= " AND iss_pri_id=" . $options["priority"];
+            $stmt .= " AND iss_pri_id=" . Misc::escapeInteger($options["priority"]);
         }
         if (!empty($options["status"])) {
-            $stmt .= " AND iss_sta_id=" . $options["status"];
+            $stmt .= " AND iss_sta_id=" . Misc::escapeInteger($options["status"]);
         }
         if (!empty($options["category"])) {
-            $stmt .= " AND iss_prc_id=" . $options["category"];
+            $stmt .= " AND iss_prc_id=" . Misc::escapeInteger($options["category"]);
         }
         if (!empty($options["hide_closed"])) {
             $stmt .= " AND sta_is_closed=0";
         }
         if (!empty($options['release'])) {
-            $stmt .= " AND iss_pre_id = " . $options['release'];
+            $stmt .= " AND iss_pre_id = " . Misc::escapeInteger($options['release']);
         }
         // check if the user is trying to search by customer email
         if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($options['customer_email']))) {
@@ -2366,7 +2366,7 @@ class Issue
                             $options[$field_name]['time_period'] = 0;
                         }
                         $stmt .= " AND (UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "') - UNIX_TIMESTAMP(iss_$field_name)) <= (" . 
-                            $options[$field_name]['time_period'] . "*3600)";
+                            Misc::escapeInteger($options[$field_name]['time_period']) . "*3600)";
                         break;
                 }
             }
@@ -2628,6 +2628,8 @@ class Issue
     {
         global $HTTP_SERVER_VARS;
         static $returns;
+        
+        $issue_id = Misc::escapeInteger($issue_id);
 
         if (empty($issue_id)) {
             return '';
