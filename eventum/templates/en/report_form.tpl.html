@@ -49,11 +49,6 @@ function openDetailPage()
 </script>
 {/literal}
 {else}
-{if $current_role == $roles.customer || ($hide_fields_from_reporter == 1 && $current_role <= $roles.reporter)}
-    {assign var="hide_fields" value="1"}
-{else}
-    {assign var="hide_fields" value="0"}
-{/if}
 {literal}
 <script language="JavaScript">
 <!--
@@ -61,14 +56,20 @@ var required_custom_fields = new Array();
 var custom_fields = new Array();
 function validateForm(f)
 {
+{/literal}
+    {if $current_role >= $field_display_settings.category}
+    {literal}
     if (hasSelected(f.category, -1)) {
         errors[errors.length] = new Option('Category', 'category');
     }
+    {/literal}
+    {/if}
+    {literal}
     if (hasSelected(f.priority, -1)) {
         errors[errors.length] = new Option('Priority', 'priority');
     }
     {/literal}
-    {if $allow_unassigned_issues != 'yes' && $hide_fields != 1}
+    {if $allow_unassigned_issues != 'yes' && $current_role >= $field_display_settings.assignment}
     {literal}
     if (!hasOneSelected(f, 'users[]')) {
         errors[errors.length] = new Option('Assignment', 'users[]');
@@ -82,11 +83,17 @@ function validateForm(f)
     if (isWhitespace(f.description.value)) {
         errors[errors.length] = new Option('Description', 'description');
     }
+    {/literal}
+    {if $current_role >= $field_display_settings.estimated_dev_time}
+    {literal}
     if (!isWhitespace(f.estimated_dev_time.value)) {
         if (!isFloat(f.estimated_dev_time.value)) {
             errors[errors.length] = new Option('Estimated Dev. Time (only numbers)', 'estimated_dev_time');
         }
     }
+    {/literal}
+    {/if}
+    {literal}
     checkRequiredCustomFields(f, required_custom_fields);
     
     // check customer fields (if function exists
@@ -107,9 +114,15 @@ function validateForm(f)
     <input type="hidden" name="assignment[]" value="">
     <input type="hidden" name="estimated_dev_time" value="">
 {/if}
-{if $releases|@count < 1 || $hide_fields == 1}
+{if $releases|@count < 1 || $current_role < $field_display_settings.release}
     {* Hidden field if there are no scheduled releases *}
     <input type="hidden" name="release" value="0">
+{/if}
+{if $current_role < $field_display_settings.category}
+    <input type="hidden" name="category" value="-1">
+{/if}
+{if $current_role < $field_display_settings.estimated_dev_time}
+    <input type="hidden" name="estimated_dev_time" value="">
 {/if}
   <tr>
     <td>
@@ -122,6 +135,7 @@ function validateForm(f)
             (Current Project: {$current_project_name})
           </td>
         </tr>
+        {if $current_role >= $field_display_settings.category}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Category: *</b> {include file="help_link.tpl.html" topic="report_category"}
@@ -134,6 +148,7 @@ function validateForm(f)
             {include file="error_icon.tpl.html" field="category"}
           </td>
         </tr>
+        {/if}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Priority: *</b> {include file="help_link.tpl.html" topic="report_priority"}
@@ -148,7 +163,7 @@ function validateForm(f)
             {include file="error_icon.tpl.html" field="priority"}
           </td>
         </tr>
-        {if $hide_fields != 1}
+        {if $current_role >= $field_display_settings.assignment}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Assignment: {if $allow_unassigned_issues != 'yes'}*{/if}</b> {include file="help_link.tpl.html" topic="report_assignment"}
@@ -160,7 +175,8 @@ function validateForm(f)
             {include file="error_icon.tpl.html" field="users[]"}
           </td>
         </tr>
-        {if $releases|@count > 0}
+        {/if}
+        {if $releases|@count > 0 && $current_role >= $field_display_settings.release}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Scheduled Release:</b> {include file="help_link.tpl.html" topic="report_release"}
@@ -172,7 +188,6 @@ function validateForm(f)
             </select>
           </td>
         </tr>
-        {/if}
         {/if}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
@@ -192,7 +207,7 @@ function validateForm(f)
             {include file="error_icon.tpl.html" field="description"}
           </td>
         </tr>
-        {if $hide_fields != 1}
+        {if $current_role >= $field_display_settings.estimated_dev_time}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <nobr><b>Estimated Dev. Time:</b> {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
@@ -395,7 +410,13 @@ function validateForm(f)
 window.onload = setFocus;
 function setFocus()
 {
+    {/literal}
+    {if $current_role >= $field_display_settings.category}
     document.report_form.category.focus();
+    {else}
+        document.report_form.priority.focus();
+    {/if}
+    {literal}
 }
 //-->
 </script>
