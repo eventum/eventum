@@ -118,8 +118,7 @@ CREATE TABLE eventum_history_type (
     htt_id tinyint(2) unsigned NOT NULL auto_increment,
     htt_name varchar(25) NOT NULL,
     PRIMARY KEY(htt_id),
-    KEY htt_name (htt_name),
-    unique(htt_name)
+    UNIQUE (htt_name)
 );
 INSERT INTO eventum_history_type SET htt_name = 'attachment_removed';
 INSERT INTO eventum_history_type SET htt_name = 'attachment_added';
