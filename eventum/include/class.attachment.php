@@ -50,6 +50,106 @@ include_once(APP_INC_PATH . "class.workflow.php");
 class Attachment
 {
     /**
+     * Returns a list of file extensions that should be opened
+     * directly in the browser window as PHP source files.
+     *
+     * @access  private
+     * @return  array List of file extensions
+     */
+    function _getPHPExtensions()
+    {
+        return array(
+            "php",
+            "php3",
+            "php4",
+            "phtml"
+        );
+    }
+
+
+    /**
+     * Returns a list of file extensions that should be opened
+     * directly in the browser window and treated as text/plain
+     * files.
+     *
+     * @access  private
+     * @return  array List of file extensions
+     */
+    function _getTextPlainExtensions()
+    {
+        return array(
+            'err',
+            'log',
+            'cnf',
+            'var',
+            'ini',
+            'java',
+            'txt'
+        );
+    }
+
+
+    /**
+     * Returns a list of file extensions that should be opened
+     * directly in the browser window.
+     *
+     * @access  private
+     * @return  array List of file extensions
+     */
+    function _getNoDownloadExtensions()
+    {
+        return array(
+            'jpg',
+            'jpeg',
+            'gif',
+            'png',
+            'bmp',
+            'html',
+            'htm'
+        );
+    }
+
+
+    /**
+     * Method used to output the headers and the binary data for
+     * an attachment file.
+     *
+     * @access  public
+     * @param   string $data The binary data of this file download
+     * @param   string $filename The filename
+     * @param   integer $filesize The size of this file
+     * @param   string $filetype The mimetype of this file
+     * @return  void
+     */
+    function outputDownload($data, $filename, $filesize, $filetype)
+    {
+        $filename = Attachment::nameToSafe($filename);
+        $parts = pathinfo($filename);
+        if (in_array(strtolower($parts["extension"]), Attachment::_getPHPExtensions())) {
+            // instead of redirecting the user to a PHP script that may contain malicious code, we highlight the code
+            highlight_string($data);
+        } else {
+            // always force the browser to display the contents of these special files
+            if (in_array(strtolower($parts["extension"]), Attachment::_getTextPlainExtensions())) {
+                header('Content-Type: text/plain');
+            } else {
+                if (empty($filetype)) {
+                    header("Content-Type: application/unknown");
+                } else {
+                    header("Content-Type: " . urlencode($filetype));
+                }
+                if (!in_array(strtolower($parts["extension"]), Attachment::_getNoDownloadExtensions())) {
+                    header("Content-Disposition: attachment; filename=" . urlencode($filename));
+                }
+            }
+            header("Content-Length: " . $filesize);
+            echo $data;
+            exit;
+        }
+    }
+
+
+    /**
      * Method used to remove a specific file out of an existing attachment.
      *
      * @access  public

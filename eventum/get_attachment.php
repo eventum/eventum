@@ -43,32 +43,9 @@ if (@$HTTP_GET_VARS['cat'] == 'blocked_email') {
 
 if (substr(@$HTTP_GET_VARS["filename"], -4) == '.bmp') {
     list(, $data) = Mime_Helper::getAttachment($email, $HTTP_GET_VARS["filename"], $HTTP_GET_VARS["cid"]);
-    header("Content-Type: image/bmp");
+    $mimetype = "image/bmp";
 } else {
     list($mimetype, $data) = Mime_Helper::getAttachment($email, $HTTP_GET_VARS["filename"]);
-    $parts = pathinfo($HTTP_GET_VARS["filename"]);
-    $special_extensions = array(
-        'err',
-        'log',
-        'cnf',
-        'var',
-        'ini',
-        'java'
-    );
-    // always force the browser to display the contents of these special files
-    if (in_array(strtolower($parts["extension"]), $special_extensions)) {
-        header('Content-Type: text/plain');
-    } else {
-        // output the real content-type from the email. maybe a bad idea?
-        if (empty($mimetype)) {
-            header("Content-Type: application/unknown");
-        } else {
-            header("Content-Type: " . urlencode($mimetype));
-        }
-        header("Content-Disposition: attachment; filename=" . urlencode($HTTP_GET_VARS["filename"]));
-    }
 }
-header("Content-Length: " . strlen($data));
-echo $data;
-exit;
+Attachment::outputDownload($data, $HTTP_GET_VARS["filename"], strlen($data), $mimetype);
 ?>
