@@ -46,6 +46,22 @@ Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
+// check if the current customer has already redeemed all available per-incident tickets
+if ((empty($HTTP_POST_VARS['cat'])) && (Customer::hasCustomerIntegration($prj_id))) {
+    if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
+        $customer_id = User::getCustomerID($usr_id);
+        if ((Customer::hasPerIncidentContract($prj_id, $customer_id)) && 
+                (!Customer::hasIncidentsLeft($prj_id, $customer_id))) {
+            // show warning about per-incident limitation
+            $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/incident_limit_reached.tpl.html");
+            $tpl->assign('customer', Customer::getDetails($prj_id, $customer_id));
+            $tpl->displayTemplate();
+            Customer::sendIncidentLimitNotice($prj_id, User::getCustomerContactID($usr_id), $customer_id);
+            exit;
+        }
+    }
+}
+
 if (@$HTTP_POST_VARS["cat"] == "report") {
     $res = Issue::insert();
     if ($res != -1) {
