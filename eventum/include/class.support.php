@@ -363,6 +363,9 @@ class Support
      */
     function removeEmailByAccounts($ids)
     {
+        if (count($ids) < 1) {
+            return true;
+        }
         $items = @implode(", ", $ids);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
