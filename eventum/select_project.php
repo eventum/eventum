@@ -31,6 +31,7 @@ include_once("config.inc.php");
 include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.auth.php");
+include_once(APP_INC_PATH . "class.customer.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -57,6 +58,8 @@ if ((@$HTTP_GET_VARS["err"] == '') && (Auth::hasValidCookie(APP_COOKIE))) {
     if (count($assigned_projects) == 1) {
         list($prj_id,) = each($assigned_projects);
         Auth::setCurrentProject($prj_id, 0);
+        handleExpiredCustomer($prj_id);
+        
         if (!empty($HTTP_GET_VARS["url"])) {
             Auth::redirect($HTTP_GET_VARS["url"]);
         } else {
@@ -82,6 +85,8 @@ if (@$HTTP_POST_VARS["cat"] == "select") {
             $HTTP_POST_VARS["remember"] = 0;
         }
         Auth::setCurrentProject($HTTP_POST_VARS["project"], $HTTP_POST_VARS["remember"]);
+        handleExpiredCustomer($HTTP_POST_VARS["project"]);
+        
         if (!empty($HTTP_POST_VARS["url"])) {
             Auth::redirect($HTTP_POST_VARS["url"]);
         } else {
@@ -91,4 +96,39 @@ if (@$HTTP_POST_VARS["cat"] == "select") {
 }
 
 $tpl->displayTemplate();
+
+function handleExpiredCustomer($prj_id)
+{
+    GLOBAL $tpl;
+    
+    if (Customer::hasCustomerIntegration($prj_id)) {
+        // check if customer is expired
+        $usr_id = Auth::getUserID();
+        $contact_id = User::getCustomerContactID($usr_id);
+        if ((!empty($contact_id)) && ($contact_id != -1)) {
+            $status = Customer::getContractStatus($prj_id, User::getCustomerID($usr_id));
+            $email = User::getEmailByContactID($contact_id);
+            if ($status == 'expired') {
+                Customer::sendExpirationNotice($prj_id, $contact_id, true);
+                Auth::saveLoginAttempt($email, 'failure', 'expired contract');
+
+                Auth::removeCookie(APP_PROJECT_COOKIE);
+
+                $contact_id = User::getCustomerContactID($usr_id);
+                $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/customer_expired.tpl.html");
+                $tpl->assign('customer', Customer::getContractDetails($prj_id, $contact_id, false));
+                $tpl->displayTemplate();
+                exit;
+            } elseif ($status == 'in_grace_period') {
+                Customer::sendExpirationNotice($prj_id, $contact_id);
+            }
+            // check with cnt_support to see if this contact is allowed in this support contract
+            if (!Customer::isAllowedSupportContact($prj_id, $contact_id)) {
+                Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'not allowed as technical contact');
+                Auth::redirect(APP_RELATIVE_URL . "index.php?err=4&email=" . $email);
+            }
+        }
+    }
+}
+
 ?>
