@@ -1543,7 +1543,9 @@ class Issue
      */
     function insert()
     {
-        global $HTTP_POST_VARS, $HTTP_POST_FILES;
+        global $HTTP_POST_VARS, $HTTP_POST_FILES, $insert_errors;
+
+        $insert_errors = array();
 
         $missing_fields = array();
         if ($HTTP_POST_VARS["category"] == '-1') {
@@ -1630,16 +1632,30 @@ class Issue
                     break;
                 }
             }
+            
             if ($found) {
-                $attachment_id = Attachment::add($new_issue_id, $usr_id, '');
-                for ($i = 0; $i < count(@$HTTP_POST_FILES["file"]["name"]); $i++) {
+                $files = array();
+                for ($i = 0; $i < count($HTTP_POST_FILES["file"]["name"]); $i++) {
                     $filename = @$HTTP_POST_FILES["file"]["name"][$i];
                     if (empty($filename)) {
                         continue;
                     }
                     $blob = Misc::getFileContents($HTTP_POST_FILES["file"]["tmp_name"][$i]);
-                    if (!empty($blob)) {
-                        Attachment::addFile($attachment_id, $new_issue_id, $filename, $HTTP_POST_FILES["file"]["type"][$i], $blob);
+                    if (empty($blob)) {
+                        // error reading a file
+                        $insert_errors["file[$i]"] = "There was an error uploading the file '$filename'.";
+                        continue;
+                    }
+                    $files[] = array(
+                        "filename"  =>  $filename,
+                        "type"      =>  $HTTP_POST_FILES['file']['type'][$i],
+                        "blob"      =>  $blob
+                    );
+                }
+                if (count($files) > 0) {
+                    $attachment_id = Attachment::add($new_issue_id, $usr_id, '');
+                    foreach ($files as $file) {
+                        Attachment::addFile($attachment_id, $new_issue_id, $file["filename"], $file["type"], $file["blob"]);
                     }
                 }
             }
