@@ -18,7 +18,7 @@
             {if $current_role > $roles.customer}
             <a target="_top" title="get access to advanced search parameters" href="{$rel_url}adv_search.php" class="white_link">Advanced Search</a>&nbsp;|
             {/if}
-            {if $app_setup.support_email == 'enabled' and $current_role > $roles.viewer}
+            {if $app_setup.support_email == 'enabled' and $current_role > $roles.customer}
             <a target="_top" title="list available emails" href="{$rel_url}emails.php" class="white_link">Associate Emails</a>&nbsp;|
             {/if}
             {if $current_role != $roles.customer}
