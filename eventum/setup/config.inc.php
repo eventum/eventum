@@ -31,6 +31,8 @@ ini_set('allow_url_fopen', 0);
 ini_set("display_errors", 0);
 error_reporting(0);
 set_time_limit(0);
+// prevent session from messing up the browser cache
+ini_set('session.cache_limiter', 'nocache');
 
 // only needed for older PHP versions
 if (!function_exists('is_a')) {
