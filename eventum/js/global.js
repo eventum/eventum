@@ -637,6 +637,17 @@ function toggleVisibility(title, create_cookie)
     }
 }
 
+function changeVisibility(title, visibility)
+{
+    var element = getPageElement(title);
+    if (visibility) {
+        var new_style = getDisplayStyle();
+    } else {
+        var new_style = 'none';
+    }
+    element.style.display = new_style;
+}
+
 function getDisplayStyle()
 {
     // kind of hackish, but it works perfectly with IE6 and Mozilla 1.1
