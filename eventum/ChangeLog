@@ -22,6 +22,7 @@ Eventum Issue Tracking System
 - Changed IRC notification system to not always be tied to a specific issue (Bryan)
 - Workflow: When a new email is recieved, the handleNewEmail method is always called. Previously the method was only called if the email was associated with an issue. (Bryan)
 - Fixed bug that generated error when changing priority (Bryan)
+- Added option to list custom fields on list issues page (Bryan)
 
 15 Sep 2004, Version 1.3.1
 - Added the missing maq_iss_id and maq_subject columns to the mail_queue table schema (João)
