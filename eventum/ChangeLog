@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Fixed bug #9181: Edit Notification List doesn't select address to edit (Bryan)
 - Added feature to allow issue/note/draft routing to use normal email accounts instead of specialized setup (Bryan)
 - Changed statuses to always be sorted by rank (Bryan)
+- Fixed bug with array_merge() on manage users page (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)

@@ -1074,23 +1074,24 @@ class User
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            $data = array();
             $count = count($res);
             for ($i = 0; $i < $count; $i++) {
-                $res[$i]["roles"] = Project::getAssocList($res[$i]['usr_id'], false, true);
-                $role = current($res[$i]['roles']);
-                $role = $role['pru_role'];
+                $roles = Project::getAssocList($res[$i]['usr_id'], false, true);
+                $role = current($roles);
                 if (($show_customers == false) && (
-                    ((@$res[$i]['roles'][Auth::getCurrentProject()]['pru_role']) == User::getRoleID("Customer")) ||
-                    ((count($res[$i]['roles']) == 1) && ($role == User::getRoleID("Customer"))))) {
-                    unset($res[$i]);
+                    ((@$roles[Auth::getCurrentProject()]['pru_role']) == User::getRoleID("Customer")) ||
+                    ((count($roles) == 1) && ($role == User::getRoleID("Customer"))))) {
                     continue;
                 }
+                $row = $res[$i];
+                $row["roles"] = $roles;
                 if (!empty($res[$i]["usr_grp_id"])) {
-                    $res[$i]["group_name"] = Group::getName($res[$i]["usr_grp_id"]);
+                    $row["group_name"] = Group::getName($res[$i]["usr_grp_id"]);
                 }
+                $data[] = $row;
             }
-            $res = array_merge($res);// reset the keys
-            return $res;
+            return $data;
         }
     }
 
