@@ -786,6 +786,7 @@ CREATE TABLE %TABLE_PREFIX%email_draft_recipient (
 DROP TABLE IF EXISTS %TABLE_PREFIX%irc_notice;
 CREATE TABLE %TABLE_PREFIX%irc_notice (
   ino_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  ino_prj_id int(11) NOT NULL,
   ino_iss_id INT(11) UNSIGNED NOT NULL,
   ino_created_date DATETIME NOT NULL,
   ino_message VARCHAR(255) NOT NULL,
