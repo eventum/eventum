@@ -44,8 +44,6 @@ if (!Mail_Queue::isSafeToRun()) {
     exit;
 }
 
-sleep(50);
-
 ini_set("memory_limit", "256M");
 
 // handle only pending emails
