@@ -1,5 +1,19 @@
 <!--
 // @(#) $Id: s.validation.js 1.13 03/10/20 21:24:54-00:00 jpradomaia $
+function isValidDate(f, field_prefix)
+{
+    var selected_date = new Date();
+    selected_date.setMonth(getSelectedOption(f, field_prefix + '[Month]')-1);
+    selected_date.setDate(getSelectedOption(f, field_prefix + '[Day]'));
+    selected_date.setYear(getSelectedOption(f, field_prefix + '[Year]'));
+    
+    if (selected_date.getDate() != getSelectedOption(f, field_prefix + '[Day]')) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 function resetForm(f)
 {
     if (confirm('This action will clear out any changes you performed on this form.')) {
@@ -263,8 +277,12 @@ function selectField(f, field_name)
 function getSelectedOption(f, field_name)
 {
     for (var i = 0; i < f.elements.length; i++) {
-        if ((f.elements[i].name == field_name) && (f.elements[i].options.length > 0)) {
-            return f.elements[i].options[f.elements[i].selectedIndex].value;
+        if (f.elements[i].name == field_name) {
+            if (f.elements[i].options.length > 0) {
+                return f.elements[i].options[f.elements[i].selectedIndex].value;
+            } else {
+                return -1;
+            }
         }
     }
 }
