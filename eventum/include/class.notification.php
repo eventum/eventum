@@ -1087,7 +1087,7 @@ class Notification
                     sub_iss_id=$issue_id";
         $users = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($users); $i++) {
-            if ($users[$i]['usr_role'] != User::getRoleID('Customer')) {
+            if (!empty($users[$i]['usr_role'])) {
                 $subscribers['staff'][] = $users[$i]['usr_full_name'];
             } else {
                 $subscribers['customers'][] = $users[$i]['usr_full_name'];
@@ -1111,7 +1111,7 @@ class Notification
             if (empty($emails[$i]['sub_email'])) {
                 continue;
             }
-            if ((!empty($emails[$i]['usr_role'])) && ($emails[$i]['usr_role'] != User::getRoleID('Customer'))) {
+            if (!empty($emails[$i]['usr_role'])) {
                 $subscribers['staff'][] = $emails[$i]['usr_full_name'];
             } else {
                 $subscribers['customers'][] = $emails[$i]['sub_email'];

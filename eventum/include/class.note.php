@@ -500,21 +500,6 @@ class Note
                 'full_email'     => @$blocked_message,
                 'has_attachment' => $has_attachments
             );
-            // need to check spot for customer association
-            if (!empty($structure->headers['from'])) {
-                $details = Email_Account::getDetails($email_account_id);
-                if (@$details['ema_check_spot']) {
-                    include_once(APP_INC_PATH . "class.customer.php");
-                    // check for any customer contact association in spot
-                    list($customer_id,) = Customer::getCustomerIDByEmails(array($sender_email));
-                    if (!empty($customer_id)) {
-                        $t['customer_id'] = $customer_id;
-                    }
-                }
-            }
-            if (empty($t['customer_id'])) {
-                $t['customer_id'] = "NULL";
-            }
             $res = Support::insertEmail($t, $structure);
             if ($res != -1) {
                 Support::extractAttachments($issue_id, $blocked_message);

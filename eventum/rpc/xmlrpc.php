@@ -328,7 +328,7 @@ function getFile($p)
     }
 }
 
-$closeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Boolean, $XML_RPC_String));
+$closeIssue_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
 function closeIssue($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
@@ -336,10 +336,9 @@ function closeIssue($p)
     $issue_id = XML_RPC_decode($p->getParam(1));
     $new_status = XML_RPC_decode($p->getParam(2));
     $status_id = Status::getStatusID($new_status);
-    $notify_customer = XML_RPC_decode($p->getParam(3));
-    $note = XML_RPC_decode($p->getParam(4));
+    $note = XML_RPC_decode($p->getParam(3));
 
-    $res = Issue::close($usr_id, $issue_id, $notify_customer, $status_id, $note);
+    $res = Issue::close($usr_id, $issue_id, $status_id, $note);
     if ($res == -1) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not close issue #$issue_id");
     } else {

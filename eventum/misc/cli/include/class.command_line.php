@@ -101,15 +101,6 @@ class Command_Line
             Command_Line::quit("Issue #$issue_id is already set to status '" . $details['sta_title'] . "'");
         }
 
-        // ask whether to notify the customer or not (defaults to yes)
-        $msg = "Would you like to notify the customer about this issue being closed? [y/n]";
-        $ret = Misc::prompt($msg, false);
-        if (strtolower($ret) == 'y') {
-            $notify_customer = true;
-        } else {
-            $notify_customer = false;
-        }
-
         // prompt for internal note
         $prompt = "Please enter a reason for closing this issue (one line only)";
         $note = Misc::prompt($prompt, false);
@@ -118,7 +109,6 @@ class Command_Line
             new XML_RPC_Value($email),
             new XML_RPC_Value($issue_id, 'int'),
             new XML_RPC_Value($new_status),
-            new XML_RPC_Value($notify_customer, 'boolean'),
             new XML_RPC_Value($note)
         );
         $msg = new XML_RPC_Message("closeIssue", $params);
@@ -127,56 +117,6 @@ class Command_Line
             Command_Line::quit($result->faultString());
         }
         echo "OK - Issue #$issue_id successfully closed.\n";
-    }
-
-
-    /**
-     * Looks up customer information given a set of search parameters.
-     *
-     * @access  public
-     * @param   resource $rpc_conn The connection resource
-     * @param   string $email The user's email address
-     * @param   string $field The field in which to search
-     * @param   string $value The value to search against
-     */
-    function lookupCustomer($rpc_conn, $email, $field, $value)
-    {
-        $params = array(
-            new XML_RPC_Value($email),
-            new XML_RPC_Value($field),
-            new XML_RPC_Value($value)
-        );
-        $msg = new XML_RPC_Message("lookupCustomer", $params);
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
-        }
-        $res = XML_RPC_decode($result->value());
-        if (!is_array($res)) {
-            echo "ERROR: Sorry, for security reasons you need to wait $res until your next customer lookup.\n";
-        } else {
-            if (count($res) == 0) {
-                echo "Sorry, no customers could be found.\n";
-            } else {
-                $out = array();
-                $out[] = "Customer Lookup Results:\n";
-                foreach ($res as $customer) {
-                    $out[] = '         Customer: ' . $customer['customer_name'];
-                    $out[] = '    Support Level: ' . $customer['support_level'];
-                    $out[] = '       Expiration: ' . $customer['expiration_date'];
-                    $out[] = '  Contract Status: ' . $customer['contract_status'];
-                    // contacts now...
-                    if (count($customer['contacts']) > 0) {
-                        $out[] = " Allowed Contacts: " . $customer['contacts'][0]['contact_name'] . ' - ' . $customer['contacts'][0]['email'];
-                        for ($i = 1; $i < count($customer['contacts']); $i++) {
-                            $out[] = "                   " . $customer['contacts'][$i]['contact_name'] . ' - ' . $customer['contacts'][$i]['email'];
-                        }
-                    }
-                    $out[] = "\n";
-                }
-                echo implode("\n", $out);
-            }
-        }
     }
 
 
@@ -1119,7 +1059,6 @@ class Command_Line
                     $details = XML_RPC_decode($result->value());
                     $msg = "These are the current details for issue #$issue_id:\n" .
                             "         Summary: " . $details['summary'] . "\n" .
-                            "        Customer: " . $details['customer'] . "\n" .
                             "          Status: " . $details['status'] . "\n" .
                             "      Assignment: " . $details["assignments"] . "\n" . 
                             "  Auth. Repliers: " . $details["authorized_repliers"] . "\n" .

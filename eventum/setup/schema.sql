@@ -75,7 +75,6 @@ INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_unlock';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_assigned';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'remote_replier_added';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'details_updated';
-INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'customer_details_updated';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_opened';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'issue_auto_assigned';
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'rr_issue_assigned';

@@ -190,8 +190,8 @@ class Authorized_Replier
      */
     function addUser($issue_id, $usr_id, $add_history = true)
     {
-        // only users above customer role can be authorized repliers. All customers should already be able to reply.
-        if (User::getRoleByUser($usr_id) <= User::getRoleID("Customer")) {
+        // only users above reporter role can be authorized repliers
+        if (User::getRoleByUser($usr_id) <= User::getRoleID("Reporter")) {
             return -2;
         }
         
