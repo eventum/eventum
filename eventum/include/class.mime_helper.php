@@ -74,15 +74,20 @@ class Mime_Helper
         $parts = array();
         Mime_Helper::parse_output($output, $parts);
         $str = '';
+        $is_html = false;
         if (isset($parts["text"])) {
             $str = $parts["text"][0];
         } elseif (isset($parts["html"])) {
+            $is_html = true;
             $str = $parts["html"][0];
         }
         if (@$output->headers['content-transfer-encoding'] == 'quoted-printable') {
             $str = Mime_Helper::decodeBody($str, 'quoted-printable');
         }
         // XXX: do we also need to do something here about base64 encoding?
+        if ($is_html) {
+            $str = strip_tags($str);
+        }
         return $str;
     }
 
@@ -387,13 +392,14 @@ class Mime_Helper
         $attachments = array();
         $filenames = array();
         for ($i = 0; $i < @count($output->parts); $i++) {
-            // hack in order to display in-line images from Outlook
-            if ((@$output->parts[$i]->ctype_primary == 'image') && (@$output->parts[$i]->ctype_secondary == 'bmp')) {
+            // hack in order to display in-line images
+            $bmp_filetypes = array('bmp', 'x-bmp');
+            if ((@$output->parts[$i]->ctype_primary == 'image') && (@in_array($output->parts[$i]->ctype_secondary, $bmp_filetypes))) {
                 $name = MIME_Helper::getAttachmentName($filenames, @$output->parts[$i]->ctype_parameters['name']);
                 $filenames[] = $name;
                 $attachments[] = array(
                     'filename' => $name,
-                    'filetype' => 'image/bmp',
+                    'filetype' => 'image/' . $output->parts[$i]->ctype_secondary,
                     'blob'     => @$output->parts[$i]->body
                 );
             } else {
@@ -431,12 +437,13 @@ class Mime_Helper
         $attachments = array();
         // now get any eventual attachments
         for ($i = 0; $i < @count($output->parts); $i++) {
-            // hack in order to display in-line images from Outlook
+            // hack in order to display in-line images
+            $bmp_filetypes = array('bmp', 'x-bmp');
             if ((@$output->parts[$i]->ctype_primary == 'image') &&
-                    (@$output->parts[$i]->ctype_secondary == 'bmp')) {
+                    (@in_array($output->parts[$i]->ctype_secondary, $bmp_filetypes))) {
                 $attachments[] = array(
                     'filename' => $output->parts[$i]->ctype_parameters['name'],
-                    'cid'      => $output->parts[$i]->headers['content-id']
+                    'cid'      => @$output->parts[$i]->headers['content-id']
                 );
                 continue;
             }
@@ -468,9 +475,10 @@ class Mime_Helper
         Mime_Helper::parse_output($output, $parts);
         for ($i = 0; $i < count($output->parts); $i++) {
             if ($cid !== FALSE) {
-                // hack in order to display in-line images from Outlook
+                // hack in order to display in-line images
+                $bmp_filetypes = array('bmp', 'x-bmp');
                 if ((@$output->parts[$i]->ctype_primary == 'image') &&
-                        (@$output->parts[$i]->ctype_secondary == 'bmp') &&
+                        (@in_array($output->parts[$i]->ctype_secondary, $bmp_filetypes)) &&
                         (@$output->parts[$i]->ctype_parameters['name'] == $filename) &&
                         (@$output->parts[$i]->headers['content-id'] == $cid)) {
                     break;

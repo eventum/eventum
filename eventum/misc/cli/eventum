@@ -92,7 +92,7 @@ if ($issue_id > 0) {
                 if ($check == 0) {
                     Command_Line::quit("Third argument to command 'add-time' should be a number");
                 }
-                Command_Line::addTimeEntry(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::addTimeEntry(&$client, $auth, $issue_id, $check);
                 break;
             case 'list-files':
                 Command_Line::printFileList(&$client, $auth, $issue_id);
