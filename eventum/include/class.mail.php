@@ -98,9 +98,8 @@ class Mail_API
      */
     function getCannedBlockedMsgExplanation()
     {
-        // XXX: fix this warning message later
-        $msg = "WARNING: This message was blocked because the sender was not allowed to send emails to the associated customer. ";
-        $msg .= "Only known customer contacts or staff members listed in the assignment or authorized replier fields can send emails.\n";
+        $msg = "WARNING: This message was blocked because the sender was not allowed to send emails to the associated issue. ";
+        $msg .= "Only staff members listed in the assignment or authorized replier fields can send emails.\n";
         $msg .= str_repeat('-', 70) . "\n\n";
         return $msg;
     }
@@ -374,9 +373,8 @@ class Mail_API
      */
     function getWarningMessage($type)
     {
-        // XXX: fix these warning messages
         if ($type == 'allowed') {
-            $str = 'ADVISORY: Your reply will be sent directly to the customer.';
+            $str = 'ADVISORY: Your reply will be sent to the notification list.';
         } else {
             $str = 'WARNING: If replying, add yourself to Authorized Repliers list first.';
         }
