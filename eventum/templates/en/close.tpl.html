@@ -32,6 +32,8 @@
 {literal}
 <script language="JavaScript">
 <!--
+var has_per_incident_contract = false;
+
 function validateClose(f)
 {
     if (getSelectedOption(f, 'status') == -1) {
@@ -139,7 +141,7 @@ function validateClose(f)
         </tr>
         {if $incident_details|@count > 0}
         <script>
-        var has_per_incident_contract = true;
+        has_per_incident_contract = true;
         </script>
         <tr>
           <td width="160" bgcolor="{$internal_color}" class="default_white">
