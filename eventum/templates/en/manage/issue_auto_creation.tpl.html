@@ -15,13 +15,7 @@
                       return false;
                   }
                   if (field1.checked) {
-                      var field = getFormElement(f, 'options[reporter]');
-                      if (field.selectedIndex == 0) {
-                          selectField(f, 'options[reporter]');
-                          alert('Please choose the reporter.');
-                          return false;
-                      }
-                      field = getFormElement(f, 'options[category]');
+                      var field = getFormElement(f, 'options[category]');
                       if (field.selectedIndex == 0) {
                           selectField(f, 'options[category]');
                           alert('Please choose the default category.');
@@ -48,9 +42,6 @@
                   field = getFormElement(f, 'options[only_known_customers]', 1);
                   field.disabled = bool;
                   field = getFormElement(f, 'options[category]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'options[reporter]');
                   field.disabled = bool;
                   field.style.backgroundColor = bgcolor;
                   field = getFormElement(f, 'options[priority]');
@@ -96,18 +87,6 @@
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('auto_creation_form', 'options[only_known_customers]', 0);">Yes</a>&nbsp;&nbsp;
                   <input type="radio" name="options[only_known_customers]" value="no" {if $options.only_known_customers == 'no'}checked{/if}> 
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('auto_creation_form', 'options[only_known_customers]', 1);">No</a>
-                </td>
-              </tr>
-              <tr>
-                <td width="130" bgcolor="{$cell_color}" class="default_white">
-                  <b>Reporter: *</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <select name="options[reporter]" class="default" tabindex="1">
-                    <option value="-1">Please choose an user</option>
-                    {html_options options=$users selected=$options.reporter}
-                  </select>
-                  {include file="error_icon.tpl.html" field="options[reporter]"}
                 </td>
               </tr>
               <tr>
