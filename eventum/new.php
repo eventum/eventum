@@ -106,6 +106,9 @@ $tpl->assign(array(
 $setup = Setup::load();
 $tpl->assign("allow_unassigned_issues", $setup["allow_unassigned_issues"]);
 
+$prj_details = Project::getDetails($prj_id);
+$tpl->assign("hide_fields_from_reporter", @$prj_details["prj_hide_fields_from_reporter"]);
+
 $prefs = Prefs::get($usr_id);
 $tpl->assign("user_prefs", $prefs);
 $tpl->assign("zones", Date_API::getTimezoneList());
