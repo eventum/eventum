@@ -845,7 +845,7 @@ class Issue
             History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('issue_opened_anon'), 'Issue opened anonymously');
             // now add the user/issue association
             $assign = array();
-            $users = $options["users"];
+            $users = @$options["users"];
             $actions = Notification::getAllActions();
             for ($i = 0; $i < count($users); $i++) {
                 Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i], $actions);
