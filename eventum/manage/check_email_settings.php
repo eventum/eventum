@@ -27,13 +27,13 @@
 //
 // @(#) $Id: s.check_email_settings.php 1.6 04/01/19 15:19:26-00:00 jpradomaia $
 //
-set_time_limit(0);
 include_once("../config.inc.php");
 include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.support.php");
 include_once(APP_INC_PATH . "db_access.php");
 error_reporting(0);
+@set_time_limit(0);
 
 $tpl = new Template_API();
 $tpl->setTemplate("get_emails.tpl.html");

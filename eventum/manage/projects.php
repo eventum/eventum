@@ -27,7 +27,6 @@
 //
 // @(#) $Id: s.projects.php 1.9 03/08/12 20:02:58-00:00 jpm $
 //
-set_time_limit(0);
 include_once("../config.inc.php");
 include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
