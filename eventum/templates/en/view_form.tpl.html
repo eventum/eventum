@@ -62,6 +62,18 @@ function changeIssueStatus(f, issue_id, current_status_id)
         popupWin.focus();
     }
 }
+function markIncidentIssue(issue_id)
+{
+    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('popup.php?cat=flag_incident&iss_id=' + issue_id, '_flagIncident', features);
+    popupWin.focus();
+}
+function unmarkIncidentIssue(issue_id)
+{
+    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('popup.php?cat=unflag_incident&iss_id=' + issue_id, '_unflagIncident', features);
+    popupWin.focus();
+}
 //-->
 </script>
 {/literal}
