@@ -16,7 +16,17 @@ function addFileRow(element_name, field_name)
     rows = fileTable.rows.length;
     newRow = fileTable.insertRow(rows);
     cell = newRow.insertCell(0);
-    cell.innerHTML = '<input class="shortcut" size="40" type="file" name="' + field_name + '" onChange="javascript:addFileRow(\'' + element_name + '\', \'' + field_name + '\');">';
+    if (document.all) {
+        cell.innerHTML = '<input class="shortcut" size="40" type="file" name="' + field_name + '" onChange="javascript:addFileRow(\'' + element_name + '\', \'' + field_name + '\');">';
+    } else {
+        var input = document.createElement('INPUT');
+        input.setAttribute('type', 'file');
+        input.name = field_name;
+        input.className = 'shortcut';
+        input.size = 40;
+        input.onchange = new Function('addFileRow(\'' + element_name + '\', \'' + field_name + '\');');
+        cell.appendChild(input);
+    }
 }
 
 function inArray(value, stack)
@@ -46,24 +56,25 @@ function closeAndRefresh()
     window.close();
 }
 
-function str_replace(s, srch, rplc) {
-  var tmp = s;
-  var tmp_before = new String();
-  var tmp_after = new String();
-  var tmp_output = new String();
-  var int_before = 0;
-  var int_after = 0;
-
-  while (tmp.toUpperCase().indexOf(srch.toUpperCase()) > -1) {   
-    int_before = tmp.toUpperCase().indexOf(srch.toUpperCase());
-    tmp_before = tmp.substring(0, int_before);
-    tmp_output = tmp_output + tmp_before;
-    tmp_output = tmp_output + rplc;
-    int_after = tmp.length - srch.length + 1;
-    tmp = tmp.substring(int_before + srch.length);
-  }
-
-  return tmp_output + tmp;
+function str_replace(s, srch, rplc)
+{
+    var tmp = s;
+    var tmp_before = new String();
+    var tmp_after = new String();
+    var tmp_output = new String();
+    var int_before = 0;
+    var int_after = 0;
+  
+    while (tmp.toUpperCase().indexOf(srch.toUpperCase()) > -1) {   
+        int_before = tmp.toUpperCase().indexOf(srch.toUpperCase());
+        tmp_before = tmp.substring(0, int_before);
+        tmp_output = tmp_output + tmp_before;
+        tmp_output = tmp_output + rplc;
+        int_after = tmp.length - srch.length + 1;
+        tmp = tmp.substring(int_before + srch.length);
+    }
+  
+    return tmp_output + tmp;
 }
 
 function displayFixedWidth(element_name)

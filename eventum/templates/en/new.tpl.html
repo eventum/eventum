@@ -153,7 +153,6 @@ function validateForm(f)
 </table>
 <br />
 {/if}
-<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="report">
 <input type="hidden" name="customer" value="{$customer_id}">
@@ -172,6 +171,7 @@ function validateForm(f)
 {if $current_role < $field_display_settings.estimated_dev_time}
     <input type="hidden" name="estimated_dev_time" value="">
 {/if}
+<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -360,7 +360,7 @@ function validateForm(f)
             <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
               <tr>
                 <td>
-                  <input type="file" name="file[]" size="40" class="shortcut" tabindex="8" onChange="javascript:addFileRow('file_table', 'file[]');">
+                  <input type="file" name="file[]" size="40" class="shortcut" onChange="javascript:addFileRow('file_table', 'file[]');">
                 </td>
               </tr>
             </table>
