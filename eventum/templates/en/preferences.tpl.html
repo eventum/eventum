@@ -165,13 +165,13 @@ function validateAccount(f)
           <td class="default">
             <b>Account Preferences</b>
           </td>
-          <td align="right">
+          <td align="right" colspan="{$assigned_projects|@count}">
             {include file="help_link.tpl.html" topic="preferences"}
           </td>
         </tr>
         {if $update_account_result}
         <tr>
-          <td colspan="2" class="error" bgcolor="{$cell_color}" align="center">
+          <td colspan="{math equation="2 + x" x=$assigned_projects|@count}" class="error" bgcolor="{$cell_color}" align="center">
             {if $update_account_result == -1}
             <b>An error occurred while trying to run your query.</b>
             {elseif $update_account_result == 1}
@@ -184,7 +184,7 @@ function validateAccount(f)
           <td width="190" bgcolor="{$cell_color}" class="default_white">
             <b>Timezone:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
             <select class="default" name="timezone">
               {html_options values=$zones output=$zones selected=$user_prefs.timezone}
             </select>
@@ -196,28 +196,42 @@ function validateAccount(f)
           <td width="190" bgcolor="{$cell_color}" class="default_white">
             <b>Automatically close confirmation popup windows ?</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
+          <td bgcolor="{$light_color}" class="default" colspan="{$assigned_projects|@count}">
             <input type="radio" name="close_popup_windows" {if $user_prefs.close_popup_windows == "1"}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'close_popup_windows', 0);">Yes</a>&nbsp;&nbsp;
             <input type="radio" name="close_popup_windows" {if $user_prefs.close_popup_windows != "1"}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'close_popup_windows', 1);">No</a>
           </td>
         </tr>
         <tr>
           <td width="190" bgcolor="{$cell_color}" class="default_white">
+            &nbsp;
+          </td>
+          {foreach from=$assigned_projects key=prj_id item=project_info}
+          <td bgcolor="{$light_color}" class="default">
+            &nbsp;<b>{$project_info.prj_title}</b>
+          </td>
+          {/foreach}
+        </tr>
+        <tr>
+          <td width="190" bgcolor="{$cell_color}" class="default_white">
             <b>Receive emails when all issues are created ?</b>
           </td>
+          {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            <input type="radio" name="receive_new_emails" {if $user_prefs.receive_new_emails}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_new_emails', 0);">Yes</a>&nbsp;&nbsp;
-            <input type="radio" name="receive_new_emails" {if not $user_prefs.receive_new_emails}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_new_emails', 1);">No</a>
+            &nbsp;<input type="radio" name="receive_new_emails[{$prj_id}]" {if $user_prefs.receive_new_emails.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_new_emails[{$prj_id}]', 0);">Yes</a>&nbsp;&nbsp;
+            <input type="radio" name="receive_new_emails[{$prj_id}]" {if not $user_prefs.receive_new_emails.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_new_emails[{$prj_id}]', 1);">No</a>
           </td>
+          {/foreach}
         </tr>
         <tr>
           <td width="190" bgcolor="{$cell_color}" class="default_white">
             <b>Receive emails when new issues are assigned to you ?</b>
           </td>
+          {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
-            <input type="radio" name="receive_assigned_emails" {if $user_prefs.receive_assigned_emails}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_assigned_emails', 0);">Yes</a>&nbsp;&nbsp;
-            <input type="radio" name="receive_assigned_emails" {if not $user_prefs.receive_assigned_emails}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_assigned_emails', 1);">No</a>
+            &nbsp;<input type="radio" name="receive_assigned_emails[{$prj_id}]" {if $user_prefs.receive_assigned_emails.$prj_id}checked{/if} value="1"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_assigned_emails[{$prj_id}]', 0);">Yes</a>&nbsp;&nbsp;
+            <input type="radio" name="receive_assigned_emails[{$prj_id}]" {if not $user_prefs.receive_assigned_emails.$prj_id}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'receive_assigned_emails[{$prj_id}]', 1);">No</a>
           </td>
+          {/foreach}
         </tr>
         {else}
         <input type="hidden" name="close_popup_windows" value="0">
@@ -228,7 +242,7 @@ function validateAccount(f)
           <td width="190" bgcolor="{$cell_color}" class="default_white">
             <b>Refresh Rate for Issue Listing Page:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
             <input type="text" size="10" class="default" name="list_refresh_rate" value="{$user_prefs.list_refresh_rate|escape:"html"}">
             <span class="small_default"><i>(in minutes)</i></span>
           </td>
@@ -238,7 +252,7 @@ function validateAccount(f)
           <td width="190" bgcolor="{$cell_color}" class="default_white">
             <b>Refresh Rate for Email Listing Page:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
             <input type="text" size="10" class="default" name="emails_refresh_rate" value="{$user_prefs.emails_refresh_rate|escape:"html"}">
             <span class="small_default"><i>(in minutes)</i></span>
           </td>
@@ -247,7 +261,7 @@ function validateAccount(f)
           <td width="190" bgcolor="{$cell_color}" class="default_white">
             <b>Email Signature:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
             <table border="0" width="100%">
               <tr>
                 <td class="default" colspan="2">
@@ -274,7 +288,7 @@ function validateAccount(f)
           <td width="190" bgcolor="{$cell_color}" class="default_white">
             <b>SMS Email Address:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
             <input type="text" size="40" class="default" name="sms_email" value="{$user_prefs.sms_email|escape:"html"}">
             <span class="small_default"><i>(only used for automatic issue reminders)</i></span>
           </td>
@@ -283,7 +297,7 @@ function validateAccount(f)
         <input type="hidden" name="emails_refresh_rate" value="10">
         {/if}
         <tr>
-          <td colspan="2" bgcolor="{$cell_color}" align="center">
+          <td colspan="{math equation="2 + x" x=$assigned_projects|@count}" bgcolor="{$cell_color}" align="center">
             <input class="button" type="submit" value="Update Preferences">
             <input class="button" type="reset" value="Reset">
           </td>
