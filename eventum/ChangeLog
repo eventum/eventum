@@ -5,6 +5,7 @@ Eventum Issue Tracking System
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
 - Avoid displaying PHP warnings when running Eventum under safe_mode (João)
 - Fixed the mail queue processing code that was referencing a missing method name (João)
+- Added feature to replace special characters Microsoft Word uses for double and single quotes with normal characters when creating an issue (Bryan)
 
 01 Mar 2005, Version 1.5
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
