@@ -452,6 +452,59 @@ class Report
         
         return $data;
     }
+    
+    
+    /**
+     * Returns data for the custom fields report, based on the field and options passed in.
+     * 
+     * @access  public
+     * @param   integer $fld_id The id of the custom field.
+     * @param   array $cfo_ids An array of option ids.
+     * @return  array An array of data.
+     */
+    function getCustomFieldReport($fld_id, $cfo_ids)
+    {
+        $stmt = "SELECT
+                    cfo_value,
+                    count(*)
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                WHERE
+                    cfo_id = icf_value AND
+                    icf_fld_id = $fld_id AND
+                    cfo_id IN(" . join(",", $cfo_ids) . ")
+                GROUP BY
+                    cfo_value";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+        $data = $res;
+        
+        // include count of all other values (used in pie chart)
+        $stmt = "SELECT
+                    count(*)
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                WHERE
+                    cfo_id = icf_value AND
+                    icf_fld_id = $fld_id AND
+                    cfo_id NOT IN(" . join(",", $cfo_ids) . ")
+                GROUP BY
+                    cfo_value";
+        
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+        $data["All Others"] = $res;
+        
+        return $data;
+    }
 }
 
 // benchmarking the included file (aka setup time)

@@ -235,9 +235,10 @@ class Custom_Field
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   string $form_type The type of the form
+     * @param   string $fld_type The type of field (optional)
      * @return  array The list of custom fields
      */
-    function getListByProject($prj_id, $form_type)
+    function getListByProject($prj_id, $form_type, $fld_type = false)
     {
         $stmt = "SELECT
                     fld_id,
@@ -250,9 +251,14 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                  WHERE
-                    fld_$form_type=1 AND
                     pcf_fld_id=fld_id AND
                     pcf_prj_id=$prj_id";
+        if ($form_type != '') {
+            $stmt .= " AND\nfld_$form_type=1";
+        }
+        if ($fld_type != '') {
+            $stmt .= " AND\nfld_type='$fld_type'";
+        }
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
