@@ -11,3 +11,4 @@ Eventum Issue Tracking System
 - Added a missing directory required in order for the IRC bot to work (João)
 - Added a feature to auto-create issues from downloaded emails (João)
 - Reworked the code that handles the automatic association of email into issues (João)
+- Added a missing directory required in order for the diff-style issue updated notification emails to work (João)
