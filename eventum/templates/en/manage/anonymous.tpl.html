@@ -39,11 +39,17 @@
                           selectField(f, 'options[priority]');
                           return false;
                       }
+             {/literal}
+                    {if $allow_unassigned_issues != 'yes'}
+             {literal}
                       if (!hasOneSelected(f, 'options[users][]')) {
                           alert('Please choose at least one person to assign the new issues created remotely.');
                           selectField(f, 'options[users][]');
                           return false;
                       }
+             {/literal}
+                    {/if}
+             {literal}
                   }
                   return true;
               }
@@ -147,7 +153,7 @@
               </tr>
               <tr>
                 <td width="150" bgcolor="{$cell_color}" class="default_white">
-                  <b>Assignment:</b>
+                  <b>Assignment:{if $allow_unassigned_issues != 'yes'} *{/if}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="options[users][]" multiple size="3" class="default" tabindex="4">

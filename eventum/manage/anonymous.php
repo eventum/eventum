@@ -63,6 +63,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     $tpl->assign("users", Project::getUserAssocList($prj_id, 'active'));
     $tpl->assign("options", Project::getAnonymousPostOptions($prj_id));
     $tpl->assign("prj_id", $prj_id);
+    $setup = Setup::load();
+    $tpl->assign("allow_unassigned_issues", @$setup["allow_unassigned_issues"]);
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }
