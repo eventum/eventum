@@ -181,8 +181,15 @@ class Mime_Helper
     function encodeAddress($address)
     {
         $address = MIME_Helper::removeQuotes($address);
-        $address = MIME_Helper::encode($address);
-        return MIME_Helper::quoteSender($address);
+        if (Mime_Helper::is8bit($address)) {
+            // split into name and address section
+            preg_match("/(.*)<(.*)>/", $address, $matches);
+           $address = "=?" . APP_CHARSET . "?Q?" . 
+                str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x29]|[\xFC])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . "?= <" . $matches[2] . ">";
+           return $address;
+        } else {
+            return MIME_Helper::quoteSender($address);
+        }
     }
 
 
