@@ -83,6 +83,11 @@ function validateForm(f)
         }
     }
     checkRequiredCustomFields(f, required_custom_fields);
+    
+    // check customer fields (if function exists
+    if (window.validateCustomer) {
+        validateCustomer(f);
+    }
 }
 //-->
 </script>
