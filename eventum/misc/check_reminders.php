@@ -59,8 +59,14 @@ for ($i = 0; $i < count($reminders); $i++) {
     // for each action, get the conditions and see if it triggered any issues
     $found = 0;
     for ($y = 0; $y < count($reminders[$i]['actions']); $y++) {
+        if (Reminder::isDebug()) {
+            echo "Processing Reminder Action '" . $reminders[$i]['actions'][$y]['rma_title'] . "'\n";
+        }
         $conditions = Reminder_Condition::getList($reminders[$i]['actions'][$y]['rma_id']);
         if (count($conditions) == 0) {
+            if (Reminder::isDebug()) {
+                echo "  - Skipping Reminder because there were no reminder conditions found\n";
+            }
             continue;
         }
         $issues = Reminder::getTriggeredIssues($reminders[$i], $conditions);
@@ -71,26 +77,33 @@ for ($i = 0; $i < count($reminders); $i++) {
             // add the repeated issues to the list of already triggered 
             // issues, so they get ignored for the next reminder actions
             for ($w = 0; $w < count($repeat_issues); $w++) {
+                if (Reminder::isDebug()) {
+                    echo "  - Adding repeated issue '" . $repeat_issues[$w] . "' to the list of already triggered issues\n";
+                }
                 $triggered_issues[] = $repeat_issues[$w];
             }
         }
         if (count($issues) > 0) {
             for ($z = 0; $z < count($issues); $z++) {
+                if (Reminder::isDebug()) {
+                    echo "  - Processing issue '" . $issues[$z] . "'\n";
+                }
                 // only perform one action per issue id
                 if (in_array($issues[$z], $triggered_issues)) {
+                    if (Reminder::isDebug()) {
+                        echo "  - Ignoring issue '" . $issues[$z] . "' because it was found in the list of already triggered issues\n";
+                    }
                     continue;
                 }
                 $triggered_issues[] = $issues[$z];
                 if (Reminder::isDebug()) {
-                    echo "Triggered Action '" . $reminders[$i]['actions'][$y]['rma_title'] . "' for issue #" . $issues[$z] . "\n";
+                    echo "  - Triggered Action '" . $reminders[$i]['actions'][$y]['rma_title'] . "' for issue #" . $issues[$z] . "\n";
                 }
                 Reminder_Action::perform($issues[$z], $reminders[$i], $reminders[$i]['actions'][$y]);
             }
-            // perform just one action per reminder
-            break;
         } else {
             if (Reminder::isDebug()) {
-                echo "No triggered issues for action '" . $reminders[$i]['actions'][$y]['rma_title'] . "'\n";
+                echo "  - No triggered issues for action '" . $reminders[$i]['actions'][$y]['rma_title'] . "'\n";
             }
         }
     }
