@@ -185,6 +185,7 @@ class Command_Line
         $password = '';
         $host = '';
         $port = '';
+        $relative_url = '';
         if (file_exists($rcfile)) {
             $fp = fopen($rcfile, 'r');
             if (!$fp) {
@@ -206,12 +207,14 @@ class Command_Line
                     $host = $value;
                 } elseif ($var == 'EVENTUM_PORT') {
                     $port = $value;
+                } elseif ($var == 'EVENTUM_RELATIVE_URL') {
+                    $relative_url = $value;
                 }
             }
         } else {
             die("Configuration file '$rcfile' could not be found\n");
         }
-        return array($email, $password, $host, $port);
+        return array($email, $password, $host, $port, $relative_url);
     }
 
 

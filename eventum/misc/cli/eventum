@@ -15,9 +15,12 @@ include_once("config.inc.php");
 include_once(APP_INC_PATH . "class.command_line.php");
 include_once(APP_PEAR_PATH . "XML_RPC/RPC.php");
 
-list($user_email, $user_password, $url, $port) = Command_Line::getEnvironmentSettings();
+list($user_email, $user_password, $url, $port, $relative_url) = Command_Line::getEnvironmentSettings();
 if (empty($port)) {
     $port = 80;
+}
+if (empty($relative_url)) {
+    $relative_url = '/';
 }
 
 if (count($HTTP_SERVER_VARS['argv']) == 1) {
@@ -30,7 +33,7 @@ if ($HTTP_SERVER_VARS['argv'][1] == '--help') {
 
 $should_confirm = Command_Line::isSafeExecution();
 
-$client = new XML_RPC_Client("/rpc/xmlrpc.php", $url, $port);
+$client = new XML_RPC_Client($relative_url . "rpc/xmlrpc.php", $url, $port);
 //$client->setDebug(1);
 
 // need to process authentication first
