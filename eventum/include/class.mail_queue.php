@@ -131,11 +131,13 @@ class Mail_Queue
                 return false;
             }
         }
-        
         if (empty($issue_id)) {
             $issue_id = 'null';
         }
-
+        // if the Date: header is missing, add it.
+        if (!in_array('Date', array_keys($headers))) {
+            $headers['Date'] = MIME_Helper::encode(date('D, j M Y H:i:s O'));
+        }
         list(,$text_headers) = Mail::prepareHeaders($headers);
 
         $stmt = "INSERT INTO
