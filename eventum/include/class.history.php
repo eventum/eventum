@@ -175,8 +175,14 @@ class History
     {
         static $returns;
 
-        if (!empty($returns[$name])) {
-            return $returns[$name];
+        
+        $serialized = serialize($name);
+        if (!empty($returns[$serialized])) {
+            return $returns[$serialized];
+        }
+        
+        if (!is_array($name)) {
+            $name = array($name);
         }
 
         $stmt = "SELECT
@@ -184,13 +190,16 @@ class History
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "history_type
                  WHERE
-                    htt_name='$name'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                    htt_name IN('" . join("','", $name) . "')";
+        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "unknown";
         } else {
-            $returns[$name] = $res;
+            if (count($name) == 1) {
+                $res = current($res);
+            }
+            $returns[$serialized] = $res;
             return $res;
         }
     }
@@ -224,7 +233,15 @@ class History
                  WHERE
                     his_iss_id = iss_id AND
                     his_usr_id = $usr_id AND
-                    his_created_date BETWEEN '$start' AND '$end'
+                    his_created_date BETWEEN '$start' AND '$end' AND
+                    his_htt_id NOT IN(" . join(',', History::getTypeID(array(
+                        'notification_removed',
+                        'notification_added',
+                        'notification_updated',
+                        'remote_replier_added',
+                        'replier_added',
+                        'replier_removed',
+                        'replier_other_added'))) . ")
                  GROUP BY
                     iss_id";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
