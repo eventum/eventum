@@ -3,6 +3,19 @@
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));
 
+function showSelections(form_name, field_name)
+{
+    var f = getForm(form_name);
+    var field = getFormElement(f, field_name);
+    var selections = getSelectedItems(field);
+    var selected_names = new Array();
+    for (var i = 0; i < selections.length; i++) {
+        selected_names.push(selections[i].text);
+    }
+    var display_div = getPageElement('selection_' + field_name);
+    display_div.innerHTML = 'Current Selections: ' + selected_names.join(', ');
+}
+
 function replaceWords(str, original, replacement)
 {
     var lines = str.split("\n");
@@ -183,11 +196,19 @@ function fillInput(f, target_form, target_field)
 
 function lookupField(f, search_field, field_name, callbacks)
 {
-    var pattern = search_field.value;
+    var search = search_field.value;
+    if (isWhitespace(search)) {
+        return false;
+    }
     var target_field = getFormElement(f, field_name);
     for (var i = 0; i < target_field.options.length; i++) {
         var value = target_field.options[i].text.toUpperCase();
-        if (value.indexOf(pattern.toUpperCase()) != -1) {
+        if (startsWith(value, search.toUpperCase())) {
+            // if we are targetting a multiple select box, then unselect everything
+            // before selecting the matched option
+            if (target_field.type == 'select-multiple') {
+                clearSelectedOptions(target_field);
+            }
             target_field.options[i].selected = true;
             // handle calling any callbacks
             if (callbacks != null) {
@@ -205,6 +226,14 @@ function clearSelectedOptions(field)
 {
     for (var i = 0; i < field.options.length; i++) {
         field.options[i].selected = false;
+    }
+}
+
+function selectAllOptions(f, field_name)
+{
+    var field = getFormElement(f, field_name);
+    for (var y = 0; y < field.options.length; y++) {
+        field.options[y].selected = true;
     }
 }
 
@@ -297,6 +326,15 @@ function getSelectedItems(field)
         }
     }
     return selected;
+}
+
+function removeAllOptions(f, field_name)
+{
+    var field = getFormElement(f, field_name);
+    if (field.options.length > 0) {
+        field.options[0] = null;
+        removeAllOptions(f, field_name);
+    }
 }
 
 function getValues(list)

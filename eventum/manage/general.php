@@ -70,6 +70,8 @@ if ($role_id == User::getRoleID('administrator')) {
         @$setup['email_routing'] = $HTTP_POST_VARS['email_routing'];
         @$setup['note_routing'] = $HTTP_POST_VARS['note_routing'];
         @$setup['email_error'] = $HTTP_POST_VARS['email_error'];
+        $options = Setup::load();
+        @$setup['downloading_emails'] = $options['downloading_emails'];
         $res = Setup::save($setup);
         $tpl->assign("result", $res);
     }

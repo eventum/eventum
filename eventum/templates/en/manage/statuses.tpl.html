@@ -13,6 +13,11 @@
                       selectField(f, 'title');
                       return false;
                   }
+                  if (isWhitespace(f.abbreviation.value)) {
+                      alert('Please enter the abbreviation of this status.');
+                      selectField(f, 'abbreviation');
+                      return false;
+                  }
                   if (isWhitespace(f.rank.value)) {
                       alert('Please enter the rank of this status.');
                       selectField(f, 'rank');
@@ -75,6 +80,16 @@
                 <td bgcolor="{$light_color}">
                   <input type="text" name="title" size="40" class="default" value="{$info.sta_title|escape:"html"}">
                   {include file="error_icon.tpl.html" field="title"}
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Abbreviation:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="abbreviation" size="5" class="default" value="{$info.sta_abbreviation}" maxlength="3">
+                  {include file="error_icon.tpl.html" field="abbreviation"}
+                  <span class="small_default">(three letter abbreviation)</span>
                 </td>
               </tr>
               <tr>
@@ -157,6 +172,8 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap>&nbsp;</td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Rank</b>&nbsp;</td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Abbreviation</b>&nbsp;</td>
                       <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
                       <td width="30%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Projects</b></td>
                       <td width="30%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Color</b></td>
@@ -165,6 +182,8 @@
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].sta_id}"></td>
+                      <td bgcolor="{$row_color}" class="default" align="center">{$list[i].sta_rank}</td>
+                      <td bgcolor="{$row_color}" class="default" align="center">{$list[i].sta_abbreviation}</td>
                       <td width="40%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].sta_id}" title="update this entry">{$list[i].sta_title}</a>
                       </td>
@@ -177,13 +196,13 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="4" bgcolor="{$light_color}" align="center" class="default">
+                      <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
                         No statuses could be found.
                       </td>
                     </tr>
                     {/section}
                     <tr>
-                      <td colspan="4" bgcolor="{$cell_color}" align="center">
+                      <td colspan="6" bgcolor="{$cell_color}" align="center">
                         <input type="submit" value="Delete" class="button">
                       </td>
                     </tr>

@@ -1,4 +1,4 @@
-{include file="header.tpl.html"}
+{include file="header.tpl.html" extra_title=$extra_title}
 
 <script language="JavaScript">
 <!--
@@ -172,11 +172,13 @@ function viewEmail(ema_id, id)
                 </td>
                 {if $email.sup_iss_id == 0}
                 <td align="right">
+                  <!-- XXX: fix this later
                   <input type="submit" value="Associate &gt;" class="button" onClick="javascript:associate(this.form);">
                   <select name="issue" class="default">
                     <option value="new">New Issue</option>
                     {html_options output=$issues values=$issues}
                   </select>
+                  -->
                 </td>
                 {/if}
               </tr>

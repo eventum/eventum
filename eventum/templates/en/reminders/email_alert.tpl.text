@@ -1,24 +1,14 @@
-This is an email reminder alert regarding issue #{$data.iss_id}. The following 
-conditions triggered this action, and it may require immediate action in your
-part:
+Automated Issue #{$data.iss_id} Reminder Alert!
 
- Field       | Operator      | Value
----------------------------------------------
-{section name="i" loop=$conditions}
-{$conditions[i].rmf_title} - {$conditions[i].rmo_title} - {$conditions[i].rlc_value}
-{/section}
+      URL: {$app_base_url}view.php?id={$data.iss_id}
+  Summary: {$data.iss_summary}
+  
+  Alert Reason:  
+    Triggered "{$reminder.rem_title}"
+    
+  Alert Query:
+    {section name="i" loop=$conditions}
+    {$conditions[i].rmf_title} - {$conditions[i].rmo_title} - {$conditions[i].rlc_value}
+    {/section}
 
-
-These are the current issue details:
-
-----------------------------------------------------------------------
-               ID: {$data.iss_id}
-          Summary: {$data.iss_summary}
-           Status: {$data.sta_title}
-          Project: {$data.prj_title}
-      Reported By: {$data.usr_full_name}
-         Priority: {$data.pri_title}
-      Description:
-----------------------------------------------------------------------
-{$data.iss_description}
-----------------------------------------------------------------------
+Please take immediate action!

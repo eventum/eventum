@@ -4,8 +4,15 @@
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
               <tr>
-                <td colspan="2" class="default">
-                  <b>Manage Issue Reminders</b>
+                <td colspan="2">
+                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                    <tr>
+                      <td class="default"><b>Manage Issue Reminders</b></td>
+                      <td align="right" class="default">
+                        <b>{if $smarty.get.cat == 'edit'}Updating Reminder #{$smarty.get.id}{else}Creating New Reminder{/if}</b>
+                      </td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
               {if $result != ""}
@@ -102,6 +109,18 @@
               {/if}
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Project:</b>
+                </td>
+                <td width="85%" bgcolor="{$light_color}">
+                  <select name="project" class="default" onChange="javascript:populateIssueComboBox(this.form);">
+                    <option value="-1">Please choose an option</option>
+                    {html_options options=$project_list selected=$info.rem_prj_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="project"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
                   <b>Title:</b>
                 </td>
                 <td bgcolor="{$light_color}">
@@ -111,14 +130,11 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Project:</b>
+                  <b>Rank:</b>
                 </td>
-                <td width="85%" bgcolor="{$light_color}">
-                  <select name="project" class="default" onChange="javascript:populateIssueComboBox(this.form);">
-                    <option value="-1">Please choose an option</option>
-                    {html_options options=$project_list selected=$info.rem_prj_id}
-                  </select>
-                  {include file="error_icon.tpl.html" field="project"}
+                <td bgcolor="{$light_color}">
+                  <input type="text" size="10" name="rank" class="default" value="{$info.rem_rank}">
+                  {include file="error_icon.tpl.html" field="rank"}
                 </td>
               </tr>
               <tr>
@@ -212,7 +228,8 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td bgcolor="{$cell_color}" nowrap>&nbsp;</td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>ID</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>ID</b>&nbsp;</td>
+                      <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>Rank</b>&nbsp;</td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Project</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Type</b></td>
@@ -223,8 +240,10 @@
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].rem_id}"></td>
-                      <td bgcolor="{$row_color}" class="default">
-                        &nbsp;{$list[i].rem_id}
+                      <td bgcolor="{$row_color}" class="default" align="center">{$list[i].rem_id}</td>
+                      <td bgcolor="{$row_color}" class="default" align="center">
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rem_id}&rank=desc"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].rem_rank}
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rem_id}&rank=asc"><img src="{$rel_url}images/asc.gif" border="0"></a>
                       </td>
                       <td bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].rem_id}" title="update this entry">{$list[i].rem_title|escape:"html"}</a>
@@ -244,13 +263,13 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="7" bgcolor="{$light_color}" align="center" class="default">
+                      <td colspan="8" bgcolor="{$light_color}" align="center" class="default">
                         No reminders could be found.
                       </td>
                     </tr>
                     {/section}
                     <tr>
-                      <td colspan="7" bgcolor="{$cell_color}" align="center">
+                      <td colspan="8" bgcolor="{$cell_color}" align="center">
                         <input type="submit" value="Delete" class="button">
                       </td>
                     </tr>

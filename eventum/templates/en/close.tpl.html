@@ -68,12 +68,13 @@ function validateClose(f)
         </tr>
         <tr>
           <td width="160" bgcolor="{$cell_color}" class="default_white">
-            <b>Resolution:</b><br />
+            <b>Send Notification About Issue Being Closed?</b><br />
           </td>
-          <td bgcolor="{$light_color}">
-            <select class="default" name="resolution">
-              {html_options options=$resolutions}
-            </select>
+          <td bgcolor="{$light_color}" class="default">
+            <input type="radio" name="send_notification" checked value="1"> 
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('close_form', 'send_notification', 0);">Yes</a>&nbsp;&nbsp;
+            <input type="radio" name="send_notification" value="0"> 
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('close_form', 'send_notification', 1);">No</a>
           </td>
         </tr>
         <tr>

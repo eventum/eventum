@@ -101,7 +101,7 @@ class Auth
             Auth::redirect(APP_RELATIVE_URL . "index.php?err=12&email=" . $cookie['email'], $is_popup);
         }
         // if the current session is still valid, then renew the expiration
-        Auth::createLoginCookie($cookie_name, $cookie['email']);
+        Auth::createLoginCookie($cookie_name, $cookie['email'], $cookie['autologin']);
         // renew the project cookie as well
         $prj_cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
         Auth::setCurrentProject($prj_id, $prj_cookie["remember"]);

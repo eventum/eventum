@@ -57,6 +57,7 @@ include_once(APP_INC_PATH . "class.impact_analysis.php");
 include_once(APP_INC_PATH . "class.custom_field.php");
 include_once(APP_INC_PATH . "class.phone_support.php");
 include_once(APP_INC_PATH . "class.status.php");
+include_once(APP_INC_PATH . "class.round_robin.php");
 
 $list_headings = array(
     'Priority',
@@ -65,7 +66,8 @@ $list_headings = array(
     'Time Spent',
     'Category',
     'Status',
-    'Created Date',
+    'Status Change Date',
+    'Last Action Date',
     'Summary'
 );
 
@@ -242,6 +244,52 @@ class Issue
 
 
     /**
+     * Method used to remotely remove a lock on a given issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   integer $usr_id The user ID
+     * @return  integer The status ID
+     */
+    function remoteUnlock($issue_id, $usr_id)
+    {
+        // check if the issue is not already locked by somebody else
+        $stmt = "SELECT
+                    iss_lock_usr_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                    iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            if (empty($res)) {
+                return -2;
+            }
+        }
+
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 SET
+                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_lock_usr_id=NULL
+                 WHERE
+                    iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            // save a history entry about this...
+            History::add($issue_id, "Issue remotely unlocked by " . User::getFullName($usr_id));
+            return 1;
+        }
+    }
+
+
+    /**
      * Method used to remotely assign a given issue to an user.
      *
      * @access  public
@@ -292,8 +340,6 @@ class Issue
             // record history entry
             $info = User::getNameEmail($usr_id);
             History::add($issue_id, "Status remotely changed to '$new_status' by " . $info['usr_full_name']);
-            // send notification email about issue being updated
-            Notification::notify($issue_id, 'updated');
             return 1;
         }
     }
@@ -304,11 +350,13 @@ class Issue
      * the 'closed' context.
      *
      * @access  public
+     * @param   integer $prj_id The project ID to list issues from
      * @param   integer $email The email address associated with the user requesting this information
      * @param   boolean $show_all_issues Whether to show all open issues, or just the ones assigned to the given email address
+     * @param   integer $status_id The status ID to be used to restrict results
      * @return  array The list of open issues
      */
-    function getOpenIssues($email, $show_all_issues)
+    function getOpenIssues($prj_id, $email, $show_all_issues, $status_id)
     {
         $usr_id = User::getUserIDByEmail($email);
         if (empty($usr_id)) {
@@ -335,13 +383,17 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  ON
                     isu_usr_id=usr_id
-                 WHERE
-                    iss_prj_id IN (" . implode(", ", array_keys($projects)) . ") AND
+                 WHERE ";
+        if (!empty($status_id)) {
+            $stmt .= " sta_id=$status_id AND ";
+        }
+        $stmt .= "
+                    iss_prj_id=$prj_id AND
                     sta_id=iss_sta_id AND
                     sta_is_closed=0";
         if ($show_all_issues == false) {
             $stmt .= " AND
-                    usr_email='" . Misc::runSlashes($email) . "'";
+                    usr_id=$usr_id";
         }
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
@@ -415,6 +467,15 @@ class Issue
      */
     function lock($issue_id, $usr_id)
     {
+        $lock_usr_id = Issue::getLockedUserID($issue_id);
+        if (!empty($lock_usr_id)) {
+            if ($lock_usr_id == $usr_id) {
+                return -3;
+            } else {
+                return -2;
+            }
+        }
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
@@ -425,7 +486,7 @@ class Issue
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return false;
+            return -1;
         } else {
             // clear up the assignments for this issue, and then assign it to the current user
             Issue::deleteUserAssociations($issue_id);
@@ -433,7 +494,7 @@ class Issue
             // save a history entry about this...
             History::add($issue_id, "Issue locked by " . User::getFullName($usr_id));
             Notification::subscribeUser($issue_id, $usr_id, Notification::getAllActions());
-            return true;
+            return 1;
         }
     }
 
@@ -447,6 +508,10 @@ class Issue
      */
     function unlock($issue_id)
     {
+        $lock_usr_id = Issue::getLockedUserID($issue_id);
+        if (empty($lock_usr_id)) {
+            return -2;
+        }
         $usr_id = Auth::getUserID();
 
         $stmt = "UPDATE
@@ -459,11 +524,11 @@ class Issue
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return false;
+            return -1;
         } else {
             // save a history entry about this...
             History::add($issue_id, "Issue unlocked by " . User::getFullName($usr_id));
-            return true;
+            return 1;
         }
     }
 
@@ -653,6 +718,7 @@ class Issue
         } else {
             if (!empty($HTTP_POST_VARS["comments"])) {
                 // add note with the comments of marking an issue as a duplicate of another one
+                $HTTP_POST_VARS['title'] = 'Issue duplication comments';
                 $HTTP_POST_VARS["note"] = Misc::runSlashes($HTTP_POST_VARS["comments"]);
                 Note::insert();
             }
@@ -991,9 +1057,10 @@ class Issue
      *
      * @access  public
      * @param   integer $issue_id The issue ID
+     * @param   bool $send_notification Whether to send a notification about this action or not
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function close($issue_id)
+    function close($issue_id, $send_notification)
     {
         global $HTTP_POST_VARS;
 
@@ -1014,12 +1081,15 @@ class Issue
             // unlock the issue, if needed
             Issue::unlock($issue_id);
             // add note with the reason to close the issue
+            $HTTP_POST_VARS['title'] = 'Issue closed comments';
             $HTTP_POST_VARS["note"] = Misc::runSlashes($HTTP_POST_VARS["reason"]);
             Note::insert();
             // record the change
             History::add($issue_id, "Issue updated to status '" . Status::getStatusTitle($HTTP_POST_VARS['status']) . "' by " . User::getFullName(Auth::getUserID()));
-            // send notifications for the issue being closed
-            Notification::notify($issue_id, 'closed');
+            if ($send_notification) {
+                // send notifications for the issue being closed
+                Notification::notify($issue_id, 'closed');
+            }
             return 1;
         }
     }
@@ -1044,6 +1114,11 @@ class Issue
         for ($i = 0; $i < count(@$HTTP_POST_VARS["associated_issues"]); $i++) {
             Issue::addAssociation($issue_id, $HTTP_POST_VARS["associated_issues"][$i]);
         }
+        if (@$HTTP_POST_VARS['keep_resolution_date'] == 'no') {
+            $expected_resolution_date = sprintf('%s-%s-%s', $HTTP_POST_VARS['expected_resolution_date']['Year'],
+                                                $HTTP_POST_VARS['expected_resolution_date']['Month'],
+                                                $HTTP_POST_VARS['expected_resolution_date']['Day']);
+        }
         if (@$HTTP_POST_VARS["keep_assignments"] == "no") {
             // update the issue-user associations
             Issue::deleteUserAssociations($issue_id);
@@ -1063,6 +1138,9 @@ class Issue
         if (@$HTTP_POST_VARS["keep"] == "no") {
             $stmt .= "iss_pre_id=" . $HTTP_POST_VARS["release"] . ",";
         }
+        if (@$HTTP_POST_VARS['keep_resolution_date'] == 'no') {
+            $stmt .= "iss_expected_resolution_date='$expected_resolution_date',";
+        }
         $stmt .= "
                     iss_pri_id=" . $HTTP_POST_VARS["priority"] . ",
                     iss_sta_id=" . $HTTP_POST_VARS["status"] . ",
@@ -1079,6 +1157,9 @@ class Issue
         } else {
             // add change to the history (only for changes on specific fields?)
             $updated_fields = array();
+            if (@$HTTP_POST_VARS['keep_resolution_date'] == 'no') {
+                $updated_fields["Expected Resolution Date"] = History::formatChanges($current["iss_expected_resolution_date"], $expected_resolution_date);
+            }
             if ($current["iss_prc_id"] != $HTTP_POST_VARS["category"]) {
                 $updated_fields["Category"] = History::formatChanges(Category::getTitle($current["iss_prc_id"]), Category::getTitle($HTTP_POST_VARS["category"]));
             }
@@ -1524,6 +1605,9 @@ class Issue
                     iss_id,
                     iss_lock_usr_id,
                     iss_created_date,
+                    iss_updated_date,
+                    iss_last_response_date,
+                    iss_closed_date,
                     iss_usr_id,
                     iss_summary,
                     pri_title,
@@ -1576,10 +1660,11 @@ class Issue
                 }
                 Issue::getAssignedUsersByIssues($res);
                 Time_Tracking::getTimeSpentByIssues($res);
+                Issue::getLastActionDates($res);
             }
             $csv[] = @implode("\t", $list_headings);
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["iss_created_date"] = Date_API::getFormattedDate($res[$i]["iss_created_date"]);
+                $res[$i]['status_change_date'] = Issue::getLastStatusChangeDate($res[$i]['iss_id'], $res[$i]);
                 $res[$i]["status_color"] = Status::getStatusColor($res[$i]["sta_id"]);
                 $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
                 $fields = array(
@@ -1589,7 +1674,8 @@ class Issue
                     $res[$i]['time_spent'],
                     $res[$i]['prc_title'],
                     $res[$i]['sta_title'],
-                    $res[$i]["iss_created_date"],
+                    $res[$i]["status_change_date"],
+                    $res[$i]["last_action_date"],
                     $res[$i]['iss_summary']
                 );
                 $csv[] = @implode("\t", $fields);
@@ -1611,6 +1697,133 @@ class Issue
                 "csv" => @implode("\n", $csv)
             );
         }
+    }
+
+
+    // XXX: put documentation here
+    function getLastActionDates(&$result)
+    {
+        $ids = array();
+        for ($i = 0; $i < count($result); $i++) {
+            $ids[] = $result[$i]["iss_id"];
+        }
+        $ids = implode(", ", $ids);
+
+        // get the latest file
+        $stmt = "SELECT
+                    iat_iss_id,
+                    UNIX_TIMESTAMP(MAX(iat_created_date))
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
+                 WHERE
+                    iat_iss_id IN ($ids)
+                 GROUP BY
+                    iat_iss_id";
+        $files = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        // get latest email
+        $stmt = "SELECT
+                    sup_iss_id,
+                    UNIX_TIMESTAMP(MAX(sup_date))
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                 WHERE
+                    sup_iss_id IN ($ids)
+                 GROUP BY
+                    sup_iss_id";
+        $emails = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        // get latest draft
+        $stmt = "SELECT
+                    emd_iss_id,
+                    UNIX_TIMESTAMP(MAX(emd_updated_date))
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                 WHERE
+                    emd_iss_id IN ($ids)
+                 GROUP BY
+                    emd_iss_id";
+        $drafts = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        // get latest phone call
+        $stmt = "SELECT
+                    phs_iss_id,
+                    UNIX_TIMESTAMP(MAX(phs_created_date))
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
+                 WHERE
+                    phs_iss_id IN ($ids)
+                 GROUP BY
+                    phs_iss_id";
+        $calls = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        // get last note
+        $stmt = "SELECT
+                    not_iss_id,
+                    UNIX_TIMESTAMP(MAX(not_created_date))
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 WHERE
+                    not_iss_id IN ($ids)
+                 GROUP BY
+                    not_iss_id";
+        $notes = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        // now sort out the fields for each issue
+        for ($i = 0; $i < count($result); $i++) {
+            // check attachments, notes, emails, updated date
+            $date_fields = array(
+                'created'         => $result[$i]['iss_created_date'],
+                'updated'         => $result[$i]['iss_updated_date'],
+                'staff response'  => $result[$i]['iss_last_response_date'],
+                'closed'          => $result[$i]['iss_closed_date']
+            );
+            @$date_fields['file'] = $files[$result[$i]['iss_id']];
+            @$date_fields['email'] = $emails[$result[$i]['iss_id']];
+            @$date_fields['draft'] = $drafts[$result[$i]['iss_id']];
+            @$date_fields['phone call'] = $calls[$result[$i]['iss_id']];
+            @$date_fields['note'] = $notes[$result[$i]['iss_id']];
+            asort($date_fields);
+            // need to show something else besides the updated date field, if there are other fields with the same timestamp
+            $stamps = array_values($date_fields);
+            if ($stamps[count($stamps)-1] == $stamps[count($stamps)-2]) {
+                $keys = array_keys($date_fields);
+                if (($keys[count($keys)-1] == 'updated') || 
+                        ($keys[count($keys)-2] == 'updated')) {
+                    unset($date_fields['updated']);
+                }
+            }
+            $original_date_fields = $date_fields;
+            $latest_field = array_pop($date_fields);
+            if (empty($latest_field)) {
+                $result[$i]['last_action_date'] = '';
+            } else {
+                $flipped = @array_flip($original_date_fields);
+                // use the pear classes to get the date difference
+                $date = new Date($latest_field);
+                $current = new Date(Date_API::getCurrentDateGMT());
+                $result[$i]['last_action_date'] = sprintf("%s: %s ago", ucwords($flipped[$latest_field]),
+                        Date_API::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
+            }
+        }
+    }
+
+
+    // XXX: put documentation here
+    function getLastStatusChangeDate($issue_id, $row)
+    {
+        $sta_title = strtolower($row['sta_title']);
+        if (($sta_title == 'pending') || ($sta_title == 'assigned')) {
+            $target_date = $row['iss_created_date'];
+            $current = new Date(Date_API::getCurrentDateGMT());
+            $desc = "Created: %s ago";
+        } elseif ($sta_title == 'closed') {
+            $target_date = $row['iss_closed_date'];
+            $current = new Date(Date_API::getCurrentDateGMT());
+            $desc = "Closed: %s ago";
+        } else {
+            return '';
+        }
+        if (empty($target_date)) {
+            return '';
+        }
+        $date = new Date($target_date);
+        return sprintf($desc, Date_API::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
     }
 
 
@@ -1701,8 +1914,11 @@ class Issue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
         if (!empty($options["users"])) {
-            $stmt .= ",
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user";
+            $stmt .= "
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
+                 ON
+                    isu_iss_id=iss_id";
         }
         $stmt .= "
                  LEFT JOIN
@@ -1899,6 +2115,7 @@ class Issue
                     pre_title,
                     pri_title,
                     sta_title,
+                    sta_abbreviation,
                     sta_is_closed
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue

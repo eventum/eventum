@@ -53,6 +53,29 @@ define("MONTH", WEEK * 4);
 
 class Date_API
 {
+    // XXX: put documentation here
+    function isAM($hour)
+    {
+        if (($hour >= 0) && ($hour <= 11)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    // XXX: put documentation here
+    function isPM($hour)
+    {
+        if (($hour >= 12) && ($hour <= 23)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    // XXX: put documentation here
     function getCurrentUnixTimestampGMT()
     {
         return gmmktime();
@@ -158,6 +181,23 @@ class Date_API
         return $date->format('%a, %d %b %Y, %H:%M:%S ') . $date->tz->getShortName();
     }
 
+    /**
+     * Method used to get the formatted date for a specific timestamp
+     * and a specific timezone, provided by the user' preference.
+     *
+     * @access  public
+     * @param   string $timestamp The date timestamp to be formatted
+     * @return  string 
+     */
+    function getSimpleDate($timestamp)
+    {
+        $timezone = Date_API::getPreferredTimezone();
+        $date = new Date($timestamp);
+        // now convert to another timezone and return the date
+        $date->convertTZById($timezone);
+        return $date->format('%d %b %Y');
+    }
+
 
     /**
      * Method used to get the timezone preferred by the user.
@@ -206,6 +246,19 @@ class Date_API
         $dt->setTZbyID(Date_API::getPreferredTimezone());
         $dt->toUTC();
         return $dt->format('%Y-%m-%d %H:%M:%S');
+    }
+
+
+    /**
+     * Method used to convert a unix timestamp date to a GMT date.
+     *
+     * @access  public
+     * @param   integer $timestamp The user based date
+     * @return  string The date in the GMT timezone
+     */
+    function getDateGMTByTS($timestamp)
+    {
+        return gmdate('Y-m-d H:i:s', $timestamp);
     }
 }
 

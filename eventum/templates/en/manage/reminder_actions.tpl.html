@@ -14,6 +14,8 @@
                   if (isWhitespace(f.rank.value)) {
                       errors[errors.length] = new Option('Rank', 'rank');
                   }
+                  // hack to make the multiple select box actually submit something
+                  selectAllOptions(f, 'user_list[]');
                   return true;
               }
               //-->
@@ -73,16 +75,82 @@
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
+              {literal}
+              <script language="JavaScript">
+              <!--
+              function checkActionType(f)
+              {
+                  var option = getSelectedOptionObject(f, 'type');
+                  if (option.text.indexOf('To...') != -1) {
+                      var block = 'block';
+                  } else {
+                      var block = 'none';
+                  }
+                  var user_list = getPageElement('action_user_list');
+                  user_list.style.display = block;
+              }
+              function addUserList(f)
+              {
+                  var field = getFormElement(f, 'available_users');
+                  var options = getSelectedItems(field);
+                  if (isEmail(f.email_address.value)) {
+                      options[options.length] = new Option(f.email_address.value);
+                  }
+                  addOptions(f, 'user_list[]', options);
+              }
+              function removeUserList(f)
+              {
+                  var field = getFormElement(f, 'user_list[]');
+                  var options = new Array();
+                  if (field.options.length > 0) {
+                      for (var i = 0; i < field.options.length; i++) {
+                          if (!field.options[i].selected) {
+                              options[options.length] = field.options[i];
+                          }
+                      }
+                  }
+                  removeAllOptions(f, 'user_list[]');
+                  addOptions(f, 'user_list[]', options);
+              }
+              //-->
+              </script>
+              {/literal}
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
                   <b>Action Type:</b>
                 </td>
                 <td bgcolor="{$light_color}">
-                  <select name="type" class="default">
+                  <select name="type" class="default" onChange="javascript:checkActionType(this.form);">
                     <option value="-1">Please choose an option</option>
                     {html_options options=$action_types selected=$info.rma_rmt_id}
                   </select>
                   {include file="error_icon.tpl.html" field="type"}
+                  <div id="action_user_list" style="display: none;">
+                  <table bgcolor="#666666" style="margin-left: 30px; margin-top: 5px;">
+                    <tr>
+                      <td><input class="default" type="text" name="email_address"></td>
+                      <td>&nbsp;</td>
+                      <td class="default_white" valign="bottom"><b>Email List:</b></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <select class="default" name="available_users" multiple size="4">
+                          {html_options options=$user_options}
+                        </select>
+                      </td>
+                      <td>
+                        <input class="shortcut" type="button" value="Add &gt;&gt;" onClick="javascript:addUserList(this.form);">
+                        <br /><br />
+                        <input class="shortcut" type="button" value="Remove" onClick="javascript:removeUserList(this.form);">
+                      </td>
+                      <td>
+                        <select class="default" name="user_list[]" multiple size="4">
+                          {html_options options=$info.user_list}
+                        </select>
+                      </td>
+                    </tr>
+                  </table>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -137,7 +205,7 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap>&nbsp;</td>
-                      <td width="5" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Rank</b>&nbsp;</td>
+                      <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>Rank</b>&nbsp;</td>
                       <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
                       <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Type</b></td>
                       <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Details</b></td>
@@ -146,11 +214,14 @@
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].rma_id}"></td>
-                      <td width="5" bgcolor="{$row_color}" class="default" align="center">&nbsp;{$list[i].rma_rank}</td>
-                      <td width="20%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].rma_title|escape:"html"}</td>
-                      <td width="50%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&rem_id={$rem_id}&id={$list[i].rma_id}" title="update this entry">{$list[i].rmt_title}</a>
+                      <td bgcolor="{$row_color}" class="default" align="center">
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=desc"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].rma_rank}
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=asc"><img src="{$rel_url}images/asc.gif" border="0"></a>
                       </td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&rem_id={$rem_id}&id={$list[i].rma_id}" title="update this entry">{$list[i].rma_title|escape:"html"}</a>
+                      </td>
+                      <td width="50%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].rmt_title}</td>
                       <td bgcolor="{$row_color}" class="default">&nbsp;<a href="reminder_conditions.php?rem_id={$list[i].rma_rem_id}&rma_id={$list[i].rma_id}" class="link">{$list[i].total_conditions} Condition{if $list[i].total_conditions != 1}s{/if}</a></td>
                     </tr>
                     {sectionelse}
@@ -173,4 +244,16 @@
           </td>
         </tr>
       </table>
-
+      {literal}
+      <script language="JavaScript">
+      <!--
+      window.onload = setActionTypeField;
+      function setActionTypeField()
+      {
+          var f = getForm('reminder_form');
+          checkActionType(f);
+      }
+      //-->
+      </script>
+      {/literal}
+      

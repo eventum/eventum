@@ -32,12 +32,12 @@
 class News
 {
     /**
-     * Method used to get the list of canned email responses available in the
-     * system.
+     * Method used to get the list of news entries available in the
+     * system for a given project.
      *
      * @access  public
      * @param   integer $prj_id The project ID
-     * @return  array The list of canned email responses
+     * @return  array The list of news entries
      */
     function getListByProject($prj_id, $show_full_message = FALSE)
     {
@@ -48,7 +48,8 @@ class News
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_news
                  WHERE
                     prn_nws_id=nws_id AND
-                    prn_prj_id=$prj_id
+                    prn_prj_id=$prj_id AND
+                    nws_status='active'
                  ORDER BY
                     nws_created_date DESC
                  LIMIT
@@ -59,7 +60,7 @@ class News
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['nws_created_date'] = Date_API::getFormattedDate($res[$i]["nws_created_date"]);
+                $res[$i]['nws_created_date'] = Date_API::getSimpleDate($res[$i]["nws_created_date"]);
                 if ((!$show_full_message) && (strlen($res[$i]['nws_message']) > 255)) {
                     $res[$i]['nws_message'] = substr($res[$i]['nws_message'], 0, 255) . '...';
                 }
@@ -114,12 +115,14 @@ class News
                     nws_usr_id,
                     nws_created_date,
                     nws_title,
-                    nws_message
+                    nws_message,
+                    nws_status
                  ) VALUES (
                     " . Auth::getUserID() . ",
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::runSlashes($HTTP_POST_VARS["message"]) . "'
+                    '" . Misc::runSlashes($HTTP_POST_VARS["message"]) . "',
+                    '" . Misc::runSlashes($HTTP_POST_VARS["status"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -195,7 +198,7 @@ class News
 
 
     /**
-     * Method used to update a canned email response in the system.
+     * Method used to update a news entry in the system.
      *
      * @access  public
      * @return  integer 1 if the update worked, -1 otherwise
@@ -214,7 +217,8 @@ class News
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  SET
                     nws_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
-                    nws_message='" . Misc::runSlashes($HTTP_POST_VARS["message"]) . "'
+                    nws_message='" . Misc::runSlashes($HTTP_POST_VARS["message"]) . "',
+                    nws_status='" . Misc::runSlashes($HTTP_POST_VARS["status"]) . "'
                  WHERE
                     nws_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -260,17 +264,17 @@ class News
 
 
     /**
-     * Method used to get the list of canned email responses available in the
-     * system.
+     * Method used to get the list of news entries available in the system.
      *
      * @access  public
-     * @return  array The list of canned email responses
+     * @return  array The list of news entries
      */
     function getList()
     {
         $stmt = "SELECT
                     nws_id,
-                    nws_title
+                    nws_title,
+                    nws_status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  ORDER BY

@@ -31,6 +31,8 @@ include_once("../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.note.php");
+include_once(APP_INC_PATH . "class.issue.php");
+include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.setup.php");
 include_once(APP_INC_PATH . "class.mime_helper.php");
 
@@ -127,9 +129,11 @@ list(,$body) = Mime_Helper::splitBodyHeader($full_message);
 
 // insert the new note and send notification about it
 $HTTP_POST_VARS = array(
-    'note'     => addslashes($body),
-    'issue_id' => $issue_id,
-    'note_cc'  => $cc_users
+    'title'                => @addslashes($structure->headers['subject']),
+    'note'                 => addslashes($body),
+    'issue_id'             => $issue_id,
+    'note_cc'              => $cc_users,
+    'add_extra_recipients' => 'yes'
 );
 Note::insert();
 ?>

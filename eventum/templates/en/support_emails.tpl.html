@@ -97,9 +97,6 @@ function sendEmail(account_id, issue_id)
                   {if $emails[i].sup_has_attachment}
                   <a title="view email details" href="javascript:void(null);" onClick="javascript:viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a>
                   {/if}
-                  {if $emails[i].sup_draft_response}
-                  <a title="draft response available" href="javascript:void(null);" onClick="javascript:viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});" class="link"><img src="{$rel_url}images/icons/edit.gif" border="0"></a>
-                  {/if}
                 </td>
               </tr>
               {sectionelse}

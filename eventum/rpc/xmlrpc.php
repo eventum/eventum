@@ -126,18 +126,23 @@ function getSimpleIssueDetails($p)
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id could not be found");
     }
 
+    // remove some naughty fields
+    unset($details['iss_original_description']);
     return new XML_RPC_Response(new XML_RPC_Value(array(
                 "summary"  => new XML_RPC_Value($details['iss_summary'])
             ), "struct"));
 }
 
-$getOpenIssues_sig = array(array($XML_RPC_Array, $XML_RPC_String, $XML_RPC_Boolean));
+$getOpenIssues_sig = array(array($XML_RPC_Array, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_Boolean, $XML_RPC_String));
 function getOpenIssues($p)
 {
-    $email = XML_RPC_decode($p->getParam(0));
-    $show_all_issues = XML_RPC_decode($p->getParam(1));
+    $prj_id = XML_RPC_decode($p->getParam(0));
+    $email = XML_RPC_decode($p->getParam(1));
+    $show_all_issues = XML_RPC_decode($p->getParam(2));
+    $status = XML_RPC_decode($p->getParam(3));
+    $status_id = Status::getStatusID($status);
 
-    $res = Issue::getOpenIssues($email, $show_all_issues);
+    $res = Issue::getOpenIssues($prj_id, $email, $show_all_issues, $status_id);
     if (empty($res)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "There are currently no open issues");
     } else {
@@ -195,15 +200,11 @@ function getStatusList($p)
 {
     $prj_id = XML_RPC_decode($p->getParam(0));
 
-    $res = Status::getAssocStatusList($prj_id);
+    $res = Status::getAbbreviationAssocList($prj_id);
     if (empty($res)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No statuses could be found at this moment");
     } else {
-        $values = array();
-        foreach ($res as $key => $value) {
-            $values[] = new XML_RPC_Value($value, "string");
-        }
-        return new XML_RPC_Response(new XML_RPC_Value($values, "array"));
+        return new XML_RPC_Response(XML_RPC_Encode($res));
     }
 }
 
@@ -216,6 +217,8 @@ function getIssueDetails($p)
     if (empty($res)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id could not be found");
     } else {
+        // remove some naughty fields
+        unset($res['iss_original_description']);
         return new XML_RPC_Response(XML_RPC_Encode($res));
     }
 }
@@ -309,7 +312,63 @@ function lockIssue($p)
     }
 }
 
+$unlockIssue_sig = array(array($XML_RPC_String, $XML_RPC_Int, $XML_RPC_String));
+function unlockIssue($p)
+{
+    $issue_id = XML_RPC_decode($p->getParam(0));
+    $email = XML_RPC_decode($p->getParam(1));
+
+    $usr_id = User::getUserIDByEmail($email);
+    $res = Issue::remoteUnlock($issue_id, $usr_id);
+    if ($res == -1) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not unlock issue #$issue_id");
+    } elseif ($res == -2) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id is already unlocked");
+    } else {
+        return new XML_RPC_Response(XML_RPC_Encode('OK'));
+    }
+}
+
+$getFileList_sig = array(array($XML_RPC_String, $XML_RPC_Int));
+function getFileList($p)
+{
+    $issue_id = XML_RPC_decode($p->getParam(0));
+
+    $res = Attachment::getList($issue_id);
+    if (empty($res)) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No files could be found");
+    } else {
+        return new XML_RPC_Response(XML_RPC_Encode($res));
+    }
+}
+
+$getFile_sig = array(array($XML_RPC_String, $XML_RPC_Int));
+function getFile($p)
+{
+    $file_id = XML_RPC_decode($p->getParam(0));
+
+    $res = Attachment::getDetails($file_id);
+    if (empty($res)) {
+        return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The requested file could not be found");
+    } else {
+        $res['iaf_file'] = base64_encode($res['iaf_file']);
+        return new XML_RPC_Response(XML_RPC_Encode($res));
+    }
+}
+
 $services = array(
+    "getFile" => array(
+        'function'  => "getFile",
+        'signature' => $getFile_sig
+    ),
+    "getFileList" => array(
+        'function'  => "getFileList",
+        'signature' => $getFileList_sig
+    ),
+    "unlockIssue" => array(
+        'function'  => "unlockIssue",
+        'signature' => $unlockIssue_sig
+    ),
     "lockIssue" => array(
         'function'  => "lockIssue",
         'signature' => $lockIssue_sig

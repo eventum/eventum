@@ -379,7 +379,7 @@ class Mail_API
         ));
         $hdrs = $this->mime->headers($this->headers);
         // RFC 822 formatted date
-        $header = 'Date: ' . date('D, j M Y H:i:s O') . "\r\n";
+        $header = 'Date: ' . gmdate('D, j M Y H:i:s O') . "\r\n";
         // return the full dump of the email
         foreach ($hdrs as $name => $value) {
             $header .= "$name: $value\r\n";

@@ -76,7 +76,7 @@ class Misc
         $input = trim(Misc::getInput(true));
         if (empty($input)) {
             if ($default_value === FALSE) {
-                die('ERROR: Required parameter was not provided!\n');
+                die("ERROR: Required parameter was not provided!\n");
             } else {
                 return $default_value;
             }

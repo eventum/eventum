@@ -2,18 +2,6 @@
 {literal}
 <script language="JavaScript">
 <!--
-function validateNotesForm(f)
-{
-    if (isWhitespace(f.note.value)) {
-        alert('Please enter the new note.');
-        selectField(f, 'note');
-        return false;
-    }
-    var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('', '_notes', features);
-    popupWin.focus();
-    return true;
-}
 function deleteNote(note_id)
 {
     if (!confirm('This action will permanently delete the specified note.')) {
@@ -24,14 +12,40 @@ function deleteNote(note_id)
         popupWin.focus();
     }
 }
+function convertNote(note_id)
+{
+    if (!confirm('This note will be deleted & converted to an email, one either sent immediately or saved as a draft.')) {
+        return false;
+    } else {
+        var features = 'width=420,height=150,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('convert_note.php?id=' + note_id, '_convertNote', features);
+        popupWin.focus();
+    }
+}
+function viewNote(note_id)
+{
+    var features = 'width=560,height=500,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var noteWin = window.open('view_note.php?id=' + note_id, '_note' + note_id, features);
+    noteWin.focus();
+}
+function postInternalNote(issue_id)
+{
+    var features = 'width=560,height=500,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var noteWin = window.open('post_note.php?issue_id=' + issue_id, '_postNote', features);
+    noteWin.focus();
+}
+function replyNote(note_id, issue_id)
+{
+    var features = 'width=560,height=500,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var noteWin = window.open('post_note.php?cat=reply&id=' + note_id + '&issue_id=' + issue_id, '_postNote', features);
+    noteWin.focus();
+}
 //-->
 </script>
 {/literal}
 <br />
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="add_note_form" target="_notes" onSubmit="javascript:return validateNotesForm(this);" method="post" action="{$rel_url}popup.php">
-<input type="hidden" name="cat" value="add_note">
-<input type="hidden" name="issue_id" value="{$smarty.get.id}">
+<form name="add_note_form" target="_notes" method="post">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
@@ -47,61 +61,46 @@ function deleteNote(note_id)
         </tr>
         <tr id="notes1" {get_display_style element_name="notes"}>
           <td colspan="2">
-            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+            <table width="100%" cellpadding="2" cellspacing="1">
+              <tr bgcolor="{$cell_color}">
+                <td class="default_white">Reply</td>
+                <td width="20%" class="default_white">Posted Date</td>
+                <td width="20%" class="default_white">User</td>
+                <td width="60%" class="default_white">Title</td>
+              </tr>
               {section name="i" loop=$notes}
               {cycle values=$cycle assign="row_color"}
-              <tr>
-                <td align="center" bgcolor="{$cell_color}" class="default_white" width="220" nowrap>
-                  {$notes[i].not_created_date}<br />
-                  Posted by {$notes[i].usr_full_name}
-                  {if $current_user_id == $notes[i].not_usr_id}
-                  <br />[ <a class="white_link" href="javascript:void(null);" onClick="javascript:deleteNote({$notes[i].not_id});">delete</a> ]
-                  {/if}
+              <tr bgcolor="{$row_color}">
+                <td align="center">
+                  <a title="reply to this note" href="javascript:void(null);" onClick="javascript:replyNote({$notes[i].not_id}, {$smarty.get.id});" class="link"><img src="{$rel_url}images/icons/reply.gif" border="0"></a>
                 </td>
-                <td bgcolor="{$row_color}" width="100%" class="default" valign="top">
-                  {$notes[i].not_note}
+                <td class="default">{$notes[i].not_created_date}</td>
+                <td class="default">
+                  {$notes[i].usr_full_name}
+                  {if $current_user_id == $notes[i].not_usr_id}[ <a class="link" href="javascript:void(null);" onClick="javascript:deleteNote({$notes[i].not_id});">delete</a> ]{/if}
+                </td>
+                <td class="default">
+                  <a title="view note details" href="javascript:void(null);" onClick="javascript:viewNote({$notes[i].not_id});" class="link">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
+                  {if $notes[i].has_blocked_message} (<a href="javascript:void(null);" onClick="javascript:convertNote({$notes[i].not_id});" class="link">convert note</a>){/if}
                 </td>
               </tr>
               {sectionelse}
               <tr>
-                <td colspan="2" bgcolor="{$light_color}" class="default" align="center">
-                  <b>No notes could be found.</b>
+                <td colspan="4" bgcolor="{$light_color}" align="center" class="default">
+                  <b>No internal notes could be found.</b>
                 </td>
               </tr>
               {/section}
+              {if $current_role > $roles.reporter}
+              <tr>
+                <td colspan="4" bgcolor="{$cell_color}" align="center">
+                  <input type="button" value="Post Internal Note" class="button" onClick="javascript:postInternalNote({$smarty.get.id});">
+                </td>
+              </tr>
+              {/if}
             </table>
           </td>
         </tr>
-        {if $current_role > $roles.reporter}
-        <tr id="notes2" {get_display_style element_name="notes"}>
-          <td colspan="2" class="default">
-            <b>Post New Internal Note:</b> <i>(Note will be sent only to staff persons displayed on the above notification list.)</i>
-            <table width="100%">
-              <tr>
-                <td colspan="2" class="default" bgcolor="{$light_color}">
-                  <textarea name="note" rows="8" style="width: 97%"></textarea>
-                  {include file="error_icon.tpl.html" field="note"}
-                </td>
-              </tr>
-              <tr>
-                <td class="default_white" bgcolor="{$cell_color}">
-                  <b>Extra Note Recipients:</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <select class="default" size="4" multiple name="note_cc[]">
-                    {html_options options=$users}
-                  </select> <span class="small_default"><i>(addresses will be added to issue notification list.)</i></span>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" bgcolor="{$cell_color}" align="center">
-                  <input type="submit" value="Post Note" class="button">
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        {/if}
       </table>
     </td>
   </tr>

@@ -14,7 +14,6 @@ function validateForm(f)
         return false;
     }
     if (f.issue.options[f.issue.selectedIndex].value == 'new') {
-        f.method = 'get';
         f.target = '';
         f.action = 'new.php';
     } else {
@@ -99,7 +98,7 @@ function removeEmails(f)
 </script>
 {/literal}
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="email_list_form" target="_popup" onSubmit="javascript:return validateForm(this);" method="post" action="popup.php">
+<form name="email_list_form" target="_popup" onSubmit="javascript:return validateForm(this);" method="get" action="associate.php">
 <input type="hidden" name="cat" value="associate">
   <tr>
     <td>

@@ -53,6 +53,9 @@ if ($issue_id > 0) {
                 }
                 Command_Line::lockIssue(&$client, $issue_id, $user_email, $force_lock);
                 break;
+            case 'unlock':
+                Command_Line::unlockIssue(&$client, $issue_id, $user_email);
+                break;
             case 'assign':
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the developer");
@@ -75,19 +78,43 @@ if ($issue_id > 0) {
                 }
                 Command_Line::addTimeEntry(&$client, $issue_id, $user_email, $HTTP_SERVER_VARS['argv'][3]);
                 break;
+            case 'list-files':
+                Command_Line::printFileList(&$client, $issue_id, $user_email);
+                break;
+            case 'get-file':
+                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                    Command_Line::quit("Missing parameter for the file number");
+                }
+                Command_Line::getFile(&$client, $issue_id, $user_email, $HTTP_SERVER_VARS['argv'][3]);
+                break;
+            default:
+                Command_Line::quit("Unknown command '" . $HTTP_SERVER_VARS['argv'][2] . "'");
         }
-        echo 'running ' . $HTTP_SERVER_VARS['argv'][2];
     }
 } else {
     if ($HTTP_SERVER_VARS['argv'][1] == 'developers') {
         Command_Line::printDeveloperList(&$client, $user_email);
     } elseif ($HTTP_SERVER_VARS['argv'][1] == 'open-issues') {
-        if (@$HTTP_SERVER_VARS['argv'][2] == 'my') {
-            $show_all_issues = false;
+        if (count($HTTP_SERVER_VARS['argv']) == 3) {
+            if (@$HTTP_SERVER_VARS['argv'][2] == 'my') {
+                $show_all_issues = false;
+                $status = '';
+            } else {
+                $show_all_issues = true;
+                $status = $HTTP_SERVER_VARS['argv'][2];
+            }
+        } elseif (count($HTTP_SERVER_VARS['argv']) == 4) {
+            if (@$HTTP_SERVER_VARS['argv'][3] == 'my') {
+                $show_all_issues = false;
+            } else {
+                $show_all_issues = true;
+            }
+            $status = $HTTP_SERVER_VARS['argv'][2];
         } else {
             $show_all_issues = true;
+            $status = '';
         }
-        Command_Line::printOpenIssues(&$client, $user_email, $show_all_issues);
+        Command_Line::printOpenIssues(&$client, $user_email, $show_all_issues, $status);
     } elseif ($HTTP_SERVER_VARS['argv'][1] == 'list-status') {
         Command_Line::printStatusList(&$client, $user_email);
     } else {

@@ -40,6 +40,7 @@ include_once(APP_INC_PATH . "class.attachment.php");
 include_once(APP_INC_PATH . "class.custom_field.php");
 include_once(APP_INC_PATH . "class.phone_support.php");
 include_once(APP_INC_PATH . "class.scm.php");
+include_once(APP_INC_PATH . "class.draft.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -53,12 +54,6 @@ $role_id = User::getRoleByUser($usr_id);
 
 $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["id"];
 $tpl->assign("extra_title", "Issue #$issue_id Details");
-
-if (@$HTTP_GET_VARS['cat'] == 'lock') {
-    Issue::lock($issue_id, $usr_id);
-} elseif (@$HTTP_GET_VARS['cat'] == 'unlock') {
-    Issue::unlock($issue_id);
-}
 
 $details = Issue::getDetails($issue_id);
 
@@ -89,7 +84,8 @@ if ($details['iss_prj_id'] != $prj_id) {
         "time_entries"     => $time_entries['list'],
         "total_time_spent" => $time_entries['total_time_spent'],
         "impacts"          => Impact_Analysis::getListing($issue_id),
-        "statuses"         => Status::getAssocStatusList($prj_id)
+        "statuses"         => Status::getAssocStatusList($prj_id),
+        "drafts"           => Draft::getList($issue_id)
     ));
 }
 

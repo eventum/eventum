@@ -50,12 +50,9 @@ $tpl = new Template_API();
 $tpl->setTemplate("popup.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
+$usr_id = Auth::getUserID();
 
-if (@$HTTP_POST_VARS["cat"] == "add_note") {
-    $HTTP_POST_VARS["note"] = Misc::runSlashes($HTTP_POST_VARS["note"]);
-    $res = Note::insert();
-    $tpl->assign("note_add_result", $res);
-} elseif (@$HTTP_GET_VARS["cat"] == "delete_note") {
+if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $res = Note::remove($HTTP_GET_VARS["id"]);
     $tpl->assign("note_delete_result", $res);
 } elseif (@$HTTP_POST_VARS["cat"] == "add_time") {
@@ -85,14 +82,11 @@ if (@$HTTP_POST_VARS["cat"] == "add_note") {
 } elseif (@$HTTP_POST_VARS["cat"] == "delete_filter") {
     $res = Filter::remove();
     $tpl->assign("delete_filter_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "associate") {
-    $res = Support::associate();
-    $tpl->assign("associate_result", $res);
 } elseif (@$HTTP_POST_VARS["cat"] == "remove_support_email") {
     $res = Support::removeAssociation();
     $tpl->assign("remove_association_result", $res);
 } elseif (@$HTTP_POST_VARS["cat"] == "upload_file") {
-    $res = Attachment::attach(Auth::getUserID());
+    $res = Attachment::attach($usr_id);
     $tpl->assign("upload_file_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "delete_attachment") {
     $res = Attachment::remove($HTTP_GET_VARS["id"]);
@@ -104,9 +98,9 @@ if (@$HTTP_POST_VARS["cat"] == "add_note") {
     $res = SCM::remove();
     $tpl->assign("remove_checkin_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "self_assign") {
-    $res = Issue::addUserAssociation($HTTP_GET_VARS["iss_id"], Auth::getUserID());
+    $res = Issue::addUserAssociation($HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign("self_assign_result", $res);
-    Notification::subscribeUser($HTTP_GET_VARS["iss_id"], Auth::getUserID(), Notification::getAllActions());
+    Notification::subscribeUser($HTTP_GET_VARS["iss_id"], $usr_id, Notification::getAllActions());
 } elseif (@$HTTP_POST_VARS["cat"] == "remove_email") {
     $res = Support::removeEmails();
     $tpl->assign("remove_email_result", $res);
@@ -122,12 +116,18 @@ if (@$HTTP_POST_VARS["cat"] == "add_note") {
 } elseif (@$HTTP_GET_VARS["cat"] == "new_status") {
     $res = Issue::setStatus($HTTP_GET_VARS["iss_id"], $HTTP_GET_VARS["new_sta_id"]);
     if ($res != -1) {
-        History::add($HTTP_GET_VARS["iss_id"], "Issue manually set to status '" . Status::getStatusTitle($HTTP_GET_VARS["new_sta_id"]) . "' by " . User::getFullName(Auth::getUserID()));
+        History::add($HTTP_GET_VARS["iss_id"], "Issue manually set to status '" . Status::getStatusTitle($HTTP_GET_VARS["new_sta_id"]) . "' by " . User::getFullName($usr_id));
     }
     $tpl->assign("new_status_result", $res);
+} elseif (@$HTTP_GET_VARS['cat'] == 'lock') {
+    $res = Issue::lock($HTTP_GET_VARS["iss_id"], $usr_id);
+    $tpl->assign('lock_result', $res);
+} elseif (@$HTTP_GET_VARS['cat'] == 'unlock') {
+    $res = Issue::unlock($HTTP_GET_VARS["iss_id"]);
+    $tpl->assign('unlock_result', $res);
 }
 
-$tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
+$tpl->assign("current_user_prefs", Prefs::get($usr_id));
 
 $tpl->displayTemplate();
 ?>

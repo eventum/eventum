@@ -102,7 +102,7 @@ class Error_Handler
         foreach ($notify_list as $notify_email) {
             $mail = new Mail_API;
             $mail->setTextBody($msg);
-            $mail->send(ERROR_HANDLER_EMAIL, $notify_email, $subject);
+            $mail->send($setup['smtp']['from'], $notify_email, $subject);
         }
     }
 

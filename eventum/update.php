@@ -67,7 +67,8 @@ $tpl->assign(array(
     "resolutions"  => Resolution::getAssocList(),
     "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Reporter')),
     "issues"       => Issue::getColList(),
-    "assoc_issues" => Issue::getAssocList()
+    "assoc_issues" => Issue::getAssocList(),
+    "one_week_ts"  => time() + (7 * DAY)
 ));
 
 $tpl->displayTemplate();

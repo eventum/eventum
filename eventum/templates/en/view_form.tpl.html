@@ -14,10 +14,16 @@ function openNotification(issue_id)
     var popupWin = window.open('notification.php?iss_id=' + issue_id, '_notification', features);
     popupWin.focus();
 }
-function selfAssign(issue_id)
+function lock(issue_id)
 {
     var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=self_assign&iss_id=' + issue_id, '_selfAssign', features);
+    var popupWin = window.open('popup.php?cat=lock&iss_id=' + issue_id, '_selfAssign', features);
+    popupWin.focus();
+}
+function unlock(issue_id)
+{
+    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('popup.php?cat=unlock&iss_id=' + issue_id, '_selfAssign', features);
     popupWin.focus();
 }
 function replyIssue(issue_id)
@@ -168,13 +174,13 @@ function changeIssueStatus(f, issue_id, current_status_id)
             {$issue.reporter}
           </td>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>Estimated Dev. Time:</b>
+            <b>Expected Resolution Date:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
-            {if $issue.iss_dev_time == 0}
-            <i>No estimate given</i>
+            {if $issue.iss_expected_resolution_date == 0}
+            <i>No resolution date given</i>
             {else}
-            {$issue.iss_dev_time|escape:"html"} hours
+            {$issue.iss_expected_resolution_date|escape:"html"}
             {/if}
           </td>
         </tr>
@@ -223,10 +229,10 @@ function changeIssueStatus(f, issue_id, current_status_id)
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td nowrap>
-                  {if $issue.iss_lock_usr_id != "" and $current_role > $roles.reporter}
-                  <input class="button" type="button" value="Unlock Issue" onClick="javascript:window.location.href='view.php?id={$issue.iss_id}&cat=unlock';">&nbsp;
+                  {if $issue.iss_lock_usr_id != ""}
+                  <input class="button" type="button" value="Unlock Issue" onClick="javascript:unlock({$issue.iss_id});">&nbsp;
                   {else}
-                  <input class="button" type="button" value="Assign & Lock Issue" onClick="javascript:window.location.href='view.php?id={$issue.iss_id}&cat=lock';">&nbsp;
+                  <input class="button" type="button" value="Assign & Lock Issue" onClick="javascript:lock({$issue.iss_id});">&nbsp;
                   {/if}
                 </td>
                 <td width="100%" align="center">

@@ -204,6 +204,28 @@ class Notification
 
 
     /**
+     * Method used to check whether the given sender email address is
+     * the same as the issue routing email address.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   string $sender The address of the sender
+     * @return  boolean
+     */
+    function isIssueRoutingSender($issue_id, $sender)
+    {
+        $check = Notification::getFixedFromHeader($issue_id, $sender, 'issue');
+        $check_email = strtolower(Mail_API::getEmailAddress($check));
+        $sender_email = strtolower(Mail_API::getEmailAddress($sender));
+        if ($check_email == $sender_email) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
      * Method used to forward the new email to the list of subscribers.
      *
      * @access  public
@@ -215,10 +237,6 @@ class Notification
      */
     function notifyNewEmail($issue_id, $structure, $full_message, $internal_only = FALSE)
     {
-        if (@get_magic_quotes_gpc() == 1) {
-            $full_message = stripslashes($full_message);
-            $structure->headers = Misc::array_map_deep($structure->headers, "stripslashes");
-        }
         // XXX: need to rewrite the full email and change the To: header manually
 
         $sender = $structure->headers['from'];
@@ -226,7 +244,9 @@ class Notification
         $subscribed_emails = Notification::getSubscribedEmails($issue_id, 'emails');
         $subscribed_emails = array_map('strtolower', $subscribed_emails);
         $sender_email = strtolower(Mail_API::getEmailAddress($sender));
-        if ((!Notification::isBounceMessage($sender_email)) && (!in_array($sender_email, $subscribed_emails))) {
+        if ((!Notification::isIssueRoutingSender($issue_id, $sender)) &&
+                (!Notification::isBounceMessage($sender_email)) &&
+                (!in_array($sender_email, $subscribed_emails))) {
             Notification::manualInsert($issue_id, $sender_email, array('emails'));
         }
 
@@ -372,6 +392,7 @@ class Notification
                     not_iss_id,
                     not_created_date,
                     not_note,
+                    not_title,
                     usr_full_name
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
@@ -517,23 +538,39 @@ class Notification
      * @param   integer $internal_only Whether the notification should only be sent to internal users or not
      * @return  void
      */
-    function notify($issue_id, $type, $ids = FALSE, $internal_only = FALSE)
+    function notify($issue_id, $type, $ids = FALSE, $internal_only = FALSE, $extra_recipients = FALSE)
     {
+        if ($extra_recipients) {
+            $extra = array();
+            for ($i = 0; $i < count($extra_recipients); $i++) {
+                $extra[] = array(
+                    'sub_usr_id' => $extra_recipients[$i],
+                    'sub_email'  => ''
+                );
+            }
+        }
         $emails = array();
         $users = Notification::getUsersByIssue($issue_id, $type);
+        if (($extra_recipients) && (count($extra) > 0)) {
+            $users = array_merge($users, $extra);
+        }
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Viewer'));
         $user_emails = array_map('strtolower', $user_emails);
         for ($i = 0; $i < count($users); $i++) {
             if (empty($users[$i]["sub_usr_id"])) {
                 if (($internal_only == false) || (in_array(strtolower($users[$i]["sub_email"]), array_values($user_emails)))) {
-                    $emails[] = $users[$i]["sub_email"];
+                    $email = $users[$i]["sub_email"];
                 }
             } else {
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
                 if (($internal_only == true) && (User::getRoleByUser($users[$i]["sub_usr_id"]) < User::getRoleID('standard user'))) {
                     continue;
                 }
-                $emails[] = User::getFromHeader($users[$i]["sub_usr_id"]);
+                $email = User::getFromHeader($users[$i]["sub_usr_id"]);
+            }
+            // now add it to the list of emails
+            if ((!empty($email)) && (!in_array($email, $emails))) {
+                $emails[] = $email;
             }
         }
         if (count($emails) > 0) {
@@ -933,8 +970,7 @@ class Notification
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 if ($res[$i]["sub_usr_id"] != 0) {
-                    $info = User::getNameEmail($res[$i]["sub_usr_id"]);
-                    $res[$i]["sub_email"] = $info["usr_email"];
+                    $res[$i]["sub_email"] = User::getFromHeader($res[$i]["sub_usr_id"]);
                 }
                 // need to get the list of subscribed actions now
                 $actions = Notification::getSubscribedActions($res[$i]["sub_id"]);
@@ -1147,7 +1183,7 @@ class Notification
      */
     function manualInsert($issue_id, $form_email, $actions)
     {
-        $form_email = strtolower($form_email);
+        $form_email = strtolower(Mail_API::getEmailAddress($form_email));
         // first check if this is an actual user or just an email address
         $user_emails = User::getAssocEmailList();
         $user_emails = array_map('strtolower', $user_emails);

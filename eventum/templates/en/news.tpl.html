@@ -16,10 +16,8 @@
               <tr>
                 <td bgcolor="{$light_color}" class="default">
                   {section name="i" loop=$news}
-                  <b>{$news[i].nws_created_date} - {$news[i].nws_title}</b>
-                  <br /><br />
-                  {$news[i].nws_message|nl2br}
-                  <br /><br />
+                  <p><b>{$news[i].nws_created_date} - {$news[i].nws_title}</b></p>
+                  <p>{$news[i].nws_message|escape:"html"|nl2br}</p>
                   {/section}
                 </td>
               </tr>

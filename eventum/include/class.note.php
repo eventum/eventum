@@ -48,6 +48,103 @@ include_once(APP_INC_PATH . "class.date.php");
 
 class Note
 {
+    // XXX: put documentation here
+    function getSideLinks($issue_id, $not_id)
+    {
+        $stmt = "SELECT
+                    not_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 WHERE
+                    not_iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            // COMPAT: the next line requires PHP >= 4.0.5
+            $index = array_search($not_id, $res);
+            if (!empty($res[$index+1])) {
+                $next = $res[$index+1];
+            }
+            if (!empty($res[$index-1])) {
+                $previous = $res[$index-1];
+            }
+            return array(
+                "next"     => @$next,
+                "previous" => @$previous
+            );
+        }
+    }
+
+
+    // XXX: put documentation here
+    function getDetails($note_id)
+    {
+        $stmt = "SELECT
+                    *,
+                    UNIX_TIMESTAMP(not_created_date) timestamp,
+                    not_blocked_message
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 WHERE
+                    not_id=$note_id";
+        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        } else {
+            $res['not_created_date'] = Date_API::getFormattedDate($res['not_created_date']);
+            $res["not_from"] = User::getFullName($res['not_usr_id']);
+            if (!empty($res['not_blocked_message'])) {
+                $res['has_blocked_message'] = true;
+                $res["attachments"] = Mime_Helper::getAttachmentCIDs($res['not_blocked_message']);
+            } else {
+                $res['has_blocked_message'] = false;
+            }
+            return $res;
+        }
+    }
+
+
+    // XXX: put documentation here
+    function getBlockedMessage($note_id)
+    {
+        $stmt = "SELECT
+                    not_blocked_message
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 WHERE
+                    not_id=$note_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        } else {
+            return $res;
+        }
+    }
+
+
+    // XXX: put documentation here
+    function getIssueID($note_id)
+    {
+        $stmt = "SELECT
+                    not_iss_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 WHERE
+                    not_id=$note_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        } else {
+            return $res;
+        }
+    }
+
+
     /**
      * Method used to save the routed note into a backup directory.
      *
@@ -119,27 +216,48 @@ class Note
     {
         global $HTTP_POST_VARS;
 
-        if (@count($HTTP_POST_VARS['note_cc']) > 0) {
-            for ($i = 0; $i < count($HTTP_POST_VARS['note_cc']); $i++) {
-                Notification::subscribeUser($HTTP_POST_VARS["issue_id"], $HTTP_POST_VARS['note_cc'][$i], Notification::getAllActions());
-            }
+        $usr_id = Auth::getUserID();
+        if (@$HTTP_POST_VARS['add_extra_recipients'] != 'yes') {
+            $note_cc = array();
+        } else {
+            $note_cc = $HTTP_POST_VARS['note_cc'];
+        }
+        // add the poster to the list of people to be subscribed to the notification list
+        $note_cc[] = $usr_id;
+        for ($i = 0; $i < count($note_cc); $i++) {
+            Notification::subscribeUser($HTTP_POST_VARS["issue_id"], $note_cc[$i], Notification::getAllActions());
         }
         if (Validation::isWhitespace($HTTP_POST_VARS["note"])) {
             return -2;
         }
-        $usr_id = Auth::getUserID();
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  (
                     not_iss_id,
                     not_usr_id,
                     not_created_date,
-                    not_note
+                    not_note,
+                    not_title";
+        if (!@empty($HTTP_POST_VARS['blocked_msg'])) {
+            $stmt .= ", not_blocked_message";
+        }
+        if (!@empty($HTTP_POST_VARS['parent_id'])) {
+            $stmt .= ", not_parent_id";
+        }
+        $stmt .= "
                  ) VALUES (
                     " . $HTTP_POST_VARS["issue_id"] . ",
                     $usr_id,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . $HTTP_POST_VARS["note"] . "'
+                    '" . $HTTP_POST_VARS["note"] . "',
+                    '" . $HTTP_POST_VARS["title"] . "'";
+        if (!@empty($HTTP_POST_VARS['blocked_msg'])) {
+            $stmt .= ", '" . $HTTP_POST_VARS['blocked_msg'] . "'";
+        }
+        if (!@empty($HTTP_POST_VARS['parent_id'])) {
+            $stmt .= ", " . $HTTP_POST_VARS['parent_id'] . "";
+        }
+        $stmt .= "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -152,7 +270,11 @@ class Note
             History::add($HTTP_POST_VARS['issue_id'], 'Note added by ' . User::getFullName($usr_id));
             // send notifications for the issue being updated
             $internal_only = true;
-            Notification::notify($HTTP_POST_VARS["issue_id"], 'notes', $new_note_id, $internal_only);
+            if ((@$HTTP_POST_VARS['add_extra_recipients'] != 'yes') && (@count($HTTP_POST_VARS['note_cc']) > 0)) {
+                Notification::notify($HTTP_POST_VARS["issue_id"], 'notes', $new_note_id, $internal_only, $HTTP_POST_VARS['note_cc']);
+            } else {
+                Notification::notify($HTTP_POST_VARS["issue_id"], 'notes', $new_note_id, $internal_only);
+            }
             return 1;
         }
     }
@@ -229,9 +351,10 @@ class Note
     {
         $stmt = "SELECT
                     not_id,
-                    not_note,
                     not_created_date,
+                    not_title,
                     not_usr_id,
+                    IF(LENGTH(not_blocked_message) > 0, 1, 0) AS has_blocked_message,
                     usr_full_name
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
@@ -253,8 +376,6 @@ class Note
                 if ($role_id < User::getRoleID('standard user')) {
                     continue;
                 }
-                $res[$i]["not_note"] = Misc::activateLinks(nl2br(htmlspecialchars($res[$i]["not_note"])));
-                $res[$i]["not_note"] = Misc::activateIssueLinks($res[$i]["not_note"]);
                 $res[$i]["not_created_date"] = Date_API::getFormattedDate($res[$i]["not_created_date"]);
                 $t[] = $res[$i];
             }

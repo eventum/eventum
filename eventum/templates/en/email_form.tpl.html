@@ -40,7 +40,7 @@ function closeAndRefresh()
 {if $draft_result == -1}
   <b>An error occurred while trying to run your query</b>
 {elseif $draft_result == 1}
-  <b>Thank you, the email response was saved as a draft successfully.</b>
+  <b>Thank you, the email message was saved as a draft successfully.</b>
 {/if}
   </span>
 </center>
@@ -108,6 +108,11 @@ function saveDraft(f)
     f.cat.value = 'save_draft';
     f.submit();
 }
+function updateDraft(f)
+{
+    f.cat.value = 'update_draft';
+    f.submit();
+}
 var old_message = '';
 function setSignature(f)
 {
@@ -122,15 +127,6 @@ function setSignature(f)
         f.message.value = old_message;
     }
 } 
-function loadDraft(f)
-{
-{/literal}
-    f.to.value = "{$email.sup_draft_response.to|replace:'"':'\"'}";
-    f.cc.value = "{$email.sup_draft_response.cc|replace:'"':'\"'}";
-    f.subject.value = "{$email.sup_draft_response.subject|replace:'"':'\"'}";
-    f.message.value = "{$email.sup_draft_response.message|replace:'"':'\"'}";
-{literal}
-}
 //-->
 </script>
 {/literal}
@@ -142,6 +138,9 @@ function loadDraft(f)
 <input type="hidden" name="parent_id" value="{$parent_email_id}">
 <input type="hidden" name="ema_id" value="{$ema_id}">
 <input type="hidden" name="issue_id" value="{$issue_id}">
+{if $smarty.get.cat == 'view_draft'}
+<input type="hidden" name="draft_id" value="{$draft_id}">
+{/if}
 {if $issue_lock_usr_id and $issue_lock_usr_id != $current_user_id}
 <br />
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
@@ -204,7 +203,7 @@ function loadDraft(f)
             <b>Cc:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="cc" class="default" size="50">
+            <input type="text" name="cc" class="default" size="50" value="{$email.cc|escape:"html"}">
             {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users multiple="1"}', 'send_email_form', 'cc'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
           </td>
         </tr>
@@ -222,7 +221,7 @@ function loadDraft(f)
             <b>Subject: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="subject" class="default" size="50" value="{if $email.sup_subject != ""}Re: {/if}{$email.sup_subject|escape:"html"}">
+            <input type="text" name="subject" class="default" size="50" value="{if $smarty.get.cat != 'view_draft' and $email.sup_subject != ""}Re: {/if}{$email.sup_subject|escape:"html"}">
             {include file="error_icon.tpl.html" field="subject"}
           </td>
         </tr>
@@ -282,16 +281,15 @@ function loadDraft(f)
             </table>
           </td>
         </tr>
-        {if $parent_email_id}
         <tr>
-          <td bgcolor="{if $email.sup_draft_response}{$middle_color}{else}{$cell_color}{/if}" colspan="2">
+          <td bgcolor="{$dark_color}" colspan="2">
+            {if $smarty.get.cat == 'view_draft'}
+            <input type="button" class="button" value="Save Draft Changes" onClick="javascript:updateDraft(this.form);">
+            {else}
             <input type="button" class="button" value="Save as Draft" onClick="javascript:saveDraft(this.form);">
-            {if $email.sup_draft_response}
-            <input type="button" class="button" value="Load Existing Draft" onClick="javascript:loadDraft(this.form);">
             {/if}
           </td>
         </tr>
-        {/if}
         <tr>
           <td colspan="2" class="default">
             <b>* Required fields</b>

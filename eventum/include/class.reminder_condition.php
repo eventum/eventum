@@ -116,9 +116,9 @@ class Reminder_Condition
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
                  SET
                     rlc_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    rlc_rmf_id=" . $HTTP_POST_VARS['field'] . "
-                    rlc_rmo_id=" . $HTTP_POST_VARS['operator'] . "
-                    rlc_value='" . $HTTP_POST_VARS['value'] . "',
+                    rlc_rmf_id=" . $HTTP_POST_VARS['field'] . ",
+                    rlc_rmo_id=" . $HTTP_POST_VARS['operator'] . ",
+                    rlc_value='" . $HTTP_POST_VARS['value'] . "'
                  WHERE
                     rlc_id=" . $HTTP_POST_VARS['id'];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -218,6 +218,8 @@ class Reminder_Condition
             for ($i = 0; $i < count($res); $i++) {
                 if (strtolower($res[$i]['rmf_title']) == 'status') {
                     $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
+                } elseif (strtolower($res[$i]['rmf_title']) == 'category') {
+                    $res[$i]['rlc_value'] = Category::getTitle($res[$i]['rlc_value']);
                 } elseif (strtoupper($res[$i]['rlc_value']) != 'NULL') {
                     $res[$i]['rlc_value'] .= ' hours';
                 }

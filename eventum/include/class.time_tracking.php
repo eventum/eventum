@@ -298,7 +298,9 @@ class Time_Tracking
                  WHERE
                     ttr_ttc_id=ttc_id AND
                     ttr_usr_id=usr_id AND
-                    ttr_iss_id=$issue_id";
+                    ttr_iss_id=$issue_id
+                 ORDER BY
+                    ttr_created_date ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

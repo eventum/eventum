@@ -80,8 +80,8 @@ function deleteTimeEntry(time_id)
               </tr>
               {if $smarty.section.i.last}
               <tr>
-                <td bgcolor="{$cell_color}" class="default_white" align="right">Total Time Spent:</td>
-                <td bgcolor="{$dark_color}" colspan="4" class="default">{$total_time_spent}</td>
+                <td bgcolor="{$cell_color}" colspan="2" class="default_white" align="right">Total Time Spent:</td>
+                <td bgcolor="{$dark_color}" colspan="3" class="default">{$total_time_spent}</td>
               </tr>
               {/if}
               {sectionelse}
@@ -120,7 +120,7 @@ function deleteTimeEntry(time_id)
           <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Date of Work:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             {html_select_date day_value_format='%02d' field_array='date' prefix='' all_extra=' class="default"'}&nbsp;
-            {html_select_time field_array='date' prefix='' all_extra=' class="default"' display_seconds=false}
+            {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' class="default"' display_seconds=false}
             <a href="javascript:void(null);" onClick="javascript:updateTimeFields('add_time_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');"><img src="images/icons/refresh.gif" border="0"></a>
           </td>
         </tr>

@@ -110,10 +110,14 @@
                   <b>Value:</b>
                 </td>
                 <td width="90%" bgcolor="{$light_color}">
-                  {if $show_status_options == 'yes'}
+                  {if $show_status_options == 'yes' or $show_category_options == 'yes'}
                   <select name="value" class="default">
                     <option value="-1">Please choose an option</option>
+                    {if $show_status_options == 'yes'}
                     {html_options options=$statuses selected=$info.rlc_value}
+                    {elseif $show_category_options == 'yes'}
+                    {html_options options=$categories selected=$info.rlc_value}
+                    {/if}
                   </select>
                   {else}
                   <input type="text" size="5" name="value" class="default" value="{$info.rlc_value}">

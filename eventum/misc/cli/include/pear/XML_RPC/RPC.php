@@ -618,6 +618,7 @@ class XML_RPC_Message
             $data= substr($data,$brpos+4);
             $hdrfnd=1;
         }
+        $data = utf8_encode($data);
 
         if (!xml_parse($parser, $data, sizeof($data))) {
             // thanks to Peter Kocks <peter.kocks@baygate.com>

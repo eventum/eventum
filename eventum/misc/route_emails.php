@@ -104,7 +104,7 @@ if (empty($mail_domain)) {
     echo "Error: Please configure the email address domain.\n";
     exit(100);
 }
-$structure = Mime_Helper::decode($full_message, true, false);
+$structure = Mime_Helper::decode($full_message, true, true);
 
 // find which issue ID this email refers to
 @preg_match("/$prefix(\d*)@$mail_domain/i", $structure->headers['to'], $matches);
@@ -136,52 +136,18 @@ if (!empty($setup['email_routing']['warning']['message'])) {
     $body = str_replace($setup['email_routing']['warning']['message'], '', $body);
 }
 
-// check if the sender of this email is in the notification list, or is the user currently locking the issue
-// -> if not, add the email body as a note to the issue, block the message and send a notification to the sender
-$lock_usr_id = Issue::getLockedUserID($issue_id);
-if (!empty($lock_usr_id)) {
-    // check if the sender is really a staff user and not just an unknown person
-    $sender_usr_id = User::getUserIDByEmail($sender_email);
-    if (!empty($sender_usr_id)) {
-        $lock_usr_info = User::getNameEmail($lock_usr_id);
-        $stmt = "SELECT
-                    usr_email
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 WHERE
-                    sbt_type='emails' AND
-                    sbt_sub_id=sub_id AND
-                    sub_iss_id=$issue_id AND
-                    sub_usr_id=usr_id AND
-                    usr_role > " . User::getRoleID('Viewer');
-        $allowed_emails = $GLOBALS["db_api"]->dbh->getCol($stmt);
-        $allowed_emails = array_map('strtolower', $allowed_emails);
-        // if the person locking the issue is not already in the notification list, then 
-        // add him to the list of email addresses allowed to send emails to issue-XXX@
-        if (!in_array(strtolower($lock_usr_info['usr_email']), $allowed_emails)) {
-            $allowed_emails[] = strtolower($lock_usr_info['usr_email']);
-        }
-        if (!in_array($sender_email, $allowed_emails)) {
-            // add the message body as a note
-            $HTTP_POST_VARS = array(
-                'note'     => "The following message was blocked from being routed to the notification list of this issue:\n\n" . addslashes($full_message),
-                'issue_id' => $issue_id
-            );
-            Note::insert();
-            // send alert email back to the sender
-            $text_message = "Sorry, but your message to issue #$issue_id was blocked because you are not subscribed to the notification list of this locked issue.\n\n";
-            $text_message .= "Your message was not sent to the notification list but was saved as an internal note for future reference. If you want to send this email to issue #$issue_id, please add yourself to the notification list using the web interface and re-send the message.";
-            $mail = new Mail_API;
-            $mail->setTextBody($text_message);
-            $setup = $mail->getSMTPSettings();
-            $mail->send($setup["from"], $sender_email, "Blocked Message for Issue #" . $issue_id);
-
-            echo "Message blocked from being sent to the notification list of issue #$issue_id\n";
-            exit();
-        }
-    }
+// check if sender email address is associated with a real user
+if (!Support::isAllowedToEmail($issue_id, $sender_email)) {
+    $body = Support::getMessageBody($structure);
+    // add the message body as a note
+    $HTTP_POST_VARS = array(
+        'blocked_msg' => addslashes($full_message),
+        'title'       => "Blocked email message",
+        'note'        => addslashes($body),
+        'issue_id'    => $issue_id
+    );
+    Note::insert();
+    exit();
 }
 
 if (@count($parts["attachments"]) > 0) {
@@ -193,7 +159,7 @@ $t = array(
     'issue_id'       => $issue_id,
     'ema_id'         => $email_account_id,
     'message_id'     => @addslashes(@$structure->headers['message-id']),
-    'date'           => Date_API::getCurrentUnixTimestampGMT(),
+    'date'           => Date_API::getCurrentDateGMT(),
     'from'           => @addslashes($structure->headers['from']),
     'to'             => @addslashes($structure->headers['to']),
     'cc'             => @addslashes($structure->headers['cc']),
@@ -208,7 +174,7 @@ if ($res != -1) {
 
     // notifications about new emails are always external
     $internal_only = false;
-    // special case when emails are bounced back, so we don't want to notify the customer about those
+    // special case when emails are bounced back, so we don't want a notification about those
     if (Notification::isBounceMessage($sender_email)) {
         $internal_only = true;
     }
@@ -216,26 +182,35 @@ if ($res != -1) {
     Issue::markAsUpdated($issue_id);
 }
 
-$prj_id = Issue::getProjectID($issue_id);
-$staff_emails = Project::getUserEmailAssocList($prj_id, 'active');
-$staff_emails = array_map('strtolower', $staff_emails);
-// handle the first_response_date / last_response_date fields
-if (in_array($sender_email, array_values($staff_emails))) {
-    $stmt = "UPDATE
-                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-             SET
-                iss_last_response_date='" . Date_API::getCurrentDateGMT() . "'
-             WHERE
-                iss_id=$issue_id";
-    $GLOBALS["db_api"]->dbh->query($stmt);
+if (Notification::isBounceMessage($sender_email)) {
+    // only change the status of the associated issue if the current status is not
+    // currently marked to a status with a closed context
+    $current_status_id = Issue::getStatusID($issue_id);
+    if (!Status::hasClosedContext($current_status_id)) {
+        Issue::markAsUpdated($issue_id);
+    }
+} else {
+    $prj_id = Issue::getProjectID($issue_id);
+    $staff_emails = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Reporter'));
+    $staff_emails = array_map('strtolower', $staff_emails);
+    // handle the first_response_date / last_response_date fields
+    if (in_array($sender_email, array_values($staff_emails))) {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 SET
+                    iss_last_response_date='" . Date_API::getCurrentDateGMT() . "'
+                 WHERE
+                    iss_id=$issue_id";
+        $GLOBALS["db_api"]->dbh->query($stmt);
 
-    $stmt = "UPDATE
-                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-             SET
-                iss_first_response_date='" . Date_API::getCurrentDateGMT() . "'
-             WHERE
-                iss_first_response_date IS NULL AND
-                iss_id=$issue_id";
-    $GLOBALS["db_api"]->dbh->query($stmt);
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 SET
+                    iss_first_response_date='" . Date_API::getCurrentDateGMT() . "'
+                 WHERE
+                    iss_first_response_date IS NULL AND
+                    iss_id=$issue_id";
+        $GLOBALS["db_api"]->dbh->query($stmt);
+    }
 }
 ?>

@@ -7,7 +7,7 @@
 <!--
 function validate(f)
 {
-    if (!isEmail(f.email.value)) {
+    if (isWhitespace(f.email.value)) {
         alert('Please enter a valid email address.');
         selectField(f, 'email');
         return false;
@@ -126,7 +126,7 @@ function removeOption(f, field_name)
               <input type="hidden" name="issue_id" value="{$issue_id}">
               <tr>
                 <td bgcolor="{$cell_color}" nowrap>&nbsp;</td>
-                <td bgcolor="{$cell_color}" class="default_white"><b>Email</b></td>
+                <td bgcolor="{$cell_color}" class="default_white"><b>Email</b> (click to edit)</td>
                 <td bgcolor="{$cell_color}" class="default_white"><b>Actions</b></td>
               </tr>
               {section name="i" loop=$list}
@@ -134,7 +134,7 @@ function removeOption(f, field_name)
               <tr>
                 <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].sub_id}"></td>
                 <td width="60%" bgcolor="{$row_color}" class="default">
-                  <a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&iss_id={$list[i].sub_iss_id}&id={$list[i].sub_id}" title="update this entry">{$list[i].sub_email}</a>
+                  <a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&iss_id={$list[i].sub_iss_id}&id={$list[i].sub_id}" title="update this entry">{$list[i].sub_email|escape:"html"}</a>
                 </td>
                 <td width="40%" bgcolor="{$row_color}" class="default">
                   {$list[i].actions}

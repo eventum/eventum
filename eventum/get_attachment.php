@@ -35,7 +35,11 @@ include_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$email = Support::getFullEmail($HTTP_GET_VARS["sup_id"]);
+if (@$HTTP_GET_VARS['cat'] == 'blocked_email') {
+    $email = Note::getBlockedMessage($HTTP_GET_VARS["note_id"]);
+} else {
+    $email = Support::getFullEmail($HTTP_GET_VARS["sup_id"]);
+}
 
 if (@$HTTP_GET_VARS["filename"] == 'Outlook.bmp') {
     list(, $data) = Mime_Helper::getAttachment($email, $HTTP_GET_VARS["filename"], $HTTP_GET_VARS["cid"]);

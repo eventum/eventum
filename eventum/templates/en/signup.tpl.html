@@ -45,11 +45,11 @@ function validateForm(f)
 <table align="center" width="500" border="0" cellspacing="0" cellpadding="1" bgcolor="#000000">
   <tr>
     <td>
-      <table bgcolor="{$dark_color}" width="100%" border="0" cellspacing="0" cellpadding="4">
+      <table bgcolor="#006486" width="100%" border="0" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" align="center">
-            <h1>Account Signup</h1>
-            <hr size="1" noshade color="#000000">
+            <h1 style="color=white;">Account Signup</h1>
+            <hr size="1" noshade color="white">
           </td>
         </tr>
         {if $signup_result != ''}
@@ -73,27 +73,27 @@ function validateForm(f)
         {/if}
         {if $signup_result == 1}
         <tr>
-          <td bgcolor="{$middle_color}" colspan="2" align="center">
+          <td colspan="2" align="center">
             <input class="button" type="button" value="Back to Login Screen" onClick="javascript:location.href='index.php';">
           </td>
         </tr>
         {else}
         <tr>
-          <td align="right" width="130" class="default"><b>Full Name:</b></td>
+          <td align="right" width="130" class="default_white"><b>Full Name:</b></td>
           <td width="75%">
             <input class="default" type="text" name="full_name" size="50" maxlength="255">
             {include file="error_icon.tpl.html" field="full_name"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="130" class="default"><b>Email Address:</b></td>
+          <td align="right" width="130" class="default_white"><b>Email Address:</b></td>
           <td width="75%">
             <input class="default" type="text" name="email" size="50" maxlength="255">
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="130" class="default"><b>Password:</b></td>
+          <td align="right" width="130" class="default_white"><b>Password:</b></td>
           <td width="75%">
             <input class="default" type="password" name="passwd" size="20" maxlength="32">
             {include file="error_icon.tpl.html" field="passwd"}
@@ -105,7 +105,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$middle_color}" colspan="2" align="right">
+          <td colspan="2" align="right">
             <input style="font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 90%;" type="submit" value="Create Account &gt;&gt;" tabindex="7">
           </td>
         </tr>

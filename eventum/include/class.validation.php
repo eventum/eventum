@@ -75,7 +75,7 @@ class Validation
         $str = strtolower($str);
 
         // we need at least one @ symbol
-        if (!strstr('@', $str)) {
+        if (!strstr($str, '@')) {
             return false;
         }
         // and no more than one @ symbol
@@ -90,11 +90,11 @@ class Validation
             }
         }
         // email addresses need at least one dot
-        if (!strstr('.', $str)) {
+        if (!strstr($str, '.')) {
             return false;
         }
         // no two dots alongside each other
-        if (strstr('..', $str)) {
+        if (strstr($str, '..')) {
             return false;
         }
         // the last character cannot be one of the extended ones

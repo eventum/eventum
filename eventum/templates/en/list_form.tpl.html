@@ -37,6 +37,14 @@ function resizePager(f)
     var pagesize = f.page_size.options[f.page_size.selectedIndex].value;
     window.location.href = page_url + "?" + replaceParam(window.location.href, 'rows', pagesize);
 }
+function checkPageField(ev)
+{
+    // check if the user is trying to submit the form by hitting <enter>
+    if (((window.event) && (window.event.keyCode == 13)) ||
+            ((ev) && (ev.which == 13))) {
+        return false;
+    }
+}
 function goPage(f, new_page)
 {
     if ((new_page > last_page+1) || (new_page <= 0) ||
@@ -87,7 +95,7 @@ function disableFields()
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td colspan="{if $current_role > $roles.standard_user}7{else}6{/if}" class="default">
+          <td colspan="{if $current_role > $roles.standard_user}8{else}7{/if}" class="default">
             <b>Search Results ({$list_info.total_rows} issues found{if $list_info.end_offset > 0}, {math equation="x + 1" x=$list_info.start_offset} - {$list_info.end_offset} shown{/if})</b>
             {include file="help_link.tpl.html" topic="list"}
           </td>
@@ -123,11 +131,9 @@ function disableFields()
             <a title="sort by status" href="{$sorting.links.iss_sta_id}" class="white_link">Status</a>
             {if $sorting.images.iss_sta_id != ""}<a title="sort by status" href="{$sorting.links.iss_sta_id}" class="white_link"><img border="0" src="{$sorting.images.iss_sta_id}"></a>{/if}
           </td>
-          <td align="center" class="default_white" nowrap>
-            <a title="sort by created date" href="{$sorting.links.iss_created_date}" class="white_link">Created Date</a>
-            {if $sorting.images.iss_created_date != ""}<a title="sort by created date" href="{$sorting.links.iss_created_date}" class="white_link"><img border="0" src="{$sorting.images.iss_created_date}"></a>{/if}
-          </td>
-          <td width="40%">
+          <td align="center" class="default_white" nowrap>Status Change Date</td>
+          <td align="center" class="default_white" nowrap>Last Action Date</td>
+          <td width="30%">
             <table cellspacing="0" cellpadding="1" width="100%">
               <tr>
                 <td class="default_white">
@@ -152,7 +158,8 @@ function disableFields()
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].time_spent}</td>
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].prc_title|escape:"html"}</td>
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].sta_title|escape:"html"}</td>
-          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].iss_created_date|escape:"html"}</td>
+          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].status_change_date|escape:"html"}</td>
+          <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].last_action_date|escape:"html"}</td>
           <td bgcolor="{$list[i].status_color}" width="50%" class="default">
             <a href="view.php?id={$list[i].iss_id}" class="link" title="view issue details">{$list[i].iss_summary|escape:"html"}</a>
             {if $list[i].iss_lock_usr_id != ""}
@@ -162,13 +169,13 @@ function disableFields()
         </tr>
         {sectionelse}
         <tr bgcolor="gray">
-          <td colspan="{if $current_role > $roles.standard_user}9{else}8{/if}" class="default_white" align="center">
+          <td colspan="{if $current_role > $roles.standard_user}10{else}9{/if}" class="default_white" align="center">
             <b>No issues could be found.</b>
           </td>
         </tr>
         {/section}
         <tr bgcolor="{$cell_color}">
-          <td colspan="{if $current_role > $roles.standard_user}9{else}8{/if}">
+          <td colspan="{if $current_role > $roles.standard_user}10{else}9{/if}">
             <table width="100%" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="30%" nowrap>
@@ -186,7 +193,7 @@ function disableFields()
                   <nobr>
                   <input name="first" type="button" value="|&lt;" class="shortcut" onClick="javascript:setPage(0);">
                   <input name="previous" type="button" value="&lt;&lt;" class="shortcut" onClick="javascript:setPage({$list_info.previous_page});">
-                  <input type="text" name="page" size="3" maxlength="3" value="{math equation="x + 1" x=$list_info.current_page}" style="background: {$cell_color};" class="paging_input">
+                  <input type="text" name="page" size="3" maxlength="3" value="{math equation="x + 1" x=$list_info.current_page}" style="background: {$cell_color};" class="paging_input" onKeyPress="javascript:return checkPageField(event);">
                   <input name="go" type="button" value="Go" class="shortcut" onClick="javascript:goPage(this.form, this.form.page.value);">
                   <input name="next" type="button" value="&gt;&gt;" class="shortcut" onClick="javascript:setPage({$list_info.next_page});">
                   <input name="last" type="button" value="&gt;|" class="shortcut" onClick="javascript:setPage({$list_info.last_page});">

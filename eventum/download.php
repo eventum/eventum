@@ -53,10 +53,22 @@ if ($HTTP_GET_VARS['cat'] == 'attachment') {
         // instead of redirecting the user to a PHP script that may contain malicious code, we highlight the code
         highlight_string($file['iaf_file']);
     } else {
-        if (empty($file['iaf_filetype'])) {
-            header("Content-Type: application/unknown");
+        $special_extensions = array(
+            'err',
+            'log',
+            'cnf',
+            'var',
+            'ini'
+        );
+        // always force the browser to display the contents of these special files
+        if (in_array(strtolower($parts["extension"]), $special_extensions)) {
+            header('Content-Type: text/plain');
         } else {
-            header("Content-Type: " . $file['iaf_filetype']);
+            if (empty($file['iaf_filetype'])) {
+                header("Content-Type: application/unknown");
+            } else {
+                header("Content-Type: " . $file['iaf_filetype']);
+            }
         }
         header("Content-Disposition: attachment; filename=$filename");
         header("Content-Length: " . $file['iaf_filesize']);

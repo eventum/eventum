@@ -55,17 +55,20 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     } elseif (@$HTTP_POST_VARS["cat"] == "update") {
         $tpl->assign("result", Reminder_Action::update());
     } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
-        Reminder_Action::remove();
+        @Reminder_Action::remove($HTTP_POST_VARS['items']);
     }
 
     if (@$HTTP_GET_VARS["cat"] == "edit") {
         $tpl->assign("info", Reminder_Action::getDetails($HTTP_GET_VARS["id"]));
+    } elseif (@$HTTP_GET_VARS["cat"] == "change_rank") {
+        Reminder_Action::changeRank($HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
     }
 
     $tpl->assign("rem_id", $rem_id);
     $tpl->assign("rem_title", Reminder::getTitle($rem_id));
     $tpl->assign("action_types", Reminder_Action::getActionTypeList());
     $tpl->assign("list", Reminder_Action::getAdminList($rem_id));
+    $tpl->assign("user_options", User::getActiveAssocList(User::getRoleID('Reporter')));
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }

@@ -17,6 +17,7 @@ To view more details of this issue, or to update it, please visit the following
             Posted by {$data.note.usr_full_name}
           </td>
           <td bgcolor="{$light_color}" width="100%" class="default" valign="top">
+            <p><b>{$data.note.not_title|escape:"html"}</b></p>
             {$data.note.not_note|escape:"html"|replace:"\n":"<br />"}
           </td>
         </tr>

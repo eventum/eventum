@@ -33,6 +33,7 @@ include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.support.php");
 include_once(APP_INC_PATH . "class.email_response.php");
+include_once(APP_INC_PATH . "class.draft.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -52,20 +53,49 @@ if (@$HTTP_POST_VARS["cat"] == "send_email") {
     if (!@empty($HTTP_POST_VARS['new_status'])) {
         Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
     }
+    // remove the existing email draft, if appropriate
+    if (!empty($HTTP_POST_VARS['draft_id'])) {
+        Draft::remove($HTTP_POST_VARS['draft_id']);
+    }
 } elseif (@$HTTP_POST_VARS["cat"] == "save_draft") {
-    $res = Support::saveDraft();
+    $res = Draft::saveEmail($issue_id, $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], Misc::runSlashes($HTTP_POST_VARS["subject"]), Misc::runSlashes($HTTP_POST_VARS["message"]), $HTTP_POST_VARS["parent_id"]);
+    $tpl->assign("draft_result", $res);
+} elseif (@$HTTP_POST_VARS["cat"] == "update_draft") {
+    $res = Draft::update($issue_id, $HTTP_POST_VARS["draft_id"], $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"], $HTTP_POST_VARS["parent_id"]);
     $tpl->assign("draft_result", $res);
 }
 
-if (!@empty($HTTP_GET_VARS["id"])) {
-    $email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]);
-    $date = Misc::formatReplyDate($email["timestamp"]);
-    $header = "\n\n\nOn $date, " . $email["sup_from"] . " wrote:\n>\n";
-    $email["sup_body"] = $header . Misc::formatReply($email["message"]);
+if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
+    $draft = Draft::getDetails($HTTP_GET_VARS['id']);
+    $email = array(
+        'sup_subject' => $draft['emd_subject'],
+        'sup_body'    => $draft['emd_body'],
+        'sup_from'    => $draft['to'],
+        'cc'          => implode('; ', $draft['cc'])
+    );
+    // try to guess the correct email account to be associated with this email
+    if (!empty($draft['emd_sup_id'])) {
+        $HTTP_GET_VARS['ema_id'] = Support::getAccountByEmail($draft['emd_sup_id']);
+    } else {
+        // if we are not replying to an existing message, just get the first email account you can find...
+        $HTTP_GET_VARS['ema_id'] = Support::getEmailAccount();
+    }
     $tpl->bulkAssign(array(
+        "draft_id"        => $HTTP_GET_VARS['id'],
         "email"           => $email,
-        "parent_email_id" => $HTTP_GET_VARS["id"]
+        "parent_email_id" => $draft['emd_sup_id']
     ));
+} else {
+    if (!@empty($HTTP_GET_VARS["id"])) {
+        $email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]);
+        $date = Misc::formatReplyDate($email["timestamp"]);
+        $header = "\n\n\nOn $date, " . $email["sup_from"] . " wrote:\n>\n";
+        $email["sup_body"] = $header . Misc::formatReply($email["message"]);
+        $tpl->bulkAssign(array(
+            "email"           => $email,
+            "parent_email_id" => $HTTP_GET_VARS["id"]
+        ));
+    }
 }
 
 // special handling when someone tries to 'reply' to an issue

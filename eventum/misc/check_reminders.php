@@ -43,6 +43,7 @@ include_once(APP_INC_PATH . "class.reminder_condition.php");
 6 - Perform action
 7 - Continue to next reminder level
 **/
+$triggered_issues = array();
 
 $reminders = Reminder::getList();
 for ($i = 0; $i < count($reminders); $i++) {
@@ -56,6 +57,11 @@ for ($i = 0; $i < count($reminders); $i++) {
         $issues = Reminder::getTriggeredIssues($reminders[$i], $conditions);
         if (count($issues) > 0) {
             for ($z = 0; $z < count($issues); $z++) {
+                // only perform one action per issue id
+                if (in_array($issues[$z], $triggered_issues)) {
+                    continue;
+                }
+                $triggered_issues[] = $issues[$z];
                 echo "Triggered Action for issue #" . $issues[$z] . "\n";
                 Reminder_Action::perform($issues[$z], $reminders[$i], $reminders[$i]['actions'][$y]);
             }

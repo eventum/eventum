@@ -42,6 +42,35 @@ include_once(APP_INC_PATH . "class.error_handler.php");
 class Status
 {
     /**
+     * Method used to check whether the given status has a closed context or
+     * not.
+     *
+     * @access  public
+     * @return  boolean
+     */
+    function hasClosedContext($sta_id)
+    {
+        $stmt = "SELECT
+                    sta_is_closed
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                 WHERE
+                    sta_id=$sta_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            if (empty($res)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+
+    /**
      * Method used to add a new custom status to the system.
      *
      * @access  public
@@ -58,11 +87,13 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  (
                     sta_title,
+                    sta_abbreviation,
                     sta_rank,
                     sta_color,
                     sta_is_closed
                  ) VALUES (
                     '" . Misc::runSlashes($HTTP_POST_VARS['title']) . "',
+                    '" . Misc::runSlashes($HTTP_POST_VARS['abbreviation']) . "',
                     " . $HTTP_POST_VARS['rank'] . ",
                     '" . Misc::runSlashes($HTTP_POST_VARS['color']) . "',
                     " . $HTTP_POST_VARS['is_closed'] . "
@@ -99,6 +130,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  SET
                     sta_title='" . Misc::runSlashes($HTTP_POST_VARS["title"]) . "',
+                    sta_abbreviation='" . Misc::runSlashes($HTTP_POST_VARS["abbreviation"]) . "',
                     sta_rank=" . $HTTP_POST_VARS['rank'] . ",
                     sta_color='" . Misc::runSlashes($HTTP_POST_VARS["color"]) . "',
                     sta_is_closed=" . $HTTP_POST_VARS['is_closed'] . "
@@ -334,6 +366,41 @@ class Status
                  WHERE
                     sta_id=$sta_id";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the list of available statuses as an associative array
+     * in the style of (abbreviation => title)
+     *
+     * @access  public
+     * @param   array $prj_id List of project IDs
+     * @return  array The list of statuses
+     */
+    function getAbbreviationAssocList($prj_id)
+    {
+        if (!is_array($prj_id)) {
+            $prj_id = array($prj_id);
+        }
+        $items = @implode(", ", $prj_id);
+        $stmt = "SELECT
+                    sta_abbreviation,
+                    sta_title
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status
+                 WHERE
+                    prs_prj_id IN ($items) AND
+                    prs_sta_id=sta_id
+                 ORDER BY
+                    sta_rank ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";

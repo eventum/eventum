@@ -6,10 +6,12 @@
 function clearFilters(f)
 {
     f.keywords.value = '';
-    f.users.selectedIndex = 0;
-    f.category.selectedIndex = 0;
-    f.status.selectedIndex = 0;
-    f.priority.selectedIndex = 0;
+    f.sender.value = '';
+    f.to.value = '';
+    f.ema_id.selectedIndex = 0;
+    var field = getFormElement(f, 'filter[arrival_date]');
+    field.checked = false;
+    toggleDateFields(f, 'filter[arrival_date]');
     f.submit();
 }
 function toggleDateFields(f, field_name)

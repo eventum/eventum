@@ -29,24 +29,47 @@
 //
 include("../config.inc.php");
 include_once(APP_INC_PATH . "class.support.php");
+include_once(APP_INC_PATH . "class.setup.php");
 include_once(APP_INC_PATH . "db_access.php");
 
-// Expected parameters related to the email account:
-// 1 - username
-// 2 - hostname
-// 3 - mailbox
-//
-// Example: php -q download_emails.php bobby silly.org INBOX
+// check for the required parameters
+if (@$HTTP_SERVER_VARS['argv'][1] == '--fix-lock') {
+    $setup = Setup::load();
+    $setup['downloading_emails'] = 'no';
+    Setup::save($setup);
+    echo "The lock key was fixed successfully.\n";
+    exit;
+} else {
+    if (@count($HTTP_SERVER_VARS['argv']) != 4) {
+        echo "Error: Wrong number of parameters given. Expected parameters related to the email account:\n";
+        echo " 1 - username\n";
+        echo " 2 - hostname\n";
+        echo " 3 - mailbox\n";
+        echo "Example: php -q download_emails.php bobby silly.org INBOX\n";
+        exit;
+    }
+}
+
+// check if there is another instance of this script already running
+$setup = Setup::load();
+if (@$setup['downloading_emails'] == 'yes') {
+    echo "Error: Another instance of the script is still running. If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n";
+    exit;
+} else {
+    $setup['downloading_emails'] = 'yes';
+    Setup::save($setup);
+}
+
 $account_id = Support::getAccountID($HTTP_SERVER_VARS["argv"][1], $HTTP_SERVER_VARS["argv"][2], $HTTP_SERVER_VARS["argv"][3]);
 if ($account_id == 0) {
     echo "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again.\n";
-    flush();
+    exit;
 }
 $account = Support::getDetails($account_id);
 $mbox = Support::connectEmailServer($account);
 if ($mbox == false) {
     echo "Error: Could not connect to the email server. Please verify your email account settings and try again.\n";
-    flush();
+    exit;
 } else {
     $total_emails = Support::getTotalEmails($mbox);
     if ($total_emails > 0) {
@@ -56,4 +79,9 @@ if ($mbox == false) {
     }
     Support::clearErrors();
 }
+
+// clear the "lock" key
+$setup = Setup::load();
+$setup['downloading_emails'] = 'no';
+Setup::save($setup);
 ?>

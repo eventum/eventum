@@ -150,9 +150,6 @@ class User
      */
     function checkHash($email, $hash)
     {
-        // emails should be case insensitive
-        $email = strtolower($email);
-
         $stmt = "SELECT
                     usr_full_name
                  FROM

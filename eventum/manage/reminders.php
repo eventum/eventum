@@ -62,20 +62,13 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         if (!empty($HTTP_GET_VARS['prj_id'])) {
             $info['rem_prj_id'] = $HTTP_GET_VARS['prj_id'];
         }
-        $issues = Issue::getAssocListByProject($info['rem_prj_id']);
-        foreach ($issues as $iss_id => $iss_title) {
-            $issues[$iss_id] = '#' . $iss_id . ': ' . $iss_title;
-        }
-        $tpl->assign('issues', $issues);
-        $tpl->assign('associated_issues', Reminder::getAssociatedIssues($HTTP_GET_VARS["id"]));
+        $tpl->assign('issues', Reminder::getIssueAssocListByProject($info['rem_prj_id']));
         $tpl->assign("info", $info);
+    } elseif (@$HTTP_GET_VARS["cat"] == "change_rank") {
+        Reminder::changeRank($HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
     } elseif (!empty($HTTP_GET_VARS['prj_id'])) {
         $tpl->assign("info", array('rem_prj_id' => $HTTP_GET_VARS['prj_id']));
-        $issues = Issue::getAssocListByProject($HTTP_GET_VARS['prj_id']);
-        foreach ($issues as $iss_id => $iss_title) {
-            $issues[$iss_id] = '#' . $iss_id . ': ' . $iss_title;
-        }
-        $tpl->assign('issues', $issues);
+        $tpl->assign('issues', Reminder::getIssueAssocListByProject($HTTP_GET_VARS['prj_id']));
     }
 
     // wouldn't make much sense to create a reminder for a 'Not Prioritized' 

@@ -2,7 +2,7 @@
 {include file="navigation.tpl.html"}
 
 {if $issue == ""}
-  <table width="300" align="center">
+  <table width="400" align="center">
     <tr>
       <td>
         &nbsp;<span class="default"><b>Error: The issue #{$smarty.get.id} could not be found in the currently selected project.</b>
@@ -28,6 +28,8 @@
   {include file="phone_support.tpl.html"}
   {include file="top_link.tpl.html"}
   {if $app_setup.support_email == 'enabled'}
+    {include file="email_drafts.tpl.html"}
+    {include file="top_link.tpl.html"}
     {include file="support_emails.tpl.html"}
     {include file="top_link.tpl.html"}
   {/if}

@@ -42,6 +42,76 @@ include_once(APP_INC_PATH . "class.reminder_action.php");
 
 class Reminder
 {
+    function changeRank($rem_id, $rank_type)
+    {
+        // check if the current rank is not already the first or last one
+        $ranking = Reminder::getRanking();
+        $ranks = array_values($ranking);
+        $ids = array_keys($ranking);
+        $last = end($ids);
+        $first = reset($ids);
+        if ((($rank_type == 'asc') && ($rem_id == $first)) ||
+                (($rank_type == 'desc') && ($rem_id == $last))) {
+            return false;
+        }
+
+        if ($rank_type == 'asc') {
+            $diff = -1;
+        } else {
+            $diff = 1;
+        }
+        $new_rank = $ranking[$rem_id] + $diff;
+        if (in_array($new_rank, $ranks)) {
+            // switch the rankings here...
+            $index = array_search($new_rank, $ranks);
+            $replaced_rem_id = $ids[$index];
+            $stmt = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                     SET
+                        rem_rank=" . $ranking[$rem_id] . "
+                     WHERE
+                        rem_id=" . $replaced_rem_id;
+            $GLOBALS["db_api"]->dbh->query($stmt);
+        }
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                 SET
+                    rem_rank=" . $new_rank . "
+                 WHERE
+                    rem_id=" . $rem_id;
+        $GLOBALS["db_api"]->dbh->query($stmt);
+    }
+
+
+    function getRanking()
+    {
+        $stmt = "SELECT
+                    rem_id,
+                    rem_rank
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
+                 ORDER BY
+                    rem_rank ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    function getIssueAssocListByProject($prj_id)
+    {
+        $issues = Issue::getAssocListByProject($prj_id);
+        foreach ($issues as $iss_id => $iss_summary) {
+            $issues[$iss_id] = $iss_id . ': ' . $iss_summary;
+        }
+        return $issues;
+    }
+
+
     /**
      * Method used to get the title of a specific reminder.
      *
@@ -306,10 +376,12 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  (
                     rem_created_date,
+                    rem_rank,
                     rem_title,
                     rem_prj_id
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
+                    " . $HTTP_POST_VARS['rank'] . ",
                     '" . Misc::runSlashes($HTTP_POST_VARS['title']) . "',
                     " . $HTTP_POST_VARS['project'] . "
                  )";
@@ -351,6 +423,7 @@ class Reminder
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  SET
                     rem_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    rem_rank=" . $HTTP_POST_VARS['rank'] . ",
                     rem_title='" . Misc::runSlashes($HTTP_POST_VARS['title']) . "',
                     rem_prj_id=" . $HTTP_POST_VARS['project'] . "
                  WHERE
@@ -409,21 +482,7 @@ class Reminder
                         rma_rem_id IN ($items)";
             $actions = $GLOBALS["db_api"]->dbh->getCol($stmt);
             if (count($actions) > 0) {
-                $stmt = "DELETE FROM
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
-                         WHERE
-                            rma_id IN (" . implode(', ', $actions) . ")";
-                $GLOBALS["db_api"]->dbh->query($stmt);
-                $stmt = "DELETE FROM
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_history
-                         WHERE
-                            rmh_rma_id IN (" . implode(', ', $actions) . ")";
-                $GLOBALS["db_api"]->dbh->query($stmt);
-                $stmt = "DELETE FROM
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
-                         WHERE
-                            rlc_rma_id IN (" . implode(', ', $actions) . ")";
-                $GLOBALS["db_api"]->dbh->query($stmt);
+                Reminder_Action::remove($actions);
             }
             return true;
         }
@@ -488,7 +547,7 @@ class Reminder
                  WHERE
                     rem_prj_id=prj_id
                  ORDER BY
-                    rem_id ASC";
+                    rem_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -529,7 +588,7 @@ class Reminder
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  ORDER BY
-                    rem_id ASC";
+                    rem_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

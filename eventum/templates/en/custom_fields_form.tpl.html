@@ -1,5 +1,37 @@
 {include file="header.tpl.html"}
 
+{if $update_result}
+  <br />
+  <center>
+  <span class="default">
+  {if $update_result == -1}
+    <b>An error occurred while trying to run your query</b>
+  {elseif $update_result == 1}
+    <b>Thank you, the custom field values were updated successfully.</b>
+  {/if}
+  </span>
+  </center>
+  <script language="JavaScript">
+  <!--
+  {if $current_user_prefs.close_popup_windows == '1'}
+  setTimeout('closeAndRefresh()', 2000);
+  {/if}
+  {literal}
+  function closeAndRefresh()
+  {
+      opener.location.href = opener.location;
+      window.close();
+  }
+  //-->
+  </script>
+  {/literal}
+  <br />
+  {if not $current_user_prefs.close_popup_windows}
+  <center>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+  </center>
+  {/if}
+{else}
 {literal}
 <script language="JavaScript">
 <!--
@@ -23,17 +55,6 @@ function validateForm(f)
             <b>Update Issue Details</b>
           </td>
         </tr>
-        {if $update_result != ""}
-        <tr>
-          <td bgcolor="{$cell_color}" colspan="2" class="error" align="center">
-            {if $update_result == -1}
-              <b>An error occurred while trying to run your query</b>
-            {elseif $update_result == 1}
-              <b>Thank you, the custom field values were updated successfully.</b>
-            {/if}
-          </td>
-        </tr>
-        {/if}
         {section name="i" loop=$custom_fields}
         {cycle values=$cycle assign="row_color"}
         <tr>
@@ -74,6 +95,6 @@ function validateForm(f)
   </tr>
 </table>
 </form>
+{/if}
 
-{include file="app_info.tpl.html"}
 {include file="footer.tpl.html"}

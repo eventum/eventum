@@ -11,6 +11,7 @@ following URL:
            Summary: {$data.iss_summary} 
            Project: {$data.prj_title} 
        Reported By: {$data.reporter}
+        Assignment: {$data.assignments}
           Priority: {$data.pri_title}
        Description:
 ----------------------------------------------------------------------

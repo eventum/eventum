@@ -7,6 +7,7 @@ following URL:
 ----------------------------------------------------------------------
 Posted Date: {$data.note.not_created_date}
   Posted By: {$data.note.usr_full_name}
+      Title: {$data.note.not_title}
        Note:
 ----------------------------------------------------------------------
 {$data.note.not_note}

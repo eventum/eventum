@@ -45,9 +45,10 @@ $email["message"] = Misc::activateLinks(nl2br(htmlspecialchars($email["message"]
 
 $issue_id = Support::getIssueFromEmail($HTTP_GET_VARS["id"]);
 $tpl->bulkAssign(array(
-    "email"    => $email,
-    "issues"   => Issue::getColList(),
-    "issue_id" => $issue_id
+    "email"       => $email,
+    "issues"      => Issue::getColList(),
+    "issue_id"    => $issue_id,
+    'extra_title' => "Email #" . $HTTP_GET_VARS['id'] . ": " . $email['sup_subject']
 ));
 
 if (!empty($issue_id)) {

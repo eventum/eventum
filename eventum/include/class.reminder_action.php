@@ -43,9 +43,70 @@ include_once(APP_INC_PATH . "class.notification.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.mail.php");
 include_once(APP_INC_PATH . "class.issue.php");
+include_once(APP_INC_PATH . "class.validation.php");
 
 class Reminder_Action
 {
+    function changeRank($rma_id, $rank_type)
+    {
+        // check if the current rank is not already the first or last one
+        $ranking = Reminder_Action::getRanking();
+        $ranks = array_values($ranking);
+        $ids = array_keys($ranking);
+        $last = end($ids);
+        $first = reset($ids);
+        if ((($rank_type == 'asc') && ($rma_id == $first)) ||
+                (($rank_type == 'desc') && ($rma_id == $last))) {
+            return false;
+        }
+
+        if ($rank_type == 'asc') {
+            $diff = -1;
+        } else {
+            $diff = 1;
+        }
+        $new_rank = $ranking[$rma_id] + $diff;
+        if (in_array($new_rank, $ranks)) {
+            // switch the rankings here...
+            $index = array_search($new_rank, $ranks);
+            $replaced_rma_id = $ids[$index];
+            $stmt = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                     SET
+                        rma_rank=" . $ranking[$rma_id] . "
+                     WHERE
+                        rma_id=" . $replaced_rma_id;
+            $GLOBALS["db_api"]->dbh->query($stmt);
+        }
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                 SET
+                    rma_rank=" . $new_rank . "
+                 WHERE
+                    rma_id=" . $rma_id;
+        $GLOBALS["db_api"]->dbh->query($stmt);
+    }
+
+
+    function getRanking()
+    {
+        $stmt = "SELECT
+                    rma_id,
+                    rma_rank
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
+                 ORDER BY
+                    rma_rank ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
     /**
      * Method used to get the title of a specific reminder action.
      *
@@ -91,6 +152,10 @@ class Reminder_Action
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
+            // get the user list, if appropriate
+            if (Reminder_Action::isUserList($res['rma_rmt_id'])) {
+                $res['user_list'] = Reminder_Action::getUserList($res['rma_id']);
+            }
             return $res;
         }
     }
@@ -126,7 +191,65 @@ class Reminder_Action
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
+            $new_rma_id = $GLOBALS["db_api"]->get_last_insert_id();
+            // add the user list, if appropriate
+            if (Reminder_Action::isUserList($HTTP_POST_VARS['type'])) {
+                Reminder_Action::associateUserList($new_rma_id, $HTTP_POST_VARS['user_list']);
+            }
             return 1;
+        }
+    }
+
+
+    function getUserList($rma_id)
+    {
+        $stmt = "SELECT
+                    ral_usr_id,
+                    ral_email
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_list
+                 WHERE
+                    ral_rma_id=$rma_id";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            $t = array();
+            for ($i = 0; $i < count($res); $i++) {
+                if (Validation::isEmail($res[$i]['ral_email'])) {
+                    $t[$res[$i]['ral_email']] = $res[$i]['ral_email'];
+                } else {
+                    $t[$res[$i]['ral_usr_id']] = User::getFullName($res[$i]['ral_usr_id']);
+                }
+            }
+            return $t;
+        }
+    }
+
+
+    function associateUserList($rma_id, $user_list)
+    {
+        for ($i = 0; $i < count($user_list); $i++) {
+            $usr_id = 0;
+            $email = '';
+            if (!Validation::isEmail($user_list[$i])) {
+                $usr_id = $user_list[$i];
+            } else {
+                $email = $user_list[$i];
+            }
+            $stmt = "INSERT INTO
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_list
+                     (
+                        ral_rma_id,
+                        ral_usr_id,
+                        ral_email
+                     ) VALUES (
+                        $rma_id,
+                        $usr_id,
+                        '" . Misc::runSlashes($email) . "'
+                     )";
+            $GLOBALS["db_api"]->dbh->query($stmt);
         }
     }
 
@@ -155,8 +278,54 @@ class Reminder_Action
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
+            // remove any user list associated with this reminder action
+            Reminder_Action::clearActionUserList($HTTP_POST_VARS['id']);
+            // add the user list back in, if appropriate
+            if (Reminder_Action::isUserList($HTTP_POST_VARS['type'])) {
+                Reminder_Action::associateUserList($HTTP_POST_VARS['id'], $HTTP_POST_VARS['user_list']);
+            }
             return 1;
         }
+    }
+
+
+    function isUserList($rmt_id)
+    {
+        $stmt = "SELECT
+                    rmt_type
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_type
+                 WHERE
+                    rmt_id=$rmt_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            $user_list_types = array(
+                'sms_list',
+                'email_list'
+            );
+            if (!in_array($res, $user_list_types)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+
+    function clearActionUserList($rma_id)
+    {
+        if (!is_array($rma_id)) {
+            $rma_id = array($rma_id);
+        }
+        $items = @implode(", ", $rma_id);
+        $stmt = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action_list
+                 WHERE
+                    ral_rma_id IN ($items)";
+        $GLOBALS["db_api"]->dbh->query($stmt);
     }
 
 
@@ -167,11 +336,9 @@ class Reminder_Action
      * @access  public
      * @return  boolean
      */
-    function remove()
+    function remove($action_ids)
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", $action_ids);
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
                  WHERE
@@ -187,6 +354,7 @@ class Reminder_Action
                  WHERE
                     rlc_rma_id IN ($items)";
         $GLOBALS["db_api"]->dbh->query($stmt);
+        Reminder_Action::clearActionUserList($action_ids);
     }
 
 
@@ -370,6 +538,18 @@ class Reminder_Action
                     return false;
                 }
                 break;
+            case 'email_list':
+                $type = 'email';
+                $list = Reminder_Action::getUserList($action['rma_id']);
+                $to = array();
+                foreach ($list as $key => $value) {
+                    if (Validation::isEmail($key)) {
+                        $to[] = $key;
+                    } else {
+                        $to[] = User::getFromHeader($key);
+                    }
+                }
+                break;
             case 'sms_assignee':
                 $type = 'sms';
                 $assignees = Issue::getAssignedUserIDs($issue_id);
@@ -378,6 +558,26 @@ class Reminder_Action
                     $sms_email = User::getSMS($assignee);
                     if (!empty($sms_email)) {
                         $to[] = $sms_email;
+                    }
+                }
+                // if there are no recipients, then just skip to the next action
+                if (count($to) == 0) {
+                    echo "- No assigned users with SMS email address could be found\n";
+                    return false;
+                }
+                break;
+            case 'sms_list':
+                $type = 'sms';
+                $list = Reminder_Action::getUserList($action['rma_id']);
+                $to = array();
+                foreach ($list as $key => $value) {
+                    if (Validation::isEmail($key)) {
+                        $to[] = $key;
+                    } else {
+                        $sms_email = User::getSMS($key);
+                        if (!empty($sms_email)) {
+                            $to[] = $sms_email;
+                        }
                     }
                 }
                 // if there are no recipients, then just skip to the next action
@@ -398,6 +598,7 @@ class Reminder_Action
             $tpl->bulkAssign(array(
                 "app_base_url" => APP_BASE_URL,
                 "data"         => Notification::getIssueDetails($issue_id),
+                "reminder"     => $reminder,
                 "conditions"   => $conditions
             ));
             $text_message = $tpl->getTemplateContents();
@@ -407,7 +608,7 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, APP_SHORT_NAME . ": Reminder Alert for Issue #$issue_id", TRUE);
+                $mail->send($setup["from"], $address, APP_SHORT_NAME . ": Reminder Alert for Issue #$issue_id");
             }
         } elseif ($type == 'sms') {
             $tpl = new Template_API;
@@ -415,6 +616,7 @@ class Reminder_Action
             $tpl->bulkAssign(array(
                 "app_base_url" => APP_BASE_URL,
                 "data"         => Notification::getIssueDetails($issue_id),
+                "reminder"     => $reminder,
                 "conditions"   => $conditions
             ));
             $text_message = $tpl->getTemplateContents();
@@ -424,7 +626,7 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "Reminder Alert for Issue #$issue_id", TRUE);
+                $mail->send($setup["from"], $address, "Reminder Alert for Issue #$issue_id");
             }
         }
         // - eventum saves the day once again

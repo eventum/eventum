@@ -46,7 +46,7 @@ $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_G
 $tpl->assign("extra_title", "Close Issue #$issue_id");
 
 if (@$HTTP_POST_VARS["cat"] == "close") {
-    $res = Issue::close($HTTP_POST_VARS["issue_id"]);
+    $res = Issue::close($HTTP_POST_VARS["issue_id"], $HTTP_POST_VARS["send_notification"]);
     $tpl->assign("close_result", $res);
 }
 

@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>{$app_setup.tool_caption|default:$application_title}{if $extra_title != ""} - {$extra_title}{/if}</title>
+<title>{if $extra_title != ""}{$extra_title} - {/if}{$app_setup.tool_caption|default:$application_title}</title>
 <link rel="stylesheet" href="{$rel_url}css/dynCalendar.css" type="text/css" media="screen">
 {if $user_agent == 'ie'}
 <link rel="stylesheet" href="{$rel_url}css/style.css" type="text/css">

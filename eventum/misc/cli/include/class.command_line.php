@@ -89,25 +89,7 @@ class Command_Line
      */
     function lockIssue($rpc_conn, $issue_id, $email, $force_lock)
     {
-        $projects = Command_Line::getUserAssignedProjects($rpc_conn, $email);
-
-        $msg = new XML_RPC_Message("getIssueDetails", array(new XML_RPC_Value($issue_id, 'int')));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
-        }
-        $details = XML_RPC_decode($result->value());
-        // check if the issue the user is trying to change is inside a project viewable to him
-        $found = 0;
-        for ($i = 0; $i < count($projects); $i++) {
-            if ($details['iss_prj_id'] == $projects[$i]['id']) {
-                $found = 1;
-                break;
-            }
-        }
-        if (!$found) {
-            Command_Line::quit("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
-        }
+        Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
 
         $params = array(
             new XML_RPC_Value($issue_id, 'int'),
@@ -125,22 +107,116 @@ class Command_Line
 
 
     /**
-     * Method used to assign an issue to the current user.
+     * Method used to unlock an issue from the current user.
      *
      * @access  public
      * @param   resource $rpc_conn The connection resource
      * @param   integer $issue_id The issue ID
      * @param   string $email The email address of the current user
-     * @param   string $developer The email address of the assignee
      */
-    function assignIssue($rpc_conn, $issue_id, $email, $developer)
+    function unlockIssue($rpc_conn, $issue_id, $email)
+    {
+        Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
+
+        $params = array(
+            new XML_RPC_Value($issue_id, 'int'),
+            new XML_RPC_Value($email)
+        );
+        $msg = new XML_RPC_Message("unlockIssue", $params);
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        echo "OK - Issue #$issue_id successfully unlocked.\n";
+    }
+
+
+    // XXX: put documentation here
+    function printFileList($rpc_conn, $issue_id, $email)
+    {
+        Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
+
+        $msg = new XML_RPC_Message("getFileList", array(new XML_RPC_Value($issue_id, 'int')));
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $list = XML_RPC_decode($result->value());
+        $i = 1;
+        foreach ($list as $attachment) {
+            echo "--------------------------------------------------------------\n";
+            echo " Attachment sent by " . $attachment['usr_full_name'] . " on " . $attachment['iat_created_date'] . "\n";
+            foreach ($attachment['files'] as $file) {
+                echo "  [$i] => " . $file['iaf_filename'] . " (" . $file['iaf_filesize'] . ")\n";
+                $i++;
+            }
+            echo " Description: " . $attachment['iat_description'] . "\n";
+        }
+    }
+
+
+    // XXX: put documentation here
+    function getFile($rpc_conn, $issue_id, $email, $file_number)
+    {
+        $details = Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
+
+        // check if the provided file number is valid
+        $msg = new XML_RPC_Message("getFileList", array(new XML_RPC_Value($issue_id, 'int')));
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $list = XML_RPC_decode($result->value());
+        $file_id = 0;
+        $i = 1;
+        foreach ($list as $attachment) {
+            foreach ($attachment['files'] as $file) {
+                if ($file_number == $i) {
+                    $file_id = $file['iaf_id'];
+                }
+                $i++;
+            }
+        }
+        if (empty($file_id)) {
+            Command_Line::quit("Unknown file number #$file_number. Please review the list of available files with 'list-files'");
+        }
+
+        echo "Downloading file #$file_number from issue $issue_id...\n";
+        $params = array(
+            new XML_RPC_Value($file_id, 'int')
+        );
+        $msg = new XML_RPC_Message("getFile", $params);
+        $result = $rpc_conn->send($msg);
+        if ($result->faultCode()) {
+            Command_Line::quit($result->faultString());
+        }
+        $details = XML_RPC_decode($result->value());
+        $details['iaf_file'] = base64_decode($details['iaf_file']);
+
+        // check if the file already exists
+        if (@file_exists($details['iaf_filename'])) {
+            $msg = "The request file ('" . $details['iaf_filename'] . "') already exists in the current directory. Would you like to overwrite this file? [y/n]";
+            $ret = Misc::prompt($msg, false);
+            if (strtolower($ret) == 'y') {
+                @unlink($details['iaf_filename']);
+                if (@file_exists($details['iaf_filename'])) {
+                    Command_Line::quit("No permission to remove the file");
+                }
+            } else {
+                Command_Line::quit("Download halted");
+            }
+        }
+        $fp = fopen($details['iaf_filename'], 'w');
+        fwrite($fp, $details['iaf_file']);
+        fclose($fp);
+        echo "OK - File '" . $details['iaf_filename'] . "' successfully downloaded to the local directory\n";
+    }
+
+
+    // XXX: put documentation here
+    function checkIssuePermissions($rpc_conn, $issue_id, $email)
     {
         $projects = Command_Line::getUserAssignedProjects($rpc_conn, $email);
-
-        // check if the given email address is indeed an email
-        if (!strstr($developer, '@')) {
-            Command_Line::quit("The third argument for this command needs to be a valid email address");
-        }
 
         $msg = new XML_RPC_Message("getIssueDetails", array(new XML_RPC_Value($issue_id, 'int')));
         $result = $rpc_conn->send($msg);
@@ -159,6 +235,26 @@ class Command_Line
         if (!$found) {
             Command_Line::quit("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
         }
+        return $details;
+    }
+
+
+    /**
+     * Method used to assign an issue to the current user.
+     *
+     * @access  public
+     * @param   resource $rpc_conn The connection resource
+     * @param   integer $issue_id The issue ID
+     * @param   string $email The email address of the current user
+     * @param   string $developer The email address of the assignee
+     */
+    function assignIssue($rpc_conn, $issue_id, $email, $developer)
+    {
+        // check if the given email address is indeed an email
+        if (!strstr($developer, '@')) {
+            Command_Line::quit("The third argument for this command needs to be a valid email address");
+        }
+        $details = Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
 
         $params = array(
             new XML_RPC_Value($issue_id, 'int'),
@@ -186,28 +282,11 @@ class Command_Line
      */
     function setIssueStatus($rpc_conn, $issue_id, $email, $new_status)
     {
-        $projects = Command_Line::getUserAssignedProjects($rpc_conn, $email);
-
-        $msg = new XML_RPC_Message("getIssueDetails", array(new XML_RPC_Value($issue_id, 'int')));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
-        }
-        $details = XML_RPC_decode($result->value());
-        // check if the issue the user is trying to change is inside a project viewable to him
-        $found = 0;
-        for ($i = 0; $i < count($projects); $i++) {
-            if ($details['iss_prj_id'] == $projects[$i]['id']) {
-                $found = 1;
-                break;
-            }
-        }
-        if (!$found) {
-            Command_Line::quit("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
-        }
+        $details = Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
 
         // check if the issue already is set to the new status
-        if (strtolower($details['sta_title']) == strtolower($new_status)) {
+        if ((strtolower($details['sta_title']) == strtolower($new_status)) ||
+                (strtolower($details['sta_abbreviation']) == strtolower($new_status))) {
             Command_Line::quit("Issue #$issue_id is already set to status '" . $details['sta_title'] . "'");
         }
 
@@ -218,11 +297,17 @@ class Command_Line
             Command_Line::quit($result->faultString());
         }
         $statuses = XML_RPC_decode($result->value());
-        $statuses = array_map('strtolower', $statuses);
-        if (!in_array(strtolower($new_status), $statuses)) {
+        $titles = array_map('strtolower', array_values($statuses));
+        $abbreviations = array_map('strtolower', array_keys($statuses));
+        if ((!in_array(strtolower($new_status), $titles)) &&
+                (!in_array(strtolower($new_status), $abbreviations))) {
             Command_Line::quit("Status '$new_status' could not be matched against the list of available statuses");
         }
 
+        // if the user is passing an abbreviation, use the real title instead
+        if (in_array(strtolower($new_status), $abbreviations)) {
+            $new_status = $statuses[$new_status];
+        }
         $params = array(
             new XML_RPC_Value($issue_id, 'int'),
             new XML_RPC_Value($email),
@@ -248,25 +333,7 @@ class Command_Line
      */
     function addTimeEntry($rpc_conn, $issue_id, $email, $time_spent)
     {
-        $projects = Command_Line::getUserAssignedProjects($rpc_conn, $email);
-
-        $msg = new XML_RPC_Message("getIssueDetails", array(new XML_RPC_Value($issue_id, 'int')));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
-        }
-        $details = XML_RPC_decode($result->value());
-        // check if the issue the user is trying to change is inside a project viewable to him
-        $found = 0;
-        for ($i = 0; $i < count($projects); $i++) {
-            if ($details['iss_prj_id'] == $projects[$i]['id']) {
-                $found = 1;
-                break;
-            }
-        }
-        if (!$found) {
-            Command_Line::quit("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
-        }
+        Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
 
         // list the time tracking categories
         $msg = new XML_RPC_Message("getTimeTrackingCategories");
@@ -315,32 +382,15 @@ class Command_Line
      */
     function printIssueDetails($rpc_conn, $issue_id, $email)
     {
-        $projects = Command_Line::getUserAssignedProjects($rpc_conn, $email);
+        $details = Command_Line::checkIssuePermissions(&$rpc_conn, $issue_id, $email);
 
-        $msg = new XML_RPC_Message("getIssueDetails", array(new XML_RPC_Value($issue_id, 'int')));
-        $result = $rpc_conn->send($msg);
-        if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
-        }
-        $details = XML_RPC_decode($result->value());
-        // check if the issue the user is trying to change is inside a project viewable to him
-        $found = 0;
-        for ($i = 0; $i < count($projects); $i++) {
-            if ($details['iss_prj_id'] == $projects[$i]['id']) {
-                $found = 1;
-                break;
-            }
-        }
-        if (!$found) {
-            Command_Line::quit("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
-        }
-
-        $msg = "      Issue #: $issue_id
-      Summary: " . $details['iss_summary'] . "
-       Status: " . $details['sta_title'] . "
-   Assignment: " . $details['assignments'] . "
-Last Response: " . $details['iss_last_response_date'] . "
- Last Updated: " . $details['iss_updated_date'] . "\n";
+        $msg = "        Issue #: $issue_id
+        Summary: " . $details['iss_summary'] . "
+         Status: " . $details['sta_title'] . "
+     Assignment: " . $details['assignments'] . "
+       Reporter: " . $details['reporter'] . "
+  Last Response: " . $details['iss_last_response_date'] . "
+   Last Updated: " . $details['iss_updated_date'] . "\n";
         echo $msg;
     }
 
@@ -352,16 +402,43 @@ Last Response: " . $details['iss_last_response_date'] . "
      * @param   resource $rpc_conn The connection resource
      * @param   string $email The email address of the current user
      * @param   string $show_all_issues Whether to show all open issues or just the ones assigned to the current user
+     * @param   string $status The status that should be used to restrict the results
      */
-    function printOpenIssues($rpc_conn, $email, $show_all_issues)
+    function printOpenIssues($rpc_conn, $email, $show_all_issues, $status)
     {
-        $msg = new XML_RPC_Message("getOpenIssues", array(new XML_RPC_Value($email), new XML_RPC_Value($show_all_issues, 'boolean')));
+        $project_id = Command_Line::promptProjectSelection(&$rpc_conn, $email);
+        // check the status option
+        // check if the given status is a valid option
+        if (!empty($status)) {
+            $msg = new XML_RPC_Message("getStatusList", array(new XML_RPC_Value($project_id, "int")));
+            $result = $rpc_conn->send($msg);
+            if ($result->faultCode()) {
+                Command_Line::quit($result->faultString());
+            }
+            $statuses = XML_RPC_decode($result->value());
+            $titles = array_map('strtolower', array_values($statuses));
+            $abbreviations = array_map('strtolower', array_keys($statuses));
+            if ((!in_array(strtolower($status), $titles)) &&
+                    (!in_array(strtolower($status), $abbreviations))) {
+                Command_Line::quit("Status '$status' could not be matched against the list of available statuses");
+            }
+            // if the user is passing an abbreviation, use the real title instead
+            if (in_array(strtolower($status), $abbreviations)) {
+                $status = $statuses[$status];
+            }
+        }
+
+        $msg = new XML_RPC_Message("getOpenIssues", array(new XML_RPC_Value($project_id, 'int'), new XML_RPC_Value($email), new XML_RPC_Value($show_all_issues, 'boolean'), new XML_RPC_Value($status)));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
             Command_Line::quit($result->faultString());
         }
         $issues = XML_RPC_decode($result->value());
-        echo "The following issues are still open:\n";
+        if (!empty($status)) {
+            echo "The following issues are set to status '$status':\n";
+        } else {
+            echo "The following issues are still open:\n";
+        }
         foreach ($issues as $issue) {
             echo "- #" . $issue['issue_id'] . " - " . $issue['summary'] . " (" . $issue['status'] . ")";
             if (!empty($issue['assignment'])) {
@@ -408,7 +485,7 @@ Last Response: " . $details['iss_last_response_date'] . "
 
         if (count($projects) > 1) {
             // need to ask which project this person is asking about
-            $prompt = "From which project do you want to list available developers?\n";
+            $prompt = "For which project do you want this action to apply to?\n";
             for ($i = 0; $i < count($projects); $i++) {
                 $prompt .= sprintf(" [%s] => %s\n", $projects[$i]['id'], $projects[$i]['title']);
             }
@@ -449,8 +526,8 @@ Last Response: " . $details['iss_last_response_date'] . "
         }
         $items = XML_RPC_decode($result->value());
         echo "Available Statuses:\n";
-        foreach ($items as $item) {
-            echo "- $item\n";
+        foreach ($items as $abbreviation => $title) {
+            echo "$abbreviation => $title\n";
         }
     }
 
@@ -558,36 +635,45 @@ Last Response: " . $details['iss_last_response_date'] . "
         echo "
 General Usage:
 
-1.) $script <ticket_number>
-2.) $script <ticket_number> lock [--force] [--safe]
-3.) $script <ticket_number> assign <developer_email> [--safe]
-4.) $script <ticket_number> set-status <status> [--safe]
-5.) $script <ticket_number> add-time <time_worked> [--safe]
-6.) $script developers
-7.) $script open-issues [my]
-8.) $script list-status
+ 1.) $script <ticket_number>
+ 2.) $script <ticket_number> lock [--force] [--safe]
+ 3.) $script <ticket_number> unlock [--safe]
+ 4.) $script <ticket_number> assign <developer_email> [--safe]
+ 5.) $script <ticket_number> set-status <status> [--safe]
+ 6.) $script <ticket_number> add-time <time_worked> [--safe]
+ 7.) $script <ticket_number> list-files
+ 8.) $script <ticket_number> get-file <file_number>
+ 9.) $script developers
+10.) $script open-issues [<status>] [my]
+11.) $script list-status
 
 Explanations:
 
-1.) View general details of an existing issue.
+ 1.) View general details of an existing issue.
 
-2.) Lock and assign an issue to yourself. NOTE: You can add keyword '--force' at
-    the end if you want to lock an issue even if this issue is already locked
-    by someone else.
+ 2.) Lock and assign an issue to yourself. NOTE: You can add keyword '--force'
+     at the end if you want to lock an issue even if this issue is already 
+     locked by someone else.
 
-3.) Assign an issue to another developer.
+ 3.) Unlocks the given issue.
 
-4.) Sets the status of an issue to the desired value. If you are not sure about
-    the available statuses, use command 'list-status' described below.
+ 4.) Assign an issue to another developer.
 
-5.) Records time worked to the time tracking tool of the given issue.
+ 5.) Sets the status of an issue to the desired value. If you are not sure about
+     the available statuses, use command 'list-status' described below.
 
-6.) List all available developers' email addresses.
+ 6.) Records time worked to the time tracking tool of the given issue.
 
-7.) List all issues that are not set to a status with a 'closed' context. Use 
+ 7.) List available attachments associated with the given issue.
+
+ 8.) Download a specific file from the given issue.
+
+ 9.) List all available developers' email addresses.
+
+10.) List all issues that are not set to a status with a 'closed' context. Use 
     optional argument 'my' if you just wish to see issues assigned to you.
 
-8.) List all available statuses in the system.
+11.) List all available statuses in the system.
 ";
         exit;
     }

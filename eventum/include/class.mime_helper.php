@@ -354,6 +354,33 @@ class Mime_Helper
     }
 
 
+    function getAttachmentCIDs($message)
+    {
+        // gotta parse MIME based emails now
+        $output = Mime_Helper::decode($message, true);
+        $attachments = array();
+        // now get any eventual attachments
+        for ($i = 0; $i < @count($output->parts); $i++) {
+            // hack in order to display in-line images from Outlook
+            if ((@$output->parts[$i]->ctype_primary == 'image') &&
+                    (@$output->parts[$i]->ctype_secondary == 'bmp')) {
+                $attachments[] = array(
+                    'filename' => $output->parts[$i]->ctype_parameters['name'],
+                    'cid'      => $output->parts[$i]->headers['content-id']
+                );
+                continue;
+            }
+            if (@$output->parts[$i]->disposition == 'attachment') {
+                $attachments[] = array(
+                    'filename' => $output->parts[$i]->d_parameters["filename"]
+                );
+                continue;
+            }
+        }
+        return $attachments;
+    }
+
+
     /**
      * Method used to get the encoded content of a specific message
      * attachment.

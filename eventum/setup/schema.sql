@@ -44,6 +44,8 @@ CREATE TABLE %TABLE_PREFIX%email_account (
   ema_port varchar(5) NOT NULL default '',
   ema_username varchar(64) NOT NULL default '',
   ema_password varchar(64) NOT NULL default '',
+  ema_get_only_new int(1) NOT NULL DEFAULT 0,
+  ema_leave_copy int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY  (ema_id),
   KEY ema_prj_id (ema_prj_id)
 );
@@ -64,6 +66,7 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_last_response_date datetime default NULL,
   iss_first_response_date datetime default NULL,
   iss_closed_date datetime default NULL,
+  iss_expected_resolution_date date default NULL,
   iss_summary varchar(128) NOT NULL default '',
   iss_description text NOT NULL,
   iss_dev_time float default NULL,
@@ -170,7 +173,10 @@ CREATE TABLE %TABLE_PREFIX%note (
   not_iss_id int(11) unsigned NOT NULL default '0',
   not_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   not_usr_id int(11) unsigned NOT NULL default '0',
+  not_title varchar(255) NOT NULL,
   not_note longtext NOT NULL,
+  not_blocked_message longtext NULL,
+  not_parent_id int(11) unsigned NULL,
   PRIMARY KEY  (not_id),
   KEY not_bug_id (not_iss_id,not_usr_id)
 );
@@ -300,7 +306,6 @@ CREATE TABLE %TABLE_PREFIX%support_email (
   sup_full_email longtext NOT NULL,
   sup_has_attachment tinyint(1) NOT NULL default '0',
   sup_removed tinyint(1) NOT NULL default '0',
-  sup_draft_response longtext NULL DEFAULT NULL,
   PRIMARY KEY  (sup_id),
   KEY sup_parent_id (sup_parent_id),
   KEY sup_ema_id (sup_ema_id),
@@ -432,19 +437,21 @@ DROP TABLE IF EXISTS %TABLE_PREFIX%status;
 CREATE TABLE %TABLE_PREFIX%status (
   sta_id int(10) NOT NULL default '0' auto_increment,
   sta_title varchar(64) NOT NULL default '',
+  sta_abbreviation char(3) NOT NULL,
   sta_rank int(2) NOT NULL,
   sta_color varchar(7) NOT NULL default '',
   sta_is_closed tinyint(1) NOT NULL default 0,
   PRIMARY KEY (sta_id),
+  UNIQUE KEY sta_abbreviation (sta_abbreviation),
   KEY sta_rank (sta_rank),
   KEY sta_is_closed (sta_is_closed)
 );
-INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_rank, sta_color, sta_is_closed) VALUES (1, 'discovery', 1, '#CCFFFF', 0);
-INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_rank, sta_color, sta_is_closed) VALUES (2, 'requirements', 2, '#99CC66', 0);
-INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_rank, sta_color, sta_is_closed) VALUES (3, 'implementation', 3, '#6699CC', 0);
-INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_rank, sta_color, sta_is_closed) VALUES (4, 'evaluation and testing', 4, '#FFCC99', 0);
-INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_rank, sta_color, sta_is_closed) VALUES (5, 'released', 5, '#CCCCCC', 1);
-INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_rank, sta_color, sta_is_closed) VALUES (6, 'killed', 6, '#FFFFFF', 1);
+INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_abbreviation, sta_rank, sta_color, sta_is_closed) VALUES (1, 'discovery', 'DSC', 1, '#CCFFFF', 0);
+INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_abbreviation, sta_rank, sta_color, sta_is_closed) VALUES (2, 'requirements', 'REQ', 2, '#99CC66', 0);
+INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_abbreviation, sta_rank, sta_color, sta_is_closed) VALUES (3, 'implementation', 'IMP', 3, '#6699CC', 0);
+INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_abbreviation, sta_rank, sta_color, sta_is_closed) VALUES (4, 'evaluation and testing', 'TST', 4, '#FFCC99', 0);
+INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_abbreviation, sta_rank, sta_color, sta_is_closed) VALUES (5, 'released', 'REL', 5, '#CCCCCC', 1);
+INSERT INTO %TABLE_PREFIX%status (sta_id, sta_title, sta_abbreviation, sta_rank, sta_color, sta_is_closed) VALUES (6, 'killed', 'KIL', 6, '#FFFFFF', 1);
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_status;
 CREATE TABLE %TABLE_PREFIX%project_status (
@@ -465,6 +472,7 @@ DROP TABLE IF EXISTS %TABLE_PREFIX%reminder_level;
 CREATE TABLE %TABLE_PREFIX%reminder_level (
   rem_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   rem_created_date DATETIME NOT NULL,
+  rem_rank TINYINT(1) NOT NULL,
   rem_last_updated_date DATETIME NULL,
   rem_title VARCHAR(64) NOT NULL,
   rem_prj_id INT(11) UNSIGNED NOT NULL,
@@ -490,7 +498,7 @@ CREATE TABLE %TABLE_PREFIX%reminder_requirement (
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%reminder_history;
 CREATE TABLE %TABLE_PREFIX%reminder_history (
-  rmh_id INT(11) NOT NULL,
+  rmh_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   rmh_iss_id INT(11) NOT NULL,
   rmh_rma_id INT(11) NOT NULL,
   rmh_created_date DATETIME NOT NULL,
@@ -509,6 +517,13 @@ CREATE TABLE %TABLE_PREFIX%reminder_action (
   PRIMARY KEY(rma_id)
 );
 
+DROP TABLE IF EXISTS %TABLE_PREFIX%reminder_action_list;
+CREATE TABLE %TABLE_PREFIX%reminder_action_list (
+  ral_rma_id INT(11) UNSIGNED NOT NULL,
+  ral_email VARCHAR(255) NOT NULL,
+  ral_usr_id INT(11) UNSIGNED NOT NULL
+);
+
 DROP TABLE IF EXISTS %TABLE_PREFIX%reminder_action_type;
 CREATE TABLE %TABLE_PREFIX%reminder_action_type (
   rmt_id TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -520,6 +535,8 @@ CREATE TABLE %TABLE_PREFIX%reminder_action_type (
 );
 INSERT INTO %TABLE_PREFIX%reminder_action_type (rmt_type, rmt_title) VALUES ('email_assignee', 'Send Email Alert to Assignee');
 INSERT INTO %TABLE_PREFIX%reminder_action_type (rmt_type, rmt_title) VALUES ('sms_assignee', 'Send SMS Alert to Assignee');
+INSERT INTO %TABLE_PREFIX%reminder_action_type (rmt_type, rmt_title) VALUES ('email_list', 'Send Email Alert To...');
+INSERT INTO %TABLE_PREFIX%reminder_action_type (rmt_type, rmt_title) VALUES ('sms_list', 'Send SMS Alert To...');
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%reminder_level_condition;
 CREATE TABLE %TABLE_PREFIX%reminder_level_condition (
@@ -548,6 +565,7 @@ INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_repr
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation) VALUES ('Created Date', 'iss_created_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_created_date), 0))');
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation) VALUES ('First Response Date', 'iss_first_response_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_first_response_date), 0))');
 INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation) VALUES ('Closed Date', 'iss_closed_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_closed_date), 0))');
+INSERT INTO %TABLE_PREFIX%reminder_field (rmf_title, rmf_sql_field, rmf_sql_representation) VALUES ('Category', 'iss_prc_id', 'iss_prc_id');
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%reminder_operator;
 CREATE TABLE %TABLE_PREFIX%reminder_operator (
@@ -573,6 +591,7 @@ CREATE TABLE %TABLE_PREFIX%news (
   nws_created_date datetime NOT NULL,
   nws_title varchar(255) NOT NULL,
   nws_message text NOT NULL,
+  nws_status varchar(8) NOT NULL default 'active',
   PRIMARY KEY (nws_id),
   UNIQUE KEY nws_title (nws_title)
 );
@@ -583,3 +602,42 @@ CREATE TABLE %TABLE_PREFIX%project_news (
   prn_prj_id int(11) unsigned NOT NULL,
   PRIMARY KEY (prn_prj_id, prn_nws_id)
 );
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%project_round_robin;
+CREATE TABLE %TABLE_PREFIX%project_round_robin (
+  prr_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  prr_prj_id INT(11) UNSIGNED NOT NULL,
+  prr_blackout_start TIME NOT NULL,
+  prr_blackout_end TIME NOT NULL,
+  PRIMARY KEY (prr_id),
+  UNIQUE KEY prr_prj_id (prr_prj_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%round_robin_user;
+CREATE TABLE %TABLE_PREFIX%round_robin_user (
+  rru_prr_id INT(11) UNSIGNED NOT NULL,
+  rru_usr_id INT(11) UNSIGNED NOT NULL,
+  rru_next TINYINT(1) UNSIGNED NULL
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%email_draft;
+CREATE TABLE %TABLE_PREFIX%email_draft (
+  emd_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  emd_usr_id INT(11) UNSIGNED NOT NULL,
+  emd_iss_id INT(11) unsigned NOT NULL,
+  emd_sup_id INT(11) UNSIGNED NULL DEFAULT NULL,
+  emd_updated_date DATETIME NOT NULL,
+  emd_subject VARCHAR(255) NOT NULL,
+  emd_body LONGTEXT NOT NULL,
+  PRIMARY KEY(emd_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%email_draft_recipient;
+CREATE TABLE %TABLE_PREFIX%email_draft_recipient (
+  edr_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  edr_emd_id INT(11) UNSIGNED NOT NULL,
+  edr_is_cc TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  edr_email VARCHAR(255) NOT NULL,
+  PRIMARY KEY(edr_id)
+);
+
