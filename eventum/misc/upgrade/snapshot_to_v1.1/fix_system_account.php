@@ -34,8 +34,7 @@ $fixes = array(
     "UPDATE eventum_reminder_action_list SET ral_usr_id = $new_usr_id WHERE ral_usr_id = 1",
     "UPDATE eventum_news SET nws_usr_id = $new_usr_id WHERE nws_usr_id = 1",
     "UPDATE eventum_round_robin_user SET rru_usr_id = $new_usr_id WHERE rru_usr_id = 1",
-    "UPDATE eventum_email_draft SET emd_usr_id = $new_usr_id WHERE emd_usr_id = 1",
-    "UPDATE eventum_faq SET faq_usr_id = $new_usr_id WHERE faq_usr_id = 1"
+    "UPDATE eventum_email_draft SET emd_usr_id = $new_usr_id WHERE emd_usr_id = 1"
 );
 foreach ($fixes as $stmt) {
     $res = $GLOBALS["db_api"]->dbh->query($stmt);

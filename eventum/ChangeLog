@@ -7,3 +7,4 @@ Eventum Issue Tracking System
 ??, Version 1.2
 - SMS email address can now be set back to empty. (Bryan)
 - Fixed a problem with a duplicate key name in the history_type table (João)
+- Fixed a few database migration problems when upgrading from an old snapshot release (João)
