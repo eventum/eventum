@@ -55,6 +55,7 @@ if ($role_id == User::getRoleID('administrator')) {
         $setup["support_email"] = $HTTP_POST_VARS["support_email"];
         $setup["daily_tips"] = $HTTP_POST_VARS["daily_tips"];
         $setup["spell_checker"] = $HTTP_POST_VARS["spell_checker"];
+        $setup["irc_notification"] = $HTTP_POST_VARS["irc_notification"];
         @$setup["update"] = $HTTP_POST_VARS["update"];
         @$setup["closed"] = $HTTP_POST_VARS["closed"];
         @$setup["notes"] = $HTTP_POST_VARS["notes"];

@@ -578,6 +578,17 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>IRC Notifications:</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <input type="radio" name="irc_notification" value="enabled" {if $setup.irc_notification == 'enabled'}checked{/if}> 
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'irc_notification', 0);">Enabled</a>&nbsp;&nbsp;
+                  <input type="radio" name="irc_notification" value="disabled" {if $setup.irc_notification != 'enabled'}checked{/if}> 
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'irc_notification', 1);">Disabled</a>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
                   <b>Default Options for Notifications:</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">

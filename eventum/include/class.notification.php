@@ -870,6 +870,12 @@ class Notification
      */
     function notifyIRC($issue_id, $notice)
     {
+        // don't save any irc notification if this feature is disabled
+        $setup = Setup::load();
+        if ($setup['irc_notification'] != 'enabled') {
+            return false;
+        }
+
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "irc_notice
                  (
