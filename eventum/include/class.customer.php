@@ -143,12 +143,11 @@ class Customer
 
     function getBackendImplementationName($prj_id)
     {
-        $backend_class = Customer::_getBackendNameByProject($prj_id);
-        if (empty($backend_class)) {
+        if (!Customer::hasCustomerIntegration($prj_id)) {
             return '';
         }
-        $file_name_chunks = explode(".", $backend_class);
-        return $file_name_chunks[1];
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getName();
     }
 
 
@@ -314,6 +313,70 @@ class Customer
     {
         $backend =& Customer::_getBackend($prj_id);
         return $backend->unflagIncident($issue_id);
+    }
+
+
+    /**
+     * Checks whether the active per-incident contract associated with the given
+     * customer ID has any incidents available to be redeemed.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_id The customer ID
+     * @return  boolean
+     */
+    function hasIncidentsLeft($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->hasIncidentsLeft($customer_id);
+    }
+
+
+    /**
+     * Checks whether the active contract associated with the given customer ID
+     * is a per-incident contract or not.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_id The customer ID
+     * @return  boolean
+     */
+    function hasPerIncidentContract($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->hasPerIncidentContract($customer_id);
+    }
+
+
+    /**
+     * Returns the total number of allowed incidents for the given support
+     * contract ID.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $support_no The support contract ID
+     * @return  integer The total number of incidents
+     */
+    function getTotalIncidents($prj_id, $support_no)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getTotalIncidents($support_no);
+    }
+
+
+    /**
+     * Method used to send a notice that the per-incident limit being reached.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $contact_id The customer contact ID
+     * @param   integer $customer_id The customer ID
+     * @return  void
+     */
+    function sendIncidentLimitNotice($prj_id, $contact_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->sendIncidentLimitNotice($contact_id, $customer_id);
     }
 
 

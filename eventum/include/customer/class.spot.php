@@ -52,6 +52,11 @@ class Spot_Customer_Backend
     }
 
 
+    function getName()
+    {
+        return "spot";
+    }
+
     function usesSupportLevels()
     {
         return true;
@@ -280,6 +285,75 @@ class Spot_Customer_Backend
 
 
     /**
+     * Checks whether the active per-incident contract associated with the given
+     * customer ID has any incidents available to be redeemed.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  boolean
+     */
+    function hasIncidentsLeft($customer_id)
+    {
+        $details = $this->getDetails($customer_id);
+        $redeemed_incidents = $this->getIncidentUsage($details['support_no']);
+        $total_incidents = $this->getTotalIncidents($details['support_no']);
+        $incidents_left = ((integer) $total_incidents) - ((integer) $redeemed_incidents);
+        if ($incidents_left > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * Checks whether the active contract associated with the given customer ID
+     * is a per-incident contract or not.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  boolean
+     */
+    function hasPerIncidentContract($customer_id)
+    {
+        $details = $this->getDetails($customer_id);
+        if ($details['is_per_incident']) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * Returns the total number of allowed incidents for the given support
+     * contract ID.
+     *
+     * @access  public
+     * @param   integer $support_no The support contract ID
+     * @return  integer The total number of incidents
+     */
+    function getTotalIncidents($support_no)
+    {
+        $stmt = "SELECT
+                    parameter
+                 FROM
+                    support_extra
+                 WHERE
+                    support_no=$support_no AND
+                    contract_type='perIncident'";
+        $res = $GLOBALS["customer_db"]->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
+    }
+
+
+
+    /**
      * Returns the name of the sales account manager of the given customer ID.
      *
      * @access  public
@@ -358,6 +432,56 @@ class Spot_Customer_Backend
             } else {
                 return false;
             }
+        }
+    }
+
+
+    /**
+     * Method used to send a notice to the MySQL sales team and the
+     * customer contact about the per-incident limit being reached.
+     *
+     * @access  public
+     * @param   integer $contact_id The customer contact ID
+     * @param   integer $customer_id The customer ID
+     * @return  void
+     */
+    function sendIncidentLimitNotice($contact_id, $customer_id)
+    {
+        $type = 'incident_limit_reached_customer';
+        // two emails, add the sales@ blurb only when sending the email to the sales team
+        list($contact_email, $void, $contact_name) = $this->getContactLoginDetails($contact_id);
+        $to = Mail_API::getFormattedName($contact_name, $contact_email);
+        $emails = array(
+            'customer' => $to,
+            'sales'    => '"MySQL Sales Team" <sales@mysql.com>'
+        );
+
+        $data = $this->getDetails($customer_id);
+        $company_name = $data['customer_name'];
+
+        foreach ($emails as $email_type => $to) {
+            if ($email_type == 'sales') {
+                $show_sales_blurb = true;
+            } else {
+                $show_sales_blurb = false;
+            }
+            // open text template
+            $tpl = new Template_API;
+            $tpl->setTemplate("customer/" . $this->getName() . "/notifications/" . $type . '.tpl.text');
+            $tpl->bulkAssign(array(
+                "data"             => $data,
+                "show_sales_blurb" => $show_sales_blurb
+            ));
+            $text_message = $tpl->getTemplateContents();
+
+            @include_once(APP_PEAR_PATH . 'Mail/mime.php');
+            $setup = Mail_API::getSMTPSettings();
+            $headers['To'] = $to;
+            $headers['From'] = $setup["from"];
+            $headers['Subject'] = "Incident Report Attempt by Support Customer (" . $company_name . ")";
+            $mime = new Mail_mime("\r\n");
+            $hdrs = $mime->headers($headers);
+            Mail_Queue::add($to, $hdrs, $text_message, 1);
         }
     }
 
