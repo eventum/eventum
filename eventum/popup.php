@@ -57,9 +57,6 @@ $prj_id = Auth::getCurrentProject();
 if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $res = Note::remove($HTTP_GET_VARS["id"]);
     $tpl->assign("note_delete_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "add_time") {
-    $res = Time_Tracking::insertEntry();
-    $tpl->assign("time_add_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "delete_time") {
     $res = Time_Tracking::removeEntry($HTTP_GET_VARS["id"]);
     $tpl->assign("time_delete_result", $res);
@@ -109,9 +106,6 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
 } elseif (@$HTTP_GET_VARS["cat"] == "clear_duplicate") {
     $res = Issue::clearDuplicateStatus($HTTP_GET_VARS["iss_id"]);
     $tpl->assign("clear_duplicate_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "add_phone") {
-    $res = Phone_Support::insert();
-    $tpl->assign("add_phone_result", $res);
 } elseif (@$HTTP_GET_VARS["cat"] == "delete_phone") {
     $res = Phone_Support::remove($HTTP_GET_VARS["id"]);
     $tpl->assign("delete_phone_result", $res);

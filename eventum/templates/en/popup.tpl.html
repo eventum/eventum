@@ -23,12 +23,6 @@
   <b>Thank you, the time tracking entry was removed successfully.</b>
 {/if}
 
-{if $time_add_result == -1}
-  <b>An error occurred while trying to run your query</b>
-{elseif $time_add_result == 1}
-  <b>Thank you, the time tracking entry was added successfully.</b>
-{/if}
-
 {if $assign_result == 1}
   <b>Thank you, the selected issues were assigned successfully.</b>
 {/if}
@@ -121,12 +115,6 @@
   <b>An error occurred while trying to run your query</b>
 {elseif $clear_duplicate_result == 1}
   <b>Thank you, the current issue is no longer marked as a duplicate.</b>
-{/if}
-
-{if $add_phone_result == -1}
-  <b>An error occurred while trying to run your query</b>
-{elseif $add_phone_result == 1}
-  <b>Thank you, the new phone support entry was created and associated with the issue below.</b>
 {/if}
 
 {if $delete_phone_result == -1}
