@@ -41,7 +41,7 @@ function unlock(issue_id)
 function replyIssue(issue_id)
 {
     var features = 'width=740,height=580,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('send.php?cat=reply&ema_id=1&issue_id=' + issue_id, '_selfAssign', features);
+    var popupWin = window.open('send.php?cat=reply&ema_id=1&issue_id=' + issue_id, '_replyIssue', features);
     popupWin.focus();
 }
 function clearDuplicateStatus(issue_id)
@@ -74,6 +74,19 @@ function unmarkIncidentIssue(issue_id)
     var popupWin = window.open('popup.php?cat=unflag_incident&iss_id=' + issue_id, '_unflagIncident', features);
     popupWin.focus();
 }
+function validateForm(f)
+{
+{/literal}
+  {if $current_role == $roles.customer}
+{literal}
+    if (!confirm('NOTE: If you need to send new information regarding this issue, please use \nthe EMAIL related buttons available at the bottom of the screen.')) {
+        return false;
+    }
+{/literal}
+  {/if}
+{literal}
+  return true;
+}
 //-->
 </script>
 {/literal}
@@ -94,7 +107,7 @@ function unmarkIncidentIssue(issue_id)
     <td colspan="2"><img height="10" src="{$rel_url}images/blank.gif"></td>
   </tr>
 </table>
-{if $issue.iss_lock_usr_id and $issue.iss_lock_usr_id != $current_user_id}
+{if $issue.iss_lock_usr_id and $issue.iss_lock_usr_id != $current_user_id and $current_role > $roles.customer}
 <table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
@@ -110,17 +123,17 @@ function unmarkIncidentIssue(issue_id)
 <br />
 {/if}
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top: 1;padding-bottom: 0">
-<form method="get" action="update.php">
+<form method="get" action="update.php" onSubmit="javascript:return validateForm(this);">
 <input type="hidden" name="id" value="{$issue.iss_id}">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default" nowrap>
-            <b>Issue Overview</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" title="view issue details" class="link">{$issue.iss_id}</a>) {if $issue.iss_lock_usr_id}<b><font color="red">(Locked)</font></b>{/if}
+            <b>Issue Overview</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" title="view issue details" class="link">{$issue.iss_id}</a>) {if $issue.iss_lock_usr_id and $current_role > $roles.customer}<b><font color="red">(Locked)</font></b>{/if}
           </td>
           <td colspan="2" align="right" class="default">
-            {if $current_role != $roles.customer}
+            {if $current_role > $roles.customer}
             [ <a class="link" title="edit the authorized repliers list for this issue" href="javascript:void(null);" onClick="javascript:openAuthorizedReplier({$smarty.get.id});">Edit Authorized Replier List</a> ]
             [ <a class="link" title="edit the notification list for this issue" href="javascript:void(null);" onClick="javascript:openNotification({$smarty.get.id});">Edit Notification List</a> ]
             {/if}
@@ -128,37 +141,29 @@ function unmarkIncidentIssue(issue_id)
           </td>
         </tr>
         <tr>
-          <td width="130" nowrap bgcolor="{$cell_color}" class="default_white">
+          <td width="150" nowrap bgcolor="{$cell_color}" class="default_white">
             <b>Category:</b>
           </td>
           <td width="50%" bgcolor="{$light_color}" class="default">
             {$issue.prc_title|escape:"html"}
           </td>
-          <td width="120" bgcolor="{$cell_color}" rowspan="2" valign="top" class="default_white" nowrap>
+          <td width="140" bgcolor="{$cell_color}" valign="top" class="default_white" nowrap>
             <b>Notification List:</b>
           </td>
-          <td width="50%" rowspan="2" bgcolor="{$light_color}" valign="top" class="default">
+          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
             {if $subscribers.staff != ''}Staff: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
             {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
             {if $subscribers.customers != ''}Other: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
           </td>
         </tr>
         <tr>
-          <td width="130" bgcolor="{$cell_color}" class="default_white">
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>Status:</b>
           </td>
           <td bgcolor="{$issue.status_color}" class="default">
             {$issue.sta_title|escape:"html"}
           </td>
-        </tr>
-        <tr>
-          <td width="130" bgcolor="{$cell_color}" class="default_white">
-            <b>Priority:</b>
-          </td>
-          <td bgcolor="{$light_color}" class="default">
-            {$issue.pri_title|escape:"html"}
-          </td>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="140" bgcolor="{$cell_color}" class="default_white">
             <b>Submitted Date:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -166,13 +171,13 @@ function unmarkIncidentIssue(issue_id)
           </td>
         </tr>
         <tr>
-          <td width="130" bgcolor="{$cell_color}" class="default_white">
-            <nobr><b>Scheduled Release:</b>&nbsp;</nobr>
+          <td {if $current_role == $roles.customer}rowspan="2"{/if} width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Priority:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
-            {$issue.pre_title|escape:"html"}
+          <td {if $current_role == $roles.customer}rowspan="2"{/if} bgcolor="{$light_color}" class="default">
+            {$issue.pri_title|escape:"html"}
           </td>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="140" bgcolor="{$cell_color}" class="default_white">
             <b>Last Updated Date:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -180,13 +185,15 @@ function unmarkIncidentIssue(issue_id)
           </td>
         </tr>
         <tr>
-          <td width="130" bgcolor="{$cell_color}" class="default_white">
-            <b>Resolution:</b>
+          {if $current_role > $roles.customer}
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <nobr><b>Scheduled Release:</b>&nbsp;</nobr>
           </td>
           <td bgcolor="{$light_color}" class="default">
-            {$issue.iss_resolution}
+            {$issue.pre_title|escape:"html"}
           </td>
-          <td nowrap width="130" bgcolor="{$cell_color}" class="default_white">
+          {/if}
+          <td nowrap width="140" bgcolor="{$cell_color}" class="default_white">
             <b>Associated Issues:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -196,13 +203,13 @@ function unmarkIncidentIssue(issue_id)
           </td>
         </tr>
         <tr>
-          <td width="130" bgcolor="{$cell_color}" class="default_white">
-            <b>Reporter:</b>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Resolution:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
-            {$issue.reporter}
+            {$issue.iss_resolution}
           </td>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="140" bgcolor="{$cell_color}" class="default_white">
             <b>Expected Resolution Date:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -214,13 +221,14 @@ function unmarkIncidentIssue(issue_id)
           </td>
         </tr>
         <tr>
-          <td width="130" bgcolor="{$cell_color}" class="default_white">
-            <b>Assignment:</b>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Reporter:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
-            {$issue.assignments}
+          <td {if $current_role == $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
+            {$issue.reporter}
           </td>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          {if $current_role > $roles.customer}
+          <td width="140" bgcolor="{$internal_color}" class="default_white">
             <b>Duplicates:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
@@ -235,11 +243,45 @@ function unmarkIncidentIssue(issue_id)
               {/foreach}
             {/if}
           </td>
+          {/if}
         </tr>
         <tr>
-          <td width="130" bgcolor="{$cell_color}" class="default_white">
-            <b>Summary:</b>
-            <img src="images/blank.gif" height="1" width="135">
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Assignment:</b>
+          </td>
+          <td {if $current_role == $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
+            {$issue.assignments}
+          </td>
+          {if $current_role > $roles.customer}
+          <td width="140" bgcolor="{$internal_color}" valign="top" class="default_white" nowrap>
+            <b>Authorized Repliers:</b>
+          </td>
+          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
+            {if $issue.authorized_repliers.users|@count > 0}
+                Staff:
+                {section name="replier" loop=$issue.authorized_repliers.users}
+                    {strip}
+                    {$issue.authorized_repliers.users[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
+                    {if $smarty.section.replier.last != 1},&nbsp;{/if}
+                    {/strip}
+                {/section}
+                <br />
+            {/if}
+            {if $issue.authorized_repliers.other|@count > 0}
+                Other:
+                {section name="replier" loop=$issue.authorized_repliers.other}
+                    {strip}
+                    {$issue.authorized_repliers.other[replier].replier|replace:"<":"&lt;"|replace:">":"&gt;"}
+                    {if $smarty.section.replier.last != 1},&nbsp;{/if}
+                    {/strip}
+                {/section}
+            {/if}
+          </td>
+          {/if}
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Summary:</b><img src="images/blank.gif" height="1" width="150">
           </td>
           <td colspan="3" bgcolor="{$dark_color}" class="default">
             {$issue.iss_summary|escape:"html"}
@@ -254,12 +296,13 @@ function unmarkIncidentIssue(issue_id)
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0" style="border-collapse: separate; border-spacing: 1px 0px;">
         <tr>
-          <td width="130" bgcolor="{$cell_color}" class="default_white">
-            <b>Description:</b><br />
-            <img src="images/blank.gif" height="1" width="135">
+          <td width="150" bgcolor="{$cell_color}">
+            <span class="default_white"><b>Description:</b></span><br />
+            <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="javascript:displayFixedWidth('issue_description');">fixed width font</a>)</span>
+            <img src="images/blank.gif" height="1" width="150">
           </td>
-          <td colspan="3" bgcolor="{$dark_color}" class="default">
-            {$issue.iss_description}
+          <td colspan="3" bgcolor="{$dark_color}" id="issue_description" class="default">
+{$issue.iss_description}
           </td>
         </tr>
       </table>
@@ -275,9 +318,9 @@ function unmarkIncidentIssue(issue_id)
             {if $current_role > $roles.reporter}
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                {if $current_role != $roles.customer}
+                {if $current_role > $roles.customer}
                 <td nowrap>
-                  {if $issue.iss_lock_usr_id != ""}
+                  {if $issue.iss_lock_usr_id != "" and $current_role > $roles.customer}
                   <input class="button" type="button" value="Unlock Issue" onClick="javascript:unlock({$issue.iss_id});">&nbsp;
                   {else}
                   <input class="button" type="button" value="Assign & Lock Issue" onClick="javascript:lock({$issue.iss_id});">&nbsp;
@@ -290,7 +333,7 @@ function unmarkIncidentIssue(issue_id)
                   <input class="button" type="button" value="Reply" onClick="javascript:replyIssue({$issue.iss_id});">&nbsp;
                   {/if}
                 </td>
-                {if $current_role != $roles.customer}
+                {if $current_role > $roles.customer}
                 <td nowrap>
                   <nobr>
                   {if not $issue.sta_is_closed}
@@ -311,7 +354,7 @@ function unmarkIncidentIssue(issue_id)
             {/if}
           </td>
         </tr>
-        {if $current_role != $roles.customer}
+        {if $current_role > $roles.customer}
         <tr bgcolor="{$dark_color}">
           <td colspan="4" align="right">
             <table border="0" width="100%" cellpadding="0" cellspacing="0">
