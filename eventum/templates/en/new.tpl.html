@@ -84,6 +84,9 @@ var custom_fields = new Array();
 function validateForm(f)
 {
 {/literal}
+    // disable the main submit button to avoid double-clicks
+    f.main_submit_button.disabled = true;
+
     {if $cats|@count > 0 && $current_role >= $field_display_settings.category}
     {literal}
     if (hasSelected(f.category, -1)) {
@@ -344,7 +347,7 @@ function validateForm(f)
                   </nobr>
                 </td>
                 <td width="100%" align="center">
-                  <input class="button" type="submit" value="Submit" tabindex="12">&nbsp;&nbsp;
+                  <input name="main_submit_button" class="button" type="submit" value="Submit" tabindex="12">&nbsp;&nbsp;
                   <input class="button" type="reset" value="Reset" tabindex="13">
                 </td>
               </tr>
