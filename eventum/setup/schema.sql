@@ -278,7 +278,6 @@ CREATE TABLE %TABLE_PREFIX%project (
   prj_lead_usr_id int(11) unsigned NOT NULL default '0',
   prj_initial_sta_id int(10) unsigned NOT NULL default '0',
   prj_remote_invocation varchar(8) NOT NULL default 'disabled',
-  prj_remote_invocation_options text,
   prj_anonymous_post varchar(8) NOT NULL default 'disabled',
   prj_anonymous_post_options text,
   prj_outgoing_sender_name varchar(255) NOT NULL,
@@ -287,7 +286,7 @@ CREATE TABLE %TABLE_PREFIX%project (
   UNIQUE KEY prj_title (prj_title),
   KEY prj_lead_usr_id (prj_lead_usr_id)
 );
-INSERT INTO %TABLE_PREFIX%project (prj_id, prj_created_date, prj_title, prj_status, prj_lead_usr_id, prj_initial_sta_id, prj_remote_invocation, prj_remote_invocation_options, prj_anonymous_post, prj_anonymous_post_options, prj_outgoing_sender_name, prj_outgoing_sender_email) VALUES (1, NOW(), 'Default Project', 'active', 2, 1, '', NULL, '0', NULL, 'Default Project', 'default_project@domain.com');
+INSERT INTO %TABLE_PREFIX%project (prj_id, prj_created_date, prj_title, prj_status, prj_lead_usr_id, prj_initial_sta_id, prj_remote_invocation, prj_anonymous_post, prj_anonymous_post_options, prj_outgoing_sender_name, prj_outgoing_sender_email) VALUES (1, NOW(), 'Default Project', 'active', 2, 1, '', '0', NULL, 'Default Project', 'default_project@domain.com');
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_category;
 CREATE TABLE %TABLE_PREFIX%project_category (

@@ -231,63 +231,6 @@ class Project
 
 
     /**
-     * Method used to update the remove invocation related options.
-     *
-     * @access  public
-     * @param   integer $prj_id The project ID
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    function updateRemoteInvocation($prj_id)
-    {
-        global $HTTP_POST_VARS;
-
-        $stmt = "UPDATE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
-                 SET
-                    prj_remote_invocation='" . $HTTP_POST_VARS["remote_invocation"] . "',
-                    prj_remote_invocation_options='" . @serialize($HTTP_POST_VARS["options"]) . "'
-                 WHERE
-                    prj_id=$prj_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return -1;
-        } else {
-            return 1;
-        }
-    }
-
-
-    /**
-     * Method used to get the remote invocation options for a specific
-     * project.
-     *
-     * @access  public
-     * @param   integer $prj_id The project ID
-     * @return  array The remote invocation options
-     */
-    function getRemoteInvocationOptions($prj_id)
-    {
-        $stmt = "SELECT
-                    prj_remote_invocation_options
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
-                 WHERE
-                    prj_id=$prj_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            if (!is_string($res)) {
-                $res = (string) $res;
-            }
-            return @unserialize($res);
-        }
-    }
-
-
-    /**
      * Method used to get the project ID of the given project title.
      *
      * @access  public
@@ -453,7 +396,8 @@ class Project
                     prj_lead_usr_id=" . $HTTP_POST_VARS["lead_usr_id"] . ",
                     prj_initial_sta_id=" . $HTTP_POST_VARS["initial_status"] . ",
                     prj_outgoing_sender_name='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
-                    prj_outgoing_sender_email='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "'
+                    prj_outgoing_sender_email='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
+                    prj_remote_invocation='" . $HTTP_POST_VARS["remote_invocation"] . "'
                  WHERE
                     prj_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -528,7 +472,8 @@ class Project
                     prj_lead_usr_id,
                     prj_initial_sta_id,
                     prj_outgoing_sender_name,
-                    prj_outgoing_sender_email
+                    prj_outgoing_sender_email,
+                    prj_remote_invocation
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
@@ -536,7 +481,8 @@ class Project
                     " . $HTTP_POST_VARS["lead_usr_id"] . ",
                     " . $HTTP_POST_VARS["initial_status"] . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
+                    '" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
