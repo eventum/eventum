@@ -161,7 +161,14 @@ $tpl->assign("assoc_emails", array_keys($t));
 $tpl->assign("canned_responses", Email_Response::getAssocList($prj_id));
 $tpl->assign("js_canned_responses", Email_Response::getAssocListBodies($prj_id));
 
-$tpl->assign("current_user_prefs", Prefs::get($usr_id));
+$user_prefs = Prefs::get($usr_id);
+$tpl->assign("current_user_prefs", $user_prefs);
+
+// don't add signature if it already exists. Note: This won't handle multiple user duplicate sigs.
+if ((@!empty($draft['emd_body'])) && ($user_prefs["auto_append_sig"] == 'yes') && 
+        (strpos($draft['emd_body'], $user_prefs["email_signature"]) !== false)) {
+    $tpl->assign('body_has_sig_already', 1);
+}
 
 $tpl->displayTemplate();
 ?>
