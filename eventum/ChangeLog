@@ -8,6 +8,7 @@ Eventum Issue Tracking System
 - Prevent PHP warning from being displayed when running the process_mail_queue.php script (João)
 - Fixed a problem on the example customer backend that was triggering a DB error (João)
 - Display the current textarea value when trying to update the custom fields (João)
+- Issue assignment emails now go out from project email address (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
