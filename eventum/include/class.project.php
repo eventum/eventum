@@ -397,7 +397,7 @@ class Project
                     prj_initial_sta_id=" . $HTTP_POST_VARS["initial_status"] . ",
                     prj_outgoing_sender_name='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
                     prj_outgoing_sender_email='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
-                    prj_remote_invocation='" . $HTTP_POST_VARS["remote_invocation"] . "'
+                    prj_remote_invocation='" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "'
                  WHERE
                     prj_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
