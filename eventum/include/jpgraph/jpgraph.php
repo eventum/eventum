@@ -243,9 +243,10 @@ JpGraphError::Install("JpGraphErrObject");
 //Check if there were any warnings, perhaps some wrong includes by the
 //user
 //
-if( isset($GLOBALS['php_errormsg']) ) {
-    JpGraphError::Raise("<b>General PHP error:</b><br />".$GLOBALS['php_errormsg']);
-}
+// COMPAT: Removed for compatability with PHP5, since strict mode warnings shouldn't be counted.
+//if( isset($GLOBALS['php_errormsg']) ) {
+//    JpGraphError::Raise("<b>General PHP error:</b><br />".$GLOBALS['php_errormsg']);
+//}
 
 //
 // Check what version of the GD library is being used
