@@ -451,10 +451,10 @@ class Support
     function getReferenceMessageID($text_headers)
     {
         $references = array();
-        if (preg_match('/^In-Reply-To: (.*)/m', $text_headers, $matches)) {
+        if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
             return trim($matches[1]);
         }
-        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/sm', $text_headers, $matches)) {
+        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
             $references = explode("\n", trim($matches[1]));
             $references = array_map('trim', $references);
             // return the first message-id in the list of references
@@ -501,10 +501,8 @@ class Support
             } else {
                 $has_attachments = 0;
             }
-                        
-            // we can't trust the in-reply-to from the imap c-client, so let's
-            // try to manually parse that value from the full headers
-            $reference_msg_id = Support::getReferenceMessageID($headers);
+            
+            $sender_email = Mail_API::getEmailAddress($email->fromaddress);
 
             $t = array(
                 'ema_id'         => $info['ema_id'],
@@ -518,66 +516,14 @@ class Support
                 'full_email'     => @$message,
                 'has_attachment' => $has_attachments
             );
-            $should_create_issue = false;
-            $associate_email = '';
-            // - if this email is a reply:
-            if (!empty($reference_msg_id)) {
-                //  -> check if the replied email exists in the database:
-                if (Support::exists($info['ema_id'], $reference_msg_id)) {
-                    //   -- if it does:
-                    //    => check if the replied email is already associated with an issue
-                    $reference_issue_id = Support::getIssueByMessageID($reference_msg_id);
-                    if (empty($reference_issue_id)) {
-                        //     == if it isn't:
-                        //      --> create new issue, associate current email and replied email to this issue
-                        $should_create_issue = true;
-                        $associate_email = $reference_msg_id;
-                    } else {
-                        //     == if it is:
-                        //      --> associate current email with existing issue
-                        $should_create_issue = false;
-                        $t['issue_id'] = $reference_issue_id;
-                    }
-                } else {
-                    //   -- if it doesn't:
-                    //    => create new issue and associate current email with it
-                    $should_create_issue = true;
-                }
-            } else {
-                // - if this email is not a reply:
-                //  -> create new issue and associate current email with it
-                $should_create_issue = true;
+            $should_create_array = Support::createIssueFromEmail($info, $headers, $message_body, $t['date'], @$email->fromaddress, @$email->subject);
+            $should_create_issue = $should_create_array['should_create_issue'];
+            $associate_email = $should_create_array['associate_email'];
+            if (!empty($should_create_array['issue_id'])) {
+                $t['issue_id'] = $should_create_array['issue_id'];
             }
-            $sender_email = Mail_API::getEmailAddress($email->fromaddress);
-            // only create a new issue if this email is coming from a known customer
-            if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
-                    (Customer::hasCustomerIntegration($info['ema_prj_id']))) {
-                list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
-                if (empty($customer_id)) {
-                    $should_create_issue = false;
-                }
-            }
-            // check whether we need to create a new issue or not
-            if (($info['ema_issue_auto_creation'] == 'enabled') && ($should_create_issue)) {
-                $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
-                $new_issue_id = @Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID, 
-                        $email->fromaddress, Mime_Helper::fixEncoding($email->subject), $message_body, $options['category'], 
-                        $options['priority'], @$options['users'], $t['date']);
-                $t['issue_id'] = $new_issue_id;
-                // associate any existing replied-to email with this new issue
-                if ((!empty($associate_email)) && (!empty($t['issue_id']))) {
-                    $reference_sup_id = Support::getIDByMessageID($associate_email);
-                    Support::associate(APP_SYSTEM_USER_ID, $t['issue_id'], array($reference_sup_id));
-                }
-            }
-            // need to check crm for customer association
-            if (!empty($email->fromaddress)) {
-                $details = Email_Account::getDetails($info['ema_id']);
-                if (Customer::hasCustomerIntegration($info['ema_prj_id'])) {
-                    // check for any customer contact association
-                    list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
-                    $t['customer_id'] = $customer_id;
-                }
+            if (!empty($should_create_array['customer_id'])) {
+                $t['customer_id'] = $should_create_array['customer_id'];
             }
             if (empty($t['issue_id'])) {
                 $t['issue_id'] = 0;
@@ -616,6 +562,95 @@ class Support
         }
     }
 
+    
+    /**
+     * Creates a new issue from an email if appropriate. Also returns if this message is related
+     * to a previous message.
+     *
+     * @access  private
+     * @param   array   $info An array of info about the email account.
+     * @param   string  $headers The headers of the email.
+     * @param   string  $message_body The body of the message.
+     * @param   string  $date The date this message was sent
+     * @param   string  $from The name and email address of the sender.
+     * @param   string  $subject The subject of this message.
+     * @return  array   An array of information about the message
+     */
+    function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject)
+    {
+        $should_create_issue = false;
+        $issue_id = '';
+        $associate_email = '';
+        
+        // we can't trust the in-reply-to from the imap c-client, so let's
+        // try to manually parse that value from the full headers
+        $reference_msg_id = Support::getReferenceMessageID($headers);
+        
+        // - if this email is a reply:
+        if (!empty($reference_msg_id)) {
+            //  -> check if the replied email exists in the database:
+            if (Support::exists($info['ema_id'], $reference_msg_id)) {
+                //   -- if it does:
+                //    => check if the replied email is already associated with an issue
+                $issue_id = Support::getIssueByMessageID($reference_msg_id);
+                if (empty($issue_id)) {
+                    //     == if it isn't:
+                    //      --> create new issue, associate current email and replied email to this issue
+                    $should_create_issue = true;
+                    $associate_email = $reference_msg_id;
+                } else {
+                    //     == if it is:
+                    //      --> associate current email with existing issue
+                    $should_create_issue = false;
+                }
+            } else {
+                //   -- if it doesn't:
+                //    => create new issue and associate current email with it
+                $should_create_issue = true;
+            }
+        } else {
+            // - if this email is not a reply:
+            //  -> create new issue and associate current email with it
+            $should_create_issue = true;
+        }
+
+        $sender_email = Mail_API::getEmailAddress($from);
+        // only create a new issue if this email is coming from a known customer
+        if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
+                (Customer::hasCustomerIntegration($info['ema_prj_id']))) {
+            list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
+            if (empty($customer_id)) {
+                $should_create_issue = false;
+            }
+        }
+        // check whether we need to create a new issue or not
+        if (($info['ema_issue_auto_creation'] == 'enabled') && ($should_create_issue)) {
+            $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
+            $issue_id = @Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID, 
+                    $from, Mime_Helper::fixEncoding($subject), $message_body, $options['category'], 
+                    $options['priority'], @$options['users'], $date);
+            // associate any existing replied-to email with this new issue
+            if ((!empty($associate_email)) && (!empty($reference_issue_id))) {
+                $reference_sup_id = Support::getIDByMessageID($associate_email);
+                Support::associate(APP_SYSTEM_USER_ID, $issue_id, array($reference_sup_id));
+            }
+        }
+        // need to check crm for customer association
+        if (!empty($from)) {
+            $details = Email_Account::getDetails($info['ema_id']);
+            if (Customer::hasCustomerIntegration($info['ema_prj_id'])) {
+                // check for any customer contact association
+                @list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
+            }
+        }
+        return array(
+            'should_create_issue'   =>  $should_create_issue,
+            'associate_email'   =>  $associate_email,
+            'issue_id'  =>  $issue_id,
+            'customer_id'   =>  @$customer_id
+        );
+    }
+    
 
     /**
      * Method used to close the existing connection to the email 
@@ -1928,7 +1963,7 @@ class Support
      * 
      * @access  public
      * @param   integer $ema_id The id of the email account.
-     * @return  iteger The ID of the of the project.
+     * @return  integer The ID of the of the project.
      */
     function getProjectByEmailAccount($ema_id)
     {
@@ -1951,6 +1986,81 @@ class Support
         }
         $returns[$ema_id] = $res;
         return $res;
+    }
+    
+    
+    /**
+     * Moves an email from one account to another.
+     * 
+     * @access  public
+     * @param   integer $sup_id The ID of the message.
+     * @param   integer $current_ema_id The ID of the account the message is currently in.
+     * @param   integer $new_ema_id The ID of the account to move the message too.
+     * @return  integer -1 if there was error moving the message, 1 otherwise.
+     */
+    function moveEmail($sup_id, $current_ema_id, $new_ema_id)
+    {
+        $usr_id = Auth::getUserID();
+        $email = Support::getEmailDetails($current_ema_id, $sup_id);
+        if (!empty($email['sup_iss_id'])) {
+            return -1;
+        }
+        
+        $info = Email_Account::getDetails($new_ema_id);
+        $structure = Mime_Helper::decode(Support::getFullEmail($sup_id), true, true);
+        $headers = '';
+        foreach ($structure->headers as $key => $value) {
+            if (is_array($value)) {
+                continue;
+            }
+            $headers .= "$key: $value\n";
+        }
+        
+        // handle auto creating issues (if needed)
+        $should_create_array = Support::createIssueFromEmail($info, $headers, $email['seb_body'], $email['timestamp'], $email['sup_from'], $email['sup_subject']);
+        $should_create_issue = $should_create_array['should_create_issue'];
+        $associate_email = $should_create_array['associate_email'];
+        $issue_id = $should_create_array['issue_id'];
+        $customer_id = $should_create_array['customer_id'];
+        
+        if (empty($issue_id)) {
+            $issue_id = 0;
+        }
+        if (empty($customer_id)) {
+            $customer_id = 'NULL';
+        }
+        
+        $sql = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                SET
+                    sup_ema_id = $new_ema_id,
+                    sup_iss_id = $issue_id,
+                    sup_customer_id = $customer_id
+                WHERE
+                    sup_id = $sup_id AND
+                    sup_ema_id = $current_ema_id";
+        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+        
+        $row = array(
+            'customer_id'    => $customer_id,
+            'issue_id'       => $issue_id,
+            'ema_id'         => $new_ema_id,
+            'message_id'     => $email['sup_message_id'],
+            'date'           => $email['timestamp'],
+            'from'           => $email['sup_from'],
+            'to'             => $email['sup_to'],
+            'cc'             => $email['sup_cc'],
+            'subject'        => $email['sup_subject'],
+            'body'           => $email['seb_body'],
+            'full_email'     => $email['seb_full_email'],
+            'has_attachment' => $email['sup_has_attachment']
+        );
+        Workflow::handleNewEmail(Support::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
+        return 1;
     }
 }
 

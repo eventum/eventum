@@ -54,7 +54,8 @@ if (!Issue::canAccess($issue_id, Auth::getUserID())) {
 $tpl->bulkAssign(array(
     "email"       => $email,
     "issue_id"    => $issue_id,
-    'extra_title' => "Email #" . $HTTP_GET_VARS['id'] . ": " . $email['sup_subject']
+    'extra_title' => "Email #" . $HTTP_GET_VARS['id'] . ": " . $email['sup_subject'],
+    'email_accounts'    =>  Email_Account::getAssocList(array_keys(Project::getAssocList(Auth::getUserID())), true)
 ));
 
 if (@$HTTP_GET_VARS['cat'] == 'list_emails') {
@@ -63,6 +64,10 @@ if (@$HTTP_GET_VARS['cat'] == 'list_emails') {
         'previous' => $sides['previous'],
         'next'     => $sides['next']
     ));
+} elseif ((@$HTTP_GET_VARS['cat'] == 'move_email') && (Auth::getCurrentRole() >= User::getRoleID("Standard User"))) {
+    $res = Support::moveEmail(@$HTTP_GET_VARS['id'], @$HTTP_GET_VARS['ema_id'], @$HTTP_GET_VARS['new_ema_id']);
+    $tpl->assign("move_email_result", $res);
+    $tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
 } else {
     $sides = Support::getIssueSides($issue_id, $HTTP_GET_VARS["id"]);
     $tpl->assign(array(
