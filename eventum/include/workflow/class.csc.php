@@ -146,7 +146,7 @@ class CSC_Workflow_Backend
      */
     function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment)
     {
-        if (!in_array($usr_id, $new_assignees)) {
+        if (count($new_assignees) > 0 && !in_array($usr_id, $new_assignees)) {
             Notification::notifyIRCAssignmentChange($issue_id, $usr_id, $issue_details['assigned_users'], $new_assignees, $remote_assignment);
         }
     }
