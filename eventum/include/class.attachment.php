@@ -317,6 +317,14 @@ class Attachment
             Attachment::addFile($attachment_id, $HTTP_POST_VARS["issue_id"], $filename, $HTTP_POST_FILES['attachment']['type'][$i], $blob);
         }
         Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
+        // XXX: check if we need to change the issue status to 'Waiting on Developer'
+        if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
+            $status_id = Status::getStatusID('Waiting on Developer');
+            if ((!empty($status_id)) && (Issue::getStatusID($HTTP_POST_VARS["issue_id"]) != Status::getStatusID('Pending'))) {
+                Issue::markAsWaitingOnDeveloper($HTTP_POST_VARS["issue_id"], $status_id, 'file');
+                Issue::recordLastCustomerAction($HTTP_POST_VARS["issue_id"]);
+            }
+        }
         // need to save a history entry for this
         History::add($HTTP_POST_VARS["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
         // send notifications for the issue being updated

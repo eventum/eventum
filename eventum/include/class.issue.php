@@ -328,6 +328,12 @@ class Issue
             // save a history entry about this...
             History::add($issue_id, $usr_id, History::getTypeID('remote_locked'), "Issue remotely locked by " . User::getFullName($usr_id));
             Notification::subscribeUser($issue_id, $usr_id, Notification::getAllActions(), false);
+            // XXX: if the current issue status is set to 'pending', then change the status to 'assigned'
+            $current_status_id = Issue::getStatusID($issue_id);
+            if ($current_status_id == Status::getStatusID('Pending')) {
+                Issue::setStatus($issue_id, Status::getStatusID('Assigned'));
+                History::add($issue_id, $usr_id, History::getTypeID('remote_status_change'), "Status changed to 'Assigned' because " . User::getFullName($usr_id) . " remotely locked the issue.");
+            }
             return 1;
         }
     }
@@ -589,6 +595,12 @@ class Issue
             // save a history entry about this...
             History::add($issue_id, $usr_id, History::getTypeID('issue_locked'), "Issue locked by " . User::getFullName($usr_id));
             Notification::subscribeUser($issue_id, $usr_id, Notification::getAllActions());
+            // XXX: if the current issue status is set to 'pending', then change the status to 'assigned'
+            $current_status_id = Issue::getStatusID($issue_id);
+            if ($current_status_id == Status::getStatusID('Pending')) {
+                Issue::setStatus($issue_id, Status::getStatusID('Assigned'));
+                History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to 'Assigned' because " . User::getFullName($usr_id) . " locked the issue.");
+            }
             return 1;
         }
     }
@@ -1087,6 +1099,18 @@ class Issue
             // record the change
             History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
             if ($send_notification) {
+                // send a special confirmation email when customer issues are closed
+                $stmt = "SELECT
+                            iss_customer_contact_id
+                         FROM
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         WHERE
+                            iss_id=$issue_id";
+                $customer_contact_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                if (!empty($customer_contact_id)) {
+                    include_once(APP_INC_PATH . "class.customer.php");
+                    Customer::notifyCustomerIssueClosed($issue_id, $customer_contact_id);
+                }
                 // send notifications for the issue being closed
                 Notification::notify($issue_id, 'closed');
             }
@@ -1208,6 +1232,11 @@ class Issue
             }
             if ($current["iss_pri_id"] != $HTTP_POST_VARS["priority"]) {
                 $updated_fields["Priority"] = History::formatChanges(Misc::getPriorityTitle($current["iss_pri_id"]), Misc::getPriorityTitle($HTTP_POST_VARS["priority"]));
+                // XXX: only send an irc notice if this was done by a customer user
+                if (User::getRoleByUser($usr_id) == User::getRoleID('Customer')) {
+                    $irc_notice = "Issue #$issue_id updated (Old Priority: " . Misc::getPriorityTitle($current['iss_pri_id']) . "; New Priority: " . Misc::getPriorityTitle($HTTP_POST_VARS["priority"]) . "), " . $current['customer_info']['customer_name'] . ", " . $HTTP_POST_VARS["summary"];
+                    Notification::notifyIRC($issue_id, $irc_notice);
+                }
             }
             if ($current["iss_sta_id"] != $HTTP_POST_VARS["status"]) {
                 $updated_fields["Status"] = History::formatChanges(Status::getStatusTitle($current["iss_sta_id"]), Status::getStatusTitle($HTTP_POST_VARS["status"]));
@@ -1255,6 +1284,15 @@ class Issue
             $intersect = array_intersect($update_dupe, array_keys($updated_fields));
             if (($current["duplicates"] != '') && (count($intersect) > 0)) {
                 Issue::updateDuplicates($issue_id);
+            }
+            // XXX: if a customer is updating the issue, mark it as 'Waiting on Developer'
+            $status_id = Status::getStatusID('Waiting on Developer');
+            if ((!empty($status_id)) &&
+                    ($HTTP_POST_VARS["status"] != Status::getStatusID('Pending')) &&
+                    (!Status::hasClosedContext($HTTP_POST_VARS["status"])) &&
+                    (User::getRoleByUser($usr_id) == User::getRoleID('Customer'))) {
+                Issue::markAsWaitingOnDeveloper($issue_id, $status_id, 'update');
+                Issue::recordLastCustomerAction($issue_id);
             }
             return 1;
         }
@@ -1409,7 +1447,21 @@ class Issue
     }
 
 
-    // XXX: put documentation here
+    /**
+     * Creates an issue with the given email information.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $usr_id The user responsible for this action
+     * @param   string $sender The original sender of this email
+     * @param   string $summary The issue summary
+     * @param   string $description The issue description
+     * @param   integer $category The category ID
+     * @param   integer $priority The priority ID
+     * @param   integer $reporter The user ID of the issue reporter
+     * @param   array $assignment The list of users to assign this issue to
+     * @return  void
+     */
     function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $reporter, $assignment)
     {
         $initial_status = Project::getInitialStatus($prj_id);
