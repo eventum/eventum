@@ -367,6 +367,20 @@ class Misc
     {
         return $GLOBALS["db_api"]->escapeString($str);
     }
+    
+    
+    /**
+     * Accepts a value and cleans it to only contain numeric values
+     * 
+     * @access  public
+     * @param   mixed $input The original input.
+     * @return  integer The input converted to an integer
+     */
+    function escapeInteger($input)
+    {
+        settype($input, 'integer');
+        return $input;
+    }
 
 
     /**
