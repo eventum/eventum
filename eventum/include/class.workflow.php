@@ -157,7 +157,7 @@ class Workflow
     /**
      * Called when an issue is assigned.
      *
-     * @param   integer $prj_id The projectID
+     * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The id of the user who assigned the issue.
      */
@@ -174,7 +174,7 @@ class Workflow
     /**
      * Called when a file is attached to an issue..
      *
-     * @param   integer $prj_id The projectID
+     * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The id of the user who locked the issue.
      */
@@ -191,7 +191,7 @@ class Workflow
     /**
      * Called when the priority of an issue changes.
      *
-     * @param   integer $prj_id The projectID
+     * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The id of the user who locked the issue.
      * @param   array $old_details The old details of the issue.
@@ -210,7 +210,7 @@ class Workflow
     /**
      * Called when an email is blocked.
      *
-     * @param   integer $prj_id The projectID
+     * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   array $email_details Details of the issue
      * @param   string $type What type of blocked email this is.
@@ -228,7 +228,7 @@ class Workflow
     /**
      * Called when the assignment on an issue changes.
      *
-     * @param   integer $prj_id The projectID
+     * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The id of the user who locked the issue.
      * @param   array $issue_details The old details of the issue.
@@ -248,7 +248,7 @@ class Workflow
     /**
      * Called when a new issue is created.
      *
-     * @param   integer $prj_id The projectID
+     * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   boolean $has_TAM If this issue has a technical account manager.
      * @param   boolean $has_RR If Round Robin was used to assign this issue.
@@ -266,7 +266,7 @@ class Workflow
     /**
      * Called when an email is recieved.
      *
-     * @param   integer $prj_id The projectID
+     * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   array $message An object containing the new email
      * @param   array $row The array of data that was inserted into the database.
@@ -284,7 +284,7 @@ class Workflow
     /**
      * Called when an email is manually associated with an existing issue.
      *
-     * @param   integer $prj_id The projectID
+     * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      */
     function handleManualEmailAssociation($prj_id, $issue_id)
@@ -300,24 +300,25 @@ class Workflow
     /**
      * Called when a note is routed.
      *
-     * @param   integer $prj_id The projectID
+     * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The user ID of the person posting this new note
      * @param   boolean $closing If the issue is being closed
      */
-    function handleNewNote($prj_id, $issue_id, $closing = false)
+    function handleNewNote($prj_id, $issue_id, $usr_id, $closing = false)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return;
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->handleNewNote($prj_id, $issue_id, $closing);
+        return $backend->handleNewNote($prj_id, $issue_id, $usr_id, $closing);
     }
     
     
     /**
      * Method is called to return the list of statuses valid for a specific issue.
      * 
-     * @param   integer $prj_id The projectID
+     * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @return  array An associative array of statuses valid for this issue.
      */

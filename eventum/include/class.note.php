@@ -343,7 +343,7 @@ class Note
             } else {
                 Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
             }
-            Workflow::handleNewNote(Issue::getProjectID($issue_id), $issue_id, $closing);
+            Workflow::handleNewNote(Issue::getProjectID($issue_id), $issue_id, $usr_id, $closing);
             return 1;
         }
     }

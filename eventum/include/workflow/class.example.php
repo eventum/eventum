@@ -111,9 +111,10 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The user ID of the person posting this new note
      * @param   boolean $closing If the issue is being closed
      */
-    function handleNewNote($prj_id, $issue_id, $closing)
+    function handleNewNote($prj_id, $issue_id, $usr_id, $closing)
     {
         echo "Workflow: New Note<br />\n";
     }
