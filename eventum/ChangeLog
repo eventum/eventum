@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-????, Version 1.3.2
+????, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
 - Fixed the MIME handling code to support inline attachments (João)
 - Fixed some of the navigation links so they show up for the Reporter permission level users (João)
