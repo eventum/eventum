@@ -80,8 +80,8 @@ function validateCustomer(f)
             <b>Add Primary Contact to Notification List? *</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
-            <input type="radio" name="add_primary_contact" value="yes" checked> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'add_primary_contact', 0);">Yes</a>&nbsp;&nbsp;
-            <input type="radio" name="add_primary_contact" value="no"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'add_primary_contact', 1);">No</a>
+            <input type="radio" name="add_primary_contact" value="yes" {if $smarty.post.add_primary_contact != 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'add_primary_contact', 0);">Yes</a>&nbsp;&nbsp;
+            <input type="radio" name="add_primary_contact" value="no" {if $smarty.post.add_primary_contact == 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'add_primary_contact', 1);">No</a>
           </td>
         </tr>
         <tr>
@@ -89,8 +89,8 @@ function validateCustomer(f)
             <b>Notify Customer About New Issue? *</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
-            <input type="radio" name="notify_customer" value="yes" checked> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'notify_customer', 0);">Yes</a>&nbsp;&nbsp;
-            <input type="radio" name="notify_customer" value="no"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'notify_customer', 1);">No</a>
+            <input type="radio" name="notify_customer" value="yes" {if $smarty.post.notify_customer != 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'notify_customer', 0);">Yes</a>&nbsp;&nbsp;
+            <input type="radio" name="notify_customer" value="no" {if $smarty.post.notify_customer == 'no'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'notify_customer', 1);">No</a>
           </td>
         </tr>
         {else}
@@ -102,7 +102,7 @@ function validateCustomer(f)
             <b>Last Name: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="contact_person_lname" class="default" value="{$contact_details.last_name}" size="40">
+            <input type="text" name="contact_person_lname" class="default" value="{if $smarty.post.contact_person_lname != ''}{$smarty.post.contact_person_lname}{else}{$contact_details.last_name}{/if}" size="40">
             {include file="error_icon.tpl.html" field="contact_person_lname"}
           </td>
         </tr>
@@ -111,7 +111,7 @@ function validateCustomer(f)
             <b>First Name: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="contact_person_fname" class="default" value="{$contact_details.first_name}" size="40">
+            <input type="text" name="contact_person_fname" class="default" value="{if $smarty.post.contact_person_fname != ''}{$smarty.post.contact_person_fname}{else}{$contact_details.first_name}{/if}" size="40">
             {include file="error_icon.tpl.html" field="contact_person_fname"}
           </td>
         </tr>
@@ -120,7 +120,7 @@ function validateCustomer(f)
             <b>Email: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="contact_email" class="default" size="40" {if $current_role == $roles.customer}value="{$current_email}"{/if}>
+            <input type="text" name="contact_email" class="default" size="40" value="{if $smarty.post.contact_email != ''}{$smarty.post.contact_email}{elseif $current_role == $roles.customer}{$current_email}{/if}">
             {include file="error_icon.tpl.html" field="contact_email"}
           </td>
         </tr>
@@ -129,7 +129,7 @@ function validateCustomer(f)
             <b>Phone Number:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="contact_phone" value="{$contact_details.phone}" class="default" size="20">
+            <input type="text" name="contact_phone" value="{if $smarty.post.contact_phone != ''}{$smarty.post.contact_phone}{else}{$contact_details.phone}{/if}" class="default" size="20">
           </td>
         </tr>
         <tr>
@@ -137,8 +137,13 @@ function validateCustomer(f)
             <b>Timezone:</b>
           </td>
           <td bgcolor="{$light_color}">
+            {if $smarty.post.contact_timezone != ''}
+                {assign var=current_tz value=$smarty.post.contact_timezone}
+            {else}
+                {assign var=current_tz value=$user_prefs.timezone}
+            {/if}
             <select class="default" name="contact_timezone">
-              {html_options values=$zones output=$zones selected=$user_prefs.timezone}
+              {html_options values=$zones output=$zones selected=$current_tz}
             </select>
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="contact_timezone"}
           </td>
@@ -149,7 +154,7 @@ function validateCustomer(f)
           </td>
           <td bgcolor="{$light_color}">
             <select class="default" name="contact_extra_emails[]" size="3" multiple>
-              {html_options options=$contacts}
+              {html_options options=$contacts selected=$smarty.post.contact_extra_emails}
             </select>
             <span class="small_default">(hold ctrl to select multiple options)<br />
             <i>(only technical contacts listed on your contract)</i></span>
