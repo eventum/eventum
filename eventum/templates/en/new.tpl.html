@@ -440,13 +440,19 @@ function validateForm(f)
 window.onload = setFocus;
 function setFocus()
 {
-    {/literal}
-    {if $cats|@count > 0 && $current_role >= $field_display_settings.category}
-        document.report_form.category.focus();
-    {else}
-        document.report_form.priority.focus();
-    {/if}
-    {literal}
+    var f = getForm('report_form');
+    var field = getFormElement(f, 'category');
+    if ((field != null) && (field.type != 'hidden') && (field.options.length > 1)) {
+        field.focus();
+    } else {
+        var field = getFormElement(f, 'priority');
+        if ((field != null) && (field.type != 'hidden')) {
+            field.focus();
+        } else {
+            var field = getFormElement(f, 'summary');
+            field.focus();
+        }
+    }
 }
 //-->
 </script>
