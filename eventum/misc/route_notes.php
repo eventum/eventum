@@ -117,11 +117,19 @@ $HTTP_COOKIE_VARS[APP_COOKIE] = $cookie;
 
 // parse the Cc: list, if any, and add these internal users to the issue notification list
 $users = array_flip($users);
-$addresses = Mail_API::getEmailAddresses(@$structure->headers['cc']);
+$addresses = array();
+$to_addresses = Mail_API::getEmailAddresses(@$structure->headers['to']);
+if (count($to_addresses)) {
+    $addresses = $to_addresses;
+}
+$cc_addresses = Mail_API::getEmailAddresses(@$structure->headers['cc']);
+if (count($cc_addresses)) {
+    $addresses = array_merge($addresses, $cc_addresses);
+}
 $cc_users = array();
-foreach ($addresses as $cc_email) {
-    if (in_array(strtolower($cc_email), $user_emails)) {
-        $cc_users[] = $users[$cc_email];
+foreach ($addresses as $email) {
+    if (in_array(strtolower($email), $user_emails)) {
+        $cc_users[] = $users[$email];
     }
 }
 
