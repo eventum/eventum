@@ -30,7 +30,7 @@ function viewNote(note_id)
 }
 function postInternalNote(issue_id)
 {
-    var features = 'width=560,height=500,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var features = 'width=560,height=560,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var noteWin = window.open('post_note.php?issue_id=' + issue_id, '_postNote', features);
     noteWin.focus();
 }
