@@ -174,24 +174,37 @@ function validateForm(f)
             <b>Expected Resolution Date:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <span class="default"><input type="radio" name="keep_resolution_date" checked value="yes"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'keep_resolution_date', 0);">Keep Current Date: {$issue.iss_expected_resolution_date|default:"<i>none</i>"}</a>
-            <br />
-            <input type="radio" name="keep_resolution_date" value="no"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'keep_resolution_date', 1);">Change Date:</a> </span><br />
-            {html_select_date time=$one_week_ts field_array="expected_resolution_date" prefix="" end_year="+1" all_extra='class="default"'}
+            {* Convert expected resolution date to format usable by html_select_date *}
+            {if $issue.iss_expected_resolution_date == ''}
+                {assign var="expected_resolution_date" value='0000-00-00'}
+                {assign var="expected_resolution_start_year" value=$smarty.now|date_format:"%Y"}
+            {else}
+                {assign var="expected_resolution_date" value=$issue.iss_expected_resolution_date}
+                {* Set the start year to be whatever the current expected resolution date is *}
+                {if $expected_resolution_date|substr:"0":"4" < $smarty.now|date_format:"%Y"}
+                    {assign var="expected_resolution_start_year" value=$expected_resolution_date|substr:"0":"4"}
+                {else}
+                    {assign var="expected_resolution_start_year" value=$smarty.now|date_format:"%Y"}
+                {/if}
+            {/if}
+            {html_select_date time=$expected_resolution_date field_array="expected_resolution_date" prefix="" start_year=$expected_resolution_start_year end_year="+1" all_extra='class="default"' year_empty="" day_empty="" month_empty=""}
           </td>
           <input type="hidden" name="resolution" value="{$issue.iss_res_id}">
           <td nowrap width="130" bgcolor="{$cell_color}" class="default_white">
-            <b>Reporter:</b>
+            <b>Scheduled Release:</b>
           </td>
-          <td bgcolor="{$light_color}" class="default">
-            {$issue.reporter}
+          <td bgcolor="{$light_color}">
+            <select name="release" class="default">
+              <option value="0"></option>
+              {html_options options=$releases selected=$issue.iss_pre_id}
+            </select>
           </td>
         </tr>
         <tr>
-          <td width="120" bgcolor="{$cell_color}" class="default_white">
+          <td width="120" bgcolor="{$cell_color}" class="default_white" rowspan="2">
             <b>Assignment:</b>
           </td>
-          <td bgcolor="{$light_color}">
+          <td bgcolor="{$light_color}" rowspan="2">
             {if $issue.has_inactive_users}
             <span class="default"><input type="radio" name="keep_assignments" checked value="yes"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'keep_assignments', 0);">Keep Current Assignments: {$issue.assignments}</a>
             <br />
@@ -209,10 +222,18 @@ function validateForm(f)
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="assignments[]" callbacks="new Array('showSelections(\'update_form\', \'assignments[]\')')"}
             <div class="default" id="selection_assignments[]">{if $issue.assignments}Current Selections: {$issue.assignments}{/if}</div>
           </td>
-          <td width="140" bgcolor="{$cell_color}" valign="top" class="default_white" nowrap>
+          <td nowrap width="130" bgcolor="{$cell_color}" class="default_white">
+            <b>Reporter:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$issue.reporter}
+          </td>
+        </tr>
+        <tr>
+          <td width="140" bgcolor="{$cell_color}"  class="default_white" nowrap>
             <b>Authorized Repliers:</b>
           </td>
-          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
+          <td width="50%" bgcolor="{$light_color}" class="default">
             {if $issue.authorized_repliers.users|@count > 0}
                 Staff:
                 {section name="replier" loop=$issue.authorized_repliers.users}

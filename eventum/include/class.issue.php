@@ -1076,10 +1076,14 @@ class Issue
                 }
             }
         }
-        if (@$HTTP_POST_VARS['keep_resolution_date'] == 'no') {
+        if ((!empty($HTTP_POST_VARS['expected_resolution_date']['Year'])) && 
+             (!empty($HTTP_POST_VARS['expected_resolution_date']['Month'])) &&
+             (!empty($HTTP_POST_VARS['expected_resolution_date']['Day']))) {
             $HTTP_POST_VARS['expected_resolution_date'] = sprintf('%s-%s-%s', $HTTP_POST_VARS['expected_resolution_date']['Year'],
                                                 $HTTP_POST_VARS['expected_resolution_date']['Month'],
                                                 $HTTP_POST_VARS['expected_resolution_date']['Day']);
+        } else {
+            $HTTP_POST_VARS['expected_resolution_date'] = '';
         }
         if (@$HTTP_POST_VARS["keep_assignments"] == "no") {
             // only change the issue-user associations if there really were any changes
@@ -1116,10 +1120,13 @@ class Issue
         if (@$HTTP_POST_VARS["keep"] == "no") {
             $stmt .= "iss_pre_id=" . $HTTP_POST_VARS["release"] . ",";
         }
-        if (@$HTTP_POST_VARS['keep_resolution_date'] == 'no') {
+        if (!empty($HTTP_POST_VARS['expected_resolution_date'])) {
             $stmt .= "iss_expected_resolution_date='" . $HTTP_POST_VARS['expected_resolution_date'] . "',";
+        } else {
+            $stmt .= "iss_expected_resolution_date=null,";
         }
         $stmt .= "
+                    iss_pre_id=" . $HTTP_POST_VARS["release"] . ",
                     iss_pri_id=" . $HTTP_POST_VARS["priority"] . ",
                     iss_sta_id=" . $HTTP_POST_VARS["status"] . ",
                     iss_res_id=" . $HTTP_POST_VARS["resolution"] . ",
@@ -1136,13 +1143,13 @@ class Issue
         } else {
             // add change to the history (only for changes on specific fields?)
             $updated_fields = array();
-            if (@$HTTP_POST_VARS['keep_resolution_date'] == 'no') {
+            if ($current["iss_expected_resolution_date"] != $HTTP_POST_VARS['expected_resolution_date']) {
                 $updated_fields["Expected Resolution Date"] = History::formatChanges($current["iss_expected_resolution_date"], $HTTP_POST_VARS['expected_resolution_date']);
             }
             if ($current["iss_prc_id"] != $HTTP_POST_VARS["category"]) {
                 $updated_fields["Category"] = History::formatChanges(Category::getTitle($current["iss_prc_id"]), Category::getTitle($HTTP_POST_VARS["category"]));
             }
-            if ((@$HTTP_POST_VARS["keep"] == "no") && ($current["iss_pre_id"] != $HTTP_POST_VARS["release"])) {
+            if ($current["iss_pre_id"] != $HTTP_POST_VARS["release"]) {
                 $updated_fields["Release"] = History::formatChanges(Release::getTitle($current["iss_pre_id"]), Release::getTitle($HTTP_POST_VARS["release"]));
             }
             if ($current["iss_pri_id"] != $HTTP_POST_VARS["priority"]) {
