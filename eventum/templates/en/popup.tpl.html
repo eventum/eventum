@@ -69,14 +69,6 @@
   <b>Thank you, the association to the selected emails were removed successfully.</b>
 {/if}
 
-{if $upload_file_result == -1}
-  <b>An error occurred while trying to process the uploaded file.</b>
-{elseif $upload_file_result == -2}
-  <b>The uploaded file is already attached to the current issue. Please rename the file and try again.</b>
-{elseif $upload_file_result == 1}
-  <b>Thank you, the uploaded file was associated with the issue below.</b>
-{/if}
-
 {if $remove_attachment_result == -1}
   <b>An error occurred while trying to run your query</b>
 {elseif $remove_attachment_result == -2}
