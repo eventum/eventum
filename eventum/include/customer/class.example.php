@@ -721,7 +721,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                     usr_password,
                     usr_full_name
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
                     usr_customer_contact_id = $contact_id";
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt);
