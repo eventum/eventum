@@ -54,6 +54,16 @@
               projWin.focus();
               return true;
           }
+          function validateIssueID(f)
+          {
+              if (isNumberOnly(f.id.value)) {
+                  return true;
+              } else {
+                  selectField(f, 'id');
+                  alert('Please enter a valid issue ID.');
+                  return false;
+              }
+          }
           //-->
           </script>
           {/literal}
@@ -79,11 +89,12 @@
             {/if}
           </td>
           </form>
-          <form target="_top" method="get" action="{$rel_url}view.php">
+          <form onSubmit="javascript:return validateIssueID(this);" target="_top" method="get" action="{$rel_url}view.php">
           <td width="2%" nowrap bgcolor="{$light_color}" align="right">
             <label for="shortcut" accesskey="4"></label>
             <input type="text" id="shortcut" name="id" value="id #" 
               onBlur="javascript:if (this.value == '') this.value = 'id #';" onFocus="javascript:if (this.value == 'id #') this.value='';" size="5" class="shortcut">
+            {include file="error_icon.tpl.html" field="id"}
             <input type="submit" value="Go" class="shortcut">
           </td>
           </form>
