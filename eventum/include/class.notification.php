@@ -857,7 +857,7 @@ class Notification
             $irc_notice .= $data['customer_info']['customer_name'] . ", ";
         }
         $irc_notice .= $data['iss_summary'];
-        Notification::notifyIRC($issue_id, $irc_notice);
+        Notification::notifyIRC($prj_id, $irc_notice, $issue_id);
         $data['custom_fields'] = Custom_Field::getListByIssue($data['iss_prj_id'], $issue_id);
         $subject = 'New Issue';
         Notification::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false);
@@ -1008,7 +1008,7 @@ class Notification
             }
             $notice .= "updated (Old Assignment: " . $old_assignees .
                     "; New Assignment: " . implode(', ', User::getFullName($new)) . ")";
-            Notification::notifyIRC($issue_id, $notice);
+            Notification::notifyIRC(Issue::getProjectID($issue_id), $notice, $issue_id);
         }
     }
 
@@ -1030,7 +1030,7 @@ class Notification
             $notice .= "Assignment: " . implode(', ', $assignment) . "; ";
         }
         $notice .= "BLOCKED email from '$from')";
-        Notification::notifyIRC($issue_id, $notice);
+        Notification::notifyIRC(Issue::getProjectID($issue_id), $notice, $issue_id);
     }
 
 
@@ -1038,11 +1038,12 @@ class Notification
      * Method used to save the IRC notification message in the queue table.
      *
      * @access  public
+     * @param   integer $project_id The ID of the project.
+     * @param   string  $notice The notification summary that should be displayed on IRC
      * @param   integer $issue_id The issue ID
-     * @param   string $notice The notification summary that should be displayed on IRC
      * @return  boolean
      */
-    function notifyIRC($issue_id, $notice)
+    function notifyIRC($project_id, $notice, $issue_id = false)
     {
         // don't save any irc notification if this feature is disabled
         $setup = Setup::load();
@@ -1053,16 +1054,22 @@ class Notification
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "irc_notice
                  (
-                    ino_iss_id,
+                    ino_prj_id,
                     ino_created_date,
                     ino_status,
-                    ino_message
-                 ) VALUES (
-                    $issue_id,
+                    ino_message";
+        if ($issue_id != false) {
+            $stmt .= ",\n ino_iss_id";
+        }
+        $stmt .= ") VALUES (
+                    $project_id,
                     '" . Date_API::getCurrentDateGMT() . "',
                     'pending',
-                    '" . Misc::escapeString($notice) . "'
-                 )";
+                    '" . Misc::escapeString($notice) . "'";
+        if ($issue_id != false) {
+            $stmt .= ",\n $issue_id";
+        }
+        $stmt .= ")";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
