@@ -1,6 +1,9 @@
 Euventum Issue Tracking System
 =============================
 
+????, Version 1.3
+- Fixed the SQL schema to avoid the mystic "Invalid default value for 'sta_id'" error message when installing the application (João)
+
 30 Jun 2004, Version 1.2.2
 - Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being created. (Bryan)
 - Properly handling email attachments with uppercase MIME related values (João)

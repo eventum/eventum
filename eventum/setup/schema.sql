@@ -519,7 +519,7 @@ CREATE TABLE %TABLE_PREFIX%phone_support (
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%status;
 CREATE TABLE %TABLE_PREFIX%status (
-  sta_id int(10) NOT NULL default '0' auto_increment,
+  sta_id int(10) unsigned NOT NULL auto_increment,
   sta_title varchar(64) NOT NULL default '',
   sta_abbreviation char(3) NOT NULL,
   sta_rank int(2) NOT NULL,
