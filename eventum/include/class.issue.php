@@ -1010,6 +1010,8 @@ class Issue
      */
     function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason)
     {
+        global $HTTP_POST_VARS;
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
