@@ -48,6 +48,10 @@ $stmts[] = 'CREATE TABLE eventum_project_link_filter (
   PRIMARY KEY  (plf_prj_id, plf_lfi_id)
 )';
 
+$stmts[] = 'ALTER TABLE eventum_reminder_field ADD column rmf_allow_column_compare tinyint(1) DEFAULT 0';
+$stmts[] = "UPDATE eventum_reminder_field SET rmf_allow_column_compare = 1 WHERE rmf_title LIKE '%date%'";
+$stmts[] = 'ALTER TABLE eventum_reminder_level_condition ADD COLUMN rlc_comparison_rmf_id tinyint(3) unsigned';
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);

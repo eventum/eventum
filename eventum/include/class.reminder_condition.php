@@ -84,13 +84,15 @@ class Reminder_Condition
                     rlc_rma_id,
                     rlc_rmf_id,
                     rlc_rmo_id,
-                    rlc_value
+                    rlc_value,
+                    rlc_comparison_rmf_id
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
                     " . $HTTP_POST_VARS['rma_id'] . ",
                     " . $HTTP_POST_VARS['field'] . ",
                     " . $HTTP_POST_VARS['operator'] . ",
-                    '" . $HTTP_POST_VARS['value'] . "'
+                    '" . @$HTTP_POST_VARS['value'] . "',
+                    '" . @$HTTP_POST_VARS['comparison_field'] . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -118,7 +120,8 @@ class Reminder_Condition
                     rlc_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     rlc_rmf_id=" . $HTTP_POST_VARS['field'] . ",
                     rlc_rmo_id=" . $HTTP_POST_VARS['operator'] . ",
-                    rlc_value='" . $HTTP_POST_VARS['value'] . "'
+                    rlc_value='" . @$HTTP_POST_VARS['value'] . "',
+                    rlc_comparison_rmf_id = '" . @$HTTP_POST_VARS['comparison_field'] . "'
                  WHERE
                     rlc_id=" . $HTTP_POST_VARS['id'];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -198,6 +201,7 @@ class Reminder_Condition
         $stmt = "SELECT
                     rlc_id,
                     rlc_value,
+                    rlc_comparison_rmf_id,
                     rmf_title,
                     rmo_title
                  FROM
@@ -216,7 +220,9 @@ class Reminder_Condition
             return array();
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                if (strtolower($res[$i]['rmf_title']) == 'status') {
+                if (!empty($res[$i]['rlc_comparison_rmf_id'])) {
+                    $res[$i]['rlc_value'] = 'Field: ' . Reminder_Condition::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
+                }elseif (strtolower($res[$i]['rmf_title']) == 'status') {
                     $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
                 } elseif (strtolower($res[$i]['rmf_title']) == 'category') {
                     $res[$i]['rlc_value'] = Category::getTitle($res[$i]['rlc_value']);
@@ -255,20 +261,49 @@ class Reminder_Condition
 
 
     /**
+     * Method used to get the sql_field of a specific reminder field.
+     *
+     * @access  public
+     * @param   integer $field_id The reminder field ID
+     * @return  string The sql_field of the reminder field
+     */
+    function getSQLField($field_id)
+    {
+        $stmt = "SELECT
+                    rmf_sql_field
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field
+                 WHERE
+                    rmf_id=$field_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get the list of reminder fields to be displayed in the
      * administration section.
      *
      * @access  public
+     * @param   boolean $comparable_only If true, only fields that can be compared to other fields will be returned
      * @return  array The list of reminder fields
      */
-    function getFieldAdminList()
+    function getFieldAdminList($comparable_only = false)
     {
         $stmt = "SELECT
                     rmf_id,
                     rmf_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field
-                 ORDER BY
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field\n";
+        if ($comparable_only == true) {
+            $stmt .= "WHERE rmf_allow_column_compare = 1\n";   
+        }
+        $stmt .= "ORDER BY
                     rmf_title ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
@@ -300,6 +335,31 @@ class Reminder_Condition
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
+        } else {
+            return $res;
+        }
+    }
+    
+
+    /**
+     * Method used to see if a specific reminder field can be compared to other fields.
+     *
+     * @access  public
+     * @param   integer $field_id The reminder field ID
+     * @return  boolean If this field can be compared to other fields.
+     */
+    function canFieldBeCompared($field_id)
+    {
+        $stmt = "SELECT
+                    rmf_allow_column_compare
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field
+                 WHERE
+                    rmf_id=$field_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
         } else {
             return $res;
         }

@@ -61,12 +61,19 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", Reminder_Condition::getDetails($HTTP_GET_VARS["id"]));
+        $info = Reminder_Condition::getDetails($HTTP_GET_VARS["id"]);
+        $tpl->assign("info", $info);
+        $HTTP_GET_VARS['field'] = $info['rlc_rmf_id'];
     }
 
     if (!empty($HTTP_GET_VARS['field'])) {
         $field_title = Reminder_Condition::getFieldTitle($HTTP_GET_VARS['field']);
-        if (strtolower($field_title) == 'status') {
+        if (Reminder_Condition::canFieldBeCompared($HTTP_GET_VARS['field'])) {
+            $tpl->assign(array(
+                'show_field_options'    =>  'yes',
+                'comparable_fields'     =>  Reminder_Condition::getFieldAdminList(true)
+            ));
+        } elseif (strtolower($field_title) == 'status') {
             $prj_id = Reminder::getProjectID($rem_id);
             $tpl->assign(array(
                 'show_status_options' => 'yes',
@@ -81,11 +88,13 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         } else {
             $tpl->assign('show_status_options', 'no');
         }
-        $tpl->assign('info', array(
-            'rlc_rmf_id' => $HTTP_GET_VARS['field'],
-            'rlc_rmo_id' => '',
-            'rlc_value'  => ''
-        ));
+        if (@$HTTP_GET_VARS["cat"] != "edit") {
+            $tpl->assign('info', array(
+                'rlc_rmf_id' => $HTTP_GET_VARS['field'],
+                'rlc_rmo_id' => '',
+                'rlc_value'  => ''
+            ));
+        }
     }
 
     $tpl->assign("rem_id", $rem_id);

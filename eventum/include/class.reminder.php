@@ -787,18 +787,26 @@ class Reminder
         }
         // now for the interesting stuff
         for ($i = 0; $i < count($conditions); $i++) {
-            // date field values are always saved as number of hours, so let's calculate them now as seconds
-            if (stristr($conditions[$i]['rmf_title'], 'date')) {
-                // support NULL as values for a date field
-                if (strtoupper($conditions[$i]['rlc_value']) == 'NULL') {
-                    $conditions[$i]['rmf_sql_representation'] = $conditions[$i]['rmf_sql_field'];
-                } else {
-                    $conditions[$i]['rlc_value'] = $conditions[$i]['rlc_value'] * 60 * 60;
-                }
-            }
-            $stmt .= sprintf(" AND %s %s %s\n", $conditions[$i]['rmf_sql_representation'],
+            // check for fields that compare to other fields
+            if (!empty($conditions[$i]['rlc_comparison_rmf_id'])) {
+                $sql_field = Reminder_Condition::getSQLField($conditions[$i]['rlc_comparison_rmf_id']);
+                $stmt .= sprintf(" AND %s %s %s\n", $conditions[$i]['rmf_sql_field'],
                                               $conditions[$i]['rmo_sql_representation'],
-                                              $conditions[$i]['rlc_value']);
+                                              $sql_field);
+            } else {
+                // date field values are always saved as number of hours, so let's calculate them now as seconds
+                if (stristr($conditions[$i]['rmf_title'], 'date')) {
+                    // support NULL as values for a date field
+                    if (strtoupper($conditions[$i]['rlc_value']) == 'NULL') {
+                        $conditions[$i]['rmf_sql_representation'] = $conditions[$i]['rmf_sql_field'];
+                    } else {
+                        $conditions[$i]['rlc_value'] = $conditions[$i]['rlc_value'] * 60 * 60;
+                    }
+                }
+                $stmt .= sprintf(" AND %s %s %s\n", $conditions[$i]['rmf_sql_representation'],
+                                                  $conditions[$i]['rmo_sql_representation'],
+                                                  $conditions[$i]['rlc_value']);
+            }
         }
         return $stmt;
     }

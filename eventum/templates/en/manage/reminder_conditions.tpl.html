@@ -8,6 +8,8 @@
               var url = '{$smarty.server.PHP_SELF}';
               var rem_id = '{$rem_id}';
               var rma_id = '{$rma_id}';
+              var cat = '{$smarty.request.cat}';
+              var id = '{$smarty.request.id}';
               {literal}
               function validateForm(f)
               {
@@ -17,20 +19,32 @@
                   if (hasSelected(f.operator, -1)) {
                       errors[errors.length] = new Option('Operator', 'operator');
                   }
-                  if (f.value.type == 'select-one') {
-                      if (hasSelected(f.value, -1)) {
-                          errors[errors.length] = new Option('Value', 'value');
-                      }
-                  } else if (f.value.type == 'text') {
-                      if (isWhitespace(f.value.value)) {
-                          errors[errors.length] = new Option('Value', 'value');
+                  if (f.comparison_field != 'undefined' && f.comparison_field.selectedIndex > 0) {
+                      
+                  } else {
+                      if (f.value.type == 'select-one') {
+                          if (hasSelected(f.value, -1)) {
+                              errors[errors.length] = new Option('Value', 'value');
+                          }
+                      } else if (f.value.type == 'text') {
+                          if (isWhitespace(f.value.value)) {
+                              errors[errors.length] = new Option('Value', 'value');
+                          }
                       }
                   }
                   return true;
               }
               function setValueField(f)
               {
-                  window.location.href = url + '?rem_id=' + rem_id + '&rma_id=' + rma_id + '&field=' + getSelectedOption(f, 'field');
+                  window.location.href = url + '?cat=' + cat + '&id=' + id + '&rem_id=' + rem_id + '&rma_id=' + rma_id + '&field=' + getSelectedOption(f, 'field');
+              }
+              function disableValueField(field)
+              {
+                  if (field.selectedIndex != 0) {
+                      document.forms['reminder_form'].elements['value'].disabled = true;
+                  } else {
+                      document.forms['reminder_form'].elements['value'].disabled = false;
+                  }
               }
               //-->
               </script>
@@ -120,8 +134,17 @@
                     {/if}
                   </select>
                   {else}
+                  {if $show_field_options == 'yes'}
+                    <select name="comparison_field" class="default" onchange="disableValueField(this)">
+                        <option value="-1">Please choose a field</option>
+                        {html_options options=$comparable_fields selected=$info.rlc_comparison_rmf_id}
+                    </select>
+                    {include file="error_icon.tpl.html" field="comparison_field"}
+                    <span class="default">or</span>&nbsp;
+                  {/if}
                   <input type="text" size="5" name="value" class="default" value="{$info.rlc_value}">
                   <span class="small_default"><i>(in hours please)</i></span>
+                  <script language="Javascript">disableValueField(document.forms['reminder_form'].comparison_field)</script>
                   {/if}
                   {include file="error_icon.tpl.html" field="value"}
                 </td>
