@@ -426,20 +426,15 @@ class Issue
      *
      * @access  public
      * @param   integer $prj_id The project ID to list issues from
-     * @param   integer $email The email address associated with the user requesting this information
+     * @param   integer $usr_id The user ID of the user requesting this information
      * @param   boolean $show_all_issues Whether to show all open issues, or just the ones assigned to the given email address
      * @param   integer $status_id The status ID to be used to restrict results
      * @return  array The list of open issues
      */
-    function getOpenIssues($prj_id, $email, $show_all_issues, $status_id)
+    function getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id)
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $status_id = Misc::escapeInteger($status_id);
-        
-        $usr_id = User::getUserIDByEmail($email);
-        if (empty($usr_id)) {
-            return '';
-        }
         $projects = Project::getRemoteAssocListByUser($usr_id);
         if (@count($projects) == 0) {
             return '';
@@ -448,8 +443,7 @@ class Issue
         $stmt = "SELECT
                     iss_id,
                     iss_summary,
-                    sta_title,
-                    usr_full_name
+                    sta_title
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
@@ -457,10 +451,6 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
                  ON
                     isu_iss_id=iss_id
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 ON
-                    isu_usr_id=usr_id
                  WHERE ";
         if (!empty($status_id)) {
             $stmt .= " sta_id=$status_id AND ";
@@ -471,13 +461,18 @@ class Issue
                     sta_is_closed=0";
         if ($show_all_issues == false) {
             $stmt .= " AND
-                    usr_id=$usr_id";
+                    isu_usr_id=$usr_id";
         }
+        $stmt .= "\nGROUP BY
+                        iss_id";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
+            if (count($res) > 0) {
+                Issue::getAssignedUsersByIssues($res);
+            }
             return $res;
         }
     }
@@ -1008,6 +1003,8 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
+            $prj_id = Issue::getProjectID($issue_id);
+            
             // add note with the reason to close the issue
             $HTTP_POST_VARS['title'] = 'Issue closed comments';
             $HTTP_POST_VARS["note"] = $reason;
@@ -1015,7 +1012,6 @@ class Issue
             // record the change
             History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
             if ($send_notification) {
-                $prj_id = Issue::getProjectID($issue_id);
                 if (Customer::hasCustomerIntegration($prj_id)) {
                     // send a special confirmation email when customer issues are closed
                     $stmt = "SELECT
@@ -1032,6 +1028,7 @@ class Issue
                 // send notifications for the issue being closed
                 Notification::notify($issue_id, 'closed');
             }
+            Workflow::handleIssueClosed($prj_id, $issue_id);
             return 1;
         }
     }
@@ -3175,8 +3172,12 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('group_changed'), 
-                "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($group_id)) . ") by " . User::getFullName(Auth::getUserID()));
+        $current_user = Auth::getUserID();
+        if (empty($current_user)) {
+            $current_user = APP_SYSTEM_USER_ID;
+        }
+        History::add($issue_id, $current_user, History::getTypeID('group_changed'), 
+                "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($group_id)) . ") by " . User::getFullName($current_user));
         return 1;
     }
 
