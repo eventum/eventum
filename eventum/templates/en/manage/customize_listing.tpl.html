@@ -157,10 +157,10 @@
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].psd_id}"></td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">{$list[i].prj_title}</td>
                       <td width="20%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].psd_id}" title="update this entry">{$list[i].prj_title}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].psd_id}" title="update this entry">{$list[i].sta_title|escape:"html"}</a>
                       </td>
-                      <td width="20%" bgcolor="{$row_color}" class="default">{$list[i].sta_title|escape:"html"}</td>
                       <td width="30%" bgcolor="{$row_color}" class="default">{$list[i].psd_label|escape:"html"}</td>
                       <td width="30%" bgcolor="{$row_color}" class="default">{$list[i].date_field}</td>
                     </tr>
