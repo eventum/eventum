@@ -482,6 +482,7 @@ CREATE TABLE %TABLE_PREFIX%custom_field (
   fld_report_form_required int(1) NOT NULL default 0,
   fld_anonymous_form int(1) NOT NULL default 1,
   fld_anonymous_form_required int(1) NOT NULL default 0,
+  fld_list_display tinyint(1) NOT NULL default 0,
   PRIMARY KEY  (fld_id)
 );
 

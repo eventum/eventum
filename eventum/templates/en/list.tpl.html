@@ -106,6 +106,9 @@ function disableFields()
     {if $categories|@count > 0}
         {math assign="col_count" equation="x+1" x=$col_count}
     {/if}
+    {if $list_info.custom_fields|@count > 0}
+        {math assign="col_count" equation="x+1" x=$col_count}
+    {/if}
 {else}
     {assign var="col_count" value="9"}
 {/if}
@@ -172,6 +175,11 @@ function disableFields()
             <a title="sort by last action date" href="{$sorting.links.last_action_date}" class="white_link">Last Action Date</a>
             {if $sorting.images.last_action_date != ""}<a title="sort by last action date" href="{$sorting.links.last_action_date}" class="white_link"><img border="0" src="{$sorting.images.last_action_date}"></a>{/if}
           </td>
+          {if $list_info.custom_fields|@count > 0}
+          <td align="center" class="default_white" nowrap>
+            Custom Fields
+          </td>
+          {/if}
           <td width="30%">
             <table cellspacing="0" cellpadding="1" width="100%">
               <tr>
@@ -209,6 +217,17 @@ function disableFields()
           <td bgcolor="{$list[i].status_color}" align="center" class="default" width="8%">{$list[i].sta_title|escape:"html"}</td>
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].status_change_date|escape:"html"}</td>
           <td bgcolor="{$list[i].status_color}" align="center" class="default">{$list[i].last_action_date|escape:"html"}</td>
+          {if $list_info.custom_fields|@count > 0}
+          <td bgcolor="{$list[i].status_color}" align="center" class="default">
+            <nobr>
+            {foreach from=$list[i].custom_field key=fld_id item=fld_value}
+                {if $fld_value != ''}
+                    {$list_info.custom_fields[$fld_id]}: {$fld_value}&nbsp;<br />
+                {/if}
+            {/foreach}
+            </nobr>
+          </td>
+          {/if}
           <td bgcolor="{$list[i].status_color}" width="50%" class="default">
             <a href="view.php?id={$list[i].iss_id}" class="link" title="view issue details">{$list[i].iss_summary|escape:"html"}</a>
             {if $list[i].redeemed}

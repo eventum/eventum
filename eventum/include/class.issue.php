@@ -1979,6 +1979,9 @@ class Issue
         // get the current user's role
         $usr_id = Auth::getUserID();
         $role_id = User::getRoleByUser($usr_id);
+        
+        // get any custom fields that should be displayed
+        $custom_fields = Custom_Field::getFieldsToBeListed($prj_id);
 
         $stmt = "SELECT
                     iss_id,
@@ -2086,6 +2089,17 @@ class Issue
             $categories = Category::getAssocList($prj_id);
             $csv[] = @implode("\t", Issue::getColumnHeadings($prj_id));
             for ($i = 0; $i < count($res); $i++) {
+                
+                if (count($custom_fields) > 0) {
+                    $res[$i]['custom_field'] = array();
+                    $custom_field_values = Custom_Field::getListByIssue($prj_id, $res[$i]['iss_id']);
+                    foreach ($custom_field_values as $this_field) {
+                        if (!empty($custom_fields[$this_field['fld_id']])) {
+                            $res[$i]['custom_field'][$this_field['fld_id']] = $this_field['icf_value'];
+                        }
+                    }
+                }
+                
                 $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
                 $fields = array(
                     $res[$i]['pri_title'],
@@ -2132,7 +2146,8 @@ class Issue
                     "total_pages"   => $total_pages,
                     "previous_page" => ($current_row == 0) ? "-1" : ($current_row - 1),
                     "next_page"     => ($current_row == $last_page) ? "-1" : ($current_row + 1),
-                    "last_page"     => $last_page
+                    "last_page"     => $last_page,
+                    "custom_fields" => $custom_fields
                 ),
                 "csv" => @implode("\n", $csv)
             );

@@ -492,6 +492,9 @@ class Custom_Field
         if (empty($HTTP_POST_VARS["anon_form_required"])) {
             $HTTP_POST_VARS["anon_form_required"] = 0;
         }
+        if (empty($HTTP_POST_VARS["list_display"])) {
+            $HTTP_POST_VARS["list_display"] = 0;
+        }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  (
@@ -501,7 +504,8 @@ class Custom_Field
                     fld_report_form,
                     fld_report_form_required,
                     fld_anonymous_form,
-                    fld_anonymous_form_required
+                    fld_anonymous_form_required,
+                    fld_list_display
                  ) VALUES (
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
@@ -509,7 +513,8 @@ class Custom_Field
                     " . $HTTP_POST_VARS["report_form"] . ",
                     " . $HTTP_POST_VARS["report_form_required"] . ",
                     " . $HTTP_POST_VARS["anon_form"] . ",
-                    " . $HTTP_POST_VARS["anon_form_required"] . "
+                    " . $HTTP_POST_VARS["anon_form_required"] . ",
+                    " . $HTTP_POST_VARS["list_display"] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -733,6 +738,9 @@ class Custom_Field
         if (empty($HTTP_POST_VARS["anon_form_required"])) {
             $HTTP_POST_VARS["anon_form_required"] = 0;
         }
+        if (empty($HTTP_POST_VARS["list_display"])) {
+            $HTTP_POST_VARS["list_display"] = 0;
+        }
         $old_details = Custom_Field::getDetails($HTTP_POST_VARS["id"]);
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
@@ -743,7 +751,8 @@ class Custom_Field
                     fld_report_form=" . $HTTP_POST_VARS["report_form"] . ",
                     fld_report_form_required=" . $HTTP_POST_VARS["report_form_required"] . ",
                     fld_anonymous_form=" . $HTTP_POST_VARS["anon_form"] . ",
-                    fld_anonymous_form_required=" . $HTTP_POST_VARS["anon_form_required"] . "
+                    fld_anonymous_form_required=" . $HTTP_POST_VARS["anon_form_required"] . ",
+                    fld_list_display=" . $HTTP_POST_VARS["list_display"] . "
                  WHERE
                     fld_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -955,6 +964,35 @@ class Custom_Field
             return false;
         } else {
             return true;
+        }
+    }
+
+
+    /**
+     * Method to return the names of the fields which should be displayed on the list issues page.
+     * 
+     * @access  public
+     * @param   integer $prj_id The ID of the project.
+     * @return  array An array of custom field names.
+     */
+    function getFieldsToBeListed($prj_id)
+    {
+        $sql = "SELECT
+                    fld_id,
+                    fld_title
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
+                WHERE
+                    fld_id = pcf_fld_id AND
+                    pcf_prj_id = $prj_id AND
+                    fld_list_display = 1";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
         }
     }
 }
