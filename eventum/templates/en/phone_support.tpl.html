@@ -53,34 +53,33 @@ function deletePhoneEntry(phone_id)
         <tr id="phone_support1" {get_display_style element_name="phone_support"}>
           <td colspan="2">
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+              <tr bgcolor="{$internal_color}">
+                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getPhoneSupport" ec_id="phone"}</td>
+                <td width="20%" class="default_white">Recorded Date</td>
+                <td width="20%" class="default_white">User</td>
+                <td width="20%" class="default_white">Call Type</td>
+                <td width="20%" class="default_white">Reason</td>
+                <td width="20%" class="default_white">Phone Number</td>
+              </tr>
               {section name="i" loop=$phone_entries}
               {cycle values=$cycle assign="row_color"}
-              <tr>
-                <td align="center" bgcolor="{$internal_color}" class="default_white" width="220" nowrap>
-                  Entered by {$phone_entries[i].usr_full_name}
-                  {if $current_user_id == $phone_entries[i].phs_usr_id}
-                  [ <a class="white_link" href="javascript:void(null);" onClick="javascript:deletePhoneEntry({$phone_entries[i].phs_id});">delete</a> ]
-                  {/if}
+              <tr bgcolor="{$row_color}">
+                <td class="default" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id}</td>
+                <td class="default">{$phone_entries[i].phs_created_date}</td>
+                <td class="default">
+                    {$phone_entries[i].usr_full_name}
+                    {if $current_user_id == $phone_entries[i].phs_usr_id}
+                      [ <a class="link" href="javascript:void(null);" onClick="javascript:deletePhoneEntry({$phone_entries[i].phs_id});">delete</a> ]
+                    {/if}
                 </td>
-                <td rowspan="3" bgcolor="{$row_color}" width="100%" class="default" valign="top">
-                  {$phone_entries[i].phs_type|capitalize} Phone Call recorded on {$phone_entries[i].phs_created_date}<br />
-                  Call from {$phone_entries[i].phs_call_from_lname}{if $phone_entries[i].phs_call_from_fname}, {$phone_entries[i].phs_call_from_fname}{/if} to
-                  {$phone_entries[i].phs_call_to_lname}{if $phone_entries[i].phs_call_to_fname}, {$phone_entries[i].phs_call_to_fname}{/if}<br /><br />
-                  {$phone_entries[i].phs_description}
-                </td>
+                <td class="default">{$phone_entries[i].phs_type|capitalize}</td>
+                <td class="default">{$phone_entries[i].phs_reason}</td>
+                <td class="default">{$phone_entries[i].phs_phone_number} ({$phone_entries[i].phs_phone_type})</td>
               </tr>
-              <tr>
-                <td bgcolor="{$internal_color}" align="center" class="default_white">{$phone_entries[i].phs_time_spent} in length</td>
-              </tr>
-              <tr>
-                <td bgcolor="{$internal_color}" align="center" class="default_white">
-                  Phone Number: {$phone_entries[i].phs_phone_number} ({$phone_entries[i].phs_phone_type})<br />
-                  Reason: {$phone_entries[i].phs_reason}
-                </td>
-              </tr>
+              {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id colspan="6"}
               {sectionelse}
               <tr>
-                <td colspan="2" bgcolor="{$light_color}" class="default" align="center">
+                <td colspan="6" bgcolor="{$light_color}" class="default" align="center">
                   <i>No phone calls recorded yet.</i>
                 </td>
               </tr>
@@ -88,6 +87,7 @@ function deletePhoneEntry(phone_id)
             </table>
           </td>
         </tr>
+        {if $current_role > $roles.customer}
         <tr id="phone_support2" {get_display_style element_name="phone_support"}>
           <td colspan="2" class="default"><b>Record Phone Call:</b></td>
         </tr>
@@ -103,6 +103,8 @@ function deletePhoneEntry(phone_id)
           <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Reason:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             <select class="default" name="reason">
+              <option value="consultation">410-288-7657 Consultation Call</option>
+              <option value="emergency">410-288-8241 Emergency Call</option>
               <option value="sales">Sales Issues</option>
               <option value="technical">Technical Issues</option>
               <option value="administrative">Administrative Issues</option>
@@ -156,6 +158,7 @@ function deletePhoneEntry(phone_id)
           <td bgcolor="{$light_color}">
             <textarea name="description" rows="8" style="width: 97%"></textarea>
             {include file="error_icon.tpl.html" field="description"}
+            <span class="small_default"><i>(internal only; not visible to customers)</i></span>
           </td>
         </tr>
         <tr id="phone_support11" {get_display_style element_name="phone_support"}>
@@ -163,6 +166,7 @@ function deletePhoneEntry(phone_id)
             <input type="submit" value="Save Phone Call" class="button">
           </td>
         </tr>
+        {/if}
       </table>
     </td>
   </tr>
