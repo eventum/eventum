@@ -212,7 +212,7 @@ class Mail_Queue
             unset($headers['Mime-Version']);
             $headers['MIME-Version'] = '1.0';
         }
-        $mail =& Mail::factory('smtp', Mail_Queue::_getSMTPSettings());
+        $mail =& Mail::factory('smtp', Mail_API::getSMTPSettings());
         $res = $mail->send($recipient, $headers, $body);
         if (PEAR::isError($res)) {
             // special handling of errors when the mail server is down
