@@ -48,8 +48,8 @@ if ($role_id == User::getRoleID('customer')) {
     include_once(APP_INC_PATH . "class.customer.php");
     $usr_id = Auth::getUserID();
     $customer_id = User::getCustomerID($usr_id);
-    $tpl->assign("customer_stats", Customer::getOverallStats($customer_id));
-    $tpl->assign("profile", Customer::getProfile($usr_id));
+    $tpl->assign("customer_stats", Customer::getOverallStats($prj_id, $customer_id));
+    $tpl->assign("profile", Customer::getProfile($prj_id, $usr_id));
 } else {
     $tpl->assign("status", Stats::getStatus());
     $tpl->assign("releases", Stats::getRelease());

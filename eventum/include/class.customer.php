@@ -254,16 +254,36 @@ class Customer
     }
 
 
+    function getOverallStats($prj_id, $customer_id)
+    {
+        echo "getOverallStats($prj_id, $customer_id)<br />";
+        Customer::_setupBackend($prj_id);
+        return Customer_Backend::getOverallStats($customer_id);
+    }
 
 
+    function getProfile($prj_id, $usr_id)
+    {
+        echo "getProfile($prj_id, $usr_id)<br />";
+        Customer::_setupBackend($prj_id);
+        return Customer_Backend::getProfile($usr_id);
+    }
 
 
+    function getContractDetails($prj_id, $contact_id, $restrict_expiration = TRUE)
+    {
+        echo "getContractDetails($prj_id, $contact_id, $restrict_expiration)<br />";
+        Customer::_setupBackend($prj_id);
+        return Customer_Backend::getContractDetails($contact_id, $restrict_expiration);
+    }
 
 
-
-
-
-
+    function getContactDetails($prj_id, $contact_id)
+    {
+        echo "getContactDetails($prj_id, $contact_id)<br />";
+        Customer::_setupBackend($prj_id);
+        return Customer_Backend::getContactDetails($contact_id);
+    }
 
 
 
