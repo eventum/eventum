@@ -2089,18 +2089,12 @@ class Issue
             }
             $groups = Group::getAssocList($prj_id);
             $categories = Category::getAssocList($prj_id);
-            $csv[] = @implode("\t", Issue::getColumnHeadings($prj_id));
+            $column_headings = Issue::getColumnHeadings($prj_id);
+            if (count($custom_fields) > 0) {
+                $column_headings = array_merge($column_headings,$custom_fields);
+            }
+            $csv[] = @implode("\t", $column_headings);
             for ($i = 0; $i < count($res); $i++) {
-                
-                if (count($custom_fields) > 0) {
-                    $res[$i]['custom_field'] = array();
-                    $custom_field_values = Custom_Field::getListByIssue($prj_id, $res[$i]['iss_id']);
-                    foreach ($custom_field_values as $this_field) {
-                        if (!empty($custom_fields[$this_field['fld_id']])) {
-                            $res[$i]['custom_field'][$this_field['fld_id']] = $this_field['icf_value'];
-                        }
-                    }
-                }
                 
                 $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
                 $fields = array(
@@ -2134,6 +2128,18 @@ class Issue
                 $fields[] = $res[$i]["status_change_date"];
                 $fields[] = $res[$i]["last_action_date"];
                 $fields[] = $res[$i]['iss_summary'];
+                
+                if (count($custom_fields) > 0) {
+                    $res[$i]['custom_field'] = array();
+                    $custom_field_values = Custom_Field::getListByIssue($prj_id, $res[$i]['iss_id']);
+                    foreach ($custom_field_values as $this_field) {
+                        if (!empty($custom_fields[$this_field['fld_id']])) {
+                            $res[$i]['custom_field'][$this_field['fld_id']] = $this_field['icf_value'];
+                            $fields[] = $this_field['icf_value'];
+                        }
+                    }
+                }
+                
                 $csv[] = @implode("\t", $fields);
             }
             $total_pages = ceil($total_rows / $max);
