@@ -1119,7 +1119,7 @@ class Spot_Customer_Backend
 
         // open text template
         $tpl = new Template_API;
-        $tpl->setTemplate('notifications/customer_closed_issue.tpl.text');
+        $tpl->setTemplate('customer/spot/customer_closed_issue.tpl.text');
         $tpl->bulkAssign(array(
             "data"             => $data
         ));
@@ -1130,7 +1130,7 @@ class Spot_Customer_Backend
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
-        $mail->send($from, $to, "MySQL Support Issue #" . $issue_id . " Closed");
+        $mail->send($from, $to, "Issue #" . $issue_id . " Closed");
     }
 
 
@@ -1356,6 +1356,38 @@ class Spot_Customer_Backend
         } else {
             return $res;
         }
+    }
+
+
+    /**
+     * Method used to notify the customer contact that a new issue was just
+     * created and associated with his Eventum user.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   integer $contact_id The customer contact ID
+     * @return  void
+     */
+    function notifyCustomerIssue($issue_id, $contact_id)
+    {
+        list($contact_email, $void, $contact_name) = $this->getContactLoginDetails($contact_id);
+        $to = Mail_API::getFormattedName($contact_name, $contact_email);
+        $data = Issue::getDetails($issue_id);
+
+        // open text template
+        $tpl = new Template_API;
+        $tpl->setTemplate('customer/spot/customer_new_issue.tpl.text');
+        $tpl->bulkAssign(array(
+            "data"             => $data
+        ));
+        $text_message = $tpl->getTemplateContents();
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_API;
+        $mail->setTextBody($text_message);
+        $setup = $mail->getSMTPSettings();
+        $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
+        $mail->send($from, $to, "New Issue #" . $issue_id);
     }
 }
 ?>

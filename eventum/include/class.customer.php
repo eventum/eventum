@@ -347,7 +347,12 @@ class Customer
     }
 
 
-
+    function notifyCustomerIssue($prj_id, $issue_id, $contact_id)
+    {
+        echo "notifyCustomerIssue($prj_id, $issue_id, $contact_id)<br />";
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->notifyCustomerIssue($issue_id, $contact_id);
+    }
 
 
 
