@@ -224,6 +224,9 @@ class Time_Tracking
         for ($i = 0; $i < count($result); $i++) {
             $ids[] = $result[$i]["iss_id"];
         }
+        if (count($ids) == 0) {
+            return false;
+        }
         $ids = implode(", ", $ids);
         $stmt = "SELECT
                     ttr_iss_id,
