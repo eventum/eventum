@@ -33,6 +33,7 @@ Eventum Issue Tracking System
 - Added option to mark issues as private (Bryan)
 - Fixed bug with remembering the row count on the 'My Assignment' link (Bryan)
 - Fixed bug that caused multiple blank file upload fields to appear (Bryan)
+- Fixed bug that prevented the edit custom fields window from automatically closing (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)

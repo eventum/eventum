@@ -44,6 +44,7 @@ $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_G
 if (@$HTTP_POST_VARS["cat"] == "update_values") {
     $res = Custom_Field::updateValues();
     $tpl->assign("update_result", $res);
+    $tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
 }
 
 $tpl->assign("custom_fields", Custom_Field::getListByIssue($prj_id, $issue_id));
