@@ -163,7 +163,10 @@ function disableFields()
             {if $sorting.images.iss_sta_id != ""}<a title="sort by status" href="{$sorting.links.iss_sta_id}" class="white_link"><img border="0" src="{$sorting.images.iss_sta_id}"></a>{/if}
           </td>
           <td align="center" class="default_white" nowrap>Status Change Date</td>
-          <td align="center" class="default_white" nowrap>Last Action Date</td>
+          <td align="center" class="default_white" nowrap>
+            <a title="sort by last action date" href="{$sorting.links.last_action_date}" class="white_link">Last Action Date</a>
+            {if $sorting.images.last_action_date != ""}<a title="sort by last action date" href="{$sorting.links.last_action_date}" class="white_link"><img border="0" src="{$sorting.images.last_action_date}"></a>{/if}
+          </td>
           <td width="30%">
             <table cellspacing="0" cellpadding="1" width="100%">
               <tr>

@@ -608,12 +608,10 @@ class Reminder_Action
                 $assignees = Issue::getAssignedUserIDs($issue_id);
                 $to = array();
                 foreach ($assignees as $assignee) {
-                    if (User::isClockedIn($assignee)) {
-                        $to[] = User::getFromHeader($assignee);
-                    }
+                    $to[] = User::getFromHeader($assignee);
                 }
                 // add the group leader to the recipient list, if needed
-                if ((!empty($group_leader_usr_id)) && (User::isClockedIn($group_leader_usr_id))) {
+                if (!empty($group_leader_usr_id)) {
                     $leader_email = User::getFromHeader($group_leader_usr_id);
                     if (!in_array($leader_email, $to)) {
                         $to[] = $leader_email;
@@ -636,14 +634,11 @@ class Reminder_Action
                     if (Validation::isEmail($key)) {
                         $to[] = $key;
                     } else {
-                        // otherwise, check for the clocked-in status
-                        if (User::isClockedIn($key)) {
-                            $to[] = User::getFromHeader($key);
-                        }
+                        $to[] = User::getFromHeader($key);
                     }
                 }
                 // add the group leader to the recipient list, if needed
-                if ((!empty($group_leader_usr_id)) && (User::isClockedIn($group_leader_usr_id))) {
+                if (!empty($group_leader_usr_id)) {
                     $leader_email = User::getFromHeader($group_leader_usr_id);
                     if (!in_array($leader_email, $to)) {
                         $to[] = $leader_email;
@@ -688,12 +683,12 @@ class Reminder_Action
                     } else {
                         // otherwise, check for the clocked-in status
                         if (User::isClockedIn($key)) {
-                        $sms_email = User::getSMS($key);
-                        if (!empty($sms_email)) {
-                            $to[] = $sms_email;
+                            $sms_email = User::getSMS($key);
+                            if (!empty($sms_email)) {
+                                $to[] = $sms_email;
+                            }
                         }
                     }
-                }
                 }
                 // add the group leader to the recipient list, if needed
                 if ((!empty($group_leader_usr_id)) && (User::isClockedIn($group_leader_usr_id))) {
@@ -713,6 +708,8 @@ class Reminder_Action
         }
         // - save a history entry about this action
         Reminder_Action::saveHistory($issue_id, $action['rma_id']);
+        // - save this action as the latest triggered one for the given issue ID
+        Reminder_Action::recordLastTriggered($issue_id, $action['rma_id']);
 
         $conditions = Reminder_Condition::getAdminList($action['rma_id']);
         // - perform the action
@@ -731,7 +728,7 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, APP_SHORT_NAME . ": Reminder Alert for Issue #$issue_id", 0, $issue_id);
+                $mail->send($setup["from"], $address, "[#$issue_id] Reminder: " . $action['rma_title'], 0, $issue_id);
             }
         } elseif ($type == 'sms') {
             $tpl = new Template_API;
@@ -748,7 +745,7 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "Reminder Alert for Issue #$issue_id", 0, $issue_id);
+                $mail->send($setup["from"], $address, "[#$issue_id] Reminder: " . $action['rma_title'], 0, $issue_id);
             }
         }
         // - do we also need to alert IRC about this?
@@ -761,6 +758,93 @@ class Reminder_Action
         }
         // - eventum saves the day once again
         return true;
+    }
+
+
+    /**
+     * Returns the given list of issues with only the issues that 
+     * should be triggered, given the no-repeats rule of reminder
+     * actions.
+     *
+     * @access  public
+     * @param   array $issues The list of issue IDs
+     * @param   integer $rma_id The reminder action ID
+     * @return  array The list of issue IDs
+     */
+    function removeRepeatActions($issues, $rma_id)
+    {
+        if (count($issues) == 0) {
+            return $issues;
+        }
+
+        $stmt = "SELECT
+                    rta_iss_id,
+                    rta_rma_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
+                 WHERE
+                    rta_iss_id IN (" . implode(', ', $issues) . ")";
+        $triggered_actions = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($triggered_actions)) {
+            Error_Handler::logError(array($triggered_actions->getMessage(), $triggered_actions->getDebugInfo()), __FILE__, __LINE__);
+            return $issues;
+        } else {
+            $allowed_issues = array();
+            foreach ($issues as $issue_id) {
+                // if no action was ever triggered for this issue, OR
+                // if the latest triggered action is not the same as the current one
+                if ((!in_array($issue_id, array_keys($triggered_actions))) || ($triggered_actions[$issue_id] != $rma_id)) {
+                    $allowed_issues[] = $issue_id;
+                }
+            }
+            return $allowed_issues;
+        }
+    }
+
+
+    /**
+     * Records the last triggered reminder action for a given 
+     * issue ID.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   integer $rma_id The reminder action ID
+     * @return  boolean
+     */
+    function recordLastTriggered($issue_id, $rma_id)
+    {
+        $stmt = "SELECT
+                    COUNT(*)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
+                 WHERE
+                    rta_iss_id=$issue_id";
+        $total = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if ($total == 1) {
+            $stmt = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
+                     SET
+                        rta_rma_id=$rma_id
+                     WHERE
+                        rta_iss_id=$issue_id";
+        } else {
+            $stmt = "INSERT INTO
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_triggered_action
+                     (
+                        rta_iss_id,
+                        rta_rma_id
+                     ) VALUES (
+                        $issue_id,
+                        $rma_id
+                     )";
+        }
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 

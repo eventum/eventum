@@ -887,17 +887,24 @@ INSERT INTO %TABLE_PREFIX%project_phone_category (phc_id, phc_prj_id, phc_title)
 
 DROP TABLE IF EXISTS `%TABLE_PREFIX%group`;
 CREATE TABLE `%TABLE_PREFIX%group` (
-    grp_id int(11) unsigned auto_increment,
-    grp_name varchar(100) unique,
-    grp_description varchar(255),
-    grp_manager_usr_id int(11) unsigned,
-    PRIMARY KEY(grp_id)
+  grp_id int(11) unsigned not null auto_increment,
+  grp_name varchar(100) not null,
+  grp_description varchar(255) default null,
+  grp_manager_usr_id int(11) unsigned not null,
+  PRIMARY KEY(grp_id),
+  UNIQUE KEY (grp_name)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_group;
 CREATE TABLE %TABLE_PREFIX%project_group (
-    pgr_prj_id int(11)  unsigned,
-    pgr_grp_id int(11) unsigned,
-    index(pgr_prj_id),
-    index(pgr_grp_id)
+  pgr_prj_id int(11) unsigned not null,
+  pgr_grp_id int(11) unsigned not null,
+  PRIMARY KEY (pgr_prj_id, pgr_grp_id)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%reminder_triggered_action;
+CREATE TABLE %TABLE_PREFIX%reminder_triggered_action (
+  rta_iss_id int(11) unsigned not null,
+  rta_rma_id int(11) unsigned not null,
+  PRIMARY KEY (rta_iss_id)
 );

@@ -2319,7 +2319,7 @@ class Issue
 
     /**
      * Processes a result set to format the "Last Action Date" column.
-     *
+     * 
      * @access  public
      * @param   array $result The result set
      */
@@ -2335,9 +2335,9 @@ class Issue
                 $last_date = $result[$i]["iss_last_public_action_date"];
             }
             $date = new Date($last_date);
-                $current = new Date(Date_API::getCurrentDateGMT());
+            $current = new Date(Date_API::getCurrentDateGMT());
             $result[$i]['last_action_date'] = sprintf("%s: %s ago", ucwords($label),
-                        Date_API::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
+                    Date_API::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
         }
     }
 

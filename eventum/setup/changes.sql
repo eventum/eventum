@@ -466,3 +466,10 @@ UPDATE eventum_history_type SET htt_role = 4 WHERE htt_name IN('note_added', 'no
     'note_converted_email', 'phone_entry_added', 'phone_entry_removed', 'time_added', 'time_removed', 
     'remote_time_added', 'email_blocked', 'note_routed', 'group_changed', 'draft_added', 'draft_updated');
 INSERT INTO eventum_history_type SET htt_name = 'status_auto_changed', htt_role = 4;
+
+
+CREATE TABLE eventum_reminder_triggered_action (
+  rta_iss_id int(11) unsigned not null,
+  rta_rma_id int(11) unsigned not null,
+  PRIMARY KEY (rta_iss_id)
+);

@@ -40,8 +40,9 @@ include_once(APP_INC_PATH . "class.reminder_condition.php");
 3 - If query returns TRUE, then run the appropriate action
 4 - Get the list of actions
 5 - Calculate which action need to be performed, if any
-6 - Perform action
-7 - Continue to next reminder level
+6 - Avoid repeating reminder actions, so first check if the last triggered action is the same one as "now"
+7 - Perform action
+8 - Continue to next reminder level
 **/
 $triggered_issues = array();
 
@@ -55,6 +56,8 @@ for ($i = 0; $i < count($reminders); $i++) {
             continue;
         }
         $issues = Reminder::getTriggeredIssues($reminders[$i], $conditions);
+        // avoid repeating reminder actions, so first check if the last triggered action is the same one as "now"
+        $issues = Reminder_Action::removeRepeatActions($issues, $reminders[$i]['actions'][$y]['rma_id']);
         if (count($issues) > 0) {
             for ($z = 0; $z < count($issues); $z++) {
                 // only perform one action per issue id

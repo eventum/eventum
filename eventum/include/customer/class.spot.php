@@ -2280,17 +2280,5 @@ class Spot_Customer_Backend
                 return false;
         }
     }
-
-
-    function isPerIncidentTimeLimitExpired($customer_id)
-    {
-        $support_level = $this->getSupportLevelID($customer_id);
-        if (!$this->_isNewPerIncidentLevel($support_level_id)) {
-            return false;
-        } else {
-            // check the time limit expiration
-            
-        }
-    }
 }
 ?>
