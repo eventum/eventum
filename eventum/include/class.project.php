@@ -398,7 +398,8 @@ class Project
                     prj_outgoing_sender_name='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
                     prj_outgoing_sender_email='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
                     prj_remote_invocation='" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
-                    prj_customer_backend='" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "'
+                    prj_customer_backend='" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "',
+                    prj_workflow_backend='" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "'
                  WHERE
                     prj_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
