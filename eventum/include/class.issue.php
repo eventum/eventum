@@ -2095,7 +2095,6 @@ class Issue
             }
             $csv[] = @implode("\t", $column_headings);
             for ($i = 0; $i < count($res); $i++) {
-                
                 $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
                 $fields = array(
                     $res[$i]['pri_title'],
