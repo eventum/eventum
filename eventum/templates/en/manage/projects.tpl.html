@@ -1,0 +1,264 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              {literal}
+              <script language="JavaScript">
+              <!--
+              function validateForm(f)
+              {
+                  checkLeadSelection(f);
+                  if (isWhitespace(f.title.value)) {
+                      alert('Please enter the title of this project.');
+                      selectField(f, 'title');
+                      return false;
+                  }
+                  if (!hasOneSelected(f, 'users[]')) {
+                      alert('Please assign the users for this project.');
+                      selectField(f, 'users[]');
+                      return false;
+                  }
+                  if (!hasOneSelected(f, 'statuses[]')) {
+                      alert('Please assign the statuses for this project.');
+                      selectField(f, 'statuses[]');
+                      return false;
+                  }
+                  // the selected initial status should be one of the selected assigned statuses
+                  initial_status = getSelectedOption(f, 'initial_status');
+                  assigned_statuses = getFormElement(f, 'statuses[]');
+                  var found = 0;
+                  for (var i = 0; i < assigned_statuses.options.length; i++) {
+                      if ((assigned_statuses.options[i].selected) && (initial_status == assigned_statuses.options[i].value)) {
+                          found = 1;
+                      }
+                  }
+                  if (!found) {
+                      alert('Please choose the initial status from one of the assigned statuses of this project.');
+                      selectField(f, 'initial_status');
+                      return false;
+                  }
+                  if (isWhitespace(f.outgoing_sender_email.value)) {
+                      alert('Please enter the outgoing sender address for this project.');
+                      selectField(f, 'outgoing_sender_email');
+                      return false;
+                  }
+                  return true;
+              }
+              function checkLeadSelection(f)
+              {
+                  var selection = f.lead_usr_id.options[f.lead_usr_id.selectedIndex].value;
+                  selectOption(f, 'users[]', selection);
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="project_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Manage Projects</b>
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the new project.
+                    {elseif $result == -2}
+                      Please enter the title for this new project.
+                    {elseif $result == 1}
+                      Thank you, the project was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the project information.
+                    {elseif $result == -2}
+                      Please enter the title for this project.
+                    {elseif $result == 1}
+                      Thank you, the project was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Title: *</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <input type="text" name="title" size="40" class="default" value="{$info.prj_title}">
+                  {include file="error_icon.tpl.html" field="title"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Status: *</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <select name="status" class="default">
+                    <option value="active" {if $info.prj_status == 'active'}selected{/if}>Active</option>
+                    <option value="archived" {if $info.prj_status == 'archived'}selected{/if}>Archived</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Project Lead: *</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <select name="lead_usr_id" class="default" onChange="javascript:checkLeadSelection(this.form);">
+                    {html_options options=$user_options selected=$info.prj_lead_usr_id}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Users: *</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <select name="users[]" multiple size="3" class="default">
+                    {html_options options=$user_options selected=$info.prj_assigned_users}
+                  </select>
+                  {include file="error_icon.tpl.html" field="users[]"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Statuses: *</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <select name="statuses[]" multiple size="3" class="default">
+                    {html_options options=$status_options selected=$info.assigned_statuses}
+                  </select>
+                  {include file="error_icon.tpl.html" field="statuses[]"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Initial Status for New Issues: *</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <select name="initial_status" class="default">
+                    {html_options options=$status_options selected=$info.prj_initial_sta_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="initial_status"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Outgoing Email Sender Name:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <input type="text" name="outgoing_sender_name" size="40" class="default" value="{$info.prj_outgoing_sender_name}">
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Outgoing Email Sender Address: *</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <input type="text" name="outgoing_sender_email" size="40" class="default" value="{$info.prj_outgoing_sender_email}">
+                  {include file="error_icon.tpl.html" field="outgoing_sender_email"}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update Project">
+                  {else}
+                  <input class="button" type="submit" value="Create Project">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Projects:</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  {literal}
+                  <script language="JavaScript">
+                  <!--
+                  function checkDelete(f)
+                  {
+                      var total_selected = getTotalCheckboxesChecked(f, 'items[]');
+                      var total = getTotalCheckboxes(f, 'items[]');
+                      if (total == total_selected) {
+                          alert('You cannot remove all of the projects in the system.');
+                          return false;
+                      }
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the projects.');
+                          return false;
+                      }
+                      if (!confirm('WARNING: This action will remove the selected projects permanently.\nIt will remove all of its associated entries as well (issues, notes, attachments,\netc), so please click OK to confirm.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="cat" value="delete">
+                    <tr>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Project Lead</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Status</b></td>
+                      <td bgcolor="{$cell_color}" nowrap class="default_white" align="center">&nbsp;<b>Actions</b></td>
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" align="center" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].prj_id}"></td>
+                      <td width="30%" bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].prj_id}" title="update this entry">{$list[i].prj_title}</a>
+                      </td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].usr_full_name}</td>
+                      <td bgcolor="{$row_color}" class="default">&nbsp;{$list[i].prj_status|capitalize}</td>
+                      <td width="30%" bgcolor="{$row_color}" nowrap class="default">
+                        <ul>
+                          <li><a href="{$rel_url}manage/releases.php?prj_id={$list[i].prj_id}" class="link">Edit Releases</a></li>
+                          <li><a href="{$rel_url}manage/categories.php?prj_id={$list[i].prj_id}" class="link">Edit Categories</a></li>
+                          <li><a href="{$rel_url}manage/remote.php?prj_id={$list[i].prj_id}" class="link">Remote Invocation</a></li>
+                          <li><a href="{$rel_url}manage/anonymous.php?prj_id={$list[i].prj_id}" class="link">Anonymous Reporting</a></li>
+                        </ul>
+                      </td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                        No projects could be found.
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr>
+                      <td width="4" bgcolor="{$cell_color}" align="center">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                      </td>
+                      <td colspan="4" bgcolor="{$cell_color}" align="center">
+                        <input type="submit" value="Delete" class="button">
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+

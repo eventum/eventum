@@ -1,0 +1,28 @@
+
+<h4>Usage Examples</h4>
+<span class="default">
+An integration script will need to be installed in your CVS root 
+repository in order to send a message to Eventum whenever changes are
+committed to the repository. This message will then be processed by
+Eventum and the changes to the appropriate files will be associated
+with existing issue mentioned in your commit message.
+<br /><br />
+So to examplify its use, whenever the users are ready to commit the
+changes to the CVS repository, they will add a special string to
+specify which issue this is related to. The following would be a
+good example of its use:
+<br /><br />
+<b>[prompt]$ cvs -q commit -m "Adding form validation as requested (issue: 13)" form.php</b>
+<br /><br />
+You may also use 'bug' to specify the issue ID - whichever you are more
+confortable with. You can specify more than one issue in the same
+commit by separating the numbers with commas, as in:
+<br /><br />
+<b>[prompt]$ cvs -q commit -m "Adding form validation as requested (bug: 13,14)" form.php</b>
+<br /><br />
+This command will be parsed by the CVS integration script (provided to
+you and available in %eventum_path%/misc/process_commits.pl) and it
+will notify Eventum that these changes are to be associated with issue
+#13.
+<br /><br />
+</span>

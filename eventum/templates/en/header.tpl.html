@@ -1,0 +1,18 @@
+<html>
+<head>
+<title>{$app_setup.tool_caption|default:$application_title}{if $extra_title != ""} - {$extra_title}{/if}</title>
+<link rel="stylesheet" href="{$rel_url}css/dynCalendar.css" type="text/css" media="screen">
+{if $user_agent == 'ie'}
+<link rel="stylesheet" href="{$rel_url}css/style.css" type="text/css">
+{else}
+<link rel="stylesheet" href="{$rel_url}css/other.css" type="text/css">
+{/if}
+<script language="JavaScript" src="{$rel_url}js/browserSniffer.js"></script>
+<script language="JavaScript" src="{$rel_url}js/global.js"></script>
+<script language="JavaScript" src="{$rel_url}js/validation.js"></script>
+{if $refresh_rate}
+<meta http-equiv="Refresh" content="{$refresh_rate};URL={$app_base_url}{$refresh_page}">
+{/if}
+</head>
+
+<body bgcolor="{if $bgcolor}{$bgcolor}{else}#FFFFFF{/if}" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0">

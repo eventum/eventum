@@ -1,0 +1,11 @@
+This is an automated message sent at your request from {$app_title}.
+
+Your full account information is available below.
+
+----------------------------------------------------------------------
+        Full Name: {$user.usr_full_name}
+    Email Address: {$user.usr_email} 
+             Role: {$user.role}
+Assigned Projects: {$user.projects}
+----------------------------------------------------------------------
+

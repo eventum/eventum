@@ -1,0 +1,29 @@
+
+      {if $news}
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td width="100%">
+            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+              <tr>
+                <td>
+                  <span class="default"><b>News and Announcements</b></span>
+                </td>
+              </tr>
+              <tr>
+                <td bgcolor="{$light_color}" class="default">
+                  {section name="i" loop=$news}
+                  <b>{$news[i].nws_created_date} - <a href="news.php?id={$news[i].nws_id}" class="link" title="full news entry">{$news[i].nws_title}</a></b>
+                  <br /><br />
+                  {$news[i].nws_message|nl2br}
+                  <br /><br />
+                  {/section}
+                  <a href="news.php" class="link">Read All Notices</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br />
+      {/if}
+

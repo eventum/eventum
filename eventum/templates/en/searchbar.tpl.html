@@ -1,0 +1,78 @@
+{include file="header.tpl.html" bgcolor="$dark_color"}
+
+{literal}
+<script language="JavaScript">
+<!--
+function clearFilters(f)
+{
+    f.keywords.value = '';
+    f.users.selectedIndex = 0;
+    f.category.selectedIndex = 0;
+    f.release.selectedIndex = 0;
+    f.status.selectedIndex = 0;
+    f.priority.selectedIndex = 0;
+}
+//-->
+</script>
+{/literal}
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <form target="_main" action="list.php" method="get">
+  <input type="hidden" name="cat" value="search">
+  <tr>
+    <td class="default">
+      <span style="font-size: 25px; color: black; font-weight: bold;">Quick Search</span>
+    </td>
+  </tr>
+</table>
+<hr size="1" noshade color="{$cell_color}">
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td>
+      <span class="default">Keyword(s):</span><br />
+      <input class="default" type="text" name="keywords" size="15" value="{$options.keywords|escape:"html"}">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span class="default">Assigned:</span><br />
+      <select name="users" class="default">
+        <option value="">any</option>
+        {html_options options=$users selected=$options.users}
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span class="default">Status:</span><br />
+      <select name="status" class="default">
+        <option value="">any</option>
+        {foreach key=sta_id item=sta_title from=$status}
+        <option value="{$sta_id}" {if $sta_id == $options.status}selected{/if}>{$sta_title}</option>
+        {/foreach}
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span class="default">Priority:</span><br />
+      <select name="priority" class="default">
+        <option value="">any</option>
+        {section name="i" loop=$priorities}
+        <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.priority}selected{/if}>{$priorities[i].pri_title}</option>
+        {/section}
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input class="button" type="submit" value="Search">
+      <input class="button" type="button" value="Clear" onClick="javascript:clearFilters(this.form);">
+    </td>
+  </tr>
+  </form>
+</table>
+
+<br />
+{assign var="benchmark_total" value=""}
+{include file="app_info.tpl.html"}
+{include file="footer.tpl.html"}

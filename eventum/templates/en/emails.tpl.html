@@ -1,0 +1,22 @@
+{include file="header.tpl.html" extra_title="Support Emails"}
+{include file="navigation.tpl.html"}
+
+{if $app_setup.support_email != 'enabled'}
+  <table width="300" align="center">
+    <tr>
+      <td>
+        &nbsp;<span class="default"><b>Sorry, but this feature has been disabled by the administrator.</b>
+        <br /><br />
+        &nbsp;<a class="link" href="javascript:history.go(-1);">Go Back</a></span>
+        <br /><br />
+      </td>
+    </tr>
+  </table>
+{else}
+  {include file="email_filter_form.tpl.html"}
+  {include file="email_list_form.tpl.html"}
+  {include file="check_emails_form.tpl.html"}
+{/if}
+
+{include file="app_info.tpl.html"}
+{include file="footer.tpl.html"}

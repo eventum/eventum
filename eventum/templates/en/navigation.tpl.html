@@ -1,0 +1,88 @@
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" bgcolor="{$cell_color}">
+        <tr>
+          <td class="default_white">
+            <b>{$app_setup.tool_caption|default:$application_title}</b> (<a title="logout from {$app_setup.tool_caption|default:$application_title}" target="_top" href="{$rel_url}logout.php" class="white_link">Logout</a>)
+          </td>
+          <td align="right" class="default_white">
+            {if $current_role > $roles.standard_user}
+            <a target="_top" title="manage the application settings, users, projects, etc" href="{$rel_url}manage/projects.php" class="white_link">Administration</a>&nbsp;|
+            {/if}
+            {if $current_role > $roles.viewer}
+            <a target="_top" title="create a new issue" href="{$rel_url}new.php" class="white_link">Create Issue</a>&nbsp;|
+            {/if}
+            <a target="_top" title="list the issues stored in the system" href="{$rel_url}list.php" class="white_link">List Issues</a>&nbsp;|
+            <a target="_top" title="get access to advanced search parameters" href="{$rel_url}adv_search.php" class="white_link">Advanced Search</a>&nbsp;|
+            {if $app_setup.support_email == 'enabled' and $current_role > $roles.viewer}
+            <a target="_top" title="list available emails" href="{$rel_url}emails.php" class="white_link">Associate Emails</a>&nbsp;|
+            {/if}
+            {if $current_role > $roles.reporter}
+            <a target="_top" title="list all issues assigned to you" href="{$rel_url}list.php?users={$current_user_id}" class="white_link">My Assignments</a>&nbsp;|
+            {/if}
+            <a target="_top" title="profile / statistics" href="{$rel_url}main.php" class="white_link">Profile</a>&nbsp;|
+            {if $current_role > $roles.reporter}
+            <a target="_top" title="reporting system" href="{$rel_url}reports/" class="white_link">Reports</a>&nbsp;|
+            {/if}
+            <a title="help documentation" href="javascript:void(null);" onClick="javascript:openHelp('{$rel_url}', 'main');" class="help">Help</a>&nbsp;
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="4" bgcolor="{$cell_color}">
+        <tr>
+          {literal}
+          <script language="JavaScript">
+          <!--
+          function setCurrentProject()
+          {
+              var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+              var projWin = window.open('', '_active_project', features);
+              projWin.focus();
+              return true;
+          }
+          //-->
+          </script>
+          {/literal}
+          <form onSubmit="javascript:return setCurrentProject();" target="_active_project" method="post" action="{$rel_url}switch.php{if $is_frame == "yes"}?is_frame=yes{/if}">
+          <td nowrap width="50%" bgcolor="{$light_color}">
+            <select name="current_project" class="shortcut">
+              {html_options options=$active_projects selected=$current_project}
+            </select>
+            <input type="submit" class="shortcut" value="Switch">
+          </td>
+          </form>
+          <td width="50%" nowrap bgcolor="{$light_color}" class="default">
+            <b>User: {$current_full_name} [{$current_role_name}]</b> (<a target="_top" title="modify your account details and preferences" href="{$rel_url}preferences.php" class="link">preferences</a>)
+          </td>
+          <form target="_top" method="get" action="{$rel_url}view.php">
+          <td width="2%" nowrap bgcolor="{$light_color}" align="right">
+            <span class="default"><b>Issues:</b></span>
+            <label for="shortcut" accesskey="4"></label>
+            <input type="text" id="shortcut" name="id" value="id #" 
+              onBlur="javascript:if (this.value == '') this.value = 'id #';" onFocus="javascript:if (this.value == 'id #') this.value='';" size="5" class="shortcut">
+            <input type="submit" value="Go" class="shortcut">
+          </td>
+          </form>
+          <form target="_top" method="get" action="{$rel_url}list.php">
+          <td width="5%" nowrap bgcolor="{$light_color}">
+            <label for="search" accesskey="3"></label>
+            <input type="text" id="search" name="keywords" value="keywords" size="15" 
+              onBlur="javascript:if (this.value == '') this.value = 'keywords';" onFocus="javascript:if (this.value == 'keywords') this.value='';" class="shortcut">
+            <input type="submit" value="Search" class="shortcut">
+          </td>
+          </form>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+{if $show_line != "no"}
+<hr size="1" noshade color="{$cell_color}">
+{/if}

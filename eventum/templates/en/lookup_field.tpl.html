@@ -1,0 +1,6 @@
+
+<input class="lookup_field" name="{$lookup_field_name}" type="text" size="24" 
+    value="paste or start typing here" 
+    onBlur="javascript:this.value='paste or start typing here';" 
+    onFocus="javascript:this.value='';" 
+    onKeyUp="javascript:lookupField(this.form, this, '{$lookup_field_target}', {if $callbacks != ""}{$callbacks}{else}null{/if});">

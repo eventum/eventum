@@ -1,0 +1,25 @@
+This is an automated message sent at your request from {$app_title}.
+
+This issue was just closed.
+
+To view more details of this issue, or to update it, please visit the 
+following URL:
+{$app_base_url}view.php?id={$data.iss_id}
+
+----------------------------------------------------------------------
+               ID: {$data.iss_id}
+          Summary: {$data.iss_summary}
+           Status: {$data.sta_title}
+          Project: {$data.prj_title}
+      Reported By: {$data.usr_full_name}
+         Priority: {$data.pri_title}
+      Description:
+----------------------------------------------------------------------
+{$data.iss_description}
+----------------------------------------------------------------------
+
+Please Note: If you do not wish to receive any future email 
+notifications from {$app_title}, please change your account preferences by 
+visiting the URL below:
+{$app_base_url}preferences.php
+

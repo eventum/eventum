@@ -1,0 +1,272 @@
+
+{literal}
+<script language="JavaScript">
+<!--
+function openHistory(issue_id)
+{
+    var features = 'width=520,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('history.php?iss_id=' + issue_id, '_impact', features);
+    popupWin.focus();
+}
+function openNotification(issue_id)
+{
+    var features = 'width=440,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('notification.php?iss_id=' + issue_id, '_notification', features);
+    popupWin.focus();
+}
+function selfAssign(issue_id)
+{
+    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('popup.php?cat=self_assign&iss_id=' + issue_id, '_selfAssign', features);
+    popupWin.focus();
+}
+function replyIssue(issue_id)
+{
+    var features = 'width=740,height=580,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('send.php?cat=reply&ema_id=1&issue_id=' + issue_id, '_selfAssign', features);
+    popupWin.focus();
+}
+function clearDuplicateStatus(issue_id)
+{
+    var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('popup.php?cat=clear_duplicate&iss_id=' + issue_id, '_clearDuplicate', features);
+    popupWin.focus();
+}
+function changeIssueStatus(f, issue_id, current_status_id)
+{
+    var new_status = getSelectedOption(f, 'new_status');
+    if (new_status == current_status_id) {
+        selectField(f, 'new_status');
+        alert('Please select the new status for this issue.');
+    } else {
+        var features = 'width=420,height=400,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('popup.php?cat=new_status&iss_id=' + issue_id + '&new_sta_id=' + new_status, '_newStatus', features);
+        popupWin.focus();
+    }
+}
+//-->
+</script>
+{/literal}
+<table width="100%" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td class="default">
+      {if $previous_issue}
+      &nbsp;<a class="link" title="previous issue on your current active filter" href="view.php?id={$previous_issue}">&lt;&lt; Previous Issue</a>
+      {/if}
+    </td>
+    <td class="default" align="right">
+      {if $next_issue}
+      <a class="link" title="next issue on your current active filter" href="view.php?id={$next_issue}">Next Issue &gt;&gt;</a>&nbsp;
+      {/if}
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2"><img height="10" src="{$rel_url}images/blank.gif"></td>
+  </tr>
+</table>
+{if $issue.iss_lock_usr_id and $issue.iss_lock_usr_id != $current_user_id}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td><img src="{$rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">This Issue is Currently Locked By {$issue.assignments}</span></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<form method="get" action="update.php">
+<input type="hidden" name="id" value="{$issue.iss_id}">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td colspan="2" class="default" nowrap>
+            <b>Issue Overview</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" title="view issue details" class="link">{$issue.iss_id}</a>) {if $issue.iss_lock_usr_id}<b><font color="red">(Locked)</font></b>{/if}
+          </td>
+          <td colspan="2" align="right" class="default">
+            [ <a class="link" title="edit the notification list for this issue" href="javascript:void(null);" onClick="javascript:openNotification({$smarty.get.id});">edit notification list</a> ]
+            [ <a class="link" title="view the full history of changes on this issue" href="javascript:void(null);" onClick="javascript:openHistory({$smarty.get.id});">history of changes</a> ]
+          </td>
+        </tr>
+        <tr>
+          <td width="120" nowrap bgcolor="{$cell_color}" class="default_white">
+            <b>Category:</b>
+          </td>
+          <td width="50%" bgcolor="{$light_color}" class="default">
+            {$issue.prc_title|escape:"html"}
+          </td>
+          <td width="120" bgcolor="{$cell_color}" rowspan="2" valign="top" class="default_white" nowrap>
+            <b>Notification List:</b>
+          </td>
+          <td width="50%" bgcolor="{$light_color}" rowspan="2" valign="top" class="default">
+            {$subscribers|replace:"<":"&lt;"|replace:">":"&gt;"}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Status:</b>
+          </td>
+          <td bgcolor="{$issue.status_color}" class="default">
+            {$issue.sta_title|escape:"html"}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Priority:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$issue.pri_title|escape:"html"}
+          </td>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Submitted Date:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$issue.iss_created_date}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <nobr><b>Scheduled Release:</b>&nbsp;</nobr>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$issue.pre_title|escape:"html"}
+          </td>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Last Updated Date:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$issue.iss_updated_date}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Resolution:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$issue.iss_resolution}
+          </td>
+          <td nowrap width="130" bgcolor="{$cell_color}" class="default_white">
+            <b>Associated Issues:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {section name="i" loop=$issue.associated_issues}{if %i.rownum% > 1},&nbsp;{/if}<a href="view.php?id={$issue.associated_issues[i]}" title="view issue details" class="link">#{$issue.associated_issues[i]}</a>{sectionelse}
+            <i>No issues associated</i>
+            {/section}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Reporter:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$issue.reporter}
+          </td>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Estimated Dev. Time:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {if $issue.iss_dev_time == 0}
+            <i>No estimate given</i>
+            {else}
+            {$issue.iss_dev_time|escape:"html"} hours
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Assignment:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {$issue.assignments}
+          </td>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Duplicates:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {if $issue.iss_duplicated_iss_id}
+            Duplicate of: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{$issue.iss_duplicated_iss_id} - {$issue.iss_duplicated_iss_title|escape:"html"}" class="link">#{$issue.iss_duplicated_iss_id}</a>
+            {/if}
+            {if $issue.duplicates}
+              {if $issue.iss_duplicated_iss_id}<br />{/if}
+              Duplicated by:
+              {foreach key=duplicate_id item=duplicate_title from=$issue.duplicates}
+                <a href="{$rel_url}view.php?id={$duplicate_id}" title="{$duplicate_id} - {$duplicate_title|escape:"html"}" class="link">#{$duplicate_id}</a>
+              {/foreach}
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Summary:</b>
+          </td>
+          <td colspan="3" bgcolor="{$dark_color}" class="default">
+            {$issue.iss_summary|escape:"html"}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Description:</b>
+          </td>
+          <td colspan="3" bgcolor="{$dark_color}" class="default">
+            {$issue.iss_description}
+          </td>
+        </tr>
+        <tr bgcolor="{$cell_color}">
+          <td colspan="4">
+            {if $current_role > $roles.reporter}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td nowrap>
+                  {if $issue.iss_lock_usr_id != "" and $current_role > $roles.reporter}
+                  <input class="button" type="button" value="Unlock Issue" onClick="javascript:window.location.href='view.php?id={$issue.iss_id}&cat=unlock';">&nbsp;
+                  {else}
+                  <input class="button" type="button" value="Assign & Lock Issue" onClick="javascript:window.location.href='view.php?id={$issue.iss_id}&cat=lock';">&nbsp;
+                  {/if}
+                </td>
+                <td width="100%" align="center">
+                  <input class="button" type="submit" value="Update">&nbsp;
+                  {if $current_role > $roles.standard_user}
+                  <input class="button" type="button" value="Reply" onClick="javascript:replyIssue({$issue.iss_id});">&nbsp;
+                  {/if}
+                </td>
+                <td nowrap>
+                  <nobr>
+                  {if not $issue.sta_is_closed}
+                    {if $issue.duplicates == ''}
+                      {if $issue.iss_duplicated_iss_id}
+                      <input class="button" type="button" value="Clear Duplicate Status" onClick="javascript:clearDuplicateStatus({$issue.iss_id});">
+                      {else}
+                      <input class="button" type="button" value="Mark as Duplicate" onClick="javascript:window.location.href='duplicate.php?id={$issue.iss_id}';">
+                      {/if}
+                    {/if}
+                    <input class="button" type="button" value="Close Issue" onClick="javascript:window.location.href='close.php?id={$issue.iss_id}';">
+                  {/if}
+                  </nobr>
+                </td>
+              </tr>
+            </table>
+            {/if}
+          </td>
+        </tr>
+        {if $statuses != ''}
+        <tr bgcolor="{$dark_color}">
+          <td colspan="4" align="right">
+            <input type="button" value="Change Status To &gt;" class="button" onClick="javascript:changeIssueStatus(this.form, '{$issue.iss_id}', '{$issue.iss_sta_id}');">
+            <select class="default" name="new_status">
+              {html_options options=$statuses selected=$issue.iss_sta_id}
+            </select>
+          </td>
+        </tr>
+        {/if}
+      </table>
+    </td>
+  </tr>
+</form>
+</table>
+

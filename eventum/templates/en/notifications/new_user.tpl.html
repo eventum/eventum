@@ -1,0 +1,32 @@
+
+<p class="default"><b>A new user was just created for you in the system.</b><br />
+  <br />
+  <b>To start using the system, please load the URL below:</b><br />
+  <a href="{$app_base_url}index.php" class="link"><b>{$app_base_url}index.php</b></a><br />
+</p>
+
+<table bgcolor="#FFFFFF" width="600" cellspacing="1" cellpadding="2">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+        <tr>
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Full Name:</td>
+          <td bgcolor="{$light_color}" width="85%" class="default">{$user.usr_full_name}</td>
+        </tr>
+        <tr> 
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Role:</td>
+          <td bgcolor="{$light_color}" width="85%" class="default">{$user.role}</td>
+        </tr>
+        <tr>
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Email Address:</td>
+          <td bgcolor="{$light_color}" width="85%" class="default">{$user.usr_email}</td>
+        </tr>
+        <tr>
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Password:</td>
+          <td bgcolor="{$light_color}" width="85%" class="default">{$user.usr_password}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+

@@ -1,0 +1,293 @@
+{include file="header.tpl.html" application_title="Eventum Installation"}
+
+{literal}
+<script language="JavaScript">
+<!--
+function validateForm(f)
+{
+    if (isWhitespace(f.hostname.value)) {
+        selectField(f, 'hostname');
+        alert('Please enter the hostname for the server of this installation of Eventum.');
+        return false;
+    }
+    if (isWhitespace(f.relative_url.value)) {
+        selectField(f, 'relative_url');
+        alert('Please enter the relative URL of this installation of Eventum.');
+        return false;
+    }
+    if (isWhitespace(f.path.value)) {
+        selectField(f, 'path');
+        alert('Please enter the full path in the server of this installation of Eventum.');
+        return false;
+    }
+    if (isWhitespace(f.db_hostname.value)) {
+        selectField(f, 'db_hostname');
+        alert('Please enter the database hostname for this installation of Eventum.');
+        return false;
+    }
+    if (isWhitespace(f.db_name.value)) {
+        selectField(f, 'db_name');
+        alert('Please enter the database name for this installation of Eventum.');
+        return false;
+    }
+    if (isWhitespace(f.db_username.value)) {
+        selectField(f, 'db_username');
+        alert('Please enter the database username for this installation of Eventum.');
+        return false;
+    }
+    if (f.alternate_user.checked) {
+        if (isWhitespace(f.eventum_user.value)) {
+            selectField(f, 'eventum_user');
+            alert('Please enter the alternate username for this installation of Eventum.');
+            return false;
+        }
+    }
+    return true;
+}
+function toggleAlternateUserFields()
+{
+    var f = getForm('install_form');
+    var element = getPageElement('alternate_user_row');
+    if (f.alternate_user.checked) {
+        element.style.display = '';
+        f.eventum_user.focus();
+    } else {
+        element.style.display = 'none';
+        f.alternate_user.focus();
+    }
+}
+//-->
+</script>
+{/literal}
+
+{if $result != '' and $result != 'success'}
+<br />
+<table width="400" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td><img src="{$rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">An Error Was Found</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default">
+            <br />
+            <b>Details: {$result}</b>
+            <br /><br />
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+{/if}
+
+{if $result == 'success'}
+<br />
+<table width="400" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%;">Success!</span></td>
+        </tr>
+        <tr>
+          <td class="default">
+            <br />
+            <b>Thank You, Eventum is now properly setup and ready to be used. Open the following URL to login on it for the first time:</b>
+            <br />
+            <a class="link" href="{if $smarty.post.is_ssl == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}">{if $smarty.post.is_ssl == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}</a>
+            <br /><br />
+            Email Address: admin@domain.com (literally)<br />
+            Password: admin<br />
+            <br />
+            <b>NOTE: For security reasons it is highly recommended that the default password be changed as soon as possible.</b>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+{else}
+<br />
+<table width="600" bgcolor="#000000" border="0" cellspacing="0" cellpadding="1" align="center">
+<form name="install_form" action="{$smarty.server.PHP_SELF}" method="post" onSubmit="javascript:return validateForm(this);">
+<input type="hidden" name="cat" value="install">
+  <tr>
+    <td>
+      <table bgcolor="#CCCCCC" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td colspan="2" align="center">
+            <h1>Eventum Installation</h1>
+            <hr size="1" noshade color="#000000">
+          </td>
+        </tr>
+        <tr>
+          <td width="180" class="default" align="right">
+            <b>Server Hostname: *</b>
+          </td>
+          <td>
+            <input type="text" name="hostname" value="{$smarty.post.hostname|default:$smarty.server.HTTP_HOST}" class="default" size="30" tabindex="1">
+            {include file="error_icon.tpl.html" field="hostname"}
+            <input type="checkbox" name="is_ssl" value="yes" {if $ssl_mode == 'enabled'}checked{/if}> <span class="default"><b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'is_ssl');">SSL Server</a></b></span>
+          </td>
+        </tr>
+        <tr>
+          <td width="180" class="default" align="right">
+            <b>Eventum Relative URL: *</b>
+          </td>
+          <td>
+            <input type="text" name="relative_url" value="{$smarty.post.rel_url|default:$rel_url}" class="default" size="30" tabindex="1">
+            {include file="error_icon.tpl.html" field="relative_url"}
+          </td>
+        </tr>
+        <tr>
+          <td width="180" class="default" align="right">
+            <b>Installation Path: *</b>
+          </td>
+          <td>
+            <input type="text" name="path" value="{$smarty.post.path|default:$installation_path}" class="default" size="50" tabindex="2">
+            {include file="error_icon.tpl.html" field="path"}
+          </td>
+        </tr>
+        <tr>
+          <td width="180" class="default" align="right">
+            <nobr>&nbsp;<b>MySQL Server Hostname: *</b></nobr>
+          </td>
+          <td>
+            <input type="text" name="db_hostname" class="default" size="30" tabindex="3" value="{$smarty.post.db_hostname}">
+            {include file="error_icon.tpl.html" field="db_hostname"}
+          </td>
+        </tr>
+        <tr>
+          <td width="180" class="default" align="right">
+            <b>MySQL Database: *</b>
+          </td>
+          <td>
+            <input type="text" name="db_name" class="default" size="30" tabindex="3" value="{$smarty.post.db_name}">
+            {include file="error_icon.tpl.html" field="db_name"}
+            <input type="checkbox" name="create_db" value="yes" {if $smarty.post.create_db == 'yes'}checked{/if}> <span class="default"><b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'create_db');">Create Database</a></b></span>
+          </td>
+        </tr>
+        <tr>
+          <td width="180" class="default" align="right">
+            <b>MySQL Table Prefix:</b>
+          </td>
+          <td>
+            <input type="text" name="db_table_prefix" value="{$smarty.post.db_table_prefix|default:'eventum_'}" class="default" size="30" tabindex="4">
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default" align="center">
+            <input type="checkbox" name="drop_tables" value="yes" {if $smarty.post.drop_tables == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'drop_tables');">Drop Tables If They Already Exist</a></b>
+          </td>
+        </tr>
+        <tr>
+          <td width="180" class="default" align="right">
+            <b>MySQL Username: *</b>
+          </td>
+          <td>
+            <input type="text" name="db_username" class="default" size="20" tabindex="5" value="{$smarty.post.db_username}">
+            {include file="error_icon.tpl.html" field="db_username"}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default" align="center">
+            <b>Note:</b> This user requires permission to create and drop tables in the specified database
+          </td>
+        </tr>
+        <tr>
+          <td width="180" class="default" align="right">
+            <b>MySQL Password:</b>
+          </td>
+          <td>
+            <input type="password" name="db_password" class="default" size="20" tabindex="6" value="{$smarty.post.db_password}">
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default" align="center">
+            <input type="checkbox" name="alternate_user" value="yes" onClick="javascript:toggleAlternateUserFields();" {if $smarty.post.alternate_user == 'yes'}checked{/if}> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'alternate_user');toggleAlternateUserFields();">Use a Separate MySQL User for Normal Eventum Use</a></b>
+          </td>
+        </tr>
+        <tr id="alternate_user_row">
+          <td colspan="2" align="center">
+            <table>
+              <tr>
+                <td>
+                  <table width="300" cellpadding="1" cellspacing="0" bgcolor="white" border="0">
+                    <tr>
+                      <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="1" bgcolor="#C0C0C0">
+                          <tr>
+                            <td colspan="2" class="default">
+                              <b>Enter the details below:</b>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="default" align="right">
+                              <nobr>&nbsp;<b>Username: *</b>&nbsp;</nobr>
+                            </td>
+                            <td>
+                              <nobr><input type="text" class="default" name="eventum_user" size="20">&nbsp;</nobr>
+                              {include file="error_icon.tpl.html" field="eventum_user"}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="default" align="right">
+                              <nobr>&nbsp;<b>Password:</b>&nbsp;</nobr>
+                            </td>
+                            <td>
+                              <nobr><input type="password" class="default" name="eventum_password" size="20">&nbsp;</nobr>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="2" class="default" align="center">
+                              <input type="checkbox" name="create_user" value="yes"> <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('install_form', 'create_user');">Create User and Permissions</a></b>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default" align="right">
+            &nbsp;
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" bgcolor="#666666" align="right">
+            <input style="font-family: Verdana, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 90%;" type="submit" value="Start Installation &gt;&gt;" tabindex="7">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="#FFFFFF" class="default">
+      <b>* Required Fields</b>
+    </td>
+  </tr>
+</form>
+</table>
+
+{literal}
+<script language="JavaScript">
+<!--
+window.onload = setFocus;
+function setFocus()
+{
+    document.install_form.hostname.focus();
+    toggleAlternateUserFields();
+}
+//-->
+</script>
+{/literal}
+{/if}
+
+{include file="footer.tpl.html"}

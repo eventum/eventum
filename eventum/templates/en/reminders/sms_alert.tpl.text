@@ -1,0 +1,3 @@
+This is a SMS reminder alert regarding issue #{$data.iss_id}. Certain 
+conditions triggered this action, and this issue may require immediate 
+action in your part.

@@ -1,0 +1,98 @@
+#!/usr/local/bin/php -q
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4: */
+// +----------------------------------------------------------------------+
+// | Eventum - Defect Tracking System                                     |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2003 Joao Prado Maia                                   |
+// +----------------------------------------------------------------------+
+// | Authors: João Prado Maia <jpm@impleo.net>                            |
+// +----------------------------------------------------------------------+
+//
+// @(#) $Id: s.eventum 1.3 03/12/13 00:03:39-00:00 jpradomaia $
+//
+include_once("config.inc.php");
+include_once(APP_INC_PATH . "class.command_line.php");
+include_once(APP_PEAR_PATH . "XML_RPC/RPC.php");
+
+list($user_email, $user_password, $url, $port) = Command_Line::getEnvironmentSettings();
+if (empty($port)) {
+    $port = 80;
+}
+
+if (count($HTTP_SERVER_VARS['argv']) == 1) {
+    Command_Line::quit("Requirement argument not found");
+}
+// show usage information if user gave --help
+if ($HTTP_SERVER_VARS['argv'][1] == '--help') {
+    Command_Line::usage(__FILE__);
+}
+
+$should_confirm = Command_Line::isSafeExecution();
+
+$client = new XML_RPC_Client("/rpc/xmlrpc.php", $url, $port);
+//$client->setDebug(1);
+
+// need to process authentication first
+Command_Line::checkAuthentication(&$client, $user_email, $user_password);
+
+$issue_id = (integer) $HTTP_SERVER_VARS['argv'][1];
+if ($issue_id > 0) {
+    if (count($HTTP_SERVER_VARS['argv']) == 2) {
+        Command_Line::printIssueDetails(&$client, $issue_id, $user_email);
+    } else {
+        if ($should_confirm) {
+            Command_Line::promptConfirmation(&$client, $issue_id);
+        }
+        switch ($HTTP_SERVER_VARS['argv'][2]) {
+            case 'lock':
+                if (@$HTTP_SERVER_VARS['argv'][3] == '--force') {
+                    $force_lock = 'yes';
+                } else {
+                    $force_lock = 'no';
+                }
+                Command_Line::lockIssue(&$client, $issue_id, $user_email, $force_lock);
+                break;
+            case 'assign':
+                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                    Command_Line::quit("Missing parameter for the developer");
+                }
+                Command_Line::assignIssue(&$client, $issue_id, $user_email, $HTTP_SERVER_VARS['argv'][3]);
+                break;
+            case 'set-status':
+                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                    Command_Line::quit("Missing parameter for the status");
+                }
+                Command_Line::setIssueStatus(&$client, $issue_id, $user_email, $HTTP_SERVER_VARS['argv'][3]);
+                break;
+            case 'add-time':
+                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                    Command_Line::quit("Missing parameter for time worked");
+                }
+                $check = (integer) $HTTP_SERVER_VARS['argv'][3];
+                if ($check == 0) {
+                    Command_Line::quit("Third argument to command 'add-time' should be a number");
+                }
+                Command_Line::addTimeEntry(&$client, $issue_id, $user_email, $HTTP_SERVER_VARS['argv'][3]);
+                break;
+        }
+        echo 'running ' . $HTTP_SERVER_VARS['argv'][2];
+    }
+} else {
+    if ($HTTP_SERVER_VARS['argv'][1] == 'developers') {
+        Command_Line::printDeveloperList(&$client, $user_email);
+    } elseif ($HTTP_SERVER_VARS['argv'][1] == 'open-issues') {
+        if (@$HTTP_SERVER_VARS['argv'][2] == 'my') {
+            $show_all_issues = false;
+        } else {
+            $show_all_issues = true;
+        }
+        Command_Line::printOpenIssues(&$client, $user_email, $show_all_issues);
+    } elseif ($HTTP_SERVER_VARS['argv'][1] == 'list-status') {
+        Command_Line::printStatusList(&$client, $user_email);
+    } else {
+        Command_Line::quit("Unknown parameter '" . $HTTP_SERVER_VARS['argv'][1] . "'");
+    }
+}
+
+?>

@@ -1,0 +1,21 @@
+{include file="header.tpl.html"}
+
+<br />
+<center>
+  <span class="default">
+  <b>Thank you, your current selected project was changed successfully.</b>
+  </span>
+</center>
+
+<script language="JavaScript">
+<!--
+{if $smarty.get.is_frame == "yes"}
+opener.parent.location.href = opener.parent.location;
+{else}
+opener.location.href = opener.location;
+{/if}
+setTimeout('window.close()', 2000);
+//-->
+</script>
+
+{include file="footer.tpl.html"}

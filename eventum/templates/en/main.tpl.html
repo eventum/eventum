@@ -1,0 +1,175 @@
+{include file="header.tpl.html" extra_title="Profile"}
+{include file="navigation.tpl.html"}
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top">
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td width="100%">
+            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+              <tr>
+                <td>
+                  <span class="default"><b>Overall Stats</b></span>
+                  <hr size="1" noshade color="{$cell_color}">
+                </td>
+              </tr>
+              <tr>
+                <td nowrap class="default">
+                  <b>Issues by Status:</b>
+                  <br /><br />
+                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    {section name="i" loop=$status}
+                    <tr>
+                      <td class="default"><a class="link" href="list.php?keywords=&users=&category=&release=&priority=&status={$status[i].iss_sta_id}">{$status[i].sta_title|escape:"html"}</a></td>
+                      <td align="right" class="default">{$status[i].total_items}</td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td class="default">No issues could be found.</td>
+                    </tr>
+                    {/section}
+                  </table>
+                  <br /><br />
+                  <b>Issues by Release:</b>
+                  <br /><br />
+                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    {section name="i" loop=$releases}
+                    <tr>
+                      <td class="default"><a class="link" href="list.php?keywords=&users=&category=&status=&priority=&release={$releases[i].iss_pre_id}">{$releases[i].pre_title|escape:"html"}</a></td>
+                      <td align="right" class="default">{$releases[i].total_items}</td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td class="default">No issues could be found.</td>
+                    </tr>
+                    {/section}
+                  </table>
+                  <br /><br />
+                  <b>Issues by Priority:</b>
+                  <br /><br />
+                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    {section name="i" loop=$priorities}
+                    <tr>
+                      <td class="default"><a class="link" href="list.php?keywords=&users=&category=&release=&status=&priority={$priorities[i].iss_pri_id}">{$priorities[i].pri_title|escape:"html"}</a></td>
+                      <td align="right" class="default">{$priorities[i].total_items}</td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td class="default">No issues could be found.</td>
+                    </tr>
+                    {/section}
+                  </table>
+                  <br /><br />
+                  <b>Issues by Category:</b>
+                  <br /><br />
+                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    {section name="i" loop=$categories}
+                    <tr>
+                      <td class="default"><a class="link" href="list.php?keywords=&users=&category={$categories[i].iss_prc_id}&status=&priority=&release=">{$categories[i].prc_title|escape:"html"}</a></td>
+                      <td align="right" class="default">{$categories[i].total_items}</td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td class="default">No issues could be found.</td>
+                    </tr>
+                    {/section}
+                  </table>
+                  <br /><br />
+                  <b>Assigned Issues:</b>
+                  <br /><br />
+                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    {section name="i" loop=$users}
+                    <tr>
+                      <td class="default"><a class="link" href="list.php?keywords=&category=&release=&status=&priority=&users={$users[i].isu_usr_id}">{$users[i].usr_full_name}</a></td>
+                      <td align="right" class="default">{$users[i].total_items}</td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td class="default">No issues could be found.</td>
+                    </tr>
+                    {/section}
+                  </table>
+                  {if $app_setup.support_email == 'enabled' and $current_role > $roles.reporter}
+                  <br /><br />
+                  <b>Emails:</b>
+                  <br /><br />
+                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td class="default"><a class="link" href="emails.php?hide_associated=0">Associated</a></td>
+                      <td align="right" class="default">{$emails.associated}</td>
+                    </tr>
+                    <tr>
+                      <td class="default"><a class="link" href="emails.php?hide_associated=1">Pending</a></td>
+                      <td align="right" class="default">{$emails.pending}</td>
+                    </tr>
+                    <tr>
+                      <td class="default">Removed</td>
+                      <td align="right" class="default">{$emails.removed}</td>
+                    </tr>
+                  </table>
+                  {/if}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br />
+    </td>
+    <td>
+      &nbsp;
+    </td>
+    <td width="80%" valign="top">
+      {include file="latest_news.tpl.html"}
+      {if $app_setup.daily_tips == 'enabled'}
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td width="100%">
+            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+              <tr>
+                <td>
+                  <span class="default"><b>Did you Know?</b></span>
+                </td>
+              </tr>
+              <tr>
+                <td bgcolor="{$light_color}" class="default">
+                  {include file="tips/$random_tip"}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br />
+      {/if}
+      {if $pie_chart}
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td width="100%">
+            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+              <tr>
+                <td>
+                  <span class="default"><b>Graphical Stats (All Issues)</b></span>
+                </td>
+              </tr>
+              <tr>
+                <td bgcolor="{$light_color}" class="default">
+                  <img border="0" src="{$rel_url}stats_chart.php?plot=status">
+                  <img border="0" src="{$rel_url}stats_chart.php?plot=priority">
+                  <img border="0" src="{$rel_url}stats_chart.php?plot=user">
+                  <img border="0" src="{$rel_url}stats_chart.php?plot=release">
+                  <img border="0" src="{$rel_url}stats_chart.php?plot=category">
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      {/if}
+    </td>
+  </tr>
+</table>
+
+{include file="app_info.tpl.html"}
+{include file="footer.tpl.html"}

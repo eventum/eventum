@@ -1,0 +1,472 @@
+
+<script language="JavaScript" src="{$rel_url}js/dynCalendar.js"></script>
+{literal}
+<script language="JavaScript">
+<!--
+function saveCustomFilter(f)
+{
+    if (isWhitespace(f.title.value)) {
+        selectField(f, 'title');
+        alert('Please enter the title for this saved search.');
+        return false;
+    }
+    var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('', '_customFilter', features);
+    popupWin.focus();
+    f.target = '_customFilter';
+    f.method = 'post';
+    f.action = 'popup.php';
+    f.cat.value = 'save_filter';
+    f.submit();
+}
+function validateRemove(f)
+{
+    if (!hasOneChecked(f, 'item[]')) {
+        alert('Please choose which entries need to be removed.');
+        return false;
+    }
+    if (!confirm('This action will permanently delete the selected entries.')) {
+        return false;
+    } else {
+        var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('', '_removeFilter', features);
+        popupWin.focus();
+        return true;
+    }
+}
+function toggleDateFields(f, field_name)
+{
+    var checkbox = getFormElement(f, 'filter[' + field_name + ']');
+    var filter_type = getFormElement(f, field_name + '[filter_type]');
+    var month_field = getFormElement(f, field_name + '[Month]');
+    var day_field = getFormElement(f, field_name + '[Day]');
+    var year_field = getFormElement(f, field_name + '[Year]');
+    var month_end_field = getFormElement(f, field_name + '_end[Month]');
+    var day_end_field = getFormElement(f, field_name + '_end[Day]');
+    var year_end_field = getFormElement(f, field_name + '_end[Year]');
+    if (checkbox.checked) {
+        var bool = false;
+    } else {
+        var bool = true;
+    }
+    filter_type.disabled = bool;
+    month_field.disabled = bool;
+    day_field.disabled = bool;
+    year_field.disabled = bool;
+    month_end_field.disabled = bool;
+    day_end_field.disabled = bool;
+    year_end_field.disabled = bool;
+}
+function checkDateFilterType(f, type_field)
+{
+    var option = getSelectedOption(f, type_field.name);
+    var element_name = type_field.name.substring(0, type_field.name.indexOf('['));
+    var element = getPageElement(element_name + 1);
+    if ((option == 'between') && (!isElementVisible(element))) {
+        toggleVisibility(element_name, false);
+    } else if ((option != 'between') && (isElementVisible(element))) {
+        toggleVisibility(element_name, false);
+    }
+}
+function selectDateOptions(field_prefix, date_str)
+{
+    if (date_str.length != 10) {
+        return false;
+    } else {
+        var year = date_str.substring(0, date_str.indexOf('-'));
+        var month = date_str.substring(date_str.indexOf('-')+1, date_str.lastIndexOf('-'));
+        var day = date_str.substring(date_str.lastIndexOf('-')+1);
+        selectDateField(field_prefix, day, month, year);
+    }
+}
+function selectDateField(field_name, day, month, year)
+{
+    selectOption(this.document.custom_filter_form, field_name + '[Day]', day);
+    selectOption(this.document.custom_filter_form, field_name + '[Month]', month);
+    selectOption(this.document.custom_filter_form, field_name + '[Year]', year);
+}
+function calendarCallback_created(day, month, year) { selectDateField('created_date', day, month, year); }
+function calendarCallback_created_end(day, month, year) { selectDateField('created_date_end', day, month, year); }
+function calendarCallback_updated(day, month, year) { selectDateField('updated_date', day, month, year); }
+function calendarCallback_updated_end(day, month, year) { selectDateField('updated_date_end', day, month, year); }
+function calendarCallback_last_response(day, month, year) { selectDateField('last_response_date', day, month, year); }
+function calendarCallback_last_response_end(day, month, year) { selectDateField('last_response_date_end', day, month, year); }
+function calendarCallback_first_response(day, month, year) { selectDateField('first_response_date', day, month, year); }
+function calendarCallback_first_response_end(day, month, year) { selectDateField('first_response_date_end', day, month, year); }
+function calendarCallback_closed(day, month, year) { selectDateField('closed_date', day, month, year); }
+function calendarCallback_closed_end(day, month, year) { selectDateField('closed_date_end', day, month, year); }
+function validateForm(f)
+{
+    // need to hack this value in the query string so the saved search options don't override this one
+    if (!f.hide_closed.checked) {
+        var field = getFormElement(f, 'hidden');
+        field.name = 'hide_closed';
+        field.value = '0';
+    }
+    return true;
+}
+//-->
+</script>
+{/literal}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+        <tr>
+          <td colspan="3" bgcolor="{$light_color}" class="default">
+            <b>Advanced Search</b>
+          </td>
+          <td bgcolor="{$light_color}" align="right">
+            {include file="help_link.tpl.html" topic="adv_search"}
+          </td>
+        </tr>
+        <form name="custom_filter_form" method="get" action="list.php" onSubmit="javascript:return validateForm(this);">
+        <input type="hidden" name="cat" value="search">
+        <input type="hidden" name="hidden" value="">
+        <tr>
+          <td>
+            <span class="default">Keyword(s):</span><br />
+            <input class="default" type="text" name="keywords" value="{$options.cst_keywords|escape:'html'}">
+          </td>
+          <td>
+            <span class="default">Assigned:</span><br />
+            <select name="users" class="default">
+              <option value="">any</option>
+              <option value="-1" {if $options.cst_users == '-1'}selected{/if}>un-assigned</option>
+              <option value="-2" {if $options.cst_users == '-2'}selected{/if}>myself and un-assigned</option>
+              {html_options options=$users selected=$options.cst_users}
+            </select>
+          </td>
+          <td>
+            <span class="default">Priority:</span><br />
+            <select name="priority" class="default">
+              <option value="">any</option>
+              {section name="i" loop=$priorities}
+              <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.cst_iss_pri_id}selected{/if}>{$priorities[i].pri_title}</option>
+              {/section}
+            </select>
+          </td>
+          <td>
+            <span class="default">Status:</span><br />
+            <select name="status" class="default">
+              <option value="">any</option>
+              {foreach key=sta_id item=sta_title from=$status}
+              <option value="{$sta_id}" {if $sta_id == $options.cst_iss_sta_id}selected{/if}>{$sta_title}</option>
+              {/foreach}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" class="default">
+            <input type="checkbox" name="hide_closed" value="1" {if $options.cst_hide_closed == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_filter_form', 'hide_closed');">Hide Closed Issues</a>
+          </td>
+          <td>
+            <span class="default">Rows Per Page:</span><br />
+            <select name="rows" class="default">
+              <option value="5" {if $options.cst_rows == 5}selected{/if}>5</option>
+              <option value="10" {if $options.cst_rows == 10}selected{/if}>10</option>
+              <option value="25" {if $options.cst_rows == 25}selected{/if}>25</option>
+              <option value="50" {if $options.cst_rows == 50}selected{/if}>50</option>
+              <option value="100" {if $options.cst_rows == 100}selected{/if}>100</option>
+              <option value="ALL" {if $options.cst_rows == "ALL"}selected{/if}>ALL</option>
+            </select>
+          </td>
+          <td>
+            <span class="default">Sort By:</span><br />
+            <select name="sort_by" class="default">
+              <option value="iss_pri_id" {if $options.cst_sort_by == "iss_pri_id"}selected{/if}>Priority</option>
+              <option value="iss_id" {if $options.cst_sort_by == "iss_id"}selected{/if}>Issue ID</option>
+              <option value="iss_sta_id" {if $options.cst_sort_by == "iss_sta_id"}selected{/if}>Status</option>
+              <option value="iss_summary" {if $options.cst_sort_by == "iss_summary"}selected{/if}>Summary</option>
+            </select>
+          </td>
+          <td>
+            <span class="default">Sort Order:</span><br />
+            <select name="sort_order" class="default">
+              <option value="asc" {if $options.cst_sort_order == "asc"}selected{/if}>asc</option>
+              <option value="desc" {if $options.cst_sort_order == "desc"}selected{/if}>desc</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <table width="100%" cellspacing="0" border="0" cellpadding="0">
+              <tr>
+                <td nowrap width="50%">
+                  <input {if $options.cst_created_date_filter_type != ""}checked{/if} type="checkbox" name="filter[created_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'created_date');">
+                  <span class="default">Created:</span><br />
+                  <select name="created_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                    <option {if $options.cst_created_date_filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
+                    <option {if $options.cst_created_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
+                    <option {if $options.cst_created_date_filter_type == "between"}selected{/if} value="between">Between</option>
+                  </select>&nbsp;
+                  {html_select_date field_array="created_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                  tCalendar = new dynCalendar('tCalendar', 'calendarCallback_created', '{$rel_url}images/');
+                  tCalendar.setMonthCombo(false);
+                  tCalendar.setYearCombo(false);
+                  //-->
+                  </script>&nbsp;&nbsp;
+                </td>
+                <td nowrap id="created_date1" width="50%" valign="bottom">
+                  <span class="default">Created: <i>(End date)</i></span><br />
+                  {html_select_date field_array="created_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                  tCalendar2 = new dynCalendar('tCalendar2', 'calendarCallback_created_end', '{$rel_url}images/');
+                  tCalendar2.setMonthCombo(false);
+                  tCalendar2.setYearCombo(false);
+                  //-->
+                  </script>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <table width="100%" cellspacing="0" border="0" cellpadding="0">
+              <tr>
+                <td nowrap width="50%">
+                  <input {if $options.cst_updated_date_filter_type != ""}checked{/if} type="checkbox" name="filter[updated_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'updated_date');">
+                  <span class="default">Last Updated:</span><br />
+                  <select name="updated_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                    <option {if $options.cst_updated_date_filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
+                    <option {if $options.cst_updated_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
+                    <option {if $options.cst_updated_date_filter_type == "between"}selected{/if} value="between">Between</option>
+                  </select>&nbsp;
+                  {html_select_date field_array="updated_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                  tCalendar3 = new dynCalendar('tCalendar3', 'calendarCallback_updated', '{$rel_url}images/');
+                  tCalendar3.setMonthCombo(false);
+                  tCalendar3.setYearCombo(false);
+                  //-->
+                  </script>&nbsp;&nbsp;
+                </td>
+                <td nowrap id="updated_date1" width="50%" valign="bottom">
+                  <span class="default">Last Updated: <i>(End date)</i></span><br />
+                  {html_select_date field_array="updated_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                  tCalendar4 = new dynCalendar('tCalendar4', 'calendarCallback_updated_end', '{$rel_url}images/');
+                  tCalendar4.setMonthCombo(false);
+                  tCalendar4.setYearCombo(false);
+                  //-->
+                  </script>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <table width="100%" cellspacing="0" border="0" cellpadding="0">
+              <tr>
+                <td nowrap width="50%">
+                  <input {if $options.cst_first_response_date_filter_type != ""}checked{/if} type="checkbox" name="filter[first_response_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'first_response_date');">
+                  <span class="default">First Response by Staff:</span><br />
+                  <select name="first_response_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                    <option {if $options.cst_first_response_date_filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
+                    <option {if $options.cst_first_response_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
+                    <option {if $options.cst_first_response_date_filter_type == "between"}selected{/if} value="between">Between</option>
+                  </select>&nbsp;
+                  {html_select_date field_array="first_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                  tCalendar7 = new dynCalendar('tCalendar7', 'calendarCallback_first_response', '{$rel_url}images/');
+                  tCalendar7.setMonthCombo(false);
+                  tCalendar7.setYearCombo(false);
+                  //-->
+                  </script>&nbsp;&nbsp;
+                </td>
+                <td nowrap id="first_response_date1" width="50%" valign="bottom">
+                  <span class="default">First Response By Staff: <i>(End date)</i></span><br />
+                  {html_select_date field_array="first_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                  tCalendar8 = new dynCalendar('tCalendar8', 'calendarCallback_first_response_end', '{$rel_url}images/');
+                  tCalendar8.setMonthCombo(false);
+                  tCalendar8.setYearCombo(false);
+                  //-->
+                  </script>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <table width="100%" cellspacing="0" border="0" cellpadding="0">
+              <tr>
+                <td nowrap width="50%">
+                  <input {if $options.cst_last_response_date_filter_type != ""}checked{/if} type="checkbox" name="filter[last_response_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'last_response_date');">
+                  <span class="default">Last Response by Staff:</span><br />
+                  <select name="last_response_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                    <option {if $options.cst_last_response_date_filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
+                    <option {if $options.cst_last_response_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
+                    <option {if $options.cst_last_response_date_filter_type == "between"}selected{/if} value="between">Between</option>
+                  </select>&nbsp;
+                  {html_select_date field_array="last_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                  tCalendar5 = new dynCalendar('tCalendar5', 'calendarCallback_last_response', '{$rel_url}images/');
+                  tCalendar5.setMonthCombo(false);
+                  tCalendar5.setYearCombo(false);
+                  //-->
+                  </script>&nbsp;&nbsp;
+                </td>
+                <td nowrap id="last_response_date1" width="50%" valign="bottom">
+                  <span class="default">Last Response by Staff: <i>(End date)</i></span><br />
+                  {html_select_date field_array="last_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                  tCalendar6 = new dynCalendar('tCalendar6', 'calendarCallback_last_response_end', '{$rel_url}images/');
+                  tCalendar6.setMonthCombo(false);
+                  tCalendar6.setYearCombo(false);
+                  //-->
+                  </script>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <table width="100%" cellspacing="0" border="0" cellpadding="0">
+              <tr>
+                <td nowrap width="50%">
+                  <input {if $options.cst_closed_date_filter_type != ""}checked{/if} type="checkbox" name="filter[closed_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'closed_date');">
+                  <span class="default">Status Closed:</span><br />
+                  <select name="closed_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
+                    <option {if $options.cst_closed_date_filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
+                    <option {if $options.cst_closed_date_filter_type == "less"}selected{/if} value="less">Less Than</option>
+                    <option {if $options.cst_closed_date_filter_type == "between"}selected{/if} value="between">Between</option>
+                  </select>&nbsp;
+                  {html_select_date field_array="closed_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                  tCalendar9 = new dynCalendar('tCalendar9', 'calendarCallback_closed', '{$rel_url}images/');
+                  tCalendar9.setMonthCombo(false);
+                  tCalendar9.setYearCombo(false);
+                  //-->
+                  </script>&nbsp;&nbsp;
+                </td>
+                <td nowrap id="closed_date1" width="50%" valign="bottom">
+                  <span class="default">Status Closed: <i>(End date)</i></span><br />
+                  {html_select_date field_array="closed_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                  tCalendar10 = new dynCalendar('tCalendar10', 'calendarCallback_closed_end', '{$rel_url}images/');
+                  tCalendar10.setMonthCombo(false);
+                  tCalendar10.setYearCombo(false);
+                  //-->
+                  </script>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" align="center">
+            <input class="button" type="submit" value="Run Search">
+            <input class="button" type="reset" value="Reset">
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" align="center" bgcolor="{$light_color}">
+            <span class="default">Search Title:</span>
+            <input type="text" name="title" class="default" value="{$options.cst_title}">
+            {include file="error_icon.tpl.html" field="title"}
+            <input class="button" type="button" value="Save Search" onClick="javascript:saveCustomFilter(this.form);">
+          </td>
+        </tr>
+        </form>
+      </table>
+    </td>
+    <td>
+      &nbsp;
+    </td>
+  </tr>
+</table>
+<br />
+<table width="450" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="2">
+        <form onSubmit="javascript:return validateRemove(this);" method="post" action="popup.php" target="_removeFilter">
+        <input type="hidden" name="cat" value="delete_filter">
+        <tr>
+          <td bgcolor="{$light_color}" colspan="3">
+            <span class="default"><b>Saved Searches:</b></span>
+          </td>
+        </tr>
+        {section name="i" loop=$custom}
+        <tr>
+          <td width="2">
+            <input type="checkbox" name="item[]" value="{$custom[i].cst_id}">
+          </td>
+          <td width="100%" class="default">
+            <a href="adv_search.php?custom_id={$custom[i].cst_id}" class="link" title="edit this custom search">{$custom[i].cst_title}</a>
+          </td>
+          <td>
+            <a class="link" title="RSS feed for this custom search" href="rss.php?custom_id={$custom[i].cst_id}"><img src="images/icons/rss.gif" border="0"></a>
+          </td>
+        </tr>
+        {if %i.last% && %i.total% > 0}
+        <tr bgcolor="{$light_color}">
+          <td colspan="3" align="right">
+            <input type="submit" value="Remove Selected" class="button">
+          </td>
+        </tr>
+        {/if}
+        {sectionelse}
+        <tr>
+          <td class="default" colspan="3" align="center">
+            <b>No custom searches could be found.</b>
+          </td>
+        </tr>
+        {/section}
+        </form>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<script language="JavaScript">
+<!--
+var f = getForm('custom_filter_form');
+
+var date_fields = new Array();
+date_fields[date_fields.length] = new Option('created_date', '{$options.cst_created_date}');
+date_fields[date_fields.length] = new Option('created_date_end', '{$options.cst_created_date_end}');
+date_fields[date_fields.length] = new Option('updated_date', '{$options.cst_updated_date}');
+date_fields[date_fields.length] = new Option('updated_date_end', '{$options.cst_updated_date_end}');
+date_fields[date_fields.length] = new Option('last_response_date', '{$options.cst_last_response_date}');
+date_fields[date_fields.length] = new Option('last_response_date_end', '{$options.cst_last_response_date_end}');
+date_fields[date_fields.length] = new Option('first_response_date', '{$options.cst_first_response_date}');
+date_fields[date_fields.length] = new Option('first_response_date_end', '{$options.cst_first_response_date_end}');
+date_fields[date_fields.length] = new Option('closed_date', '{$options.cst_closed_date}');
+date_fields[date_fields.length] = new Option('closed_date_end', '{$options.cst_closed_date_end}');
+
+{literal}
+var elements_to_hide = new Array('created_date', 'updated_date', 'last_response_date', 'first_response_date', 'closed_date');
+for (var i = 0; i < elements_to_hide.length; i++) {
+    toggleVisibility(elements_to_hide[i]);
+    toggleDateFields(f, elements_to_hide[i]);
+    var filter_type = getFormElement(f, elements_to_hide[i] + '[filter_type]');
+    checkDateFilterType(f, filter_type);
+}
+
+for (var i = 0; i < date_fields.length; i++) {
+    if (!isWhitespace(date_fields[i].value)) {
+        selectDateOptions(date_fields[i].text, date_fields[i].value);
+    }
+}
+//-->
+</script>
+{/literal}

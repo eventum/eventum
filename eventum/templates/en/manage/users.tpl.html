@@ -1,0 +1,246 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              {literal}
+              <script language="JavaScript">
+              <!--
+              function validateForm(f)
+              {
+                  if (isWhitespace(f.email.value)) {
+                      alert('Please enter the email of this user.');
+                      selectField(f, 'email');
+                      return false;
+                  }
+                  if (!isEmail(f.email.value)) {
+                      alert('Please enter a valid email address.');
+                      selectField(f, 'email');
+                      return false;
+                  }
+                  if (f.cat.value == 'update') {
+                      if ((!isWhitespace(f.password.value)) && (f.password.value.length < 6)) {
+                          alert('Please enter a password of at least 6 characters.');
+                          selectField(f, 'password');
+                          return false;
+                      }
+                  } else {
+                      if ((isWhitespace(f.password.value)) || (f.password.value.length < 6)) {
+                          alert('Please enter a password of at least 6 characters.');
+                          selectField(f, 'password');
+                          return false;
+                      }
+                  }
+                  if (isWhitespace(f.full_name.value)) {
+                      alert('Please enter the full name of this user.');
+                      selectField(f, 'full_name');
+                      return false;
+                  }
+                  if (!hasOneSelected(f, 'projects[]')) {
+                      alert('Please assign the appropriate projects for this user.');
+                      selectField(f, 'projects[]');
+                      return false;
+                  }
+                  return true;
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="user_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Manage Users</b>
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the new user.
+                    {elseif $result == 1}
+                      Thank you, the user was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the user information.
+                    {elseif $result == 1}
+                      Thank you, the user was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>E-mail:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="email" size="40" class="default" value="{$info.usr_email}">
+                  {include file="error_icon.tpl.html" field="email"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Password:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="password" name="password" size="20" class="default">
+                  {if $smarty.get.cat == 'edit'}
+                  <span class="default">(leave empty to keep the current password)</span>
+                  {/if}
+                  {include file="error_icon.tpl.html" field="password"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Full Name:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="full_name" size="40" class="default" value="{$info.usr_full_name}">
+                  {include file="error_icon.tpl.html" field="full_name"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Role:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="role" class="default">
+                  {html_options options=$user_roles selected=$info.usr_role}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <nobr><b>Assigned Projects:</b></nobr>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="projects[]" multiple size="3" class="default">
+                  {html_options options=$project_list selected=$info.projects}
+                  </select>
+                  {include file="error_icon.tpl.html" field="projects[]"}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update User">
+                  {else}
+                  <input class="button" type="submit" value="Create User">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Users:</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <script language="JavaScript">
+                  <!--
+                  var active_users = new Array();
+                  {section name="i" loop=$list}
+                  {if $list[i].usr_status == 'active'}
+                  active_users[{$smarty.section.i.index}] = '{$list[i].usr_email|escape:"html"}';
+                  {/if}
+                  {/section}
+                  var page_url = '{$smarty.server.PHP_SELF}';
+                  {literal}
+                  function checkDelete(f)
+                  {
+                      var total_selected = getTotalCheckboxesChecked(f, 'items[]');
+                      var total = getTotalCheckboxes(f, 'items[]');
+                      if (getSelectedOption(f, 'status') == 'inactive') {
+                          if (active_users.length < 2) {
+                              alert('You cannot change the status of the only active user left in the system.');
+                              return false;
+                          }
+                          if (total == total_selected) {
+                              alert('You cannot inactivate all of the users in the system.');
+                              return false;
+                          }
+                      }
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the users.');
+                          return false;
+                      }
+                      if (!confirm('This action will change the status of the selected users.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form name="change_status_form" onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="cat" value="change_status">
+                    <tr>
+                      <td bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Name</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Role</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>E-mail</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Status</b></td>
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center">
+                        <input type="checkbox" name="items[]" value="{$list[i].usr_id}" {if $smarty.section.i.total == 0}disabled{/if}>
+                      </td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].usr_id}" title="update this entry">{$list[i].usr_full_name}</a>
+                      </td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{$list[i].usr_role}
+                      </td>
+                      <td width="40%" bgcolor="{$row_color}" class="default">
+                        &nbsp;<a href="mailto:{$list[i].usr_email}" class="link" title="send email to {$list[i].usr_email}">{$list[i].usr_email}</a>
+                      </td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{$list[i].usr_status|capitalize}
+                      </td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                        No users could be found.
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr>
+                      <td colspan="5" bgcolor="{$cell_color}">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td>
+                              <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                              <input type="submit" value="Update Status &gt;&gt;" class="button">
+                              <select name="status" class="default">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                              </select>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+

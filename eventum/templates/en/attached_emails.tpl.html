@@ -1,0 +1,63 @@
+
+<br />
+<script language="JavaScript">
+<!--
+var url = '{$smarty.server.PHP_SELF}?cat=associate&';
+{literal}
+function removeEmails(f)
+{
+    if (!hasOneChecked(f, 'emails[]')) {
+        alert('Please choose which entries need to be removed.');
+        return false;
+    }
+    // loop through all of the form elements and build a dynamic url
+    for (var i = 0; i < f.elements.length; i++) {
+        if ((f.elements[i].name == 'emails[]') && (!f.elements[i].checked)) {
+            url += 'item[]=' + f.elements[i].value + '&';
+        }
+    }
+    window.location.href = url;
+}
+//-->
+</script>
+{/literal}
+<table width="600" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <form action="" method="get">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td width="100%">
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$light_color}" colspan="3" class="default">
+            <b>Attached Emails</b>
+          </td>
+        </tr>
+        {section name="i" loop=$emails}
+        <tr>
+          <td>
+            <input type="checkbox" name="emails[]" value="{$emails[i].sup_id}">
+          </td>
+          <td class="default">
+            {$emails[i].sup_from|escape:"html"}
+          </td>
+          <td class="default">
+            {$emails[i].sup_subject|escape:"html"}
+          </td>
+        </tr>
+        {/section}
+        <tr>
+          <td colspan="3">
+            <input type="button" class="button" value="Remove Selected" onClick="javascript:removeEmails(this.form);">
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td>
+      &nbsp;
+    </td>
+  </tr>
+  </form>
+</table>
+

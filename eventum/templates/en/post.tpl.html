@@ -1,0 +1,263 @@
+{include file="header.tpl.html"}
+
+<br />
+
+{if $no_projects}
+<table width="500" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td class="default">
+            <b>Sorry, but there are no projects currently setup as allowing anonymous posting.</b>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+{else}
+  {if $new_issue_id != "" and $smarty.post.report_stays != "yes"}
+<table width="500" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td class="default">
+            <b>Thank you, the new issue was created successfully. For your records, the new issue ID is <font color="red">{$new_issue_id}</font></b>
+            <br /><br />
+            You may <a class="link" href="{$smarty.server.PHP_SELF}">submit another issue</a> if you so wish.
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+  {else}
+    {if $smarty.post.post_form != 'yes'}
+{literal}
+<script language="JavaScript">
+<!--
+function validateForm(f)
+{
+    if (hasSelected(f.project, -1)) {
+        alert('Please choose the project that this new issue will apply to.');
+        selectField(f, 'project');
+        return false;
+    }
+    return true;
+}
+//-->
+</script>
+{/literal}
+<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return validateForm(this);">
+<input type="hidden" name="post_form" value="yes">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td colspan="2" class="default">
+            <b>Report New Issue</b>
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Project: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <select name="project" class="default">
+              <option value="-1">Please choose a project</option>
+              {html_options options=$projects}
+            </select>
+            {include file="error_icon.tpl.html" field="project"}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}">
+            <input class="button" type="submit" value="Next &gt;&gt;">&nbsp;&nbsp;
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+{literal}
+<script language="JavaScript">
+<!--
+window.onload = setFocus;
+function setFocus()
+{
+    document.report_form.project.focus();
+}
+//-->
+</script>
+{/literal}
+    {else}
+{literal}
+<script language="JavaScript">
+<!--
+var required_custom_fields = new Array();
+var custom_fields = new Array();
+function validateForm(f)
+{
+    if (isWhitespace(f.summary.value)) {
+        errors[errors.length] = new Option('Summary', 'summary');
+    }
+    if (isWhitespace(f.description.value)) {
+        errors[errors.length] = new Option('Description', 'description');
+    }
+    checkRequiredCustomFields(f, required_custom_fields);
+}
+//-->
+</script>
+{/literal}
+<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return validateForm(this);">
+<input type="hidden" name="cat" value="report">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td colspan="2" class="default">
+            <b>Report New Issue</b>
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Project:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <b>{$project_name}</b>
+            <input type="hidden" name="project" value="{$smarty.post.project}">
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Summary: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="summary" class="default" size="60" tabindex="1">
+            {include file="error_icon.tpl.html" field="summary"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Description: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <textarea name="description" style="width: 97%" rows="10" tabindex="2"></textarea>
+            {include file="error_icon.tpl.html" field="description"}
+          </td>
+        </tr>
+        {section name="i" loop=$custom_fields}
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>{$custom_fields[i].fld_title}:{if $custom_fields[i].fld_anon_form_required} *{/if}</b>
+            {if $custom_fields[i].fld_anon_form_required}
+            <script language="JavaScript">
+            <!--
+            custom_fields[custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}', '{$custom_fields[i].fld_title}');
+            required_custom_fields[required_custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]', {if $custom_fields[i].fld_type == 'combo'}'combo'{else}'whitespace'{/if});
+            //-->
+            </script>
+            {/if}
+          </td>
+          <td bgcolor="{$light_color}">
+            {if $custom_fields[i].fld_type == 'text'}
+            <input class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50">
+            {else}
+            <select class="default" name="custom_fields[{$custom_fields[i].fld_id}]">
+              <option value="-1">Please choose an option</option>
+              {html_options options=$custom_fields[i].field_options}
+            </select>
+            {/if}
+            {assign var="custom_field_id" value=$custom_fields[i].fld_id}
+            {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]"}
+            {if $custom_fields[i].fld_description != ""}
+            <span class="small_default">({$custom_fields[i].fld_description|escape:"html"})</span>
+            {/if}
+          </td>
+        </tr>
+        {/section}
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Attach Files:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
+              <tr>
+                <td>
+                  <input type="file" name="file[]" size="40" class="shortcut" tabindex="3" {if $user_agent == 'ie'}onChange="javascript:addFileRow();"{/if}>
+                </td>
+              </tr>
+            </table>
+            {literal}
+            <script language="">
+            <!--
+            if (document.all) {
+                var fileTable = document.all['file_table'];
+            } else if (!document.all && document.getElementById) {
+                var fileTable = document.getElementById('file_table');
+            }
+            function addFileRow()
+            {
+                if (!fileTable) {
+                    return;
+                }
+                rows = fileTable.rows.length;
+                newRow = fileTable.insertRow(rows);
+                cell = newRow.insertCell(0);
+                cell.innerHTML = '<input class="shortcut" size="40" type="file" name="file[]" onChange="javascript:addFileRow();">';
+            }
+            //-->
+            </script>
+            {/literal}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td width="10" nowrap class="default_white">
+                  <nobr>
+                  <input type="checkbox" name="report_stays" value="yes" tabindex="4"> <b><a id="white_link" class="white_link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('report_form', 'report_stays');">Keep Form Open</a></b>
+                  </nobr>
+                </td>
+                <td width="100%" align="center">
+                  <input class="button" type="submit" value="Submit" tabindex="5">&nbsp;&nbsp;
+                  <input class="button" type="reset" value="Reset" tabindex="6">
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default">
+            <b>* Required fields</b>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</form>
+</table>
+
+<br />
+{literal}
+<script language="JavaScript">
+<!--
+window.onload = setFocus;
+function setFocus()
+{
+    document.report_form.summary.focus();
+}
+//-->
+</script>
+{/literal}
+    {/if}
+  {/if}
+{/if}
+
+{include file="footer.tpl.html"}

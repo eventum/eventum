@@ -1,0 +1,11 @@
+Your user account has been updated in {$app_title}. 
+
+Your account information as it now exists appears below.
+    
+----------------------------------------------------------------------
+        Full Name: {$user.usr_full_name}
+    Email Address: {$user.usr_email} 
+             Role: {$user.role}
+         Projects: {$user.projects}
+----------------------------------------------------------------------
+

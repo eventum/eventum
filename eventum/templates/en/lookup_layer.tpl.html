@@ -1,0 +1,1 @@
+<select size=\'6\' {if $multiple}multiple{/if} name=\'lookup{if $multiple}[]{/if}\' class=\'default_overlib\'>{foreach key=key item=item from=$list}<option value=\'{$key|replace:"'":"&#146;"|replace:"\"":"&quot;"}\'>{$item|replace:"'":"&#146;"|replace:"\"":"&quot;"}</option>{/foreach}</select>

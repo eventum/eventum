@@ -1,0 +1,22 @@
+
+Eventum Issue Tracking System
+=============================
+
+Eventum is a user friendly and very flexible issue tracking system, that can
+be used by a support department to track incoming technical support requests,
+or by a software development team to quickly organize tasks and bugs. Eventum
+is used by MySQL AB for its support needs, and has allowed us to increase our
+response times by leaps and bounds.
+
+It is being released as a GPL project to gather community involvement in its
+development. The BitKeeper source tree is available from the following URL:
+
+  http://mysql.bkbits.net/
+
+We have also provided mailing lists related to Eventum, both for users and
+potential developers at http://lists.mysql.com/:
+
+  eventum-users@lists.mysql.com
+  eventum-devel@lists.mysql.com
+
+MySQL AB

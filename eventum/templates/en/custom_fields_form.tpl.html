@@ -1,0 +1,79 @@
+{include file="header.tpl.html"}
+
+{literal}
+<script language="JavaScript">
+<!--
+var required_custom_fields = new Array();
+function validateForm(f)
+{
+    checkRequiredCustomFields(f, required_custom_fields);
+}
+//-->
+</script>
+{/literal}
+<form name="custom_field_form" method="post" action="{$smarty.server.PHP_SELF}" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
+<input type="hidden" name="cat" value="update_values">
+<input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
+<table align="center" width="100%" cellpadding="3">
+  <tr>
+    <td>
+      <table width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td colspan="2" class="default">
+            <b>Update Issue Details</b>
+          </td>
+        </tr>
+        {if $update_result != ""}
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="2" class="error" align="center">
+            {if $update_result == -1}
+              <b>An error occurred while trying to run your query</b>
+            {elseif $update_result == 1}
+              <b>Thank you, the custom field values were updated successfully.</b>
+            {/if}
+          </td>
+        </tr>
+        {/if}
+        {section name="i" loop=$custom_fields}
+        {cycle values=$cycle assign="row_color"}
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <nobr><b>{$custom_fields[i].fld_title}:</b>&nbsp;</nobr>
+          </td>
+          <td width="100%" bgcolor="{$row_color}">
+            {if $custom_fields[i].fld_type == 'text'}
+            <input class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" value="{$custom_fields[i].icf_value|escape:"html"}">
+            {elseif $custom_fields[i].fld_type == 'textarea'}
+            <textarea name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60"></textarea>
+            {else}
+            <select class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if}>
+              {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">Please choose an option</option>{/if}
+              {html_options options=$custom_fields[i].field_options selected=$custom_fields[i].selected_cfo_id}
+            </select>
+            {/if}
+            {if $custom_fields[i].fld_description != ""}
+            <span class="small_default">({$custom_fields[i].fld_description|escape:"html"})</span>
+            {/if}
+          </td>
+        </tr>
+        {sectionelse}
+        <tr>
+          <td align="center" class="default" colspan="2" bgcolor="{$dark_color}">
+            <b>No custom field could be found.</b>
+          </td>
+        </tr>
+        {/section}
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}">
+            <input class="button" type="submit" value="Update Values">&nbsp;&nbsp;
+            <input class="button" type="button" value="Close" onClick="javascript:window.close();">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+
+{include file="app_info.tpl.html"}
+{include file="footer.tpl.html"}

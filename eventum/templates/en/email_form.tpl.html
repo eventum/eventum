@@ -1,0 +1,322 @@
+
+{if $send_result != '' and $smarty.post.form_stays != 1}
+<br />
+<center>
+  <span class="default">
+{if $send_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $send_result == -2}
+  <b>Sorry, but the email could not be sent. This might be related to problems with your SMTP account settings. 
+  Please contact the administrator of this application for further assistance.</b>
+{elseif $send_result == 1}
+  <b>Thank you, the email was sent successfully.</b>
+{/if}
+  </span>
+</center>
+<script language="JavaScript">
+<!--
+{if $current_user_prefs.close_popup_windows}
+setTimeout('closeAndRefresh()', 2000);
+{/if}
+{literal}
+function closeAndRefresh()
+{
+    opener.location.href = opener.location;
+    window.close();
+}
+//-->
+</script>
+{/literal}
+<br />
+{if not $current_user_prefs.close_popup_windows}
+  <center>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+  </center>
+{/if}
+{elseif $draft_result != ''}
+<br />
+<center>
+  <span class="default">
+{if $draft_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $draft_result == 1}
+  <b>Thank you, the email response was saved as a draft successfully.</b>
+{/if}
+  </span>
+</center>
+<script language="JavaScript">
+<!--
+{if $current_user_prefs.close_popup_windows == '1'}
+setTimeout('closeAndRefresh()', 2000);
+{/if}
+{literal}
+function closeAndRefresh()
+{
+    opener.location.href = opener.location;
+    window.close();
+}
+//-->
+</script>
+{/literal}
+<br />
+{if not $current_user_prefs.close_popup_windows}
+  <center>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+  </center>
+{/if}
+{else}
+<script language="JavaScript">
+<!--
+var contact_list = new Array();
+{section name="i" loop=$assoc_emails}
+contact_list[contact_list.length] = '{$assoc_emails[i]|replace:"'":"\\'"}';
+{/section}
+
+var email_responses = new Array();
+{section name="i" loop=$js_canned_responses}
+email_responses[{$js_canned_responses[i].ere_id}] = "{$js_canned_responses[i].ere_response_body}";
+{/section}
+{literal}
+function validate(f)
+{
+    if (isWhitespace(f.to.value)) {
+        alert('Please enter the recipient of this email.');
+        selectField(f, 'to');
+        return false;
+    }
+    if (isWhitespace(f.subject.value)) {
+        alert('Please enter the subject of this email.');
+        selectField(f, 'subject');
+        return false;
+    }
+    if (isWhitespace(f.message.value)) {
+        alert('Please enter the message body of this email.');
+        selectField(f, 'message');
+        return false;
+    }
+    return true;
+}
+function setResponseBody(f)
+{
+    var response_id = getSelectedOption(f, 'email_response');
+    if (email_responses[response_id]) {
+        f.message.value = email_responses[response_id];
+    }
+}
+function saveDraft(f)
+{
+    f.cat.value = 'save_draft';
+    f.submit();
+}
+var old_message = '';
+function setSignature(f)
+{
+{/literal}
+    var signature = "{$current_user_prefs.email_signature|replace:'"':'\"'|replace:"\r":""|replace:"\n":'\n'}";
+{literal}
+    if (f.add_email_signature.checked) {
+        old_message = f.message.value;
+        f.message.value += "\n";
+        f.message.value += signature;
+    } else {
+        f.message.value = old_message;
+    }
+} 
+function loadDraft(f)
+{
+{/literal}
+    f.to.value = "{$email.sup_draft_response.to|replace:'"':'\"'}";
+    f.cc.value = "{$email.sup_draft_response.cc|replace:'"':'\"'}";
+    f.subject.value = "{$email.sup_draft_response.subject|replace:'"':'\"'}";
+    f.message.value = "{$email.sup_draft_response.message|replace:'"':'\"'}";
+{literal}
+}
+//-->
+</script>
+{/literal}
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+<script language="JavaScript" src="js/overlib_mini.js"></script>
+<script language="JavaScript" src="js/autocomplete.js"></script>
+<form onSubmit="javascript:return validate(this);" name="send_email_form" method="post" action="{$smarty.server.PHP_SELF}">
+<input type="hidden" name="cat" value="send_email">
+<input type="hidden" name="parent_id" value="{$parent_email_id}">
+<input type="hidden" name="ema_id" value="{$ema_id}">
+<input type="hidden" name="issue_id" value="{$issue_id}">
+{if $issue_lock_usr_id and $issue_lock_usr_id != $current_user_id}
+<br />
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td><img src="{$rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">This Issue is Currently Locked By {$lock_usr_full_name}</span></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+{/if}
+<table align="center" width="100%" cellpadding="3">
+  <tr>
+    <td>
+      <table width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td colspan="2" class="default">
+            <b>Send Email</b>
+          </td>
+        </tr>
+        {if $send_result != ""}
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="2" class="error" align="center">
+            {if $send_result == -1}
+              <b>An error occurred while trying to run your query</b>
+            {elseif $send_result == -2}
+              <b>Sorry, but the email could not be sent. This might be related to problems with your SMTP account settings. 
+              Please contact the administrator of this application for assistance.</b>
+            {elseif $send_result == 1}
+              <b>Thank you, the email was sent successfully.</b>
+            {/if}
+          </td>
+        </tr>
+        {/if}
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>From:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <input type="hidden" name="from" value="{$from|escape:"html"}">
+            <b>{$from|escape:"html"}</b>
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>To: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="to" class="default" size="50" value="{$email.sup_from|escape:"html"}" onKeyUp="javascript:autoComplete(this, contact_list);">
+            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'send_email_form', 'to'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            {include file="error_icon.tpl.html" field="to"}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Cc:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="cc" class="default" size="50">
+            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users multiple="1"}', 'send_email_form', 'cc'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            &nbsp;
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <input type="checkbox" name="add_unknown" value="yes">
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('send_email_form', 'add_unknown');">Add Unknown Recipients to Issue Notification List</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Subject: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="subject" class="default" size="50" value="{if $email.sup_subject != ""}Re: {/if}{$email.sup_subject|escape:"html"}">
+            {include file="error_icon.tpl.html" field="subject"}
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$light_color}" colspan="2">
+            {if $canned_responses}
+            <span class="default"><b>Canned Responses:</b></span>
+            <select name="email_response" class="default">
+              {html_options options=$canned_responses}
+            </select>&nbsp;<input type="button" class="shortcut" value="Use Canned Response" onClick="javascript:setResponseBody(this.form);"><br />
+            {/if}
+            <textarea name="message" rows="22" style="width: 97%">{$email.sup_body|escape:"html"}{if $current_user_prefs.auto_append_sig == 'yes'}
+
+
+{$current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
+            {include file="error_icon.tpl.html" field="message"}
+          </td>
+        </tr>
+        {if $issue_id}
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>New Status for Issue #{$issue_id}:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <select name="new_status" class="default">
+              {html_options options=$statuses selected=$current_issue_status}
+            </select>
+          </td>
+        </tr>
+        {/if}
+        {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_sig != 'yes'}
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            &nbsp;
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <input type="checkbox" name="add_email_signature" value="yes" onClick="javascript:setSignature(this.form);">
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('send_email_form', 'add_email_signature');setSignature(getForm('send_email_form'));">Add Email Signature To Email Body</a>
+          </td>
+        </tr>
+        {/if}
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td align="center">
+                  <input class="button" type="submit" value="Send Email">&nbsp;&nbsp;
+                  <input class="button" type="reset" value="Reset">&nbsp;&nbsp;
+                  <input class="button" type="button" value="Cancel" onClick="javascript:window.close();">
+                </td>
+                {if $app_setup.spell_checker == 'enabled'}
+                <td align="right" width="150">
+                  <input class="button" type="button" value="Check Spelling" onClick="javascript:checkSpelling('send_email_form', 'message');">
+                </td>
+                {/if}
+              </tr>
+            </table>
+          </td>
+        </tr>
+        {if $parent_email_id}
+        <tr>
+          <td bgcolor="{if $email.sup_draft_response}{$middle_color}{else}{$cell_color}{/if}" colspan="2">
+            <input type="button" class="button" value="Save as Draft" onClick="javascript:saveDraft(this.form);">
+            {if $email.sup_draft_response}
+            <input type="button" class="button" value="Load Existing Draft" onClick="javascript:loadDraft(this.form);">
+            {/if}
+          </td>
+        </tr>
+        {/if}
+        <tr>
+          <td colspan="2" class="default">
+            <b>* Required fields</b>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+
+{if $parent_email_id or $smarty.get.cat == 'reply'}
+{literal}
+<script language="JavaScript">
+<!--
+window.onload = focusMessageBox;
+function focusMessageBox()
+{
+    var f = getForm('send_email_form');
+    f.message.focus();
+}
+//-->
+</script>
+{/literal}
+{/if}
+
+{/if}
+

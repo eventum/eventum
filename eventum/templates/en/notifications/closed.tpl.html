@@ -1,0 +1,60 @@
+
+<p class="default"><b>This is an automated message sent at your 
+request from {$app_title|escape:"html"}.<br />
+<br />
+This issue was just closed.</b><br />
+  <br />
+  <b>To view more details of this issue, or to update it, please visit the following URL:</b><br />
+  <a href="{$app_base_url}view.php?id={$data.iss_id}" class="link"><b>{$app_base_url}view.php?id={$data.iss_id}</b></a><br />
+</p>
+<table bgcolor="#FFFFFF" width="600" cellspacing="1" cellpadding="2">
+  <tr> 
+    <td> 
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+        <tr> 
+          <td bgcolor="{$cell_color}" class="default_white" align="center" width="150">Issue ID:</td>
+          <td bgcolor="{$light_color}" width="70%" class="default">{$data.iss_id}</td>
+        </tr>
+        <tr> 
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Summary:</td>
+          <td bgcolor="{$light_color}" width="85%" class="default">{$data.iss_summary|escape:"html"}</td>
+        </tr>
+        <tr> 
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Status:</td>
+          <td bgcolor="{$data.sta_color}" width="85%" class="default">{$data.sta_title}</td>
+        </tr>
+        <tr> 
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Project:</td>
+          <td bgcolor="{$light_color}" width="85%" class="default">{$data.prj_title}</td>
+        </tr>
+        <tr> 
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Reported By:</td>
+          <td bgcolor="{$light_color}" width="85%" class="default">{$data.usr_full_name}</td>
+        </tr>
+        <tr> 
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Priority:</td>
+          <td bgcolor="{$light_color}" width="85%" class="default">{$data.pri_title}</td>
+        </tr>
+        <tr> 
+          <td align="center" bgcolor="{$cell_color}" class="default_white" nowrap width="150">Description:</td>
+          <td bgcolor="{$light_color}" width="85%" class="default">{$data.iss_description|escape:"html"|replace:"\n":"<br />"}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<br />
+<table bgcolor="#FFFFFF" width="600" cellspacing="1" cellpadding="2">
+  <tr bgcolor="{$dark_color}"> 
+    <td colspan="2" align="center" bgcolor="{$dark_color}"> 
+      <p class="default"><font color="red"><br />
+        <b><font color="#FFFF00"><u>Please Note:</u></font></b></font><b> If you 
+        do not wish to receive any future email notifications from {$app_title|escape:"html"}, please 
+        change your account preferences by visiting the URL below:</b><br />
+        <a class="link" href="{$app_base_url}preferences.php"><b>{$app_base_url}preferences.php</b></a><br />
+        &nbsp; </p>
+    </td>
+  </tr>
+</table>
+

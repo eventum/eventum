@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>{$application_title}</title>
+<link rel="stylesheet" href="{$rel_url}css/style.css" type="text/css">
+<script language="JavaScript" src="{$rel_url}js/validation.js"></script>
+<script language="JavaScript" src="{$rel_url}js/browserSniffer.js"></script>
+{literal}
+<script language="JavaScript">
+<!--
+function scrollBottom()
+{
+    if (is_ie) {
+        var winBottom = document.body.scrollHeight;
+    } else if (is_nav) {
+        var winBottom = document.height;
+    }
+    if (winBottom != null) {
+        window.scrollTo(0, winBottom);
+    }
+}
+//-->
+</script>
+{/literal}
+</head>
+
+<body bgcolor="#FFFFFF">

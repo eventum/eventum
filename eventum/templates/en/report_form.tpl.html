@@ -1,0 +1,367 @@
+
+{if $new_issue_id != "" and $smarty.post.report_stays != "yes"}
+<table width="500" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td class="default">
+            <b>Thank you, the new issue was created successfully. Please choose 
+            from one of the options below:</b>
+            <ul>
+              <li><a href="view.php?id={$new_issue_id}" class="link">Open the Issue Details Page</a></li>
+              <li><a href="list.php" class="link">Open the Issue Listing Page</a></li>
+              {if $app_setup.support_email == 'enabled' and $current_role > $roles.viewer}
+              <li><a href="emails.php" class="link">Open the Emails Listing Page</a></li>
+              {/if}
+              <li><a href="new.php" class="link">Report a New Issue</a></li>
+            </ul>
+            <b>Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.</b>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+{literal}
+<script language="JavaScript">
+<!--
+setTimeout('openDetailPage()', 5000);
+function openDetailPage()
+{
+{/literal}
+    window.location.href = 'view.php?id={$new_issue_id}';
+{literal}
+}
+//-->
+</script>
+{/literal}
+{else}
+{literal}
+<script language="JavaScript">
+<!--
+var required_custom_fields = new Array();
+var custom_fields = new Array();
+function validateForm(f)
+{
+    if (hasSelected(f.category, -1)) {
+        errors[errors.length] = new Option('Category', 'category');
+    }
+    if (hasSelected(f.priority, -1)) {
+        errors[errors.length] = new Option('Priority', 'priority');
+    }
+    if (!hasOneSelected(f, 'users[]')) {
+        errors[errors.length] = new Option('Assignment', 'users[]');
+    }
+    if (isWhitespace(f.summary.value)) {
+        errors[errors.length] = new Option('Summary', 'summary');
+    }
+    if (isWhitespace(f.description.value)) {
+        errors[errors.length] = new Option('Description', 'description');
+    }
+    if (!isWhitespace(f.estimated_dev_time.value)) {
+        if (!isFloat(f.estimated_dev_time.value)) {
+            errors[errors.length] = new Option('Estimated Dev. Time (only numbers)', 'estimated_dev_time');
+        }
+    }
+    checkRequiredCustomFields(f, required_custom_fields);
+}
+//-->
+</script>
+{/literal}
+<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
+<input type="hidden" name="cat" value="report">
+<input type="hidden" name="attached_emails" value="{$attached_emails}">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td class="default">
+            <b>Create New Issue</b>
+          </td>
+          <td align="right" class="default">
+            (Current Project: {$current_project_name})
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Category: *</b> {include file="help_link.tpl.html" topic="report_category"}
+          </td>
+          <td bgcolor="{$light_color}">
+            <select name="category" class="default" tabindex="1">
+              <option value="-1">Please choose a category</option>
+              {html_options options=$cats selected=$smarty.post.category}
+            </select>
+            {include file="error_icon.tpl.html" field="category"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Priority: *</b> {include file="help_link.tpl.html" topic="report_priority"}
+          </td>
+          <td bgcolor="{$light_color}">
+            <select name="priority" class="default" tabindex="2">
+              <option value="-1">Please choose a priority</option>
+              {section name="i" loop=$priorities}
+              <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $smarty.post.priority}selected{/if}>{$priorities[i].pri_title}</option>
+              {/section}
+            </select>
+            {include file="error_icon.tpl.html" field="priority"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Assignment: *</b> {include file="help_link.tpl.html" topic="report_assignment"}
+          </td>
+          <td bgcolor="{$light_color}">
+            <select name="users[]" multiple size="3" class="default" tabindex="3">
+              {html_options options=$users selected=$smarty.post.users}
+            </select>
+            {include file="error_icon.tpl.html" field="users[]"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Scheduled Release:</b> {include file="help_link.tpl.html" topic="report_release"}
+          </td>
+          <td bgcolor="{$light_color}">
+            <select name="release" class="default" tabindex="4">
+              <option value="0">un-scheduled</option>
+              {html_options options=$releases selected=$smarty.post.release}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Summary: *</b> {include file="help_link.tpl.html" topic="report_summary"}
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="summary" class="default" size="50" tabindex="5">
+            {include file="error_icon.tpl.html" field="summary"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Description / Initial Requirements: *</b> {include file="help_link.tpl.html" topic="report_description"}
+          </td>
+          <td bgcolor="{$light_color}">
+            <textarea name="description" rows="10" tabindex="6" style="width: 97%"></textarea>
+            {include file="error_icon.tpl.html" field="description"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <nobr><b>Estimated Dev. Time:</b> {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="estimated_dev_time" class="default" size="10" tabindex="7">
+            {include file="error_icon.tpl.html" field="estimated_dev_time"} <span class="default">(in hours)</span>
+          </td>
+        </tr>
+        {section name="i" loop=$custom_fields}
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>{$custom_fields[i].fld_title}:{if $custom_fields[i].fld_report_form_required} *{/if}</b>
+            {if $custom_fields[i].fld_report_form_required}
+            <script language="JavaScript">
+            <!--
+            custom_fields[custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}', '{$custom_fields[i].fld_title}');
+            required_custom_fields[required_custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}', {if $custom_fields[i].fld_type == 'multiple'}'multiple'{elseif $custom_fields[i].fld_type == 'combo'}'combo'{else}'whitespace'{/if});
+            //-->
+            </script>
+            {/if}
+          </td>
+          <td bgcolor="{$light_color}">
+            {if $custom_fields[i].fld_type == 'text'}
+            <input class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50">
+            {elseif $custom_fields[i].fld_type == 'textarea'}
+            <textarea name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60"></textarea>
+            {else}
+            <select {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if} class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}">
+              {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">Please choose an option</option>{/if}
+              {html_options options=$custom_fields[i].field_options}
+            </select>
+            {/if}
+            {assign var="custom_field_id" value=$custom_fields[i].fld_id}
+            {if $custom_fields[i].fld_type == 'multiple'}
+              {assign var="custom_field_sufix" value="[]"}
+            {else}
+              {assign var="custom_field_sufix" value=""}
+            {/if}
+            {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]$custom_field_sufix"}
+            {if $custom_fields[i].fld_description != ""}
+            <span class="small_default">({$custom_fields[i].fld_description|escape:"html"})</span>
+            {/if}
+          </td>
+        </tr>
+        {/section}
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Attach Files:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
+              <tr>
+                <td>
+                  <input type="file" name="file[]" size="40" class="shortcut" tabindex="8" {if $user_agent == 'ie'}onChange="javascript:addFileRow();"{/if}>
+                </td>
+              </tr>
+            </table>
+            {literal}
+            <script language="">
+            <!--
+            if (document.all) {
+                var fileTable = document.all['file_table'];
+            } else if (!document.all && document.getElementById) {
+                var fileTable = document.getElementById('file_table');
+            }
+            function addFileRow()
+            {
+                if (!fileTable) {
+                    return;
+                }
+                rows = fileTable.rows.length;
+                newRow = fileTable.insertRow(rows);
+                cell = newRow.insertCell(0);
+                cell.innerHTML = '<input class="shortcut" size="40" type="file" name="file[]" onChange="javascript:addFileRow();">';
+            }
+            //-->
+            </script>
+            {/literal}
+          </td>
+        </tr>
+        <script language="JavaScript">
+        <!--
+        var prefs = new Array;
+        {foreach from=$user_prefs item="value" key="key"}
+        prefs[prefs.length] = new Option('{$key}', '{$value}');
+        {/foreach}
+        {literal}
+        function toggleNotificationChoices()
+        {
+            var f = getForm('report_form');
+            var element = getPageElement('choices');
+            if (f.receive_notifications.checked) {
+                element.style.display = '';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+        function getOptionValue(arr, value)
+        {
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].text == value) {
+                    return arr[i].value;
+                }
+            }
+        }
+        function toggleChoice()
+        {
+            var f = getForm('report_form');
+            if (f.choice[0].checked) {
+                for (var i = 0; ; i++) {
+                    var field = getFormElement(f, 'actions[]', i);
+                    if (field == false) {
+                        break;
+                    } else {
+                        var value = getOptionValue(prefs, field.value);
+                        if (value == '1') {
+                            field.checked = true;
+                        } else {
+                            field.checked = false;
+                        }
+                    }
+                }
+            } else {
+                uncheckBoxes(f, 'actions[]');
+            }
+        }
+        function uncheckBoxes(f, field_name)
+        {
+            var i = 0;
+            while (1) {
+                var field = getFormElement(f, field_name, i);
+                if (field != false) {
+                    field.checked = false;
+                } else {
+                    break;
+                }
+                i++;
+            }
+        }
+        //-->
+        </script>
+        {/literal}
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Notification Options:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <input type="checkbox" name="receive_notifications" value="1" onClick="javascript:toggleNotificationChoices();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('report_form', 'receive_notifications');toggleNotificationChoices();">Subscribe to notifications of changes on this new issue</a>
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko}
+            <table id="choices" style="display:none">
+            {else}
+            <table>
+            {/if}
+              <tr>
+                <td><img src="{$rel_url}images/blank.gif" width="20" height="1" border="0"></td>
+                <td class="default">
+                  <input type="radio" name="choice" checked value="default" onClick="javascript:toggleChoice();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'choice', 0);toggleChoice();">Use my default notification preferences</a><br />
+                  <input type="radio" name="choice" value="custom" onClick="javascript:toggleChoice();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'choice', 1);toggleChoice();">Choose a different notification preference</a>
+                  <table>
+                    <tr>
+                      <td><img src="{$rel_url}images/blank.gif" width="20" height="1" border="0"></td>
+                      <td class="default">
+                        <input type="checkbox" name="actions[]" {if $user_prefs.update}checked{/if} value="update"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('report_form', 'actions[]', 0);">Issue is Updated</a><br />
+                        <input type="checkbox" name="actions[]" {if $user_prefs.closed}checked{/if} value="closed"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('report_form', 'actions[]', 1);">Issue is Closed</a><br />
+                        <input type="checkbox" name="actions[]" {if $user_prefs.emails}checked{/if} value="emails"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('report_form', 'actions[]', 3);">Emails are Associated</a><br />
+                        <input type="checkbox" name="actions[]" {if $user_prefs.files}checked{/if} value="files"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('report_form', 'actions[]', 4);">Files are Attached</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td width="10" nowrap class="default_white">
+                  <nobr>
+                  <input type="checkbox" name="report_stays" value="yes" tabindex="11"> <b><a id="white_link" class="white_link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('report_form', 'report_stays');">Keep Form Open</a></b>
+                  </nobr>
+                </td>
+                <td width="100%" align="center">
+                  <input class="button" type="submit" value="Submit" tabindex="12">&nbsp;&nbsp;
+                  <input class="button" type="reset" value="Reset" tabindex="13">
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default">
+            <b>* Required fields</b>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</form>
+</table>
+
+{literal}
+<script language="JavaScript">
+<!--
+window.onload = setFocus;
+function setFocus()
+{
+    document.report_form.category.focus();
+}
+//-->
+</script>
+{/literal}
+{/if}
