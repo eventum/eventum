@@ -1225,8 +1225,7 @@ class Notification
             // send email (use PEAR's classes)
             $mail = new Mail_API;
             $mail->setTextBody($text_message);
-            $setup = $mail->getSMTPSettings();
-            $mail->send($setup["from"], $emails[$i], "[#$issue_id] Assignment: " . $issue['iss_summary'], TRUE, $issue_id);
+            $mail->send(Notification::getFixedFromHeader($issue_id, '', 'issue'), $emails[$i], "[#$issue_id] Assignment: " . $issue['iss_summary'], TRUE, $issue_id);
         }
     }
 
