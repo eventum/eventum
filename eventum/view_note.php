@@ -44,6 +44,13 @@ $note = Note::getDetails($HTTP_GET_VARS["id"]);
 $note["message"] = Misc::activateLinks(nl2br(htmlspecialchars($note["not_note"])));
 
 $issue_id = Note::getIssueID($HTTP_GET_VARS["id"]);
+
+if (!Issue::canAccess($issue_id, Auth::getUserID())) {
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
+
 $tpl->bulkAssign(array(
     "note"        => $note,
     "issues"      => Issue::getColList(),

@@ -44,6 +44,13 @@ $email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]
 $email["message"] = Misc::activateLinks(nl2br(htmlspecialchars($email["message"])));
 
 $issue_id = Support::getIssueFromEmail($HTTP_GET_VARS["id"]);
+
+if (!Issue::canAccess($issue_id, Auth::getUserID())) {
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
+
 $tpl->bulkAssign(array(
     "email"       => $email,
     "issues"      => Issue::getColList(),

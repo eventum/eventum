@@ -61,6 +61,8 @@ $tpl->assign("issue", $details);
 // in the case of a customer user, also need to check if that customer has access to this issue
 if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) != $details['iss_customer_id'])) {
     $tpl->assign("auth_customer", 'denied');
+} elseif (!Issue::canAccess($issue_id, $usr_id)) {
+    $tpl->assign("auth_user", 'denied');
 } else {
     $associated_projects = @array_keys(Project::getAssocList($usr_id));
     // check if the requested issue is a part of the 'current' project. If it doesn't

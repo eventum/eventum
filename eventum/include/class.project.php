@@ -1067,7 +1067,8 @@ class Project
             "release"   =>  "Scheduled Release",
             "estimated_dev_time"    =>  "Estimated Dev. Time",
             "group"     =>  "Group",
-            "file"  =>  "File"
+            "file"  =>  "File",
+            "private"   =>  "Private"
         );
     }
 }

@@ -41,6 +41,10 @@ include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.group.php");
 include_once(APP_INC_PATH . "db_access.php");
 
+$prj_id = Auth::getCurrentProject();
+$usr_id = Auth::getUserID();
+$role_id = Auth::getCurrentRole();
+
 $tpl = new Template_API();
 $tpl->setTemplate("update.tpl.html");
 
@@ -51,48 +55,54 @@ $details = Issue::getDetails($issue_id);
 $tpl->assign("issue", $details);
 $tpl->assign("extra_title", "Update Issue #$issue_id");
 
-if (@$HTTP_POST_VARS["cat"] == "update") {
-    $res = Issue::update($HTTP_POST_VARS["issue_id"]);
-    $tpl->assign("update_result", $res);
-    if (Issue::hasDuplicates($HTTP_POST_VARS["issue_id"])) {
-        $tpl->assign("has_duplicates", "yes");
-    }
-}
-
-$prj_id = Auth::getCurrentProject();
-
-$setup = Setup::load();
-
-// if currently selected release is in the past, manually add it to list
-$releases = Release::getAssocList($prj_id);
-if ($details["iss_pre_id"] != 0 && empty($releases[$details["iss_pre_id"]])){
-    $releases = array($details["iss_pre_id"] => $details["pre_title"]) + $releases;
-}
-
-if (Workflow::hasWorkflowIntegration($prj_id)) {
-    $statuses = Workflow::getAllowedStatuses($prj_id, $issue_id);
-    // if currently selected release is not on list, go ahead and add it.
-    if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
-        $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
-    }
+if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) != $details['iss_customer_id'])) {
+    $tpl->assign("auth_customer", 'denied');
+} elseif (!Issue::canAccess($issue_id, $usr_id)) {
+    $tpl->assign("auth_customer", 'denied');
 } else {
-    $statuses = Status::getAssocStatusList($prj_id);
+    
+    if (@$HTTP_POST_VARS["cat"] == "update") {
+        $res = Issue::update($HTTP_POST_VARS["issue_id"]);
+        $tpl->assign("update_result", $res);
+        if (Issue::hasDuplicates($HTTP_POST_VARS["issue_id"])) {
+            $tpl->assign("has_duplicates", "yes");
+        }
+    }
+    
+    $prj_id = Auth::getCurrentProject();
+    
+    $setup = Setup::load();
+    
+    // if currently selected release is in the past, manually add it to list
+    $releases = Release::getAssocList($prj_id);
+    if ($details["iss_pre_id"] != 0 && empty($releases[$details["iss_pre_id"]])){
+        $releases = array($details["iss_pre_id"] => $details["pre_title"]) + $releases;
+    }
+    
+    if (Workflow::hasWorkflowIntegration($prj_id)) {
+        $statuses = Workflow::getAllowedStatuses($prj_id, $issue_id);
+        // if currently selected release is not on list, go ahead and add it.
+        if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
+            $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
+        }
+    } else {
+        $statuses = Status::getAssocStatusList($prj_id);
+    }
+    
+    $tpl->assign(array(
+        "subscribers"  => Notification::getSubscribers($issue_id),
+        "categories"   => Category::getAssocList($prj_id),
+        "priorities"   => Priority::getAssocList($prj_id),
+        "status"       => $statuses,
+        "releases"     => $releases,
+        "resolutions"  => Resolution::getAssocList(),
+        "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+        "issues"       => Issue::getColList(),
+        "assoc_issues" => Issue::getAssocList(),
+        "one_week_ts"  => time() + (7 * DAY),
+        "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
+        "groups"       => Group::getAssocList($prj_id)
+    ));
 }
-
-$tpl->assign(array(
-    "subscribers"  => Notification::getSubscribers($issue_id),
-    "categories"   => Category::getAssocList($prj_id),
-    "priorities"   => Priority::getAssocList($prj_id),
-    "status"       => $statuses,
-    "releases"     => $releases,
-    "resolutions"  => Resolution::getAssocList(),
-    "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
-    "issues"       => Issue::getColList(),
-    "assoc_issues" => Issue::getAssocList(),
-    "one_week_ts"  => time() + (7 * DAY),
-    "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
-    "groups"       => Group::getAssocList($prj_id)
-));
-
 $tpl->displayTemplate();
 ?>

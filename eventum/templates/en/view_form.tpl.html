@@ -150,6 +150,23 @@ function collapseDescription()
 <br />
 {/if}
 
+{if $issue.iss_private == 1}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td width="100%" align="center" class="default" bgcolor="{$light_color}">
+            <b>Note: </b>This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top: 1;padding-bottom: 0">
 <form method="get" action="update.php" onSubmit="javascript:return validateForm(this);">
 <input type="hidden" name="id" value="{$issue.iss_id}">

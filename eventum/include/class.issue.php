@@ -1106,7 +1106,8 @@ class Issue
                     iss_description='" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
                     iss_dev_time=" . $HTTP_POST_VARS["estimated_dev_time"] . ",
                     iss_trigger_reminders=" . $HTTP_POST_VARS["trigger_reminders"] . ",
-                    iss_grp_id ='" . $HTTP_POST_VARS["group"] . "'
+                    iss_grp_id ='" . $HTTP_POST_VARS["group"] . "',
+                    iss_private = " . $HTTP_POST_VARS['private'] . "
                  WHERE
                     iss_id=$issue_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -1605,7 +1606,8 @@ class Issue
                     iss_last_public_action_type,
                     iss_summary,
                     iss_description,
-                    iss_dev_time
+                    iss_dev_time,
+                    iss_private
                  ) VALUES (
                     " . $prj_id . ",\n";
         if (!empty($HTTP_POST_VARS["group"])) {
@@ -1650,7 +1652,8 @@ class Issue
                     'created',
                     '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    " . $HTTP_POST_VARS["estimated_dev_time"] . "
+                    " . $HTTP_POST_VARS["estimated_dev_time"] . ",
+                    " . $HTTP_POST_VARS["private"] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -2034,7 +2037,8 @@ class Issue
                     iss_last_internal_action_date,
                     iss_last_internal_action_type,
                     " . Issue::getLastActionFields() . ",
-                    IF(iss_last_internal_action_date > iss_last_public_action_date, 'internal', 'public') AS action_type
+                    IF(iss_last_internal_action_date > iss_last_public_action_date, 'internal', 'public') AS action_type,
+                    iss_private
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
         if (!empty($options["users"])) {
@@ -3128,6 +3132,54 @@ class Issue
         } else {
             return $res;
         }
+    }
+    
+    
+    /**
+     * Method to determine if user can access a particular issue
+     * 
+     * @access  public
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $usr_id The ID of the user
+     * @return  boolean If the user can access the issue
+     */
+    function canAccess($issue_id, $usr_id)
+    {
+        static $access;
+        
+        if (isset($access[$issue_id . "-" . $usr_id])) {
+            return $access[$issue_id . "-" . $usr_id];
+        }
+        
+        $details = Issue::getDetails($issue_id);
+        $usr_details = User::getDetails($usr_id);
+        
+        // check customer permissions
+        if ((Customer::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_details['usr_role'] == User::getRoleID("Customer")) &&
+                ($details['iss_customer_id'] != $usr_details['usr_customer_id'])) {
+            $return = false;
+        } elseif ($details['iss_private'] == 1) {
+            // check if the issue is even private
+            
+            // check role, reporter, assigment and group
+            if (User::getRoleByUser($usr_id, $details['iss_prj_id']) > User::getRoleID("Developer")) {
+                $return = true;
+            } elseif ($details['iss_usr_id'] == $usr_id) {
+                $return = true;
+            } elseif (Issue::isAssignedToUser($issue_id, $usr_id)) {
+                $return = true;
+            } elseif ((!empty($details['iss_grp_id'])) && (!empty($usr_details['usr_grp_id'])) && 
+                        ($details['iss_grp_id'] == $usr_details['usr_grp_id'])) {
+                $return = true;
+            } else {
+                $return = false;
+            }
+        } else {
+            $return = true;
+        }
+        
+        $access[$issue_id . "-" . $usr_id] = $return;
+        return $return;
     }
 }
 
