@@ -12,6 +12,7 @@ Eventum Issue Tracking System
 - Changed the issue/email listing screens to save their search related information in the database, instead of in cookies (João)
 - Added indexes to a few columns (Bug #7676) (Bryan)
 - Added some code to prevent people from creating an internal FAQ entry without selecting the project first (João)
+- Added feature to allow download_emails script to be called via the web (Bryan)
 
 01 Mar 2005, Version 1.5
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
