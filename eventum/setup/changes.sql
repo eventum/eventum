@@ -397,7 +397,6 @@ ALTER TABLE eventum_project_priority DROP KEY pri_id;
 ALTER TABLE eventum_project_priority DROP KEY pri_id_2;
 ALTER TABLE eventum_project_priority ADD KEY(pri_title);
 ALTER TABLE eventum_project_priority ADD UNIQUE(pri_prj_id, pri_title);
-# Run /eventum/misc/runonce/fix_priorities.sql to update values.
 
 CREATE TABLE eventum_project_email_response (
   per_prj_id int(11) unsigned NOT NULL,
@@ -406,7 +405,6 @@ CREATE TABLE eventum_project_email_response (
 );
 
 
-DROP TABLE IF EXISTS eventum_project_phone_category;
 CREATE TABLE eventum_project_phone_category (
   phc_id int(11) unsigned NOT NULL auto_increment,
   phc_prj_id int(11) unsigned NOT NULL default '0',
@@ -429,21 +427,10 @@ UPDATE eventum_phone_support SET phs_phc_id=3 WHERE phs_reason='administrative';
 UPDATE eventum_phone_support SET phs_phc_id=4 WHERE phs_reason='other';
 
 # check if everything is correct
-SELECT DISTINCT phs_reason, COUNT(*) total FROM eventum_phone_support GROUP BY phs_reason;
+# SELECT DISTINCT phs_reason, COUNT(*) total FROM eventum_phone_support GROUP BY phs_reason;
 ALTER TABLE eventum_phone_support DROP COLUMN phs_reason;
 
 ALTER TABLE eventum_reminder_action ADD COLUMN rma_alert_irc TINYINT(1) unsigned NOT NULL DEFAULT 0;
-
-# August 30th
-# new fixes to project_priority (adding auto_increment, better indexes)
-ALTER TABLE eventum_project_priority CHANGE column pri_id pri_id tinyint(1) unsigned NOT NULL default '0' auto_increment;
-ALTER TABLE eventum_project_priority DROP PRIMARY KEY;
-ALTER TABLE eventum_project_priority ADD PRIMARY KEY(pri_id);
-ALTER TABLE eventum_project_priority DROP KEY pri_id;
-ALTER TABLE eventum_project_priority DROP KEY pri_id_2;
-ALTER TABLE eventum_project_priority ADD KEY(pri_title);
-ALTER TABLE eventum_project_priority ADD UNIQUE(pri_prj_id, pri_title);
-
 
 
 # August 31st
@@ -473,3 +460,4 @@ CREATE TABLE eventum_reminder_triggered_action (
   rta_rma_id int(11) unsigned not null,
   PRIMARY KEY (rta_iss_id)
 );
+
