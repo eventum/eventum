@@ -222,32 +222,11 @@ function validateForm(f)
             <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
               <tr>
                 <td>
-                  <input type="file" name="file[]" size="40" class="shortcut" tabindex="8" {if $user_agent == 'ie'}onChange="javascript:addFileRow();"{/if}>
+                  <input type="file" name="file[]" size="40" class="shortcut" tabindex="8" onChange="javascript:addFileRow('file_table', 'file[]');">
                 </td>
               </tr>
             </table>
-            <span class="default">Maximum file size is {$max_attachment_size}</span>
-            {literal}
-            <script language="">
-            <!--
-            if (document.all) {
-                var fileTable = document.all['file_table'];
-            } else if (!document.all && document.getElementById) {
-                var fileTable = document.getElementById('file_table');
-            }
-            function addFileRow()
-            {
-                if (!fileTable) {
-                    return;
-                }
-                rows = fileTable.rows.length;
-                newRow = fileTable.insertRow(rows);
-                cell = newRow.insertCell(0);
-                cell.innerHTML = '<input class="shortcut" size="40" type="file" name="file[]" onChange="javascript:addFileRow();">';
-            }
-            //-->
-            </script>
-            {/literal}
+            <span class="default"><i>Note: The current maximum upload file size allowed is {$max_attachment_size}</i></span>
           </td>
         </tr>
         <script language="JavaScript">
