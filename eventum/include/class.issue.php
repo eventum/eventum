@@ -2355,6 +2355,9 @@ class Issue
                         $stmt .= " AND iss_$field_name IS NULL";
                         break;
                     case 'in_past':
+                        if (strlen($options[$field_name]['time_period']) == 0) {
+                            $options[$field_name]['time_period'] = 0;
+                        }
                         $stmt .= " AND (UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "') - UNIX_TIMESTAMP(iss_$field_name)) <= (" . 
                             $options[$field_name]['time_period'] . "*3600)";
                         break;
