@@ -1,18 +1,18 @@
 <?php
 /**
-* Text_Diff
-*
-* General API for generating and formatting diffs - the differences
-* between two sequences of strings.
-*
-* The PHP diff code used in this package was originally written by
-* Geoffrey T. Dairiki and is used with his permission.
-*
-* $Horde: framework/Text_Diff/Diff.php,v 1.4 2004/03/16 07:24:47 jon Exp $
-*
-* @package Text_Diff
-* @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
-*/
+ * Text_Diff
+ *
+ * General API for generating and formatting diffs - the differences between
+ * two sequences of strings.
+ *
+ * The PHP diff code used in this package was originally written by Geoffrey
+ * T. Dairiki and is used with his permission.
+ *
+ * $Horde: framework/Text_Diff/Diff.php,v 1.8 2004/10/13 09:30:20 jan Exp $
+ *
+ * @package Text_Diff
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ */
 class Text_Diff {
 
     /**
@@ -23,11 +23,11 @@ class Text_Diff {
     var $_edits;
 
     /**
-     * Computes diff between sequences of strings.
+     * Computes diffs between sequences of strings.
      *
-     * @param $from_lines array An array of strings.
-     *        (Typically these are lines from a file.)
-     * @param $to_lines array An array of strings.
+     * @param array $from_lines  An array of strings.  Typically these are
+     *                           lines from a file.
+     * @param array $to_lines    An array of strings.
      */
     function Text_Diff($from_lines, $to_lines)
     {
@@ -44,7 +44,7 @@ class Text_Diff {
     }
 
     /**
-     * Return the array of differences.
+     * Returns the array of differences.
      */
     function getDiff()
     {
@@ -52,21 +52,26 @@ class Text_Diff {
     }
 
     /**
-     * Compute reversed diff.
+     * Computes a reversed diff.
      *
-     * SYNOPSIS:
-     *
+     * Example:
+     * <code>
      * $diff = &new Text_Diff($lines1, $lines2);
      * $rev = $diff->reverse();
+     * </code>
      *
-     * @return object  A Diff object representing the inverse of the
-     *                 original diff. Note that we purposely don't return
-     *                 a reference here, since this essentially is a
-     *                 clone() method.
+     * @return Text_Diff  A Diff object representing the inverse of the
+     *                    original diff.  Note that we purposely don't return a
+     *                    reference here, since this essentially is a clone()
+     *                    method.
      */
     function reverse()
     {
-        $rev = $this;
+        if (version_compare(zend_version(), '2', '>')) {
+            $rev = clone($obj);
+        } else {
+            $rev = $this;
+        }
         $rev->_edits = array();
         foreach ($this->_edits as $edit) {
             $rev->_edits[] = $edit->reverse();
@@ -75,9 +80,9 @@ class Text_Diff {
     }
 
     /**
-     * Check for empty diff.
+     * Checks for an empty diff.
      *
-     * @return boolean  True iff two sequences were identical.
+     * @return boolean  True if two sequences were identical.
      */
     function isEmpty()
     {
@@ -90,11 +95,11 @@ class Text_Diff {
     }
 
     /**
-     * Compute the length of the Longest Common Subsequence (LCS).
+     * Computes the length of the Longest Common Subsequence (LCS).
      *
      * This is mostly for diagnostic purposed.
      *
-     * @return int The length of the LCS.
+     * @return int  The length of the LCS.
      */
     function lcs()
     {
@@ -108,17 +113,15 @@ class Text_Diff {
     }
 
     /**
-     * Get the original set of lines.
+     * Gets the original set of lines.
      *
-     * This reconstructs the $from_lines parameter passed to the
-     * constructor.
+     * This reconstructs the $from_lines parameter passed to the constructor.
      *
-     * @return array The original sequence of strings.
+     * @return array  The original sequence of strings.
      */
-    function orig()
+    function getOriginal()
     {
         $lines = array();
-
         foreach ($this->_edits as $edit) {
             if ($edit->orig) {
                 array_splice($lines, count($lines), 0, $edit->orig);
@@ -128,17 +131,15 @@ class Text_Diff {
     }
 
     /**
-     * Get the final set of lines.
+     * Gets the final set of lines.
      *
-     * This reconstructs the $to_lines parameter passed to the
-     * constructor.
+     * This reconstructs the $to_lines parameter passed to the constructor.
      *
-     * @return array The sequence of strings.
+     * @return array  The sequence of strings.
      */
-    function final()
+    function getFinal()
     {
         $lines = array();
-
         foreach ($this->_edits as $edit) {
             if ($edit->final) {
                 array_splice($lines, count($lines), 0, $edit->final);
@@ -148,11 +149,11 @@ class Text_Diff {
     }
 
     /**
-     * Remove trailing newlines from a line of text. This is meant to
-     * be used with array_walk().
+     * Removes trailing newlines from a line of text. This is meant to be used
+     * with array_walk().
      *
-     * @param string  &$line  The line to trim.
-     * @param integer $key    The index of the line in the array. Not used.
+     * @param string $line  The line to trim.
+     * @param integer $key  The index of the line in the array. Not used.
      */
     function _trimNewlines(&$line, $key)
     {
@@ -160,24 +161,24 @@ class Text_Diff {
     }
 
     /**
-     * Check a diff for validity.
+     * Checks a diff for validity.
      *
      * This is here only for debugging purposes.
      */
     function _check($from_lines, $to_lines)
     {
-        if (serialize($from_lines) != serialize($this->orig())) {
+        if (serialize($from_lines) != serialize($this->getOriginal())) {
             trigger_error("Reconstructed original doesn't match", E_USER_ERROR);
         }
-        if (serialize($to_lines) != serialize($this->final())) {
+        if (serialize($to_lines) != serialize($this->getFinal())) {
             trigger_error("Reconstructed final doesn't match", E_USER_ERROR);
         }
 
         $rev = $this->reverse();
-        if (serialize($to_lines) != serialize($rev->orig())) {
+        if (serialize($to_lines) != serialize($rev->getOriginal())) {
             trigger_error("Reversed original doesn't match", E_USER_ERROR);
         }
-        if (serialize($from_lines) != serialize($rev->final())) {
+        if (serialize($from_lines) != serialize($rev->getFinal())) {
             trigger_error("Reversed final doesn't match", E_USER_ERROR);
         }
 
@@ -195,28 +196,28 @@ class Text_Diff {
 }
 
 /**
-* $Horde: $
-*
-* @package Text_Diff
-* @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
-*/
+ * $Horde: framework/Text_Diff/Diff.php,v 1.8 2004/10/13 09:30:20 jan Exp $
+ *
+ * @package Text_Diff
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ */
 class Text_MappedDiff extends Text_Diff {
 
     /**
      * Computes a diff between sequences of strings.
      *
-     * This can be used to compute things like case-insensitve diffs,
-     * or diffs which ignore changes in white-space.
+     * This can be used to compute things like case-insensitve diffs, or diffs
+     * which ignore changes in white-space.
      *
-     * @param $from_lines        array  An array of strings.
-     * @param $to_lines          array  An array of strings.
-     * @param $mapped_from_lines array  This array should
-     *     have the same size number of elements as $from_lines.
-     *     The elements in $mapped_from_lines and
-     *     $mapped_to_lines are what is actually compared
-     *     when computing the diff.
-     * @param $mapped_to_lines   array  This array should
-     *     have the same number of elements as $to_lines.
+     * @param array $from_lines         An array of strings.
+     * @param array $to_lines           An array of strings.
+     * @param array $mapped_from_lines  This array should have the same size
+     *                                  number of elements as $from_lines.  The
+     *                                  elements in $mapped_from_lines and
+     *                                  $mapped_to_lines are what is actually
+     *                                  compared when computing the diff.
+     * @param array $mapped_to_lines    This array should have the same number
+     *                                  of elements as $to_lines.
      */
     function Text_MappedDiff($from_lines, $to_lines,
                              $mapped_from_lines, $mapped_to_lines)
@@ -245,14 +246,14 @@ class Text_MappedDiff extends Text_Diff {
 }
 
 /**
-* Class used internally by Diff to actually compute the diffs.  This class
-* uses the xdiff PECL package (http://pecl.php.net/package/xdiff) to compute
-* the differences between the two input arrays.
-*
-* @author  Jon Parise <jon@horde.org>
-* @package Text_Diff
-* @access  private
-*/
+ * Class used internally by Diff to actually compute the diffs.  This class
+ * uses the xdiff PECL package (http://pecl.php.net/package/xdiff) to compute
+ * the differences between the two input arrays.
+ *
+ * @author  Jon Parise <jon@horde.org>
+ * @package Text_Diff
+ * @access  private
+ */
 class Text_Diff_Engine_xdiff {
 
     function diff($from_lines, $to_lines)
@@ -265,16 +266,14 @@ class Text_Diff_Engine_xdiff {
         $diff = xdiff_string_diff($from_string, $to_string, count($to_lines));
         $diff = explode("\n", $diff);
 
-        /* Walk through the diff one line at a time.  We build the
-         * $edits array of diff operations by reading the first
-         * character of the xdiff output (which is in the "unified
-         * diff" format).
+        /* Walk through the diff one line at a time.  We build the $edits
+         * array of diff operations by reading the first character of the
+         * xdiff output (which is in the "unified diff" format).
          *
-         * Note that we don't have enough information to detect
-         * "changed" lines using this approach, so we can't add
-         * Text_Diff_Op_changed instances to the $edits array.  The
-         * result is still perfectly valid, albeit a little less
-         * descriptive and efficient. */
+         * Note that we don't have enough information to detect "changed"
+         * lines using this approach, so we can't add Text_Diff_Op_changed
+         * instances to the $edits array.  The result is still perfectly
+         * valid, albeit a little less descriptive and efficient. */
         $edits = array();
         foreach ($diff as $line) {
             switch ($line[0]) {
@@ -298,29 +297,28 @@ class Text_Diff_Engine_xdiff {
 }
 
 /**
-* Class used internally by Diff to actually compute the diffs.  This class
-* is implemented using native PHP code.
-*
-* The algorithm used here is mostly lifted from the perl module
-* Algorithm::Diff (version 1.06) by Ned Konz, which is available at:
-* http://www.perl.com/CPAN/authors/id/N/NE/NEDKONZ/Algorithm-Diff-1.06.zip
-*
-* More ideas are taken from:
-* http://www.ics.uci.edu/~eppstein/161/960229.html
-*
-* Some ideas (and a bit of code) are from from analyze.c, from GNU
-* diffutils-2.7, which can be found at:
-* ftp://gnudist.gnu.org/pub/gnu/diffutils/diffutils-2.7.tar.gz
-*
-* Some ideas (subdivision by NCHUNKS > 2, and some optimizations) are
-* from Geoffrey T. Dairiki <dairiki@dairiki.org>. The original PHP
-* version of this code was writting by him, and is used/adapted with
-* his permission.
-*
-* @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
-* @package Text_Diff
-* @access  private
-*/
+ * Class used internally by Diff to actually compute the diffs.  This class is
+ * implemented using native PHP code.
+ *
+ * The algorithm used here is mostly lifted from the perl module
+ * Algorithm::Diff (version 1.06) by Ned Konz, which is available at:
+ * http://www.perl.com/CPAN/authors/id/N/NE/NEDKONZ/Algorithm-Diff-1.06.zip
+ *
+ * More ideas are taken from:
+ * http://www.ics.uci.edu/~eppstein/161/960229.html
+ *
+ * Some ideas (and a bit of code) are from from analyze.c, from GNU
+ * diffutils-2.7, which can be found at:
+ * ftp://gnudist.gnu.org/pub/gnu/diffutils/diffutils-2.7.tar.gz
+ *
+ * Some ideas (subdivision by NCHUNKS > 2, and some optimizations) are from
+ * Geoffrey T. Dairiki <dairiki@dairiki.org>. The original PHP version of this
+ * code was writting by him, and is used/adapted with his permission.
+ *
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ * @package Text_Diff
+ * @access  private
+ */
 class Text_Diff_Engine_native {
 
     function diff($from_lines, $to_lines)
@@ -418,34 +416,33 @@ class Text_Diff_Engine_native {
                 $edits[] = &new Text_Diff_Op_add($add);
             }
         }
+
         return $edits;
     }
 
     /**
-     * Divide the Largest Common Subsequence (LCS) of the sequences
-     * [XOFF, XLIM) and [YOFF, YLIM) into NCHUNKS approximately
-     * equally sized segments.
+     * Divides the Largest Common Subsequence (LCS) of the sequences (XOFF,
+     * XLIM) and (YOFF, YLIM) into NCHUNKS approximately equally sized
+     * segments.
      *
-     * Returns (LCS, PTS).  LCS is the length of the LCS. PTS is an
-     * array of NCHUNKS+1 (X, Y) indexes giving the diving points
-     * between sub sequences.  The first sub-sequence is contained in
-     * [X0, X1), [Y0, Y1), the second in [X1, X2), [Y1, Y2) and so on.
-     * Note that (X0, Y0) == (XOFF, YOFF) and (X[NCHUNKS], Y[NCHUNKS])
-     * == (XLIM, YLIM).
+     * Returns (LCS, PTS).  LCS is the length of the LCS. PTS is an array of
+     * NCHUNKS+1 (X, Y) indexes giving the diving points between sub
+     * sequences.  The first sub-sequence is contained in (X0, X1), (Y0, Y1),
+     * the second in (X1, X2), (Y1, Y2) and so on.  Note that (X0, Y0) ==
+     * (XOFF, YOFF) and (X[NCHUNKS], Y[NCHUNKS]) == (XLIM, YLIM).
      *
-     * This function assumes that the first lines of the specified
-     * portions of the two files do not match, and likewise that the
-     * last lines do not match.  The caller must trim matching lines
-     * from the beginning and end of the portions it is going to
-     * specify.
+     * This function assumes that the first lines of the specified portions of
+     * the two files do not match, and likewise that the last lines do not
+     * match.  The caller must trim matching lines from the beginning and end
+     * of the portions it is going to specify.
      */
     function _diag ($xoff, $xlim, $yoff, $ylim, $nchunks)
     {
         $flip = false;
 
         if ($xlim - $xoff > $ylim - $yoff) {
-            // Things seems faster (I'm not sure I understand why)
-            // when the shortest sequence is in X.
+            /* Things seems faster (I'm not sure I understand why) when the
+             * shortest sequence is in X. */
             $flip = true;
             list ($xoff, $xlim, $yoff, $ylim)
                 = array($yoff, $ylim, $xoff, $xlim);
@@ -494,8 +491,8 @@ class Text_Diff_Engine_native {
                 while (list($junk, $y) = each($matches)) {
                     if ($y > $this->seq[$k - 1]) {
                         assert($y < $this->seq[$k]);
-                        // Optimization: this is a common case: next
-                        // match is just replacing previous match.
+                        /* Optimization: this is a common case: next match is
+                         * just replacing previous match. */
                         $this->in_seq[$this->seq[$k]] = false;
                         $this->seq[$k] = $y;
                         $this->in_seq[$y] = 1;
@@ -548,28 +545,27 @@ class Text_Diff_Engine_native {
     }
 
     /**
-     * Find LCS of two sequences.
+     * Finds LCS of two sequences.
      *
-     * The results are recorded in the vectors $this->{x,y}changed[],
-     * by storing a 1 in the element for each line that is an
-     * insertion or deletion (ie. is not in the LCS).
+     * The results are recorded in the vectors $this->{x,y}changed[], by
+     * storing a 1 in the element for each line that is an insertion or
+     * deletion (ie. is not in the LCS).
      *
-     * The subsequence of file 0 is [XOFF, XLIM) and likewise for file
-     * 1.
+     * The subsequence of file 0 is (XOFF, XLIM) and likewise for file 1.
      *
-     * Note that XLIM, YLIM are exclusive bounds.  All line numbers
-     * are origin-0 and discarded lines are not counted.
+     * Note that XLIM, YLIM are exclusive bounds.  All line numbers are
+     * origin-0 and discarded lines are not counted.
      */
     function _compareseq ($xoff, $xlim, $yoff, $ylim)
     {
-        // Slide down the bottom initial diagonal.
+        /* Slide down the bottom initial diagonal. */
         while ($xoff < $xlim && $yoff < $ylim
                && $this->xv[$xoff] == $this->yv[$yoff]) {
             ++$xoff;
             ++$yoff;
         }
 
-        // Slide up the top initial diagonal.
+        /* Slide up the top initial diagonal. */
         while ($xlim > $xoff && $ylim > $yoff
                && $this->xv[$xlim - 1] == $this->yv[$ylim - 1]) {
             --$xlim;
@@ -579,17 +575,17 @@ class Text_Diff_Engine_native {
         if ($xoff == $xlim || $yoff == $ylim) {
             $lcs = 0;
         } else {
-            // This is ad hoc but seems to work well.  $nchunks =
-            // sqrt(min($xlim - $xoff, $ylim - $yoff) / 2.5); $nchunks
-            // = max(2,min(8,(int)$nchunks));
+            /* This is ad hoc but seems to work well.  $nchunks =
+             * sqrt(min($xlim - $xoff, $ylim - $yoff) / 2.5); $nchunks =
+             * max(2,min(8,(int)$nchunks)); */
             $nchunks = min(7, $xlim - $xoff, $ylim - $yoff) + 1;
             list($lcs, $seps)
                 = $this->_diag($xoff, $xlim, $yoff, $ylim, $nchunks);
         }
 
         if ($lcs == 0) {
-            // X and Y sequences have no common subsequence: mark all
-            // changed.
+            /* X and Y sequences have no common subsequence: mark all
+             * changed. */
             while ($yoff < $ylim) {
                 $this->ychanged[$this->yind[$yoff++]] = 1;
             }
@@ -597,8 +593,7 @@ class Text_Diff_Engine_native {
                 $this->xchanged[$this->xind[$xoff++]] = 1;
             }
         } else {
-            // Use the partitions to split this problem into
-            // subproblems.
+            /* Use the partitions to split this problem into subproblems. */
             reset($seps);
             $pt1 = $seps[0];
             while ($pt2 = next($seps)) {
@@ -609,15 +604,14 @@ class Text_Diff_Engine_native {
     }
 
     /**
-     * Adjust inserts/deletes of identical lines to join changes as
-     * much as possible.
+     * Adjusts inserts/deletes of identical lines to join changes as much as
+     * possible.
      *
-     * We do something when a run of changed lines include a line at
-     * one end and has an excluded, identical line at the other.  We
-     * are free to choose which identical line is included.
-     * `compareseq' usually chooses the one at the beginning, but
-     * usually it is cleaner to consider the following identical line
-     * to be the "change".
+     * We do something when a run of changed lines include a line at one end
+     * and has an excluded, identical line at the other.  We are free to
+     * choose which identical line is included.  `compareseq' usually chooses
+     * the one at the beginning, but usually it is cleaner to consider the
+     * following identical line to be the "change".
      *
      * This is extracted verbatim from analyze.c (GNU diffutils-2.7).
      */
@@ -632,16 +626,16 @@ class Text_Diff_Engine_native {
 
         while (1) {
             /* Scan forward to find the beginning of another run of
-             * changes. Also keep track of the corresponding point in
-             * the other file.
+             * changes. Also keep track of the corresponding point in the
+             * other file.
              *
-             * Throughout this code, $i and $j are adjusted together
-             * so that the first $i elements of $changed and the first
-             * $j elements of $other_changed both contain the same
-             * number of zeros (unchanged lines).
+             * Throughout this code, $i and $j are adjusted together so that
+             * the first $i elements of $changed and the first $j elements of
+             * $other_changed both contain the same number of zeros (unchanged
+             * lines).
              *
-             * Furthermore, $j is always kept so that $j == $other_len
-             * or $other_changed[$j] == false. */
+             * Furthermore, $j is always kept so that $j == $other_len or
+             * $other_changed[$j] == false. */
             while ($j < $other_len && $other_changed[$j]) {
                 $j++;
             }
@@ -660,20 +654,19 @@ class Text_Diff_Engine_native {
 
             $start = $i;
 
-            // Find the end of this run of changes.
+            /* Find the end of this run of changes. */
             while (++$i < $len && $changed[$i]) {
                 continue;
             }
 
             do {
-                /* Record the length of this run of changes, so that
-                 * we can later determine whether the run has
-                 * grown. */
+                /* Record the length of this run of changes, so that we can
+                 * later determine whether the run has grown. */
                 $runlength = $i - $start;
 
-                /* Move the changed region back, so long as the
-                 * previous unchanged line matches the last changed
-                 * one.  This merges with previous changed regions. */
+                /* Move the changed region back, so long as the previous
+                 * unchanged line matches the last changed one.  This merges
+                 * with previous changed regions. */
                 while ($start > 0 && $lines[$start - 1] == $lines[$i - 1]) {
                     $changed[--$start] = 1;
                     $changed[--$i] = false;
@@ -687,18 +680,17 @@ class Text_Diff_Engine_native {
                     assert('$j >= 0 && !$other_changed[$j]');
                 }
 
-                /* Set CORRESPONDING to the end of the changed run, at
-                 * the last point where it corresponds to a changed
-                 * run in the other file. CORRESPONDING == LEN means
-                 * no such point has been found. */
+                /* Set CORRESPONDING to the end of the changed run, at the
+                 * last point where it corresponds to a changed run in the
+                 * other file. CORRESPONDING == LEN means no such point has
+                 * been found. */
                 $corresponding = $j < $other_len ? $i : $len;
 
-                /* Move the changed region forward, so long as the
-                 * first changed line matches the following unchanged
-                 * one.  This merges with following changed regions.
-                 * Do this second, so that if there are no merges, the
-                 * changed region is moved forward as far as
-                 * possible. */
+                /* Move the changed region forward, so long as the first
+                 * changed line matches the following unchanged one.  This
+                 * merges with following changed regions.  Do this second, so
+                 * that if there are no merges, the changed region is moved
+                 * forward as far as possible. */
                 while ($i < $len && $lines[$start] == $lines[$i]) {
                     $changed[$start++] = false;
                     $changed[$i++] = 1;
@@ -717,8 +709,8 @@ class Text_Diff_Engine_native {
                 }
             } while ($runlength != $i - $start);
 
-            /* If possible, move the fully-merged run of changes back
-             * to a corresponding run in the other file. */
+            /* If possible, move the fully-merged run of changes back to a
+             * corresponding run in the other file. */
             while ($corresponding < $i) {
                 $changed[--$start] = 1;
                 $changed[--$i] = 0;
@@ -734,10 +726,10 @@ class Text_Diff_Engine_native {
 }
 
 /**
-* @package Text_Diff
-* @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
-* @access  private
-*/
+ * @package Text_Diff
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ * @access  private
+ */
 class Text_Diff_Op {
 
     var $orig;
@@ -761,10 +753,10 @@ class Text_Diff_Op {
 }
 
 /**
-* @package Text_Diff
-* @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
-* @access  private
-*/
+ * @package Text_Diff
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ * @access  private
+ */
 class Text_Diff_Op_copy extends Text_Diff_Op {
 
     function Text_Diff_Op_copy($orig, $final = false)
@@ -778,16 +770,16 @@ class Text_Diff_Op_copy extends Text_Diff_Op {
 
     function &reverse()
     {
-        return $diff = new Text_Diff_Op_copy($this->final, $this->orig);
+        return $reverse = &new Text_Diff_Op_copy($this->final, $this->orig);
     }
 
 }
 
 /**
-* @package Text_Diff
-* @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
-* @access  private
-*/
+ * @package Text_Diff
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ * @access  private
+ */
 class Text_Diff_Op_delete extends Text_Diff_Op {
 
     function Text_Diff_Op_delete($lines)
@@ -798,16 +790,16 @@ class Text_Diff_Op_delete extends Text_Diff_Op {
 
     function &reverse()
     {
-        return $diff = new Text_Diff_Op_add($this->orig);
+        return $reverse = &new Text_Diff_Op_add($this->orig);
     }
 
 }
 
 /**
-* @package Text_Diff
-* @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
-* @access  private
-*/
+ * @package Text_Diff
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ * @access  private
+ */
 class Text_Diff_Op_add extends Text_Diff_Op {
 
     function Text_Diff_Op_add($lines)
@@ -818,16 +810,16 @@ class Text_Diff_Op_add extends Text_Diff_Op {
 
     function &reverse()
     {
-        return $diff = new Text_Diff_Op_delete($this->final);
+        return $reverse = &new Text_Diff_Op_delete($this->final);
     }
 
 }
 
 /**
-* @package Text_Diff
-* @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
-* @access  private
-*/
+ * @package Text_Diff
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ * @access  private
+ */
 class Text_Diff_Op_change extends Text_Diff_Op {
 
     function Text_Diff_Op_change($orig, $final)
@@ -838,8 +830,7 @@ class Text_Diff_Op_change extends Text_Diff_Op {
 
     function &reverse()
     {
-        return $diff = new _DiffOp_Change($this->final, $this->orig);
+        return $reverse = &new Text_Diff_Op_change($this->final, $this->orig);
     }
 
 }
-?>

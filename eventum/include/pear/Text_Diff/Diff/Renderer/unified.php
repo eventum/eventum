@@ -1,24 +1,27 @@
 <?php
 /**
-* "Unified" diff renderer.
-*
-* This class renders the diff in classic "unified diff" format.
-*
-* $Horde: framework/Text_Diff/Diff/Renderer/unified.php,v 1.1 2004/01/09 20:14:29 chuck Exp $
-*
-* @package Text_Diff
-*/
+ * "Unified" diff renderer.
+ *
+ * This class renders the diff in classic "unified diff" format.
+ *
+ * $Horde: framework/Text_Diff/Diff/Renderer/unified.php,v 1.3 2004/09/15 05:00:00 chuck Exp $
+ *
+ * @package Text_Diff
+ */
 class Text_Diff_Renderer_unified extends Text_Diff_Renderer {
 
-    function Text_Diff_Renderer_unified($context_lines = 4)
-    {
-        $this->_leading_context_lines = $context_lines;
-        $this->_trailing_context_lines = $context_lines;
-    }
+    /**
+     * Number of leading context "lines" to preserve.
+     */
+    var $_leading_context_lines = 4;
+
+    /**
+     * Number of trailing context "lines" to preserve.
+     */
+    var $_trailing_context_lines = 4;
 
     function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
     {
-        return '';
         if ($xlen != 1) {
             $xbeg .= ',' . $xlen;
         }
@@ -45,4 +48,3 @@ class Text_Diff_Renderer_unified extends Text_Diff_Renderer {
     }
 
 }
-?>

@@ -1,37 +1,49 @@
 <?php
 /**
-* A class to render Diffs in different formats.
-*
-* This class renders the diff in classic diff format. It is intended
-* that this class be customized via inheritance, to obtain fancier
-* outputs.
-*
-* $Horde: $
-*
-* @package Text_Diff
-*/
+ * A class to render Diffs in different formats.
+ *
+ * This class renders the diff in classic diff format. It is intended that
+ * this class be customized via inheritance, to obtain fancier outputs.
+ *
+ * $Horde: framework/Text_Diff/Diff/Renderer.php,v 1.5 2004/10/13 09:30:20 jan Exp $
+ *
+ * @package Text_Diff
+ */
 class Text_Diff_Renderer {
 
     /**
      * Number of leading context "lines" to preserve.
      *
-     * This should be left at zero for this class, but subclasses
-     * may want to set this to other values.
+     * This should be left at zero for this class, but subclasses may want to
+     * set this to other values.
      */
     var $_leading_context_lines = 0;
 
     /**
      * Number of trailing context "lines" to preserve.
      *
-     * This should be left at zero for this class, but subclasses
-     * may want to set this to other values.
+     * This should be left at zero for this class, but subclasses may want to
+     * set this to other values.
      */
     var $_trailing_context_lines = 0;
 
     /**
-     * Render a diff.
+     * Constructor.
+     */
+    function Text_Diff_Renderer($params = array())
+    {
+        foreach ($params as $param => $value) {
+            $v = '_' . $param;
+            if (isset($this->$v)) {
+                $this->$v = $value;
+            }
+        }
+    }
+
+    /**
+     * Renders a diff.
      *
-     * @param $diff object Text_Diff  A Text_Diff object.
+     * @param Text_Diff $diff  A Text_Diff object.
      *
      * @return string  The formatted output.
      */
@@ -97,7 +109,7 @@ class Text_Diff_Renderer {
     {
         $this->_startBlock($this->_blockHeader($xbeg, $xlen, $ybeg, $ylen));
         foreach ($edits as $edit) {
-            switch (get_class($edit)) {
+            switch (strtolower(get_class($edit))) {
             case 'text_diff_op_copy':
                 $this->_context($edit->orig);
                 break;
@@ -117,6 +129,7 @@ class Text_Diff_Renderer {
             default:
                 trigger_error("Unknown edit type", E_USER_ERROR);
             }
+
             $this->_endBlock();
         }
     }
@@ -184,4 +197,3 @@ class Text_Diff_Renderer {
     }
 
 }
-?>
