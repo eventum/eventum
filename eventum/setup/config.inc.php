@@ -47,7 +47,7 @@ if (!function_exists('is_a')) {
 
 // definitions of path related variables
 $app_path = '%{APP_PATH}%';
-if ((substr($app_path, -1) != '/') && ((substr($app_path, -2) != '\\')) {
+if ((substr($app_path, -1) != '/') && (substr($app_path, -2) != '\\')) {
     $app_path .= '/';
 }
 @define("APP_PATH", $app_path);
