@@ -106,9 +106,14 @@
                       <td width="100%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
                     </tr>
                     {section name="i" loop=$list}
+                    {if $list[i].ttc_title == 'Email Discussion' OR $list[i].ttc_title == 'Telephone Discussion'}
+                      {assign var="readonly" value="disabled"}
+                    {else}
+                      {assign var="readonly" value=""}
+                    {/if}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
-                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].ttc_id}"></td>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].ttc_id}" {$readonly}></td>
                       <td width="100%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ttc_id}" title="update this entry">{$list[i].ttc_title}</a>
                       </td>
@@ -130,6 +135,9 @@
                     </tr>
                     </form>
                   </table>
+                  <br />
+                  <span class="small_default"><b>Note: </b> 'Email Discussion' and 'Telephone Discussion' categories are
+                    required by Eventum and cannot be deleted.</span>
                 </td>
               </tr>
             </table>

@@ -49,6 +49,7 @@ Eventum Issue Tracking System
 - Added specialized headers to outgoing emails (Bryan)
 - Added new CLI command 'takeIssue' (Bryan)
 - Added reminders and ability to sort to recent activity report (Bryan)
+- Prevent time tracking categories 'Email Discussion' and 'Telephone Discussion' from being deleted (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
