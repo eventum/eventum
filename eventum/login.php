@@ -37,30 +37,36 @@ if (Validation::isWhitespace($HTTP_POST_VARS["email"])) {
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=1");
 }
 if (Validation::isWhitespace($HTTP_POST_VARS["passwd"])) {
+    Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'empty password');
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=2&email=" . $HTTP_POST_VARS["email"]);
 }
 
 // check if user exists
 if (!Auth::userExists($HTTP_POST_VARS["email"])) {
+    Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'unknown user');
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=3");
 }
 // check if the password matches
 if (!Auth::isCorrectPassword($HTTP_POST_VARS["email"], $HTTP_POST_VARS["passwd"])) {
+    Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'wrong password');
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=3&email=" . $HTTP_POST_VARS["email"]);
 }
 // check if this user did already confirm his account
 if (Auth::isPendingUser($HTTP_POST_VARS["email"])) {
+    Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'pending user');
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=9", $is_popup);
 }
 // check if this user is really an active one
 if (!Auth::isActiveUser($HTTP_POST_VARS["email"])) {
+    Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'inactive user');
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=7", $is_popup);
 }
 
+Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'success');
 // redirect to the initial page
 @Auth::createLoginCookie(APP_COOKIE, $HTTP_POST_VARS["email"], $HTTP_POST_VARS["remember_login"]);
 if (!empty($HTTP_POST_VARS["url"])) {
-    $extra = '?url=' . $HTTP_POST_VARS["url"];
+    $extra = '?url=' . urlencode($HTTP_POST_VARS["url"]);
 } else {
     $extra = '';
 }
