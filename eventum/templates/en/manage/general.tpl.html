@@ -318,13 +318,13 @@
                         Port:&nbsp;
                       </td>
                       <td width="80%">
-                        <input type="text" class="default" name="smtp[port]" size="10" value="{$setup.smtp.port}">
+                        <input type="text" class="default" name="smtp[port]" size="5" value="{$setup.smtp.port}">
                         {include file="error_icon.tpl.html" field="smtp[port]"}
                       </td>
                     </tr>
                     <tr>
                       <td width="100" class="default" align="right">
-                        Requires authentication?&nbsp;
+                        Requires Authentication?&nbsp;
                       </td>
                       <td width="80%" class="default">
                         <input type="radio" name="smtp[auth]" value="1" {if $setup.smtp.auth}checked{/if} onClick="javascript:disableAuthFields(this.form, false);"> 
