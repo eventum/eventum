@@ -51,6 +51,9 @@ class Customer
             if (preg_match('/^class\./', $files[$i])) {
                 // display a prettyfied backend name in the admin section
                 preg_match('/class\.(.*)\.php/', $files[$i], $matches);
+                if ($matches[1] == "abstract_customer_backend") {
+                    continue;
+                }
                 $name = ucwords(str_replace('_', ' ', $matches[1]));
                 $list[$files[$i]] = $name;
             }
@@ -151,6 +154,13 @@ class Customer
     }
 
 
+    /**
+     * Returns true if the backend uses support levels, false otherwise
+     * 
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  boolean True if the project uses support levels.
+     */
     function doesBackendUseSupportLevels($prj_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -160,22 +170,6 @@ class Customer
             return $backend->usesSupportLevels();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -225,6 +219,15 @@ class Customer
     }
 
 
+    /**
+     * Returns true if this issue has been counted a valid incident
+     *
+     * @see /docs/Customer_API.html
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue
+     * @return  boolean True if this is a redeemed incident.
+     */
     function isRedeemedIncident($prj_id, $issue_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -232,91 +235,31 @@ class Customer
     }
 
 
-    function getAssocList($prj_id)
-    {
-        $backend =& Customer::_getBackend($prj_id);
-        return $backend->getAssocList();
-    }
-
-
-    function getTitle($prj_id, $customer_id)
-    {
-        $backend =& Customer::_getBackend($prj_id);
-        if ($backend === FALSE) {
-            return '';
-        } else {
-            return $backend->getTitle($customer_id);
-        }
-    }
-
-
-    function getTitles($prj_id, $customer_ids)
-    {
-        $backend =& Customer::_getBackend($prj_id);
-        return $backend->getTitles($customer_ids);
-    }
-
-
-    function getContactEmailAssocList($prj_id, $customer_id)
-    {
-        $backend =& Customer::_getBackend($prj_id);
-        return $backend->getContactEmailAssocList($customer_id);
-    }
-
-
-    function getCustomerIDByEmails($prj_id, $emails)
-    {
-        $backend =& Customer::_getBackend($prj_id);
-        return $backend->getCustomerIDByEmails($emails);
-    }
-
-
-    function getOverallStats($prj_id, $customer_id)
-    {
-        $backend =& Customer::_getBackend($prj_id);
-        return $backend->getOverallStats($customer_id);
-    }
-
-
-    function getProfile($prj_id, $usr_id)
-    {
-        $backend =& Customer::_getBackend($prj_id);
-        return $backend->getProfile($usr_id);
-    }
-
-
-    function getContractDetails($prj_id, $contact_id, $restrict_expiration = TRUE)
-    {
-        $backend =& Customer::_getBackend($prj_id);
-        return $backend->getContractDetails($contact_id, $restrict_expiration);
-    }
-
-
-    function getContactDetails($prj_id, $contact_id)
-    {
-        $backend =& Customer::_getBackend($prj_id);
-        return $backend->getContactDetails($contact_id);
-    }
-
-
-    function getCustomerIDsLikeEmail($prj_id, $email)
-    {
-        $backend =& Customer::_getBackend($prj_id);
-        return $backend->getCustomerIDsLikeEmail($email);
-    }
-
-
+    /**
+     * Marks an issue as a redeemed incident.
+     * @see /docs/Customer_API.html
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue
+     */
     function flagIncident($prj_id, $issue_id)
     {
         $backend =& Customer::_getBackend($prj_id);
         return $backend->flagIncident($issue_id);
     }
 
-
+    /**
+     * Marks an issue as not a redeemed incident.
+     * 
+     * @see /docs/Customer_API.html
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue
+     */
     function unflagIncident($prj_id, $issue_id)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->unflagIncident($issue_id);
+        return $backend->getTitle($customer_id);
     }
 
 
@@ -383,6 +326,7 @@ class Customer
         return $backend->getIncidentsRemaining($support_no);
     }
 
+    
     /**
      * Method used to send a notice that the per-incident limit being reached.
      *
@@ -397,6 +341,158 @@ class Customer
     {
         $backend =& Customer::_getBackend($prj_id);
         return $backend->sendIncidentLimitNotice($contact_id, $customer_id, $new_issue);
+    }
+
+
+    /**
+     * Returns a list of customers (companies) in the customer database.
+     * 
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array An associated array of customers.
+     */
+    function getAssocList($prj_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getAssocList();
+    }
+
+    
+    /**
+     * Method used to get the customer names for the given customer id.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  string The customer name
+     */
+    function getTitle($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        if ($backend === FALSE) {
+            return '';
+        } else {
+            return $backend->getTitle($customer_id);
+        }
+    }
+
+
+    /**
+     * Method used to get an associative array of the customer names
+     * for the given list of customer ids.
+     *
+     * @access  public
+     * @param   array $customer_ids The list of customers
+     * @return  array The associative array of customer id => customer name
+     */
+    function getTitles($prj_id, $customer_ids)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getTitles($customer_ids);
+    }
+
+
+    /**
+     * Method used to get the list of email addresses associated with the 
+     * contacts of a given customer.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  array The list of email addresses
+     */
+    function getContactEmailAssocList($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getContactEmailAssocList($customer_id);
+    }
+
+
+    /**
+     * Method used to get the customer and customer contact IDs associated
+     * with a given list of email addresses.
+     *
+     * @access  public
+     * @param   array $emails The list of email addresses
+     * @return  array The customer and customer contact ID
+     */
+    function getCustomerIDByEmails($prj_id, $emails)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getCustomerIDByEmails($emails);
+    }
+
+
+    /**
+     * Method used to get the overall statistics of issues in the system for a
+     * given customer.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  array The customer related issue statistics
+     */
+    function getOverallStats($prj_id, $customer_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getOverallStats($customer_id);
+    }
+
+
+    /**
+     * Method used to build the overall customer profile from the information
+     * stored in the customer database.
+     *
+     * @access  public
+     * @param   integer $usr_id The Eventum user ID
+     * @return  array The customer profile information
+     */
+    function getProfile($prj_id, $usr_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getProfile($usr_id);
+    }
+
+
+    /**
+     * Method used to get the contract details for a given customer contact.
+     *
+     * @access  public
+     * @param   integer $contact_id The customer contact ID
+     * @return  array The customer contract details
+     */
+    function getContractDetails($prj_id, $contact_id, $restrict_expiration = TRUE)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getContractDetails($contact_id, $restrict_expiration);
+    }
+
+
+    /**
+     * Method used to get the details associated with a customer contact.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $contact_id The customer contact ID
+     * @return  array The contact details
+     */
+    function getContactDetails($prj_id, $contact_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getContactDetails($contact_id);
+    }
+
+
+    /**
+     * Returns the list of customer IDs that are associated with the given
+     * email value (wildcards welcome).
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   string $email The email value
+     * @return  array The list of customer IDs
+     */
+    function getCustomerIDsLikeEmail($prj_id, $email)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->getCustomerIDsLikeEmail($email);
     }
 
 
@@ -417,6 +513,16 @@ class Customer
     }
 
 
+    /**
+     * Performs a customer lookup and returns the matches, if 
+     * appropriate. 
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   string $field The field that we are trying to search against
+     * @param   string $value The value that we are searching for
+     * @return  array The list of customers
+     */
     function lookup($prj_id, $field, $value)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -424,6 +530,16 @@ class Customer
     }
 
 
+    /**
+     * Method used to notify the customer contact that a new issue was just
+     * created and associated with his Eventum user.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @param   integer $contact_id The customer contact ID
+     * @return  void
+     */
     function notifyCustomerIssue($prj_id, $issue_id, $contact_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -431,7 +547,13 @@ class Customer
     }
 
 
-
+    /**
+     * Method used to get the list of available support levels.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array The list of available support levels
+     */
     function getSupportLevelAssocList($prj_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -439,6 +561,15 @@ class Customer
     }
 
 
+    /**
+     * Returns the support level of the current support contract for a given 
+     * customer ID.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_id The customer ID
+     * @return  string The support contract level
+     */
     function getSupportLevelID($prj_id, $customer_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -446,13 +577,29 @@ class Customer
     }
 
 
+    /**
+     * Returns the list of customer IDs for a given support contract level.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $support_level_id The support level ID
+     * @param   mixed $support_options An integer or array of integers indicating various options to get customers with.
+     * @return  array The list of customer IDs
+     */
     function getListBySupportLevel($prj_id, $support_level_id, $support_options = false)
     {
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getListBySupportLevel($support_level_id, $support_options);
     }
 
-
+    
+    /**
+     * Returns an array of support levels grouped together.
+     * 
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array an array of support levels.
+     */
     function getGroupedSupportLevels($prj_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -492,6 +639,17 @@ class Customer
     }
 
 
+    /**
+     * Method used to get the associated customer and customer contact from
+     * a given set of support emails. This is especially useful to automatically
+     * associate an issue to the appropriate customer contact that sent a
+     * support email.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   array $sup_ids The list of support email IDs
+     * @return  array The customer and customer contact ID
+     */
     function getCustomerInfoFromEmails($prj_id, $sup_ids)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -499,6 +657,18 @@ class Customer
     }
 
 
+    /**
+     * Method used to send an email notification to the sender of a
+     * set of email messages that were manually converted into an 
+     * issue.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @param   array $sup_ids The email IDs
+     * @param   integer $customer_id The customer ID
+     * @return  array The list of recipient emails
+     */
     function notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id = FALSE)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -506,6 +676,18 @@ class Customer
     }
 
 
+    /**
+     * Method used to send an email notification to the sender of an
+     * email message that was automatically converted into an issue.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @param   string $sender The sender of the email message (and the recipient of this notification)
+     * @param   string $date The arrival date of the email message
+     * @param   string $subject The subject line of the email message
+     * @return  void
+     */
     function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -513,6 +695,13 @@ class Customer
     }
 
 
+    /**
+     * Method used to get the customer login grace period (number of days).
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  integer The customer login grace period
+     */
     function getExpirationOffset($prj_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -520,6 +709,14 @@ class Customer
     }
 
 
+    /**
+     * Method used to get the details of the given customer contact.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $contact_id The customer contact ID
+     * @return  array The customer details
+     */
     function getContactLoginDetails($prj_id, $contact_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -527,6 +724,15 @@ class Customer
     }
 
 
+    /**
+     * Returns the end date of the current support contract for a given 
+     * customer ID.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_id The customer ID
+     * @return  string The support contract end date
+     */
     function getContractEndDate($prj_id, $customer_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -534,6 +740,14 @@ class Customer
     }
 
 
+    /**
+     * Returns the name and email of the sales account manager of the given customer ID.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_id The customer ID
+     * @return  array An array containing the name and email of the sales account manager
+     */
     function getSalesAccountManager($prj_id, $customer_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -541,6 +755,15 @@ class Customer
     }
 
 
+    /**
+     * Returns the start date of the current support contract for a given 
+     * customer ID.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_id The customer ID
+     * @return  string The support contract start date
+     */
     function getContractStartDate($prj_id, $customer_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -550,10 +773,8 @@ class Customer
 
     /**
      * Returns a message to be displayed to a customer on the top of the issue creation page.
-     * If There are 3 or less incidents, display warning message.
-     * If only 1 incident left, email sales rep (or sales@ if no rep).
      *
-     * @param   integer $prj_id The if of the project
+     * @param   integer $prj_id The project ID
      * @param   array $customer_id Customer ID.
      */
     function getNewIssueMessage($prj_id, $customer_id)
@@ -563,6 +784,15 @@ class Customer
     }
 
 
+    /**
+     * Return what business hours a customer falls into. Mainly used for international
+     * customers.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_id The customer ID
+     * @return  string The business hours
+     */
     function getBusinessHours($prj_id, $customer_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -570,6 +800,15 @@ class Customer
     }
 
 
+    /**
+     * Checks whether the given customer has a support contract that
+     * enforces limits for the minimum first response time or not.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $customer_id The customer ID
+     * @return  boolean
+     */
     function hasMinimumResponseTime($prj_id, $customer_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -577,6 +816,14 @@ class Customer
     }
 
 
+    /**
+     * Returns the minimum first response time in seconds for the
+     * support level associated with the given customer.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  integer The minimum first response time
+     */
     function getMinimumResponseTime($prj_id, $customer_id)
     {
         $backend =& Customer::_getBackend($prj_id);
@@ -584,30 +831,19 @@ class Customer
     }
 
 
+    /**
+     * Returns the maximum first response time associated with the
+     * support contract of the given customer.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  integer The maximum first response time, in seconds
+     */
     function getMaximumFirstResponseTime($prj_id, $customer_id)
     {
         $backend =& Customer::_getBackend($prj_id);
         return $backend->getMaximumFirstResponseTime($customer_id);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -644,7 +880,7 @@ class Customer
 
 
     /**
-     * Method used to add a new association of Eventum user => Spot
+     * Method used to add a new association of Eventum user => 
      * customer ID. This association will provide the basis for a
      * new role of technical account manager in Eventum.
      *
@@ -760,7 +996,7 @@ class Customer
 
     /**
      * Method used to get the list of technical account managers for
-     * a given Spot customer ID.
+     * a given customer ID.
      *
      * @access  public
      * @param   integer $prj_id The project ID
