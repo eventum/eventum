@@ -30,6 +30,9 @@
 
 $customer_db = false;
 
+define("SPOT_CUSTOMER_EXPIRATION_OFFSET", 14);
+
+
 class Spot_Customer_Backend
 {
     function connect()
@@ -38,7 +41,7 @@ class Spot_Customer_Backend
             'phptype'  => "mysql",
             'hostspec' => "localhost",
             'database' => "spot",
-            'username' => "spot",
+            'username' => "root",
             'password' => ""
         );
         $GLOBALS['customer_db'] = DB::connect($dsn);
@@ -389,7 +392,7 @@ class Spot_Customer_Backend
      */
     function _getExpirationOffset()
     {
-        return 14;
+        return SPOT_CUSTOMER_EXPIRATION_OFFSET;
     }
 
 
