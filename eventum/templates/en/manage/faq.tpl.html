@@ -160,8 +160,10 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
+                      <td width="{if $backend_uses_support_levels}50%{else}100%{/if}" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
+                      {if $backend_uses_support_levels}
                       <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Support Levels</b></td>
+                      {/if}
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -170,13 +172,15 @@
                       <td width="50%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].faq_id}" title="update this entry">{$list[i].faq_title|escape:"html"}</a>
                       </td>
+                      {if $backend_uses_support_levels}
                       <td width="50%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].support_levels|escape:"html"}
                       </td>
+                      {/if}
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
+                      <td colspan="{if $backend_uses_support_levels}3{else}2{/if}" bgcolor="{$light_color}" align="center" class="default">
                         No FAQ entries could be found.
                       </td>
                     </tr>
@@ -185,7 +189,7 @@
                       <td width="4" align="center" bgcolor="{$cell_color}">
                         <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                       </td>
-                      <td colspan="2" bgcolor="{$cell_color}" align="center">
+                      <td {if $backend_uses_support_levels}colspan="2" {/if}bgcolor="{$cell_color}" align="center">
                         <input type="submit" value="Delete" class="button">
                       </td>
                     </tr>
