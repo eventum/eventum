@@ -221,6 +221,12 @@ class Category
      */
     function getAssocList($prj_id)
     {
+        static $list;
+
+        if (!empty($list[$prj_id])) {
+            return $list[$prj_id];
+        }
+
         $stmt = "SELECT
                     prc_id,
                     prc_title
@@ -235,6 +241,7 @@ class Category
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            $list[$prj_id] = $res;
             return $res;
         }
     }
