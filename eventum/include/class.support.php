@@ -1054,7 +1054,7 @@ class Support
         
         // handle 'private' issues.
         if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
-            $stmt .= " AND iss_private != 1";
+            $stmt .= " AND (iss_private = 0 OR iss_private IS NULL)";
         }
         return $stmt;
     }
