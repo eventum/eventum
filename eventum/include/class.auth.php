@@ -248,7 +248,7 @@ class Auth
     function isValidCookie($cookie)
     {
         if ((empty($cookie["email"])) || (empty($cookie["hash"])) ||
-           ($cookie["hash"] != md5($GLOBALS["private_key"] . md5($cookie["login_time"]) . $cookie["email"]))) {
+               ($cookie["hash"] != md5($GLOBALS["private_key"] . md5($cookie["login_time"]) . $cookie["email"]))) {
             return false;
         } else {
             $usr_id = User::getUserIDByEmail(@$cookie["email"]);
