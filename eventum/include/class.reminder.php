@@ -772,6 +772,10 @@ class Reminder
                 } elseif ($requirement['type'] == 'support_level') {
                     if (Customer::doesBackendUseSupportLevels($reminder['rem_prj_id'])) {
                         $customer_ids = Customer::getListBySupportLevel($reminder['rem_prj_id'], $requirement['values']);
+                        // break the query on purpose if no customers could be found
+                        if (count($customer_ids) == 0) {
+                            $customer_ids = array(-1);
+                        }
                         $stmt .= ' AND iss_customer_id IN (' . implode(', ', $customer_ids) . ")\n";
                     }
                 }

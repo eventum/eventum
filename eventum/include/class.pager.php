@@ -59,7 +59,7 @@ class Pager
                 $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(" . $matches[1] . ") AS total_rows FROM '", $stmt);
             }
         } else {
-        $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(*) AS total_rows FROM '", $stmt);
+            $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(*) AS total_rows FROM '", $stmt);
         }
         // remove any order by clauses
         $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(.*)/sei", "'\\1\\3'", $stmt);
