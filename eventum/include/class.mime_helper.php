@@ -416,6 +416,14 @@ class Mime_Helper
     }
 
 
+    /**
+     * Method used to parse and return the full list of attachment CIDs 
+     * associated with a message.
+     *
+     * @access  public
+     * @param   string $message The full body of the message
+     * @return  array The list of attachment CIDs, if any
+     */
     function getAttachmentCIDs($message)
     {
         // gotta parse MIME based emails now
