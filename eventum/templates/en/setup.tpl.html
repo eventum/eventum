@@ -336,10 +336,8 @@ Please report any problems you find to eventum-users@lists.mysql.com.
         </tr>
         <tr>
           <td class="default" align="center" colspan="2">
+            <h2><b>SMTP Configuration</b></h2>
             <hr size="1" noshade color="#000000">
-            <h3><b>Email Configuration</b></h3>
-            <i>If you do not correctly setup your SMTP (outgoing) mail settings, errors will be generated
-            when creating new users/projects.
           </td>
         </tr>
         <tr>
@@ -349,7 +347,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.
           <td width="80%">
             <input type="text" class="default" name="setup[smtp][from]" size="30" value="{$smarty.request.setup.smtp.from|escape:"html"}">
             {include file="error_icon.tpl.html" field="setup[smtp][from]"}
-            <span class="default"><i>This must be a valid email address.</i></span>
+            <span class="small_default"><i>(must be a valid email address)</i></span>
           </td>
         </tr>
         <tr>
@@ -366,13 +364,13 @@ Please report any problems you find to eventum-users@lists.mysql.com.
             <b>Port:&nbsp;</b>
           </td>
           <td width="80%">
-            <input type="text" class="default" name="setup[smtp][port]" size="10" value="{$smarty.request.setup.smtp.port}">
+            <input type="text" class="default" name="setup[smtp][port]" size="5" value="{$smarty.request.setup.smtp.port}">
             {include file="error_icon.tpl.html" field="setup[smtp][port]"}
           </td>
         </tr>
         <tr>
           <td width="100" class="default" align="right">
-            <b>Requires authentication?&nbsp;</b>
+            <b>Requires Authentication?&nbsp;</b>
           </td>
           <td width="80%" class="default">
             <input type="radio" name="setup[smtp][auth]" value="1" {if $smarty.request.setup.smtp.auth == 1}checked{/if} onClick="javascript:disableAuthFields(this.form, false);"> 
@@ -397,13 +395,11 @@ Please report any problems you find to eventum-users@lists.mysql.com.
           <td width="80%">
             <input type="password" class="default" name="setup[smtp][password]" size="20" value="{$smarty.request.setup.smtp.password|escape:"html"}">
             {include file="error_icon.tpl.html" field="setup[smtp][password]"}
-            {if $smarty.request.setup.smtp.auth != 1}
-            <script>disableAuthFields(getForm('install_form'), true);</script>
-            {/if}
           </td>
         </tr>
         <tr>
-          <td colspan="2" class="default" align="right">
+          <td colspan="2" class="default" align="center">
+            <b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.
             &nbsp;
           </td>
         </tr>
@@ -431,6 +427,11 @@ function setFocus()
 {
     document.install_form.hostname.focus();
     toggleAlternateUserFields();
+{/literal}
+    {if $smarty.request.setup.smtp.auth != 1}
+    disableAuthFields(getForm('install_form'), true);
+    {/if}
+{literal}
 }
 //-->
 </script>
