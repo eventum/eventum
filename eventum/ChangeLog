@@ -29,6 +29,7 @@ Eventum Issue Tracking System
 - Fixed bug with outdated information being emailed to a user when a new project is assigned to them (Bryan)
 - If customer integration is not enabled, don't mention customers in warning message (Bryan)
 - Workflow: Added workflow method to restrict what statuses can be set for a specific issue (Bryan)
+- Updated PEAR Net_UserAgent_Detect class to be compatible with PHP5. Eventum should now work with PHP5 (Bryan)
 
 15 Sep 2004, Version 1.3.1
 - Added the missing maq_iss_id and maq_subject columns to the mail_queue table schema (João)
