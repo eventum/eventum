@@ -1100,5 +1100,81 @@ class Spot_Customer_Backend
             }
         }
     }
+
+
+    /**
+     * Method used to notify the customer contact that an existing issue
+     * associated with him was just marked as closed.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   integer $contact_id The customer contact ID
+     * @return  void
+     */
+    function notifyIssueClosed($issue_id, $contact_id)
+    {
+        list($contact_email, $void, $contact_name) = $this->getContactLoginDetails($contact_id);
+        $to = Mail_API::getFormattedName($contact_name, $contact_email);
+        $data = Issue::getDetails($issue_id);
+
+        // open text template
+        $tpl = new Template_API;
+        $tpl->setTemplate('notifications/customer_closed_issue.tpl.text');
+        $tpl->bulkAssign(array(
+            "data"             => $data
+        ));
+        $text_message = $tpl->getTemplateContents();
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_API;
+        $mail->setTextBody($text_message);
+        $setup = $mail->getSMTPSettings();
+        $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
+        $mail->send($from, $to, "MySQL Support Issue #" . $issue_id . " Closed");
+    }
+
+
+    /**
+     * Method used to get the details of the given customer contact.
+     *
+     * @access  public
+     * @param   integer $contact_id The customer contact ID
+     * @return  array The customer details
+     */
+    function getContactLoginDetails($contact_id)
+    {
+        $stmt = "SELECT
+                    eaddress.eaddress_code AS email,
+                    cust_login.passwd AS password,
+                    CONCAT(cust_entity.name2, ' ', cust_entity.name) AS full_name
+                 FROM
+                    cust_entity,
+                    eaddress,
+                    eaddress_type
+                 LEFT JOIN
+                    cust_login
+                 ON
+                    cust_entity.cust_no=cust_login.cust_no
+                 WHERE
+                    cust_entity.cust_no=eaddress.cust_no AND
+                    eaddress.eaddress_type_no=eaddress_type.eaddress_type_no AND
+                    eaddress_type.descript='email' AND
+                    cust_entity.cust_no=$contact_id";
+        $res = $GLOBALS["customer_db"]->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            if (empty($res)) {
+                return -2;
+            } else {
+                return array(
+                    $res['email'],
+                    $res['password'],
+                    $res['full_name']
+                );
+            }
+        }
+    }
 }
 ?>

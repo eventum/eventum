@@ -322,6 +322,23 @@ class Customer
     }
 
 
+    /**
+     * Method used to notify the customer contact that an existing issue
+     * associated with him was just marked as closed.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @param   integer $contact_id The customer contact ID
+     * @return  void
+     */
+    function notifyIssueClosed($prj_id, $issue_id, $contact_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->notifyIssueClosed($issue_id, $contact_id);
+    }
+
+
 
 
 
