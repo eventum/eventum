@@ -159,3 +159,22 @@ php -q bot.php &
 NOTE: You will need to manually edit the bot.php script to set your appropriate
 preferences, like IRC server and channel that the bot should join.
 
+
+4)- Command-line Interface (misc/cli/eventum)
+
+The Eventum command-line interface allows you to access most of the features
+of the web interface straight from your command shell. In order to install it,
+you will need PHP and if you use SSL, the curl and openssl PHP extensions.
+
+Assuming you have the requirements properly setup::
+
+ - Just copy the path-to-eventum/misc/cli directory to another location (i.e.
+   copy to ~/bin/)
+ - Add that location to your PATH environment variable
+ - Set the required permission in the script (chmod 700 ~/bin/cli/eventum)
+ - Copy the new .eventumrc example file to your home directory
+   (cp ~/bin/cli/eventumrc_example ~/.eventumrc)
+   -> Edit ~/.eventumrc and set the appropriate values in there
+ - Run it (eventum --help)
+ - Test it with 'eventum 1' (display issue #1 details)
+
