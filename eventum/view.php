@@ -62,13 +62,21 @@ $tpl->assign("issue", $details);
 if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) != $details['iss_customer_id'])) {
     $tpl->assign("auth_customer", 'denied');
 } else {
-    // check if the requested issue is a part of the 'current' project
+    $associated_projects = @array_keys(Project::getAssocList($usr_id));
+    // check if the requested issue is a part of the 'current' project. If it doesn't
+    // check if issue exists in another project and if it does, switch projects
+    $new_prj_id = Issue::getProjectID($issue_id);
+    $auto_switched = false;
+    if ((!empty($new_prj_id)) && (in_array($new_prj_id, $associated_projects)) && ($new_prj_id != $prj_id)) {
+        $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+        Auth::setCurrentProject($new_prj_id, $cookie["remember"], true);
+        Auth::redirect(APP_BASE_URL . "view.php?id=$issue_id");
+    }
     if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {
         $tpl->assign('issue', '');
     } else {
         // check if the requested issue is a part of one of the projects
         // associated with this user
-        $associated_projects = @array_keys(Project::getAssocList($usr_id));
         if (!@in_array($details['iss_prj_id'], $associated_projects)) {
             $tpl->assign("auth_customer", 'denied');
         } else {
@@ -89,6 +97,14 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                 $show_category = 1;
             } else {
                 $show_category = 0;
+            }
+            
+            $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+            if (!empty($cookie['auto_switched_from'])) {
+                $tpl->assign(array(
+                    "project_auto_switched" =>  1,
+                    "old_project"   =>  Project::getName($cookie['auto_switched_from'])
+                ));
             }
 
             $tpl->assign(array(
