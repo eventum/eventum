@@ -4,7 +4,7 @@ Eventum Issue Tracking System
 05 Jun 2004, Version 1.1
 - Initial release (João; Bryan)
 
-??, Version 1.2
+14 Jun 2004, Version 1.2
 - SMS email address can now be set back to empty. (Bryan)
 - Fixed a problem with a duplicate key name in the history_type table (João)
 - Fixed a few database migration problems when upgrading from an old snapshot release (João)
@@ -16,4 +16,5 @@ Eventum Issue Tracking System
 - Separated the body and full email fields from the email table into a separate one to improve query performance (João)
 - Added a missing reference to the 'noted_emails|notes' directories in the INSTALL file (João)
 - Removed 'to' field when sending emails from an issue since emails are sent to notification list. (Bryan)
+- Fixed a bug in which the selected date for a phone call would be ignored (João)
 
