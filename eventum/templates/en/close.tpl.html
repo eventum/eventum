@@ -45,6 +45,19 @@ function validateClose(f)
         return false;
     }
     
+    if (!isWhitespace(f.time_spent.value)) {
+        if (!isNumberOnly(f.time_spent.value)) {
+            selectField(f, 'time_spent');
+            alert('Please enter integers (or floating point numbers) on the time spent field.');
+            return false;
+        }
+        if (f.category.options[f.category.selectedIndex].value == '') {
+            selectField(f, 'category');
+            alert('Please choose the time tracking category for this new entry.');
+            return false;
+        }
+    }
+    
     if (has_per_incident_contract) {
         elements = getForm('close_form');
         has_checked_incident = false;
@@ -141,6 +154,25 @@ function validateClose(f)
           </td>
         </tr>
         {/if}
+        <tr>
+          <td width="160" bgcolor="{$internal_color}" class="default_white">
+            <b>Time Spent: </b><br />
+          </td>
+          <td bgcolor="{$light_color}">
+            <input class="default" type="text" size="5" name="time_spent" class="default"> <span class="default">(in minutes)</span>{include file="error_icon.tpl.html" field="time_spent"}
+          </td>
+        </tr>
+        <tr>
+          <td width="160" bgcolor="{$internal_color}" class="default_white">
+            <b>Time Category: </b><br />
+          </td>
+          <td bgcolor="{$light_color}">
+            <select name="category" class="default">
+              <option value="">Please choose a category</option>
+              {html_options options=$time_categories}
+            </select>
+            {include file="error_icon.tpl.html" field="category"}
+          </td>
         <tr bgcolor="{$cell_color}">
           <td colspan="2">
             <table cellpadding="0" cellspacing="0" border="0" width="100%">

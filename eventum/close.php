@@ -33,6 +33,7 @@ include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.resolution.php");
+include_once(APP_INC_PATH . "class.time_tracking.php");
 include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "db_access.php");
 
@@ -48,6 +49,11 @@ $tpl->assign("extra_title", "Close Issue #$issue_id");
 if (@$HTTP_POST_VARS["cat"] == "close") {
     $res = Issue::close(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $HTTP_POST_VARS["send_notification"], $HTTP_POST_VARS["resolution"], $HTTP_POST_VARS["status"], $HTTP_POST_VARS["reason"]);
     
+    if (!empty($HTTP_POST_VARS['time_spent'])) {
+        $HTTP_POST_VARS['summary'] = 'Time entry inserted when closing issue.';
+        Time_Tracking::insertEntry();
+    }
+    
     if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {
         Customer::updateRedeemedIncidents($prj_id, $issue_id, @$_REQUEST['redeem']);
     }
@@ -57,6 +63,7 @@ if (@$HTTP_POST_VARS["cat"] == "close") {
 
 $tpl->assign("statuses", Status::getClosedAssocList($prj_id));
 $tpl->assign("resolutions", Resolution::getAssocList());
+$tpl->assign("time_categories", Time_Tracking::getAssocCategories());
 
 if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {
     $details = Issue::getDetails($issue_id);
