@@ -166,6 +166,7 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_last_internal_action_date datetime default NULL,
   iss_last_internal_action_type varchar(20) default NULL,
   iss_private tinyint(1) NOT NULL default 0,
+  iss_percent_complete tinyint(3) unsigned default 0,
   PRIMARY KEY  (iss_id),
   KEY iss_prj_id (iss_prj_id),
   KEY iss_prc_id (iss_prc_id),
@@ -967,17 +968,20 @@ CREATE TABLE %TABLE_PREFIX%columns_to_display (
 );
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','pri_rank',1,1);
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_id',1,2);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_grp_id',1,3);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','assigned',1,4);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','time_spent',1,5);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','prc_title',1,6);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','pre_title',1,7);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_customer_id',1,8);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_sta_id',1,9);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','sta_change_date',1,10);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','last_action_date',1,11);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','custom_fields',1,12);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_summary',1,13);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','usr_full_name',1,3);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_grp_id',1,4);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','assigned',1,5);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','time_spent',1,6);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','prc_title',1,7);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','pre_title',1,8);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_customer_id',1,9);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_sta_id',1,10);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','sta_change_date',1,11);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','last_action_date',1,12);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','custom_fields',1,13);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_summary',1,14);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_dev_time',9,15);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_percent_complete',9,16);
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%search_profile;
 CREATE TABLE %TABLE_PREFIX%search_profile (
