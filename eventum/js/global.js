@@ -3,6 +3,22 @@
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));
 
+function addFileRow(element_name, field_name)
+{
+    if (document.all) {
+        var fileTable = document.all[element_name];
+    } else if (!document.all && document.getElementById) {
+        var fileTable = document.getElementById(element_name);
+    }
+    if (!fileTable) {
+        return;
+    }
+    rows = fileTable.rows.length;
+    newRow = fileTable.insertRow(rows);
+    cell = newRow.insertCell(0);
+    cell.innerHTML = '<input class="shortcut" size="40" type="file" name="' + field_name + '" onChange="javascript:addFileRow(\'' + element_name + '\', \'' + field_name + '\');">';
+}
+
 function inArray(value, stack)
 {
     for (var i = 0; i < stack.length; i++) {
