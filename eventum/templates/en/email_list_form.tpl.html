@@ -113,7 +113,7 @@ function removeEmails(f)
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td colspan="6" class="default">
+          <td colspan="{if $has_customer_integration}7{else}6{/if}" class="default">
             <b>Viewing Emails ({$list_info.total_rows} emails found{if $list_info.end_offset > 0}, {math equation="x + 1" x=$list_info.start_offset} - {$list_info.end_offset} shown{/if})</b>
             {include file="help_link.tpl.html" topic="support_emails"}
           </td>
@@ -124,10 +124,12 @@ function removeEmails(f)
             <a title="sort by sender" href="{$sorting.links.sup_from}" class="white_link">Sender</a>
             {if $sorting.images.sup_from != ""}<a title="sort by sender" href="{$sorting.links.sup_from}" class="white_link"><img border="0" src="{$sorting.images.sup_from}"></a>{/if}
           </td>
+          {if $has_customer_integration}
           <td align="center" class="default_white" nowrap>
             <a title="sort by sender" href="{$sorting.links.sup_customer_id}" class="white_link">Customer</a>
             {if $sorting.images.sup_customer_id != ""}<a title="sort by customer" href="{$sorting.links.sup_customer_id}" class="white_link"><img border="0" src="{$sorting.images.sup_customer_id}"></a>{/if}
           </td>
+          {/if}
           <td align="center" class="default_white">
             <a title="sort by date" href="{$sorting.links.sup_date}" class="white_link">Date</a>
             {if $sorting.images.sup_date != ""}<a title="sort by date" href="{$sorting.links.sup_date}" class="white_link"><img border="0" src="{$sorting.images.sup_date}"></a>{/if}
@@ -149,7 +151,9 @@ function removeEmails(f)
         <tr bgcolor="{if $list[i].sup_iss_id != 0}{$light_color}{else}#99CCFF{/if}">
           <td align="center" width="1%" class="default"><input type="checkbox" name="item[]" value="{$list[i].sup_id}" {if $list[i].sup_iss_id != 0}disabled{/if}></td>
           <td class="default">{$list[i].sup_from|escape:"html"}</td>
+          {if $has_customer_integration}
           <td class="default" nowrap>{$list[i].customer_title|escape:"html"}</td>
+          {/if}
           <td align="center" class="default" nowrap>{$list[i].sup_date}</td>
           <td class="default">{$list[i].sup_to|escape:"html"|replace:",":" "}</td>
           <td align="center" class="default" nowrap>
@@ -168,13 +172,13 @@ function removeEmails(f)
         </tr>
         {sectionelse}
         <tr bgcolor="gray">
-          <td colspan="7" class="default_white" align="center">
+          <td colspan="{if $has_customer_integration}7{else}6{/if}" class="default_white" align="center">
             <i>No emails could be found.</i>
           </td>
         </tr>
         {/section}
         <tr bgcolor="{$cell_color}">
-          <td colspan="7">
+          <td colspan="{if $has_customer_integration}7{else}6{/if}">
             <table width="100%" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="35%">
@@ -216,7 +220,7 @@ function removeEmails(f)
           </td>
         </tr>
         <tr bgcolor="{$dark_color}">
-          <td colspan="7">
+          <td colspan="{if $has_customer_integration}7{else}6{/if}">
             <table width="100%" cellspacing="0" cellpadding="0">
               <tr>
                 <td colspan="3">
