@@ -16,7 +16,9 @@ Eventum Issue Tracking System
 - Changed statuses to always be sorted by rank (Bryan)
 - Fixed bug with array_merge() on manage users page (Bryan)
 - Fixed bug with not being able to un-assign inactive users from issues (Bryan)
-- Added input checking to prevent possible SQL Injection attacks (Bryan)
+- Added more thorough input checking to prevent possible SQL Injection attacks (Bryan)
+- Fixed Misc::activateLinks() method to handle links with tildes (Elan Ruusamäe)
+- Properly escape values to prevent SQL-Injection attacks (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
