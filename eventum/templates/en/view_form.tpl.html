@@ -123,7 +123,7 @@ function changeIssueStatus(f, issue_id, current_status_id)
           <td width="120" bgcolor="{$cell_color}" rowspan="2" valign="top" class="default_white" nowrap>
             <b>Notification List:</b>
           </td>
-          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
+          <td width="50%" rowspan="2" bgcolor="{$light_color}" valign="top" class="default">
             {if $subscribers.staff != ''}Staff: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
             {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
             {if $subscribers.customers != ''}Other: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}

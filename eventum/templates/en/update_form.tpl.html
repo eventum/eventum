@@ -108,7 +108,7 @@ function validateForm(f)
           <td width="120" bgcolor="{$cell_color}" rowspan="2" valign="top" class="default_white" nowrap>
             <b>Notification List:</b>
           </td>
-          <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
+          <td width="50%" bgcolor="{$light_color}" rowspan="2" valign="top" class="default">
             {if $subscribers.staff != ''}Staff: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
             {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
             {if $subscribers.customers != ''}Other: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
@@ -180,7 +180,7 @@ function validateForm(f)
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>Assignment:</b>
           </td>
-          <td colspan="3" bgcolor="{$light_color}">
+          <td bgcolor="{$light_color}">
             {if $issue.has_inactive_users}
             <span class="default"><input type="radio" name="keep_assignments" checked value="yes"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'keep_assignments', 0);">Keep Current Assignments: {$issue.assignments}</a>
             <br />
