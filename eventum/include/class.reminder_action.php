@@ -475,7 +475,13 @@ class Reminder_Action
             return array();
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['total_conditions'] = count(Reminder_Condition::getList($res[$i]['rma_id']));
+                $conditions = Reminder_Condition::getList($res[$i]['rma_id']);
+                $res[$i]['total_conditions'] = count($conditions);
+                foreach ($conditions as $condition) {
+                    if ($condition['rmf_sql_field'] == 'iss_sta_id') {
+                        $res[$i]['status'] = Status::getStatusTitle($condition['rlc_value']);
+                    }
+                }
             }
             return $res;
         }
