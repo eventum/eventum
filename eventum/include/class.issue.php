@@ -2602,6 +2602,10 @@ class Issue
         global $HTTP_SERVER_VARS;
         static $returns;
 
+        if (empty($issue_id)) {
+            return '';
+        }
+        
         if ((!empty($returns[$issue_id])) && ($force_refresh != true)) {
             return $returns[$issue_id];
         }
