@@ -18,15 +18,8 @@
 {if $current_user_prefs.close_popup_windows}
 setTimeout('closeAndRefresh()', 2000);
 {/if}
-{literal}
-function closeAndRefresh()
-{
-    opener.location.href = opener.location;
-    window.close();
-}
 //-->
 </script>
-{/literal}
 <br />
 {if not $current_user_prefs.close_popup_windows}
   <center>
@@ -49,15 +42,8 @@ function closeAndRefresh()
 {if $current_user_prefs.close_popup_windows == '1'}
 setTimeout('closeAndRefresh()', 2000);
 {/if}
-{literal}
-function closeAndRefresh()
-{
-    opener.location.href = opener.location;
-    window.close();
-}
 //-->
 </script>
-{/literal}
 <br />
 {if not $current_user_prefs.close_popup_windows}
   <center>

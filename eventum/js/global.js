@@ -3,6 +3,12 @@
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));
 
+function closeAndRefresh()
+{
+    opener.location.href = opener.location;
+    window.close();
+}
+
 function str_replace(s, srch, rplc) {
   var tmp = s;
   var tmp_before = new String();
