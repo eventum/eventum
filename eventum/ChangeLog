@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+???, Version 1.?
+- Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being set. (Bryan)
+
 15 June 2004, Version 1.2.1
 - Fixed the email download routine to properly handle emails without any issue association (João)
 - Changed the reminder email alert so it displays the current assignment list (João)
