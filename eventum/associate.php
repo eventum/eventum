@@ -57,8 +57,9 @@ if (@$HTTP_POST_VARS['cat'] == 'associate') {
             $res = Note::insert(Auth::getUserID(), $HTTP_POST_VARS['issue']);
             // remove the associated email
             if ($res) {
-                // notify the email being blocked to IRC
-                Notification::notifyIRCBlockedMessage($HTTP_POST_VARS['issue'], $email['sup_from']);
+                list($HTTP_POST_VARS["from"]) = Support::getSender(array($HTTP_POST_VARS['item'][$i]));
+                Workflow::handleBlockedEmail(Issue::getProjectID($HTTP_POST_VARS['issue']), $HTTP_POST_VARS['issue'], $HTTP_POST_VARS, 'associated');
+
                 Support::removeEmail($HTTP_POST_VARS['item'][$i]);
             }
         }

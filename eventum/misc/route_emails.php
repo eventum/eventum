@@ -174,8 +174,12 @@ if (!$has_magic_cookie) {
             'note'        => Mail_API::getCannedBlockedMsgExplanation() . $body
         );
         Note::insert(Auth::getUserID(), $issue_id, $structure->headers['from'], false);
-        // notify the email being blocked to IRC
-        Notification::notifyIRCBlockedMessage($issue_id, $structure->headers['from']);
+        
+        $HTTP_POST_VARS['issue_id'] = $issue_id;
+        $HTTP_POST_VARS['from'] = $sender_email;
+        
+        Workflow::handleBlockedEmail($prj_id, $issue_id, $HTTP_POST_VARS, 'routed');
+        
         // try to get usr_id of sender, if not, use system account
         $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
         if (!$usr_id) {
