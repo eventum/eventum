@@ -1,6 +1,6 @@
 {$data.user.usr_full_name} {if $report_type == 'weekly'}Weekly {/if}Report {$data.start} - {$data.end}
 
-{$application_title} Issues:
+{$application_title} issues worked on:
 
 {section name=issue loop=$data.issues}
 {$data.issues[issue].iss_id|str_pad:4:" ":"STR_PAD_LEFT"} {$data.issues[issue].iss_summary}
