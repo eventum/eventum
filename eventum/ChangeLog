@@ -8,3 +8,4 @@ Eventum Issue Tracking System
 - SMS email address can now be set back to empty. (Bryan)
 - Fixed a problem with a duplicate key name in the history_type table (João)
 - Fixed a few database migration problems when upgrading from an old snapshot release (João)
+- Added a missing directory required in order for the IRC bot to work (João)
