@@ -108,6 +108,8 @@ if (stristr(PHP_OS, 'darwin')) {
 @define("APP_DEFAULT_PAGER_SIZE", 5);
 @define("APP_DEFAULT_REFRESH_RATE", 5); // in minutes
 
+@define("APP_CHARSET", "ISO-8859-1");
+
 // define colors used by eventum
 @define("APP_CELL_COLOR", "#255282");
 @define("APP_LIGHT_COLOR", "#DDDDDD");
@@ -148,4 +150,7 @@ $HTTP_POST_VARS =& Misc::dispelMagicQuotes($HTTP_POST_VARS);
 // handle the language preferences now
 @include_once(APP_INC_PATH . "class.language.php");
 Language::setPreference();
+
+// set charset
+header("content-type: text/html;charset=" . APP_CHARSET);
 ?>
