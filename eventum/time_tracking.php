@@ -38,19 +38,18 @@ $tpl->setTemplate("add_time_tracking.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
+$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["iss_id"];
+
 if (@$HTTP_POST_VARS["cat"] == "add_time") {
     $res = Time_Tracking::insertEntry();
     $tpl->assign("time_add_result", $res);
-    $issue_id = $HTTP_POST_VARS["issue_id"];
-} else {
-    $issue_id = $HTTP_GET_VARS["iss_id"];
 }
 
 $tpl->assign(array(
-            "issue_id"         => $issue_id,
-            "time_categories"  => Time_Tracking::getAssocCategories()
+    "issue_id"           => $issue_id,
+    "time_categories"    => Time_Tracking::getAssocCategories(),
+    "current_user_prefs" => Prefs::get(Auth::getUserID())
 ));
-$tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
 
 $tpl->displayTemplate();
 ?>
