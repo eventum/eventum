@@ -252,20 +252,24 @@ class Eventum_Bot
         $stmt = "SELECT
                     ino_id,
                     ino_iss_id,
-                    iss_prj_id,
+                    ino_prj_id,
                     ino_message
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "irc_notice
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 ON
+                    iss_id=ino_iss_id
                  WHERE
-                    iss_id=ino_iss_id AND
                     ino_status='pending'";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($res); $i++) {
-            $channels = $this->_getChannels($res[$i]['iss_prj_id']);
+            $channels = $this->_getChannels($res[$i]['ino_prj_id']);
             if (count($channels) > 0) {
                 foreach ($channels as $channel) {
-                    $res[$i]['ino_message'] .= ' - ' . APP_BASE_URL . 'view.php?id=' . $res[$i]['ino_iss_id'];
+                    if ($res[$i]['ino_iss_id'] > 0) {
+                        $res[$i]['ino_message'] .= ' - ' . APP_BASE_URL . 'view.php?id=' . $res[$i]['ino_iss_id'];
+                    }
                     $this->sendResponse($irc, $channel, $res[$i]['ino_message']);
                 }
                 // mark message as sent
