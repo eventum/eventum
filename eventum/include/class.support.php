@@ -147,6 +147,9 @@ class Support
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account";
+        if (!empty($options['keywords'])) {
+            $stmt .= "," . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body";
+        }
         $stmt .= Support::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
