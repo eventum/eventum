@@ -25,6 +25,7 @@ Eventum Issue Tracking System
 - Remove certain CC addresses from incoming emails (Bryan)
 - Added IRC bot restart script (Bryan)
 - Fixed SQL error with advanced search (Bryan)
+- Fixed bug with link filters (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
