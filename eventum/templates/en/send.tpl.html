@@ -54,6 +54,8 @@ setTimeout('closeAndRefresh()', 2000);
 {else}
 <script language="JavaScript">
 <!--
+checkWindowClose('If you close this window, you will lose your message');
+
 var contact_list = new Array();
 {section name="i" loop=$assoc_emails}
 contact_list[contact_list.length] = '{$assoc_emails[i]|replace:"'":"\\'"}';
@@ -97,10 +99,12 @@ function validate(f)
     if (!confirm(warning_msg)) {
         return false;
     } else {
+        checkWindowClose(false);
         return true;
     }
 {/literal}
 {else}
+    checkWindowClose(false);
     return true;
 {/if}
 {literal}
@@ -114,11 +118,13 @@ function setResponseBody(f)
 }
 function saveDraft(f)
 {
+    checkWindowClose(false);
     f.cat.value = 'save_draft';
     f.submit();
 }
 function updateDraft(f)
 {
+    checkWindowClose(false);
     f.cat.value = 'update_draft';
     f.submit();
 }
