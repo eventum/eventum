@@ -407,11 +407,8 @@ class Mime_Helper
                 if ($filetype == '/') {
                     $filetype = '';
                 }
-                $valid_dispositions = array(
-                    'attachment',
-                    'inline'
-                );
-                if ((in_array(@strtolower($output->parts[$i]->disposition), $valid_dispositions)) && 
+                if ((!in_array(strtolower($filetype), Mime_Helper::_getInvalidContentTypes())) &&
+                        (in_array(@strtolower($output->parts[$i]->disposition), Mime_Helper::_getValidDispositions())) && 
                         (!empty($output->parts[$i]->d_parameters["filename"]))) {
                     $name = MIME_Helper::getAttachmentName($filenames, @$output->parts[$i]->d_parameters["filename"]);
                     $filenames[] = $name;
@@ -452,11 +449,8 @@ class Mime_Helper
                 );
                 continue;
             }
-            $valid_dispositions = array(
-                'attachment',
-                'inline'
-            );
-            if ((in_array(@strtolower($output->parts[$i]->disposition), $valid_dispositions)) && 
+            if ((!in_array(strtolower($filetype), Mime_Helper::_getInvalidContentTypes())) &&
+                    (in_array(@strtolower($output->parts[$i]->disposition), Mime_Helper::_getValidDispositions())) && 
                     (!empty($output->parts[$i]->d_parameters["filename"]))) {
                 $attachments[] = array(
                     'filename' => $output->parts[$i]->d_parameters["filename"]
@@ -494,11 +488,8 @@ class Mime_Helper
                     break;
                 }
             } else {
-                $valid_dispositions = array(
-                    'attachment',
-                    'inline'
-                );
-                if ((in_array(@strtolower($output->parts[$i]->disposition), $valid_dispositions)) && 
+                if ((!in_array(strtolower($filetype), Mime_Helper::_getInvalidContentTypes())) &&
+                        (in_array(@strtolower($output->parts[$i]->disposition), Mime_Helper::_getValidDispositions())) && 
                         (!empty($output->parts[$i]->d_parameters["filename"])) &&
                         (@$output->parts[$i]->d_parameters["filename"] == $filename)) {
                     break;
@@ -584,7 +575,9 @@ class Mime_Helper
                     }
                     break;
                 default:
-                    if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'inline')) {
+                    // avoid treating forwarded messages as attachments
+                    if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'inline') &&
+                            ($ctype != 'message/rfc822')) {
                         @$parts['attachments'][] = $obj->body;
                     }
             }
@@ -625,9 +618,9 @@ class Mime_Helper
      * Given a quoted-printable string, this
      * function will decode and return it.
      *
+     * @access private
      * @param  string Input body to decode
      * @return string Decoded body
-     * @access private
      */
     function _quotedPrintableDecode($input)
     {
@@ -638,6 +631,37 @@ class Mime_Helper
         $input = preg_replace('/=([a-f0-9]{2})/ie', "chr(hexdec('\\1'))", $input);
 
         return $input;
+    }
+
+
+    /**
+     * Returns the internal list of content types that we do not support as
+     * valid attachment types.
+     *
+     * @access private
+     * @return array The list of content types
+     */
+    function _getInvalidContentTypes()
+    {
+        return array(
+            'message/rfc822'
+        );
+    }
+
+
+    /**
+     * Returns the internal list of attachment dispositions that we do not 
+     * support as valid attachment types.
+     *
+     * @access private
+     * @return array The list of valid dispositions
+     */
+    function _getValidDispositions()
+    {
+        return array(
+            'attachment',
+            'inline'
+        );
     }
 }
 
