@@ -47,7 +47,8 @@ if (@$HTTP_POST_VARS["cat"] == "upload_file") {
 
 $tpl->assign(array(
     "issue_id"           => $issue_id,
-    "current_user_prefs" => Prefs::get(Auth::getUserID())
+    "current_user_prefs" => Prefs::get(Auth::getUserID()),
+    "max_attachment_size"    => Attachment::getMaxAttachmentSize()
 ));
 
 $tpl->displayTemplate();
