@@ -60,21 +60,20 @@
           <td width="50%" nowrap bgcolor="{$light_color}" class="default">
             <b>User: {$current_full_name}</b> (<a target="_top" title="modify your account details and preferences" href="{$rel_url}preferences.php" class="link">Preferences</a>)
           </td>
-          <form target="_top" method="get" action="{$rel_url}view.php">
-          <td width="2%" nowrap bgcolor="{$light_color}" align="right">
-            <span class="default"><b>Issues:</b></span>
-            <label for="shortcut" accesskey="4"></label>
-            <input type="text" id="shortcut" name="id" value="id #" 
-              onBlur="javascript:if (this.value == '') this.value = 'id #';" onFocus="javascript:if (this.value == 'id #') this.value='';" size="5" class="shortcut">
-            <input type="submit" value="Go" class="shortcut">
-          </td>
-          </form>
           <form target="_top" method="get" action="{$rel_url}list.php">
           <td width="5%" nowrap bgcolor="{$light_color}">
             <label for="search" accesskey="3"></label>
             <input type="text" id="search" name="keywords" value="keywords" size="15" 
               onBlur="javascript:if (this.value == '') this.value = 'keywords';" onFocus="javascript:if (this.value == 'keywords') this.value='';" class="shortcut">
             <input type="submit" value="Search" class="shortcut">
+          </td>
+          </form>
+          <form target="_top" method="get" action="{$rel_url}view.php">
+          <td width="2%" nowrap bgcolor="{$light_color}" align="right">
+            <label for="shortcut" accesskey="4"></label>
+            <input type="text" id="shortcut" name="id" value="id #" 
+              onBlur="javascript:if (this.value == '') this.value = 'id #';" onFocus="javascript:if (this.value == 'id #') this.value='';" size="5" class="shortcut">
+            <input type="submit" value="Go" class="shortcut">
           </td>
           </form>
         </tr>
