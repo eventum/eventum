@@ -566,7 +566,7 @@ class Support
             if (!empty($email->fromaddress)) {
                 $details = Email_Account::getDetails($info['ema_id']);
                 if (Customer::hasCustomerIntegration($info['ema_prj_id'])) {
-                    // check for any customer contact association in spot
+                    // check for any customer contact association
                     list($customer_id,) = Customer::getCustomerIDByEmails($info['ema_prj_id'], array($sender_email));
                     $t['customer_id'] = $customer_id;
                 }
