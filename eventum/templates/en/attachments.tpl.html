@@ -2,25 +2,12 @@
 {literal}
 <script language="JavaScript">
 <!--
-function validateUpload(f)
-{
-    var field1 = getFormElement(f, 'attachment[]', 0);
-    var field2 = getFormElement(f, 'attachment[]', 1);
-    var field3 = getFormElement(f, 'attachment[]', 2);
-    if ((isWhitespace(field1.value)) && (isWhitespace(field2.value)) && (isWhitespace(field3.value))) {
-        errors[errors.length] = new Option('Files', 'attachment[]');
-        return false;
-    }
-    var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('', '_uploadFile', features);
-    popupWin.focus();
-}
 function deleteAttachment(file_id)
 {
     if (!confirm('This action will permanently delete the selected attachment.')) {
         return false;
     } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
         var popupWin = window.open('popup.php?cat=delete_attachment&id=' + file_id, '_popup', features);
         popupWin.focus();
     }
@@ -30,10 +17,16 @@ function deleteAttachmentFile(file_id)
     if (!confirm('This action will permanently delete the selected file.')) {
         return false;
     } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=no,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
         var popupWin = window.open('popup.php?cat=delete_file&id=' + file_id, '_popup', features);
         popupWin.focus();
     }
+}
+function uploadFile(issue_id)
+{
+    var features = 'width=600,height=300,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('file_upload.php?iss_id=' + issue_id, 'file_upload_' + issue_id, features);
+    popupWin.focus();
 }
 //-->
 </script>
@@ -95,50 +88,16 @@ function deleteAttachmentFile(file_id)
                 </td>
               </tr>
               {/section}
-            </table>
-          </td>
-        </tr>
-        {if $current_role >= $roles.reporter}
-        <tr id="attachments2" {get_display_style element_name="attachments"}>
-          <td colspan="2" class="default"><b>Add New Files:</b></td>
-        </tr>
-        <form name="attachment_form" action="popup.php" method="post" enctype="multipart/form-data" target="_uploadFile" onSubmit="javascript:return checkFormSubmission(this, 'validateUpload');">
-        <input type="hidden" name="cat" value="upload_file">
-        <input type="hidden" name="issue_id" value="{$smarty.get.id}">
-        <tr id="attachments3" {get_display_style element_name="attachments"}>
-          <td colspan="2">
-            <table width="100%" cellpadding="2" cellspacing="1">
+              <form>
               <tr>
-                <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap>
-                  <b>Filenames:</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
-                    <tr>
-                      <td><input size="40" name="attachment[]" type="file" class="shortcut" onChange="javascript:addFileRow('file_table', 'attachment[]');"></td>
-                    </tr>
-                  </table>
-                  <span class="small_default"><i>Note: The current maximum allowed upload file size is {$max_attachment_size}</i></span>
+                <td colspan="4" bgcolor="{$cell_color}" align="center">
+                  <input type="button" class="button" value="Upload File" onClick="javascript:uploadFile({$smarty.get.id});">
                 </td>
               </tr>
-              <tr bgcolor="{$light_color}">
-                <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap>
-                  <b>Description:</b>
-                </td>
-                <td bgcolor="{$light_color}">
-                  <textarea name="file_description" rows="4" style="width: 97%"></textarea>
-                </td>
-              </tr>
-              <tr bgcolor="{$cell_color}">
-                <td colspan="2" align="center">
-                  <input type="submit" class="button" value="Upload File">
-                </td>
-              </tr>
+              </form>
             </table>
           </td>
         </tr>
-        </form>
-        {/if}
       </table>
     </td>
   </tr>
