@@ -22,6 +22,8 @@ $stmts[] = "ALTER TABLE eventum_project_user ADD COLUMN pru_role tinyint(1) unsi
 
 $stmts[] = "ALTER TABLE eventum_project ADD COLUMN prj_segregate_reporter tinyint(1) DEFAULT 0";
 
+$stmts[] = "ALTER TABLE eventum_issue ADD COLUMN iss_private tinyint(1) NOT NULL DEFAULT 0";
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
