@@ -27,7 +27,7 @@
   {include file="view_form.tpl.html"}
   {include file="custom_fields.tpl.html"}
   {include file="top_link.tpl.html"}
-  {if $issue.iss_customer_id}
+  {if $has_customer_integration and $issue.iss_customer_id}
   {include file="customer/$customer_backend_name/customer_info.tpl.html"}
   {include file="top_link.tpl.html"}
   {/if}
@@ -43,7 +43,7 @@
   {include file="notes.tpl.html"}
   {include file="top_link.tpl.html"}
   {/if}
-  {if $issue.iss_customer_id and $current_role > $roles.customer}
+  {if $current_role > $roles.customer}
   {include file="phone_support.tpl.html"}
   {include file="top_link.tpl.html"}
   {/if}
