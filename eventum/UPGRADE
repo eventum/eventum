@@ -1,0 +1,27 @@
+
+Upgrade Process
+===============
+
+We have tried to make upgrading from an earlier release as pain-free as 
+possible, and we provide scripts that should bring your current Eventum
+installation up-to-date.
+
+
+- Upgrading from version 1.1 to 1.2:
+------------------------------------
+
+For the upgrade from release 1.1 to 1.2, there's a set of scripts in the 
+following directory that will upgrade your database schema:
+
+  /path-to-eventum/misc/upgrade/v1.1_to_v1.2/
+
+Run the scripts in the following order:
+
+- database_changes.php
+- set_support_email_usr_id.php
+
+
+If you find any problems while upgrading, please email us in the mailing lists
+described in the README file.
+
+MySQL AB
