@@ -424,6 +424,7 @@ INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created
 INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (5, 'Database Changes', NOW());
 INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (6, 'Tech-Support', NOW());
 INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (7, 'Release', NOW());
+INSERT INTO %TABLE_PREFIX%time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (8, 'Telephone Discussion', NOW());
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%user;
 CREATE TABLE %TABLE_PREFIX%user (
@@ -500,6 +501,7 @@ CREATE TABLE %TABLE_PREFIX%phone_support (
   phs_id int(10) unsigned NOT NULL auto_increment,
   phs_usr_id int(10) unsigned NOT NULL default '0',
   phs_iss_id int(10) unsigned NOT NULL default '0',
+  phs_ttr_id int(10) unsigned NULL,
   phs_call_from_lname varchar(64) NULL,
   phs_call_from_fname varchar(64) NULL,
   phs_call_to_lname varchar(64) NULL,
@@ -509,7 +511,6 @@ CREATE TABLE %TABLE_PREFIX%phone_support (
   phs_phone_number varchar(32) NOT NULL default '',
   phs_phone_type varchar(6) NOT NULL,
   phs_reason varchar(16) NOT NULL,
-  phs_time_spent int(10) unsigned NOT NULL default '0',
   phs_description text NOT NULL,
   PRIMARY KEY (phs_id),
   KEY phs_iss_id (phs_iss_id),
