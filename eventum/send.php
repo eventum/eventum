@@ -57,7 +57,11 @@ if (@$HTTP_POST_VARS["cat"] == "send_email") {
     $res = Support::sendEmail($HTTP_POST_VARS['parent_id']);
     $tpl->assign("send_result", $res);
     if (!@empty($HTTP_POST_VARS['new_status'])) {
-        Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
+        $res = Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
+        if ($res != -1) {
+            $new_status = Status::getStatusTitle($HTTP_POST_VARS['new_status']);
+            History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " . User::getFullName($usr_id) . " when sending an email");
+        }
     }
     // remove the existing email draft, if appropriate
     if (!empty($HTTP_POST_VARS['draft_id'])) {
@@ -106,8 +110,12 @@ if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
     $tpl->bulkAssign(array(
         "draft_id"        => $HTTP_GET_VARS['id'],
         "email"           => $email,
-        "parent_email_id" => $draft['emd_sup_id']
+        "parent_email_id" => $draft['emd_sup_id'],
+        "draft_status"    => $draft['emd_status']
     ));
+    if ($draft['emd_status'] != 'pending') {
+        $tpl->assign("read_only", 1);
+    }
 } elseif (@$HTTP_GET_VARS['cat'] == 'create_draft') {
     $tpl->assign("hide_email_buttons", "yes");
 } else {

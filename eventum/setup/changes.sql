@@ -551,3 +551,6 @@ UPDATE eventum_user SET usr_status = 'inactive' WHERE usr_id = 1;
 ALTER TABLE eventum_project_user ADD COLUMN pru_role tinyint(1) unsigned default 1;
 
 ALTER TABLE eventum_user DROP column usr_role;
+
+# January 23th
+ALTER TABLE eventum_email_draft ADD COLUMN emd_status enum('pending', 'edited', 'sent') NOT NULL DEFAULT 'pending' AFTER emd_sup_id;

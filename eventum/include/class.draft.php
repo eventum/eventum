@@ -126,15 +126,13 @@ class Draft
             $parent_id = 'NULL';
         }
         $usr_id = Auth::getUserID();
+        
+        // update previous draft and insert new record
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
                  SET
                     emd_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    emd_usr_id=$usr_id,
-                    emd_iss_id=$issue_id,
-                    emd_sup_id=$parent_id,
-                    emd_subject='" . Misc::escapeString($subject) . "',
-                    emd_body='" . Misc::escapeString($message) . "'
+                    emd_status = 'edited'
                  WHERE
                     emd_id=$emd_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -142,15 +140,9 @@ class Draft
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Draft::removeRecipients($emd_id);
-            Draft::addEmailRecipient($emd_id, $to, false);
-            $cc = str_replace(',', ';', $cc);
-            $ccs = explode(';', $cc);
-            foreach ($ccs as $cc) {
-                Draft::addEmailRecipient($emd_id, $cc, true);
-            }
             Issue::markAsUpdated($issue_id, "draft saved");
             History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), 'Email message draft updated by ' . User::getFullName($usr_id));
+            Draft::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
             return 1;
         }
     }
@@ -159,8 +151,10 @@ class Draft
     // XXX: put some documentation here
     function remove($emd_id)
     {
-        $stmt = "DELETE FROM
+        $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                 SET
+                    emd_status = 'sent'
                  WHERE
                     emd_id=$emd_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -168,7 +162,6 @@ class Draft
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Draft::removeRecipients($emd_id);
             return true;
         }
     }
@@ -247,20 +240,31 @@ class Draft
     }
 
 
-    // XXX: put some documentation here
-    function getList($issue_id)
+    /**
+     * Returns a list of drafts associated with an issue.
+     * 
+     * @access  public
+     * @param   integer $issue_id The ID of the issue.
+     * @param   boolean $show_all If all draft statuses should be shown
+     * @return  array An array of drafts.
+     */
+    function getList($issue_id, $show_all = false)
     {
         $stmt = "SELECT
                     emd_id,
                     emd_usr_id,
                     emd_subject,
                     emd_updated_date,
-                    emd_unknown_user
+                    emd_unknown_user,
+                    emd_status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
                  WHERE
-                    emd_iss_id=$issue_id
-                 ORDER BY
+                    emd_iss_id=$issue_id\n";
+        if ($show_all == false) {
+            $stmt .= "AND emd_status = 'pending'\n";
+        }
+        $stmt .= "ORDER BY
                     emd_id";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
@@ -331,8 +335,9 @@ class Draft
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
                 WHERE
-                    emd_iss_id = $issue_id
-                 ORDER BY
+                    emd_iss_id = $issue_id AND
+                    emd_status = 'pending'
+                ORDER BY
                     emd_id ASC
                 LIMIT " . ($sequence - 1) . ", 1";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);

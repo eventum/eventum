@@ -778,6 +778,7 @@ CREATE TABLE %TABLE_PREFIX%email_draft (
   emd_usr_id INT(11) UNSIGNED NOT NULL,
   emd_iss_id INT(11) unsigned NOT NULL,
   emd_sup_id INT(11) UNSIGNED NULL DEFAULT NULL,
+  emd_status enum('pending', 'edited', 'sent') NOT NULL DEFAULT 'pending',
   emd_updated_date DATETIME NOT NULL,
   emd_subject VARCHAR(255) NOT NULL,
   emd_body LONGTEXT NOT NULL,

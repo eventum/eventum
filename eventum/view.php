@@ -124,6 +124,11 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
             ));
 
             if ($role_id != User::getRoleID('customer')) {
+                if (@$_REQUEST['show_all_drafts'] == 1) {
+                    $show_all_drafts = true;
+                } else {
+                    $show_all_drafts = false;
+                }
                 $time_entries = Time_Tracking::getListing($issue_id);
                 $tpl->assign(array(
                     'notes'              => Note::getListing($issue_id),
@@ -137,7 +142,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                     'total_time_spent'   => $time_entries['total_time_spent'],
                     'impacts'            => Impact_Analysis::getListing($issue_id),
                     'statuses'           => Status::getAssocStatusList($prj_id, false),
-                    'drafts'             => Draft::getList($issue_id),
+                    'drafts'             => Draft::getList($issue_id, $show_all_drafts),
                     'groups'             => Group::getAssocList($prj_id)
                 ));
             }
