@@ -1078,6 +1078,7 @@ class Issue
                     $assignment_notifications[] = $assignee;
                     $assignments_changed = true;
                 }
+                $assignments_changed = true;
             }
             if (count($assignment_notifications) > 0) {
                 Notification::notifyNewAssignment($assignment_notifications, $issue_id);
@@ -1110,7 +1111,8 @@ class Issue
                     iss_res_id=" . $HTTP_POST_VARS["resolution"] . ",
                     iss_summary='" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
                     iss_description='" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    iss_dev_time=" . $HTTP_POST_VARS["estimated_dev_time"] . ",
+                    iss_dev_time='" . Misc::escapeString($HTTP_POST_VARS["estimated_dev_time"]) . "',
+                    iss_percent_complete= '" . Misc::escapeString($HTTP_POST_VARS["percent_complete"]) . "',
                     iss_trigger_reminders=" . $HTTP_POST_VARS["trigger_reminders"] . ",
                     iss_grp_id ='" . $HTTP_POST_VARS["group"] . "'";
         if (isset($HTTP_POST_VARS['private'])) {
@@ -2029,7 +2031,9 @@ class Issue
                     " . Issue::getLastActionFields() . ",
                     IF(iss_last_internal_action_date > iss_last_public_action_date, 'internal', 'public') AS action_type,
                     iss_private,
-                    usr_full_name
+                    usr_full_name,
+                    iss_percent_complete,
+                    iss_dev_time
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";

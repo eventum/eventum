@@ -167,50 +167,24 @@ class Display_Column
     {
         $columns = array(
             "list_issues"   =>  array(
-                "pri_rank"    =>  array(
-                    "title" =>  "Priority"
-                ),
-                "iss_id"    =>  array(
-                    "title" =>  "Issue ID"
-                ),
-                "usr_full_name" =>  array(
-                    "title" =>  "Reporter"
-                ),
-                "iss_grp_id"    =>  array(
-                    "title" =>  "Group"
-                ),
-                "assigned"  =>  array(
-                    "title" =>  "Assigned"
-                ),
-                "time_spent"    =>  array(
-                    "title" =>  "Time Spent"
-                ),
-                "prc_title"     =>  array(
-                    "title" =>  "Category"
-                ),
-                "pre_title" =>  array(
-                    "title" =>  "Release"
-                ),
-                "iss_customer_id"   =>  array(
-                    "title" =>  "Customer"
-                ),
-                "iss_sta_id"    =>  array(
-                    "title" =>  "Status"
-                ),
-                "sta_change_date"   =>  array(
-                    "title" =>  "Status Change Date"
-                ),
-                "last_action_date"  =>  array(
-                    "title" =>  "Last Action Date"
-                ),
-                "custom_fields" =>  array(
-                    "title" =>  "Custom Fields"
-                ),
-                "iss_summary"   =>  array(
-                    "title" =>  "Summary",
-                    "align" =>  "left",
-                    "width" =>  '30%'
-                )
+                    "pri_rank"    =>  array(
+                            "title" =>  "Priority"
+                    ),
+                    "iss_id"    =>  array(
+                            "title" =>  "Issue ID"
+                    ),
+                    "usr_full_name" =>  array(
+                            "title" =>  "Reporter"
+                    ),
+                    "iss_grp_id"    =>  array(
+                            "title" =>  "Group"
+                    ),
+                    "assigned"  =>  array(
+                            "title" =>  "Assigned"
+                    ),
+                    "time_spent"    =>  array(
+                            "title" =>  "Time Spent"
+                    ),
             )
         );
         return $columns[$page];
