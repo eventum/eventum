@@ -1582,8 +1582,10 @@ class Issue
         if (!empty($HTTP_POST_VARS["release"])) {
             $stmt .= "iss_pre_id,\n";
         }
-        $stmt .= "iss_pri_id,
-                    iss_usr_id,";
+        if (!empty($HTTP_POST_VARS["priority"])) {
+            $stmt .= "iss_pri_id,\n";
+        }
+        $stmt .= "iss_usr_id,";
         if (!empty($initial_status)) {
             $stmt .= "iss_sta_id,";
         }
@@ -1615,7 +1617,9 @@ class Issue
         if (!empty($HTTP_POST_VARS["release"])) {
             $stmt .= $HTTP_POST_VARS["release"] . ",\n";
         }
-        $stmt .= $HTTP_POST_VARS["priority"] . ",";
+        if (!empty($HTTP_POST_VARS["priority"])) {
+            $stmt .= $HTTP_POST_VARS["priority"] . ",";
+        }
         // if we are creating an issue for a customer, put the 
         // main customer contact as the reporter for it
         if (Customer::hasCustomerIntegration($prj_id)) {
