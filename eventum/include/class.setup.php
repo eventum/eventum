@@ -82,8 +82,8 @@ class Setup
         }
         @flock($fp, LOCK_EX);
         @fwrite($fp, base64_encode(serialize($options)));
-        @fclose($fp);
         @flock($fp, LOCK_UN);
+        @fclose($fp);
         return 1;
     }
 }
