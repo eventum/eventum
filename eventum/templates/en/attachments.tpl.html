@@ -115,18 +115,10 @@ function deleteAttachmentFile(file_id)
                 <td bgcolor="{$light_color}">
                   <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
                     <tr>
-                      <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
-                    </tr>
-                    <tr>
-                      <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <input size="50" name="attachment[]" type="file" class="shortcut"><br />
-                        <span class="default">Maximum file size is {$max_attachment_size}</span>
-                      </td>
+                      <td><input size="40" name="attachment[]" type="file" class="shortcut" onChange="javascript:addFileRow('file_table', 'attachment[]');"></td>
                     </tr>
                   </table>
+                  <span class="default"><i>Note: The current maximum upload file size allowed is {$max_attachment_size}</i></span>
                 </td>
               </tr>
               <tr bgcolor="{$light_color}">
