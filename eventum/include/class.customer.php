@@ -94,7 +94,7 @@ class Customer
      * Includes the appropriate customer backend class associated with the
      * given project ID, instantiates it and returns the class.
      *
-     * @access  public
+     * @access  private
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
@@ -138,7 +138,15 @@ class Customer
     }
 
 
-
+    function getBackendImplementationName($prj_id)
+    {
+        $backend_class = Customer::_getBackendNameByProject($prj_id);
+        if (empty($backend_class)) {
+            return '';
+        }
+        $file_name_chunks = explode(".", $backend_class);
+        return $file_name_chunks[1];
+    }
 
 
 
@@ -190,7 +198,6 @@ class Customer
     {
         echo "getCustomerTitlesByIssues($prj_id, $result)<br />";
         $backend =& Customer::_getBackend($prj_id);
-        var_dump($backend);
         $backend->getCustomerTitlesByIssues($result);
     }
 
