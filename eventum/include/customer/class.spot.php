@@ -1035,5 +1035,71 @@ class Customer_Backend
             return $res;
         }
     }
+
+
+    /**
+     * Marks the given issue ID as not redeemed.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  integer 1 if the removal worked, -1 or -2 otherwise
+     */
+    function unflagIncident($issue_id)
+    {
+        // check if the issue is not already in there
+        if (!Customer_Backend::isRedeemedIncident($issue_id)) {
+            return -2;
+        } else {
+            // get the support_no from the customer associated with the given issue
+            $details = Customer_Backend::getDetails(Issue::getCustomerID($issue_id));
+            $stmt = "DELETE FROM
+                        support_issue
+                     WHERE
+                        support_no=" . $details['support_no'] . " AND
+                        iss_id=$issue_id";
+            $pres = $GLOBALS["customer_db"]->query($stmt);
+            if (PEAR::isError($pres)) {
+                Error_Handler::logError(array($pres->getMessage(), $pres->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+
+
+    /**
+     * Marks the given issue ID as redeemed.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  integer 1 if the insert worked, -1 or -2 otherwise
+     */
+    function flagIncident($issue_id)
+    {
+        // check if the issue is not already in there
+        if (Customer_Backend::isRedeemedIncident($issue_id)) {
+            return -2;
+        } else {
+            // get the support_no from the customer associated with the given issue
+            $details = Customer_Backend::getDetails(Issue::getCustomerID($issue_id));
+            $stmt = "INSERT INTO
+                        support_issue
+                     (
+                        support_no,
+                        iss_id
+                     ) VALUES (
+                        " . $details['support_no'] . ",
+                        $issue_id
+                     )";
+            $pres = $GLOBALS["customer_db"]->query($stmt);
+            if (PEAR::isError($pres)) {
+                Error_Handler::logError(array($pres->getMessage(), $pres->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
 }
 ?>

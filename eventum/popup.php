@@ -52,6 +52,7 @@ $tpl->setTemplate("popup.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
+$prj_id = Auth::getCurrentProject();
 
 if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $res = Note::remove($HTTP_GET_VARS["id"]);
@@ -131,10 +132,10 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $res = Authorized_Replier::addUser($HTTP_GET_VARS["iss_id"], $usr_id);
     $tpl->assign('authorize_reply_result', $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'flag_incident') {
-    $res = Customer::flagIncident($HTTP_GET_VARS['iss_id']);
+    $res = Customer::flagIncident($prj_id, $HTTP_GET_VARS['iss_id']);
     $tpl->assign('flag_incident_result', $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'unflag_incident') {
-    $res = Customer::unflagIncident($HTTP_GET_VARS['iss_id']);
+    $res = Customer::unflagIncident($prj_id, $HTTP_GET_VARS['iss_id']);
     $tpl->assign('unflag_incident_result', $res);
 }
 

@@ -294,9 +294,20 @@ class Customer
     }
 
 
+    function flagIncident($prj_id, $issue_id)
+    {
+        echo "flagIncident($prj_id, $issue_id)<br />";
+        Customer::_setupBackend($prj_id);
+        return Customer_Backend::flagIncident($issue_id);
+    }
 
 
-
+    function unflagIncident($prj_id, $issue_id)
+    {
+        echo "unflagIncident($prj_id, $issue_id)<br />";
+        Customer::_setupBackend($prj_id);
+        return Customer_Backend::unflagIncident($issue_id);
+    }
 
 
 
