@@ -951,16 +951,17 @@ CREATE TABLE %TABLE_PREFIX%columns_to_display (
     INDEX(ctd_prj_id, ctd_page)
 );
 
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_summary',1,13);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','custom_fields',1,12
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','sta_change_date',1,
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','last_action_date',1
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_sta_id',1,9);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_customer_id',4,
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','pre_title',9,7);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','prc_title',9,6);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','time_spent',4,5);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','assigned',1,4);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_grp_id',1,3);
-INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_id',1,2);
+
 INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_pri_id',1,1);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_id',1,2);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_grp_id',1,3);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','assigned',1,4);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','time_spent',1,5);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','prc_title',1,6);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','pre_title',1,7);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_customer_id',1,8);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_sta_id',1,9);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','sta_change_date',1,10);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','last_action_date',1,11);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','custom_fields',1,12);
+INSERT INTO %TABLE_PREFIX%columns_to_display VALUES (1,'list_issues','iss_summary',1,13);
