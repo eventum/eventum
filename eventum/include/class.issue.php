@@ -2105,6 +2105,9 @@ class Issue
                 }
                 Issue::formatLastActionDates($res);
                 Issue::getLastStatusChangeDates($prj_id, $res);
+            } elseif ($current_row > 0) {
+                // if there are no results, and the page is not the first page reset page to one and reload results
+                Auth::redirect(APP_RELATIVE_URL . "list.php?pagerRow=0&rows=$max");
             }
             $groups = Group::getAssocList($prj_id);
             $categories = Category::getAssocList($prj_id);
@@ -2648,7 +2651,7 @@ class Issue
                     $res['customer_business_hours'] = Customer::getBusinessHours($res['iss_prj_id'], $res['iss_customer_id']);
                     $res['contact_local_time'] = Date_API::getFormattedDate(Date_API::getCurrentDateGMT(), $res['iss_contact_timezone']);
                     $res['customer_info'] = Customer::getDetails($res['iss_prj_id'], $res['iss_customer_id']);
-                    $res['marked_as_redeemed_incident'] = Customer::isRedeemedIncident($res['iss_prj_id'], $res['iss_id']);
+                    $res['redeemed_incidents'] = Customer::getRedeemedIncidentDetails($res['iss_prj_id'], $res['iss_id']);
                     $max_first_response_time = Customer::getMaximumFirstResponseTime($res['iss_prj_id'], $res['iss_customer_id']);
                     $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
                     if (empty($res['iss_first_response_date'])) {
