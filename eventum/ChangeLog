@@ -1,14 +1,17 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 1.4.1
+???, Version 1.5
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
 - Fixed bug with APP_TITLE not being displayed in issue auto created messages (Bryan)
 - Fixed Clock-In / Clock-Out link on non-base directories (João)
 - Prevent PHP warning from being displayed when running the process_mail_queue.php script (João)
 - Fixed a problem on the example customer backend that was triggering a DB error (João)
+- Added missing function to Abstract_Workflow_Backend class (Bryan)
 - Display the current textarea value when trying to update the custom fields (João)
 - Issue assignment emails now go out from project email address (Bryan)
+- Back button on mail queue log page uses app_base_url now (Bryan)
+- Users can now have seperate roles per project (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
