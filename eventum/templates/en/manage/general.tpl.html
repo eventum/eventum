@@ -419,7 +419,7 @@
                       <td width="80%">
                         <input type="text" name="email_routing[address_prefix]" value="{if $setup.email_routing.address_prefix}{$setup.email_routing.address_prefix}{else}eventum_{/if}" class="default">
                         {include file="error_icon.tpl.html" field="email_routing[address_prefix]"}
-                        <span class="small_default">(i.e. <b>issue_</b>51@domain.com)</span>
+                        <span class="small_default">(i.e. <b>issue_</b>51@example.com)</span>
                       </td>
                     </tr>
                     <tr>
@@ -429,7 +429,7 @@
                       <td width="80%">
                         <input type="text" name="email_routing[address_host]" class="default" value="{$setup.email_routing.address_host}">
                         {include file="error_icon.tpl.html" field="email_routing[address_host]"}
-                        <span class="small_default">(i.e. issue_51@<b>domain.com</b>)</span>
+                        <span class="small_default">(i.e. issue_51@<b>example.com</b>)</span>
                       </td>
                     </tr>
                     <tr>
@@ -491,7 +491,7 @@
                       <td width="80%">
                         <input type="text" name="note_routing[address_prefix]" value="{if $setup.note_routing.address_prefix}{$setup.note_routing.address_prefix}{else}eventum_{/if}" class="default">
                         {include file="error_icon.tpl.html" field="note_routing[address_prefix]"}
-                        <span class="small_default">(i.e. <b>note_</b>51@domain.com)</span>
+                        <span class="small_default">(i.e. <b>note_</b>51@example.com)</span>
                       </td>
                     </tr>
                     <tr>
@@ -501,7 +501,7 @@
                       <td width="80%">
                         <input type="text" name="note_routing[address_host]" class="default" value="{$setup.note_routing.address_host}">
                         {include file="error_icon.tpl.html" field="note_routing[address_host]"}
-                        <span class="small_default">(i.e. note_51@<b>domain.com</b>)</span>
+                        <span class="small_default">(i.e. note_51@<b>example.com</b>)</span>
                       </td>
                     </tr>
                   </table>

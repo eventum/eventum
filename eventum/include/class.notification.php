@@ -279,7 +279,7 @@ class Notification
         $setup = Setup::load();
         // change the sender of the message to {prefix}{issue_id}@{host}
         //  - keep everything else in the message, except 'From:', 'Sender:', 'To:', 'Cc:'
-        // make 'Joe Blow <joe@domain.com>' become 'Joe Blow [CSC] <eventum_59@domain.com>'
+        // make 'Joe Blow <joe@example.com>' become 'Joe Blow [CSC] <eventum_59@example.com>'
         $from = Notification::getFixedFromHeader($issue_id, $sender, 'issue');
 
         list($_headers, $body) = Mime_Helper::splitBodyHeader($full_message);

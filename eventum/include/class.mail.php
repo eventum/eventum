@@ -160,7 +160,7 @@ class Mail_API
 
     /**
      * Method used to build a properly quoted email address, in the form of
-     * "Sender Name" <sender@domain.com>.
+     * "Sender Name" <sender@example.com>.
      *
      * @access  public
      * @param   string $address The email address value
