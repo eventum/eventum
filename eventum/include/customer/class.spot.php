@@ -425,5 +425,121 @@ class Customer_Backend
             return $res;
         }
     }
+
+
+    /**
+     * Method used to get an associative array of the customer names
+     * for the given list of customer ids.
+     *
+     * @access  public
+     * @param   array $customer_ids The list of customers
+     * @return  array The associative array of customer id => customer name
+     */
+    function getTitles($customer_ids)
+    {
+        $items = implode(", ", $customer_ids);
+        $stmt = "SELECT
+                    A.cust_no,
+                    A.name
+                 FROM
+                    cust_entity A,
+                    support B
+                 WHERE
+                    A.cust_type='C' AND
+                    A.cust_no IN ($items) AND
+                    A.cust_no=B.cust_no AND
+                    B.status <> 'Cancelled' AND
+                    NOW() <= (B.enddate + INTERVAL " . Customer_Backend::_getExpirationOffset() . " DAY)";
+        $res = $GLOBALS["customer_db"]->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the list of email addresses associated with the 
+     * contacts of a given customer.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  array The list of email addresses
+     */
+    function getContactEmailAssocList($customer_id)
+    {
+        // join with cnt_support to get the contacts that are allowed in this support contract
+        $stmt = "SELECT
+                    C.eaddress_code,
+                    CONCAT(A.name2, ' ', A.name, ' &lt;', C.eaddress_code, '&gt;') AS name
+                 FROM
+                    cust_entity A,
+                    cust_role B,
+                    eaddress C,
+                    eaddress_type D,
+                    support E,
+                    cnt_support F
+                 WHERE
+                    E.cust_no=B.up_cust_no AND
+                    F.support_no=E.support_no AND
+                    F.cust_no=A.cust_no AND
+                    A.cust_type='P' AND
+                    A.cust_no=B.cust_no AND
+                    B.up_cust_no=$customer_id AND
+                    A.cust_no=C.cust_no AND
+                    C.eaddress_type_no=D.eaddress_type_no AND
+                    D.descript='email' AND
+                    E.status <> 'Cancelled' AND
+                    NOW() <= (E.enddate + INTERVAL " . Customer_Backend::_getExpirationOffset() . " DAY)";
+        $res = $GLOBALS["customer_db"]->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the Spot customer and customer contact IDs associated
+     * with a given list of email addresses.
+     *
+     * @access  public
+     * @param   array $emails The list of email addresses
+     * @return  array The customer and customer contact ID
+     */
+    function getCustomerIDByEmails($emails)
+    {
+        // this will get called by the download email script to 
+        // see which customer is associated with any of those email addresses
+        $stmt = "SELECT
+                    C.cust_no AS contact_id,
+                    C.up_cust_no AS customer_id
+                 FROM
+                    eaddress A,
+                    eaddress_type B,
+                    cust_role C
+                 WHERE
+                    C.cust_no=A.cust_no AND
+                    A.eaddress_type_no=B.eaddress_type_no AND
+                    B.descript='email' AND
+                    A.eaddress_code IN ('" . implode("', '", $emails) . "')
+                 LIMIT
+                    0, 1";
+        $res = $GLOBALS["customer_db"]->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array(0, 0);
+        } else {
+            if (empty($res)) {
+                return array(0, 0);
+            } else {
+                return array($res['customer_id'], $res['contact_id']);
+            }
+        }
+    }
 }
 ?>

@@ -230,11 +230,28 @@ class Customer
     }
 
 
+    function getTitles($prj_id, $customer_ids)
+    {
+        echo "getTitles($prj_id, $customer_ids)<br />";
+        Customer::_setupBackend($prj_id);
+        return Customer_Backend::getTitles($customer_ids);
+    }
 
 
+    function getContactEmailAssocList($prj_id, $customer_id)
+    {
+        echo "getContactEmailAssocList($customer_id)<br />";
+        Customer::_setupBackend($prj_id);
+        return Customer_Backend::getContactEmailAssocList($customer_id);
+    }
 
 
-
+    function getCustomerIDByEmails($prj_id, $emails)
+    {
+        echo "getCustomerIDByEmails($emails)<br />";
+        Customer::_setupBackend($prj_id);
+        return Customer_Backend::getCustomerIDByEmails($emails);
+    }
 
 
 

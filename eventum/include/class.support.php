@@ -39,6 +39,7 @@
 
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.auth.php");
+include_once(APP_INC_PATH . "class.customer.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.pager.php");
 include_once(APP_INC_PATH . "class.mail.php");
@@ -534,7 +535,6 @@ class Support
             // only create a new issue if this email is coming from a known customer
             if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes')) {
                 $sender_email = Mail_API::getEmailAddress($email->fromaddress);
-                include_once(APP_INC_PATH . "class.customer.php");
                 list($customer_id,) = Customer::getCustomerIDByEmails(array($sender_email));
                 if (empty($customer_id)) {
                     $should_create_issue = false;
@@ -559,7 +559,6 @@ class Support
                 if (@$details['ema_check_spot']) {
                     // get the sender's email address and check for any customer contact association in spot
                     $sender_email = Mail_API::getEmailAddress($email->fromaddress);
-                    include_once(APP_INC_PATH . "class.customer.php");
                     list($customer_id,) = Customer::getCustomerIDByEmails(array($sender_email));
                     if (!empty($customer_id)) {
                         $t['customer_id'] = $customer_id;
@@ -885,6 +884,7 @@ class Support
      */
     function getEmailListing($options, $current_row = 0, $max = 5)
     {
+        $prj_id = Auth::getCurrentProject();
         if ($max == "ALL") {
             $max = 9999999;
         }
@@ -922,15 +922,16 @@ class Support
                 "info" => ""
             );
         } else {
-            $customer_ids = array();
-            for ($i = 0; $i < count($res); $i++) {
-                if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
-                    $customer_ids[] = $res[$i]['sup_customer_id'];
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                $customer_ids = array();
+                for ($i = 0; $i < count($res); $i++) {
+                    if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
+                        $customer_ids[] = $res[$i]['sup_customer_id'];
+                    }
                 }
-            }
-            if (count($customer_ids) > 0) {
-                include_once(APP_INC_PATH . "class.customer.php");
-                $company_titles = Customer::getTitles($customer_ids);
+                if (count($customer_ids) > 0) {
+                    $company_titles = Customer::getTitles($prj_id, $customer_ids);
+                }
             }
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["sup_date"] = Date_API::getFormattedDate($res[$i]["sup_date"]);
@@ -941,7 +942,9 @@ class Support
                 } else {
                     $res[$i]["sup_to"] = Mime_Helper::fixEncoding(Mail_API::getName($res[$i]["sup_to"]));
                 }
-                @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
+                if (Customer::hasCustomerIntegration($prj_id)) {
+                    @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
+                }
             }
             $total_pages = ceil($total_rows / $max);
             $last_page = $total_pages - 1;
@@ -1027,11 +1030,13 @@ class Support
         $usr_id = User::getUserIDByEmail($sender_email);
         $unknown_user = false;
         if (empty($usr_id)) {
-            // try checking if a customer technical contact has this email associated with it
-            include_once(APP_INC_PATH . "class.customer.php");
-            list(,$contact_id) = Customer::getCustomerIDByEmails(array($sender_email));
-            if (!empty($contact_id)) {
-                $usr_id = User::getUserIDByContactID($contact_id);
+            $prj_id = Issue::getProjectID($issue_id);
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                // try checking if a customer technical contact has this email associated with it
+                list(,$contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
+                if (!empty($contact_id)) {
+                    $usr_id = User::getUserIDByContactID($contact_id);
+                }
             }
             if (empty($usr_id)) {
                 // if we couldn't find a real customer by that email, set the usr_id to be the system user id, 
@@ -1093,7 +1098,7 @@ class Support
             $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
             for ($i = 0; $i < count($res); $i++) {
                 History::add($issue_id, $usr_id, History::getTypeID('email_associated'), 
-                                'Support email (subject: \'' . $res[$i]['sup_subject'] . '\') associated by ' . User::getFullName($usr_id));
+                                'Email (subject: \'' . $res[$i]['sup_subject'] . '\') associated by ' . User::getFullName($usr_id));
                 // send notifications for the issue being updated
                 // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
                 $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
@@ -1384,7 +1389,7 @@ class Support
             $subjects = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
             for ($i = 0; $i < count($HTTP_POST_VARS["item"]); $i++) {
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'), 
-                                'Support email (subject: \'' . $subjects[$HTTP_POST_VARS["item"][$i]] . '\') disassociated by ' . User::getFullName(Auth::getUserID()));
+                                'Email (subject: \'' . $subjects[$HTTP_POST_VARS["item"][$i]] . '\') disassociated by ' . User::getFullName(Auth::getUserID()));
             }
             return 1;
         }
@@ -1424,7 +1429,6 @@ class Support
         $is_allowed = true;
         $sender_usr_id = User::getUserIDByEmail($sender_email);
         if (empty($sender_usr_id)) {
-            include_once(APP_INC_PATH . 'class.customer.php');
             // check for a customer contact with several email addresses
             $customer_id = Issue::getCustomerID($issue_id);
             $contact_emails = array_keys(Customer::getContactEmailAssocList($customer_id));
