@@ -24,7 +24,7 @@
                   {$changes[i].his_created_date}
                 </td>
                 <td bgcolor="{$row_color}" width="85%" class="default">
-                  {$changes[i].his_summary|escape:"html"}
+                  {$changes[i].his_summary|escape:"html"|replace:"no value set":"<i>no value set</i>"}
                 </td>
               </tr>
               {sectionelse}

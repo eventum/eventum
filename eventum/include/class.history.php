@@ -54,9 +54,9 @@ class History
     function formatChanges($old_value, $new_value)
     {
         if (empty($old_value)) {
-            return '<i>no value set</i> -> ' . $new_value;
+            return 'no value set -> ' . $new_value;
         } elseif (empty($new_value)) {
-            return $old_value . ' -> <i>no value set</i>';
+            return $old_value . ' -> no value set';
         } else {
             return $old_value . ' -> ' . $new_value;
         }
