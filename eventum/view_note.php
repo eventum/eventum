@@ -53,7 +53,6 @@ if (!Issue::canAccess($issue_id, Auth::getUserID())) {
 
 $tpl->bulkAssign(array(
     "note"        => $note,
-    "issues"      => Issue::getColList(),
     "issue_id"    => $issue_id,
     'extra_title' => "Note #" . $HTTP_GET_VARS['id'] . ": " . $note['not_title']
 ));

@@ -53,7 +53,6 @@ if (!Issue::canAccess($issue_id, Auth::getUserID())) {
 
 $tpl->bulkAssign(array(
     "email"       => $email,
-    "issues"      => Issue::getColList(),
     "issue_id"    => $issue_id,
     'extra_title' => "Email #" . $HTTP_GET_VARS['id'] . ": " . $email['sup_subject']
 ));
