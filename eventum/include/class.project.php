@@ -290,6 +290,43 @@ class Project
 
 
     /**
+     * Method used to get if reporters should be segregated for a project ID
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  boolean If reporters should be segregated
+     */
+    function getSegregateReporters($prj_id)
+    {
+        static $returns;
+
+        if (!empty($returns[$prj_id])) {
+            return $returns[$prj_id];
+        }
+
+        $stmt = "SELECT
+                    prj_segregate_reporter
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                 WHERE
+                    prj_id=$prj_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return true;
+        } else {
+            if ($res == 1) {
+                $res = true;
+            } else {
+                $res = false;
+            }
+            $returns[$prj_id] = $res;
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get the details for a given project ID.
      *
      * @access  public
@@ -405,6 +442,7 @@ class Project
                     prj_outgoing_sender_name='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
                     prj_outgoing_sender_email='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
                     prj_remote_invocation='" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
+                    prj_segregate_reporter='" . Misc::escapeString($HTTP_POST_VARS["segregate_reporter"]) . "',
                     prj_customer_backend='" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "',
                     prj_workflow_backend='" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "'
                  WHERE

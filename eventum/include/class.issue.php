@@ -2275,7 +2275,10 @@ class Issue
         $stmt = '';
         if (User::getRole($role_id) == "Customer") {
             $stmt .= " AND iss_customer_id=" . User::getCustomerID($usr_id);
+        } elseif (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
+            $stmt .= " AND iss_usr_id = $usr_id";
         }
+            
         if (!empty($options["users"])) {
             $stmt .= " AND (\n";
             if (stristr($options["users"], "grp") !== false) {
@@ -2478,7 +2481,7 @@ class Issue
      * 
      * @access  public
      * @param   integer $issue_id The issue ID
-     * @param   integer $user_id An integer containg the ID of the user.
+     * @param   integer $usr_id An integer containg the ID of the user.
      * @return  boolean true if the user(s) are assigned to the issue.
      */
     function isAssignedToUser($issue_id, $usr_id)

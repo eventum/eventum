@@ -133,6 +133,10 @@ $topics = array(
         "title" => "Customize Issue Listing Screen",
         "parent" => "main"
     ),
+    "segregate_reporter" => array(
+        "title" => "Segregate Reporters",
+        "parent" => "main"
+    ),
 );
 
 class Help

@@ -28,6 +28,7 @@ Eventum Issue Tracking System
 - Fixed bug with link filters (Bryan)
 - Added option to add time tracking entry from close issue page (Bryan)
 - Fixed typo in JS confirmation when sending an email (Bryan)
+- Added option to let reporters only view issues they reported (Bryan)
 
 04 Jan 2005, Version 1.4
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
