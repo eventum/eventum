@@ -20,7 +20,6 @@ Run the scripts in the following order:
 - fix_priorities.php
 - set_email_issue_id.php
 - update_canned_responses.php
-- set_history_type.php
 - fix_last_action_date_fields.php
 
 
