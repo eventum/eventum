@@ -3,7 +3,11 @@ Automated Issue #{$data.iss_id} Reminder Alert!
           URL: {$app_base_url}view.php?id={$data.iss_id}
       Summary: {$data.iss_summary}
    Assignment: {$data.assigned_users}
-  
+{if $has_customer_integration}
+     Customer: {$data.customer_info.customer_name}
+Support Level: {$data.customer_info.support_level}
+{/if}
+
  Alert Reason:  
      Triggered Reminder "{$reminder.rem_title}"
                Action "{$action.rma_title}"

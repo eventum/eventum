@@ -742,10 +742,11 @@ class Reminder_Action
             $tpl = new Template_API;
             $tpl->setTemplate('reminders/' . $type . '_alert.tpl.text');
             $tpl->bulkAssign(array(
-                "data"       => $data,
-                "reminder"   => $reminder,
-                "action"     => $action,
-                "conditions" => $conditions
+                "data"                     => $data,
+                "reminder"                 => $reminder,
+                "action"                   => $action,
+                "conditions"               => $conditions,
+                "has_customer_integration" => Customer::hasCustomerIntegration(Issue::getProjectID($issue_id))
             ));
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
@@ -780,10 +781,11 @@ class Reminder_Action
             $tpl = new Template_API;
             $tpl->setTemplate('reminders/alert_no_recipients.tpl.text');
             $tpl->bulkAssign(array(
-                "type"       => $type,
-                "data"       => $data,
-                "reminder"   => $reminder,
-                "conditions" => $conditions
+                "type"                     => $type,
+                "data"                     => $data,
+                "reminder"                 => $reminder,
+                "conditions"               => $conditions,
+                "has_customer_integration" => Customer::hasCustomerIntegration(Issue::getProjectID($issue_id))
             ));
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
