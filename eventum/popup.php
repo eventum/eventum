@@ -45,7 +45,6 @@ include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.history.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.authorized_replier.php");
-include_once(APP_INC_PATH . 'class.customer.php');
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();

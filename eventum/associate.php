@@ -35,7 +35,6 @@ include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.note.php");
 include_once(APP_INC_PATH . "class.support.php");
 include_once(APP_INC_PATH . "class.mail.php");
-include_once(APP_INC_PATH . "class.customer.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("associate.tpl.html");

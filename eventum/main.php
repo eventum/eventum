@@ -45,7 +45,6 @@ $prj_id = Auth::getCurrentProject();
 $role_id = User::getRoleByUser(Auth::getUserID());
 if ($role_id == User::getRoleID('customer')) {
     // need the activity dashboard here
-    include_once(APP_INC_PATH . "class.customer.php");
     $usr_id = Auth::getUserID();
     $customer_id = User::getCustomerID($usr_id);
     $tpl->assign("customer_stats", Customer::getOverallStats($prj_id, $customer_id));

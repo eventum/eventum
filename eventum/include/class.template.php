@@ -41,7 +41,6 @@
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
 require_once(APP_SMARTY_PATH . "Smarty.class.php");
 require_once(APP_INC_PATH . "class.project.php");
-require_once(APP_INC_PATH . "class.customer.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.user.php");
 require_once(APP_INC_PATH . "class.setup.php");
