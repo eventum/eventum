@@ -562,3 +562,6 @@ ALTER TABLE eventum_issue ADD COLUMN iss_private tinyint(1) NOT NULL DEFAULT 0;
 
 # February 16th
 UPDATE eventum_reminder_field SET rmf_allow_column_compare = 0 WHERE rmf_title='Status';
+
+INSERT INTO eventum_history_type (htt_id, htt_name, htt_role) VALUES (NULL, 'scm_checkin_associated', 0);
+
