@@ -45,6 +45,12 @@ $usr_id = Auth::getUserID();
 @$issue_id = $HTTP_GET_VARS["issue_id"] ? $HTTP_GET_VARS["issue_id"] : $HTTP_POST_VARS["issue_id"];
 $tpl->assign("issue_id", $issue_id);
 
+if (!Issue::canAccess($issue_id, $usr_id)) {
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
+
 if (@$HTTP_POST_VARS["cat"] == "post_note") {
     $res = Note::insert($usr_id, $issue_id);
     $tpl->assign("post_result", $res);

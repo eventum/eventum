@@ -146,7 +146,11 @@ class Support
                     sup_ema_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account";
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    LEFT JOIN
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    ON
+                        sup_iss_id = iss_id";
         if (!empty($options['keywords'])) {
             $stmt .= "," . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body";
         }
@@ -932,7 +936,11 @@ class Support
                     sup_has_attachment
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account";
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    LEFT JOIN
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    ON
+                        sup_iss_id = iss_id";
         if (!empty($options['keywords'])) {
             $stmt .= "," . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body";
         }
@@ -1042,6 +1050,11 @@ class Support
                     $stmt .= " AND sup_date BETWEEN '" . $options['arrival_date']['start'] . "' AND '" . $options['arrival_date']['end'] . "'";
                     break;
             }
+        }
+        
+        // handle 'private' issues.
+        if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
+            $stmt .= " AND iss_private != 1";
         }
         return $stmt;
     }
