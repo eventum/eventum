@@ -35,12 +35,12 @@ include_once(APP_INC_PATH . "db_access.php");
 ini_set("memory_limit", "256M");
 
 // check for the required parameters
-if (@count($HTTP_SERVER_VARS['argv']) < 4 && @$HTTP_SERVER_VARS['argv'][1] != '--fix-lock') {
+if (@count($HTTP_SERVER_VARS['argv']) < 3 && @$HTTP_SERVER_VARS['argv'][1] != '--fix-lock') {
     echo "Error: Wrong number of parameters given. Expected parameters related to the email account:\n";
     echo " 1 - username\n";
     echo " 2 - hostname\n";
-    echo " 3 - mailbox\n";
-    echo "Example: php -q download_emails.php bobby silly.org INBOX\n";
+    echo " 3 - mailbox (only required if IMAP account)\n";
+    echo "Example: php -q download_emails.php user example.com INBOX\n";
     exit;
 }
 
