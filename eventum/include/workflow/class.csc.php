@@ -351,7 +351,7 @@ class CSC_Workflow_Backend
         } elseif ($type == 'note') {
             $desc = "Issue automatically set to status '" . Status::getStatusTitle($status_id) . "' because of a new internal note was posted.";
         }
-        History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('status_changed'), $desc);
+        History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('status_auto_changed'), $desc);
     }
 }
 
