@@ -60,6 +60,8 @@ it is not counted as an incident because it could be a duplicate, a mistake or n
 for an issue to count. Once you decide to count an issue, you can &quot;redeem&quot; the incident by clicking the
 &quot;Mark as Redeemed Incident&quot; button. When this happens, the method <i>Customer::flagIncident()</i> is called.
 </p>
+<p>
+Per-Incident support is not included in the example API.
 <h2>File Structure</h2>
 <p>Any templates that are customer related should be located in <i>/eventum/templates/en/customer/<b>my_name</b>/</i>. Any
 customer files that are not templates should be located in <i>/eventum/customer/<b>my_name</b>/</i>. The following is a list
@@ -72,5 +74,11 @@ of files you need to implement to create a customer backend.
         <li>customer_info.tpl.html - Displays customer information on the issue page.</li>
     </ul>
 </ul>
+<h2>Future Direction</h2>
+<p>
+As Eventum is developed more methods will be added to the customer class and some methods will be changed. We will try to
+minimize any changes. If you have any feedback on this API please email the 
+<a href="mailto:eventum-devel@lists.mysql.com">Eventum development list</a>.
+</p>
 </body>
 </html>
