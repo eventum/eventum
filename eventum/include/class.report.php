@@ -180,7 +180,7 @@ class Report
     {
         // figure out timezone
         $user_prefs = Prefs::get($usr_id);
-        $tz = $user_prefs["timezone"];
+        $tz = @$user_prefs["timezone"];
         
         $start_dt = new Date();
         $end_dt = new Date();
@@ -244,6 +244,211 @@ class Report
             "note_count"    => Note::getCountByUser($usr_id, $start_ts, $end_ts),
             "total_time"    => Misc::getFormattedTime($total_time, false)
         );
+        
+        return $data;
+    }
+    
+    
+    /**
+     * Returns data used by the workload by time period report.
+     * 
+     * @access  public
+     * @param   string $timezone Timezone to display time in in addition to GMT
+     * @param   boolean $graph If the data should be formatted for use in a graph. Default false
+     * @return  array An array of data.
+     */
+    function getWorkloadByTimePeriod($timezone, $graph = false)
+    {
+        $stmt = "SELECT
+                    count(*) as events,
+                    hour(his_created_date) AS time_period,
+                    if (usr_role > 3, 'developer', 'customer') as performer,
+                    SUM(if (usr_role > 3, 1, 0)) as dev_events,
+                    SUM(if (usr_role > 3, 0, 1)) as cust_events
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    his_usr_id = usr_id
+                 GROUP BY
+                    time_period, performer
+                 ORDER BY
+                    time_period";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+        // get total number of developer and customer events
+        $event_count = array(
+            "developer" =>  0,
+            "customer"  =>  0
+        );
+        foreach ($res as $row) {
+            $event_count["developer"] += $row["dev_events"];
+            $event_count["customer"] += $row["cust_events"];
+        }
+        
+        $data = array();
+        $sort_values = array();
+        for ($i = 0; $i < 24; $i++) {
+            
+            // convert to the users time zone
+            $dt = new Date(mktime($i,0,0));
+            $gmt_time = $dt->format('%H:%M');
+            $dt->convertTZbyID($timezone);
+            if ($graph) {
+                $data["developer"][$dt->format('%H')] = "";
+                $data["customer"][$dt->format('%H')] = "";
+            } else {
+                $data[$i]["display_time_gmt"] = $gmt_time;
+                $data[$i]["display_time_user"] = $dt->format('%H:%M');
+            }
+            
+            // loop through results, assigning appropriate results to data array
+            foreach ($res as $index => $row) {
+                if ($row["time_period"] == $i) {
+                    $sort_values[$row["performer"]][$i] = $row["events"];
+                    
+                    if ($graph) {
+                        $data[$row["performer"]][$dt->format('%H')] = (($row["events"] / $event_count[$row["performer"]]) * 100);
+                    } else {
+                        $data[$i][$row["performer"]]["count"] = $row["events"];
+                        $data[$i][$row["performer"]]["percentage"] = (($row["events"] / $event_count[$row["performer"]]) * 100);
+                    }
+                    unset($res[$index]);
+                }
+            }
+        }
+        
+        if (!$graph) {
+            // get the highest action times
+            foreach ($sort_values as $performer => $values) {
+                arsort($values);
+                reset($values);
+                $data[key($values)][$performer]["rank"] = 1;
+            }
+        }
+        
+        return $data;
+    }
+    
+    
+    /**
+     * Returns data on when support emails are sent/recieved.
+     * 
+     * @access  public
+     * @param   string $timezone Timezone to display time in in addition to GMT
+     * @param   boolean $graph If the data should be formatted for use in a graph. Default false
+     * @return  array An array of data.
+     */
+    function getEmailWorkloadByTimePeriod($timezone, $graph = false)
+    {
+        // get total counts
+        $stmt = "SELECT
+                    hour(sup_date) AS time_period,
+                    count(*) as events
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email 
+                 GROUP BY
+                    time_period";
+        $total = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($total)) {
+            Error_Handler::logError(array($total->getMessage(), $total->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+        
+        // get all developer email addresses
+        $users = User::getActiveAssocList(User::getRoleID("customer"));
+        $emails = array();
+        foreach ($users as $usr_id => $usr_full_name) {
+            $emails[] = Misc::escapeString(User::getFromHeader($usr_id));
+        }
+        
+        // get number of support emails from developers
+        $stmt = "SELECT
+                    hour(sup_date) AS time_period,
+                    count(*) as events
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                 WHERE
+                    sup_from IN('" . join("','", $emails) . "')
+                 GROUP BY
+                    time_period";
+        $dev_stats = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($dev_stats)) {
+            Error_Handler::logError(array($dev_stats->getMessage(), $dev_stats->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+        
+        // get total number of developer and customer events and build cust_stats array
+        $dev_count = 0;
+        $cust_count = 0;
+        $cust_stats = array();
+        for ($i = 0; $i < 24; $i++) {
+            if (empty($dev_stats[$i])) {
+                $dev_stats[$i] = 0;
+            }
+            $cust_stats[$i] = (@$total[$i] - @$dev_stats[$i]);
+            $cust_count += (@$total[$i] - @$dev_stats[$i]);
+            $dev_count += @$dev_stats[$i];
+        }
+        
+        $data = array();
+        $sort_values = array();
+        for ($i = 0; $i < 24; $i++) {
+            
+            // convert to the users time zone
+            $dt = new Date(mktime($i,0,0));
+            $gmt_time = $dt->format('%H:%M');
+            $dt->convertTZbyID($timezone);
+            if ($graph) {
+                $data["developer"][$dt->format('%H')] = "";
+                $data["customer"][$dt->format('%H')] = "";
+            } else {
+                $data[$i]["display_time_gmt"] = $gmt_time;
+                $data[$i]["display_time_user"] = $dt->format('%H:%M');
+            }
+            
+            // use later to find highest value
+            $sort_values["developer"][$i] = $dev_stats[$i];
+            $sort_values["customer"][$i] = $cust_stats[$i];
+            
+            if ($graph) {
+                if ($dev_count == 0) {
+                    $data["developer"][$dt->format('%H')] = 0;
+                } else {
+                    $data["developer"][$dt->format('%H')] = (($dev_stats[$i] / $dev_count) * 100);
+                }
+                if ($cust_count == 0) {
+                    $data["customer"][$dt->format('%H')] = 0;
+                } else {
+                    $data["customer"][$dt->format('%H')] = (($cust_stats[$i] / $cust_count) * 100);
+                }
+            } else {
+                $data[$i]["developer"]["count"] = $dev_stats[$i];
+                if ($dev_count == 0){
+                    $data[$i]["developer"]["percentage"] = 0;
+                } else {
+                    $data[$i]["developer"]["percentage"] = (($dev_stats[$i] / $dev_count) * 100);
+                }
+                $data[$i]["customer"]["count"] = $cust_stats[$i];
+                if ($cust_count == 0) {
+                    $data[$i]["customer"]["percentage"] = 0;
+                } else {
+                    $data[$i]["customer"]["percentage"] = (($cust_stats[$i] / $cust_count) * 100);
+                }
+            }
+        }
+        
+        if (!$graph) {
+            // get the highest action times
+            foreach ($sort_values as $performer => $values) {
+                arsort($values);
+                reset($values);
+                $data[key($values)][$performer]["rank"] = 1;
+            }
+        }
         
         return $data;
     }
