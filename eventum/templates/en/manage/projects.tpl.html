@@ -93,7 +93,7 @@
                   <b>Title: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <input type="text" name="title" size="40" class="default" value="{$info.prj_title}">
+                  <input type="text" name="title" size="40" class="default" value="{$info.prj_title|escape:"html"}">
                   {include file="error_icon.tpl.html" field="title"}
                 </td>
               </tr>
@@ -178,7 +178,7 @@
                   <b>Outgoing Email Sender Name:</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <input type="text" name="outgoing_sender_name" size="40" class="default" value="{$info.prj_outgoing_sender_name}">
+                  <input type="text" name="outgoing_sender_name" size="40" class="default" value="{$info.prj_outgoing_sender_name|escape:"html"}">
                 </td>
               </tr>
               <tr>
@@ -186,7 +186,7 @@
                   <b>Outgoing Email Sender Address: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
-                  <input type="text" name="outgoing_sender_email" size="40" class="default" value="{$info.prj_outgoing_sender_email}">
+                  <input type="text" name="outgoing_sender_email" size="40" class="default" value="{$info.prj_outgoing_sender_email|escape:"html"}">
                   {include file="error_icon.tpl.html" field="outgoing_sender_email"}
                 </td>
               </tr>

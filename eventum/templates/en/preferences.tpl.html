@@ -73,7 +73,7 @@ function validateAccount(f)
             <b>Full Name:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="full_name" size="40" class="default" value="{$current_full_name}">
+            <input type="text" name="full_name" size="40" class="default" value="{$current_full_name|escape:"html"}">
             {include file="error_icon.tpl.html" field="full_name"}
           </td>
         </tr>
@@ -102,7 +102,7 @@ function validateAccount(f)
             <b>Login &amp; Email Address:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="email" size="40" class="default" value="{$current_email}">
+            <input type="text" name="email" size="40" class="default" value="{$current_email|escape:"html"}">
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
@@ -229,7 +229,7 @@ function validateAccount(f)
             <b>Refresh Rate for Issue Listing Page:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" size="10" class="default" name="list_refresh_rate" value="{$user_prefs.list_refresh_rate}">
+            <input type="text" size="10" class="default" name="list_refresh_rate" value="{$user_prefs.list_refresh_rate|escape:"html"}">
             <span class="small_default"><i>(in minutes)</i></span>
           </td>
         </tr>
@@ -239,7 +239,7 @@ function validateAccount(f)
             <b>Refresh Rate for Email Listing Page:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" size="10" class="default" name="emails_refresh_rate" value="{$user_prefs.emails_refresh_rate}">
+            <input type="text" size="10" class="default" name="emails_refresh_rate" value="{$user_prefs.emails_refresh_rate|escape:"html"}">
             <span class="small_default"><i>(in minutes)</i></span>
           </td>
         </tr>
@@ -275,7 +275,7 @@ function validateAccount(f)
             <b>SMS Email Address:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" size="40" class="default" name="sms_email" value="{$user_prefs.sms_email}">
+            <input type="text" size="40" class="default" name="sms_email" value="{$user_prefs.sms_email|escape:"html"}">
             <span class="small_default"><i>(only used for automatic issue reminders)</i></span>
           </td>
         </tr>

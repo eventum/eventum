@@ -19,7 +19,7 @@ function validateForm(f)
 {/literal}
 <form name="login_form" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');" method="post" action="login.php">
 <input type="hidden" name="cat" value="login">
-<input type="hidden" name="url" value="{$smarty.get.url}">
+<input type="hidden" name="url" value="{$smarty.get.url|escape:"html"}">
 <table align="center" width="400" border="0" cellspacing="0" cellpadding="1" bgcolor="#FFFFFF">
   <tr>
     <td>
@@ -79,7 +79,7 @@ function validateForm(f)
         <tr>
           <td align="right" width="40%" class="default_white" bgcolor="#006486"><b><u>E</u>mail Address:</b></td>
           <td width="60%" bgcolor="#006486">
-            <input accessKey="e" class="default" type="text" name="email" value="{$email|default:$smarty.get.email}" size="30">
+            <input accessKey="e" class="default" type="text" name="email" value="{$email|default:$smarty.get.email|escape:"html"}" size="30">
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
@@ -103,7 +103,7 @@ function validateForm(f)
         </tr>
         <tr align="center">
           <td colspan="2" class="default_white" bgcolor="#006486">
-            <a class="white_link" href="forgot_password.php{if $smarty.get.email != ""}?email={$smarty.get.email}{/if}">I Forgot My Password</a>&nbsp;&nbsp;
+            <a class="white_link" href="forgot_password.php{if $smarty.get.email != ""}?email={$smarty.get.email|escape:"html"}{/if}">I Forgot My Password</a>&nbsp;&nbsp;
             {if $app_setup.open_signup == 'enabled'}<a class="white_link" href="signup.php">Signup for an Account</a>{/if}
           </td>
         </tr>
