@@ -2657,6 +2657,9 @@ class Issue
                     $res["group"] = Group::getDetails($res["iss_grp_id"]);
                 }
                 
+                // get quarantine issue
+                $res["quarantine"] = Issue::getQuarantineInfo($res["iss_id"]);
+                
                 $returns[$issue_id] = $res;
                 return $res;
             }
@@ -2900,21 +2903,26 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer Indicates what the current state of quarantine is.
      */
-    function getQuarantineStatus($issue_id)
+    function getQuarantineInfo($issue_id)
     {
         $stmt = "SELECT
-                    iqu_status
+                    iqu_status,
+                    iqu_expiration
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
                  WHERE
                     iqu_iss_id = $issue_id AND
                         (iqu_expiration > '" . Date_API::getCurrentDateGMT() . "' OR
                         iqu_expiration IS NULL)";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return 0;
+            return array();
         } else {
+            if (!empty($res["iqu_expiration"])) {
+                $expiration_ts = Date_API::getUnixTimestamp($res['iqu_expiration'], Date_API::getDefaultTimezone());
+                $res["time_till_expiration"] = Date_API::getFormattedDateDiff($expiration_ts, Date_API::getCurrentUnixTimestampGMT());
+            }
             return $res;
         }
     }
