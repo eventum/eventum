@@ -493,6 +493,13 @@ class Customer
     }
 
 
+    function getExpirationOffset($prj_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        return $backend->_getExpirationOffset();
+    }
+
+
 
 
 
