@@ -33,19 +33,27 @@ include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.note.php");
+include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("view_note.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
+$usr_id = Auth::getUserID();
+
+if (User::getRoleByUser($usr_id, Auth::getCurrentProject()) < User::getRoleID('Standard User')) {
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
 
 $note = Note::getDetails($HTTP_GET_VARS["id"]);
 $note["message"] = Misc::activateLinks(nl2br(htmlspecialchars($note["not_note"])));
 
 $issue_id = Note::getIssueID($HTTP_GET_VARS["id"]);
 
-if (!Issue::canAccess($issue_id, Auth::getUserID())) {
+if (!Issue::canAccess($issue_id, $usr_id)) {
     $tpl->setTemplate("permission_denied.tpl.html");
     $tpl->displayTemplate();
     exit;
