@@ -654,15 +654,20 @@ class Project
      * of all projects that exist in the system.
      *
      * @access  public
+     * @param   boolean $include_no_customer_association Whether to include in the results projects with customer integration or not
      * @return  array List of projects
      */
-    function getAll()
+    function getAll($include_no_customer_association = TRUE)
     {
         $stmt = "SELECT
                     prj_id,
                     prj_title
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project";
+        if (!$include_no_customer_association) {
+            $stmt .= " WHERE prj_customer_backend <> '' AND prj_customer_backend IS NOT NULL ";
+        }
+        $stmt .= "
                  ORDER BY
                     prj_title";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);

@@ -68,7 +68,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
 
     $tpl->assign("list", Customer::getAccountManagerList());
     $tpl->assign("user_options", User::getActiveAssocList(User::getRoleID('Customer')));
-    $tpl->assign("project_list", Project::getAll());
+    $tpl->assign("project_list", Project::getAll(false));
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }
