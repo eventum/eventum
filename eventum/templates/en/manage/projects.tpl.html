@@ -121,6 +121,17 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Workflow Backend: *</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <select name="workflow_backend" class="default">
+                    <option value="">No Workflow Management</option>
+                    {html_options options=$workflow_backends selected=$info.prj_workflow_backend}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
                   <b>Project Lead: *</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
