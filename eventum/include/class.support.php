@@ -49,6 +49,7 @@ include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "class.history.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.email_account.php");
+include_once(APP_INC_PATH . "class.search_profile.php");
 
 class Support
 {
@@ -799,26 +800,6 @@ class Support
 
 
     /**
-     * Method used to get the current listing related cookie information.
-     *
-     * @access  public
-     * @param   boolean $full_cookie If the full cookie or user specific params should be returned.
-     * @return  array The email listing information
-     */
-    function getCookieParams($full_cookie = false)
-    {
-        global $HTTP_COOKIE_VARS;
-
-        $cookie = @unserialize(base64_decode($HTTP_COOKIE_VARS[APP_EMAIL_LIST_COOKIE]));
-        if ($full_cookie) {
-            return $cookie;
-        } else {
-            return @$cookie[Auth::getUserID()][Auth::getCurrentProject()];
-        }
-    }
-
-
-    /**
      * Method used to get a specific parameter in the email listing 
      * cookie.
      *
@@ -829,14 +810,14 @@ class Support
     function getParam($name)
     {
         global $HTTP_POST_VARS, $HTTP_GET_VARS;
-        $cookie = Support::getCookieParams();
+        $profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'email');
 
         if (isset($HTTP_GET_VARS[$name])) {
             return $HTTP_GET_VARS[$name];
         } elseif (isset($HTTP_POST_VARS[$name])) {
             return $HTTP_POST_VARS[$name];
-        } elseif (isset($cookie[$name])) {
-            return $cookie[$name];
+        } elseif (isset($profile[$name])) {
+            return $profile[$name];
         } else {
             return "";
         }
@@ -892,11 +873,7 @@ class Support
                 'Day'         => $end_field['Day']
             );
         }
-        // set search information for specific usr_id
-        $full_cookie = Support::getCookieParams(true);
-        $full_cookie[Auth::getUserID()][Auth::getCurrentProject()] = $cookie;
-        $encoded = base64_encode(serialize($full_cookie));
-        setcookie(APP_EMAIL_LIST_COOKIE, $encoded, APP_EMAIL_LIST_COOKIE_EXPIRE);
+        Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'email', $cookie);
         return $cookie;
     }
 
