@@ -50,8 +50,8 @@ class Setup
      */
     function load()
     {
-        $contents = @implode("", file(APP_SETUP_FILE));
-        return unserialize(base64_decode($contents));
+        include(APP_SETUP_FILE);
+        return unserialize(base64_decode($eventum_setup_string));
     }
 
 
@@ -81,7 +81,7 @@ class Setup
             return -2;
         }
         @flock($fp, LOCK_EX);
-        @fwrite($fp, base64_encode(serialize($options)));
+        @fwrite($fp, "<?php\n\$eventum_setup_string='" . base64_encode(serialize($options)) . "';\n?>");
         @flock($fp, LOCK_UN);
         @fclose($fp);
         return 1;
