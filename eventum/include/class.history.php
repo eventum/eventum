@@ -117,10 +117,13 @@ class History
         $stmt = "SELECT
                     *
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "history_type
                  WHERE
+                    htt_id = his_htt_id AND
                     his_is_hidden != 1 AND
-                    his_iss_id=$iss_id
+                    his_iss_id=$iss_id AND
+                    htt_role <= " . User::getRoleByUser(Auth::getUserID()) . "
                  ORDER BY
                     his_id DESC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
