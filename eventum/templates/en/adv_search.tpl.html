@@ -160,8 +160,6 @@ function validateForm(f)
             <span class="default">Assigned:</span><br />
             <select name="users" class="default">
               <option value="">any</option>
-              <option value="-1" {if $options.cst_users == '-1'}selected{/if}>un-assigned</option>
-              <option value="-2" {if $options.cst_users == '-2'}selected{/if}>myself and un-assigned</option>
               {html_options options=$users selected=$options.cst_users}
             </select>
           </td>
