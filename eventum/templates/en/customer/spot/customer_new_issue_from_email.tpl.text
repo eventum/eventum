@@ -1,0 +1,55 @@
+{if $sender_name}
+Dear {$sender_name},
+
+{/if}
+We have received your request for MySQL technical support which you 
+sent to a support@mysql.com address:
+
+        Date: {$email.date}
+        From: {$email.from}
+     Subject: {$email.subject}
+
+Your email has been converted into a new issue in the MySQL Customer 
+Support Center (CSC).  Our CSC allows you to communicate further on 
+this issue via plain email or via a user-friendly Web interface, 
+whichever you prefer.
+
+  Click on this link to communicate and see the entire thread:
+  
+     https://support.mysql.com/{$data.iss_id}
+  
+  - or -
+  
+  Address further emails about this issue to:
+  
+     issue-{$data.iss_id}@support.mysql.com
+
+  Please do *not* send additional emails to support@mysql.com.
+  
+Below are the details on this issue as we've created it.  You can 
+edit the some of these fields yourself inside CSC if needed:
+
+     Issue #: {$data.iss_id}
+     Summary: {$data.iss_summary}
+    Priority: {$data.pri_title}
+        Date: {$data.iss_created_date}
+     Company: {$data.customer_info.customer_name}
+
+If you have never used our CSC before, here's how to login:
+
+   1.  Go to  https://support.mysql.com/
+   2.  Click on "First Time Login" to request a starter password
+   3.  Enter your email address of ####@#####
+   4.  After login, click on "Preferences" to set a new password
+
+If you experience any problems or have any questions, please do not 
+hesitate to contact me at <support-feedback@mysql.com> or by 
+telephone at +1-650-491-0131.
+
+Sincerely,
+
+Mr. Indrek Siitan
+Administrative Coordinator
+MySQL Support Team
+<support-feedback@mysql.com>
+
