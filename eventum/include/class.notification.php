@@ -618,8 +618,8 @@ class Notification
             $diffs[] = '+Resolution: ' . Resolution::getTitle($new["resolution"]);
         }
         if ($old["iss_dev_time"] != $new["estimated_dev_time"]) {
-            $diffs[] = '-Estimated Dev. Time: ' . Misc::getFormattedTime($old["iss_dev_time"]);
-            $diffs[] = '+Estimated Dev. Time: ' . Misc::getFormattedTime($new["estimated_dev_time"]);
+            $diffs[] = '-Estimated Dev. Time: ' . Misc::getFormattedTime($old["iss_dev_time"]*60);
+            $diffs[] = '+Estimated Dev. Time: ' . Misc::getFormattedTime($new["estimated_dev_time"]*60);
         }
         if ($old["iss_summary"] != $new["summary"]) {
             $diffs[] = '-Summary: ' . $old['iss_summary'];
@@ -1731,7 +1731,6 @@ class Notification
         $form_email = strtolower(Mail_API::getEmailAddress($form_email));
         // first check if this is an actual user or just an email address
         $user_emails = User::getAssocEmailList();
-        $user_emails = array_map('strtolower', $user_emails);
         if (in_array($form_email, array_keys($user_emails))) {
             return Notification::subscribeUser($usr_id, $issue_id, $user_emails[$form_email], $actions);
         }

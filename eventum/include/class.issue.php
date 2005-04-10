@@ -1180,7 +1180,7 @@ class Issue
                 $updated_fields["Resolution"] = History::formatChanges(Resolution::getTitle($current["iss_res_id"]), Resolution::getTitle($HTTP_POST_VARS["resolution"]));
             }
             if ($current["iss_dev_time"] != $HTTP_POST_VARS["estimated_dev_time"]) {
-                $updated_fields["Estimated Dev. Time"] = History::formatChanges(Misc::getFormattedTime($current["iss_dev_time"]), Misc::getFormattedTime($HTTP_POST_VARS["estimated_dev_time"]));
+                $updated_fields["Estimated Dev. Time"] = History::formatChanges(Misc::getFormattedTime(($current["iss_dev_time"]*60)), Misc::getFormattedTime(($HTTP_POST_VARS["estimated_dev_time"]*60)));
             }
             if ($current["iss_summary"] != $HTTP_POST_VARS["summary"]) {
                 $updated_fields["Summary"] = '';
