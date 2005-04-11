@@ -1448,20 +1448,21 @@ class Issue
     function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment, $date)
     {
         $sender_email = Mail_API::getEmailAddress($sender);
+        $sender_usr_id = User::getUserIDByEmail($sender_email);
+        if (!empty($sender_usr_id)) {
+            $reporter = $sender_usr_id;
+        } else {
+            $reporter = APP_SYSTEM_USER_ID;
+        }
         if (Customer::hasCustomerIntegration($prj_id)) {
             list($customer_id, $customer_contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
             if (!empty($customer_id)) {
                 $contact = Customer::getContactDetails($prj_id, $customer_contact_id);
+                // overwrite the reporter with the customer contact
                 $reporter = User::getUserIDByContactID($customer_contact_id);
                 $contact_timezone = Date_API::getPreferredTimezone($reporter);
             }
         } else {
-            $sender_usr_id = User::getUserIDByEmail($sender_email);
-            if (!empty($sender_usr_id)) {
-                $reporter = $sender_usr_id;
-            } else {
-                $reporter = APP_SYSTEM_USER_ID;
-            }
             $customer_id = FALSE;
         }
 
