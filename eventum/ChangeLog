@@ -23,6 +23,7 @@ Eventum Issue Tracking System
 - List issues on Custom Fields report (Bryan)
 - Added To and From columns to phone support listing (Bryan)
 - Fixed estimated dev time showing up as minutes instead of hours on notification email (Bryan)
+- Fixed a bug that was preventing an email from being converted to an issue even when it isn't from a known customer (João)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
