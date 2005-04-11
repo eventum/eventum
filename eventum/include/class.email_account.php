@@ -454,6 +454,34 @@ class Email_Account
             return $res;
         }
     }
+
+
+    /**
+     * Method used to get the email account associated with the given
+     * issue' project.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  integer The email account ID
+     */
+    function getEmailAccountByIssueID($issue_id)
+    {
+        $stmt = "SELECT
+                    ema_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                    ema_prj_id=iss_prj_id AND
+                    iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
 }
 
 // benchmarking the included file (aka setup time)
