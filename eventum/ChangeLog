@@ -27,6 +27,7 @@ Eventum Issue Tracking System
 - Add extra order by clauses to make sure results are returned the same way every time (Bryan)
 - Added feature to display project name in IRC notice if multiple projects are broadcasting in the same channel (Bryan)
 - Fixed bug that caused notification to be sent to user who updated issue (Bryan)
+- Fixed bug that prevented multiple select custom fields to have values cleared (Bug #9853) (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)

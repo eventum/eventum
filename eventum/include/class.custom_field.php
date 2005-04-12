@@ -165,10 +165,11 @@ class Custom_Field
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  WHERE
-                    fld_id IN (" . implode(", ", @array_keys($HTTP_POST_VARS['custom_fields'])) . ")";
+                    fld_id IN (" . implode(", ", Misc::escapeInteger($HTTP_POST_VARS['fld_id'])) . ")";
         $field_types = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 
-        foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
+        foreach ($HTTP_POST_VARS['fld_id'] as $fld_id) {
+            $value = @$HTTP_POST_VARS["custom_fields"][$fld_id];
             $option_types = array(
                 'multiple',
                 'combo'

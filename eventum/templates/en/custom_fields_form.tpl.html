@@ -55,6 +55,7 @@ function validateForm(f)
             <nobr><b>{$custom_fields[i].fld_title}:</b>&nbsp;</nobr>
           </td>
           <td width="100%" bgcolor="{$row_color}">
+            <input type="hidden" name="fld_id[]" value="{$custom_fields[i].fld_id}">
             {if $custom_fields[i].fld_type == 'text'}
             <input class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" value="{$custom_fields[i].icf_value|escape:"html"}">
             {elseif $custom_fields[i].fld_type == 'textarea'}
