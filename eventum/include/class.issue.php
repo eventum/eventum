@@ -2130,7 +2130,7 @@ class Issue
         $stmt .= Issue::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
-                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]);
+                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]) . "";
         $total_rows = Pager::getTotalRows($stmt);
         $stmt .= "
                  LIMIT
@@ -2475,7 +2475,8 @@ class Issue
         $stmt .= Issue::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
-                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]);
+                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]) . ",
+                    iss_id DESC";
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
