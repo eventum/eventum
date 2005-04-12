@@ -830,6 +830,11 @@ class Notification
         $final_type = $type;
         $sender_usr_id = false;
         for ($i = 0; $i < count($emails); $i++) {
+            // don't send the notification email to the person who performed the action
+            if (Auth::getUserID() == User::getUserIDByEmail(Mail_API::getEmailAddress($emails[$i]))) {
+                continue;
+            }
+            
             // send email (use PEAR's classes)
             $mail = new Mail_API;
             $mail->setTextBody($text_message);
