@@ -25,6 +25,7 @@ Eventum Issue Tracking System
 - Fixed estimated dev time showing up as minutes instead of hours on notification email (Bryan)
 - Fixed a bug that was preventing an email from being converted to an issue even when it isn't from a known customer (João)
 - Add extra order by clauses to make sure results are returned the same way every time (Bryan)
+- Added feature to display project name in IRC notice if multiple projects are broadcasting in the same channel (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)

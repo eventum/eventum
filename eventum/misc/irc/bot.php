@@ -253,6 +253,28 @@ class Eventum_Bot
         global $channels;
         return $channels[$prj_id];
     }
+    
+    
+    /**
+     * Helper method to the projects a channel displays messages for.
+     * 
+     * @access  private
+     * @param   string $channel The name of the channel
+     * @return  array The projects displayed in the channel
+     */
+    function _getProjectsForChannel($channel)
+    {
+        global $channels;
+        $projects = array();
+        foreach ($channels as $prj_id => $prj_channels) {
+            foreach ($prj_channels as $prj_channel) {
+                if ($prj_channel == $channel) {
+                    $projects[] = $prj_id;
+                }
+            }
+        }
+        return $projects;
+    }
 
 
     /**
@@ -288,6 +310,10 @@ class Eventum_Bot
                         $res[$i]['ino_message'] .= ' - ' . APP_BASE_URL . 'view.php?id=' . $res[$i]['ino_iss_id'];
                     } elseif (substr($res[$i]['ino_message'], 0, strlen('New Pending Email')) == 'New Pending Email') {
                         $res[$i]['ino_message'] .= ' - ' . APP_BASE_URL . 'emails.php';
+                    }
+                    if (count($this->_getProjectsForChannel($channel)) > 1) {
+                        // if multiple projects display in the same channel, display project in message
+                        $res[$i]['ino_message'] = "[" . Project::getName($res[$i]['ino_prj_id']) . "] " . $res[$i]['ino_message'];
                     }
                     $this->sendResponse($irc, $channel, $res[$i]['ino_message']);
                 }
