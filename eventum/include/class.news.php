@@ -88,7 +88,7 @@ class News
                     prn_prj_id
                  ) VALUES (
                     " . Misc::escapeInteger($nws_id) . ",
-                    " . $prj_id . "
+                    " . Misc::escapeInteger($prj_id) . "
                  )";
         $GLOBALS["db_api"]->dbh->query($stmt);
     }
@@ -259,6 +259,7 @@ class News
         } else {
             // get all of the project associations here as well
             $res['projects'] = array_keys(News::getAssociatedProjects($res['nws_id']));
+            $res['nws_message'] = Misc::activateLinks(nl2br(htmlspecialchars($res['nws_message'])));
             return $res;
         }
     }
