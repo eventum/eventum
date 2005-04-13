@@ -54,7 +54,8 @@ if ($fix_lock) {
 
 if (!Mail_Queue::isSafeToRun()) {
     $pid = Lock::getProcessID('process_mail_queue');
-    echo "ERROR: There is already a process (pid=$pid) of this script running.\n";
+    echo "ERROR: There is already a process (pid=$pid) of this script running. "
+    echo "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n";
     exit;
 }
 
