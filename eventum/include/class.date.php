@@ -150,10 +150,13 @@ class Date_API
      *
      * @access  public
      * @return  string The current GMT date
+     * @param   string $timezone The needed timezone
      */
-    function getRFC822Date($timestamp)
+    function getRFC822Date($timestamp, $timezone = FALSE)
     {
-        $timezone = Date_API::getPreferredTimezone();
+        if (!$timezone) {
+            $timezone = Date_API::getPreferredTimezone();
+        }
         $date = new Date($timestamp);
         // now convert to another timezone and return the date
         $date->convertTZById($timezone);
