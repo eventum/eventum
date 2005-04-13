@@ -22,7 +22,7 @@ function updateCustomFields(issue_id)
             <b>Issue Details</b>
           </td>
           <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
             [ <a id="custom_fields_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('custom_fields');">{get_innerhtml element_name="custom_fields"}</a> ]
             {/if}
           </td>

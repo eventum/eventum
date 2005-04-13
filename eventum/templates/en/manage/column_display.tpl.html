@@ -51,8 +51,13 @@
             {$column.title}
           </td>
           <td bgcolor="{$row_color}" align="center" width="20%">
+            {if $selected[$field_name].min_role == ''}
+              {assign var="selected_role" value=$column.default_role}
+            {else}
+              {assign var="selected_role" value=$selected[$field_name].min_role}
+            {/if}
             <select name="min_role[{$field_name}]" class="default">
-              {html_options options=$user_roles selected=$selected[$field_name].min_role}
+              {html_options options=$user_roles selected=$selected_role}
             </select>
           </td>
           <td bgcolor="{$row_color}" align="center" width="40%">

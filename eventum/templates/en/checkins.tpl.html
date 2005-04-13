@@ -32,7 +32,7 @@ function removeCheckins(f)
             <b>SCM Integration - Checkins</b>
           </td>
           <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
             [ <a id="checkins_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('checkins');">{get_innerhtml element_name="checkins" total=$checkins|@count}</a> ]
             {/if}
           </td>

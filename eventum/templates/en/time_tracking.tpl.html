@@ -35,7 +35,7 @@ function addTimeEntry()
             <b>Time Tracking ({$time_entries|@count})</b>
           </td>
           <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
             [ <a id="time_tracker_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('time_tracker');">{get_innerhtml element_name="time_tracker" total=$time_entries|@count}</a> ]
             {/if}
           </td>

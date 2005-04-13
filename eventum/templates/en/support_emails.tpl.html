@@ -60,7 +60,7 @@ function sendEmail(account_id, issue_id)
             {if $current_role >= $roles.standard_user}
             [ <a href="mail_queue.php?iss_id={$smarty.get.id}" class="link" title="view the history of sent emails">Mail Queue Log</a> ]
             {/if}
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
             [ <a id="support_emails_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('support_emails');">{get_innerhtml element_name="support_emails" total=$emails|@count}</a> ]
             {/if}
           </td>

@@ -41,7 +41,7 @@ function uploadFile(issue_id)
             <b>Attached Files ({$files|@count})</b>
           </td>
           <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
             [ <a id="attachments_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('attachments');">{get_innerhtml element_name="attachments" total=$files|@count}</a> ]
             {/if}
           </td>

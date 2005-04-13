@@ -34,7 +34,7 @@ function addPhoneCall()
           <b>Phone Calls ({$phone_entries|@count})</b>
         </td>
         <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
             [ <a id="phone_support_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('phone_support');">{get_innerhtml element_name="phone_support" total=$phone_entries|@count}</a> ]
             {/if}
         </td>

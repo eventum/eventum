@@ -54,7 +54,7 @@ function replyNote(note_id, issue_id)
             <b>Internal Notes ({$notes|@count})</b>
           </td>
           <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
             [ <a id="notes_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('notes');">{get_innerhtml element_name="notes" total=$notes|@count}</a> ]
             {/if}
           </td>

@@ -44,7 +44,7 @@ function showAllDrafts(thisBox)
             <b>Drafts ({$drafts|@count})</b>
           </td>
           <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
             [ <a id="drafts_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('drafts');">{get_innerhtml element_name="drafts" total=$drafts|@count}</a> ]
             {/if}
           </td>

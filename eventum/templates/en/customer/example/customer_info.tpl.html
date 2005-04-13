@@ -10,7 +10,7 @@
             <b>Customer Details</b>
           </td>
           <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko}
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
             [ <a id="customer_info_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('customer_info');">{get_innerhtml element_name="customer_info"}</a> ]
             {/if}
           </td>
