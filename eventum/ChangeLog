@@ -28,6 +28,10 @@ Eventum Issue Tracking System
 - Added feature to display project name in IRC notice if multiple projects are broadcasting in the same channel (Bryan)
 - Fixed bug that caused notification to be sent to user who updated issue (Bryan)
 - Fixed bug that prevented multiple select custom fields to have values cleared (Bug #9853) (Bryan)
+- Set show/hide links to be displayed in Opera/Safari (Elan Ruusamäe)
+- Fixed dynCalendar so it works in Opera (Elan Ruusamäe)
+- Added issue description to RSS feed as well as other minor fixes (Elan Ruusamäe)
+- Fixed bug with transferring non-ASCII data over xmlrpc (Elan Ruusamäe)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
