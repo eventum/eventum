@@ -111,9 +111,10 @@ class History
      *
      * @access  public
      * @param   integer $iss_id The issue ID
+     * @param   string $order_by The order to sort the history
      * @return  array The list of changes
      */
-    function getListing($iss_id)
+    function getListing($iss_id, $order_by = 'DESC')
     {
         $stmt = "SELECT
                     *
@@ -126,7 +127,7 @@ class History
                     his_iss_id=" . Misc::escapeInteger($iss_id) . " AND
                     htt_role <= " . Auth::getCurrentRole() . "
                  ORDER BY
-                    his_id DESC";
+                    his_id $order_by";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
