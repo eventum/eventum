@@ -54,7 +54,12 @@ function returnError($msg)
     header("Content-Type: text/xml");
     echo '<?xml version="1.0"?>' . "\n";
 ?>
-<rss version="0.91">
+<rss version="2.0"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+    xmlns:admin="http://webns.net/mvcb/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Error!</title>
     <link><?php echo APP_BASE_URL; ?></link>
@@ -119,17 +124,10 @@ if (!isset($HTTP_SERVER_VARS['PHP_AUTH_USER'])) {
     }
 }
 
-include_once(APP_INC_PATH . "private_key.php");
-$time = time();
-$cookie = base64_encode(serialize(array(
-    "email"      => $HTTP_SERVER_VARS['PHP_AUTH_USER'],
-    "login_time" => $time,
-    "hash"       => md5($GLOBALS["private_key"] . md5($time) . $HTTP_SERVER_VARS['PHP_AUTH_USER']),
-    "autologin"  => 0
-)));
-$HTTP_COOKIE_VARS[APP_COOKIE] = $cookie;
 
 $filter = Filter::getDetails($HTTP_GET_VARS["custom_id"], FALSE);
+
+Auth::createFakeCookie(User::getUserIDByEmail($HTTP_SERVER_VARS['PHP_AUTH_USER']), $filter['cst_prj_id']);
 
 $options = array(
     'users'         => $filter['cst_users'],
@@ -144,30 +142,35 @@ $options = array(
 $issues = Issue::getListing($filter['cst_prj_id'], $options, 0, 'ALL', TRUE);
 $issues = $issues['list'];
 $project_title = Project::getName($filter['cst_prj_id']);
+Issue::getDescriptionByIssues($issues);
 
-header("Content-Type: text/xml");
+Header("Content-Type: text/xml; charset=" . APP_CHARSET);
 echo '<?xml version="1.0" encoding="'. APP_CHARSET .'"?>' . "\n";
 ?>
-<rss version="0.91">
+<rss version="2.0"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+    xmlns:admin="http://webns.net/mvcb/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title><?php echo $setup['tool_caption']; ?> - <?php echo htmlspecialchars($filter['cst_title']); ?></title>
     <link><?php echo APP_BASE_URL; ?></link>
     <description>List of issues</description>
-
 <?php foreach($issues as $issue) { ?>
     <item>
       <title><?php echo '#' . $issue['iss_id'] . " - " . htmlspecialchars($issue['iss_summary']); ?></title>
       <link><?php echo APP_BASE_URL . "view.php?id=" . $issue['iss_id']; ?></link>
       <description>
-      Project: <?php echo htmlspecialchars($project_title); ?> &lt;BR&gt;
-      Created Date: <?php echo htmlspecialchars($issue['iss_created_date']); ?> &lt;BR&gt;
-      Assignment: <?php echo htmlspecialchars($issue['assigned_users']); ?> &lt;BR&gt;
-      Status: <?php echo htmlspecialchars($issue['sta_title']); ?> &lt;BR&gt;
-      Priority: <?php echo htmlspecialchars($issue['pri_title']); ?> &lt;BR&gt;
-      Category: <?php echo htmlspecialchars($issue['prc_title']); ?> &lt;BR&gt;
+      Project: <?php echo htmlspecialchars($project_title); ?>&lt;BR&gt;&lt;BR&gt;
+      Assignment: <?php echo htmlspecialchars($issue['assigned_users']); ?>&lt;BR&gt;
+      Status: <?php echo htmlspecialchars($issue['sta_title']); ?>&lt;BR&gt;
+      Priority: <?php echo htmlspecialchars($issue['pri_title']); ?>&lt;BR&gt;
+      Category: <?php echo htmlspecialchars($issue['prc_title']); ?>&lt;BR&gt;
+      &lt;BR&gt;<?php echo htmlspecialchars(Misc::activateLinks(nl2br($issue['iss_description']))); ?>&lt;BR&gt;
       </description>
       <author><?php echo htmlspecialchars($issue['reporter']); ?></author>
-      <pubDate><?php echo $issue['iss_created_date']; ?></pubDate>
+      <pubDate><?php echo Date_API::getRFC822Date($issue['iss_created_date'], "GMT"); ?></pubDate>
     </item>
 <?php } ?>
 
