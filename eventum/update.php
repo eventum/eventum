@@ -89,11 +89,11 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
     if (Workflow::hasWorkflowIntegration($prj_id)) {
         $statuses = Workflow::getAllowedStatuses($prj_id, $issue_id);
         // if currently selected release is not on list, go ahead and add it.
-        if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
-            $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
-        }
     } else {
-        $statuses = Status::getAssocStatusList($prj_id);
+        $statuses = Status::getAssocStatusList($prj_id, false);
+    }
+    if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
+        $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
     }
     
     $tpl->assign(array(
