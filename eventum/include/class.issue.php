@@ -2625,6 +2625,38 @@ class Issue
         }
     }
 
+    /**
+     * Method used to add the issue description to a list of issues.
+     *
+     * @access  public
+     * @param   array $result The result set
+     * @return  void
+     */
+    function getDescriptionByIssues(&$result)
+    {
+        $ids = array();
+        for ($i = 0; $i < count($result); $i++) {
+            $ids[] = $result[$i]["iss_id"];
+        }
+        $ids = implode(", ", $ids);
+
+        $stmt = "SELECT
+                    iss_id, iss_description
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                    iss_id in ($ids)";
+
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        } else {
+            for ($i = 0; $i < count($result); $i++) {
+                @$result[$i]['iss_description'] = $res[$result[$i]['iss_id']];
+            }
+        }
+    }
+
 
     /**
      * Method used to get the full list of users (the full names) assigned to a
