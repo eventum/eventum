@@ -398,7 +398,7 @@ class Mail_API
      */
     function addMessageRfc822($message_body)
     {
-        $this->mime->addMessageRfc822($message_body);
+        $this->mime->addMessageRfc822($message_body, '8bit');
     }
 
 
