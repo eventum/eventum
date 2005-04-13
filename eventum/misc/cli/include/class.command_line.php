@@ -439,6 +439,11 @@ class Command_Line
             Command_Line::quit($result->faultString());
         }
         $details = XML_RPC_decode($result->value());
+        
+        foreach ($details as $k => $v) {
+            $details[$k] = base64_decode($v);
+        }
+
         // check if the issue the user is trying to change is inside a project viewable to him
         $found = 0;
         for ($i = 0; $i < count($projects); $i++) {

@@ -194,6 +194,9 @@ function getIssueDetails($p)
     createFakeCookie($email, Issue::getProjectID($issue_id));
     
     $res = Issue::getDetails($issue_id);
+    foreach ($res as $k => $v) {
+        $res[$k] = base64_encode($v);
+    }
     if (empty($res)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue #$issue_id could not be found");
     } else {
