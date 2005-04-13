@@ -32,6 +32,7 @@ Eventum Issue Tracking System
 - Fixed dynCalendar so it works in Opera (Elan Ruusamäe)
 - Added issue description to RSS feed as well as other minor fixes (Elan Ruusamäe)
 - Fixed bug with transferring non-ASCII data over xmlrpc (Elan Ruusamäe)
+- Added feature to clear closed date and resolution when re-opening issues (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)

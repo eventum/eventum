@@ -368,9 +368,8 @@ class Issue
             return -1;
         }
         
-        if ($notify) {
-            $old_status = Issue::getStatusID($issue_id);
-        }
+        $old_status = Issue::getStatusID($issue_id);
+        $old_details = Status::getDetails($old_status);
         
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -388,6 +387,14 @@ class Issue
         } else {
             // clear out the last-triggered-reminder flag when changing the status of an issue
             Reminder_Action::clearLastTriggered($issue_id);
+            
+            // if old status was closed and new status is not, clear closed data from issue.
+            if ($old_details['sta_is_closed'] == 1) {
+                $new_details = Status::getDetails($status_id);
+                if ($new_details['sta_is_closed'] != 1) {
+                    Issue::clearClosed($issue_id);
+                }
+            }
             
             if ($notify) {
                 Notification::notifyStatusChange($issue_id, $old_status, $status_id);
@@ -1174,6 +1181,15 @@ class Issue
             if ($current["iss_sta_id"] != $HTTP_POST_VARS["status"]) {
                 // clear out the last-triggered-reminder flag when changing the status of an issue
                 Reminder_Action::clearLastTriggered($issue_id);
+                
+                // if old status was closed and new status is not, clear closed data from issue.
+                $old_status_details = Status::getDetails($current['iss_sta_id']);
+                if ($old_status_details['sta_is_closed'] == 1) {
+                    $new_status_details = Status::getDetails($HTTP_POST_VARS["status"]);
+                    if ($new_status_details['sta_is_closed'] != 1) {
+                        Issue::clearClosed($issue_id);
+                    }
+                }
                 $updated_fields["Status"] = History::formatChanges(Status::getStatusTitle($current["iss_sta_id"]), Status::getStatusTitle($HTTP_POST_VARS["status"]));
             }
             if ($current["iss_res_id"] != $HTTP_POST_VARS["resolution"]) {
@@ -3291,6 +3307,29 @@ class Issue
         
         $access[$issue_id . "-" . $usr_id] = $return;
         return $return;
+    }
+    
+    
+    /**
+     * Clears closed information from an issues.
+     *
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     */
+    function clearClosed($issue_id)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 SET
+                    iss_closed_date = null,
+                    iss_res_id = null
+                 WHERE
+                    iss_id=" . Misc::escapeInteger($issue_id);
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
     }
 }
 
