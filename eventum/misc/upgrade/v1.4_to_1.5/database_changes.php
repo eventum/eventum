@@ -15,7 +15,7 @@ $sql = "SELECT
 $res = $GLOBALS["db_api"]->dbh->getOne($sql);
 if ($res == 0) {
     // test if this works
-    $stmts[] = "INSERT INTO eventum_time_tracking_category (ttc_id, ttc_title, ttc_created_date) VALUES (9, 'Email Discussion', NOW())";
+    $stmts[] = "INSERT INTO eventum_time_tracking_category (ttc_title, ttc_created_date) VALUES ('Email Discussion', NOW())";
 }
 
 $stmts[] = "ALTER TABLE eventum_project_user ADD COLUMN pru_role tinyint(1) unsigned default 1";
