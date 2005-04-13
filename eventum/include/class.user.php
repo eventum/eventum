@@ -1113,7 +1113,7 @@ class User
         }
 
         $stmt = "SELECT
-                    usr_email,
+                    LOWER(usr_email),
                     usr_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
