@@ -380,7 +380,6 @@ class Mail_Queue
      */
     function getEntry($maq_id)
     {
-        $maq_id = Misc::escapeInteger($maq_id);
         $stmt = "SELECT
                     maq_iss_id,
                     maq_queued_date,
