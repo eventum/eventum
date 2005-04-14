@@ -34,7 +34,29 @@ include_once(APP_INC_PATH . "class.monitor.php");
 $partition = '/';
 
 Monitor::checkDiskspace($partition);
-Monitor::checkConfiguration();
+
+// the owner, group and filesize settings should be changed to match the correct permissions on your server.
+$required_files = array(
+    APP_PATH . 'config.inc.php' => array(
+        'check_owner'      => true,
+        'owner'            => 'apache',
+        'check_group'      => true,
+        'group'            => 'apache',
+        'check_permission' => true,
+        'permission'       => 755,
+    ),
+    APP_PATH . 'setup.conf.php' => array(
+        'check_owner'      => true,
+        'owner'            => 'apache',
+        'check_group'      => true,
+        'group'            => 'apache',
+        'check_permission' => true,
+        'permission'       => 750,
+        'check_filesize'   => true,
+        'filesize'         => 1024
+    ),
+);
+Monitor::checkConfiguration($required_files);
 Monitor::checkDatabase();
 Monitor::checkMailQueue();
 Monitor::checkIRCBot();
