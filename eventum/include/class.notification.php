@@ -982,7 +982,17 @@ class Notification
                 "data"        => $data,
                 "sender_name" => Mail_API::getName($sender)
             ));
+            
+            // figure out if sender has a real account or not
+            $sender_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($sender));
+            if ((!empty($sender_usr_id)) && (Issue::canAccess($issue_id, $sender_usr_id))) {
+                $can_access = 1;
+            } else {
+                $can_access = 0;
+            }
+            
             $tpl->assign(array(
+                'sender_can_access' =>  $can_access,
                 'email' => array(
                     'date'    => $date,
                     'from'    => Mime_Helper::fixEncoding($sender),

@@ -34,6 +34,7 @@ Eventum Issue Tracking System
 - Fixed bug with transferring non-ASCII data over xmlrpc (Elan Ruusamäe)
 - Added feature to clear closed date and resolution when re-opening issues (Bryan)
 - Added feature to honor default notification options (Bryan)
+- Display different auto created email for users that don't have accounts (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
