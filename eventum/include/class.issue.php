@@ -2858,10 +2858,10 @@ class Issue
         if (Auth::getCurrentRole() < User::getRoleID('Standard User')) {
             return -1;
         }
-        
+
         $HTTP_POST_VARS['item'] = Misc::escapeInteger($HTTP_POST_VARS['item']);
         $HTTP_POST_VARS['users'] = Misc::escapeInteger($HTTP_POST_VARS['users']);
-        
+
         for ($i = 0; $i < count($HTTP_POST_VARS["item"]); $i++) {
             // check if the issue is already assigned to this person
             $stmt = "SELECT
@@ -2875,26 +2875,14 @@ class Issue
             if ($total > 0) {
                 continue;
             } else {
-                
                 // make sure issue is not in another project
                 if (Issue::getProjectID($HTTP_POST_VARS['item'][$i]) != Auth::getCurrentProject()) {
                     return -1;
                 }
-                
                 // add the assignment
-                $stmt = "INSERT INTO
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
-                         (
-                            isu_iss_id,
-                            isu_usr_id
-                         ) VALUES (
-                            " . $HTTP_POST_VARS["item"][$i] . ",
-                            " . $HTTP_POST_VARS["users"] . "
-                         )";
-                $GLOBALS["db_api"]->dbh->query($stmt);
-                // add the assignment to the history of the issue
-                $summary = 'Issue assigned to ' . User::getFullName($HTTP_POST_VARS["users"]) . ' by ' . User::getFullName(Auth::getUserID());
-                History::add($HTTP_POST_VARS["item"][$i], Auth::getUserID(), History::getTypeID('user_associated'), $summary);
+                Issue::addUserAssociation(Auth::getUserID(), $HTTP_POST_VARS["item"][$i], $HTTP_POST_VARS["users"]);
+                Notification::subscribeUser(Auth::getUserID(), $HTTP_POST_VARS["item"][$i], $HTTP_POST_VARS["users"], Notification::getAllActions());
+                Workflow::handleAssignment(Auth::getCurrentProject(), $HTTP_POST_VARS["item"][$i], Auth::getUserID());
             }
         }
         return true;
