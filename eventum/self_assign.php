@@ -59,7 +59,7 @@ if ((count($assigned_user_ids) > 0) && (empty($_REQUEST["target"]))) {
     }
     $res = Issue::addUserAssociation($usr_id, $issue_id, $usr_id);
     $tpl->assign("self_assign_result", $res);
-    Notification::subscribeUser($usr_id, $issue_id, $usr_id, Notification::getAllActions());
+    Notification::subscribeUser($usr_id, $issue_id, $usr_id, Notification::getDefaultActions());
     Workflow::handleAssignment($prj_id, $issue_id, $usr_id);
 }
 
