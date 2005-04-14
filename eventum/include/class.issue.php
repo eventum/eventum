@@ -340,7 +340,7 @@ class Issue
         if ($res != -1) {
             // save a history entry about this...
             History::add($issue_id, $usr_id, History::getTypeID('remote_assigned'), "Issue remotely assigned to " . User::getFullName($assignee) . " by " . User::getFullName($usr_id));
-            Notification::subscribeUser($usr_id, $issue_id, $assignee, Notification::getAllActions(), false);
+            Notification::subscribeUser($usr_id, $issue_id, $assignee, Notification::getDefaultActions(), false);
             if ($assignee != $usr_id) {
                 Notification::notifyNewAssignment(array($assignee), $issue_id);
             }
@@ -880,7 +880,7 @@ class Issue
             // now add the user/issue association
             $assign = array();
             $users = @$options["users"];
-            $actions = Notification::getAllActions();
+            $actions = Notification::getDefaultActions();
             for ($i = 0; $i < count($users); $i++) {
                 Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i], $actions);
                 Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i]);
@@ -1110,7 +1110,7 @@ class Issue
             foreach ($new_assignees as $assignee) {
                 if (!in_array($assignee, $old_assignees)) {
                     Issue::addUserAssociation($usr_id, $issue_id, $assignee);
-                    Notification::subscribeUser($usr_id, $issue_id, $assignee, Notification::getAllActions(), TRUE);
+                    Notification::subscribeUser($usr_id, $issue_id, $assignee, Notification::getDefaultActions(), TRUE);
                     $assignment_notifications[] = $assignee;
                     $assignments_changed = true;
                 }
@@ -1561,7 +1561,7 @@ class Issue
             // add the reporter to the notification list
             $emails[] = $sender;
             $emails = array_unique($emails); // COMPAT: version >= 4.0.1
-            $actions = Notification::getAllActions();
+            $actions = Notification::getDefaultActions();
             foreach ($emails as $address) {
                 Notification::subscribeEmail($reporter, $new_issue_id, $address, $actions);
             }
@@ -1760,7 +1760,7 @@ class Issue
             // add the reporter to the notification list
             $emails[] = $info['usr_email'];
             $emails = array_unique($emails); // COMPAT: version >= 4.0.1
-            $actions = Notification::getAllActions();
+            $actions = Notification::getDefaultActions();
             foreach ($emails as $address) {
                 Notification::subscribeEmail($usr_id, $new_issue_id, $address, $actions);
             }

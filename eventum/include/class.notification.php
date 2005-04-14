@@ -1659,6 +1659,34 @@ class Notification
 
 
     /**
+     * Method used to get the full list of default notification
+     * actions.
+     *
+     * @access  public
+     * @return  array The list of default notification actions
+     */
+    function getDefaultActions()
+    {
+        $actions = array();
+        $setup = Setup::load();
+        
+        if (@$setup['update'] == 1) {
+            $actions[] = 'updated';
+        }
+        if (@$setup['closed'] == 1) {
+            $actions[] = 'closed';
+        }
+        if (@$setup['files'] == 1) {
+            $actions[] = 'files';
+        }
+        if (@$setup['emails'] == 1) {
+            $actions[] = 'emails';
+        }
+        return $actions;
+    }
+
+
+    /**
      * Method used to subscribe an user to a set of actions in an issue.
      *
      * @access  public

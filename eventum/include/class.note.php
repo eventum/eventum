@@ -294,7 +294,7 @@ class Note
         $note_cc[] = $usr_id;
         if ($unknown_user == false) {
             for ($i = 0; $i < count($note_cc); $i++) {
-                Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getAllActions());
+                Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getDefaultActions());
             }
         }
         if (Validation::isWhitespace($HTTP_POST_VARS["note"])) {
