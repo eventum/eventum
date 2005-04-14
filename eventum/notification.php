@@ -45,6 +45,14 @@ $prj_id = Auth::getCurrentProject();
 $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["iss_id"];
 $tpl->assign("issue_id", $issue_id);
 
+// format default actions properly
+$default = Notification::getDefaultActions();
+$res = array();
+foreach ($default as $action) {
+    $res[$action] = 1;
+}
+$tpl->assign("default_actions", $res);
+
 if (@$HTTP_POST_VARS["cat"] == "insert") {
     $res = Notification::subscribeEmail($usr_id, $issue_id, $HTTP_POST_VARS['email'], $HTTP_POST_VARS['actions']);
     $tpl->assign("insert_result", $res);
