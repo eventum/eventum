@@ -32,6 +32,7 @@ Eventum Issue Tracking System
 - Fixed dynCalendar so it works in Opera (Elan Ruusamäe)
 - Added issue description to RSS feed as well as other minor fixes (Elan Ruusamäe)
 - Fixed bug with transferring non-ASCII data over xmlrpc (Elan Ruusamäe)
+- Fixed bug on the issue listing screen that would not add the assignee to the notification list (João)
 - Added feature to clear closed date and resolution when re-opening issues (Bryan)
 - Added feature to honor default notification options (Bryan)
 - Display different auto created email for users that don't have accounts (Bryan)
