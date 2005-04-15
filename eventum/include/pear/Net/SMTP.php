@@ -415,7 +415,7 @@ class Net_SMTP
          * If no method has been specified, get the name of the best supported
          * method advertised by the SMTP server.
          */
-        if (empty($method)) {
+        if ((empty($method)) || ($method == '1')) {
             if (PEAR::isError($method = $this->_getBestAuthMethod())) {
                 /* Return the PEAR_Error object from _getBestAuthMethod(). */
                 return $method;

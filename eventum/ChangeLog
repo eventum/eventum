@@ -38,6 +38,7 @@ Eventum Issue Tracking System
 - Display different auto created email for users that don't have accounts (Bryan)
 - Added extra check to the installation procedure to properly check for session support (João)
 - Fixed bug that caused the wrong timezone short name on daylight savings time to be displayed (João)
+- Fixed bug that prevented SMTP authentication from working in a few special cases (João)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
