@@ -397,13 +397,14 @@ class Note
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     not_iss_id,
-                    not_usr_id
+                    not_usr_id,
+                    IF(LENGTH(not_blocked_message) > 0, 1, 0) AS has_blocked_message
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_id=$note_id";
         $details = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if ($details['not_usr_id'] != Auth::getUserID()) {
+        if (($details['not_usr_id'] != Auth::getUserID()) && ($details['has_blocked_message'] != 1)) {
             return -2;
         }
 
