@@ -4,7 +4,7 @@ Upgrade Process
 
 One of our objectives is to make upgrading from an earlier release as 
 painless as possible, and we provide scripts that should bring your 
-current Eventum installation up-to-date.
+existing Eventum installation up-to-date.
 
 IMPORTANT:
 ==========
@@ -19,6 +19,15 @@ instructions:
    back in place
 4) Run the upgrade scripts described in each section below by opening
    these scripts in your web browser
+
+
+- Upgrading from version 1.5.1 to 1.5.2:
+----------------------------------------
+
+For the upgrade from release 1.5.1 to 1.5.2, there are 3 scripts you need
+to run. For convenience, an index file is provided to list the scripts.
+Open /path-to-eventum/misc/upgrade/v1.5.1_to_v1.5.2/ in a web browser
+and run the scripts in the order provided.
 
 
 - Upgrading from version 1.5 to 1.5.1:
