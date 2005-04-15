@@ -37,6 +37,7 @@ include_once(APP_JPGRAPH_PATH . "jpgraph.php");
 include_once(APP_JPGRAPH_PATH . "jpgraph_bar.php");
 
 Auth::checkAuthentication(APP_COOKIE);
+$usr_id = Auth::getUserID();
 
 if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
     echo "Invalid role";
@@ -48,8 +49,7 @@ if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
  */
 
 // get timezone of current user
-$user_prefs = Prefs::get(Auth::getUserID());
-$tz = new Date_TimeZone(@$user_prefs["timezone"]);
+$user_prefs = Prefs::get($usr_id);
 
 if (@$HTTP_GET_VARS["type"] == "email") {
     $data = Report::getEmailWorkloadByTimePeriod(@$user_prefs["timezone"], true);
@@ -95,7 +95,7 @@ $grouped = new GroupBarPlot($plots);
 $graph->Add($grouped);
 
 $graph->title->Set($graph_title);
-$graph->xaxis->title->Set("Hours (" . $tz->getShortName() . ")");
+$graph->xaxis->title->Set("Hours (" . Date_API::getTimezoneShortNameByUser($usr_id) . ")");
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->Set(ucfirst($event_type) . " (%)");

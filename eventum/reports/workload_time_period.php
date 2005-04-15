@@ -38,6 +38,7 @@ $tpl = new Template_API();
 $tpl->setTemplate("reports/workload_time_period.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
+$usr_id = Auth::getUserID();
 
 if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
     echo "Invalid role";
@@ -47,8 +48,7 @@ if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
 $prj_id = Auth::getCurrentProject();
 
 // get timezone of current user
-$user_prefs = Prefs::get(Auth::getUserID());
-$tz = new Date_TimeZone(@$user_prefs["timezone"]);
+$user_prefs = Prefs::get($usr_id);
 
 if (@$HTTP_GET_VARS["type"] == "email") {
     $data = Report::getEmailWorkloadByTimePeriod(@$user_prefs["timezone"]);
@@ -59,7 +59,7 @@ if (@$HTTP_GET_VARS["type"] == "email") {
 $tpl->assign(array(
     "data"    => $data,
     "type"    => @$HTTP_GET_VARS["type"],
-    "user_tz" => $tz->getShortName()
+    "user_tz" => Date_API::getTimezoneShortNameByUser($usr_id)
 ));
 $tpl->displayTemplate();
 ?>

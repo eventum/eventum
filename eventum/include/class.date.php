@@ -47,7 +47,7 @@ include_once(APP_INC_PATH . "class.prefs.php");
 include_once(APP_PEAR_PATH . "Date.php");
 
 if (!defined('APP_DEFAULT_TIMEZONE')) {
-    define('APP_DEFAULT_TIMEZONE', 'UTC');                                                                    
+    define('APP_DEFAULT_TIMEZONE', 'UTC');
 }
 define("SECOND", 1);
 define("MINUTE", SECOND * 60);
@@ -190,6 +190,39 @@ class Date_API
 
 
     /**
+     * Method used to get the proper short name for a given date.
+     *
+     * @access  public
+     * @param   object $date The Date object
+     * @return  string The timezone short name
+     */
+    function getTimezoneShortName($date)
+    {
+        if ($date->inDaylightTime()) {
+            return $date->tz->getDSTShortName();
+        } else {
+            return $date->tz->getShortName();
+        }
+    }
+
+
+    /**
+     * Method used to get the proper timezone short name for the current date 
+     * and time on the given user's timezone.
+     *
+     * @access  public
+     * @param   object $date The Date object
+     * @return  string The timezone short name
+     */
+    function getTimezoneShortNameByUser($usr_id)
+    {
+        $date = new Date();
+        $date->convertTZById(Date_API::getPreferredTimezone($usr_id));
+        return Date_API::getTimezoneShortName($date);
+    }
+
+
+    /**
      * Method used to get the formatted date for a specific timestamp
      * and a specific timezone, provided by the user' preference.
      *
@@ -206,7 +239,7 @@ class Date_API
         $date = new Date($timestamp);
         // now convert to another timezone and return the date
         $date->convertTZById($timezone);
-        return $date->format('%a, %d %b %Y, %H:%M:%S ') . $date->tz->getShortName();
+        return $date->format('%a, %d %b %Y, %H:%M:%S ') . Date_API::getTimezoneShortName($date);
     }
 
 
