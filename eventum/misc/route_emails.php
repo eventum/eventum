@@ -34,7 +34,7 @@ include_once(APP_INC_PATH . "class.routing.php");
 $email_account_id = $HTTP_SERVER_VARS['argv'][1];
 $full_message = Misc::getInput();
 
-$return = Routing::route_emails($email_account_id, $full_message);
+$return = Routing::route_emails($full_message, $email_account_id);
 if (is_array($return)) {
     echo $return[1];
     exit($return[0]);
