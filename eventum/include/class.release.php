@@ -249,7 +249,7 @@ class Release
                     " . $HTTP_POST_VARS["prj_id"] . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     '" . Misc::escapeString($scheduled_date) . "',
-                    '" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["status"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
