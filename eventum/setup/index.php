@@ -409,6 +409,10 @@ $private_key = "' . md5(microtime()) . '";
     // write setup file
     include_once("../config.inc.php");
     include_once(APP_INC_PATH . "class.setup.php");
+    $_REQUEST['setup']['update'] = 1;
+    $_REQUEST['setup']['closed'] = 1;
+    $_REQUEST['setup']['emails'] = 1;
+    $_REQUEST['setup']['files'] = 1;
     Setup::save($_REQUEST['setup']);
     
     return 'success';
