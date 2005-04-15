@@ -452,9 +452,14 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Project::removeUserByProjects(array($HTTP_POST_VARS["id"]), $HTTP_POST_VARS["users"]);
+            Project::removeUserByProjects(array($HTTP_POST_VARS["id"]));
             for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
-                Project::associateUser($HTTP_POST_VARS["id"], $HTTP_POST_VARS["users"][$i], User::getRoleID("Standard User"));
+                if ($HTTP_POST_VARS["users"][$i] == $HTTP_POST_VARS["lead_usr_id"]) {
+                    $role_id = User::getRoleID("Manager");
+                } else {
+                    $role_id = User::getRoleID("Standard User");
+                }
+                Project::associateUser($HTTP_POST_VARS["id"], $HTTP_POST_VARS["users"][$i], $role_id);
             }
             $statuses = array_keys(Status::getAssocStatusList($HTTP_POST_VARS["id"]));
             if (count($statuses) > 0) {
@@ -565,12 +570,16 @@ class Project
         } else {
             $new_prj_id = $GLOBALS["db_api"]->get_last_insert_id();
             for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
-                Project::associateUser($new_prj_id, $HTTP_POST_VARS["users"][$i], User::getRoleID("Standard User"));
+                if ($HTTP_POST_VARS["users"][$i] == $HTTP_POST_VARS["lead_usr_id"]) {
+                    $role_id = User::getRoleID("Manager");
+                } else {
+                    $role_id = User::getRoleID("Standard User");
+                }
+                Project::associateUser($new_prj_id, $HTTP_POST_VARS["users"][$i], $role_id);
             }
             foreach ($HTTP_POST_VARS['statuses'] as $sta_id) {
                 Status::addProjectAssociation($sta_id, $new_prj_id);
             }
-            
             Display_Column::setupNewProject($new_prj_id);
             
             return 1;
