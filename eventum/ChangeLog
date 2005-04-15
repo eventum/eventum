@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 1.5.2
+15 Apr 2005, Version 1.5.2
 - Fixed the note viewing screen to prevent users with permission levels lower than "Standard User" from displaying notes (Bug #9134) (João)
 - Fixed the time tracking remove routine to check if the person removing the entry is really its owner (Bug #9137) (João)
 - Fixed the issue assignment feature of the listing screen to work again (João)
