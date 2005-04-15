@@ -137,6 +137,10 @@ $topics = array(
         "title" => "Segregate Reporters",
         "parent" => "main"
     ),
+    "permission_levels" => array(
+        "title" => "User Permission Levels",
+        "parent" => "main"
+    ),
 );
 
 class Help
