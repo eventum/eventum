@@ -103,6 +103,10 @@ function checkRequirements()
     if (!preg_match("/GD Support.*<\/td><td.*>enabled/U", $contents)) {
         $errors[] = "The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
     }
+    // check for session support
+    if (!function_exists('session_start')) {
+        $errors[] = "The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
+    }
     // check for MySQL support
     if (!function_exists('mysql_query')) {
         $errors[] = "The MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
