@@ -601,7 +601,7 @@ class Notification
             $diffs[] = '-Category: ' . Category::getTitle($old["iss_prc_id"]);
             $diffs[] = '+Category: ' . Category::getTitle($new["category"]);
         }
-        if ((@$new["keep"] == "no") && ($old["iss_pre_id"] != $new["release"])) {
+        if ($old["iss_pre_id"] != $new["release"]) {
             $diffs[] = '-Release: ' . Release::getTitle($old["iss_pre_id"]);
             $diffs[] = '+Release: ' . Release::getTitle($new["release"]);
         }
