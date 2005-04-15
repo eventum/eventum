@@ -63,10 +63,10 @@ class Routing
     /**
      * Routes an email to the correct issue.
      * 
-     * @param   integer $email_account_id The ID of the email account this email should be routed too.
      * @param   string $full_message The full email message, including headers
+     * @param   integer $email_account_id The ID of the email account this email should be routed too. If empty this method will try to figure it out
      */
-    function route_emails($email_account_id, $full_message)
+    function route_emails($full_message, $email_account_id = 0)
     {
         GLOBAL $HTTP_POST_VARS;
         
@@ -83,9 +83,6 @@ class Routing
         $associated_user = $sys_account['usr_email'];
         
         // need some validation here
-        if (empty($email_account_id)) {
-            return array(78, "Error: Please provide the email account ID.\n");
-        }
         if (empty($full_message)) {
             return array(66, "Error: The email message was empty.\n");
         }
@@ -149,6 +146,17 @@ class Routing
             } else {
                 return array(65, "Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.\n");
             }
+        }
+        if (empty($email_account_id)) {
+            $issue_prj_id = Issue::getProjectID($issue_id);
+            if (empty($issue_prj_id)) {
+                return array(65, "Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.\n");
+            }
+            $email_account_id = Email_Account::getEmailAccount($issue_prj_id);
+        }
+        
+        if (empty($email_account_id)) {
+            return array(78, "Error: Please provide the email account ID.\n");
         }
         
         $body = Mime_Helper::getMessageBody($structure);

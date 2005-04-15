@@ -42,6 +42,7 @@ Eventum Issue Tracking System
 - Fixed problem that was triggering Internet Explorer's warning message about switching from secure to insecure mode on the reporting system (João)
 - Added feature to automatically set the project lead user as a manager for that project (João)
 - Fixed bug that caused release changes not to show up in update email (Bryan)
+- Added feature so route emails script can now figure out what email account to use automatically (Bryan)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)

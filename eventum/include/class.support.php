@@ -524,13 +524,7 @@ class Support
                         return false;
                     }
                     if (preg_match("/$prefix(\d*)@$mail_domain/i", $email->toaddress, $matches)) {
-                        $issue_prj_id = Issue::getProjectID($matches[1]);
-                        if (empty($issue_prj_id)) {
-                            return false;
-                        }
-                        $issue_ema_id = Email_Account::getEmailAccount($issue_prj_id);
-                        
-                        $return = Routing::route_emails($issue_ema_id, $message);
+                        $return = Routing::route_emails($message);
                         if ($return == true) {
                             Support::deleteMessage($info, $mbox, $num);
                         }
