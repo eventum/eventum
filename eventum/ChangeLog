@@ -39,6 +39,7 @@ Eventum Issue Tracking System
 - Added extra check to the installation procedure to properly check for session support (João)
 - Fixed bug that caused the wrong timezone short name on daylight savings time to be displayed (João)
 - Fixed bug that prevented SMTP authentication from working in a few special cases (João)
+- Fixed problem that was triggering Internet Explorer's warning message about switching from secure to insecure mode on the reporting system (João)
 
 11 Mar 2005, Version 1.5.1
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
