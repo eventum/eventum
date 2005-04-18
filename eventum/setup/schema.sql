@@ -697,7 +697,7 @@ INSERT INTO %TABLE_PREFIX%reminder_action_type (rmt_type, rmt_title) VALUES ('sm
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%reminder_level_condition;
 CREATE TABLE %TABLE_PREFIX%reminder_level_condition (
-  rlc_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  rlc_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   rlc_rma_id INT(11) UNSIGNED NOT NULL,
   rlc_rmf_id TINYINT(3) UNSIGNED NOT NULL,
   rlc_rmo_id TINYINT(1) UNSIGNED NOT NULL,
@@ -786,7 +786,7 @@ CREATE TABLE %TABLE_PREFIX%email_draft (
   emd_usr_id INT(11) UNSIGNED NOT NULL,
   emd_iss_id INT(11) unsigned NOT NULL,
   emd_sup_id INT(11) UNSIGNED NULL DEFAULT NULL,
-  emd_status enum('pending', 'edited', 'sent') NOT NULL DEFAULT 'pending',
+  emd_status enum('pending','edited','sent') NOT NULL DEFAULT 'pending',
   emd_updated_date DATETIME NOT NULL,
   emd_subject VARCHAR(255) NOT NULL,
   emd_body LONGTEXT NOT NULL,
