@@ -2146,7 +2146,8 @@ class Issue
         $stmt .= Issue::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
-                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]) . "";
+                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]) . ",
+                    iss_id DESC";
         $total_rows = Pager::getTotalRows($stmt);
         $stmt .= "
                  LIMIT
