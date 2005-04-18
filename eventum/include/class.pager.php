@@ -62,7 +62,7 @@ class Pager
             $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(*) AS total_rows FROM '", $stmt);
         }
         // remove any order by clauses
-        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(,*\s+\w+\s+\w+_)(.*)/sei", "'\\1\\4'", $stmt);
+        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(,*\s+\w+\s+\w+)(.*)/sei", "'\\1\\4'", $stmt);
         $rows = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($rows)) {
             Error_Handler::logError(array($rows->getMessage(), $rows->getDebugInfo()), __FILE__, __LINE__);
