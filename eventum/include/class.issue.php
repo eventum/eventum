@@ -3268,6 +3268,7 @@ class Issue
         $details = Issue::getDetails($issue_id);
         $usr_details = User::getDetails($usr_id);
         $usr_role = User::getRoleByUser($usr_id, $details['iss_prj_id']);
+        $prj_id = Issue::getProjectID($issue_id);
         
         // check customer permissions
         if ((Customer::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID("Customer")) &&
@@ -3289,6 +3290,9 @@ class Issue
             } else {
                 $return = false;
             }
+        } elseif ((Auth::getCurrentRole() == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id)) &&
+                ($details['iss_usr_id'] != $usr_id)) {
+            return false;
         } else {
             $return = true;
         }
