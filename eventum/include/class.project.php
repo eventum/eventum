@@ -452,11 +452,12 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Project::removeUserByProjects(array($HTTP_POST_VARS["id"]));
+            Project::removeUserByProjects(array($HTTP_POST_VARS["id"]), $HTTP_POST_VARS["users"]);
             for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
                 if ($HTTP_POST_VARS["users"][$i] == $HTTP_POST_VARS["lead_usr_id"]) {
                     $role_id = User::getRoleID("Manager");
-                } else {
+                } elseif (User::getRoleByUser($HTTP_POST_VARS["users"][$i], $HTTP_POST_VARS["id"]) == '') {
+                    // users who are now being associated with this project should be set to 'Standard User'
                     $role_id = User::getRoleID("Standard User");
                 }
                 Project::associateUser($HTTP_POST_VARS["id"], $HTTP_POST_VARS["users"][$i], $role_id);
