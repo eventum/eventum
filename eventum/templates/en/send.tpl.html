@@ -254,7 +254,7 @@ function setSignature(f)
               {html_options options=$canned_responses}
             </select>&nbsp;<input type="button" class="shortcut" value="Use Canned Response" onClick="javascript:setResponseBody(this.form);"><br />
             {/if}
-            <textarea name="message" rows="22" style="width: 97%" {if $read_only == 1}readonly{/if}>{$email.seb_body|escape:"html"}{if $current_user_prefs.auto_append_sig == 'yes' && $body_has_sig_already != 1}
+            <textarea name="message" rows="15" style="width: 97%" {if $read_only == 1}readonly{/if}>{$email.seb_body|escape:"html"}{if $current_user_prefs.auto_append_sig == 'yes' && $body_has_sig_already != 1}
 
 
 {$current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
