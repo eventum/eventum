@@ -36,6 +36,8 @@ include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_PEAR_PATH . 'Net/SmartIRC.php');
 
+ini_set("memory_limit", "256M");
+
 // if requested, clear the lock
 if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
     Lock::release('irc_bot');
