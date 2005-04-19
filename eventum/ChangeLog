@@ -8,6 +8,7 @@ Eventum Issue Tracking System
 - Fixed bug with encoding certain characters in email addresses (Bryan)
 - Fixed bug with timezone DST information for 'Europe/Tallinn' and 'Europe/Vilnius' timezones (Elan Ruusamäe)
 - Increased the default memory limit on the IRC bot code (Elan Ruusamäe)
+- Improved module name readability by making module/directory name not wrap on the list of CVS checkins (Elan Ruusamäe)
 
 15 Apr 2005, Version 1.5.2
 - Fixed the note viewing screen to prevent users with permission levels lower than "Standard User" from displaying notes (Bug #9134) (João)
