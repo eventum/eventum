@@ -297,6 +297,14 @@ function processResult($res, $date_field, $issue_field)
             $res[$i]["customer"] = @$details['customer_name'];
         }
         $res[$i]["date"] = Date_API::getFormattedDate($res[$i][$date_field], Date_API::getPreferredTimezone($usr_id));
+        // need to decode From:, To: mail headers
+        if ($res[$i]["sup_from"]) {
+            $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
+        }
+        if ($res[$i]["sup_to"]) {
+            $res[$i]["sup_to"] = Mime_Helper::fixEncoding($res[$i]["sup_to"]);
+        }
+
         $data[] = $res[$i];
     }
     return $data;
