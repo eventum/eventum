@@ -499,7 +499,7 @@ class Issue
         $issue_id = Misc::escapeInteger($issue_id);
         
         $stmt = "SELECT
-                    UNIX_TIMESTAMP(iss_created_date) AS created_date_ts,
+                    iss_created_date,
                     usr_full_name AS reporter,
                     usr_email AS reporter_email,
                     iss_description AS description,
@@ -516,6 +516,7 @@ class Issue
             return '';
         } else {
             $res['reply_subject'] = 'Re: [#' . $issue_id . '] ' . $res["sup_subject"];
+            $res['created_date_ts'] = Date_API::getUnixTimestamp($res['iss_created_date'], 'GMT');
             return $res;
         }
     }

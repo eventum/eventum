@@ -546,10 +546,8 @@ class Misc
      */
     function formatReplyDate($ts)
     {
-        // Sat, Sep 28, 2002 at 06:28:58PM -0400
-        $first = date("D, M d, Y", $ts);
-        $rest = date("H:i:sA O", $ts);
-        return $first . " at " . $rest;
+        // On Fri, 01 Apr 2005, 17:07:44 GMT
+        return Date_API::getFormattedDate($ts);
     }
 }
 

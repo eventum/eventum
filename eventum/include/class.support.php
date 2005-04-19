@@ -1274,8 +1274,7 @@ class Support
     {
         $stmt = "SELECT
                     " . APP_TABLE_PREFIX . "support_email.*,
-                    " . APP_TABLE_PREFIX . "support_email_body.*,
-                    UNIX_TIMESTAMP(sup_date) AS timestamp
+                    " . APP_TABLE_PREFIX . "support_email_body.*
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
@@ -1292,6 +1291,7 @@ class Support
             $output = Mime_Helper::decode($res["seb_full_email"], true);
             $res["message"] = Mime_Helper::getMessageBody($output); // XXX: check which code relies on this var
             $res["attachments"] = Mime_Helper::getAttachmentCIDs($res["seb_full_email"]);
+            $res["timestamp"] = Date_API::getUnixTimestamp($res['sup_date'], 'GMT');
             $res["sup_date"] = Date_API::getFormattedDate($res["sup_date"]);
             $res["sup_subject"] = Mime_Helper::fixEncoding($res["sup_subject"]);
             // remove extra 'Re: ' from subject

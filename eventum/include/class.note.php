@@ -105,7 +105,7 @@ class Note
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     " . APP_TABLE_PREFIX . "note.*,
-                    UNIX_TIMESTAMP(not_created_date) timestamp,
+                    not_created_date,
                     not_blocked_message,
                     usr_full_name
                  FROM
@@ -120,6 +120,7 @@ class Note
             return '';
         } else {
             if (count($res) > 0) {
+                $res['timestamp'] = Date_API::getUnixTimestamp($res['not_created_date'], 'GMT');
                 $res['not_created_date'] = Date_API::getFormattedDate($res['not_created_date']);
                 if (!empty($res['not_blocked_message'])) {
                     $res['has_blocked_message'] = true;
