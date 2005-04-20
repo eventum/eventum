@@ -255,9 +255,9 @@ function validateForm(f)
                   Show Issues in Which I Am:&nbsp;
                 </td>
                 <td width="80%" class="default">
-                  <input type="checkbox" name="show_authorized_issues" value="yes" {if $options.cst_show_authorized == 'yes'}checked{/if}>
+                  <input type="checkbox" name="show_authorized_issues" value="1" {if $options.cst_show_authorized == '1'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_filter_form', 'show_authorized_issues');">Authorized to Send Emails</a>
-                  <input type="checkbox" name="show_notification_list_issues" value="yes" {if $options.cst_show_notification_list == 'yes'}checked{/if}>
+                  <input type="checkbox" name="show_notification_list_issues" value="1" {if $options.cst_show_notification_list == '1'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_filter_form', 'show_notification_list_issues');">In Notification List</a>
                 </td>
               </tr>
