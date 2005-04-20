@@ -19,6 +19,7 @@ Eventum Issue Tracking System
 - Fixed code that allowed one to associate an issue to itself (João)
 - Added some extra checks to the login screen to properly report problems on the Eventum installation (João)
 - Added some code to properly identify closed issues when displaying duplicate or associated issues (João)
+- Fixed bug with search options not being saved from advanced search #10026 (Bryan)
 
 15 Apr 2005, Version 1.5.2
 - Fixed the note viewing screen to prevent users with permission levels lower than "Standard User" from displaying notes (Bug #9134) (João)
