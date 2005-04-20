@@ -142,6 +142,7 @@ if (isset($_GET)) {
 // fix magic_quote_gpc'ed values (i wish i knew who is the person behind this)
 $HTTP_GET_VARS =& Misc::dispelMagicQuotes($HTTP_GET_VARS);
 $HTTP_POST_VARS =& Misc::dispelMagicQuotes($HTTP_POST_VARS);
+$_REQUEST =& Misc::dispelMagicQuotes($_REQUEST);
 
 // handle the language preferences now
 @include_once(APP_INC_PATH . "class.language.php");
