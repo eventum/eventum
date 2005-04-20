@@ -16,6 +16,7 @@ Eventum Issue Tracking System
 - Fixed date handling code to properly use PEAR::Date to convert timezones (Elan Ruusamäe)
 - Changed textarea height size to fit within the send email popup window (Elan Ruusamäe)
 - Changed the issue listing screen code so that sorting by status will use the status rank field (João)
+- Fixed code that allowed one to associate an issue to itself (João)
 
 15 Apr 2005, Version 1.5.2
 - Fixed the note viewing screen to prevent users with permission levels lower than "Standard User" from displaying notes (Bug #9134) (João)

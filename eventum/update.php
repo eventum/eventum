@@ -104,7 +104,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         "releases"     => $releases,
         "resolutions"  => Resolution::getAssocList(),
         "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
-        "issues"       => Issue::getColList(),
+        "issues"       => Issue::getColList("iss_id <> $issue_id"),
         "assoc_issues" => Issue::getAssocList(),
         "one_week_ts"  => time() + (7 * DAY),
         "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
