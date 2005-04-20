@@ -649,23 +649,53 @@ class Issue
      */
     function getDuplicateList($issue_id)
     {
-        $stmt = "SELECT
-                    iss_id,
-                    iss_summary
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 WHERE
-                    iss_duplicated_iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        $res = Issue::getDuplicateDetailsList($issue_id);
+        if (@count($res) == 0) {
             return '';
         } else {
-            if (@count($res) == 0) {
-                return '';
-            } else {
-                return $res;
+            $list = array();
+            for ($i = 0; $i < count($res); $i++) {
+                $list[$res[$i]['issue_id']] = $res[$i]['title'];
             }
+            return $list;
+        }
+    }
+
+
+    /**
+     * Method used to get a list of the duplicate issues (and their details) 
+     * for a given issue ID.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  array The list of duplicates
+     */
+    function getDuplicateDetailsList($issue_id)
+    {
+        static $returns;
+
+        if (!empty($returns[$issue_id])) {
+            return $returns[$issue_id];
+        }
+
+        $stmt = "SELECT
+                    iss_id issue_id,
+                    iss_summary title,
+                    sta_title current_status,
+                    sta_is_closed is_closed
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                 WHERE
+                    iss_sta_id=sta_id AND
+                    iss_duplicated_iss_id=" . Misc::escapeInteger($issue_id);
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            $returns[$issue_id] = $res;
+            return $res;
         }
     }
 
@@ -2811,6 +2841,7 @@ class Issue
                 } else {
                     $res["is_current_user_assigned"] = 0;
                 }
+                $res["associated_issues_details"] = Issue::getAssociatedIssuesDetails($res["iss_id"]);
                 $res["associated_issues"] = Issue::getAssociatedIssues($res["iss_id"]);
                 $res["reporter"] = User::getFullName($res["iss_usr_id"]);
                 if (empty($res["iss_updated_date"])) {
@@ -2826,9 +2857,10 @@ class Issue
                 }
                 // need to return the list of issues that are duplicates of this one
                 $res["duplicates"] = Issue::getDuplicateList($res["iss_id"]);
+                $res["duplicates_details"] = Issue::getDuplicateDetailsList($res["iss_id"]);
                 // also get the issue title of the duplicated issue
                 if (!empty($res['iss_duplicated_iss_id'])) {
-                    $res['iss_duplicated_iss_title'] = Issue::getTitle($res['iss_duplicated_iss_id']);
+                    $res['duplicated_issue'] = Issue::getDuplicatedDetails($res['iss_duplicated_iss_id']);
                 }
                 
                 // get group information
@@ -2842,6 +2874,35 @@ class Issue
                 $returns[$issue_id] = $res;
                 return $res;
             }
+        }
+    }
+
+
+    /**
+     * Method used to get some simple details about the given duplicated issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  array The duplicated issue details
+     */
+    function getDuplicatedDetails($issue_id)
+    {
+        $stmt = "SELECT
+                    iss_summary title,
+                    sta_title current_status,
+                    sta_is_closed is_closed
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                 WHERE
+                    iss_sta_id=sta_id AND
+                    iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
         }
     }
 
@@ -2999,17 +3060,50 @@ class Issue
      */
     function getAssociatedIssues($issue_id)
     {
+        $issues = Issue::getAssociatedIssuesDetails($issue_id);
+        $associated = array();
+        for ($i = 0; $i < count($issues); $i++) {
+            $associated[] = $issues[$i]['associated_issue'];
+        }
+        return $associated;
+    }
+
+
+    /**
+     * Method used to get the list of issues associated details to a 
+     * specific issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  array The list of associated issues
+     */
+    function getAssociatedIssuesDetails($issue_id)
+    {
+        static $returns;
+
+        if (!empty($returns[$issue_id])) {
+            return $returns[$issue_id];
+        }
+
         $stmt = "SELECT
-                    isa_associated_id
+                    isa_associated_id associated_issue,
+                    iss_summary associated_title,
+                    sta_title current_status,
+                    sta_is_closed is_closed
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_association
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_association,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
+                    isa_associated_id=iss_id AND
+                    iss_sta_id=sta_id AND
                     isa_issue_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
+            return array();
         } else {
+            $returns[$issue_id] = $res;
             return $res;
         }
     }

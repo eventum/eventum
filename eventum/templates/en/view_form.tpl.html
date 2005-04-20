@@ -290,8 +290,13 @@ function collapseDescription()
             <b>Associated Issues:</b>
           </td>
           <td width="50%" bgcolor="{$light_color}" class="default">
-            {section name="i" loop=$issue.associated_issues}{if %i.rownum% > 1},&nbsp;{/if}<a href="view.php?id={$issue.associated_issues[i]}" title="view issue details" class="link">#{$issue.associated_issues[i]}</a>{sectionelse}
-            <i>No issues associated</i>
+            {section name="i" loop=$issue.associated_issues_details}
+              {strip}
+              <a href="view.php?id={$issue.associated_issues_details[i].associated_issue}" title="issue #{$issue.associated_issues_details[i].associated_issue} ({$issue.associated_issues_details[i].current_status}) - {$issue.associated_issues_details[i].associated_title}" class="{if $issue.associated_issues_details[i].is_closed}closed_{/if}link">#{$issue.associated_issues_details[i].associated_issue}</a>
+              {if not $smarty.section.i.last},{/if}
+              {/strip}
+            {sectionelse}
+              <i>No issues associated</i>
             {/section}
           </td>
         </tr>
@@ -341,14 +346,17 @@ function collapseDescription()
           </td>
           <td width="50%" bgcolor="{$light_color}" class="default">
             {if $issue.iss_duplicated_iss_id}
-            Duplicate of: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{$issue.iss_duplicated_iss_id} - {$issue.iss_duplicated_iss_title|escape:"html"}" class="link">#{$issue.iss_duplicated_iss_id}</a>
+            Duplicate of: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="issue #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed_{/if}link">#{$issue.iss_duplicated_iss_id}</a>
             {/if}
-            {if $issue.duplicates}
+            {if $issue.duplicates_details|@count > 0}
               {if $issue.iss_duplicated_iss_id}<br />{/if}
               Duplicated by:
-              {foreach key=duplicate_id item=duplicate_title from=$issue.duplicates}
-                <a href="{$rel_url}view.php?id={$duplicate_id}" title="{$duplicate_id} - {$duplicate_title|escape:"html"}" class="link">#{$duplicate_id}</a>
-              {/foreach}
+              {section name="i" loop=$issue.duplicates_details}
+                {strip}
+                <a href="{$rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="issue #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed_{/if}link">#{$issue.duplicates_details[i].issue_id}</a>
+                {if not $smarty.section.i.last}, {/if}
+                {/strip}
+              {/section}
             {/if}
           </td>
           {/if}
