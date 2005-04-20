@@ -549,6 +549,110 @@ class Misc
         // On Fri, 01 Apr 2005, 17:07:44 GMT
         return Date_API::getFormattedDate($ts);
     }
+
+
+    /**
+     * Method used to check whether the given directory is writable by the
+     * web server user or not.
+     *
+     * @access  public
+     * @param   string $file The full path to the directory
+     * @return  boolean
+     */
+    function isWritableDirectory($file)
+    {
+        clearstatcache();
+        if (!file_exists($file)) {
+            if (!@mkdir($file)) {
+                return false;
+            }
+        }
+        clearstatcache();
+        if (!is_writable($file)) {
+            if (!stristr(PHP_OS, "win")) {
+                // let's try to change the permissions ourselves
+                @chmod($file, 0777);
+                clearstatcache();
+                if (!is_writable($file)) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+        if (stristr(PHP_OS, "win")) {
+            // need to check whether we can really create files in this directory or not
+            // since is_writable() is not trustworthy on windows platforms
+            if (is_dir($file)) {
+                $fp = @fopen($file . '/dummy.txt', 'w');
+                if (!$fp) {
+                    return false;
+                }
+                @fwrite($fp, 'test');
+                @fclose($fp);
+                // clean up after ourselves
+                @unlink($file . '/dummy.txt');
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * Method used to display a nice error message when one (or more) of the
+     * system requirements for Eventum is not found.
+     *
+     * @access  public
+     * @param   array $errors The list of errors
+     * @return  void
+     */
+    function displayRequirementErrors($errors)
+    {
+        echo '<html>
+<head>
+<style type="text/css">
+<!--
+.default {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 70%;
+}
+-->
+</style>
+<title>Configuration Error</title>
+</head>
+<body>
+
+<br /><br />
+
+<table width="500" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td><img src="../images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Configuration Error:</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default">
+            <br />
+            <b>The following problems regarding file and/or directory permissions were found:</b>
+            <br /><br />
+            ' . implode("<br />", $errors) . '
+            <br /><br />
+            <b>Please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
+            <br /><br />
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>';
+    }
 }
 
 // benchmarking the included file (aka setup time)

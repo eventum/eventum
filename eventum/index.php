@@ -32,6 +32,13 @@ include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "db_access.php");
 
+// check if templates_c is writable by the web server user
+if (!Misc::isWritableDirectory(APP_PATH . 'templates_c')) {
+    $errors = array("Directory 'templates_c' is not writable.");
+    Misc::displayRequirementErrors($errors);
+    exit;
+}
+
 $tpl = new Template_API();
 $tpl->setTemplate("index.tpl.html");
 
