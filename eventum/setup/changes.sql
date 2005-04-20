@@ -595,3 +595,6 @@ ALTER TABLE eventum_issue ADD COLUMN iss_percent_complete tinyint(3) unsigned DE
 
 # March 17th
 ALTER TABLE eventum_email_account ADD column ema_use_routing tinyint(1) DEFAULT 0;
+
+# April 20th
+UPDATE eventum_columns_to_display SET ctd_field='sta_rank' WHERE ctd_field='iss_sta_id';

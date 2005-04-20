@@ -202,7 +202,7 @@ class Display_Column
                 "iss_customer_id"   =>  array(
                     "title" =>  "Customer"
                 ),
-                "iss_sta_id"    =>  array(
+                "sta_rank"    =>  array(
                     "title" =>  "Status"
                 ),
                 "sta_change_date"   =>  array(

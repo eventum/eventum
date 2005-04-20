@@ -1988,7 +1988,7 @@ class Issue
             "iss_id",
             "iss_customer_id",
             "prc_title",
-            "iss_sta_id",
+            "sta_rank",
             "iss_created_date",
             "iss_summary",
             "last_action_date",
