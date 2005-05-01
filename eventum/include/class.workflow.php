@@ -346,6 +346,27 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleIssueClosed($prj_id, $issue_id);
     }
+    
+    
+    /**
+     * Called when an attempt is made to add a user or email address to the
+     * notification list. 
+     * 
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $subscriber_usr_id The ID of the user to subscribe if this is a real user (false otherwise).
+     * @param   string $email The email address to subscribe to subscribe (if this is not a real user).
+     * @param   array $types The action types.
+     * @return  mixed An array of information or true to continue unchanged or false to prevent the user from being added.
+     */
+    function handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $types)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $types);
+    }
 }
 
 

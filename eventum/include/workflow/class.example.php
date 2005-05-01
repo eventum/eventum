@@ -194,5 +194,51 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
        // you should perform any logic and remove any statuses you need to here.
        return $statuses;
     }
+    
+    
+    /**
+     * Called when an attempt is made to add a user or email address to the
+     * notification list. 
+     * 
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $subscriber_usr_id The ID of the user to subscribe if this is a real user (false otherwise).
+     * @param   string $email The email address to subscribe to subscribe (if this is not a real user).
+     * @param   array $types The action types.
+     * @return  mixed An array of information or true to continue unchanged or false to prevent the user from being added.
+     */
+    function handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions)
+    {
+        // prevent a certain email address from being added to the notification list.
+        if ($email == "invalidemail@example.com") {
+            return false;
+        }
+        
+        // just for this example, if the usr_id is 2, change the usr_id to 3
+        if ($subscriber_usr_id == 2) {
+            return array(
+                "subscriber_usr_id" =>  3
+            );
+        }
+        
+        // another thing this workflow can do is change the actions a user is subscribed too.
+        // we will make sure all users are subscribed to the "email" action.
+        if (!in_array("emails", $actions)) {
+            $actions[] = "emails";
+            return array(
+                "actions"   =>  $actions
+            );
+        }
+        
+        // you can also change the email address being subscribed
+        if ($email == "changethis@example.com") {
+            return array(
+                "email" =>  "changed@example.com"
+            );
+        }
+        
+        // if you want the subscri[tion to be added with no changes, simply return true;
+        return true;   
+    }
 }
 ?>

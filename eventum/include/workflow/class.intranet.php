@@ -80,5 +80,22 @@ class Intranet_Workflow_Backend extends Abstract_Workflow_Backend
             Notification::notifyIRC($prj_id, $irc_message, 0);
         }
     }
+    
+    
+    /**
+     * Called when an attempt is made to add a user or email address to the
+     * notification list. 
+     * 
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   integer $subscriber_usr_id The ID of the user to subscribe if this is a real user (false otherwise).
+     * @param   string $email The email address to subscribe to subscribe (if this is not a real user).
+     * @param   array $types The action types.
+     * @return  mixed An array of information or true to continue unchanged or false to prevent the user from being added.
+     */
+    function handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions)
+    {
+        return true;
+    }
 }
 ?>
