@@ -455,12 +455,11 @@ class Project
             Project::removeUserByProjects(array($HTTP_POST_VARS["id"]), $HTTP_POST_VARS["users"]);
             for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
                 if ($HTTP_POST_VARS["users"][$i] == $HTTP_POST_VARS["lead_usr_id"]) {
-                    $role_id = User::getRoleID("Manager");
+                    Project::associateUser($HTTP_POST_VARS["id"], $HTTP_POST_VARS["users"][$i], User::getRoleID("Manager"));
                 } elseif (User::getRoleByUser($HTTP_POST_VARS["users"][$i], $HTTP_POST_VARS["id"]) == '') {
                     // users who are now being associated with this project should be set to 'Standard User'
-                    $role_id = User::getRoleID("Standard User");
+                    Project::associateUser($HTTP_POST_VARS["id"], $HTTP_POST_VARS["users"][$i], User::getRoleID("Standard User"));
                 }
-                Project::associateUser($HTTP_POST_VARS["id"], $HTTP_POST_VARS["users"][$i], $role_id);
             }
             $statuses = array_keys(Status::getAssocStatusList($HTTP_POST_VARS["id"]));
             if (count($statuses) > 0) {
