@@ -209,7 +209,7 @@ class Release
                  SET
                     pre_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     pre_scheduled_date='" . Misc::escapeString($scheduled_date) . "',
-                    pre_status='" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "'
+                    pre_status='" . Misc::escapeString($HTTP_POST_VARS["status"]) . "'
                  WHERE
                     pre_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . " AND
                     pre_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
@@ -298,9 +298,10 @@ class Release
      *
      * @access  public
      * @param   integer $prj_id The project ID
+     * @param   boolean $show_all_dates If true all releases, not just those with future dates will be returned
      * @return  array The list of releases
      */
-    function getAssocList($prj_id)
+    function getAssocList($prj_id, $show_all_dates = false)
     {
         $stmt = "SELECT
                     pre_id,
@@ -310,11 +311,16 @@ class Release
                  WHERE
                     pre_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     (
-                      pre_status='available' AND
-                      UNIX_TIMESTAMP() < UNIX_TIMESTAMP(pre_scheduled_date)
+                      pre_status='available'";
+        if ($show_all_dates != true) {
+            $stmt .= " AND
+                      pre_scheduled_date >= '" . gmdate('Y-m-d') . "'";
+        }
+        $stmt .= "
                     )
                  ORDER BY
                     pre_scheduled_date ASC";
+        echo "<pre>$stmt</pre>";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
