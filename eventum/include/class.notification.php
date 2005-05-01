@@ -1711,6 +1711,23 @@ class Notification
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $subscriber_usr_id = Misc::escapeInteger($subscriber_usr_id);
+        $prj_id = Issue::getProjectID($issue_id);
+        
+        // call workflow to modify actions or cancel adding this user.
+        $workflow = Workflow::handleSubscription($prj_id, $issue_id, $subscriber_usr_id, false, $actions);
+        if ((is_bool($workflow)) && ($workflow == false)) {
+            // cancel subscribing the user
+            return 1;
+        } elseif (is_array($workflow)) {
+            // workflow is trying to change information
+            if (!empty($workflow['subscriber_usr_id'])) {
+                $subscriber_usr_id = $workflow['subscriber_usr_id'];
+            }
+            if (!empty($workflow['actions'])) {
+                $actions = $workflow['actions'];
+            }
+        }
+        
         $stmt = "SELECT
                     COUNT(sub_id)
                  FROM
@@ -1780,6 +1797,23 @@ class Notification
 
         $issue_id = Misc::escapeInteger($issue_id);
         $email = Misc::escapeString($form_email);
+        $prj_id = Issue::getProjectID($issue_id);
+        
+        // call workflow to modify actions or cancel adding this user.
+        $workflow = Workflow::handleSubscription($prj_id, $issue_id, false, $email, $actions);
+        if ((is_bool($workflow)) && ($workflow == false)) {
+            // cancel subscribing the user
+            return 1;
+        } elseif (is_array($workflow)) {
+            // workflow is trying to change information
+            if (!empty($workflow['email'])) {
+                $email = $workflow['email'];
+            }
+            if (!empty($workflow['actions'])) {
+                $actions = $workflow['actions'];
+            }
+        }
+        
         // manual check to prevent duplicates
         if (!empty($email)) {
             $stmt = "SELECT
