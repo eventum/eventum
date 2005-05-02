@@ -921,7 +921,8 @@ class Notification
                     || (!empty($res[$i]['usr_customer_contact_id']))) {
                 continue;
             }
-            if ((@$res[$i]['usr_preferences']['receive_new_emails'][$prj_id]) && (!in_array($subscriber, $emails))) {
+            if ((!empty($res[$i]['usr_preferences']['receive_new_emails'][$prj_id])) &&
+                    (@$res[$i]['usr_preferences']['receive_new_emails'][$prj_id]) && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
         }
