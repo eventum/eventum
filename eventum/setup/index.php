@@ -31,6 +31,8 @@
 // XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found
 // XXX: dynamically check the email blob and skips the email if it is bigger than 16mb on PHP4 versions
 
+set_magic_quotes_runtime(0);
+
 if (isset($_GET)) {
     $HTTP_POST_VARS = $_POST;
     $HTTP_GET_VARS = $_GET;

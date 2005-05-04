@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 - Added workflow method be to be called when adding a user to the notification list (Bryan)
 - Fixed bug that prevented releases scheduled for today from showing up (Bryan)
 - Added conditional statement to prevent PHP error if a user did not have any preferences set when creating new issue (Bryan)
+- Changed the code to automatically disable magic_quote_runtime to prevent problems from creeping up (João)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)
