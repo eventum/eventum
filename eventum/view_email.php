@@ -41,7 +41,7 @@ $tpl->setTemplate("view_email.tpl.html");
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]);
-$email["message"] = Misc::activateLinks(nl2br(htmlspecialchars($email["message"])));
+$email["message"] = Misc::activateLinks(str_replace("&amp;nbsp;", "&nbsp;",nl2br(htmlspecialchars($email["message"]))));
 
 $issue_id = Support::getIssueFromEmail($HTTP_GET_VARS["id"]);
 

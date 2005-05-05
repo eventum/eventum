@@ -103,6 +103,10 @@ class Mime_Helper
         } elseif (isset($parts["html"])) {
             $is_html = true;
             $str = join("\n\n", $parts["html"]);
+            
+            // hack for inotes to prevent content from being displayed all on one line.
+            $str = str_replace("</DIV><DIV>", "\n", $str);
+            $str = str_replace(array("<br>", "<br />", "<BR>", "<BR />"), "\n", $str);
         }
         if (@$output->headers['content-transfer-encoding'] == 'quoted-printable') {
             $str = Mime_Helper::decodeBody($str, 'quoted-printable');
