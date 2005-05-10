@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Changed the code to automatically disable magic_quote_runtime to prevent problems from creeping up (João)
 - Changed the error handling routines to avoid sending out an email notification when the error is about MySQL's max_allowed_packet setting (João)
 - Added workaround to prevent email from iNotes from being displayed as one line (Bryan)
+- Fixed bug with < and > not showing up issue summaries on associate issues page (Bryan)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)
