@@ -320,7 +320,6 @@ class Release
                     )
                  ORDER BY
                     pre_scheduled_date ASC";
-        echo "<pre>$stmt</pre>";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
