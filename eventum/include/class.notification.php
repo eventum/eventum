@@ -1393,10 +1393,11 @@ class Notification
      *
      * @access  public
      * @param   integer $issue_id The issue ID
+     * @param   integer $type The type of subscription
      * @param   integer $min_role Only show subscribers with this role or above
      * @return  string The list of subscribers, separated by commas
      */
-    function getSubscribers($issue_id, $min_role = false)
+    function getSubscribers($issue_id, $type = false, $min_role = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $subscribers = array(
@@ -1405,18 +1406,23 @@ class Notification
         );
         $prj_id = Issue::getProjectID($issue_id);
         $stmt = "SELECT
-                    sub_usr_id,
+                    DISTINCT sub_usr_id,
                     usr_full_name,
                     pru_role
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
+                    sub_id = sbt_sub_id AND
                     sub_usr_id=usr_id AND
                     sub_usr_id = pru_usr_id AND
                     pru_prj_id = $prj_id AND
                     sub_iss_id=$issue_id";
+        if ($type != false) {
+            $stmt .= " AND\nsbt_type = '" . Misc::escapeString($type) . "'";
+        }
         if ($min_role != false) {
             $stmt .= " AND\npru_role >= " . Misc::escapeInteger($min_role);
         }
@@ -1429,13 +1435,14 @@ class Notification
             }
         }
 
-        if ($min_role != false) {
+        if ($min_role == false) {
             $stmt = "SELECT
                         sub_email,
                         usr_full_name,
                         pru_role
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
                      LEFT JOIN
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                      ON
@@ -1446,7 +1453,11 @@ class Notification
                         usr_id = pru_usr_id AND
                         pru_prj_id = $prj_id
                      WHERE
+                        sub_id = sbt_sub_id AND
                         sub_iss_id=$issue_id";
+            if ($type != false) {
+                $stmt .= " AND\nsbt_type = '" . Misc::escapeString($type) . "'";
+            }
             $emails = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
             for ($i = 0; $i < count($emails); $i++) {
                 if (empty($emails[$i]['sub_email'])) {
