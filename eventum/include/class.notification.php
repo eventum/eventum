@@ -1393,9 +1393,10 @@ class Notification
      *
      * @access  public
      * @param   integer $issue_id The issue ID
+     * @param   integer $min_role Only show subscribers with this role or above
      * @return  string The list of subscribers, separated by commas
      */
-    function getSubscribers($issue_id)
+    function getSubscribers($issue_id, $min_role = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $subscribers = array(
@@ -1416,6 +1417,9 @@ class Notification
                     sub_usr_id = pru_usr_id AND
                     pru_prj_id = $prj_id AND
                     sub_iss_id=$issue_id";
+        if ($min_role != false) {
+            $stmt .= " AND\npru_role >= " . Misc::escapeInteger($min_role);
+        }
         $users = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($users); $i++) {
             if ($users[$i]['pru_role'] != User::getRoleID('Customer')) {
@@ -1425,32 +1429,34 @@ class Notification
             }
         }
 
-        $stmt = "SELECT
-                    sub_email,
-                    usr_full_name,
-                    pru_role
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 ON
-                    usr_email = sub_email
-                 LEFT JOIN
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
-                 ON
-                    usr_id = pru_usr_id AND
-                    pru_prj_id = $prj_id
-                 WHERE
-                    sub_iss_id=$issue_id";
-        $emails = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
-        for ($i = 0; $i < count($emails); $i++) {
-            if (empty($emails[$i]['sub_email'])) {
-                continue;
-            }
-            if ((!empty($emails[$i]['pru_role'])) && ($emails[$i]['pru_role'] != User::getRoleID('Customer'))) {
-                $subscribers['staff'][] = $emails[$i]['usr_full_name'];
-            } else {
-                $subscribers['customers'][] = $emails[$i]['sub_email'];
+        if ($min_role != false) {
+            $stmt = "SELECT
+                        sub_email,
+                        usr_full_name,
+                        pru_role
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
+                     LEFT JOIN
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                     ON
+                        usr_email = sub_email
+                     LEFT JOIN
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                     ON
+                        usr_id = pru_usr_id AND
+                        pru_prj_id = $prj_id
+                     WHERE
+                        sub_iss_id=$issue_id";
+            $emails = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+            for ($i = 0; $i < count($emails); $i++) {
+                if (empty($emails[$i]['sub_email'])) {
+                    continue;
+                }
+                if ((!empty($emails[$i]['pru_role'])) && ($emails[$i]['pru_role'] != User::getRoleID('Customer'))) {
+                    $subscribers['staff'][] = $emails[$i]['usr_full_name'];
+                } else {
+                    $subscribers['customers'][] = $emails[$i]['sub_email'];
+                }
             }
         }
         $subscribers['staff'] = @implode(', ', $subscribers['staff']);
