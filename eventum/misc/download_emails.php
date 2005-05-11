@@ -55,6 +55,13 @@ if (isset($_SERVER['HTTP_HOST'])) {
     $mailbox = @$_GET['mailbox'];
 } else {
     // command line
+    // argv/argc needs to be enabled
+    if (ini_get("register_argc_argv") == "Off") {
+        echo "Error: Eventum requires the ini setting register_argc_argv to be enabled to run this script.\n";
+        echo "Please refer to the PHP manual for more details on how to change this ini setting.\n";
+        exit;
+    }
+    
     $type = 'cli';
     if (in_array('--fix-lock', $_SERVER['argv'])) {
         $fix_lock = true;
