@@ -211,7 +211,7 @@ function setSignature(f)
                 {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'send_email_form', 'to'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
                 {include file="error_icon.tpl.html" field="to"}
             {else}
-                <span class="default">Issue #{$issue_id} Notification List (Members: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"})</span>
+                <span class="default">Issue #{$issue_id} Notification List (Members: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{if $subscribers.customers != ''}, {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if})</span>
             {/if}
           </td>
         </tr>

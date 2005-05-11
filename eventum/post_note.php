@@ -78,7 +78,7 @@ $tpl->assign(array(
     'from'               => User::getFromHeader($usr_id),
     'users'              => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     'current_user_prefs' => Prefs::get($usr_id),
-    'subscribers'        => Notification::getSubscribers($issue_id, User::getRoleID("Standard User"))
+    'subscribers'        => Notification::getSubscribers($issue_id, false, User::getRoleID("Standard User"))
 ));
 
 $tpl->displayTemplate();

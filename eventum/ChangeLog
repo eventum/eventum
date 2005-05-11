@@ -12,6 +12,7 @@ Eventum Issue Tracking System
 - Fixed bug with < and > not showing up issue summaries on associate issues page (Bryan)
 - Allow reporters to be added to authorized repliers list (Bryan)
 - Fixed bug with saving searches with the Rows Per Page as 'ALL' (Bryan)
+- Changed send forms to display notification list accurately and consistently (Bryan)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)

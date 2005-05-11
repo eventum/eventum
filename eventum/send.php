@@ -173,7 +173,7 @@ $tpl->assign("assoc_emails", array_keys($t));
 
 $tpl->assign("canned_responses", Email_Response::getAssocList($prj_id));
 $tpl->assign("js_canned_responses", Email_Response::getAssocListBodies($prj_id));
-$tpl->assign('subscribers', Notification::getSubscribers($issue_id));
+$tpl->assign('subscribers', Notification::getSubscribers($issue_id, 'emails'));
 
 $user_prefs = Prefs::get($usr_id);
 $tpl->assign("current_user_prefs", $user_prefs);
