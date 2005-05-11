@@ -13,6 +13,7 @@ Eventum Issue Tracking System
 - Allow reporters to be added to authorized repliers list (Bryan)
 - Fixed bug with saving searches with the Rows Per Page as 'ALL' (Bryan)
 - Changed send forms to display notification list accurately and consistently (Bryan)
+- If a user with a level of 'Reporter' emails an issue, mark last action as 'User Response' (Bryan)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)

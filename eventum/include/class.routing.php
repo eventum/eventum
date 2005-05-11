@@ -291,6 +291,8 @@ class Routing
             } else {
                 if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer'))) {
                     Issue::markAsUpdated($issue_id, 'staff response');
+                } else {
+                    Issue::markAsUpdated($issue_id, 'user response');
                 }
             }
             // log routed email

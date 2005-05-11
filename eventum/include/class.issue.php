@@ -533,7 +533,7 @@ class Issue
      */
     function markAsUpdated($issue_id, $type = false)
     {
-        $public = array("staff response", "customer action", "file uploaded");
+        $public = array("staff response", "customer action", "file uploaded", "user response");
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
