@@ -1834,7 +1834,11 @@ class Support
             if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
                 Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'customer action');
             } else {
-                Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'staff response');
+                if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($HTTP_POST_VARS['issue_id'])) > User::getRoleID('Customer'))) {
+                    Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'staff response');
+                } else {
+                    Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'user response');
+                }
             }
             // save a history entry for this
             History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'), 
