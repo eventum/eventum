@@ -191,7 +191,7 @@ function validateAccount(f)
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="timezone"}
           </td>
         </tr>
-        {if $current_role > $roles.customer}
+        {if $current_role != $roles.customer}
         <tr>
           <td width="190" bgcolor="{$cell_color}" class="default_white">
             <b>Automatically close confirmation popup windows ?</b>
@@ -201,6 +201,8 @@ function validateAccount(f)
             <input type="radio" name="close_popup_windows" {if $user_prefs.close_popup_windows != "1"}checked{/if} value="0"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('account_prefs_form', 'close_popup_windows', 1);">No</a>
           </td>
         </tr>
+        {/if}
+        {if $current_role > $roles.customer}
         <tr>
           <td width="190" bgcolor="{$cell_color}" class="default_white">
             &nbsp;
