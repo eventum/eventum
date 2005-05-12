@@ -32,7 +32,7 @@ include_once(APP_INC_PATH . "class.auth.php");
 
 Auth::removeCookie(APP_COOKIE);
 
-// if 'remeber projects' is true don't remove project cookie
+// if 'remember projects' is true don't remove project cookie
 $project_cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
 if (empty($project_cookie['remember'])) {
     Auth::removeCookie(APP_PROJECT_COOKIE);
