@@ -167,7 +167,7 @@ echo '<?xml version="1.0" encoding="'. APP_CHARSET .'"?>' . "\n";
       Status: <?php echo htmlspecialchars($issue['sta_title']); ?>&lt;BR&gt;
       Priority: <?php echo htmlspecialchars($issue['pri_title']); ?>&lt;BR&gt;
       Category: <?php echo htmlspecialchars($issue['prc_title']); ?>&lt;BR&gt;
-      &lt;BR&gt;<?php echo htmlspecialchars(Misc::activateLinks(nl2br($issue['iss_description']))); ?>&lt;BR&gt;
+      &lt;BR&gt;<?php echo htmlspecialchars(Link_Filter::activateLinks(nl2br($issue['iss_description']))); ?>&lt;BR&gt;
       </description>
       <author><?php echo htmlspecialchars($issue['reporter']); ?></author>
       <pubDate><?php echo Date_API::getRFC822Date($issue['iss_created_date'], "GMT"); ?></pubDate>

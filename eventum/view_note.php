@@ -49,7 +49,7 @@ if (User::getRoleByUser($usr_id, Auth::getCurrentProject()) < User::getRoleID('S
 }
 
 $note = Note::getDetails($HTTP_GET_VARS["id"]);
-$note["message"] = Misc::activateLinks(nl2br(htmlspecialchars($note["not_note"])));
+$note["message"] = nl2br(htmlspecialchars($note["not_note"]));
 
 $issue_id = Note::getIssueID($HTTP_GET_VARS["id"]);
 

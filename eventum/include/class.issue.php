@@ -2817,7 +2817,7 @@ class Issue
                 }
                 $res['iss_original_description'] = $res["iss_description"];
                 if (!strstr($HTTP_SERVER_VARS["PHP_SELF"], 'update.php')) {
-                    $res["iss_description"] = Misc::activateLinks(nl2br(htmlspecialchars($res["iss_description"])));
+                    $res["iss_description"] = nl2br(htmlspecialchars($res["iss_description"]));
                     $res["iss_resolution"] = Resolution::getTitle($res["iss_res_id"]);
                 }
                 $res["iss_impact_analysis"] = nl2br(htmlspecialchars($res["iss_impact_analysis"]));

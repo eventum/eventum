@@ -37,7 +37,7 @@ function updateCustomFields(issue_id)
                   <nobr><b>{$custom_fields[i].fld_title}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$row_color}">
-                  {$custom_fields[i].icf_value|escape:"html"|nl2br}
+                  {$custom_fields[i].icf_value|activateLinks:"link"}
                 </td>
               </tr>
               {sectionelse}
