@@ -31,6 +31,11 @@ include_once("config.inc.php");
 include_once(APP_INC_PATH . "class.auth.php");
 
 Auth::removeCookie(APP_COOKIE);
-Auth::removeCookie(APP_PROJECT_COOKIE);
+
+// if 'remeber projects' is true don't remove project cookie
+$project_cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+if (empty($project_cookie['remember'])) {
+    Auth::removeCookie(APP_PROJECT_COOKIE);
+}
 Auth::redirect(APP_RELATIVE_URL . "index.php?err=6");
 ?>

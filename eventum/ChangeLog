@@ -16,6 +16,7 @@ Eventum Issue Tracking System
 - If a user with a level of 'Reporter' emails an issue, mark last action as 'User Response' (Bryan)
 - Allow reporters to change 'Automatically close confirmation popup windows' preference (Bryan)
 - Added check if 'register_argc_argv' is enabled in download_emails.php (Bryan)
+- Honor 'Remember Project' checkbox on select project page (Bryan)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)
