@@ -18,6 +18,7 @@ Eventum Issue Tracking System
 - Added check if 'register_argc_argv' is enabled in download_emails.php (Bryan)
 - Honor 'Remember Project' checkbox on select project page (Bryan)
 - Activate links in custom fields (Bryan)
+- Added ability to change status when sending notes (Bryan)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)

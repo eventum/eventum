@@ -135,6 +135,16 @@ function setSignature(f)
         </tr>
         <tr>
           <td width="120" bgcolor="{$internal_color}" class="default_white">
+            <b>New Status for Issue #{$issue_id}:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <select name="new_status" class="default">
+              {html_options options=$statuses selected=$current_issue_status}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$internal_color}" class="default_white">
             <b>Time Spent:</b>
           </td>
           <td bgcolor="{$light_color}">

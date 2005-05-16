@@ -61,6 +61,14 @@ if (@$HTTP_POST_VARS["cat"] == "post_note") {
         $HTTP_POST_VARS['summary'] = 'Time entry inserted when sending an internal note.';
         Time_Tracking::insertEntry();
     }
+    // change status
+    if (!@empty($HTTP_POST_VARS['new_status'])) {
+        $res = Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
+        if ($res != -1) {
+            $new_status = Status::getStatusTitle($HTTP_POST_VARS['new_status']);
+            History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " . User::getFullName($usr_id));
+        }
+    }
 } elseif (@$HTTP_GET_VARS["cat"] == "reply") {
     if (!@empty($HTTP_GET_VARS["id"])) {
         $note = Note::getDetails($HTTP_GET_VARS["id"]);
@@ -78,7 +86,9 @@ $tpl->assign(array(
     'from'               => User::getFromHeader($usr_id),
     'users'              => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     'current_user_prefs' => Prefs::get($usr_id),
-    'subscribers'        => Notification::getSubscribers($issue_id, false, User::getRoleID("Standard User"))
+    'subscribers'        => Notification::getSubscribers($issue_id, false, User::getRoleID("Standard User")),
+    'statuses'           => Status::getAssocStatusList($prj_id, false),
+    'current_issue_status'  =>  Issue::getStatusID($issue_id)
 ));
 
 $tpl->displayTemplate();
