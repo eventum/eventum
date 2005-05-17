@@ -2132,7 +2132,7 @@ class Issue
                  ON
                     isu_iss_id=iss_id";
         }
-        if (!empty($options["show_authorized_issues"])) {
+        if ((!empty($options["show_authorized_issues"])) || (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id)))) {
             $stmt .= "
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
@@ -2365,7 +2365,10 @@ class Issue
         if (User::getRole($role_id) == "Customer") {
             $stmt .= " AND iss_customer_id=" . User::getCustomerID($usr_id);
         } elseif (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
-            $stmt .= " AND iss_usr_id = " . Misc::escapeInteger($usr_id);
+            $stmt .= " AND (
+                        iss_usr_id = $usr_id OR
+                        iur_usr_id = $usr_id
+                        )";
         }
             
         if (!empty($options["users"])) {
@@ -2488,7 +2491,7 @@ class Issue
                  ON
                     isu_iss_id=iss_id";
         }
-        if (!empty($options["show_authorized_issues"])) {
+        if ((!empty($options["show_authorized_issues"])) || (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
              $stmt .= "
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
@@ -3387,7 +3390,7 @@ class Issue
                 $return = false;
             }
         } elseif ((Auth::getCurrentRole() == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id)) &&
-                ($details['iss_usr_id'] != $usr_id)) {
+                ($details['iss_usr_id'] != $usr_id) && (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id))) {
             return false;
         } else {
             $return = true;
