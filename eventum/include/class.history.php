@@ -353,6 +353,33 @@ class History
         }
         return $res;
     }
+    
+    
+    /**
+     * Returns the last person to close the issue
+     * 
+     * @param   integer $issue_id The ID of the issue
+     * @return  integer usr_id
+     */
+    function getIssueCloser($issue_id)
+    {
+        $sql = "SELECT
+                    his_usr_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
+                WHERE
+                    his_iss_id = " . Misc::escapeInteger($issue_id) . " AND
+                    his_htt_id = '" . History::getTypeID('issue_closed') . "'
+                ORDER BY
+                    his_created_date DESC
+                LIMIT 1";
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        }
+        return $res;
+    }
 }
 
 // benchmarking the included file (aka setup time)
