@@ -780,6 +780,7 @@ class Notification
             switch ($type) {
                 case 'closed':
                     $data = Notification::getIssueDetails($issue_id);
+                    $data["closer_name"] = User::getFullName(History::getIssueCloser($issue_id));
                     $subject = 'Closed';
                     break;
                 case 'updated':

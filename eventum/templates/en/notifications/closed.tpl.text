@@ -1,6 +1,6 @@
 This is an automated message sent at your request from {$app_title}.
 
-This issue was just closed.
+This issue was just closed by {$data.closer_name}.
 
 To view more details of this issue, or to update it, please visit the 
 following URL:

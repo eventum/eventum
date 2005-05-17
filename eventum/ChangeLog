@@ -19,6 +19,7 @@ Eventum Issue Tracking System
 - Honor 'Remember Project' checkbox on select project page (Bryan)
 - Activate links in custom fields (Bryan)
 - Added ability to change status when sending notes (Bryan)
+- Display who closed the issue when sending notification email (Bryan)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)
