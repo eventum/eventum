@@ -29,6 +29,13 @@ if (url.indexOf(list_page + '?') != -1) {
 }
 {/literal}
 
+{* if current page is view.php or update.php, redirect to main *}
+{literal}
+if (url.indexOf('view.php' + '?') != -1 || url.indexOf('update.php' + '?') != -1) {
+    url = 'main.php';
+}
+{/literal}
+
 {if $smarty.get.is_frame == "yes"}
 opener.parent.location.href = url;
 {else}
