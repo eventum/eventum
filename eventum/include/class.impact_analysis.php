@@ -67,7 +67,7 @@ class Impact_Analysis
                     isr_created_date,
                     isr_requirement
                  ) VALUES (
-                    $issue_id,
+                    " . Misc::escapeInteger($issue_id) . ",
                     $usr_id,
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["new_requirement"]) . "'
@@ -110,7 +110,7 @@ class Impact_Analysis
                  ON
                     isr_updated_usr_id=B.usr_id
                  WHERE
-                    isr_iss_id=$issue_id AND
+                    isr_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     isr_usr_id=A.usr_id";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
@@ -148,7 +148,7 @@ class Impact_Analysis
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
                  WHERE
-                    isr_id=$isr_id";
+                    isr_id=" . Misc::escapeInteger($isr_id);
         $issue_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
 
         // we are storing minutes, not hours
@@ -162,7 +162,7 @@ class Impact_Analysis
                     isr_dev_time=$dev_time,
                     isr_impact_analysis='" . Misc::escapeString($HTTP_POST_VARS["impact_analysis"]) . "'
                  WHERE
-                    isr_id=$isr_id";
+                    isr_id=" . Misc::escapeInteger($isr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -186,7 +186,7 @@ class Impact_Analysis
     {
         global $HTTP_POST_VARS;
 
-        $items = implode(", ", $HTTP_POST_VARS["item"]);
+        $items = implode(", ", Misc::escapeInteger($HTTP_POST_VARS["item"]));
         $stmt = "SELECT
                     isr_iss_id
                  FROM
@@ -222,7 +222,7 @@ class Impact_Analysis
      */
     function removeByIssues($ids)
     {
-        $items = implode(", ", $ids);
+        $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
                  WHERE

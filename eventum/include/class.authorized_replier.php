@@ -64,7 +64,7 @@ class Authorized_Replier
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    iur_iss_id=$issue_id AND
+                    iur_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     iur_usr_id=usr_id";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
@@ -162,7 +162,7 @@ class Authorized_Replier
                         iur_usr_id,
                         iur_email
                      ) VALUES (
-                        $issue_id,
+                        " . Misc::escapeInteger($issue_id) . ",
                         " . APP_SYSTEM_USER_ID . ",
                         '" . Misc::escapeString($email) . "'
                      )";
@@ -203,8 +203,8 @@ class Authorized_Replier
                     iur_iss_id,
                     iur_usr_id
                  ) VALUES (
-                    $issue_id,
-                    $usr_id
+                    " . Misc::escapeInteger($issue_id) . ",
+                    " . Misc::escapeInteger($usr_id) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -246,8 +246,8 @@ class Authorized_Replier
                      FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
                      WHERE
-                        iur_iss_id=$issue_id AND
-                        iur_email='$email'";
+                        iur_iss_id=" . Misc::escapeInteger($issue_id) . " AND
+                        iur_email='" . Misc::escapeString($email) . "'";
             $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -278,8 +278,8 @@ class Authorized_Replier
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
                  WHERE
-                    iur_iss_id = $issue_id AND
-                    iur_usr_id = $usr_id";
+                    iur_iss_id = " . Misc::escapeInteger($issue_id) . " AND
+                    iur_usr_id = " . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -310,7 +310,7 @@ class Authorized_Replier
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
                     iur_iss_id = usr_id AND
-                    iur_id = $iur_id";
+                    iur_id = " . Misc::escapeInteger($iur_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
