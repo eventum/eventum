@@ -21,6 +21,7 @@ Eventum Issue Tracking System
 - Added ability to change status when sending notes (Bryan)
 - Display who closed the issue when sending notification email (Bryan)
 - When switching projects from view or update page, change pages to main page (Bryan)
+- Only display FAQ entries from current project (Bryan)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)

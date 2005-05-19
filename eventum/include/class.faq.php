@@ -41,11 +41,14 @@ class FAQ
     function getListBySupportLevel($support_level_id)
     {
         $support_level_id = Misc::escapeInteger($support_level_id);
+        $prj_id = Auth::getCurrentProject();
         if ($support_level_id == -1) {
             $stmt = "SELECT
                         *
                      FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                     WHERE
+                        faq_prj_id = $prj_id
                      ORDER BY
                         faq_title ASC";
         } else {
@@ -56,7 +59,8 @@ class FAQ
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
                      WHERE
                         faq_id=fsl_faq_id AND
-                        fsl_support_level_id=$support_level_id
+                        fsl_support_level_id=$support_level_id AND
+                        faq_prj_id = $prj_id
                      ORDER BY
                         faq_title ASC";
         }
