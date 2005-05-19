@@ -80,22 +80,27 @@ class Support
             return -1;
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                // try to re-use an open connection to the imap server
-                if (!in_array($res[$i]['sup_ema_id'], array_keys($accounts))) {
-                    $accounts[$res[$i]['sup_ema_id']] = Support::connectEmailServer(Email_Account::getDetails($res[$i]['sup_ema_id']));
-                }
-                $mbox = $accounts[$res[$i]['sup_ema_id']];
-                if ($mbox !== FALSE) {
-                    // now try to find the UID of the current message-id
-                    $matches = @imap_search($mbox, 'TEXT "' . $res[$i]['sup_message_id'] . '"');
-                    if (count($matches) > 0) {
-                        for ($y = 0; $y < count($matches); $y++) {
-                            $headers = imap_headerinfo($mbox, $matches[$y]);
-                            // if the current message also matches the message-id header, then remove it!
-                            if ($headers->message_id == $res[$i]['sup_message_id']) {
-                                @imap_delete($mbox, $matches[$y]);
-                                @imap_expunge($mbox);
-                                break;
+                // don't remove emails from the imap/pop3 server if the email
+                // account is set to leave a copy of the messages on the server
+                $account_details = Email_Account::getDetails($res[$i]['sup_ema_id']);
+                if (!$account_details['leave_copy']) {
+                    // try to re-use an open connection to the imap server
+                    if (!in_array($res[$i]['sup_ema_id'], array_keys($accounts))) {
+                        $accounts[$res[$i]['sup_ema_id']] = Support::connectEmailServer(Email_Account::getDetails($res[$i]['sup_ema_id']));
+                    }
+                    $mbox = $accounts[$res[$i]['sup_ema_id']];
+                    if ($mbox !== FALSE) {
+                        // now try to find the UID of the current message-id
+                        $matches = @imap_search($mbox, 'TEXT "' . $res[$i]['sup_message_id'] . '"');
+                        if (count($matches) > 0) {
+                            for ($y = 0; $y < count($matches); $y++) {
+                                $headers = imap_headerinfo($mbox, $matches[$y]);
+                                // if the current message also matches the message-id header, then remove it!
+                                if ($headers->message_id == $res[$i]['sup_message_id']) {
+                                    @imap_delete($mbox, $matches[$y]);
+                                    @imap_expunge($mbox);
+                                    break;
+                                }
                             }
                         }
                     }

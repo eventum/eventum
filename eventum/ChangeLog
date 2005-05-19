@@ -24,6 +24,7 @@ Eventum Issue Tracking System
 - Only display FAQ entries from current project (Bryan)
 - Fixed a bug that would trigger a loop of errors when a database connection cannot be completed (Elan Ruusamäe)
 - Fixed the email removal routine to properly remove the associated email bodies (João)
+- Fixed the permanent email removal routine so it doen't remove the messages from the server if the 'leave messages on server' option is enabled (João)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)
