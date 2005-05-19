@@ -1438,7 +1438,7 @@ class Notification
 
         if ($min_role == false) {
             $stmt = "SELECT
-                        sub_email,
+                        DISTINCT sub_email,
                         usr_full_name,
                         pru_role
                      FROM
