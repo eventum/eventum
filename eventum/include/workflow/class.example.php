@@ -237,7 +237,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
             );
         }
         
-        // if you want the subscri[tion to be added with no changes, simply return true;
+        // if you want the subscription to be added with no changes, simply return true;
         return true;   
     }
 }
