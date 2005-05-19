@@ -126,7 +126,17 @@ class Support
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            return true;
+            $stmt = "DELETE FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
+                     WHERE
+                        seb_sup_id=" . Misc::escapeInteger($sup_id);
+            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 

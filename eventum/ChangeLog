@@ -23,6 +23,7 @@ Eventum Issue Tracking System
 - When switching projects from view or update page, change pages to main page (Bryan)
 - Only display FAQ entries from current project (Bryan)
 - Fixed a bug that would trigger a loop of errors when a database connection cannot be completed (Elan Ruusamäe)
+- Fixed the email removal routine to properly remove the associated email bodies (João)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)
