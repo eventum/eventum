@@ -121,7 +121,7 @@ class Attachment
      * @param   string $filetype The mimetype of this file
      * @return  void
      */
-    function outputDownload($data, $filename, $filesize, $filetype)
+    function outputDownload(&$data, $filename, $filesize, $filetype)
     {
         $filename = Attachment::nameToSafe($filename);
         $parts = pathinfo($filename);
@@ -467,7 +467,7 @@ class Attachment
      * @param   string $filename The filename to be added
      * @return  boolean
      */
-    function addFile($attachment_id, $issue_id, $filename, $filetype, $blob)
+    function addFile($attachment_id, $issue_id, $filename, $filetype, &$blob)
     {
         $filesize = strlen($blob);
         $stmt = "INSERT INTO

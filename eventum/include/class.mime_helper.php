@@ -560,7 +560,7 @@ class Mime_Helper
      * @param   boolean $include_bodies Whether to include the bodies in the return value or not
      * @return  mixed The decoded content of the message
      */
-    function decode($message, $include_bodies = FALSE, $decode_bodies = TRUE)
+    function decode(&$message, $include_bodies = FALSE, $decode_bodies = TRUE)
     {
         // need to fix a pretty annoying bug where if the 'boundary' part of a
         // content-type header is split into another line, the PEAR library would
