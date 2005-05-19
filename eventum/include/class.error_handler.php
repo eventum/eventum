@@ -63,7 +63,7 @@ class Error_Handler
         if (@$setup['email_error']['status'] == 'enabled') {
             // if there's no db_api object, then we cannot
             // possibly queue up the error emails
-            if (!is_null($GLOBALS["db_api"])) {
+            if (!is_null(@$GLOBALS["db_api"])) {
                 Error_Handler::_notify($error_msg, $script, $line);
             }
         }
