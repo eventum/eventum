@@ -196,7 +196,7 @@ class Mail_API
         if (strstr($address, '<')) {
             $address = stripslashes($address);
             // is the address in the format 'name' <address> ?
-            if (strstr($address, "'")) {
+            if ((strstr($address, "'")) || (strstr($address, "."))) {
                 $first_part = substr($address, 0, strpos($address, '<') - 1);
                 $first_part = '"' . $first_part . '"';
                 $second_part = substr($address, strpos($address, '<'));
