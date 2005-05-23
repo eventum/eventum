@@ -118,6 +118,9 @@ if (stristr(PHP_OS, 'darwin')) {
 // define the user_id of system user
 @define("APP_SYSTEM_USER_ID", 1);
 
+// if full text searching is enabled
+@define("APP_ENABLE_FULLTEXT", false);
+
 @define("APP_BENCHMARK", false);
 if (APP_BENCHMARK) {
     // always benchmark the scripts

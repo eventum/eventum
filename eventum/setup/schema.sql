@@ -173,7 +173,8 @@ CREATE TABLE %TABLE_PREFIX%issue (
   KEY iss_prc_id (iss_prc_id),
   KEY iss_res_id (iss_res_id),
   KEY iss_grp_id (iss_grp_id),
-  KEY iss_duplicated_iss_id (iss_duplicated_iss_id)
+  KEY iss_duplicated_iss_id (iss_duplicated_iss_id),
+  FULLTEXT ft_issue (iss_summary, iss_description)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue_association;
@@ -276,7 +277,8 @@ CREATE TABLE %TABLE_PREFIX%note (
   not_parent_id int(11) unsigned NULL,
   not_unknown_user varchar(255) NULL DEFAULT NULL,
   PRIMARY KEY  (not_id),
-  KEY not_bug_id (not_iss_id,not_usr_id)
+  KEY not_bug_id (not_iss_id,not_usr_id),
+  FULLTEXT ft_note (not_title,not_note)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_priority;
@@ -430,7 +432,8 @@ CREATE TABLE %TABLE_PREFIX%support_email_body (
   seb_sup_id int(11) unsigned NOT NULL,
   seb_body longtext NOT NULL,
   seb_full_email longtext NOT NULL,
-  PRIMARY KEY (seb_sup_id)
+  PRIMARY KEY (seb_sup_id),
+  FULLTEXT ft_support_email (seb_body)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%time_tracking;
@@ -444,7 +447,8 @@ CREATE TABLE %TABLE_PREFIX%time_tracking (
   ttr_summary varchar(255) NOT NULL default '',
   PRIMARY KEY  (ttr_id),
   KEY ttr_ttc_id (ttr_ttc_id,ttr_iss_id,ttr_usr_id),
-  KEY ttr_iss_id (ttr_iss_id)
+  KEY ttr_iss_id (ttr_iss_id),
+  FULLTEXT ft_time_tracking (ttr_summary)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%time_tracking_category;
@@ -558,7 +562,8 @@ CREATE TABLE %TABLE_PREFIX%phone_support (
   phs_description text NOT NULL,
   PRIMARY KEY (phs_id),
   KEY phs_iss_id (phs_iss_id),
-  KEY phs_usr_id (phs_usr_id)
+  KEY phs_usr_id (phs_usr_id),
+  FULLTEXT ft_phone_support (phs_description)
 );
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%status;

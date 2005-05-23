@@ -152,12 +152,18 @@ class Filter
         } else {
             $is_global_filter = $HTTP_POST_VARS['is_global'];
         }
+        if (empty($HTTP_POST_VARS['use_fulltext'])) {
+            $use_fulltext = 0;
+        } else {
+            $use_fulltext = 1;
+        }
         if ($cst_id != 0) {
             $stmt = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                      SET
                         cst_iss_pri_id='" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . "',
                         cst_keywords='" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
+                        cst_use_fulltext=$use_fulltext,
                         cst_users='" . Misc::escapeString($HTTP_POST_VARS["users"]) . "',
                         cst_iss_sta_id='" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "',
                         cst_iss_pre_id='" . Misc::escapeInteger(@$HTTP_POST_VARS["release"]) . "',
@@ -201,6 +207,7 @@ class Filter
                         cst_title,
                         cst_iss_pri_id,
                         cst_keywords,
+                        cst_use_fulltext,
                         cst_users,
                         cst_iss_sta_id,
                         cst_iss_pre_id,
@@ -239,6 +246,7 @@ class Filter
                         '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                         '" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . "',
                         '" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
+                        " . $use_fulltext . ",
                         '" . Misc::escapeString($HTTP_POST_VARS["users"]) . "',
                         '" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "',
                         '" . Misc::escapeInteger(@$HTTP_POST_VARS["release"]) . "',
@@ -520,23 +528,28 @@ class Filter
         $fields = array(
             'iss_pri_id'    =>  array(
                 'title' =>  'Priority',
-                'param' =>  'priority'
+                'param' =>  'priority',
+                'quickfilter'   =>  true
             ),
             'keywords'  =>  array(
                 'title' =>  'Keyword(s)',
-                'param' =>  'keywords'
+                'param' =>  'keywords',
+                'quickfilter'   =>  true
             ),
             'users' =>  array(
                 'title' =>  'Assigned',
-                'param' =>  'users'
+                'param' =>  'users',
+                'quickfilter'   =>  true
             ),
             'iss_prc_id'    =>  array(
                 'title' =>  'Category',
-                'param' =>  'category'
+                'param' =>  'category',
+                'quickfilter'   =>  true
             ),
             'iss_sta_id'    =>  array(
                 'title' =>  'Status',
-                'param' =>  'status'
+                'param' =>  'status',
+                'quickfilter'   =>  true
             ),
             'iss_pre_id'    =>  array(
                 'title' =>  'Release',
