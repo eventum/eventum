@@ -387,10 +387,10 @@ class Custom_Field
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
+            return array();
         } else {
             if (count($res) == 0) {
-                return "";
+                return array();
             } else {
                 $fields = array();
                 for ($i = 0; $i < count($res); $i++) {
