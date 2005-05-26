@@ -2072,7 +2072,8 @@ class Support
         }
         
         $info = Email_Account::getDetails($new_ema_id);
-        $structure = Mime_Helper::decode(Support::getFullEmail($sup_id), true, true);
+        $full_email = Support::getFullEmail($sup_id);
+        $structure = Mime_Helper::decode($full_email, true, true);
         $headers = '';
         foreach ($structure->headers as $key => $value) {
             if (is_array($value)) {

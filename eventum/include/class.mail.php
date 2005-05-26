@@ -600,7 +600,8 @@ class Mail_API
         }
 
         // ok, now parse the headers text and build the assoc array
-        $structure = Mime_Helper::decode($hdrs . "\n\n" . $body, FALSE, FALSE);
+        $full_email = $hdrs . "\n\n" . $body;
+        $structure = Mime_Helper::decode($full_email, FALSE, FALSE);
         $_headers =& $structure->headers;
         $header_names = Mime_Helper::getHeaderNames($hdrs);
         $headers = array();

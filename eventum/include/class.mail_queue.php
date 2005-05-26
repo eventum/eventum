@@ -188,7 +188,7 @@ class Mail_Queue
     function _sendEmail($recipient, $text_headers, $body)
     {
         $header_names = Mime_Helper::getHeaderNames($text_headers);
-        $_headers = Mail_Queue::_getHeaders($text_headers, $body);
+        $_headers = Mail_Queue::_getHeaders($text_headers);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {
             // need to remove the quotes to avoid a parsing problem
@@ -234,12 +234,12 @@ class Mail_Queue
      *
      * @access  private
      * @param   string $text_headers The full headers of this message
-     * @param   string $body The full body of this message
      * @return  array The list of headers
      */
-    function _getHeaders($text_headers, $body)
+    function _getHeaders($text_headers)
     {
-        $structure = Mime_Helper::decode($text_headers . "\n\n" . $body, FALSE, FALSE);
+        $full_email = $text_headers . "\n\n\n";
+        $structure = Mime_Helper::decode($full_email, FALSE, FALSE);
         return $structure->headers;
     }
 
