@@ -39,6 +39,12 @@ $tpl->setTemplate("emails.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
+    $tpl->assign("no_access", 1);
+    $tpl->displayTemplate();
+    exit;
+}
+
 $pagerRow = Support::getParam('pagerRow');
 if (empty($pagerRow)) {
     $pagerRow = 0;

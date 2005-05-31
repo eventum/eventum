@@ -38,7 +38,7 @@
             <ul>
               <li><a href="view.php?id={$new_issue_id}" class="link">Open the Issue Details Page</a></li>
               <li><a href="list.php" class="link">Open the Issue Listing Page</a></li>
-              {if $app_setup.support_email == 'enabled' and $current_role > $roles.viewer}
+              {if $app_setup.support_email == 'enabled' and $current_role > $roles.customer}
               <li><a href="emails.php" class="link">Open the Emails Listing Page</a></li>
               {/if}
               <li><a href="new.php" class="link">Report a New Issue</a></li>

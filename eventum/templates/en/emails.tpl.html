@@ -12,6 +12,17 @@
       </td>
     </tr>
   </table>
+{elseif $no_access == 1}
+  <table width="300" align="center">
+    <tr>
+      <td>
+        &nbsp;<span class="default"><b>Sorry, but you do not have access to this page.</b>
+        <br /><br />
+        &nbsp;<a class="link" href="javascript:history.go(-1);">Go Back</a></span>
+        <br /><br />
+      </td>
+    </tr>
+  </table>
 {else}
   {include file="email_filter_form.tpl.html"}
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
