@@ -1583,7 +1583,7 @@ class Issue
             History::add($new_issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
 
             $emails = array();
-            if (Customer::hasCustomerIntegration($prj_id)) {
+            if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($customer_id))) {
                 // if there are any technical account managers associated with this customer, add these users to the notification list
                 $managers = Customer::getAccountManagers($prj_id, $customer_id);
                 $manager_usr_ids = array_keys($managers);
