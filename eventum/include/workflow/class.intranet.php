@@ -93,7 +93,7 @@ class Intranet_Workflow_Backend extends Abstract_Workflow_Backend
      * @param   array $types The action types.
      * @return  mixed An array of information or true to continue unchanged or false to prevent the user from being added.
      */
-    function handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions)
+    function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
         return true;
     }

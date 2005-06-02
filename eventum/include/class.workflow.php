@@ -359,7 +359,7 @@ class Workflow
      * @param   array $types The action types.
      * @return  mixed An array of information or true to continue unchanged or false to prevent the user from being added.
      */
-    function handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $types)
+    function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$types)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return;

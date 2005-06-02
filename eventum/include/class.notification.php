@@ -1731,22 +1731,15 @@ class Notification
         $issue_id = Misc::escapeInteger($issue_id);
         $subscriber_usr_id = Misc::escapeInteger($subscriber_usr_id);
         $prj_id = Issue::getProjectID($issue_id);
-        
+
         // call workflow to modify actions or cancel adding this user.
-        $workflow = Workflow::handleSubscription($prj_id, $issue_id, $subscriber_usr_id, false, $actions);
-        if ((is_bool($workflow)) && ($workflow == false)) {
+        $email = '';
+        $workflow = Workflow::handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions);
+        if ($workflow === false) {
             // cancel subscribing the user
-            return 1;
-        } elseif (is_array($workflow)) {
-            // workflow is trying to change information
-            if (!empty($workflow['subscriber_usr_id'])) {
-                $subscriber_usr_id = $workflow['subscriber_usr_id'];
-            }
-            if (!empty($workflow['actions'])) {
-                $actions = $workflow['actions'];
-            }
+            return -2;
         }
-        
+
         $stmt = "SELECT
                     COUNT(sub_id)
                  FROM
@@ -1817,22 +1810,15 @@ class Notification
         $issue_id = Misc::escapeInteger($issue_id);
         $email = Misc::escapeString($form_email);
         $prj_id = Issue::getProjectID($issue_id);
-        
+
         // call workflow to modify actions or cancel adding this user.
-        $workflow = Workflow::handleSubscription($prj_id, $issue_id, false, $email, $actions);
-        if ((is_bool($workflow)) && ($workflow == false)) {
+        $subscriber_usr_id = false;
+        $workflow = Workflow::handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions);
+        if ($workflow === false) {
             // cancel subscribing the user
-            return 1;
-        } elseif (is_array($workflow)) {
-            // workflow is trying to change information
-            if (!empty($workflow['email'])) {
-                $email = $workflow['email'];
-            }
-            if (!empty($workflow['actions'])) {
-                $actions = $workflow['actions'];
-            }
+            return -2;
         }
-        
+
         // manual check to prevent duplicates
         if (!empty($email)) {
             $stmt = "SELECT
@@ -1934,6 +1920,17 @@ class Notification
             $usr_id = 0;
             $email = Misc::escapeString($HTTP_POST_VARS["email"]);
         }
+        $prj_id = Issue::getProjectID($issue_id);
+
+        // call workflow to modify actions or cancel adding this user.
+        $actions = array();
+        $subscriber_usr_id = false;
+        $workflow = Workflow::handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions);
+        if ($workflow === false) {
+            // cancel subscribing the user
+            return -2;
+        }
+
         // always set the type of notification to issue-level
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
@@ -1955,16 +1952,7 @@ class Notification
             $GLOBALS["db_api"]->dbh->query($stmt);
             // now add them all again
             for ($i = 0; $i < count($HTTP_POST_VARS["actions"]); $i++) {
-                $stmt = "INSERT INTO
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
-                         (
-                            sbt_sub_id,
-                            sbt_type
-                         ) VALUES (
-                            $sub_id,
-                            '" . Misc::escapeString($HTTP_POST_VARS["actions"][$i]) . "'
-                         )";
-                $GLOBALS["db_api"]->dbh->query($stmt);
+                Notification::addType($sub_id, $HTTP_POST_VARS["actions"][$i]);
             }
             // need to mark the issue as updated
             Issue::markAsUpdated($issue_id);
