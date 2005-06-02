@@ -75,6 +75,8 @@ function removeOption(f, field_name)
           <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
             {if $update_result == -1}
               An error occurred while trying to update the notification entry.
+            {elseif $update_result == -2}
+              Error: the given email address is not allowed to be added to the notification list.
             {elseif $update_result == 1}
               Thank you, the notification entry was updated successfully.
             {/if}
@@ -162,7 +164,7 @@ function removeOption(f, field_name)
               {sectionelse}
               <tr>
                 <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
-                  <b>No subscribers could be found.</b>
+                  <i>No subscribers could be found.</i>
                 </td>
               </tr>
               {/section}
