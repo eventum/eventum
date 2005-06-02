@@ -40,7 +40,7 @@
                     {section name="i" loop=$releases}
                     <tr>
                       <td class="default"><a class="link" href="list.php?keywords=&users=&category=&status=&priority=&release={$releases[i].iss_pre_id}">{$releases[i].pre_title|escape:"html"}</a></td>
-                      <td align="right" class="default">{$releases[i].total_items}</td>
+                      <td align="right" class="default">{$releases[i].total_open_items} / {$releases[i].total_closed_items}</td>
                     </tr>
                     {sectionelse}
                     <tr>
@@ -55,7 +55,7 @@
                     {section name="i" loop=$priorities}
                     <tr>
                       <td class="default"><a class="link" href="list.php?keywords=&users=&category=&release=&status=&priority={$priorities[i].iss_pri_id}">{$priorities[i].pri_title|escape:"html"}</a></td>
-                      <td align="right" class="default">{$priorities[i].total_items}</td>
+                      <td align="right" class="default">{$priorities[i].total_open_items} / {$priorities[i].total_closed_items}</td>
                     </tr>
                     {sectionelse}
                     <tr>
@@ -70,7 +70,7 @@
                     {section name="i" loop=$categories}
                     <tr>
                       <td class="default"><a class="link" href="list.php?keywords=&users=&category={$categories[i].iss_prc_id}&status=&priority=&release=">{$categories[i].prc_title|escape:"html"}</a></td>
-                      <td align="right" class="default">{$categories[i].total_items}</td>
+                      <td align="right" class="default">{$categories[i].total_open_items} / {$categories[i].total_closed_items}</td>
                     </tr>
                     {sectionelse}
                     <tr>
@@ -85,7 +85,7 @@
                     {section name="i" loop=$users}
                     <tr>
                       <td class="default"><a class="link" href="list.php?keywords=&category=&release=&status=&priority=&users={$users[i].isu_usr_id}">{$users[i].usr_full_name}</a></td>
-                      <td align="right" class="default">{$users[i].total_items}</td>
+                      <td align="right" class="default">{$users[i].total_open_items} / {$users[i].total_closed_items}</td>
                     </tr>
                     {sectionelse}
                     <tr>

@@ -220,15 +220,20 @@ class Stats
         $stmt = "SELECT
                     DISTINCT iss_prc_id,
                     prc_title,
-                    COUNT(*) AS total_items
+                    SUM(IF(sta_is_closed=0, 1, 0)) AS total_open_items,
+                    SUM(IF(sta_is_closed=1, 1, 0)) AS total_closed_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
                     iss_prj_id=$prj_id AND
-                    iss_prc_id=prc_id
+                    iss_prc_id=prc_id AND
+                    iss_sta_id=sta_id
                  GROUP BY
-                    iss_prc_id";
+                    iss_prc_id
+                 ORDER BY
+                    total_open_items";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -252,17 +257,20 @@ class Stats
         $stmt = "SELECT
                     DISTINCT iss_pre_id,
                     pre_title,
-                    COUNT(*) AS total_items
+                    SUM(IF(sta_is_closed=0, 1, 0)) AS total_open_items,
+                    SUM(IF(sta_is_closed=1, 1, 0)) AS total_closed_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
                     iss_prj_id=$prj_id AND
-                    iss_pre_id=pre_id
+                    iss_pre_id=pre_id AND
+                    iss_sta_id=sta_id
                  GROUP BY
                     iss_pre_id
                  ORDER BY
-                    total_items DESC";
+                    total_open_items DESC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -316,17 +324,20 @@ class Stats
         $stmt = "SELECT
                     DISTINCT iss_pri_id,
                     pri_title,
-                    COUNT(*) AS total_items
+                    SUM(IF(sta_is_closed=0, 1, 0)) AS total_open_items,
+                    SUM(IF(sta_is_closed=1, 1, 0)) AS total_closed_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
                     iss_pri_id=pri_id AND
+                    iss_sta_id=sta_id AND
                     iss_prj_id=$prj_id
                  GROUP BY
                     iss_pri_id
                  ORDER BY
-                    total_items DESC";
+                    total_open_items DESC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -382,19 +393,22 @@ class Stats
         $stmt = "SELECT
                     DISTINCT isu_usr_id,
                     usr_full_name,
-                    COUNT(*) AS total_items
+                    SUM(IF(sta_is_closed=0, 1, 0)) AS total_open_items,
+                    SUM(IF(sta_is_closed=1, 1, 0)) AS total_closed_items
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
                     isu_usr_id=usr_id AND
                     isu_iss_id=iss_id AND
-                    iss_prj_id=$prj_id
+                    iss_prj_id=$prj_id AND
+                    iss_sta_id=sta_id
                  GROUP BY
                     isu_usr_id
                  ORDER BY
-                    total_items DESC";
+                    total_open_items DESC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

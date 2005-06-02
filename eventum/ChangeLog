@@ -30,6 +30,7 @@ Eventum Issue Tracking System
 - Prevent customers from accessing list emails page (Bryan)
 - Fixed SQL error when auto creating issue from email with no customer specified (Bryan)
 - Changed the graphs on the initial screen to hide entities that don't have any values (João)
+- Added a feature to display the number of open/closed items on the stats screen (João)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)
