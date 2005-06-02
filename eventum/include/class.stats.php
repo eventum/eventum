@@ -104,7 +104,9 @@ class Stats
                         iss_prj_id=$prj_id AND
                         iss_prc_id=" . $prc_id;
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
-            $stats[$prc_title] = $res;
+            if ($res > 0) {
+                $stats[$prc_title] = $res;
+            }
         }
         arsort($stats);
         return $stats;
@@ -132,7 +134,9 @@ class Stats
                         iss_prj_id=$prj_id AND
                         iss_pre_id=" . $pre_id;
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
-            $stats[$pre_title] = $res;
+            if ($res > 0) {
+                $stats[$pre_title] = $res;
+            }
         }
         arsort($stats);
         return $stats;
@@ -160,7 +164,9 @@ class Stats
                         iss_prj_id=$prj_id AND
                         iss_sta_id=" . $sta_id;
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
-            $stats[$sta_title] = $res;
+            if ($res > 0) {
+                $stats[$sta_title] = $res;
+            }
         }
         arsort($stats);
         return $stats;
@@ -288,7 +294,9 @@ class Stats
                         iss_prj_id=$prj_id AND
                         iss_pri_id=" . $pri_id;
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
-            $stats[$pri_title] = $res;
+            if ($res > 0) {
+                $stats[$pri_title] = $res;
+            }
         }
         arsort($stats);
         return $stats;
