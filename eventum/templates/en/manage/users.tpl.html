@@ -129,10 +129,15 @@
                     <tr>
                       <td class="default">{$prj_name}:</td>
                       <td>
+                        {if $info.roles.$prj_id.pru_role == $roles.customer}
+                        <span class="default">Customer</span>
+                        <input type="hidden" name="role[{$prj_id}]" value="{$roles.customer}">
+                        {else}
                         <select name="role[{$prj_id}]" class="default">
                         {html_options options=$project_roles[$prj_id] selected=$info.roles.$prj_id.pru_role}
                         </select>
                         {include file="error_icon.tpl.html" field="role[$prj_id]"}
+                        {/if}
                       </td>
                     </tr>
                     {/foreach}
