@@ -1009,7 +1009,7 @@ class Notification
             $setup = $mail->getSMTPSettings();
             $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
             $sender = Mime_Helper::fixEncoding($sender);
-            $mail->send($from, $sender, 'New Issue Created', 0, $issue_id, 'auto_created_issue');
+            $mail->send($from, $sender, "[#$issue_id] Issue Created: " . $data['iss_summary'], 0, $issue_id, 'auto_created_issue');
         }
     }
 
