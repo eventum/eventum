@@ -32,7 +32,7 @@ Eventum Issue Tracking System
 - Changed the graphs on the initial screen to hide entities that don't have any values (João)
 - Added a feature to display the number of open/closed items on the stats screen (João)
 - Changed the user management screen not to allow administrators from changing the role of a customer user (João)
-- Use more descriptive subject when sending email about an issue being created from an email (Bryan)
+- Fixed small time formatting bug that would only be triggered for values bigger than a day (João)
 
 21 Apr 2005, Version 1.5.3
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)
