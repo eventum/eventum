@@ -465,10 +465,10 @@ class Misc
     function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
     {
         $hours = $minutes / 60;
-        $mins = (($minutes % 60)/10);
-        if ((!empty($minutes)) && ($minutes < 6 )) {
+        if ((!empty($minutes)) && ($minutes < 6)) {
             $return = sprintf("%02dm", $minutes);
         } elseif ($hours > 24 && $omit_days == false) {
+            $mins = ($minutes % 60) / 60;
             $days = $hours / 24;
             $hours = $hours % 24;
             $hours += $mins;
