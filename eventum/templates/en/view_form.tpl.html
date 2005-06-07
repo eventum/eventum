@@ -292,7 +292,7 @@ function collapseDescription()
           <td width="50%" bgcolor="{$light_color}" class="default">
             {section name="i" loop=$issue.associated_issues_details}
               {strip}
-              <a href="view.php?id={$issue.associated_issues_details[i].associated_issue}" title="issue #{$issue.associated_issues_details[i].associated_issue} ({$issue.associated_issues_details[i].current_status}) - {$issue.associated_issues_details[i].associated_title}" class="{if $issue.associated_issues_details[i].is_closed}closed_{/if}link">#{$issue.associated_issues_details[i].associated_issue}</a>
+              <a href="view.php?id={$issue.associated_issues_details[i].associated_issue}" title="issue #{$issue.associated_issues_details[i].associated_issue} ({$issue.associated_issues_details[i].current_status}) - {$issue.associated_issues_details[i].associated_title|escape:"html"}" class="{if $issue.associated_issues_details[i].is_closed}closed_{/if}link">#{$issue.associated_issues_details[i].associated_issue}</a>
               {if not $smarty.section.i.last},{/if}
               {/strip}
             {sectionelse}
