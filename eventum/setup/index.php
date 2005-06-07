@@ -398,6 +398,17 @@ $private_key = "' . md5(microtime()) . '";
         $protocol_type = 'http://';
     }
     $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_contents);
+    // disable the full-text search feature for certain mysql server users
+    $stmt = "SELECT VERSION();";
+    $res = mysql_query($stmt, $conn);
+    $mysql_version = mysql_result($res, 0, 0);
+    preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
+    if ($mysql_version > '4.0.23') {
+        $config_contents = str_replace("%{APP_ENABLE_FULLTEXT}%", "true", $config_contents);
+    } else {
+        $config_contents = str_replace("%{APP_ENABLE_FULLTEXT}%", "false", $config_contents);
+    }
+
     $fp = @fopen('../config.inc.php', 'w');
     if ($fp === FALSE) {
         return "Could not open the file 'config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
