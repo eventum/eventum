@@ -4,7 +4,7 @@
 include_once("../../../config.inc.php");
 
 // make backup copy
-$backup_file = APP_PATH . "config.inc.php_pre_1_5_2";
+$backup_file = APP_PATH . "config.inc.pre_1_5_2.php";
 if (copy(APP_PATH . "config.inc.php", $backup_file) == false) {
     echo "Unable to create backup copy of config.inc.php. Please check your base directory is writeable and try again.";
     exit;
