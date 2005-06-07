@@ -28,7 +28,7 @@ Eventum Issue Tracking System
 - Fixed bug to only display FAQ entries for the currently selected project (Bryan)
 - Fixed a bug that would trigger a loop of errors when a database connection cannot be completed (Elan Ruusamäe)
 - Fixed the email removal routine to properly remove the associated email bodies (João)
-- Fixed the permanent email removal routine so it doen't remove the messages from the server if the 'leave messages on server' option is enabled (João)
+- Fixed the permanent email removal routine so it doesn't remove the messages from the server if the 'leave messages on server' option is enabled (João)
 - Added full text searching to the issue listing screen (Bryan)
 - Fixed the issue details page to properly hide the custom fields table if there are none to be displayed (João)
 - Fixed bug to prevent customers from accessing the email listing page (Bryan)
