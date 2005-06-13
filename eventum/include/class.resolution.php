@@ -28,6 +28,8 @@
 // @(#) $Id: s.class.resolution.php 1.6 03/12/31 17:29:01-00:00 jpradomaia $
 //
 
+include_once(APP_INC_PATH . "class.error_handler.php");
+include_once(APP_INC_PATH . "class.misc.php");
 
 /**
  * Class to handle the business logic related to the administration
@@ -36,9 +38,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.misc.php");
 
 class Resolution
 {

@@ -28,6 +28,9 @@
 // @(#) $Id: s.class.category.php 1.12 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
+include_once(APP_INC_PATH . "class.error_handler.php");
+include_once(APP_INC_PATH . "class.misc.php");
+include_once(APP_INC_PATH . "class.validation.php");
 
 /**
  * Class to handle project category related issues.
@@ -35,10 +38,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.validation.php");
 
 class Category
 {

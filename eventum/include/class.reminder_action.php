@@ -28,15 +28,6 @@
 // @(#) $Id: s.class.reminder_action.php 1.2 04/01/19 15:15:25-00:00 jpradomaia $
 //
 
-
-/**
- * Class to handle the business logic related to the reminder emails
- * that the system sends out.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.reminder_condition.php");
 include_once(APP_INC_PATH . "class.notification.php");
@@ -45,6 +36,14 @@ include_once(APP_INC_PATH . "class.group.php");
 include_once(APP_INC_PATH . "class.mail.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.validation.php");
+
+/**
+ * Class to handle the business logic related to the reminder emails
+ * that the system sends out.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
 class Reminder_Action
 {

@@ -28,18 +28,6 @@
 // @(#) $Id: s.class.mime_helper.php 1.23 04/01/21 22:49:54-00:00 jpradomaia $
 //
 
-
-/**
- * Class to handle the business logic related to the MIME email 
- * processing. The is8bit(), endode() and _encode() functions come from
- * the excellent Horde package at http://www.horde.org. These functions are
- * licensed under the LGPL, and Horde's copyright notice is available
- * below.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 /**
 * The MIME:: class provides methods for dealing with MIME standards.
 *
@@ -50,14 +38,20 @@
 * See the enclosed file COPYING for license information (LGPL). If you
 * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
 *
-* @author  Chuck Hagenbuch <chuck@horde.org>
-* @version $Revision: 1.122 $
-* @since   Horde 1.3
-* @package Horde_MIME
 */
 
 include_once(APP_PEAR_PATH . "Mail/mimeDecode.php");
 
+/**
+ * Class to handle the business logic related to the MIME email 
+ * processing. The is8bit(), endode() and _encode() functions come from
+ * the excellent Horde package at http://www.horde.org. These functions are
+ * licensed under the LGPL, and Horde's copyright notice is available
+ * above.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 class Mime_Helper
 {
     /**

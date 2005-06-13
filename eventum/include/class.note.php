@@ -28,15 +28,6 @@
 // @(#) $Id: s.class.note.php 1.20 03/12/31 17:29:01-00:00 jpradomaia $
 //
 
-
-/**
- * Class to handle the business logic related to adding, updating or
- * deleting notes from the application.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.validation.php");
 include_once(APP_INC_PATH . "class.auth.php");
@@ -48,6 +39,13 @@ include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "class.draft.php");
 include_once(APP_INC_PATH . "class.authorized_replier.php");
 
+/**
+ * Class to handle the business logic related to adding, updating or
+ * deleting notes from the application.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
 class Note
 {

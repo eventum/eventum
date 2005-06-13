@@ -28,6 +28,10 @@
 // @(#) $Id: s.class.db_api.php 1.19 04/01/19 15:19:26-00:00 jpradomaia $
 //
 
+$TOTAL_QUERIES = 0;
+
+include_once("DB.php");
+include_once(APP_INC_PATH . "class.error_handler.php");
 
 /**
  * Class to manage all tasks related to the DB abstraction module. This is only
@@ -36,11 +40,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-$TOTAL_QUERIES = 0;
-
-include_once("DB.php");
-include_once(APP_INC_PATH . "class.error_handler.php");
 
 class DB_API
 {

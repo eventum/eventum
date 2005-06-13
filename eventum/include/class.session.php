@@ -28,6 +28,8 @@
 // @(#) $Id$
 //
 
+include_once(APP_INC_PATH . "class.error_handler.php");
+include_once(APP_INC_PATH . "class.setup.php");
 
 /**
  * Wrapper class for sessions. This is an initial bare bones implementation.
@@ -36,9 +38,6 @@
  * @version 1.0
  * @author Bryan Alsdorf <bryan@mysql.com>
  */
-
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.setup.php");
 
 class Session
 {

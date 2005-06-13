@@ -28,6 +28,11 @@
 // @(#) $Id: s.class.error_handler.php 1.14 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
+include_once(APP_INC_PATH . "class.misc.php");
+include_once(APP_INC_PATH . "class.mail.php");
+include_once(APP_INC_PATH . "class.setup.php");
+
+@define("REPORT_ERROR_FILE", true);
 
 /**
  * Class to manage all tasks related to error conditions of the site, such as
@@ -36,12 +41,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.mail.php");
-include_once(APP_INC_PATH . "class.setup.php");
-
-@define("REPORT_ERROR_FILE", true);
 
 class Error_Handler
 {

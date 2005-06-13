@@ -28,15 +28,6 @@
 // @(#) $Id: s.class.stats.php 1.19 04/01/16 23:17:54-00:00 jpradomaia $
 //
 
-
-/**
- * Class to handle the business logic related to the generation of the 
- * issue statistics displayed in the main screen of the application.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.release.php");
@@ -45,6 +36,14 @@ include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.status.php");
+
+/**
+ * Class to handle the business logic related to the generation of the 
+ * issue statistics displayed in the main screen of the application.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
 class Stats
 {

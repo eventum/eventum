@@ -28,6 +28,7 @@
 // @(#) $Id: s.class.status.php 1.5 04/01/09 05:04:10-00:00 jpradomaia $
 //
 
+include_once(APP_INC_PATH . "class.error_handler.php");
 
 /**
  * Class to handle all business logic related to the way statuses
@@ -36,8 +37,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-include_once(APP_INC_PATH . "class.error_handler.php");
 
 class Status
 {

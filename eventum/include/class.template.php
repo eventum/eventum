@@ -28,6 +28,13 @@
 // @(#) $Id: s.class.template.php 1.34 03/12/31 17:29:01-00:00 jpradomaia $
 //
 
+require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
+require_once(APP_SMARTY_PATH . "Smarty.class.php");
+require_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "class.link_filter.php");
 
 /**
  * Class used to abstract the backend template system used by the site. This
@@ -37,14 +44,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
-require_once(APP_SMARTY_PATH . "Smarty.class.php");
-require_once(APP_INC_PATH . "class.project.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.setup.php");
-require_once(APP_INC_PATH . "class.link_filter.php");
 
 class Template_API
 {

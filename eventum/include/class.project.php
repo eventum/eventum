@@ -28,15 +28,6 @@
 // @(#) $Id: s.class.project.php 1.36 04/01/07 20:59:37-00:00 jpradomaia $
 //
 
-
-/**
- * Class to handle the business logic related to the administration
- * of projects in the system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.group.php");
@@ -49,6 +40,14 @@ include_once(APP_INC_PATH . "class.support.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.display_column.php");
+
+/**
+ * Class to handle the business logic related to the administration
+ * of projects in the system.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
 class Project
 {

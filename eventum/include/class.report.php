@@ -28,15 +28,6 @@
 // @(#) $Id: s.class.report.php 1.10 04/01/26 20:37:04-06:00 joao@kickass. $
 //
 
-
-/**
- * Class to handle the business logic related to all aspects of the
- * reporting system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.user.php");
@@ -46,6 +37,14 @@ include_once(APP_INC_PATH . "class.history.php");
 include_once(APP_INC_PATH . "class.phone_support.php");
 include_once(APP_INC_PATH . "class.prefs.php");
 include_once(APP_PEAR_PATH . "Math/Stats.php");
+
+/**
+ * Class to handle the business logic related to all aspects of the
+ * reporting system.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
 class Report
 {

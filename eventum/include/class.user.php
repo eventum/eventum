@@ -28,15 +28,6 @@
 // @(#) $Id: s.class.user.php 1.55 04/01/26 20:37:04-06:00 joao@kickass. $
 //
 
-
-/**
- * Class to handle the business logic related to the administration
- * of users and permissions in the system.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.mail.php");
@@ -59,6 +50,14 @@ $roles = array(
     6 => "Manager",
     7 => "Administrator"
 );
+
+/**
+ * Class to handle the business logic related to the administration
+ * of users and permissions in the system.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
 class User
 {

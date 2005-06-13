@@ -35,7 +35,6 @@ include_once(APP_INC_PATH . "class.prefs.php");
 include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "class.project.php");
 
-
 /**
  * Class to handle the business logic related to the administration
  * of groups.
@@ -45,6 +44,7 @@ include_once(APP_INC_PATH . "class.project.php");
  * @version 1.0
  * @author Bryan Alsdorf <bryan@mysql.com>
  */
+
 class Group
 {
     /**

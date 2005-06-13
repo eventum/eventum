@@ -27,6 +27,7 @@
 //
 // @(#) $Id$
 //
+
 include_once(APP_INC_PATH . "class.email_account.php");
 
 class Draft

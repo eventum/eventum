@@ -28,6 +28,11 @@
 // @(#) $Id: s.class.language.php 1.10 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
+// this will eventually be used to support more than one language
+$avail_langs = array(
+    "en"
+);
+@define("APP_DEFAULT_LANG" , "en");
 
 /**
  * Class to handle the logic behind the internationalization issues
@@ -36,12 +41,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-// this will eventually be used to support more than one language
-$avail_langs = array(
-    "en"
-);
-@define("APP_DEFAULT_LANG" , "en");
 
 class Language
 {

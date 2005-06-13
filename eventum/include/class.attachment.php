@@ -29,14 +29,6 @@
 //
 
 
-/**
- * Class designed to handle all business logic related to attachments being
- * uploaded to issues in the application.
- *
- * @author  João Prado Maia <jpm@mysql.com>
- * @version $Revision: 1.28 $
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.user.php");
@@ -47,6 +39,13 @@ include_once(APP_INC_PATH . "class.status.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.workflow.php");
 
+/**
+ * Class designed to handle all business logic related to attachments being
+ * uploaded to issues in the application.
+ *
+ * @author  João Prado Maia <jpm@mysql.com>
+ * @version $Revision: 1.28 $
+ */
 class Attachment
 {
     /**

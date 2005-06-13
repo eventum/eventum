@@ -28,15 +28,6 @@
 // @(#) $Id: s.class.issue.php 1.114 04/01/19 15:15:25-00:00 jpradomaia $
 //
 
-
-/**
- * Class designed to handle all business logic related to the issues in the
- * system, such as adding or updating them or listing them in the grid mode.
- *
- * @author  João Prado Maia <jpm@mysql.com>
- * @version $Revision: 1.114 $
- */
-
 include_once(APP_INC_PATH . "class.validation.php");
 include_once(APP_INC_PATH . "class.time_tracking.php");
 include_once(APP_INC_PATH . "class.misc.php");
@@ -64,6 +55,14 @@ include_once(APP_INC_PATH . "class.priority.php");
 include_once(APP_INC_PATH . "class.reminder_action.php");
 include_once(APP_INC_PATH . "class.search_profile.php");
 include_once(APP_INC_PATH . "class.session.php");
+
+/**
+ * Class designed to handle all business logic related to the issues in the
+ * system, such as adding or updating them or listing them in the grid mode.
+ *
+ * @author  João Prado Maia <jpm@mysql.com>
+ * @version $Revision: 1.114 $
+ */
 
 class Issue
 {

@@ -28,6 +28,10 @@
 // @(#) $Id: s.class.filter.php 1.18 04/01/08 15:36:38-00:00 jpradomaia $
 //
 
+include_once(APP_INC_PATH . "class.error_handler.php");
+include_once(APP_INC_PATH . "class.misc.php");
+include_once(APP_INC_PATH . "class.auth.php");
+include_once(APP_INC_PATH . "class.date.php");
 
 /**
  * Class to handle the business logic related to the custom filters.
@@ -35,11 +39,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.date.php");
 
 class Filter
 {

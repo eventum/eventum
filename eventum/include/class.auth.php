@@ -28,14 +28,6 @@
 // @(#) $Id: s.class.auth.php 1.37 04/01/16 23:25:25-00:00 jpradomaia $
 //
 
-
-/**
- * Class to handle authentication issues.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.user.php");
@@ -43,6 +35,12 @@ require_once(APP_INC_PATH . "class.customer.php");
 include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "private_key.php");
 
+/**
+ * Class to handle authentication issues.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 class Auth
 {
     /**

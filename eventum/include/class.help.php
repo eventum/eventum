@@ -28,16 +28,6 @@
 // @(#) $Id: s.class.help.php 1.16 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
-
-/**
- * Class to handle the business logic related to the help 
- * documentation, such as providing a dynamic list of topics related 
- * to the current topic and such.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 
 $topics = array(
@@ -142,6 +132,15 @@ $topics = array(
         "parent" => "main"
     ),
 );
+
+/**
+ * Class to handle the business logic related to the help 
+ * documentation, such as providing a dynamic list of topics related 
+ * to the current topic and such.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
 class Help
 {

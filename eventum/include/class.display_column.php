@@ -33,7 +33,9 @@
  * on a page (i.e. Issue Listing page).
  * 
  * @author Bryan Alsdorf <bryan@mysql.com>
+ * @version 1.0
  */
+
 class Display_Column
 {
     /**

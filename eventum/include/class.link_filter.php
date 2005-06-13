@@ -34,6 +34,7 @@ include_once(APP_INC_PATH . "class.user.php");
  * Class to handle parsing content for links.
  * 
  * @author  Bryan Alsdorf <bryan@mysql.com>
+ * @version 1.0
  */
 class Link_Filter
 {

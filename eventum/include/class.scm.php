@@ -28,15 +28,6 @@
 // @(#) $Id: s.class.scm.php 1.14 03/12/31 17:29:01-00:00 jpradomaia $
 //
 
-
-/**
- * Class to handle the business logic related to the source control management
- * integration features of the application.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.issue.php");
@@ -45,6 +36,14 @@ include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.history.php");
 include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "class.setup.php");
+
+/**
+ * Class to handle the business logic related to the source control management
+ * integration features of the application.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
 class SCM
 {

@@ -28,6 +28,13 @@
 // @(#) $Id: s.class.phone_support.php 1.6 03/12/31 17:29:01-00:00 jpradomaia $
 //
 
+include_once(APP_INC_PATH . "class.error_handler.php");
+include_once(APP_INC_PATH . "class.auth.php");
+include_once(APP_INC_PATH . "class.user.php");
+include_once(APP_INC_PATH . "class.history.php");
+include_once(APP_INC_PATH . "class.issue.php");
+include_once(APP_INC_PATH . "class.misc.php");
+include_once(APP_INC_PATH . "class.date.php");
 
 /**
  * Class to handle the business logic related to the phone support
@@ -36,14 +43,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.history.php");
-include_once(APP_INC_PATH . "class.issue.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.date.php");
 
 class Phone_Support
 {

@@ -28,6 +28,12 @@
 // @(#) $Id: s.class.mail.php 1.26 04/01/23 00:25:55-00:00 jpradomaia $
 //
 
+include_once(APP_INC_PATH . "class.error_handler.php");
+include_once(APP_INC_PATH . "class.setup.php");
+include_once(APP_INC_PATH . "class.mail_queue.php");
+include_once(APP_INC_PATH . "class.user.php");
+include_once(APP_INC_PATH . "class.mime_helper.php");
+include_once(APP_INC_PATH . "class.reminder.php");
 
 /**
  * Class to handle the business logic related to sending email to 
@@ -38,13 +44,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.setup.php");
-include_once(APP_INC_PATH . "class.mail_queue.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.mime_helper.php");
-include_once(APP_INC_PATH . "class.reminder.php");
 
 class Mail_API
 {

@@ -28,17 +28,6 @@
 // @(#) $Id: s.class.date.php 1.18 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
-
-/**
- * Class to handle date convertion issues, which enable the 
- * application of storing all dates in GMT dates and allowing each
- * user to specify a timezone that is supposed to be used across the
- * pages.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
 $_DATE_TIMEZONE_DEFAULT = 'UTC';
  
@@ -55,6 +44,16 @@ define("HOUR", MINUTE * 60);
 define("DAY", HOUR * 24);
 define("WEEK", DAY * 7);
 define("MONTH", WEEK * 4);
+
+/**
+ * Class to handle date convertion issues, which enable the 
+ * application of storing all dates in GMT dates and allowing each
+ * user to specify a timezone that is supposed to be used across the
+ * pages.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
 class Date_API
 {

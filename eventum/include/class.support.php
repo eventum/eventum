@@ -28,15 +28,6 @@
 // @(#) $Id: s.class.support.php 1.79 04/01/23 21:47:17-00:00 jpradomaia $
 //
 
-
-/**
- * Class to handle the business logic related to the email feature of 
- * the application.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- */
-
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.user.php");
@@ -51,6 +42,14 @@ include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.email_account.php");
 include_once(APP_INC_PATH . "class.search_profile.php");
 include_once(APP_INC_PATH . "class.routing.php");
+
+/**
+ * Class to handle the business logic related to the email feature of 
+ * the application.
+ *
+ * @version 1.0
+ * @author João Prado Maia <jpm@mysql.com>
+ */
 
 class Support
 {

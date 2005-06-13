@@ -28,6 +28,8 @@
 // @(#) $Id: s.class.misc.php 1.44 04/01/26 13:34:39-06:00 joao@kickass. $
 //
 
+include_once(APP_INC_PATH . "class.error_handler.php");
+include_once(APP_INC_PATH . "class.setup.php");
 
 /**
  * Class to hold methods and algorythms that woudln't fit in other classes, such
@@ -37,9 +39,6 @@
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
  */
-
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.setup.php");
 
 class Misc
 {
