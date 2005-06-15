@@ -44,7 +44,9 @@
                   {/foreach}
                   {literal}
                   for (i = 0; i < projects.length; i++) {
-                    if (getFormElement(getForm('user_form'), 'role[' + projects[i] + ']').selectedIndex > 0) {
+                    if ((getFormElement(getForm('user_form'), 'role[' + projects[i] + ']').selectedIndex > 0) ||
+                        (getFormElement(getForm('user_form'), 'role[' + projects[i] + ']').type == 'hidden' &&
+                        getFormElement(getForm('user_form'), 'role[' + projects[i] + ']').value != '')) {
                         has_project_selected = true;
                     }
                   }
