@@ -54,7 +54,7 @@ function checkPermissions($file, $desc, $is_directory = FALSE)
             // try to create the file ourselves then
             $fp = @fopen($file, 'w');
             if (!$fp) {
-                return "$desc does not exist. Please create it and try again.";
+                return "File '" . File_Util::realpath($file) . "' does not exist. Please create it (as a blank file) and try again.";
             }
             @fclose($fp);
         } else {
@@ -198,13 +198,21 @@ function checkRequirements()
     return $html;
 }
 
+if (stristr(PHP_OS, 'darwin')) {
+    ini_set("include_path", ".:./../include/pear/");
+} elseif (stristr(PHP_OS, 'win')) {
+    ini_set("include_path", ".;./../include/pear/");
+} else {
+    ini_set("include_path", ".:./../include/pear/");
+}
+include_once("File/Util.php");
+
 $html = checkRequirements();
 if (!empty($html)) {
     echo $html;
     exit;
 }
 
-ini_set("include_path", '.');
 include_once("../include/Smarty/Smarty.class.php");
 
 $tpl = new Smarty();

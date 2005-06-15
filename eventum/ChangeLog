@@ -5,6 +5,7 @@ Eventum Issue Tracking System
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)
 - Fixed the link activation code to properly parse and ignore certain words (Bug #10263) (João)
 - Added a feature to automatically enable/disable the full-text search feature on the installation procedure (João)
+- Improved the installation routines to properly display the full path to potential missing files (João)
 
 6 Jun 2005, Version 1.5.4
 - Fixed bug with 'reply' button having a hard coded email account ID (Bryan)
