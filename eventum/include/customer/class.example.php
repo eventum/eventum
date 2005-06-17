@@ -93,7 +93,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                 "customer_id"     => 3,
                 "customer_name"   => "Example Corp.",
                 "start_date"      => '2002-01-01',
-                "expiration_date" => '2003-01-01',
+                "expiration_date" => '2006-01-01',
                 "contacts"        => array(
                     array(
                         'contact_id' => 21,
@@ -494,6 +494,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         foreach ($this->data as $company_id => $details) {
             foreach ($details['contacts'] as $contact) {
                 if ($contact['contact_id'] == $contact_id) {
+                    $contact['customer_id'] = $company_id;
                     return $contact;
                 }
             }
@@ -911,5 +912,29 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     {
         // send a notification email to your customer here
     }
+    
+
+    /**
+     * Method used to get the contract details for a given customer contact.
+     *
+     * @access  public
+     * @param   integer $contact_id The customer contact ID
+     * @return  array The customer contract details
+     */
+    function getContractDetails($contact_id, $restrict_expiration)
+    {
+        $contact = $this->getContactDetails($contact_id);
+        $customer = $this->getDetails($contact['customer_id']);
+        $support_levels = $this->getSupportLevelAssocList();
+        
+        return array(
+            'contact_name'    => $contact['first_name'] . ' ' . $contact['last_name'],
+            'company_name'    => $customer['customer_name'],
+            'contract_id'     => $customer['customer_id'],
+            'support_level'   => $support_levels[$customer['support_level_id']],
+            'expiration_date' => $customer['expiration_date']
+        );
+    }
+    
 }
 ?>
