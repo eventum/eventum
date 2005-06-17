@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 - Added a feature to automatically enable/disable the full-text search feature on the installation procedure (João)
 - Improved the installation routines to properly display the full path to potential missing files (João)
 - Updated Example Customer API to handle expired customers (Bryan)
+- Fixed bug that caused links in FAQ entries to be mangled (Bryan)
 
 6 Jun 2005, Version 1.5.4
 - Fixed bug with 'reply' button having a hard coded email account ID (Bryan)
