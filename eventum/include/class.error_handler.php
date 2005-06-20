@@ -48,10 +48,9 @@ class Error_Handler
      * Logs the specified error
      *
      * @access public
-     * @param  string $error_code The error code
-     * @param  string $error_msg The error message
+     * @param  mixed $error_msg The error message
      * @param  string $script The script name where the error happened
-     * @param  int $line The line number where the error happened
+     * @param  integer $line The line number where the error happened
      */
     function logError($error_msg = "", $script = "", $line = "")
     {
@@ -75,7 +74,7 @@ class Error_Handler
      * @access private
      * @param  string $error_msg The error message
      * @param  string $script The script name where the error happened
-     * @param  int $line The line number where the error happened
+     * @param  integer $line The line number where the error happened
      */
     function _notify($error_msg = "unknown", $script = "unknown", $line = "unknown")
     {
@@ -137,7 +136,7 @@ class Error_Handler
      * @access public
      * @param  string $error_msg The error message
      * @param  string $script The script name where the error happened
-     * @param  int $line The line number where the error happened
+     * @param  integer $line The line number where the error happened
      */
     function logToFile($error_msg = "unknown", $script = "unknown", $line = "unknown")
     {
