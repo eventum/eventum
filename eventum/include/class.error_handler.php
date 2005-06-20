@@ -72,7 +72,7 @@ class Error_Handler
      * Notifies site administrators of the error condition
      *
      * @access private
-     * @param  string $error_msg The error message
+     * @param  mixed $error_msg The error message
      * @param  string $script The script name where the error happened
      * @param  integer $line The line number where the error happened
      */
@@ -134,7 +134,7 @@ class Error_Handler
      * Logs the error condition to a specific file
      *
      * @access public
-     * @param  string $error_msg The error message
+     * @param  mixed $error_msg The error message
      * @param  string $script The script name where the error happened
      * @param  integer $line The line number where the error happened
      */
