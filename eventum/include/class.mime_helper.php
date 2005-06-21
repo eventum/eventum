@@ -68,7 +68,7 @@ class Mime_Helper
             return false;
         }
 
-        $content_type = $structure->headers['content-type'];
+        $content_type = @$structure->headers['content-type'];
         if (preg_match('/charset\s*=\s*(["\'])?([-\w\d]+)(\1)?;?/i', $content_type, $matches)) {
             return $matches[2];
         }
