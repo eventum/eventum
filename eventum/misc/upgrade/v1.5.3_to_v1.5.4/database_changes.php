@@ -17,7 +17,7 @@ foreach ($stmts as $stmt) {
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
     if (PEAR::isError($res)) {
         echo "<pre>";var_dump($res);echo "</pre>";
-        exit;
+        exit(1);
     }
 }
 

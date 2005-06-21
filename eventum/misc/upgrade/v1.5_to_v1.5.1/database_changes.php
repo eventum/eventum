@@ -24,7 +24,7 @@ $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
 $columns = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
 if (PEAR::isError($columns)) {
     echo "<pre>";var_dump($columns);echo "</pre>";
-    exit;
+    exit(1);
 }
 for ($i = 0; $i < count($columns); $i++) {
     if ($columns[$i]['Field'] == 'iss_pri_id') {
@@ -40,7 +40,7 @@ $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
 $columns = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
 if (PEAR::isError($columns)) {
     echo "<pre>";var_dump($columns);echo "</pre>";
-    exit;
+    exit(1);
 }
 for ($i = 0; $i < count($columns); $i++) {
     if ($columns[$i]['Field'] == 'pri_id') {
@@ -71,7 +71,7 @@ foreach ($stmts as $stmt) {
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
     if (PEAR::isError($res)) {
         echo "<pre>";var_dump($res);echo "</pre>";
-        exit;
+        exit(1);
     }
 }
 
