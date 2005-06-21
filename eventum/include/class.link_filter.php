@@ -274,8 +274,8 @@ class Link_Filter
             }
         }
         // process issue link seperatly since it has to do something special
-        $text = Link_Filter::processIssueSpecificLinks($text);
         $text = Misc::activateLinks($text, $class);
+        $text = Link_Filter::processIssueSpecificLinks($text);
         
         return $text;
     }
