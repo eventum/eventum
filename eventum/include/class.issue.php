@@ -3382,8 +3382,10 @@ class Issue
                     LEFT JOIN " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support ON
                         iss_id = phs_iss_id 
                 WHERE
-                    MATCH(iss_summary, iss_description, not_note, ttr_summary, phs_description) 
-                        AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE)";
+                    (MATCH(iss_summary, iss_description) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE)) OR
+                    (MATCH(not_note) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE)) OR
+                    (MATCH(ttr_summary) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE)) OR
+                    (MATCH(phs_description) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE))";
         $other_res = $GLOBALS["db_api"]->dbh->getCol($sql);
         if (PEAR::isError($other_res)) {
             Error_Handler::logError(array($other_res->getMessage(), $other_res->getDebugInfo()), __FILE__, __LINE__);
