@@ -27,7 +27,7 @@
 //
 // @(#) $Id: s.download_emails.php 1.4 03/04/15 14:50:39-00:00 jpm $
 //
-include("../config.inc.php");
+include_once("../config.inc.php");
 include_once(APP_INC_PATH . "class.support.php");
 include_once(APP_INC_PATH . "class.lock.php");
 include_once(APP_INC_PATH . "class.project.php");
