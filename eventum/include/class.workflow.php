@@ -39,10 +39,8 @@ class Workflow
         $files = Misc::getFileList(APP_INC_PATH . "workflow");
         $list = array();
         for ($i = 0; $i < count($files); $i++) {
-            // make sure we only list the customer backends
-            if (preg_match('/^class\./', $files[$i])) {
-                // display a prettyfied backend name in the admin section
-                preg_match('/class\.(.*)\.php/', $files[$i], $matches);
+            // display a prettyfied backend name in the admin section
+            if (preg_match('/^class\.(.*)\.php$/', $files[$i], $matches)) {
                 if ($matches[1] == 'abstract_workflow_backend') {
                     continue;
                 }

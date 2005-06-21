@@ -8,6 +8,7 @@ Eventum Issue Tracking System
 - Improved the installation routines to properly display the full path to potential missing files (João)
 - Updated Example Customer API to handle expired customers (Bryan)
 - Fixed bug that caused links in FAQ entries to be mangled (Bryan)
+- Fixed a bug on the workflow API so that it will only list backend files with filenames ending in .php (Elan Ruusamäe)
 
 6 Jun 2005, Version 1.5.4
 - Fixed bug with 'reply' button having a hard coded email account ID (Bryan)
