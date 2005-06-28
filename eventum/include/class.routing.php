@@ -110,10 +110,10 @@ class Routing
         $prefix = $setup['email_routing']['address_prefix'];
         // escape plus signs so 'issue+1@example.com' becomes a valid routing address
         $prefix = str_replace('+', '\+', $prefix);
-        $mail_domain = $setup['email_routing']['address_host'];
-        $mail_domain_alias = @$setup['email_routing']['host_alias'];
+        $mail_domain = quotemeta($setup['email_routing']['address_host']);
+        $mail_domain_alias = quotemeta(@$setup['email_routing']['host_alias']);
         if (!empty($mail_domain_alias)) {
-            $mail_domain = "[" . $mail_domain . "|" . $mail_domain_alias . "]";
+            $mail_domain = "(?:" . $mail_domain . "|" . $mail_domain_alias . ")";
         }
         if (empty($prefix)) {
             return array(78, "Error: Please configure the email address prefix.\n");
@@ -335,7 +335,7 @@ class Routing
         $prefix = $setup['note_routing']['address_prefix'];
         // escape plus signs so 'note+1@example.com' becomes a valid routing address
         $prefix = str_replace('+', '\+', $prefix);
-        $mail_domain = $setup['note_routing']['address_host'];
+        $mail_domain = quotemeta($setup['note_routing']['address_host']);
         if (empty($prefix)) {
             return array(78, "Error: Please configure the email address prefix.\n");
         }
@@ -445,7 +445,7 @@ class Routing
         $prefix = $setup['draft_routing']['address_prefix'];
         // escape plus signs so 'draft+1@example.com' becomes a valid address
         $prefix = str_replace('+', '\+', $prefix);
-        $mail_domain = $setup['draft_routing']['address_host'];
+        $mail_domain = quotemeta($setup['draft_routing']['address_host']);
         if (empty($prefix)) {
             return array(78, "Error: Please configure the email address prefix.\n");
         }

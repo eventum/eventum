@@ -11,6 +11,7 @@ Eventum Issue Tracking System
 - Fixed a bug on the workflow API so that it will only list backend files with filenames ending in .php (Elan Ruusamäe)
 - Added a check on the link filter feature to avoid double parsing for urls (Elan Ruusamäe)
 - Fixed bug with full-text searching under MySQL 4.1 (Bryan)
+- Fixed email routing where domain portion was not properly verified (Elan Ruusamäe)
 
 6 Jun 2005, Version 1.5.4
 - Fixed bug with 'reply' button having a hard coded email account ID (Bryan)
