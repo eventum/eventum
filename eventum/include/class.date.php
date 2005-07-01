@@ -252,6 +252,9 @@ class Date_API
      */
     function getSimpleDate($timestamp)
     {
+        if (empty($timestamp)) {
+            return '';
+        }
         $timezone = Date_API::getPreferredTimezone();
         $date = new Date($timestamp);
         // now convert to another timezone and return the date
