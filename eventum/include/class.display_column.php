@@ -220,6 +220,9 @@ class Display_Column
                     "title" =>  "Summary",
                     "align" =>  "left",
                     "width" =>  '30%'
+                ),
+                "iss_expected_resolution_date"  =>  array(
+                    "title" =>  "Expected Resolution Date"
                 )
             )
         );

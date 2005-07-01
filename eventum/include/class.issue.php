@@ -2022,7 +2022,8 @@ class Issue
             "iss_created_date",
             "iss_summary",
             "last_action_date",
-            "usr_full_name"
+            "usr_full_name",
+            "iss_expected_resolution_date"
         );
         $items = array(
             "links"  => array(),
@@ -2121,7 +2122,8 @@ class Issue
                     iss_private,
                     usr_full_name,
                     iss_percent_complete,
-                    iss_dev_time
+                    iss_dev_time,
+                    iss_expected_resolution_date
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
@@ -2216,6 +2218,7 @@ class Issue
             $csv[] = @implode("\t", $column_headings);
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
+                $res[$i]["iss_expected_resolution_date"] = Date_API::getSimpleDate($res[$i]["iss_expected_resolution_date"]);
                 $fields = array(
                     $res[$i]['pri_title'],
                     $res[$i]['iss_id']

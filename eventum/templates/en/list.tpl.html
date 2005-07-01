@@ -183,6 +183,8 @@ function disableFields()
               {$list[i].usr_full_name|escape:"html"}
             {elseif $field_name == 'iss_percent_complete'}
               {$list[i].iss_percent_complete|escape:"html"}%
+            {elseif $field_name == 'iss_expected_resolution_date'}
+              {$list[i].iss_expected_resolution_date|escape:"html"}
             {elseif $field_name == 'custom_fields'}
               <nobr>
               {foreach from=$list[i].custom_field key=fld_id item=fld_value}
