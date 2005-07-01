@@ -271,14 +271,14 @@ function createWhereClause($date_field, $user_field = false)
     
     $sql = '';
     if ($_REQUEST['report_type'] == 'recent') {
-        $sql .= "$date_field >= DATE_SUB('" . Date_API::getCurrentDateGMT() . "', INTERVAL " . $_REQUEST['amount'] . " " . $_REQUEST['unit'] . ")";
+        $sql .= "$date_field >= DATE_SUB('" . Date_API::getCurrentDateGMT() . "', INTERVAL " . Misc::escapeInteger($_REQUEST['amount']) . " " . Misc::escapeString($_REQUEST['unit']) . ")";
     } else {
         $sql .= "$date_field BETWEEN '$start_date' AND '$end_date'";
     }
     if (($user_field != false) && (!empty($_REQUEST['developer']))) {
-        $sql .= " AND $user_field = " . $_REQUEST['developer'];
+        $sql .= " AND $user_field = " . Misc::escapeString($_REQUEST['developer']);
     }
-    $sql .= " ORDER BY $date_field " . $_REQUEST['sort_order'];
+    $sql .= " ORDER BY $date_field " . Misc::escapeString($_REQUEST['sort_order']);
     return $sql;
 }
 
