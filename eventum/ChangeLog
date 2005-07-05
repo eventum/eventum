@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Fixed email routing where domain portion was not properly verified (Elan Ruusamäe)
 - Added Expected Resolution Date field to list issues page (Bryan)
 - Properly escape values in query on recent activity report (Bryan)
+- Escape issue summaries on weekly report to prevent XSS (Elan Ruusamäe)
 
 6 Jun 2005, Version 1.5.4
 - Fixed bug with 'reply' button having a hard coded email account ID (Bryan)
