@@ -121,8 +121,10 @@ function getOpenIssues($p)
     $show_all_issues = XML_RPC_decode($p->getParam(3));
     $status = XML_RPC_decode($p->getParam(4));
     $status_id = Status::getStatusID($status);
+    $usr_id = User::getUserIDByEmail($email);
 
-    $res = Issue::getOpenIssues($prj_id, $email, $show_all_issues, $status_id);
+    $res = Issue::getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id);
+    
     if (empty($res)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "There are currently no open issues");
     } else {
@@ -597,9 +599,7 @@ function getNote($p)
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Note #" . $note_id . " does not exist for issue #$issue_id");
     }
     // since xml-rpc has issues, lets base64 encode everything
-    foreach ($note as $key => $val) {
-        $note[$key] = base64_encode($val);
-    }
+    $note = Misc::base64Encode($note);
     return new XML_RPC_Response(XML_RPC_Encode($note));
 }
 
