@@ -571,6 +571,7 @@ function getNoteListing($p)
         return $auth;
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
+    createFakeCookie($email, Issue::getProjectID($issue_id));
     $notes = Note::getListing($issue_id);
 
     // since xml-rpc has issues, lets base64 encode everything
@@ -599,7 +600,9 @@ function getNote($p)
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Note #" . $note_id . " does not exist for issue #$issue_id");
     }
     // since xml-rpc has issues, lets base64 encode everything
-    $note = Misc::base64Encode($note);
+    foreach ($note as $key => $val) {
+        $note[$key] = base64_encode($val);
+    }
     return new XML_RPC_Response(XML_RPC_Encode($note));
 }
 
