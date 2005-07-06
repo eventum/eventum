@@ -458,7 +458,7 @@ class Time_Tracking
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
+            Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'time added');
             // need to save a history entry for this
             History::add($HTTP_POST_VARS["issue_id"], $usr_id, History::getTypeID('time_added'), 'Time tracking entry submitted by ' . User::getFullName($usr_id));
             return 1;
