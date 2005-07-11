@@ -17,6 +17,7 @@ Eventum Issue Tracking System
 - Escape issue summaries on weekly report to prevent XSS (Elan Ruusamäe)
 - Fixed bug that that didn't mark issue as updated when adding a time entry (Bryan)
 - Fixed bug with CLI command 'open-issues' (Bryan)
+- Fixed the database schema file to properly set the table types to MyISAM (João)
 
 6 Jun 2005, Version 1.5.4
 - Fixed bug with 'reply' button having a hard coded email account ID (Bryan)
