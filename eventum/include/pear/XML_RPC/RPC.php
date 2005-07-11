@@ -147,7 +147,8 @@ function XML_RPC_se($parser, $name, $attrs)
         $XML_RPC_xh[$parser]['qt']=0;
         break;
     case "NAME":
-        $XML_RPC_xh[$parser]['st'].="'"; $XML_RPC_xh[$parser]['ac']="";
+        $XML_RPC_xh[$parser]['st'] .= '"';
+        $XML_RPC_xh[$parser]['ac'] = '';
         break;
     case "FAULT":
         $XML_RPC_xh[$parser]['isf']=1;
@@ -219,7 +220,7 @@ function XML_RPC_ee($parser, $name)
         break;
 
     case "NAME":
-        $XML_RPC_xh[$parser]['st'].= $XML_RPC_xh[$parser]['ac'] . "' => ";
+        $XML_RPC_xh[$parser]['st'] .= $XML_RPC_xh[$parser]['ac'] . '" => ';
         break;
 
     case "BOOLEAN":
@@ -243,7 +244,7 @@ function XML_RPC_ee($parser, $name)
             // we use double quotes rather than single so backslashification works OK
             $XML_RPC_xh[$parser]['st'].="\"". $XML_RPC_xh[$parser]['ac'] . "\"";
         } else if ($XML_RPC_xh[$parser]['qt']==2) {
-            $XML_RPC_xh[$parser]['st'].="base64_decode('". $XML_RPC_xh[$parser]['ac'] . "')";
+            $XML_RPC_xh[$parser]['st'] .= 'base64_decode("'. $XML_RPC_xh[$parser]['ac'] . '")';
         } else if ($name=="BOOLEAN") {
             $XML_RPC_xh[$parser]['st'].=$XML_RPC_xh[$parser]['ac'];
         } else {
