@@ -45,20 +45,25 @@ function validateForm(f)
     
     var field = getFormElement(f, 'setup[smtp][from]');
     if (isWhitespace(field.value)) {
-        alert('Please enter the sender address that will be used for all outgoing notification emails.');
         selectField(f, 'setup[smtp][from]');
+        alert('Please enter the sender address that will be used for all outgoing notification emails.');
+        return false;
+    }
+    if (!isEmail(field.value)) {
+        selectField(f, 'setup[smtp][from]');
+        alert('Please enter a valid email address for the sender address.');
         return false;
     }
     field = getFormElement(f, 'setup[smtp][host]');
     if (isWhitespace(field.value)) {
-        alert('Please enter the SMTP server hostname.');
         selectField(f, 'setup[smtp][host]');
+        alert('Please enter the SMTP server hostname.');
         return false;
     }
     field = getFormElement(f, 'setup[smtp][port]');
     if ((isWhitespace(field.value)) || (!isNumberOnly(field.value))) {
-        alert('Please enter the SMTP server port number.');
         selectField(f, 'setup[smtp][port]');
+        alert('Please enter the SMTP server port number.');
         return false;
     }
     var field1 = getFormElement(f, 'setup[smtp][auth]', 0);
@@ -70,14 +75,14 @@ function validateForm(f)
     if (field1.checked) {
       field = getFormElement(f, 'setup[smtp][username]');
       if (isWhitespace(field.value)) {
-          alert('Please enter the SMTP server username.');
           selectField(f, 'setup[smtp][username]');
+          alert('Please enter the SMTP server username.');
           return false;
       }
       field = getFormElement(f, 'setup[smtp][password]');
       if (isWhitespace(field.value)) {
-          alert('Please enter the SMTP server password.');
           selectField(f, 'setup[smtp][password]');
+          alert('Please enter the SMTP server password.');
           return false;
       }
     }
