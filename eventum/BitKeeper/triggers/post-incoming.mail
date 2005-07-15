@@ -1,7 +1,7 @@
 #!/bin/sh
 
 DOMAIN=mysql.com
-TO=web-commits@$DOMAIN
+TO=iit-commits@$DOMAIN
 FROM=$BKD_USER@$DOMAIN
 REPO=eventum
  
