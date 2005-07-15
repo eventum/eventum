@@ -28,7 +28,7 @@ category:
 # repository is commercial it can be an internal email address or "none"
 # to disable logging.
 # 
-logging: logging@openlogging.org
+logging: none
 # 
 # You do not have a license for BitKeeper and the logging field in the
 # BitKeeper/etc/config file is not set to "logging@openlogging.org".
