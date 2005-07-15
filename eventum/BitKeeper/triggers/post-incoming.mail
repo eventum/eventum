@@ -7,7 +7,7 @@ REPO=eventum
  
 [ "$BK_EVENT" = "incoming push" ] || exit
 [ "$BKD_REALHOST" = "stage.mysql.com" ] || exit
-[ "$BKD_ROOT" = "/home/www/bk/$REPO" ] || exit
+[ "$BKD_ROOT" = "/web/$REPO" ] || exit
 
 CHANGESET=`bk -R prs -r+ -h -d':P:::I:' ChangeSet`
 
