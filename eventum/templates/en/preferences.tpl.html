@@ -55,6 +55,7 @@ function validateAccount(f)
             {include file="help_link.tpl.html" topic="preferences"}
           </td>
         </tr>
+        {if $current_role != $roles.customer}
         <form name="update_name_form" onSubmit="javascript:return validateName(this);" action="{$smarty.server.PHP_SELF}" method="post">
         <input type="hidden" name="cat" value="update_name">
         {if $update_name_result}
@@ -113,6 +114,7 @@ function validateAccount(f)
           </td>
         </tr>
         </form>
+        {/if}
         <form name="update_password_form" onSubmit="javascript:return validatePassword(this);" action="{$smarty.server.PHP_SELF}" method="post">
         <input type="hidden" name="cat" value="update_password">
         {if $update_password_result}
