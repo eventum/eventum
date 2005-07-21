@@ -36,6 +36,8 @@ error_reporting(0);
 @include_once(APP_JPGRAPH_PATH . "jpgraph.php");
 @include_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
 
+ini_set('memory_limit', '64M');
+
 Auth::checkAuthentication(APP_COOKIE);
 
 // check to see if the TTF file is available or not
