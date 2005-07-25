@@ -357,6 +357,14 @@ class Eventum_Bot
             sleep(1);
         }
     }
+
+
+    function _joinChannels(&$irc)
+    {
+        foreach ($GLOBALS['channels'] as $prj_id => $channel_list) {
+            $irc->join($channel_list);
+        }
+    }
 }
 
 $bot = &new Eventum_Bot();
@@ -375,6 +383,7 @@ $irc->registerTimehandler(3000, $bot, 'notifyEvents');
 $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-auth', $bot, 'listAuthenticatedUsers');
 $irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $bot, '_updateAuthenticatedUser');
 $irc->registerActionhandler(SMARTIRC_TYPE_KICK|SMARTIRC_TYPE_QUIT|SMARTIRC_TYPE_PART, '.*', $bot, '_removeAuthenticatedUser');
+$irc->registerActionhandler(SMARTIRC_TYPE_LOGIN, '.*', $bot, '_joinChannels');
 
 // real bot commands
 $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?help', $bot, 'listAvailableCommands');
@@ -386,9 +395,6 @@ $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-quarantined', $bot, 'l
 
 $irc->connect('localhost', 6667);
 $irc->login('EventumBOT', 'EventumBOT', 0, 'EventumBOT');
-foreach ($channels as $prj_id => $channel_list) {
-    $irc->join($channel_list);
-}
 $irc->listen();
 $irc->disconnect();
 
