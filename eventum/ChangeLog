@@ -24,6 +24,7 @@ Eventum Issue Tracking System
 - Added a validation check to the installation screen for the sender address (João)
 - Changed the preferences screen to not allow customers to edit their personal details (João)
 - Removed references to the missing 'cst_use_fulltext' database field (João)
+- Fixed the auto-link feature to properly recognize URLs with pipes in them (Elan Ruusamäe)
 
 6 Jun 2005, Version 1.5.4
 - Fixed bug with 'reply' button having a hard coded email account ID (Bryan)
