@@ -1551,6 +1551,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function log($rpc_conn, $auth, $command)
     {
+        $command = base64_encode($command);
         $msg = new XML_RPC_Message("logCommand", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'), new XML_RPC_Value($command, 'string')));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {

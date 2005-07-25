@@ -932,7 +932,7 @@ function logCommand($p)
     if (is_object($auth)) {
         return $auth;
     }
-    $command = XML_RPC_decode($p->getParam(2));
+    $command = base64_decode(XML_RPC_decode($p->getParam(2)));
     
     $msg = $email . "\t" . $command . "\n";
     
