@@ -365,6 +365,27 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $types);
     }
+
+
+    /**
+     * Called when SCM checkin is associated.
+     * 
+     * @param   integer $prj_id The project ID.
+     * @param   integer $issue_id The ID of the issue.
+     * @param   string $module The SCM module commit was made.
+     * @param   array $files File list with their version numbers changes made on.
+     * @param   string $username SCM user doing the checkin.
+     * @param   string $commit_msg Message associated with the SCM commit.
+     * @return  void
+     */
+    function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg);
+    }
 }
 
 
