@@ -1158,7 +1158,8 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         if ($result->faultCode()) {
             Command_Line::quit($result->faultString());
         } else {
-            echo XML_RPC_decode($result->value());
+            $ret = XML_RPC_decode($result->value());
+            echo base64_decode($ret);
         }
     }
     

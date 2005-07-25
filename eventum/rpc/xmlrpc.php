@@ -684,7 +684,8 @@ function getWeeklyReport($p)
     $tpl->setTemplate("reports/weekly_data.tpl.html");
     $tpl->assign("data", Report::getWeeklyReport(User::getUserIDByEmail($email), $start, $end));
     
-    return new XML_RPC_Response(XML_RPC_Encode($tpl->getTemplateContents() . "\n"));
+    $ret = $tpl->getTemplateContents(). "\n";
+    return new XML_RPC_Response(XML_RPC_Encode(base64_encode($ret)));
 }
 
 $getResolutionAssocList_sig = array(array($XML_RPC_String));
