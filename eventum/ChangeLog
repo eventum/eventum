@@ -27,6 +27,7 @@ Eventum Issue Tracking System
 - Fixed the auto-link feature to properly recognize URLs with pipes in them (Elan Ruusamäe)
 - Added a new Workflow API method to be triggered when SCM commits are made (Elan Ruusamäe)
 - Fixed the IRC bot to automatically re-join the channels when it reconnects (João, Elan Ruusamäe)
+- Improved the Workflow::handleIssueClosed API to receive all arguments related to an issue being closed (Elan Ruusamäe)
 
 6 Jun 2005, Version 1.5.4
 - Fixed bug with 'reply' button having a hard coded email account ID (Bryan)

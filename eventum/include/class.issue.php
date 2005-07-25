@@ -1066,7 +1066,7 @@ class Issue
                 // send notifications for the issue being closed
                 Notification::notify($issue_id, 'closed');
             }
-            Workflow::handleIssueClosed($prj_id, $issue_id);
+            Workflow::handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason);
             return 1;
         }
     }

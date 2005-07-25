@@ -229,5 +229,22 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
         // if you want the subscription to be added with no changes, simply return true;
         return true;
     }
+
+
+    /**
+     * Called when issue is closed.
+     * 
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue.
+     * @param   boolean $send_notification Whether to send a notification about this action or not
+     * @param   integer $resolution_id The resolution ID
+     * @param   integer $status_id The status ID
+     * @param   string $reason The reason for closing this issue
+     * @return  void
+     */
+    function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason)
+    {
+        echo "Workflow: handleIssueClosed<br />\n";
+    }
 }
 ?>
