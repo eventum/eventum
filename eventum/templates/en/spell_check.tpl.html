@@ -40,7 +40,7 @@
 </form>
 <script language="JavaScript">
 <!--
-var textarea = window.opener.{$smarty.get.form_name}.{$smarty.get.field_name};
+var textarea = window.opener.document.{$smarty.get.form_name}.{$smarty.get.field_name};
 document.forms[0].textarea.value = textarea.value;
 document.forms[0].submit();
 //-->
@@ -55,7 +55,12 @@ function fixSpelling()
     var f = document.forms[0];
     var old_value = f.misspelled_words.options[f.misspelled_words.selectedIndex].text;
     var new_value = f.suggestion.options[f.suggestion.selectedIndex].text;
-    var textarea = window.opener.{$smarty.post.form_name}.{$smarty.post.field_name};
+    {literal}
+    if (new_value = '') {
+        return;
+    }
+    {/literal}
+    var textarea = window.opener.document.{$smarty.post.form_name}.{$smarty.post.field_name};
     textarea.value = replaceWords(textarea.value, old_value, new_value);
 {literal}
 }
@@ -69,9 +74,10 @@ function buildSuggestionBox()
 {literal}
     var f = document.forms[0];
     var word = f.misspelled_words.options[f.misspelled_words.selectedIndex].text;
+    var _suggestions = '';
     for (var i = 0; i < suggestions.length; i++) {
         if (suggestions[i].text == word) {
-            var _suggestions = suggestions[i].value;
+            _suggestions = suggestions[i].value;
             break;
         }
     }
@@ -107,7 +113,7 @@ function buildSuggestionBox()
           </td>
           <td width="60%" bgcolor="{$light_color}">
             <select class="default" name="misspelled_words" onChange="javascript:buildSuggestionBox();">
-            {html_options output=$spell_check.words}
+            {html_options options=$spell_check.words}
             </select>
           </td>
         </tr>
