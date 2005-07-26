@@ -31,6 +31,7 @@
 // XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found
 // XXX: dynamically check the email blob and skips the email if it is bigger than 16mb on PHP4 versions
 
+ini_set("memory_limit", "64M");
 set_magic_quotes_runtime(0);
 
 if (isset($_GET)) {
