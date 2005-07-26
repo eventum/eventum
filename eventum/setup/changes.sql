@@ -608,5 +608,4 @@ CREATE FULLTEXT INDEX ft_time_tracking ON eventum_time_tracking (ttr_summary);
 CREATE FULLTEXT INDEX ft_phone_support ON eventum_phone_support (phs_description);
 
 ALTER TABLE eventum_time_tracking ADD INDEX ttr_iss_id(ttr_iss_id);
-ALTER TABLE eventum_custom_filter ADD COLUMN cst_use_fulltext tinyint(1) DEFAULT 0 AFTER cst_keywords;
 

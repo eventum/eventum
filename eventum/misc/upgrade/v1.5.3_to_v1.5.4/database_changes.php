@@ -10,7 +10,6 @@ $stmts[] = "CREATE FULLTEXT INDEX ft_support_email ON eventum_support_email_body
 $stmts[] = "CREATE FULLTEXT INDEX ft_note ON eventum_note (not_title,not_note)";
 $stmts[] = "CREATE FULLTEXT INDEX ft_time_tracking ON eventum_time_tracking (ttr_summary)";
 $stmts[] = "CREATE FULLTEXT INDEX ft_phone_support ON eventum_phone_support (phs_description)";
-$stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_use_fulltext tinyint(1) DEFAULT 0 AFTER cst_keywords";
 
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
