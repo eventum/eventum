@@ -16,7 +16,7 @@ $projects = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 if (PEAR::isError($projects) || count($projects) < 1) {
     echo "Error getting projects or no projects defined.<pre>";
     print_r($priorities);
-    exit;
+    exit(1);
 }
 
 // get current canned responses
@@ -29,7 +29,7 @@ $responses = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 if (PEAR::isError($responses) || count($responses) < 1) {
     echo "Error getting canned responses or none defined.<pre>";
     print_r($responses);
-    exit;
+    exit(1);
 }
 foreach ($responses as $ere_id => $ere_title) {
     echo "Response: $ere_title<br />\n";
@@ -43,7 +43,7 @@ foreach ($responses as $ere_id => $ere_title) {
                     )";
         $res = $GLOBALS['db_api']->dbh->query($stmt);
         if (DB::isError($res)) {
-            echo "<pre>";var_dump($res);exit;
+            echo "<pre>";var_dump($res);exit(1);
         }
     }
 }

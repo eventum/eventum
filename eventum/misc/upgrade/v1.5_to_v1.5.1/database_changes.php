@@ -10,7 +10,7 @@ $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
 $columns = $GLOBALS["db_api"]->dbh->getCol($stmt);
 if (PEAR::isError($columns)) {
     echo "<pre>";var_dump($columns);echo "</pre>";
-    exit;
+    exit(1);
 }
 if (!in_array('maq_type', $columns)) {
     $stmts[] = "ALTER TABLE eventum_mail_queue ADD COLUMN maq_type varchar(30) DEFAULT ''";

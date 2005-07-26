@@ -7,7 +7,7 @@ include_once("../../../config.inc.php");
 $backup_file = APP_PATH . "config.inc.pre_1_5_2.php";
 if (copy(APP_PATH . "config.inc.php", $backup_file) == false) {
     echo "Unable to create backup copy of config.inc.php. Please check your base directory is writeable and try again.";
-    exit;
+    exit(1);
 }
 
 $config_contents = implode("", file(APP_PATH . "setup/config.inc.php"));
@@ -31,12 +31,12 @@ $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_cont
 $fp = fopen(APP_PATH . 'config.inc.php', 'w');
 if ($fp === FALSE) {
     echo "Could not open the file 'config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
-    exit;
+    exit(1);
 }
 $res = fwrite($fp, $config_contents);
 if ($fp === FALSE) {
     echo "Could not write the configuration information to 'config.inc.php'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
-    exit;
+    exit(1);
 }
 fclose($fp);
 ?>

@@ -26,7 +26,7 @@ foreach ($res as $sup_id => $full_message) {
     $update = $GLOBALS["db_api"]->dbh->query($stmt);
     if (PEAR::isError($update)) {
         echo "<pre>";var_dump($update);echo "</pre>";
-        exit;
+        exit(1);
     }
     echo "fixed email #$sup_id<br />";
     flush();

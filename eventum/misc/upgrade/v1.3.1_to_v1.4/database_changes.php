@@ -8,7 +8,7 @@ $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
 $columns = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
 if (PEAR::isError($columns)) {
     echo "<pre>";var_dump($columns);echo "</pre>";
-    exit;
+    exit(1);
 }
 $stmts = array();
 // need to handle problems where the auto_increment key was not added to pri_id
@@ -25,7 +25,7 @@ $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
 $columns = $GLOBALS["db_api"]->dbh->getCol($stmt);
 if (PEAR::isError($columns)) {
     echo "<pre>";var_dump($columns);echo "</pre>";
-    exit;
+    exit(1);
 }
 // need to handle the problem in which upgrades from 1.2.2 to 1.3 didn't get the cno_prj_id field
 if (!in_array('cno_prj_id', $columns)) {
@@ -87,7 +87,7 @@ foreach ($stmts as $stmt) {
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
     if (PEAR::isError($res)) {
         echo "<pre>";var_dump($res);echo "</pre>";
-        exit;
+        exit(1);
     }
 }
 

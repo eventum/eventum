@@ -342,7 +342,8 @@ function update($his_id, $match)
                 his_id = $his_id";
     $res = $GLOBALS["db_api"]->dbh->query($sql);
     if (PEAR::isError($res)) {
-        echo "<pre>";print_r($res);exit;
+        echo "<pre>";print_r($res);
+        exit(1);
     }
 }
 ?>

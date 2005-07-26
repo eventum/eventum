@@ -7,16 +7,16 @@ $stmt = "SELECT MAX(usr_id)+1 FROM eventum_user";
 $new_usr_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
 if (PEAR::isError($new_usr_id)) {
     echo "ERROR:<br /><br />";
-    echo var_dump($new_usr_iod);
-    exit;
+    var_dump($new_usr_iod);
+    exit(1);
 }
 
 $stmt = "UPDATE eventum_user SET usr_id = $new_usr_id WHERE usr_id = 1";
 $res = $GLOBALS["db_api"]->dbh->query($stmt);
 if (PEAR::isError($res)) {
     echo "ERROR:<br /><br />";
-    echo var_dump($res);
-    exit;
+    var_dump($res);
+    exit(1);
 }
 
 $fixes = array(
@@ -40,8 +40,8 @@ foreach ($fixes as $stmt) {
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
     if (PEAR::isError($res)) {
         echo "ERROR:<br /><br />";
-        echo var_dump($res);
-        exit;
+        var_dump($res);
+        exit(1);
     }
 }
 
@@ -68,8 +68,8 @@ $stmt = "INSERT INTO
 $res = $GLOBALS["db_api"]->dbh->query($stmt);
 if (PEAR::isError($res)) {
     echo "ERROR:<br /><br />";
-    echo var_dump($res);
-    exit;
+    var_dump($res);
+    exit(1);
 }
 
 ?>

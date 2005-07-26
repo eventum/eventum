@@ -13,7 +13,7 @@ $res = Setup::save($array);
 
 if ($res != 1) {
     echo "Unable to write to file '" . APP_SETUP_FILE . "'.<br />\nPlease verify this file is writeable and try again.";
-    exit;
+    exit(1);
 }
 ?>
 Done. 

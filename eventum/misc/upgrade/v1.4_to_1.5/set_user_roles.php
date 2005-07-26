@@ -13,7 +13,7 @@ $sql = "SELECT
 $res = $GLOBALS["db_api"]->dbh->getAssoc($sql);
 if (PEAR::isError($res)) {
     echo "<pre>";var_dump($res);echo "</pre>";
-    exit;
+    exit(1);
 }
 
 foreach ($res as $usr_id => $role) {
@@ -26,7 +26,7 @@ foreach ($res as $usr_id => $role) {
     $res = $GLOBALS["db_api"]->dbh->query($sql);
     if (PEAR::isError($res)) {
         echo "<pre>";var_dump($res);echo "</pre>";
-        exit;
+        exit(1);
     }
     
     // handle preferences
@@ -55,7 +55,7 @@ foreach ($res as $usr_id => $role) {
                 usr_id=$usr_id";
     $res = $GLOBALS["db_api"]->dbh->query($sql);
     if (PEAR::isError($res)) {
-        echo "<pre>";print_r($res);exit;
+        echo "<pre>";print_r($res);exit(1);
     }
 }
 

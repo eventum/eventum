@@ -25,7 +25,7 @@ function updateActionDate($type, $issue_id, $max, $action_type)
         }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
-            echo "<pre>";print_r($res);exit;
+            echo "<pre>";print_r($res);exit(1);
         }
     }
 }
@@ -62,7 +62,7 @@ foreach ($fields as $date_field => $action_type) {
                 $date_field > IFNULL(iss_last_public_action_date, '0000-00-00 00:00:00')";
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
     if (PEAR::isError($res)) {
-        echo "<pre>";print_r($res);exit;
+        echo "<pre>";print_r($res);exit(1);
     }
 }
 

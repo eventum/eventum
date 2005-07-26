@@ -15,7 +15,7 @@ $sql = "SELECT
 $res = $GLOBALS["db_api"]->dbh->getAssoc($sql);
 if (PEAR::isError($sql)) {
     echo "<pre>";var_dump($res);echo "</pre>";
-    exit;
+    exit(1);
 }
     
 $rank = 1;
@@ -34,7 +34,7 @@ foreach ($res as $id => $prj_id) {
     $res = $GLOBALS["db_api"]->dbh->query($sql);
     if (PEAR::isError($res)) {
         echo "<pre>";var_dump($res);echo "</pre>";
-        exit;
+        exit(1);
     }
     $rank++;
 }

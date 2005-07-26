@@ -16,7 +16,7 @@ $priorities = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 if (PEAR::isError($priorities) || count($priorities) < 1) {
     echo "Error getting priorities or no priorities defined.<pre>";
     print_r($priorities);
-    exit;
+    exit(1);
 }
 
 
@@ -29,7 +29,7 @@ $projects = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 if (PEAR::isError($projects) || count($projects) < 1) {
     echo "Error getting projects or no projects defined.<pre>";
     print_r($priorities);
-    exit;
+    exit(1);
 }
 $first = true;
 foreach ($projects as $project_id => $project_name) {
@@ -42,7 +42,7 @@ foreach ($projects as $project_id => $project_name) {
                     pri_prj_id = $project_id";
         $res = $GLOBALS['db_api']->dbh->query($stmt);
         if (DB::isError($res)) {
-            echo "<pre>";var_dump($res);exit;
+            echo "<pre>";var_dump($res);exit(1);
         }
         echo $GLOBALS['db_api']->dbh->affectedRows() . " priorities updated<br />";
     } else {
@@ -55,7 +55,7 @@ foreach ($projects as $project_id => $project_name) {
                         pri_prj_id = $project_id";
             $res = $GLOBALS['db_api']->dbh->query($stmt);
             if (DB::isError($res)) {
-                echo "<pre>";var_dump($res);exit;
+                echo "<pre>";var_dump($res);exit(1);
             }
             $new_pri_id = $GLOBALS["db_api"]->get_last_insert_id();
             $stmt = "UPDATE
@@ -67,7 +67,7 @@ foreach ($projects as $project_id => $project_name) {
                         iss_prj_id = $project_id";
             $res = $GLOBALS['db_api']->dbh->query($stmt);
             if (DB::isError($res)) {
-                echo "<pre>";var_dump($res);exit;
+                echo "<pre>";var_dump($res);exit(1);
             }
             echo $GLOBALS['db_api']->dbh->affectedRows() . " issues updated to correct priority for project.<br />";
         }
