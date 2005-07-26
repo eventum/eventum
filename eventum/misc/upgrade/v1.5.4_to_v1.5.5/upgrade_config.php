@@ -20,6 +20,7 @@ $config_contents = str_replace("%{APP_SQL_DBPASS}%", APP_SQL_DBPASS, $config_con
 $config_contents = str_replace("%{APP_TABLE_PREFIX}%", APP_TABLE_PREFIX, $config_contents);
 $config_contents = str_replace("%{APP_HOSTNAME}%", APP_HOSTNAME, $config_contents);
 $config_contents = str_replace("%{APP_RELATIVE_URL}%", APP_RELATIVE_URL, $config_contents);
+$config_contents = str_replace("%{APP_ENABLE_FULLTEXT}%", APP_ENABLE_FULLTEXT, $config_contents);
 $config_contents = str_replace("%{APP_VERSION}%", "1.5.5", $config_contents);
 if (stristr(APP_BASE_URL, 'https://') !== false) {
     $protocol_type = 'https://';
