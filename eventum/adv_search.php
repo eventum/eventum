@@ -65,7 +65,7 @@ if (User::getGroupID(Auth::getUserID()) != '') {
     $assign_options['-3'] = 'myself and my group';
     $assign_options['-4'] = 'myself, un-assigned and my group';
 }
-if ((count($groups) > 0) && ( Auth::getCurrentRole() >User::getRoleID("Customer"))) {
+if ((count($groups) > 0) && ( $role_id > User::getRoleID("Customer"))) {
     foreach ($groups as $grp_id => $grp_name) {
         $assign_options["grp:$grp_id"] = "Group: " . $grp_name;
     }
@@ -78,7 +78,8 @@ $tpl->assign(array(
     "status"     => Status::getAssocStatusList($prj_id),
     "users"      => $assign_options,
     "releases"   => Release::getAssocList($prj_id),
-    "custom"     => Filter::getListing($prj_id)
+    "custom"     => Filter::getListing($prj_id),
+    "custom_fields" =>  Custom_Field::getListByProject($prj_id, '')
 ));
 
 if (!empty($HTTP_GET_VARS["custom_id"])) {
