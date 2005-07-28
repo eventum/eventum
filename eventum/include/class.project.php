@@ -988,6 +988,40 @@ class Project
 
 
     /**
+     * Method used to get the list of users associated with a given project.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   string $status The desired user status
+     * @return  array The list of users
+     */
+    function getReporters($prj_id)
+    {
+
+        $stmt = "SELECT
+                    usr_id,
+                    usr_full_name
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                    pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    pru_usr_id=usr_id AND
+                    usr_id = iss_usr_id
+                 ORDER BY
+                    usr_full_name ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
      * Sets the minimum role needed to view a specific field on the issue creation form.
      * 
      * @access  public
