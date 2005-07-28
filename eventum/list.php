@@ -120,6 +120,7 @@ $tpl->assign("filter_info", Filter::getFiltersInfo());
 $tpl->assign("categories", Category::getAssocList($prj_id));
 $tpl->assign("groups", $groups);
 $tpl->assign("custom_fields_display", $custom_fields_display);
+$tpl->assign("reporters", Project::getReporters($prj_id));
 
 $prefs = Prefs::get($usr_id);
 $tpl->assign("refresh_rate", $prefs['list_refresh_rate'] * 60);
