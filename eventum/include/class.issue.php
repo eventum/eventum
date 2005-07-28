@@ -1969,6 +1969,7 @@ class Issue
             // advanced search form
             'show_authorized_issues'        => Issue::getParam('show_authorized_issues'),
             'show_notification_list_issues' => Issue::getParam('show_notification_list_issues'),
+            'reporter'       => Issue::getParam('reporter'),
             // other fields
             'release'        => Issue::getParam('release'),
             // custom fields
@@ -2427,6 +2428,9 @@ class Issue
                 }
             }
             $stmt .= ')';
+        }
+        if (!empty($options["reporter"])) {
+            $stmt .= " AND iss_usr_id = " . Misc::escapeInteger($options["reporter"]);
         }
         if (!empty($options["show_authorized_issues"])) {
             $stmt .= " AND (iur_usr_id=$usr_id)";

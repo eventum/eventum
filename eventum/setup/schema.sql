@@ -8,6 +8,7 @@ CREATE TABLE %TABLE_PREFIX%custom_filter (
   cst_iss_pri_id int(10) unsigned default NULL,
   cst_keywords varchar(64) default NULL,
   cst_users varchar(64) default NULL,
+  cst_reporter int(11) unsigned default NULL,
   cst_iss_prc_id int(10) unsigned default NULL,
   cst_iss_sta_id int(10) unsigned default NULL,
   cst_iss_pre_id int(10) unsigned default NULL,

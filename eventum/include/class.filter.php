@@ -171,6 +171,7 @@ class Filter
                         cst_iss_pri_id='" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . "',
                         cst_keywords='" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
                         cst_users='" . Misc::escapeString($HTTP_POST_VARS["users"]) . "',
+                        cst_reporter=" . Misc::escapeInteger($HTTP_POST_VARS["reporter"]) . ",
                         cst_iss_sta_id='" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "',
                         cst_iss_pre_id='" . Misc::escapeInteger(@$HTTP_POST_VARS["release"]) . "',
                         cst_iss_prc_id='" . Misc::escapeInteger(@$HTTP_POST_VARS["category"]) . "',
@@ -215,6 +216,7 @@ class Filter
                         cst_iss_pri_id,
                         cst_keywords,
                         cst_users,
+                        cst_reporter,
                         cst_iss_sta_id,
                         cst_iss_pre_id,
                         cst_iss_prc_id,
@@ -254,6 +256,7 @@ class Filter
                         '" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . "',
                         '" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
                         '" . Misc::escapeString($HTTP_POST_VARS["users"]) . "',
+                        '" . Misc::escapeInteger($HTTP_POST_VARS["reporter"]) . "',
                         '" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "',
                         '" . Misc::escapeInteger(@$HTTP_POST_VARS["release"]) . "',
                         '" . Misc::escapeInteger(@$HTTP_POST_VARS["category"]) . "',
@@ -664,6 +667,10 @@ class Filter
             'search_type'   =>  array(
                 'title' =>  'Search Type',
                 'param' =>  'search_type'
+            ),
+            'reporter'  =>  array(
+                'title' =>  'Reporter',
+                'param' =>  'reporter'
             )
         );
         

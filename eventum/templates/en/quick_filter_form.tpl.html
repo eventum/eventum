@@ -39,6 +39,7 @@ function clearFilters(f)
     setHiddenFieldValue(f, 'closed_date[filter_type]', '');
     setHiddenFieldValue(f, 'show_authorized_issues', '');
     setHiddenFieldValue(f, 'show_notification_list_issues', '');
+    setHiddenFieldValue(f, 'reporter', '');
     //other fields
     setHiddenFieldValue(f, 'release', '');
     setHiddenFieldValue(f, 'custom_field', '');
@@ -99,6 +100,7 @@ function runCustomFilter(f)
         <input type="hidden" name="show_authorized_issues" value="{$options.show_authorized_issues}">
         <input type="hidden" name="show_notification_list_issues" value="{$options.show_notification_list_issues}">
         <input type="hidden" name="custom_field" value="{$options.custom_field|@serialize|urlencode}">
+        <input type="hidden" name="reporter" value="{$options.reporter}">
         {if $categories|@count < 1}
         <input type="hidden" name="category" value="">
         {/if}

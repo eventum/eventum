@@ -247,6 +247,15 @@ function disableCustomFields(disable)
               {/foreach}
             </select>
           </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="default">Reporter:</span><br />
+            <select name="reporter" class="default">
+              <option value="">Any</option>
+              {html_options options=$reporters selected=$options.cst_reporter}
+            </select>
+          </td>
           {if $releases|@count > 0}
           <td>
             <span class="default">Release:</span><br />

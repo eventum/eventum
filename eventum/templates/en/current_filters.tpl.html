@@ -61,6 +61,8 @@
                 {if $filter_details == 1}
                   Yes
                 {/if}
+              {elseif $filter_param == 'reporter'}
+                {$users[$filter_details]}
               {elseif $filter.is_custom == 1}
                 {if $filter.fld_type == 'text' OR $filter.fld_type == 'textarea'}
                   {$filter_details|escape:"html"}
