@@ -999,15 +999,16 @@ class Project
     {
 
         $stmt = "SELECT
-                    usr_id,
+                    DISTINCT usr_id,
                     usr_full_name
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
-                    pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
-                    pru_usr_id=usr_id AND
+                    pru_prj_id = " . Misc::escapeInteger($prj_id) . " AND
+                    iss_prj_id = " . Misc::escapeInteger($prj_id) . " AND
+                    pru_usr_id = usr_id AND
                     usr_id = iss_usr_id
                  ORDER BY
                     usr_full_name ASC";
