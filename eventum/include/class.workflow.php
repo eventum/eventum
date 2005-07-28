@@ -351,6 +351,24 @@ class Workflow
     
     
     /**
+     * Called when custom fields are updated
+     * 
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue
+     * @param   array $old The custom fields before the update.
+     * @param   array $new The custom fields after the update.
+     */
+    function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new);
+    }
+    
+    
+    /**
      * Called when an attempt is made to add a user or email address to the
      * notification list. 
      * 

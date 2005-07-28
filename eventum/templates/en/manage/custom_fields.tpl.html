@@ -126,6 +126,8 @@
                   if (f.edit_button) {
                       f.edit_button.disabled = show_field;
                   }
+                  var field2 = getFormElement(f, 'custom_field_backend');
+                  field2.disabled = show_field;
                   return true;
               }
               function checkRequiredFields()
@@ -252,9 +254,19 @@
                   <table bgcolor="{$dark_color}" cellspacing="0" cellpadding="0" border="0">
                     <tr>
                       <td rowspan="2"><img src="{$rel_url}images/blank.gif" width="30" height="1"></td>
-                      <td>
+                      <td valign="top">
                         <span class="default"><b>Set available options:</b></span><br />
                         <input class="default" type="text" name="new_value" size="26"><input class="shortcut" name="add_button" type="button" value="Add" onClick="javascript:addFieldOption(this.form);">{if $smarty.get.cat == 'edit'}<input class="shortcut" name="update_button" type="button" value="Update Value" disabled onClick="javascript:updateFieldOption(this.form);">{/if}<br />
+                      </td>
+                      <td rowspan="3" class="default">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<b>OR</b>&nbsp;&nbsp;&nbsp;&nbsp;
+                      </td>
+                      <td valign="top">
+                        <span class="default"><b>Choose Custom Field Backend:</b></span><br />
+                        <select name="custom_field_backend" class="default">
+                          <option value="" label="Please select a backend">Please select a backend</option>
+                          {html_options options=$backend_list selected=$info.fld_backend}
+                        </select>
                       </td>
                       <td rowspan="3"><img src="{$rel_url}images/blank.gif" width="30" height="1"></td>
                     </tr>
@@ -264,7 +276,7 @@
                           <tr>
                             <td>
                               <select name="field_options[]" multiple size="3" class="default">
-                              {if $info.field_options == ""}
+                              {if $info.field_options == "" OR $info.fld_backend != ''}
                                 <option value="-1">enter a new option above</option>
                               {else}
                                 {html_options options=$info.field_options}
@@ -282,6 +294,24 @@
                       </td>
                     </tr>
                   </table>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Minimum Role:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="min_role" class="default">
+                    {html_options options=$user_roles selected=$info.fld_min_role}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Rank:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="rank" value="{$info.fld_rank}" size="3" class="default">
                 </td>
               </tr>
               <tr>
@@ -325,10 +355,12 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
-                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Assigned Projects</b></td>
+                      <td nowrap bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Rank</b></td>
+                      <td width="15%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
+                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Assigned Projects</b></td>
+                      <td width="10%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Min. Role</b></td>
                       <td width="5%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Type</b></td>
-                      <td width="30%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Options</b></td>
+                      <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Options</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -336,22 +368,29 @@
                       <td width="4" nowrap bgcolor="{$row_color}" align="center">
                         <input type="checkbox" name="items[]" value="{$list[i].fld_id}" {if $smarty.section.i.total == 0}disabled{/if}>
                       </td>
-                      <td width="20%" bgcolor="{$row_color}" class="default">
+                      <td bgcolor="{$row_color}" class="default" nowrap>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=1" title="move field down"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].fld_rank}
+                        <a class="link" href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=-1" title="move field up"><img src="{$rel_url}images/asc.gif" border="0"></a>
+                      </td>
+                      <td width="15%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].fld_id}" title="update this entry">{$list[i].fld_title}</a>
                       </td>
-                      <td width="40%" bgcolor="{$row_color}" class="default">
+                      <td width="20%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].projects}
+                      </td>
+                      <td width="10%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{$list[i].min_role_name}
                       </td>
                       <td width="5%" bgcolor="{$row_color}" class="default">
                         <nobr>&nbsp;{if $list[i].fld_type == 'combo'}Combo Box{elseif $list[i].fld_type == 'multiple'}Multiple Combo Box{elseif $list[i].fld_type == 'textarea'}Textarea{else}Text Input{/if}</nobr>
                       </td>
-                      <td width="30%" bgcolor="{$row_color}" class="default">
+                      <td width="50%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].field_options}
                       </td>
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                      <td colspan="7" bgcolor="{$light_color}" align="center" class="default">
                         <i>No custom fields could be found.</i>
                       </td>
                     </tr>
@@ -360,7 +399,7 @@
                       <td width="4" align="center" bgcolor="{$cell_color}">
                         <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                       </td>
-                      <td colspan="4" bgcolor="{$cell_color}">
+                      <td colspan="6" bgcolor="{$cell_color}">
                         <input type="submit" value="Delete" class="button">
                       </td>
                     </tr>

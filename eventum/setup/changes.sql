@@ -609,3 +609,13 @@ CREATE FULLTEXT INDEX ft_phone_support ON eventum_phone_support (phs_description
 
 ALTER TABLE eventum_time_tracking ADD INDEX ttr_iss_id(ttr_iss_id);
 
+# July 27th - Custom field changes
+ALTER TABLE eventum_custom_filter ADD COLUMN cst_custom_field TEXT;
+ALTER TABLE eventum_custom_field ADD COLUMN fld_min_role tinyint(1) NOT NULL DEFAULT 0;
+ALTER TABLE eventum_custom_field ADD COLUMN fld_rank smallint(2) NOT NULL DEFAULT 0;
+ALTER TABLE eventum_custom_field ADD COLUMN fld_backend varchar(100);
+
+ALTER TABLE eventum_custom_filter ADD COLUMN cst_search_type varchar(15) not null default 'customer';
+
+
+CREATE FULLTEXT INDEX ft_icf_value ON eventum_issue_custom_field (icf_value);

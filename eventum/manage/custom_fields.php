@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.custom_fields.php 1.2 03/07/14 04:55:26-00:00 jpm $
+// @(#) $Id$
 //
 include_once("../config.inc.php");
 include_once(APP_INC_PATH . "class.template.php");
@@ -51,14 +51,25 @@ if ($role_id == User::getRoleID('administrator')) {
         $tpl->assign("result", Custom_Field::update());
     } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
         Custom_Field::remove();
+    }elseif (@$_REQUEST["cat"] == "change_rank") {
+        Custom_Field::changeRank();
     }
 
     if (@$HTTP_GET_VARS["cat"] == "edit") {
         $tpl->assign("info", Custom_Field::getDetails($HTTP_GET_VARS["id"]));
     }
+    
+    $excluded_roles = array();
+    if (!Customer::hasCustomerIntegration(Auth::getCurrentProject())) {
+        $excluded_roles[] = "customer";
+    }
+    $user_roles = User::getRoles($excluded_roles);
+    $user_roles[9] = "Never Display";
 
     $tpl->assign("list", Custom_Field::getList());
     $tpl->assign("project_list", Project::getAll());
+    $tpl->assign("user_roles", $user_roles);
+    $tpl->assign("backend_list", Custom_Field::getBackendList());
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }

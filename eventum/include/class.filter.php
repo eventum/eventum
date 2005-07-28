@@ -146,6 +146,19 @@ class Filter
                 $$date_end_var = 'NULL';
             }
         }
+        
+        // save custom fields to search
+        if ((is_array($HTTP_POST_VARS['custom_field'])) && (count($HTTP_POST_VARS['custom_field']) > 0)) {
+            foreach ($HTTP_POST_VARS['custom_field'] as $fld_id => $search_value) {
+                if (empty($search_value)) {
+                    unset($HTTP_POST_VARS[$fld_id]);
+                }
+            }
+            $custom_field_string = serialize($HTTP_POST_VARS['custom_field']);
+        } else {
+            $custom_field_string = '';
+        }
+        
         if (empty($HTTP_POST_VARS['is_global'])) {
             $is_global_filter = 0;
         } else {
@@ -165,30 +178,31 @@ class Filter
                         cst_sort_by='" . Misc::escapeString($HTTP_POST_VARS["sort_by"]) . "',
                         cst_sort_order='" . Misc::escapeString($HTTP_POST_VARS["sort_order"]) . "',
                         cst_hide_closed='" . Misc::escapeInteger(@$HTTP_POST_VARS["hide_closed"]) . "',
-                        cst_customer_email='" . Misc::escapeString(@$HTTP_POST_VARS["customer_email"]) . "',
                         cst_show_authorized='" . Misc::escapeString(@$HTTP_POST_VARS["show_authorized_issues"]) . "',
                         cst_show_notification_list='" . Misc::escapeString(@$HTTP_POST_VARS["show_notification_list_issues"]) . "',
                         cst_created_date=$created_date,
                         cst_created_date_filter_type=$created_date_filter_type,
-                        cst_created_date_time_period='" . Misc::escapeInteger(@$_REQUEST['created_date']['time_period']) . "',
+                        cst_created_date_time_period='" . @Misc::escapeInteger(@$_REQUEST['created_date']['time_period']) . "',
                         cst_created_date_end=$created_date_end,
                         cst_updated_date=$updated_date,
                         cst_updated_date_filter_type=$updated_date_filter_type,
-                        cst_updated_date_time_period='" . Misc::escapeInteger(@$_REQUEST['updated_date']['time_period']) . "',
+                        cst_updated_date_time_period='" . @Misc::escapeInteger(@$_REQUEST['updated_date']['time_period']) . "',
                         cst_updated_date_end=$updated_date_end,
                         cst_last_response_date=$last_response_date,
                         cst_last_response_date_filter_type=$last_response_date_filter_type,
-                        cst_last_response_date_time_period='" . Misc::escapeInteger(@$_REQUEST['last_response_date']['time_period']) . "',
+                        cst_last_response_date_time_period='" .@ Misc::escapeInteger(@$_REQUEST['last_response_date']['time_period']) . "',
                         cst_last_response_date_end=$last_response_date_end,
                         cst_first_response_date=$first_response_date,
                         cst_first_response_date_filter_type=$first_response_date_filter_type,
-                        cst_first_response_date_time_period='" . Misc::escapeInteger(@$_REQUEST['first_response_date']['time_period']) . "',
+                        cst_first_response_date_time_period='" . @Misc::escapeInteger(@$_REQUEST['first_response_date']['time_period']) . "',
                         cst_first_response_date_end=$first_response_date_end,
                         cst_closed_date=$closed_date,
                         cst_closed_date_filter_type=$closed_date_filter_type,
-                        cst_closed_date_time_period='" . Misc::escapeInteger(@$_REQUEST['closed_date']['time_period']) . "',
+                        cst_closed_date_time_period='" . @Misc::escapeInteger(@$_REQUEST['closed_date']['time_period']) . "',
                         cst_closed_date_end=" . Misc::escapeString($closed_date_end) . ",
-                        cst_is_global=" . Misc::escapeInteger($is_global_filter) . "
+                        cst_is_global=" . Misc::escapeInteger($is_global_filter) . ",
+                        cst_search_type='" . Misc::escapeString($HTTP_POST_VARS['search_type']) . "',
+                        cst_custom_field='" . Misc::escapeString($custom_field_string) . "'
                      WHERE
                         cst_id=$cst_id";
         } else {
@@ -208,7 +222,6 @@ class Filter
                         cst_sort_by,
                         cst_sort_order,
                         cst_hide_closed,
-                        cst_customer_email,
                         cst_show_authorized,
                         cst_show_notification_list,
                         cst_created_date,
@@ -231,7 +244,9 @@ class Filter
                         cst_closed_date_filter_type,
                         cst_closed_date_time_period,
                         cst_closed_date_end,
-                        cst_is_global
+                        cst_is_global,
+                        cst_search_type,
+                        cst_custom_field
                      ) VALUES (
                         " . Auth::getUserID() . ",
                         " . Auth::getCurrentProject() . ",
@@ -246,30 +261,31 @@ class Filter
                         '" . Misc::escapeString($HTTP_POST_VARS["sort_by"]) . "',
                         '" . Misc::escapeString($HTTP_POST_VARS["sort_order"]) . "',
                         '" . Misc::escapeInteger(@$HTTP_POST_VARS["hide_closed"]) . "',
-                        '" . Misc::escapeString(@$HTTP_POST_VARS["customer_email"]) . "',
                         '" . Misc::escapeString(@$HTTP_POST_VARS["show_authorized_issues"]) . "',
                         '" . Misc::escapeString(@$HTTP_POST_VARS["show_notification_list_issues"]) . "',
                         $created_date,
                         $created_date_filter_type,
-                        '" . Misc::escapeInteger(@$_REQUEST['created_date']['time_period']) . "',
+                        '" . @Misc::escapeInteger(@$_REQUEST['created_date']['time_period']) . "',
                         $created_date_end,
                         $updated_date,
                         $updated_date_filter_type,
-                        '" . Misc::escapeInteger(@$_REQUEST['updated_date']['time_period']) . "',
+                        '" . @Misc::escapeInteger(@$_REQUEST['updated_date']['time_period']) . "',
                         $updated_date_end,
                         $last_response_date,
                         $last_response_date_filter_type,
-                        '" . Misc::escapeInteger(@$_REQUEST['response_date']['time_period']) . "',
+                        '" . @Misc::escapeInteger(@$_REQUEST['response_date']['time_period']) . "',
                         $last_response_date_end,
                         $first_response_date,
                         $first_response_date_filter_type,
-                        '" . Misc::escapeInteger(@$_REQUEST['first_response_date']['time_period']) . "',
+                        '" . @Misc::escapeInteger(@$_REQUEST['first_response_date']['time_period']) . "',
                         $first_response_date_end,
                         $closed_date,
                         $closed_date_filter_type,
-                        '" . Misc::escapeInteger(@$_REQUEST['closed_date']['time_period']) . "',
+                        '" . @Misc::escapeInteger(@$_REQUEST['closed_date']['time_period']) . "',
                         $closed_date_end,
-                        " . Misc::escapeInteger($is_global_filter) . "
+                        " . Misc::escapeInteger($is_global_filter) . ",
+                        '" . Misc::escapeString($HTTP_POST_VARS['search_type']) . "',
+                        '" . Misc::escapeString($custom_field_string) . "'
                      )";
         }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -397,14 +413,61 @@ class Filter
                                 }
                             }
                         } else {
-                            $res[$i]['url'] .= $filter['param'] . '=' . urlencode($res[$i]['cst_' . $field]) . '&';
+                            if (@$filter['is_custom'] != 1) {
+                                $res[$i]['url'] .= $filter['param'] . '=' . urlencode($res[$i]['cst_' . $field]) . '&';
+                            }
                         }
                     }
+                    $res[$i]['url'] .= 'custom_field=' . urlencode($res[$i]['cst_custom_field']);
                 }
             }
             
             return $res;
         }
+    }
+    
+    
+    /**
+     * Takes the saved search details and information about filters and returns an array of
+     * of the saved search information.
+     * 
+     * @access  private
+     * @param   array $details An array of information about the saved search, usually the direct row from the database.
+     * @param   array $info An array of information about filters
+     * @return  array An array of information about the saved search.
+     */
+    function buildOptions($details, $info)
+    {
+        $options = array();
+        foreach ($info as $field => $filter) {
+            if (@$filter['is_date'] == true) {
+                $options[$filter['param']]['filter_type'] =  $details['cst_' . $field . '_filter_type'];
+                if ($details['cst_' . $field . '_filter_type'] == 'in_past') {
+                    $options[$filter['param']]['time_period'] = $details['cst_' . $field . '_time_period'] . '&';
+                } else {
+                    $start_date = $details['cst_' . $field];
+                    if (!empty($start_date)) {
+                        $start_date_parts = explode("-", $start_date);
+                        $options[$filter['param']]['Year'] = $start_date_parts[0];
+                        $options[$filter['param']]['Month'] = $start_date_parts[1];
+                        $options[$filter['param']]['Day'] = $start_date_parts[2];
+                    }
+                    $end_date = $details['cst_' . $field . '_end'];
+                    if (!empty($end_date)) {
+                        $end_date_parts = explode("-", $end_date);
+                        $options[$filter['param'] . '_end']['Year'] = $end_date_parts[0];
+                        $options[$filter['param'] . '_end']['Month'] = $end_date_parts[1];
+                        $options[$filter['param'] . '_end']['Day'] = $end_date_parts[2];
+                    }
+                }
+            } else {
+                if (@$filter['is_custom'] != 1) {
+                    $options[$filter['param']] = $details['cst_' . $field];
+                }
+            }
+        }
+        $options['custom_field'] = $details['cst_custom_field'];
+        return $options;
     }
 
 
@@ -436,6 +499,9 @@ class Filter
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            if (is_string($res['cst_custom_field'])) {
+                $res['cst_custom_field'] = unserialize($res['cst_custom_field']);
+            }
             return $res;
         }
     }
@@ -587,19 +653,33 @@ class Filter
                 'title' =>  'Hide Closed Issues',
                 'param' =>  'hide_closed'
             ),
-            'customer_email'    =>  array(
-                'title' =>  'Customer Email',
-                'param' =>  'customer_email'
-            ),
             'show_authorized'   =>  array(
                 'title' =>  'Authorized to Send Emails',
                 'param' =>  'show_authorized_issues'
             ),
             'show_notification_list'    =>  array(
-                'title' =>  'Authorized to Send Emails',
+                'title' =>  'In Notification List',
                 'param' =>  'show_notification_list_issues'
+            ),
+            'search_type'   =>  array(
+                'title' =>  'Search Type',
+                'param' =>  'search_type'
             )
         );
+        
+        // add custom fields
+        $custom_fields = Custom_Field::getFieldsByProject(Auth::getCurrentProject());
+        if (count($custom_fields) > 0) {
+            foreach ($custom_fields as $fld_id) {
+                $field = Custom_Field::getDetails($fld_id);
+                $fields['custom_field_' . $fld_id] = array(
+                    'title' =>  $field['fld_title'],
+                    'is_custom' =>  1,
+                    'fld_id'    =>  $fld_id,
+                    'fld_type'  =>  $field['fld_type']
+                );
+            }
+        }
             
         return $fields;
     }

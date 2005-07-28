@@ -366,6 +366,7 @@ class Notification
                     prj_id,
                     prj_title,
                     usr_full_name,
+                    usr_email,
                     prc_title,
                     pre_title,
                     pri_title,
@@ -825,20 +826,27 @@ class Notification
             "app_title"    => Misc::getToolCaption(),
             "data"         => $data
         ));
-        $text_message = $tpl->getTemplateContents();
         
         $setup = Setup::load();
         $final_type = $type;
         $sender_usr_id = false;
         for ($i = 0; $i < count($emails); $i++) {
-            // don't send the notification email to the person who performed the action
-            if (Auth::getUserID() == User::getUserIDByEmail(Mail_API::getEmailAddress($emails[$i]))) {
-                continue;
+            
+            $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($emails[$i]));
+            if (!empty($recipient_usr_id)) {
+                $tpl->assign("recipient_role", User::getRoleByUser($recipient_usr_id, Issue::getProjectID($issue_id)));
+                if (isset($data['custom_fields'])) {
+                    $data['custom_fields'] = Custom_Field::getListByIssue($data['iss_prj_id'], $issue_id, $recipient_usr_id);
+                }
+            } else {
+                $tpl->assign("recipient_role", 0);
+                unset($data['custom_fields']);
             }
+            $tpl->assign("data", $data);
             
             // send email (use PEAR's classes)
             $mail = new Mail_API;
-            $mail->setTextBody($text_message);
+            $mail->setTextBody($tpl->getTemplateContents());
             if ($type == 'notes') {
                 // special handling of blocked messages
                 if (!empty($data['note']['not_blocked_message'])) {
@@ -951,7 +959,7 @@ class Notification
         }
         $irc_notice .= $data['iss_summary'];
         Notification::notifyIRC($prj_id, $irc_notice, $issue_id);
-        $data['custom_fields'] = Custom_Field::getListByIssue($data['iss_prj_id'], $issue_id);
+        $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
         $subject = 'New Issue';
         Notification::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false);
     }

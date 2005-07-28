@@ -1940,14 +1940,27 @@ class Issue
         $sort_by = Issue::getParam('sort_by');
         $sort_order = Issue::getParam('sort_order');
         $rows = Issue::getParam('rows');
+        $hide_closed = Issue::getParam('hide_closed');
+        if ($hide_closed === '') {
+            $hide_closed = 1;
+        }
+        $search_type = Issue::getParam('search_type');
+        if (empty($search_type)) {
+            $search_type = 'customer';
+        }
+        $custom_field = Issue::getParam('custom_field');
+        if (is_string($custom_field)) {
+            $custom_field = unserialize(urldecode($custom_field));
+        }
         $cookie = array(
             'rows'           => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
             'pagerRow'       => Issue::getParam('pagerRow'),
-            'hide_closed'    => Issue::getParam('hide_closed'),
+            'hide_closed'    => $hide_closed,
             "sort_by"        => $sort_by ? $sort_by : "pri_rank",
             "sort_order"     => $sort_order ? $sort_order : "ASC",
             // quick filter form
             'keywords'       => Issue::getParam('keywords'),
+            'search_type'    => $search_type,
             'users'          => Issue::getParam('users'),
             'status'         => Issue::getParam('status'),
             'priority'       => Issue::getParam('priority'),
@@ -1957,7 +1970,9 @@ class Issue
             'show_authorized_issues'        => Issue::getParam('show_authorized_issues'),
             'show_notification_list_issues' => Issue::getParam('show_notification_list_issues'),
             // other fields
-            'release'        => Issue::getParam('release')
+            'release'        => Issue::getParam('release'),
+            // custom fields
+            'custom_field'   => $custom_field
         );
         // now do some magic to properly format the date fields
         $date_fields = array(
@@ -2081,7 +2096,7 @@ class Issue
      */
     function getListing($prj_id, $options, $current_row = 0, $max = 5, $get_reporter = FALSE)
     {
-        if ($max == "ALL") {
+        if (strtoupper($max) == "ALL") {
             $max = 9999999;
         }
         $start = $current_row * $max;
@@ -2127,6 +2142,23 @@ class Issue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
+        // join custom fields if we are searching by custom fields
+        if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
+            foreach ($options['custom_field'] as $fld_id => $search_value) {
+                if (empty($search_value)) {
+                    continue;
+                }
+                $field = Custom_Field::getDetails($fld_id);
+                if ($field['fld_type'] == 'multiple') {
+                    $search_value = Misc::escapeInteger($search_value);
+                    foreach ($search_value as $cfo_id) {
+                        $stmt .= ",\n" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf" . $fld_id . '_' . $cfo_id . "\n";
+                    }
+                } else {
+                    $stmt .= ",\n" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf" . $fld_id . "\n";
+                }
+            }
+        }
         if (!empty($options["users"])) {
             $stmt .= "
                  LEFT JOIN
@@ -2178,6 +2210,8 @@ class Issue
                     iss_prj_id= " . Misc::escapeInteger($prj_id);
         $stmt .= Issue::buildWhereClause($options);
         $stmt .= "
+                 GROUP BY
+                    iss_id
                  ORDER BY
                     " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]) . ",
                     iss_id DESC";
@@ -2402,12 +2436,26 @@ class Issue
         }
         if (!empty($options["keywords"])) {
             $stmt .= " AND (\n";
+            if ($options['search_type'] == 'all_text') {
                 if (APP_ENABLE_FULLTEXT) {
                     $stmt .= "iss_id IN(" . join(', ', Issue::getFullTextIssues($options)) . ")";
                 } else {
                     $stmt .= "(" . Misc::prepareBooleanSearch('iss_summary', $options["keywords"]);
                     $stmt .= " OR " . Misc::prepareBooleanSearch('iss_description', $options["keywords"]) . ")";
                 }
+            } elseif ($options['search_type'] == 'customer') {
+                $list_unaccessible_issues = true;
+                // check if the user is trying to search by customer email
+                if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($options['keywords']))) {
+                    $customer_ids = Customer::getCustomerIDsLikeEmail($prj_id, $options['keywords']);
+                    if (count($customer_ids) > 0) {
+                        $stmt .= " iss_customer_id IN (" . implode(', ', $customer_ids) . ")";
+                    } else {
+                        // no results, kill query
+                        $stmt .= " iss_customer_id = -1";
+                    }
+                }
+            }
             $stmt .= "\n) ";
         }
         if (!empty($options["priority"])) {
@@ -2424,16 +2472,6 @@ class Issue
         }
         if (!empty($options['release'])) {
             $stmt .= " AND iss_pre_id = " . Misc::escapeInteger($options['release']);
-        }
-        // check if the user is trying to search by customer email
-        if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($options['customer_email']))) {
-            $customer_ids = Customer::getCustomerIDsLikeEmail($prj_id, $options['customer_email']);
-            if (count($customer_ids) > 0) {
-                $stmt .= " AND iss_customer_id IN (" . implode(', ', $customer_ids) . ")";
-            } else {
-                // kill the result-set
-                $stmt .= " AND iss_customer_id = -1";
-            }
         }
         // now for the date fields
         $date_fields = array(
@@ -2468,6 +2506,33 @@ class Issue
                 }
             }
         }
+        
+        // custom fields
+        if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
+            foreach ($options['custom_field'] as $fld_id => $search_value) {
+                if (empty($search_value)) {
+                    continue;
+                }
+                $field = Custom_Field::getDetails($fld_id);
+                if ($field['fld_type'] == 'multiple') {
+                    $search_value = Misc::escapeInteger($search_value);
+                    foreach ($search_value as $cfo_id) {
+                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_iss_id = iss_id";
+                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_fld_id = $fld_id";
+                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_value = $cfo_id";
+                    }
+                } else {
+                    $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
+                    $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
+                    if (in_array($field['fld_type'], array('text', 'textarea'))) {
+                        $stmt .= " AND cf" . $fld_id . ".icf_value LIKE '%" . Misc::escapeString($search_value) . "%'";                
+                    } elseif ($field['fld_type'] == 'combo') {
+                        $stmt .= " AND cf" . $fld_id . ".icf_value IN(" . join(', ', Misc::escapeInteger($search_value)) . ")";
+                    }
+                    $stmt .= ')';
+                }
+            }
+        }
 
         // clear cached full-text values if we are not searching fulltext anymore
         if ((APP_ENABLE_FULLTEXT) && (@$options['search_type'] != 'all_text')) {
@@ -2498,6 +2563,23 @@ class Issue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
+        // join custom fields if we are searching by custom fields
+        if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
+            foreach ($options['custom_field'] as $fld_id => $search_value) {
+                if (empty($search_value)) {
+                    continue;
+                }
+                $field = Custom_Field::getDetails($fld_id);
+                if ($field['fld_type'] == 'multiple') {
+                    $search_value = Misc::escapeInteger($search_value);
+                    foreach ($search_value as $cfo_id) {
+                        $stmt .= ",\n" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf" . $fld_id . '_' . $cfo_id . "\n";
+                    }
+                } else {
+                    $stmt .= ",\n" . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf" . $fld_id . "\n";
+                }
+            }
+        }
         if (!empty($options["users"])) {
             $stmt .= "
                  LEFT JOIN
@@ -2539,6 +2621,8 @@ class Issue
                     iss_prj_id=" . Auth::getCurrentProject();
         $stmt .= Issue::buildWhereClause($options);
         $stmt .= "
+                 GROUP BY
+                    iss_id
                  ORDER BY
                     " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]) . ",
                     iss_id DESC";
@@ -3402,14 +3486,26 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                 WHERE
                     sup_id = seb_sup_id AND
-                    MATCH(seb_body) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE)";
+                    MATCH(seb_body) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
         $email_res = $GLOBALS["db_api"]->dbh->getCol($sql);
         if (PEAR::isError($email_res)) {
             Error_Handler::logError(array($email_res->getMessage(), $email_res->getDebugInfo()), __FILE__, __LINE__);
             return array(-1);
         }
         
-        $issues = array_merge($other_res, $email_res);
+        $sql = "SELECT
+                    distinct(icf_iss_id)
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                WHERE
+                    MATCH(icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
+        $custom_res = $GLOBALS["db_api"]->dbh->getCol($sql);
+        if (PEAR::isError($email_res)) {
+            Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
+            return array(-1);
+        }
+        
+        $issues = array_merge($other_res, $email_res, $custom_res);
         if (count($issues) < 1) {
             $issues = array(-1);
         }

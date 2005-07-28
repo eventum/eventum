@@ -246,5 +246,19 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     {
         echo "Workflow: handleIssueClosed<br />\n";
     }
+    
+    
+    /**
+     * Called when custom fields are updated
+     * 
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue
+     * @param   array $old The custom fields before the update.
+     * @param   array $new The custom fields after the update.
+     */
+    function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
+    {
+        echo "Workflow: handleCustomFieldsUpdated<br />\n";
+    }
 }
 ?>

@@ -3,6 +3,7 @@
 
 {if $current_role != $roles.customer}
 {include file="quick_filter_form.tpl.html"}
+{include file="current_filters.tpl.html"}
 {/if}
 <script language="JavaScript">
 <!--
@@ -95,6 +96,9 @@ function disableFields()
 {/literal}
 {* Figure out how many columns there are *}
 {assign var="col_count" value=$columns|@count}
+{if $list_info.custom_fields|@count > 1}
+{math assign="col_count" equation="x+y-1" x=$col_count y=$list_info.custom_fields|@count}
+{/if}
 {if $current_role > $roles.developer}
     {math assign="col_count" equation="x+1" x=$col_count}
 {/if}
@@ -105,19 +109,26 @@ function disableFields()
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td colspan="{math equation="x-2" x=$col_count}" class="default">
-            <b>Search Results ({$list_info.total_rows} issues found{if $list_info.end_offset > 0}, {math equation="x + 1" x=$list_info.start_offset} - {$list_info.end_offset} shown{/if})</b>
-            {include file="help_link.tpl.html" topic="list"}
+          <td colspan="{$col_count}" class="default">
+            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+              <tr>
+                <td class="default">
+                  <b>Search Results ({$list_info.total_rows} issues found{if $list_info.end_offset > 0}, {math equation="x + 1" x=$list_info.start_offset} - {$list_info.end_offset} shown{/if})</b>
+                  {include file="help_link.tpl.html" topic="list"}
+                </td>
+                {if $current_role != $roles.customer}
+                <td align="right" class="default" nowrap>
+                  {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
+                  hide/show:
+                  [ <a class="link" title="hide / show the quick search form" href="javascript:void(null);" onClick="javascript:toggleVisibility('filter_form');">quick search</a> ]
+                  {if $current_role > $roles.reporter}[ <a class="link" title="hide / show the advanced search form" href="javascript:void(null);" onClick="javascript:toggleVisibility('custom_filter_form');">advanced search</a> ]{/if}
+                  {if $current_role > $roles.reporter}[ <a class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('current_filters');"> current filters</a> ]{/if}
+                  {/if}
+                </td>
+                {/if}
+              </tr>
+            </table>
           </td>
-          {if $current_role != $roles.customer}
-          <td colspan="2" align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
-            hide/show:
-            [ <a class="link" title="hide / show the quick search form" href="javascript:void(null);" onClick="javascript:toggleVisibility('filter_form');">quick search</a> ]
-            {if $current_role > $roles.reporter}[ <a class="link" title="hide / show the advanced search form" href="javascript:void(null);" onClick="javascript:toggleVisibility('custom_filter_form');">advanced search</a> ]{/if}
-            {/if}
-          </td>
-          {/if}
         </tr>
         <tr bgcolor="{$cell_color}">
           {if $current_role > $roles.developer}
@@ -126,6 +137,13 @@ function disableFields()
           </td>
           {/if}
           {foreach from=$columns item=column key=field_name}
+          {if $field_name == 'custom_fields'}
+            {foreach from=$list_info.custom_fields key=fld_id item=fld_title}
+                <td align="{$column.align|default:'center'}" class="default_white" nowrap>
+                  {$fld_title|escape:"html"}
+                </td>
+              {/foreach}
+          {else}
           <td align="{$column.align|default:'center'}" class="default_white" nowrap {if $column.width != ''}width="{$column.width}"{/if}>
             {if $field_name == 'iss_summary'}
             <table cellspacing="0" cellpadding="1" width="100%">
@@ -146,6 +164,7 @@ function disableFields()
               {$column.title}
             {/if}
           </td>
+          {/if}
           {/foreach}
         </tr>
         {section name="i" loop=$list}
@@ -154,6 +173,13 @@ function disableFields()
           <td bgcolor="{$list[i].status_color}" width="1%" class="default" align="center"><input type="checkbox" name="item[]" value="{$list[i].iss_id}"></td>
           {/if}
           {foreach from=$columns item=column key=field_name}
+          {if $field_name == 'custom_fields'}
+            {foreach from=$list[i].custom_field key=fld_id item=fld_value}
+                <td bgcolor="{$list[i].status_color}" align="{$column.align|default:'center'}" class="default">
+                  {$fld_value|escape:"html"}
+                </td>
+              {/foreach}
+          {else}
           <td bgcolor="{$list[i].status_color}" align="{$column.align|default:'center'}" class="default">
             {if $field_name == 'iss_id'}
               <a href="view.php?id={$list[i].iss_id}" class="link" title="view issue details">{$list[i].iss_id}</a>
@@ -203,6 +229,7 @@ function disableFields()
               {/if}
             {/if}
           </td>
+          {/if}
           {/foreach}
         </tr>
         {sectionelse}

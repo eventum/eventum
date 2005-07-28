@@ -11,7 +11,6 @@ CREATE TABLE %TABLE_PREFIX%custom_filter (
   cst_iss_prc_id int(10) unsigned default NULL,
   cst_iss_sta_id int(10) unsigned default NULL,
   cst_iss_pre_id int(10) unsigned default NULL,
-  cst_customer_email varchar(64) default NULL,
   cst_show_authorized char(3) default '',
   cst_show_notification_list char(3) default '',
   cst_created_date date default NULL,
@@ -39,6 +38,8 @@ CREATE TABLE %TABLE_PREFIX%custom_filter (
   cst_sort_order varchar(4) default NULL,
   cst_hide_closed int(1) default NULL,
   cst_is_global int(1) default 0,
+  cst_search_type varchar(15) not null default 'customer',
+  cst_custom_field TEXT,
   PRIMARY KEY  (cst_id),
   KEY cst_usr_id (cst_usr_id,cst_prj_id)
 ) TYPE = MYISAM;

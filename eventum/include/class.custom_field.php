@@ -155,7 +155,12 @@ class Custom_Field
     function updateValues()
     {
         global $HTTP_POST_VARS;
+        
+        $prj_id = Auth::getCurrentProject();
+        $issue_id = Misc::escapeInteger($HTTP_POST_VARS["issue_id"]);
 
+        $old_values = Custom_Field::getValuesByIssue($prj_id, $issue_id);
+        
         // get the types for all of the custom fields being submitted
         $stmt = "SELECT
                     fld_id,
@@ -163,11 +168,25 @@ class Custom_Field
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  WHERE
-                    fld_id IN (" . implode(", ", Misc::escapeInteger($HTTP_POST_VARS['fld_id'])) . ")";
+                    fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($HTTP_POST_VARS['custom_fields']))) . ")";
         $field_types = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 
-        foreach ($HTTP_POST_VARS['fld_id'] as $fld_id) {
-            $value = @$HTTP_POST_VARS["custom_fields"][$fld_id];
+        foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
+            
+            $fld_id = Misc::escapeInteger($fld_id);
+            
+            // security check
+            $sql = "SELECT
+                        fld_min_role
+                    FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
+                    WHERE
+                        fld_id = $fld_id";
+            $min_role = $GLOBALS["db_api"]->dbh->getOne($sql);
+            if ($min_role > Auth::getCurrentRole()) {
+                continue;
+            }
+            
             $option_types = array(
                 'multiple',
                 'combo'
@@ -179,7 +198,7 @@ class Custom_Field
                          FROM
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                          WHERE
-                            icf_iss_id=" . $HTTP_POST_VARS["issue_id"] . " AND
+                            icf_iss_id=" . $issue_id . " AND
                             icf_fld_id=$fld_id";
                 $icf_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
                 if (PEAR::isError($icf_id)) {
@@ -195,7 +214,7 @@ class Custom_Field
                                 icf_fld_id,
                                 icf_value
                              ) VALUES (
-                                " . $HTTP_POST_VARS["issue_id"] . ",
+                                " . $issue_id . ",
                                 $fld_id,
                                 '" . Misc::escapeString($value) . "'
                              )";
@@ -221,13 +240,14 @@ class Custom_Field
             } else {
                 // need to remove all associated options from issue_custom_field and then 
                 // add the selected options coming from the form
-                $HTTP_POST_VARS['issue_id'] = Misc::escapeInteger($HTTP_POST_VARS['issue_id']);
                 Custom_Field::removeIssueAssociation($fld_id, $HTTP_POST_VARS["issue_id"]);
                 if (@count($value) > 0) {
                     Custom_Field::associateIssue($HTTP_POST_VARS["issue_id"], $fld_id, $value);
                 }
             }
         }
+        
+        Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, Custom_Field::getValuesByIssue($prj_id, $issue_id));
         Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
         // need to save a history entry for this
         History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), 'Custom field updated by ' . User::getFullName(Auth::getUserID()));
@@ -286,19 +306,27 @@ class Custom_Field
                     fld_description,
                     fld_type,
                     fld_report_form_required,
-                    fld_anonymous_form_required
+                    fld_anonymous_form_required,
+                    fld_min_role
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                  WHERE
                     pcf_fld_id=fld_id AND
-                    pcf_prj_id=$prj_id";
+                    pcf_prj_id=" . Misc::escapeInteger($prj_id);
+        if ($form_type != 'anonymous_form') {
+            $stmt .= " AND
+                    fld_min_role <= " . Auth::getCurrentRole();
+        }
         if ($form_type != '') {
-            $stmt .= " AND\nfld_$form_type=1";
+            $stmt .= " AND\nfld_" .  Misc::escapeString($form_type) . "=1";
         }
         if ($fld_type != '') {
-            $stmt .= " AND\nfld_type='$fld_type'";
+            $stmt .= " AND\nfld_type='" .  Misc::escapeString($fld_type) . "'";
         }
+        $stmt .= "
+                 ORDER BY
+                    fld_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -326,26 +354,41 @@ class Custom_Field
      */
     function getOptionValue($fld_id, $value)
     {
-        $fld_id = Misc::escapeInteger($fld_id);
+        static $returns;
+        
         if (empty($value)) {
             return "";
         }
-        $stmt = "SELECT
-                    cfo_value
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
-                 WHERE
-                    cfo_fld_id=$fld_id AND
-                    cfo_id=$value";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
+        
+        if (isset($returns[$fld_id . $value])) {
+            return $returns[$fld_id . $value];
+        }
+        
+        $backend = Custom_Field::getBackend($fld_id);
+        if (is_object($backend)) {
+            $values = $backend->getList($fld_id);
+            $returns[$fld_id . $value] = @$values[$value];
+            return @$values[$value];
         } else {
-            if ($res == NULL) {
+            $stmt = "SELECT
+                        cfo_value
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
+                     WHERE
+                        cfo_fld_id=" .  Misc::escapeInteger($fld_id) . " AND
+                        cfo_id=" .  Misc::escapeInteger($value);
+            $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return "";
             } else {
-                return $res;
+                if ($res == NULL) {
+                    $returns[$fld_id . $value] = '';
+                    return "";
+                } else {
+                    $returns[$fld_id . $value] = $res;
+                    return $res;
+                }
             }
         }
     }
@@ -353,24 +396,29 @@ class Custom_Field
 
     /**
      * Method used to get the list of custom fields and custom field
-     * values associated with a given issue ID.
+     * values associated with a given issue ID. If usr_id is false method
+     * defaults to current user.
      *
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $iss_id The issue ID
+     * @param   integer $usr_id The ID of the user who is going to be viewing this list.
      * @return  array The list of custom fields
      */
-    function getListByIssue($prj_id, $iss_id)
+    function getListByIssue($prj_id, $iss_id, $usr_id = false)
     {
-        $prj_id = Misc::escapeInteger($prj_id);
-        $iss_id = Misc::escapeInteger($iss_id);
+        if ($usr_id == false) {
+            $usr_id = Auth::getUserID();
+        }
+        
         $stmt = "SELECT
                     fld_id,
                     fld_title,
                     fld_type,
                     fld_report_form_required,
                     fld_anonymous_form_required,
-                    icf_value
+                    icf_value,
+                    fld_min_role
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
@@ -378,10 +426,13 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                  ON
                     pcf_fld_id=icf_fld_id AND
-                    icf_iss_id=$iss_id
+                    icf_iss_id=" .  Misc::escapeInteger($iss_id) . "
                  WHERE
                     pcf_fld_id=fld_id AND
-                    pcf_prj_id=$prj_id";
+                    pcf_prj_id=" .  Misc::escapeInteger($prj_id) . " AND
+                    fld_min_role <= " . User::getRoleByUser($usr_id, $prj_id) . "
+                 ORDER BY
+                    fld_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -422,6 +473,36 @@ class Custom_Field
                 return $fields;
             }
         }
+    }
+    
+    
+    /**
+     * Returns an array of fields and values for a specific issue
+     * 
+     * @access  public
+     * @param   integer $prj_id The ID of the project
+     * @param   integer $iss_id The ID of the issue to return values for
+     * @return  array An array containging fld_id => value
+     */
+    function getValuesByIssue($prj_id, $iss_id)
+    {
+        $values = array();
+        $list = Custom_Field::getListByIssue($prj_id, $iss_id);
+        foreach ($list as $field) {
+            if (in_array($field['fld_type'], array('text', 'textarea'))) {
+                $values[$field['fld_id']] = $field['icf_value'];
+            } elseif ($field['fld_type'] == 'combo') {
+                $values[$field['fld_id']] = array(
+                    $field['selected_cfo_id'] => $field['icf_value']
+                );
+            } elseif ($field['fld_type'] == 'multiple') {
+                $selected = $field['selected_cfo_id'];
+                foreach ($selected as $cfo_id) {
+                    $values[$field['fld_id']][$cfo_id] = @$field['field_options'][$cfo_id];
+                }
+            }
+        }
+        return $values;
     }
 
 
@@ -505,6 +586,12 @@ class Custom_Field
         if (empty($HTTP_POST_VARS["list_display"])) {
             $HTTP_POST_VARS["list_display"] = 0;
         }
+        if (empty($HTTP_POST_VARS["min_role"])) {
+            $HTTP_POST_VARS["min_role"] = 1;
+        }
+        if (!isset($HTTP_POST_VARS["rank"])) {
+            $HTTP_POST_VARS["rank"] = (Custom_Field::getMaxRank() + 1);
+        }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  (
@@ -515,16 +602,22 @@ class Custom_Field
                     fld_report_form_required,
                     fld_anonymous_form,
                     fld_anonymous_form_required,
-                    fld_list_display
+                    fld_list_display,
+                    fld_min_role,
+                    fld_rank,
+                    fld_backend
                  ) VALUES (
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["field_type"]) . "',
-                    " . $HTTP_POST_VARS["report_form"] . ",
-                    " . $HTTP_POST_VARS["report_form_required"] . ",
-                    " . $HTTP_POST_VARS["anon_form"] . ",
-                    " . $HTTP_POST_VARS["anon_form_required"] . ",
-                    " . $HTTP_POST_VARS["list_display"] . "
+                    " . Misc::escapeInteger($HTTP_POST_VARS["report_form"]) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["report_form_required"]) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["anon_form"]) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["anon_form_required"]) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["list_display"]) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["min_role"]) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
+                    '" . Misc::escapeString(@$HTTP_POST_VARS['custom_field_backend']) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -590,7 +683,7 @@ class Custom_Field
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  ORDER BY
-                    fld_title ASC";
+                    fld_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -599,8 +692,13 @@ class Custom_Field
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["projects"] = @implode(", ", array_values(Custom_Field::getAssociatedProjects($res[$i]["fld_id"])));
                 if (($res[$i]["fld_type"] == "combo") || ($res[$i]["fld_type"] == "multiple")) {
-                    $res[$i]["field_options"] = @implode(", ", array_values(Custom_Field::getOptions($res[$i]["fld_id"])));
+                    if (!empty($res[$i]['fld_backend'])) {
+                        $res[$i]['field_options'] = 'Backend: ' . Custom_Field::getBackendName($res[$i]['fld_backend']);
+                    } else {
+                        $res[$i]["field_options"] = @implode(", ", array_values(Custom_Field::getOptions($res[$i]["fld_id"])));
+                    }
                 }
+                $res[$i]['min_role_name'] = @User::getRole($res[$i]['fld_min_role']);
             }
             return $res;
         }
@@ -647,13 +745,18 @@ class Custom_Field
      */
     function getDetails($fld_id)
     {
-        $fld_id = Misc::escapeInteger($fld_id);
+        static $returns;
+        
+        if (isset($returns[$fld_id])) {
+            return $returns[$fld_id];
+        }
+        
         $stmt = "SELECT
                     *
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  WHERE
-                    fld_id=$fld_id";
+                    fld_id=" . Misc::escapeInteger($fld_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -665,6 +768,7 @@ class Custom_Field
             foreach ($options as $cfo_id => $cfo_value) {
                 $res["field_options"]["existing:" . $cfo_id . ":" . $cfo_value] = $cfo_value;
             }
+            $returns[$fld_id] = $res;
             return $res;
         }
     }
@@ -676,25 +780,53 @@ class Custom_Field
      *
      * @access  public
      * @param   integer $fld_id The custom field ID
+     * @param   array $ids An array of ids to return values for.
      * @return  array The list of custom field options
      */
-    function getOptions($fld_id)
+    function getOptions($fld_id, $ids = false)
     {
-        $stmt = "SELECT
-                    cfo_id,
-                    cfo_value
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
-                 WHERE
-                    cfo_fld_id=" . Misc::escapeInteger($fld_id) . "
-                 ORDER BY
-                    cfo_id ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
+        static $returns;
+        
+        $return_key = $fld_id . serialize($ids);
+        
+        if (isset($returns[$return_key])) {
+            return $returns[$return_key];
+        }
+        $backend = Custom_Field::getBackend($fld_id);
+        if (is_object($backend)) {
+            $list = $backend->getList($fld_id);
+            if ($ids != false) {
+                foreach ($list as $id => $value) {
+                    if (!in_array($id, $ids)) {
+                        unset($list[$id]);
+                    }
+                }
+            }
+            $returns[$return_key] = $list;
+            return $list;
         } else {
-            return $res;
+            $stmt = "SELECT
+                        cfo_id,
+                        cfo_value
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
+                     WHERE
+                        cfo_fld_id=" . Misc::escapeInteger($fld_id);
+            if ($ids != false) {
+                $stmt .= " AND
+                        cfo_id IN(" . join(', ', Misc::escapeInteger($ids)) . ")";
+            }
+            $stmt .= "
+                     ORDER BY
+                        cfo_id ASC";
+            $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return "";
+            } else {
+                $returns[$return_key] = $res;
+                return $res;
+            }
         }
     }
 
@@ -752,6 +884,12 @@ class Custom_Field
         if (empty($HTTP_POST_VARS["list_display"])) {
             $HTTP_POST_VARS["list_display"] = 0;
         }
+        if (empty($HTTP_POST_VARS["min_role"])) {
+            $HTTP_POST_VARS["min_role"] = 1;
+        }
+        if (!isset($HTTP_POST_VARS["rank"])) {
+            $HTTP_POST_VARS["rank"] = (Custom_Field::getMaxRank() + 1);
+        }
         $old_details = Custom_Field::getDetails($HTTP_POST_VARS["id"]);
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
@@ -759,13 +897,16 @@ class Custom_Field
                     fld_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     fld_description='" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
                     fld_type='" . Misc::escapeString($HTTP_POST_VARS["field_type"]) . "',
-                    fld_report_form=" . $HTTP_POST_VARS["report_form"] . ",
-                    fld_report_form_required=" . $HTTP_POST_VARS["report_form_required"] . ",
-                    fld_anonymous_form=" . $HTTP_POST_VARS["anon_form"] . ",
-                    fld_anonymous_form_required=" . $HTTP_POST_VARS["anon_form_required"] . ",
-                    fld_list_display=" . $HTTP_POST_VARS["list_display"] . "
+                    fld_report_form=" . Misc::escapeInteger($HTTP_POST_VARS["report_form"]) . ",
+                    fld_report_form_required=" . Misc::escapeInteger($HTTP_POST_VARS["report_form_required"]) . ",
+                    fld_anonymous_form=" . Misc::escapeInteger($HTTP_POST_VARS["anon_form"]) . ",
+                    fld_anonymous_form_required=" . Misc::escapeInteger($HTTP_POST_VARS["anon_form_required"]) . ",
+                    fld_list_display=" . Misc::escapeInteger($HTTP_POST_VARS["list_display"]) . ",
+                    fld_min_role=" . Misc::escapeInteger($HTTP_POST_VARS['min_role']) . ",
+                    fld_rank = " . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
+                    fld_backend = '" . Misc::escapeString(@$HTTP_POST_VARS['custom_field_backend']) . "'
                  WHERE
-                    fld_id=" . $HTTP_POST_VARS["id"];
+                    fld_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -778,7 +919,7 @@ class Custom_Field
                          FROM
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
                          WHERE
-                            cfo_fld_id=" . $HTTP_POST_VARS["id"];
+                            cfo_fld_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
                 $current_options = $GLOBALS["db_api"]->dbh->getCol($stmt);
             }
             // gotta remove all custom field options if the field is being changed from a combo box to a text field
@@ -790,15 +931,17 @@ class Custom_Field
             // update the custom field options, if any
             if (($HTTP_POST_VARS["field_type"] == "combo") || ($HTTP_POST_VARS["field_type"] == "multiple")) {
                 $updated_options = array();
-                foreach ($HTTP_POST_VARS["field_options"] as $option_value) {
-                    $params = Custom_Field::parseParameters($option_value);
-                    if ($params["type"] == 'new') {
-                        Custom_Field::addOptions($HTTP_POST_VARS["id"], $params["value"]);
-                    } else {
-                        $updated_options[] = $params["id"];
-                        // check if the user is trying to update the value of this option
-                        if ($params["value"] != Custom_Field::getOptionValue($HTTP_POST_VARS["id"], $params["id"])) {
-                            Custom_Field::updateOption($params["id"], $params["value"]);
+                if (empty($HTTP_POST_VARS['custom_field_backend'])) {
+                    foreach ($HTTP_POST_VARS["field_options"] as $option_value) {
+                        $params = Custom_Field::parseParameters($option_value);
+                        if ($params["type"] == 'new') {
+                            Custom_Field::addOptions($HTTP_POST_VARS["id"], $params["value"]);
+                        } else {
+                            $updated_options[] = $params["id"];
+                            // check if the user is trying to update the value of this option
+                            if ($params["value"] != Custom_Field::getOptionValue($HTTP_POST_VARS["id"], $params["id"])) {
+                                Custom_Field::updateOption($params["id"], $params["value"]);
+                            }
                         }
                     }
                 }
@@ -826,7 +969,7 @@ class Custom_Field
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                      WHERE
-                        pcf_fld_id=" . $HTTP_POST_VARS["id"];
+                        pcf_fld_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
             $res = $GLOBALS["db_api"]->dbh->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -878,17 +1021,15 @@ class Custom_Field
      */
     function removeIssueAssociation($fld_id, $issue_id = FALSE)
     {
-        $fld_id = Misc::escapeInteger($fld_id);
-        $issue_id = Misc::escapeInteger($issue_id);
         if (is_array($fld_id)) {
             $fld_id = implode(", ", $fld_id);
         }
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                  WHERE
-                    icf_fld_id IN ($fld_id)";
+                    icf_fld_id IN (" . Misc::escapeInteger($fld_id) . ")";
         if ($issue_id) {
-            $stmt .= " AND icf_iss_id=$issue_id";
+            $stmt .= " AND icf_iss_id=" . Misc::escapeInteger($issue_id);
         }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -910,11 +1051,10 @@ class Custom_Field
      */
     function removeOptionsByFields($ids)
     {
-        $ids = Misc::escapeInteger($ids);
         if (!is_array($ids)) {
             $ids = array($ids);
         }
-        $items = implode(", ", $ids);
+        $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "SELECT
                     cfo_id
                  FROM
@@ -942,8 +1082,7 @@ class Custom_Field
      */
     function removeByIssues($ids)
     {
-        $ids = Misc::escapeInteger($ids);
-        $items = implode(", ", $ids);
+        $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                  WHERE
@@ -968,8 +1107,7 @@ class Custom_Field
      */
     function removeByProjects($ids)
     {
-        $ids = Misc::escapeInteger($ids);
-        $items = implode(", ", $ids);
+        $items = implode(", ", Misc::escapeInteger($ids));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                  WHERE
@@ -1002,7 +1140,10 @@ class Custom_Field
                 WHERE
                     fld_id = pcf_fld_id AND
                     pcf_prj_id = " . Misc::escapeInteger($prj_id) . " AND
-                    fld_list_display = 1";
+                    fld_list_display = 1  AND
+                    fld_min_role <= " . Auth::getCurrentRole() . "
+                ORDER BY
+                    fld_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1011,6 +1152,235 @@ class Custom_Field
             return $res;
         }
     }
+    
+    
+    /**
+     * Returns the fld_id of the field with the specified title
+     * 
+     * @access  public
+     * @param   string $title The title of the field
+     * @return  integer The fld_id
+     */
+    function getIDByTitle($title)
+    {
+        $sql = "SELECT
+                    fld_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
+                WHERE
+                    fld_title = '" . Misc::escapeString($title) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            if (empty($res)) {
+                return 0;
+            } else {
+                return $res;
+            }
+        }
+    }
+    
+    
+    /**
+     * Returns the value for the specified field
+     * 
+     * @access  public
+     * @param   integer $iss_id The ID of the issue
+     * @param   integer $fld_id The ID of the field
+     * @param   mixed an array or string containing the value
+     */
+    function getDisplayValue($iss_id, $fld_id)
+    {
+        $sql = "SELECT
+                    fld_id,
+                    fld_type,
+                    icf_value
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                WHERE
+                    fld_id=icf_fld_id AND
+                    icf_iss_id=" .  Misc::escapeInteger($iss_id) . " AND
+                    fld_id = " . Misc::escapeInteger($fld_id);
+        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        } else {
+            $values = array();
+            for ($i = 0; $i < count($res); $i++) {
+                if (($res[$i]['fld_type'] == 'text') || ($res[$i]['fld_type'] == 'textarea')) {
+                    $values[] = $res[$i]['icf_value'];
+                } elseif (($res[$i]["fld_type"] == "combo") || ($res[$i]['fld_type'] == 'multiple')) {
+                    $values[] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["icf_value"]);
+                }
+            }
+            return join(', ', $values);
+        }
+    }
+    
+    
+    /**
+     * Returns the current maximum rank of any custom fields.
+     * 
+     * @access  public
+     * @return  integer The highest rank
+     */
+    function getMaxRank()
+    {
+        $sql = "SELECT
+                    max(fld_rank)
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field";
+        return $GLOBALS["db_api"]->dbh->getOne($sql);
+    }
+    
+    
+    /**
+     * Changes the rank of a custom field
+     * 
+     * @access  public
+     */
+    function changeRank()
+    {
+        $fld_id = $_REQUEST['id'];
+        $direction = $_REQUEST['direction'];
+        // get array of all fields and current ranks
+        $fields = Custom_Field::getList();
+        for ($i = 0;$i < count($fields); $i++) {
+            if ($fields[$i]['fld_id'] == $fld_id) {
+                // this is the field we want to mess with
+                if ((($i == 0) && ($direction == -1)) ||
+                    ((($i+1) == count($fields)) && ($direction == +1))) {
+                    // trying to move first entry lower or last entry higher will not work
+                    break;
+                }
+                
+                $target_index = ($i + $direction);
+                $target_row = $fields[$target_index];
+                if (empty($target_row)) {
+                    break;
+                }
+                // update this entry
+                Custom_Field::setRank($fld_id, $target_row['fld_rank']);
+                
+                // update field we stole this rank from
+                Custom_Field::setRank($target_row['fld_id'], $fields[$i]['fld_rank']);
+            }
+        }
+        
+        // re-order everything starting from 1
+        $fields = Custom_Field::getList();
+        $rank = 1;
+        foreach ($fields as $field) {
+            Custom_Field::setRank($field['fld_id'], $rank++);
+        }
+        return 1;
+    }
+    
+    
+    /**
+     * Sets the rank of a custom field
+     * 
+     * @access  public
+     * @param   integer $fld_id The ID of the field
+     * @param   integer $rank The new rank for this field
+     * @return  integer 1 if successful, -1 otherwise
+     */
+    function setRank($fld_id, $rank)
+    {
+        $sql = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
+                SET
+                    fld_rank = $rank
+                WHERE
+                    fld_id = $fld_id";
+        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+        return 1;
+    }
+    
+    
+    /**
+     * Returns the list of available custom field backends by listing the class
+     * files in the backend directory.
+     *
+     * @access  public
+     * @return  array Associative array of filename => name
+     */
+    function getBackendList()
+    {
+        $files = Misc::getFileList(APP_INC_PATH . "custom_field");
+        $list = array();
+        for ($i = 0; $i < count($files); $i++) {
+            // make sure we only list the backends
+            if (preg_match('/^class\.(.*)\.php$/', $files[$i])) {
+                // display a prettyfied backend name in the admin section
+                $list[$files[$i]] = Custom_Field::getBackendName($files[$i]);
+            }
+        }
+        return $list;
+    }
+    
+    
+    /**
+     * Returns the 'pretty' name of the backend
+     * 
+     * @access  public
+     * @param   string $backend The full backend file name
+     * @return  string The pretty name of the backend.
+     */
+    function getBackendName($backend)
+    {
+        preg_match('/^class\.(.*)\.php$/', $backend, $matches);
+        return ucwords(str_replace('_', ' ', $matches[1]));
+    }
+    
+    
+    /**
+     * Returns an instance of custom field backend class if it exists for the
+     * specified field.
+     * 
+     * @access  public
+     * @param   integer $fld_id The ID of the field
+     * @return  mixed false if there is no backend or an instance of the backend class
+     */
+    function &getBackend($fld_id)
+    {
+        static $returns;
+        
+        // poor mans caching
+        if (isset($returns[$fld_id])) {
+            return $returns[$fld_id];
+        }
+        
+        $sql = "SELECT
+                    fld_backend
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
+                WHERE
+                    fld_id = " . Misc::escapeInteger($fld_id);
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } elseif (!empty($res)) {
+            include_once(APP_INC_PATH . "custom_field/$res");
+            
+            $file_name_chunks = explode(".", $res);
+            $class_name = $file_name_chunks[1] . "_Custom_Field_Backend";
+            
+            return new $class_name;
+        } else {
+            return false;
+        }
+    }
+
 }
 
 // benchmarking the included file (aka setup time)

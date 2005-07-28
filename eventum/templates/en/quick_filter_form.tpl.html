@@ -5,15 +5,17 @@
 function clearFilters(f)
 {
     f.keywords.value = '';
-{/literal}
-    {if $has_customer_integration}
-    f.customer_email.value = '';
-    {/if}
-{literal}
     f.users.selectedIndex = 0;
     f.category.selectedIndex = 0;
     f.status.selectedIndex = 0;
     f.priority.selectedIndex = 0;
+    {/literal}
+    {if $has_customer_integration}
+    document.getElementById('search_type_customer').checked = true;
+    {else}
+    document.getElementById('search_type').value = 'all_text';
+    {/if}
+    {literal}
     // now for the fields that are only available through the advanced search page
     setHiddenFieldValue(f, 'created_date[Year]', '');
     setHiddenFieldValue(f, 'created_date[Month]', '');
@@ -39,12 +41,14 @@ function clearFilters(f)
     setHiddenFieldValue(f, 'show_notification_list_issues', '');
     //other fields
     setHiddenFieldValue(f, 'release', '');
+    setHiddenFieldValue(f, 'custom_field', '');
+
     f.submit();
 }
 {/literal}
 var get_urls = new Array();
 {section name="i" loop=$csts}
-get_urls[{$csts[i].cst_id}] = 'keywords={$csts[i].cst_keywords|escape:"html"}&customer_email={$csts[i].cst_customer_email|escape:"html"}&users={$csts[i].cst_users}&category={$csts[i].cst_iss_prc_id}&status={$csts[i].cst_iss_sta_id}&priority={$csts[i].cst_iss_pri_id}&release={$csts[i].cst_iss_pre_id}&rows={$csts[i].cst_rows}&sort_by={$csts[i].cst_sort_by}&sort_order={$csts[i].cst_sort_order}&hide_closed={$csts[i].cst_hide_closed}&show_authorized_issues={$csts[i].cst_show_authorized}&show_notification_list_issues={$csts[i].cst_show_notification_list}';
+get_urls[{$csts[i].cst_id}] = '{$csts[i].url}';
 {/section}
 {literal}
 function runCustomFilter(f)
@@ -94,38 +98,41 @@ function runCustomFilter(f)
         <input type="hidden" name="closed_date[filter_type]" value="{$options.closed_date.filter_type}">
         <input type="hidden" name="show_authorized_issues" value="{$options.show_authorized_issues}">
         <input type="hidden" name="show_notification_list_issues" value="{$options.show_notification_list_issues}">
+        <input type="hidden" name="custom_field" value="{$options.custom_field|@serialize|urlencode}">
         {if $categories|@count < 1}
         <input type="hidden" name="category" value="">
         {/if}
         <input type="hidden" name="release" value="{$options.release}">
         <tr>
-          <td>
+          <td nowrap>
             <span class="default">Keyword(s):</span><br />
-            <input class="default" type="text" name="keywords" size="15" value="{$options.keywords|escape:"html"}">
+            <input class="default" type="text" name="keywords" size="40" value="{$options.keywords|escape:"html"}">
           </td>
-          {if $has_customer_integration}
-          <td>
-            <span class="default">Customer Name/Email:</span><br />
-            <input class="default" type="text" name="customer_email" size="20" value="{$options.customer_email|escape:"html"}">
+          <td nowrap colspan="2">
+            {if $has_customer_integration}
+            <input class="default" type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.cst_search_type != 'all_text'}checked{/if}> <label for="search_type_customer" class="default">Customer Identity (i.e. "Example Inc.", "johndoe@example.com", 12345)</label><br />
+            <input class="default" type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.cst_search_type == 'all_text'}checked{/if}> <label for="search_type_all_text" class="default">All Text (emails, notes, etc)</label>
+            {else}
+            <input type="hidden" name="search_type" value="all_text" id="search_type">
+            {/if}
           </td>
-          {/if}
-          <td>
+          <td valign="top">
+            &nbsp;
+          </td>
+          <td rowspan="2" align="center">
+            <input class="button" type="submit" value="Search" style="width: 100%"><br /><br />
+            <input class="button" type="button" value="Clear Filters" style="width: 100%" onClick="javascript:clearFilters(this.form);">
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">
             <span class="default">Assigned:</span><br />
             <select name="users" class="default">
               {html_options options=$assign_options selected=$options.users}
             </select>
           </td>
-          <td>
-            <span class="default">Status:</span><br />
-            <select name="status" class="default">
-              <option value="">any</option>
-              {foreach key=sta_id item=sta_title from=$status}
-              <option value="{$sta_id}" {if $sta_id == $options.status}selected{/if}>{$sta_title}</option>
-              {/foreach}
-            </select>
-          </td>
           {if $categories|@count > 0}
-          <td>
+          <td valign="top">
             <span class="default">Category:</span><br />
             <select name="category" class="default">
               <option value="">any</option>
@@ -133,7 +140,7 @@ function runCustomFilter(f)
             </select>
           </td>
           {/if}
-          <td>
+          <td valign="top">
             <span class="default">Priority:</span><br />
             <select name="priority" class="default">
               <option value="">any</option>
@@ -142,9 +149,14 @@ function runCustomFilter(f)
               {/section}
             </select>
           </td>
-          <td>
-            <input class="button" type="submit" value="Search">
-            <input class="button" type="button" value="Clear" onClick="javascript:clearFilters(this.form);">
+          <td valign="top">
+            <span class="default">Status:</span><br />
+            <select name="status" class="default">
+              <option value="">any</option>
+              {foreach key=sta_id item=sta_title from=$status}
+              <option value="{$sta_id}" {if $sta_id == $options.status}selected{/if}>{$sta_title}</option>
+              {/foreach}
+            </select>
           </td>
         </tr>
         </form>
@@ -173,11 +185,10 @@ function runCustomFilter(f)
           </td>
           <td align="right">
             <span class="default">Saved Searches:</span>
-            <select name="custom_filter" class="default">
+            <select name="custom_filter" class="default" onChange="javascript:runCustomFilter(this.form);">
               <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
               {html_options options=$custom}
             </select>
-            <input class="button" type="button" value="Run Search" onClick="javascript:runCustomFilter(this.form);">
           </td>
         </tr>
         </form>
