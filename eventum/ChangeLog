@@ -1,13 +1,14 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 1.6
+???, Version 1.6.0
 - Added feature to control order of custom fields (Bryan)
 - Added feature to specify custom field backend (Bryan)
 - Added feature to control which users can access specific custom fields (Bryan)
-- Extended fulltext searching feature to search custom fields (Bryan)
+- Improved fulltext search feature to include custom fields (Bryan)
 - Fixed bug with returning list of statuses in abstract workflow backend (Bryan)
 - Added reporter to advanced search page (Bryan)
+- Fixed the editing of news items on the administration interface (João)
 
 26 Jul 2005, Version 1.5.5
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)

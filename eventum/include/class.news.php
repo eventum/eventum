@@ -266,6 +266,33 @@ class News
 
 
     /**
+     * Method used to get the details of a news entry for a given news ID.
+     *
+     * @access  public
+     * @param   integer $nws_id The news entry ID
+     * @return  array The news entry details
+     */
+    function getAdminDetails($nws_id)
+    {
+        $stmt = "SELECT
+                    *
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
+                 WHERE
+                    nws_id=" . Misc::escapeInteger($nws_id);
+        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            // get all of the project associations here as well
+            $res['projects'] = array_keys(News::getAssociatedProjects($res['nws_id']));
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get the list of news entries available in the system.
      *
      * @access  public

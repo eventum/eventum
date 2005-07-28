@@ -56,7 +56,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", News::getDetails($HTTP_GET_VARS["id"]));
+        $tpl->assign("info", News::getAdminDetails($HTTP_GET_VARS["id"]));
     }
 
     $tpl->assign("list", News::getList());
