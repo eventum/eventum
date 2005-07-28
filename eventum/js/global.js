@@ -395,15 +395,11 @@ function selectOptions(f, field_name, values)
 
 function selectOption(f, field_name, value)
 {
-    for (var i = 0; i < f.elements.length; i++) {
-        if (f.elements[i].name == field_name) {
-            field = f.elements[i];
-            for (var i = 0; i < field.options.length; i++) {
-                if (field.options[i].value == value) {
-                    field.options[i].selected = true;
-                    return true;
-                }
-            }
+    field = getFormElement(f, field_name);
+    for (var i = 0; i < field.options.length; i++) {
+        if (field.options[i].value == value) {
+            field.options[i].selected = true;
+            return true;
         }
     }
 }
@@ -423,12 +419,12 @@ function getForm(form_name)
     }
 }
 
-function getPageElement(name)
+function getPageElement(id)
 {
     if (document.getElementById) {
-        return document.getElementById(name);
+        return document.getElementById(id);
     } else if (document.all) {
-        return document.all[name];
+        return document.all[id];
     }
 }
 
@@ -443,19 +439,19 @@ function getOpenerPageElement(name)
 
 function getFormElement(f, field_name, num)
 {
+    var elements = document.getElementsByName(field_name);
     var y = 0;
-    for (var i = 0; i < f.elements.length; i++) {
+    for (var i = 0; i < elements.length; i++) {
+        if (f != elements[i].form) {
+            continue;
+        }
         if (num != null) {
-            if (f.elements[i].name == field_name) {
-                if (y == num) {
-                    return f.elements[i];
-                }
-                y++;
+            if (y == num) {
+                return elements[i];
             }
+            y++;
         } else {
-            if (f.elements[i].name == field_name) {
-                return f.elements[i];
-            }
+            return elements[i];
         }
     }
     return false;
@@ -615,13 +611,13 @@ function isElementVisible(element)
     }
 }
 
-function toggleVisibility(title, create_cookie)
+function toggleVisibility(title, create_cookie, use_inline)
 {
     var element = getPageElement(title + '1');
     if (isElementVisible(element)) {
         var new_style = 'none';
     } else {
-        var new_style = getDisplayStyle();
+        var new_style = getDisplayStyle(use_inline);
     }
     var i = 1;
     while (1) {
@@ -652,22 +648,26 @@ function toggleVisibility(title, create_cookie)
     }
 }
 
-function changeVisibility(title, visibility)
+function changeVisibility(title, visibility, use_inline)
 {
     var element = getPageElement(title);
     if (visibility) {
-        var new_style = getDisplayStyle();
+        var new_style = getDisplayStyle(use_inline);
     } else {
         var new_style = 'none';
     }
     element.style.display = new_style;
 }
 
-function getDisplayStyle()
+function getDisplayStyle(use_inline)
 {
     // kind of hackish, but it works perfectly with IE6 and Mozilla 1.1
     if (is_ie5up) {
-        return 'block';
+        if (use_inline == true) {
+            return 'inline';
+        } else {
+            return 'block';
+        }
     } else {
         return '';
     }
