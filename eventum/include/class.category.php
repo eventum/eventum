@@ -55,7 +55,7 @@ class Category
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
-                    prc_id=$prc_id";
+                    prc_id=" . Misc::escapeInteger($prc_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -191,14 +191,13 @@ class Category
      */
     function getList($prj_id)
     {
-        $prj_id = Misc::escapeInteger($prj_id);
         $stmt = "SELECT
                     prc_id,
                     prc_title
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
-                    prc_prj_id=$prj_id
+                    prc_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     prc_title ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -222,8 +221,6 @@ class Category
     function getAssocList($prj_id)
     {
         static $list;
-        
-        $prj_id = Misc::escapeInteger($prj_id);
 
         if (!empty($list[$prj_id])) {
             return $list[$prj_id];
@@ -235,7 +232,7 @@ class Category
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
-                    prc_prj_id=$prj_id
+                    prc_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     prc_title ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);

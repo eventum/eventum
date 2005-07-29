@@ -443,7 +443,7 @@ class Email_Account
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
-                    ema_prj_id=" . $prj_id . "
+                    ema_prj_id=" . Misc::escapeInteger($prj_id) . "
                  LIMIT
                     0, 1";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
