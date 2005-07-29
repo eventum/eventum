@@ -19,6 +19,31 @@
                       selectField(f, 'projects[]');
                       return false;
                   }
+                  // warn if they have de-selected a project
+                  var selections = getSelectedItems(getFormElement(f, 'projects[]'));
+                  var removed_projects = '';
+                  for (var i=0; i < selected_projects.length; i++) {
+                      var is_still_selected = false;
+                      for (var j=0; j < selections.length; j++) {
+                          if (selections[j].value == selected_projects[i].value) {
+                              is_still_selected = true;
+                          }
+                      }
+                      if (is_still_selected == false) {
+                          if (removed_projects.length > 0) {
+                              removed_projects += ', ';
+                          }
+                          removed_projects += "'" + selected_projects[i].text + "'";
+                      }
+                  }
+                  if (removed_projects.length > 0) {
+                      var answer = confirm('WARNING: You have removed project(s) ' + removed_projects + ' from the list ' +
+                         'of associated projects. This will remove all data for this field from the selected project(s). ' +
+                         'Do you want to continue?');
+                      if (answer == false) {
+                          return false;
+                      }
+                  }
                   if ((f.field_type[2].checked) || (f.field_type[3].checked)) {
                       // select all of the options in the select box
                       selectAllOptions(f, 'field_options[]');
@@ -142,9 +167,13 @@
                       f.anon_form_required.checked = false;
                   }
               }
+              {/literal}
+              var selected_projects = new Array();
+              {foreach from=$info.projects item=prj_id}
+              selected_projects[selected_projects.length] = new Option('{$project_list[$prj_id]}', {$prj_id});
+              {/foreach}
               //-->
               </script>
-              {/literal}
               <form name="custom_field_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
               {if $smarty.get.cat == 'edit'}
               <input type="hidden" name="cat" value="update">
