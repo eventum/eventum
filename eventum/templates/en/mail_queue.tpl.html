@@ -3,9 +3,10 @@
 {if $denied == 1}
     <div class="default" align="center">Sorry, you do not have permission to view this page</div>
 {else}
-<script language="javascript" src="js/jsrsClient.js"></script>
-<script language="javascript" src="js/expandable_cell.js"></script>
-{include file="jsrs.tpl.html"}
+<script language="javascript">
+{include file="js/httpclient.js"}
+{include file="js/expandable_cell.js"}
+</script>
 <form>
   <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
     <tr>
@@ -13,7 +14,7 @@
         <b>Mail Queue for Issue #{$issue_id}</b>
       </td>
     </tr>
-    <tr>
+    <tr id="drafts1" {get_display_style element_name="drafts"}>
       <td>
         <table width="100%" cellpadding="2" cellspacing="1">
           <tr bgcolor="{$cell_color}">

@@ -1,8 +1,9 @@
 {include file="header.tpl.html" extra_title=$extra_title}
 {include file="navigation.tpl.html"}
-<script language="javascript" src="js/jsrsClient.js"></script>
-<script language="javascript" src="js/expandable_cell.js"></script>
-{include file="jsrs.tpl.html"}
+<script language="javascript">
+{include file="js/httpclient.js"}
+{include file="js/expandable_cell.js"}
+</script>
 {if $issue == ""}
   <table width="400" align="center">
     <tr>

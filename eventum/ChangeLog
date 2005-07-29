@@ -15,6 +15,7 @@ Eventum Issue Tracking System
 - Fixed bug that caused custom field data to be deleted from all projects when removing a field from one project (Bryan)
 - Added the CREATE, DROP and ALTER privileges when creating a new MySQL user for the Eventum database (João)
 - Added a feature to display which filters are active on the issue listing screen (Bryan)
+- Replaced JSRS library with a new httpClient library (Bryan)
 
 26 Jul 2005, Version 1.5.5
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)

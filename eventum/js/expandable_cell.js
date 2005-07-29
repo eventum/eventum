@@ -1,5 +1,9 @@
+{literal}
+
+var expanding = false;
+
 // expands the cell specified by ecID and msgID. This will initiate the call to the remote script to get the
-// content using jsrs. Since this call can take time, a "loading.." message will be displayed
+// content using our HTTPClient. Since this call can take time, a "loading.." message will be displayed
 // temporarily in the cell.
 function expand(baseURL, ecID, listID)
 {
@@ -8,7 +12,8 @@ function expand(baseURL, ecID, listID)
     
     if ((cell.innerHTML == "") || (cell.innerHTML == 'loading...')) {
         cell.innerHTML = "loading...";
-        jsrsExecute(baseURL + 'get_jsrs_data.php?ec_id=' + ecID + '&', handleCallback, getRemoteFunction(ecID), listID + '');
+        var httpClient = new HTTPClient();
+        httpClient.loadRemoteContent(baseURL + 'get_remote_data.php?action=' + getRemoteFunction(ecID) + '&ec_id=' + ecID + '&list_id=' + listID, 'handleCallback');
     }
     row.style.display = getDisplayStyle();
 }
@@ -19,10 +24,10 @@ function collapse(ecID, listID)
     getRow(ecID, listID).style.display = "none";
 }
 
-function handleCallback(message)
+function handleCallback(response)
 {
-    // since jsrs doesn't support returning multiple values, parse
-    // listID and ecID out of text.
+    var message = response.responseText;
+    // parse listID and ecID out of text.
     var ecID = message.substr(0, message.indexOf(":"));
     message = message.substr(message.indexOf(":") + 1, message.length);
     var listID = message.substr(0, message.indexOf(":"));
@@ -92,3 +97,4 @@ function getAllCells(ecID)
     }
     return newCells;
 }
+{/literal}
