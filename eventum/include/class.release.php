@@ -245,7 +245,7 @@ class Release
                     pre_scheduled_date,
                     pre_status
                  ) VALUES (
-                    " . $HTTP_POST_VARS["prj_id"] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
                     '" . Misc::escapeString($scheduled_date) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["status"]) . "'

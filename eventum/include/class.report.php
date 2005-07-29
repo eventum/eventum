@@ -479,6 +479,7 @@ class Report
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
+        $cfo_ids = Misc::escapeInteger($cfo_ids);
         
         // get field values
         $stmt = "SELECT
