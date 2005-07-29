@@ -960,10 +960,7 @@ class Custom_Field
             // COMPAT: this next line requires PHP > 4.0.4
             $diff_ids = @array_diff($old_proj_ids, $HTTP_POST_VARS["projects"]);
             for ($i = 0; $i < count($diff_ids); $i++) {
-                $fld_ids = @Custom_Field::getFieldsByProject($diff_ids[$i]);
-                if (count($fld_ids) > 0) {
-                    Custom_Field::removeIssueAssociation($fld_ids, false, $diff_ids[$i]);
-                }
+                Custom_Field::removeIssueAssociation($HTTP_POST_VARS["id"], false, $diff_ids[$i]);
             }
             // update the project associations now
             $stmt = "DELETE FROM
@@ -1023,7 +1020,7 @@ class Custom_Field
     function removeIssueAssociation($fld_id, $issue_id = FALSE, $prj_id = false)
     {
         if (is_array($fld_id)) {
-            $fld_id = implode(", ", $fld_id);
+            $fld_id = implode(", ",  Misc::escapeInteger($fld_id));
         }
         $issues = array();
         if ($issue_id != false) {
@@ -1046,10 +1043,11 @@ class Custom_Field
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                  WHERE
-                    icf_fld_id IN (" . Misc::escapeInteger($fld_id) . ")";
+                    icf_fld_id IN (" . $fld_id . ")";
         if (count($issues) > 0) {
             $stmt .= " AND icf_iss_id IN(" . join(', ', Misc::escapeInteger($issues)) . ")";
         }
+        echo $stmt;
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
