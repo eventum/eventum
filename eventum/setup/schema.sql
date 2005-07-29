@@ -882,6 +882,7 @@ CREATE TABLE %TABLE_PREFIX%faq (
   faq_updated_date DATETIME NULL,
   faq_title VARCHAR(255) NOT NULL,
   faq_message LONGTEXT NOT NULL,
+  faq_rank TINYINT(2) UNSIGNED NOT NULL,
   PRIMARY KEY (faq_id),
   UNIQUE KEY faq_title (faq_title)
 ) TYPE = MYISAM;

@@ -24,11 +24,6 @@
                       alert('Please choose the project for this FAQ entry.');
                       return false;
                   }
-                  if (isWhitespace(f.title.value)) {
-                      selectField(f, 'title');
-                      alert('Please enter the title of this FAQ entry.');
-                      return false;
-                  }
                   var field = getFormElement(f, 'support_levels[]');
                   if (field) {
                       if (!hasOneSelected(f, 'support_levels[]')) {
@@ -36,6 +31,21 @@
                           alert('Please assign the appropriate support levels for this FAQ entry.');
                           return false;
                       }
+                  }
+                  if (isWhitespace(f.rank.value)) {
+                      selectField(f, 'rank');
+                      alert('Please enter the rank of this FAQ entry.');
+                      return false;
+                  }
+                  if (!isNumberOnly(f.rank.value)) {
+                      selectField(f, 'rank');
+                      alert('Please enter a number for the rank of this FAQ entry.');
+                      return false;
+                  }
+                  if (isWhitespace(f.title.value)) {
+                      selectField(f, 'title');
+                      alert('Please enter the title of this FAQ entry.');
+                      return false;
                   }
                   return true;
               }
@@ -108,6 +118,15 @@
               {/if}
               <tr>
                 <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Rank:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" size="5" class="default" name="rank" value="{$info.faq_rank}">
+                  {include file="error_icon.tpl.html" field="rank"}
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
                   <b>Title:</b>
                 </td>
                 <td bgcolor="{$light_color}">
@@ -165,6 +184,7 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>Rank</b>&nbsp;</td>
                       <td width="{if $backend_uses_support_levels}50%{else}100%{/if}" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
                       {if $backend_uses_support_levels}
                       <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Support Levels</b></td>
@@ -174,6 +194,10 @@
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].faq_id}"></td>
+                      <td bgcolor="{$row_color}" class="default" align="center" nowrap>
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].faq_id}&rank=desc"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].faq_rank}
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].faq_id}&rank=asc"><img src="{$rel_url}images/asc.gif" border="0"></a>
+                      </td>
                       <td width="50%" bgcolor="{$row_color}" class="default">
                         &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].faq_id}" title="update this entry">{$list[i].faq_title|escape:"html"}</a>
                       </td>
@@ -185,8 +209,8 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td colspan="{if $backend_uses_support_levels}3{else}2{/if}" bgcolor="{$light_color}" align="center" class="default">
-                        No FAQ entries could be found.
+                      <td colspan="{if $backend_uses_support_levels}4{else}3{/if}" bgcolor="{$light_color}" align="center" class="default">
+                        <i>No FAQ entries could be found.</i>
                       </td>
                     </tr>
                     {/section}
@@ -194,7 +218,7 @@
                       <td width="4" align="center" bgcolor="{$cell_color}">
                         <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                       </td>
-                      <td {if $backend_uses_support_levels}colspan="2" {/if}bgcolor="{$cell_color}" align="center">
+                      <td colspan="{if $backend_uses_support_levels}3{else}2{/if}" bgcolor="{$cell_color}" align="center">
                         <input type="submit" value="Delete" class="button">
                       </td>
                     </tr>

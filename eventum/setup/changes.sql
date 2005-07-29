@@ -622,3 +622,9 @@ CREATE FULLTEXT INDEX ft_icf_value ON eventum_issue_custom_field (icf_value);
 
 # July 28th - Adding reporter to advanced search page
 ALTER TABLE eventum_custom_filter ADD COLUMN cst_reporter int(11) unsigned DEFAULT NULL AFTER cst_users;
+
+# July 29th
+ALTER TABLE eventum_faq ADD COLUMN faq_rank TINYINT(2) UNSIGNED NOT NULL;
+
+
+

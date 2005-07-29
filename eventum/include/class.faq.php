@@ -42,6 +42,7 @@ class FAQ
     {
         $support_level_id = Misc::escapeInteger($support_level_id);
         $prj_id = Auth::getCurrentProject();
+
         if ($support_level_id == -1) {
             $stmt = "SELECT
                         *
@@ -50,7 +51,7 @@ class FAQ
                      WHERE
                         faq_prj_id = $prj_id
                      ORDER BY
-                        faq_title ASC";
+                        faq_rank ASC";
         } else {
             $stmt = "SELECT
                         *
@@ -62,7 +63,7 @@ class FAQ
                         fsl_support_level_id=$support_level_id AND
                         faq_prj_id = $prj_id
                      ORDER BY
-                        faq_title ASC";
+                        faq_rank ASC";
         }
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
@@ -156,7 +157,8 @@ class FAQ
                     faq_prj_id=" . $HTTP_POST_VARS['project'] . ",
                     faq_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     faq_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    faq_message='" . Misc::escapeString($HTTP_POST_VARS["message"]) . "'
+                    faq_message='" . Misc::escapeString($HTTP_POST_VARS["message"]) . "',
+                    faq_rank=" . $HTTP_POST_VARS['rank'] . "
                  WHERE
                     faq_id=" . $HTTP_POST_VARS["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -199,13 +201,15 @@ class FAQ
                     faq_usr_id,
                     faq_created_date,
                     faq_title,
-                    faq_message
+                    faq_message,
+                    faq_rank
                  ) VALUES (
                     " . $HTTP_POST_VARS['project'] . ",
                     " . Auth::getUserID() . ",
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["message"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["message"]) . "',
+                    " . $HTTP_POST_VARS['rank'] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -272,7 +276,7 @@ class FAQ
                 $res['support_levels'] = array_keys(FAQ::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
             }
             $res['faq_updated_date'] = Date_API::getFormattedDate($res['faq_updated_date']);
-            $res['message'] = $res['faq_message'];
+            $res['message'] = Misc::activateLinks(nl2br(htmlspecialchars($res['faq_message'])));
             return $res;
         }
     }
@@ -289,11 +293,12 @@ class FAQ
         $stmt = "SELECT
                     faq_id,
                     faq_prj_id,
-                    faq_title
+                    faq_title,
+                    faq_rank
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
                  ORDER BY
-                    faq_title ASC";
+                    faq_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -337,6 +342,83 @@ class FAQ
             }
         }
         return $t;
+    }
+
+
+    /**
+     * Method used to quickly change the ranking of a faq entry
+     * from the administration screen.
+     *
+     * @access  public
+     * @param   integer $faq_id The faq entry ID
+     * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
+     * @return  boolean
+     */
+    function changeRank($faq_id, $rank_type)
+    {
+        // check if the current rank is not already the first or last one
+        $ranking = FAQ::_getRanking();
+        $ranks = array_values($ranking);
+        $ids = array_keys($ranking);
+        $last = end($ids);
+        $first = reset($ids);
+        if ((($rank_type == 'asc') && ($faq_id == $first)) ||
+                (($rank_type == 'desc') && ($faq_id == $last))) {
+            return false;
+        }
+
+        if ($rank_type == 'asc') {
+            $diff = -1;
+        } else {
+            $diff = 1;
+        }
+        $new_rank = $ranking[$faq_id] + $diff;
+        if (in_array($new_rank, $ranks)) {
+            // switch the rankings here...
+            $index = array_search($new_rank, $ranks);
+            $replaced_faq_id = $ids[$index];
+            $stmt = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                     SET
+                        faq_rank=" . $ranking[$faq_id] . "
+                     WHERE
+                        faq_id=" . $replaced_faq_id;
+            $GLOBALS["db_api"]->dbh->query($stmt);
+        }
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                 SET
+                    faq_rank=" . $new_rank . "
+                 WHERE
+                    faq_id=" . $faq_id;
+        $GLOBALS["db_api"]->dbh->query($stmt);
+        return true;
+    }
+
+
+    /**
+     * Returns an associative array with the list of faq entry 
+     * IDs and their respective ranking.
+     *
+     * @access  private
+     * @return  array The list of faq entries
+     */
+    function _getRanking()
+    {
+        $stmt = "SELECT
+                    faq_id,
+                    faq_rank
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
+                 ORDER BY
+                    faq_rank ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        } else {
+            return $res;
+        }
     }
 }
 

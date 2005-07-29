@@ -12,6 +12,7 @@ $stmts[] = "ALTER TABLE eventum_custom_field ADD COLUMN fld_backend varchar(100)
 $stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_search_type varchar(15) not null default 'customer'";
 $stmts[] = "CREATE FULLTEXT INDEX ft_icf_value ON eventum_issue_custom_field (icf_value)";
 $stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_reporter int(11) unsigned DEFAULT NULL AFTER cst_users";
+$stmts[] = "ALTER TABLE eventum_faq ADD COLUMN faq_rank TINYINT(2) UNSIGNED NOT NULL";
 
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);

@@ -74,6 +74,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
             $tpl->assign("support_levels", Customer::getSupportLevelAssocList($info['faq_prj_id']));
         }
         $tpl->assign("info", $info);
+    } elseif (@$HTTP_GET_VARS["cat"] == "change_rank") {
+        FAQ::changeRank($HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
     }
 
     $tpl->assign("list", FAQ::getList());
