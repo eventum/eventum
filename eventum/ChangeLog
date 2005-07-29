@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Fixed bug with returning list of statuses in abstract workflow backend (Bryan)
 - Added reporter to advanced search page (Bryan)
 - Fixed the editing of news items on the administration interface (João)
+- Fixed possible SQL injection vulnerability on the Authentication class (João)
 
 26 Jul 2005, Version 1.5.5
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)

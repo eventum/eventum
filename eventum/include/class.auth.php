@@ -337,7 +337,12 @@ class Auth
         if (empty($email)) {
             return false;
           } else {
-            $stmt = "SELECT usr_email FROM " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user WHERE usr_email='$email'";
+            $stmt = "SELECT
+                        usr_email
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                     WHERE
+                        usr_email='" . Misc::escapeString($email) . "'";
             $info = $GLOBALS["db_api"]->dbh->getOne($stmt);
             if (PEAR::isError($info)) {
                 Error_Handler::logError(array($info->getMessage(), $info->getDebugInfo()), __FILE__, __LINE__);
@@ -362,7 +367,12 @@ class Auth
      */
     function isCorrectPassword($email, $password)
     {
-        $stmt = "SELECT usr_password FROM " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user WHERE usr_email='$email'";
+        $stmt = "SELECT
+                    usr_password
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_email='" . Misc::escapeString($email) . "'";
         $passwd = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($passwd)) {
             Error_Handler::logError(array($passwd->getMessage(), $passwd->getDebugInfo()), __FILE__, __LINE__);
