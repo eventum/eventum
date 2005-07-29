@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Fixed possible SQL injection vulnerabilities on the Release and Report classes (Bug #12254) (João)
 - Fixed bug that caused custom field data to be deleted from all projects when removing a field from one project (Bryan)
 - Added the CREATE, DROP and ALTER privileges when creating a new MySQL user for the Eventum database (João)
+- Add feature to display which filters are active on issue listing page (Bryan)
 
 26 Jul 2005, Version 1.5.5
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)
