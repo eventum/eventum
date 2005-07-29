@@ -122,7 +122,19 @@ class Draft
     }
 
 
-    // XXX: put some documentation here
+    /**
+     * Method used to update an existing draft response.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   integer $emd_id The email draft ID
+     * @param   string $to The primary recipient of the draft
+     * @param   string $cc The secondary recipients of the draft
+     * @param   string $subject The subject of the draft
+     * @param   string $message The draft body
+     * @param   integer $parent_id The ID of the email that this draft is replying to, if any
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
     function update($issue_id, $emd_id, $to, $cc, $subject, $message, $parent_id = FALSE)
     {
         $issue_id = Misc::escapeInteger($issue_id);
@@ -154,7 +166,13 @@ class Draft
     }
 
 
-    // XXX: put some documentation here
+    /**
+     * Method used to remove a draft response.
+     *
+     * @access  public
+     * @param   integer $emd_id The email draft ID
+     * @return  boolean
+     */
     function remove($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
@@ -174,7 +192,14 @@ class Draft
     }
 
 
-    // XXX: put some documentation here
+    /**
+     * Method used to remove the recipients associated with the given
+     * email draft response.
+     *
+     * @access  public
+     * @param   integer $emd_id The email draft ID
+     * @return  boolean
+     */
     function removeRecipients($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
@@ -192,7 +217,16 @@ class Draft
     }
 
 
-    // XXX: put some documentation here
+    /**
+     * Method used to associate a recipient with a given email 
+     * draft response.
+     *
+     * @access  public
+     * @param   integer $emd_id The email draft ID
+     * @param   string $email The recipient's email address
+     * @param   boolean $is_cc Whether this recipient is in the Cc list for the given draft
+     * @return  boolean
+     */
     function addEmailRecipient($emd_id, $email, $is_cc)
     {
         $emd_id = Misc::escapeInteger($emd_id);
@@ -223,7 +257,13 @@ class Draft
     }
 
 
-    // XXX: put some documentation here
+    /**
+     * Method used to get the details on a given email draft response.
+     *
+     * @access  public
+     * @param   integer $emd_id The email draft ID
+     * @return  array The email draft details
+     */
     function getDetails($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
@@ -299,7 +339,14 @@ class Draft
     }
 
 
-    // XXX: put some documentation here
+    /**
+     * Method used to get the list of email recipients for a
+     * given draft response.
+     *
+     * @access  public
+     * @param   integer $emd_id The email draft ID
+     * @return  array The list of email recipients
+     */
     function getEmailRecipients($emd_id)
     {
         $emd_id = Misc::escapeInteger($emd_id);
@@ -390,6 +437,33 @@ class Draft
         $res = Support::sendEmail();
         if ($res == 1) {
            Draft::remove($draft_id);
+        }
+        return $res;
+    }
+    
+    
+    /**
+     * Returns the number of drafts by a user in a time range.
+     * 
+     * @access  public
+     * @param   string $usr_id The ID of the user
+     * @param   integer $start The timestamp of the start date
+     * @param   integer $end The timestanp of the end date
+     * @return  integer The number of note by the user.
+     */
+    function getCountByUser($usr_id, $start, $end)
+    {
+        $stmt = "SELECT
+                    COUNT(emd_id)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
+                 WHERE
+                    emd_updated_date BETWEEN '$start' AND '$end' AND
+                    emd_usr_id = $usr_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
         }
         return $res;
     }
