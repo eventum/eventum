@@ -51,6 +51,7 @@ class Status
      */
     function getProjectStatusCustomization($prj_id, $sta_ids)
     {
+        $sta_ids = array_unique($sta_ids);
         $stmt = "SELECT
                     psd_sta_id,
                     psd_label,
@@ -540,6 +541,12 @@ class Status
      */
     function getStatusID($sta_title)
     {
+        static $returns;
+
+        if (!empty($returns[$sta_title])) {
+            return $returns[$sta_title];
+        }
+
         $stmt = "SELECT
                     sta_id
                  FROM
@@ -551,6 +558,7 @@ class Status
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            $returns[$sta_title] = $res;
             return $res;
         }
     }
