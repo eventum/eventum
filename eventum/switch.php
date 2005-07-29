@@ -41,5 +41,7 @@ Auth::checkAuthentication(APP_COOKIE);
 $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
 Auth::setCurrentProject($HTTP_POST_VARS["current_project"], $cookie["remember"]);
 
+$tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
+
 $tpl->displayTemplate();
 ?>
