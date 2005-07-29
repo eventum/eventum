@@ -50,7 +50,6 @@ include_once(APP_INC_PATH . "class.history.php");
  */
 class Routing
 {
-    
     /**
      * Routes an email to the correct issue.
      * 
