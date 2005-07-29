@@ -118,6 +118,7 @@ $tpl->assign("custom", Filter::getAssocList($prj_id));
 $tpl->assign("csts", Filter::getListing(true));
 $tpl->assign("filter_info", Filter::getFiltersInfo());
 $tpl->assign("categories", Category::getAssocList($prj_id));
+$tpl->assign("releases", Release::getAssocList($prj_id, true));
 $tpl->assign("groups", $groups);
 $tpl->assign("custom_fields_display", $custom_fields_display);
 $tpl->assign("reporters", Project::getReporters($prj_id));
