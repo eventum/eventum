@@ -12,6 +12,7 @@ Eventum Issue Tracking System
 - Fixed possible SQL injection vulnerability on the Authentication class (Bug #12254) (João)
 - Fixed the installation procedure code to properly detect MySQL versions and enable the fulltext search feature (João)
 - Fixed possible SQL injection vulnerabilities on the Release and Report classes (Bug #12254) (João)
+- Fixed bug that caused custom field data to be deleted from all projects when removing a field from one project (Bryan)
 
 26 Jul 2005, Version 1.5.5
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)

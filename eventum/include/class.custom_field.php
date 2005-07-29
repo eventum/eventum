@@ -962,7 +962,7 @@ class Custom_Field
             for ($i = 0; $i < count($diff_ids); $i++) {
                 $fld_ids = @Custom_Field::getFieldsByProject($diff_ids[$i]);
                 if (count($fld_ids) > 0) {
-                    Custom_Field::removeIssueAssociation($fld_ids);
+                    Custom_Field::removeIssueAssociation($fld_ids, false, $diff_ids[$i]);
                 }
             }
             // update the project associations now
@@ -1017,19 +1017,38 @@ class Custom_Field
      * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   integer $issue_id The issue ID (not required)
+     * @param   integer $prj_id The project ID (not required)
      * @return  boolean
      */
-    function removeIssueAssociation($fld_id, $issue_id = FALSE)
+    function removeIssueAssociation($fld_id, $issue_id = FALSE, $prj_id = false)
     {
         if (is_array($fld_id)) {
             $fld_id = implode(", ", $fld_id);
+        }
+        $issues = array();
+        if ($issue_id != false) {
+            $issues = array($issue_id);
+        } elseif ($prj_id != false) {
+            $sql = "SELECT
+                        iss_id
+                    FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    WHERE
+                        iss_prj_id = " . Misc::escapeInteger($prj_id);
+            $res = $GLOBALS['db_api']->dbh->getCol($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return false;
+            } else {
+                $issues = $res;
+            }
         }
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                  WHERE
                     icf_fld_id IN (" . Misc::escapeInteger($fld_id) . ")";
-        if ($issue_id) {
-            $stmt .= " AND icf_iss_id=" . Misc::escapeInteger($issue_id);
+        if (count($issues) > 0) {
+            $stmt .= " AND icf_iss_id IN(" . join(', ', Misc::escapeInteger($issues)) . ")";
         }
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
