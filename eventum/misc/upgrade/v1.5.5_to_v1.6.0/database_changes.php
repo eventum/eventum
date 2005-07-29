@@ -1,0 +1,26 @@
+<?php
+include_once("../../../config.inc.php");
+include_once(APP_INC_PATH . "db_access.php");
+
+
+$stmts = array();
+
+$stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_custom_field TEXT";
+$stmts[] = "ALTER TABLE eventum_custom_field ADD COLUMN fld_min_role tinyint(1) NOT NULL DEFAULT 0";
+$stmts[] = "ALTER TABLE eventum_custom_field ADD COLUMN fld_rank smallint(2) NOT NULL DEFAULT 0";
+$stmts[] = "ALTER TABLE eventum_custom_field ADD COLUMN fld_backend varchar(100)";
+$stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_search_type varchar(15) not null default 'customer'";
+$stmts[] = "CREATE FULLTEXT INDEX ft_icf_value ON eventum_issue_custom_field (icf_value)";
+$stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_reporter int(11) unsigned DEFAULT NULL AFTER cst_users";
+
+foreach ($stmts as $stmt) {
+    $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
+    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+    if (PEAR::isError($res)) {
+        echo "<pre>";var_dump($res);echo "</pre>";
+        exit(1);
+    }
+}
+
+?>
+done
