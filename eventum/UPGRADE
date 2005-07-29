@@ -21,6 +21,15 @@ instructions:
    these scripts in your web browser
 
 
+- Upgrading from version 1.5.5 to 1.6.0:
+----------------------------------------
+
+For the upgrade from release 1.5.5 to 1.6.0, there are 4 scripts you need
+to run. For convenience, an index file is provided to list the scripts.
+Open /path-to-eventum/misc/upgrade/v1.5.5_to_v1.6.0/ in a web browser
+and run the scripts in the order provided.
+
+
 - Upgrading from version 1.5.4 to 1.5.5:
 ----------------------------------------
 

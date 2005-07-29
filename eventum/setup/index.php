@@ -400,7 +400,7 @@ $private_key = "' . md5(microtime()) . '";
     $config_contents = str_replace("%{APP_TABLE_PREFIX}%", $HTTP_POST_VARS['db_table_prefix'], $config_contents);
     $config_contents = str_replace("%{APP_HOSTNAME}%", $HTTP_POST_VARS['hostname'], $config_contents);
     $config_contents = str_replace("%{APP_RELATIVE_URL}%", $HTTP_POST_VARS['relative_url'], $config_contents);
-    $config_contents = str_replace("%{APP_VERSION}%", "1.5.5", $config_contents);
+    $config_contents = str_replace("%{APP_VERSION}%", "1.6.0", $config_contents);
     if (@$HTTP_POST_VARS['is_ssl'] == 'yes') {
         $protocol_type = 'https://';
     } else {
