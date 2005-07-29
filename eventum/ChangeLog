@@ -16,6 +16,7 @@ Eventum Issue Tracking System
 - Added the CREATE, DROP and ALTER privileges when creating a new MySQL user for the Eventum database (João)
 - Added a feature to display which filters are active on the issue listing screen (Bryan)
 - Replaced JSRS library with a new httpClient library (Bryan)
+- Fixed a bug that would prevent the authorized repliers list from working correctly (João)
 
 26 Jul 2005, Version 1.5.5
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)

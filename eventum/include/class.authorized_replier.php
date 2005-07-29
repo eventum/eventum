@@ -104,6 +104,7 @@ class Authorized_Replier
     function removeRepliers($iur_ids)
     {
         $iur_ids = Misc::escapeInteger($iur_ids);
+
         // get issue_id for logging
         $stmt = "SELECT
                     iur_iss_id
@@ -234,7 +235,6 @@ class Authorized_Replier
         $email = strtolower(Mail_API::getEmailAddress($email));
         // first check if this is an actual user or just an email address
         $user_emails = User::getAssocEmailList();
-        $user_emails = array_map('strtolower', $user_emails);
         if (in_array($email, array_keys($user_emails))) {
             // real user, get id
             $usr_id = User::getUserIDByEmail($email);
@@ -309,12 +309,42 @@ class Authorized_Replier
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
-                    iur_iss_id = usr_id AND
+                    iur_usr_id = usr_id AND
                     iur_id = " . Misc::escapeInteger($iur_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
+        }
+        return $res;
+    }
+
+
+    /**
+     * Returns the replier based on the iur_id
+     * 
+     * @access  public
+     * @param   integer $issue_id The id of the issue.
+     * @param   string $email The email address of the user
+     * @return  integer The id of the replier
+     */
+    function getReplierIDByEmail($issue_id, $email)
+    {
+        $stmt = "SELECT
+                    iur_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
+                    LEFT JOIN
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    ON
+                        iur_usr_id = usr_id
+                 WHERE
+                    iur_iss_id = " . Misc::escapeInteger($issue_id) . " AND
+                    (iur_email = '" . Misc::escapeString($email) . "' OR usr_email = '" . Misc::escapeString($email) . "')";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
         }
         return $res;
     }
