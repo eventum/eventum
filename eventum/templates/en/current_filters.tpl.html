@@ -63,6 +63,8 @@
                 {/if}
               {elseif $filter_param == 'reporter'}
                 {$reporters[$filter_details]}
+              {elseif $filter_param == 'release'}
+                {$releases[$filter_details]}
               {elseif $filter.is_custom == 1}
                 {if $filter.fld_type == 'text' OR $filter.fld_type == 'textarea'}
                   {$filter_details|escape:"html"}
