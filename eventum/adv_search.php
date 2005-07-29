@@ -73,14 +73,14 @@ if ((count($groups) > 0) && ( $role_id > User::getRoleID("Customer"))) {
 $assign_options += $users;
 
 $tpl->assign(array(
-    "cats"       => Category::getAssocList($prj_id),
-    "priorities" => Priority::getList($prj_id),
-    "status"     => Status::getAssocStatusList($prj_id),
-    "users"      => $assign_options,
-    "releases"   => Release::getAssocList($prj_id),
-    "custom"     => Filter::getListing($prj_id),
+    "cats"          => Category::getAssocList($prj_id),
+    "priorities"    => Priority::getList($prj_id),
+    "status"        => Status::getAssocStatusList($prj_id),
+    "users"         => $assign_options,
+    "releases"      => Release::getAssocList($prj_id, TRUE),
+    "custom"        => Filter::getListing($prj_id),
     "custom_fields" =>  Custom_Field::getListByProject($prj_id, ''),
-    "reporters"  => Project::getReporters($prj_id)
+    "reporters"     => Project::getReporters($prj_id)
 ));
 
 if (!empty($HTTP_GET_VARS["custom_id"])) {

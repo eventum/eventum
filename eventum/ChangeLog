@@ -19,6 +19,7 @@ Eventum Issue Tracking System
 - Fixed a bug that would prevent the authorized repliers list from working correctly (João)
 - Changed the project switch feature so that it respects the user preference to auto close the popup window or not (João)
 - Added the ability to rank FAQ entries (João)
+- Added the feature to search for past releases on the advanced search screen (João)
 
 26 Jul 2005, Version 1.5.5
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)
