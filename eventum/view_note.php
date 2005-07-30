@@ -42,27 +42,32 @@ $tpl->setTemplate("view_note.tpl.html");
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
 
-if (User::getRoleByUser($usr_id, Auth::getCurrentProject()) < User::getRoleID('Standard User')) {
+$note = Note::getDetails($HTTP_GET_VARS["id"]);
+
+if ($note == '') {
+    $tpl->assign("note", '');
+    $tpl->displayTemplate();
+    exit;
+} else {
+    $note["message"] = Misc::activateLinks(nl2br(htmlspecialchars($note["not_note"])));
+    $issue_id = Note::getIssueID($HTTP_GET_VARS["id"]);
+    $usr_id = Auth::getUserID();
+}
+
+if ((User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRoleID('Standard User')) || (!Issue::canAccess($issue_id, Auth::getUserID()))) {
     $tpl->setTemplate("permission_denied.tpl.html");
     $tpl->displayTemplate();
     exit;
 }
 
 $note = Note::getDetails($HTTP_GET_VARS["id"]);
-$note["message"] = nl2br(htmlspecialchars($note["not_note"]));
+$note["message"] = Misc::activateLinks(nl2br(htmlspecialchars($note["not_note"])));
 
 $issue_id = Note::getIssueID($HTTP_GET_VARS["id"]);
-
-if (!Issue::canAccess($issue_id, $usr_id)) {
-    $tpl->setTemplate("permission_denied.tpl.html");
-    $tpl->displayTemplate();
-    exit;
-}
-
 $tpl->bulkAssign(array(
     "note"        => $note,
     "issue_id"    => $issue_id,
-    'extra_title' => "Note #" . $HTTP_GET_VARS['id'] . ": " . $note['not_title']
+    'extra_title' => "Note #" . $HTTP_GET_VARS['num'] . ": " . $note['not_title']
 ));
 
 if (!empty($issue_id)) {

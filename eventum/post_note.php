@@ -44,6 +44,7 @@ $usr_id = Auth::getUserID();
 
 @$issue_id = $HTTP_GET_VARS["issue_id"] ? $HTTP_GET_VARS["issue_id"] : $HTTP_POST_VARS["issue_id"];
 $tpl->assign("issue_id", $issue_id);
+$tpl->assign("issue", Issue::getDetails($issue_id));
 
 if (!Issue::canAccess($issue_id, $usr_id)) {
     $tpl->setTemplate("permission_denied.tpl.html");
@@ -57,7 +58,7 @@ if (@$HTTP_POST_VARS["cat"] == "post_note") {
     // enter the time tracking entry about this phone support entry
     if (!empty($HTTP_POST_VARS['time_spent'])) {
         $HTTP_POST_VARS['issue_id'] = $issue_id;
-        $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Email Discussion');
+        $HTTP_POST_VARS['category'] = $HTTP_POST_VARS['time_category'];
         $HTTP_POST_VARS['summary'] = 'Time entry inserted when sending an internal note.';
         Time_Tracking::insertEntry();
     }
@@ -88,7 +89,9 @@ $tpl->assign(array(
     'current_user_prefs' => Prefs::get($usr_id),
     'subscribers'        => Notification::getSubscribers($issue_id, false, User::getRoleID("Standard User")),
     'statuses'           => Status::getAssocStatusList($prj_id, false),
-    'current_issue_status'  =>  Issue::getStatusID($issue_id)
+    'current_issue_status'  =>  Issue::getStatusID($issue_id),
+    'time_categories'    => Time_Tracking::getAssocCategories(),
+    'note_category_id'   => Time_Tracking::getCategoryID('Note Discussion'),
 ));
 
 $tpl->displayTemplate();

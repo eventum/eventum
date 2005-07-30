@@ -21,9 +21,10 @@ Eventum Issue Tracking System
 - Added the ability to rank FAQ entries (João)
 - Added the feature to search for past releases on the advanced search screen (João)
 - Fixed bug that caused URLs in news item to be corrupted (Bryan)
-- Added a feature to customize the boilerplate text of reminder alert messages (João)
 - Added option to choose time category when adding a time tracking entry from a note (Bryan)
 - Added feature to automatically set the subject of new notes (Bryan)
+- Show proper message when a note has been deleted (Bryan)
+- Display sequenential note number in title window of view note page (Bryan)
 
 26 Jul 2005, Version 1.5.5
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)

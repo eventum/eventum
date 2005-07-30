@@ -1,5 +1,18 @@
 {include file="header.tpl.html" extra_title=$extra_title}
 
+{if $note == ''}
+<br />
+<table width="100%" align="center">
+  <tr>
+    <td align="center">
+      &nbsp;<span class="default"><b>The specified note does not exist. <br />
+      It could have been converted to an email.</b>
+      <br /><br />
+      &nbsp;<a class="link" href="javascript:self.close();">Close</a></span>
+    </td>
+  </tr>
+</table>
+{else}
 {literal}
 <script language="JavaScript">
 <!--
@@ -143,6 +156,6 @@ function viewNote(id)
 </table>
 </form>
 
-
 {include file="app_info.tpl.html"}
+{/if}
 {include file="footer.tpl.html"}
