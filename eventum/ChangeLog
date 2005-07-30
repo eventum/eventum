@@ -25,6 +25,8 @@ Eventum Issue Tracking System
 - Added feature to automatically set the subject of new notes (Bryan)
 - Show proper message when a note has been deleted (Bryan)
 - Display sequenential note number in title window of view note page (Bryan)
+- Added a feature to customize the boilerplate text of reminder alert messages (João)
+- Fixed the RSS feature of custom filters to behave properly under Microsoft IIS (João)
 
 26 Jul 2005, Version 1.5.5
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)
