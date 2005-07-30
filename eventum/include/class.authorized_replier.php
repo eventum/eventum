@@ -321,7 +321,7 @@ class Authorized_Replier
 
 
     /**
-     * Returns the replier based on the iur_id
+     * Returns the replier based on the given issue and email address combo.
      * 
      * @access  public
      * @param   integer $issue_id The id of the issue.
