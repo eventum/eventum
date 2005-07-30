@@ -61,8 +61,17 @@ class News
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['nws_created_date'] = Date_API::getSimpleDate($res[$i]["nws_created_date"]);
-                if ((!$show_full_message) && (strlen($res[$i]['nws_message']) > 255)) {
-                    $res[$i]['nws_message'] = substr($res[$i]['nws_message'], 0, 255) . '...';
+                if ((!$show_full_message) && (strlen($res[$i]['nws_message']) > 300)) {
+                    $next_space = strpos($res[$i]['nws_message'], ' ', 254);
+                    if (empty($next_space)) {
+                        $next_space = strpos($res[$i]['nws_message'], "\n", 254);
+                    }
+                    if (($next_space > 0) && (($next_space - 255) < 50)) {
+                        $cut = $next_space;
+                    } else {
+                        $cut = 255;
+                    }
+                    $res[$i]['nws_message'] = substr($res[$i]['nws_message'], 0, $cut) . '...';
                 }
                 $res[$i]['nws_message'] = nl2br(htmlspecialchars($res[$i]['nws_message']));
             }
