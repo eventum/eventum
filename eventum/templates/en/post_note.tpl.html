@@ -99,7 +99,7 @@ function setSignature(f)
             <b>Title: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="title" class="default" size="50" value="{if $note.not_title != ""}Re: {/if}{$note.not_title|escape:"html"}">
+            <input type="text" name="title" class="default" size="50" value="{if $note.not_title == ""}Re: {$issue.iss_summary} {else}Re: {/if}{$note.not_title|escape:"html"}">
             {include file="error_icon.tpl.html" field="title"}
           </td>
         </tr>
@@ -148,7 +148,12 @@ function setSignature(f)
             <b>Time Spent:</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" size="5" name="time_spent" class="default"> <span class="small_default"><i>(in minutes)</i></span>
+            <input type="text" size="5" name="time_spent" class="default">
+            <select name="time_category" class="default">
+              {html_options options=$time_categories selected=$note_category_id}
+            </select>
+            <span class="small_default"><i>(in minutes)</i></span>
+            {include file="error_icon.tpl.html" field="time_spent"}
           </td>
         </tr>
         <tr>
@@ -156,7 +161,7 @@ function setSignature(f)
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
               <tr>
                 <td align="center">
-                  <input class="button" type="submit" value="Post Internal Note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input name="main_submit_button" class="button" type="submit" value="Post Internal Note">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <input class="button" type="button" value="Cancel" onClick="javascript:window.close();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </td>
                 {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_note_sig != 'yes'}
