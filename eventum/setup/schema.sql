@@ -505,6 +505,9 @@ CREATE TABLE %TABLE_PREFIX%custom_field (
   fld_anonymous_form int(1) NOT NULL default 1,
   fld_anonymous_form_required int(1) NOT NULL default 0,
   fld_list_display tinyint(1) NOT NULL default 0,
+  fld_min_role tinyint(1) NOT NULL default 0,
+  fld_rank smallint(2) NOT NULL default 0,
+  fld_backend varchar(100),
   PRIMARY KEY  (fld_id)
 ) TYPE = MYISAM;
 
