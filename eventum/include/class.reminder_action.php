@@ -201,7 +201,8 @@ class Reminder_Action
                     rma_title,
                     rma_rank,
                     rma_alert_irc,
-                    rma_alert_group_leader
+                    rma_alert_group_leader,
+                    rma_boilerplate
                  ) VALUES (
                     " . Misc::escapeInteger($HTTP_POST_VARS['rem_id']) . ",
                     " . Misc::escapeInteger($HTTP_POST_VARS['type']) . ",
@@ -209,7 +210,8 @@ class Reminder_Action
                     '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
                     '" . Misc::escapeInteger($HTTP_POST_VARS['rank']) . "',
                     " . Misc::escapeInteger($HTTP_POST_VARS['alert_irc']) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS['alert_group_leader']) . "
+                    " . Misc::escapeInteger($HTTP_POST_VARS['alert_group_leader']) . ",
+                    '" . Misc::escapeString($HTTP_POST_VARS['boilerplate']) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -314,7 +316,8 @@ class Reminder_Action
                     rma_title='" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
                     rma_rmt_id=" . Misc::escapeInteger($HTTP_POST_VARS['type']) . ",
                     rma_alert_irc=" . Misc::escapeInteger($HTTP_POST_VARS['alert_irc']) . ",
-                    rma_alert_group_leader=" . Misc::escapeInteger($HTTP_POST_VARS['alert_group_leader']) . "
+                    rma_alert_group_leader=" . Misc::escapeInteger($HTTP_POST_VARS['alert_group_leader']) . ",
+                    rma_boilerplate='" . Misc::escapeString($HTTP_POST_VARS['boilerplate']) . "'
                  WHERE
                     rma_id=" . Misc::escapeInteger($HTTP_POST_VARS['id']);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -789,6 +792,7 @@ class Reminder_Action
                 "type"                     => $type,
                 "data"                     => $data,
                 "reminder"                 => $reminder,
+                "action"                   => $action,
                 "conditions"               => $conditions,
                 "has_customer_integration" => Customer::hasCustomerIntegration(Issue::getProjectID($issue_id))
             ));

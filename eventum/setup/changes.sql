@@ -625,6 +625,8 @@ ALTER TABLE eventum_custom_filter ADD COLUMN cst_reporter int(11) unsigned DEFAU
 
 # July 29th
 ALTER TABLE eventum_faq ADD COLUMN faq_rank TINYINT(2) UNSIGNED NOT NULL;
+ALTER TABLE eventum_reminder_action ADD COLUMN rma_boilerplate varchar(255) DEFAULT NULL;
+UPDATE eventum_reminder_action SET rma_boilerplate='Please take immediate action!';
 
 
 

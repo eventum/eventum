@@ -678,6 +678,7 @@ CREATE TABLE %TABLE_PREFIX%reminder_action (
   rma_rank TINYINT(2) UNSIGNED NOT NULL,
   rma_alert_irc TINYINT(1) unsigned NOT NULL DEFAULT 0,
   rma_alert_group_leader TINYINT(1) unsigned NOT NULL DEFAULT 0,
+  rma_boilerplate varchar(255) DEFAULT NULL,
   PRIMARY KEY(rma_id)
 ) TYPE = MYISAM;
 

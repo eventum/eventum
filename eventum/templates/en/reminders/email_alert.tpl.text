@@ -17,4 +17,6 @@ Support Level: {$data.customer_info.support_level}
      {$conditions[i].rmf_title} - {$conditions[i].rmo_title} - {$conditions[i].rlc_value}
      {/section}
 
-Please take immediate action!
+{if $action.rma_boilerplate}
+{$action.rma_boilerplate}
+{/if}
