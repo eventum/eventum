@@ -431,6 +431,8 @@ class Custom_Field
                     pcf_fld_id=fld_id AND
                     pcf_prj_id=" .  Misc::escapeInteger($prj_id) . " AND
                     fld_min_role <= " . User::getRoleByUser($usr_id, $prj_id) . "
+                 GROUP BY
+                    fld_id
                  ORDER BY
                     fld_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
