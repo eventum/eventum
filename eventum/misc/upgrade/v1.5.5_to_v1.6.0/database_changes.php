@@ -15,6 +15,7 @@ $stmts[] = "ALTER TABLE eventum_custom_filter ADD COLUMN cst_reporter int(11) un
 $stmts[] = "ALTER TABLE eventum_faq ADD COLUMN faq_rank TINYINT(2) UNSIGNED NOT NULL";
 $stmts[] = "ALTER TABLE eventum_reminder_action ADD COLUMN rma_boilerplate varchar(255) DEFAULT NULL";
 $stmts[] = "UPDATE eventum_reminder_action SET rma_boilerplate='Please take immediate action!'";
+$stmts[] = "INSERT INTO eventum_time_tracking_category (ttc_title, ttc_created_date) VALUES ('Note Discussion', now())";
 
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);

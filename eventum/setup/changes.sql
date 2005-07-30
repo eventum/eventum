@@ -628,5 +628,5 @@ ALTER TABLE eventum_faq ADD COLUMN faq_rank TINYINT(2) UNSIGNED NOT NULL;
 ALTER TABLE eventum_reminder_action ADD COLUMN rma_boilerplate varchar(255) DEFAULT NULL;
 UPDATE eventum_reminder_action SET rma_boilerplate='Please take immediate action!';
 
-
-
+# July 30th
+INSERT INTO eventum_time_tracking_category (ttc_title, ttc_created_date) VALUES ('Note Discussion', now());
