@@ -14,7 +14,7 @@ Eventum Issue Tracking System
 - Fixed possible SQL injection vulnerabilities on the Release and Report classes (Bug #12254) (João)
 - Fixed bug that caused custom field data to be deleted from all projects when removing a field from one project (Bryan)
 - Added the CREATE, DROP and ALTER privileges when creating a new MySQL user for the Eventum database (João)
-- Added a feature to display which filters are active on the issue listing screen (Bryan)
+- Added feature to display which filters are active on the issue listing screen (Bryan)
 - Replaced JSRS library with a new httpClient library (Bryan)
 - Fixed a bug that would prevent the authorized repliers list from working correctly (João)
 - Changed the project switch feature so that it respects the user preference to auto close the popup window or not (João)
@@ -23,9 +23,9 @@ Eventum Issue Tracking System
 - Fixed bug that caused URLs in news item to be corrupted (Bryan)
 - Added option to choose time category when adding a time tracking entry from a note (Bryan)
 - Added feature to automatically set the subject of new notes (Bryan)
-- Show proper message when a note has been deleted (Bryan)
-- Display sequenential note number in title window of view note page (Bryan)
-- Added a feature to customize the boilerplate text of reminder alert messages (João)
+- Fixed the view note window to properly display a special message when a note has been deleted (Bryan)
+- Added feature to display a sequenential note number in title window of view note page (Bryan)
+- Added feature to customize the boilerplate text of reminder alert messages (João)
 - Fixed the RSS feature of custom filters to behave properly under Microsoft IIS (João)
 
 26 Jul 2005, Version 1.5.5
