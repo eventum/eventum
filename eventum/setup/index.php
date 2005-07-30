@@ -335,7 +335,7 @@ $private_key = "' . md5(microtime()) . '";
             $user_list = array_map('strtolower', $user_list);
             if (@$HTTP_POST_VARS["create_user"] == 'yes') {
                 if (!in_array(strtolower(@$HTTP_POST_VARS['eventum_user']), $user_list)) {
-                    $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE ON " . $HTTP_POST_VARS['db_name'] . ".* TO '" . $HTTP_POST_VARS["eventum_user"] . "'@'%' IDENTIFIED BY '" . $HTTP_POST_VARS["eventum_password"] . "'";
+                    $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON " . $HTTP_POST_VARS['db_name'] . ".* TO '" . $HTTP_POST_VARS["eventum_user"] . "'@'%' IDENTIFIED BY '" . $HTTP_POST_VARS["eventum_password"] . "'";
                     if (!mysql_query($stmt, $conn)) {
                         return getErrorMessage('create_user', mysql_error());
                     }
@@ -400,7 +400,7 @@ $private_key = "' . md5(microtime()) . '";
     $config_contents = str_replace("%{APP_TABLE_PREFIX}%", $HTTP_POST_VARS['db_table_prefix'], $config_contents);
     $config_contents = str_replace("%{APP_HOSTNAME}%", $HTTP_POST_VARS['hostname'], $config_contents);
     $config_contents = str_replace("%{APP_RELATIVE_URL}%", $HTTP_POST_VARS['relative_url'], $config_contents);
-    $config_contents = str_replace("%{APP_VERSION}%", "1.6.0", $config_contents);
+    $config_contents = str_replace("%{APP_VERSION}%", "1.6.1", $config_contents);
     if (@$HTTP_POST_VARS['is_ssl'] == 'yes') {
         $protocol_type = 'https://';
     } else {
