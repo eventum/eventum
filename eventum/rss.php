@@ -69,6 +69,22 @@ function returnError($msg)
 <?php
 }
 
+// Extra tweak needed for IIS/ISAPI users since the PHP_AUTH_USER/PW variables are
+// not set on that particular platform. Instead what you get is a base64 encoded
+// value of the username:password under HTTP_AUTHORIZATION
+if (!empty($HTTP_SERVER_VARS['HTTP_AUTHORIZATION'])) {
+    $pieces = explode(':', base64_decode(substr($HTTP_SERVER_VARS['HTTP_AUTHORIZATION'], 6)));
+    $HTTP_SERVER_VARS['PHP_AUTH_USER'] = $pieces[0];
+    $HTTP_SERVER_VARS['PHP_AUTH_PW'] = $pieces[1];
+} elseif ((!empty($HTTP_SERVER_VARS['ALL_HTTP'])) && (strstr($HTTP_SERVER_VARS['ALL_HTTP'], 'HTTP_AUTHORIZATION'))) {
+    preg_match('/HTTP_AUTHORIZATION:Basic (.*)/', $HTTP_SERVER_VARS['ALL_HTTP'], $matches);
+    if (count($matches) > 0) {
+        $pieces = explode(':', base64_decode($matches[1]));
+        $HTTP_SERVER_VARS['PHP_AUTH_USER'] = $pieces[0];
+        $HTTP_SERVER_VARS['PHP_AUTH_PW'] = $pieces[1];
+    }
+}
+
 if (!isset($HTTP_SERVER_VARS['PHP_AUTH_USER'])) {
     authenticate();
     echo 'Error: You are required to authenticate in order to access the requested RSS feed.';
