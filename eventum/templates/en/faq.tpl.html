@@ -15,7 +15,7 @@
           <tr>
             <td class="default" bgcolor="{$dark_color}">
               <p><i>Last updated: {$faq.faq_updated_date}</i></p>
-              {$faq.message|htmlspecialchars|nl2br|activateLinks:"links"}
+              {$faq.message}
             </td>
           </tr>
         </table>
@@ -23,7 +23,7 @@
     </tr>
   </table>
   <br />
-  {/if}
+  {/if} 
   {if not $current_user_prefs.close_popup_windows}
   <center>
     <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:window.close();">Close Window</a></span>
