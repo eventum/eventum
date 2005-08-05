@@ -95,6 +95,7 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
     $tpl->assign("remove_checkin_result", $res);
 } elseif (@$HTTP_GET_VARS['cat'] == 'unassign') {
     $res = Issue::deleteUserAssociation($HTTP_GET_VARS["iss_id"], $usr_id);
+    Workflow::handleAssignmentChange($prj_id, $HTTP_GET_VARS["iss_id"], Auth::getUserID(), Issue::getDetails($HTTP_GET_VARS["iss_id"]), Issue::getAssignedUserIDs($HTTP_GET_VARS["iss_id"]));
     $tpl->assign('unassign_result', $res);
 } elseif (@$HTTP_POST_VARS["cat"] == "remove_email") {
     $res = Support::removeEmails();
