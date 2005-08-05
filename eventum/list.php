@@ -110,7 +110,7 @@ $tpl->assign("list_info", $list["info"]);
 $tpl->assign("csv_data", base64_encode(@$list["csv"]));
 
 $tpl->assign("columns", Display_Column::getColumnsToDisplay($prj_id, 'list_issues'));
-$tpl->assign("priorities", Priority::getList($prj_id));
+$tpl->assign("priorities", Priority::getAssocList($prj_id));
 $tpl->assign("status", Status::getAssocStatusList($prj_id));
 $tpl->assign("users", $users);
 $tpl->assign("assign_options", $assign_options);

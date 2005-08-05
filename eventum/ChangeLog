@@ -4,6 +4,7 @@ Eventum Issue Tracking System
 ???, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
 - Fixed bug handling HTML characters in Internal FAQ entries (Bryan)
+- Fixed bug displaying priority in current filters (Bryan)
 
 29 Jul 2005, Version 1.6.0
 - Added feature to control order of custom fields (Bryan)
