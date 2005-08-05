@@ -146,9 +146,7 @@ function runCustomFilter(f)
             <span class="default">Priority:</span><br />
             <select name="priority" class="default">
               <option value="">any</option>
-              {section name="i" loop=$priorities}
-              <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.priority}selected{/if}>{$priorities[i].pri_title}</option>
-              {/section}
+              {html_options options=$priorities selected=$options.priority}
             </select>
           </td>
           <td valign="top">
