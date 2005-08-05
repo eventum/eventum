@@ -230,6 +230,7 @@ class Monitor
                 "reminder_triggered_action",
                 "resolution",
                 "round_robin_user",
+                "search_profile",
                 "status",
                 "subscription",
                 "subscription_type",
