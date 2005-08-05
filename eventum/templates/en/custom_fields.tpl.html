@@ -33,7 +33,7 @@ function updateCustomFields(issue_id)
               {section name="i" loop=$custom_fields}
               {cycle values=$cycle assign="row_color"}
               <tr>
-                <td bgcolor="{$cell_color}" class="default_white">
+                <td bgcolor="{if $custom_fields[i].fld_min_role > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
                   <nobr><b>{$custom_fields[i].fld_title}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$row_color}">
@@ -51,7 +51,7 @@ function updateCustomFields(issue_id)
                 </td>
               </tr>
               {/section}
-              {if $current_role > $roles.reporter and $custom_fields|@count > 0}
+              {if $current_role > $roles.reporter and $custom_fields != ""}
               <tr id="custom_fields2" {get_display_style element_name="custom_fields"}>
                 <td align="center" colspan="2" bgcolor="{$cell_color}">
                   <input class="button" type="button" value="Update" onClick="javascript:updateCustomFields({$smarty.get.id});">
