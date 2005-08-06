@@ -40,6 +40,13 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["iss_id"];
 
+if (!Issue::canAccess($issue_id, Auth::getUserID())) {
+    $tpl = new Template_API();
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
+
 if (@$HTTP_POST_VARS["cat"] == "add_time") {
     $res = Time_Tracking::insertEntry();
     $tpl->assign("time_add_result", $res);

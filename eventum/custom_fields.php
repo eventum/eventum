@@ -41,6 +41,13 @@ Auth::checkAuthentication(APP_COOKIE);
 $prj_id = Auth::getCurrentProject();
 $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["issue_id"];
 
+if (!Issue::canAccess($issue_id, Auth::getUserID())) {
+    $tpl = new Template_API();
+    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->displayTemplate();
+    exit;
+}
+
 if (@$HTTP_POST_VARS["cat"] == "update_values") {
     $res = Custom_Field::updateValues();
     $tpl->assign("update_result", $res);
