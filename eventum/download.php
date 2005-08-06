@@ -34,13 +34,24 @@ include_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+
 if (stristr(APP_BASE_URL, 'https:')) {
     // fix for IE 5.5/6 with SSL sites
-    header("Pragma: cache");
+    header('Pragma: cache');
 }
+// fix for IE6 (KB812935)
+header('Cache-Control: must-revalidate');
 
 if ($HTTP_GET_VARS['cat'] == 'attachment') {
     $file = Attachment::getDetails($HTTP_GET_VARS["id"]);
-    Attachment::outputDownload($file['iaf_file'], $file["iaf_filename"], $file['iaf_filesize'], $file['iaf_filetype']);
+    if (!empty($file)) {
+        if (!Issue::canAccess($file['iat_iss_id'], Auth::getUserID())) {
+            $tpl = new Template_API();
+            $tpl->setTemplate("permission_denied.tpl.html");
+            $tpl->displayTemplate();
+            exit;
+        }
+        Attachment::outputDownload($file['iaf_file'], $file["iaf_filename"], $file['iaf_filesize'], $file['iaf_filetype']);
+    }
 }
 ?>

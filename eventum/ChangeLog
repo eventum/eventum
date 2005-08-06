@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 - Fixed bug handling HTML characters in Internal FAQ entries (Bryan)
 - Fixed bug displaying priority in current filters (Bryan)
 - Set X-Eventum-Type header in new assignment email (Bryan)
+- Fixed bug that allowed users to access attachments from issues they did not have access too (Bryan)
 
 29 Jul 2005, Version 1.6.0
 - Added feature to control order of custom fields (Bryan)
