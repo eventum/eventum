@@ -27,11 +27,16 @@
 {else}
 <script language="JavaScript">
 <!--
+{if $has_customer_integration}
+    var convert_email_warning = 'WARNING: Converting this note to an email will send the email to any customers that may \nbe listed in this issue\'s notification list.';
+{else}
+    var convert_email_warning = 'WARNING: Converting this note to an email will send the email to all users\n listed in this issue\'s notification list.';
+{/if}
 {literal}
 function validateForm(f)
 {
     var field = getFormElement(f, 'target', 1);
-    if ((field.checked) && (!confirm('WARNING: Converting this note to an email will send the email to any customers that may \nbe listed in this issue\'s notification list.'))) {
+    if ((field.checked) && (!confirm(convert_email_warning))) {
         return false;
     }
     var field = getFormElement(f, 'target', 0);
