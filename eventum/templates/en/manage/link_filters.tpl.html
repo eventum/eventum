@@ -103,7 +103,7 @@ function checkDelete(f)
                         <b>Description:</b>
                     </td>
                     <td bgcolor="{$light_color}">
-                        <input type="text" name="description" size="100" class="default" value="{$info.lfi_description|escape:"html"}">
+                        <input type="text" name="description" size="50" class="default" value="{$info.lfi_description|escape:"html"}">
                         {include file="error_icon.tpl.html" field="description"}
                     </td>
                 </tr>
@@ -172,7 +172,7 @@ function checkDelete(f)
                                 <td width="20%" bgcolor="{$row_color}" class="default">
                                     &nbsp;{$list[i].lfi_description}
                                 </td>
-                                <td width="40%" bgcolor="{$row_color}" class="default">
+                                <td width="20%" bgcolor="{$row_color}" class="default">
                                     &nbsp;{$list[i].min_usr_role_name}
                                 </td>
                                 <td width="20%" bgcolor="{$row_color}" class="default">
