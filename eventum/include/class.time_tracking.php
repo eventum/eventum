@@ -198,7 +198,7 @@ class Time_Tracking
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
-                    ttc_title NOT IN ('Email Discussion', 'Telephone Discussion')
+                    ttc_title NOT IN ('Note Discussion', 'Email Discussion', 'Telephone Discussion')
                  ORDER BY
                     ttc_title ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
