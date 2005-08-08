@@ -243,5 +243,18 @@ class Abstract_Workflow_Backend
     function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
     {
     }
+    
+    
+    /**
+     * Determines if the address should should be emailed.
+     * 
+     * @param   integer $prj_id The project ID
+     * @param   string $address The email address to check
+     * @return  boolean
+     */
+    function shouldEmailAddress($prj_id, $address)
+    {
+        return true;
+    }
 }
 ?>

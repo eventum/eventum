@@ -97,5 +97,22 @@ class Intranet_Workflow_Backend extends Abstract_Workflow_Backend
     {
         return true;
     }
+    
+    
+    /**
+     * Determines if the address should should be emailed.
+     * 
+     * @param   integer $prj_id The project ID
+     * @param   string $address The email address to check
+     * @return  boolean
+     */
+    function shouldEmailAddress($prj_id, $address)
+    {
+        if (strtolower($address) == "addnewemployee@mysql.com") {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 ?>

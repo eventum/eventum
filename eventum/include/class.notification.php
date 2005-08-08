@@ -982,6 +982,9 @@ class Notification
         if (Customer::hasCustomerIntegration($prj_id)) {
             Customer::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject);
         } else {
+            if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress($sender))) {
+                return;
+            }
             $data = Issue::getDetails($issue_id);
 
             // open text template
@@ -1318,6 +1321,9 @@ class Notification
         $text_message = $tpl->getTemplateContents();
 
         for ($i = 0; $i < count($emails); $i++) {
+            if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress($emails[$i]))) {
+                continue;
+            }
             // send email (use PEAR's classes)
             $mail = new Mail_API;
             $mail->setTextBody($text_message);

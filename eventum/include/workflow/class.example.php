@@ -260,5 +260,22 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     {
         echo "Workflow: handleCustomFieldsUpdated<br />\n";
     }
+    
+    
+    /**
+     * Determines if the address should should be emailed.
+     * 
+     * @param   integer $prj_id The project ID
+     * @param   string $address The email address to check
+     * @return  boolean
+     */
+    function shouldEmailAddress($prj_id, $address)
+    {
+        if ($address == "bad_email@example.com") {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 ?>

@@ -408,6 +408,23 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg);
     }
+    
+    
+    /**
+     * Determines if the address should should be emailed.
+     * 
+     * @param   integer $prj_id The project ID.
+     * @param   string $address The email address to check
+     * @return  boolean
+     */
+   function shouldEmailAddress($prj_id, $address)
+   {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return true;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->shouldEmailAddress($prj_id, $address);
+   }
 }
 
 
