@@ -95,7 +95,11 @@ class Intranet_Workflow_Backend extends Abstract_Workflow_Backend
      */
     function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {
-        return true;
+        if ($email == 'addnewemployee@mysql.com') {
+            return false;
+        } else {
+            return true;
+        }
     }
     
     
