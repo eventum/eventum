@@ -1946,7 +1946,7 @@ class Issue
         }
         $search_type = Issue::getParam('search_type');
         if (empty($search_type)) {
-            $search_type = 'customer';
+            $search_type = 'all_text';
         }
         $custom_field = Issue::getParam('custom_field');
         if (is_string($custom_field)) {
@@ -2440,25 +2440,20 @@ class Issue
         }
         if (!empty($options["keywords"])) {
             $stmt .= " AND (\n";
-            if ($options['search_type'] == 'all_text') {
-                if (APP_ENABLE_FULLTEXT) {
-                    $stmt .= "iss_id IN(" . join(', ', Issue::getFullTextIssues($options)) . ")";
-                } else {
-                    $stmt .= "(" . Misc::prepareBooleanSearch('iss_summary', $options["keywords"]);
-                    $stmt .= " OR " . Misc::prepareBooleanSearch('iss_description', $options["keywords"]) . ")";
-                }
-            } elseif ($options['search_type'] == 'customer') {
-                $list_unaccessible_issues = true;
+            if (($options['search_type'] == 'all_text') && (APP_ENABLE_FULLTEXT)) {
+                $stmt .= "iss_id IN(" . join(', ', Issue::getFullTextIssues($options)) . ")";
+            } elseif (($options['search_type'] == 'customer') && (Customer::hasCustomerIntegration($prj_id))) {
                 // check if the user is trying to search by customer email
-                if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($options['keywords']))) {
-                    $customer_ids = Customer::getCustomerIDsLikeEmail($prj_id, $options['keywords']);
-                    if (count($customer_ids) > 0) {
-                        $stmt .= " iss_customer_id IN (" . implode(', ', $customer_ids) . ")";
-                    } else {
-                        // no results, kill query
-                        $stmt .= " iss_customer_id = -1";
-                    }
+                $customer_ids = Customer::getCustomerIDsLikeEmail($prj_id, $options['keywords']);
+                if (count($customer_ids) > 0) {
+                    $stmt .= " iss_customer_id IN (" . implode(', ', $customer_ids) . ")";
+                } else {
+                    // no results, kill query
+                    $stmt .= " iss_customer_id = -1";
                 }
+            } else {
+                $stmt .= "(" . Misc::prepareBooleanSearch('iss_summary', $options["keywords"]);
+                $stmt .= " OR " . Misc::prepareBooleanSearch('iss_description', $options["keywords"]) . ")";
             }
             $stmt .= "\n) ";
         }
@@ -2510,7 +2505,6 @@ class Issue
                 }
             }
         }
-        
         // custom fields
         if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
             foreach ($options['custom_field'] as $fld_id => $search_value) {
