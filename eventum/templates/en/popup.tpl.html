@@ -25,9 +25,9 @@
   <b>Thank you, the time tracking entry was removed successfully.</b>
 {/if}
 
-{if $assign_result == 1}
-  <b>Thank you, the selected issues were assigned successfully.</b>
-{elseif $assign_result == -1}
+{if $bulk_update_result == 1}
+  <b>Thank you, the selected issues were updated successfully.</b>
+{elseif $bulk_update_result == -1}
   <b>An error occurred while trying to run your query</b>
 {/if}
 

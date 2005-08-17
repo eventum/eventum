@@ -425,6 +425,62 @@ class Issue
         }
         return $res;
     }
+    
+    
+    /**
+     * Method used to set the release of an issue
+     * 
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     * @param   integer $pre_id The ID of the release to set this issue too
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    function setRelease($issue_id, $pre_id)
+    {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $pre_id = Misc::escapeInteger($pre_id);
+        
+        if ($pre_id != Issue::getRelease($issue_id)) {
+            $sql = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    SET
+                        iss_pre_id = $pre_id
+                    WHERE
+                        iss_id = $issue_id";
+            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+    
+    
+    /**
+     * Returns the current release of an issue
+     * 
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     * @return  integer The release
+     */
+    function getRelease($issue_id)
+    {
+        $sql = "SELECT
+                    iss_pre_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    iss_id = " . Misc::escapeInteger($issue_id);
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
+    }
 
 
     /**
@@ -1454,9 +1510,10 @@ class Issue
      * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $usr_id The user to remove.
+     * @param   boolean $add_history Whether to add a history entry about this or not
      * @return  void
      */
-    function deleteUserAssociation($issue_id, $usr_id)
+    function deleteUserAssociation($issue_id, $usr_id, $add_history = true)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = Misc::escapeInteger($usr_id);
@@ -1470,8 +1527,10 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'), 
-                User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID()));
+            if ($add_history) {
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'), 
+                    User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID()));
+            }
             return 1;
         }
     }
@@ -3007,44 +3066,115 @@ class Issue
 
 
     /**
-     * Method used to assign a list of issues to a specific user.
+     * Method used to bulk update a list of issues
      *
      * @access  public
      * @return  boolean
      */
-    function assign()
+    function bulkUpdate()
     {
         global $HTTP_POST_VARS;
 
         // check if user performing this chance has the proper role
-        if (Auth::getCurrentRole() < User::getRoleID('Standard User')) {
+        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
             return -1;
         }
 
-        $HTTP_POST_VARS['item'] = Misc::escapeInteger($HTTP_POST_VARS['item']);
-        $HTTP_POST_VARS['users'] = Misc::escapeInteger($HTTP_POST_VARS['users']);
+        $items = Misc::escapeInteger($HTTP_POST_VARS['item']);
+        $new_status_id = Misc::escapeInteger($_POST['status']);
+        $new_release_id = Misc::escapeInteger($_POST['release']);
 
-        for ($i = 0; $i < count($HTTP_POST_VARS["item"]); $i++) {
-            // check if the issue is already assigned to this person
-            $stmt = "SELECT
-                        COUNT(*) AS total
-                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
-                     WHERE
-                        isu_iss_id=" . $HTTP_POST_VARS["item"][$i] . " AND
-                        isu_usr_id=" . $HTTP_POST_VARS["users"];
-            $total = $GLOBALS["db_api"]->dbh->getOne($stmt);
-            if ($total > 0) {
+        for ($i = 0; $i < count($items); $i++) {
+            if (!Issue::canAccess($items[$i], Auth::getUserID())) {
                 continue;
-            } else {
+            } elseif (Issue::getProjectID($HTTP_POST_VARS['item'][$i]) != Auth::getCurrentProject()) {
                 // make sure issue is not in another project
-                if (Issue::getProjectID($HTTP_POST_VARS['item'][$i]) != Auth::getCurrentProject()) {
+                continue;
+            }
+            
+            $updated_fields = array();
+            
+            // update assignment
+            if (count(@$HTTP_POST_VARS['users']) > 0) {
+                $users = Misc::escapeInteger($HTTP_POST_VARS['users']);
+                // get who this issue is currently assigned too
+                $stmt = "SELECT
+                            isu_usr_id,
+                            usr_full_name
+                         FROM
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                         WHERE
+                            isu_usr_id = usr_id AND
+                            isu_iss_id = " . $items[$i];
+                $current_assignees = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+                if (PEAR::isError($current_assignees)) {
+                    Error_Handler::logError(array($current_assignees->getMessage(), $current_assignees->getDebugInfo()), __FILE__, __LINE__);
                     return -1;
                 }
-                // add the assignment
-                Issue::addUserAssociation(Auth::getUserID(), $HTTP_POST_VARS["item"][$i], $HTTP_POST_VARS["users"]);
-                Notification::subscribeUser(Auth::getUserID(), $HTTP_POST_VARS["item"][$i], $HTTP_POST_VARS["users"], Notification::getAllActions());
-                Workflow::handleAssignment(Auth::getCurrentProject(), $HTTP_POST_VARS["item"][$i], Auth::getUserID());
+                foreach ($current_assignees as $usr_id => $usr_name) {
+                    if (!in_array($usr_id, $users)) {
+                        Issue::deleteUserAssociation($items[$i], $usr_id, false);
+                    }
+                }
+                $new_user_names = array();
+                $new_assignees = array();
+                foreach ($users as $usr_id) {
+                    $new_user_names[$usr_id] = User::getFullName($usr_id);
+                    
+                    // check if the issue is already assigned to this person
+                    $stmt = "SELECT
+                                COUNT(*) AS total
+                             FROM
+                                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
+                             WHERE
+                                isu_iss_id=" . $items[$i] . " AND
+                                isu_usr_id=" . $usr_id;
+                    $total = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                    if ($total > 0) {
+                        continue;
+                    } else {
+                        $new_assignees[] = $usr_id;
+                        // add the assignment
+                        Issue::addUserAssociation(Auth::getUserID(), $items[$i], $usr_id, false);
+                        Notification::subscribeUser(Auth::getUserID(), $items[$i], $usr_id, Notification::getAllActions());
+                        Workflow::handleAssignment(Auth::getCurrentProject(), $items[$i], Auth::getUserID());
+                    }
+                }
+                Notification::notifyNewAssignment($new_assignees, $items[$i]);
+                $updated_fields['Assignment'] = History::formatChanges(join(', ', $current_assignees), join(', ', $new_user_names));
+            }
+            
+            // update status
+            if (!empty($new_status_id)) {
+                $old_status_id = Issue::getStatusID($items[$i]);
+                $res = Issue::setStatus($items[$i], $new_status_id, false);
+                if ($res == 1) {
+                    $updated_fields['Status'] = History::formatChanges(Status::getStatusTitle($old_status_id), Status::getStatusTitle($new_status_id));
+                }
+            }
+            
+            // update release
+            if (!empty($new_release_id)) {
+                $old_release_id = Issue::getRelease($items[$i]);
+                $res = Issue::setRelease($items[$i], $new_release_id);
+                if ($res == 1) {
+                    $updated_fields['Release'] = History::formatChanges(Release::getTitle($old_release_id), Release::getTitle($new_release_id));
+                }
+            }
+            
+            if (count($updated_fields) > 0) {
+                // log the changes
+                $changes = '';
+                $k = 0;
+                foreach ($updated_fields as $key => $value) {
+                    if ($k > 0) {
+                        $changes .= "; ";
+                    }
+                    $changes .= "$key: $value";
+                    $k++;
+                }
+                History::add($items[$i], Auth::getUserID(), History::getTypeID('issue_bulk_updated'), "Issue updated ($changes) by " . User::getFullName(Auth::getUserID()));
             }
         }
         return true;

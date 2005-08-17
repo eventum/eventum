@@ -630,3 +630,6 @@ UPDATE eventum_reminder_action SET rma_boilerplate='Please take immediate action
 
 # July 30th
 INSERT INTO eventum_time_tracking_category (ttc_title, ttc_created_date) VALUES ('Note Discussion', now());
+
+# Aug 17th
+INSERT INTO eventum_history_type VALUES(null, 'issue_bulk_updated', 0);

@@ -11,16 +11,69 @@ var page_url = '{$smarty.server.PHP_SELF}';
 var current_page = '{$list_info.current_page}';
 var last_page = '{$list_info.last_page}';
 {literal}
-function assignItems(f)
+// this function will display the bulk update form if any issues are selected.
+// if no issues are selected it will be hidden.
+function toggleBulkUpdate()
 {
+    var items = document.getElementsByName('item[]');
+    
+    // loop through looking to see which are checked
+    var show = false;
+    for (var i = 0; i < items.length; i++) {
+        if (items[i].checked) {
+            show = true;
+            break;
+        }
+    }
+    if (show) {
+        changeVisibility('bulk_update1', show);
+    }
+}
+function resetBulkUpdate()
+{
+    var f = getForm('list_form');
+    clearSelectedOptions(getFormElement(f, 'users[]'));
+    clearSelectedOptions(getFormElement(f, 'status'));
+    if (getFormElement(f, 'release')) {
+        clearSelectedOptions(getFormElement(f, 'release'));
+    }
+}
+function bulkUpdate()
+{
+    var f = getForm('list_form');
     if (!hasOneChecked(f, 'item[]')) {
-        alert('Please choose which entries to assign.');
+        alert('Please choose which issues to update.');
         return false;
     }
-    if (f.users.options[f.users.selectedIndex].value == '') {
-        alert('Please choose the user to assign these entries to.');
-        f.users.focus();
-        selectField(f, 'users');
+    
+    // figure out what is changing
+    var changed = new Array();
+    if (hasOneSelected(f, 'users[]')) {
+        changed[changed.length] = 'Assignment';
+    }
+    if (f.elements.status.selectedIndex != 0) {
+        changed[changed.length] = 'Status';
+    }
+    if ((f.elements.release) && (f.elements.release.selectedIndex != 0)) {
+        changed[changed.length] = 'Release';
+    }
+    if (changed.length < 1) {
+        alert('Please choose new values for the select issues');
+        return false;
+    }
+    var msg = 'Warning: If you continue, you will change the ';
+    for (var i = 0; i < changed.length; i++) {
+        msg += changed[i];
+        if ((changed.length > 1) && (i == (changed.length-2))) {
+            msg += ' and ';
+        } else {
+            if (i != (changed.length-1)) {
+                msg += ', ';
+            }
+        }
+    }
+    msg += ' for all selected issues. Are you sure you want to continue?';
+    if (!confirm(msg)) {
         return false;
     }
     var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -104,7 +157,7 @@ function disableFields()
 {/if}
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <form name="list_form" method="post" action="{$smarty.server.PHP_SELF}">
-  <input type="hidden" name="cat" value="assign">
+  <input type="hidden" name="cat" value="bulk_update">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -123,6 +176,7 @@ function disableFields()
                   [ <a class="link" title="hide / show the quick search form" href="javascript:void(null);" onClick="javascript:toggleVisibility('filter_form');">quick search</a> ]
                   {if $current_role > $roles.reporter}[ <a class="link" title="hide / show the advanced search form" href="javascript:void(null);" onClick="javascript:toggleVisibility('custom_filter_form');">advanced search</a> ]{/if}
                   {if $current_role > $roles.reporter}[ <a class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('current_filters');"> current filters</a> ]{/if}
+                  {if $current_role > $roles.developer}[ <a class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('bulk_update');"> bulk update tool</a> ]{/if}
                   {/if}
                 </td>
                 {/if}
@@ -133,7 +187,7 @@ function disableFields()
         <tr bgcolor="{$cell_color}">
           {if $current_role > $roles.developer}
           <td width="1%">
-            <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+            <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');toggleBulkUpdate();">
           </td>
           {/if}
           {foreach from=$columns item=column key=field_name}
@@ -170,7 +224,7 @@ function disableFields()
         {section name="i" loop=$list}
         <tr {if $current_role >= $roles.developer AND $list[i].iqu_status > 0}style="text-decoration: line-through;"{/if}>
           {if $current_role > $roles.developer}
-          <td bgcolor="{$list[i].status_color}" width="1%" class="default" align="center"><input type="checkbox" name="item[]" value="{$list[i].iss_id}"></td>
+          <td bgcolor="{$list[i].status_color}" width="1%" class="default" align="center"><input type="checkbox" name="item[]" value="{$list[i].iss_id}" onchange="toggleBulkUpdate();"></td>
           {/if}
           {foreach from=$columns item=column key=field_name}
           {if $field_name == 'custom_fields'}
@@ -246,12 +300,6 @@ function disableFields()
                 <td width="30%" nowrap>
                   {if $current_role > $roles.developer}
                   <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
-                  <input type="button" value="Assign &gt;" class="shortcut" onClick="javascript:assignItems(this.form);">
-                  <select name="users" class="default">
-                    <option value=""></option>
-                    {html_options options=$users}
-                  </select>
-                  {include file="error_icon.tpl.html" field="users"}
                   {/if}
                 </td>
                 <td width="40%" align="center" nowrap>
@@ -286,6 +334,14 @@ function disableFields()
       </table>
     </td>
   </tr>
+  {if $current_role > $roles.developer}
+  <tr>
+    <td bgcolor="#FFFFFF">
+      <br />
+      {include file="bulk_update.tpl.html"}
+    </td>
+  </tr>
+  {/if}
   </form>
   <form target="_csvWindow" method="post" action="csv.php" name="csv_form">
   <input type="hidden" name="csv_data" value="{$csv_data}">

@@ -60,9 +60,9 @@ if (@$HTTP_GET_VARS["cat"] == "delete_note") {
 } elseif (@$HTTP_GET_VARS["cat"] == "delete_time") {
     $res = Time_Tracking::removeEntry($HTTP_GET_VARS["id"], $usr_id);
     $tpl->assign("time_delete_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "assign") {
-    $res = Issue::assign();
-    $tpl->assign("assign_result", $res);
+} elseif (@$HTTP_POST_VARS["cat"] == "bulk_update") {
+    $res = Issue::bulkUpdate();
+    $tpl->assign("bulk_update_result", $res);
 } elseif (@$HTTP_POST_VARS["cat"] == "set_initial_impact") {
     $res = Issue::setImpactAnalysis($HTTP_POST_VARS["issue_id"]);
     $tpl->assign("set_initial_impact_result", $res);
