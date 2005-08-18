@@ -10,6 +10,7 @@ Eventum Issue Tracking System
 - Added new workflow method to check if an address should be emailed (Bryan)
 - Fixed the issue searching routine to properly handle disabled fulltext search and customer integration features (João)
 - Added feature to bulk update issue assignment, status and release (Bryan)
+- Fixed labels on workload by date range graphs (Bryan)
 
 29 Jul 2005, Version 1.6.0
 - Added feature to control order of custom fields (Bryan)
