@@ -38,6 +38,29 @@ include_once(APP_PEAR_PATH . 'Net/SmartIRC.php');
 
 ini_set("memory_limit", "256M");
 
+// the following is the list of IRC channels that the bot should connect to,
+// and the associated project name
+$channels = array(
+    Project::getID('Default Project') => array(
+        '#issues',
+    )
+);
+$irc_server_hostname = 'localhost';
+$irc_server_port = 6667;
+$nickname = 'EventumBOT';
+$realname = 'Eventum Issue Tracking System';
+// do you need a username/password to connect to this server? if 
+// so, fill in the next two variables
+$username = '';
+$password = '';
+
+
+// ============================================
+// ============================================
+// NO NEED TO UPDATE ANYTHING BELOW THIS LINE
+// ============================================
+// ============================================
+
 // if requested, clear the lock
 if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
     Lock::release('irc_bot');
@@ -53,13 +76,6 @@ if (!Lock::acquire('irc_bot')) {
                 "as the only parameter.\n";
     exit;
 }
-
-// SETUP: need to change the project name in here
-$channels = array(
-    Project::getID('Default Project') => array(
-        '#issues',
-    )
-);
 
 $auth = array();
 
@@ -375,8 +391,9 @@ $irc->setLogfile(APP_IRC_LOG);
 $irc->setUseSockets(TRUE);
 $irc->setAutoReconnect(TRUE);
 $irc->setAutoRetry(TRUE);
+$irc->setReceiveTimeout(600);
+$irc->setTransmitTimeout(600);
 
-// register saytime() to be called every 30 sec. (30,000 milliseconds)
 $irc->registerTimehandler(3000, $bot, 'notifyEvents');
 
 // methods that keep track of who is authenticated
@@ -392,9 +409,12 @@ $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?clock', $bot, 'clockUser');
 $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-clocked-in', $bot, 'listClockedInUsers');
 $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-quarantined', $bot, 'listQuarantinedIssues');
 
-
-$irc->connect('localhost', 6667);
-$irc->login('EventumBOT', 'EventumBOT', 0, 'EventumBOT');
+$irc->connect($irc_server_hostname, $irc_server_port);
+if (!empty($username)) {
+    $irc->login($nickname, $realname, 0, $username, $password);
+} else {
+    $irc->login($nickname, $realname);
+}
 $irc->listen();
 $irc->disconnect();
 
