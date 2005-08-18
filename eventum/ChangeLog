@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Fixed bug that allowed users to access attachments, custom fields, phone calls and time tracking from issues they did not have access too (Bryan)
 - Added new workflow method to check if an address should be emailed (Bryan)
 - Fixed the issue searching routine to properly handle disabled fulltext search and customer integration features (João)
+- Improved the IRC Bot script to be easier to configure (João)
 - Added feature to bulk update issue assignment, status and release (Bryan)
 - Fixed labels on workload by date range graphs (Bryan)
 
