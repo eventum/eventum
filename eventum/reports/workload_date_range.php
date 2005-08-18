@@ -70,7 +70,7 @@ if (count(@$_REQUEST["end"]) > 0 &&
 
 
 if (!empty($_REQUEST["interval"])) {
-    $data = Report::getWorkloadByDateRange($_REQUEST["interval"], $_REQUEST["type"], $start_date, $end_date);
+    $data = Report::getWorkloadByDateRange($_REQUEST["interval"], $_REQUEST["type"], $start_date, date('Y-m-d', (strtotime($end_date) + DAY)));
     Session::set("workload_date_range_data", $data);
     $tpl->assign("data", $data);
   //  echo "<pre>";print_r($data);echo "</pre>";
