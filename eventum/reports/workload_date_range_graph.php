@@ -77,10 +77,32 @@ if ($_REQUEST["graph"] == "issue") {
     $plots = array_values($data["issues"]["points"]);
     $graph_title = "Issues by created date";
     $labels = array_keys($data["issues"]["points"]);
+    $y_label = "Issues";
 } elseif ($_REQUEST["graph"] == "email") {
     $plots = array_values($data["emails"]["points"]);
     $graph_title = "Emails by sent date";
     $labels = array_keys($data["emails"]["points"]);
+    $y_label = "Emails";
+}elseif ($_REQUEST["graph"] == "note") {
+    $plots = array_values($data["notes"]["points"]);
+    $graph_title = "Notes by sent date";
+    $labels = array_keys($data["notes"]["points"]);
+    $y_label = "Notes";
+} elseif ($_REQUEST["graph"] == "phone") {
+    $plots = array_values($data["phone"]["points"]);
+    $graph_title = "Phone calls by date";
+    $labels = array_keys($data["phone"]["points"]);
+    $y_label = "Phone Calls";
+} elseif ($_REQUEST["graph"] == "time_spent") {
+    $plots = array_values($data["time_spent"]["points"]);
+    $graph_title = "Time spent (hrs)";
+    $labels = array_keys($data["time_spent"]["points"]);
+    $y_label = "Hours";
+} elseif ($_REQUEST["graph"] == "avg_time_per_issue") {
+    $plots = array_values($data["avg_time_per_issue"]["points"]);
+    $graph_title = "Avg. Time spent per issue (min)";
+    $labels = array_keys($data["avg_time_per_issue"]["points"]);
+    $y_label = "Minutes";
 }
 $graph_title .= " " . $_REQUEST["start_date"] . " through " . $_REQUEST["end_date"];
 
@@ -159,7 +181,7 @@ if (@$_REQUEST["type"] == "pie") {
     $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
     $graph->title->SetFont(FF_FONT1,FS_BOLD);
     $graph->yaxis->scale->setGrace(15,0);
-    $graph->yaxis->title->Set("Issue Count");
+    $graph->yaxis->title->Set($y_label);
     $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
     
 }
