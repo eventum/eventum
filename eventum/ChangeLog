@@ -13,6 +13,7 @@ Eventum Issue Tracking System
 - Added feature to bulk update issue assignment, status and release (Bryan)
 - Fixed labels on workload by date range graphs (Bryan)
 - Added feature to highlight quoted replies in notes and emails using smarty plugin from Joscha Feth (Bryan)
+- Updated the bundled XML-RPC library to the latest PEAR 1.4.0 release (João)
 
 29 Jul 2005, Version 1.6.0
 - Added feature to control order of custom fields (Bryan)
