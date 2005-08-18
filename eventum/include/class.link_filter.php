@@ -266,6 +266,11 @@ class Link_Filter
      */
     function processText($prj_id, $text, $class = "link")
     {
+        
+        // process issue link seperatly since it has to do something special
+        $text = Misc::activateLinks($text, $class);
+        $text = Link_Filter::processIssueSpecificLinks($text);
+        
         $filters = Link_Filter::getFilters($prj_id);
         
         if (count($filters) > 0) {
@@ -273,9 +278,6 @@ class Link_Filter
                 $text = preg_replace('/' . $filter[0] . '/i', $filter[1], $text);
             }
         }
-        // process issue link seperatly since it has to do something special
-        $text = Misc::activateLinks($text, $class);
-        $text = Link_Filter::processIssueSpecificLinks($text);
         
         return $text;
     }
