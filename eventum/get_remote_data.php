@@ -62,7 +62,7 @@ function getEmail($id)
     $split = explode("-", $id);
     $info = Support::getEmailDetails($split[0],$split[1]);
     if (!empty($_GET["ec_id"])) {
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $info["message"])));
+        return Link_Filter::processText(Auth::getCurrentProject(), nl2br($_GET["ec_id"] . ":" . $id. ":" . Misc::highlightQuotedReply($info["message"])));
     } else {
         return $info["seb_body"];
     }
@@ -79,7 +79,7 @@ function getNote($id)
 {
     $note = Note::getDetails($id);
     if (!empty($_GET["ec_id"])) {
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(@htmlspecialchars($_GET["ec_id"] . ":" . $id. ":" . $note["not_note"])));
+        return Link_Filter::processText(Auth::getCurrentProject(), nl2br($_GET["ec_id"] . ":" . $id. ":" . Misc::highlightQuotedReply($note["not_note"])));
     } else {
         return $note["not_note"];
     }

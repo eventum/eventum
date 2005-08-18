@@ -49,7 +49,7 @@ if ($note == '') {
     $tpl->displayTemplate();
     exit;
 } else {
-    $note["message"] = Misc::activateLinks(nl2br(htmlspecialchars($note["not_note"])));
+    $note["message"] = $note["not_note"];
     $issue_id = Note::getIssueID($HTTP_GET_VARS["id"]);
     $usr_id = Auth::getUserID();
 }
@@ -61,7 +61,7 @@ if ((User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRol
 }
 
 $note = Note::getDetails($HTTP_GET_VARS["id"]);
-$note["message"] = Misc::activateLinks(nl2br(htmlspecialchars($note["not_note"])));
+$note["message"] = $note["not_note"];
 
 $issue_id = Note::getIssueID($HTTP_GET_VARS["id"]);
 $tpl->bulkAssign(array(

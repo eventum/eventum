@@ -595,6 +595,21 @@ class Misc
         }
         return true;
     }
+    
+    
+    /**
+     * Highlights quoted replies. Relies on a smarty plugin written by
+     * Joscha Feth, joscha@feth.com, www.feth.com
+     * 
+     * @access  public
+     * @param   string $text The text to highlight
+     * @return  string The highlighted text
+     */
+    function highlightQuotedReply($text)
+    {
+        include_once(APP_SMARTY_PATH . "plugins/modifier.highlight_quoted.php");
+        return smarty_modifier_highlight_quoted($text);
+    }
 
 
     /**

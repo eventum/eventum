@@ -121,7 +121,7 @@ function viewNote(id)
         </tr>
         <tr>
           <td colspan="2" bgcolor="{$light_color}" id="email_message" class="default">
-{$note.message|activateLinks}
+{$note.message|highlight_quoted|nl2br|activateLinks}
           </td>
         </tr>
         <tr>
