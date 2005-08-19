@@ -1,16 +1,16 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 1.6.1
+19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
-- Fixed bug handling HTML characters in Internal FAQ entries (Bryan)
+- Fixed bug with handling HTML characters in Internal FAQ entries (Bryan)
 - Fixed bug displaying priority in current filters (Bryan)
-- Set X-Eventum-Type header in new assignment email (Bryan)
+- Added feature to set X-Eventum-Type header in new assignment email (Bryan)
 - Fixed bug that allowed users to access attachments, custom fields, phone calls and time tracking from issues they did not have access too (Bryan)
 - Added new workflow method to check if an address should be emailed (Bryan)
 - Fixed the issue searching routine to properly handle disabled fulltext search and customer integration features (João)
 - Improved the IRC Bot script to be easier to configure (João)
-- Added feature to bulk update issue assignment, status and release (Bryan)
+- Added feature to update issue assignment, status and release for multiple issues at the same (Bryan)
 - Fixed labels on workload by date range graphs (Bryan)
 - Added feature to highlight quoted replies in notes and emails using smarty plugin from Joscha Feth (Bryan)
 - Updated the bundled XML-RPC library to the latest PEAR 1.4.0 release (João)
