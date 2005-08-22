@@ -236,26 +236,29 @@ function checkRequiredCustomFields(f, required_fields)
     }
 }
 
-function checkErrorCondition(form_name, field_name)
+function checkErrorCondition(form_name, field_name, callback)
 {
     var f = getForm(form_name);
     var field = getFormElement(f, field_name);
     if ((field.type == 'text') || (field.type == 'textarea') || (field.type == 'password')) {
         if (!isWhitespace(field.value)) {
             errorDetails(f, field_name, false);
+            callback(form_name, field_name);
         }
     } else if (field.type == 'select-one') {
         if (getSelectedOption(f, field_name) != '-1') {
             errorDetails(f, field_name, false);
+            callback(form_name, field_name);
         }
     } else if (field.type == 'select-multiple') {
         if (hasOneSelected(f, field_name)) {
             errorDetails(f, field_name, false);
+            callback(form_name, field_name);
         }
     }
 }
 
-function selectField(f, field_name)
+function selectField(f, field_name, callback)
 {
     for (var i = 0; i < f.elements.length; i++) {
         if (f.elements[i].name == field_name) {
@@ -266,7 +269,7 @@ function selectField(f, field_name)
             if (isWhitespace(f.name)) {
                 return false;
             }
-            f.elements[i].onchange = new Function('checkErrorCondition(\'' + f.name + '\', \'' + field_name + '\');');
+            f.elements[i].onchange = new Function('checkErrorCondition(\'' + f.name + '\', \'' + field_name + '\', ' + callback +');');
             if (f.elements[i].select) {
                 f.elements[i].select();
             }
