@@ -36,6 +36,7 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
+<script language="JavaScript" src="js/dynamic_custom_field.js.php?iss_id={$smarty.get.issue_id}"></script>
 <form name="custom_field_form" method="post" action="{$smarty.server.PHP_SELF}" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="update_values">
 <input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
@@ -61,10 +62,13 @@ function validateForm(f)
             {elseif $custom_fields[i].fld_type == 'textarea'}
             <textarea name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60">{$custom_fields[i].icf_value|escape:"html"}</textarea>
             {else}
-            <select class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if}>
+            <select id="custom_field_{$custom_fields[i].fld_id}" class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if}>
               {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">Please choose an option</option>{/if}
               {html_options options=$custom_fields[i].field_options selected=$custom_fields[i].selected_cfo_id}
             </select>
+            {if $custom_fields[i].dynamic_options|@count > 0}
+            <script>custom_field_init_dynamic_options({$custom_fields[i].fld_id});</script>
+            {/if}
             {/if}
             {if $custom_fields[i].fld_description != ""}
             <span class="small_default">({$custom_fields[i].fld_description|escape:"html"})</span>

@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+???, Version 1.6.2
+- Added feature to support custom fields with dynamic option lists (Bryan)
+
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
 - Fixed bug with handling HTML characters in Internal FAQ entries (Bryan)

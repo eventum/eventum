@@ -336,6 +336,13 @@ class Custom_Field
                 return "";
             } else {
                 for ($i = 0; $i < count($res); $i++) {
+                    // check if this has a dynamic field custom backend
+                    $backend = Custom_Field::getBackend($res[$i]['fld_id']);
+                    if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Select_Custom_Field_Backend"))) {
+                        $res[$i]['dynamic_options'] = $backend->getStructuredData();
+                        $res[$i]['controlling_field_id'] = $backend->getControllingCustomFieldID();
+                        $res[$i]['controlling_field_name'] = $backend->getControllingCustomFieldName();
+                    }
                     $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
                 }
                 return $res;
@@ -470,6 +477,14 @@ class Custom_Field
                             $fields[$found_index]['icf_value'] .= ', ' . Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["icf_value"]);
                             $fields[$found_index]['selected_cfo_id'][] = $res[$i]["icf_value"];
                         }
+                    }
+                }
+                foreach ($fields as $key => $field) {
+                    $backend = Custom_Field::getBackend($field['fld_id']);
+                    if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Select_Custom_Field_Backend"))) {
+                        $fields[$key]['dynamic_options'] = $backend->getStructuredData();
+                        $fields[$key]['controlling_field_id'] = $backend->getControllingCustomFieldID();
+                        $fields[$key]['controlling_field_name'] = $backend->getControllingCustomFieldName();
                     }
                 }
                 return $fields;
