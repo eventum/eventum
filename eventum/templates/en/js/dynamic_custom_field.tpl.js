@@ -21,7 +21,7 @@ dynamic_options[i].groups = new Array();
 function custom_field_get_details_by_controller(controller_id)
 {
     for (i = 0; i < dynamic_options.length; i++) {
-        if (dynamic_options[i].controlling_field_id = controller_id) {
+        if (dynamic_options[i].controlling_field_id == controller_id) {
             return dynamic_options[i];
         }
     }
@@ -30,7 +30,7 @@ function custom_field_get_details_by_controller(controller_id)
 function custom_field_get_details_by_target(target_id)
 {
     for (i = 0; i < dynamic_options.length; i++) {
-        if (dynamic_options[i].target_field_id = target_id) {
+        if (dynamic_options[i].target_field_id == target_id) {
             return dynamic_options[i];
         }
     }
@@ -39,16 +39,17 @@ function custom_field_get_details_by_target(target_id)
 
 function custom_field_init_dynamic_options(fld_id)
 {
-    for (i = 0; i < dynamic_options.length; i++) {
-        if (dynamic_options[i].target_field_id = fld_id) {
+    for (var i = 0; i < dynamic_options.length; i++) {
+        if (dynamic_options[i].target_field_id == fld_id) {
             // set alert on target field prompting them to choose controlling field first
             target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id);
             target_field.onfocus = custom_field_prompt_choose_controller;
-            
+
             // set event handler for controlling field
             controlling_field = getPageElement('custom_field_' + dynamic_options[i].controlling_field_id);
             controlling_field.onchange = custom_field_handle_controller_change;
             custom_field_set_new_options(controlling_field, true);
+            break;
         }
     }
 }
@@ -101,8 +102,8 @@ function custom_field_prompt_choose_controller(e) {
     
     details = custom_field_get_details_by_target(target_id);
     
-    selectField(target_field.form, 'custom_fields[' + details['controlling_field_id'] + ']', custom_field_error_callback);
     alert('Please choose ' + details.controlling_field_name + ' first');
+//    selectField(target_field.form, 'custom_fields[' + details['controlling_field_id'] + ']', custom_field_error_callback);
     return false;
 }
 
