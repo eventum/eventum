@@ -339,6 +339,7 @@ function validateForm(f)
         </tr>
         {/if}
         {section name="i" loop=$custom_fields}
+        {assign var='fld_id' value=$custom_fields[i].fld_id}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>{$custom_fields[i].fld_title}:{if $custom_fields[i].fld_report_form_required} *{/if}</b>
@@ -353,17 +354,19 @@ function validateForm(f)
           </td>
           <td bgcolor="{$light_color}">
             {if $custom_fields[i].fld_type == 'text'}
-            <input class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" tabindex="{$tabindex++}">
+            <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" tabindex="{$tabindex++}" value="{$smarty.get.custom_fields[$fld_id]}">
             {elseif $custom_fields[i].fld_type == 'textarea'}
-            <textarea name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}"></textarea>
+            <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}"></textarea>
+            {elseif $custom_fields[i].fld_type == 'date'}
+            {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" year_empty='' month_empty='' day_empty='' time='--' start_year=-1 end_year=+2 day_value_format=%02d month_extra="tabindex=\"`$tabindex++`\"" day_extra="tabindex=\"`$tabindex++`\"" year_extra="tabindex=\"`$tabindex++`\""}
             {else}
             <select id="custom_field_{$custom_fields[i].fld_id}" {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if} class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" tabindex="{$tabindex++}">
               {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">Please choose an option</option>{/if}
               {html_options options=$custom_fields[i].field_options}
             </select>
+            {/if}
             {if $custom_fields[i].dynamic_options|@count > 0}
             <script>custom_field_init_dynamic_options({$custom_fields[i].fld_id});</script>
-            {/if}
             {/if}
             {assign var="custom_field_id" value=$custom_fields[i].fld_id}
             {if $custom_fields[i].fld_type == 'multiple'}
