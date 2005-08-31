@@ -170,7 +170,18 @@ class Custom_Field
                  WHERE
                     fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($HTTP_POST_VARS['custom_fields']))) . ")";
         $field_types = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        
+        // get the titles for all of the custom fields being submitted
+        $stmt = "SELECT
+                    fld_id,
+                    fld_title
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
+                 WHERE
+                    fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($HTTP_POST_VARS['custom_fields']))) . ")";
+        $field_titles = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 
+        $updated_fields = array();
         foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
             
             $fld_id = Misc::escapeInteger($fld_id);
@@ -192,19 +203,35 @@ class Custom_Field
                 'combo'
             );
             if (!in_array($field_types[$fld_id], $option_types)) {
+                // check if this is a date field
+                if ($field_types[$fld_id] == 'date') {
+                    $value = $value['Year'] . "-" . $value['Month'] . "-" . $value['Day'];
+                    if ($value == '--') {
+                        $value = '';
+                    }
+                }
+                
                 // first check if there is actually a record for this field for the issue
                 $stmt = "SELECT
-                            icf_id
+                            icf_id,
+                            icf_value
                          FROM
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                          WHERE
                             icf_iss_id=" . $issue_id . " AND
                             icf_fld_id=$fld_id";
-                $icf_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
-                if (PEAR::isError($icf_id)) {
-                    Error_Handler::logError(array($icf_id->getMessage(), $icf_id->getDebugInfo()), __FILE__, __LINE__);
+                $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+                if (PEAR::isError($res)) {
+                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                     return -1;
                 }
+                $icf_id = $res['icf_id'];
+                $icf_value = $res['icf_value'];
+                
+                if ($icf_value == $value) {
+                    continue;
+                }
+                
                 if (empty($icf_id)) {
                     // record doesn't exist, insert new record
                     $stmt = "INSERT INTO
@@ -237,12 +264,31 @@ class Custom_Field
                         return -1;
                     }
                 }
+                if ($field_types[$fld_id] == 'textarea') {
+                    $updated_fields[$field_titles[$fld_id]] = '';
+                } else {
+                    $updated_fields[$field_titles[$fld_id]] = History::formatChanges($icf_value, $value);
+                }
             } else {
-                // need to remove all associated options from issue_custom_field and then 
-                // add the selected options coming from the form
-                Custom_Field::removeIssueAssociation($fld_id, $HTTP_POST_VARS["issue_id"]);
-                if (@count($value) > 0) {
-                    Custom_Field::associateIssue($HTTP_POST_VARS["issue_id"], $fld_id, $value);
+                $old_value = Custom_Field::getDisplayValue($HTTP_POST_VARS['issue_id'], $fld_id, true);
+                
+                if (!is_array($old_value)) {
+                    $old_value = array($old_value);
+                }
+                if (!is_array($value)) {
+                    $value = array($value);
+                }
+                if ((count(array_diff($old_value, $value)) > 0) || (count(array_diff($value, $old_value)) > 0)) {
+
+                    $old_display_value = Custom_Field::getDisplayValue($HTTP_POST_VARS['issue_id'], $fld_id);
+                    // need to remove all associated options from issue_custom_field and then 
+                    // add the selected options coming from the form
+                    Custom_Field::removeIssueAssociation($fld_id, $HTTP_POST_VARS["issue_id"]);
+                    if (@count($value) > 0) {
+                        Custom_Field::associateIssue($HTTP_POST_VARS["issue_id"], $fld_id, $value);
+                    }
+                    $new_display_value = Custom_Field::getDisplayValue($HTTP_POST_VARS['issue_id'], $fld_id);
+                    $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_display_value, $new_display_value); 
                 }
             }
         }
@@ -250,7 +296,24 @@ class Custom_Field
         Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, Custom_Field::getValuesByIssue($prj_id, $issue_id));
         Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
         // need to save a history entry for this
-        History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), 'Custom field updated by ' . User::getFullName(Auth::getUserID()));
+        
+        if (count($updated_fields) > 0) {
+            // log the changes
+            $changes = '';
+            $i = 0;
+            foreach ($updated_fields as $key => $value) {
+                if ($i > 0) {
+                    $changes .= "; ";
+                }
+                if (!empty($value)) {
+                    $changes .= "$key: $value";
+                } else {
+                    $changes .= "$key";
+                }
+                $i++;
+            }
+            History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), "Custom field updated ($changes) by " . User::getFullName(Auth::getUserID()));
+        }
         return 1;
     }
 
@@ -267,6 +330,11 @@ class Custom_Field
      */
     function associateIssue($iss_id, $fld_id, $value)
     {
+        // check if this is a date field
+        $fld_details = Custom_Field::getDetails($fld_id);
+        if ($fld_details['fld_type'] == 'date') {
+            $value= $value['Year'] . "-" . $value['Month'] . "-" . $value['Day'];
+        }
         if (!is_array($value)) {
             $value = array($value);
         }
@@ -338,10 +406,11 @@ class Custom_Field
                 for ($i = 0; $i < count($res); $i++) {
                     // check if this has a dynamic field custom backend
                     $backend = Custom_Field::getBackend($res[$i]['fld_id']);
-                    if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Select_Custom_Field_Backend"))) {
+                    if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Custom_Field_Backend"))) {
                         $res[$i]['dynamic_options'] = $backend->getStructuredData();
                         $res[$i]['controlling_field_id'] = $backend->getControllingCustomFieldID();
                         $res[$i]['controlling_field_name'] = $backend->getControllingCustomFieldName();
+                        $res[$i]['hide_when_no_options'] = $backend->hideWhenNoOptions();
                     }
                     $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
                 }
@@ -372,7 +441,7 @@ class Custom_Field
         }
         
         $backend = Custom_Field::getBackend($fld_id);
-        if (is_object($backend)) {
+        if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
             $values = $backend->getList($fld_id);
             $returns[$fld_id . $value] = @$values[$value];
             return @$values[$value];
@@ -384,6 +453,57 @@ class Custom_Field
                      WHERE
                         cfo_fld_id=" .  Misc::escapeInteger($fld_id) . " AND
                         cfo_id=" .  Misc::escapeInteger($value);
+            $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return "";
+            } else {
+                if ($res == NULL) {
+                    $returns[$fld_id . $value] = '';
+                    return "";
+                } else {
+                    $returns[$fld_id . $value] = $res;
+                    return $res;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Method used to get the custom field key based on the value.
+     *
+     * @access  public
+     * @param   integer $fld_id The custom field ID
+     * @param   integer $value The custom field option ID
+     * @return  string The custom field option value
+     */
+    function getOptionKey($fld_id, $value)
+    {
+        static $returns;
+        
+        if (empty($value)) {
+            return "";
+        }
+        
+        if (isset($returns[$fld_id . $value])) {
+            return $returns[$fld_id . $value];
+        }
+        
+        $backend = Custom_Field::getBackend($fld_id);
+        if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
+            $values = $backend->getList($fld_id);
+            $key = array_search($value, $values);
+            $returns[$fld_id . $value] = $key;
+            return $key;
+        } else {
+            $stmt = "SELECT
+                        cfo_id
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
+                     WHERE
+                        cfo_fld_id=" .  Misc::escapeInteger($fld_id) . " AND
+                        cfo_value='" .  Misc::escapeString($value) . "'";
             $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -438,8 +558,6 @@ class Custom_Field
                     pcf_fld_id=fld_id AND
                     pcf_prj_id=" .  Misc::escapeInteger($prj_id) . " AND
                     fld_min_role <= " . User::getRoleByUser($usr_id, $prj_id) . "
-                 GROUP BY
-                    fld_id
                  ORDER BY
                     fld_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -452,7 +570,7 @@ class Custom_Field
             } else {
                 $fields = array();
                 for ($i = 0; $i < count($res); $i++) {
-                    if (($res[$i]['fld_type'] == 'text') || ($res[$i]['fld_type'] == 'textarea')) {
+                    if (($res[$i]['fld_type'] == 'text') || ($res[$i]['fld_type'] == 'textarea') || ($res[$i]['fld_type'] == 'date')) {
                         $fields[] = $res[$i];
                     } elseif ($res[$i]["fld_type"] == "combo") {
                         $res[$i]["selected_cfo_id"] = $res[$i]["icf_value"];
@@ -481,10 +599,11 @@ class Custom_Field
                 }
                 foreach ($fields as $key => $field) {
                     $backend = Custom_Field::getBackend($field['fld_id']);
-                    if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Select_Custom_Field_Backend"))) {
+                    if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Custom_Field_Backend"))) {
                         $fields[$key]['dynamic_options'] = $backend->getStructuredData();
                         $fields[$key]['controlling_field_id'] = $backend->getControllingCustomFieldID();
                         $fields[$key]['controlling_field_name'] = $backend->getControllingCustomFieldName();
+                        $fields[$key]['hide_when_no_options'] = $backend->hideWhenNoOptions();
                     }
                 }
                 return $fields;
@@ -810,7 +929,7 @@ class Custom_Field
             return $returns[$return_key];
         }
         $backend = Custom_Field::getBackend($fld_id);
-        if (is_object($backend)) {
+        if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
             $list = $backend->getList($fld_id);
             if ($ids != false) {
                 foreach ($list as $id => $value) {
@@ -975,9 +1094,11 @@ class Custom_Field
             // and update the mapping table accordingly
             $old_proj_ids = @array_keys(Custom_Field::getAssociatedProjects($HTTP_POST_VARS["id"]));
             // COMPAT: this next line requires PHP > 4.0.4
-            $diff_ids = @array_diff($old_proj_ids, $HTTP_POST_VARS["projects"]);
-            for ($i = 0; $i < count($diff_ids); $i++) {
-                Custom_Field::removeIssueAssociation($HTTP_POST_VARS["id"], false, $diff_ids[$i]);
+            $diff_ids = array_diff($old_proj_ids, $HTTP_POST_VARS["projects"]);
+            if (count($diff_ids) > 0) {
+                foreach ($diff_ids as $removed_prj_id) {
+                    Custom_Field::removeIssueAssociation($HTTP_POST_VARS["id"], false, $removed_prj_id );
+                }
             }
             // update the project associations now
             $stmt = "DELETE FROM
@@ -1222,9 +1343,10 @@ class Custom_Field
      * @access  public
      * @param   integer $iss_id The ID of the issue
      * @param   integer $fld_id The ID of the field
+     * @param   boolean $raw If the raw value should be displayed
      * @param   mixed an array or string containing the value
      */
-    function getDisplayValue($iss_id, $fld_id)
+    function getDisplayValue($iss_id, $fld_id, $raw = false)
     {
         $sql = "SELECT
                     fld_id,
@@ -1247,10 +1369,18 @@ class Custom_Field
                 if (($res[$i]['fld_type'] == 'text') || ($res[$i]['fld_type'] == 'textarea')) {
                     $values[] = $res[$i]['icf_value'];
                 } elseif (($res[$i]["fld_type"] == "combo") || ($res[$i]['fld_type'] == 'multiple')) {
-                    $values[] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["icf_value"]);
+                    if ($raw) {
+                        $values[] = $res[$i]['icf_value'];
+                    } else {
+                        $values[] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["icf_value"]);
+                    }
                 }
             }
-            return join(', ', $values);
+            if ($raw) {
+                return $values;
+            } else {
+                return join(', ', $values);
+            }
         }
     }
     
@@ -1411,6 +1541,52 @@ class Custom_Field
             return new $class_name;
         } else {
             return false;
+        }
+    }
+    
+    
+    /**
+     * Searches a specified custom field for a string and returns any issues that match
+     * 
+     * @access  public
+     * @param   integer $fld_id The ID of the custom field
+     * @param   string  $search The string to search for
+     * @return  array An array of issue IDs
+     */
+    function getIssuesByString($fld_id, $search)
+    {
+        $sql = "SELECT
+                    icf_iss_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                WHERE
+                    icf_fld_id = " . Misc::escapeInteger($fld_id) . " AND
+                    icf_value LIKE '%" . Misc::escapeString($search) . "%'";
+        $res = $GLOBALS["db_api"]->dbh->getCol($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+        return $res;
+    }
+    
+    
+    /**
+     * Formats the return value
+     * 
+     * @access  public
+     * @param   mixed   $value The value to format
+     * @param   integer $fld_id The ID of the field
+     * @param   integer $issue_id The ID of the issue
+     * @return  mixed   the formatted value.
+     */
+    function formatValue($value, $fld_id, $issue_id)
+    {
+        $backend = Custom_Field::getBackend($fld_id);
+        if ((is_object($backend)) && (method_exists($backend, 'formatValue'))) {
+            return $backend->formatValue($value, $fld_id, $issue_id);
+        } else {
+            return Link_Filter::processText(Auth::getCurrentProject(), htmlspecialchars($value));
         }
     }
 
