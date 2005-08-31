@@ -15,11 +15,12 @@ if (!empty($_REQUEST['iss_id'])) {
 $data = array();
 foreach ($fields as $field) {
     $backend = Custom_Field::getBackend($field['fld_id']);
-    if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Select_Custom_Field_Backend"))) {
+    if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Custom_Field_Backend"))) {
         $field['structured_data'] = $backend->getStructuredData();
         $data[] = $field;
     }
 }
+
 $tpl = new Template_API();
 $tpl->setTemplate("js/dynamic_custom_field.tpl.js");
 $tpl->assign("fields", $data);
