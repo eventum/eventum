@@ -131,6 +131,7 @@ INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'status_auto_changed', htt
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'incident_redeemed',  htt_role = 4;
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'incident_unredeemed',  htt_role = 4;
 INSERT INTO %TABLE_PREFIX%history_type SET htt_name = 'scm_checkin_associated';
+INSERT INTO %TABLE_PREFIX%history_type VALUES(null, 'issue_bulk_updated', 0);
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%issue;
 CREATE TABLE %TABLE_PREFIX%issue (
