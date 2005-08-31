@@ -35,6 +35,7 @@ require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.user.php");
 require_once(APP_INC_PATH . "class.setup.php");
 require_once(APP_INC_PATH . "class.link_filter.php");
+require_once(APP_INC_PATH . "class.custom_field.php");
 
 /**
  * Class used to abstract the backend template system used by the site. This
@@ -62,6 +63,7 @@ class Template_API
         $this->smarty->compile_dir = APP_PATH . "templates_c";
         $this->smarty->config_dir = '';
         $this->smarty->register_modifier("activateLinks", array('Link_Filter', 'activateLinks'));
+        $this->smarty->register_modifier("formatCustomValue", array('Custom_Field', 'formatValue'));
     }
 
 
