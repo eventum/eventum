@@ -151,8 +151,6 @@
                   if (f.edit_button) {
                       f.edit_button.disabled = show_field;
                   }
-                  var field2 = getFormElement(f, 'custom_field_backend');
-                  field2.disabled = show_field;
                   return true;
               }
               function checkRequiredFields()
@@ -273,6 +271,8 @@
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 2);toggleCustomOptionsField(false);">Combo Box</a>&nbsp;
                   <input type="radio" name="field_type" value="multiple" {if $info.fld_type == 'multiple'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 3);toggleCustomOptionsField(false);">Multiple Combo Box</a>
+                  <input type="radio" name="field_type" value="date" {if $info.fld_type == 'date'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 4);toggleCustomOptionsField(true);">Date</a>
                 </td>
               </tr>
               <tr>
@@ -411,7 +411,7 @@
                         &nbsp;{$list[i].min_role_name}
                       </td>
                       <td width="5%" bgcolor="{$row_color}" class="default">
-                        <nobr>&nbsp;{if $list[i].fld_type == 'combo'}Combo Box{elseif $list[i].fld_type == 'multiple'}Multiple Combo Box{elseif $list[i].fld_type == 'textarea'}Textarea{else}Text Input{/if}</nobr>
+                        <nobr>&nbsp;{if $list[i].fld_type == 'combo'}Combo Box{elseif $list[i].fld_type == 'multiple'}Multiple Combo Box{elseif $list[i].fld_type == 'textarea'}Textarea{elseif $list[i].fld_type == 'date'}Date{else}Text Input{/if}</nobr>
                       </td>
                       <td width="50%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].field_options}
@@ -448,7 +448,9 @@
       {
           var f = getForm('custom_field_form');
           var field1 = getFormElement(f, 'field_type', 0);
-          if (field1.checked) {
+          var field2 = getFormElement(f, 'field_type', 1);
+          var field3 = getFormElement(f, 'field_type', 4);
+          if (field1.checked || field2.checked || field3.checked) {
               toggleCustomOptionsField(true);
           } else {
               toggleCustomOptionsField(false);
