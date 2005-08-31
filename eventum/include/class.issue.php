@@ -2955,6 +2955,7 @@ class Issue
             if (empty($res)) {
                 return "";
             } else {
+                $created_date_ts = Date_API::getUnixTimestamp($res['iss_created_date'], Date_API::getDefaultTimezone());
                 // get customer information, if any
                 if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['iss_prj_id']))) {
                     $res['customer_business_hours'] = Customer::getBusinessHours($res['iss_prj_id'], $res['iss_customer_id']);
@@ -2964,7 +2965,6 @@ class Issue
                     $max_first_response_time = Customer::getMaximumFirstResponseTime($res['iss_prj_id'], $res['iss_customer_id']);
                     $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
                     if (empty($res['iss_first_response_date'])) {
-                        $created_date_ts = Date_API::getUnixTimestamp($res['iss_created_date'], Date_API::getDefaultTimezone());
                         $first_response_deadline = $created_date_ts + $max_first_response_time;
                         if (Date_API::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
                             $res['max_first_response_time_left'] = Date_API::getFormattedDateDiff($first_response_deadline, Date_API::getCurrentUnixTimestampGMT());
@@ -2980,6 +2980,7 @@ class Issue
                 }
                 $res["iss_impact_analysis"] = nl2br(htmlspecialchars($res["iss_impact_analysis"]));
                 $res["iss_created_date"] = Date_API::getFormattedDate($res["iss_created_date"]);
+                $res['iss_created_date_ts'] = $created_date_ts;
                 $res["assignments"] = @implode(", ", array_values(Issue::getAssignedUsers($res["iss_id"])));
                 list($res['authorized_names'], $res['authorized_repliers']) = Authorized_Replier::getAuthorizedRepliers($res["iss_id"]);
                 $temp = Issue::getAssignedUsersStatus($res["iss_id"]);
