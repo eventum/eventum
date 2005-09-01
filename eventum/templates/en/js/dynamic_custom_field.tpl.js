@@ -8,12 +8,15 @@ dynamic_options[i].controlling_field_id = {$field.controlling_field_id};
 dynamic_options[i].controlling_field_name = '{$field.controlling_field_name}';
 dynamic_options[i].hide_when_no_options = '{$field.hide_when_no_options}';
 dynamic_options[i].groups = new Array();
-    {foreach from=$field.structured_data key=key item=options}
+    {foreach from=$field.structured_data key=key item=group}
     j = dynamic_options[i].groups.length;
     dynamic_options[i].groups[j] = new Object();
-    dynamic_options[i].groups[j].key = '{$key}';
+    dynamic_options[i].groups[j].keys = new Array();
+        {foreach from=$group.keys item=key}
+        dynamic_options[i].groups[j].keys[dynamic_options[i].groups[j].keys.length] = '{$key}';
+        {/foreach}
     dynamic_options[i].groups[j].options = new Array();
-        {foreach from=$options item=option key=option_value}
+        {foreach from=$group.options item=option key=option_value}
         dynamic_options[i].groups[j].options[dynamic_options[i].groups[j].options.length] = new Option('{$option}', '{$option_value}');
         {/foreach}
     {/foreach}
@@ -95,26 +98,27 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
         }
         var show = false;
         for (var j = 0; j < details[i].groups.length; j++) {
-            if (details[i].groups[j].key == value) {
-                show = true;
-                for (var k = 0; k < details[i].groups[j].options.length; k++) {
-                    target.options.add(details[i].groups[j].options[k]);
-                }
-                target.onfocus = '';
-                if (keep_target_value) {
-                    if (target.type == 'text') {
-                        target.value = current_value;
-                    } else {
-                        selectOption(target.form, target.name, current_value);
+            for (var k = 0; k < details[i].groups[j].keys.length; k++) {
+                if (details[i].groups[j].keys[k] == value) {
+                    show = true;
+                    for (var l = 0; l < details[i].groups[j].options.length; l++) {
+                        target.options.add(details[i].groups[j].options[l]);
                     }
-                } else {
-                    if (target.type == 'text') {
-                        target.value = '';
+                    target.onfocus = '';
+                    if (keep_target_value) {
+                        if (target.type == 'text') {
+                            target.value = current_value;
+                        } else {
+                            selectOption(target.form, target.name, current_value);
+                        }
                     } else {
-                        target.selectedIndex = 0;
+                        if (target.type == 'text') {
+                            target.value = '';
+                        } else {
+                            target.selectedIndex = 0;
+                        }
                     }
                 }
-                break;
             }
         }
 

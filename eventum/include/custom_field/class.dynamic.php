@@ -42,31 +42,38 @@ class Dynamic_Custom_Field_Backend
     {
         $list = array();
         $data = $this->getStructuredData();
-        foreach ($data as $key => $options) {
-            $list += $options;
+        foreach ($data as $row) {
+            $list += $row['options'];
         }
         return $list;
     }
     
     
     /**
-     * Returns a multi dimension array of data to display. The key of the
-     * array should be the value of the field that controls what do display.
+     * Returns a multi dimension array of data to display. The values listed
+     * in the "keys" array are possible values for the controlling field to display
+     * options from the "options" array.
      * For example, if you have a field 'name' that you want to display different
-     * options in, depending on the contents of the 'sex' field the array should
+     * options in, depending on the contents of the 'color' field the array should
      * have the following structure:
      * array(
-     *      "male"  =>  array(
+     *      array(
+     *          "keys" =>   array("male", "dude"),
+     *          "options"   =>  array(
      *              "bryan" =>  "Bryan",
      *              "joao"  =>  "Joao",
      *              "bob"   =>  "Bob"
+     *          )
      *      ),
-     *      "female"    =>  array(
+     *      array(
+     *          "keys"  =>  array("female", "chick"),
+     *          "options"   =>  array(
      *              "freya" =>  "Freya",
      *              "becky" =>  "Becky",
      *              "sharon"    =>  "Sharon",
      *              "layla"     =>  "Layla"
-     *      (
+     *          )
+     *      )
      * );
      * 
      * @return  array An array of data to display
