@@ -32,11 +32,11 @@ include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.stats.php");
 
+ini_set('memory_limit', '64M');
 error_reporting(0);
+
 @include_once(APP_JPGRAPH_PATH . "jpgraph.php");
 @include_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
-
-ini_set('memory_limit', '64M');
 
 Auth::checkAuthentication(APP_COOKIE);
 
