@@ -152,6 +152,12 @@ $_REQUEST =& Misc::dispelMagicQuotes($_REQUEST);
 @include_once(APP_INC_PATH . "class.language.php");
 Language::setPreference();
 
+// auto switch project
+if ((Auth::hasValidCookie(APP_PROJECT_COOKIE)) && (isset($_GET['switch_prj_id']))) {
+    Auth::setCurrentProject($_GET['switch_prj_id'], false);
+    Auth::redirect($_SERVER['PHP_SELF'] . preg_replace("/switch_prj_id=(\d*)/", "", $_SERVER['QUERY_STRING']));
+}
+
 // set charset
 header("content-type: text/html;charset=" . APP_CHARSET);
 ?>

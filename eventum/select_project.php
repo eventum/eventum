@@ -65,9 +65,16 @@ if ((@$HTTP_GET_VARS["err"] == '') && (Auth::hasValidCookie(APP_COOKIE))) {
         } else {
             Auth::redirect(APP_RELATIVE_URL . "main.php");
         }
-    } elseif ((!empty($HTTP_GET_VARS["url"])) && (preg_match("/.*view\.php\?id=(\d*)/", $HTTP_GET_VARS["url"], $matches) > 0)) {
+    } elseif ((!empty($HTTP_GET_VARS["url"])) && (
+            (preg_match("/.*view\.php\?id=(\d*)/", $HTTP_GET_VARS["url"], $matches) > 0) ||
+            (preg_match("/switch_prj_id=(\d*)/", $HTTP_GET_VARS["url"], $matches) > 0)
+            )) {
         // check if url is directly linking to an issue, and if it is, don't prompt for project
-        $prj_id = Issue::getProjectID($matches[1]);
+        if (stristr($HTTP_GET_VARS["url"], 'view.php')) {
+            $prj_id = Issue::getProjectID($matches[1]);
+        } else {
+            $prj_id = $matches[1];
+        }
         if (!empty($assigned_projects[$prj_id])) {
             Auth::setCurrentProject($prj_id, 0);
             handleExpiredCustomer($prj_id);
