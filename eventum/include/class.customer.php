@@ -981,10 +981,10 @@ class Customer
                     cam_usr_id,
                     cam_type
                  ) VALUES (
-                    " . $HTTP_POST_VARS['project'] . ",
-                    " . $HTTP_POST_VARS['customer'] . ",
-                    " . $HTTP_POST_VARS['manager'] . ",
-                    '" . $HTTP_POST_VARS['type'] . "'
+                    " . Misc::escapeInteger($HTTP_POST_VARS['project']) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS['customer']) . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS['manager']) . ",
+                    '" . Misc::escapeString($HTTP_POST_VARS['type']) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -1010,7 +1010,7 @@ class Customer
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
                  WHERE
-                    cam_id=$cam_id";
+                    cam_id=" . Misc::escapeInteger($cam_id);
         $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1034,10 +1034,10 @@ class Customer
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
                  SET
-                    cam_prj_id=" . $HTTP_POST_VARS['project'] . ",
-                    cam_customer_id=" . $HTTP_POST_VARS['customer'] . ",
-                    cam_usr_id=" . $HTTP_POST_VARS['manager'] . ",
-                    cam_type='" . $HTTP_POST_VARS['type'] . "'
+                    cam_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS['project']) . ",
+                    cam_customer_id=" . Misc::escapeInteger($HTTP_POST_VARS['customer']) . ",
+                    cam_usr_id=" . Misc::escapeInteger($HTTP_POST_VARS['manager']) . ",
+                    cam_type='" . Misc::escapeString($HTTP_POST_VARS['type']) . "'
                  WHERE
                     cam_id=" . $HTTP_POST_VARS['id'];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -1061,7 +1061,7 @@ class Customer
     {
         global $HTTP_POST_VARS;
 
-        $items = @implode(", ", $HTTP_POST_VARS["items"]);
+        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
                  WHERE
@@ -1095,8 +1095,8 @@ class Customer
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
                     cam_usr_id=usr_id AND
-                    cam_prj_id=$prj_id AND
-                    cam_customer_id=$customer_id";
+                    cam_prj_id=" . Misc::escapeInteger($prj_id) . " AND
+                    cam_customer_id=" . Misc::escapeInteger($customer_id);
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1128,7 +1128,7 @@ class Customer
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
                 WHERE
-                    cno_customer_id = $customer_id";
+                    cno_customer_id = " . Misc::escapeInteger($customer_id);
         $res = $GLOBALS['db_api']->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1155,7 +1155,7 @@ class Customer
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
                 WHERE
-                    cno_id = $cno_id";
+                    cno_id = " . Misc::escapeInteger($cno_id);
         $res = $GLOBALS['db_api']->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1211,11 +1211,11 @@ class Customer
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
                  SET
                     cno_note='" . Misc::escapeString($note) . "',
-                    cno_prj_id=$prj_id,
-                    cno_customer_id=$customer_id,
+                    cno_prj_id=" . Misc::escapeInteger($prj_id) . ",
+                    cno_customer_id=" . Misc::escapeInteger($customer_id) . ",
                     cno_updated_date='" . Date_API::getCurrentDateGMT() . "'
                  WHERE
-                    cno_id=$cno_id";
+                    cno_id=" . Misc::escapeInteger($cno_id);
         $res = $GLOBALS['db_api']->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1245,8 +1245,8 @@ class Customer
                     cno_updated_date,
                     cno_note
                  ) VALUES (
-                    $prj_id,
-                    $customer_id,
+                    " . Misc::escapeInteger($prj_id) . ",
+                    " . Misc::escapeInteger($customer_id) . ",
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($note) . "'
@@ -1272,7 +1272,7 @@ class Customer
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
                  WHERE
-                    cno_id IN (" . join(", ", $ids) . ")";
+                    cno_id IN (" . join(", ", Misc::escapeInteger($ids)) . ")";
         $res = $GLOBALS['db_api']->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
