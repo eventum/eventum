@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 - Fixed bug with displaying values from multiple option custom fields (Bug #12494) (Bryan)
 - Added feature to allow custom fields to store dates (Bryan)
 - Added URL parameter to specify the project to switch to when loading a page (Bryan)
+- Added constants to allow default user preferences to be configured (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)

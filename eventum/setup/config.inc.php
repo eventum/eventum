@@ -105,6 +105,10 @@ if (stristr(PHP_OS, 'darwin')) {
 @define("APP_DEFAULT_PAGER_SIZE", 5);
 @define("APP_DEFAULT_REFRESH_RATE", 5); // in minutes
 
+// new users will use these for default preferences
+@define("APP_DEFAULT_ASSIGNED_EMAILS", 1);// if the user will recieve an email when an issue is assigned to him
+@define("APP_DEFAULT_NEW_EMAILS", 0);// if the user will recieve an email when ANY issue is created
+
 @define("APP_CHARSET", "ISO-8859-1");
 
 // define colors used by eventum

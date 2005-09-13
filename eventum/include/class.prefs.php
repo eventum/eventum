@@ -62,8 +62,8 @@ class Prefs
             'auto_append_note_sig'    => 'no'
         );
         foreach ($projects as $prj_id) {
-            $prefs['receive_assigned_emails'][$prj_id] = 1;
-            $prefs['receive_new_emails'][$prj_id] = 0;
+            $prefs['receive_assigned_emails'][$prj_id] = APP_DEFAULT_ASSIGNED_EMAILS;
+            $prefs['receive_new_emails'][$prj_id] = APP_DEFAULT_NEW_EMAILS;
         }
         return serialize($prefs);
     }
