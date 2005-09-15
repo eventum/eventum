@@ -51,7 +51,7 @@ function validateForm(f)
 </script>
 {/literal}
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="report_form" action="{$smarty.server.PHP_SELF}" method="get" onSubmit="javascript:return validateForm(this);">
+<form name="report_form" action="{$smarty.server.PHP_SELF}" method="get" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="post_form" value="yes">
   <tr>
     <td>
@@ -114,7 +114,7 @@ function validateForm(f)
 </script>
 {/literal}
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return validateForm(this);">
+<form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="report">
   <tr>
     <td>

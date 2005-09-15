@@ -54,7 +54,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     }
 
     if (@$HTTP_POST_VARS["cat"] == "update") {
-        Project::updateAnonymousPost($prj_id);
+        $tpl->assign("result", Project::updateAnonymousPost($prj_id));
     }
     // load the form fields
     $tpl->assign("project", Project::getDetails($prj_id));
