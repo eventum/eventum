@@ -112,8 +112,8 @@ function runCustomFilter(f)
           </td>
           <td nowrap colspan="2">
             {if $has_customer_integration}
-            <input class="default" type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.cst_search_type != 'all_text'}checked{/if}> <label for="search_type_customer" class="default">Customer Identity (i.e. "Example Inc.", "johndoe@example.com", 12345)</label><br />
-            <input class="default" type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.cst_search_type == 'all_text'}checked{/if}> <label for="search_type_all_text" class="default">All Text (emails, notes, etc)</label>
+            <input class="default" type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.search_type != 'all_text'}checked{/if}> <label for="search_type_customer" class="default">Customer Identity (i.e. "Example Inc.", "johndoe@example.com", 12345)</label><br />
+            <input class="default" type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.search_type == 'all_text'}checked{/if}> <label for="search_type_all_text" class="default">All Text (emails, notes, etc)</label>
             {else}
             <input type="hidden" name="search_type" value="all_text" id="search_type">
             {/if}
