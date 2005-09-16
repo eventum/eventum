@@ -505,7 +505,8 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
     /**
      * Returns the list of customer IDs that are associated with the given
-     * email value (wildcards welcome).
+     * email value (wildcards welcome). Contrary to the name of the method, this
+     * also works with customer names
      *
      * @access  public
      * @param   string $email The email value
@@ -513,8 +514,20 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
      */
     function getCustomerIDsLikeEmail($email)
     {
-        // no wildcard searching is support in this example, just pass it to other method
-        return $this->getCustomerIDByEmails(array($email));
+        $ids = array();
+        foreach ($this->data as $customer) {
+            if (stristr($customer['customer_name'], $email) !== false) {
+                $ids[] = $customer['customer_id'];
+                continue;
+            }
+            
+            foreach ($customer['contacts'] as $contact) {
+                if (stristr($contact['email'], $email) !== false) {
+                    $ids[] = $customer['customer_id'];
+                }
+            }
+        }
+        return $ids;
     }
 
 
