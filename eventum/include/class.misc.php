@@ -667,6 +667,28 @@ class Misc
 </body>
 </html>';
     }
+    
+    
+    /**
+     * Base 64 encodes all elements of an array.
+     * 
+     * @access  public
+     * @param   array $values The values to encode
+     * @return  array The array of encoded values.
+     */
+    function base64encode($values)
+    {
+        foreach ($values as $key => $value) {
+            if (is_array($value)) {
+                $values[$key] = Misc::base64encode($value);
+            } elseif (is_object($value)) {
+                $values[$key] = $value;
+            } else {
+                $values[$key] = base64_encode($value);
+            }
+        }
+        return $values;
+    }
 }
 
 // benchmarking the included file (aka setup time)
