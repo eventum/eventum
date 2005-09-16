@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Added URL parameter to specify the project to switch to when loading a page (Bryan)
 - Added constants to allow default user preferences to be configured (Bryan)
 - Fixed bug with error checking on anonymous report form (Bryan)
+- Changed Authorization code to redirect using 'Location' header for all servers except IIS (Bug #13051) (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)

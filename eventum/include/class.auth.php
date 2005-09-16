@@ -306,7 +306,14 @@ class Auth
             echo $html;
             exit;
         } else {
-            header("Refresh: 0; URL=$new_url");
+            // IIS 5 has problems with "Location" header so don't use it under IIS
+            if (strstr($_SERVER['SERVER_SOFTWARE'], 'IIS')) {
+                // IIS
+                header("Refresh: 0; URL=$new_url");
+            } else {
+                // all servers that work correctly
+                header("Location: $new_url");
+            }
             exit;
         }
     }
