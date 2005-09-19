@@ -49,7 +49,8 @@ function custom_field_init_dynamic_options(fld_id)
         if (dynamic_options[i].target_field_id == fld_id) {
             // set alert on target field prompting them to choose controlling field first
             target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id);
-            target_field.onfocus = custom_field_prompt_choose_controller;
+            target_field.onmousedown = custom_field_prompt_choose_controller;
+            target_field.onkeypress = custom_field_prompt_choose_controller;
 
             // set event handler for controlling field
             controlling_field = getPageElement('custom_field_' + dynamic_options[i].controlling_field_id);
@@ -104,7 +105,8 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
                     for (var l = 0; l < details[i].groups[j].options.length; l++) {
                         target.options.add(details[i].groups[j].options[l]);
                     }
-                    target.onfocus = '';
+                    target.onmousedown = '';
+                    target.onkeypress = '';
                     if (keep_target_value) {
                         if (target.type == 'text') {
                             target.value = current_value;
@@ -142,6 +144,8 @@ function custom_field_prompt_choose_controller(e) {
     details = custom_field_get_details_by_target(target_id);
     
     alert('Please choose ' + details.controlling_field_name + ' first');
+    target_field.blur();
+    e.cancelBubble = true;
     return false;
 }
 {/literal}
