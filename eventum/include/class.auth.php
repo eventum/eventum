@@ -100,8 +100,8 @@ class Auth
         if ($failed_url == NULL) {
             $failed_url = APP_RELATIVE_URL . "index.php?err=5";
         }
+        $failed_url .= "&url=" . Auth::getRequestedURL();
         if (!isset($HTTP_COOKIE_VARS[$cookie_name])) {
-            $failed_url .= "&url=" . Auth::getRequestedURL();
             Auth::redirect($failed_url, $is_popup);
         }
         $cookie = $HTTP_COOKIE_VARS[$cookie_name];
@@ -133,6 +133,13 @@ class Auth
                 Auth::redirect(APP_RELATIVE_URL . "index.php?err=10&email=" . $cookie["email"], $is_popup);
             }
         }
+        
+        // auto switch project
+        if (isset($_GET['switch_prj_id'])) {
+            Auth::setCurrentProject($_GET['switch_prj_id'], false);
+            Auth::redirect($_SERVER['PHP_SELF'] . '?' . str_replace("switch_prj_id=" . $_GET['switch_prj_id'], "", $_SERVER['QUERY_STRING']));
+        }
+        
         // if the current session is still valid, then renew the expiration
         Auth::createLoginCookie($cookie_name, $cookie['email'], $cookie['autologin']);
         // renew the project cookie as well
