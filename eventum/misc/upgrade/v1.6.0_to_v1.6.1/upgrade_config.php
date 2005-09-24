@@ -25,7 +25,7 @@ if (APP_ENABLE_FULLTEXT == true) {
 } else {
     $fulltext = 'false';
 }
-$config_contents = str_replace("%{APP_ENABLE_FULLTEXT}%", $fulltext, $config_contents);
+$config_contents = str_replace("'%{APP_ENABLE_FULLTEXT}%'", $fulltext, $config_contents);
 $config_contents = str_replace("%{APP_VERSION}%", "1.6.1", $config_contents);
 if (stristr(APP_BASE_URL, 'https://') !== false) {
     $protocol_type = 'https://';

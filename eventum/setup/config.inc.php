@@ -123,7 +123,7 @@ if (stristr(PHP_OS, 'darwin')) {
 @define("APP_SYSTEM_USER_ID", 1);
 
 // if full text searching is enabled
-@define("APP_ENABLE_FULLTEXT", %{APP_ENABLE_FULLTEXT}%);
+@define("APP_ENABLE_FULLTEXT", '%{APP_ENABLE_FULLTEXT}%');
 
 @define("APP_BENCHMARK", false);
 if (APP_BENCHMARK) {
