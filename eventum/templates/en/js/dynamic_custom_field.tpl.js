@@ -103,7 +103,7 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
                 if (details[i].groups[j].keys[k] == value) {
                     show = true;
                     for (var l = 0; l < details[i].groups[j].options.length; l++) {
-                        target.options.add(details[i].groups[j].options[l]);
+                        target.options[target.options.length] = details[i].groups[j].options[l];
                     }
                     target.onmousedown = '';
                     target.onkeypress = '';
