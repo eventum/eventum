@@ -71,6 +71,9 @@ class FAQ
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
+                if (empty($res[$i]['faq_updated_date'])) {
+                    $res[$i]['faq_updated_date'] = $res[$i]['faq_created_date'];
+                }
                 $res[$i]['faq_updated_date'] = Date_API::getSimpleDate($res[$i]["faq_updated_date"]);
             }
             return $res;
@@ -274,6 +277,9 @@ class FAQ
             if (Customer::doesBackendUseSupportLevels($res['faq_prj_id'])) {
                 // get all of the support level associations here as well
                 $res['support_levels'] = array_keys(FAQ::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
+            }
+            if (empty($res['faq_updated_date'])) {
+                $res['faq_updated_date'] = $res['faq_created_date'];
             }
             $res['faq_updated_date'] = Date_API::getFormattedDate($res['faq_updated_date']);
             $res['message'] = Misc::activateLinks(nl2br(htmlspecialchars($res['faq_message'])));
