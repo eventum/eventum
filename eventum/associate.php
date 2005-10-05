@@ -59,7 +59,7 @@ if (@$HTTP_POST_VARS['cat'] == 'associate') {
             $email = Support::getEmailDetails(Email_Account::getAccountByEmail($HTTP_POST_VARS['item'][$i]), $HTTP_POST_VARS['item'][$i]);
             // add the message body as a note
             $HTTP_POST_VARS['blocked_msg'] = $email['seb_full_email'];
-            $HTTP_POST_VARS['title'] = 'Message manually converted to an internal note';
+            $HTTP_POST_VARS['title'] = $email['sup_subject'];
             $HTTP_POST_VARS['note'] = $email['seb_body'];
             // XXX: probably broken to use the current logged in user as the 'owner' of 
             // XXX: this new note, but that's how it was already

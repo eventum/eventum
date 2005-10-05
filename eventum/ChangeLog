@@ -11,6 +11,7 @@ Eventum Issue Tracking System
 - Fixed bug with error checking on anonymous report form (Bryan)
 - Changed Authorization code to redirect using 'Location' header for all servers except IIS (Bug #13051) (Bryan)
 - Changed FAQ screen to use created date when last updated date is empty (Bryan)
+- Changed associate note feature to not change subject when associating with an issue (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
