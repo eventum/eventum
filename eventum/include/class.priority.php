@@ -50,10 +50,10 @@ class Priority
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
      * @return  boolean
      */
-    function changeRank($pri_id, $rank_type)
+    function changeRank($prj_id, $pri_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
-        $ranking = Priority::_getRanking();
+        $ranking = Priority::_getRanking($prj_id);
         $ranks = array_values($ranking);
         $ids = array_keys($ranking);
         $last = end($ids);
@@ -78,6 +78,7 @@ class Priority
                      SET
                         pri_rank=" . Misc::escapeInteger($ranking[$pri_id]) . "
                      WHERE
+                        pri_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                         pri_id=" . Misc::escapeInteger($replaced_pri_id);
             $GLOBALS["db_api"]->dbh->query($stmt);
         }
@@ -86,6 +87,7 @@ class Priority
                  SET
                     pri_rank=" . Misc::escapeInteger($new_rank) . "
                  WHERE
+                    pri_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     pri_id=" . Misc::escapeInteger($pri_id);
         $GLOBALS["db_api"]->dbh->query($stmt);
         return true;
@@ -97,15 +99,18 @@ class Priority
      * their respective ranking.
      *
      * @access  private
+     * @param   integer $prj_id The ID of the project
      * @return  array The list of reminders
      */
-    function _getRanking()
+    function _getRanking($prj_id)
     {
         $stmt = "SELECT
                     pri_id,
                     pri_rank
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                 WHERE
+                    pri_prj_id=" . Misc::escapeInteger($prj_id) . " 
                  ORDER BY
                     pri_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);

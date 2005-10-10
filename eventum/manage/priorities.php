@@ -62,7 +62,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     if (@$HTTP_GET_VARS["cat"] == "edit") {
         $tpl->assign("info", Priority::getDetails($HTTP_GET_VARS["id"]));
     } elseif (@$HTTP_GET_VARS["cat"] == "change_rank") {
-        Priority::changeRank($HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
+        Priority::changeRank($prj_id, $HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
     }
     $tpl->assign("list", Priority::getList($prj_id));
 } else {
