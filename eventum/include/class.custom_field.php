@@ -829,10 +829,11 @@ class Custom_Field
                 $res[$i]["projects"] = @implode(", ", array_values(Custom_Field::getAssociatedProjects($res[$i]["fld_id"])));
                 if (($res[$i]["fld_type"] == "combo") || ($res[$i]["fld_type"] == "multiple")) {
                     if (!empty($res[$i]['fld_backend'])) {
-                        $res[$i]['field_options'] = 'Backend: ' . Custom_Field::getBackendName($res[$i]['fld_backend']);
-                    } else {
                         $res[$i]["field_options"] = @implode(", ", array_values(Custom_Field::getOptions($res[$i]["fld_id"])));
                     }
+                }
+                if (!empty($res[$i]['fld_backend'])) {
+                    $res[$i]['field_options'] = 'Backend: ' . Custom_Field::getBackendName($res[$i]['fld_backend']);
                 }
                 $res[$i]['min_role_name'] = @User::getRole($res[$i]['fld_min_role']);
             }
