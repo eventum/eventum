@@ -220,6 +220,11 @@ function checkRequiredCustomFields(f, required_fields)
 {
     for (var i = 0; i < required_fields.length; i++) {
         var field = getFormElement(f, required_fields[i].text);
+
+        if ((field != false) && (field.parentNode.parentNode.style.display == 'none')) {
+            continue;
+        }
+        
         if (required_fields[i].value == 'combo') {
             if (getSelectedOption(f, field.name) == '-1') {
                 errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text), required_fields[i].text);
@@ -232,33 +237,52 @@ function checkRequiredCustomFields(f, required_fields)
             if (isWhitespace(field.value)) {
                 errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text), required_fields[i].text);
             }
+        } else if (required_fields[i].value == 'date') {
+            if (getFormElement(f, required_fields[i].text + '[Month]').selectedIndex == 0) {
+                errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text) + ' (Month)', required_fields[i].text + '[Month]');
+            }
+            if (getFormElement(f, required_fields[i].text + '[Day]').selectedIndex == 0) {
+                errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text) + ' (Day)', required_fields[i].text + '[Day]');
+            }
+            if (getFormElement(f, required_fields[i].text + '[Year]').selectedIndex == 0) {
+                errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text) + ' (Year)', required_fields[i].text + '[Year]');
+            }
         }
     }
 }
 
-function checkErrorCondition(form_name, field_name, callback)
+function checkErrorCondition(e, form_name, field_name, old_onchange)
 {
     var f = getForm(form_name);
     var field = getFormElement(f, field_name);
     if ((field.type == 'text') || (field.type == 'textarea') || (field.type == 'password')) {
         if (!isWhitespace(field.value)) {
             errorDetails(f, field_name, false);
-            callback(form_name, field_name);
+            if (old_onchange != false) {
+                field.onchange = old_onchange;
+                eval('trash = ' + old_onchange + '(e)');
+            }
         }
     } else if (field.type == 'select-one') {
         if (getSelectedOption(f, field_name) != '-1') {
             errorDetails(f, field_name, false);
-            callback(form_name, field_name);
+            if (old_onchange != false) {
+                field.onchange = old_onchange;
+                eval('trash = ' + old_onchange + '(e)');
+            }
         }
     } else if (field.type == 'select-multiple') {
         if (hasOneSelected(f, field_name)) {
             errorDetails(f, field_name, false);
-            callback(form_name, field_name);
+            if (old_onchange != false) {
+                field.onchange = old_onchange;
+                eval('trash = ' + old_onchange + '(e)');
+            }
         }
     }
 }
 
-function selectField(f, field_name, callback)
+function selectField(f, field_name, old_onchange)
 {
     for (var i = 0; i < f.elements.length; i++) {
         if (f.elements[i].name == field_name) {
@@ -269,7 +293,7 @@ function selectField(f, field_name, callback)
             if (isWhitespace(f.name)) {
                 return false;
             }
-            f.elements[i].onchange = new Function('checkErrorCondition(\'' + f.name + '\', \'' + field_name + '\', ' + callback +');');
+            f.elements[i].onchange = new Function('e', 'checkErrorCondition(e, \'' + f.name + '\', \'' + field_name + '\', ' + old_onchange + ');');
             if (f.elements[i].select) {
                 f.elements[i].select();
             }
@@ -308,7 +332,12 @@ function checkFormSubmission(f, callback_func)
         // loop through all of the broken fields and select them
         var fields = '';
         for (var i = 0; i < errors.length; i++) {
-            selectField(f, errors[i].value);
+            if (getFormElement(f, errors[i].value).onchange != undefined) {
+                old_onchange = getFormElement(f, errors[i].value).onchange;
+            } else {
+                old_onchange = false;
+            }
+            selectField(f, errors[i].value, old_onchange);
             fields += '- ' + errors[i].text + "\n";
         }
         // show a big alert box with the missing information
