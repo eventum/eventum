@@ -340,6 +340,7 @@ function validateForm(f)
         {/if}
         {section name="i" loop=$custom_fields}
         {assign var='fld_id' value=$custom_fields[i].fld_id}
+        {assign var="custom_field_id" value=$custom_fields[i].fld_id}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>{$custom_fields[i].fld_title}:{if $custom_fields[i].fld_report_form_required} *{/if}</b>
@@ -347,7 +348,7 @@ function validateForm(f)
             <script language="JavaScript">
             <!--
             custom_fields[custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}', '{$custom_fields[i].fld_title}');
-            required_custom_fields[required_custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}', {if $custom_fields[i].fld_type == 'multiple'}'multiple'{elseif $custom_fields[i].fld_type == 'combo'}'combo'{else}'whitespace'{/if});
+            required_custom_fields[required_custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}', {if $custom_fields[i].fld_type == 'multiple'}'multiple'{elseif $custom_fields[i].fld_type == 'combo'}'combo'{elseif $custom_fields[i].fld_type == 'date'}'date'{else}'whitespace'{/if});
             //-->
             </script>
             {/if}
@@ -358,7 +359,12 @@ function validateForm(f)
             {elseif $custom_fields[i].fld_type == 'textarea'}
             <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}"></textarea>
             {elseif $custom_fields[i].fld_type == 'date'}
-            {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" year_empty='' month_empty='' day_empty='' time='--' start_year=-1 end_year=+2 day_value_format=%02d month_extra="tabindex=\"`$tabindex++`\"" day_extra="tabindex=\"`$tabindex++`\"" year_extra="tabindex=\"`$tabindex++`\""}
+            {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" month_empty='' time='--' display_years=false display_days=false month_extra="id=\"custom_field_`$custom_field_id`_month\" tabindex=\"`$tabindex++`\""}
+            {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Month]"}
+            {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" day_empty='' time='--' display_months=false display_years=false day_value_format=%02d day_extra="id=\"custom_field_`$custom_field_id`_day\" tabindex=\"`$tabindex++`\""}
+            {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Day]"}
+            {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" year_empty='' time='--' display_months=false display_days=false start_year=-1 end_year=+2 year_extra="id=\"custom_field_`$custom_field_id`_year\" tabindex=\"`$tabindex++`\""}
+            {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Year]"}
             {else}
             <select id="custom_field_{$custom_fields[i].fld_id}" {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if} class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" tabindex="{$tabindex++}">
               {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">Please choose an option</option>{/if}
@@ -368,7 +374,6 @@ function validateForm(f)
             {if $custom_fields[i].dynamic_options|@count > 0}
             <script>custom_field_init_dynamic_options({$custom_fields[i].fld_id});</script>
             {/if}
-            {assign var="custom_field_id" value=$custom_fields[i].fld_id}
             {if $custom_fields[i].fld_type == 'multiple'}
               {assign var="custom_field_sufix" value="[]"}
             {else}
@@ -413,14 +418,17 @@ function validateForm(f)
           <td colspan="2" bgcolor="{$cell_color}">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
               <tr>
-                <td width="10" nowrap class="default_white">
+                <td width="30%" nowrap class="default_white">
                   <nobr>
-                  <input type="checkbox" name="report_stays" value="yes" tabindex="{$tabindex++}" {if $smarty.post.report_stays == "yes"}CHECKED{/if}> <b><a id="white_link" class="white_link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('report_form', 'report_stays');">Keep Form Open</a></b>
+                  <input type="checkbox" name="report_stays" value="yes" tabindex="{$tabindex++}" {if $smarty.post.report_stays == "yes"}CHECKED{/if}> <b><a id="white_link" class="white_link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('report_form', 'report_stays');">Keep form open to report another issue</a></b>
                   </nobr>
                 </td>
-                <td width="100%" align="center">
+                <td width="40%" align="center">
                   <input name="main_submit_button" class="button" type="submit" value="Submit" tabindex="{$tabindex++}">&nbsp;&nbsp;
                   <input class="button" type="reset" value="Reset" tabindex="{$tabindex++}">
+                </td>
+                <td width="30%" nowrap class="default_white">
+                  &nbsp;
                 </td>
               </tr>
             </table>
