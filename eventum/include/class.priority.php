@@ -333,7 +333,7 @@ class Priority
     {
         static $list;
 
-        if (count($list[$prj_id]) > 0) {
+        if (count(@$list[$prj_id]) > 0) {
             return $list[$prj_id];
         }
 
