@@ -218,20 +218,34 @@ class Mail_API
      *
      * @access  public
      * @param   string $address The email address value
+     * @param   boolean $multiple If multiple addresses should be returned
      * @return  array The address information
      */
-    function getAddressInfo($address)
+    function getAddressInfo($address, $multiple = false)
     {
         $address = Mail_API::fixAddressQuoting($address);
         $address = Mime_Helper::encodeValue($address);
         include_once(APP_PEAR_PATH . "Mail/RFC822.php");
-        $t = Mail_RFC822::parseAddressList($address);
-        return array(
-            'sender_name' => $t[0]->personal,
-            'email'       => $t[0]->mailbox . '@' . $t[0]->host,
-            'username'    => $t[0]->mailbox,
-            'host'        => $t[0]->host
-        );
+        $t = Mail_RFC822::parseAddressList($address, null, null, false);
+        if ($multiple) {
+            $returns = array();
+            for ($i = 0; $i < count($t); $i++) {
+                $returns[] = array(
+                    'sender_name' => $t[$i]->personal,
+                    'email'       => $t[$i]->mailbox . '@' . $t[0]->host,
+                    'username'    => $t[$i]->mailbox,
+                    'host'        => $t[$i]->host
+                );
+            }
+            return $returns;
+        } else {
+            return array(
+                'sender_name' => $t[0]->personal,
+                'email'       => $t[0]->mailbox . '@' . $t[0]->host,
+                'username'    => $t[0]->mailbox,
+                'host'        => $t[0]->host
+            );
+        }
     }
 
 
@@ -255,15 +269,24 @@ class Mail_API
      *
      * @access  public
      * @param   string $address The email address value
-     * @return  string The name
+     * @param   boolean $multiple If multiple addresses should be returned
+     * @return  mixed The name or an array of names if multiple is true
      */
-    function getName($address)
+    function getName($address, $multiple = false)
     {
-        $info = Mail_API::getAddressInfo($address);
-        if (!empty($info['sender_name'])) {
-            return Mime_Helper::fixEncoding($info['sender_name']);
+        $info = Mail_API::getAddressInfo($address, true);
+        $returns = array();
+        foreach ($info as $row) {
+            if (!empty($row['sender_name'])) {
+                $returns[] = Mime_Helper::fixEncoding($row['sender_name']);
+            } else {
+                $returns[] = $row['email'];
+            }
+        }
+        if ($multiple) {
+            return $returns;
         } else {
-            return $info['email'];
+            return $returns[0];
         }
     }
 

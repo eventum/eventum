@@ -13,6 +13,7 @@ Eventum Issue Tracking System
 - Changed FAQ screen to use created date when last updated date is empty (Bryan)
 - Changed associate note feature to not change subject when associating with an issue (Bryan)
 - Fixed bug with updating priorities (Bryan)
+- Fixed bug with parsing multiple or invalid email addresses (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)

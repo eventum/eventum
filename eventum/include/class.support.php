@@ -1070,7 +1070,7 @@ class Support
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["sup_date"] = Date_API::getFormattedDate($res[$i]["sup_date"]);
                 $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
-                $res[$i]["sup_from"] = Mime_Helper::fixEncoding(Mail_API::getName($res[$i]["sup_from"]));
+                $res[$i]["sup_from"] = join(', ', Mail_API::getName($res[$i]["sup_from"], true));
                 if ((empty($res[$i]["sup_to"])) && (!empty($res[$i]["sup_iss_id"]))) {
                     $res[$i]["sup_to"] = "Notification List";
                 } else {
