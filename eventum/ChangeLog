@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Changed associate note feature to not change subject when associating with an issue (Bryan)
 - Fixed bug with updating priorities (Bryan)
 - Fixed bug with parsing multiple or invalid email addresses (Bryan)
+- Fixed the SCM checkin code to properly update the last action date field for an issue (João)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)

@@ -203,7 +203,7 @@ class SCM
             return -1;
         } else {
             // need to mark this issue as updated
-            Issue::markAsUpdated($issue_id);
+            Issue::markAsUpdated($issue_id, 'scm checkin');
             // need to save a history entry for this
             History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('scm_checkin_associated'), 
                             'SCM Checkins associated by SCM user \'' . $HTTP_GET_VARS["username"] . '\'.');
