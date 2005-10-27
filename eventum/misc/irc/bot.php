@@ -369,7 +369,7 @@ class Eventum_Bot
             } else {
                 $type = SMARTIRC_TYPE_CHANNEL;
             }
-            $irc->message($type, $target, $response, SMARTIRC_CRITICAL);
+            $irc->message($type, $target, $line, SMARTIRC_CRITICAL);
             sleep(1);
         }
     }
