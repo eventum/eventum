@@ -847,6 +847,7 @@ class Project
                  WHERE
                     pru_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     pru_usr_id=usr_id AND
+                    usr_status='active' AND
                     usr_id <> " . APP_SYSTEM_USER_ID;
         if (!empty($customer_id)) {
             $stmt .= " AND (usr_customer_id IS NULL OR usr_customer_id IN (0, " . Misc::escapeInteger($customer_id) . ")) ";
