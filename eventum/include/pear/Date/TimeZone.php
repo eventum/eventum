@@ -254,6 +254,9 @@ class Date_TimeZone
             $env_tz = getenv("TZ");
         }
         putenv("TZ=".$this->id);
+        // second call to putenv() is done to workaround a bug on windows systems
+        // in which a segfault would happen (don't ask, it just works)
+        putenv("TZ=".$this->id);
         $ltime = localtime($date->getTime(), true);
         putenv("TZ=".$env_tz);
         return $ltime['tm_isdst'];
