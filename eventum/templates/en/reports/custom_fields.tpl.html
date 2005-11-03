@@ -58,10 +58,10 @@ function validateForm(f)
           <td align="left" valign="top"class="default">
             {if $has_customer_integration}
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="issue" {if $group_by != 'customer'}CHECKED{/if}>
-                <a id="link" class="link" href="javascript:void(null)" 
+                <a id="link" class="link" href="javascript:void(null)"
                             onClick="javascript:checkRadio('custom_fields_report', 'group_by', 0);">Issue</a><br />
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="customer" {if $group_by == 'customer'}CHECKED{/if}>
-                <a id="link" class="link" href="javascript:void(null)" 
+                <a id="link" class="link" href="javascript:void(null)"
                             onClick="javascript:checkRadio('custom_fields_report', 'group_by', 1);">Customer</a><br />
             {else}
               <input type="hidden" name="group_by" value="issue">
@@ -99,7 +99,7 @@ function setOptions(fld_id, auto_select)
             fld_id_index = i;
         }
     }
-    
+
     options_field.length = 0;
     if (options[fld_id_index]) {
         options_field.length = options[fld_id_index].length;
@@ -116,7 +116,7 @@ setOptions('{$custom_field}', false);
     {foreach from=$custom_options key=option_index item=option}
       {literal}
       for (i = 0; i < options_field.options.length; i++) {
-        if (options_field.options[i].value == {/literal}{$option}{literal}) {
+        if (options_field.options[i].value == '{/literal}{$option}{literal}') {
           options_field.options[i].selected = true;
         }
       }
