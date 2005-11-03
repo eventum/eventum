@@ -18,6 +18,7 @@ Eventum Issue Tracking System
 - Fixed a problem with the IRC bot that would prevent it from working under PHP5 (João)
 - Fixed a bug in which inactive users would still show up when sending emails and choosing Cc: recipients (João)
 - Added a workaround to a Windows-only Time zone related bug that would trigger a crash in Apache in certain circumstances (João)
+- Fixed bug with expandable tables on recent activity report (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
