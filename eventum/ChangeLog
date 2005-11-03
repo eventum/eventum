@@ -20,6 +20,7 @@ Eventum Issue Tracking System
 - Added a workaround to a Windows-only Time zone related bug that would trigger a crash in Apache in certain circumstances (João)
 - Fixed bug with expandable tables on recent activity report (Bryan)
 - Fixed bug on custom fields report that prevent custom fields with backends from being displayed (Bryan)
+- Updated Eventum to be compatible with MySQL 5.0 (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
