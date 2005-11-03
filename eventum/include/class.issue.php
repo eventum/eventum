@@ -88,7 +88,7 @@ class Issue
         }
         $headings[] = 'Assigned';
         $headings[] = 'Time Spent';
-        // hide the category column from the output if no 
+        // hide the category column from the output if no
         // categories are available in the database
         $categories = Category::getAssocList($prj_id);
         if (count($categories) > 0) {
@@ -131,7 +131,7 @@ class Issue
 
 
     /**
-     * Method used to get the full list of issue IDs and their respective 
+     * Method used to get the full list of issue IDs and their respective
      * titles associated to a given project.
      *
      * @access  public
@@ -171,7 +171,7 @@ class Issue
         static $returns;
 
         $issue_id = Misc::escapeInteger($issue_id);
-        
+
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -232,7 +232,7 @@ class Issue
         static $returns;
 
         $issue_id = Misc::escapeInteger($issue_id);
-        
+
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -266,7 +266,7 @@ class Issue
         static $returns;
 
         $issue_id = Misc::escapeInteger($issue_id);
-        
+
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -300,7 +300,7 @@ class Issue
         static $returns;
 
         $issue_id = Misc::escapeInteger($issue_id);
-        
+
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -362,15 +362,15 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $status_id = Misc::escapeInteger($status_id);
-        
+
         // check if the status is already set to the 'new' one
         if (Issue::getStatusID($issue_id) == $status_id) {
             return -1;
         }
-        
+
         $old_status = Issue::getStatusID($issue_id);
         $old_details = Status::getDetails($old_status);
-        
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
@@ -387,7 +387,7 @@ class Issue
         } else {
             // clear out the last-triggered-reminder flag when changing the status of an issue
             Reminder_Action::clearLastTriggered($issue_id);
-            
+
             // if old status was closed and new status is not, clear closed data from issue.
             if ($old_details['sta_is_closed'] == 1) {
                 $new_details = Status::getDetails($status_id);
@@ -395,11 +395,11 @@ class Issue
                     Issue::clearClosed($issue_id);
                 }
             }
-            
+
             if ($notify) {
                 Notification::notifyStatusChange($issue_id, $old_status, $status_id);
             }
-            
+
             return 1;
         }
     }
@@ -425,11 +425,11 @@ class Issue
         }
         return $res;
     }
-    
-    
+
+
     /**
      * Method used to set the release of an issue
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The ID of the issue
      * @param   integer $pre_id The ID of the release to set this issue too
@@ -439,7 +439,7 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $pre_id = Misc::escapeInteger($pre_id);
-        
+
         if ($pre_id != Issue::getRelease($issue_id)) {
             $sql = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -456,11 +456,11 @@ class Issue
             }
         }
     }
-    
-    
+
+
     /**
      * Returns the current release of an issue
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The ID of the issue
      * @return  integer The release
@@ -553,7 +553,7 @@ class Issue
     function getReplyDetails($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
-        
+
         $stmt = "SELECT
                     iss_created_date,
                     usr_full_name AS reporter,
@@ -600,7 +600,7 @@ class Issue
             } else {
                 $field = "iss_last_internal_action_";
             }
-            $stmt .= ",\n " . $field . "date = '" . Date_API::getCurrentDateGMT() . "',\n" . 
+            $stmt .= ",\n " . $field . "date = '" . Date_API::getCurrentDateGMT() . "',\n" .
                 $field . "type  ='" . Misc::escapeString($type) . "'\n";
         }
         $stmt .= "WHERE
@@ -616,7 +616,7 @@ class Issue
 
 
     /**
-     * Method used to check whether a given issue has duplicates 
+     * Method used to check whether a given issue has duplicates
      * or not.
      *
      * @access  public
@@ -646,7 +646,7 @@ class Issue
 
 
     /**
-     * Method used to update the duplicated issues for a given 
+     * Method used to update the duplicated issues for a given
      * issue ID.
      *
      * @access  public
@@ -658,7 +658,7 @@ class Issue
         global $HTTP_POST_VARS;
 
         $issue_id = Misc::escapeInteger($issue_id);
-        
+
         $ids = Issue::getDuplicateList($issue_id);
         if ($ids == '') {
             return -1;
@@ -687,7 +687,7 @@ class Issue
         } else {
             // record the change
             for ($i = 0; $i < count($ids); $i++) {
-                History::add($ids[$i], Auth::getUserID(), History::getTypeID('duplicate_update'), 
+                History::add($ids[$i], Auth::getUserID(), History::getTypeID('duplicate_update'),
                     "The details for issue #$issue_id were updated by " . User::getFullName(Auth::getUserID()) . " and the changes propagated to the duplicated issues.");
             }
             return 1;
@@ -696,7 +696,7 @@ class Issue
 
 
     /**
-     * Method used to get a list of the duplicate issues for a given 
+     * Method used to get a list of the duplicate issues for a given
      * issue ID.
      *
      * @access  public
@@ -719,7 +719,7 @@ class Issue
 
 
     /**
-     * Method used to get a list of the duplicate issues (and their details) 
+     * Method used to get a list of the duplicate issues (and their details)
      * for a given issue ID.
      *
      * @access  public
@@ -799,7 +799,7 @@ class Issue
         global $HTTP_POST_VARS;
 
         $issue_id = Misc::escapeInteger($issue_id);
-        
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
@@ -821,7 +821,7 @@ class Issue
                 Note::insert(Auth::getUserID(), $issue_id);
             }
             // record the change
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'), 
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'),
                     "Issue marked as a duplicate of issue #" . $HTTP_POST_VARS["duplicated_issue"] . " by " . User::getFullName(Auth::getUserID()));
             return 1;
         }
@@ -829,7 +829,7 @@ class Issue
 
 
     /**
-     * Method used to get an associative array of user ID => user 
+     * Method used to get an associative array of user ID => user
      * status associated with a given issue ID.
      *
      * @access  public
@@ -1078,7 +1078,7 @@ class Issue
         $issue_id = Misc::escapeInteger($issue_id);
         $resolution_id = Misc::escapeInteger($resolution_id);
         $status_id = Misc::escapeInteger($status_id);
-        
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
@@ -1098,7 +1098,7 @@ class Issue
             return -1;
         } else {
             $prj_id = Issue::getProjectID($issue_id);
-            
+
             // add note with the reason to close the issue
             $HTTP_POST_VARS['title'] = 'Issue closed comments';
             $HTTP_POST_VARS["note"] = $reason;
@@ -1138,7 +1138,7 @@ class Issue
     function update($issue_id)
     {
         global $HTTP_POST_VARS;
-        
+
         $issue_id = Misc::escapeInteger($issue_id);
 
         $usr_id = Auth::getUserID();
@@ -1166,7 +1166,7 @@ class Issue
                 }
             }
         }
-        if ((!empty($HTTP_POST_VARS['expected_resolution_date']['Year'])) && 
+        if ((!empty($HTTP_POST_VARS['expected_resolution_date']['Year'])) &&
              (!empty($HTTP_POST_VARS['expected_resolution_date']['Month'])) &&
              (!empty($HTTP_POST_VARS['expected_resolution_date']['Day']))) {
             $HTTP_POST_VARS['expected_resolution_date'] = sprintf('%s-%s-%s', $HTTP_POST_VARS['expected_resolution_date']['Year'],
@@ -1268,7 +1268,7 @@ class Issue
             if ($current["iss_sta_id"] != $HTTP_POST_VARS["status"]) {
                 // clear out the last-triggered-reminder flag when changing the status of an issue
                 Reminder_Action::clearLastTriggered($issue_id);
-                
+
                 // if old status was closed and new status is not, clear closed data from issue.
                 $old_status_details = Status::getDetails($current['iss_sta_id']);
                 if ($old_status_details['sta_is_closed'] == 1) {
@@ -1310,13 +1310,13 @@ class Issue
                 // send notifications for the issue being updated
                 Notification::notifyIssueUpdated($issue_id, $current, $HTTP_POST_VARS);
             }
-            
+
             // record group change as a seperate change
             if ($current["iss_grp_id"] != $HTTP_POST_VARS["group"]) {
-                History::add($issue_id, $usr_id, History::getTypeID('group_changed'), 
+                History::add($issue_id, $usr_id, History::getTypeID('group_changed'),
                     "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($HTTP_POST_VARS["group"])) . ") by " . User::getFullName($usr_id));
             }
-            
+
             // now update any duplicates, if any
             $update_dupe = array(
                 'Category',
@@ -1330,17 +1330,17 @@ class Issue
             if (($current["duplicates"] != '') && (count($intersect) > 0)) {
                 Issue::updateDuplicates($issue_id);
             }
-            
+
             // if there is customer integration, mark last customer action
             if ((Customer::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer'))) {
                 Issue::recordLastCustomerAction($issue_id);
             }
-            
+
             if ($assignments_changed) {
                 // XXX: we may want to also send the email notification for those "new" assignees
                 Workflow::handleAssignmentChange(Issue::getProjectID($issue_id), $issue_id, $usr_id, Issue::getDetails($issue_id), @$HTTP_POST_VARS['assignments'], false);
             }
-            
+
             Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $HTTP_POST_VARS);
             return 1;
         }
@@ -1359,7 +1359,7 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $associated_id = Misc::escapeInteger($associated_id);
-        
+
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_association
                  (
@@ -1427,9 +1427,9 @@ class Issue
                         isa_associated_id = $issue_id
                     )";
         $GLOBALS["db_api"]->dbh->query($stmt);
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_unassociated'), 
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_unassociated'),
                 "Issue association #$associated_id removed by " . User::getFullName(Auth::getUserID()));
-        History::add($associated_id, Auth::getUserID(), History::getTypeID('issue_unassociated'), 
+        History::add($associated_id, Auth::getUserID(), History::getTypeID('issue_unassociated'),
                 "Issue association #$issue_id removed by " . User::getFullName(Auth::getUserID()));
     }
 
@@ -1465,7 +1465,7 @@ class Issue
             return -1;
         } else {
             if ($add_history) {
-                History::add($issue_id, $usr_id, History::getTypeID('user_associated'), 
+                History::add($issue_id, $usr_id, History::getTypeID('user_associated'),
                     'Issue assigned to ' . User::getFullName($assignee_usr_id) . ' by ' . User::getFullName($usr_id));
             }
             return 1;
@@ -1528,7 +1528,7 @@ class Issue
             return -1;
         } else {
             if ($add_history) {
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'), 
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'),
                     User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID()));
             }
             return 1;
@@ -1676,7 +1676,7 @@ class Issue
                     }
                 }
             } else {
-                // only use the round-robin feature if this new issue was not 
+                // only use the round-robin feature if this new issue was not
                 // already assigned to a customer account manager
                 if (@count($manager_usr_ids) < 1) {
                     $assignee = Round_Robin::getNextAssignee($prj_id);
@@ -1697,9 +1697,9 @@ class Issue
             Notification::notifyAutoCreatedIssue($prj_id, $new_issue_id, $sender, $date, $summary);
             // also notify any users that want to receive emails anytime a new issue is created
             Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
-            
+
             Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
-            
+
             return $new_issue_id;
         }
     }
@@ -1784,7 +1784,7 @@ class Issue
         if (!empty($HTTP_POST_VARS["priority"])) {
             $stmt .= Misc::escapeInteger($HTTP_POST_VARS["priority"]) . ",";
         }
-        // if we are creating an issue for a customer, put the 
+        // if we are creating an issue for a customer, put the
         // main customer contact as the reporter for it
         if (Customer::hasCustomerIntegration($prj_id)) {
             $contact_usr_id = User::getUserIDByContactID($HTTP_POST_VARS['contact']);
@@ -1815,7 +1815,7 @@ class Issue
                     '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
                     " . Misc::escapeString($HTTP_POST_VARS["estimated_dev_time"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["private"]) . " 
+                    " . Misc::escapeInteger($HTTP_POST_VARS["private"]) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -1876,7 +1876,7 @@ class Issue
                     }
                 }
             } else {
-                // only use the round-robin feature if this new issue was not 
+                // only use the round-robin feature if this new issue was not
                 // already assigned to a customer account manager
                 if (@count($manager_usr_ids) < 1) {
                     $assignee = Round_Robin::getNextAssignee($prj_id);
@@ -1953,12 +1953,12 @@ class Issue
                     Customer::notifyCustomerIssue($prj_id, $new_issue_id, $HTTP_POST_VARS['contact']);
                 }
             }
-            
+
             Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
-            
+
             // also notify any users that want to receive emails anytime a new issue is created
             Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
-            
+
             return $new_issue_id;
         }
     }
@@ -2163,7 +2163,7 @@ class Issue
         // get the current user's role
         $usr_id = Auth::getUserID();
         $role_id = User::getRoleByUser($usr_id, $prj_id);
-        
+
         // get any custom fields that should be displayed
         $custom_fields = Custom_Field::getFieldsToBeListed($prj_id);
 
@@ -2200,6 +2200,7 @@ class Issue
                     iss_dev_time,
                     iss_expected_resolution_date
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
         // join custom fields if we are searching by custom fields
@@ -2219,6 +2220,7 @@ class Issue
                 }
             }
         }
+        $stmt .= ")";
         if (!empty($options["users"])) {
             $stmt .= "
                  LEFT JOIN
@@ -2324,7 +2326,7 @@ class Issue
                 }
                 $fields[] = $res[$i]['assigned_users'];
                 $fields[] = $res[$i]['time_spent'];
-                // hide the category column from the output if no 
+                // hide the category column from the output if no
                 // categories are available in the database
                 if (count($categories) > 0) {
                     $fields[] = $res[$i]['prc_title'];
@@ -2344,7 +2346,7 @@ class Issue
                 $fields[] = $res[$i]["status_change_date"];
                 $fields[] = $res[$i]["last_action_date"];
                 $fields[] = $res[$i]['iss_summary'];
-                
+
                 if (count($custom_fields) > 0) {
                     $res[$i]['custom_field'] = array();
                     $custom_field_values = Custom_Field::getListByIssue($prj_id, $res[$i]['iss_id']);
@@ -2355,7 +2357,7 @@ class Issue
                         }
                     }
                 }
-                
+
                 $csv[] = @implode("\t", $fields);
             }
             $total_pages = ceil($total_rows / $max);
@@ -2381,14 +2383,14 @@ class Issue
 
     /**
      * Processes a result set to format the "Last Action Date" column.
-     * 
+     *
      * @access  public
      * @param   array $result The result set
      */
     function formatLastActionDates(&$result)
     {
         for ($i = 0; $i < count($result); $i++) {
-            if (($result[$i]['action_type'] == "internal") && 
+            if (($result[$i]['action_type'] == "internal") &&
                     (Auth::getCurrentRole() > User::getRoleID('Customer'))) {
                 $label = $result[$i]["iss_last_internal_action_type"];
                 $last_date = $result[$i]["iss_last_internal_action_date"];
@@ -2467,7 +2469,7 @@ class Issue
                         iur_usr_id = $usr_id
                         )";
         }
-            
+
         if (!empty($options["users"])) {
             $stmt .= " AND (\n";
             if (stristr($options["users"], "grp") !== false) {
@@ -2558,7 +2560,7 @@ class Issue
                         if (strlen($options[$field_name]['time_period']) == 0) {
                             $options[$field_name]['time_period'] = 0;
                         }
-                        $stmt .= " AND (UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "') - UNIX_TIMESTAMP(iss_$field_name)) <= (" . 
+                        $stmt .= " AND (UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "') - UNIX_TIMESTAMP(iss_$field_name)) <= (" .
                             Misc::escapeInteger($options[$field_name]['time_period']) . "*3600)";
                         break;
                 }
@@ -2582,7 +2584,7 @@ class Issue
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
                     if (in_array($field['fld_type'], array('text', 'textarea'))) {
-                        $stmt .= " AND cf" . $fld_id . ".icf_value LIKE '%" . Misc::escapeString($search_value) . "%'";                
+                        $stmt .= " AND cf" . $fld_id . ".icf_value LIKE '%" . Misc::escapeString($search_value) . "%'";
                     } elseif ($field['fld_type'] == 'combo') {
                         $stmt .= " AND cf" . $fld_id . ".icf_value IN(" . join(', ', Misc::escapeInteger($search_value)) . ")";
                     }
@@ -2601,7 +2603,7 @@ class Issue
 
 
     /**
-     * Method used to get the previous and next issues that are available 
+     * Method used to get the previous and next issues that are available
      * according to the current search parameters.
      *
      * @access  public
@@ -2618,6 +2620,7 @@ class Issue
                     iss_id,
                     " . Issue::getLastActionFields() . "
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
         // join custom fields if we are searching by custom fields
@@ -2637,6 +2640,7 @@ class Issue
                 }
             }
         }
+        $stmt .= ")";
         if (!empty($options["users"])) {
             $stmt .= "
                  LEFT JOIN
@@ -2705,7 +2709,7 @@ class Issue
 
 
     /**
-     * Method used to get the full list of user IDs assigned to a specific 
+     * Method used to get the full list of user IDs assigned to a specific
      * issue.
      *
      * @access  public
@@ -2734,7 +2738,7 @@ class Issue
 
     /**
      * Method used to see if a user is assigned to an issue.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $usr_id An integer containg the ID of the user.
@@ -2752,7 +2756,7 @@ class Issue
 
 
     /**
-     * Method used to get the full list of reporters associated with a given 
+     * Method used to get the full list of reporters associated with a given
      * list of issues.
      *
      * @access  public
@@ -2904,13 +2908,13 @@ class Issue
     {
         global $HTTP_SERVER_VARS;
         static $returns;
-        
+
         $issue_id = Misc::escapeInteger($issue_id);
 
         if (empty($issue_id)) {
             return '';
         }
-        
+
         if ((!empty($returns[$issue_id])) && ($force_refresh != true)) {
             return $returns[$issue_id];
         }
@@ -2926,8 +2930,10 @@ class Issue
                     sta_color status_color,
                     sta_is_closed
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
+                    )
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
@@ -3021,15 +3027,15 @@ class Issue
                 if (!empty($res['iss_duplicated_iss_id'])) {
                     $res['duplicated_issue'] = Issue::getDuplicatedDetails($res['iss_duplicated_iss_id']);
                 }
-                
+
                 // get group information
                 if (!empty($res["iss_grp_id"])) {
                     $res["group"] = Group::getDetails($res["iss_grp_id"]);
                 }
-                
+
                 // get quarantine issue
                 $res["quarantine"] = Issue::getQuarantineInfo($res["iss_id"]);
-                
+
                 $returns[$issue_id] = $res;
                 return $res;
             }
@@ -3092,9 +3098,9 @@ class Issue
                 // make sure issue is not in another project
                 continue;
             }
-            
+
             $updated_fields = array();
-            
+
             // update assignment
             if (count(@$HTTP_POST_VARS['users']) > 0) {
                 $users = Misc::escapeInteger($HTTP_POST_VARS['users']);
@@ -3122,7 +3128,7 @@ class Issue
                 $new_assignees = array();
                 foreach ($users as $usr_id) {
                     $new_user_names[$usr_id] = User::getFullName($usr_id);
-                    
+
                     // check if the issue is already assigned to this person
                     $stmt = "SELECT
                                 COUNT(*) AS total
@@ -3145,7 +3151,7 @@ class Issue
                 Notification::notifyNewAssignment($new_assignees, $items[$i]);
                 $updated_fields['Assignment'] = History::formatChanges(join(', ', $current_assignees), join(', ', $new_user_names));
             }
-            
+
             // update status
             if (!empty($new_status_id)) {
                 $old_status_id = Issue::getStatusID($items[$i]);
@@ -3154,7 +3160,7 @@ class Issue
                     $updated_fields['Status'] = History::formatChanges(Status::getStatusTitle($old_status_id), Status::getStatusTitle($new_status_id));
                 }
             }
-            
+
             // update release
             if (!empty($new_release_id)) {
                 $old_release_id = Issue::getRelease($items[$i]);
@@ -3163,7 +3169,7 @@ class Issue
                     $updated_fields['Release'] = History::formatChanges(Release::getTitle($old_release_id), Release::getTitle($new_release_id));
                 }
             }
-            
+
             if (count($updated_fields) > 0) {
                 // log the changes
                 $changes = '';
@@ -3249,7 +3255,7 @@ class Issue
 
 
     /**
-     * Method used to get the full list of issue IDs and their respective 
+     * Method used to get the full list of issue IDs and their respective
      * titles.
      *
      * @access  public
@@ -3300,7 +3306,7 @@ class Issue
 
 
     /**
-     * Method used to get the list of issues associated details to a 
+     * Method used to get the list of issues associated details to a
      * specific issue.
      *
      * @access  public
@@ -3404,7 +3410,7 @@ class Issue
 
     /**
      * Returns the status of a quarantine.
-     * 
+     *
      * @param   integer $issue_id The issue ID
      * @return  integer Indicates what the current state of quarantine is.
      */
@@ -3436,7 +3442,7 @@ class Issue
     /**
      * Sets the quarantine status. Optionally an expiration date can be set
      * to indicate when the quarantine expires. A status > 0 indicates that quarantine is active.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The issue ID
      * @param   integer $status The quarantine status
@@ -3446,7 +3452,7 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $status = Misc::escapeInteger($status);
-        
+
         // see if there is an existing record
         $stmt = "SELECT
                     COUNT(*)
@@ -3477,7 +3483,7 @@ class Issue
             } else {
                 // add history entry about this change taking place
                 if ($status == 0) {
-                    History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_quarantine_removed'), 
+                    History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_quarantine_removed'),
                             "Issue quarantine status cleared by " . User::getFullName(Auth::getUserID()));
                 }
             }
@@ -3510,7 +3516,7 @@ class Issue
 
     /**
      * Sets the group of the issue.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The ID of the issue
      * @param   integer $group_id The ID of the group
@@ -3520,7 +3526,7 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $group_id = Misc::escapeInteger($group_id);
-        
+
         $current = Issue::getDetails($issue_id);
         if ($current["iss_grp_id"] == $group_id) {
             return -2;
@@ -3540,7 +3546,7 @@ class Issue
         if (empty($current_user)) {
             $current_user = APP_SYSTEM_USER_ID;
         }
-        History::add($issue_id, $current_user, History::getTypeID('group_changed'), 
+        History::add($issue_id, $current_user, History::getTypeID('group_changed'),
                 "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($group_id)) . ") by " . User::getFullName($current_user));
         return 1;
     }
@@ -3569,11 +3575,11 @@ class Issue
             return $res;
         }
     }
-    
-    
+
+
     /**
      * Returns an array of issues based on full text search results.
-     * 
+     *
      * @param   array $options An array of search options
      * @return  array An array of issue IDS
      */
@@ -3594,9 +3600,9 @@ class Issue
                     LEFT JOIN " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note ON
                         not_iss_id = iss_id
                     LEFT JOIN " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking ON
-                        ttr_iss_id = iss_id       
+                        ttr_iss_id = iss_id
                     LEFT JOIN " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support ON
-                        iss_id = phs_iss_id 
+                        iss_id = phs_iss_id
                 WHERE
                     (MATCH(iss_summary, iss_description) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE)) OR
                     (MATCH(not_note) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE)) OR
@@ -3607,7 +3613,7 @@ class Issue
             Error_Handler::logError(array($other_res->getMessage(), $other_res->getDebugInfo()), __FILE__, __LINE__);
             return array(-1);
         }
-        
+
         $sql = "SELECT
                     distinct(sup_iss_id)
                 FROM
@@ -3621,7 +3627,7 @@ class Issue
             Error_Handler::logError(array($email_res->getMessage(), $email_res->getDebugInfo()), __FILE__, __LINE__);
             return array(-1);
         }
-        
+
         $sql = "SELECT
                     distinct(icf_iss_id)
                 FROM
@@ -3633,22 +3639,22 @@ class Issue
             Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
             return array(-1);
         }
-        
+
         $issues = array_merge($other_res, $email_res, $custom_res);
         if (count($issues) < 1) {
             $issues = array(-1);
         }
-        
+
         Session::set('fulltext_string', $options['keywords']);
         Session::set('fulltext_issues', $issues);
-        
+
         return $issues;
     }
-    
-    
+
+
     /**
      * Method to determine if user can access a particular issue
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The ID of the user
@@ -3657,15 +3663,15 @@ class Issue
     function canAccess($issue_id, $usr_id)
     {
         static $access;
-        
+
         if (empty($issue_id)) {
             return true;
         }
-        
+
         if (isset($access[$issue_id . "-" . $usr_id])) {
             return $access[$issue_id . "-" . $usr_id];
         }
-        
+
         $details = Issue::getDetails($issue_id);
         if (empty($details)) {
             return true;
@@ -3673,14 +3679,14 @@ class Issue
         $usr_details = User::getDetails($usr_id);
         $usr_role = User::getRoleByUser($usr_id, $details['iss_prj_id']);
         $prj_id = Issue::getProjectID($issue_id);
-        
+
         // check customer permissions
         if ((Customer::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID("Customer")) &&
                 ($details['iss_customer_id'] != $usr_details['usr_customer_id'])) {
             $return = false;
         } elseif ($details['iss_private'] == 1) {
             // check if the issue is even private
-            
+
             // check role, reporter, assigment and group
             if (User::getRoleByUser($usr_id, $details['iss_prj_id']) > User::getRoleID("Developer")) {
                 $return = true;
@@ -3688,7 +3694,7 @@ class Issue
                 $return = true;
             } elseif (Issue::isAssignedToUser($issue_id, $usr_id)) {
                 $return = true;
-            } elseif ((!empty($details['iss_grp_id'])) && (!empty($usr_details['usr_grp_id'])) && 
+            } elseif ((!empty($details['iss_grp_id'])) && (!empty($usr_details['usr_grp_id'])) &&
                         ($details['iss_grp_id'] == $usr_details['usr_grp_id'])) {
                 $return = true;
             } else {
@@ -3700,12 +3706,12 @@ class Issue
         } else {
             $return = true;
         }
-        
+
         $access[$issue_id . "-" . $usr_id] = $return;
         return $return;
     }
-    
-    
+
+
     /**
      * Clears closed information from an issues.
      *

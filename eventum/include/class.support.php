@@ -44,7 +44,7 @@ include_once(APP_INC_PATH . "class.search_profile.php");
 include_once(APP_INC_PATH . "class.routing.php");
 
 /**
- * Class to handle the business logic related to the email feature of 
+ * Class to handle the business logic related to the email feature of
  * the application.
  *
  * @version 1.0
@@ -161,8 +161,10 @@ class Support
                     sup_id,
                     sup_ema_id
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    )
                     LEFT JOIN
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     ON
@@ -265,6 +267,7 @@ class Support
         @fwrite($fp, $message);
         @fclose($fp);
         @chmod($path . $filename, 0777);
+        return $filename;
     }
 
 
@@ -508,20 +511,18 @@ class Support
             if (empty($message)) {
                 return '';
             }
-            $parts = array();
             $structure = Mime_Helper::decode($message, true, true);
             $message_body = Mime_Helper::getMessageBody(&$structure);
-            Mime_Helper::parse_output($structure, $parts);
-            if (@count($parts["attachments"]) > 0) {
+            if (Mime_Helper::hasAttachments($message)) {
                 $has_attachments = 1;
             } else {
                 $has_attachments = 0;
             }
-            
+
             // route emails if neccassary
             if ($info['ema_use_routing'] == 1) {
                 $setup = Setup::load();
-                
+
                 if ($setup['email_routing']['status'] == 'enabled') {
                     $prefix = $setup['email_routing']['address_prefix'];
                     // escape plus signs so 'issue+1@example.com' becomes a valid routing address
@@ -587,7 +588,7 @@ class Support
                 }
                 return false;
             }
-            
+
             $sender_email = Mail_API::getEmailAddress($email->fromaddress);
 
             $t = array(
@@ -614,7 +615,7 @@ class Support
             if (empty($t['issue_id'])) {
                 $t['issue_id'] = 0;
             }
-            $res = Support::insertEmail($t, $structure);
+            $res = Support::insertEmail($t, $sup_id);
             if ($res != -1) {
                 // only extract the attachments from the email if we are associating the email to an issue
                 if (!empty($t['issue_id'])) {
@@ -634,7 +635,13 @@ class Support
                     }
                 }
                 // need to delete the message from the server?
-                Support::deleteMessage($info, $mbox, $num);
+                if (!$info['ema_leave_copy']) {
+                    @imap_delete($mbox, $num);
+                    @imap_expunge($mbox);
+                } else {
+                    // mark the message as already read
+                    @imap_setflag_full($mbox, $num, "\\Seen");
+                }
             }
             return true;
         } else {
@@ -642,7 +649,7 @@ class Support
         }
     }
 
-    
+
     /**
      * Creates a new issue from an email if appropriate. Also returns if this message is related
      * to a previous message.
@@ -661,11 +668,11 @@ class Support
         $should_create_issue = false;
         $issue_id = '';
         $associate_email = '';
-        
+
         // we can't trust the in-reply-to from the imap c-client, so let's
         // try to manually parse that value from the full headers
         $reference_msg_id = Support::getReferenceMessageID($headers);
-        
+
         // - if this email is a reply:
         if (!empty($reference_msg_id)) {
             //  -> check if the replied email exists in the database:
@@ -706,8 +713,8 @@ class Support
         // check whether we need to create a new issue or not
         if (($info['ema_issue_auto_creation'] == 'enabled') && ($should_create_issue)) {
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
-            $issue_id = @Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID, 
-                    $from, Mime_Helper::fixEncoding($subject), $message_body, $options['category'], 
+            $issue_id = @Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID,
+                    $from, Mime_Helper::fixEncoding($subject), $message_body, $options['category'],
                     $options['priority'], @$options['users'], $date);
             // associate any existing replied-to email with this new issue
             if ((!empty($associate_email)) && (!empty($reference_issue_id))) {
@@ -733,7 +740,7 @@ class Support
 
 
     /**
-     * Method used to close the existing connection to the email 
+     * Method used to close the existing connection to the email
      * server.
      *
      * @access  public
@@ -749,7 +756,7 @@ class Support
     /**
      * Builds a list of all distinct message-ids available in the provided
      * email account.
-     * 
+     *
      * @access  public
      * @param   integer $ema_id The support email account ID
      * @return  array The list of message-ids
@@ -775,7 +782,7 @@ class Support
     /**
      * Checks if a message already is downloaded. If available, the global variable $support_email_message_ids will be used,
      * otherwise the database will be checked directly.
-     * 
+     *
      * @access  public
      * @param   integer $ema_id The support email account ID
      * @param   string $message_id The Message-ID header
@@ -802,20 +809,20 @@ class Support
      *
      * @access  public
      * @param   array $row The support email details
-     * @param   object $structure The parsed structure of the email message
+     * @param   integer $sup_id The support ID to be passed out
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    function insertEmail($row, $structure)
+    function insertEmail($row, &$sup_id)
     {
         // get usr_id from FROM header
-        $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
+        $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($row['from']));
         if (!empty($usr_id) && !empty($row["customer_id"])) {
             $row["customer_id"] = User::getCustomerID($usr_id);
         }
         if (empty($row['customer_id'])) {
             $row['customer_id'] = "NULL";
         }
-        
+
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  (
@@ -838,7 +845,7 @@ class Support
         if (!empty($usr_id)) {
             $stmt .= "\n$usr_id,\n";
         }
-        $stmt .= "  
+        $stmt .= "
                     " . Misc::escapeInteger($row["customer_id"]) . ",
                     '" . Misc::escapeString($row["message_id"]) . "',
                     '" . Misc::escapeString($row["date"]) . "',
@@ -871,7 +878,7 @@ class Support
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
-                Workflow::handleNewEmail(Support::getProjectByEmailAccount($row["ema_id"]), @$row["issue_id"], $structure, $row);
+                Workflow::handleNewEmail(Email_Account::getProjectID($row["ema_id"]), @$row["issue_id"], $row);
                 return 1;
             }
         }
@@ -879,7 +886,7 @@ class Support
 
 
     /**
-     * Method used to get a specific parameter in the email listing 
+     * Method used to get a specific parameter in the email listing
      * cookie.
      *
      * @access  public
@@ -999,7 +1006,7 @@ class Support
 
 
     /**
-     * Method used to get the list of emails to be displayed in the 
+     * Method used to get the list of emails to be displayed in the
      * grid layout.
      *
      * @access  public
@@ -1011,6 +1018,7 @@ class Support
     function getEmailListing($options, $current_row = 0, $max = 5)
     {
         $prj_id = Auth::getCurrentProject();
+        $usr_id = Auth::getUserID();
         if ($max == "ALL") {
             $max = 9999999;
         }
@@ -1027,8 +1035,10 @@ class Support
                     sup_subject,
                     sup_has_attachment
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    )
                     LEFT JOIN
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     ON
@@ -1143,7 +1153,7 @@ class Support
                     break;
             }
         }
-        
+
         // handle 'private' issues.
         if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
             $stmt .= " AND (iss_private = 0 OR iss_private IS NULL)";
@@ -1178,7 +1188,7 @@ class Support
                 }
             }
             if (empty($usr_id)) {
-                // if we couldn't find a real customer by that email, set the usr_id to be the system user id, 
+                // if we couldn't find a real customer by that email, set the usr_id to be the system user id,
                 // and store the actual email address in the unknown_user field.
                 $usr_id = APP_SYSTEM_USER_ID;
                 $unknown_user = $structure->headers['from'];
@@ -1196,7 +1206,7 @@ class Support
 
 
     /**
-     * Method used to silently associate a support email with an 
+     * Method used to silently associate a support email with an
      * existing issue.
      *
      * @access  public
@@ -1232,7 +1242,7 @@ class Support
                         sup_id IN (" . @implode(", ", Misc::escapeInteger($items)) . ")";
             $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
             for ($i = 0; $i < count($res); $i++) {
-                History::add($issue_id, $usr_id, History::getTypeID('email_associated'), 
+                History::add($issue_id, $usr_id, History::getTypeID('email_associated'),
                        'Email (subject: \'' . $res[$i] . '\') associated by ' . User::getFullName($usr_id));
             }
             return 1;
@@ -1241,7 +1251,7 @@ class Support
 
 
     /**
-     * Method used to associate a support email with an existing 
+     * Method used to associate a support email with an existing
      * issue.
      *
      * @access  public
@@ -1312,7 +1322,7 @@ class Support
             $res['reply_subject'] = Mail_API::removeExcessRe('Re: ' . $res["sup_subject"]);
             $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
             $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);
-            
+
             return $res;
         }
     }
@@ -1320,7 +1330,7 @@ class Support
 
     /**
      * Returns the nth note for a specific issue. The sequence starts at 1.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $sequence The sequential number of the email.
@@ -1422,6 +1432,7 @@ class Support
      */
     function getEmailsByIssue($issue_id)
     {
+        $usr_id = Auth::getUserID();
         $stmt = "SELECT
                     sup_id,
                     sup_ema_id,
@@ -1434,10 +1445,12 @@ class Support
                     sup_has_attachment,
                     CONCAT(sup_ema_id, '-', sup_id) AS composite_id
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    )
                  WHERE
                     sup_id=seb_sup_id AND
                     ema_id=sup_ema_id AND
@@ -1537,7 +1550,7 @@ class Support
                         sup_id IN ($items)";
             $subjects = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
             for ($i = 0; $i < count($HTTP_POST_VARS["item"]); $i++) {
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'), 
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'),
                                 'Email (subject: \'' . $subjects[$HTTP_POST_VARS["item"][$i]] . '\') disassociated by ' . User::getFullName(Auth::getUserID()));
             }
             return 1;
@@ -1546,7 +1559,7 @@ class Support
 
 
     /**
-     * Method used to get the appropriate Message-ID header for a 
+     * Method used to get the appropriate Message-ID header for a
      * given issue.
      *
      * @access  public
@@ -1582,8 +1595,9 @@ class Support
             if (Customer::hasCustomerIntegration($prj_id)) {
                 // check for a customer contact with several email addresses
                 $customer_id = Issue::getCustomerID($issue_id);
-                $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id));
-                if ((!in_array($sender_email, $contact_emails)) &&
+                $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id, Issue::getContractID($issue_id)));
+                $contact_emails = array_map('strtolower', $contact_emails);
+                if ((!in_array(strtolower($sender_email), $contact_emails)) &&
                         (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
                     $is_allowed = false;
                 }
@@ -1593,7 +1607,7 @@ class Support
                 }
             }
         } else {
-            // check if this user is not a customer and 
+            // check if this user is not a customer and
             // also not in the assignment list for the current issue and
             // also not in the authorized repliers list
             // also not the reporter
@@ -1650,7 +1664,7 @@ class Support
 
 
     /**
-     * Method used to send emails directly from the sender to the 
+     * Method used to send emails directly from the sender to the
      * recipient. This will not re-write the sender's email address
      * to issue-xxxx@ or whatever.
      *
@@ -1728,13 +1742,13 @@ class Support
         } else {
             $in_reply_to = false;
         }
-        
+
         // get ID of whoever is sending this.
         $sender_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($HTTP_POST_VARS["from"]));
         if (empty($sender_usr_id)) {
             $sender_usr_id = false;
         }
-        
+
         // remove extra 'Re: ' from subject
         $HTTP_POST_VARS['subject'] = Mail_API::removeExcessRe($HTTP_POST_VARS['subject']);
         $internal_only = false;
@@ -1840,10 +1854,10 @@ class Support
             }
         }
         $structure = Mime_Helper::decode($full_email, true, false);
-        $res = Support::insertEmail($t, $structure);
+        $res = Support::insertEmail($t, $sup_id);
         if (!empty($HTTP_POST_VARS["issue_id"])) {
             // need to send a notification
-            Notification::notifyNewEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $structure, $full_email, $internal_only);
+            Notification::notifyNewEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $structure, $full_email, $internal_only, false, $type, $sup_id);
             // mark this issue as updated
             if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
                 Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'customer action');
@@ -1855,7 +1869,7 @@ class Support
                 }
             }
             // save a history entry for this
-            History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'), 
+            History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'),
                             'Outgoing email sent by ' . User::getFullName(Auth::getUserID()));
 
             // also update the last_response_date field for the associated issue
@@ -1985,11 +1999,11 @@ class Support
             return $res;
         }
     }
-    
-    
+
+
     /**
      * Returns the number of emails sent by a user in a time range.
-     * 
+     *
      * @access  public
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date
@@ -2024,7 +2038,7 @@ class Support
 
     /**
      * Returns the projectID based on the email account
-     * 
+     *
      * @access  public
      * @param   integer $ema_id The id of the email account.
      * @return  integer The ID of the of the project.
@@ -2036,7 +2050,7 @@ class Support
         if (!empty($returns[$ema_id])) {
             return $returns[$ema_id];
         }
-        
+
         $stmt = "SELECT
                     ema_prj_id
                  FROM
@@ -2055,7 +2069,7 @@ class Support
 
     /**
      * Moves an email from one account to another.
-     * 
+     *
      * @access  public
      * @param   integer $sup_id The ID of the message.
      * @param   integer $current_ema_id The ID of the account the message is currently in.
@@ -2069,7 +2083,7 @@ class Support
         if (!empty($email['sup_iss_id'])) {
             return -1;
         }
-        
+
         $info = Email_Account::getDetails($new_ema_id);
         $full_email = Support::getFullEmail($sup_id);
         $structure = Mime_Helper::decode($full_email, true, true);
@@ -2080,21 +2094,21 @@ class Support
             }
             $headers .= "$key: $value\n";
         }
-        
+
         // handle auto creating issues (if needed)
         $should_create_array = Support::createIssueFromEmail($info, $headers, $email['seb_body'], $email['timestamp'], $email['sup_from'], $email['sup_subject']);
         $should_create_issue = $should_create_array['should_create_issue'];
         $associate_email = $should_create_array['associate_email'];
         $issue_id = $should_create_array['issue_id'];
         $customer_id = $should_create_array['customer_id'];
-        
+
         if (empty($issue_id)) {
             $issue_id = 0;
         }
         if (empty($customer_id)) {
             $customer_id = 'NULL';
         }
-        
+
         $sql = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                 SET
@@ -2109,7 +2123,7 @@ class Support
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
-        
+
         $row = array(
             'customer_id'    => $customer_id,
             'issue_id'       => $issue_id,
@@ -2127,12 +2141,12 @@ class Support
         Workflow::handleNewEmail(Support::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
         return 1;
     }
-    
-    
+
+
     /**
      * Deletes the specified message from the server
      * NOTE: YOU STILL MUST call imap_expunge($mbox) to permanently delete the message.
-     * 
+     *
      * @param   array $info Ana rray of email account information
      * @param   object $mbox The mailbox object
      * @param   integer $num The number of the message to delete.

@@ -102,8 +102,10 @@ class Impact_Analysis
                     A.usr_full_name AS submitter_name,
                     B.usr_full_name AS handler_name
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user A
+                    )
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user B
                  ON
