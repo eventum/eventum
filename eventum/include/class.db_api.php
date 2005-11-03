@@ -128,11 +128,25 @@ class DB_API
             $end_date_field = "'" . Date_API::getCurrentDateGMT() . "'";
         }
         
-        $sql = "((UNIX_TIMESTAMP($end_date_field) - UNIX_TIMESTAMP($start_date_field)) -
-                (IF (((TO_DAYS($end_date_field)-TO_DAYS($start_date_field)) + DAYOFWEEK($start_date_field) < 8), 0, ((floor((TO_DAYS($end_date_field)-TO_DAYS($start_date_field))/7)) * 86400 * 2)
-                )) - (CASE WHEN DAYOFWEEK($start_date_field) = 7 THEN (86400 + (86400 - time_to_sec($start_date_field))) WHEN DAYOFWEEK($start_date_field) = 1 THEN (86400 - time_to_sec($start_date_field)) ELSE 0 END)
-                - (CASE WHEN DAYOFWEEK($end_date_field) = 7 THEN time_to_sec($end_date_field) WHEN DAYOFWEEK($end_date_field) = 1 THEN (86400 + time_to_sec($end_date_field)) ELSE 0 END))";
-        return $sql;
+        // this is crazy, but it does work. Anyone with a better solution email bryan@mysql.com
+        $sql = "((UNIX_TIMESTAMP($end_date_field) - UNIX_TIMESTAMP($start_date_field)) - (CASE
+            WHEN DAYOFWEEK($start_date_field) = 1 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field))-1)/7) * 86400 * 2)
+            WHEN DAYOFWEEK($start_date_field) = 2 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field)))/7) * 86400 *2)
+            WHEN DAYOFWEEK($start_date_field) = 3 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field))+1)/7) * 86400 *2)
+            WHEN DAYOFWEEK($start_date_field) = 4 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field))+2)/7) * 86400 *2)
+            WHEN DAYOFWEEK($start_date_field) = 5 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field))+3)/7) * 86400 *2)
+            WHEN DAYOFWEEK($start_date_field) = 6 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field))+4)/7) * 86400 *2)
+            WHEN DAYOFWEEK($start_date_field) = 7 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field))-2)/7) * 86400 *2)
+        END) - (CASE
+            WHEN DAYOFWEEK($start_date_field) = 7 THEN (86400 + (86400 - time_to_sec($start_date_field)))
+            WHEN DAYOFWEEK($start_date_field) = 1 THEN (86400 - time_to_sec($start_date_field))
+            ELSE 0
+        END) - CASE
+            WHEN DAYOFWEEK($end_date_field) = 7 THEN time_to_sec($end_date_field)
+            WHEN DAYOFWEEK($end_date_field) = 1 THEN (86400 + time_to_sec($end_date_field))
+            ELSE 0
+        END)";
+        return str_replace("\n", " ", $sql);
     }
 }
 
