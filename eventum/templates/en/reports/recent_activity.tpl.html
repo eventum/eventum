@@ -1,8 +1,8 @@
 {include file="header.tpl.html" extra_title="Recent Activity"}
-
-<script language="javascript" src="{$app_base_url}js/jsrsClient.js"></script>
-<script language="javascript" src="{$app_base_url}js/expandable_cell.js"></script>
-{include file="jsrs.tpl.html"}
+<script language="javascript">
+{include file="../js/httpclient.js"}
+{include file="../js/expandable_cell.js"}
+</script>
 <br />
 <form method="post" action="{$smarty.server.PHP_SELF}" name="recent_activity">
 <input type="hidden" name="cat" value="generate">
