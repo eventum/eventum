@@ -147,7 +147,7 @@ class Custom_Field
 
 
     /**
-     * Method used to update the values stored in the database. 
+     * Method used to update the values stored in the database.
      *
      * @access  public
      * @return  integer 1 if the update worked properly, any other value otherwise
@@ -155,12 +155,12 @@ class Custom_Field
     function updateValues()
     {
         global $HTTP_POST_VARS;
-        
+
         $prj_id = Auth::getCurrentProject();
         $issue_id = Misc::escapeInteger($HTTP_POST_VARS["issue_id"]);
 
         $old_values = Custom_Field::getValuesByIssue($prj_id, $issue_id);
-        
+
         // get the types for all of the custom fields being submitted
         $stmt = "SELECT
                     fld_id,
@@ -170,7 +170,7 @@ class Custom_Field
                  WHERE
                     fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($HTTP_POST_VARS['custom_fields']))) . ")";
         $field_types = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-        
+
         // get the titles for all of the custom fields being submitted
         $stmt = "SELECT
                     fld_id,
@@ -183,9 +183,9 @@ class Custom_Field
 
         $updated_fields = array();
         foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
-            
+
             $fld_id = Misc::escapeInteger($fld_id);
-            
+
             // security check
             $sql = "SELECT
                         fld_min_role
@@ -197,7 +197,7 @@ class Custom_Field
             if ($min_role > Auth::getCurrentRole()) {
                 continue;
             }
-            
+
             $option_types = array(
                 'multiple',
                 'combo'
@@ -210,7 +210,7 @@ class Custom_Field
                         $value = '';
                     }
                 }
-                
+
                 // first check if there is actually a record for this field for the issue
                 $stmt = "SELECT
                             icf_id,
@@ -227,11 +227,11 @@ class Custom_Field
                 }
                 $icf_id = $res['icf_id'];
                 $icf_value = $res['icf_value'];
-                
+
                 if ($icf_value == $value) {
                     continue;
                 }
-                
+
                 if (empty($icf_id)) {
                     // record doesn't exist, insert new record
                     $stmt = "INSERT INTO
@@ -271,7 +271,7 @@ class Custom_Field
                 }
             } else {
                 $old_value = Custom_Field::getDisplayValue($HTTP_POST_VARS['issue_id'], $fld_id, true);
-                
+
                 if (!is_array($old_value)) {
                     $old_value = array($old_value);
                 }
@@ -281,22 +281,22 @@ class Custom_Field
                 if ((count(array_diff($old_value, $value)) > 0) || (count(array_diff($value, $old_value)) > 0)) {
 
                     $old_display_value = Custom_Field::getDisplayValue($HTTP_POST_VARS['issue_id'], $fld_id);
-                    // need to remove all associated options from issue_custom_field and then 
+                    // need to remove all associated options from issue_custom_field and then
                     // add the selected options coming from the form
                     Custom_Field::removeIssueAssociation($fld_id, $HTTP_POST_VARS["issue_id"]);
                     if (@count($value) > 0) {
                         Custom_Field::associateIssue($HTTP_POST_VARS["issue_id"], $fld_id, $value);
                     }
                     $new_display_value = Custom_Field::getDisplayValue($HTTP_POST_VARS['issue_id'], $fld_id);
-                    $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_display_value, $new_display_value); 
+                    $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_display_value, $new_display_value);
                 }
             }
         }
-        
+
         Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, Custom_Field::getValuesByIssue($prj_id, $issue_id));
         Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
         // need to save a history entry for this
-        
+
         if (count($updated_fields) > 0) {
             // log the changes
             $changes = '';
@@ -431,15 +431,15 @@ class Custom_Field
     function getOptionValue($fld_id, $value)
     {
         static $returns;
-        
+
         if (empty($value)) {
             return "";
         }
-        
+
         if (isset($returns[$fld_id . $value])) {
             return $returns[$fld_id . $value];
         }
-        
+
         $backend = Custom_Field::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
             $values = $backend->getList($fld_id);
@@ -481,15 +481,15 @@ class Custom_Field
     function getOptionKey($fld_id, $value)
     {
         static $returns;
-        
+
         if (empty($value)) {
             return "";
         }
-        
+
         if (isset($returns[$fld_id . $value])) {
             return $returns[$fld_id . $value];
         }
-        
+
         $backend = Custom_Field::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
             $values = $backend->getList($fld_id);
@@ -537,7 +537,7 @@ class Custom_Field
         if ($usr_id == false) {
             $usr_id = Auth::getUserID();
         }
-        
+
         $stmt = "SELECT
                     fld_id,
                     fld_title,
@@ -610,11 +610,11 @@ class Custom_Field
             }
         }
     }
-    
-    
+
+
     /**
      * Returns an array of fields and values for a specific issue
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The ID of the project
      * @param   integer $iss_id The ID of the issue to return values for
@@ -806,7 +806,7 @@ class Custom_Field
 
 
     /**
-     * Method used to get the list of custom fields available in the 
+     * Method used to get the list of custom fields available in the
      * system.
      *
      * @access  public
@@ -883,11 +883,11 @@ class Custom_Field
     function getDetails($fld_id)
     {
         static $returns;
-        
+
         if (isset($returns[$fld_id])) {
             return $returns[$fld_id];
         }
-        
+
         $stmt = "SELECT
                     *
                  FROM
@@ -923,9 +923,9 @@ class Custom_Field
     function getOptions($fld_id, $ids = false)
     {
         static $returns;
-        
+
         $return_key = $fld_id . serialize($ids);
-        
+
         if (isset($returns[$return_key])) {
             return $returns[$return_key];
         }
@@ -961,6 +961,7 @@ class Custom_Field
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return "";
             } else {
+                asort($res);
                 $returns[$return_key] = $res;
                 return $res;
             }
@@ -970,7 +971,7 @@ class Custom_Field
 
     /**
      * Method used to parse the special format used in the combo boxes
-     * in the administration section of the system, in order to be 
+     * in the administration section of the system, in order to be
      * used as a way to flag the system for whether the custom field
      * option is a new one or one that should be updated.
      *
@@ -1228,7 +1229,7 @@ class Custom_Field
 
 
     /**
-     * Method used to remove all custom field entries associated with 
+     * Method used to remove all custom field entries associated with
      * a given set of issues.
      *
      * @access  public
@@ -1253,7 +1254,7 @@ class Custom_Field
 
 
     /**
-     * Method used to remove all custom fields associated with 
+     * Method used to remove all custom fields associated with
      * a given set of projects.
      *
      * @access  public
@@ -1279,7 +1280,7 @@ class Custom_Field
 
     /**
      * Method to return the names of the fields which should be displayed on the list issues page.
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The ID of the project.
      * @return  array An array of custom field names.
@@ -1307,11 +1308,11 @@ class Custom_Field
             return $res;
         }
     }
-    
-    
+
+
     /**
      * Returns the fld_id of the field with the specified title
-     * 
+     *
      * @access  public
      * @param   string $title The title of the field
      * @return  integer The fld_id
@@ -1336,11 +1337,11 @@ class Custom_Field
             }
         }
     }
-    
-    
+
+
     /**
      * Returns the value for the specified field
-     * 
+     *
      * @access  public
      * @param   integer $iss_id The ID of the issue
      * @param   integer $fld_id The ID of the field
@@ -1384,11 +1385,11 @@ class Custom_Field
             }
         }
     }
-    
-    
+
+
     /**
      * Returns the current maximum rank of any custom fields.
-     * 
+     *
      * @access  public
      * @return  integer The highest rank
      */
@@ -1400,11 +1401,11 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field";
         return $GLOBALS["db_api"]->dbh->getOne($sql);
     }
-    
-    
+
+
     /**
      * Changes the rank of a custom field
-     * 
+     *
      * @access  public
      */
     function changeRank()
@@ -1421,7 +1422,7 @@ class Custom_Field
                     // trying to move first entry lower or last entry higher will not work
                     break;
                 }
-                
+
                 $target_index = ($i + $direction);
                 $target_row = $fields[$target_index];
                 if (empty($target_row)) {
@@ -1429,12 +1430,12 @@ class Custom_Field
                 }
                 // update this entry
                 Custom_Field::setRank($fld_id, $target_row['fld_rank']);
-                
+
                 // update field we stole this rank from
                 Custom_Field::setRank($target_row['fld_id'], $fields[$i]['fld_rank']);
             }
         }
-        
+
         // re-order everything starting from 1
         $fields = Custom_Field::getList();
         $rank = 1;
@@ -1443,11 +1444,11 @@ class Custom_Field
         }
         return 1;
     }
-    
-    
+
+
     /**
      * Sets the rank of a custom field
-     * 
+     *
      * @access  public
      * @param   integer $fld_id The ID of the field
      * @param   integer $rank The new rank for this field
@@ -1468,8 +1469,8 @@ class Custom_Field
         }
         return 1;
     }
-    
-    
+
+
     /**
      * Returns the list of available custom field backends by listing the class
      * files in the backend directory.
@@ -1490,11 +1491,11 @@ class Custom_Field
         }
         return $list;
     }
-    
-    
+
+
     /**
      * Returns the 'pretty' name of the backend
-     * 
+     *
      * @access  public
      * @param   string $backend The full backend file name
      * @return  string The pretty name of the backend.
@@ -1504,12 +1505,12 @@ class Custom_Field
         preg_match('/^class\.(.*)\.php$/', $backend, $matches);
         return ucwords(str_replace('_', ' ', $matches[1]));
     }
-    
-    
+
+
     /**
      * Returns an instance of custom field backend class if it exists for the
      * specified field.
-     * 
+     *
      * @access  public
      * @param   integer $fld_id The ID of the field
      * @return  mixed false if there is no backend or an instance of the backend class
@@ -1517,12 +1518,12 @@ class Custom_Field
     function &getBackend($fld_id)
     {
         static $returns;
-        
+
         // poor mans caching
         if (isset($returns[$fld_id])) {
             return $returns[$fld_id];
         }
-        
+
         $sql = "SELECT
                     fld_backend
                 FROM
@@ -1535,20 +1536,20 @@ class Custom_Field
             return false;
         } elseif (!empty($res)) {
             include_once(APP_INC_PATH . "custom_field/$res");
-            
+
             $file_name_chunks = explode(".", $res);
             $class_name = $file_name_chunks[1] . "_Custom_Field_Backend";
-            
+
             return new $class_name;
         } else {
             return false;
         }
     }
-    
-    
+
+
     /**
      * Searches a specified custom field for a string and returns any issues that match
-     * 
+     *
      * @access  public
      * @param   integer $fld_id The ID of the custom field
      * @param   string  $search The string to search for
@@ -1570,11 +1571,11 @@ class Custom_Field
         }
         return $res;
     }
-    
-    
+
+
     /**
      * Formats the return value
-     * 
+     *
      * @access  public
      * @param   mixed   $value The value to format
      * @param   integer $fld_id The ID of the field

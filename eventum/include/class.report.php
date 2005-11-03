@@ -74,9 +74,11 @@ class Report
                     iss_last_response_date,
                     sta_color
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    )
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  ON
@@ -137,9 +139,11 @@ class Report
                     iss_created_date,
                     sta_color
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    )
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  ON
@@ -169,11 +173,11 @@ class Report
             return $issues;
         }
     }
-    
-    
+
+
     /**
      * Returns the data used by the weekly report.
-     * 
+     *
      * @access  public
      * @param   string $usr_id The ID of the user this report is for.
      * @param   string The start date of this report.
@@ -184,30 +188,30 @@ class Report
     function getWeeklyReport($usr_id, $start, $end, $separate_closed = false)
     {
         $usr_id = Misc::escapeInteger($usr_id);
-        
+
         // figure out timezone
         $user_prefs = Prefs::get($usr_id);
         $tz = @$user_prefs["timezone"];
-        
+
         $start_dt = new Date();
         $end_dt = new Date();
         // set timezone to that of user.
         $start_dt->setTZById($tz);
         $end_dt->setTZById($tz);
-        
+
         // set the dates in the users time zone
         $start_dt->setDate($start . " 00:00:00");
         $end_dt->setDate($end . " 23:59:59");
-        
+
         // convert time to GMT
         $start_dt->toUTC();
         $end_dt->toUTC();
-        
+
         $start_ts = $start_dt->getDate();
         $end_ts = $end_dt->getDate();
-        
+
         $time_tracking = Time_Tracking::getSummaryByUser($usr_id, $start_ts, $end_ts);
-        
+
         // replace spaces in index with _ and calculate total time
         $total_time = 0;
         foreach ($time_tracking as $category => $data) {
@@ -215,7 +219,7 @@ class Report
             $time_tracking[str_replace(" ", "_", $category)] = $data;
             $total_time += $data["total_time"];
         }
-        
+
         // get count of issues assigned in week of report.
         $stmt = "SELECT
                     COUNT(*)
@@ -232,12 +236,12 @@ class Report
         if (PEAR::isError($newly_assigned)) {
             Error_Handler::logError(array($newly_assigned->getMessage(), $newly_assigned->getDebugInfo()), __FILE__, __LINE__);
         }
-        
+
         $email_count = array(
             "associated"    =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, true),
             "other"         =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false)
         );
-        
+
         $data = array(
             "start"     => str_replace('-', '.', $start),
             "end"       => str_replace('-', '.', $end),
@@ -252,14 +256,14 @@ class Report
             "note_count"    => Note::getCountByUser($usr_id, $start_ts, $end_ts),
             "total_time"    => Misc::getFormattedTime($total_time, false)
         );
-        
+
         return $data;
     }
-    
-    
+
+
     /**
      * Returns data used by the workload by time period report.
-     * 
+     *
      * @access  public
      * @param   string $timezone Timezone to display time in in addition to GMT
      * @param   boolean $graph If the data should be formatted for use in a graph. Default false
@@ -299,11 +303,11 @@ class Report
             $event_count["developer"] += $row["dev_events"];
             $event_count["customer"] += $row["cust_events"];
         }
-        
+
         $data = array();
         $sort_values = array();
         for ($i = 0; $i < 24; $i++) {
-            
+
             // convert to the users time zone
             $dt = new Date(mktime($i,0,0));
             $gmt_time = $dt->format('%H:%M');
@@ -315,12 +319,12 @@ class Report
                 $data[$i]["display_time_gmt"] = $gmt_time;
                 $data[$i]["display_time_user"] = $dt->format('%H:%M');
             }
-            
+
             // loop through results, assigning appropriate results to data array
             foreach ($res as $index => $row) {
                 if ($row["time_period"] == $i) {
                     $sort_values[$row["performer"]][$i] = $row["events"];
-                    
+
                     if ($graph) {
                         $data[$row["performer"]][$dt->format('%H')] = (($row["events"] / $event_count[$row["performer"]]) * 100);
                     } else {
@@ -331,7 +335,7 @@ class Report
                 }
             }
         }
-        
+
         if (!$graph) {
             // get the highest action times
             foreach ($sort_values as $performer => $values) {
@@ -340,14 +344,14 @@ class Report
                 $data[key($values)][$performer]["rank"] = 1;
             }
         }
-        
+
         return $data;
     }
-    
-    
+
+
     /**
      * Returns data on when support emails are sent/recieved.
-     * 
+     *
      * @access  public
      * @param   string $timezone Timezone to display time in in addition to GMT
      * @param   boolean $graph If the data should be formatted for use in a graph. Default false
@@ -360,7 +364,7 @@ class Report
                     hour(sup_date) AS time_period,
                     count(*) as events
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email 
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  GROUP BY
                     time_period";
         $total = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -368,14 +372,14 @@ class Report
             Error_Handler::logError(array($total->getMessage(), $total->getDebugInfo()), __FILE__, __LINE__);
             return array();
         }
-        
+
         // get all developer email addresses
         $users = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID("customer"));
         $emails = array();
         foreach ($users as $usr_id => $usr_full_name) {
             $emails[] = Misc::escapeString(User::getFromHeader($usr_id));
         }
-        
+
         // get number of support emails from developers
         $stmt = "SELECT
                     hour(sup_date) AS time_period,
@@ -391,7 +395,7 @@ class Report
             Error_Handler::logError(array($dev_stats->getMessage(), $dev_stats->getDebugInfo()), __FILE__, __LINE__);
             return array();
         }
-        
+
         // get total number of developer and customer events and build cust_stats array
         $dev_count = 0;
         $cust_count = 0;
@@ -404,11 +408,11 @@ class Report
             $cust_count += (@$total[$i] - @$dev_stats[$i]);
             $dev_count += @$dev_stats[$i];
         }
-        
+
         $data = array();
         $sort_values = array();
         for ($i = 0; $i < 24; $i++) {
-            
+
             // convert to the users time zone
             $dt = new Date(mktime($i,0,0));
             $gmt_time = $dt->format('%H:%M');
@@ -420,11 +424,11 @@ class Report
                 $data[$i]["display_time_gmt"] = $gmt_time;
                 $data[$i]["display_time_user"] = $dt->format('%H:%M');
             }
-            
+
             // use later to find highest value
             $sort_values["developer"][$i] = $dev_stats[$i];
             $sort_values["customer"][$i] = $cust_stats[$i];
-            
+
             if ($graph) {
                 if ($dev_count == 0) {
                     $data["developer"][$dt->format('%H')] = 0;
@@ -451,7 +455,7 @@ class Report
                 }
             }
         }
-        
+
         if (!$graph) {
             // get the highest action times
             foreach ($sort_values as $performer => $values) {
@@ -460,14 +464,14 @@ class Report
                 $data[key($values)][$performer]["rank"] = 1;
             }
         }
-        
+
         return $data;
     }
-    
-    
+
+
     /**
      * Returns data for the custom fields report, based on the field and options passed in.
-     * 
+     *
      * @access  public
      * @param   integer $fld_id The id of the custom field.
      * @param   array $cfo_ids An array of option ids.
@@ -479,31 +483,42 @@ class Report
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
-        $cfo_ids = Misc::escapeInteger($cfo_ids);
-        
-        // get field values
-        $stmt = "SELECT
-                    cfo_id,
-                    cfo_value
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
-                 WHERE
-                    cfo_fld_id = $fld_id AND
-                    cfo_id IN(" . join(",", $cfo_ids) . ")
-                 ORDER BY
-                    cfo_id";
-        $options = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-        if (PEAR::isError($options)) {
-            Error_Handler::logError(array($options->getMessage(), $options->getDebugInfo()), __FILE__, __LINE__);
-            return array();
+        $cfo_ids = array_map(array('Misc', 'escapeString'), $cfo_ids);
+
+        $backend = Custom_Field::getBackend($fld_id);
+
+        if (is_object($backend)) {
+            $options = array();
+            foreach ($cfo_ids as $cfo_id) {
+                $options[$cfo_id] = Custom_Field::getOptionValue($fld_id, $cfo_id);
+            }
+            $in_field = 'icf_value';
+        } else {
+            // get field values
+            $stmt = "SELECT
+                        cfo_id,
+                        cfo_value
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
+                     WHERE
+                        cfo_fld_id = $fld_id AND
+                        cfo_id IN('" . join("','", $cfo_ids) . "')
+                     ORDER BY
+                        cfo_id";
+            $options = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+            if (PEAR::isError($options)) {
+                Error_Handler::logError(array($options->getMessage(), $options->getDebugInfo()), __FILE__, __LINE__);
+                return array();
+            }
+            $in_field = 'cfo_id';
         }
-        
+
         if ($group_by == "customer") {
             $group_by_field = "iss_customer_id";
         } else {
             $group_by_field = "iss_id";
         }
-        
+
         if ($list == true) {
             $sql = "SELECT
                         DISTINCT($group_by_field),
@@ -511,15 +526,19 @@ class Report
                         iss_summary,
                         iss_customer_id,
                         count(DISTINCT(iss_id)) as row_count
-                    FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
+                    FROM\n";
+            if (!is_object($backend)) {
+                $sql .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,\n";
+            }
+            $sql .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                    WHERE
-                        cfo_id = icf_value AND
-                        icf_iss_id = iss_id AND
+                    WHERE\n";
+            if (!is_object($backend)) {
+                $sql .= "cfo_id = icf_value AND";
+            }
+            $sql .= "\nicf_iss_id = iss_id AND
                         icf_fld_id = $fld_id AND
-                        cfo_id IN(" . join(",", array_keys($options)) . ")
+                        $in_field IN('" . join("','", array_keys($options)) . "')
                     GROUP BY
                         $group_by_field
                     ORDER BY
@@ -543,20 +562,24 @@ class Report
             }
             return $res;
         }
-        
-        $data = array();    
+
+        $data = array();
         foreach ($options as $cfo_id => $value) {
             $stmt = "SELECT
                         COUNT(DISTINCT $group_by_field)
-                    FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
+                    FROM\n";
+            if (!is_object($backend)) {
+                $stmt .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,\n";
+            }
+            $stmt .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                    WHERE
-                        cfo_id = icf_value AND
-                        icf_iss_id = iss_id AND
+                    WHERE\n";
+            if (!is_object($backend)) {
+                $stmt .= "cfo_id = icf_value AND";
+            }
+            $stmt .= "\nicf_iss_id = iss_id AND
                         icf_fld_id = $fld_id AND
-                        cfo_id = $cfo_id";
+                        $in_field = '" . Misc::escapeString($cfo_id) . "'";
             $count = $GLOBALS["db_api"]->dbh->getOne($stmt);
             if (PEAR::isError($count)) {
                 Error_Handler::logError(array($count->getMessage(), $count->getDebugInfo()), __FILE__, __LINE__);
@@ -564,34 +587,38 @@ class Report
             }
             $data[$value] = $count;
         }
-        
-        
+
+
         // include count of all other values (used in pie chart)
         $stmt = "SELECT
                     COUNT(DISTINCT $group_by_field)
-                FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                WHERE
-                    cfo_id = icf_value AND
-                        icf_iss_id = iss_id AND
+                FROM\n";
+        if (!is_object($backend)) {
+            $stmt .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,\n";
+        }
+        $stmt .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE\n";
+        if (!is_object($backend)) {
+            $stmt .= "cfo_id = icf_value AND";
+        }
+        $stmt .= "\nicf_iss_id = iss_id AND
                     icf_fld_id = $fld_id AND
-                    cfo_id NOT IN(" . join(",", $cfo_ids) . ")";
+                    $in_field NOT IN('" . join("','", $cfo_ids) . "')";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
         }
         $data["All Others"] = $res;
-        
+
         return $data;
     }
-    
-    
+
+
     /**
      * Returns workload information for the specified date range and interval.
-     * 
+     *
      * @access  public
      * @param   string $interval The interval to use in this report.
      * @param   string $type If this report is aggregate or individual
@@ -604,7 +631,7 @@ class Report
         $data = array();
         $start = Misc::escapeString($start);
         $end = Misc::escapeString($end);
-        
+
         // figure out the correct format code
         switch ($interval) {
             case "day":
@@ -636,7 +663,7 @@ class Report
                 }
                 break;
         }
-        
+
         // get issue counts
         $stmt = "SELECT
                     DATE_FORMAT(iss_created_date, '$format'),
@@ -657,11 +684,11 @@ class Report
             return array();
         }
         $data["issues"]["points"] = $res;
-        
+
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
-            
+
             $data["issues"]["stats"] = array(
                 "total" =>  $stats->sum(),
                 "avg"   =>  $stats->mean(),
@@ -676,8 +703,8 @@ class Report
                 "max"   =>  0
             );
         }
-        
-        
+
+
         // get email counts
         $stmt = "SELECT
                     DATE_FORMAT(sup_date, '$format'),
@@ -700,11 +727,11 @@ class Report
             return array();
         }
         $data["emails"]["points"] = $res;
-        
+
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
-            
+
             $data["emails"]["stats"] = array(
                 "total" =>  $stats->sum(),
                 "avg"   =>  $stats->mean(),
@@ -719,8 +746,8 @@ class Report
                 "max"   =>  0
             );
         }
-        
-        
+
+
         return $data;
     }
 }
