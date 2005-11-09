@@ -32,7 +32,7 @@
 // | Author: Richard Heyes <richard@phpguru.org>                           |
 // +-----------------------------------------------------------------------+
 //
-// $Id: s.POP3.php 1.1 02/08/22 04:15:51-00:00 jpm $
+// $Id$
 
 require_once('Net/Socket.php');
 

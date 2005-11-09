@@ -52,7 +52,7 @@
  *
  * @author  Richard Heyes <richard@phpguru.org>
  * @author  Chuck Hagenbuch <chuck@horde.org>
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.22 $
  * @license BSD
  * @package Mail
  */
@@ -177,9 +177,11 @@ class Mail_RFC822 {
         $this->error      = null;
         $this->index      = null;
 
-        while ($this->address = $this->_splitAddresses($this->address)) {
-            continue;
-        }
+        // Unfold any long lines in $this->address.
+        $this->address = preg_replace('/\r?\n/', "\r\n", $this->address);
+        $this->address = preg_replace('/\r\n(\t| )+/', ' ', $this->address);
+
+        while ($this->address = $this->_splitAddresses($this->address));
 
         if ($this->address === false || isset($this->error)) {
             require_once 'PEAR.php';
@@ -472,7 +474,7 @@ class Mail_RFC822 {
         for ($i = 0; $i < count($addresses); $i++) {
             if (!$this->validateMailbox($addresses[$i])) {
                 if (empty($this->error)) {
-                    $this->error = 'Validation failed for "' . $addresses[$i] . '"';
+                    $this->error = 'Validation failed for: ' . $addresses[$i];
                 }
                 return false;
             }
@@ -584,8 +586,8 @@ class Mail_RFC822 {
         // Leading and trailing "
         $qstring = substr($qstring, 1, -1);
 
-        // Perform check.
-        return !(preg_match('/(.)[\x0D\\\\"]/', $qstring, $matches) && $matches[1] != '\\');
+        // Perform check, removing quoted characters first.
+        return !preg_match('/[\x0D\\\\"]/', preg_replace('/\\\\./', '', $qstring));
     }
 
     /**
@@ -910,7 +912,7 @@ class Mail_RFC822 {
      */
     function isValidInetAddress($data, $strict = false)
     {
-        $regex = $strict ? '/^([.0-9a-z_-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i' : '/^([*+!.&#$|\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i';
+        $regex = $strict ? '/^([.0-9a-z_+-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i' : '/^([*+!.&#$|\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i';
         if (preg_match($regex, trim($data), $matches)) {
             return array($matches[1], $matches[2]);
         } else {

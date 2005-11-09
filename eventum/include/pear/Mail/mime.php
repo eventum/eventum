@@ -33,7 +33,7 @@
 // |         Tomas V.V.Cox <cox@idecnet.com> (port to PEAR)                |
 // +-----------------------------------------------------------------------+
 //
-// $Id: s.mime.php 1.1 02/08/22 04:15:51-00:00 jpm $
+// $Id$
 
 require_once 'PEAR.php';
 require_once 'Mail/mimePart.php';

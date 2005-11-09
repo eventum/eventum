@@ -20,7 +20,7 @@
  * Sendmail implementation of the PEAR Mail:: interface.
  * @access public
  * @package Mail
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.11 $
  */
 class Mail_sendmail extends Mail {
 
@@ -66,7 +66,7 @@ class Mail_sendmail extends Mail {
          * the commandline, we can't guarantee the use of the standard "\r\n"
          * separator.  Instead, we use the system's native line separator.
          */
-        $this->sep = (strstr(PHP_OS, 'WIN')) ? "\r\n" : "\n";
+        $this->sep = (strpos(PHP_OS, 'WIN') === false) ? "\n" : "\r\n";
     }
 
 	/**
@@ -110,10 +110,10 @@ class Mail_sendmail extends Mail {
 
         if (!isset($from)) {
             return PEAR::raiseError('No from address given.');
-        } elseif (strstr($from, ' ') ||
-                  strstr($from, ';') ||
-                  strstr($from, '&') ||
-                  strstr($from, '`')) {
+        } elseif (strpos($from, ' ') !== false ||
+                  strpos($from, ';') !== false ||
+                  strpos($from, '&') !== false ||
+                  strpos($from, '`') !== false) {
             return PEAR::raiseError('From address specified with dangerous characters.');
         }
 
@@ -124,13 +124,19 @@ class Mail_sendmail extends Mail {
             fputs($mail, $text_headers);
             fputs($mail, $this->sep);  // newline to end the headers section
             fputs($mail, $body);
-            $result = pclose($mail) >> 8 & 0xFF; // need to shift the pclose result to get the exit code
+            $result = pclose($mail);
+            if (version_compare(phpversion(), '4.2.3') == -1) {
+                // With older php versions, we need to shift the
+                // pclose result to get the exit code.
+                $result = $result >> 8 & 0xFF;
+            }
         } else {
             return PEAR::raiseError('sendmail [' . $this->sendmail_path . '] is not a valid file');
         }
 
         if ($result != 0) {
-            return PEAR::raiseError('sendmail returned error code ' . $result);
+            return PEAR::raiseError('sendmail returned error code ' . $result,
+                                    $result);
         }
 
         return true;
