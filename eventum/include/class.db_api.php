@@ -76,7 +76,7 @@ class DB_API
 
     /**
      * Method used to get the last inserted ID. This is a simple
-     * wrapper to the mysql_insert_id function, as a work around to 
+     * wrapper to the mysql_insert_id function, as a work around to
      * the somewhat annoying implementation of PEAR::DB to create
      * separate tables to host the ID sequences.
      *
@@ -116,7 +116,7 @@ class DB_API
      * Returns the SQL used to calculate the difference of 2 dates, not counting weekends.
      * This thing is truly a work of art, the type of art that throws lemon juice in your eye and then laughs.
      * If $end_date_field is null, the current date is used instead.
-     * 
+     *
      * @access  public
      * @param   string $start_date_field The name of the field the first date is.
      * @param   string $end_date_field The name of the field where the second date is.
@@ -127,7 +127,7 @@ class DB_API
         if ($end_date_field == false) {
             $end_date_field = "'" . Date_API::getCurrentDateGMT() . "'";
         }
-        
+
         // this is crazy, but it does work. Anyone with a better solution email bryan@mysql.com
         $sql = "((UNIX_TIMESTAMP($end_date_field) - UNIX_TIMESTAMP($start_date_field)) - (CASE
             WHEN DAYOFWEEK($start_date_field) = 1 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field))-1)/7) * 86400 * 2)
