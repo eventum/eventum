@@ -31,14 +31,14 @@ include_once(APP_INC_PATH . "workflow/class.abstract_workflow_backend.php");
 /**
  * Example workflow backend class. For example purposes it will print what
  * method is called.
- * 
+ *
  * @author  Bryan Alsdorf <bryan@mysql.com>
  */
 class Example_Workflow_Backend extends Abstract_Workflow_Backend
 {
     /**
      * Called when an issue is updated.
-     * 
+     *
      * @param integer $prj_id The project ID.
      * @param integer $issue_id The ID of the issue.
      * @param integer $usr_id The ID of the user.
@@ -153,7 +153,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
 
 
     /**
-     * Updates the existing issue to a different status when an email is 
+     * Updates the existing issue to a different status when an email is
      * manually associated to an existing issue.
      *
      * @access  public
@@ -167,7 +167,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
 
 
     /**
-     * Called when a new message is recieved. 
+     * Called when a new message is recieved.
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
@@ -178,11 +178,11 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     {
         echo "Workflow: New Email<br />\n";
     }
-    
-    
+
+
     /**
      * Method is called to return the list of statuses valid for a specific issue.
-     * 
+     *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
      * @return  array An associative array of statuses valid for this issue.
@@ -194,12 +194,12 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
        // you should perform any logic and remove any statuses you need to here.
        return $statuses;
     }
-    
-    
+
+
     /**
      * Called when an attempt is made to add a user or email address to the
-     * notification list. 
-     * 
+     * notification list.
+     *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $subscriber_usr_id The ID of the user to subscribe if this is a real user (false otherwise).
@@ -213,9 +213,9 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
         if ($email == "invalidemail@example.com") {
             return false;
         }
-        // just for this example, if the usr_id is 2, change the usr_id to 3
-        if ($subscriber_usr_id == 2) {
-            $subscriber_usr_id = 3;
+        // just for this example, if the usr_id is 99, change the usr_id to 100
+        if ($subscriber_usr_id == 99) {
+            $subscriber_usr_id = 100;
         }
         // another thing this workflow can do is change the actions a user is subscribed too.
         // we will make sure all users are subscribed to the "email" action.
@@ -233,7 +233,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
 
     /**
      * Called when issue is closed.
-     * 
+     *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   boolean $send_notification Whether to send a notification about this action or not
@@ -246,11 +246,11 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     {
         echo "Workflow: handleIssueClosed<br />\n";
     }
-    
-    
+
+
     /**
      * Called when custom fields are updated
-     * 
+     *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
      * @param   array $old The custom fields before the update.
@@ -260,11 +260,11 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     {
         echo "Workflow: handleCustomFieldsUpdated<br />\n";
     }
-    
-    
+
+
     /**
      * Determines if the address should should be emailed.
-     * 
+     *
      * @param   integer $prj_id The project ID
      * @param   string $address The email address to check
      * @return  boolean
