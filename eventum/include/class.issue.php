@@ -971,7 +971,8 @@ class Issue
                     iss_last_public_action_date,
                     iss_last_public_action_type,
                     iss_summary,
-                    iss_description
+                    iss_description,
+                    iss_root_message_id
                  ) VALUES (
                     " . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
                     " . $options["category"] . ",
@@ -986,7 +987,8 @@ class Issue
                     '" . Date_API::getCurrentDateGMT() . "',
                     'created',
                     '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "'
+                    '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
+                    '" . Misc::escapeString(Mail_API::generateMessageID()) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
