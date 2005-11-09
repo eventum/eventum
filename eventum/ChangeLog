@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 1.6.2
+???, Version 1.7
 - Added feature to support custom fields with dynamic option lists (Bryan)
 - Fixed bug with highlight quoted replies plugin with handling line seperators (Bryan and Elan Ruusamäe)
 - Fixed bug with displaying values from multiple option custom fields (Bug #12494) (Bryan)
@@ -21,6 +21,10 @@ Eventum Issue Tracking System
 - Fixed bug with expandable tables on recent activity report (Bryan)
 - Fixed bug on custom fields report that prevent custom fields with backends from being displayed (Bryan)
 - Updated Eventum to be compatible with MySQL 5.0 (Bryan)
+- Added feature to add attachments from notes as internal only files (João)
+- Added Subject based routing (Bryan) (Special thanks to Tibor Gellert)
+- Added feature to allow recipient flags on all notes/emails sent from Eventum even if routing is disabled (Eliot Blennerhassett and Bryan)
+- Added feature to handle emails that don't have a MessageID (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
