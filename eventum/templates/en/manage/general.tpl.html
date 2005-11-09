@@ -174,14 +174,8 @@
                   } else {
                       var bgcolor = '#FFFFFF';
                   }
-                  var field = getFormElement(f, 'email_routing[recipient_type_flag]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'email_routing[flag_location]', 0);
-                  field.disabled = bool;
-                  field = getFormElement(f, 'email_routing[flag_location]', 1);
-                  field.disabled = bool;
-                  field = getFormElement(f, 'email_routing[address_prefix]');
+
+                  var field = getFormElement(f, 'email_routing[address_prefix]');
                   field.disabled = bool;
                   field.style.backgroundColor = bgcolor;
                   field = getFormElement(f, 'email_routing[address_host]');
@@ -202,14 +196,7 @@
                   } else {
                       var bgcolor = '#FFFFFF';
                   }
-                  var field = getFormElement(f, 'note_routing[recipient_type_flag]');
-                  field.disabled = bool;
-                  field.style.backgroundColor = bgcolor;
-                  field = getFormElement(f, 'note_routing[flag_location]', 0);
-                  field.disabled = bool;
-                  field = getFormElement(f, 'note_routing[flag_location]', 1);
-                  field.disabled = bool;
-                  field = getFormElement(f, 'note_routing[address_prefix]');
+                  var field = getFormElement(f, 'note_routing[address_prefix]');
                   field.disabled = bool;
                   field.style.backgroundColor = bgcolor;
                   field = getFormElement(f, 'note_routing[address_host]');
@@ -252,6 +239,27 @@
                   field.disabled = bool;
                   field.style.backgroundColor = bgcolor;
               }
+              function toggleSubjectBasedRouting(f, enabled)
+              {
+
+                  var email_routing_enabled = getFormElement(f, 'email_routing[status]', 0);
+                  email_routing_enabled.disabled = enabled;
+                  if ((enabled != true) && (email_routing_enabled.checked != true)) {
+                      disableEmailRoutingFields(f, true);
+                  } else {
+                      disableEmailRoutingFields(f, enabled);
+                  }
+                  getFormElement(f, 'email_routing[status]', 1).disabled = enabled;
+
+                  var note_routing_enabled = getFormElement(f, 'note_routing[status]', 0);
+                  note_routing_enabled.disabled = enabled;
+                  if ((enabled != true) && (note_routing_enabled.checked != true)) {
+                      disableNoteRoutingFields(f, true);
+                  } else {
+                      disableNoteRoutingFields(f, enabled);
+                  }
+                  getFormElement(f, 'note_routing[status]', 1).disabled = enabled;
+              }
               //-->
               </script>
               {/literal}
@@ -266,14 +274,14 @@
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $result == -1}
-                    ERROR: The system doesn't have the appropriate permissions to 
-                    create the configuration file in the setup directory 
-                    ({$app_setup_path}). Please contact your local system 
+                    ERROR: The system doesn't have the appropriate permissions to
+                    create the configuration file in the setup directory
+                    ({$app_setup_path}). Please contact your local system
                     administrator and ask for write privileges on the provided path.
                   {elseif $result == -2}
-                    ERROR: The system doesn't have the appropriate permissions to 
-                    update the configuration file in the setup directory 
-                    ({$app_setup_file}). Please contact your local system 
+                    ERROR: The system doesn't have the appropriate permissions to
+                    update the configuration file in the setup directory
+                    ({$app_setup_file}). Please contact your local system
                     administrator and ask for write privileges on the provided filename.
                   {elseif $result == 1}
                     Thank you, the setup information was saved successfully.
@@ -327,9 +335,9 @@
                         Requires Authentication?&nbsp;
                       </td>
                       <td width="80%" class="default">
-                        <input type="radio" name="smtp[auth]" value="1" {if $setup.smtp.auth}checked{/if} onClick="javascript:disableAuthFields(this.form, false);"> 
+                        <input type="radio" name="smtp[auth]" value="1" {if $setup.smtp.auth}checked{/if} onClick="javascript:disableAuthFields(this.form, false);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'smtp[auth]', 0);disableAuthFields(getForm('general_setup_form'), false);">Yes</a>&nbsp;&nbsp;
-                        <input type="radio" name="smtp[auth]" value="0" {if not $setup.smtp.auth}checked{/if} onClick="javascript:disableAuthFields(this.form, true);"> 
+                        <input type="radio" name="smtp[auth]" value="0" {if not $setup.smtp.auth}checked{/if} onClick="javascript:disableAuthFields(this.form, true);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'smtp[auth]', 1);disableAuthFields(getForm('general_setup_form'), true);">No</a>
                       </td>
                     </tr>
@@ -378,9 +386,9 @@
                   <table>
                     <tr>
                       <td colspan="2" class="default_white">
-                        <input type="radio" name="open_signup" value="enabled" {if $setup.open_signup == 'enabled'}checked{/if} onClick="javascript:disableSignupFields(this.form, false);"> 
+                        <input type="radio" name="open_signup" value="enabled" {if $setup.open_signup == 'enabled'}checked{/if} onClick="javascript:disableSignupFields(this.form, false);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'open_signup', 0);disableSignupFields(getForm('general_setup_form'), false);">Enabled</a>&nbsp;&nbsp;
-                        <input type="radio" name="open_signup" value="disabled" {if not $setup.open_signup == 'enabled'}checked{/if} onClick="javascript:disableSignupFields(this.form, true);"> 
+                        <input type="radio" name="open_signup" value="disabled" {if not $setup.open_signup == 'enabled'}checked{/if} onClick="javascript:disableSignupFields(this.form, true);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'open_signup', 1);disableSignupFields(getForm('general_setup_form'), true);">Disabled</a>
                       </td>
                     </tr>
@@ -411,30 +419,58 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Subject Based Routing:</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <table>
+                    <tr>
+                      <td>
+                        <input id="subject_based_routing_enabled" type="radio" name="subject_based_routing[status]" value="enabled" {if $setup.subject_based_routing.status == 'enabled'}checked{/if} onChange="javascript:toggleSubjectBasedRouting(this.form, true);">
+                        <label for="subject_based_routing_enabled" class="default">Enabled</label>&nbsp;&nbsp;
+                        <input id="subject_based_routing_disabled" type="radio" name="subject_based_routing[status]" value="disabled" {if $setup.subject_based_routing.status != 'enabled'}checked{/if} onClick="javascript:toggleSubjectBasedRouting(this.form, false);">
+                        <label for="subject_based_routing_disabled" class="default">Disabled</label><br />
+                        <span class="small_default">If enabled, Eventum will look in the subject line of incoming notes/emails to determine which issue they should be associated with.</span><br />
+                      </td>
+                    </tr>
+                  </td>
+                </table>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Email Recipient Type Flag:</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <table>
+                    <tr>
+                      <td width="100" class="default" align="right">
+                        Recipient Type Flag:&nbsp;
+                      </td>
+                      <td>
+                        <input class="default" type="text" name="email_routing[recipient_type_flag]" value="{$setup.email_routing.recipient_type_flag|escape:"html"}">
+                        <span class="small_default">(This will be included in the From address of all emails sent by Eventum)</span><br />
+                        <span class="default">
+                        <input type="radio" name="email_routing[flag_location]" value="before" {if $setup.email_routing.flag_location == 'before'}checked{/if}>
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[flag_location]', 0);">Before Sender Name</a>&nbsp;&nbsp;
+                        <input type="radio" name="email_routing[flag_location]" value="after" {if $setup.email_routing.flag_location != 'before'}checked{/if}>
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[flag_location]', 1);">After Sender Name</a>
+                        </span>
+                      </td>
+                    </tr>
+                  </td>
+                </table>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
                   <b>Email Routing Interface:</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
                   <table>
                     <tr>
                       <td colspan="2" class="default_white">
-                        <input type="radio" name="email_routing[status]" value="enabled" {if $setup.email_routing.status == 'enabled'}checked{/if} onClick="javascript:disableEmailRoutingFields(this.form, false);"> 
+                        <input type="radio" name="email_routing[status]" value="enabled" {if $setup.email_routing.status == 'enabled'}checked{/if} onClick="javascript:disableEmailRoutingFields(this.form, false);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[status]', 0);disableEmailRoutingFields(getForm('general_setup_form'), false);">Enabled</a>&nbsp;&nbsp;
-                        <input type="radio" name="email_routing[status]" value="disabled" {if $setup.email_routing.status != 'enabled'}checked{/if} onClick="javascript:disableEmailRoutingFields(this.form, true);"> 
+                        <input type="radio" name="email_routing[status]" value="disabled" {if $setup.email_routing.status != 'enabled'}checked{/if} onClick="javascript:disableEmailRoutingFields(this.form, true);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[status]', 1);disableEmailRoutingFields(getForm('general_setup_form'), true);">Disabled</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        Recipient Type Flag:&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input class="default" type="text" name="email_routing[recipient_type_flag]" value="{$setup.email_routing.recipient_type_flag|escape:"html"}"><br />
-                        <span class="default">
-                        <input type="radio" name="email_routing[flag_location]" value="before" {if $setup.email_routing.flag_location == 'before'}checked{/if}> 
-                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[flag_location]', 0);">Before Sender Name</a>&nbsp;&nbsp;
-                        <input type="radio" name="email_routing[flag_location]" value="after" {if $setup.email_routing.flag_location != 'before'}checked{/if}> 
-                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[flag_location]', 1);">After Sender Name</a>
-                        </span>
                       </td>
                     </tr>
                     <tr>
@@ -465,17 +501,41 @@
                         <input type="text" name="email_routing[host_alias]" class="default" value="{$setup.email_routing.host_alias}">
                         {include file="error_icon.tpl.html" field="email_routing[host_alias]"}
                         <span class="small_default">(Alternate domains that point to 'Address Hostname')</span>
-                      </td>
+                      </td
                     </tr>
                     <tr>
                       <td width="100" class="default" align="right">
                         Warn Users Whether They Can Send Emails to Issue:&nbsp;
                       </td>
                       <td width="80%" class="default">
-                        <input type="radio" name="email_routing[warning][status]" value="enabled" {if $setup.email_routing.warning.status == 'enabled'}checked{/if} onClick="javascript:disableWarningFields(this.form, false);"> 
+                        <input type="radio" name="email_routing[warning][status]" value="enabled" {if $setup.email_routing.warning.status == 'enabled'}checked{/if} onClick="javascript:disableWarningFields(this.form, false);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[warning][status]', 0);">Yes</a>&nbsp;&nbsp;
-                        <input type="radio" name="email_routing[warning][status]" value="disabled" {if $setup.email_routing.warning.status != 'enabled'}checked{/if} onClick="javascript:disableWarningFields(this.form, true);"> 
+                        <input type="radio" name="email_routing[warning][status]" value="disabled" {if $setup.email_routing.warning.status != 'enabled'}checked{/if} onClick="javascript:disableWarningFields(this.form, true);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[warning][status]', 1);">No</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Note Recipient Type Flag:</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <table>
+                    <tr>
+                      <td width="100" class="default" align="right">
+                        Recipient Type Flag:&nbsp;
+                      </td>
+                      <td>
+                        <input class="default" type="text" name="note_routing[recipient_type_flag]" value="{$setup.note_routing.recipient_type_flag|escape:"html"}">
+                        <span class="small_default">(This will be included in the From address of all notes sent by Eventum)</span><br />
+                        <span class="default">
+                        <input type="radio" name="note_routing[flag_location]" value="before" {if $setup.note_routing.flag_location == 'before'}checked{/if}>
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'note_routing[flag_location]', 0);">Before Sender Name</a>&nbsp;&nbsp;
+                        <input type="radio" name="note_routing[flag_location]" value="after" {if $setup.note_routing.flag_location != 'before'}checked{/if}>
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'note_routing[flag_location]', 1);">After Sender Name</a>
+                        </span>
                       </td>
                     </tr>
                   </table>
@@ -489,24 +549,10 @@
                   <table>
                     <tr>
                       <td colspan="2" class="default_white">
-                        <input type="radio" name="note_routing[status]" value="enabled" {if $setup.note_routing.status == 'enabled'}checked{/if} onClick="javascript:disableNoteRoutingFields(this.form, false);"> 
+                        <input type="radio" name="note_routing[status]" value="enabled" {if $setup.note_routing.status == 'enabled'}checked{/if} onClick="javascript:disableNoteRoutingFields(this.form, false);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'note_routing[status]', 0);disableNoteRoutingFields(getForm('general_setup_form'), false);">Enabled</a>&nbsp;&nbsp;
-                        <input type="radio" name="note_routing[status]" value="disabled" {if $setup.note_routing.status != 'enabled'}checked{/if} onClick="javascript:disableNoteRoutingFields(this.form, true);"> 
+                        <input type="radio" name="note_routing[status]" value="disabled" {if $setup.note_routing.status != 'enabled'}checked{/if} onClick="javascript:disableNoteRoutingFields(this.form, true);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'note_routing[status]', 1);disableNoteRoutingFields(getForm('general_setup_form'), true);">Disabled</a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100" class="default" align="right">
-                        Recipient Type Flag:&nbsp;
-                      </td>
-                      <td width="80%">
-                        <input class="default" type="text" name="note_routing[recipient_type_flag]" value="{$setup.note_routing.recipient_type_flag|escape:"html"}"><br />
-                        <span class="default">
-                        <input type="radio" name="note_routing[flag_location]" value="before" {if $setup.note_routing.flag_location == 'before'}checked{/if}> 
-                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'note_routing[flag_location]', 0);">Before Sender Name</a>&nbsp;&nbsp;
-                        <input type="radio" name="note_routing[flag_location]" value="after" {if $setup.note_routing.flag_location != 'before'}checked{/if}> 
-                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'note_routing[flag_location]', 1);">After Sender Name</a>
-                        </span>
                       </td>
                     </tr>
                     <tr>
@@ -540,9 +586,9 @@
                   <table>
                     <tr>
                       <td colspan="2" class="default_white">
-                        <input type="radio" name="draft_routing[status]" value="enabled" {if $setup.draft_routing.status == 'enabled'}checked{/if} onClick="javascript:disableDraftRoutingFields(this.form, false);"> 
+                        <input type="radio" name="draft_routing[status]" value="enabled" {if $setup.draft_routing.status == 'enabled'}checked{/if} onClick="javascript:disableDraftRoutingFields(this.form, false);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'draft_routing[status]', 0);disableDraftRoutingFields(getForm('general_setup_form'), false);">Enabled</a>&nbsp;&nbsp;
-                        <input type="radio" name="draft_routing[status]" value="disabled" {if $setup.draft_routing.status != 'enabled'}checked{/if} onClick="javascript:disableDraftRoutingFields(this.form, true);"> 
+                        <input type="radio" name="draft_routing[status]" value="disabled" {if $setup.draft_routing.status != 'enabled'}checked{/if} onClick="javascript:disableDraftRoutingFields(this.form, true);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'draft_routing[status]', 1);disableDraftRoutingFields(getForm('general_setup_form'), true);">Disabled</a>
                       </td>
                     </tr>
@@ -577,9 +623,9 @@
                   <table>
                     <tr>
                       <td colspan="2" class="default_white">
-                        <input type="radio" name="scm_integration" value="enabled" {if $setup.scm_integration == 'enabled'}checked{/if} onClick="javascript:disableSCMFields(this.form, false);"> 
+                        <input type="radio" name="scm_integration" value="enabled" {if $setup.scm_integration == 'enabled'}checked{/if} onClick="javascript:disableSCMFields(this.form, false);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'scm_integration', 0);disableSCMFields(getForm('general_setup_form'), false);">Enabled</a>&nbsp;&nbsp;
-                        <input type="radio" name="scm_integration" value="disabled" {if not $setup.scm_integration == 'enabled'}checked{/if} onClick="javascript:disableSCMFields(this.form, true);"> 
+                        <input type="radio" name="scm_integration" value="disabled" {if not $setup.scm_integration == 'enabled'}checked{/if} onClick="javascript:disableSCMFields(this.form, true);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'scm_integration', 1);disableSCMFields(getForm('general_setup_form'), true);">Disabled</a>
                       </td>
                     </tr>
@@ -609,9 +655,9 @@
                   <b>Email Integration Feature:</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="support_email" value="enabled" {if $setup.support_email == 'enabled'}checked{/if}> 
+                  <input type="radio" name="support_email" value="enabled" {if $setup.support_email == 'enabled'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'support_email', 0);">Enabled</a>&nbsp;&nbsp;
-                  <input type="radio" name="support_email" value="disabled" {if $setup.support_email != 'enabled'}checked{/if}> 
+                  <input type="radio" name="support_email" value="disabled" {if $setup.support_email != 'enabled'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'support_email', 1);">Disabled</a>
                 </td>
               </tr>
@@ -620,9 +666,9 @@
                   <b>Daily Tips:</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="daily_tips" value="enabled" {if $setup.daily_tips == 'enabled'}checked{/if}> 
+                  <input type="radio" name="daily_tips" value="enabled" {if $setup.daily_tips == 'enabled'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'daily_tips', 0);">Enabled</a>&nbsp;&nbsp;
-                  <input type="radio" name="daily_tips" value="disabled" {if $setup.daily_tips != 'enabled'}checked{/if}> 
+                  <input type="radio" name="daily_tips" value="disabled" {if $setup.daily_tips != 'enabled'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'daily_tips', 1);">Disabled</a>
                 </td>
               </tr>
@@ -632,9 +678,9 @@
                 </td>
                 <td bgcolor="{$light_color}">
                   <span class="default">
-                  <input type="radio" name="spell_checker" value="enabled" {if $setup.spell_checker == 'enabled'}checked{/if}> 
+                  <input type="radio" name="spell_checker" value="enabled" {if $setup.spell_checker == 'enabled'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'spell_checker', 0);">Enabled</a>&nbsp;&nbsp;
-                  <input type="radio" name="spell_checker" value="disabled" {if $setup.spell_checker != 'enabled'}checked{/if}> 
+                  <input type="radio" name="spell_checker" value="disabled" {if $setup.spell_checker != 'enabled'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'spell_checker', 1);">Disabled</a></span>
                   &nbsp;&nbsp;<span class="small_default">(requires <a target="_aspell" class="link" href="http://aspell.sourceforge.net/">aspell</a> installed in your server)</span>
                 </td>
@@ -644,9 +690,9 @@
                   <b>IRC Notifications:</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="irc_notification" value="enabled" {if $setup.irc_notification == 'enabled'}checked{/if}> 
+                  <input type="radio" name="irc_notification" value="enabled" {if $setup.irc_notification == 'enabled'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'irc_notification', 0);">Enabled</a>&nbsp;&nbsp;
-                  <input type="radio" name="irc_notification" value="disabled" {if $setup.irc_notification != 'enabled'}checked{/if}> 
+                  <input type="radio" name="irc_notification" value="disabled" {if $setup.irc_notification != 'enabled'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'irc_notification', 1);">Disabled</a>
                 </td>
               </tr>
@@ -655,9 +701,9 @@
                   <b>Allow Un-Assigned Issues?</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
-                  <input type="radio" name="allow_unassigned_issues" value="yes" {if $setup.allow_unassigned_issues == 'yes'}checked{/if}> 
+                  <input type="radio" name="allow_unassigned_issues" value="yes" {if $setup.allow_unassigned_issues == 'yes'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'allow_unassigned_issues', 0);">Yes</a>&nbsp;&nbsp;
-                  <input type="radio" name="allow_unassigned_issues" value="no" {if $setup.allow_unassigned_issues != 'yes'}checked{/if}> 
+                  <input type="radio" name="allow_unassigned_issues" value="no" {if $setup.allow_unassigned_issues != 'yes'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'allow_unassigned_issues', 1);">No</a>
                 </td>
               </tr>
@@ -680,9 +726,9 @@
                   <table>
                     <tr>
                       <td colspan="2" class="default_white">
-                        <input type="radio" name="email_reminder[status]" value="enabled" {if $setup.email_reminder.status == 'enabled'}checked{/if} onClick="javascript:disableReminderEmailFields(getForm('general_setup_form'), false);"> 
+                        <input type="radio" name="email_reminder[status]" value="enabled" {if $setup.email_reminder.status == 'enabled'}checked{/if} onClick="javascript:disableReminderEmailFields(getForm('general_setup_form'), false);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_reminder[status]', 0);disableReminderEmailFields(getForm('general_setup_form'), false);">Enabled</a>&nbsp;&nbsp;
-                        <input type="radio" name="email_reminder[status]" value="disabled" {if $setup.email_reminder.status != 'enabled'}checked{/if} onClick="javascript:disableReminderEmailFields(getForm('general_setup_form'), true);"> 
+                        <input type="radio" name="email_reminder[status]" value="disabled" {if $setup.email_reminder.status != 'enabled'}checked{/if} onClick="javascript:disableReminderEmailFields(getForm('general_setup_form'), true);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_reminder[status]', 1);disableReminderEmailFields(getForm('general_setup_form'), true);">Disabled</a>
                       </td>
                     </tr>
@@ -706,9 +752,9 @@
                   <table>
                     <tr>
                       <td colspan="2" class="default_white">
-                        <input type="radio" name="email_error[status]" value="enabled" {if $setup.email_error.status == 'enabled'}checked{/if} onClick="javascript:disableErrorEmailFields(getForm('general_setup_form'), false);"> 
+                        <input type="radio" name="email_error[status]" value="enabled" {if $setup.email_error.status == 'enabled'}checked{/if} onClick="javascript:disableErrorEmailFields(getForm('general_setup_form'), false);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_error[status]', 0);disableErrorEmailFields(getForm('general_setup_form'), false);">Enabled</a>&nbsp;&nbsp;
-                        <input type="radio" name="email_error[status]" value="disabled" {if $setup.email_error.status != 'enabled'}checked{/if} onClick="javascript:disableErrorEmailFields(getForm('general_setup_form'), true);"> 
+                        <input type="radio" name="email_error[status]" value="disabled" {if $setup.email_error.status != 'enabled'}checked{/if} onClick="javascript:disableErrorEmailFields(getForm('general_setup_form'), true);">
                         <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_error[status]', 1);disableErrorEmailFields(getForm('general_setup_form'), true);">Disabled</a>
                       </td>
                     </tr>
@@ -801,6 +847,7 @@
               field2.checked = true;
               disableErrorEmailFields(f, true);
           }
+          toggleSubjectBasedRouting(f, getFormElement(f, 'subject_based_routing[status]', 0).checked);
       }
       //-->
       </script>

@@ -6,7 +6,7 @@
   <span class="default">
 {if $post_result == -1}
   <b>An error occurred while trying to run your query</b>
-{elseif $post_result == 1}
+{else}
   <b>Thank you, the internal note was posted successfully.</b>
 {/if}
   </span>
@@ -99,7 +99,7 @@ function setSignature(f)
             <b>Title: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="title" class="default" size="50" value="{if $note.not_title == ""}Re: {$issue.iss_summary} {else}Re: {/if}{$note.not_title|escape:"html"}">
+            <input type="text" name="title" class="default" size="50" value="{$reply_subject|escape:"html"}">
             {include file="error_icon.tpl.html" field="title"}
           </td>
         </tr>

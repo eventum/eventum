@@ -25,8 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.issue.php 1.114 04/01/19 15:15:25-00:00 jpradomaia $
-//
 
 include_once(APP_INC_PATH . "class.validation.php");
 include_once(APP_INC_PATH . "class.time_tracking.php");
@@ -66,6 +64,40 @@ include_once(APP_INC_PATH . "class.session.php");
 
 class Issue
 {
+    /**
+     * Method used to check whether a given issue ID exists or not.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   boolean $check_project If we should check that this issue is in the current project
+     * @return  boolean
+     */
+    function exists($issue_id, $check_project = true)
+    {
+        $stmt = "SELECT
+                    COUNT(*)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                    iss_id=" . Misc::escapeInteger($issue_id);
+        if ($check_project) {
+            $stmt .= " AND
+                    iss_prj_id = " . Auth::getCurrentProject();
+        }
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            if ($res == 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+
     /**
      * Method used to get the list of column heading titles for the
      * CSV export functionality of the issue listing screen.
@@ -1549,9 +1581,10 @@ class Issue
      * @param   integer $priority The priority ID
      * @param   array $assignment The list of users to assign this issue to
      * @param   string $date The date the email was originally sent.
+     * @param   string $msg_id The message ID of the email we are creating this issue from.
      * @return  void
      */
-    function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment, $date)
+    function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment, $date, $msg_id)
     {
         $sender_email = Mail_API::getEmailAddress($sender);
         $sender_usr_id = User::getUserIDByEmail($sender_email);
@@ -1601,7 +1634,8 @@ class Issue
                     iss_last_public_action_date,
                     iss_last_public_action_type,
                     iss_summary,
-                    iss_description
+                    iss_description,
+                    iss_root_message_id
                  ) VALUES (
                     " . $prj_id . ",\n";
         if (!empty($category)) {
@@ -1627,7 +1661,8 @@ class Issue
                     '" . Date_API::getCurrentDateGMT() . "',
                     'created',
                     '" . Misc::escapeString($summary) . "',
-                    '" . Misc::escapeString($description) . "'
+                    '" . Misc::escapeString($description) . "',
+                    '" . Misc::escapeString($msg_id) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -1641,6 +1676,7 @@ class Issue
             History::add($new_issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
 
             $emails = array();
+            $manager_usr_ids = array();
             if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($customer_id))) {
                 // if there are any technical account managers associated with this customer, add these users to the notification list
                 $managers = Customer::getAccountManagers($prj_id, $customer_id);
@@ -1689,14 +1725,14 @@ class Issue
                     }
                 }
             }
-            if (count($users)) {
-                Notification::notifyAssignedUsers($users, $new_issue_id);
+            if (count($users) > 0) {
+                $has_assignee = true;
             }
 
             // send special 'an issue was auto-created for you' notification back to the sender
             Notification::notifyAutoCreatedIssue($prj_id, $new_issue_id, $sender, $date, $summary);
             // also notify any users that want to receive emails anytime a new issue is created
-            Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
+            Notification::notifyNewIssue($prj_id, $new_issue_id);
 
             Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
 
@@ -1715,6 +1751,10 @@ class Issue
     {
         global $HTTP_POST_VARS, $HTTP_POST_FILES, $insert_errors;
 
+        $usr_id = Auth::getUserID();
+        $prj_id = Auth::getCurrentProject();
+        $initial_status = Project::getInitialStatus($prj_id);
+
         $insert_errors = array();
 
         $missing_fields = array();
@@ -1728,9 +1768,7 @@ class Issue
         if ($HTTP_POST_VARS["estimated_dev_time"] == '') {
             $HTTP_POST_VARS["estimated_dev_time"] = 0;
         }
-        $usr_id = Auth::getUserID();
-        $prj_id = Auth::getCurrentProject();
-        $initial_status = Project::getInitialStatus($prj_id);
+
         // add new issue
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -1769,7 +1807,8 @@ class Issue
                     iss_summary,
                     iss_description,
                     iss_dev_time,
-                    iss_private
+                    iss_private,
+                    iss_root_message_id
                  ) VALUES (
                     " . $prj_id . ",\n";
         if (!empty($HTTP_POST_VARS["group"])) {
@@ -1815,7 +1854,8 @@ class Issue
                     '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
                     " . Misc::escapeString($HTTP_POST_VARS["estimated_dev_time"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["private"]) . "
+                    " . Misc::escapeInteger($HTTP_POST_VARS["private"]) . " ,
+                    '" . Misc::escapeString(Mail_API::generateMessageID()) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -1890,7 +1930,12 @@ class Issue
                 }
             }
             if (count($users) > 0) {
-                Notification::notifyAssignedUsers($users, $new_issue_id);
+                // automatically change the status to 'Assigned'
+                Issue::setStatus($new_issue_id, Status::getStatusID('Assigned'), FALSE);
+
+                // set this special variable to false, to avoid triggering
+                // another status update on the workflow class
+                $has_assignee = false;
             }
 
             // now process any files being uploaded
@@ -1957,7 +2002,7 @@ class Issue
             Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
 
             // also notify any users that want to receive emails anytime a new issue is created
-            Notification::notifyNewIssue($prj_id, $new_issue_id, $users);
+            Notification::notifyNewIssue($prj_id, $new_issue_id);
 
             return $new_issue_id;
         }
@@ -2805,6 +2850,9 @@ class Issue
         $ids = array();
         for ($i = 0; $i < count($result); $i++) {
             $ids[] = $result[$i]["iss_id"];
+        }
+        if (count($ids) < 1) {
+            return;
         }
         $ids = implode(", ", $ids);
         $stmt = "SELECT
@@ -3732,6 +3780,63 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
+    }
+
+
+    /**
+     * Returns the message ID that should be used as the parent ID for all messages
+     *
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     */
+    function getRootMessageID($issue_id)
+    {
+        $sql = "SELECT
+                    iss_root_message_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    iss_id=" . Misc::escapeInteger($issue_id);
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Returns the issue ID of the issue with the specified root message ID, or false
+     * @access  public
+     * @param   string $msg_id The Message ID
+     * @return  integer The ID of the issue
+     */
+    function getIssueByRootMessageID($msg_id)
+    {
+        static $returns;
+
+        if (!empty($returns[$msg_id])) {
+            return $returns[$msg_id];
+        }
+        $sql = "SELECT
+                    iss_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    iss_root_message_id = '" . Misc::escapeString($msg_id) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        if (empty($res)) {
+            $returns[$msg_id] = false;
+        } else {
+            $returns[$msg_id] =  $res;
+        }
+        return $returns[$msg_id];
     }
 }
 

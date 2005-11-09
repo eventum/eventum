@@ -68,6 +68,7 @@ if ($role_id == User::getRoleID('administrator')) {
         @$setup["open_signup"] = $HTTP_POST_VARS["open_signup"];
         @$setup["accounts_projects"] = $HTTP_POST_VARS["accounts_projects"];
         @$setup["accounts_role"] = $HTTP_POST_VARS["accounts_role"];
+        @$setup['subject_based_routing'] = $HTTP_POST_VARS['subject_based_routing'];
         @$setup['email_routing'] = $HTTP_POST_VARS['email_routing'];
         @$setup['note_routing'] = $HTTP_POST_VARS['note_routing'];
         @$setup['draft_routing'] = $HTTP_POST_VARS['draft_routing'];
@@ -78,7 +79,7 @@ if ($role_id == User::getRoleID('administrator')) {
         $res = Setup::save($setup);
         $tpl->assign("result", $res);
     }
-    $options = Setup::load();
+    $options = Setup::load(true);
     $tpl->assign("setup", $options);
     $tpl->assign("user_roles", User::getRoles(array('Customer')));
 } else {

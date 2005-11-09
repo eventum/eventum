@@ -25,7 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.setup.php 1.8 03/12/31 17:29:01-00:00 jpradomaia $
 //
 
 include_once(APP_INC_PATH . "class.error_handler.php");
@@ -45,12 +44,17 @@ class Setup
      * Method used to load the setup options for the application.
      *
      * @access  public
+     * @param   boolean $force If the data should be forced to be loaded again.
      * @return  array The system-wide preferences
      */
-    function load()
+    function load($force = false)
     {
-        include(APP_SETUP_FILE);
-        return unserialize(base64_decode($eventum_setup_string));
+        static $setup;
+        if ((empty($setup)) || ($force == true)) {
+            include(APP_SETUP_FILE);
+            $setup = unserialize(base64_decode($eventum_setup_string));
+        }
+        return $setup;
     }
 
 

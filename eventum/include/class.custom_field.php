@@ -538,6 +538,11 @@ class Custom_Field
             $usr_id = Auth::getUserID();
         }
 
+        $usr_role = User::getRoleByUser($usr_id, $prj_id);
+        if (empty($usr_role)) {
+            $usr_role = 0;
+        }
+
         $stmt = "SELECT
                     fld_id,
                     fld_title,
@@ -547,8 +552,10 @@ class Custom_Field
                     icf_value,
                     fld_min_role
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
+                    )
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                  ON
@@ -557,7 +564,7 @@ class Custom_Field
                  WHERE
                     pcf_fld_id=fld_id AND
                     pcf_prj_id=" .  Misc::escapeInteger($prj_id) . " AND
-                    fld_min_role <= " . User::getRoleByUser($usr_id, $prj_id) . "
+                    fld_min_role <= " . $usr_role . "
                  ORDER BY
                     fld_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);

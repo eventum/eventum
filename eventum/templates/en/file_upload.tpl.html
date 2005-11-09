@@ -57,8 +57,23 @@ function validateUpload(f)
         <tr>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
+              {if $current_role > $roles.customer}
               <tr>
-                <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap>
+                <td bgcolor="{$internal_color}" class="default_white" width="120" nowrap>
+                  <b>Status:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="status" class="default">
+                    <option value="public">Public (visible to all)</option>
+                    <option value="internal">Private (standard user and above only)</option>
+                  </select>
+                </td>
+              </tr>
+              {else}
+              <input type="hidden" name="status" value="public">
+              {/if}
+              <tr>
+                <td bgcolor="{$cell_color}" class="default_white" width="120" nowrap>
                   <b>Filenames:</b>
                 </td>
                 <td bgcolor="{$light_color}">
@@ -79,7 +94,7 @@ function validateUpload(f)
                 </td>
               </tr>
               <tr bgcolor="{$light_color}">
-                <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap>
+                <td bgcolor="{$cell_color}" class="default_white" width="120" nowrap>
                   <b>Description:</b>
                 </td>
                 <td bgcolor="{$light_color}">

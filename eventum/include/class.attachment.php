@@ -25,7 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.attachment.php 1.28 04/01/10 02:04:42-00:00 jpradomaia $
 //
 
 
@@ -142,7 +141,7 @@ class Attachment
                     header("Content-Type: " . $filetype);
                 }
                 if (!in_array(strtolower(@$parts["extension"]), Attachment::_getNoDownloadExtensions())) {
-                    header("Content-Disposition: attachment; filename=" . urlencode($filename));
+                    header("Content-Disposition: attachment; filename=\"" . urlencode($filename) . "\"");
                 } else {
                     header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
                 }
@@ -228,7 +227,13 @@ class Attachment
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            return $res;
+            // don't allow customers to reach internal only files
+            if (($res['iat_status'] == 'internal')
+                    && (User::getRoleByUser(Auth::getUserID(), Issue::getProjectID($res['iat_iss_id'])) <= User::getRoleID('Customer'))) {
+                return '';
+            } else {
+                return $res;
+            }
         }
     }
 
@@ -369,31 +374,39 @@ class Attachment
     function getList($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
+        $usr_id = Auth::getUserID();
+        $prj_id = Issue::getProjectID($issue_id);
+
         $stmt = "SELECT
                     iat_id,
                     iat_usr_id,
                     usr_full_name,
                     iat_created_date,
                     iat_description,
-                    iat_unknown_user
+                    iat_unknown_user,
+                    iat_status
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
                     iat_iss_id=$issue_id AND
-                    iat_usr_id=usr_id
+                    iat_usr_id=usr_id";
+        if (User::getRoleByUser($usr_id, $prj_id) <= User::getRoleID('Customer')) {
+            $stmt .= " AND iat_status='public' ";
+        }
+        $stmt .= "
                  ORDER BY
-                    iat_created_date DESC";
+                    iat_created_date ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["iat_description"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["iat_description"])));
+                $res[$i]["iat_description"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(Misc::activateLinks(htmlspecialchars($res[$i]["iat_description"]))));
                 $res[$i]["files"] = Attachment::getFileList($res[$i]["iat_id"]);
                 $res[$i]["iat_created_date"] = Date_API::getFormattedDate($res[$i]["iat_created_date"]);
-                
+
                 // if there is an unknown user, user that instead of the user_full_name
                 if (!empty($res[$i]["iat_unknown_user"])) {
                     $res[$i]["usr_full_name"] = $res[$i]["iat_unknown_user"];
@@ -405,14 +418,15 @@ class Attachment
 
 
     /**
-     * Method used to associate an attachment to an issue, and all of its 
+     * Method used to associate an attachment to an issue, and all of its
      * related files. It also notifies any subscribers of this new attachment.
      *
      * @access  public
      * @param   integer $usr_id The user ID
+     * @param   string $status The attachment status
      * @return  integer Numeric code used to check for any errors
      */
-    function attach($usr_id)
+    function attach($usr_id, $status = 'public')
     {
         global $HTTP_POST_VARS, $HTTP_POST_FILES;
 
@@ -435,24 +449,32 @@ class Attachment
         if (count($files) < 1) {
             return -1;
         }
-        $attachment_id = Attachment::add($HTTP_POST_VARS["issue_id"], $usr_id, $HTTP_POST_VARS["file_description"]);
+        if ($status == 'internal') {
+            $internal_only = true;
+        } else {
+            $internal_only = false;
+        }
+        $attachment_id = Attachment::add($HTTP_POST_VARS["issue_id"], $usr_id, @$HTTP_POST_VARS["file_description"], $internal_only);
         foreach ($files as $file) {
             Attachment::addFile($attachment_id, $HTTP_POST_VARS["issue_id"], $file["filename"], $file["type"], $file["blob"]);
         }
-        
+
         Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], "file uploaded");
         // need to save a history entry for this
         History::add($HTTP_POST_VARS["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
-        
+
         // if there is customer integration, mark last customer action
         if ((Customer::hasCustomerIntegration(Issue::getProjectID($HTTP_POST_VARS["issue_id"]))) && (User::getRoleByUser($usr_id, Issue::getProjectID($HTTP_POST_VARS["issue_id"])) == User::getRoleID('Customer'))) {
             Issue::recordLastCustomerAction($HTTP_POST_VARS["issue_id"]);
         }
-        
+
         Workflow::handleAttachment(Issue::getProjectID($HTTP_POST_VARS["issue_id"]), $HTTP_POST_VARS["issue_id"], $usr_id);
-        
+
         // send notifications for the issue being updated
-        Notification::notify($HTTP_POST_VARS["issue_id"], 'files', $attachment_id);
+        // XXX: eventually need to restrict the list of people who receive a notification about this in a better fashion
+        if ($status == 'public') {
+            Notification::notify($HTTP_POST_VARS["issue_id"], 'files', $attachment_id);
+        }
         return 1;
     }
 
@@ -501,12 +523,20 @@ class Attachment
      * @param   integer $issue_id The issue ID
      * @param   integer $usr_id The user ID
      * @param   string $description The description for this new attachment
+     * @param   boolean $internal_only Whether this attachment is supposed to be internal only or not
      * @param   string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
+     * @param   integer $associated_note_id The note ID that these attachments should be associated with
      * @return  integer The new attachment ID
      */
-    function add($issue_id, $usr_id, $description, $unknown_user = FALSE)
+    function add($issue_id, $usr_id, $description, $internal_only = FALSE, $unknown_user = FALSE, $associated_note_id = FALSE)
     {
         global $HTTP_POST_VARS;
+
+        if ($internal_only) {
+            $attachment_status = 'internal';
+        } else {
+            $attachment_status = 'public';
+        }
 
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
@@ -514,17 +544,25 @@ class Attachment
                     iat_iss_id,
                     iat_usr_id,
                     iat_created_date,
-                    iat_description";
+                    iat_description,
+                    iat_status";
         if ($unknown_user != false) {
             $stmt .= ", iat_unknown_user ";
+        }
+        if ($associated_note_id != false) {
+            $stmt .= ", iat_not_id ";
         }
         $stmt .=") VALUES (
                     $issue_id,
                     $usr_id,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($description) . "'";
+                    '" . Misc::escapeString($description) . "',
+                    '" . Misc::escapeString($attachment_status) . "'";
         if ($unknown_user != false) {
             $stmt .= ", '$unknown_user'";
+        }
+        if ($associated_note_id != false) {
+            $stmt .= ", $associated_note_id ";
         }
         $stmt .= ")";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);

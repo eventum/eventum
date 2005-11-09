@@ -41,7 +41,7 @@ $usr_id = Auth::getUserID();
 $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["iss_id"];
 
 if (@$HTTP_POST_VARS["cat"] == "upload_file") {
-    $res = Attachment::attach($usr_id);
+    $res = Attachment::attach($usr_id, $HTTP_POST_VARS['status']);
     $tpl->assign("upload_file_result", $res);
 }
 

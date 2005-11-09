@@ -43,8 +43,9 @@ $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
 @$issue_id = $HTTP_GET_VARS["issue_id"] ? $HTTP_GET_VARS["issue_id"] : $HTTP_POST_VARS["issue_id"];
+$details = Issue::getDetails($issue_id);
 $tpl->assign("issue_id", $issue_id);
-$tpl->assign("issue", Issue::getDetails($issue_id));
+$tpl->assign("issue", $details);
 
 if (!Issue::canAccess($issue_id, $usr_id)) {
     $tpl->setTemplate("permission_denied.tpl.html");
@@ -53,6 +54,7 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
 }
 
 if (@$HTTP_POST_VARS["cat"] == "post_note") {
+
     $res = Note::insert($usr_id, $issue_id);
     $tpl->assign("post_result", $res);
     // enter the time tracking entry about this phone support entry
@@ -62,6 +64,7 @@ if (@$HTTP_POST_VARS["cat"] == "post_note") {
         $HTTP_POST_VARS['summary'] = 'Time entry inserted when sending an internal note.';
         Time_Tracking::insertEntry();
     }
+
     // change status
     if (!@empty($HTTP_POST_VARS['new_status'])) {
         $res = Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
@@ -80,8 +83,13 @@ if (@$HTTP_POST_VARS["cat"] == "post_note") {
             "note"           => $note,
             "parent_note_id" => $HTTP_GET_VARS["id"]
         ));
+        $reply_subject = Mail_API::removeExcessRe($note['not_title']);
     }
 }
+if (empty($reply_subject)) {
+    $reply_subject = 'Re: ' . $details['iss_summary'];
+}
+
 
 $tpl->assign(array(
     'from'               => User::getFromHeader($usr_id),
@@ -92,6 +100,7 @@ $tpl->assign(array(
     'current_issue_status'  =>  Issue::getStatusID($issue_id),
     'time_categories'    => Time_Tracking::getAssocCategories(),
     'note_category_id'   => Time_Tracking::getCategoryID('Note Discussion'),
+    'reply_subject'      => $reply_subject
 ));
 
 $tpl->displayTemplate();

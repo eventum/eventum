@@ -25,8 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.notification.php 1.60 04/01/26 20:37:04-06:00 joao@kickass. $
-//
 
 
 /**
@@ -94,8 +92,10 @@ class Notification
         $stmt = "SELECT
                     IF(usr_id <> 0, usr_email, sub_email) AS email
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
+                    )
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  ON
@@ -133,63 +133,51 @@ class Notification
         }
         $info = Mail_API::getAddressInfo($sender);
         $setup = Setup::load();
+        // allow flags even without routing enabled
+        if (!empty($setup[$routing]['recipient_type_flag'])) {
+            $flag = '[' . $setup[$routing]['recipient_type_flag'] . '] ';
+        } else {
+            $flag = '';
+        }
         if (@$setup[$routing]['status'] != 'enabled') {
             // let's use the custom outgoing sender address
             $project_id = Issue::getProjectID($issue_id);
             $project_info = Project::getOutgoingSenderAddress($project_id);
             if (empty($project_info['email'])) {
-                // if we have the real sender name, let's use that one
-                if (!empty($info['sender_name'])) {
-                    $from = Mail_API::getFormattedName($info['sender_name'], $setup['smtp']['from']);
-                } else {
-                    $from = $setup['smtp']['from'];
-                }
+                /// no project email, use main email address
+                $from_email = $setup['smtp']['from'];
             } else {
-                // if we have the real sender name, let's use that one
-                if (!empty($info['sender_name'])) {
-                    $from = Mail_API::getFormattedName($info['sender_name'], $project_info['email']);
-                } else {
-                    if (!empty($project_info['name'])) {
-                        $from = Mail_API::getFormattedName($project_info['name'], $project_info['email']);
-                    } else {
-                        $from = $project_info['email'];
-                    }
-                }
+                $from_email = $project_info['email'];
             }
         } else {
-            if (!empty($setup[$routing]['recipient_type_flag'])) {
-                $flag = '[' . $setup[$routing]['recipient_type_flag'] . '] ';
-            } else {
-                $flag = '';
-            }
             $from_email = $setup[$routing]['address_prefix'] . $issue_id . "@" . $setup[$routing]['address_host'];
-            if (!empty($info['sender_name'])) {
-                // also check where we need to append/prepend a special string to the sender name
-                if (substr($info['sender_name'], strlen($info['sender_name']) - 1) == '"') {
-                    if (@$setup[$routing]['flag_location'] == 'before') {
-                        $info['sender_name'] = '"' . $flag . substr($info['sender_name'], 1);
-                    } else {
-                        $info['sender_name'] = substr($info['sender_name'], 0, strlen($info['sender_name']) - 1) . ' ' . trim($flag) . '"';
-                    }
-                } else {
-                    if (@$setup[$routing]['flag_location'] == 'before') {
-                        $info['sender_name'] = '"' . $flag . $info['sender_name'] . '"';
-                    } else {
-                        $info['sender_name'] = '"' . $info['sender_name'] . ' ' . trim($flag) . '"';
-                    }
-                }
-                $from = Mail_API::getFormattedName($info['sender_name'], $from_email);
+        }
+        if (empty($info['sender_name'])) {
+            // no sender name, check if this email address belongs to a user and if so use that
+            $usr_id = User::getUserIDByEmail($info['email']);
+            if (!empty($usr_id)) {
+                $info['sender_name'] = User::getFullName($usr_id);
             } else {
-                // let's use the custom outgoing sender address
-                $project_id = Issue::getProjectID($issue_id);
-                $info = Project::getOutgoingSenderAddress($project_id);
-                if (!empty($info['name'])) {
-                    $from = Mail_API::getFormattedName($info['name'], $from_email);
-                } else {
-                    $from = $from_email;
-                }
+                // no name exists, use email address for name as well
+                $info['sender_name'] = $info['email'];
             }
         }
+        // also check where we need to append/prepend a special string to the sender name
+        if (substr($info['sender_name'], strlen($info['sender_name']) - 1) == '"') {
+            if (@$setup[$routing]['flag_location'] == 'before') {
+                $info['sender_name'] = '"' . $flag . substr($info['sender_name'], 1);
+            } else {
+                $info['sender_name'] = substr($info['sender_name'], 0, strlen($info['sender_name']) - 1) . ' ' . trim($flag) . '"';
+            }
+        } else {
+            if (@$setup[$routing]['flag_location'] == 'before') {
+                $info['sender_name'] = '"' . $flag . $info['sender_name'] . '"';
+            } else {
+                $info['sender_name'] = '"' . $info['sender_name'] . ' ' . trim($flag) . '"';
+            }
+        }
+        $from = Mail_API::getFormattedName($info['sender_name'], $from_email);
+
         return MIME_Helper::encodeAddress(trim($from));
     }
 
@@ -240,28 +228,33 @@ class Notification
      * @access  public
      * @param   integer $user_id The user ID of the person performing this action
      * @param   integer $issue_id The issue ID
-     * @param   object $structure The parsed email structure
-     * @param   string $full_message The full email message
+     * @param   array $message An array containing the email
      * @param   boolean $internal_only Whether the email should only be redirected to internal users or not
+     * @param   boolean $assignee_only Whether the email should only be sent to the assignee
+     * @param   boolean $type The type of email this is
+     * @param   integer $sup_id the ID of this email
      * @return  void
      */
-    function notifyNewEmail($usr_id, $issue_id, $structure, $full_message, $internal_only = FALSE, $assignee_only = FALSE)
+    function notifyNewEmail($usr_id, $issue_id, $message, $internal_only = FALSE, $assignee_only = FALSE, $type = '', $sup_id = false)
     {
-        $sender = $structure->headers['from'];
-        // automatically subscribe this sender to all email notifications for this issue
-        $subscribed_emails = Notification::getSubscribedEmails($issue_id, 'emails');
-        $subscribed_emails = array_map('strtolower', $subscribed_emails);
+        $full_message = $message['full_email'];
+        $sender = $message['from'];
         $sender_email = strtolower(Mail_API::getEmailAddress($sender));
-        if ((!Notification::isIssueRoutingSender($issue_id, $sender)) &&
-                (!Notification::isBounceMessage($sender_email)) &&
-                (!in_array($sender_email, $subscribed_emails))) {
-            Notification::subscribeEmail($usr_id, $issue_id, $sender_email, array('emails'));
-        }
-        
+
         // get ID of whoever is sending this.
         $sender_usr_id = User::getUserIDByEmail($sender_email);
         if (empty($sender_usr_id)) {
             $sender_usr_id = false;
+        }
+
+        // automatically subscribe this sender to email notifications on this issue
+        $subscribed_emails = Notification::getSubscribedEmails($issue_id, 'emails');
+        $subscribed_emails = array_map('strtolower', $subscribed_emails);
+        if ((!Notification::isIssueRoutingSender($issue_id, $sender)) &&
+        (!Notification::isBounceMessage($sender_email)) &&
+        (!in_array($sender_email, $subscribed_emails))) {
+            $actions = array('emails');
+            Notification::subscribeEmail($usr_id, $issue_id, $sender_email, $actions);
         }
 
         // get the subscribers
@@ -315,7 +308,7 @@ class Notification
         );
         $headers = array();
         // build the headers array required by the smtp library
-        foreach ($structure->headers as $header_name => $value) {
+        foreach ($message['headers'] as $header_name => $value) {
             if ((in_array(strtolower($header_name), $ignore_headers)) ||
                     (!in_array($header_name, array_keys($header_names))) ||
                     (strstr($header_name, ' '))) {
@@ -329,22 +322,28 @@ class Notification
                 $headers[$header_names[$header_name]] = $value;
             }
         }
-        
-        if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
-            $type = 'customer_email';
-        } else {
-            $type = 'other_email';
+
+        $headers["Subject"] = Mail_API::formatSubject($issue_id, $headers['Subject']);
+
+        if (empty($type)) {
+            if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
+                $type = 'customer_email';
+            } else {
+                $type = 'other_email';
+            }
         }
-        
+
         @include_once(APP_PEAR_PATH . 'Mail/mime.php');
         foreach ($emails as $to) {
+            $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($to));
             $to = MIME_Helper::encodeAddress($to);
             // add the warning message about replies being blocked or not
             $fixed_body = Mail_API::addWarningMessage($issue_id, $to, $body);
             $headers['To'] = $to;
             $mime = new Mail_mime("\r\n");
             $hdrs = $mime->headers($headers);
-            Mail_Queue::add($to, $hdrs, $fixed_body, 1, $issue_id, $type, $sender_usr_id);
+
+            Mail_Queue::add($to, $hdrs, $fixed_body, 1, $issue_id, $type, $sender_usr_id, $sup_id);
         }
     }
 
@@ -363,6 +362,7 @@ class Notification
                     iss_customer_id,
                     iss_summary,
                     iss_description,
+                    iss_duplicated_iss_id,
                     prj_id,
                     prj_title,
                     usr_full_name,
@@ -373,9 +373,11 @@ class Notification
                     sta_title,
                     sta_color
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    )
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  ON
@@ -429,6 +431,8 @@ class Notification
                     not_title,
                     not_unknown_user,
                     not_blocked_message,
+                    not_message_id,
+                    not_parent_id,
                     usr_full_name
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
@@ -441,12 +445,18 @@ class Notification
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            
+
             // if there is an unknown user, use instead of full name
             if (!empty($res["not_unknown_user"])) {
                 $res["usr_full_name"] = $res["not_unknown_user"];
             }
-            
+
+            if (!empty($res['not_parent_id'])) {
+                $res['reference_msg_id'] = Note::getMessageIDbyID($res['not_parent_id']);
+            } else {
+                $res['reference_msg_id'] = false;
+            }
+
             $data = Notification::getIssueDetails($issue_id);
             $data["note"] = $res;
             return $data;
@@ -455,7 +465,7 @@ class Notification
 
 
     /**
-     * Method used to get the details of a given issue and its 
+     * Method used to get the details of a given issue and its
      * associated emails.
      *
      * @access  public
@@ -529,7 +539,7 @@ class Notification
 
 
     /**
-     * Method used to get the list of users / emails that are 
+     * Method used to get the list of users / emails that are
      * subscribed for notifications of changes for a given issue.
      *
      * @access  public
@@ -569,11 +579,12 @@ class Notification
         } else {
             return $res;
         }
+
     }
 
 
     /**
-     * Method used to send a diff-style notification email to the issue 
+     * Method used to send a diff-style notification email to the issue
      * subscribers about updates to its attributes.
      *
      * @access  public
@@ -594,7 +605,7 @@ class Notification
                 @$diffs[] = '+Assignment List: ' . implode(', ', User::getFullName($new['assignments']));
             }
         }
-        if (@$new['keep_resolution_date'] == 'no') {
+        if (@$old['iss_expected_resolution_date'] != $new['expected_resolution_date']) {
             $diffs[] = '-Expected Resolution Date: ' . $old['iss_expected_resolution_date'];
             $diffs[] = '+Expected Resolution Date: ' . $new['expected_resolution_date'];
         }
@@ -602,7 +613,7 @@ class Notification
             $diffs[] = '-Category: ' . Category::getTitle($old["iss_prc_id"]);
             $diffs[] = '+Category: ' . Category::getTitle($new["category"]);
         }
-        if ($old["iss_pre_id"] != $new["release"]) {
+        if ((@$new["keep"] == "no") && ($old["iss_pre_id"] != $new["release"])) {
             $diffs[] = '-Release: ' . Release::getTitle($old["iss_pre_id"]);
             $diffs[] = '+Release: ' . Release::getTitle($new["release"]);
         }
@@ -662,10 +673,10 @@ class Notification
         $data['updated_by'] = User::getFullName(Auth::getUserID());
         Notification::notifySubscribers($issue_id, $emails, 'updated', $data, 'Updated', FALSE);
     }
-    
+
 
     /**
-     * Method used to send a diff-style notification email to the issue 
+     * Method used to send a diff-style notification email to the issue
      * subscribers about status changes
      *
      * @access  public
@@ -684,7 +695,7 @@ class Notification
         if (count($diffs) < 1) {
             return false;
         }
-        
+
         $emails = array();
         $users = Notification::getUsersByIssue($issue_id, 'updated');
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
@@ -778,6 +789,7 @@ class Notification
             }
         }
         if (count($emails) > 0) {
+            $headers = false;
             switch ($type) {
                 case 'closed':
                     $data = Notification::getIssueDetails($issue_id);
@@ -790,6 +802,15 @@ class Notification
                     break;
                 case 'notes':
                     $data = Notification::getNote($issue_id, $ids);
+                    $headers = array(
+                        'Message-ID'    =>  $data['note']['not_message_id'],
+                    );
+                    if (@$data['note']['reference_msg_id'] != false) {
+                        $headers['In-Reply-To'] = $data['note']['reference_msg_id'];
+                    } else {
+                        $headers['In-Reply-To'] = Issue::getRootMessageID($issue_id);
+                    }
+                    $headers['References'] = Mail_API::fold(join(' ', Mail_API::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
                     $subject = 'Note';
                     break;
                 case 'emails':
@@ -801,7 +822,7 @@ class Notification
                     $subject = 'File Attached';
                     break;
             }
-            Notification::notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only);
+            Notification::notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $ids, $headers);
         }
     }
 
@@ -815,9 +836,11 @@ class Notification
      * @param   string $type The notification type
      * @param   array $data The issue details
      * @param   string $subject The subject of the email
+     * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     * @param   array $headers Any extra headers that need to be added to this email (Default false)
      * @return  void
      */
-    function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only)
+    function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = false, $headers = false)
     {
         // open text template
         $tpl = new Template_API;
@@ -826,27 +849,47 @@ class Notification
             "app_title"    => Misc::getToolCaption(),
             "data"         => $data
         ));
-        
+
         $setup = Setup::load();
         $final_type = $type;
         $sender_usr_id = false;
+        $threading_headers = Mail_API::getBaseThreadingHeaders($issue_id);
         for ($i = 0; $i < count($emails); $i++) {
-            
+
+            $can_access = true;
             $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($emails[$i]));
             if (!empty($recipient_usr_id)) {
+                if (!Issue::canAccess($issue_id, $recipient_usr_id)) {
+                    $can_access = false;
+                }
                 $tpl->assign("recipient_role", User::getRoleByUser($recipient_usr_id, Issue::getProjectID($issue_id)));
                 if (isset($data['custom_fields'])) {
                     $data['custom_fields'] = Custom_Field::getListByIssue($data['iss_prj_id'], $issue_id, $recipient_usr_id);
                 }
+                $is_assigned = Issue::isAssignedToUser($issue_id, $recipient_usr_id);
             } else {
                 $tpl->assign("recipient_role", 0);
                 unset($data['custom_fields']);
+
+                $is_assigned = false;
             }
             $tpl->assign("data", $data);
-            
+            $tpl->assign("is_assigned", $is_assigned);
+
+            if ($can_access != true) {
+                continue;
+            }
+
             // send email (use PEAR's classes)
             $mail = new Mail_API;
             $mail->setTextBody($tpl->getTemplateContents());
+            if ($headers != false) {
+                $mail->setHeaders($headers);
+            }
+            if (($headers == false) || (($headers != false) && ((empty($headers['Message-ID'])) && (empty($headers['In-Reply-To'])) && (empty($headers['References']))))) {
+                $mail->setHeaders($threading_headers);
+            }
+
             if ($type == 'notes') {
                 // special handling of blocked messages
                 if (!empty($data['note']['not_blocked_message'])) {
@@ -862,7 +905,7 @@ class Notification
                 if (empty($sender_usr_id)) {
                     $sender_usr_id = false;
                 }
-                
+
                 $from = Notification::getFixedFromHeader($issue_id, $sender, 'note');
             } else {
                 $from = Notification::getFixedFromHeader($issue_id, $setup['smtp']['from'], 'issue');
@@ -872,15 +915,18 @@ class Notification
                 $extra_subject = $data['note']['not_title'];
                 // don't add the "[#3333] Note: " prefix to messages that already have that in the subject line
                 if (strstr($extra_subject, "[#$issue_id] $subject: ")) {
-                    $full_subject = $extra_subject;
+                    $pos = strpos($extra_subject, "[#$issue_id] $subject: ");
+                    $full_subject = substr($extra_subject, 4);
                 } else {
                     $full_subject = "[#$issue_id] $subject: $extra_subject";
                 }
+            } elseif (($type == 'new_issue') && ($is_assigned)) {
+                $full_subject = "[#$issue_id] New Issue Assigned: " . $data['iss_summary'];
             } else {
                 $extra_subject = $data['iss_summary'];
                 $full_subject = "[#$issue_id] $subject: $extra_subject";
             }
-            $mail->send($from, $emails[$i], $full_subject, TRUE, $issue_id, $final_type, $sender_usr_id);
+            $mail->send($from, $emails[$i], $full_subject, TRUE, $issue_id, $final_type, $sender_usr_id, $type_id);
         }
     }
 
@@ -892,15 +938,13 @@ class Notification
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
-     * @param   array $exclude_list The list of user IDs that should not receive these emails
      * @return  void
      */
-    function notifyNewIssue($prj_id, $issue_id, $exclude_list)
+    function notifyNewIssue($prj_id, $issue_id)
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $issue_id = Misc::escapeInteger($issue_id);
-        $exclude_list = Misc::escapeInteger($exclude_list);
-        
+
         // get all users associated with this project
         $stmt = "SELECT
                     usr_id,
@@ -915,11 +959,9 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     pru_prj_id=$prj_id AND
-                    usr_id=pru_usr_id";
-        if (count($exclude_list) > 0) {
-            $stmt .= " AND
-                    usr_id NOT IN (" . implode(", ", $exclude_list) . ")";
-        }
+                    usr_id=pru_usr_id AND
+                    usr_status = 'active' AND
+                    pru_role > " . User::getRoleID("Customer");
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         $emails = array();
         for ($i = 0; $i < count($res); $i++) {
@@ -931,13 +973,37 @@ class Notification
                 continue;
             }
             if ((!empty($res[$i]['usr_preferences']['receive_new_emails'][$prj_id])) &&
-                    (@$res[$i]['usr_preferences']['receive_new_emails'][$prj_id]) && (!in_array($subscriber, $emails))) {
+            (@$res[$i]['usr_preferences']['receive_new_emails'][$prj_id]) && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
         }
+
+        // get assignees
+        $stmt = "SELECT
+                    usr_id,
+                    usr_full_name,
+                    usr_email,
+                    usr_preferences
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
+                 WHERE
+                    usr_id=isu_usr_id AND
+                    usr_status = 'active'";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        for ($i = 0; $i < count($res); $i++) {
+            @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
+            $subscriber = Mail_API::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
+
+            if ((!empty($res[$i]['usr_preferences']['receive_assigned_emails'][$prj_id])) &&
+            (@$res[$i]['usr_preferences']['receive_assigned_emails'][$prj_id]) && (!in_array($subscriber, $emails))) {
+                $emails[] = $subscriber;
+            }
+        }
+
         $data = Issue::getDetails($issue_id, true);
         $data['attachments'] = Attachment::getList($issue_id);
-        
+
         // notify new issue to irc channel
         $irc_notice = "New Issue #$issue_id (";
         $quarantine = Issue::getQuarantineInfo($issue_id);
@@ -961,7 +1027,10 @@ class Notification
         Notification::notifyIRC($prj_id, $irc_notice, $issue_id);
         $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
         $subject = 'New Issue';
-        Notification::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false);
+        $headers = array(
+        "Message-ID"    =>  $data['iss_root_message_id']
+        );
+        Notification::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }
 
 
@@ -995,7 +1064,7 @@ class Notification
                 "data"        => $data,
                 "sender_name" => Mail_API::getName($sender)
             ));
-            
+
             // figure out if sender has a real account or not
             $sender_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($sender));
             if ((!empty($sender_usr_id)) && (Issue::canAccess($issue_id, $sender_usr_id))) {
@@ -1003,7 +1072,7 @@ class Notification
             } else {
                 $can_access = 0;
             }
-            
+
             $tpl->assign(array(
                 'sender_can_access' =>  $can_access,
                 'email' => array(
@@ -1017,6 +1086,7 @@ class Notification
             // send email (use PEAR's classes)
             $mail = new Mail_API;
             $mail->setTextBody($text_message);
+            $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
             $setup = $mail->getSMTPSettings();
             $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
             $sender = Mime_Helper::fixEncoding($sender);
@@ -1027,7 +1097,7 @@ class Notification
 
     /**
      * Method used to send an email notification to the sender of a
-     * set of email messages that were manually converted into an 
+     * set of email messages that were manually converted into an
      * issue.
      *
      * @access  public
@@ -1081,6 +1151,7 @@ class Notification
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
                 $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
+                $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
                 $mail->send($from, $recipient, 'New Issue Created', 1, $issue_id, 'email_converted_to_issue');
             }
             return $recipient_emails;
@@ -1257,7 +1328,7 @@ class Notification
 
 
     /**
-     * Method used to send an email notification when a new user 
+     * Method used to send an email notification when a new user
      * account is created.
      *
      * @access  public
@@ -1288,47 +1359,43 @@ class Notification
 
 
     /**
-     * Method used to send an email notification when a new issue is
-     * created and assigned to an user.
+     * Send an email to all issue assignees
      *
      * @access  public
-     * @param   array $users The list of users
-     * @param   integer $issue_id The issue ID
-     * @return  void
+     * @param   integer $issue_id The ID of the issue
+     * @param   string $type The type of notification to send
+     * @param   array $data Any extra data to pass to the template
      */
-    function notifyAssignedUsers($users, $issue_id)
+    function notifyAssignees($issue_id, $type, $data, $title = '')
     {
         $prj_id = Issue::getProjectID($issue_id);
-        $emails = array();
-        for ($i = 0; $i < count($users); $i++) {
-            $prefs = Prefs::get($users[$i]);
-            if ((!empty($prefs)) && (@$prefs["receive_assigned_emails"][$prj_id])) {
-                $emails[] = User::getFromHeader($users[$i]);
-            }
-        }
-        if (count($emails) == 0) {
-            return false;
-        }
-        // get issue details
-        $issue = Notification::getIssueDetails($issue_id);
-        // open text template
-        $tpl = new Template_API;
-        $tpl->setTemplate('notifications/new.tpl.text');
-        $tpl->bulkAssign(array(
-            "app_title"    => Misc::getToolCaption(),
-            "issue"        => $issue
-        ));
-        $text_message = $tpl->getTemplateContents();
+        $assignees = Issue::getAssignedUserIDs($issue_id);
+        if (count($assignees) > 0) {
 
-        for ($i = 0; $i < count($emails); $i++) {
-            if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress($emails[$i]))) {
-                continue;
+            // get issue details
+            $issue = Notification::getIssueDetails($issue_id);
+            // open text template
+            $tpl = new Template_API;
+            $tpl->setTemplate('notifications/' . $type . '.tpl.text');
+            $tpl->bulkAssign(array(
+                "app_title"    => Misc::getToolCaption(),
+                "issue"        => $issue,
+                "data"         => $data
+            ));
+            $text_message = $tpl->getTemplateContents();
+
+            for ($i = 0; $i < count($assignees); $i++) {
+                if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress(User::getFromHeader($assignees[$i])))) {
+                    continue;
+                }
+                // send email (use PEAR's classes)
+                $mail = new Mail_API;
+                $mail->setTextBody($text_message);
+                $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
+                $mail->send(Notification::getFixedFromHeader($issue_id, '', 'issue'), User::getFromHeader($assignees[$i]), "[#$issue_id] $title: " . $issue['iss_summary'], TRUE, $issue_id, $type);
             }
-            // send email (use PEAR's classes)
-            $mail = new Mail_API;
-            $mail->setTextBody($text_message);
-            $mail->send(Notification::getFixedFromHeader($issue_id, '', 'issue'), $emails[$i], "[#$issue_id] Assignment: " . $issue['iss_summary'], TRUE, $issue_id);
         }
+
     }
 
 
@@ -1370,6 +1437,7 @@ class Notification
             // send email (use PEAR's classes)
             $mail = new Mail_API;
             $mail->setTextBody($text_message);
+            $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
             $mail->send(Notification::getFixedFromHeader($issue_id, '', 'issue'), $emails[$i], "[#$issue_id] New Assignment: " . $issue['iss_summary'], TRUE, $issue_id, 'assignment');
         }
     }
@@ -1522,7 +1590,7 @@ class Notification
 
 
     /**
-     * Method used to get the subscribed actions for a given 
+     * Method used to get the subscribed actions for a given
      * subscription ID.
      *
      * @access  public
@@ -1645,7 +1713,7 @@ class Notification
                         sbt_sub_id=$sub_id";
             $GLOBALS["db_api"]->dbh->query($stmt);
             // need to save a history entry for this
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'), 
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'),
                             "Notification list entry ('$subscriber') removed by " . User::getFullName(Auth::getUserID()));
         }
         Issue::markAsUpdated($issue_id);
@@ -1654,7 +1722,7 @@ class Notification
 
 
     /**
-     * Returns the email address associated with a notification list 
+     * Returns the email address associated with a notification list
      * subscription, user based or otherwise.
      *
      * @access  public
@@ -1712,7 +1780,7 @@ class Notification
     {
         $actions = array();
         $setup = Setup::load();
-        
+
         if (@$setup['update'] == 1) {
             $actions[] = 'updated';
         }
@@ -1743,14 +1811,17 @@ class Notification
     function subscribeUser($usr_id, $issue_id, $subscriber_usr_id, $actions, $add_history = TRUE)
     {
         $issue_id = Misc::escapeInteger($issue_id);
-        $subscriber_usr_id = Misc::escapeInteger($subscriber_usr_id);
         $prj_id = Issue::getProjectID($issue_id);
+        $subscriber_usr_id = Misc::escapeInteger($subscriber_usr_id);
 
         // call workflow to modify actions or cancel adding this user.
         $email = '';
         $workflow = Workflow::handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $actions);
         if ($workflow === false) {
             // cancel subscribing the user
+            return -2;
+        }
+        if ($subscriber_usr_id == APP_SYSTEM_USER_ID) {
             return -2;
         }
 
@@ -1793,7 +1864,7 @@ class Notification
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
             if ($add_history) {
-                History::add($issue_id, $usr_id, History::getTypeID('notification_added'), 
+                History::add($issue_id, $usr_id, History::getTypeID('notification_added'),
                                 "Notification list entry ('" . User::getFromHeader($subscriber_usr_id) . "') added by " . User::getFullName($usr_id));
             }
             return 1;
@@ -1874,7 +1945,7 @@ class Notification
             // need to mark the issue as updated
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, $usr_id, History::getTypeID('notification_added'), 
+            History::add($issue_id, $usr_id, History::getTypeID('notification_added'),
                             "Notification list entry ('$email') added by " . User::getFullName($usr_id));
             return 1;
         }
@@ -1882,7 +1953,7 @@ class Notification
 
 
     /**
-     * Method used to add the subscription type to the given 
+     * Method used to add the subscription type to the given
      * subscription.
      *
      * @access  public
@@ -1917,14 +1988,15 @@ class Notification
         global $HTTP_POST_VARS;
 
         $sub_id = Misc::escapeInteger($sub_id);
-        
+
         $stmt = "SELECT
-                    sub_iss_id
+                    sub_iss_id,
+                    sub_usr_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  WHERE
                     sub_id=$sub_id";
-        $issue_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        list($issue_id, $usr_id) = $GLOBALS["db_api"]->dbh->getRow($stmt);
 
         $email = strtolower(Mail_API::getEmailAddress($HTTP_POST_VARS["email"]));
         $usr_id = User::getUserIDByEmail($email);
@@ -1971,7 +2043,7 @@ class Notification
             // need to mark the issue as updated
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_updated'), 
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_updated'),
                             "Notification list entry ('" . Notification::getSubscriber($sub_id) . "') updated by " . User::getFullName(Auth::getUserID()));
             return 1;
         }

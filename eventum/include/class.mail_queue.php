@@ -74,9 +74,10 @@ class Mail_Queue
      * @param   integer $issue_id The ID of the issue. If false, email will not be associated with issue.
      * @param   string $type The type of message this is.
      * @param   integer $sender_usr_id The id of the user sending this email.
+     * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return  true, or a PEAR_Error object
      */
-    function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false)
+    function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
         // avoid sending emails out to users with inactive status
         $recipient_email = Mail_API::getEmailAddress($recipient);
@@ -89,16 +90,17 @@ class Mail_Queue
             }
         }
 
-        $to_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient));
-        
+        $to_usr_id = User::getUserIDByEmail($recipient_email);
+        $recipient = Mail_API::fixAddressQuoting($recipient);
+
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
-        
+
         // add specialized headers
         if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) > User::getRoleID("Customer"))) ||
                 (@in_array(Mail_API::getEmailAddress($to), $reminder_addresses))) {
             $headers += Mail_API::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
         }
-        
+
         if (empty($issue_id)) {
             $issue_id = 'null';
         }
@@ -106,6 +108,10 @@ class Mail_Queue
         if (!in_array('Date', array_keys($headers))) {
             $headers['Date'] = MIME_Helper::encode(date('D, j M Y H:i:s O'));
         }
+        if (!empty($headers['To'])) {
+            $headers['To'] = Mail_API::fixAddressQuoting($headers['To']);
+        }
+
         list(,$text_headers) = Mail_API::prepareHeaders($headers);
 
         $stmt = "INSERT INTO
@@ -123,6 +129,9 @@ class Mail_Queue
         if ($sender_usr_id != false) {
             $stmt .= ",\nmaq_usr_id";
         }
+        if ($type_id != false) {
+            $stmt .= ",\nmaq_type_id";
+        }
         $stmt .= ") VALUES (
                     $save_email_copy,
                     '" . Date_API::getCurrentDateGMT() . "',
@@ -136,6 +145,9 @@ class Mail_Queue
         if ($sender_usr_id != false) {
             $stmt .= ",\n" . $sender_usr_id;
         }
+        if ($type_id != false) {
+            $stmt .= ",\n" . $type_id;
+        }
         $stmt .= ")";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -148,8 +160,8 @@ class Mail_Queue
 
 
     /**
-     * Sends the queued up messages to their destinations. This can either try 
-     * to send emails that couldn't be sent before (status = 'error'), or just 
+     * Sends the queued up messages to their destinations. This can either try
+     * to send emails that couldn't be sent before (status = 'error'), or just
      * emails just recently queued (status = 'pending').
      *
      * @access  public
@@ -188,7 +200,7 @@ class Mail_Queue
     function _sendEmail($recipient, $text_headers, $body)
     {
         $header_names = Mime_Helper::getHeaderNames($text_headers);
-        $_headers = Mail_Queue::_getHeaders($text_headers);
+        $_headers = Mail_Queue::_getHeaders($text_headers, $body);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {
             // need to remove the quotes to avoid a parsing problem
@@ -229,17 +241,18 @@ class Mail_Queue
 
 
     /**
-     * Parses the full email message and returns an array of the headers 
+     * Parses the full email message and returns an array of the headers
      * contained in it.
      *
      * @access  private
      * @param   string $text_headers The full headers of this message
+     * @param   string $body The full body of this message
      * @return  array The list of headers
      */
-    function _getHeaders($text_headers)
+    function _getHeaders($text_headers, $body)
     {
-        $full_email = $text_headers . "\n\n\n";
-        $structure = Mime_Helper::decode($full_email, FALSE, FALSE);
+        $message = $text_headers . "\n\n" . $body;
+        $structure = Mime_Helper::decode($message, FALSE, FALSE);
         return $structure->headers;
     }
 
@@ -356,7 +369,9 @@ class Mail_Queue
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
                  WHERE
-                    maq_iss_id = " . Misc::escapeInteger($issue_id);
+                    maq_iss_id = " . Misc::escapeInteger($issue_id) . "
+                 ORDER BY
+                    maq_queued_date ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -374,7 +389,7 @@ class Mail_Queue
 
     /**
      * Returns the mail queue entry based on ID.
-     * 
+     *
      * @acess   public
      * @param   integer $maq_id The id of the mail queue entry.
      * @return  array An array of information
@@ -397,8 +412,31 @@ class Mail_Queue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
+        } else {
+            return $res;
         }
-        return $res;
+    }
+
+
+    function getMessageRecipients($type, $type_id)
+    {
+        $sql = "SELECT
+                    maq_recipient
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
+                WHERE
+                    maq_type = '" . Misc::escapeString($type) . "' AND
+                    maq_type_id = " . Misc::escapeInteger($type_id);
+        $res = $GLOBALS["db_api"]->dbh->getCol($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            for ($i = 0; $i < count($res); $i++) {
+                $res[$i] = Mime_Helper::decodeAddress(str_replace('"', '', $res[$i]));
+            }
+            return $res;
+        }
     }
 }
 

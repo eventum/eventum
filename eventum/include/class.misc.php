@@ -362,9 +362,16 @@ class Misc
      * @param   string $str The original string
      * @return  string The escaped (or not) string
      */
-    function escapeString($str)
+    function escapeString($input)
     {
-        return $GLOBALS["db_api"]->escapeString($str);
+        if (is_array($input)) {
+            foreach ($input as $key => $value) {
+                $input[$key] = Misc::escapeString($value);
+            }
+        } else {
+            $input = $GLOBALS["db_api"]->escapeString($input);
+        }
+        return $input;
     }
     
     

@@ -25,8 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.mime_helper.php 1.23 04/01/21 22:49:54-00:00 jpradomaia $
-//
 
 /**
 * The MIME:: class provides methods for dealing with MIME standards.
@@ -229,6 +227,22 @@ class Mime_Helper
         }
     }
     
+    
+    /**
+     * Returns if a specified string contains a quoted printable address.
+     * 
+     * @param   string $address The address
+     * @return  boolean If the address is quoted printable encoded.
+     */
+    function isQuotedPrintable($address)
+    {
+        if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 
     /**
      * Determine if a string contains 8-bit characters.
@@ -421,6 +435,25 @@ class Mime_Helper
 
 
     /**
+     * Method used to check whether a given email message has any attachments.
+     *
+     * @access  public
+     * @param   string $message The full body of the message
+     * @return  boolean
+     */
+    function hasAttachments($message)
+    {
+        $output = Mime_Helper::decode($message, true);
+        $attachments = Mime_Helper::_getAttachmentDetails($output, TRUE);
+        if (count($attachments) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
      * Method used to parse and return the full list of attachments 
      * associated with a message.
      *
@@ -430,39 +463,8 @@ class Mime_Helper
      */
     function getAttachments($message)
     {
-        $parts = array();
         $output = Mime_Helper::decode($message, true);
-        Mime_Helper::parse_output($output, $parts);
-        $attachments = array();
-        $filenames = array();
-        for ($i = 0; $i < @count($output->parts); $i++) {
-            if (@$output->parts[$i]->ctype_primary == 'image') {
-                $name = MIME_Helper::getAttachmentName($filenames, @$output->parts[$i]->ctype_parameters['name']);
-                $filenames[] = $name;
-                $attachments[] = array(
-                    'filename' => $name,
-                    'filetype' => 'image/' . $output->parts[$i]->ctype_secondary,
-                    'blob'     => @$output->parts[$i]->body
-                );
-            } else {
-                $filetype = @$output->parts[$i]->ctype_primary . '/' . @$output->parts[$i]->ctype_secondary;
-                if ($filetype == '/') {
-                    $filetype = '';
-                }
-                if ((!in_array(strtolower($filetype), Mime_Helper::_getInvalidContentTypes())) &&
-                        (in_array(@strtolower($output->parts[$i]->disposition), Mime_Helper::_getValidDispositions())) && 
-                        (!empty($output->parts[$i]->d_parameters["filename"]))) {
-                    $name = MIME_Helper::getAttachmentName($filenames, @$output->parts[$i]->d_parameters["filename"]);
-                    $filenames[] = $name;
-                    $attachments[] = array(
-                        'filename' => $name,
-                        'filetype' => $filetype,
-                        'blob'     => @$output->parts[$i]->body
-                    );
-                }
-            }
-        }
-        return $attachments;
+        return Mime_Helper::_getAttachmentDetails($output, TRUE);
     }
 
 
@@ -474,34 +476,72 @@ class Mime_Helper
      * @param   string $message The full body of the message
      * @return  array The list of attachment CIDs, if any
      */
-    function getAttachmentCIDs($message)
+    function getAttachmentCIDs(&$message)
     {
         // gotta parse MIME based emails now
         $output = Mime_Helper::decode($message, true);
+        return Mime_Helper::_getAttachmentDetails($output, TRUE);
+    }
+
+
+    function _getAttachmentDetails(&$mime_part, $return_body = FALSE, $return_filename = FALSE, $return_cid = FALSE)
+    {
         $attachments = array();
-        // now get any eventual attachments
-        for ($i = 0; $i < @count($output->parts); $i++) {
-            // hack in order to display in-line images
-            if (@$output->parts[$i]->ctype_primary == 'image') {
-                $attachments[] = array(
-                    'filename' => @$output->parts[$i]->ctype_parameters['name'],
-                    'cid'      => @$output->parts[$i]->headers['content-id']
-                );
-                continue;
-            }
-            $filetype = @$output->parts[$i]->ctype_primary . '/' . @$output->parts[$i]->ctype_secondary;
-            if ($filetype == '/') {
-                $filetype = '';
-            }
-            if ((!in_array(strtolower($filetype), Mime_Helper::_getInvalidContentTypes())) &&
-                    (in_array(@strtolower($output->parts[$i]->disposition), Mime_Helper::_getValidDispositions())) && 
-                    (!empty($output->parts[$i]->d_parameters["filename"]))) {
-                $attachments[] = array(
-                    'filename' => $output->parts[$i]->d_parameters["filename"]
-                );
-                continue;
+        if (isset($mime_part->parts)) {
+            for ($i = 0; $i < count($mime_part->parts); $i++) {
+                $t = Mime_Helper::_getAttachmentDetails($mime_part->parts[$i], $return_body, $return_filename, $return_cid);
+                $attachments = array_merge($t, $attachments);
             }
         }
+        $content_type = strtolower(@$mime_part->ctype_primary . '/' . @$mime_part->ctype_secondary);
+        if ($content_type == '/') {
+            $content_type = '';
+        }
+        $found = 0;
+        // get the proper filename
+        $mime_part_filename = @$mime_part->ctype_parameters['name'];
+        if (empty($mime_part_filename)) {
+            $mime_part_filename = @$mime_part->d_parameters['filename'];
+        }
+        // hack in order to treat inline images as normal attachments
+        // (since Eventum does not display those embedded within the message)
+        if (@$mime_part->ctype_primary == 'image') {
+            // if requested, return only the details of a particular filename
+            if (($return_filename != FALSE) && ($mime_part_filename != $return_filename)) {
+                return array();
+            }
+            // if requested, return only the details of 
+            // a particular attachment CID. Only really needed 
+            // as hack for inline images
+            if (($return_cid != FALSE) && (@$mime_part->d_parameters['content-id'] != $return_cid)) {
+                return array();
+            }
+            $found = 1;
+        } else {
+            if ((!in_array($content_type, Mime_Helper::_getInvalidContentTypes())) &&
+                    (in_array(@strtolower($mime_part->disposition), Mime_Helper::_getValidDispositions())) && 
+                    (!empty($mime_part_filename))) {
+                // if requested, return only the details of a particular filename
+                if (($return_filename != FALSE) && ($mime_part_filename != $return_filename)) {
+                    return array();
+                }
+                $found = 1;
+            }
+        }
+        if ($found) {
+            $t = array(
+                'filename' => $mime_part_filename,
+                'cid'      => @$mime_part->headers['content-id'],
+                'filetype' => $content_type
+            );
+            // only include the body of the attachment when 
+            // requested to save some memory
+            if ($return_body == TRUE) {
+                $t['blob'] = &$mime_part->body;
+            }
+            $attachments[] = $t;
+        }
+
         return $attachments;
     }
 
@@ -520,29 +560,15 @@ class Mime_Helper
     {
         $parts = array();
         $output = Mime_Helper::decode($message, true);
-        Mime_Helper::parse_output($output, $parts);
-        for ($i = 0; $i < count($output->parts); $i++) {
-            if ($cid !== FALSE) {
-                // hack in order to display in-line images
-                if ((@$output->parts[$i]->ctype_primary == 'image') &&
-                        ((@$output->parts[$i]->ctype_parameters['name'] == $filename) || 
-                        (empty($output->parts[$i]->ctype_parameters['name']))) &&
-                        (@$output->parts[$i]->headers['content-id'] == $cid)) {
-                    break;
-                }
-            } else {
-                if ((!in_array(strtolower($output->parts[$i]->ctype_primary), Mime_Helper::_getInvalidContentTypes())) &&
-                        (in_array(@strtolower($output->parts[$i]->disposition), Mime_Helper::_getValidDispositions())) && 
-                        (!empty($output->parts[$i]->d_parameters["filename"])) &&
-                        (@$output->parts[$i]->d_parameters["filename"] == $filename)) {
-                    break;
-                }
-            }
+        $details = Mime_Helper::_getAttachmentDetails($output, TRUE, $filename, $cid);
+        if (count($details) == 1) {
+            return array(
+                $details[0]['filetype'],
+                $details[0]['blob']
+            );
+        } else {
+            return array();
         }
-        return array(
-            $output->parts[$i]->ctype_primary . '/' . $output->parts[$i]->ctype_secondary,
-            $output->parts[$i]->body
-        );
     }
 
 
@@ -692,7 +718,8 @@ class Mime_Helper
     function _getInvalidContentTypes()
     {
         return array(
-            'message/rfc822'
+            'message/rfc822',
+            'application/pgp-signature'
         );
     }
 
@@ -710,6 +737,23 @@ class Mime_Helper
             'attachment',
             'inline'
         );
+    }
+    
+    
+    /**
+     * Splits the full email into headers and body
+     * 
+     * @access  public
+     * @param   string $message The full email message
+     * @param   boolean $unfold If headers should be unfolded
+     * @return  array An array containing the headers and body
+     */
+    function splitHeaderBody($message, $unfold = true)
+    {
+        if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $message, $match)) {
+            return array(($unfold) ? Mail_API::unfold($match[1]) : $match[1], $match[2]);
+        }
+        return array();
     }
 }
 

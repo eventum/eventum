@@ -41,27 +41,22 @@ function uploadFile(issue_id)
             <b>Attached Files ({$files|@count})</b>
           </td>
           <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
-            [ <a id="attachments_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('attachments');">{get_innerhtml element_name="attachments" total=$files|@count}</a> ]
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari}
+            [ <a id="attachments_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('attachments');">{get_innerhtml element_name="attachments"}</a> ]
             {/if}
           </td>
         </tr>
-        <tr id="attachments1" {get_display_style element_name="attachments" total=$files|@count}>
+        <tr id="attachments1" {get_display_style element_name="attachments"}>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr>
-                <td class="default_white" bgcolor="{$cell_color}">
-                  Files
-                </td>
-                <td class="default_white" bgcolor="{$cell_color}">
-                  Owner
-                </td>
-                <td class="default_white" bgcolor="{$cell_color}">
-                  Date
-                </td>
-                <td class="default_white" bgcolor="{$cell_color}">
-                  Description
-                </td>
+                <td class="default_white" bgcolor="{$cell_color}">Files</td>
+                <td class="default_white" bgcolor="{$cell_color}">Owner</td>
+                {if $current_role > $roles.customer}
+                <td class="default_white" bgcolor="{$internal_color}" align="center">Status</td>
+                {/if}
+                <td class="default_white" bgcolor="{$cell_color}">Date</td>
+                <td class="default_white" bgcolor="{$cell_color}">Description</td>
               </tr>
               {section name="i" loop=$files}
               {cycle values=$cycle assign="row_color"}
@@ -78,12 +73,21 @@ function uploadFile(issue_id)
                   {$files[i].usr_full_name|escape:"html"}
                   {if $current_user_id == $files[i].iat_usr_id}[ <a class="link" title="delete attachment" href="javascript:void(null);" onClick="javascript:deleteAttachment({$files[i].iat_id});">delete</a> ]{/if}
                 </td>
-                <td class="default" width="20%">{$files[i].iat_created_date}</td>
+                {if $current_role > $roles.customer}
+                <td class="default" width="5%" align="center">
+                  {if $files[i].iat_status == 'internal'}
+                    <span style="color: red;">{$files[i].iat_status|capitalize}</span>
+                  {else}
+                    {$files[i].iat_status|capitalize}
+                  {/if}
+                </td>
+                {/if}
+                <td class="default" width="15%" nowrap>{$files[i].iat_created_date}</td>
                 <td class="default" width="45%">{$files[i].iat_description}</td>
               </tr>
               {sectionelse}
               <tr>
-                <td colspan="4" bgcolor="{$light_color}" align="center" class="default">
+                <td colspan="{if $current_role > $roles.customer}5{else}4{/if}" bgcolor="{$light_color}" align="center" class="default">
                   <i>No attachments could be found.</i>
                 </td>
               </tr>
@@ -91,7 +95,7 @@ function uploadFile(issue_id)
               <form>
               {if $current_role > $roles.viewer}
               <tr>
-                <td colspan="4" bgcolor="{$cell_color}" align="center">
+                <td colspan="{if $current_role > $roles.customer}5{else}4{/if}" bgcolor="{$cell_color}" align="center">
                   <input type="button" class="button" value="Upload File" onClick="javascript:uploadFile({$smarty.get.id});">
                 </td>
               </tr>

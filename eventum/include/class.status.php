@@ -590,7 +590,7 @@ class Status
 
 
     /**
-     * Method used to get the list of available closed-context statuses as an 
+     * Method used to get the list of available closed-context statuses as an
      * associative array in the style of (abbreviation => title)
      *
      * @access  public

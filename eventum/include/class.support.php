@@ -25,8 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.support.php 1.79 04/01/23 21:47:17-00:00 jpradomaia $
-//
 
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.auth.php");
@@ -461,29 +459,6 @@ class Support
 
 
     /**
-     * Returns the referenced message-id for a given reply.
-     *
-     * @access  public
-     * @param   string $text_headers The full headers of the reply
-     * @return  string The message-id of the original email
-     */
-    function getReferenceMessageID($text_headers)
-    {
-        $references = array();
-        if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
-            return trim($matches[1]);
-        }
-        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
-            $references = explode("\n", trim($matches[1]));
-            $references = array_map('trim', $references);
-            // return the first message-id in the list of references
-            return $references[0];
-        }
-        return '';
-    }
-
-
-    /**
      * Method used to get the information about a specific message
      * from a given mailbox.
      *
@@ -495,6 +470,8 @@ class Support
      */
     function getEmailInfo($mbox, $info, $num)
     {
+        Auth::createFakeCookie(APP_SYSTEM_USER_ID);
+
         // check if the current message was already seen
         if ($info['ema_get_only_new']) {
             list($overview) = @imap_fetch_overview($mbox, $num);
@@ -502,15 +479,17 @@ class Support
                 return false;
             }
         }
+
         $email = @imap_headerinfo($mbox, $num);
-        if (!Support::exists($info['ema_id'], @$email->message_id)) {
-            $body = imap_body($mbox, $num);
-            $headers = imap_fetchheader($mbox, $num);
-            $message = $headers . $body;
-            // check for mysterious blank messages
-            if (empty($message)) {
-                return '';
-            }
+        $body = imap_body($mbox, $num);
+        $headers = imap_fetchheader($mbox, $num);
+        $message = $headers . $body;
+        // check for mysterious blank messages
+        if (empty($message)) {
+            return '';
+        }
+        $message_id = Mail_API::getMessageID($headers, $body);
+        if ((!Support::exists($message_id)) && (!Note::exists($message_id))) {
             $structure = Mime_Helper::decode($message, true, true);
             $message_body = Mime_Helper::getMessageBody(&$structure);
             if (Mime_Helper::hasAttachments($message)) {
@@ -518,6 +497,9 @@ class Support
             } else {
                 $has_attachments = 0;
             }
+            // we can't trust the in-reply-to from the imap c-client, so let's
+            // try to manually parse that value from the full headers
+            $reference_msg_id = Mail_API::getReferenceMessageID($headers);
 
             // route emails if neccassary
             if ($info['ema_use_routing'] == 1) {
@@ -593,7 +575,7 @@ class Support
 
             $t = array(
                 'ema_id'         => $info['ema_id'],
-                'message_id'     => @$email->message_id,
+                'message_id'     => $message_id,
                 'date'           => @Date_API::getDateGMTByTS($email->udate),
                 'from'           => @$email->fromaddress,
                 'to'             => @$email->toaddress,
@@ -601,7 +583,9 @@ class Support
                 'subject'        => @$email->subject,
                 'body'           => @$message_body,
                 'full_email'     => @$message,
-                'has_attachment' => $has_attachments
+                'has_attachment' => $has_attachments,
+                // the following items are not inserted, but useful in some methods
+                'headers'        => @$structure->headers
             );
             $should_create_array = Support::createIssueFromEmail($info, $headers, $message_body, $t['date'], @$email->fromaddress, @$email->subject);
             $should_create_issue = $should_create_array['should_create_issue'];
@@ -614,30 +598,105 @@ class Support
             }
             if (empty($t['issue_id'])) {
                 $t['issue_id'] = 0;
+            } else {
+                $prj_id = Issue::getProjectID($t['issue_id']);
+                Auth::createFakeCookie(APP_SYSTEM_USER_ID, $prj_id);
             }
-            $res = Support::insertEmail($t, $sup_id);
-            if ($res != -1) {
-                // only extract the attachments from the email if we are associating the email to an issue
-                if (!empty($t['issue_id'])) {
-                    Support::extractAttachments($t['issue_id'], $message);
-                    // if the issue was auto created, don't broadcast the email to the notification list
-                    if (($info['ema_issue_auto_creation'] != 'enabled') || (!$should_create_issue)) {
-                        // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
-                        Notification::notifyNewEmail(APP_SYSTEM_USER_ID, $t["issue_id"], $structure, $message, false);
-                    }
-                    if (!empty($t['customer_id'])) {
-                        Issue::markAsUpdated($t["issue_id"], "customer action");
-                    } else {
-                        $sender_usr_id = User::getUserIDByEmail($sender_email);
-                        if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($t['issue_id'])) > User::getRoleID('Customer'))) {
-                            Issue::markAsUpdated($t["issue_id"], "staff response");
+            if ($should_create_array['type'] == 'note') {
+                // assume that this is not a valid note
+                $res = -1;
+
+                if ($t['issue_id'] != 0) {
+                    // check if this is valid user
+                    $usr_id = User::getUserIDByEmail($sender_email);
+                    if (!empty($usr_id)) {
+                        $role_id = User::getRoleByUser($usr_id, $prj_id);
+                        if ($role_id > User::getRoleID("Customer")) {
+                            // actually a valid user so insert the note
+
+                            Auth::createFakeCookie($usr_id, $prj_id);
+
+                            $users = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
+                            $user_emails = array_map('strtolower', array_values($users));
+                            $users = array_flip($users);
+
+                            $addresses = array();
+                            $to_addresses = Mail_API::getEmailAddresses(@$structure->headers['to']);
+                            if (count($to_addresses)) {
+                                $addresses = $to_addresses;
+                            }
+                            $cc_addresses = Mail_API::getEmailAddresses(@$structure->headers['cc']);
+                            if (count($cc_addresses)) {
+                                $addresses = array_merge($addresses, $cc_addresses);
+                            }
+                            $cc_users = array();
+                            foreach ($addresses as $email) {
+                                if (in_array(strtolower($email), $user_emails)) {
+                                    $cc_users[] = $users[$email];
+                                }
+                            }
+                            $GLOBALS['HTTP_POST_VARS'] = array(
+                                'title'                => Mail_API::removeExcessRe($t['subject']),
+                                'note'                 => $t['body'],
+                                'note_cc'              => $cc_users,
+                                'add_extra_recipients' => 'yes',
+                                'message_id'           => $t['message_id'],
+                                'parent_id'            => $should_create_array['parent_id'],
+                            );
+                            $res = Note::insert($usr_id, $t['issue_id']);
                         }
                     }
                 }
+            } else {
+                // check if we need to block this email
+                if (($should_create_issue == true) || (!Support::blockEmailIfNeeded($t))) {
+                    if (!empty($t['issue_id'])) {
+                        list($t['full_email'], $t['headers']) = Mail_API::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
+                    }
+                    $res = Support::insertEmail($t, $sup_id);
+                    if ($res != -1) {
+                        // only extract the attachments from the email if we are associating the email to an issue
+                        if (!empty($t['issue_id'])) {
+                            Support::extractAttachments($t['issue_id'], $t['full_email']);
+
+                            // notifications about new emails are always external
+                            $internal_only = false;
+                            $assignee_only = false;
+                            // special case when emails are bounced back, so we don't want a notification to customers about those
+                            if (Notification::isBounceMessage($sender_email)) {
+                                // broadcast this email only to the assignees for this issue
+                                $internal_only = true;
+                                $assignee_only = true;
+                            }
+                            Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
+                            // try to get usr_id of sender, if not, use system account
+                            $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
+                            if (!$usr_id) {
+                                $usr_id = APP_SYSTEM_USER_ID;
+                            }
+                            // mark this issue as updated
+                            if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
+                                Issue::markAsUpdated($t['issue_id'], 'customer action');
+                            } else {
+                                if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer'))) {
+                                    Issue::markAsUpdated($t['issue_id'], 'staff response');
+                                } else {
+                                    Issue::markAsUpdated($t['issue_id'], 'user response');
+                                }
+                            }
+                            // log routed email
+                            History::add($t['issue_id'], $usr_id, History::getTypeID('email_routed'), "Email routed from " . $structure->headers['from']);
+                        }
+                    }
+                } else {
+                    $res = 1;
+                }
+            }
+
+            if ($res > 0) {
                 // need to delete the message from the server?
                 if (!$info['ema_leave_copy']) {
                     @imap_delete($mbox, $num);
-                    @imap_expunge($mbox);
                 } else {
                     // mark the message as already read
                     @imap_setflag_full($mbox, $num, "\\Seen");
@@ -668,37 +727,70 @@ class Support
         $should_create_issue = false;
         $issue_id = '';
         $associate_email = '';
+        $type = 'email';
+        $parent_id = '';
 
         // we can't trust the in-reply-to from the imap c-client, so let's
         // try to manually parse that value from the full headers
-        $reference_msg_id = Support::getReferenceMessageID($headers);
+        $references = Mail_API::getAllReferences($headers);
 
-        // - if this email is a reply:
-        if (!empty($reference_msg_id)) {
-            //  -> check if the replied email exists in the database:
-            if (Support::exists($info['ema_id'], $reference_msg_id)) {
-                //   -- if it does:
-                //    => check if the replied email is already associated with an issue
-                $issue_id = Support::getIssueByMessageID($reference_msg_id);
-                if (empty($issue_id)) {
-                    //     == if it isn't:
-                    //      --> create new issue, associate current email and replied email to this issue
-                    $should_create_issue = true;
-                    $associate_email = $reference_msg_id;
-                } else {
-                    //     == if it is:
-                    //      --> associate current email with existing issue
-                    $should_create_issue = false;
+        $message_id = Mail_API::getMessageID($headers, $message_body);
+
+        $setup = Setup::load();
+        if (@$setup['subject_based_routing']['status'] == 'enabled') {
+            // Look for issue ID in the subject line
+
+            // look for [#XXXX] in the subject line
+            if (preg_match("/\[#(\d+)\]( Note| BLOCKED)*/", $subject, $matches)) {
+                $should_create_issue = false;
+                $issue_id = $matches[1];
+                if (!Issue::exists($issue_id, false)) {
+                    $issue_id = '';
+                } elseif (!empty($matches[2])) {
+                    $type = 'note';
                 }
-            } else {
-                //   -- if it doesn't:
-                //    => create new issue and associate current email with it
-                $should_create_issue = true;
             }
         } else {
-            // - if this email is not a reply:
-            //  -> create new issue and associate current email with it
-            $should_create_issue = true;
+            // - if this email is a reply:
+            if (count($references) > 0) {
+                foreach ($references as $reference_msg_id) {
+                    //  -> check if the replied email exists in the database:
+                    if (Note::exists($reference_msg_id)) {
+                        // note exists
+                        // get what issue it belongs too.
+                        $issue_id = Note::getIssueByMessageID($reference_msg_id);
+                        $should_create_issue = false;
+                        $type = 'note';
+                        $parent_id = Note::getIDByMessageID($reference_msg_id);
+                        break;
+                    } elseif ((Support::exists($reference_msg_id)) || (Issue::getIssueByRootMessageID($reference_msg_id) != false)) {
+                        // email or issue exists
+                        $issue_id = Support::getIssueByMessageID($reference_msg_id);
+                        if (empty($issue_id)) {
+                            $issue_id = Issue::getIssueByRootMessageID($reference_msg_id);
+                        }
+                        if (empty($issue_id)) {
+                            // parent email isn't associated with issue.
+                            //      --> create new issue, associate current email and replied email to this issue
+                            $should_create_issue = true;
+                            $associate_email = $reference_msg_id;
+                        } else {
+                            // parent email is associated with issue:
+                            //      --> associate current email with existing issue
+                            $should_create_issue = false;
+                        }
+                        break;
+                    } else {
+                        //  no matching note, email or issue:
+                        //    => create new issue and associate current email with it
+                        $should_create_issue = true;
+                    }
+                }
+            } else {
+                // - if this email is not a reply:
+                //  -> create new issue and associate current email with it
+                $should_create_issue = true;
+            }
         }
 
         $sender_email = Mail_API::getEmailAddress($from);
@@ -713,9 +805,10 @@ class Support
         // check whether we need to create a new issue or not
         if (($info['ema_issue_auto_creation'] == 'enabled') && ($should_create_issue)) {
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
-            $issue_id = @Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID,
-                    $from, Mime_Helper::fixEncoding($subject), $message_body, $options['category'],
-                    $options['priority'], @$options['users'], $date);
+            Auth::createFakeCookie(APP_SYSTEM_USER_ID, $info['ema_prj_id']);
+            $issue_id = Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID,
+                    $from, Mime_Helper::fixEncoding($subject), $message_body, @$options['category'],
+                    $options['priority'], @$options['users'], $date, $message_id);
             // associate any existing replied-to email with this new issue
             if ((!empty($associate_email)) && (!empty($reference_issue_id))) {
                 $reference_sup_id = Support::getIDByMessageID($associate_email);
@@ -734,7 +827,9 @@ class Support
             'should_create_issue'   =>  $should_create_issue,
             'associate_email'   =>  $associate_email,
             'issue_id'  =>  $issue_id,
-            'customer_id'   =>  @$customer_id
+            'customer_id'   =>  @$customer_id,
+            'type'      =>  $type,
+            'parent_id' =>  $parent_id
         );
     }
 
@@ -780,23 +875,26 @@ class Support
 
 
     /**
-     * Checks if a message already is downloaded. If available, the global variable $support_email_message_ids will be used,
-     * otherwise the database will be checked directly.
+     * Checks if a message already is downloaded.
      *
      * @access  public
-     * @param   integer $ema_id The support email account ID
      * @param   string $message_id The Message-ID header
      * @return  boolean
      */
-    function exists($ema_id, $message_id)
+    function exists($message_id)
     {
-        static $message_ids;
-
-        // if the static variable doesn't exist, build it
-        if (@count($message_ids) == 0) {
-            $message_ids = Support::getMessageIDs($ema_id);
+        $sql = "SELECT
+                    count(*)
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                WHERE
+                    sup_message_id = '" . Misc::escapeString($message_id) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
         }
-        if (in_array($message_id, $message_ids)) {
+        if ($res > 0) {
             return true;
         } else {
             return false;
@@ -823,10 +921,25 @@ class Support
             $row['customer_id'] = "NULL";
         }
 
+        // try to get the parent ID
+        $reference_message_id = Mail_API::getReferenceMessageID($row['full_email']);
+        $parent_id = '';
+        if (!empty($reference_message_id)) {
+            $parent_id = Support::getIDByMessageID($reference_message_id);
+            // make sure it is in the same issue
+            if ((!empty($parent_id)) && ((empty($row['issue_id'])) || (@$row['issue_id'] != Support::getIssueFromEmail($parent_id)))) {
+                $parent_id = '';
+            }
+        }
+
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  (
-                    sup_ema_id,
+                    sup_ema_id,";
+        if (!empty($parent_id)) {
+            $stmt .= "\nsup_parent_id,";
+        }
+        $stmt .= "
                     sup_iss_id,";
         if (!empty($usr_id)) {
             $stmt .= "\nsup_usr_id,\n";
@@ -840,8 +953,11 @@ class Support
                     sup_subject,
                     sup_has_attachment
                  ) VALUES (
-                    " . Misc::escapeInteger($row["ema_id"]) . ",
-                    " . Misc::escapeInteger($row["issue_id"]) . ",";
+                    " . Misc::escapeInteger($row["ema_id"]) . ",\n";
+        if (!empty($parent_id)) {
+            $stmt .= "$parent_id,\n";
+        }
+        $stmt .=    Misc::escapeInteger($row["issue_id"]) . ",";
         if (!empty($usr_id)) {
             $stmt .= "\n$usr_id,\n";
         }
@@ -861,6 +977,7 @@ class Support
             return -1;
         } else {
             $new_sup_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $sup_id = $new_sup_id;
             // now add the body and full email to the separate table
             $stmt = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
@@ -1037,7 +1154,11 @@ class Support
                  FROM
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account";
+        if (!empty($options['keywords'])) {
+            $stmt .= "," . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body";
+        }
+        $stmt .= "
                     )
                     LEFT JOIN
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -1169,9 +1290,11 @@ class Support
      * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $full_email The full contents of the email
+     * @param   boolean $internal_only Whether these files are supposed to be internal only or not
+     * @param   integer $associated_note_id The note ID that these attachments should be associated with
      * @return  void
      */
-    function extractAttachments($issue_id, $full_email)
+    function extractAttachments($issue_id, $full_email, $internal_only = false, $associated_note_id = false)
     {
         // figure out who should be the 'owner' of this attachment
         $structure = Mime_Helper::decode($full_email, false, false);
@@ -1197,9 +1320,18 @@ class Support
         // now for the real thing
         $attachments = Mime_Helper::getAttachments($full_email);
         if (count($attachments) > 0) {
-            $attachment_id = Attachment::add($issue_id, $usr_id, 'Attachment originated from an email', $unknown_user);
+            if (empty($associated_note_id)) {
+                $history_log = 'Attachment originated from an email';
+            } else {
+                $history_log = 'Attachment originated from a note';
+            }
+            $attachment_id = Attachment::add($issue_id, $usr_id, $history_log, $internal_only, $unknown_user, $associated_note_id);
             for ($i = 0; $i < count($attachments); $i++) {
                 Attachment::addFile($attachment_id, $issue_id, $attachments[$i]['filename'], $attachments[$i]['filetype'], $attachments[$i]['blob']);
+            }
+            // mark the note as having attachments (poor man's caching system)
+            if ($associated_note_id != false) {
+                Note::setAttachmentFlag($associated_note_id);
             }
         }
     }
@@ -1277,7 +1409,25 @@ class Support
             for ($i = 0; $i < count($res); $i++) {
                 // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
                 $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
-                Notification::notifyNewEmail($usr_id, $issue_id, $structure, $res[$i]['seb_full_email'], false);
+                if (Mime_Helper::hasAttachments($full_message)) {
+                    $has_attachments = 1;
+                } else {
+                    $has_attachments = 0;
+                }
+                $t = array(
+                    'issue_id'       => $issue_id,
+                    'message_id'     => @$structure->headers['message-id'],
+                    'from'           => @$structure->headers['from'],
+                    'to'             => @$structure->headers['to'],
+                    'cc'             => @$structure->headers['cc'],
+                    'subject'        => @$structure->headers['subject'],
+                    'body'           => Mime_Helper::getMessageBody($structure),
+                    'full_email'     => $res[$i]['seb_full_email'],
+                    'has_attachment' => $has_attachments,
+                    // the following items are not inserted, but useful in some methods
+                    'headers'        => @$structure->headers
+                );
+                Notification::notifyNewEmail($usr_id, $issue_id, $t, false, false, '', $res[$i]['sup_id']);
             }
             return 1;
         } else {
@@ -1322,6 +1472,10 @@ class Support
             $res['reply_subject'] = Mail_API::removeExcessRe('Re: ' . $res["sup_subject"]);
             $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
             $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);
+
+            if (!empty($res['sup_iss_id'])) {
+                $res['reply_subject'] = Mail_API::formatSubject($res['sup_iss_id'], $res['reply_subject']);
+            }
 
             return $res;
         }
@@ -1559,25 +1713,6 @@ class Support
 
 
     /**
-     * Method used to get the appropriate Message-ID header for a
-     * given issue.
-     *
-     * @access  public
-     * @return  string The Message-ID header
-     */
-    function getMessageID()
-    {
-        list($usec, $sec) = explode(" ", microtime());
-        $time = ((float)$usec + (float)$sec);
-        $first = base_convert($time, 10, 36);
-        mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
-        $rand = mt_rand();
-        $second = base_convert($rand, 10, 36);
-        return "<eventum." . $first . "." . $second . "@" . APP_HOSTNAME . ">";
-    }
-
-
-    /**
      * Checks whether the given email address is allowed to send emails in the
      * issue ID.
      *
@@ -1612,10 +1747,15 @@ class Support
             // also not in the authorized repliers list
             // also not the reporter
             $details = Issue::getDetails($issue_id);
-            if (($sender_usr_id != $details['iss_usr_id']) &&
+            if (!Issue::canAccess($issue_id, $sender_usr_id)) {
+                $is_allowed = false;
+            } if (($sender_usr_id != $details['iss_usr_id']) &&
                     (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $sender_usr_id)) &&
                     (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
                     (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) {
+                $is_allowed = false;
+            } elseif ((User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) == User::getRoleID('Customer')) &&
+                    (User::getCustomerID($sender_usr_id) != Issue::getCustomerID($issue_id))) {
                 $is_allowed = false;
             }
         }
@@ -1646,6 +1786,12 @@ class Support
         } else {
             $issue_id = 0;
         }
+
+        // if there is no existing in-reply-to header, get the root message for the issue
+        if (($in_reply_to == false) && (!empty($issue_id))) {
+            $in_reply_to = Issue::getRootMessageID($issue_id);
+        }
+
         if ($in_reply_to) {
             $mail->setHeaders(array("In-Reply-To" => $in_reply_to));
         }
@@ -1692,6 +1838,12 @@ class Support
                 $mail->setHeaders(array(
                     "Message-Id" => $message_id
                 ));
+                // skip users who don't have access to this issue
+                $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient));
+                if (((!empty($recipient_usr_id)) && (!Issue::canAccess($issue_id, $recipient_usr_id))) ||
+                        (empty($recipient_usr_id)) && (Issue::isPrivate($issue_id))) {
+                    continue;
+                }
             } else {
                 $fixed_body = $body;
             }
@@ -1749,10 +1901,18 @@ class Support
             $sender_usr_id = false;
         }
 
+        // get type of email this is
+        if (!empty($HTTP_POST_VARS['type'])) {
+            $type = $HTTP_POST_VARS['type'];
+        } else {
+            $type = '';
+        }
+
+
         // remove extra 'Re: ' from subject
         $HTTP_POST_VARS['subject'] = Mail_API::removeExcessRe($HTTP_POST_VARS['subject']);
         $internal_only = false;
-        $message_id = Support::getMessageID();
+        $message_id = Mail_API::generateMessageID();
         // hack needed to get the full headers of this web-based email
         $full_email = Support::buildFullHeaders($HTTP_POST_VARS["issue_id"], $message_id, $HTTP_POST_VARS["from"],
                 $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"], $in_reply_to);
@@ -1854,10 +2014,11 @@ class Support
             }
         }
         $structure = Mime_Helper::decode($full_email, true, false);
+        $t['headers'] = $structure->headers;
         $res = Support::insertEmail($t, $sup_id);
         if (!empty($HTTP_POST_VARS["issue_id"])) {
             // need to send a notification
-            Notification::notifyNewEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $structure, $full_email, $internal_only, false, $type, $sup_id);
+            Notification::notifyNewEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $t, $internal_only, false, $type, $sup_id);
             // mark this issue as updated
             if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
                 Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'customer action');
@@ -1924,7 +2085,7 @@ class Support
 
 
     /**
-     * Method used to get the email ID associated with a given support
+     * Method used to get the support ID associated with a given support
      * email message-id.
      *
      * @access  public
@@ -1942,9 +2103,13 @@ class Support
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
+            return false;
         } else {
-            return $res;
+            if (empty($res)) {
+                return false;
+            } else {
+                return $res;
+            }
         }
     }
 
@@ -1998,6 +2163,37 @@ class Support
         } else {
             return $res;
         }
+    }
+
+
+    /**
+     * Returns the message-id of the parent email.
+     *
+     * @access  public
+     * @param   string $msg_id The message ID
+     * @return  string The message id of the parent email or false
+     */
+    function getParentMessageIDbyMessageID($msg_id)
+    {
+        $sql = "SELECT
+                    parent.sup_message_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email child,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email parent
+                WHERE
+                    parent.sup_id = child.sup_parent_id AND
+                    child.sup_message_id = '" . Misc::escapeString($msg_id) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            if (empty($res)) {
+                return false;
+            }
+            return $res;
+        }
+
     }
 
 
@@ -2160,6 +2356,66 @@ class Support
             // mark the message as already read
             @imap_setflag_full($mbox, $num, "\\Seen");
         }
+    }
+
+
+    /**
+     * Check if this email needs to be blocked and if so, block it.
+     *
+     *
+     */
+    function blockEmailIfNeeded($email)
+    {
+        global $HTTP_POST_VARS;
+
+        if (empty($email['issue_id'])) {
+            return false;
+        }
+
+        $issue_id = $email['issue_id'];
+        $prj_id = Issue::getProjectID($issue_id);
+        $sender_email = strtolower(Mail_API::getEmailAddress($email['headers']['from']));
+        if ((Mail_API::isVacationAutoResponder($email['headers'])) || (Notification::isBounceMessage($sender_email)) ||
+                (!Support::isAllowedToEmail($issue_id, $sender_email))) {
+            // add the message body as a note
+            $HTTP_POST_VARS = array(
+                'blocked_msg' => $email['full_email'],
+                'title'       => @$email['headers']['subject'],
+                'note'        => Mail_API::getCannedBlockedMsgExplanation($issue_id) . $email['body']
+            );
+            // avoid having this type of message re-open the issue
+            if (Mail_API::isVacationAutoResponder($email['headers'])) {
+                $closing = true;
+            } else {
+                $closing = false;
+            }
+            $res = Note::insert(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing);
+            // associate the email attachments as internal-only files on this issue
+            if ($res != -1) {
+                Support::extractAttachments($issue_id, $email['full_email'], true, $res);
+            }
+
+            $HTTP_POST_VARS['issue_id'] = $issue_id;
+            $HTTP_POST_VARS['from'] = $sender_email;
+
+            // avoid having this type of message re-open the issue
+            if (Mail_API::isVacationAutoResponder($email['full_email'])) {
+                $email_type = 'vacation-autoresponder';
+            } else {
+                $email_type = 'routed';
+            }
+            Workflow::handleBlockedEmail($prj_id, $issue_id, $HTTP_POST_VARS, $email_type);
+
+            // try to get usr_id of sender, if not, use system account
+            $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($email['full_email']['from']));
+            if (!$usr_id) {
+                $usr_id = APP_SYSTEM_USER_ID;
+            }
+            // log blocked email
+            History::add($issue_id, $usr_id, History::getTypeID('email_blocked'), "Email from '" . $email['full_email']['from'] . "' blocked.");
+            return true;
+        }
+        return false;
     }
 }
 

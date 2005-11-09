@@ -68,7 +68,7 @@ if ($HTTP_GET_VARS["plot"] == "status") {
 $labels = array_keys($data);
 $data = array_values($data);
 
-// check the values coming from the database and if they are all empty, then 
+// check the values coming from the database and if they are all empty, then
 // output a pre-generated 'No Data Available' picture
 if (!Stats::hasData($data)) {
     readfile(APP_PATH . "images/no_data.gif");

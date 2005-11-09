@@ -25,7 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.mail.php 1.26 04/01/23 00:25:55-00:00 jpradomaia $
 //
 
 include_once(APP_INC_PATH . "class.error_handler.php");
@@ -36,9 +35,9 @@ include_once(APP_INC_PATH . "class.mime_helper.php");
 include_once(APP_INC_PATH . "class.reminder.php");
 
 /**
- * Class to handle the business logic related to sending email to 
- * outside recipients. This class utilizes the PEAR::Mail 
- * infrastructure to deliver email in a compatible way across 
+ * Class to handle the business logic related to sending email to
+ * outside recipients. This class utilizes the PEAR::Mail
+ * infrastructure to deliver email in a compatible way across
  * different platforms.
  *
  * @version 1.0
@@ -66,6 +65,20 @@ class Mail_API
         @include_once(APP_PEAR_PATH . 'Mail.php');
         @include_once(APP_PEAR_PATH . 'Mail/mime.php');
         $this->mime = new Mail_mime("\r\n");
+    }
+
+
+    /**
+     * Correctly formats the subject line of outgoing emails/notes
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   string $subject The subject to be formatted
+     * @return  string The formatted subject
+     */
+    function formatSubject($issue_id, $subject)
+    {
+        return "[#$issue_id] " . trim(preg_replace("/\[#$issue_id\] {0,1}/", '', $subject));
     }
 
 
@@ -136,7 +149,7 @@ class Mail_API
 
 
     /**
-     * Checks whether the given headers are from a vacation 
+     * Checks whether the given headers are from a vacation
      * auto-responder message or not.
      *
      * @access  public
@@ -149,7 +162,7 @@ class Mail_API
         foreach ($headers as $key => $value) {
             $headers[strtolower($key)] = $value;
         }
-        
+
         if (@$headers['x-vacationmessage'] == 'Yes') {
             return true;
         } else {
@@ -192,7 +205,7 @@ class Mail_API
     function fixAddressQuoting($address)
     {
         // check if we have a <
-        if (strstr($address, '<')) {
+        if ((strstr($address, '<')) && (!Mime_Helper::isQuotedPrintable($address))) {
             $address = stripslashes($address);
             // is the address in the format 'name' <address> ?
             if ((strstr($address, "'")) || (strstr($address, "."))) {
@@ -321,7 +334,7 @@ class Mail_API
 
 
     /**
-     * Method used to set the text version of the body of the MIME 
+     * Method used to set the text version of the body of the MIME
      * multipart message that you wish to send.
      *
      * @access  public
@@ -336,7 +349,7 @@ class Mail_API
 
 
     /**
-     * Method used to set the HTML version of the body of the MIME 
+     * Method used to set the HTML version of the body of the MIME
      * multipart message that you wish to send.
      *
      * @access  public
@@ -442,7 +455,7 @@ class Mail_API
 
     /**
      * Returns the warning message that needs to be added to the top of routed
-     * issue emails to alert the recipient that he can (or not) send emails to 
+     * issue emails to alert the recipient that he can (or not) send emails to
      * the issue notification list.
      *
      * @access  public
@@ -473,7 +486,7 @@ class Mail_API
     function addWarningMessage($issue_id, $to, $body)
     {
         $setup = Setup::load();
-        if (($setup['email_routing']['status'] == 'enabled') &&
+        if ((@$setup['email_routing']['status'] == 'enabled') &&
                 ($setup['email_routing']['warning']['status'] == 'enabled')) {
             // check if the recipient can send emails to the customer
             $recipient_email = Mail_API::getEmailAddress($to);
@@ -530,12 +543,13 @@ class Mail_API
      * @param   integer $issue_id The ID of the issue. If false, email will not be associated with issue.
      * @param   string $type The type of message this is
      * @param   integer $sender_usr_id The id of the user sending this email.
+     * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return  string The full body of the message that was sent
      */
-    function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false)
+    function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
         static $support_levels;
-        
+
         // encode the addresses
         $from = MIME_Helper::encodeAddress($from);
         $to = MIME_Helper::encodeAddress($to);
@@ -547,10 +561,10 @@ class Mail_API
             'To'      => Mail_API::fixAddressQuoting($to),
             'Subject' => $subject
         );
-        
+
         $this->setHeaders($headers);
         $hdrs = $this->mime->headers($this->headers);
-        $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id);
+        $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id, $type_id);
         if ((PEAR::isError($res)) || ($res == false)) {
             return $res;
         } else {
@@ -567,7 +581,7 @@ class Mail_API
 
 
     /**
-     * Method used to get the list of issues to be displayed in the grid layout.
+     * Returns the full headers for the email properly encoded.
      *
      * @access  public
      * @param   string $from The sender of the email
@@ -609,7 +623,7 @@ class Mail_API
     function saveEmailInformation($email)
     {
         static $subjects;
-        
+
         $hdrs = $email['headers'];
         $body = $email['body'];
         $issue_id = $email['maq_iss_id'];
@@ -643,12 +657,12 @@ class Mail_API
         // replace the To: header with the requested address
         $address = $setup['smtp']['save_address'];
         $headers['To'] = $address;
-        
+
         // add specialized headers if they are not already added
         if (empty($headers['X-Eventum-Type'])) {
             $headers += Mail_API::getSpecializedHeaders($issue_id, $email['maq_type'], $headers, $sender_usr_id);
         }
-        
+
         $params = Mail_API::getSMTPSettings($address);
         $mail =& Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
@@ -658,12 +672,12 @@ class Mail_API
 
         $subjects[] = $subject;
     }
-    
-    
+
+
     /**
      * Since Mail::prepareHeaders() is not supposed to be called statically, this method
      * instantiates an instance of the mail class and calls prepareHeaders on it.
-     * 
+     *
      * @param array $headers The array of headers to prepare, in an associative
      *              array, where the array key is the header name (ie,
      *              'Subject'), and the array value is the header
@@ -680,11 +694,11 @@ class Mail_API
         $mail =& Mail::factory('smtp', $params);
         return $mail->prepareHeaders($headers);
     }
-    
-    
+
+
     /**
      * Generates the specialized headers for an email.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The issue ID
      * @param   string $type The type of message this is
@@ -707,7 +721,7 @@ class Mail_API
                 } else {
                     $new_headers['X-Eventum-Group-Replier'] = Group::getName(User::getGroupID($sender_usr_id));
                 }
-                
+
                 // group of current assignee
                 $assignees = Issue::getAssignedUserIDs($issue_id);
                 if (empty($assignees[0])) {
@@ -732,6 +746,233 @@ class Mail_API
         }
         $new_headers['X-Eventum-Type'] = $type;
         return $new_headers;
+    }
+
+
+    /**
+     * Method used to get the appropriate Message-ID header for a
+     * given issue.
+     *
+     * @access  public
+     * @return  string The Message-ID header
+     */
+    function generateMessageID()
+    {
+        list($usec, $sec) = explode(" ", microtime());
+        $time = ((float)$usec + (float)$sec);
+        $first = base_convert($time, 10, 36);
+        mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
+        $rand = mt_rand();
+        $second = base_convert($rand, 10, 36);
+        return "<eventum." . $first . "." . $second . "@" . APP_HOSTNAME . ">";
+    }
+
+
+    /**
+     * Returns the referenced message-id for a given reply.
+     *
+     * @access  public
+     * @param   string $text_headers The full headers of the reply
+     * @return  string The message-id of the original email
+     */
+    function getReferenceMessageID($text_headers)
+    {
+        $references = array();
+        if (preg_match('/^In-Reply-To: (.*)/m', $text_headers, $matches)) {
+            return trim($matches[1]);
+        }
+        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/sm', $text_headers, $matches)) {
+            $references = explode(" ", Mail_API::unfold(trim($matches[1])));
+            $references = array_map('trim', $references);
+            // return the first message-id in the list of references
+            return $references[0];
+        }
+        return '';
+    }
+
+
+    /**
+     * Returns the message IDs of all emails this message references.
+     *
+     * @access  public
+     * @param   string $text_headers The full headers of the message
+     * @return  array An array of message-ids
+     */
+    function getAllReferences($text_headers)
+    {
+        $references = array();
+        if (preg_match('/^In-Reply-To: (.*)/m', $text_headers, $matches)) {
+            $references[] = trim($matches[1]);
+        }
+        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/sm', $text_headers, $matches)) {
+            $references = array_merge($references, explode(" ", Mail_API::unfold(trim($matches[1]))));
+            $references = array_map('trim', $references);
+            $references = array_unique($references);
+        }
+        return $references;
+    }
+
+
+    /**
+     * Checks to make sure In-Reply-To and References headers are correct.
+     *
+     */
+    function rewriteThreadingHeaders($issue_id, $full_email, $headers, $type = 'email')
+    {
+        list($text_headers, $body) = Mime_Helper::splitHeaderBody($full_email);
+
+        if ($type == 'note') {
+            $class = 'Note';
+        } else {
+            $class = 'Support';
+        }
+
+        $msg_id = Mail_API::getMessageID($text_headers, $body);
+
+        // check if the In-Reply-To header exists and if so, does it relate to a message stored in Eventum
+        // if it does not, set new In-Reply-To header
+        $reference_msg_id = Mail_API::getReferenceMessageID($text_headers);
+        $reference_issue_id = false;
+        if (!empty($reference_msg_id)) {
+            // check if referenced msg id is associated with this issue
+            $reference_issue_id = call_user_func(array($class, 'getIssueByMessageID'), $reference_msg_id);
+        }
+
+        if ((empty($reference_msg_id)) || ($reference_issue_id != $issue_id)) {
+            $reference_msg_id = Issue::getRootMessageID($issue_id);
+        }
+        $references = Mail_API::getReferences($issue_id, $reference_msg_id, $type);
+
+        // now the fun part, re-writing the email headers
+        if (empty($headers['message-id'])) {
+            // add Message-ID since it doesn't exist (curses on Outlook 2003)
+            $text_headers .= "\r\nMessage-ID: $msg_id";
+            $headers['message-id'] = $msg_id;
+        }
+
+        if (preg_match('/^In-Reply-To: (.*)/m', $text_headers) > 0) {
+            // replace existing header
+            $text_headers = preg_replace('/^In-Reply-To: (.*)/m', 'In-Reply-To: ' . $reference_msg_id, $text_headers, 1);
+        } else {
+            // add new header after message ID
+            $text_headers = preg_replace('/^Message-ID: (.*)$/m', "Message-ID: $1\r\nIn-Reply-To: $reference_msg_id", $text_headers, 1);
+        }
+        $headers['in-reply-to'] = $reference_msg_id;
+        if (preg_match('/^References: (.*)/m', $text_headers) > 0) {
+            // replace existing header
+            $text_headers = preg_replace('/^References: (.*)/m', 'References: ' . Mail_API::fold(join(' ', $references)), $text_headers, 1);
+        } else {
+            // add new header after In-Reply-To
+            $text_headers = preg_replace('/^In-Reply-To: (.*)$/m', "In-Reply-To: $1\r\nReferences: " . Mail_API::fold(join(' ', $references)), $text_headers, 1);
+        }
+        $headers['references'] = Mail_API::fold(join(' ', $references));
+        return array($text_headers . "\r\n\r\n" . $body, $headers);
+    }
+
+
+    /**
+     * Returns a complete list of references for an email/note, including
+     * the issue root message ID
+     *
+     * @access  private
+     * @param   integer $issue_id The ID of the issue
+     * @param   string $msg_id The ID of the message
+     * @param   string $type If this is a note or an email
+     * @return  array An array of message IDs
+     */
+    function getReferences($issue_id, $msg_id, $type)
+    {
+        $references = array();
+        Mail_API::_getReferences($msg_id, $type, $references);
+        $references[] = Issue::getRootMessageID($issue_id);
+        $references = array_reverse(array_unique($references));
+        return $references;
+    }
+
+
+
+    /**
+     * Method to get the list of messages an email/note references
+     *
+     * @access  private
+     * @param   string $msg_id The ID of the parent message
+     * @param   string $type If this is a note or an email
+     * @param   array $references The array the references will be stored in.
+     */
+    function _getReferences($msg_id, $type, &$references)
+    {
+        $references[] = $msg_id;
+        if ($type == 'note') {
+            $class = 'Note';
+        } else {
+            $class = 'Support';
+        }
+        $parent_msg_id = call_user_func(array($class, 'getParentMessageIDbyMessageID'), $msg_id);
+        if (!empty($parent_msg_id)) {
+            Mail_API::_getReferences($parent_msg_id, $type, $references);
+        }
+    }
+
+
+
+    function getBaseThreadingHeaders($issue_id)
+    {
+        $root_msg_id = Issue::getRootMessageID($issue_id);
+        return array(
+            "Message-ID"    =>  Mail_API::generateMessageID(),
+            "In-Reply-To"   =>  $root_msg_id,
+            "References"    =>  $root_msg_id
+        );
+    }
+
+    /**
+     * Unfolds message headers
+     *
+     * @access  public
+     * @param   string $input The headers to unfold
+     * @return  string The unfolded headers
+     */
+    function unfold($input)
+    {
+        $input = preg_replace("/\r?\n/", "\r\n", $input);
+        $input = preg_replace("/\r\n(\t| )+/", ' ', $input);
+        return $input;
+    }
+
+    /**
+     * Folds message headers
+     *
+     * @access  public
+     * @param   string $input The headers to fold
+     * @return  string The folded headers
+     */
+    function fold($input)
+    {
+        return wordwrap($input, 70, "\r\n ");
+    }
+
+
+    /**
+     * Returns the Message-ID from an email. If no message ID is found (Outlook 2003 doesn't
+     * generate them in some cases) a "fake" message-id will be calculated.
+     *
+     * @access  public
+     * @param   string $headers The message headers
+     * @param   string $body The message body
+     */
+    function getMessageID($headers, $body)
+    {
+        // try to parse out actual message-id header
+        if (preg_match('/^Message-ID: (.*)/m', $headers, $matches)) {
+            return trim($matches[1]);
+        } else {
+            // no match, calculate hash to make fake message ID
+            $md5 = md5($headers.$body);
+            $first = base_convert(md5($headers), 10, 36);
+            $second = base_convert(md5($body), 10, 36);
+            return "<eventum.md5." . $first . "." . $second . "@" . APP_HOSTNAME . ">";
+        }
+
     }
 }
 

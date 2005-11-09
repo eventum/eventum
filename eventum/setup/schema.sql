@@ -195,6 +195,8 @@ CREATE TABLE %TABLE_PREFIX%issue_attachment (
   iat_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   iat_description text,
   iat_unknown_user varchar(255) NULL DEFAULT NULL,
+  iat_status enum('internal', 'public') NOT NULL default 'public',
+  iat_not_id int(11) unsigned DEFAULT NULL,
   PRIMARY KEY  (iat_id),
   KEY iat_iss_id (iat_iss_id,iat_usr_id)
 ) TYPE = MYISAM;
@@ -279,6 +281,9 @@ CREATE TABLE %TABLE_PREFIX%note (
   not_blocked_message longtext NULL,
   not_parent_id int(11) unsigned NULL,
   not_unknown_user varchar(255) NULL DEFAULT NULL,
+  not_has_attachment tinyint(1) NOT NULL default 0,
+  not_message_id varchar(255) NULL,
+  not_removed tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY  (not_id),
   KEY not_bug_id (not_iss_id,not_usr_id),
   FULLTEXT ft_note (not_title,not_note)
@@ -852,8 +857,10 @@ CREATE TABLE %TABLE_PREFIX%mail_queue (
   maq_body LONGTEXT NOT NULL,
   maq_type varchar(30) NULL,
   maq_usr_id int(11) unsigned NULL DEFAULT NULL,
+  maq_type_id int(11) unsigned NULL DEFAULT NULL,
   KEY maq_status (maq_status),
   KEY maq_iss_id (maq_iss_id),
+  KEY (maq_type, maq_type_id),
   PRIMARY KEY(maq_id)
 ) TYPE = MYISAM;
 

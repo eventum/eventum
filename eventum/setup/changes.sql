@@ -110,7 +110,7 @@ ALTER TABLE eventum_custom_filter ADD COLUMN cst_show_authorized char(3) default
 ALTER TABLE eventum_custom_filter ADD COLUMN cst_show_notification_list char(3) default '';
 
 
-# Issue 158, weekly reports. This issue turned into changing the history system.    
+# Issue 158, weekly reports. This issue turned into changing the history system.
 # please run script misc/runonce/set_history_type.php after applying these changes.
 
 # lookup table for history type
@@ -449,8 +449,8 @@ ALTER TABLE eventum_project_user ADD UNIQUE KEY pru_prj_id (pru_prj_id,pru_usr_i
 
 # september 3rd
 ALTER TABLE eventum_history_type ADD COLUMN htt_role tinyint(1) DEFAULT '0';
-UPDATE eventum_history_type SET htt_role = 4 WHERE htt_name IN('note_added', 'note_removed', 'note_converted_draft', 
-    'note_converted_email', 'phone_entry_added', 'phone_entry_removed', 'time_added', 'time_removed', 
+UPDATE eventum_history_type SET htt_role = 4 WHERE htt_name IN('note_added', 'note_removed', 'note_converted_draft',
+    'note_converted_email', 'phone_entry_added', 'phone_entry_removed', 'time_added', 'time_removed',
     'remote_time_added', 'email_blocked', 'note_routed', 'group_changed', 'draft_added', 'draft_updated');
 INSERT INTO eventum_history_type SET htt_name = 'status_auto_changed', htt_role = 4;
 
@@ -588,8 +588,8 @@ CREATE TABLE eventum_search_profile (
 # March 3rd
 ALTER TABLE eventum_issue ADD INDEX (iss_duplicated_iss_id);
 ALTER TABLE eventum_time_tracking ADD INDEX (ttr_iss_id)
- 
- 
+
+
 # March 7th
 ALTER TABLE eventum_issue ADD COLUMN iss_percent_complete tinyint(3) unsigned DEFAULT 0;
 
@@ -633,3 +633,20 @@ INSERT INTO eventum_time_tracking_category (ttc_title, ttc_created_date) VALUES 
 
 # Aug 17th
 INSERT INTO eventum_history_type VALUES(null, 'issue_bulk_updated', 0);
+
+# November 3rd
+ALTER TABLE eventum_mail_queue ADD COLUMN maq_type_id int(11) unsigned default NULL;
+ALTER TABLE eventum_mail_queue ADD INDEX (maq_type, maq_type_id);
+
+ALTER TABLE eventum_issue ADD COLUMN iss_root_message_id varchar(255);
+
+ALTER TABLE eventum_note ADD INDEX not_parent_id (not_parent_id);
+ALTER TABLE eventum_note ADD COLUMN not_message_id varchar(255);
+ALTER TABLE eventum_note ADD INDEX not_message_id (not_message_id);
+ALTER TABLE eventum_note ADD COLUMN not_removed tinyint(1) NOT NULL DEFAULT 0;
+
+
+ALTER TABLE eventum_issue_attachment ADD COLUMN iat_status enum('internal', 'public') NOT NULL default 'public';
+ALTER TABLE eventum_issue_attachment ADD COLUMN iat_not_id int(11) unsigned DEFAULT NULL;
+
+ALTER TABLE eventum_note ADD COLUMN not_has_attachment tinyint(1) NOT NULL default 0;

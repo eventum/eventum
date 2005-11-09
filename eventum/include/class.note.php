@@ -25,8 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.note.php 1.20 03/12/31 17:29:01-00:00 jpradomaia $
-//
 
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.validation.php");
@@ -50,7 +48,7 @@ include_once(APP_INC_PATH . "class.authorized_replier.php");
 class Note
 {
     /**
-     * Returns the next and previous notes associated with the given issue ID 
+     * Returns the next and previous notes associated with the given issue ID
      * and the currently selected note.
      *
      * @access  public
@@ -67,7 +65,8 @@ class Note
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
-                    not_iss_id=$issue_id
+                    not_iss_id=$issue_id AND
+                    not_removed = 0
                  ORDER BY
                     not_created_date ASC";
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
@@ -193,7 +192,7 @@ class Note
 
     /**
      * Returns the nth note for the specific issue. Sequence starts at 1.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $sequence The sequential number of the note.
@@ -208,7 +207,8 @@ class Note
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                 WHERE
-                    not_iss_id = $issue_id
+                    not_iss_id = $issue_id AND
+                    not_removed = 0
                  ORDER BY
                     not_created_date ASC
                 LIMIT " . ($sequence - 1) . ", 1";
@@ -224,7 +224,7 @@ class Note
 
     /**
      * Method used to get the unknown_user from the note table for the specified note id.
-     * 
+     *
      * @access  public
      * @param   integer $note_id The note ID
      */
@@ -266,7 +266,7 @@ class Note
 
 
     /**
-     * Method used to add a note using the user interface form 
+     * Method used to add a note using the user interface form
      * available in the application.
      *
      * @param   integer $usr_id The user ID
@@ -274,13 +274,14 @@ class Note
      * @param   string  $unknown_user The email address of a user that sent the blocked email that was turned into this note. Default is false.
      * @param   boolean $log If adding this note should be logged. Default true.
      * @param   boolean $closing If The issue is being closed. Default false
+     * @param   boolean $send_notification Whether to send a notification about this note or not
      * @access  public
-     * @return  integer 1 if the insert worked, -1 or -2 otherwise
+     * @return  integer the new note id if the insert worked, -1 or -2 otherwise
      */
-    function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true, $closing = false)
+    function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true, $closing = false, $send_notification = true)
     {
         global $HTTP_POST_VARS;
-        
+
         $issue_id = Misc::escapeInteger($issue_id);
 
         if (@$HTTP_POST_VARS['add_extra_recipients'] != 'yes') {
@@ -299,6 +300,9 @@ class Note
         if (Validation::isWhitespace($HTTP_POST_VARS["note"])) {
             return -2;
         }
+        if (empty($HTTP_POST_VARS['message_id'])) {
+            $HTTP_POST_VARS['message_id'] = Mail_API::generateMessageID();
+        }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  (
@@ -310,6 +314,7 @@ class Note
         if (!@empty($HTTP_POST_VARS['blocked_msg'])) {
             $stmt .= ", not_blocked_message";
         }
+        $stmt .= ", not_message_id";
         if (!@empty($HTTP_POST_VARS['parent_id'])) {
             $stmt .= ", not_parent_id";
         }
@@ -326,6 +331,7 @@ class Note
         if (!@empty($HTTP_POST_VARS['blocked_msg'])) {
             $stmt .= ", '" . Misc::escapeString($HTTP_POST_VARS['blocked_msg']) . "'";
         }
+        $stmt .= ", '" . Misc::escapeString($HTTP_POST_VARS['message_id']) . "'";
         if (!@empty($HTTP_POST_VARS['parent_id'])) {
             $stmt .= ", " . Misc::escapeInteger($HTTP_POST_VARS['parent_id']) . "";
         }
@@ -346,14 +352,18 @@ class Note
                 History::add($issue_id, $usr_id, History::getTypeID('note_added'), 'Note added by ' . User::getFullName($usr_id));
             }
             // send notifications for the issue being updated
-            $internal_only = true;
-            if ((@$HTTP_POST_VARS['add_extra_recipients'] != 'yes') && (@count($HTTP_POST_VARS['note_cc']) > 0)) {
-                Notification::notify($issue_id, 'notes', $new_note_id, $internal_only, $HTTP_POST_VARS['note_cc']);
-            } else {
-                Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
+            if ($send_notification) {
+                $internal_only = true;
+                if ((@$HTTP_POST_VARS['add_extra_recipients'] != 'yes') && (@count($HTTP_POST_VARS['note_cc']) > 0)) {
+                    Notification::notify($issue_id, 'notes', $new_note_id, $internal_only, $HTTP_POST_VARS['note_cc']);
+                } else {
+                    Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
+                }
+                Workflow::handleNewNote(Issue::getProjectID($issue_id), $issue_id, $usr_id, $closing);
             }
-            Workflow::handleNewNote(Issue::getProjectID($issue_id), $issue_id, $usr_id, $closing);
-            return 1;
+            // need to return the new note id here so it can
+            // be re-used to associate internal-only attachments
+            return $new_note_id;
         }
     }
 
@@ -407,8 +417,10 @@ class Note
             return -2;
         }
 
-        $stmt = "DELETE FROM
+        $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 SET
+                    not_removed = 1
                  WHERE
                     not_id=$note_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -416,6 +428,17 @@ class Note
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
+            // also remove any internal-only files associated with this note
+            $stmt = "DELETE FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
+                     WHERE
+                        iat_not_id=$note_id AND
+                        iat_status='internal'";
+            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            }
+
             Issue::markAsUpdated($details['not_iss_id']);
             if ($log) {
                 // need to save a history entry for this
@@ -443,6 +466,7 @@ class Note
                     not_title,
                     not_usr_id,
                     not_unknown_user,
+                    not_has_attachment,
                     IF(LENGTH(not_blocked_message) > 0, 1, 0) AS has_blocked_message,
                     usr_full_name
                  FROM
@@ -450,7 +474,8 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
                     not_usr_id=usr_id AND
-                    not_iss_id=$issue_id
+                    not_iss_id=$issue_id AND
+                    not_removed = 0
                  ORDER BY
                     not_created_date ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -465,13 +490,13 @@ class Note
                 if ($role_id < User::getRoleID('standard user')) {
                     continue;
                 }
-                
+
                 // Display not_unknown_user instead of usr_full_name if not null.
                 // This is so the original sender of a blocked email is displayed on the note.
                 if (!empty($res[$i]["not_unknown_user"])) {
                     $res[$i]["usr_full_name"] = $res[$i]["not_unknown_user"];
                 }
-                
+
                 $res[$i]["not_created_date"] = Date_API::getFormattedDate($res[$i]["not_created_date"]);
                 $t[] = $res[$i];
             }
@@ -482,7 +507,7 @@ class Note
 
     /**
      * Converts a note to a draft or an email
-     * 
+     *
      * @access  public
      * @param   $note_id The id of the note
      * @param   $target What the not should be converted too
@@ -498,14 +523,13 @@ class Note
         $structure = Mime_Helper::decode($blocked_message, true, true);
         $body = Mime_Helper::getMessageBody($structure);
         $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
-        $parts = array();
-        Mime_Helper::parse_output($structure, $parts);
         if ($target == 'email') {
-            if (@count($parts["attachments"]) > 0) {
+            if (Mime_Helper::hasAttachments($blocked_message)) {
                 $has_attachments = 1;
             } else {
                 $has_attachments = 0;
             }
+            list($blocked_message, $headers) = Mail_API::rewriteThreadingHeaders($issue_id, $blocked_message, @$structure->headers);
             $t = array(
                 'issue_id'       => $issue_id,
                 'ema_id'         => $email_account_id,
@@ -517,7 +541,8 @@ class Note
                 'subject'        => @$structure->headers['subject'],
                 'body'           => @$body,
                 'full_email'     => @$blocked_message,
-                'has_attachment' => $has_attachments
+                'has_attachment' => $has_attachments,
+                'headers'        => $headers
             );
             // need to check for a possible customer association
             if (!empty($structure->headers['from'])) {
@@ -532,9 +557,12 @@ class Note
                 }
             }
             if (empty($t['customer_id'])) {
+                $update_type = 'staff response';
                 $t['customer_id'] = "NULL";
+            } else {
+                $update_type = 'customer action';
             }
-            $res = Support::insertEmail($t, $structure);
+            $res = Support::insertEmail($t, $sup_id);
             if ($res != -1) {
                 Support::extractAttachments($issue_id, $blocked_message);
                 // notifications about new emails are always external
@@ -543,10 +571,10 @@ class Note
                 if (Notification::isBounceMessage($sender_email)) {
                     $internal_only = true;
                 }
-                Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $structure, $blocked_message, $internal_only);
-                Issue::markAsUpdated($issue_id);
+                Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $t, $internal_only, false, '', $sup_id);
+                Issue::markAsUpdated($issue_id, $update_type);
                 Note::remove($note_id, false);
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_email'), 
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_email'),
                         "Note converted to e-mail (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID()));
                 // now add sender as an authorized replier
                 if ($authorize_sender) {
@@ -556,31 +584,31 @@ class Note
             return $res;
         } else {
             // save message as a draft
-            $res = @Draft::saveEmail($issue_id, 
-                $structure->headers['to'], 
+            $res = Draft::saveEmail($issue_id,
+                $structure->headers['to'],
                 $structure->headers['cc'],
-                $structure->headers['subject'], 
-                $body, 
+                $structure->headers['subject'],
+                $body,
                 false, $unknown_user);
             // remove the note, if the draft was created successfully
             if ($res) {
                 Note::remove($note_id, false);
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_draft'), 
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_draft'),
                         "Note converted to draft (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID()));
             }
             return $res;
         }
     }
-    
-    
+
+
     /**
      * Returns the number of notes by a user in a time range.
-     * 
+     *
      * @access  public
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date
      * @param   integer $end The timestanp of the end date
-     * @return  integer The number of note by the user.
+     * @return  integer The number of notes by the user
      */
     function getCountByUser($usr_id, $start, $end)
     {
@@ -590,13 +618,211 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_created_date BETWEEN '$start' AND '$end' AND
-                    not_usr_id = $usr_id";
+                    not_usr_id = $usr_id AND
+                    not_removed = 0";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
+        } else {
+            return $res;
         }
-        return $res;
+    }
+
+
+    /**
+     * Method used to mark a note as having attachments associated with it.
+     *
+     * @access  public
+     * @param   integer $note_id The note ID
+     * @return  boolean
+     */
+    function setAttachmentFlag($note_id)
+    {
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 SET
+                    not_has_attachment=1
+                 WHERE
+                    not_id=$note_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
+     * Returns the total number of notes associated to the given issue ID.
+     *
+     * @access  public
+     * @param   string $issue_id The issue ID
+     * @return  integer The number of notes
+     */
+    function getTotalNotesByIssue($issue_id)
+    {
+        $stmt = "SELECT
+                    COUNT(*)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 WHERE
+                    not_iss_id=$issue_id AND
+                    not_removed = 0";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the issue ID associated with a given note
+     * message-id.
+     *
+     * @access  public
+     * @param   string $message_id The message ID
+     * @return  integer The issue ID
+     */
+    function getIssueByMessageID($message_id)
+    {
+        $stmt = "SELECT
+                    not_iss_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 WHERE
+                    not_message_id='" . Misc::escapeString($message_id) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Returns the message-id of the parent note.
+     *
+     * @access  public
+     * @param   string $msg_id The message ID
+     * @return  string The message id of the parent note or false
+     */
+    function getParentMessageIDbyMessageID($msg_id)
+    {
+        $sql = "SELECT
+                    parent.not_message_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note child,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note parent
+                WHERE
+                    parent.not_id = child.not_parent_id AND
+                    child.not_message_id = '" . Misc::escapeString($msg_id) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            if (empty($res)) {
+                return false;
+            }
+            return $res;
+        }
+
+    }
+
+
+    /**
+     * Method used to get the note ID associated with a given note
+     * message-id.
+     *
+     * @access  public
+     * @param   string $message_id The message ID
+     * @return  integer The note ID
+     */
+    function getIDByMessageID($message_id)
+    {
+        $stmt = "SELECT
+                    not_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 WHERE
+                    not_message_id='" . Misc::escapeString($message_id) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            if (empty($res)) {
+                return false;
+            } else {
+                return $res;
+            }
+        }
+    }
+
+
+    /**
+     * Method used to get the message-ID associated with a given note
+     * id.
+     *
+     * @access  public
+     * @param   integer $id The ID
+     * @return  string The Message-ID
+     */
+    function getMessageIDbyID($id)
+    {
+        $stmt = "SELECT
+                    not_message_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 WHERE
+                    not_id=" . Misc::escapeInteger($id);
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        } else {
+            if (empty($res)) {
+                return false;
+            } else {
+                return $res;
+            }
+        }
+    }
+
+
+    /**
+     * Checks if a message already is downloaded..
+     *
+     * @access  public
+     * @param   string $message_id The Message-ID header
+     * @return  boolean
+     */
+    function exists($message_id)
+    {
+        $sql = "SELECT
+                    count(*)
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                WHERE
+                    not_message_id ='" . Misc::escapeString($message_id) . "'";
+        $res = $GLOBALS['db_api']->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        if ($res > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

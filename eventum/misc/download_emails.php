@@ -61,7 +61,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
         echo "Please refer to the PHP manual for more details on how to change this ini setting.\n";
         exit;
     }
-    
+
     $type = 'cli';
     if (in_array('--fix-lock', $_SERVER['argv'])) {
         $fix_lock = true;
@@ -114,13 +114,13 @@ if ($fix_lock == true) {
 // check if there is another instance of this script already running
 if (!Lock::acquire('download_emails_' . $account_id)) {
     if ($type == 'cli') {
-        echo "Error: Another instance of the script is still running for the specified account. " . 
-                    "If this is not accurate, you may fix it by running this script with '--fix-lock' " . 
-                    "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock' " . 
+        echo "Error: Another instance of the script is still running for the specified account. " .
+                    "If this is not accurate, you may fix it by running this script with '--fix-lock' " .
+                    "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock' " .
                     "as the only parameter.\n";
     } else {
-        echo "Error: Another instance of the script is still running for the specified account. " . 
-                    "If this is not accurate, you may fix it by running this script with 'fix-lock=1' " . 
+        echo "Error: Another instance of the script is still running for the specified account. " .
+                    "If this is not accurate, you may fix it by running this script with 'fix-lock=1' " .
                     "in the query string or you may unlock ALL accounts by running this script with 'fix-lock=1' " .
                     "as the only parameter.<br />\n";
     }
@@ -135,6 +135,7 @@ if ($mbox == false) {
     exit;
 } else {
     $total_emails = Support::getTotalEmails($mbox);
+
     if ($total_emails > 0) {
         for ($i = 1; $i <= $total_emails; $i++) {
             Support::getEmailInfo($mbox, $account, $i);
