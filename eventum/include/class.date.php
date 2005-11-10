@@ -30,7 +30,7 @@
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
 $_DATE_TIMEZONE_DEFAULT = 'UTC';
- 
+
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.prefs.php");
 include_once(APP_PEAR_PATH . "Date.php");
@@ -44,9 +44,10 @@ define("HOUR", MINUTE * 60);
 define("DAY", HOUR * 24);
 define("WEEK", DAY * 7);
 define("MONTH", WEEK * 4);
+define("YEAR", MONTH * 12);
 
 /**
- * Class to handle date convertion issues, which enable the 
+ * Class to handle date convertion issues, which enable the
  * application of storing all dates in GMT dates and allowing each
  * user to specify a timezone that is supposed to be used across the
  * pages.
@@ -144,7 +145,7 @@ class Date_API
 
 
     /**
-     * Method used to get the current date in the GMT timezone in an 
+     * Method used to get the current date in the GMT timezone in an
      * RFC822 compliant format.
      *
      * @access  public
@@ -206,7 +207,7 @@ class Date_API
 
 
     /**
-     * Method used to get the proper timezone short name for the current date 
+     * Method used to get the proper timezone short name for the current date
      * and time on the given user's timezone.
      *
      * @access  public
@@ -228,7 +229,7 @@ class Date_API
      * @access  public
      * @param   string $timestamp The date timestamp to be formatted
      * @param   string $timezone The timezone name
-     * @return  string 
+     * @return  string
      */
     function getFormattedDate($timestamp, $timezone = FALSE)
     {
@@ -248,7 +249,7 @@ class Date_API
      *
      * @access  public
      * @param   string $timestamp The date timestamp to be formatted
-     * @return  string 
+     * @return  string
      */
     function getSimpleDate($timestamp)
     {
@@ -300,7 +301,7 @@ class Date_API
 
 
     /**
-     * Method used to convert the user date (that might be in a 
+     * Method used to convert the user date (that might be in a
      * specific timezone) to a GMT date.
      *
      * @access  public
@@ -331,7 +332,7 @@ class Date_API
 
     /**
      * Returns a list of weeks (May 2 - May 8, May 9 - May 15).
-     * 
+     *
      * @access public
      * @param   integer $weeks_past The number of weeks in the past to include.
      * @param   integer $weeks_future The number of weeks in the future to include.
@@ -340,32 +341,32 @@ class Date_API
     function getWeekOptions($weeks_past, $weeks_future)
     {
         $options = array();
-        
+
         // get current week details
         $current_start = date("U") - (DAY * (date("w") - 1));
-        
+
         // previous weeks
         for ($week = $weeks_past; $week > 0; $week--) {
             $option = Date_API::formatWeekOption($current_start - ($week * WEEK));
             $options[$option[0]] = $option[1];
         }
-        
+
         $option = Date_API::formatWeekOption($current_start);
         $options[$option[0]] = $option[1];
-        
+
         // future weeks
         for ($week = 1; $week <= $weeks_future; $week++) {
             $option = Date_API::formatWeekOption($current_start + ($week * WEEK));
             $options[$option[0]] = $option[1];
         }
-        
+
         return $options;
     }
 
 
     /**
      * Returns the current week in the same format formatWeekOption users.
-     * 
+     *
      * @access  public
      * @return  string A string containg the current week.
      */
@@ -379,7 +380,7 @@ class Date_API
 
     /**
      * Formats a given week start and week end to a format useable by getWeekOptions().
-     * 
+     *
      * @access  private
      * @param   integer $start The start date of the week.
      * @return  array An array usable as an option in getWeekOptions.
