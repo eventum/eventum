@@ -48,6 +48,101 @@ include_once(APP_PEAR_PATH . "Math/Stats.php");
 
 class Report
 {
+
+
+    /**
+     * Method used to get all open issues and group them by user.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @return  array The list of issues
+     */
+    function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
+    {
+        $prj_id = Misc::escapeInteger($prj_id);
+        $ts = Date_API::getCurrentUnixTimestampGMT();
+        $before_ts = strtotime($before_date);
+        $after_ts = strtotime($after_date);
+
+        // split groups out of users array
+        $groups = array();
+        foreach ($users as $key => $value) {
+            if (substr($value, 0, 3) == 'grp') {
+                $groups[] = substr($value, 4);
+                unset($users[$key]);
+            }
+        }
+
+        $stmt = "SELECT
+                    usr_full_name,
+                    iss_id,
+                    iss_summary,
+                    sta_title,
+                    iss_sta_id,
+                    iss_created_date,
+                    iss_updated_date,
+                    iss_last_response_date,
+                    sta_color,
+                    iss_private
+                 FROM
+                    (
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    )
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                 ON
+                    iss_sta_id=sta_id
+                 WHERE
+                    sta_is_closed=0 AND
+                    iss_prj_id=$prj_id AND
+                    iss_id=isu_iss_id AND
+                    isu_usr_id=usr_id AND
+                    UNIX_TIMESTAMP(iss_last_response_date) < $before_ts AND
+                    UNIX_TIMESTAMP(iss_last_response_date) > $after_ts";
+        if (count($users) > 0) {
+            $stmt .= " AND\nisu_usr_id IN(" . join(', ', Misc::escapeInteger($users)) . ")";
+        }
+        if (count($groups) > 0) {
+            $stmt .= " AND\nusr_grp_id IN(" . join(', ', Misc::escapeInteger($groups)) . ")";
+        }
+        if (count($status) > 0) {
+            $stmt .= " AND\niss_sta_id IN(" . join(', ', Misc::escapeInteger($status)) . ")";
+        }
+        $stmt .= "
+                 ORDER BY
+                    usr_full_name,
+                    iss_last_response_date " . Misc::escapeString($sort_order);
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            Time_Tracking::getTimeSpentByIssues($res);
+            $issues = array();
+            for ($i = 0; $i < count($res); $i++) {
+                if (empty($res[$i]['iss_updated_date'])) {
+                    $res[$i]['iss_updated_date'] = $res[$i]['iss_created_date'];
+                }
+                if (empty($res[$i]['iss_last_response_date'])) {
+                    $res[$i]['iss_last_response_date'] = $res[$i]['iss_created_date'];
+                }
+                $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
+                    'iss_summary'         => $res[$i]['iss_summary'],
+                    'sta_title'           => $res[$i]['sta_title'],
+                    'iss_created_date'    => Date_API::getFormattedDate($res[$i]['iss_created_date']),
+                    'iss_last_response_date'    => Date_API::getFormattedDate($res[$i]['iss_last_response_date']),
+                    'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
+                    'status_color'        => $res[$i]['sta_color'],
+                    'last_update'         => Date_API::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_updated_date'], Date_API::getDefaultTimezone())),
+                    'last_email_response' => Date_API::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_API::getDefaultTimezone()))
+                );
+            }
+            return $issues;
+        }
+    }
+
     /**
      * Method used to get all open issues and group them by user.
      *

@@ -25,6 +25,7 @@ Eventum Issue Tracking System
 - Added Subject based routing (Bryan) (Special thanks to Tibor Gellert)
 - Added feature to allow recipient flags on all notes/emails sent from Eventum even if routing is disabled (Eliot Blennerhassett and Bryan)
 - Added feature to handle emails that don't have a MessageID (Bryan)
+- Added new 'Stalled Issues' report (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
