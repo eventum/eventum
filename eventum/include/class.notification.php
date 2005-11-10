@@ -1524,8 +1524,10 @@ class Notification
                         usr_full_name,
                         pru_role
                      FROM
+                        (
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
+                        )
                      LEFT JOIN
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                      ON
