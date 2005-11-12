@@ -3637,68 +3637,74 @@ class Issue
     {
         // check if a list of issues for this full text search is already cached
         $fulltext_string = Session::get('fulltext_string');
-        $issues = Session::get('fulltext_issues');
         if ((!empty($fulltext_string)) && ($fulltext_string == $options['keywords'])) {
-            return $issues;
+            return Session::get('fulltext_issues');
         }
 
         // no pre-existing list, generate them
-        $sql = "SELECT
-                    distinct(iss_id)
-                FROM
-                   " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                    LEFT JOIN " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note ON
-                        not_iss_id = iss_id
-                    LEFT JOIN " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking ON
-                        ttr_iss_id = iss_id
-                    LEFT JOIN " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support ON
-                        iss_id = phs_iss_id
-                WHERE
-                    (MATCH(iss_summary, iss_description) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE)) OR
-                    (MATCH(not_note) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE)) OR
-                    (MATCH(ttr_summary) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE)) OR
-                    (MATCH(phs_description) AGAINST ('" . $options['keywords'] . "' IN BOOLEAN MODE))";
-        $other_res = $GLOBALS["db_api"]->dbh->getCol($sql);
-        if (PEAR::isError($other_res)) {
-            Error_Handler::logError(array($other_res->getMessage(), $other_res->getDebugInfo()), __FILE__, __LINE__);
+        $stmt = "(SELECT
+                    DISTINCT(iss_id)
+                 FROM
+                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                     MATCH(iss_summary, iss_description) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
+                 ) UNION (
+                 SELECT
+                    DISTINCT(not_iss_id)
+                 FROM
+                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                 WHERE
+                     MATCH(not_note) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
+                 ) UNION (
+                 SELECT
+                    DISTINCT(ttr_iss_id)
+                 FROM
+                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                 WHERE
+                     MATCH(ttr_summary) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
+                 ) UNION (
+                 SELECT
+                    DISTINCT(phs_iss_id)
+                 FROM
+                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
+                 WHERE
+                     MATCH(phs_description) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
+                 ) UNION (
+                 SELECT
+                     DISTINCT(sup_iss_id)
+                 FROM
+                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
+                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
+                 WHERE
+                     sup_id = seb_sup_id AND
+                     MATCH(seb_body) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
+                 )";
+        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array(-1);
+        } else {
+            $stmt = "SELECT
+                        DISTINCT(icf_iss_id)
+                    FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                    WHERE
+                        MATCH (icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
+            $custom_res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+            if (PEAR::isError($email_res)) {
+                Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
+                return array(-1);
+            }
+            $issues = array_merge($res, $custom_res);
+            // we kill the query results on purpose to flag that no 
+            // issues could be found with fulltext search
+            if (count($issues) < 1) {
+                $issues = array(-1);
+            }
+            Session::set('fulltext_string', $options['keywords']);
+            Session::set('fulltext_issues', $issues);
+            return $issues;
         }
-
-        $sql = "SELECT
-                    distinct(sup_iss_id)
-                FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
-                WHERE
-                    sup_id = seb_sup_id AND
-                    MATCH(seb_body) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
-        $email_res = $GLOBALS["db_api"]->dbh->getCol($sql);
-        if (PEAR::isError($email_res)) {
-            Error_Handler::logError(array($email_res->getMessage(), $email_res->getDebugInfo()), __FILE__, __LINE__);
-            return array(-1);
-        }
-
-        $sql = "SELECT
-                    distinct(icf_iss_id)
-                FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
-                WHERE
-                    MATCH(icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
-        $custom_res = $GLOBALS["db_api"]->dbh->getCol($sql);
-        if (PEAR::isError($email_res)) {
-            Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
-            return array(-1);
-        }
-
-        $issues = array_merge($other_res, $email_res, $custom_res);
-        if (count($issues) < 1) {
-            $issues = array(-1);
-        }
-
-        Session::set('fulltext_string', $options['keywords']);
-        Session::set('fulltext_issues', $issues);
-
-        return $issues;
     }
 
 
