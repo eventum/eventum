@@ -135,9 +135,10 @@
                         <span class="default">Customer</span>
                         <input type="hidden" name="role[{$prj_id}]" value="{$roles.customer}">
                         {else}
-                        <select name="role[{$prj_id}]" class="default">
+                        <select name="role[{$prj_id}]" class="default"  {if $current_role < $info.roles.$prj_id.pru_role}disabled{/if}>
                         {html_options options=$project_roles[$prj_id] selected=$info.roles.$prj_id.pru_role}
                         </select>
+                        {if $current_role < $info.roles.$prj_id.pru_role}<input type="hidden" name="role[{$prj_id}]" value="{$info.roles.$prj_id.pru_role}">{/if}
                         {include file="error_icon.tpl.html" field="role[$prj_id]"}
                         {/if}
                       </td>

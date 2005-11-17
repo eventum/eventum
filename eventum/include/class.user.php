@@ -62,7 +62,7 @@ $roles = array(
 class User
 {
     /**
-     * Method used to get the user ID associated with the given customer 
+     * Method used to get the user ID associated with the given customer
      * contact ID.
      *
      * @access  public
@@ -88,7 +88,7 @@ class User
 
 
     /**
-     * Method used to get the account email address associated with the given 
+     * Method used to get the account email address associated with the given
      * customer contact ID.
      *
      * @access  public
@@ -114,7 +114,7 @@ class User
 
 
     /**
-     * Method used to get the SMS email address associated with the given 
+     * Method used to get the SMS email address associated with the given
      * user ID.
      *
      * @access  public
@@ -140,7 +140,7 @@ class User
 
 
     /**
-     * Method used to update the SMS email address associated with the given 
+     * Method used to update the SMS email address associated with the given
      * user ID.
      *
      * @access  public
@@ -288,7 +288,7 @@ class User
 
 
     /**
-     * Method used to create a new user account with pending status and send a 
+     * Method used to create a new user account with pending status and send a
      * confirmation email to the prospective user.
      *
      * @access  public
@@ -434,7 +434,7 @@ class User
 
 
     /**
-     * Method used to check whether an user is set to status active 
+     * Method used to check whether an user is set to status active
      * or not.
      *
      * @access  public
@@ -452,7 +452,7 @@ class User
 
 
     /**
-     * Method used to check whether an user is set to status pending 
+     * Method used to check whether an user is set to status pending
      * or not.
      *
      * @access  public
@@ -470,7 +470,7 @@ class User
 
 
     /**
-     * Method used to get the list of all active users available in the system 
+     * Method used to get the list of all active users available in the system
      * as an associative array of user IDs => user full names.
      *
      * @access  public
@@ -934,7 +934,7 @@ class User
         if ($HTTP_POST_VARS["id"] == APP_SYSTEM_USER_ID) {
             return 1;
         }
-        
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
@@ -1003,7 +1003,7 @@ class User
     function insert()
     {
         global $HTTP_POST_VARS;
-        
+
         $projects = array();
         foreach ($HTTP_POST_VARS["role"] as $prj_id => $role) {
             if ($role < 1) {
@@ -1097,7 +1097,7 @@ class User
 
 
     /**
-     * Method used to get an associative array of the user's email address and 
+     * Method used to get an associative array of the user's email address and
      * user ID.
      *
      * @access  public
@@ -1128,7 +1128,7 @@ class User
 
 
     /**
-     * Method used to get an associative array of the user ID and 
+     * Method used to get an associative array of the user ID and
      * full name of the users available in the system.
      *
      * @access  public
@@ -1188,7 +1188,7 @@ class User
 
 
     /**
-     * Method used to get the appropriate 'From' header for a 
+     * Method used to get the appropriate 'From' header for a
      * specified user.
      *
      * @access  public
@@ -1203,7 +1203,7 @@ class User
 
 
     /**
-     * Returns the list of all users who are currently marked as 
+     * Returns the list of all users who are currently marked as
      * clocked-in.
      *
      * @access  public
@@ -1230,7 +1230,7 @@ class User
 
     /**
      * Marks a user as clocked in.
-     * 
+     *
      * @access  public
      * @param   int $usr_id The id of the user to clock out.
      */
@@ -1253,7 +1253,7 @@ class User
 
     /**
      * Marks a user as clocked out.
-     * 
+     *
      * @access  public
      * @param   integer $usr_id The id of the user to clock out.
      */
@@ -1276,7 +1276,7 @@ class User
 
     /**
      * Returns true if a user is clocked in.
-     * 
+     *
      * @access  public
      * @param   integer $usr_id The id of the user to clock out.
      * @return  boolean True if the user is logged in, false otherwise
@@ -1304,7 +1304,7 @@ class User
 
     /**
      * Sets the group ID
-     * 
+     *
      * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   integer $grp_id The id of the group.
@@ -1316,7 +1316,7 @@ class User
         } else {
             $grp_id = Misc::escapeInteger($grp_id);
         }
-        
+
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET

@@ -72,9 +72,11 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
                 $excluded_roles = array('administrator');
             }
         }
+        if (@$info['roles'][$prj_id]['pru_role'] == User::getRoleID("administrator")) {
+            $excluded_roles = false;
+        }
         $project_roles[$prj_id] = $user_roles = array(0 => "No Access") + User::getRoles($excluded_roles);
     }
-    
     if (@$HTTP_GET_VARS['show_customers'] == 1) {
         $show_customer = true;
     } else {
