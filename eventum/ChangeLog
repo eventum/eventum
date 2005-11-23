@@ -29,6 +29,7 @@ Eventum Issue Tracking System
 - Updated the fulltext search routine to properly use UNIONs and allow MySQL to use the proper indexes when searching (João)
 - Fixed bug on the RSS feed script to avoid an error condition when no issues could be found for a particular saved search (João)
 - Fixed bug that reset Administrators permission level (Bryan)
+- Changed list.php to use relative instead of absolute URL (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
