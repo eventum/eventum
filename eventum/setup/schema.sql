@@ -171,6 +171,7 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_last_internal_action_type varchar(20) default NULL,
   iss_private tinyint(1) NOT NULL default 0,
   iss_percent_complete tinyint(3) unsigned default 0,
+  iss_root_message_id varchar(255),
   PRIMARY KEY  (iss_id),
   KEY iss_prj_id (iss_prj_id),
   KEY iss_prc_id (iss_prc_id),

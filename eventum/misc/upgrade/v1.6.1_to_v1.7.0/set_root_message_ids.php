@@ -1,4 +1,4 @@
-    <?php
+<?php
 /*
  * Runonce script to set iss_root_message_id
  */
