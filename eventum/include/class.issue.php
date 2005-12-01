@@ -998,21 +998,7 @@ class Issue
             $new_issue_id = $GLOBALS["db_api"]->get_last_insert_id();
             // log the creation of the issue
             History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('issue_opened_anon'), 'Issue opened anonymously');
-            // now add the user/issue association
-            $assign = array();
-            $users = @$options["users"];
-            $actions = Notification::getDefaultActions();
-            for ($i = 0; $i < count($users); $i++) {
-                Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i], $actions);
-                Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i]);
-                $assign[] = $users[$i];
-            }
-            Notification::notifyNewAssignment($assign, $new_issue_id);
-            if (count($assign)) {
-                Notification::notifyAssignedUsers($assign, $new_issue_id);
-            }
-            // also notify any users that want to receive emails anytime a new issue is created
-            Notification::notifyNewIssue($HTTP_POST_VARS['project'], $new_issue_id, $assign);
+
             // now process any files being uploaded
             $found = 0;
             for ($i = 0; $i < count(@$HTTP_POST_FILES["file"]["name"]); $i++) {
@@ -1040,6 +1026,23 @@ class Issue
                     Custom_Field::associateIssue($new_issue_id, $fld_id, $value);
                 }
             }
+
+            // now add the user/issue association
+            $assign = array();
+            $users = @$options["users"];
+            $actions = Notification::getDefaultActions();
+            for ($i = 0; $i < count($users); $i++) {
+                Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i], $actions);
+                Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i]);
+                $assign[] = $users[$i];
+            }
+            Notification::notifyNewAssignment($assign, $new_issue_id);
+            if (count($assign)) {
+                Notification::notifyAssignedUsers($assign, $new_issue_id);
+            }
+            // also notify any users that want to receive emails anytime a new issue is created
+            Notification::notifyNewIssue($HTTP_POST_VARS['project'], $new_issue_id, $assign);
+
             return $new_issue_id;
         }
     }
@@ -3701,7 +3704,7 @@ class Issue
                 return array(-1);
             }
             $issues = array_merge($res, $custom_res);
-            // we kill the query results on purpose to flag that no 
+            // we kill the query results on purpose to flag that no
             // issues could be found with fulltext search
             if (count($issues) < 1) {
                 $issues = array(-1);
