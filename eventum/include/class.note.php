@@ -562,7 +562,7 @@ class Note
             } else {
                 $update_type = 'customer action';
             }
-            $res = Support::insertEmail($t, $sup_id);
+            $res = Support::insertEmail($t, $structure, $sup_id);
             if ($res != -1) {
                 Support::extractAttachments($issue_id, $blocked_message);
                 // notifications about new emails are always external

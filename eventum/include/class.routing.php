@@ -229,7 +229,7 @@ class Routing
 
         // re-write Threading headers if needed
         list($t['full_email'], $t['headers']) = Mail_API::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], "email");
-        $res = Support::insertEmail($t, $sup_id);
+        $res = Support::insertEmail($t, $structure, $sup_id);
         if ($res != -1) {
             Support::extractAttachments($issue_id, $full_message);
 

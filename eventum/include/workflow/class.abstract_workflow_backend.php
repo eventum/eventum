@@ -158,9 +158,10 @@ class Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
-     * @param   array $message An array containing the new email
+     * @param   object $message An object containing the new email
+     * @param   array $row The array of data that was inserted into the database.
      */
-    function handleNewEmail($prj_id, $issue_id, $message)
+    function handleNewEmail($prj_id, $issue_id, $message, $row = false)
     {
     }
     

@@ -653,7 +653,7 @@ class Support
                     if (!empty($t['issue_id'])) {
                         list($t['full_email'], $t['headers']) = Mail_API::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
                     }
-                    $res = Support::insertEmail($t, $sup_id);
+                    $res = Support::insertEmail($t, $structure, $sup_id);
                     if ($res != -1) {
                         // only extract the attachments from the email if we are associating the email to an issue
                         if (!empty($t['issue_id'])) {
@@ -907,10 +907,11 @@ class Support
      *
      * @access  public
      * @param   array $row The support email details
+     * @param   object $structure The email structure object
      * @param   integer $sup_id The support ID to be passed out
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    function insertEmail($row, &$sup_id)
+    function insertEmail($row, &$structure, &$sup_id)
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($row['from']));
@@ -995,7 +996,7 @@ class Support
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
-                Workflow::handleNewEmail(Email_Account::getProjectID($row["ema_id"]), @$row["issue_id"], $row);
+                Workflow::handleNewEmail(Email_Account::getProjectID($row["ema_id"]), @$row["issue_id"], $structure, $row);
                 return 1;
             }
         }
@@ -2015,7 +2016,7 @@ class Support
         }
         $structure = Mime_Helper::decode($full_email, true, false);
         $t['headers'] = $structure->headers;
-        $res = Support::insertEmail($t, $sup_id);
+        $res = Support::insertEmail($t, $structure, $sup_id);
         if (!empty($HTTP_POST_VARS["issue_id"])) {
             // need to send a notification
             Notification::notifyNewEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $t, $internal_only, false, $type, $sup_id);
