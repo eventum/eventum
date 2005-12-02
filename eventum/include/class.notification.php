@@ -938,12 +938,14 @@ class Notification
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
+     * @param   array   $exclude_list The list of users NOT to notify.
      * @return  void
      */
-    function notifyNewIssue($prj_id, $issue_id)
+    function notifyNewIssue($prj_id, $issue_id, $exclude_list = array())
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $issue_id = Misc::escapeInteger($issue_id);
+        $exclude_list = Misc::escapeInteger($exclude_list);
 
         // get all users associated with this project
         $stmt = "SELECT
@@ -962,6 +964,10 @@ class Notification
                     usr_id=pru_usr_id AND
                     usr_status = 'active' AND
                     pru_role > " . User::getRoleID("Customer");
+        if (count($exclude_list) > 0) {
+            $stmt .= " AND
+                    usr_id NOT IN (" . join(', ', $exclude_list) . ")";
+        }
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         $emails = array();
         for ($i = 0; $i < count($res); $i++) {
@@ -1030,7 +1036,7 @@ class Notification
         $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
         $subject = 'New Issue';
         $headers = array(
-        "Message-ID"    =>  $data['iss_root_message_id']
+            "Message-ID"    =>  $data['iss_root_message_id']
         );
         Notification::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }
