@@ -135,7 +135,6 @@ class Notification
         // if sender is empty, get project email address
         if (empty($sender)) {
             $project_info = Project::getOutgoingSenderAddress($project_id);
-            print_r($project_info);
             $info = array(
                 "sender_name"   =>  $project_info['name'],
                 'email'         =>  $project_info['email']
