@@ -972,8 +972,9 @@ class Notification
                     || (!empty($res[$i]['usr_customer_contact_id']))) {
                 continue;
             }
-            if ((!empty($res[$i]['usr_preferences']['receive_new_emails'][$prj_id])) &&
-            (@$res[$i]['usr_preferences']['receive_new_emails'][$prj_id]) && (!in_array($subscriber, $emails))) {
+            if ((!empty($res[$i]['usr_preferences']['receive_new_emails'][$prj_id]))
+                    && (@$res[$i]['usr_preferences']['receive_new_emails'][$prj_id])
+                    && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
             }
         }
@@ -988,6 +989,7 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
                  WHERE
+                    isu_iss_id=$issue_id AND
                     usr_id=isu_usr_id AND
                     usr_status = 'active'";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
