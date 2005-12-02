@@ -131,7 +131,18 @@ class Notification
         } else {
             $routing = 'note_routing';
         }
-        $info = Mail_API::getAddressInfo($sender);
+        $project_id = Issue::getProjectID($issue_id);
+        // if sender is empty, get project email address
+        if (empty($sender)) {
+            $project_info = Project::getOutgoingSenderAddress($project_id);
+            print_r($project_info);
+            $info = array(
+                "sender_name"   =>  $project_info['name'],
+                'email'         =>  $project_info['email']
+            );
+        } else {
+            $info = Mail_API::getAddressInfo($sender);
+        }
         $setup = Setup::load();
         // allow flags even without routing enabled
         if (!empty($setup[$routing]['recipient_type_flag'])) {
@@ -141,7 +152,6 @@ class Notification
         }
         if (@$setup[$routing]['status'] != 'enabled') {
             // let's use the custom outgoing sender address
-            $project_id = Issue::getProjectID($issue_id);
             $project_info = Project::getOutgoingSenderAddress($project_id);
             if (empty($project_info['email'])) {
                 /// no project email, use main email address
