@@ -1041,7 +1041,7 @@ class Issue
                 Notification::notifyAssignedUsers($assign, $new_issue_id);
             }
             // also notify any users that want to receive emails anytime a new issue is created
-            Notification::notifyNewIssue($HTTP_POST_VARS['project'], $new_issue_id, $assign);
+            Notification::notifyNewIssue($HTTP_POST_VARS['project'], $new_issue_id);
 
             return $new_issue_id;
         }
@@ -1591,10 +1591,12 @@ class Issue
      */
     function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment, $date, $msg_id)
     {
+        $exclude_list = array();
         $sender_email = Mail_API::getEmailAddress($sender);
         $sender_usr_id = User::getUserIDByEmail($sender_email);
         if (!empty($sender_usr_id)) {
             $reporter = $sender_usr_id;
+            $exclude_list[] = $sender_usr_id;
         } else {
             $reporter = APP_SYSTEM_USER_ID;
         }
@@ -1737,7 +1739,7 @@ class Issue
             // send special 'an issue was auto-created for you' notification back to the sender
             Notification::notifyAutoCreatedIssue($prj_id, $new_issue_id, $sender, $date, $summary);
             // also notify any users that want to receive emails anytime a new issue is created
-            Notification::notifyNewIssue($prj_id, $new_issue_id);
+            Notification::notifyNewIssue($prj_id, $new_issue_id, $exclude_list);
 
             Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
 
