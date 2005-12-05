@@ -3779,6 +3779,40 @@ class Issue
 
 
     /**
+     * Returns true if the specified issue is private, false otherwise
+     *
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     * @return  boolean If the issue is private or not
+     */
+    function isPrivate($issue_id)
+    {
+        static $returns;
+
+        if (!isset($returns[$issue_id])) {
+            $sql = "SELECT
+                        iss_private
+                    FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    WHERE
+                        iss_id=$issue_id";
+            $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return true;
+            } else {
+                if ($res == 1) {
+                    $returns[$issue_id] = true;
+                } else {
+                    $returns[$issue_id] = false;
+                }
+            }
+        }
+        return $returns[$issue_id];
+    }
+
+
+    /**
      * Clears closed information from an issues.
      *
      * @access  public
