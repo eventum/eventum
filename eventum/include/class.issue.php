@@ -3701,7 +3701,7 @@ class Issue
                     WHERE
                         MATCH (icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
             $custom_res = $GLOBALS["db_api"]->dbh->getCol($stmt);
-            if (PEAR::isError($email_res)) {
+            if (PEAR::isError($custom_res)) {
                 Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
                 return array(-1);
             }
