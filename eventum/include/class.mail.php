@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 //
@@ -41,7 +41,7 @@ include_once(APP_INC_PATH . "class.reminder.php");
  * different platforms.
  *
  * @version 1.0
- * @author Jo„o Prado Maia <jpm@mysql.com>
+ * @author Jo√£o Prado Maia <jpm@mysql.com>
  */
 
 class Mail_API
@@ -85,16 +85,21 @@ class Mail_API
     /**
      * Believe it or not, this is a method that will remove excess occurrences
      * of 'Re:' that commonly are found in email subject lines.
+     * If the second parameter is true, issue #'s will also be stripped.
      *
      * @access  public
      * @param   string $subject The subject line
+     * @param   boolean $remove_issue_id If the issue ID should be removed
      * @return  string The subject line with the extra occurrences removed from it
      */
-    function removeExcessRe($subject)
+    function removeExcessRe($subject, $remove_issue_id = false)
     {
-        $re_pattern = "/^(([Rr][Ee][Ss]?|ŒÚ‚ÂÚ|Antwort|SV|[Aa][Ww])(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
-        if (preg_match($re_pattern, $subject)) {
-            $subject = preg_replace($re_pattern, 'Re: $4', $subject);
+        if ($remove_issue_id) {
+            $subject = trim(preg_replace("/\[#\d+\] {0,1}/", '', $subject));
+        }
+        $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|√é√≤√¢√•√≤|Antwort|SV|[Aa][Ww])(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
+        if (preg_match($re_pattern, $subject, $matches)) {
+            $subject = preg_replace($re_pattern, '$1Re: $5', $subject);
             return Mail_API::removeExcessRe($subject);
         } else {
             return $subject;

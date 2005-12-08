@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 // @(#) $Id: s.class.support.php 1.79 04/01/23 21:47:17-00:00 jpradomaia $
@@ -121,9 +121,7 @@ class Routing
             return array(78, "Error: Please configure the email address domain.\n");
         }
         $structure = Mime_Helper::decode($full_message, true, true);
-        // remove extra 'Re: ' from subject
-        @$structure->headers['subject'] = Mail_API::removeExcessRe($structure->headers['subject']);
-        
+
         // find which issue ID this email refers to
         @preg_match("/$prefix(\d*)@$mail_domain/i", $structure->headers['to'], $matches);
         @$issue_id = $matches[1];
@@ -204,7 +202,7 @@ class Routing
             'from'           => @$structure->headers['from'],
             'to'             => @$structure->headers['to'],
             'cc'             => @$structure->headers['cc'],
-            'subject'        => @$structure->headers['subject'],
+            'subject'        => Mail_API::removeExcessRe(@$structure->headers['subject'], true),
             'body'           => @$body,
             'full_email'     => @$full_message,
             'has_attachment' => $has_attachments,
