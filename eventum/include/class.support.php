@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo�o Prado Maia <jpm@mysql.com>                             |
+// | Authors: JoÃ£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 
@@ -46,7 +46,7 @@ include_once(APP_INC_PATH . "class.routing.php");
  * the application.
  *
  * @version 1.0
- * @author Jo�o Prado Maia <jpm@mysql.com>
+ * @author JoÃ£o Prado Maia <jpm@mysql.com>
  */
 
 class Support
@@ -1470,7 +1470,7 @@ class Support
             $res["sup_date"] = Date_API::getFormattedDate($res["sup_date"]);
             $res["sup_subject"] = Mime_Helper::fixEncoding($res["sup_subject"]);
             // remove extra 'Re: ' from subject
-            $res['reply_subject'] = Mail_API::removeExcessRe('Re: ' . $res["sup_subject"]);
+            $res['reply_subject'] = Mail_API::removeExcessRe('Re: ' . $res["sup_subject"], true);
             $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
             $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);
 
@@ -1911,7 +1911,7 @@ class Support
 
 
         // remove extra 'Re: ' from subject
-        $HTTP_POST_VARS['subject'] = Mail_API::removeExcessRe($HTTP_POST_VARS['subject']);
+        $HTTP_POST_VARS['subject'] = Mail_API::removeExcessRe($HTTP_POST_VARS['subject'], true);
         $internal_only = false;
         $message_id = Mail_API::generateMessageID();
         // hack needed to get the full headers of this web-based email
@@ -2400,7 +2400,7 @@ class Support
             $HTTP_POST_VARS['from'] = $sender_email;
 
             // avoid having this type of message re-open the issue
-            if (Mail_API::isVacationAutoResponder($email['full_email'])) {
+            if (Mail_API::isVacationAutoResponder($email['headers'])) {
                 $email_type = 'vacation-autoresponder';
             } else {
                 $email_type = 'routed';
@@ -2408,12 +2408,12 @@ class Support
             Workflow::handleBlockedEmail($prj_id, $issue_id, $HTTP_POST_VARS, $email_type);
 
             // try to get usr_id of sender, if not, use system account
-            $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($email['full_email']['from']));
+            $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($email['from']));
             if (!$usr_id) {
                 $usr_id = APP_SYSTEM_USER_ID;
             }
             // log blocked email
-            History::add($issue_id, $usr_id, History::getTypeID('email_blocked'), "Email from '" . $email['full_email']['from'] . "' blocked.");
+            History::add($issue_id, $usr_id, History::getTypeID('email_blocked'), "Email from '" . $email['from'] . "' blocked.");
             return true;
         }
         return false;
