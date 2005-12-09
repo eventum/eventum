@@ -6,7 +6,7 @@ function isValidDate(f, field_prefix)
     selected_date.setMonth(getSelectedOption(f, field_prefix + '[Month]')-1);
     selected_date.setDate(getSelectedOption(f, field_prefix + '[Day]'));
     selected_date.setYear(getSelectedOption(f, field_prefix + '[Year]'));
-    
+
     if (selected_date.getDate() != getSelectedOption(f, field_prefix + '[Day]')) {
         return false;
     } else {
@@ -224,7 +224,7 @@ function checkRequiredCustomFields(f, required_fields)
         if ((field != false) && (field.parentNode.parentNode.style.display == 'none')) {
             continue;
         }
-        
+
         if (required_fields[i].value == 'combo') {
             if (getSelectedOption(f, field.name) == '-1') {
                 errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text), required_fields[i].text);
@@ -306,6 +306,9 @@ function getSelectedOption(f, field_name)
     for (var i = 0; i < f.elements.length; i++) {
         if (f.elements[i].name == field_name) {
             if (f.elements[i].options.length > 0) {
+                if (f.elements[i].selectedIndex == -1) {
+                    return -1;
+                }
                 return f.elements[i].options[f.elements[i].selectedIndex].value;
             } else {
                 return -1;
