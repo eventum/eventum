@@ -30,7 +30,7 @@ class Workflow
 {
     /**
      * Returns a list of backends available
-     * 
+     *
      * @access  public
      * @return  array An array of workflow backends
      */
@@ -62,11 +62,11 @@ class Workflow
     function _getBackendNameByProject($prj_id)
     {
         static $backends;
-        
+
         if (isset($backends[$prj_id])) {
             return $backends[$prj_id];
         }
-        
+
         $stmt = "SELECT
                     prj_id,
                     prj_workflow_backend
@@ -104,9 +104,9 @@ class Workflow
             }
             $file_name_chunks = explode(".", $backend_class);
             $class_name = $file_name_chunks[1] . "_Workflow_Backend";
-            
+
             include_once(APP_INC_PATH . "workflow/$backend_class");
-            
+
             $setup_backends[$prj_id] = new $class_name;
         }
         return $setup_backends[$prj_id];
@@ -310,11 +310,11 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleNewNote($prj_id, $issue_id, $usr_id, $closing);
     }
-    
-    
+
+
     /**
      * Method is called to return the list of statuses valid for a specific issue.
-     * 
+     *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @return  array An associative array of statuses valid for this issue.
@@ -327,11 +327,11 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->getAllowedStatuses($prj_id, $issue_id);
     }
-    
-    
+
+
     /**
      * Called when issue is closed.
-     * 
+     *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   boolean $send_notification Whether to send a notification about this action or not
@@ -348,11 +348,11 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         $backend->handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason);
     }
-    
-    
+
+
     /**
      * Called when custom fields are updated
-     * 
+     *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
      * @param   array $old The custom fields before the update.
@@ -366,12 +366,12 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new);
     }
-    
-    
+
+
     /**
      * Called when an attempt is made to add a user or email address to the
-     * notification list. 
-     * 
+     * notification list.
+     *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $subscriber_usr_id The ID of the user to subscribe if this is a real user (false otherwise).
@@ -391,7 +391,7 @@ class Workflow
 
     /**
      * Called when SCM checkin is associated.
-     * 
+     *
      * @param   integer $prj_id The project ID.
      * @param   integer $issue_id The ID of the issue.
      * @param   string $module The SCM module commit was made.
@@ -408,11 +408,11 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg);
     }
-    
-    
+
+
     /**
      * Determines if the address should should be emailed.
-     * 
+     *
      * @param   integer $prj_id The project ID.
      * @param   string $address The email address to check
      * @return  boolean
@@ -425,6 +425,24 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->shouldEmailAddress($prj_id, $address);
    }
+
+
+    /**
+     * Returns additional email addresses that should be notified for a specific event..
+     *
+     * @param    integer $prj_id The project ID.
+     * @param    integer $issue_id The ID of the issue.
+     * @param    string  $event The event to return additional email addresses for. Currently only "new_issue" is supported.
+     * @return   array   An array of email addresses to be notified.
+     */
+    function getAdditionalEmailAddresses($prj_id, $issue_id, $event)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return array();
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->getAdditionalEmailAddresses($prj_id, $issue_id, $event);
+    }
 }
 
 

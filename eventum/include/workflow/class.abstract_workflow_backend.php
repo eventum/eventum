@@ -29,14 +29,14 @@
 /**
  * Abstract Class that all workflow backends should extend. This is so any new
  * workflow methods added in future releases will not break current backends.
- * 
+ *
  * @author  Bryan Alsdorf <bryan@mysql.com>
  */
 class Abstract_Workflow_Backend
 {
     /**
      * Called when an issue is updated.
-     * 
+     *
      * @param integer $prj_id The project ID.
      * @param integer $issue_id The ID of the issue.
      * @param integer $usr_id The ID of the user.
@@ -139,7 +139,7 @@ class Abstract_Workflow_Backend
     {
     }
 
-    
+
 
     /**
      * Called when an email is associated with an issue.
@@ -154,7 +154,7 @@ class Abstract_Workflow_Backend
 
 
     /**
-     * Called when a new message is recieved. 
+     * Called when a new message is recieved.
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
@@ -164,11 +164,11 @@ class Abstract_Workflow_Backend
     function handleNewEmail($prj_id, $issue_id, $message, $row = false)
     {
     }
-    
-    
+
+
     /**
      * Method is called to return the list of statuses valid for a specific issue.
-     * 
+     *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
      * @return  array An associative array of statuses valid for this issue.
@@ -177,11 +177,11 @@ class Abstract_Workflow_Backend
     {
         return Status::getAssocStatusList($prj_id);
     }
-    
-    
+
+
     /**
      * Called when issue is closed.
-     * 
+     *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   boolean $send_notification Whether to send a notification about this action or not
@@ -193,11 +193,11 @@ class Abstract_Workflow_Backend
     function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason)
     {
     }
-    
-    
+
+
     /**
      * Called when custom fields are updated
-     * 
+     *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
      * @param   array $old The custom fields before the update.
@@ -211,12 +211,12 @@ class Abstract_Workflow_Backend
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new);
     }
-    
-    
+
+
     /**
      * Called when an attempt is made to add a user or email address to the
-     * notification list. 
-     * 
+     * notification list.
+     *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $subscriber_usr_id The ID of the user to subscribe if this is a real user (false otherwise).
@@ -232,7 +232,7 @@ class Abstract_Workflow_Backend
 
     /**
      * Called when SCM checkin is associated.
-     * 
+     *
      * @param   integer $prj_id The project ID.
      * @param   integer $issue_id The ID of the issue.
      * @param   string $module The SCM module commit was made.
@@ -244,11 +244,11 @@ class Abstract_Workflow_Backend
     function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
     {
     }
-    
-    
+
+
     /**
      * Determines if the address should should be emailed.
-     * 
+     *
      * @param   integer $prj_id The project ID
      * @param   string $address The email address to check
      * @return  boolean
@@ -256,6 +256,20 @@ class Abstract_Workflow_Backend
     function shouldEmailAddress($prj_id, $address)
     {
         return true;
+    }
+
+
+    /**
+     * Returns additional email addresses that should be notified for a specific event..
+     *
+     * @param    integer $prj_id The project ID.
+     * @param    integer $issue_id The ID of the issue.
+     * @param    string  $event The event to return additional email addresses for. Currently only "new_issue" is supported.
+     * @return   array   An array of email addresses to be notified.
+     */
+    function getAdditionalEmailAddresses($prj_id, $issue_id, $event)
+    {
+        return array();
     }
 }
 ?>
