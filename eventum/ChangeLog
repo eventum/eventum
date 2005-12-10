@@ -31,6 +31,7 @@ Eventum Issue Tracking System
 - Fixed bug that reset Administrators permission level (Bryan)
 - Changed list.php to use relative instead of absolute URL (Bryan)
 - Fixed bug with custom fields not showing up on new issue email from anonymous report form (Bryan)
+- Added new workflow method to notify additional email addresses when a new issue is created (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
