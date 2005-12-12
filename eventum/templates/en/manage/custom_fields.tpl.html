@@ -168,7 +168,7 @@
               {/literal}
               var selected_projects = new Array();
               {foreach from=$info.projects item=prj_id}
-              selected_projects[selected_projects.length] = new Option('{$project_list[$prj_id]}', {$prj_id});
+              selected_projects[selected_projects.length] = new Option("{$project_list[$prj_id]}", {$prj_id});
               {/foreach}
               //-->
               </script>
@@ -251,9 +251,9 @@
                 </td>
                 <td bgcolor="{$light_color}">
                   <span class="default">
-                  <input type="radio" name="list_display" value="1" {if $info.fld_list_display == 1}checked{/if}> 
+                  <input type="radio" name="list_display" value="1" {if $info.fld_list_display == 1}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'list_display', 0);">Yes</a>
-                  <input type="radio" name="list_display" value="0" {if $info.fld_list_display != 1}checked{/if}> 
+                  <input type="radio" name="list_display" value="0" {if $info.fld_list_display != 1}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'list_display', 1);">No</a>
                   </span>
                 </td>
