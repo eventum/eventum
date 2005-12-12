@@ -126,6 +126,7 @@ class Notification
      */
     function getFixedFromHeader($issue_id, $sender, $type)
     {
+        $setup = Setup::load();
         if ($type == 'issue') {
             $routing = 'email_routing';
         } else {
@@ -139,10 +140,15 @@ class Notification
                 "sender_name"   =>  $project_info['name'],
                 'email'         =>  $project_info['email']
             );
+
+            // if no project name, use eventum wide sender name
+            if (empty($info['sender_name'])) {
+                $setup_sender_info = Mail_API::getAddressInfo($setup['smtp']['from']);
+                $info['sender_name'] = $setup_sender_info['sender_name'];
+            }
         } else {
             $info = Mail_API::getAddressInfo($sender);
         }
-        $setup = Setup::load();
         // allow flags even without routing enabled
         if (!empty($setup[$routing]['recipient_type_flag'])) {
             $flag = '[' . $setup[$routing]['recipient_type_flag'] . '] ';
@@ -917,7 +923,7 @@ class Notification
 
                 $from = Notification::getFixedFromHeader($issue_id, $sender, 'note');
             } else {
-                $from = Notification::getFixedFromHeader($issue_id, $setup['smtp']['from'], 'issue');
+                $from = Notification::getFixedFromHeader($issue_id, '', 'issue');
             }
             // show the title of the note, not the issue summary
             if ($type == 'notes') {
