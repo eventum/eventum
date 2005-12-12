@@ -1547,10 +1547,11 @@ class Custom_Field
             $file_name_chunks = explode(".", $res);
             $class_name = $file_name_chunks[1] . "_Custom_Field_Backend";
 
-            return new $class_name;
+            $returns[$fld_id] = new $class_name;
         } else {
-            return false;
+            $returns[$fld_id] = false;
         }
+        return $returns[$fld_id];
     }
 
 
