@@ -1504,7 +1504,7 @@ class Notification
      * @param   integer $issue_id The issue ID
      * @param   integer $type The type of subscription
      * @param   integer $min_role Only show subscribers with this role or above
-     * @return  string The list of subscribers, separated by commas
+     * @return  array An array containing 2 elements. Each a list of subscribers, separated by commas
      */
     function getSubscribers($issue_id, $type = false, $min_role = false)
     {
@@ -1521,7 +1521,7 @@ class Notification
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,he
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     sub_id = sbt_sub_id AND
