@@ -1521,7 +1521,7 @@ class Notification
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,he
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                  WHERE
                     sub_id = sbt_sub_id AND
