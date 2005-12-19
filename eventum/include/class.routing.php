@@ -194,6 +194,9 @@ class Routing
             @$structure->headers['cc'] = join(', ', $ccs);
         }
 
+        // Remove excess Re's
+        @$structure->headers['subject'] = Mail_API::removeExcessRe(@$structure->headers['subject'], true);
+
         $t = array(
             'issue_id'       => $issue_id,
             'ema_id'         => $email_account_id,
@@ -202,7 +205,7 @@ class Routing
             'from'           => @$structure->headers['from'],
             'to'             => @$structure->headers['to'],
             'cc'             => @$structure->headers['cc'],
-            'subject'        => Mail_API::removeExcessRe(@$structure->headers['subject'], true),
+            'subject'        => @$structure->headers['subject'],
             'body'           => @$body,
             'full_email'     => @$full_message,
             'has_attachment' => $has_attachments,
