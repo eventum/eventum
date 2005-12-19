@@ -14,7 +14,7 @@ function addFileRow(element_name, field_name)
         return;
     }
     rows = fileTable.rows.length;
-    
+
     // check if last box is empty and if it is, don't add another
     if (document.all) {
         var last_field = document.all[field_name + '_' + rows];
@@ -24,7 +24,7 @@ function addFileRow(element_name, field_name)
     if (last_field && last_field.value == '') {
         return;
     }
-    
+
     newRow = fileTable.insertRow(rows);
     cell = newRow.insertCell(0);
     if (document.all) {
@@ -76,8 +76,8 @@ function str_replace(s, srch, rplc)
     var tmp_output = new String();
     var int_before = 0;
     var int_after = 0;
-  
-    while (tmp.toUpperCase().indexOf(srch.toUpperCase()) > -1) {   
+
+    while (tmp.toUpperCase().indexOf(srch.toUpperCase()) > -1) {
         int_before = tmp.toUpperCase().indexOf(srch.toUpperCase());
         tmp_before = tmp.substring(0, int_before);
         tmp_output = tmp_output + tmp_before;
@@ -85,7 +85,7 @@ function str_replace(s, srch, rplc)
         int_after = tmp.length - srch.length + 1;
         tmp = tmp.substring(int_before + srch.length);
     }
-  
+
     return tmp_output + tmp;
 }
 
@@ -128,7 +128,7 @@ function replaceWordsOnLine(str, original, replacement)
 {
     var words = str.split(' ');
     for (var i = 0; i < words.length; i++) {
-        words[i] = words[i].replace(/^\s*/, '').replace(/\s*$/, ''); 
+        words[i] = words[i].replace(/^\s*/, '').replace(/\s*$/, '');
         if (words[i] == original) {
             words[i] = replacement;
         }
@@ -208,7 +208,7 @@ function hideComboBoxes(except_field)
     for (var i = 0; i < document.forms.length; i++) {
         for (var y = 0; y < document.forms[i].elements.length; y++) {
             if (((document.forms[i].elements[y].type == 'select-one') ||
-                 (document.forms[i].elements[y].type == 'select-multiple')) && 
+                 (document.forms[i].elements[y].type == 'select-multiple')) &&
                     (document.forms[i].elements[y].name != except_field) &&
                     (document.forms[i].elements[y].name != 'lookup') &&
                     (document.forms[i].elements[y].name != 'lookup[]')) {
@@ -223,7 +223,7 @@ function showComboBoxes()
     for (var i = 0; i < document.forms.length; i++) {
         for (var y = 0; y < document.forms[i].elements.length; y++) {
             if (((document.forms[i].elements[y].type == 'select-one') ||
-                 (document.forms[i].elements[y].type == 'select-multiple')) && 
+                 (document.forms[i].elements[y].type == 'select-multiple')) &&
                     (document.forms[i].elements[y].name != 'lookup') &&
                     (document.forms[i].elements[y].name != 'lookup[]')) {
                 document.forms[i].elements[y].style.visibility = 'visible';
@@ -263,7 +263,11 @@ function lookupOption(f, target_form, target_field)
                 clearSelectedOptions(target);
                 selectOptions(w.forms[i], target_field, getSelectedItems(field));
             } else {
-                selectOption(w.forms[i], target_field, getSelectedOption(f, 'lookup'));
+                options = getSelectedOption(f, 'lookup');
+                if (options == -1) {
+                    return false;
+                }
+                selectOption(w.forms[i], target_field, options);
             }
             nd();
             showComboBoxes();
@@ -349,7 +353,7 @@ function lookupField(f, search_field, field_name, callbacks)
                 return true;
             }
         } else {
-            // normal drop-down boxes will search across the option value, and 
+            // normal drop-down boxes will search across the option value, and
             // not just the beginning of it (i.e. '*hello*' instead of 'hello*')
             if (value.indexOf(search.toUpperCase()) != -1) {
                 target_field.options[i].selected = true;
@@ -688,7 +692,7 @@ function setCookie(name, value, expires, path, domain, secure)
 {
     document.cookie = name + "=" +escape(value) +
         ( (expires) ? ";expires=" + expires.toGMTString() : "") +
-        ( (path) ? ";path=" + path : "") + 
+        ( (path) ? ";path=" + path : "") +
         ( (domain) ? ";domain=" + domain : "") +
         ( (secure) ? ";secure" : "");
 }
@@ -773,7 +777,7 @@ function getEventTarget(e)
 	else if (e.srcElement) targ = e.srcElement;
 	if (targ.nodeType == 3) // defeat Safari bug
 		targ = targ.parentNode;
-    
+
     return targ;
 }
 //-->
