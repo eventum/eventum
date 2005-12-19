@@ -55,7 +55,7 @@ if (Customer::hasCustomerIntegration($prj_id)) {
     if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
         $customer_id = User::getCustomerID($usr_id);
         // check if the current customer has already redeemed all available per-incident tickets
-        if ((empty($HTTP_POST_VARS['cat'])) && (Customer::hasPerIncidentContract($prj_id, $customer_id)) && 
+        if ((empty($HTTP_POST_VARS['cat'])) && (Customer::hasPerIncidentContract($prj_id, $customer_id)) &&
                 (!Customer::hasIncidentsLeft($prj_id, $customer_id))) {
             // show warning about per-incident limitation
             $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/incident_limit_reached.tpl.html");
@@ -70,7 +70,7 @@ if (Customer::hasCustomerIntegration($prj_id)) {
 if (@$HTTP_POST_VARS["cat"] == "report") {
     $res = Issue::insert();
     if ($res != -1) {
-        // show direct links to the issue page, issue listing page and 
+        // show direct links to the issue page, issue listing page and
         // email listing page
         $tpl->assign("new_issue_id", $res);
         $tpl->assign("quarantine", Issue::getQuarantineInfo($res));
@@ -98,7 +98,7 @@ if (@$HTTP_GET_VARS["cat"] == "associate") {
                 'contacts'      => $info['contacts']
             ));
         }
-        // if we are dealing with just one message, use the subject line as the 
+        // if we are dealing with just one message, use the subject line as the
         // summary for the issue, and the body as the description
         if (count($HTTP_GET_VARS["item"]) == 1) {
             $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($HTTP_GET_VARS["item"][0]), $HTTP_GET_VARS["item"][0]);

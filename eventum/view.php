@@ -85,7 +85,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         } else {
             $options = Issue::saveSearchParams();
             $sides = Issue::getSides($issue_id, $options);
-            
+
             // check if scheduled release should be displayed
             $releases = Release::getAssocList($prj_id);
             if (count($releases) > 0) {
@@ -101,7 +101,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
             } else {
                 $show_category = 0;
             }
-            
+
             $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
             if (!empty($cookie['auto_switched_from'])) {
                 $tpl->assign(array(
