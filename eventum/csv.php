@@ -35,6 +35,13 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $csv = base64_decode($HTTP_POST_VARS["csv_data"]);
 
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
+header("Pragma: no-cache");
+header("Content-Type: application/vnd.ms-excel");
+header("Content-Disposition: attachment; filename=".uniqid('').'.xls');
+header("Expires: 0");
+header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
 header("Content-Type: application/vnd.ms-excel");
 header("Content-Disposition: \"inline\"");
 header("Content-Length: " . strlen($csv));
