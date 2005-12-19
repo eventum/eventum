@@ -22,7 +22,7 @@
         <tr>
           <td class="default">
             {if $errors|@count == 0}
-            <b>Thank you, the new issue was created successfully. Please choose 
+            <b>Thank you, the new issue was created successfully. Please choose
             from one of the options below:</b>
             {else}
                 Thank you, the new issue was created successfully. <br />
@@ -50,7 +50,7 @@
         <tr>
             <td align="center" class="default" colspan="2">
                 <br />
-                <b><span style="color: red">Warning: your issue is currently quarantined. 
+                <b><span style="color: red">Warning: your issue is currently quarantined.
                 Please see the <a href="faq.php">FAQ</a> for information regarding quarantined issues.
                 </b>
                 <br /><br />
@@ -112,10 +112,10 @@ function validateForm(f)
     if (isWhitespace(f.summary.value)) {
         errors[errors.length] = new Option('Summary', 'summary');
     }
-    
+
     // replace special characters in description
     replaceSpecialCharacters(f.description);
-    
+
     if (isWhitespace(f.description.value)) {
         errors[errors.length] = new Option('Initial Description', 'description');
     }
@@ -131,7 +131,7 @@ function validateForm(f)
     {/if}
     {literal}
     checkRequiredCustomFields(f, required_custom_fields);
-    
+
     // check customer fields (if function exists
     if (window.validateCustomer) {
         validateCustomer(f);
@@ -252,7 +252,7 @@ function validateForm(f)
         {if $groups|@count > 0 && $current_role >= $field_display_settings.group}
         <tr>
           <td width="150" bgcolor="{if $field_display_settings.assignment > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
-            <b>Group: 
+            <b>Group:
           </td>
           <td bgcolor="{$light_color}">
             {if $new_issue_id == ''}
@@ -355,9 +355,9 @@ function validateForm(f)
           </td>
           <td bgcolor="{$light_color}">
             {if $custom_fields[i].fld_type == 'text'}
-            <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" tabindex="{$tabindex++}" value="{$smarty.get.custom_fields[$fld_id]}">
+            <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]}">
             {elseif $custom_fields[i].fld_type == 'textarea'}
-            <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}"></textarea>
+            <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$smarty.request.custom_fields[$fld_id]}</textarea>
             {elseif $custom_fields[i].fld_type == 'date'}
             {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" month_empty='' time='--' display_years=false display_days=false month_extra="id=\"custom_field_`$custom_field_id`_month\" tabindex=\"`$tabindex++`\""}
             {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Month]"}
@@ -368,7 +368,7 @@ function validateForm(f)
             {else}
             <select id="custom_field_{$custom_fields[i].fld_id}" {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if} class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" tabindex="{$tabindex++}">
               {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">Please choose an option</option>{/if}
-              {html_options options=$custom_fields[i].field_options}
+              {html_options options=$custom_fields[i].field_options selected=$smarty.request.custom_fields[$fld_id]}
             </select>
             {/if}
             {if $custom_fields[i].dynamic_options|@count > 0}
@@ -388,7 +388,7 @@ function validateForm(f)
         {/section}
         {if $has_customer_integration}
         {include file="customer/$customer_backend_name/report_form_fields.tpl.html"}
-        
+
         {* set tab index very high now to account for inputs in customer file *}
         {assign var="tabindex" value=$tabindex+30}
         {/if}
