@@ -31,7 +31,7 @@
 /**
  * Class to handle determining which columns should be displayed and in what order
  * on a page (i.e. Issue Listing page).
- * 
+ *
  * @author Bryan Alsdorf <bryan@mysql.com>
  * @version 1.0
  */
@@ -42,7 +42,7 @@ class Display_Column
      * Returns the columns that should be displayed for the specified page.
      * This method will remove columns that should not be displayed, due to
      * lack of customer integration or insufficient role.
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The ID of the project.
      * @param   string $page The page to return columns for.
@@ -101,7 +101,7 @@ class Display_Column
     /**
      * Returns the columns that have been selected to be displayed on the specified page. This list
      * contains all selected columns, even if they won't actually be displayed.
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The ID of the project.
      * @param   string $page The page to return columns for.
@@ -127,7 +127,7 @@ class Display_Column
                     ctd_page = '$page'
                 ORDER BY
                     ctd_rank";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt, '', '', DB_FETCHMODE_ASSOC);
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -145,7 +145,7 @@ class Display_Column
 
     /**
      * Returns the info of the column
-     * 
+     *
      * @access  public
      * @param   string $page The name of the page.
      * @param   string $column The name of the column
@@ -160,7 +160,7 @@ class Display_Column
 
     /**
      * Returns all columns available for a page
-     * 
+     *
      * @access  public
      * @param   string $page The name of the page
      * @return  array An array of columns
@@ -232,7 +232,7 @@ class Display_Column
 
     /**
      * Saves settings on which columns should be displayed.
-     * 
+     *
      * @access  public
      * @return  integer 1 if settings were saved successfully, -1 if there was an error.
      */
@@ -240,10 +240,10 @@ class Display_Column
     {
         $page = Misc::escapeString($_REQUEST['page']);
         $prj_id = Misc::escapeInteger($_REQUEST['prj_id']);
-        
+
         $ranks = $_REQUEST['rank'];
         asort($ranks);
-        
+
         // delete current entries
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "columns_to_display
@@ -278,7 +278,7 @@ class Display_Column
 
     /**
      * Adds records in database for new project.
-     * 
+     *
      * @param   integer $prj_id The ID of the project.
      */
     function setupNewProject($prj_id)
