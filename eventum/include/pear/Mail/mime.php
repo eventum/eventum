@@ -295,7 +295,8 @@ class Mail_mime
         if (is_object($obj)) {
             return $obj->addSubpart($text, $params);
         } else {
-            return new Mail_mimePart($text, $params);
+            $tmp = new Mail_mimePart($text, $params);
+            return $tmp;
         }
     }
 
@@ -567,7 +568,8 @@ class Mail_mime
         }
         $this->_headers = array_merge($headers, $this->_headers);
 
-        return $this->_encodeHeaders($this->_headers);
+        $tmp = $this->_encodeHeaders($this->_headers);
+        return $tmp;
     }
 
     /**
@@ -590,7 +592,7 @@ class Mail_mime
 
     /**
     * Sets the Subject header
-    * 
+    *
     * @param  string $subject String to set the subject to
     * access  public
     */
@@ -641,7 +643,7 @@ class Mail_mime
             $this->_headers['Bcc'] = $email;
         }
     }
-    
+
     /**
     * Encodes a header as per RFC2047
     *
@@ -659,7 +661,7 @@ class Mail_mime
             }
             $input[$hdr_name] = $hdr_value;
         }
-        
+
         return $input;
     }
 
