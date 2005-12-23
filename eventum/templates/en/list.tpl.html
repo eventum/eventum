@@ -16,7 +16,7 @@ var last_page = '{$list_info.last_page}';
 function toggleBulkUpdate()
 {
     var items = document.getElementsByName('item[]');
-    
+
     // loop through looking to see which are checked
     var show = false;
     for (var i = 0; i < items.length; i++) {
@@ -45,7 +45,7 @@ function bulkUpdate()
         alert('Please choose which issues to update.');
         return false;
     }
-    
+
     // figure out what is changing
     var changed = new Array();
     if (hasOneSelected(f, 'users[]')) {
@@ -56,6 +56,12 @@ function bulkUpdate()
     }
     if ((f.elements.release) && (f.elements.release.selectedIndex != 0)) {
         changed[changed.length] = 'Release';
+    }
+    if ((f.elements.priority) && (f.elements.priority.selectedIndex != 0)) {
+        changed[changed.length] = 'Priority';
+    }
+    if ((f.elements.category) && (f.elements.category.selectedIndex != 0)) {
+        changed[changed.length] = 'Category';
     }
     if (changed.length < 1) {
         alert('Please choose new values for the select issues');

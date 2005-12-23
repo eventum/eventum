@@ -516,6 +516,118 @@ class Issue
 
 
     /**
+     * Method used to set the priority of an issue
+     *
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     * @param   integer $pri_id The ID of the priority to set this issue too
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    function setPriority($issue_id, $pri_id)
+    {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $pri_id = Misc::escapeInteger($pri_id);
+
+        if ($pri_id != Issue::getPriority($issue_id)) {
+            $sql = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    SET
+                        iss_pri_id = $pri_id
+                    WHERE
+                        iss_id = $issue_id";
+            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+
+
+    /**
+     * Returns the current issue priority
+     *
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     * @return  integer The priority
+     */
+    function getPriority($issue_id)
+    {
+        $sql = "SELECT
+                    iss_pri_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    iss_id = " . Misc::escapeInteger($issue_id);
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to set the category of an issue
+     *
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     * @param   integer $prc_id The ID of the category to set this issue too
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    function setCategory($issue_id, $prc_id)
+    {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $prc_id = Misc::escapeInteger($prc_id);
+
+        if ($prc_id != Issue::getPriority($issue_id)) {
+            $sql = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    SET
+                        iss_prc_id = $prc_id
+                    WHERE
+                        iss_id = $issue_id";
+            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+
+
+    /**
+     * Returns the current issue category
+     *
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     * @return  integer The category
+     */
+    function getCategory($issue_id)
+    {
+        $sql = "SELECT
+                    iss_prc_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    iss_id = " . Misc::escapeInteger($issue_id);
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get all issues associated with a status that doesn't have
      * the 'closed' context.
      *
@@ -1036,12 +1148,11 @@ class Issue
                 Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i]);
                 $assign[] = $users[$i];
             }
-            Notification::notifyNewAssignment($assign, $new_issue_id);
-            if (count($assign)) {
-                Notification::notifyAssignedUsers($assign, $new_issue_id);
-            }
+
             // also notify any users that want to receive emails anytime a new issue is created
             Notification::notifyNewIssue($HTTP_POST_VARS['project'], $new_issue_id);
+
+            Workflow::handleNewIssue(Misc::escapeInteger($HTTP_POST_VARS["project"]),  $new_issue_id, false, false);
 
             return $new_issue_id;
         }
@@ -3150,6 +3261,8 @@ class Issue
         $items = Misc::escapeInteger($HTTP_POST_VARS['item']);
         $new_status_id = Misc::escapeInteger($_POST['status']);
         $new_release_id = Misc::escapeInteger($_POST['release']);
+        $new_priority_id = Misc::escapeInteger($_POST['priority']);
+        $new_category_id = Misc::escapeInteger($_POST['category']);
 
         for ($i = 0; $i < count($items); $i++) {
             if (!Issue::canAccess($items[$i], Auth::getUserID())) {
@@ -3227,6 +3340,24 @@ class Issue
                 $res = Issue::setRelease($items[$i], $new_release_id);
                 if ($res == 1) {
                     $updated_fields['Release'] = History::formatChanges(Release::getTitle($old_release_id), Release::getTitle($new_release_id));
+                }
+            }
+
+            // update priority
+            if (!empty($new_priority_id)) {
+                $old_priority_id = Issue::getPriority($items[$i]);
+                $res = Issue::setPriority($items[$i], $new_priority_id);
+                if ($res == 1) {
+                    $updated_fields['Priority'] = History::formatChanges(Priority::getTitle($old_priority_id), Priority::getTitle($new_priority_id));
+                }
+            }
+
+            // update category
+            if (!empty($new_category_id)) {
+                $old_category_id = Issue::getCategory($items[$i]);
+                $res = Issue::setCategory($items[$i], $new_category_id);
+                if ($res == 1) {
+                    $updated_fields['Category'] = History::formatChanges(Category::getTitle($old_category_id), Category::getTitle($new_category_id));
                 }
             }
 

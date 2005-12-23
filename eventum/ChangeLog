@@ -34,6 +34,7 @@ Eventum Issue Tracking System
 - Added new workflow method to notify additional email addresses when a new issue is created (Bryan)
 - Fixed bug with updating custom fields for projects with single quotes in there name (Bryan)
 - Added code to prevent caching of csv export page (Bryan)
+- Added priority and category to bulk update (Bryan)
 
 19 Aug 2005, Version 1.6.1
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
