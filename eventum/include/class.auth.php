@@ -121,8 +121,8 @@ class Auth
         // check whether the project selection is set or not
         $prj_id = Auth::getCurrentProject();
         if (empty($prj_id)) {
-            Auth::removeCookie($cookie_name);
-            Auth::redirect(APP_RELATIVE_URL . "index.php?err=12&email=" . $cookie['email'], $is_popup);
+            // redirect to select project page
+            Auth::redirect(APP_RELATIVE_URL . "select_project.php?url=" . Auth::getRequestedURL(), $is_popup);
         }
         // check the expiration date for a 'Customer' type user
         $customer_id = User::getCustomerID(Auth::getUserID());
@@ -133,13 +133,13 @@ class Auth
                 Auth::redirect(APP_RELATIVE_URL . "index.php?err=10&email=" . $cookie["email"], $is_popup);
             }
         }
-        
+
         // auto switch project
         if (isset($_GET['switch_prj_id'])) {
             Auth::setCurrentProject($_GET['switch_prj_id'], false);
             Auth::redirect($_SERVER['PHP_SELF'] . '?' . str_replace("switch_prj_id=" . $_GET['switch_prj_id'], "", $_SERVER['QUERY_STRING']));
         }
-        
+
         // if the current session is still valid, then renew the expiration
         Auth::createLoginCookie($cookie_name, $cookie['email'], $cookie['autologin']);
         // renew the project cookie as well
@@ -149,7 +149,7 @@ class Auth
 
 
     /**
-     * Method to check whether an user is pending its confirmation 
+     * Method to check whether an user is pending its confirmation
      * or not.
      *
      * @access  public
@@ -371,7 +371,7 @@ class Auth
 
 
     /**
-     * Checks whether the provided password match against the email 
+     * Checks whether the provided password match against the email
      * address provided.
      *
      * @access  public
@@ -495,11 +495,11 @@ class Auth
         $cookie = base64_encode(serialize($cookie));
         setcookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE, APP_RELATIVE_URL);
     }
-    
-    
+
+
     /**
      * Creates a fake cookie so processes not run from a browser can access current user and project
-     * 
+     *
      * @param   integer $usr_id The ID of the user.
      * @param   integer $prj_id The ID of the project.
      */
@@ -507,9 +507,9 @@ class Auth
     {
         global $HTTP_COOKIE_VARS;
         include_once(APP_INC_PATH . "private_key.php");
-        
+
         $user_details = User::getDetails($usr_id);
-        
+
         $time = time();
         $cookie = array(
             "email" => $user_details['usr_email'],
