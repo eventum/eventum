@@ -13,8 +13,8 @@ $stmts[] = "ALTER TABLE eventum_note ADD COLUMN not_message_id varchar(255) defa
 $stmts[] = "ALTER TABLE eventum_note ADD INDEX not_message_id (not_message_id);";
 $stmts[] = "ALTER TABLE eventum_note ADD COLUMN not_removed tinyint(1) NOT NULL default '0';";
 $stmts[] = "ALTER TABLE eventum_note ADD INDEX not_parent_id (not_parent_id);";
-
 $stmts[] = "ALTER TABLE eventum_issue ADD COLUMN iss_root_message_id varchar(255);";
+
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -23,5 +23,5 @@ foreach ($stmts as $stmt) {
         exit(1);
     }
 }
-
 ?>
+done

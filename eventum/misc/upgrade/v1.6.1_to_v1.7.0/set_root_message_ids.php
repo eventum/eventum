@@ -45,7 +45,5 @@ foreach ($issues as $issue_id) {
         exit;
     }
 }
-
-echo "complete";
-
 ?>
+done
