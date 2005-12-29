@@ -38,7 +38,7 @@ include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "class.status.php");
 
 /**
- * Class to handle the business logic related to the generation of the 
+ * Class to handle the business logic related to the generation of the
  * issue statistics displayed in the main screen of the application.
  *
  * @version 1.0
@@ -419,7 +419,7 @@ class Stats
 
 
     /**
-     * Method used to get the total number of issues associated with each 
+     * Method used to get the total number of issues associated with each
      * email status.
      *
      * @access  public
@@ -460,7 +460,7 @@ class Stats
                     sup_ema_id=ema_id AND
                     ema_prj_id=$prj_id AND
                     sup_removed=1";
-        $res3 = $GLOBALS["db_api"]->dbh->getOne($stmt, DB_FETCHMODE_ASSOC);
+        $res3 = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res3)) {
             Error_Handler::logError(array($res3->getMessage(), $res3->getDebugInfo()), __FILE__, __LINE__);
             return "";
