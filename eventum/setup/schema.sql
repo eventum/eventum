@@ -287,6 +287,8 @@ CREATE TABLE %TABLE_PREFIX%note (
   not_removed tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY  (not_id),
   KEY not_bug_id (not_iss_id,not_usr_id),
+  KEY not_message_id (not_message_id),
+  KEY not_parent_id (not_parent_id),
   FULLTEXT ft_note (not_title,not_note)
 ) TYPE = MYISAM;
 

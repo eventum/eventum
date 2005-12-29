@@ -400,7 +400,7 @@ $private_key = "' . md5(microtime()) . '";
     $config_contents = str_replace("%{APP_TABLE_PREFIX}%", $HTTP_POST_VARS['db_table_prefix'], $config_contents);
     $config_contents = str_replace("%{APP_HOSTNAME}%", $HTTP_POST_VARS['hostname'], $config_contents);
     $config_contents = str_replace("%{APP_RELATIVE_URL}%", $HTTP_POST_VARS['relative_url'], $config_contents);
-    $config_contents = str_replace("%{APP_VERSION}%", "1.6.1", $config_contents);
+    $config_contents = str_replace("%{APP_VERSION}%", "1.7.0", $config_contents);
     if (@$HTTP_POST_VARS['is_ssl'] == 'yes') {
         $protocol_type = 'https://';
     } else {
@@ -427,7 +427,7 @@ $private_key = "' . md5(microtime()) . '";
         return "Could not write the configuration information to 'config.inc.php'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
     }
     fclose($fp);
-    
+
     // write setup file
     include_once("../config.inc.php");
     include_once(APP_INC_PATH . "class.setup.php");
@@ -436,7 +436,7 @@ $private_key = "' . md5(microtime()) . '";
     $_REQUEST['setup']['emails'] = 1;
     $_REQUEST['setup']['files'] = 1;
     Setup::save($_REQUEST['setup']);
-    
+
     return 'success';
 }
 
