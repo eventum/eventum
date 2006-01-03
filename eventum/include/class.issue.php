@@ -2046,14 +2046,6 @@ class Issue
                     }
                 }
             }
-            if (count($users) > 0) {
-                // automatically change the status to 'Assigned'
-                Issue::setStatus($new_issue_id, Status::getStatusID('Assigned'), FALSE);
-
-                // set this special variable to false, to avoid triggering
-                // another status update on the workflow class
-                $has_assignee = false;
-            }
 
             // now process any files being uploaded
             $found = 0;
