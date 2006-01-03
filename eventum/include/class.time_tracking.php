@@ -212,7 +212,7 @@ class Time_Tracking
 
 
     /**
-     * Method used to get the full list of time tracking categories as an 
+     * Method used to get the full list of time tracking categories as an
      * associative array in the style of (id => title)
      *
      * @access  public
@@ -426,7 +426,7 @@ class Time_Tracking
 
         if (!empty($HTTP_POST_VARS["date"])) {
             // format the date from the form
-            $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d', 
+            $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d',
                 $HTTP_POST_VARS["date"]["Year"], $HTTP_POST_VARS["date"]["Month"],
                 $HTTP_POST_VARS["date"]["Day"], $HTTP_POST_VARS["date"]["Hour"],
                 $HTTP_POST_VARS["date"]["Minute"], 0);
@@ -507,11 +507,11 @@ class Time_Tracking
             return 1;
         }
     }
-    
-    
+
+
     /**
      * Returns summary information about all time spent by a user in a specified time frame.
-     * 
+     *
      * @access  public
      * @param   string $usr_id The ID of the user this report is for.
      * @param   integer The timestamp of the beginning of the report.
@@ -533,7 +533,7 @@ class Time_Tracking
                     ttr_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'
                  GROUP BY
                     ttc_title";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt, '', '', DB_FETCHMODE_ASSOC);
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
