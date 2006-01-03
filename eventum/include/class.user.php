@@ -1079,6 +1079,7 @@ class User
             for ($i = 0; $i < $count; $i++) {
                 $roles = Project::getAssocList($res[$i]['usr_id'], false, true);
                 $role = current($roles);
+                $role = $role['pru_role'];
                 if (($show_customers == false) && (
                     ((@$roles[Auth::getCurrentProject()]['pru_role']) == User::getRoleID("Customer")) ||
                     ((count($roles) == 1) && ($role == User::getRoleID("Customer"))))) {
