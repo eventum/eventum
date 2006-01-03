@@ -421,7 +421,7 @@ class Issue
             Reminder_Action::clearLastTriggered($issue_id);
 
             // if old status was closed and new status is not, clear closed data from issue.
-            if ($old_details['sta_is_closed'] == 1) {
+            if (@$old_details['sta_is_closed'] == 1) {
                 $new_details = Status::getDetails($status_id);
                 if ($new_details['sta_is_closed'] != 1) {
                     Issue::clearClosed($issue_id);
@@ -1349,7 +1349,6 @@ class Issue
                     $assignment_notifications[] = $assignee;
                     $assignments_changed = true;
                 }
-                $assignments_changed = true;
             }
             if (count($assignment_notifications) > 0) {
                 Notification::notifyNewAssignment($assignment_notifications, $issue_id);

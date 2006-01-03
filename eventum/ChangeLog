@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+???, Version 1.7.1
+- Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
+
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)
 - Fixed bug with highlight quoted replies plugin with handling line seperators (Bryan, Elan Ruusamäe)
@@ -28,11 +31,11 @@ Eventum Issue Tracking System
 - Added new 'Stalled Issues' report (Bryan)
 - Updated the fulltext search routine to properly use UNIONs and allow MySQL to use the proper indexes when searching (João)
 - Fixed bug on the RSS feed script to avoid an error condition when no issues could be found for a particular saved search (João)
-- Fixed bug that reset Administrators permission level (Bryan)
+- Fixed bug that reset Administrator's permission level (Bryan)
 - Changed list.php to use relative instead of absolute URL (Bryan)
 - Fixed bug with custom fields not showing up on new issue email from anonymous report form (Bryan)
 - Added new workflow method to notify additional email addresses when a new issue is created (Bryan)
-- Fixed bug with updating custom fields for projects with single quotes in there name (Bryan)
+- Fixed bug with updating custom fields for projects with single quotes in their name (Bryan)
 - Added code to prevent caching of csv export page (Bryan)
 - Added priority and category to bulk update (Bryan)
 
