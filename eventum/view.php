@@ -109,6 +109,8 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                     "old_project"   =>  Project::getName($cookie['auto_switched_from'])
                 ));
             }
+            $setup = Setup::load();
+            $tpl->assign("allow_unassigned_issues", @$setup["allow_unassigned_issues"]);
 
             $tpl->assign(array(
                 'next_issue'          => @$sides['next'],

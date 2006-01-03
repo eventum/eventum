@@ -207,7 +207,7 @@ function collapseDescription()
             {/if}
             {if $issue.customer_info.is_per_incident}
               <br />
-              Redeemed Incident Types: 
+              Redeemed Incident Types:
               {strip}
               {foreach from=$issue.redeemed_incidents item=incident_details name=incident_loop}
                 {if $incident_details.is_redeemed == 1}
@@ -459,7 +459,9 @@ function collapseDescription()
                 {if $current_role > $roles.customer}
                 <td nowrap>
                   {if $is_user_assigned == 1}
+                  {if $allow_unassigned_issues == 'yes' || $issue.assigned_users|@count > 1}
                   <input class="button" type="button" value="Unassign Issue" onClick="javascript:unassign({$issue.iss_id});">&nbsp;
+                  {/if}
                   {else}
                   <input class="button" type="button" value="Assign Issue To Myself" onClick="javascript:selfAssign({$issue.iss_id});">&nbsp;
                   {/if}

@@ -3,6 +3,7 @@ Eventum Issue Tracking System
 
 ???, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
+- Fixed bug that allowed unassigned issues even if "Allow unassigned issues" is set to no (Bryan)
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)

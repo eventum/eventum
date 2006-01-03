@@ -75,17 +75,18 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
             $tpl->assign("has_duplicates", "yes");
         }
     }
-    
+
     $prj_id = Auth::getCurrentProject();
-    
+
     $setup = Setup::load();
-    
+    $tpl->assign("allow_unassigned_issues", @$setup["allow_unassigned_issues"]);
+
     // if currently selected release is in the past, manually add it to list
     $releases = Release::getAssocList($prj_id);
     if ($details["iss_pre_id"] != 0 && empty($releases[$details["iss_pre_id"]])){
         $releases = array($details["iss_pre_id"] => $details["pre_title"]) + $releases;
     }
-    
+
     if (Workflow::hasWorkflowIntegration($prj_id)) {
         $statuses = Workflow::getAllowedStatuses($prj_id, $issue_id);
         // if currently selected release is not on list, go ahead and add it.
@@ -95,7 +96,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
     if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
         $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
     }
-    
+
     $tpl->assign(array(
         "subscribers"  => Notification::getSubscribers($issue_id),
         "categories"   => Category::getAssocList($prj_id),
@@ -110,7 +111,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
         "groups"       => Group::getAssocList($prj_id)
     ));
-    
+
     $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
     if (!empty($cookie['auto_switched_from'])) {
         $tpl->assign(array(

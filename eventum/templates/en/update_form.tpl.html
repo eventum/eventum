@@ -12,7 +12,7 @@
             {elseif $update_result == 1}
               <b>Thank you, issue #{$smarty.post.issue_id} was updated successfully.
               {if $has_duplicates == 'yes'}
-                Also, all issues that are marked as duplicates from this one were updated as well. 
+                Also, all issues that are marked as duplicates from this one were updated as well.
               {/if}
               <br /><br />
               <a href="view.php?id={$smarty.post.issue_id}" class="link">Return to Issue #{$smarty.post.issue_id} Details Page</a>
@@ -246,7 +246,7 @@ function validateForm(f)
         </tr>
         <tr>
           <td {if $current_role > $roles.customer && $groups|@count > 0}rowspan="2" {/if}width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>Assignment:</b>
+            <b>Assignment: {if $allow_unassigned_issues != 'yes'}*{/if}</b>
           </td>
           <td {if $current_role > $roles.customer && $groups|@count > 0}rowspan="2" {/if}bgcolor="{$light_color}">
             {if $issue.has_inactive_users}
