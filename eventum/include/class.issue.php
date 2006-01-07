@@ -2291,7 +2291,7 @@ class Issue
             $last_action_fields[] = "iss_last_internal_action_date";
         }
         if (count($last_action_fields) > 1) {
-            return "GREATEST(" . implode(', ', $last_action_fields) . ") AS last_action_date";
+            return "GREATEST(" . implode(', IFNULL(', $last_action_fields) . ", '0000-00-00')) AS last_action_date";
         } else {
             return $last_action_fields[0] . " AS last_action_date";
         }
