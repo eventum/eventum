@@ -334,6 +334,7 @@ class Mail_API
     function getSMTPSettings()
     {
         $settings = Setup::load();
+        settype($settings['smtp']['auth'], 'boolean');
         return $settings["smtp"];
     }
 
