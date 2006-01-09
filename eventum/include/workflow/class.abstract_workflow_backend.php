@@ -205,11 +205,6 @@ class Abstract_Workflow_Backend
      */
     function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
     {
-        if (!Workflow::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-        $backend =& Workflow::_getBackend($prj_id);
-        return $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new);
     }
 
 
