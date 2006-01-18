@@ -52,8 +52,21 @@ $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 $role_id = Auth::getCurrentRole();
 
+$associated_projects = @array_keys(Project::getAssocList($usr_id));
+
 @$issue_id = $HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["id"];
 $tpl->assign("extra_title", "Issue #$issue_id Details");
+
+// check if the requested issue is a part of the 'current' project. If it doesn't
+// check if issue exists in another project and if it does, switch projects
+$iss_prj_id = Issue::getProjectID($issue_id);
+$auto_switched_from = false;
+if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, $associated_projects))) {
+    $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+    Auth::setCurrentProject($iss_prj_id, $cookie["remember"], true);
+    $auto_switched_from = $iss_prj_id;
+    $prj_id = $iss_prj_id;
+}
 
 $details = Issue::getDetails($issue_id);
 $tpl->assign("issue", $details);
@@ -65,21 +78,11 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
     $tpl->assign("auth_user", 'denied');
 } else {
     $associated_projects = @array_keys(Project::getAssocList($usr_id));
-    // check if the requested issue is a part of the 'current' project. If it doesn't
-    // check if issue exists in another project and if it does, switch projects
-    $new_prj_id = Issue::getProjectID($issue_id);
-    $auto_switched = false;
-    if ((!empty($new_prj_id)) && (in_array($new_prj_id, $associated_projects)) && ($new_prj_id != $prj_id)) {
-        $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-        Auth::setCurrentProject($new_prj_id, $cookie["remember"], true);
-        Auth::redirect(APP_BASE_URL . "view.php?id=$issue_id");
-    }
     if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {
         $tpl->assign('issue', '');
     } else {
         // check if the requested issue is a part of one of the projects
         // associated with this user
-        $associated_projects = @array_keys(Project::getAssocList($usr_id));
         if (!@in_array($details['iss_prj_id'], $associated_projects)) {
             $tpl->assign("auth_customer", 'denied');
         } else {
@@ -103,10 +106,10 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
             }
 
             $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-            if (!empty($cookie['auto_switched_from'])) {
+            if (!empty($auto_switched_from)) {
                 $tpl->assign(array(
                     "project_auto_switched" =>  1,
-                    "old_project"   =>  Project::getName($cookie['auto_switched_from'])
+                    "old_project"   =>  Project::getName($auto_switched_from)
                 ));
             }
             $setup = Setup::load();

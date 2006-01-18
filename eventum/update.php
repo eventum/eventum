@@ -45,12 +45,26 @@ $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 $role_id = Auth::getCurrentRole();
 
+$associated_projects = @array_keys(Project::getAssocList($usr_id));
+
 $tpl = new Template_API();
 $tpl->setTemplate("update.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["id"];
+
+// check if the requested issue is a part of the 'current' project. If it doesn't
+// check if issue exists in another project and if it does, switch projects
+$iss_prj_id = Issue::getProjectID($issue_id);
+$auto_switched_from = false;
+if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, $associated_projects))) {
+    $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+    Auth::setCurrentProject($iss_prj_id, $cookie["remember"], true);
+    $auto_switched_from = $iss_prj_id;
+    $prj_id = $iss_prj_id;
+}
+
 $details = Issue::getDetails($issue_id);
 $tpl->assign("issue", $details);
 $tpl->assign("extra_title", "Update Issue #$issue_id");
@@ -60,14 +74,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
 } elseif (!Issue::canAccess($issue_id, $usr_id)) {
     $tpl->assign("auth_customer", 'denied');
 } else {
-    $associated_projects = @array_keys(Project::getAssocList($usr_id));
     $new_prj_id = Issue::getProjectID($issue_id);
-    $auto_switched = false;
-    if ((!empty($new_prj_id)) && (in_array($new_prj_id, $associated_projects)) && ($new_prj_id != $prj_id)) {
-        $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-        Auth::setCurrentProject($new_prj_id, $cookie["remember"], true);
-        Auth::redirect(APP_BASE_URL . "update.php?id=$issue_id");
-    }
     if (@$HTTP_POST_VARS["cat"] == "update") {
         $res = Issue::update($HTTP_POST_VARS["issue_id"]);
         $tpl->assign("update_result", $res);
