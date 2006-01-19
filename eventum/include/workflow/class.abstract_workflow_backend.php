@@ -266,5 +266,21 @@ class Abstract_Workflow_Backend
     {
         return array();
     }
+
+
+    /**
+     * Indicates if the the specified email address can email the issue. Can be
+     * used to disable email blocking by always returning true.
+     *
+     * @param   integer $prj_id The project ID.
+     * @param   integer $issue_id The ID of the issue
+     * @param   string The email address that is trying to send an email
+     * @return  boolean true if the sender can email the issue, false if the sender
+     *          should not email the issue and null if the default rules should be used.
+     */
+    function canEmailIssue($prj_id, $issue_id, $email)
+    {
+        return null;
+    }
 }
 ?>

@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: JoÃ£o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo�o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 
@@ -46,7 +46,7 @@ include_once(APP_INC_PATH . "class.routing.php");
  * the application.
  *
  * @version 1.0
- * @author JoÃ£o Prado Maia <jpm@mysql.com>
+ * @author Jo�o Prado Maia <jpm@mysql.com>
  */
 
 class Support
@@ -1724,10 +1724,17 @@ class Support
      */
     function isAllowedToEmail($issue_id, $sender_email)
     {
+        $prj_id = Issue::getProjectID($issue_id);
+
+        // check the workflow
+        $workflow_can_email = Workflow::canEmailIssue($prj_id, $issue_id, $sender_email);
+        if ($workflow_can_email != null) {
+            return $workflow_can_email;
+        }
+
         $is_allowed = true;
         $sender_usr_id = User::getUserIDByEmail($sender_email);
         if (empty($sender_usr_id)) {
-            $prj_id = Issue::getProjectID($issue_id);
             if (Customer::hasCustomerIntegration($prj_id)) {
                 // check for a customer contact with several email addresses
                 $customer_id = Issue::getCustomerID($issue_id);
