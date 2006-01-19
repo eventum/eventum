@@ -10,6 +10,8 @@ Eventum Issue Tracking System
 - Fixed bug with workflow API when updating custom fields (Bryan)
 - Changed issue ID field to automatically strip non numeric characters when looking up issue (Bryan)
 - Fixed bug that was causing too many redirects (Bryan)
+- Added X-Eventum-Category special header (Bryan)
+- Added workflow method to check if a user can email an issue (Bryan)
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)

@@ -749,6 +749,7 @@ class Mail_API
                     $new_headers['X-Eventum-Level'] = $support_levels[Customer::getSupportLevelID($prj_id, $customer_id)];
                 }
             }
+            $new_headers['X-Eventum-Category'] = Category::getTitle(Issue::getCategory($issue_id));
         }
         $new_headers['X-Eventum-Type'] = $type;
         return $new_headers;

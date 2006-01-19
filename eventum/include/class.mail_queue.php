@@ -352,7 +352,7 @@ class Mail_Queue
 
     /**
      * Returns the mail queue for a specific issue.
-     * 
+     *
      * @access  public
      * @param   integer $issue_is The issue ID
      * @return  array An array of emails from the queue
