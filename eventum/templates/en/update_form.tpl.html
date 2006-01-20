@@ -213,7 +213,7 @@ function validateForm(f)
                     {assign var="expected_resolution_start_year" value=$smarty.now|date_format:"%Y"}
                 {/if}
             {/if}
-            {html_select_date time=$expected_resolution_date field_array="expected_resolution_date" prefix="" start_year=$expected_resolution_start_year end_year="+1" all_extra='class="default"' year_empty="" day_empty="" month_empty=""}
+            {html_select_date time=$expected_resolution_date field_array="expected_resolution_date" prefix="" start_year=$expected_resolution_start_year end_year="+1" all_extra='class="default"' year_empty="" day_empty="" month_empty="" day_value_format='%02d'}
           </td>
           {if $releases|@count > 0}
           <td nowrap width="120" bgcolor="{$cell_color}" class="default_white">
