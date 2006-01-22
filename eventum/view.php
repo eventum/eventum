@@ -137,6 +137,17 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                 } else {
                     $show_all_drafts = false;
                 }
+
+                if (Workflow::hasWorkflowIntegration($prj_id)) {
+                    $statuses = Workflow::getAllowedStatuses($prj_id, $issue_id);
+                    // if currently selected release is not on list, go ahead and add it.
+                } else {
+                    $statuses = Status::getAssocStatusList($prj_id, false);
+                }
+                if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
+                    $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
+                }
+
                 $time_entries = Time_Tracking::getListing($issue_id);
                 $tpl->assign(array(
                     'notes'              => Note::getListing($issue_id),
@@ -149,7 +160,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                     'time_entries'       => $time_entries['list'],
                     'total_time_spent'   => $time_entries['total_time_spent'],
                     'impacts'            => Impact_Analysis::getListing($issue_id),
-                    'statuses'           => Status::getAssocStatusList($prj_id, false),
+                    'statuses'           => $statuses,
                     'drafts'             => Draft::getList($issue_id, $show_all_drafts),
                     'groups'             => Group::getAssocList($prj_id)
                 ));
