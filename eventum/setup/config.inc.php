@@ -95,6 +95,7 @@ if (stristr(PHP_OS, 'darwin')) {
 @define("APP_SITE_NAME", APP_NAME);
 @define("APP_RELATIVE_URL", "%{APP_RELATIVE_URL}%");
 @define("APP_BASE_URL", "%{PROTOCOL_TYPE}%" . APP_HOSTNAME . APP_RELATIVE_URL);
+@define("APP_COOKIE_URL", APP_RELATIVE_URL);
 @define("APP_COOKIE", "eventum");
 @define("APP_COOKIE_EXPIRE", time() + (60 * 60 * 8));
 @define("APP_PROJECT_COOKIE", "eventum_project");
@@ -148,9 +149,9 @@ if (isset($_GET)) {
     $HTTP_COOKIE_VARS = $_COOKIE;
 }
 // fix magic_quote_gpc'ed values (i wish i knew who is the person behind this)
-$HTTP_GET_VARS =& Misc::dispelMagicQuotes($HTTP_GET_VARS);
-$HTTP_POST_VARS =& Misc::dispelMagicQuotes($HTTP_POST_VARS);
-$_REQUEST =& Misc::dispelMagicQuotes($_REQUEST);
+$HTTP_GET_VARS = Misc::dispelMagicQuotes($HTTP_GET_VARS);
+$HTTP_POST_VARS = Misc::dispelMagicQuotes($HTTP_POST_VARS);
+$_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
 
 // handle the language preferences now
 @include_once(APP_INC_PATH . "class.language.php");

@@ -15,6 +15,7 @@ Eventum Issue Tracking System
 - Fixed bug where statuses were not restricted on view issue page (Bryan)
 - Fixed bug with not encoding title on RSS feed (Bryan)
 - Added favicon (Contributed by Georger Araujo)
+- Added new constant APP_COOKIE_URL (Bryan)
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)
