@@ -96,6 +96,7 @@ if (stristr(PHP_OS, 'darwin')) {
 @define("APP_RELATIVE_URL", "%{APP_RELATIVE_URL}%");
 @define("APP_BASE_URL", "%{PROTOCOL_TYPE}%" . APP_HOSTNAME . APP_RELATIVE_URL);
 @define("APP_COOKIE_URL", APP_RELATIVE_URL);
+@define("APP_COOKIE_DOMAIN", APP_HOSTNAME);
 @define("APP_COOKIE", "eventum");
 @define("APP_COOKIE_EXPIRE", time() + (60 * 60 * 8));
 @define("APP_PROJECT_COOKIE", "eventum_project");

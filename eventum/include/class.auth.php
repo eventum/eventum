@@ -285,7 +285,7 @@ class Auth
             "autologin"  => $autologin
         );
         $cookie = base64_encode(serialize($cookie));
-        setcookie($cookie_name, $cookie, APP_COOKIE_EXPIRE, APP_COOKIE_URL);
+        setcookie($cookie_name, $cookie, APP_COOKIE_EXPIRE, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
     }
 
 
@@ -335,7 +335,7 @@ class Auth
      */
     function removeCookie($cookie_name)
     {
-        setcookie($cookie_name, "", time()-36000, APP_COOKIE_URL);
+        setcookie($cookie_name, "", time()-36000, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
     }
 
 
@@ -490,7 +490,7 @@ class Auth
             "remember" => $remember
         );
         $cookie = base64_encode(serialize($cookie));
-        setcookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE, APP_COOKIE_URL);
+        setcookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
     }
 
 
