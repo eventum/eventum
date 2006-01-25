@@ -816,6 +816,11 @@ class Mail_API
             $references = array_map('trim', $references);
             $references = array_unique($references);
         }
+        foreach ($references as $key => $reference) {
+            if (empty($reference)) {
+                unset($references[$key]);
+            }
+        }
         return $references;
     }
 
