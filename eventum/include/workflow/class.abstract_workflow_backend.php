@@ -175,7 +175,7 @@ class Abstract_Workflow_Backend
      */
     function getAllowedStatuses($prj_id, $issue_id)
     {
-        return Status::getAssocStatusList($prj_id);
+        return Status::getAssocStatusList($prj_id, false);
     }
 
 
