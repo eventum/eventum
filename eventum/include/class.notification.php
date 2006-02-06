@@ -810,6 +810,10 @@ class Notification
                     $data = Notification::getIssueDetails($issue_id);
                     $data["closer_name"] = User::getFullName(History::getIssueCloser($issue_id));
                     $subject = 'Closed';
+
+                    if ($ids != false) {
+                        $data['reason'] = Support::getEmail($ids);
+                    }
                     break;
                 case 'updated':
                     // this should not be used anymore
@@ -1511,7 +1515,8 @@ class Notification
         $issue_id = Misc::escapeInteger($issue_id);
         $subscribers = array(
             'staff'     => array(),
-            'customers' => array()
+            'customers' => array(),
+            'all'       => array()
         );
         $prj_id = Issue::getProjectID($issue_id);
         $stmt = "SELECT
@@ -1581,6 +1586,8 @@ class Notification
                 }
             }
         }
+
+        $subscribers['all'] = @join(', ', array_merge($subscribers['staff'], $subscribers['customers']));
         $subscribers['staff'] = @implode(', ', $subscribers['staff']);
         $subscribers['customers'] = @implode(', ', $subscribers['customers']);
         return $subscribers;
