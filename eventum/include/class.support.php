@@ -1391,9 +1391,10 @@ class Support
      * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
      * @param   array $items The list of email IDs to associate
+     * @param   boolean $authorize If the senders should be added the authorized repliers list
      * @return  integer 1 if it worked, -1 otherwise
      */
-    function associate($usr_id, $issue_id, $items)
+    function associate($usr_id, $issue_id, $items, $authorize = false)
     {
         $res = Support::associateEmail($usr_id, $issue_id, $items);
         if ($res == 1) {
@@ -1410,7 +1411,7 @@ class Support
             for ($i = 0; $i < count($res); $i++) {
                 // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
                 $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
-                if (Mime_Helper::hasAttachments($full_message)) {
+                if (Mime_Helper::hasAttachments($res[$i]['seb_full_email'])) {
                     $has_attachments = 1;
                 } else {
                     $has_attachments = 0;
@@ -1429,6 +1430,9 @@ class Support
                     'headers'        => @$structure->headers
                 );
                 Notification::notifyNewEmail($usr_id, $issue_id, $t, false, false, '', $res[$i]['sup_id']);
+                if ($authorize) {
+                    Authorized_Replier::manualInsert($issue_id, Mail_API::getEmailAddress(@$structure->headers['from']), false);
+                }
             }
             return 1;
         } else {
