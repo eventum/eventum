@@ -12,7 +12,7 @@
             {if $close_result == -1}
             <b>Sorry, an error happened while trying to run your query.</b>
             {elseif $close_result == 1}
-            <b>Thank you, the issue was closed successfully. Please choose 
+            <b>Thank you, the issue was closed successfully. Please choose
             from one of the options below:</b>
             <ul>
               <li><a href="view.php?id={$smarty.post.issue_id}" class="link">Open the Issue Details Page</a></li>
@@ -46,7 +46,7 @@ function validateClose(f)
         alert('Please enter the reason for closing this issue.');
         return false;
     }
-    
+
     if (!isWhitespace(f.time_spent.value)) {
         if (!isNumberOnly(f.time_spent.value)) {
             selectField(f, 'time_spent');
@@ -59,7 +59,7 @@ function validateClose(f)
             return false;
         }
     }
-    
+
     if (has_per_incident_contract) {
         elements = getForm('close_form');
         has_checked_incident = false;
@@ -76,6 +76,19 @@ function validateClose(f)
         }
     }
     return true;
+}
+
+function toggleNotificationList()
+{
+    var f = getForm('close_form');
+
+    var cell = getPageElement('reason_cell');
+
+    if (f.notification_list[1].checked) {
+        cell.style.background = "{/literal}{$cell_color}{literal}";
+    } else {
+        cell.style.background = "{/literal}{$internal_color}{literal}";
+    }
 }
 //-->
 </script>
@@ -124,15 +137,26 @@ function validateClose(f)
             <b>Send Notification About Issue Being Closed?</b><br />
           </td>
           <td bgcolor="{$light_color}" class="default">
-            <input type="radio" name="send_notification" checked value="1"> 
+            <input type="radio" name="send_notification" checked value="1">
             <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('close_form', 'send_notification', 0);">Yes</a>&nbsp;&nbsp;
-            <input type="radio" name="send_notification" value="0"> 
+            <input type="radio" name="send_notification" value="0">
             <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('close_form', 'send_notification', 1);">No</a>
           </td>
         </tr>
         <tr>
-          <td width="160" bgcolor="{$internal_color}" class="default_white">
-            <b>Internal Note (reason for closing issue): *</b><br />
+          <td width="160" bgcolor="{$cell_color}" class="default_white">
+            <b>Send Notification To:</b><br />
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <input id="notification_internal" type="radio" name="notification_list" checked value="internal" onchange="toggleNotificationList()">
+            <label for="notification_internal">Internal Users ({$notification_list_internal|default:"<i>None</i>"})</label><br />
+            <input id="notification_all" type="radio" name="notification_list" value="all" onchange="toggleNotificationList()">
+            <label for="notification_all">All ({$notification_list_all|default:"<i>None</i>"})</label>
+          </td>
+        </tr>
+        <tr>
+          <td width="160" bgcolor="{$internal_color}" class="default_white" id="reason_cell">
+            <b>Reason for closing issue: *</b><br />
           </td>
           <td bgcolor="{$light_color}" class="default">
             <textarea name="reason" rows="8" style="width: 97%"></textarea>

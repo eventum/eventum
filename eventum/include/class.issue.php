@@ -1216,9 +1216,10 @@ class Issue
      * @param   integer $resolution_id The resolution ID
      * @param   integer $status_id The status ID
      * @param   string $reason The reason for closing this issue
+     * @param   string  $send_notification_to Who this notification should be sent too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason)
+    function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $send_notification_to = 'internal')
     {
         global $HTTP_POST_VARS;
 
@@ -1247,10 +1248,36 @@ class Issue
         } else {
             $prj_id = Issue::getProjectID($issue_id);
 
-            // add note with the reason to close the issue
-            $HTTP_POST_VARS['title'] = 'Issue closed comments';
-            $HTTP_POST_VARS["note"] = $reason;
-            Note::insert($usr_id, $issue_id, false, true, true);
+            if ($send_notification_to == 'all') {
+
+                $from = User::getFromHeader($usr_id);
+                $message_id = User::getFromHeader($usr_id);
+                $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
+                    '', '', 'Issue closed comments', $reason, '');
+
+                $structure = Mime_Helper::decode($full_email, true, false);
+
+                $email = array(
+                    'ema_id'        =>  Email_Account::getEmailAccount(),
+                    'issue_id'      =>  $issue_id,
+                    'message_id'    =>  $message_id,
+                    'date'          =>  Date_API::getCurrentDateGMT(),
+                    'subject'       =>  'Issue closed comments',
+                    'from'          =>  $from,
+                    'has_attachment'=>  0,
+                    'body'          =>  $reason,
+                    'full_email'    =>  $full_email,
+                    'headers'       =>  $structure->headers
+                );
+                Support::insertEmail($email, $structure, $sup_id);
+                $ids = $sup_id;
+            } else {
+                // add note with the reason to close the issue
+                $HTTP_POST_VARS['title'] = 'Issue closed comments';
+                $HTTP_POST_VARS["note"] = $reason;
+                Note::insert($usr_id, $issue_id, false, true, true);
+                $ids = false;
+            }
             // record the change
             History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
             if ($send_notification) {
@@ -1268,7 +1295,7 @@ class Issue
                     }
                 }
                 // send notifications for the issue being closed
-                Notification::notify($issue_id, 'closed');
+                Notification::notify($issue_id, 'closed', $ids);
             }
             Workflow::handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason);
             return 1;

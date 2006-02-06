@@ -19,10 +19,11 @@ Eventum Issue Tracking System
 - Fixed bug with using authentication when sending mail (Bryan)
 - Fixed bug with empty reply-to headers causing mail to be associated with the wrong issue (Bryan)
 - When creating a new issue from an email, add the senders to the authorized repliers list (Bryan)
+- Added option to send closing comments to all users (Bryan)
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)
-- Fixed bug with highlight quoted replies plugin with handling line seperators (Bryan, Elan Ruusam√§e)
+- Fixed bug with highlight quoted replies plugin with handling line seperators (Bryan, Elan Ruusam‰e)
 - Fixed bug with displaying values from multiple option custom fields (Bug #12494) (Bryan)
 - Added feature to allow custom fields to store date values (Bryan)
 - Added URL parameter to specify the project to switch to when loading a page (Bryan)

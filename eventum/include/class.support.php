@@ -967,8 +967,8 @@ class Support
                     '" . Misc::escapeString($row["message_id"]) . "',
                     '" . Misc::escapeString($row["date"]) . "',
                     '" . Misc::escapeString($row["from"]) . "',
-                    '" . Misc::escapeString($row["to"]) . "',
-                    '" . Misc::escapeString($row["cc"]) . "',
+                    '" . Misc::escapeString(@$row["to"]) . "',
+                    '" . Misc::escapeString(@$row["cc"]) . "',
                     '" . Misc::escapeString($row["subject"]) . "',
                     '" . Misc::escapeString($row["has_attachment"]) . "'
                  )";
@@ -1567,6 +1567,32 @@ class Support
     {
         $stmt = "SELECT
                     seb_full_email
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
+                 WHERE
+                    seb_sup_id=" . Misc::escapeInteger($sup_id);
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get the email message for a given support
+     * email ID.
+     *
+     * @access  public
+     * @param   integer $sup_id The support email ID
+     * @return  string The email message
+     */
+    function getEmail($sup_id)
+    {
+        $stmt = "SELECT
+                    seb_body
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                  WHERE

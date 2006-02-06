@@ -35,6 +35,7 @@ include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.resolution.php");
 include_once(APP_INC_PATH . "class.time_tracking.php");
 include_once(APP_INC_PATH . "class.status.php");
+include_once(APP_INC_PATH . "class.notification.php");
 include_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -46,18 +47,24 @@ $prj_id = Auth::getCurrentProject();
 $issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["id"];
 $tpl->assign("extra_title", "Close Issue #$issue_id");
 
+$notification_list = Notification::getSubscribers($issue_id, 'closed');
+$tpl->assign("notification_list_all", $notification_list['all']);
+
+$notification_list_internal = Notification::getSubscribers($issue_id, 'closed', User::getRoleID("standard User"));
+$tpl->assign("notification_list_internal", $notification_list_internal['all']);
+
 if (@$HTTP_POST_VARS["cat"] == "close") {
-    $res = Issue::close(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $HTTP_POST_VARS["send_notification"], $HTTP_POST_VARS["resolution"], $HTTP_POST_VARS["status"], $HTTP_POST_VARS["reason"]);
-    
+    $res = Issue::close(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $HTTP_POST_VARS["send_notification"], $HTTP_POST_VARS["resolution"], $HTTP_POST_VARS["status"], $HTTP_POST_VARS["reason"], @$_REQUEST['notification_list']);
+
     if (!empty($HTTP_POST_VARS['time_spent'])) {
         $HTTP_POST_VARS['summary'] = 'Time entry inserted when closing issue.';
         Time_Tracking::insertEntry();
     }
-    
+
     if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {
         Customer::updateRedeemedIncidents($prj_id, $issue_id, @$_REQUEST['redeem']);
     }
-    
+
     $tpl->assign("close_result", $res);
 }
 
