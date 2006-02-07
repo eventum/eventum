@@ -338,54 +338,7 @@ function validateForm(f)
           </td>
         </tr>
         {/if}
-        {section name="i" loop=$custom_fields}
-        {assign var='fld_id' value=$custom_fields[i].fld_id}
-        {assign var="custom_field_id" value=$custom_fields[i].fld_id}
-        <tr>
-          <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>{$custom_fields[i].fld_title}:{if $custom_fields[i].fld_report_form_required} *{/if}</b>
-            {if $custom_fields[i].fld_report_form_required}
-            <script language="JavaScript">
-            <!--
-            custom_fields[custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}', '{$custom_fields[i].fld_title}');
-            required_custom_fields[required_custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}', {if $custom_fields[i].fld_type == 'multiple'}'multiple'{elseif $custom_fields[i].fld_type == 'combo'}'combo'{elseif $custom_fields[i].fld_type == 'date'}'date'{else}'whitespace'{/if});
-            //-->
-            </script>
-            {/if}
-          </td>
-          <td bgcolor="{$light_color}">
-            {if $custom_fields[i].fld_type == 'text'}
-            <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]}">
-            {elseif $custom_fields[i].fld_type == 'textarea'}
-            <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$smarty.request.custom_fields[$fld_id]}</textarea>
-            {elseif $custom_fields[i].fld_type == 'date'}
-            {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" month_empty='' time='--' display_years=false display_days=false month_extra="id=\"custom_field_`$custom_field_id`_month\" tabindex=\"`$tabindex++`\""}
-            {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Month]"}
-            {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" day_empty='' time='--' display_months=false display_years=false day_value_format=%02d day_extra="id=\"custom_field_`$custom_field_id`_day\" tabindex=\"`$tabindex++`\""}
-            {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Day]"}
-            {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" year_empty='' time='--' display_months=false display_days=false start_year=-1 end_year=+2 year_extra="id=\"custom_field_`$custom_field_id`_year\" tabindex=\"`$tabindex++`\""}
-            {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Year]"}
-            {else}
-            <select id="custom_field_{$custom_fields[i].fld_id}" {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if} class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" tabindex="{$tabindex++}">
-              {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">Please choose an option</option>{/if}
-              {html_options options=$custom_fields[i].field_options selected=$smarty.request.custom_fields[$fld_id]}
-            </select>
-            {/if}
-            {if $custom_fields[i].dynamic_options|@count > 0}
-            <script>custom_field_init_dynamic_options({$custom_fields[i].fld_id});</script>
-            {/if}
-            {if $custom_fields[i].fld_type == 'multiple'}
-              {assign var="custom_field_sufix" value="[]"}
-            {else}
-              {assign var="custom_field_sufix" value=""}
-            {/if}
-            {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]$custom_field_sufix"}
-            {if $custom_fields[i].fld_description != ""}
-            <span class="small_default">({$custom_fields[i].fld_description|escape:"html"})</span>
-            {/if}
-          </td>
-        </tr>
-        {/section}
+        {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='report'}
         {if $has_customer_integration}
         {include file="customer/$customer_backend_name/report_form_fields.tpl.html"}
 
@@ -407,6 +360,7 @@ function validateForm(f)
               <tr>
                 <td>
                   <input id="file[]_1" type="file" name="file[]" size="40" class="shortcut" onChange="javascript:addFileRow('file_table', 'file[]');">
+                  {if $current_project == 17}<br /><span class="default"><b>Examples of files to upload: questionnaires, consulting agreement, etc</b></span>{/if}
                 </td>
               </tr>
             </table>
