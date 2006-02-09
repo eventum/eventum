@@ -173,10 +173,15 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      * @param   integer $issue_id The ID of the issue.
      * @param   object $message An object containing the new email
      * @param   array $row The array of data that was inserted into the database.
+     * @param   boolean $closing If we are closing the issue.
      */
-    function handleNewEmail($prj_id, $issue_id, $message, $row = FALSE)
+    function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)
     {
-        echo "Workflow: New Email<br />\n";
+        echo "Workflow: New";
+        if ($closing) {
+            echo " closing";
+        }
+        echo " Email<br />\n";
     }
 
 
@@ -190,7 +195,8 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     function getAllowedStatuses($prj_id, $issue_id)
     {
         echo "Workflow: Returning allowed statuses<br />\n";
-       $statuses = Status::getAssocList();
+       $statuses = Status::getAssocStatusList($prj_id, false);
+       unset($statuses[4], $statuses[3]);
        // you should perform any logic and remove any statuses you need to here.
        return $statuses;
     }
@@ -244,6 +250,18 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      */
     function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason)
     {
+        $sql = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                SET
+                    iss_percent_complete = '100%'
+                WHERE
+                    iss_id = $issue_id";
+        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+
         echo "Workflow: handleIssueClosed<br />\n";
     }
 

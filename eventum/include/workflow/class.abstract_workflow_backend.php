@@ -160,8 +160,9 @@ class Abstract_Workflow_Backend
      * @param   integer $issue_id The ID of the issue.
      * @param   object $message An object containing the new email
      * @param   array $row The array of data that was inserted into the database.
+     * @param   boolean $closing If we are closing the issue.
      */
-    function handleNewEmail($prj_id, $issue_id, $message, $row = false)
+    function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)
     {
     }
 

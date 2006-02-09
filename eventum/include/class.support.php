@@ -909,9 +909,10 @@ class Support
      * @param   array $row The support email details
      * @param   object $structure The email structure object
      * @param   integer $sup_id The support ID to be passed out
+     * @param   boolean $closing If this email comes from closing the issue
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    function insertEmail($row, &$structure, &$sup_id)
+    function insertEmail($row, &$structure, &$sup_id, $closing = false)
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($row['from']));
@@ -996,7 +997,7 @@ class Support
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
-                Workflow::handleNewEmail(Email_Account::getProjectID($row["ema_id"]), @$row["issue_id"], $structure, $row);
+                Workflow::handleNewEmail(Email_Account::getProjectID($row["ema_id"]), @$row["issue_id"], $structure, $row, $closing);
                 return 1;
             }
         }

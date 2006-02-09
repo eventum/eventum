@@ -1269,7 +1269,7 @@ class Issue
                     'full_email'    =>  $full_email,
                     'headers'       =>  $structure->headers
                 );
-                Support::insertEmail($email, $structure, $sup_id);
+                Support::insertEmail($email, $structure, $sup_id, true);
                 $ids = $sup_id;
             } else {
                 // add note with the reason to close the issue

@@ -267,14 +267,15 @@ class Workflow
      * @param   integer $issue_id The ID of the issue.
      * @param   object $message An object containing the new email
      * @param   array $row The array of data that was inserted into the database.
+     * @param   boolean $closing If we are closing the issue.
      */
-    function handleNewEmail($prj_id, $issue_id, $message, $row = FALSE)
+    function handleNewEmail($prj_id, $issue_id, $message, $row = FALSE, $closing = false)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return;
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->handleNewEmail($prj_id, $issue_id, $message, $row);
+        return $backend->handleNewEmail($prj_id, $issue_id, $message, $row, $closing);
     }
 
 
