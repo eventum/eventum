@@ -1248,6 +1248,9 @@ class Issue
         } else {
             $prj_id = Issue::getProjectID($issue_id);
 
+            // record the change
+            History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
+
             if ($send_notification_to == 'all') {
 
                 $from = User::getFromHeader($usr_id);
@@ -1278,8 +1281,7 @@ class Issue
                 Note::insert($usr_id, $issue_id, false, true, true);
                 $ids = false;
             }
-            // record the change
-            History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
+
             if ($send_notification) {
                 if (Customer::hasCustomerIntegration($prj_id)) {
                     // send a special confirmation email when customer issues are closed
