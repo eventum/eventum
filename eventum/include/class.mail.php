@@ -750,6 +750,7 @@ class Mail_API
                 }
             }
             $new_headers['X-Eventum-Category'] = Category::getTitle(Issue::getCategory($issue_id));
+            $new_headers['X-Eventum-Project'] = Project::getName($prj_id);
         }
         $new_headers['X-Eventum-Type'] = $type;
         return $new_headers;

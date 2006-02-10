@@ -21,6 +21,7 @@ Eventum Issue Tracking System
 - When creating a new issue from an email, add the senders to the authorized repliers list (Bryan)
 - Added option to send closing comments to all users (Bryan)
 - Fixed bug with custom date fields on anonymous report form (Bug #17166) (Bryan)
+- Added new special header 'X-Eventum-Project' (Bryan)
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)
