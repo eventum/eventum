@@ -21,10 +21,10 @@
           </td>
           <td width="200" class="default" NOWRAP>
             <input type="radio" name="report_type" value="recent" class="default" {if $smarty.request.report_type!='range'}checked{/if} onClick="changeType('recent');">
-                <a id="link" class="link" href="javascript:void(null)" 
+                <a id="link" class="link" href="javascript:void(null)"
                             onClick="javascript:checkRadio('recent_activity', 'report_type', 0);changeType('recent');">Recent</a>&nbsp;
             <input type="radio" name="report_type" value="range" {if $smarty.request.report_type=='range'}CHECKED{/if} onClick="changeType('range');">
-                <a id="link" class="link" href="javascript:void(null)" 
+                <a id="link" class="link" href="javascript:void(null)"
                             onClick="javascript:checkRadio('recent_activity', 'report_type', 1);changeType('range');">Date Range</a>&nbsp;
           </td>
         </tr>
@@ -143,7 +143,7 @@ changeType('{$smarty.request.report_type}');
         <tr>
           <td class="default" bgcolor="{$row_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$row.phs_id}</td>
           <td class="default" bgcolor="{$row.sta_color}" align="right">
-            <a href="{$app_base_url}view.php?id={$row.phs_iss_id}" class="link">{$row.phs_iss_id}</a>
+            <a href="{$rel_url}view.php?id={$row.phs_iss_id}" class="link">{$row.phs_iss_id}</a>
           </td>
           {if $has_customer_integration}
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
@@ -192,7 +192,7 @@ changeType('{$smarty.request.report_type}');
         <tr>
           <td class="default" bgcolor="{$row_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$row.not_id}</td>
           <td class="default" bgcolor="{$row.sta_color}" align="right">
-            <a href="{$app_base_url}view.php?id={$row.not_iss_id}" class="link">{$row.not_iss_id}</a>
+            <a href="{$rel_url}view.php?id={$row.not_iss_id}" class="link">{$row.not_iss_id}</a>
           </td>
           {if $has_customer_integration}
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
@@ -242,7 +242,7 @@ changeType('{$smarty.request.report_type}');
             {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$row.composite_id}
           </td>
           <td class="default" bgcolor="{$row.sta_color}" align="right">
-            <a href="{$app_base_url}view.php?id={$row.sup_iss_id}" class="link">{$row.sup_iss_id}</a>
+            <a href="{$rel_url}view.php?id={$row.sup_iss_id}" class="link">{$row.sup_iss_id}</a>
           </td>
           {if $has_customer_integration}
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
@@ -298,7 +298,7 @@ changeType('{$smarty.request.report_type}');
         <tr {if $row.emd_status != 'pending'}style="text-decoration: line-through;"{/if}>
           <td class="default" NOWRAP bgcolor="{$row_color}">{include file="expandable_cell/buttons.tpl.html" ec_id="draft" list_id=$row.emd_id}</td>
           <td class="default" bgcolor="{$row.sta_color}" align="right">
-            <a href="{$app_base_url}view.php?id={$row.emd_iss_id}" class="link">{$row.emd_iss_id}</a>
+            <a href="{$rel_url}view.php?id={$row.emd_iss_id}" class="link">{$row.emd_iss_id}</a>
           </td>
           {if $has_customer_integration}
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
@@ -348,7 +348,7 @@ changeType('{$smarty.request.report_type}');
         {cycle values=$cycle assign="row_color"}
         <tr>
           <td class="default" bgcolor="{$row.sta_color}" align="right">
-            <a href="{$app_base_url}view.php?id={$row.ttr_iss_id}" class="link">{$row.ttr_iss_id}</a>
+            <a href="{$rel_url}view.php?id={$row.ttr_iss_id}" class="link">{$row.ttr_iss_id}</a>
           </td>
           {if $has_customer_integration}
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
@@ -393,7 +393,7 @@ changeType('{$smarty.request.report_type}');
         {cycle values=$cycle assign="row_color"}
         <tr>
           <td class="default" bgcolor="{$row.sta_color}" align="right">
-            <a href="{$app_base_url}view.php?id={$row.rmh_iss_id}" class="link">{$row.rmh_iss_id}</a>
+            <a href="{$rel_url}view.php?id={$row.rmh_iss_id}" class="link">{$row.rmh_iss_id}</a>
           </td>
           {if $has_customer_integration}
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
