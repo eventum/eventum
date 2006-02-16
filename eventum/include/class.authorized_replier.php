@@ -32,7 +32,7 @@ include_once(APP_INC_PATH . "class.user.php");
 
 /**
  * Class designed to handle adding, removing and viewing authorized repliers for an issue.
- * 
+ *
  * @author  Bryan Alsdorf <bryan@mysql.com>
  */
 class Authorized_Replier
@@ -97,7 +97,7 @@ class Authorized_Replier
 
     /**
      * Removes the specified authorized replier
-     * 
+     *
      * @access  public
      * @param   integer $iur_id The id of the authorized replier
      */
@@ -116,7 +116,7 @@ class Authorized_Replier
         if (PEAR::isError($issue_id)) {
             Error_Handler::logError(array($issue_id->getMessage(), $issue_id->getDebugInfo()), __FILE__, __LINE__);
         }
-        
+
         foreach ($iur_ids as $id) {
             $replier = Authorized_Replier::getReplier($id);
             $stmt = "DELETE FROM
@@ -128,7 +128,7 @@ class Authorized_Replier
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return "";
             } else {
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_removed'), 
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_removed'),
                                 "Authorized replier $replier removed by " . User::getFullName(Auth::getUserID()));
             }
         }
@@ -137,7 +137,7 @@ class Authorized_Replier
 
     /**
      * Adds the specified email address to the list of authorized users.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   string $email The email of the user.
@@ -149,13 +149,20 @@ class Authorized_Replier
             return -1;
         } else {
             $email = strtolower(Mail_API::getEmailAddress($email));
+
+            $workflow = Workflow::handleAuthorizedReplierAdded(Issue::getProjectID($issue_id), $issue_id, $email);
+            if ($workflow === false) {
+                // cancel subscribing the user
+                return -1;
+            }
+
             // first check if this is an actual user or just an email address
             $user_emails = User::getAssocEmailList();
             $user_emails = array_map('strtolower', $user_emails);
             if (in_array($email, array_keys($user_emails))) {
                 return Authorized_Replier::addUser($issue_id, $user_emails[$email], $add_history);
             }
-            
+
             $stmt = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
                      (
@@ -185,7 +192,7 @@ class Authorized_Replier
 
     /**
      * Adds a real user to the authorized repliers list.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $usr_id The id of the user.
@@ -197,7 +204,7 @@ class Authorized_Replier
         if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
             return -2;
         }
-        
+
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
                  (
@@ -224,7 +231,7 @@ class Authorized_Replier
 
     /**
      * Returns if the specified user is authorized to reply to this issue.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   string  $email The email address to check.
@@ -265,7 +272,7 @@ class Authorized_Replier
 
     /**
      * Returns if the specified usr_id is authorized to reply.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The id of the issue
      * @param   integer $usr_id The id of the user.
@@ -296,7 +303,7 @@ class Authorized_Replier
 
     /**
      * Returns the replier based on the iur_id
-     * 
+     *
      * @access  public
      * @param   integer iur_id The id of the authorized replier
      * @return  string The name/email of the replier
@@ -322,7 +329,7 @@ class Authorized_Replier
 
     /**
      * Returns the replier based on the given issue and email address combo.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   string $email The email address of the user
@@ -364,7 +371,7 @@ class Authorized_Replier
         $res = Authorized_Replier::manualInsert($issue_id, $replier, false);
         if ($res != -1) {
             // save a history entry about this...
-            History::add($issue_id, $usr_id, History::getTypeID('remote_replier_added'), 
+            History::add($issue_id, $usr_id, History::getTypeID('remote_replier_added'),
                             $replier . " remotely added to authorized repliers by " . User::getFullName($usr_id));
         }
         return $res;

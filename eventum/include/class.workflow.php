@@ -464,6 +464,24 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->canEmailIssue($prj_id, $issue_id, $email);
     }
+
+
+    /**
+     * Handles when an authorized replier is added
+     *
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue
+     * @param   string  $email The email address added
+     * @return  boolean
+     */
+    function handleAuthorizedReplierAdded($prj_id, $issue_id, &$email)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return null;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->handleAuthorizedReplierAdded($prj_id, $issue_id, $email);
+    }
 }
 
 
