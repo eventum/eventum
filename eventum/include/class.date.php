@@ -249,17 +249,20 @@ class Date_API
      *
      * @access  public
      * @param   string $timestamp The date timestamp to be formatted
+     * @param   boolean $convert If the timestamp should be converted to the preferred timezone
      * @return  string
      */
-    function getSimpleDate($timestamp)
+    function getSimpleDate($timestamp, $convert = true)
     {
         if (empty($timestamp)) {
             return '';
         }
-        $timezone = Date_API::getPreferredTimezone();
         $date = new Date($timestamp);
         // now convert to another timezone and return the date
-        $date->convertTZById($timezone);
+        if ($convert) {
+            $timezone = Date_API::getPreferredTimezone();
+            $date->convertTZById($timezone);
+        }
         return $date->format('%d %b %Y');
     }
 
