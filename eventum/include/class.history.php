@@ -142,7 +142,7 @@ class History
 
 
     /**
-     * Method used to remove all history entries associated with a 
+     * Method used to remove all history entries associated with a
      * given set of issues.
      *
      * @access  public
@@ -168,7 +168,7 @@ class History
 
     /**
      * Returns the id for the history type based on name.
-     * 
+     *
      * @access  public
      * @param   string The name of the history type
      * @return  integer The id of this type.
@@ -177,12 +177,12 @@ class History
     {
         static $returns;
 
-        
+
         $serialized = serialize($name);
         if (!empty($returns[$serialized])) {
             return $returns[$serialized];
         }
-        
+
         if (!is_array($name)) {
             $name = array($name);
         }
@@ -209,7 +209,7 @@ class History
 
     /**
      * Returns a list of issues touched by the specified user in the specified time frame.
-     * 
+     *
      * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
@@ -278,7 +278,7 @@ class History
 
     /**
      * Returns the number of issues for the specified user that are currently set to the specified status(es).
-     * 
+     *
      * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
@@ -286,7 +286,7 @@ class History
      * @param   array $statuses An array of status abreviations to return counts for.
      * @return  array An array containing the number of issues for the user set tothe specified statuses.
      */
-    function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses)
+    function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses = false)
     {
         $stmt = "SELECT
                     sta_title,
@@ -299,11 +299,15 @@ class History
                     his_iss_id = iss_id AND
                     iss_sta_id = sta_id AND
                     his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
-                    his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
+                    his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'";
+        if ($statuses != false) {
+            $stmt .= " AND
                     (
                         sta_abbreviation IN('" . join("','", $statuses) . "') OR
                         sta_is_closed = 1
-                    )
+                    )";
+        }
+        $stmt .= "
                  GROUP BY
                     sta_title
                  ORDER BY
@@ -320,7 +324,7 @@ class History
 
     /**
      * Returns the history for a specified user in a specified time frame for an optional type
-     * 
+     *
      * @access  public
      * @param   integer $usr_id The id of the user.
      * @param   date $start The start date
@@ -352,11 +356,11 @@ class History
         }
         return $res;
     }
-    
-    
+
+
     /**
      * Returns the last person to close the issue
-     * 
+     *
      * @param   integer $issue_id The ID of the issue
      * @return  integer usr_id
      */

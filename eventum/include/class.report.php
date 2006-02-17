@@ -343,7 +343,7 @@ class Report
             "user"      => User::getDetails($usr_id),
             "group_name"=> Group::getName(User::getGroupID($usr_id)),
             "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed),
-            "status_counts" => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts, array("WOD", "WOC","WOF","WOB","WOL","WOA")),
+            "status_counts" => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts),
             "new_assigned_count"    =>  $newly_assigned,
             "time_tracking" => $time_tracking,
             "email_count"   => $email_count,

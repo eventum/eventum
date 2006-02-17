@@ -24,7 +24,8 @@ New Issues Assigned:  {$data.new_assigned_count}
 {assign var="title" value="`$data.status_counts[status].sta_title`:"}
 {$title|str_pad:"22"}{$data.status_counts[status].total}
 {/section}
-Total Issues:         {$data.issues|@count}
+Total Issues:         {math equation="x+y" x=$data.issues.other|@count y=$data.issues.closed|@count}
+
 
 Eventum Emails:       {$data.email_count.associated}
 Other Emails:         {$data.email_count.other}
