@@ -25,15 +25,13 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.misc.php 1.44 04/01/26 13:34:39-06:00 joao@kickass. $
-//
 
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.setup.php");
 
 /**
  * Class to hold methods and algorythms that woudln't fit in other classes, such
- * as functions to work around PHP bugs or incompatibilities between separate 
+ * as functions to work around PHP bugs or incompatibilities between separate
  * PHP configurations.
  *
  * @version 1.0

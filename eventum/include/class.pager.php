@@ -55,7 +55,7 @@ class Pager
             // go the extra mile and try to use the grouped by column in the count() call
             preg_match("/.*\s+GROUP BY\s+(\w*)\s+.*/i", $stmt, $matches);
             if (!empty($matches[1])) {
-                $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(" . $matches[1] . ") AS total_rows FROM '", $stmt);
+                $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(DISTINCT " . $matches[1] . ") AS total_rows FROM '", $stmt);
             }
         } else {
             $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(*) AS total_rows FROM '", $stmt);
@@ -140,7 +140,7 @@ class Pager
         $number_of_pages = ceil($total_rows / $per_page);
         $subscript = 0;
         for ($current = 0; $current < $number_of_pages; $current++) {
-            // if we need to show all links, or the 'side' links, 
+            // if we need to show all links, or the 'side' links,
             // let's add the 'Previous' link as the first item of the array
             if ((($show_links == "all") || ($show_links == "sides")) && ($current == 0)) {
                 if ($row != 0) {

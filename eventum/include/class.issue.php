@@ -2271,6 +2271,8 @@ class Issue
     {
         global $HTTP_SERVER_VARS;
 
+        $custom_fields = Custom_Field::getFieldsToBeListed(Auth::getCurrentProject());
+
         $fields = array(
             "pri_rank",
             "iss_id",
@@ -2283,6 +2285,10 @@ class Issue
             "usr_full_name",
             "iss_expected_resolution_date"
         );
+
+        foreach ($custom_fields as $fld_id => $fld_name) {
+            $fields[] = 'custom_field_' . $fld_id;
+        }
         $items = array(
             "links"  => array(),
             "images" => array()
@@ -2404,6 +2410,14 @@ class Issue
             }
         }
         $stmt .= ")";
+        // check for the custom fields we want to sort by
+        if (strstr($options['sort_by'], 'custom_field') !== false) {
+            $fld_id = str_replace("custom_field_", '', $options['sort_by']);
+            $stmt .= "\n LEFT JOIN \n" .
+                APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf_sort
+                ON
+                    (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
+        }
         if (!empty($options["users"])) {
             $stmt .= "
                  LEFT JOIN
@@ -2454,11 +2468,18 @@ class Issue
                  WHERE
                     iss_prj_id= " . Misc::escapeInteger($prj_id);
         $stmt .= Issue::buildWhereClause($options);
+
+        if (strstr($options["sort_by"], 'custom_field') !== false) {
+            $sort_by = 'cf_sort.icf_value';
+        } else {
+            $sort_by = Misc::escapeString($options["sort_by"]);
+        }
+
         $stmt .= "
                  GROUP BY
                     iss_id
                  ORDER BY
-                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]) . ",
+                    " . $sort_by . " " . Misc::escapeString($options["sort_order"]) . ",
                     iss_id DESC";
         $total_rows = Pager::getTotalRows($stmt);
         $stmt .= "
@@ -2497,7 +2518,7 @@ class Issue
             $csv[] = @implode("\t", $column_headings);
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
-                $res[$i]["iss_expected_resolution_date"] = Date_API::getSimpleDate($res[$i]["iss_expected_resolution_date"]);
+                $res[$i]["iss_expected_resolution_date"] = Date_API::getSimpleDate($res[$i]["iss_expected_resolution_date"], false);
                 $fields = array(
                     $res[$i]['pri_title'],
                     $res[$i]['iss_id']
@@ -2824,6 +2845,14 @@ class Issue
             }
         }
         $stmt .= ")";
+        // check for the custom fields we want to sort by
+        if (strstr($options['sort_by'], 'custom_field') !== false) {
+            $fld_id = str_replace("custom_field_", '', $options['sort_by']);
+            $stmt .= "\n LEFT JOIN \n" .
+                APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field as cf_sort
+                ON
+                    (icf_iss_id = iss_id AND icf_fld_id = $fld_id) \n";
+        }
         if (!empty($options["users"])) {
             $stmt .= "
                  LEFT JOIN
@@ -2864,11 +2893,16 @@ class Issue
                  WHERE
                     iss_prj_id=" . Auth::getCurrentProject();
         $stmt .= Issue::buildWhereClause($options);
+        if (strstr($options["sort_by"], 'custom_field') !== false) {
+            $sort_by = 'cf_sort.icf_value';
+        } else {
+            $sort_by = Misc::escapeString($options["sort_by"]);
+        }
         $stmt .= "
                  GROUP BY
                     iss_id
                  ORDER BY
-                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]) . ",
+                    " . $sort_by . " " . Misc::escapeString($options["sort_order"]) . ",
                     iss_id DESC";
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
