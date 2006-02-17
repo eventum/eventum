@@ -505,7 +505,7 @@ class Support
             if ($info['ema_use_routing'] == 1) {
                 $setup = Setup::load();
 
-                if ($setup['email_routing']['status'] == 'enabled') {
+                if (@$setup['email_routing']['status'] == 'enabled') {
                     $prefix = $setup['email_routing']['address_prefix'];
                     // escape plus signs so 'issue+1@example.com' becomes a valid routing address
                     $prefix = str_replace('+', '\+', $prefix);
