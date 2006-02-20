@@ -24,6 +24,7 @@ Eventum Issue Tracking System
 - Added new special header 'X-Eventum-Project' (Bryan)
 - Added workflow method for when a user is added to the Authorized repliers list (Bryan)
 - Added feature to allow sorting by custom fields (Bryan)
+- Added full path to reports link (Bug #17551) (Bryan)
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)
