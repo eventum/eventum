@@ -2399,6 +2399,9 @@ class Issue
                     continue;
                 }
                 $field = Custom_Field::getDetails($fld_id);
+                if (($field['fld_type'] == 'date') && ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day'])))) {
+                    continue;
+                }
                 if ($field['fld_type'] == 'multiple') {
                     $search_value = Misc::escapeInteger($search_value);
                     foreach ($search_value as $cfo_id) {
@@ -2777,6 +2780,7 @@ class Issue
                     continue;
                 }
                 $field = Custom_Field::getDetails($fld_id);
+
                 if ($field['fld_type'] == 'multiple') {
                     $search_value = Misc::escapeInteger($search_value);
                     foreach ($search_value as $cfo_id) {
@@ -2784,6 +2788,13 @@ class Issue
                         $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_fld_id = $fld_id";
                         $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_value = $cfo_id";
                     }
+                } elseif ($field['fld_type'] == 'date') {
+                    if ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day']))) {
+                        continue;
+                    }
+                    $search_value = $search_value['Year'] . "-" . $search_value['Month'] . "-" . $search_value['Day'];
+                    $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id AND
+                        cf" . $fld_id . ".icf_value = '" . Misc::escapeString($search_value) . "')";
                 } else {
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
@@ -2796,7 +2807,6 @@ class Issue
                 }
             }
         }
-
         // clear cached full-text values if we are not searching fulltext anymore
         if ((APP_ENABLE_FULLTEXT) && (@$options['search_type'] != 'all_text')) {
             Session::set('fulltext_string', '');
@@ -3947,6 +3957,8 @@ class Issue
                 $return = true;
             } elseif ((!empty($details['iss_grp_id'])) && (!empty($usr_details['usr_grp_id'])) &&
                         ($details['iss_grp_id'] == $usr_details['usr_grp_id'])) {
+                $return = true;
+            } elseif (Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id)) {
                 $return = true;
             } else {
                 $return = false;

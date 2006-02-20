@@ -60,7 +60,7 @@ function toggleDateFields(f, field_name)
     day_end_field.disabled = bool;
     year_end_field.disabled = bool;
     time_period_field.disabled = bool;
-    
+
     getPageElement(field_name + '_hidden').disabled = !bool;
 }
 function checkDateFilterType(f, type_field)
@@ -133,13 +133,13 @@ function validateForm(f)
 
 function changeDateFieldsVisibility(display)
 {
-    
+
     var elements_to_hide = new Array('created_date', 'updated_date', 'first_response_date', 'last_response_date', 'closed_date');
     for (var i = 0; i < elements_to_hide.length; i++) {
         element_name = 'date_field_row_' + i;
-        
+
         changeVisibility(element_name, display, true);
-        
+
         if ((display == false) || ((display == true) && (getPageElement('filter[' + elements_to_hide[i] + ']').checked == true))) {
             var selects = getPageElement(element_name).getElementsByTagName('select');
             for (var j = 0; j < selects.length; j++) {
@@ -164,7 +164,7 @@ function disableCustomFields(disable)
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].disabled = disable;
     }
-    
+
     // enable/disable hidden field
     getPageElement('custom_field_hidden').disabled = !disable;
 }
@@ -558,6 +558,7 @@ function disableCustomFields(disable)
             <br />
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
               {foreach from=$custom_fields item=field name=custom_fields}
+              {assign var="custom_field_id" value=$field.fld_id}
               {if $smarty.foreach.custom_fields.iteration % 2 == 1}
               <tr>
               {/if}
@@ -571,6 +572,13 @@ function disableCustomFields(disable)
                   <select name="custom_field[{$field.fld_id}][]" class="default" multiple size="3" disabled>
                     {html_options options=$field.field_options selected=$options.cst_custom_field[$field.fld_id]}
                   </select>
+                  {elseif $field.fld_type == 'date'}
+                    {html_select_date field_array="custom_field[`$custom_field_id`]" prefix='' all_extra="class=\"default\"" month_empty='' time='--' display_years=false display_days=false month_extra="id=\"custom_field_`$custom_field_id`_month\" tabindex=\"`$tabindex++`\""}
+                    {include file="error_icon.tpl.html" field="custom_field[$custom_field_id][Month]"}
+                    {html_select_date field_array="custom_field[`$custom_field_id`]" prefix='' all_extra="class=\"default\"" day_empty='' time='--' display_months=false display_years=false day_value_format=%02d day_extra="id=\"custom_field_`$custom_field_id`_day\" tabindex=\"`$tabindex++`\""}
+                    {include file="error_icon.tpl.html" field="custom_field[$custom_field_id][Day]"}
+                    {html_select_date field_array="custom_field[`$custom_field_id`]" prefix='' all_extra="class=\"default\"" year_empty='' time='--' display_months=false display_days=false start_year=-1 end_year=+2 year_extra="id=\"custom_field_`$custom_field_id`_year\" tabindex=\"`$tabindex++`\""}
+                    {include file="error_icon.tpl.html" field="custom_field[$custom_field_id][Year]"}
                   {/if}
                 </td>
               {if $smarty.foreach.custom_fields.iteration % 2 != 1}
