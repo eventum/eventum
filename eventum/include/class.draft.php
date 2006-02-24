@@ -42,7 +42,7 @@ class Draft
     {
         $path = APP_PATH . "misc/routed_drafts/";
         list($usec,) = explode(" ", microtime());
-        $filename = date('dmY.His.') . $usec . '.draft.txt';
+        $filename = date('Y-m-d_H-i-s_') . $usec . '.draft.txt';
         $fp = @fopen($path . $filename, 'w');
         @fwrite($fp, $message);
         @fclose($fp);
@@ -51,7 +51,7 @@ class Draft
 
 
     /**
-     * Method used to save the draft response in the database for 
+     * Method used to save the draft response in the database for
      * further use.
      *
      * @access  public
@@ -144,7 +144,7 @@ class Draft
             $parent_id = 'NULL';
         }
         $usr_id = Auth::getUserID();
-        
+
         // update previous draft and insert new record
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
@@ -218,7 +218,7 @@ class Draft
 
 
     /**
-     * Method used to associate a recipient with a given email 
+     * Method used to associate a recipient with a given email
      * draft response.
      *
      * @access  public
@@ -292,7 +292,7 @@ class Draft
 
     /**
      * Returns a list of drafts associated with an issue.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The ID of the issue.
      * @param   boolean $show_all If all draft statuses should be shown
@@ -381,7 +381,7 @@ class Draft
 
     /**
      * Returns the nth draft for the specific issue. Sequence starts at 1.
-     * 
+     *
      * @access  public
      * @param   integer $issue_id The id of the issue.
      * @param   integer $sequence The sequential number of the draft.
@@ -417,7 +417,7 @@ class Draft
 
     /**
      * Converts an email to a draft and sends it.
-     * 
+     *
      * @access  public
      * @param   integer $draft_id The id of the draft to send.
      */
@@ -440,11 +440,11 @@ class Draft
         }
         return $res;
     }
-    
-    
+
+
     /**
      * Returns the number of drafts by a user in a time range.
-     * 
+     *
      * @access  public
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date

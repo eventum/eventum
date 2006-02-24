@@ -260,7 +260,7 @@ class Support
     {
         $path = APP_PATH . "misc/routed_emails/";
         list($usec,) = explode(" ", microtime());
-        $filename = date('dmY.His.') . $usec . '.email.txt';
+        $filename = date('Y-m-d_H-i-s_') . $usec . '.email.txt';
         $fp = @fopen($path . $filename, 'w');
         @fwrite($fp, $message);
         @fclose($fp);

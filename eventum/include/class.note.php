@@ -257,7 +257,7 @@ class Note
     {
         $path = APP_PATH . "misc/routed_notes/";
         list($usec,) = explode(" ", microtime());
-        $filename = date('dmY.His.') . $usec . '.note.txt';
+        $filename = date('Y-m-d_H-i-s_') . $usec . '.note.txt';
         $fp = @fopen($path . $filename, 'w');
         @fwrite($fp, $message);
         @fclose($fp);
