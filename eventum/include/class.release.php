@@ -114,7 +114,7 @@ class Release
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  WHERE
                     pre_id=" . Misc::escapeInteger($pre_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt, DB_FETCHMODE_ASSOC);
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -261,7 +261,7 @@ class Release
 
 
     /**
-     * Method used to get the list of releases associated with a 
+     * Method used to get the list of releases associated with a
      * specific project.
      *
      * @access  public
