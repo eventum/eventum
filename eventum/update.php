@@ -52,7 +52,12 @@ $tpl->setTemplate("update.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["id"];
+$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : @$HTTP_GET_VARS["id"];
+
+if (empty($issue_id)) {
+    $tpl->displayTemplate();
+    exit;
+}
 
 // check if the requested issue is a part of the 'current' project. If it doesn't
 // check if issue exists in another project and if it does, switch projects
