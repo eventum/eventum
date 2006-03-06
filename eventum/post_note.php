@@ -54,6 +54,14 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
 }
 
 if (@$HTTP_POST_VARS["cat"] == "post_note") {
+    // change status
+    if (!@empty($HTTP_POST_VARS['new_status'])) {
+        $res = Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
+        if ($res != -1) {
+            $new_status = Status::getStatusTitle($HTTP_POST_VARS['new_status']);
+            History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " . User::getFullName($usr_id));
+        }
+    }
 
     $res = Note::insert($usr_id, $issue_id);
     $tpl->assign("post_result", $res);
@@ -63,15 +71,6 @@ if (@$HTTP_POST_VARS["cat"] == "post_note") {
         $HTTP_POST_VARS['category'] = $HTTP_POST_VARS['time_category'];
         $HTTP_POST_VARS['summary'] = 'Time entry inserted when sending an internal note.';
         Time_Tracking::insertEntry();
-    }
-
-    // change status
-    if (!@empty($HTTP_POST_VARS['new_status'])) {
-        $res = Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
-        if ($res != -1) {
-            $new_status = Status::getStatusTitle($HTTP_POST_VARS['new_status']);
-            History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " . User::getFullName($usr_id));
-        }
     }
 } elseif (@$HTTP_GET_VARS["cat"] == "reply") {
     if (!@empty($HTTP_GET_VARS["id"])) {
