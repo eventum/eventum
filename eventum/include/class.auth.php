@@ -491,6 +491,7 @@ class Auth
         );
         $cookie = base64_encode(serialize($cookie));
         setcookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
+        Auth::createFakeCookie(Auth::getUserID(), $project);
     }
 
 
