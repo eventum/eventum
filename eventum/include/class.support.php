@@ -1166,9 +1166,6 @@ class Support
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     ON
                         sup_iss_id = iss_id";
-        if (!empty($options['keywords'])) {
-            $stmt .= "," . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body";
-        }
         $stmt .= Support::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
