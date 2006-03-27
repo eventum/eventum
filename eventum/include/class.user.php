@@ -316,7 +316,7 @@ class User
                     usr_status
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . md5(Misc::escapeString($HTTP_POST_VARS["passwd"])) . "',
+                    '" . Auth::hashPassword(Misc::escapeString($HTTP_POST_VARS["passwd"])) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["email"]) . "',
                     '" . Misc::escapeString($prefs) . "',
@@ -848,7 +848,7 @@ class User
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_password='" . md5($HTTP_POST_VARS["new_password"]) . "'
+                    usr_password='" . Auth::hashPassword($HTTP_POST_VARS["new_password"]) . "'
                  WHERE
                     usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -942,7 +942,7 @@ class User
                     usr_email='" . Misc::escapeString($HTTP_POST_VARS["email"]) . "'";
         if (!empty($HTTP_POST_VARS["password"])) {
             $stmt .= ",
-                    usr_password='" . md5($HTTP_POST_VARS["password"]) . "'";
+                    usr_password='" . Auth::hashPassword($HTTP_POST_VARS["password"]) . "'";
         }
         $stmt .= "
                  WHERE
@@ -1026,7 +1026,7 @@ class User
                     NULL,
                     NULL,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . md5(Misc::escapeString($HTTP_POST_VARS["password"])) . "',
+                    '" . Auth::hashPassword(Misc::escapeString($HTTP_POST_VARS["password"])) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
                     '" . Misc::escapeString($HTTP_POST_VARS["email"]) . "',
                     '" . Misc::escapeString($prefs) . "'

@@ -392,7 +392,7 @@ class Auth
             Error_Handler::logError(array($passwd->getMessage(), $passwd->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            if ($passwd != md5($password)) {
+            if ($passwd != Auth::hashPassword($password)) {
                 return false;
             } else {
                 return true;
@@ -523,6 +523,24 @@ class Auth
             );
         }
         $HTTP_COOKIE_VARS[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
+    }
+
+
+    /**
+     * Hashes the password according to APP_HASH_TYPE constant
+     *
+     * @access  public
+     * @param   string $password The plain text password
+     * @return  string The hashed password
+     */
+    function hashPassword($password)
+    {
+        if (APP_HASH_TYPE == 'MD5-64') {
+            return base64_encode(pack('H*',md5($password)));
+        } else {
+            // default to md5
+            return md5($password);
+        }
     }
 }
 

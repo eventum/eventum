@@ -31,6 +31,7 @@ Eventum Issue Tracking System
 - Fixed bug with notification email showing wrong status when sending a note (Bryan)
 - Fixed bug with searching by keyword on email page (Bryan)
 - Fixed bug with showing old project name when auto switching projects (Bryan)
+- Added ability to use different hashing method for passwords (Bryan)
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)
