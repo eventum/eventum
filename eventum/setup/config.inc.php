@@ -124,6 +124,9 @@ if (stristr(PHP_OS, 'darwin')) {
 // define the user_id of system user
 @define("APP_SYSTEM_USER_ID", 1);
 
+// define the type of password hashing to use (MD5, MD5-64)
+@define('APP_HASH_TYPE', 'MD5');
+
 // if full text searching is enabled
 @define("APP_ENABLE_FULLTEXT", '%{APP_ENABLE_FULLTEXT}%');
 
