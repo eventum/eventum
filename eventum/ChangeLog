@@ -37,6 +37,7 @@ Eventum Issue Tracking System
 - Fixed page refreshes to use the relative URL instead of the absolute URL (Bryan)
 - Fixed subject encoding in mail queue (Elan Ruusamäe)
 - Truncate issue list in issue lookup to 70 characters (Elan Ruusamäe)
+- Changed recent activity report to open issue links in blank windows (Elan Ruusamäe)
 
 
 29 Dec 2005, Version 1.7.0
