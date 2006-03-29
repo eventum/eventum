@@ -35,6 +35,9 @@ Eventum Issue Tracking System
 - Allow issue auto creation to work with subject based routing (Bryan)
 - Fixed subject based routing to work across multiple projects (Bryan)
 - Fixed page refreshes to use the relative URL instead of the absolute URL (Bryan)
+- Fixed subject encoding in mail queue (Elan Ruusamäe)
+- Truncate issue list in issue lookup to 70 characters (Elan Ruusamäe)
+
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)

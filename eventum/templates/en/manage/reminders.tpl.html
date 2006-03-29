@@ -227,7 +227,7 @@
                       {/if}
                       <td>
                         <select name="issues[]" class="default" size="4" multiple>
-                          {html_options options=$issues selected=$info.rer_iss_id}
+                          {html_options options=$issues|truncate:70 selected=$info.rer_iss_id}
                         </select>
                       </td>
                     </tr>
