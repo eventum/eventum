@@ -38,7 +38,7 @@ Eventum Issue Tracking System
 - Fixed subject encoding in mail queue (Elan Ruusamäe)
 - Truncate issue list in issue lookup to 70 characters (Elan Ruusamäe)
 - Changed recent activity report to open issue links in blank windows (Elan Ruusamäe)
-
+- Changed file upload window to not automatically close if their was an error uploading the file (Elan Ruusamäe)
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)
