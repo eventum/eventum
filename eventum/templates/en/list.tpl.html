@@ -199,8 +199,10 @@ function disableFields()
           {foreach from=$columns item=column key=field_name}
           {if $field_name == 'custom_fields'}
             {foreach from=$list_info.custom_fields key=fld_id item=fld_title}
+              {assign var="fld_name_id" value="custom_field_`$fld_id`"}
                 <td align="{$column.align|default:'center'}" class="default_white" nowrap>
-                  {$fld_title|escape:"html"}
+                  <a title="sort by {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}" class="white_link">{$fld_title|escape:"html"}</a>
+                  {if $sorting.images[$fld_name_id] != ""}<a title="sort by {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}" class="white_link"><img border="0" src="{$sorting.images[$fld_name_id]}"></a>{/if}
                 </td>
               {/foreach}
           {else}
