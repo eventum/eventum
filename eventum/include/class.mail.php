@@ -786,10 +786,10 @@ class Mail_API
     function getReferenceMessageID($text_headers)
     {
         $references = array();
-        if (preg_match('/^In-Reply-To: (.*)/m', $text_headers, $matches)) {
+        if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
             return trim($matches[1]);
         }
-        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/sm', $text_headers, $matches)) {
+        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
             $references = explode(" ", Mail_API::unfold(trim($matches[1])));
             $references = array_map('trim', $references);
             // return the first message-id in the list of references
@@ -809,10 +809,10 @@ class Mail_API
     function getAllReferences($text_headers)
     {
         $references = array();
-        if (preg_match('/^In-Reply-To: (.*)/m', $text_headers, $matches)) {
+        if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
             $references[] = trim($matches[1]);
         }
-        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/sm', $text_headers, $matches)) {
+        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
             $references = array_merge($references, explode(" ", Mail_API::unfold(trim($matches[1]))));
             $references = array_map('trim', $references);
             $references = array_unique($references);
@@ -863,20 +863,20 @@ class Mail_API
             $headers['message-id'] = $msg_id;
         }
 
-        if (preg_match('/^In-Reply-To: (.*)/m', $text_headers) > 0) {
+        if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers) > 0) {
             // replace existing header
-            $text_headers = preg_replace('/^In-Reply-To: (.*)/m', 'In-Reply-To: ' . $reference_msg_id, $text_headers, 1);
+            $text_headers = preg_replace('/^In-Reply-To: (.*)/mi', 'In-Reply-To: ' . $reference_msg_id, $text_headers, 1);
         } else {
             // add new header after message ID
-            $text_headers = preg_replace('/^Message-ID: (.*)$/m', "Message-ID: $1\r\nIn-Reply-To: $reference_msg_id", $text_headers, 1);
+            $text_headers = preg_replace('/^Message-ID: (.*)$/mi', "Message-ID: $1\r\nIn-Reply-To: $reference_msg_id", $text_headers, 1);
         }
         $headers['in-reply-to'] = $reference_msg_id;
-        if (preg_match('/^References: (.*)/m', $text_headers) > 0) {
+        if (preg_match('/^References: (.*)/mi', $text_headers) > 0) {
             // replace existing header
-            $text_headers = preg_replace('/^References: (.*)/m', 'References: ' . Mail_API::fold(join(' ', $references)), $text_headers, 1);
+            $text_headers = preg_replace('/^References: (.*)/mi', 'References: ' . Mail_API::fold(join(' ', $references)), $text_headers, 1);
         } else {
             // add new header after In-Reply-To
-            $text_headers = preg_replace('/^In-Reply-To: (.*)$/m', "In-Reply-To: $1\r\nReferences: " . Mail_API::fold(join(' ', $references)), $text_headers, 1);
+            $text_headers = preg_replace('/^In-Reply-To: (.*)$/mi', "In-Reply-To: $1\r\nReferences: " . Mail_API::fold(join(' ', $references)), $text_headers, 1);
         }
         $headers['references'] = Mail_API::fold(join(' ', $references));
         return array($text_headers . "\r\n\r\n" . $body, $headers);
@@ -976,11 +976,10 @@ class Mail_API
     function getMessageID($headers, $body)
     {
         // try to parse out actual message-id header
-        if (preg_match('/^Message-ID: (.*)/m', $headers, $matches)) {
+        if (preg_match('/^Message-ID: (.*)/mi', $headers, $matches)) {
             return trim($matches[1]);
         } else {
             // no match, calculate hash to make fake message ID
-            $md5 = md5($headers.$body);
             $first = base_convert(md5($headers), 10, 36);
             $second = base_convert(md5($body), 10, 36);
             return "<eventum.md5." . $first . "." . $second . "@" . APP_HOSTNAME . ">";

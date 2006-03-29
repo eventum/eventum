@@ -41,6 +41,7 @@ Eventum Issue Tracking System
 - Changed file upload window to not automatically close if their was an error uploading the file (Elan Ruusamäe)
 - Changed templates to display 'Add Email/Note/Draft/etc' button, even when section is collapsed (Elan Ruusamäe)
 - Fixed bug that prevented "Record Time Worked" section from being displayed (Elan Ruusamäe)
+- Changed mail handling routines to be case insensitive (Elan Ruusamäe)
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)
