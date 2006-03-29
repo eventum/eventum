@@ -592,6 +592,15 @@ class Support
             $associate_email = $should_create_array['associate_email'];
             if (!empty($should_create_array['issue_id'])) {
                 $t['issue_id'] = $should_create_array['issue_id'];
+
+                // figure out if we should change to a different email account
+                $iss_prj_id = Issue::getProjectID($t['issue_id']);
+                if ($info['ema_prj_id'] != $iss_prj_id) {
+                    $new_ema_id = Email_Account::getEmailAccount($iss_prj_id);
+                    if (!empty($new_ema_id)) {
+                        $t['ema_id'] = $new_ema_id;
+                    }
+                }
             }
             if (!empty($should_create_array['customer_id'])) {
                 $t['customer_id'] = $should_create_array['customer_id'];
@@ -749,6 +758,8 @@ class Support
                 } elseif (!empty($matches[2])) {
                     $type = 'note';
                 }
+            } else {
+                $should_create_issue = true;
             }
         } else {
             // - if this email is a reply:
