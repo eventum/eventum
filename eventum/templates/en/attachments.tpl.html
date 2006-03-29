@@ -46,10 +46,10 @@ function uploadFile(issue_id)
             {/if}
           </td>
         </tr>
-        <tr id="attachments1" {get_display_style element_name="attachments"}>
+        <tr>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
-              <tr>
+              <tr id="attachments1" {get_display_style element_name="attachments"}>
                 <td class="default_white" bgcolor="{$cell_color}">Files</td>
                 <td class="default_white" bgcolor="{$cell_color}">Owner</td>
                 {if $current_role > $roles.customer}
@@ -60,7 +60,7 @@ function uploadFile(issue_id)
               </tr>
               {section name="i" loop=$files}
               {cycle values=$cycle assign="row_color"}
-              <tr bgcolor="{$row_color}">
+              <tr id="attachments{$smarty.section.i.iteration+1}" {get_display_style element_name="attachments"} bgcolor="{$row_color}">
                 <td class="default">
                   {section name="y" loop=$files[i].files}
                   <a title="download file ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}"><img width="17" height="17" src="{$rel_url}images/file.gif" border="0"></a>
@@ -86,7 +86,7 @@ function uploadFile(issue_id)
                 <td class="default" width="45%">{$files[i].iat_description}</td>
               </tr>
               {sectionelse}
-              <tr>
+              <tr id="attachments2" {get_display_style element_name="attachments"}>
                 <td colspan="{if $current_role > $roles.customer}5{else}4{/if}" bgcolor="{$light_color}" align="center" class="default">
                   <i>No attachments could be found.</i>
                 </td>

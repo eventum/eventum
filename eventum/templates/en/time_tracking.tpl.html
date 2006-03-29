@@ -40,10 +40,10 @@ function addTimeEntry()
             {/if}
           </td>
         </tr>
-        <tr id="time_tracker1" {get_display_style element_name="time_tracker" total=$time_entries|@count}>
+        <tr>
           <td colspan="2" class="default" width="100%">
             <table width="100%" cellpadding="2" cellspacing="1">
-              <tr bgcolor="{$internal_color}">
+              <tr id="time_tracker1" {get_display_style element_name="time_tracker" total=$time_entries|@count} bgcolor="{$internal_color}">
                 <td class="default_white" align="center" width="5">#</td>
                 <td class="default_white" nowrap>Date of Work</td>
                 <td class="default_white" nowrap>User</td>
@@ -53,7 +53,7 @@ function addTimeEntry()
               </tr>
               {section name="i" loop=$time_entries}
               {cycle values=$cycle assign="row_color"}
-              <tr bgcolor="{$row_color}">
+              <tr id="time_tracker{$smarty.section.i.iteration+1}" {get_display_style element_name="time_tracker" total=$time_entries|@count} bgcolor="{$row_color}">
                 <td class="default" align="center">{$smarty.section.i.iteration}</td>
                 <td class="default" nowrap>{$time_entries[i].ttr_created_date}</td>
                 <td class="default" nowrap>
@@ -65,13 +65,13 @@ function addTimeEntry()
                 <td class="default">{$time_entries[i].ttr_summary}</td>
               </tr>
               {if $smarty.section.i.last}
-              <tr>
+              <tr id="time_tracker{math equation="2 + x" x=$time_entries|@count}" {get_display_style element_name="time_tracker" total=$time_entries|@count}>
                 <td bgcolor="{$internal_color}" colspan="3" class="default_white" align="right">Total Time Spent:</td>
                 <td bgcolor="{$dark_color}" colspan="3" class="default">{$total_time_spent}</td>
               </tr>
               {/if}
               {sectionelse}
-              <tr>
+              <tr id="time_tracker2" {get_display_style element_name="time_tracker" total=$time_entries|@count}>
                 <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
                   <i>No time tracking entries could be found.</i>
                 </td>

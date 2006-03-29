@@ -59,10 +59,10 @@ function replyNote(note_id, issue_id)
             {/if}
           </td>
         </tr>
-        <tr id="notes1" {get_display_style element_name="notes" total=$notes|@count}>
+        <tr>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
-              <tr bgcolor="{$internal_color}">
+              <tr id="notes1" {get_display_style element_name="notes" total=$notes|@count} bgcolor="{$internal_color}">
                 <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getNote" ec_id="note"}</td>
                 <td class="default_white" align="center">#</td>
                 <td class="default_white">Reply</td>
@@ -72,7 +72,7 @@ function replyNote(note_id, issue_id)
               </tr>
               {section name="i" loop=$notes}
               {cycle values=$cycle assign="row_color"}
-              <tr bgcolor="{$row_color}">
+              <tr id="notes{$smarty.section.i.iteration+1}" {get_display_style element_name="notes" total=$notes|@count} bgcolor="{$row_color}">
                 <td class="default" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$notes[i].not_id}</td>
                 <td class="default" align="center">{$smarty.section.i.iteration}</td>
                 <td align="center">
@@ -90,7 +90,7 @@ function replyNote(note_id, issue_id)
               </tr>
               {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$notes[i].not_id colspan="6"}
               {sectionelse}
-              <tr>
+              <tr id="notes2" {get_display_style element_name="notes" total=$notes|@count}>
                 <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
                   <i>No internal notes could be found.</i>
                 </td>

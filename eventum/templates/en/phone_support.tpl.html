@@ -39,10 +39,10 @@ function addPhoneCall()
             {/if}
         </td>
         </tr>
-        <tr id="phone_support1" {get_display_style element_name="phone_support" total=$phone_entries|@count}>
+        <tr>
           <td colspan="2">
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-              <tr bgcolor="{$internal_color}">
+              <tr id="phone_support1" {get_display_style element_name="phone_support" total=$phone_entries|@count} bgcolor="{$internal_color}">
                 <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getPhoneSupport" ec_id="phone"}</td>
                 <td width="5" class="default_white" align="center">#</td>
                 <td width="20%" class="default_white" nowrap>Recorded Date</td>
@@ -55,7 +55,7 @@ function addPhoneCall()
               </tr>
               {section name="i" loop=$phone_entries}
               {cycle values=$cycle assign="row_color"}
-              <tr bgcolor="{$row_color}">
+              <tr id="phone_support{$smarty.section.i.iteration+1}" {get_display_style element_name="phone_support" total=$phone_entries|@count} bgcolor="{$row_color}">
                 <td class="default" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id}</td>
                 <td class="default" nowrap>{$smarty.section.i.iteration}</td>
                 <td class="default" nowrap>{$phone_entries[i].phs_created_date}</td>
@@ -73,14 +73,14 @@ function addPhoneCall()
               </tr>
               {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id colspan="9"}
               {sectionelse}
-              <tr>
+              <tr id="phone_support2" {get_display_style element_name="phone_support" total=$phone_entries|@count}>
                 <td colspan="9" bgcolor="{$light_color}" class="default" align="center">
                   <i>No phone calls recorded yet.</i>
                 </td>
               </tr>
               {/section}
               {if $current_role > $roles.customer}
-              <tr id="phone_support11" {get_display_style element_name="phone_support"}>
+              <tr>
                 <td colspan="9" bgcolor="{$internal_color}" align="center">
                   <input type="submit" value="Add Phone Call" class="button" onClick="javascript:addPhoneCall();">
                 </td>

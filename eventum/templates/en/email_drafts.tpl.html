@@ -49,10 +49,10 @@ function showAllDrafts(thisBox)
             {/if}
           </td>
         </tr>
-        <tr id="drafts1" {get_display_style element_name="drafts" total=$drafts|@count}>
+        <tr>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
-              <tr bgcolor="{$internal_color}">
+              <tr id="drafts1" {get_display_style element_name="drafts" total=$drafts|@count} bgcolor="{$internal_color}">
                 <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getDraft" ec_id="draft"}</td>
                 <td width="5" class="default_white" align="center">#</td>
                 {if $smarty.request.show_all_drafts == 1}
@@ -65,7 +65,7 @@ function showAllDrafts(thisBox)
               </tr>
               {section name="i" loop=$drafts}
               {cycle values=$cycle assign="row_color"}
-              <tr {if $drafts[i].emd_status != 'pending'}style="text-decoration: line-through;"{/if}>
+              <tr id="drafts{$smarty.section.i.iteration+1}" {get_display_style element_name="drafts" total=$drafts|@count} {if $drafts[i].emd_status != 'pending'}style="text-decoration: line-through;"{/if}>
                 <td class="default" NOWRAP bgcolor="{$row_color}">{include file="expandable_cell/buttons.tpl.html" ec_id="draft" list_id=$drafts[i].emd_id}</td>
                 <td width="5" class="default" bgcolor="{$row_color}" align="center">{$smarty.section.i.iteration}</td>
                 {if $smarty.request.show_all_drafts == 1}
@@ -80,7 +80,7 @@ function showAllDrafts(thisBox)
               </tr>
               {include file="expandable_cell/body.tpl.html" ec_id="draft" list_id=$drafts[i].emd_id colspan=$draft_col_count}
               {sectionelse}
-              <tr>
+              <tr id="drafts2" {get_display_style element_name="drafts" total=$drafts|@count}>
                 <td colspan="{$draft_col_count}" bgcolor="{$light_color}" class="default" align="center">
                   <i>No email drafts could be found.</i>
                 </td>

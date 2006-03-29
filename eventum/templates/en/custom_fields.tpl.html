@@ -27,12 +27,12 @@ function updateCustomFields(issue_id)
             {/if}
           </td>
         </tr>
-        <tr id="custom_fields1" {get_display_style element_name="custom_fields" total=$custom_fields|@count}>
+        <tr>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
               {section name="i" loop=$custom_fields}
               {cycle values=$cycle assign="row_color"}
-              <tr {if $custom_fields[i].hide_when_no_options == 1 && $custom_fields[i].icf_value == ''}style="display: none"{/if}>
+              <tr id="custom_fields{$smarty.section.i.iteration}" {get_display_style element_name="custom_fields" total=$custom_fields|@count} {if $custom_fields[i].hide_when_no_options == 1 && $custom_fields[i].icf_value == ''}style="display: none"{/if}>
                 <td bgcolor="{if $custom_fields[i].fld_min_role > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
                   <nobr><b>{$custom_fields[i].fld_title}:</b>&nbsp;</nobr>
                 </td>
@@ -45,14 +45,14 @@ function updateCustomFields(issue_id)
                 </td>
               </tr>
               {sectionelse}
-              <tr>
+              <tr id="custom_fields1" {get_display_style element_name="custom_fields" total=$custom_fields|@count}>
                 <td colspan="2" bgcolor="{$light_color}" align="center" class="default">
                   <i>No custom fields could be found.</i>
                 </td>
               </tr>
               {/section}
               {if $current_role > $roles.reporter and $custom_fields != ""}
-              <tr id="custom_fields2" {get_display_style element_name="custom_fields"}>
+              <tr>
                 <td align="center" colspan="2" bgcolor="{$cell_color}">
                   <input class="button" type="button" value="Update" onClick="javascript:updateCustomFields({$smarty.get.id});">
                 </td>

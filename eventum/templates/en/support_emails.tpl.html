@@ -65,10 +65,10 @@ function sendEmail(account_id, issue_id)
             {/if}
           </td>
         </tr>
-        <tr id="support_emails1" {get_display_style element_name="support_emails" total=$emails|@count}>
+        <tr>
           <td colspan="2">
             <table width="100%" cellpadding="2" cellspacing="1">
-              <tr bgcolor="{$cell_color}">
+              <tr id="support_emails1" {get_display_style element_name="support_emails" total=$emails|@count} bgcolor="{$cell_color}">
                 {if $emails != "" and $current_role > $roles.viewer and $current_role != $roles.customer}
                 <td width="5"><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');"></td>
                 {/if}
@@ -82,7 +82,7 @@ function sendEmail(account_id, issue_id)
               </tr>
               {section name="i" loop=$emails}
               {cycle values=$cycle assign="row_color"}
-              <tr>
+              <tr id="support_emails{$smarty.section.i.iteration+1}" {get_display_style element_name="support_emails" total=$emails|@count}>
                 {if $current_role > $roles.viewer and $current_role != $roles.customer}
                 <td align="center" bgcolor="{$row_color}">
                   <input type="checkbox" name="item[]" value="{$emails[i].sup_id}">
@@ -113,7 +113,7 @@ function sendEmail(account_id, issue_id)
               </tr>
               {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$emails[i].composite_id colspan=$email_col_count row_color=$row_color}
               {sectionelse}
-              <tr>
+              <tr id="support_emails2" {get_display_style element_name="support_emails" total=$emails|@count}>
                 <td colspan="{$email_col_count}" bgcolor="{$light_color}" class="default" align="center">
                   <i>No associated emails could be found.</i>
                 </td>
