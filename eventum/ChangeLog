@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 1.7.1
+31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
 - Fixed bug that allowed unassigned issues even if "Allow unassigned issues" is set to no (Bryan)
 - Added information on what community users should do to contribute code to the Eventum project (João)
