@@ -403,7 +403,7 @@ class Attachment
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["iat_description"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(Misc::activateLinks(htmlspecialchars($res[$i]["iat_description"]))));
+                $res[$i]["iat_description"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["iat_description"])));
                 $res[$i]["files"] = Attachment::getFileList($res[$i]["iat_id"]);
                 $res[$i]["iat_created_date"] = Date_API::getFormattedDate($res[$i]["iat_created_date"]);
 

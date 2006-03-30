@@ -241,7 +241,7 @@ class Misc
 
 
     /**
-     * Method used to replace all special whitespace characters (\n, 
+     * Method used to replace all special whitespace characters (\n,
      * \r and \t) by their string equivalents. It is usually used in
      * JavaScript code.
      *
@@ -278,7 +278,7 @@ class Misc
        foreach (array_keys($in_array) as $key) {
            // we need a reference, not a copy, normal foreach won't do
            $value =& $in_array[$key];
-           // we need to copy args because we are doing 
+           // we need to copy args because we are doing
            // manipulation on it farther down
            $args = $in_args;
            if (is_array($value)) {
@@ -371,11 +371,11 @@ class Misc
         }
         return $input;
     }
-    
-    
+
+
     /**
      * Accepts a value and cleans it to only contain numeric values
-     * 
+     *
      * @access  public
      * @param   mixed $input The original input.
      * @return  integer The input converted to an integer
@@ -424,7 +424,7 @@ class Misc
         $tip_dir = $tpl->smarty->template_dir . "/tips";
         $files = Misc::getFileList($tip_dir);
         $i = rand(0, (integer)count($files));
-        // some weird bug in the rand() function where sometimes the 
+        // some weird bug in the rand() function where sometimes the
         // second parameter is non-inclusive makes us have to do this
         if (!isset($files[$i])) {
             return Misc::getRandomTip($tpl);
@@ -435,7 +435,7 @@ class Misc
 
 
     /**
-     * Method used to get the full list of files contained in a specific 
+     * Method used to get the full list of files contained in a specific
      * directory.
      *
      * @access  public
@@ -504,8 +504,13 @@ class Misc
      */
     function activateLinks($text, $class = "link")
     {
-        $text = preg_replace("'(\w+)://([\w\+\-\@\=\?\.\%\/\:\&\;~\|]+)(\.)?'", "<a title=\"open \\1://\\2 in a new window\" class=\"$class\" href=\"\\1://\\2\" target=\"_\\2\">\\1://\\2</a>", $text);
-        $text = preg_replace("'(\s+)www\.([\w\+\-\@\=\?\.\%\/\:\&\;~\|]+)(\.\s|\s)'", "\\1<a title=\"open http://www.\\2 in a new window\" class=\"$class\" href=\"http://www.\\2\" target=\"_\\2\">www.\\2</a>\\3" , $text);
+        $range = '[-\w+@=?.%/:&;~|,#]+';
+        $text = preg_replace("'(\w+)://($range)(\.)?'", '<a title="open $1://$2 in a new window" class="' . $class . '" href="$1://$2" target="_$2">$1://$2</a>', $text);
+        $text = preg_replace("'(\s+)(www\.$range)(\.\s|\s)'", '$1<a title="open http://$2 in a new window" class="' . $class . '" href="http://$2" target="_$2">$2</a>$3' , $text);
+
+        $mail_pat = '/([-+a-z0-9_.]+@(?:[-a-z0-9_.]{2,63}\.)+[a-z]{2,6})/i';
+        $text = preg_replace($mail_pat, '<a title="open mailto:$1 in a new window" class="' . $class . '" href="mailto:$1" target="_$1">$1</a>' , $text);
+
         return $text;
     }
 
@@ -541,7 +546,7 @@ class Misc
 
 
     /**
-     * Method used to format a RFC 822 compliant date for the given unix 
+     * Method used to format a RFC 822 compliant date for the given unix
      * timestamp.
      *
      * @access  public
@@ -600,12 +605,12 @@ class Misc
         }
         return true;
     }
-    
-    
+
+
     /**
      * Highlights quoted replies. Relies on a smarty plugin written by
      * Joscha Feth, joscha@feth.com, www.feth.com
-     * 
+     *
      * @access  public
      * @param   string $text The text to highlight
      * @return  string The highlighted text
@@ -672,11 +677,11 @@ class Misc
 </body>
 </html>';
     }
-    
-    
+
+
     /**
      * Base 64 encodes all elements of an array.
-     * 
+     *
      * @access  public
      * @param   array $values The values to encode
      * @return  array The array of encoded values.
