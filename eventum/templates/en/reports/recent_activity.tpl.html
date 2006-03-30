@@ -192,7 +192,7 @@ changeType('{$smarty.request.report_type}');
         <tr>
           <td class="default" bgcolor="{$row_color}" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$row.not_id}</td>
           <td class="default" bgcolor="{$row.sta_color}" align="right">
-            <a target="_blank" href="{$rel_url}view.php?id={$row.not_iss_id}" class="link">{$row.not_iss_id}</a>
+            <a target="_blank" href="{$rel_url}view.php?id={$row.not_iss_id}" class="link" title="{$row.iss_summary|htmlspecialchars}">{$row.not_iss_id}</a>
           </td>
           {if $has_customer_integration}
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
@@ -242,7 +242,7 @@ changeType('{$smarty.request.report_type}');
             {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$row.composite_id}
           </td>
           <td class="default" bgcolor="{$row.sta_color}" align="right">
-            <a target="_blank" href="{$rel_url}view.php?id={$row.sup_iss_id}" class="link">{$row.sup_iss_id}</a>
+            <a target="_blank" href="{$rel_url}view.php?id={$row.sup_iss_id}" class="link" title="{$row.iss_summary|htmlspecialchars}">{$row.sup_iss_id}</a>
           </td>
           {if $has_customer_integration}
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
@@ -348,7 +348,7 @@ changeType('{$smarty.request.report_type}');
         {cycle values=$cycle assign="row_color"}
         <tr>
           <td class="default" bgcolor="{$row.sta_color}" align="right">
-            <a target="_blank" href="{$rel_url}view.php?id={$row.ttr_iss_id}" class="link">{$row.ttr_iss_id}</a>
+            <a target="_blank" href="{$rel_url}view.php?id={$row.ttr_iss_id}" class="link" title="{$row.iss_summary|htmlspecialchars}">{$row.ttr_iss_id}</a>
           </td>
           {if $has_customer_integration}
           <td class="default" bgcolor="{$row_color}">{$row.customer}</td>
