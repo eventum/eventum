@@ -22,10 +22,8 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: s.class.support.php 1.79 04/01/23 21:47:17-00:00 jpradomaia $
 //
 
 include_once(APP_INC_PATH . "class.misc.php");
