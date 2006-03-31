@@ -400,7 +400,7 @@ $private_key = "' . md5(microtime()) . '";
     $config_contents = str_replace("%{APP_TABLE_PREFIX}%", $HTTP_POST_VARS['db_table_prefix'], $config_contents);
     $config_contents = str_replace("%{APP_HOSTNAME}%", $HTTP_POST_VARS['hostname'], $config_contents);
     $config_contents = str_replace("%{APP_RELATIVE_URL}%", $HTTP_POST_VARS['relative_url'], $config_contents);
-    $config_contents = str_replace("%{APP_VERSION}%", "1.7.0", $config_contents);
+    $config_contents = str_replace("%{APP_VERSION}%", "1.7.1", $config_contents);
     if (@$HTTP_POST_VARS['is_ssl'] == 'yes') {
         $protocol_type = 'https://';
     } else {
@@ -460,10 +460,10 @@ foreach ($pieces as $piece) {
 $relative_url[] = '';
 $relative_url = implode("/", $relative_url);
 
-if (substr($HTTP_SERVER_VARS['DOCUMENT_ROOT'], -1) == '/') {
+if (substr(@$HTTP_SERVER_VARS['DOCUMENT_ROOT'], -1) == '/') {
     $HTTP_SERVER_VARS['DOCUMENT_ROOT'] = substr($HTTP_SERVER_VARS['DOCUMENT_ROOT'], 0, -1);
 }
-$installation_path = $HTTP_SERVER_VARS['DOCUMENT_ROOT'] . $relative_url;
+$installation_path = @$HTTP_SERVER_VARS['DOCUMENT_ROOT'] . $relative_url;
 
 $tpl->assign("phpversion", phpversion());
 $tpl->assign("rel_url", $relative_url);
