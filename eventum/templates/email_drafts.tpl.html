@@ -1,0 +1,112 @@
+
+{literal}
+<script language="JavaScript">
+<!--
+function viewDraft(draft_id, issue_id)
+{
+    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var draftWin = window.open('send.php?cat=view_draft&issue_id=' + issue_id + '&id=' + draft_id, '_draft' + draft_id, features);
+    draftWin.focus();
+}
+function createDraft(issue_id)
+{
+    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var draftWin = window.open('send.php?cat=create_draft&issue_id=' + issue_id, '_createDraft', features);
+    draftWin.focus();
+}
+
+function showAllDrafts(thisBox)
+{
+    if (thisBox.checked) {
+        showValue = 1;
+    } else {
+        showValue = 0;
+    }
+    setCookie('show_all_drafts', showValue);
+    document.location.href = document.location.href;
+}
+//-->
+</script>
+{/literal}
+{if $smarty.request.show_all_drafts == 1}
+  {assign var="draft_col_count" value="7"}
+{else}
+  {assign var="draft_col_count" value="6"}
+{/if}
+<br />
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td width="100%">
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <form name="draft_form">
+        <tr>
+          <td class="default" nowrap>
+            <b>Drafts ({$drafts|@count})</b>
+          </td>
+          <td align="right" class="default">
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
+            [ <a id="drafts_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('drafts');">{get_innerhtml element_name="drafts" total=$drafts|@count}</a> ]
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <table width="100%" cellpadding="2" cellspacing="1">
+              <tr id="drafts1" {get_display_style element_name="drafts" total=$drafts|@count} bgcolor="{$internal_color}">
+                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getDraft" ec_id="draft"}</td>
+                <td width="5" class="default_white" align="center">#</td>
+                {if $smarty.request.show_all_drafts == 1}
+                <td width="5%" class="default_white">Status</td>
+                {/if}
+                <td width="20%" class="default_white">From</td>
+                <td width="20%" class="default_white">To</td>
+                <td width="20%" class="default_white" nowrap>Last Updated Date</td>
+                <td width="40%" class="default_white">Subject</td>
+              </tr>
+              {section name="i" loop=$drafts}
+              {cycle values=$cycle assign="row_color"}
+              <tr id="drafts{$smarty.section.i.iteration+1}" {get_display_style element_name="drafts" total=$drafts|@count} {if $drafts[i].emd_status != 'pending'}style="text-decoration: line-through;"{/if}>
+                <td class="default" NOWRAP bgcolor="{$row_color}">{include file="expandable_cell/buttons.tpl.html" ec_id="draft" list_id=$drafts[i].emd_id}</td>
+                <td width="5" class="default" bgcolor="{$row_color}" align="center">{$smarty.section.i.iteration}</td>
+                {if $smarty.request.show_all_drafts == 1}
+                <td width="5%" class="default" bgcolor="{$row_color}">{$drafts[i].emd_status}</td>
+                {/if}
+                <td width="20%" class="default" bgcolor="{$row_color}">{$drafts[i].from|escape:"html"}</td>
+                <td width="20%" class="default" bgcolor="{$row_color}">{$drafts[i].to|escape:"html"}</td>
+                <td width="20%" class="default" nowrap bgcolor="{$row_color}">{$drafts[i].emd_updated_date}</td>
+                <td width="40%" class="default" bgcolor="{$row_color}">
+                  <a title="view email details" href="javascript:void(null);" onClick="javascript:viewDraft({$drafts[i].emd_id}, {$smarty.get.id});" class="link">{$drafts[i].emd_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
+                </td>
+              </tr>
+              {include file="expandable_cell/body.tpl.html" ec_id="draft" list_id=$drafts[i].emd_id colspan=$draft_col_count}
+              {sectionelse}
+              <tr id="drafts2" {get_display_style element_name="drafts" total=$drafts|@count}>
+                <td colspan="{$draft_col_count}" bgcolor="{$light_color}" class="default" align="center">
+                  <i>No email drafts could be found.</i>
+                </td>
+              </tr>
+              {/section}
+              {if $current_role > $roles.reporter}
+              <tr>
+                <td colspan="{$draft_col_count}" bgcolor="{$internal_color}" align="center">
+                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td width="20%">&nbsp;</td>
+                      <td width="60%" align="center"><input type="button" value="Create Draft" class="button" onClick="javascript:createDraft({$smarty.get.id});"></td>
+                      <td width="20%" align="right">
+                        <input type="checkbox" name="show_all_drafts" id="show_all_drafts" value="1" {if $smarty.request.show_all_drafts == 1}checked{/if} onClick="javascript:showAllDrafts(this)"><span class="default_white"><label for="show_all_drafts">Show All Drafts</label></span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              {/if}
+            </table>
+          </td>
+        </tr>
+        </form>
+      </table>
+    </td>
+  </tr>
+</table>
+
