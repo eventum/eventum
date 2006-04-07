@@ -1,0 +1,101 @@
+
+{literal}
+<script language="JavaScript">
+<!--
+function removeCheckins(f)
+{
+    if (!hasOneChecked(f, 'item[]')) {
+        alert('Please choose which entries need to be removed.');
+        return false;
+    }
+    if (!confirm('This action will permanently delete the selected entries.')) {
+        return false;
+    } else {
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('', '_removeCheckins', features);
+        popupWin.focus();
+        return true;
+    }
+}
+//-->
+</script>
+{/literal}
+<br />
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<form onSubmit="javascript:return removeCheckins(this);" target="_removeCheckins" action="popup.php" method="post">
+<input type="hidden" name="cat" value="remove_checkin">
+  <tr>
+    <td width="100%">
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td class="default" nowrap>
+            <b>SCM Integration - Checkins</b>
+          </td>
+          <td align="right" class="default">
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
+            [ <a id="checkins_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('checkins');">{get_innerhtml element_name="checkins" total=$checkins|@count}</a> ]
+            {/if}
+          </td>
+        </tr>
+        <tr id="checkins1" {get_display_style element_name="checkins" total=$checkins|@count}>
+          <td colspan="2">
+            <table width="100%" cellpadding="2" cellspacing="1">
+              <tr bgcolor="{$cell_color}">
+                <td width="5">
+                  {if $checkins != ""}
+                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  {/if}
+                </td>
+                <td class="default_white" nowrap>Date</td>
+                <td class="default_white">User</td>
+                <td class="default_white" nowrap>Module / Directory</td>
+                <td class="default_white" nowrap>File</td>
+                <td width="55%" class="default_white">Commit Message</td>
+              </tr>
+              {section name="i" loop=$checkins}
+              {cycle values=$cycle assign="row_color"}
+              <tr bgcolor="{$row_color}">
+                <td>
+                  <input type="checkbox" name="item[]" value="{$checkins[i].isc_id}">
+                </td>
+                <td class="default" nowrap>{$checkins[i].isc_created_date}</td>
+                <td class="default">{$checkins[i].isc_username|escape:"html"}</td>
+                <td class="default">{$checkins[i].isc_module|escape:"html"}</td>
+                <td class="default" nowrap>
+                  {if $checkins[i].checkout_url}
+                  <a title="see the source of revision {$checkins[i].isc_new_version} of {$checkins[i].isc_filename}" target="_checkout" class="link" href="{$checkins[i].checkout_url}">{$checkins[i].isc_filename|escape:"html"} ({$checkins[i].isc_new_version})</a>
+                  {else}
+                  {$checkins[i].isc_filename|escape:"html"}
+                  {/if}
+                  {if $checkins[i].diff_url}
+                  [<a title="see the diff to revision {$checkins[i].isc_old_version}" target="_checkout" class="link" href="{$checkins[i].diff_url}">diff to {$checkins[i].isc_old_version}</a>]
+                  {/if}
+                </td>
+                <td class="default">
+                  {$checkins[i].isc_commit_msg}
+                </td>
+              </tr>
+              {sectionelse}
+              <tr>
+                <td colspan="6" bgcolor="{$light_color}" class="default" align="center">
+                  <i>No checkins could be found.</i>
+                </td>
+              </tr>
+              {/section}
+              <tr>
+                <td colspan="6" bgcolor="{$cell_color}">
+                  {if $checkins != ""}
+                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="submit" class="button" value="Remove Selected">
+                  {/if}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</form>
+</table>
+
