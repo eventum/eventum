@@ -1,0 +1,209 @@
+
+<br />  
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+        {literal}
+        <script language="JavaScript">
+        <!--
+        function validateImpactAnalysis(f)
+        {
+            if (isWhitespace(f.dev_time.value)) {
+                alert('Please enter the estimated development time for this task.');
+                selectField(f, 'dev_time');
+                return false;
+            }
+            if (!isFloat(f.dev_time.value)) {
+                alert('Please use only floating point numbers (or integers) on the estimated development time field.');
+                selectField(f, 'dev_time');
+                return false;
+            }
+            if (isWhitespace(f.impact_analysis.value)) {
+                alert('Please enter the analysis for the changes required by this issue.');
+                selectField(f, 'impact_analysis');
+                return false;
+            }
+            var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+            var popupWin = window.open('', '_impact', features);
+            popupWin.focus();
+            return true;
+        }
+        //-->
+        </script>
+        {/literal}
+        <form name="set_initial_impact_form" onSubmit="javascript:return validateImpactAnalysis(this);" target="_impact" method="post" action="popup.php">
+        <input type="hidden" name="cat" value="set_initial_impact">
+        <input type="hidden" name="issue_id" value="{$smarty.get.id}">
+        <tr>
+          <td class="default" nowrap>
+            <b>Impact Analysis</b>
+          </td>
+          <td align="right" class="default">
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
+            [ <a id="impact_analysis_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('impact_analysis');">{get_innerhtml element_name="impact_analysis"}</a> ]
+            {/if}
+          </td>
+        </tr>
+        {if $current_role > $roles.reporter}
+        <tr id="impact_analysis1" {get_display_style element_name="impact_analysis"}>
+          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Total Estimated Dev. Time:</b></td>
+          <td bgcolor="{$light_color}" width="100%">
+            {if $issue.iss_developer_est_time == ""}
+            <input class="default" type="text" name="dev_time"> <span class="default">(in hours)</span>
+            {include file="error_icon.tpl.html" field="dev_time"}
+            {else}
+            <span class="default">{$issue.iss_developer_est_time} hours</span>
+            {/if}
+          </td>
+        </tr>
+        <tr id="impact_analysis2" {get_display_style element_name="impact_analysis"}>
+          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Initial Impact Analysis:</b></td>
+          <td bgcolor="{$light_color}" width="100%">
+            {if $issue.iss_impact_analysis == ""}
+            <textarea name="impact_analysis" rows="8" style="width: 97%"></textarea>
+            {include file="error_icon.tpl.html" field="impact_analysis"}
+            {else}
+            <span class="default">{$issue.iss_impact_analysis}</span>
+            {/if}
+          </td>
+        </tr>
+        <tr id="impact_analysis3" {get_display_style element_name="impact_analysis"}>
+          <td colspan="2" bgcolor="{$cell_color}" align="center" width="100%" nowrap>
+            {if $issue.iss_impact_analysis == ""}
+            <input type="submit" value="Update" class="button">
+            {/if}
+          </td>
+        </tr>
+        {/if}
+        </form>
+        {literal}
+        <script language="JavaScript">
+        <!--
+        function validateDeleteReq(f)
+        {
+            if (!hasOneChecked(f, 'item[]')) {
+                alert('Please choose which entries need to be removed.');
+                return false;
+            }
+            if (!confirm('This action will permanently delete the selected entries.')) {
+                return false;
+            } else {
+                var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+                var popupWin = window.open('', '_setImpact', features);
+                popupWin.focus();
+                return true;
+            }
+        }
+        function openReqDetails(isr_id)
+        {
+            var features = 'width=520,height=350,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+            var popupWin = window.open('requirement.php?isr_id=' + isr_id, '_reqDetails', features);
+            popupWin.focus();
+        }
+        //-->
+        </script>
+        {/literal}
+        <tr id="{if $current_role > $roles.reporter}impact_analysis4{else}impact_analysis1{/if}" {get_display_style element_name="impact_analysis"}>
+          <td colspan="2" class="default" width="100%">
+            <b>Further Requirements:</b>
+            <table width="100%" cellpadding="2" cellspacing="1">
+              <form onSubmit="javascript:return validateDeleteReq(this);" method="post" action="popup.php" target="_setImpact">
+              <input type="hidden" name="cat" value="delete_requirement">
+              <tr bgcolor="{$cell_color}">
+                <td width="5">
+                  {if $impacts != "" and $current_role > $roles.reporter}
+                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  {/if}
+                </td>
+                <td class="default_white">Handler</td>
+                <td width="35%" class="default_white">Requirement</td>
+                <td class="default_white" nowrap>Estimated Dev. Time</td>
+                <td width="35%" class="default_white">Impact Analysis</td>
+              </tr>
+              {section name="i" loop=$impacts}
+              {cycle values=$cycle assign="row_color"}
+              <tr bgcolor="{$row_color}">
+                <td valign="top"><input type="checkbox" name="item[]" value="{$impacts[i].isr_id}"></td>
+                <td class="default" valign="top">{$impacts[i].handler_name}</td>
+                <td class="default" valign="top">{$impacts[i].isr_requirement} [submitted by {$impacts[i].submitter_name}]</td>
+                <td valign="top" class="default">
+                  {if $impacts[i].formatted_dev_time == "00:00"}
+                  <a href="javascript:void(null);" onClick="javascript:openReqDetails({$impacts[i].isr_id});" class="link">update entry</a>
+                  {else}
+                  {$impacts[i].formatted_dev_time}
+                  {/if}
+                </td>
+                <td valign="top" class="default">
+                  {if $impacts[i].isr_impact_analysis == ""}
+                  <a href="javascript:void(null);" onClick="javascript:openReqDetails({$impacts[i].isr_id});" class="link">update entry</a>
+                  {else}
+                  {$impacts[i].isr_impact_analysis}
+                  {/if}
+                </td>
+              </tr>
+              {if %i.last% && %i.total% > 0}
+              <tr bgcolor="{$cell_color}">
+                <td colspan="5">
+                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="submit" value="Remove Selected" class="button">
+                </td>
+              </tr>
+              {/if}
+              {sectionelse}
+              <tr>
+                <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                  <i>No entries could be found.</i>
+                </td>
+              </tr>
+              {/section}
+              </form>
+            </table>
+          </td>
+        </tr>
+        {if $current_role > $roles.reporter}
+        <tr id="impact_analysis5" {get_display_style element_name="impact_analysis"}>
+          <td colspan="2" width="100%">
+            <table width="100%" border="0" cellpadding="2" cellspacing="1">
+              {literal}
+              <script language="JavaScript">
+              <!--
+              function validateNewRequirement(f)
+              {
+                  if (isWhitespace(f.new_requirement.value)) {
+                      alert('Please enter the new requirement for this issue.');
+                      selectField(f, 'new_requirement');
+                      return false;
+                  }
+                  var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+                  var popupWin = window.open('', '_requirement', features);
+                  popupWin.focus();
+                  return true;
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="add_requirement_form" onSubmit="javascript:return validateNewRequirement(this);" target="_requirement" method="post" action="popup.php">
+              <input type="hidden" name="cat" value="add_requirement">
+              <input type="hidden" name="issue_id" value="{$smarty.get.id}">
+              <tr bgcolor="{$light_color}">
+                <td align="center" width="100%">
+                  <textarea name="new_requirement" rows="4" style="width: 97%"></textarea>
+                  {include file="error_icon.tpl.html" field="new_requirement"}
+                </td>
+              </tr>
+              <tr bgcolor="{$cell_color}">
+                <td width="100%" align="center">
+                  <input type="submit" value="Add New Requirement" class="button">
+                </td>
+              </tr>
+              </form>
+            </table>
+          </td>
+        </tr>
+        {/if}
+      </table>
+    </td>
+  </tr>
+</table>
+
