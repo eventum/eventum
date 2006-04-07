@@ -1,0 +1,166 @@
+{include file="header.tpl.html"}
+
+<br />
+<center>
+  <span class="default">
+{if $note_add_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $note_add_result == -2}
+  <b>Please enter the note text on the input box below.</b>
+{elseif $note_add_result == 1}
+  <b>Thank you, the new note was created and associated with the issue below.</b>
+{/if}
+
+{if $note_delete_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $note_delete_result == -2}
+  <b>You do not have permission to delete this note.</b>
+{elseif $note_delete_result == 1}
+  <b>Thank you, the note was removed successfully.</b>
+{/if}
+
+{if $time_delete_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $time_delete_result == 1}
+  <b>Thank you, the time tracking entry was removed successfully.</b>
+{/if}
+
+{if $bulk_update_result == 1}
+  <b>Thank you, the selected issues were updated successfully.</b>
+{elseif $bulk_update_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{/if}
+
+{if $set_initial_impact_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $set_initial_impact_result == 1}
+  <b>Thank you, the inital impact analysis was set successfully.</b>
+{/if}
+
+{if $add_requirement_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $add_requirement_result == 1}
+  <b>Thank you, the new requirement was added successfully.</b>
+{/if}
+
+{if $set_impact_requirement_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $set_impact_requirement_result == 1}
+  <b>Thank you, the impact analysis was set successfully.</b>
+{/if}
+
+{if $requirement_delete_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $requirement_delete_result == 1}
+  <b>Thank you, the selected requirements were removed successfully.</b>
+{/if}
+
+{if $save_filter_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $save_filter_result == 1}
+  <b>Thank you, the custom filter was saved successfully.</b>
+{/if}
+
+{if $delete_filter_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $delete_filter_result == 1}
+  <b>Thank you, the selected custom filters were removed successfully.</b>
+{/if}
+
+{if $remove_association_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $remove_association_result == 1}
+  <b>Thank you, the association to the selected emails were removed successfully.</b>
+{/if}
+
+{if $remove_attachment_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $remove_attachment_result == -2}
+  <b>You do not have the permission to remove this attachment.</b>
+{elseif $remove_attachment_result == 1}
+  <b>Thank you, the attachment was removed successfully.</b>
+{/if}
+
+{if $remove_file_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $remove_file_result == -2}
+  <b>You do not have the permission to remove this file.</b>
+{elseif $remove_file_result == 1}
+  <b>Thank you, the file was removed successfully.</b>
+{/if}
+
+{if $remove_checkin_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $remove_checkin_result == 1}
+  <b>Thank you, the selected checkin information entries were removed successfully.</b>
+{/if}
+
+
+{if $remove_email_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $remove_email_result == 1}
+  <b>Thank you, the emails were marked as removed successfully.</b>
+{/if}
+
+{if $clear_duplicate_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $clear_duplicate_result == 1}
+  <b>Thank you, the current issue is no longer marked as a duplicate.</b>
+{/if}
+
+{if $delete_phone_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $delete_phone_result == -2}
+  <b>You do not have permission to remove this phone support entry.</b>
+{elseif $delete_phone_result == 1}
+  <b>Thank you, the phone support entry was removed successfully.</b>
+{elseif $delete_phone_result == 2}
+  <b>Thank you, the phone support entry was removed successfully.<br />
+  The associated time tracking entry was also deleted.</b>
+{/if}
+
+{if $new_status_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $new_status_result == 1}
+  <b>Thank you, the issue was updated successfully.</b>
+{/if}
+
+{if $unassign_result == -1}
+  <b>An error occurred while trying to run your query</b>
+{elseif $unassign_result == -2}
+  <b>Error: the issue is already unassigned.</b>
+{elseif $unassign_result == 1}
+  <b>Thank you, the issue was unassigned successfully.</b>
+{/if}
+
+{if $authorize_reply_result == -1}
+  <b>Error: you are already authorized to send emails in this issue.</b>
+{elseif $authorize_reply_result == 1}
+  <b>Thank you, you are now authorized to send emails in this issue.</b>
+{/if}
+
+{if $remove_quarantine_result == -1}
+    <b>An error occurred while trying to run your query</b>
+{elseif $remove_quarantine_result == 1}
+  <b>Thank you, this issue was removed from quarantine.</b>
+{/if}
+    
+  </span>
+</center>
+
+
+<script language="JavaScript">
+<!--
+{if $current_user_prefs.close_popup_windows == '1'}
+setTimeout('closeAndRefresh()', 2000);
+{/if}
+//-->
+</script>
+<br />
+{if not $current_user_prefs.close_popup_windows}
+<center>
+  <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+</center>
+{/if}
+
+{include file="footer.tpl.html"}
