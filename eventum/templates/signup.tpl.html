@@ -1,0 +1,127 @@
+{include file="header.tpl.html" extra_title="Account Signup"}
+
+<br /><br /><br />
+{if $app_setup.open_signup != 'enabled'}
+<center>
+<span class="default">
+<b>Sorry, but this feature has been disabled by the administrator.</b>
+<br /><br />
+<a class="link" href="javascript:history.go(-1);">Go Back</a>
+</span>
+</center>
+{else}
+{literal}
+<script language="JavaScript">
+<!--
+function validateForm(f)
+{
+    if (isWhitespace(f.full_name.value)) {
+        alert('Please enter your full name.');
+        selectField(f, 'full_name');
+        return false;
+    }
+    if (isWhitespace(f.email.value)) {
+        alert('Please enter your email address.');
+        selectField(f, 'email');
+        return false;
+    }
+    if (!isEmail(f.email.value)) {
+        alert('Please enter a valid email address.');
+        selectField(f, 'email');
+        return false;
+    }
+    if (isWhitespace(f.passwd.value)) {
+        alert('Please enter your password.');
+        selectField(f, 'passwd');
+        return false;
+    }
+    return true;
+}
+//-->
+</script>
+{/literal}
+<form name="signup_form" onSubmit="javascript:return validateForm(this);" method="post" action="signup.php">
+<input type="hidden" name="cat" value="signup">
+<table align="center" width="500" border="0" cellspacing="0" cellpadding="1" bgcolor="#000000">
+  <tr>
+    <td>
+      <table bgcolor="#006486" width="100%" border="0" cellspacing="0" cellpadding="4">
+        <tr>
+          <td colspan="2" align="center">
+            <h2 style="color: white;">Account Signup</h2>
+            <hr size="1" noshade color="white">
+          </td>
+        </tr>
+        {if $signup_result != ''}
+        <tr>
+          <td colspan="2" align="center" class="error">
+            <b>
+            {if $signup_result == -1}
+              Error: An error occurred while trying to run your query.
+            {elseif $signup_result == -2}
+              Error: The email address specified is already associated with 
+              an user in the system.
+            {elseif $signup_result == 1}
+              Thank you, your account creation request was processed 
+              successfully. For security reasons a confirmation email 
+              was sent to the provided email address with instructions
+              on how to confirm your request and activate your account.
+            {/if}
+            </b>
+          </td>
+        </tr>
+        {/if}
+        {if $signup_result != 1}
+        <tr>
+          <td align="right" width="130" class="default_white"><b><u>F</u>ull Name:</b></td>
+          <td width="75%">
+            <input accessKey="f" class="default" type="text" name="full_name" size="50" maxlength="255">
+            {include file="error_icon.tpl.html" field="full_name"}
+          </td>
+        </tr>
+        <tr>
+          <td align="right" width="130" class="default_white"><b><u>E</u>mail Address:</b></td>
+          <td width="75%">
+            <input accessKey="e" class="default" type="text" name="email" size="50" maxlength="255">
+            {include file="error_icon.tpl.html" field="email"}
+          </td>
+        </tr>
+        <tr>
+          <td align="right" width="130" class="default_white"><b><u>P</u>assword:</b></td>
+          <td width="75%">
+            <input accessKey="p" class="default" type="password" name="passwd" size="20" maxlength="32">
+            {include file="error_icon.tpl.html" field="passwd"}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <input class="button" type="submit" value="Create Account">
+          </td>
+        </tr>
+        {/if}
+        <tr align="center">
+          <td colspan="2" class="default_white">
+            <a class="white_link" href="index.php">Back to Login Form</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+{literal}
+<script language="JavaScript">
+<!--
+window.onload = setFocus;
+function setFocus()
+{
+    if (document.signup_form.full_name != null) {
+        document.signup_form.full_name.focus();
+    }
+}
+//-->
+</script>
+{/literal}
+{/if}
+
+{include file="footer.tpl.html"}
