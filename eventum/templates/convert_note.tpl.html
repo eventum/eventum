@@ -1,0 +1,116 @@
+{include file="header.tpl.html" extra_title=$extra_title}
+
+{if $convert_result}
+  <br />
+  <center>
+  <span class="default">
+  {if $convert_result == -1}
+    <b>An error occurred while trying to convert the selected note.</b>
+  {elseif $convert_result == 1}
+    <b>Thank you, the note was converted successfully.</b>
+  {/if}
+  </span>
+  </center>
+  <script language="JavaScript">
+  <!--
+  {if $current_user_prefs.close_popup_windows == '1'}
+  setTimeout('closeAndRefresh()', 2000);
+  {/if}
+  //-->
+  </script>
+  <br />
+  {if not $current_user_prefs.close_popup_windows}
+  <center>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+  </center>
+  {/if}
+{else}
+<script language="JavaScript">
+<!--
+{if $has_customer_integration}
+    var convert_email_warning = 'WARNING: Converting this note to an email will send the email to any customers that may \nbe listed in this issue\'s notification list.';
+{else}
+    var convert_email_warning = 'WARNING: Converting this note to an email will send the email to all users\n listed in this issue\'s notification list.';
+{/if}
+{literal}
+function validateForm(f)
+{
+    var field = getFormElement(f, 'target', 1);
+    if ((field.checked) && (!confirm(convert_email_warning))) {
+        return false;
+    }
+    var field = getFormElement(f, 'target', 0);
+    if ((field.checked) && (!confirm('WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.'))) {
+        return false;
+    }
+    return true;
+}
+
+function disableAR(flag)
+{
+    var field = getFormElement(document.forms[0], 'add_authorized_replier')
+    field.checked = false;
+    field.disabled = flag;
+}
+//-->
+</script>
+{/literal}
+<form name="convert_note_form" method="post" action="convert_note.php" onSubmit="javascript:return validateForm(this);">
+<input type="hidden" name="cat" value="convert">
+<input type="hidden" name="note_id" value="{$note_id}">
+<table align="center" width="100%" cellpadding="3">
+  <tr>
+    <td>
+      <table width="100%" cellspacing="0" cellpadding="2" border="0">
+        <tr>
+          <td colspan="2" class="default">
+            <b>Convert Note To Email</b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}" align="right">
+            <input type="radio" name="target" value="draft" checked onClick="javascript:disableAR(true);">
+          </td>
+          <td class="default" bgcolor="{$dark_color}">
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('convert_note_form', 'target', 0);disableAR(true);">Convert to Draft and Save For Later Editing</a></b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}">&nbsp;</td>
+          <td bgcolor="{$dark_color}" class="small_default">
+            <b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, and without any attachments.
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}" align="right" valign="top">
+            <input type="radio" name="target" value="email" onClick="javascript:disableAR(false);">
+          </td>
+          <td bgcolor="{$dark_color}" class="default">
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('convert_note_form', 'target', 1);disableAR(false);">Convert to Email and Send Now</a></b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}">&nbsp;</td>
+          <td bgcolor="{$dark_color}" class="small_default">
+            <b>ALERT:</b> Email will be re-sent from original sender, including any attachments.
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}"><input type="checkbox" name="add_authorized_replier" value="1" disabled></td>
+          <td bgcolor="{$dark_color}" class="small_default">
+            Add sender to authorized repliers list?
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}" align="right">
+            <input type="submit" value="Continue &gt;&gt;" class="button">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+{/if}
+
+{include file="footer.tpl.html"}
