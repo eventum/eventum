@@ -1,0 +1,157 @@
+{include file="header.tpl.html"}
+
+<br />
+
+{literal}
+<script language="JavaScript">
+<!--
+function validate(f)
+{
+    if (isWhitespace(f.email.value)) {
+        alert('Please enter a valid email address.');
+        selectField(f, 'email');
+        return false;
+    }
+    return true;
+}
+function addSelection(f, from, to)
+{
+    var selected = new Array();
+    var field = getFormElement(f, from);
+    selected = getSelectedItems(field);
+    addOptions(f, to, selected);
+}
+function removeOption(f, field_name)
+{
+    var field = getFormElement(f, field_name);
+    for (var i = 0; i < field.options.length; i++) {
+        if (field.options[i].selected) {
+            field.options[i] = null;
+            removeOption(f, field_name);
+        }
+    }
+}
+//-->
+</script>
+{/literal}
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+<script language="JavaScript" src="js/overlib_mini.js"></script>
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+        <form name="replier_form" onSubmit="javascript:return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
+        {if $smarty.get.cat == 'edit'}
+        <input type="hidden" name="cat" value="update">
+        <input type="hidden" name="id" value="{$smarty.get.id}">
+        {else}
+        <input type="hidden" name="cat" value="insert">
+        {/if}
+        <input type="hidden" name="issue_id" value="{$issue_id}">
+        {if $current_role > $roles.reporter}
+        <tr>
+          <td colspan="2" class="default">
+            <b>Authorized Repliers</b>
+          </td>
+        </tr>
+        {if $insert_result != ""}
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+            {if $insert_result == -1}
+              An error occurred while trying to insert the authorized replier.
+            {elseif $insert_result == -2}
+              Users with a role of "customer" or below are not allowed to be added to the authorized repliers list.
+            {elseif $insert_result == 1}
+              Thank you, the authorized replier was inserted successfully.
+            {/if}
+          </td>
+        </tr>
+        {/if}
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Email:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="email" size="40" class="default" value="{$info.sub_email}">
+            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'replier_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            {include file="error_icon.tpl.html" field="email"}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}" align="center">
+            <input class="button" type="submit" value="Add Authorized Replier">
+            <input class="button" type="reset" value="Reset">
+          </td>
+        </tr>
+        </form>
+        {/if}
+        <tr>
+          <td colspan="2" class="default">
+            <b>Existing Authorized Repliers for this Issue:</b>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            {literal}
+            <script language="JavaScript">
+            <!--
+            function checkDelete(f)
+            {
+                if (!hasOneChecked(f, 'items[]')) {
+                    alert('Please select at least one of the authorized repliers.');
+                    return false;
+                }
+                if (!confirm('This action will remove the selected entries.')) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            //-->
+            </script>
+            {/literal}
+            <table border="0" width="100%" cellpadding="1" cellspacing="1">
+              <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <input type="hidden" name="cat" value="delete">
+              <input type="hidden" name="issue_id" value="{$issue_id}">
+              <tr>
+                <td bgcolor="{$cell_color}" nowrap>&nbsp;</td>
+                <td bgcolor="{$cell_color}" class="default_white"><b>Email</b></td>
+              </tr>
+              {section name="i" loop=$list.all}
+              {cycle values=$cycle assign="row_color"}
+              <tr>
+                <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list.all[i].iur_id}"></td>
+                <td width="100%" bgcolor="{$row_color}" class="default">
+                  {$list.all[i].replier|escape:"html"}
+                  {if $list.all[i].replier_type == 'user'}&lt;{$list.all[i].usr_email|escape:"html"}&gt;{/if}
+                </td>
+              </tr>
+              {sectionelse}
+              <tr>
+                <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
+                  <b>No authorized repliers could be found.</b>
+                </td>
+              </tr>
+              {/section}
+              {if $current_role > $roles.reporter}
+              <tr>
+                <td colspan="3" bgcolor="{$cell_color}" align="center">
+                  <input type="submit" value="Remove Selected" class="button">
+                  <input type="button" value="Close" class="button" onClick="javascript:closeAndRefresh();">
+                </td>
+              </tr>
+              {/if}
+              </form>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<br />
+
+{include file="app_info.tpl.html"}
+{include file="footer.tpl.html"}
