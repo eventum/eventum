@@ -1,0 +1,85 @@
+{include file="header.tpl.html" extra_title="Internal FAQ"}
+{if $faq == ''}{include file="navigation.tpl.html"}{/if}
+
+{if $faq != ''}
+  {if $faq == -1}
+  <span class="default"><p><b>Error: You are not allowed to view the requested FAQ entry.</b></p></span>
+  {else}
+  <table width="100%" border="0" cellspacing="0" cellpadding="3" align="center">
+    <tr>
+      <td width="100%">
+        <table width="100%" border="0" cellpadding="3" cellspacing="0">
+          <tr>
+            <td class="default_white" bgcolor="{$cell_color}"><b>{$faq.faq_title|escape:"html"}</b></td>
+          </tr>
+          <tr>
+            <td class="default" bgcolor="{$dark_color}">
+              <p><i>Last updated: {$faq.faq_updated_date}</i></p>
+              {$faq.message}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <br />
+  {/if} 
+  {if not $current_user_prefs.close_popup_windows}
+  <center>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:window.close();">Close Window</a></span>
+  </center>
+  {/if}
+{else}
+<table width="700" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top">
+      {literal}
+      <script language="JavaScript">
+      <!--
+      function openFAQEntry(faq_id)
+      {
+          var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+          var faqWin = window.open('faq.php?id=' + faq_id, '_faq' + faq_id, features);
+          faqWin.focus();
+      }
+      //-->
+      </script>
+      {/literal}
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td width="100%">
+            <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+              <tr>
+                <td>
+                  <span class="default"><b>Article Entries:</b></span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <table width="100%" border="0" cellpadding="3" cellspacing="1">
+                    <tr bgcolor="{$cell_color}">
+                      <td class="default_white"><b>Title</b></td>
+                      <td class="default_white"><b>Last Updated Date</b></td>
+                    </tr>
+                    {section name="i" loop=$faqs}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr bgcolor="{$row_color}">
+                      <td class="default"><b><a class="link" href="javascript:void(null);" onClick="javascript:openFAQEntry({$faqs[i].faq_id});" title="read faq entry">{$faqs[i].faq_title}</a></b></td>
+                      <td class="default">{$faqs[i].faq_updated_date}</td>
+                    </tr>
+                    {/section}
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br />
+    </td>
+  </tr>
+</table>
+{/if}
+
+{if $faq == ''}{include file="app_info.tpl.html"}{/if}
+{include file="footer.tpl.html"}
