@@ -1,0 +1,431 @@
+{include file="header.tpl.html"}
+{include file="navigation.tpl.html"}
+
+{if $error_msg == 1}
+    <table align="center" width="80%">
+        <tr>
+            <td>
+                <div style="font-size: 24; color: red; border: thin solid Red;" align="center">
+                    There was an error creating your issue.
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br />
+{/if}
+
+{if $new_issue_id != "" and $smarty.post.report_stays != "yes"}
+<table width="500" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td class="default">
+            {if $errors|@count == 0}
+            <b>Thank you, the new issue was created successfully. Please choose
+            from one of the options below:</b>
+            {else}
+                Thank you, the new issue was created successfully. <br />
+                <span style="color: red">However, the following errors were encountered:
+                <ul>
+                {foreach from=$errors name=errors item=error}
+                    <li>{$error}</li>
+                {/foreach}
+                </ul>
+                </span>
+                Please choose from one of the options below:</b>
+            {/if}
+            <ul>
+              <li><a href="view.php?id={$new_issue_id}" class="link">Open the Issue Details Page</a></li>
+              <li><a href="list.php" class="link">Open the Issue Listing Page</a></li>
+              {if $app_setup.support_email == 'enabled' and $current_role > $roles.customer}
+              <li><a href="emails.php" class="link">Open the Emails Listing Page</a></li>
+              {/if}
+              <li><a href="new.php" class="link">Report a New Issue</a></li>
+            </ul>
+            <b>Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.</b>
+          </td>
+        </tr>
+        {if $quarantine_status > 0}
+        <tr>
+            <td align="center" class="default" colspan="2">
+                <br />
+                <b><span style="color: red">Warning: your issue is currently quarantined.
+                Please see the <a href="faq.php">FAQ</a> for information regarding quarantined issues.
+                </b>
+                <br /><br />
+                </span>
+            </td>
+        </tr>
+        {/if}
+      </table>
+    </td>
+  </tr>
+</table>
+{literal}
+<script language="JavaScript">
+<!--
+setTimeout('openDetailPage()', 5000);
+function openDetailPage()
+{
+{/literal}
+    window.location.href = 'view.php?id={$new_issue_id}';
+{literal}
+}
+//-->
+</script>
+{/literal}
+{else}
+{literal}
+<script language="JavaScript">
+<!--
+var required_custom_fields = new Array();
+var custom_fields = new Array();
+function validateForm(f)
+{
+{/literal}
+    // disable the main submit button to avoid double-clicks
+    f.main_submit_button.disabled = true;
+
+    {if $cats|@count > 0 && $current_role >= $field_display_settings.category}
+    {literal}
+    if (hasSelected(f.category, -1)) {
+        errors[errors.length] = new Option('Category', 'category');
+    }
+    {/literal}
+    {/if}
+    {if $current_role >= $field_display_settings.priority}
+    {literal}
+    if (hasSelected(f.priority, -1)) {
+        errors[errors.length] = new Option('Priority', 'priority');
+    }
+    {/literal}
+    {/if}
+    {if $allow_unassigned_issues != 'yes' && $current_role >= $field_display_settings.assignment}
+    {literal}
+    if (!hasOneSelected(f, 'users[]')) {
+        errors[errors.length] = new Option('Assignment', 'users[]');
+    }
+    {/literal}
+    {/if}
+    {literal}
+    if (isWhitespace(f.summary.value)) {
+        errors[errors.length] = new Option('Summary', 'summary');
+    }
+
+    // replace special characters in description
+    replaceSpecialCharacters(f.description);
+
+    if (isWhitespace(f.description.value)) {
+        errors[errors.length] = new Option('Initial Description', 'description');
+    }
+    {/literal}
+    {if $current_role >= $field_display_settings.estimated_dev_time}
+    {literal}
+    if (!isWhitespace(f.estimated_dev_time.value)) {
+        if (!isFloat(f.estimated_dev_time.value)) {
+            errors[errors.length] = new Option('Estimated Dev. Time (only numbers)', 'estimated_dev_time');
+        }
+    }
+    {/literal}
+    {/if}
+    {literal}
+    checkRequiredCustomFields(f, required_custom_fields);
+
+    // check customer fields (if function exists
+    if (window.validateCustomer) {
+        validateCustomer(f);
+    }
+    if (errors.length > 0) {
+        f.main_submit_button.disabled = false;
+    }
+}
+//-->
+</script>
+{/literal}
+<script language="JavaScript" src="js/dynamic_custom_field.js.php?form_type=report_form"></script>
+{if $message != ''}
+<table align="center" border="0" cellspacing="0" cellpadding="1" bgcolor="red">
+  <tr>
+    <td>
+        <table align="center" width="500" bgcolor="#FFFFFF">
+            <tr>
+                <td class="default" align="center">
+                    {$message}
+                </td>
+            </tr>
+        </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+
+<form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
+<input type="hidden" name="cat" value="report">
+<input type="hidden" name="customer" value="{$customer_id}">
+<input type="hidden" name="contact" value="{$contact_id}">
+<input type="hidden" name="attached_emails" value="{$attached_emails}">
+{if $current_role < $field_display_settings.assignment}
+    <input type="hidden" name="assignment[]" value="">
+{/if}
+{if $releases|@count < 1 || $current_role < $field_display_settings.release}
+    {* Hidden field if there are no scheduled releases *}
+    <input type="hidden" name="release" value="">
+{/if}
+{if $cats|@count < 1 || $current_role < $field_display_settings.category}
+    <input type="hidden" name="category" value="">
+{/if}
+{if $current_role < $field_display_settings.priority}
+    <input type="hidden" name="priority" value="">
+{/if}
+{if $current_role < $field_display_settings.estimated_dev_time}
+    <input type="hidden" name="estimated_dev_time" value="">
+{/if}
+{if $current_role < $field_display_settings.private}
+    <input type="hidden" name="private" value="0">
+{/if}
+<table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+{assign var="tabindex" value=1}
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td class="default">
+            <b>Create New Issue</b>
+          </td>
+          <td align="right" class="default">
+            (Current Project: {$current_project_name})
+          </td>
+        </tr>
+        {if $cats|@count > 0 && $current_role >= $field_display_settings.category}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.category > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>Category: *</b> {include file="help_link.tpl.html" topic="report_category"}
+          </td>
+          <td bgcolor="{$light_color}">
+            <select name="category" class="default" tabindex="{$tabindex++}">
+              <option value="-1">Please choose a category</option>
+              {html_options options=$cats selected=$smarty.post.category}
+            </select>
+            {include file="error_icon.tpl.html" field="category"}
+          </td>
+        </tr>
+        {/if}
+        {if $current_role >= $field_display_settings.priority}
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Priority: *</b> {include file="help_link.tpl.html" topic="report_priority"}
+          </td>
+          <td bgcolor="{$light_color}">
+            {* Figure out default priority *}
+            {if $smarty.post.priority != '' && $new_issue_id == ''}
+              {assign var="priority" value=$smarty.post.priority}
+            {else}
+              {assign var="priority" value=3}
+            {/if}
+            <select name="priority" class="default" tabindex="{$tabindex++}">
+              <option value="-1">Please choose a priority</option>
+              {html_options options=$priorities selected=$priority}
+            </select>
+            {include file="error_icon.tpl.html" field="priority"}
+          </td>
+        </tr>
+        {/if}
+        {if $current_role >= $field_display_settings.assignment}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.assignment > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>Assignment: {if $allow_unassigned_issues != 'yes'}*{/if}</b> {include file="help_link.tpl.html" topic="report_assignment"}
+          </td>
+          <td bgcolor="{$light_color}">
+            {if $new_issue_id == ''}
+                {assign var='selected_users' value=$smarty.post.users}
+            {/if}
+            <select name="users[]" multiple size="3" class="default" tabindex="{$tabindex++}">
+              {html_options options=$users selected=$selected_users}
+            </select>
+            {include file="error_icon.tpl.html" field="users[]"}
+            <script language="Javascript">selectOnlyValidOption(document.forms['report_form'].elements['users[]']);</script>
+          </td>
+        </tr>
+        {/if}
+        {if $groups|@count > 0 && $current_role >= $field_display_settings.group}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.assignment > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>Group:
+          </td>
+          <td bgcolor="{$light_color}">
+            {if $new_issue_id == ''}
+                {assign var='selected_group' value=$smarty.post.group}
+            {/if}
+            <select class="default" name="group" tabindex="{$tabindex++}">
+                <option value=""></option>
+                {html_options options=$groups selected=$selected_group}
+            </select>
+            {include file="error_icon.tpl.html" field="group"}
+          </td>
+        </tr>
+        {/if}
+        {if $releases|@count > 0 && $current_role >= $field_display_settings.release}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.release > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <b>Scheduled Release:</b> {include file="help_link.tpl.html" topic="report_release"}
+          </td>
+          <td bgcolor="{$light_color}">
+            {if $new_issue_id == ''}
+                {assign var='selected_release' value=$smarty.post.release}
+            {/if}
+            <select name="release" class="default" tabindex="{$tabindex++}">
+              <option value="0">un-scheduled</option>
+              {html_options options=$releases selected=$selected_release}
+            </select>
+          </td>
+        </tr>
+        {/if}
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Summary: *</b> {include file="help_link.tpl.html" topic="report_summary"}
+          </td>
+          <td bgcolor="{$light_color}">
+            {if $new_issue_id != ''}
+                {assign var='issue_summary' value=''}
+            {elseif $issue_summary == ''}
+                {assign var='issue_summary' value=$smarty.post.summary}
+            {/if}
+            <input type="text" name="summary" class="default" size="50" tabindex="{$tabindex++}" value="{$issue_summary|escape:"html"}">
+            {include file="error_icon.tpl.html" field="summary"}
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Initial Description: *</b> {include file="help_link.tpl.html" topic="report_description"}
+          </td>
+          <td bgcolor="{$light_color}">
+            {if $new_issue_id != ''}
+                {assign var='issue_description' value=''}
+            {elseif $issue_description == ''}
+                {assign var='issue_description' value=$smarty.post.description}
+            {/if}
+            <textarea name="description" rows="10" tabindex="{$tabindex++}" style="width: 97%">{$issue_description}</textarea>
+            {include file="error_icon.tpl.html" field="description"}
+          </td>
+        </tr>
+        {if $current_role >= $field_display_settings.estimated_dev_time}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.estimated_dev_time > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <nobr><b>Estimated Dev. Time:</b> {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
+          </td>
+          <td bgcolor="{$light_color}">
+            {if $new_issue_id == ''}
+                {assign var='estimated_dev_time' value=$smarty.post.estimated_dev_time}
+            {/if}
+            <input type="text" name="estimated_dev_time" class="default" size="10" tabindex="{$tabindex++}" value="{$estimated_dev_time}">
+            {include file="error_icon.tpl.html" field="estimated_dev_time"} <span class="default">(in hours)</span>
+          </td>
+        </tr>
+        {/if}
+        {if $current_role >= $field_display_settings.private}
+        <tr>
+          <td width="150" bgcolor="{if $field_display_settings.private > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
+            <nobr><b>Private:</b> &nbsp;</nobr>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <input type="radio" name="private" value="1" {if $smarty.post.private}checked{/if} tabindex="{$tabindex++}">
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'private', 0);">Yes</a>
+            <input type="radio" name="private" value="0" {if not $smarty.post.private}checked{/if} tabindex="{$tabindex++}">
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'private', 1);">No</a>
+            {include file="error_icon.tpl.html" field="private"}
+          </td>
+        </tr>
+        {/if}
+        {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='report'}
+        {if $has_customer_integration}
+        {include file="customer/$customer_backend_name/report_form_fields.tpl.html"}
+
+        {* set tab index very high now to account for inputs in customer file *}
+        {assign var="tabindex" value=$tabindex+30}
+        {/if}
+        {if $current_role >= $field_display_settings.file}
+        <tr>
+          <td colspan="2" class="default">
+            <b>Add Files</b>
+          </td>
+        </tr>
+        <tr>
+          <td width="150" bgcolor="{$cell_color}" class="default_white">
+            <b>Files:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
+              <tr>
+                <td>
+                  <input id="file[]_1" type="file" name="file[]" size="40" class="shortcut" onChange="javascript:addFileRow('file_table', 'file[]');">
+                </td>
+              </tr>
+            </table>
+            <span class="small_default"><i>Note: The current maximum allowed upload file size is {$max_attachment_size}</i></span>
+          </td>
+        </tr>
+        {/if}
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td width="30%" nowrap class="default_white">
+                  <nobr>
+                  <input type="checkbox" name="report_stays" value="yes" tabindex="{$tabindex++}" {if $smarty.post.report_stays == "yes"}CHECKED{/if}> <b><a id="white_link" class="white_link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('report_form', 'report_stays');">Keep form open to report another issue</a></b>
+                  </nobr>
+                </td>
+                <td width="40%" align="center">
+                  <input name="main_submit_button" class="button" type="submit" value="Submit" tabindex="{$tabindex++}">&nbsp;&nbsp;
+                  <input class="button" type="reset" value="Reset" tabindex="{$tabindex++}">
+                </td>
+                <td width="30%" nowrap class="default_white">
+                  &nbsp;
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default">
+            <b>* Required fields</b>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+{if $emails != ""}
+    {include file="attached_emails.tpl.html"}
+{/if}
+</form>
+
+{literal}
+<script language="JavaScript">
+<!--
+window.onload = setFocus;
+function setFocus()
+{
+    var f = getForm('report_form');
+    var field = getFormElement(f, 'category');
+    if ((field != null) && (field.type != 'hidden') && (field.options.length > 1)) {
+        field.focus();
+    } else {
+        var field = getFormElement(f, 'priority');
+        if ((field != null) && (field.type != 'hidden')) {
+            field.focus();
+        } else {
+            var field = getFormElement(f, 'summary');
+            field.focus();
+        }
+    }
+}
+//-->
+</script>
+{/literal}
+{/if}
+
+{include file="app_info.tpl.html"}
+{include file="footer.tpl.html"}
