@@ -1,0 +1,191 @@
+{include file="header.tpl.html"}
+
+<br />
+
+<script language="JavaScript">
+<!--
+var allowed_emails = new Array();
+{section name="i" loop=$allowed_emails}
+allowed_emails[allowed_emails.length] = '{$allowed_emails[i]}';
+{/section}
+{literal}
+function validate(f)
+{
+    if (isWhitespace(f.email.value)) {
+        alert('Please enter a valid email address.');
+        selectField(f, 'email');
+        return false;
+    }
+    // extra check to see if the given email address is allowed in this issue or not
+    var email = getEmailFromAddress(f.email.value);
+    if (!inArray(email, allowed_emails)) {
+        var msg = "The given email address '" + f.email.value + "' is neither a known staff member or customer technical contact.";
+        msg += "\nAre you sure you want to add this address to the notification list?";
+        if (!confirm(msg)) {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        return true;
+    }
+}
+function addSelection(f, from, to)
+{
+    var selected = new Array();
+    var field = getFormElement(f, from);
+    selected = getSelectedItems(field);
+    addOptions(f, to, selected);
+}
+function removeOption(f, field_name)
+{
+    var field = getFormElement(f, field_name);
+    for (var i = 0; i < field.options.length; i++) {
+        if (field.options[i].selected) {
+            field.options[i] = null;
+            removeOption(f, field_name);
+        }
+    }
+}
+//-->
+</script>
+{/literal}
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+<script language="JavaScript" src="js/overlib_mini.js"></script>
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+        <form name="notification_form" onSubmit="javascript:return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
+        {if $smarty.get.cat == 'edit'}
+        <input type="hidden" name="cat" value="update">
+        <input type="hidden" name="id" value="{$smarty.get.id}">
+        {else}
+        <input type="hidden" name="cat" value="insert">
+        {/if}
+        <input type="hidden" name="issue_id" value="{$issue_id}">
+        {if $current_role > $roles.reporter}
+        <tr>
+          <td colspan="2" class="default">
+            <b>Notification Options</b>
+          </td>
+        </tr>
+        {if $update_result != ""}
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+            {if $update_result == -1}
+              An error occurred while trying to update the notification entry.
+            {elseif $update_result == -2}
+              Error: the given email address is not allowed to be added to the notification list.
+            {elseif $update_result == 1}
+              Thank you, the notification entry was updated successfully.
+            {/if}
+          </td>
+        </tr>
+        {/if}
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Email:</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="email" size="40" class="default" value="{if $info.sub_email != ''}{$info.sub_email}{else}{$current_email}{/if}">
+            {if not ($os.mac and $browser.ie)}<a href="javascript:void(null);" onClick="return overlib(getFillInput('{include file="lookup_layer.tpl.html" list=$assoc_users}', 'notification_form', 'email'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, LEFT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+            {include file="error_icon.tpl.html" field="email"}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Get a Notification When:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <input type="checkbox" name="actions[]" {if ($info == '' && $default_actions.emails == 1) || $info.emails == 1}checked{/if} value="emails"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 0);">Emails are Received or Sent</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.updated == 1}checked{/if} value="updated"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 1);">Overview or Details are Changed</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.closed == 1}checked{/if} value="closed"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 2);">Issue is Closed</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.files == 1}checked{/if} value="files"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 3);">Files are Attached</a>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}" align="center">
+            {if $smarty.get.cat == 'edit'}
+            <input class="button" type="submit" value="Update Subscription">
+            {else}
+            <input class="button" type="submit" value="Add Subscription">
+            {/if}
+            <input class="button" type="reset" value="Reset">
+          </td>
+        </tr>
+        </form>
+        {/if}
+        <tr>
+          <td colspan="2" class="default">
+            <b>Existing Subscribers for this Issue:</b>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            {literal}
+            <script language="JavaScript">
+            <!--
+            function checkDelete(f)
+            {
+                if (!hasOneChecked(f, 'items[]')) {
+                    alert('Please select at least one of the subscribers.');
+                    return false;
+                }
+                if (!confirm('This action will remove the selected entries.')) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            //-->
+            </script>
+            {/literal}
+            <table border="0" width="100%" cellpadding="1" cellspacing="1">
+              <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <input type="hidden" name="cat" value="delete">
+              <input type="hidden" name="issue_id" value="{$issue_id}">
+              <tr>
+                <td bgcolor="{$cell_color}" nowrap>&nbsp;</td>
+                <td bgcolor="{$cell_color}" class="default_white"><b>Email</b> (click to edit)</td>
+                <td bgcolor="{$cell_color}" class="default_white"><b>Actions</b></td>
+              </tr>
+              {section name="i" loop=$list}
+              {cycle values=$cycle assign="row_color"}
+              <tr>
+                <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].sub_id}"></td>
+                <td width="60%" bgcolor="{$row_color}" class="default">
+                  <a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&iss_id={$list[i].sub_iss_id}&id={$list[i].sub_id}" title="update this entry">{$list[i].sub_email|escape:"html"}</a>
+                </td>
+                <td width="40%" bgcolor="{$row_color}" class="default">
+                  {$list[i].actions}
+                </td>
+              </tr>
+              {sectionelse}
+              <tr>
+                <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
+                  <i>No subscribers could be found.</i>
+                </td>
+              </tr>
+              {/section}
+              {if $current_role > $roles.reporter}
+              <tr>
+                <td colspan="3" bgcolor="{$cell_color}" align="center">
+                  <input type="submit" value="Remove Selected" class="button">
+                  <input type="button" value="Close" class="button" onClick="javascript:window.close();">
+                </td>
+              </tr>
+              {/if}
+              </form>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<br />
+
+{include file="app_info.tpl.html"}
+{include file="footer.tpl.html"}
