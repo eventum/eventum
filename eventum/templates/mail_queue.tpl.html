@@ -1,0 +1,56 @@
+{include file="header.tpl.html" extra_title="Mail Queue"}
+{include file="navigation.tpl.html"}
+{if $denied == 1}
+    <div class="default" align="center">Sorry, you do not have permission to view this page</div>
+{else}
+<script language="javascript">
+{include file="js/httpclient.js"}
+{include file="js/expandable_cell.js"}
+</script>
+<form>
+  <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+    <tr>
+      <td class="default" nowrap>
+        <b>Mail Queue for Issue #{$issue_id}</b>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <table width="100%" cellpadding="2" cellspacing="1">
+          <tr bgcolor="{$cell_color}">
+            <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getMailQueue" ec_id="mailqueue"}</td>
+            <td width="20%" class="default_white">Recipient</td>
+            <td width="20%" class="default_white" nowrap>Queued Date</td>
+            <td width="10%" class="default_white">Status</td>
+            <td width="50%" class="default_white">Subject</td>
+          </tr>
+          {section name="i" loop=$data}
+          {cycle values=$cycle assign="row_color"}
+          <tr>
+            <td class="default" NOWRAP bgcolor="{$row_color}">{include file="expandable_cell/buttons.tpl.html" ec_id="mailqueue" list_id=$data[i].maq_id}</td>
+            <td width="20%" class="default" bgcolor="{$row_color}">{$data[i].maq_recipient|escape:"html"}</td>
+            <td width="20%" class="default" nowrap bgcolor="{$row_color}">{$data[i].maq_queued_date}</td>
+            <td width="10%" class="default" bgcolor="{$row_color}">{$data[i].maq_status}</td>
+            <td width="50%" class="default" bgcolor="{$row_color}">{$data[i].maq_subject|escape:"html"}</td>
+          </tr>
+          {include file="expandable_cell/body.tpl.html" ec_id="mailqueue" list_id=$data[i].maq_id colspan="5"}
+          {sectionelse}
+          <tr>
+            <td colspan="5" bgcolor="{$light_color}" class="default" align="center">
+              <i>No mail queue could be found.</i>
+            </td>
+          </tr>
+          {/section}
+          <tr>
+            <td colspan="5" bgcolor="{$cell_color}">
+              <input class="button" type="button" value="&lt;&lt; Back" onClick="javascript:location.href='{$rel_url}view.php?id={$issue_id}';">
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</form>
+{/if}
+{include file="app_info.tpl.html"}
+{include file="footer.tpl.html"}
