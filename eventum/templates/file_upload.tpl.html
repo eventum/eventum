@@ -1,0 +1,121 @@
+{include file="header.tpl.html" extra_title="Issue #$issue_id - Upload File"}
+{if $current_role > $roles.viewer}
+{if $upload_file_result != ''}
+    <br />
+    <center>
+    <span class="default"><b>
+    {if $upload_file_result == -1}
+      An error occurred while trying to process the uploaded file.
+    {elseif $upload_file_result == -2}
+      The uploaded file is already attached to the current issue. Please rename the file and try again.
+    {elseif $upload_file_result == 1}
+      Thank you, the uploaded file was associated with the issue below.
+    {/if}
+    </b></span>
+    </center>
+    <script language="JavaScript">
+    <!--
+    {if $current_user_prefs.close_popup_windows == '1' && $upload_file_result == 1}
+    setTimeout('closeAndRefresh()', 2000);
+    {/if}
+    //-->
+    </script>
+    <br />
+    {if not $current_user_prefs.close_popup_windows}
+    <center>
+      <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+    </center>
+    {/if}
+{else}
+{literal}
+<script language="JavaScript">
+<!--
+function validateUpload(f)
+{
+    var field1 = getFormElement(f, 'attachment[]', 0);
+    var field2 = getFormElement(f, 'attachment[]', 1);
+    var field3 = getFormElement(f, 'attachment[]', 2);
+    if ((isWhitespace(field1.value)) && (isWhitespace(field2.value)) && (isWhitespace(field3.value))) {
+        errors[errors.length] = new Option('Files', 'attachment[]');
+        return false;
+    }
+    return true;
+}
+//-->
+</script>
+{/literal}
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td width="100%">
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td colspan="2" class="default"><b>Add New Files:</b></td>
+        </tr>
+        <form name="attachment_form" action="file_upload.php" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateUpload');">
+        <input type="hidden" name="cat" value="upload_file">
+        <input type="hidden" name="issue_id" value="{$issue_id}">
+        <tr>
+          <td colspan="2">
+            <table width="100%" cellpadding="2" cellspacing="1">
+              {if $current_role > $roles.customer}
+              <tr>
+                <td bgcolor="{$internal_color}" class="default_white" width="120" nowrap>
+                  <b>Status:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="status" class="default">
+                    <option value="public">Public (visible to all)</option>
+                    <option value="internal">Private (standard user and above only)</option>
+                  </select>
+                </td>
+              </tr>
+              {else}
+              <input type="hidden" name="status" value="public">
+              {/if}
+              <tr>
+                <td bgcolor="{$cell_color}" class="default_white" width="120" nowrap>
+                  <b>Filenames:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
+                    <tr>
+                      <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
+                    </tr>
+                    <tr>
+                      <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
+                    </tr>
+                    <tr>
+                      <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
+                    </tr>
+                    <tr>
+                      <td class="small_default"><b>Note: The current maximum allowed upload file size is {$max_attachment_size}</b></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr bgcolor="{$light_color}">
+                <td bgcolor="{$cell_color}" class="default_white" width="120" nowrap>
+                  <b>Description:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <textarea name="file_description" rows="4" style="width: 97%"></textarea>
+                </td>
+              </tr>
+              <tr bgcolor="{$cell_color}">
+                <td colspan="2" align="center">
+                  <input type="submit" class="button" value="Upload File">
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        </form>
+      </table>
+    </td>
+  </tr>
+</table>
+{/if}
+{else}
+<center><span class="default">You do not have the correct role to access this page</span></center>
+{/if}
+{include file="footer.tpl.html"}
