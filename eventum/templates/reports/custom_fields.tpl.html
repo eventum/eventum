@@ -1,0 +1,185 @@
+{include file="header.tpl.html"}
+<br />
+{literal}
+<script language="JavaScript">
+<!--
+function validateForm(f)
+{
+    if (getSelectedOption(f, 'custom_field') == -1) {
+        selectField(f, 'custom_field');
+        alert('Please select the custom field that you would like to generate a report against.');
+        return false;
+    }
+    return true;
+}
+//-->
+</script>
+{/literal}
+<form action="{$smarty.server.PHP_SELF}" name="custom_fields_report" method="get" onSubmit="javascript:return validateForm(this);">
+<input type="hidden" name="cat" value="generate">
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" width="400">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="3" class="default_white">
+            <b>Custom Fields Report</b>
+          </td>
+        </tr>
+        <tr>
+          <td width="30%" class="default" align="center">
+            <b>Field to Graph</b>
+          </td>
+          <td width="30%" class="default" align="center">
+            <b>Options to Graph</b>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" valign="top" height="10">
+            <select name="custom_field" class="default" onChange="setOptions(this.options[this.selectedIndex].value, true)">
+                <option value="-1"></option>
+                {html_options options=$custom_fields selected=$custom_field}
+            </select>
+            {include file="error_icon.tpl.html" field="custom_field"}
+          </td>
+          <td align="center" valign="top" rowspan="3">
+            <select name="custom_options[]" size="8" multiple class="default">
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td width="30%" class="default" align="center" height="10">
+            {if $has_customer_integration}
+              <b>Group By</b>
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td align="left" valign="top"class="default">
+            {if $has_customer_integration}
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="issue" {if $group_by != 'customer'}CHECKED{/if}>
+                <a id="link" class="link" href="javascript:void(null)"
+                            onClick="javascript:checkRadio('custom_fields_report', 'group_by', 0);">Issue</a><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="customer" {if $group_by == 'customer'}CHECKED{/if}>
+                <a id="link" class="link" href="javascript:void(null)"
+                            onClick="javascript:checkRadio('custom_fields_report', 'group_by', 1);">Customer</a><br />
+            {else}
+              <input type="hidden" name="group_by" value="issue">
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <input type="submit" name="cat" value="Generate" class="shortcut">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+<script language="JavaScript">
+var options = new Array();
+var option_to_fld_id = new Array();
+{foreach from=$options key=fld_id item=option_list name=option_list}
+    option_to_fld_id[{$smarty.foreach.option_list.iteration-1}] = {$fld_id};
+    options[{$smarty.foreach.option_list.iteration-1}] = new Array();
+    {foreach from=$option_list key=cfo_id item=cfo_value name=option}
+        options[{$smarty.foreach.option_list.iteration-1}][{$smarty.foreach.option.iteration-1}] = new Option('{$cfo_value}', '{$cfo_id}');
+    {/foreach}
+{/foreach}
+
+{literal}
+var options_field = document.forms['custom_fields_report'].elements['custom_options[]'];
+function setOptions(fld_id, auto_select)
+{
+    fld_id_index = '';
+    for (i = 0; i < option_to_fld_id.length; i++) {
+        if (option_to_fld_id[i] == fld_id) {
+            fld_id_index = i;
+        }
+    }
+
+    options_field.length = 0;
+    if (options[fld_id_index]) {
+        options_field.length = options[fld_id_index].length;
+        for (i = 0; i < options[fld_id_index].length; i++) {
+            options_field.options[i] = options[fld_id_index][i];
+            options_field.options[i].selected = auto_select;
+        }
+    }
+}
+{/literal}
+
+setOptions('{$custom_field}', false);
+{if $custom_options|@count > 0}
+    {foreach from=$custom_options key=option_index item=option}
+      {literal}
+      for (i = 0; i < options_field.options.length; i++) {
+        if (options_field.options[i].value == '{/literal}{$option}{literal}') {
+          options_field.options[i].selected = true;
+        }
+      }
+      {/literal}
+    {/foreach}
+{/if}
+</script>
+
+{if $custom_options|@count > 0}
+<div align="center" class="default">
+    <img src="custom_fields_graph.php?{$smarty.server.QUERY_STRING}"><br /><br />
+    <img src="custom_fields_graph.php?{$smarty.server.QUERY_STRING}&type=pie"><br />
+    Percentages may not add up to exactly 100% due to rounding.<br /><br />
+</div>
+{/if}
+
+{if $data|@count > 0}
+{assign var="colspan" value=3}
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="{$colspan}" class="default_white">
+            <b>Issues/Customers matching criteria</b>
+          </td>
+        </tr>
+        <tr>
+          {if $has_customer_integration}
+          <td bgcolor="{$cell_color}" class="default_white">Customer</td>
+          {/if}
+          {if $smarty.request.group_by == 'customer'}
+          <td bgcolor="{$cell_color}" class="default_white">Issue Count</td>
+          {else}
+          <td bgcolor="{$cell_color}" class="default_white">Issue ID</td>
+          <td bgcolor="{$cell_color}" class="default_white">Summary</td>
+          {/if}
+        </tr>
+        {foreach from=$data item=row}
+        {cycle values=$cycle assign="row_color"}
+        <tr>
+          {if $has_customer_integration}
+          <td class="default" bgcolor="{$row_color}">{$row.customer_title}</td>
+          {/if}
+          {if $smarty.request.group_by == 'customer'}
+          <td class="default" bgcolor="{$row_color}" align="center">{$row.row_count}</td>
+          {else}
+          <td class="default" bgcolor="{$row_color}" align="right">
+            <a href="{$app_base_url}view.php?id={$row.iss_id}" class="link">{$row.iss_id}</a>
+          </td>
+          <td class="default" bgcolor="{$row_color}">{$row.iss_summary}</td>
+          {/if}
+        </tr>
+        {foreachelse}
+        <tr>
+            <td colspan="8" class="default" align="center" bgcolor="{$dark_color}"><i>No data found</i></td>
+        </tr>
+        {/foreach}
+      </table>
+    </td>
+  </tr>
+</table>
+{/if}
+
+
+{include file="footer.tpl.html"}

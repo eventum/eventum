@@ -1,0 +1,245 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              <script language="JavaScript">
+              <!--
+              var url = '{$smarty.server.PHP_SELF}';
+              var rem_id = '{$rem_id}';
+              var rma_id = '{$rma_id}';
+              var cat = '{$smarty.request.cat}';
+              var id = '{$smarty.request.id}';
+              {literal}
+              function validateForm(f)
+              {
+                  if (hasSelected(f.field, -1)) {
+                      errors[errors.length] = new Option('Field', 'field');
+                  }
+                  if (hasSelected(f.operator, -1)) {
+                      errors[errors.length] = new Option('Operator', 'operator');
+                  }
+                  if (f.comparison_field != 'undefined' && f.comparison_field.selectedIndex > 0) {
+                      
+                  } else {
+                      if (f.value.type == 'select-one') {
+                          if (hasSelected(f.value, -1)) {
+                              errors[errors.length] = new Option('Value', 'value');
+                          }
+                      } else if (f.value.type == 'text') {
+                          if (isWhitespace(f.value.value)) {
+                              errors[errors.length] = new Option('Value', 'value');
+                          }
+                      }
+                  }
+                  return true;
+              }
+              function setValueField(f)
+              {
+                  window.location.href = url + '?cat=' + cat + '&id=' + id + '&rem_id=' + rem_id + '&rma_id=' + rma_id + '&field=' + getSelectedOption(f, 'field');
+              }
+              function disableValueField(field)
+              {
+                  if (field.selectedIndex != 0) {
+                      document.forms['reminder_form'].elements['value'].disabled = true;
+                  } else {
+                      document.forms['reminder_form'].elements['value'].disabled = false;
+                  }
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="reminder_form" method="post" action="{$smarty.server.PHP_SELF}" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
+              <input type="hidden" name="rem_id" value="{$rem_id}">
+              <input type="hidden" name="rma_id" value="{$rma_id}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td colspan="2" class="default">
+                  <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="left" class="default">
+                        <b>Manage Reminder Conditions</b>
+                      </td>
+                      <td align="right" class="default">
+                        (<a href="reminders.php?cat=edit&id={$rem_id}" class="link" title="view reminder details">Reminder #{$rem_id}: {$rem_title}</a> -> <a href="reminder_actions.php?cat=edit&rem_id={$rem_id}&id={$rma_id}" class="link" title="view reminder action details">Action #{$rma_id}: {$rma_title}</a>)
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the new condition.
+                    {elseif $result == -2}
+                      Please enter the title for this new condition.
+                    {elseif $result == 1}
+                      Thank you, the condition was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the condition information.
+                    {elseif $result == -2}
+                      Please enter the title for this condition.
+                    {elseif $result == 1}
+                      Thank you, the condition was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Field:</b>
+                </td>
+                <td width="90%" bgcolor="{$light_color}">
+                  <select name="field" class="default" onChange="javascript:setValueField(this.form);">
+                    <option value="-1">Please choose an option</option>
+                    {html_options options=$fields selected=$info.rlc_rmf_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="field"}
+                </td>
+              </tr>
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Operator:</b>
+                </td>
+                <td width="90%" bgcolor="{$light_color}">
+                  <select name="operator" class="default">
+                    <option value="-1">Please choose an option</option>
+                    {html_options options=$operators selected=$info.rlc_rmo_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="operator"}
+                </td>
+              </tr>
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Value:</b>
+                </td>
+                <td width="90%" bgcolor="{$light_color}">
+                  {if $show_status_options == 'yes' or $show_category_options == 'yes'}
+                  <select name="value" class="default">
+                    <option value="-1">Please choose an option</option>
+                    {if $show_status_options == 'yes'}
+                    {html_options options=$statuses selected=$info.rlc_value}
+                    {elseif $show_category_options == 'yes'}
+                    {html_options options=$categories selected=$info.rlc_value}
+                    {/if}
+                  </select>
+                  {else}
+                  {if $show_field_options == 'yes'}
+                    <select name="comparison_field" class="default" onchange="disableValueField(this)">
+                        <option value="-1">Please choose a field</option>
+                        {html_options options=$comparable_fields selected=$info.rlc_comparison_rmf_id}
+                    </select>
+                    {include file="error_icon.tpl.html" field="comparison_field"}
+                    <span class="default">or</span>&nbsp;
+                  {/if}
+                  <input type="text" size="5" name="value" class="default" value="{$info.rlc_value}">
+                  <span class="small_default"><i>(in hours please)</i></span>
+                  <script language="Javascript">disableValueField(document.forms['reminder_form'].comparison_field)</script>
+                  {/if}
+                  {include file="error_icon.tpl.html" field="value"}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update Condition">
+                  {else}
+                  <input class="button" type="submit" value="Add Condition">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Conditions:</b> (<a href="reminder_actions.php?cat=edit&rem_id={$rem_id}&id={$rma_id}" class="link">Back to Reminder Action List</a>)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <script language="JavaScript">
+                  <!--
+                  var rem_id = '{$rem_id}';
+                  var rma_id = '{$rma_id}';
+                  {literal}
+                  function reviewSQL()
+                  {
+                      var features = 'width=420,height=300,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+                      var popupWin = window.open('reminder_review.php?rem_id=' + rem_id + '&rma_id=' + rma_id, '_reviewSQL', features);
+                      popupWin.focus();
+                  }
+                  function checkDelete(f)
+                  {
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the conditions.');
+                          return false;
+                      }
+                      if (!confirm('This action will remove the selected entries.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="rma_id" value="{$rma_id}">
+                    <input type="hidden" name="rem_id" value="{$rem_id}">
+                    <input type="hidden" name="cat" value="delete">
+                    <tr>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Field</b></td>
+                      <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Operator</b></td>
+                      <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Value</b></td>
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].rlc_id}"></td>
+                      <td width="33%" bgcolor="{$row_color}" class="default">&nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&rem_id={$rem_id}&rma_id={$rma_id}&id={$list[i].rlc_id}" title="update this entry">{$list[i].rmf_title|escape:"html"}</a></td>
+                      <td width="33%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].rmo_title|escape:"html"}</td>
+                      <td width="33%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].rlc_value|escape:"html"}</td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="4" bgcolor="{$light_color}" align="center" class="default">
+                        <i>No conditions could be found.</i>
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr>
+                      <td colspan="4" bgcolor="{$cell_color}" align="center">
+                        <table width="100%" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="left">
+                              <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                            </td>
+                            <td width="100%" align="center">
+                              <input type="submit" value="Delete" class="button">&nbsp;&nbsp;
+                              <input type="button" value="Review SQL Query" class="button" onClick="javascript:reviewSQL();">
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+

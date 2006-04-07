@@ -1,0 +1,178 @@
+  <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+    <tr>
+      <td>
+        <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+          <script language="JavaScript">
+          <!--
+          var url = '{$smarty.server.PHP_SELF}';
+          var cno_id = '{$smarty.get.id}';
+          {literal}
+          function populateCustomerComboBox(f)
+          {
+              if (cno_id == '') {
+                  url += '?prj_id=' + getSelectedOption(f, 'project');
+              } else {
+                  url += '?cat=edit&id=' + cno_id + '&prj_id=' + getSelectedOption(f, 'project');
+              }
+              window.location.href = url;
+          }
+          function validateForm(f)
+          {
+              if (getSelectedOption(f, 'customer') == '') {
+                  alert('Please choose the customer for this new note.');
+                  selectField(f, 'customer');
+                  return false;
+              }
+              return true;
+          }
+          //-->
+          </script>
+          {/literal}
+          <form name="release_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+          {if $smarty.get.cat == 'edit'}
+          <input type="hidden" name="cat" value="update">
+          <input type="hidden" name="id" value="{$smarty.get.id}">
+          {else}
+          <input type="hidden" name="cat" value="new">
+          {/if}
+          <tr>
+            <td colspan="2" class="default">
+              <b>Manage Customer Quick Notes</b>
+            </td>
+          </tr>
+          {if $result != ""}
+          <tr>
+            <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+              {if $smarty.post.cat == "new"}
+                {if $result == -1}
+                  An error occurred while trying to add the new note.
+                {elseif $result == 1}
+                  Thank you, the note was added successfully.
+                {/if}
+              {elseif $smarty.post.cat == "update"}
+                {if $result == -1}
+                  An error occurred while trying to update the note.
+                {elseif $result == 1}
+                  Thank you, the note was updated successfully.
+                {/if}
+              {elseif $smarty.post.cat == "delete"}
+                {if $result == -1}
+                  An error occurred while trying to delete the note.
+                {elseif $result == 1}
+                  Thank you, the note was deleted successfully.
+                {/if}
+              {/if}
+            </td>
+          </tr>
+          {/if}
+          <tr>
+            <td width="120" bgcolor="{$cell_color}" class="default_white">
+              <b>Project:</b>
+            </td>
+            <td bgcolor="{$light_color}">
+              <select name="project" class="default" onChange="javascript:populateCustomerComboBox(this.form);">
+                <option value="-1">Please choose an option</option>
+                {html_options options=$project_list selected=$info.cno_prj_id}
+              </select>
+              {include file="error_icon.tpl.html" field="project"}
+            </td>
+          </tr>
+          <tr>
+            <td width="120" bgcolor="{$cell_color}" class="default_white">
+              <b>Customer:</b>
+            </td>
+            <td bgcolor="{$light_color}">
+            <select name="customer" class="default">
+                <option value="">Please choose a customer</option>
+                {html_options options=$customers selected=$info.cno_customer_id}
+            </select>
+            {include file="error_icon.tpl.html" field="customer"}
+            </td>
+          </tr>
+          <tr>
+            <td width="120" bgcolor="{$cell_color}" class="default_white">
+              <b>Note:</b>
+            </td>
+            <td bgcolor="{$light_color}">
+              <textarea name="note" cols="40" rows="5">{$info.cno_note}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" bgcolor="{$cell_color}" align="center">
+              {if $smarty.get.cat == 'edit'}
+              <input class="button" type="submit" value="Update Note">
+              {else}
+              <input class="button" type="submit" value="Create Note">
+              {/if}
+              <input class="button" type="reset" value="Reset">
+            </td>
+          </tr>
+          </form>
+          <tr>
+            <td colspan="2" class="default">
+              <b>Existing Customer Quick Notes:</b>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              {literal}
+              <script language="JavaScript">
+              <!--
+              function checkDelete(f)
+              {
+                  if (!hasOneChecked(f, 'items[]')) {
+                      alert('Please select at least one of the notes.');
+                      return false;
+                  }
+                  if (!confirm('This action will permanently remove the selected entries.')) {
+                      return false;
+                  } else {
+                      return true;
+                  }
+              }
+              //-->
+              </script>
+              {/literal}
+              <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                <input type="hidden" name="cat" value="delete">
+                <tr>
+                  <td bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                  <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Customer</b></td>
+                  <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Note</b></td>
+                </tr>
+                {section name="i" loop=$list}
+                {cycle values=$cycle assign="row_color"}
+                <tr>
+                  <td nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].cno_id}"></td>
+                  <td bgcolor="{$row_color}" class="default">
+                    <a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].cno_id}">{$list[i].customer_title|escape:"html"}</a>
+                  </td>
+                  <td bgcolor="{$row_color}" class="default">
+                    {$list[i].cno_note|escape:"html"|nl2br}
+                  </td>
+                </tr>
+                {sectionelse}
+                <tr>
+                  <td colspan="4" bgcolor="{$light_color}" align="center" class="default">
+                    <i>No notes could be found.</i>
+                  </td>
+                </tr>
+                {/section}
+                <tr>
+                  <td bgcolor="{$cell_color}">
+                    <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                  </td>
+                  <td colspan="3" bgcolor="{$cell_color}" align="center">
+                    <input type="submit" value="Delete" class="button">
+                  </td>
+                </tr>
+                </form>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+

@@ -1,0 +1,26 @@
+The following {$type} reminder could not be sent out because 
+no recipients could be found:
+============================================================
+
+Automated Issue #{$data.iss_id} Reminder Alert!
+
+          URL: {$app_base_url}view.php?id={$data.iss_id}
+      Summary: {$data.iss_summary}
+   Assignment: {$data.assigned_users}
+{if $has_customer_integration}
+     Customer: {$data.customer_info.customer_name}
+Support Level: {$data.customer_info.support_level}
+{/if}
+
+ Alert Reason:  
+     Triggered Reminder "{$reminder.rem_title}"
+               Action "{$action.rma_title}"
+    
+  Alert Query:
+     {section name="i" loop=$conditions}
+     {$conditions[i].rmf_title} - {$conditions[i].rmo_title} - {$conditions[i].rlc_value}
+     {/section}
+
+{if $action.rma_boilerplate}
+{$action.rma_boilerplate}
+{/if}

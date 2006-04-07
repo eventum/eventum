@@ -1,0 +1,144 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              {literal}
+              <script language="JavaScript">
+              <!--
+              function validateForm(f)
+              {
+                  if (isWhitespace(f.title.value)) {
+                      alert('Please enter the title of this category');
+                      selectField(f, 'title');
+                      return false;
+                  }
+                  return true;
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="category_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <input type="hidden" name="prj_id" value="{$project.prj_id}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td class="default" nowrap>
+                  <b>Manage Categories</b>
+                </td>
+                <td class="default" align="right">
+                  (Current Project: {$project.prj_title})
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the new category.
+                    {elseif $result == -2}
+                      Please enter the title for this new category.
+                    {elseif $result == 1}
+                      Thank you, the category was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the category information.
+                    {elseif $result == -2}
+                      Please enter the title for this category.
+                    {elseif $result == 1}
+                      Thank you, the category was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Title: *</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="title" size="40" class="default" value="{$info.prc_title}">
+                  {include file="error_icon.tpl.html" field="title"}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update Category">
+                  {else}
+                  <input class="button" type="submit" value="Create Category">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Categories:</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  {literal}
+                  <script language="JavaScript">
+                  <!--
+                  function checkDelete(f)
+                  {
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the categories.');
+                          return false;
+                      }
+                      if (!confirm('This action will remove the selected entries.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="prj_id" value="{$project.prj_id}">
+                    <input type="hidden" name="cat" value="delete">
+                    <tr>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="100%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].prc_id}"></td>
+                      <td width="100%" bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].prc_id}&prj_id={$project.prj_id}" title="update this entry">{$list[i].prc_title}</a>
+                      </td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="2" bgcolor="{$light_color}" align="center" class="default">
+                        <i>No categories could be found.</i>
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr>
+                      <td width="4" align="center" bgcolor="{$cell_color}">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                      </td>
+                      <td bgcolor="{$cell_color}" align="center">
+                        <input type="submit" value="Delete" class="button">
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+

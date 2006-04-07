@@ -1,0 +1,213 @@
+{literal}
+<script language="Javascript">
+function validateForm(f)
+{
+    if (isWhitespace(f.group_name.value)) {
+        alert('Please enter the name of this group.');
+        selectField(f, 'group_name');
+        return false;
+    }
+    if (!hasOneSelected(f, 'projects[]')) {
+        alert('Please assign the appropriate projects for this group.');
+        selectField(f, 'projects[]');
+        return false;
+    }
+    if (!hasOneSelected(f, 'users[]')) {
+        alert('Please assign the appropriate users for this group.');
+        selectField(f, 'users[]');
+        return false;
+    }
+    if (f.manager.value == '') {
+        alert('Please assign the manager of this group.');
+        selectField(f, 'manager');
+        return false;
+    } else {
+        // make sure manager is also in users list
+        for (i = 0; i < f.elements['users[]'].options.length; i++) {
+            if (f.elements['users[]'].options[i].value == f.manager.value) {
+                f.elements['users[]'].options[i].selected = true;
+            }
+        }
+    }
+    return true;
+}
+
+function checkDelete(f)
+{
+    if (!hasOneChecked(f, 'items[]')) {
+      alert('Please select at least one of the groups.');
+      return false;
+    }
+    if (!confirm('WARNING: This action will remove the selected groups permanently.\nPlease click OK to confirm.')) {
+      return false;
+    } else {
+      return true;
+    }
+}
+</script>
+{/literal}
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1">
+    <tr>
+        <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+                <form name="group_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                {if $smarty.get.cat == 'edit'}
+                <input type="hidden" name="cat" value="update">
+                <input type="hidden" name="id" value="{$smarty.get.id}">
+                {else}
+                <input type="hidden" name="cat" value="new">
+                {/if}
+                <tr>
+                    <td colspan="2" class="default">
+                        <b>Manage Groups</b>
+                    </td>
+                </tr>
+                {if $result != ""}
+                <tr>
+                    <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                    {if $smarty.post.cat == "new"}
+                        {if $result == -1}
+                            An error occurred while trying to add the new group.
+                        {elseif $result == 1}
+                            Thank you, the group was added successfully.
+                        {/if}
+                    {elseif $smarty.post.cat == "update"}
+                        {if $result == -1}
+                            An error occurred while trying to update the group information.
+                        {elseif $result == 1}
+                            Thank you, the group was updated successfully.
+                        {/if}
+                    {/if}
+                    </td>
+                </tr>
+                {/if}
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <b>Name: *</b>
+                    </td>
+                    <td bgcolor="{$light_color}">
+                        <input type="text" name="group_name" size="40" class="default" value="{$info.grp_name}">
+                        {include file="error_icon.tpl.html" field="group_name"}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <b>Description:</b>
+                    </td>
+                    <td bgcolor="{$light_color}">
+                        <input type="text" name="description" size="100" class="default" value="{$info.grp_description}">
+                        {include file="error_icon.tpl.html" field="description"}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <nobr><b>Assigned Projects: *</b></nobr>
+                    </td>
+                    <td bgcolor="{$light_color}">
+                        <select name="projects[]" multiple size="3" class="default">
+                            {html_options options=$project_list selected=$info.project_ids}
+                        </select>
+                        {include file="error_icon.tpl.html" field="projects[]"}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <b>Users: *</b>
+                    </td>
+                    <td bgcolor="{$light_color}" width="80%">
+                        <select name="users[]" multiple size="6" class="default" onChange="javascript:showSelections('group_form', 'users[]');">
+                            {html_options options=$user_options selected=$info.users}
+                        </select>
+                        {include file="error_icon.tpl.html" field="users[]"}
+                        <div class="default" id="selection_users[]" />
+                        <script language="Javascript">showSelections('group_form', 'users[]');</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <b>Manager: *</b>
+                    </td>
+                    <td bgcolor="{$light_color}" width="80%">
+                        <select name="manager" size="1" class="default">
+                            <option value="">-- Select One --</option>
+                            {html_options options=$user_options selected=$info.grp_manager_usr_id}
+                        </select>
+                        {include file="error_icon.tpl.html" field="manager"}
+                        {include file="lookup_field.tpl.html" lookup_field_name="manager_search" lookup_field_target="manager"}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" bgcolor="{$cell_color}" align="center">
+                        {if $smarty.get.cat == 'edit'}
+                        <input class="button" type="submit" value="Update Group">
+                        {else}
+                        <input class="button" type="submit" value="Create Group">
+                        {/if}
+                        <input class="button" type="reset" value="Reset">
+                    </td>
+                </tr>
+                </form>
+                <tr>
+                    <td colspan="2" class="default">
+                        <b>Existing Groups</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                            <form name="delete_group" onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                            <tr>
+                                <td bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Name</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Description</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Manager</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Projects</b></td>
+                            </tr>
+                            {section name="i" loop=$list}
+                            {cycle values=$cycle assign="row_color"}
+                            <tr>
+                                <td width="4" nowrap bgcolor="{$row_color}" align="center">
+                                    <input type="checkbox" name="items[]" value="{$list[i].grp_id}" {if $smarty.section.i.total == 0}disabled{/if}>
+                                </td>
+                                <td width="20%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].grp_id}" title="update this entry">{$list[i].grp_name}</a>
+                                </td>
+                                <td width="20%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;{$list[i].grp_description}
+                                </td>
+                                <td width="40%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;{$list[i].manager}
+                                </td>
+                                <td width="20%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;{", "|join:$list[i].projects}
+                                </td>
+                            </tr>
+                            {sectionelse}
+                            <tr>
+                                <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                                    <i>No groups could be found.</i>
+                                </td>
+                            </tr>
+                            {/section}
+                            <tr>
+                                <td colspan="5" bgcolor="{$cell_color}">
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td width="4" bgcolor="{$cell_color}" align="center">
+                                                <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                                                <input type="hidden" name="cat" value="delete">
+                                            </td>
+                                            <td colspan="4" bgcolor="{$cell_color}" align="center">
+                                                <input type="submit" value="Delete" class="button">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,332 @@
+{include file="header.tpl.html"}
+<br />
+{if $no_customer_integration == 1}
+    <span class="default">The current project does not have customer integration so this report can not be viewed.</span>
+{else}
+<form method="post" action="{$smarty.server.PHP_SELF}" name="customer_stats_report">
+<input type="hidden" name="cat" value="generate">
+<script language="Javascript">
+{literal}
+function clearDate()
+{
+    
+    var f = document.forms['customer_stats_report'];
+    
+    f.elements["start[Year]"].selectedIndex = 0;
+    f.elements["start[Month]"].selectedIndex = 0;
+    f.elements["start[Day]"].selectedIndex = 0;
+    
+    f.elements["end[Year]"].selectedIndex = 0;
+    f.elements["end[Month]"].selectedIndex = 0;
+    f.elements["end[Day]"].selectedIndex = 0;
+}
+{/literal}
+</script>
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="3" class="default_white">
+            <b>Customer Stats Report - {$project_name}</b>
+          </td>
+        </tr>
+        <tr>
+          <td width="30%" class="default" align="center">
+            {if $has_support_levels == 1}<b>Support Level</b>{/if}
+          </td>
+          <td width="40%" class="default" align="center">
+            <b>Date Range</b>
+          </td>
+          <td width="30%" class="default" align="center">
+            <b>Sections to Display</b>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" valign="top">
+            {if $has_support_levels == 1}
+            <select name="support_level[]" size="5" multiple class="default">
+                {html_options options=$support_levels selected=$support_level}
+            </select>
+            {/if}
+          </td>
+          <td align="center" valign="top">
+            <table>
+                <tr>
+                    <td class="default" align="right">From</td>
+                    <td align="center" NOWRAP>{html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" year_empty="year" month_empty="mon" day_empty="day" all_extra="class='default'"}</td>
+                </tr>
+                <tr>
+                    <td class="default" align="right">To</td>
+                    <td align="center" NOWRAP>{html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" year_empty="year" month_empty="mon" day_empty="day" all_extra="class='default'"}</td>
+                </tr>
+            </table>
+            <input type="button" name="clear_date" value="Clear Date" onClick="clearDate()" class="shortcut">
+          </td>
+          <td align="center" valign="top">
+            <select name="display_sections[]" size="5" multiple class="default">
+                {html_options options=$sections selected=$display_sections}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="default" align="center" valign="middle" >
+            <b>Options</b>
+          </td>
+          <td align="left" valign="bottom" class="default" colspan="2" NOWRAP>
+            <input type="checkbox" name="include_expired" value="1" {if $include_expired==1}CHECKED{/if}>
+            <a id="link" class="link" href="javascript:void(null)" 
+                            onClick="javascript:toggleCheckbox('customer_stats_report', 'include_expired');">Include expired contracts</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="default" align="center" valign="top">
+          {if $current_role >= $roles.manager}
+            <b>Customer</b>
+            {/if}
+          </td>
+          <td align="center" valign="top" colspan="2">
+            {if $current_role >= $roles.manager}
+            <select name="customer[]" class="default">
+                <option value="">All</option>
+                {html_options options=$customers selected=$customer}
+            </select>
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" align="center">
+            <input type="submit" name="cat" value="Generate" class="shortcut">
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" align="right" class="default">
+            <a href="mailto:eventum-private@mysql.com?subject=Customer Stats Report">Feedback</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+
+{if $data != ''}
+<span class="default">
+<span style="color: red">Red values indicate value is higher than the aggregate one.</span><br />
+<span style="color: blue">Blue values indicate value is lower than the aggregate one.</span><br />
+</span>
+
+{$date_msg}
+{if $display.customer_counts == 1 || $display.issue_counts == 1 || $display.email_counts == 1}
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+        <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
+            <!-- header row -->
+            <tr bgcolor="{$cell_color}">
+                <th rowspan="2" class="default_white">{$row_label}</th>
+                {if $display.customer_counts == 1}<th colspan="3" class="default_white">Customers</th>{/if}
+                {if $display.issue_counts == 1}<th colspan="4" class="default_white">Issues<sup>1</sup></th>{/if}
+                {if $display.email_counts == 1}<th colspan="3" class="default_white">Emails by Customers<sup>2</sup></th>
+                <th colspan="3" class="default_white">Emails by Staff<sup>3</sup></th>{/if}
+            </tr>
+            <tr bgcolor="{$cell_color}">
+                {if $display.customer_counts == 1}
+                <th class="default_white">Count</th>
+                <th class="default_white">Using CSC</th>
+                <th class="default_white">Issues in CSC<br />(0/1-2/3-8/>8)</th>
+                {/if}
+                
+                {if $display.issue_counts == 1}
+                <th class="default_white">Tot</th>
+                <th class="default_white">Avg</th>
+                <th class="default_white">Med</th>
+                <th class="default_white">Max</th>
+                {/if}
+                
+                {if $display.email_counts == 1}
+                <th class="default_white">Tot</th>
+                <th class="default_white">Avg</th>
+                <th class="default_white">Med</th>
+                
+                <th class="default_white">Tot</th>
+                <th class="default_white">Avg.</th>
+                <th class="default_white">Med</th>
+                {/if}
+            </tr>
+            <!-- end of header -->
+            {section name=stats loop=$data}
+            {cycle values=$cycle assign="row_color"}
+            <tr bgcolor="{$row_color}">
+                {assign var=row_span value=1}
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].title}</td>
+                
+                <!-- Customer counts -->
+                {if $display.customer_counts == 1}
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].customer_counts.customer_count}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].customer_counts.active}</td>
+                <td class="default" align="center" rowspan="{$row_span}">
+                    {$data[stats].customer_counts.inactive|floor}% /
+                    {$data[stats].customer_counts.activity.low|floor}% /
+                    {$data[stats].customer_counts.activity.medium|floor}% /
+                    {$data[stats].customer_counts.activity.high|floor}%
+                </td>
+                {/if}
+                
+                <!-- Issue Counts -->
+                {if $display.issue_counts == 1}
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].issue_counts.total}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].issue_counts.avg|formatValue:$data.0.issue_counts.avg:2}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].issue_counts.median|formatValue:$data.0.issue_counts.median:2}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].issue_counts.max|formatValue:$data.0.issue_counts.max:2}</td>
+                {/if}
+                
+                <!-- Customer Action Counts -->
+                {if $display.email_counts == 1}
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.customer.total}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.customer.avg|formatValue:$data.0.email_counts.customer.avg:2}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.customer.median|formatValue:$data.0.email_counts.customer.median:2}</td>
+                
+                <!-- Developer Action Counts -->
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.developer.total}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.developer.avg|formatValue:$data.0.email_counts.developer.avg:2}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].email_counts.developer.median|formatValue:$data.0.email_counts.developer.median:2}</td>
+                {/if}
+            </tr>
+            {/section}
+        </table>
+    </td>
+  </tr>
+</table>
+{/if}
+
+{* Display second table *}
+{if $display.time_stats == 1}
+<br />
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+        <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
+            <!-- header row -->
+            <tr bgcolor="{$cell_color}">
+                <th rowspan="2" class="default_white">{$row_label}</th>
+                {if $display.time_stats == 1}
+                <th colspan="4" class="default_white" >Time To First Response</th>
+                <th colspan="4" class="default_white" >Time To Close<sup>4</sup></th>
+                {/if}
+            </tr>
+            <tr bgcolor="{$cell_color}">
+                {if $display.time_stats == 1}
+                <th class="default_white">Min</th>
+                <th class="default_white">Avg</th>
+                <th class="default_white">Med</th>
+                <th class="default_white">Max</th>
+                
+                <th class="default_white">Min</th>
+                <th class="default_white">Avg</th>
+                <th class="default_white">Med</th>
+                <th class="default_white">Max</th>
+                {/if}
+            </tr>
+            <!-- end of header -->
+            {section name=stats loop=$data}
+            {cycle values=$cycle assign="row_color"}
+            {assign var=row_span value=1}
+            <tr bgcolor="{$row_color}">
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].title}</td>
+                
+                {if $display.time_stats == 1}
+                <!-- Time to First Response -->
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.min_formatted|formatValue:$data.0.time_stats.time_to_first_response.min:"":$data[stats].time_stats.time_to_first_response.min}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.avg_formatted|formatValue:$data.0.time_stats.time_to_first_response.avg:"":$data[stats].time_stats.time_to_first_response.avg}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.median_formatted|formatValue:$data.0.time_stats.time_to_first_response.median:"":$data[stats].time_stats.time_to_first_response.median}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_first_response.max_formatted|formatValue:$data.0.time_stats.time_to_first_response.max:"":$data[stats].time_stats.time_to_first_response.max}</td>
+                
+                <!-- Time to Close -->
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.min_formatted|formatValue:$data.0.time_stats.time_to_close.min:"":$data[stats].time_stats.time_to_close.min}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.avg_formatted|formatValue:$data.0.time_stats.time_to_close.avg:"":$data[stats].time_stats.time_to_close.avg}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.median_formatted|formatValue:$data.0.time_stats.time_to_close.median:"":$data[stats].time_stats.time_to_close.median}</td>
+                <td class="default" align="center" rowspan="{$row_span}">{$data[stats].time_stats.time_to_close.max_formatted|formatValue:$data.0.time_stats.time_to_close.max:"":$data[stats].time_stats.time_to_close.max}</td>
+                {/if}
+            </tr>
+            {/section}
+        </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+
+{* Display 3rd table *}
+{if $display.time_tracking == 1}
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+        <table width="100%" bgcolor="#FFFFFF" border="0" cellspacing="1" cellpadding="2" align="center">
+            <!-- header row -->
+            <tr bgcolor="{$cell_color}">
+                <th class="default_white" width="150" rowspan="2">Support Level</th>
+                {assign var=col_span value=$time_tracking_categories|@count}
+                {assign var=col_span value="`$col_span+1`"}
+                <th class="default_white" colspan="{$col_span}">Time Tracking<span style="vertical-align: super; font-size: 80%">5</span></th>
+            </tr>
+            <tr bgcolor="{$cell_color}">
+                <th class="default_white" width="50">&nbsp;</th>
+                {foreach name=time_tracking from=$time_tracking_categories key=ttc_id item=ttc_title}
+                <th class="default_white" width="150">{$ttc_title}</th>
+                {/foreach}
+            </tr>
+            {section name=stats loop=$data}
+            {cycle values=$cycle assign="row_color"}
+            <tr bgcolor="{$row_color}">
+                <td class="default" align="center" rowspan="3" nowrap>{$data[stats].title}</td>
+                <td class="default" align="center">Total</td>
+                {foreach name=time_tracking from=$time_tracking_categories key=ttc_id item=ttc_title}
+                <td class="default" align="center">
+                {$data[stats].time_tracking[$ttc_id].total_formatted|formatValue:$data.0.time_tracking[$ttc_id].total:"":$data[stats].time_tracking[$ttc_id].total}
+                </td>
+                {/foreach}
+            </tr>
+            <tr bgcolor="{$row_color}">
+                <td class="default" align="center">Avg</td>
+                {foreach name=time_tracking from=$time_tracking_categories key=ttc_id item=ttc_title}
+                <td class="default" align="center">
+                {$data[stats].time_tracking[$ttc_id].avg_formatted|formatValue:$data.0.time_tracking[$ttc_id].avg:"":$data[stats].time_tracking[$ttc_id].avg}
+                </td>
+                {/foreach}
+            </tr>
+            <tr bgcolor="{$row_color}">
+                <td class="default" align="center">Med</td>
+                {foreach name=time_tracking from=$time_tracking_categories key=ttc_id item=ttc_title}
+                <td class="default" align="center">
+                {$data[stats].time_tracking[$ttc_id].median_formatted|formatValue:$data.0.time_tracking[$ttc_id].median:"":$data[stats].time_tracking[$ttc_id].median}
+                </td>
+                {/foreach}
+            </tr>
+            {/section}
+        </table>
+    </td>
+  </tr>
+</table>
+{/if}
+
+<span class="default">
+1. Refers to the number of issues in eventum for the given support level or customer.
+    Average and median counts do not include customers who have never opened an issue.<br />
+2. Refers to the number of emails sent by customers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.<br />
+3. Refers to the number of emails sent by developers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.<br />
+4. Date issue was opened - Date issue was closed for all closed issues.<br />
+5. All time tracking information for the given support level or customer. 
+        Issues without any time tracking data do not affect the average or median.<br />
+</span>
+<br />
+{* Loop through graphs, display them all *}
+{foreach name=graphs from=$graphs item=graph key=graph_id}
+{$date_msg}
+<div align="center"><img src="customer_stats_graph.php?graph_id={$graph_id}"></div><br />
+{/foreach}
+
+{/if}
+{/if}
+
+{include file="footer.tpl.html"}

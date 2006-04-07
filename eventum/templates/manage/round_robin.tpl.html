@@ -1,0 +1,189 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              <script language="JavaScript">
+              <!--
+              var url = '{$smarty.server.PHP_SELF}';
+              {literal}
+              function populateUserComboBox(f)
+              {
+                  url += '?prj_id=' + getSelectedOption(f, 'project');
+                  window.location.href = url;
+              }
+              function validateForm(f)
+              {
+                  if (!hasOneSelected(f, 'users[]')) {
+                      alert('Please assign the appropriate users for this round robin entry.');
+                      selectField(f, 'users[]');
+                      return false;
+                  }
+                  return true;
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="news_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Manage Round Robin Assignments</b>
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the round robin entry.
+                    {elseif $result == -2}
+                      Please enter the title for this round robin entry.
+                    {elseif $result == -3}
+                      Please enter the message for this round robin entry.
+                    {elseif $result == 1}
+                      Thank you, the round robin entry was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the round robin entry information.
+                    {elseif $result == -2}
+                      Please enter the title for this round robin entry.
+                    {elseif $result == -3}
+                      Please enter the message for this round robin entry.
+                    {elseif $result == 1}
+                      Thank you, the round robin entry was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <nobr><b>Project:</b></nobr>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  {if $info.prr_prj_id != ''}
+                    {assign var=project value=$info.prr_prj_id}
+                  {else}
+                    {assign var=project value=$smarty.request.prj_id}
+                  {/if}
+                  <select name="project" class="default" onChange="javascript:populateUserComboBox(this.form);">
+                  <option value="-1">Please choose an option</option>
+                  {html_options options=$project_list selected=$project}
+                  </select>
+                  {include file="error_icon.tpl.html" field="project"}
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Assignable Users:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <select name="users[]" multiple size="4" class="default">
+                    {html_options options=$user_options selected=$info.users}
+                  </select>
+                  {include file="error_icon.tpl.html" field="users[]"}
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Blackout Time Range:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <table>
+                    <tr>
+                      <td class="default">Start:</td>
+                      <td>{html_select_time minute_interval=5 time=$info.prr_blackout_start field_array="blackout_start" prefix="" display_seconds=false all_extra="class='default'"}</td>
+                    </tr>
+                    <tr>
+                      <td class="default">End:</td>
+                      <td>{html_select_time minute_interval=5 time=$info.prr_blackout_end field_array="blackout_end" prefix="" display_seconds=false all_extra="class='default'"}</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update Round Robin Entry">
+                  {else}
+                  <input class="button" type="submit" value="Create Round Robin Entry">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Round Robin Entries:</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  {literal}
+                  <script language="JavaScript">
+                  <!--
+                  function checkDelete(f)
+                  {
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the round robin entries.');
+                          return false;
+                      }
+                      if (!confirm('This action will permanently remove the selected round robin entries.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="cat" value="delete">
+                    <tr>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="30%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Project</b></td>
+                      <td width="70%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Assignable Users</b></td>
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].prr_id}"></td>
+                      <td width="30%" bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].prr_id}" title="update this entry">{$list[i].prj_title}</a>
+                      </td>
+                      <td width="70%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{$list[i].users|escape:"html"}
+                      </td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
+                        <i>No round robin entries could be found.</i>
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr>
+                      <td width="4" align="center" bgcolor="{$cell_color}">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                      </td>
+                      <td colspan="2" bgcolor="{$cell_color}" align="center">
+                        <input type="submit" value="Delete" class="button">
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+

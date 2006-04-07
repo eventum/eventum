@@ -1,0 +1,147 @@
+{include file="header.tpl.html"}
+
+{literal}
+<script language="JavaScript">
+<!--
+function validateForm(f)
+{
+    var field1 = getFormElement(f, 'field', 0);
+    var field2 = getFormElement(f, 'field', 1);
+    if ((!field1.checked) && (!field2.checked)) {
+        errors[errors.length] = new Option('Field', 'field');
+    }
+    if (isWhitespace(f.value.value)) {
+        errors[errors.length] = new Option('Value', 'value');
+    }
+}
+//-->
+</script>
+{/literal}
+<form name="customer_lookup_form" method="post" action="{$smarty.server.PHP_SELF}" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
+<input type="hidden" name="cat" value="lookup">
+<input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
+<table align="center" width="100%" cellpadding="3">
+  <tr>
+    <td>
+      <table width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td colspan="2" class="default">
+            <b>Customer Lookup Tool</b>
+          </td>
+        </tr>
+        <tr>
+          <td width="100" bgcolor="{$cell_color}" class="default_white">
+            <b>Field: *</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            <input type="radio" name="field" value="email" {if $smarty.post.field == '' or $smarty.post.field == 'email'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('customer_lookup_form', 'field', 0);">Email Address</a><br />
+            <input type="radio" name="field" value="customer_id" {if $smarty.post.field == 'customer_id'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('customer_lookup_form', 'field', 1);">Customer ID</a><br />
+          </td>
+        </tr>
+        <tr>
+          <td width="100" bgcolor="{$cell_color}" class="default_white">
+            <b>Value: *</b>
+          </td>
+          <td bgcolor="{$light_color}">
+            <input type="text" name="value" size="20" class="default" value="{$smarty.post.value}">
+            {include file="error_icon.tpl.html" field="value"}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" colspan="2" bgcolor="{$cell_color}">
+            <input class="button" type="submit" value="Lookup">&nbsp;&nbsp;
+            <input class="button" type="button" value="Cancel" onClick="javascript:window.close();">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+
+{if $results != ''}
+<script language="JavaScript">
+<!--
+var customer_contacts = new Array();
+{section name="i" loop=$results}
+customer_contacts[{$results[i].customer_id}] = new Array();
+{section name="y" loop=$results[i].contacts}
+customer_contacts[{$results[i].customer_id}].push({$results[i].contacts[y].contact_id});
+{/section}
+{/section}
+
+var contacts = new Array();
+{section name="i" loop=$results}
+{section name="y" loop=$results[i].contacts}
+contacts[{$results[i].contacts[y].contact_id}] = '"{$results[i].contacts[y].first_name|replace:"'":"\\'"} {$results[i].contacts[y].last_name|replace:"'":"\\'"}" <{$results[i].contacts[y].email}>';
+{/section}
+{/section}
+
+{literal}
+function selectCustomerContact(customer_id, customer_name, contact_id, contact_last_name, contact_first_name, contact_email, contact_phone)
+{
+    var f = window.opener.document.report_form;
+    // setup the hidden fields
+    f.customer.value = customer_id;
+    f.contact.value = contact_id;
+    var div = getOpenerPageElement('customer_div');
+    div.innerHTML = customer_name;
+    div = getOpenerPageElement('contact_div');
+    div.innerHTML = contact_last_name + ', ' + contact_first_name;
+
+    // build the option list of the additional contacts field
+    var selected_value = customer_id;
+    var _contacts = customer_contacts[customer_id];
+    if (typeof _contacts != 'undefined') {
+        window.opener.removeEmailsFieldOptions();
+        for (var i = 0; i < _contacts.length; i++) {
+            window.opener.addOptionToEmailsField(contacts[_contacts[i]]);
+        }
+    }
+
+    f.contact_person_lname.value = contact_last_name;
+    f.contact_person_fname.value = contact_first_name;
+    f.contact_email.value = contact_email;
+    f.contact_phone.value = contact_phone;
+
+    window.close();
+}
+//-->
+</script>
+{/literal}
+&nbsp;<span class="default"><b>Results:</b></span>
+<table width="100%" cellpadding="1" cellspacing="1">
+  <tr>
+    <td bgcolor="{$cell_color}" class="default_white"><b>Customer</b></td>
+    <td bgcolor="{$cell_color}" class="default_white"><b>Support Type</b></td>
+    <td bgcolor="{$cell_color}" class="default_white"><b>Expiration Date</b></td>
+    <td bgcolor="{$cell_color}" class="default_white"><b>Status</b></td>
+  </tr>
+  {section name="i" loop=$results}
+  {cycle values=$cycle assign="row_color"}
+  <tr bgcolor="{$row_color}">
+    <td class="default">{$results[i].customer_name|escape:"html"}</td>
+    <td class="default">{$results[i].support_level}</td>
+    <td class="default">{$results[i].expiration_date}</td>
+    <td class="default">{if $results[i].contract_status == 'expired'}<b><font color="red">{/if}{$results[i].contract_status}{if $results[i].contract_status == 'expired'}</font></b>{/if}</td>
+  </tr>
+  <tr bgcolor="{$row_color}">
+    <td colspan="5" class="default">
+      <ul>
+      {section name="y" loop=$results[i].contacts}
+      <li><a title="select this contact" class="link" href="javascript:void(null);" onClick="javascript:selectCustomerContact({$results[i].customer_id}, '{$results[i].customer_name|replace:"'":"\\'"}', {$results[i].contacts[y].contact_id}, '{$results[i].contacts[y].last_name|replace:"'":"\\'"}', '{$results[i].contacts[y].first_name|replace:"'":"\\'"}', '{$results[i].contacts[y].email}', '{$results[i].contacts[y].phone}');">{$results[i].contacts[y].first_name} {$results[i].contacts[y].last_name} - {$results[i].contacts[y].email}</a></li>
+      {/section}
+      </ul>
+    </td>
+  </tr>
+  {sectionelse}
+  <tr bgcolor="{$light_color}">
+    <td colspan="5" class="default" align="center">
+      <i>No results could be found</i>
+    </td>
+  </tr>
+  {/section}
+</table>
+{/if}
+
+{include file="footer.tpl.html"}

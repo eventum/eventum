@@ -1,0 +1,187 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              <script language="JavaScript">
+              <!--
+              var url = '{$smarty.server.PHP_SELF}';
+              var psd_id = '{$smarty.get.id}';
+              {literal}
+              function retrieveStatuses(f)
+              {
+                  if (psd_id == '') {
+                      url += '?prj_id=' + getSelectedOption(f, 'project');
+                  } else {
+                      url += '?cat=edit&id=' + psd_id + '&prj_id=' + getSelectedOption(f, 'project');
+                  }
+                  window.location.href = url;
+              }
+              function validateForm(f)
+              {
+                  if (getSelectedOption(f, 'project') == '-1') {
+                      alert('Please choose the project that you wish to customize.');
+                      selectField(f, 'project');
+                      return false;
+                  }
+                  return true;
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="customize_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Customize Issue Listing Screen</b> {include file="help_link.tpl.html" topic="customize_listing"}
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the new customization.
+                    {elseif $result == -2}
+                      Please enter the title for this new customization.
+                    {elseif $result == 1}
+                      Thank you, the customization was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the customization information.
+                    {elseif $result == -2}
+                      Please enter the title for this customization.
+                    {elseif $result == 1}
+                      Thank you, the customization was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Project:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <select name="project" class="default" onChange="javascript:retrieveStatuses(this.form);">
+                    <option value="-1">Please choose an option</option>
+                  {html_options options=$project_list selected=$project_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="project"}
+                </td>
+              </tr>
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Status:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="status" class="default">
+                    {html_options options=$status_list selected=$info.psd_sta_id}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Date Field:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="date_field" class="default">
+                    {html_options options=$date_fields selected=$info.psd_date_field}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Label:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="label" class="default" value="{$info.psd_label|escape:"html"}">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update Customization">
+                  {else}
+                  <input class="button" type="submit" value="Create Customization">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Customizations:</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  {literal}
+                  <script language="JavaScript">
+                  <!--
+                  function checkDelete(f)
+                  {
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the customizations.');
+                          return false;
+                      }
+                      if (!confirm('This action will remove the selected entries.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="cat" value="delete">
+                    <tr>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Project</b></td>
+                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Status</b></td>
+                      <td width="30%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Label</b></td>
+                      <td width="30%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Date Field</b></td>
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].psd_id}"></td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">{$list[i].prj_title}</td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].psd_id}" title="update this entry">{$list[i].sta_title|escape:"html"}</a>
+                      </td>
+                      <td width="30%" bgcolor="{$row_color}" class="default">{$list[i].psd_label|escape:"html"}</td>
+                      <td width="30%" bgcolor="{$row_color}" class="default">{$list[i].date_field}</td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
+                        <i>No customizations could be found.</i>
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr>
+                      <td width="4" align="center" bgcolor="{$cell_color}">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                      </td>
+                      <td colspan="4" bgcolor="{$cell_color}" align="center">
+                        <input type="submit" value="Delete" class="button">
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+

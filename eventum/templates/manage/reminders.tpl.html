@@ -1,0 +1,375 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              <tr>
+                <td colspan="2">
+                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                    <tr>
+                      <td class="default"><b>Manage Issue Reminders</b></td>
+                      <td align="right" class="default">
+                        <b>{if $smarty.get.cat == 'edit'}Updating Reminder #{$smarty.get.id}{else}Creating New Reminder{/if}</b>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the new reminder.
+                    {elseif $result == -2}
+                      Please enter the title for this new reminder.
+                    {elseif $result == 1}
+                      Thank you, the reminder was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the reminder information.
+                    {elseif $result == -2}
+                      Please enter the title for this reminder.
+                    {elseif $result == 1}
+                      Thank you, the reminder was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <script language="JavaScript">
+              <!--
+              var url = '{$smarty.server.PHP_SELF}';
+              var rem_id = '{$smarty.get.id}';
+              {literal}
+              function populateIssueComboBox(f)
+              {
+                  if (rem_id == '') {
+                      url += '?prj_id=' + getSelectedOption(f, 'project');
+                  } else {
+                      url += '?cat=edit&id=' + rem_id + '&prj_id=' + getSelectedOption(f, 'project');
+                  }
+                  window.location.href = url;
+              }
+              function toggleReminderTypeFields()
+              {
+                  var f = getForm('reminder_form');
+                  var issue_field = getFormElement(f, 'issues[]');
+                  var priority_field = getFormElement(f, 'priorities[]');
+                  var level_field = getFormElement(f, 'support_levels[]');
+                  var customer_field = getFormElement(f, 'customers[]');
+
+                  var next_field = 0;
+                  if (level_field) {
+                      var field = getFormElement(f, 'reminder_type', 0);
+                      if (field.checked) {
+                          level_field.disabled = false;
+                      } else {
+                          level_field.disabled = true;
+                      }
+                      next_field++;
+                  }
+                  if (customer_field) {
+                      var field = getFormElement(f, 'reminder_type', next_field);
+                      if (field.checked) {
+                          customer_field.disabled = false;
+                      } else {
+                          customer_field.disabled = true;
+                      }
+                      next_field++;
+                  }
+                  var field = getFormElement(f, 'reminder_type', next_field);
+                  if (field.checked) {
+                      issue_field.disabled = false;
+                  } else {
+                      issue_field.disabled = true;
+                  }
+                  field = getFormElement(f, 'check_priority');
+                  if (field.checked) {
+                      priority_field.disabled = false;
+                  } else {
+                      priority_field.disabled = true;
+                  }
+              }
+              function validateForm(f)
+              {
+                  if (hasSelected(f.project, -1)) {
+                      alert('Please choose a project that will be associated with this reminder.');
+                      return false;
+                  }
+                  if (isWhitespace(f.title.value)) {
+                      selectField(f, 'title');
+                      alert('Please enter the title for this reminder.');
+                      return false;
+                  }
+                  if (isWhitespace(f.rank.value)) {
+                      selectField(f, 'rank');
+                      alert('Please enter the rank for this reminder.');
+                      return false;
+                  }
+                  var next_field = 0;
+                  var support_levels = getFormElement(f, 'support_levels[]');
+                  if (support_levels) {
+                      var by_support_level = getFormElement(f, 'reminder_type', 0);
+                      next_field++;
+                  }
+                  var customers = getFormElement(f, 'customers[]');
+                  if (customers) {
+                      var by_customers = getFormElement(f, 'reminder_type', next_field);
+                      next_field++;
+                  }
+                  var by_issue = getFormElement(f, 'reminder_type', next_field);
+                  if ((by_support_level.checked) && (!hasOneSelected(f, 'support_levels[]'))) {
+                      alert('Please choose the support levels that will be associated with this reminder.');
+                      return false;
+                  }
+                  if ((by_customer.checked) && (!hasOneSelected(f, 'customers[]'))) {
+                      alert('Please choose the customers that will be associated with this reminder.');
+                      return false;
+                  }
+                  if ((by_issue.checked) && (!hasOneSelected(f, 'issues[]'))) {
+                      alert('Please enter the issue IDs that will be associated with this reminder.');
+                      return false;
+                  }
+                  if ((f.check_priority.checked) && (!hasOneSelected(f, 'priorities[]'))) {
+                      alert('Please choose the priorities that will be associated with this reminder.');
+                      return false;
+                  }
+                  return true;
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="reminder_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Project:</b>
+                </td>
+                <td width="85%" bgcolor="{$light_color}">
+                  <select name="project" class="default" onChange="javascript:populateIssueComboBox(this.form);">
+                    <option value="">Please choose an option</option>
+                    {html_options options=$project_list selected=$info.rem_prj_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="project"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Title:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" size="50" name="title" class="default" value="{$info.rem_title|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="title"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Rank:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" size="10" name="rank" class="default" value="{$info.rem_rank}">
+                  {include file="error_icon.tpl.html" field="rank"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Reminder Type:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <table cellpadding="1" border="0">
+                    <tr>
+                      {counter start=0 assign="next_field"}
+                      {if $backend_uses_support_levels}
+                      <td class="default">
+                        <input type="radio" name="reminder_type" value="support_level" {if $info.type == 'support_level'}checked{/if} onClick="javascript:toggleReminderTypeFields();">
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'reminder_type', 0);toggleReminderTypeFields();">By Support Level</a>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        {counter}
+                      {/if}
+                      {if $project_has_customer_integration}
+                      <td class="default">
+                        <input type="radio" name="reminder_type" value="customer" {if $info.type == 'customer'}checked{/if} onClick="javascript:toggleReminderTypeFields();">
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">By Customer</a>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        {counter}
+                      {/if}
+                      <td class="default">
+                        <input type="radio" name="reminder_type" value="issue" {if $info.type == 'issue'}checked{/if} onClick="javascript:toggleReminderTypeFields();">
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">By Issue ID</a>
+                      </td>
+                      {counter}
+                    </tr>
+                    <tr>
+                      {if $backend_uses_support_levels}
+                      <td>
+                        <select name="support_levels[]" class="default" size="4" multiple>
+                          {html_options options=$support_levels selected=$info.rer_support_level_id}
+                        </select>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      {/if}
+                      {if $project_has_customer_integration}
+                      <td>
+                        <select name="customers[]" size="4" multiple class="default">
+                          {html_options options=$customers selected=$info.rer_customer_id}
+                        </select>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      {/if}
+                      <td>
+                        <select name="issues[]" class="default" size="4" multiple>
+                          {html_options options=$issues|truncate:70 selected=$info.rer_iss_id}
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="default">
+                        <input type="radio" name="reminder_type" value="all_issues" {if $info.type == 'ALL'}checked{/if} onClick="javascript:toggleReminderTypeFields();" {if $smarty.get.cat != 'edit'}checked{/if}>
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'reminder_type', {$next_field});toggleReminderTypeFields();">All Issues</a>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td class="default">
+                        <input type="checkbox" name="check_priority" value="yes" {if $info.check_priority == 'yes'}checked{/if} onClick="javascript:toggleReminderTypeFields();">
+                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('reminder_form', 'check_priority');toggleReminderTypeFields();">Also Filter By Issue Priorities</a>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>
+                        <select name="priorities[]" size="4" multiple class="default">
+                          {html_options options=$priorities selected=$info.rer_pri_id}
+                        </select>
+                      </td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>Skip Weekends:</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <input type="radio" name="skip_weekend" value="1" {if $info.rem_skip_weekend == 1}CHECKED{/if}>Yes
+                  <input type="radio" name="skip_weekend" value="0" {if $info.rem_skip_weekend != 1}CHECKED{/if}>No<br />
+                  &nbsp;If yes, this reminder will not activate on weekends and time will not accumulate on the weekends.
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update Reminder">
+                  {else}
+                  <input class="button" type="submit" value="Create Reminder">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Issue Reminders:</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  {literal}
+                  <script language="JavaScript">
+                  <!--
+                  function checkDelete(f)
+                  {
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the reminders.');
+                          return false;
+                      }
+                      if (!confirm('This action will remove the selected entries.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="cat" value="delete">
+                    <tr>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>ID</b>&nbsp;</td>
+                      <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>Rank</b>&nbsp;</td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Project</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Type</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white" nowrap>&nbsp;<b>Issue Priorities</b>&nbsp;</td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Details</b></td>
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].rem_id}"></td>
+                      <td bgcolor="{$row_color}" class="default" align="center">{$list[i].rem_id}</td>
+                      <td bgcolor="{$row_color}" class="default" align="center">
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rem_id}&rank=desc"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].rem_rank}
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rem_id}&rank=asc"><img src="{$rel_url}images/asc.gif" border="0"></a>
+                      </td>
+                      <td bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].rem_id}" title="update this entry">{$list[i].rem_title|escape:"html"}</a>
+                      </td>
+                      <td width="25%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{$list[i].prj_title|escape:"html"}
+                      </td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{if $list[i].type == 'ALL'}All Issues{elseif $list[i].type == 'support_level'}By Support Level{elseif $list[i].type == 'customer'}By Customer{elseif $list[i].type == 'issue'}By Issue ID{/if}
+                      </td>
+                      <td width="15%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{section name="y" loop=$list[i].priorities}{$list[i].priorities[y]|escape:"html"}{if not $smarty.section.y.last}, {/if}{/section}
+                      </td>
+                      <td bgcolor="{$row_color}" class="default">
+                        &nbsp;<a href="reminder_actions.php?rem_id={$list[i].rem_id}" class="link">{$list[i].total_actions} Action{if $list[i].total_actions != 1}s{/if}</a>
+                      </td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="8" bgcolor="{$light_color}" align="center" class="default">
+                        <i>No reminders could be found.</i>
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr>
+                      <td width="4" align="center" bgcolor="{$cell_color}">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                      </td>
+                      <td colspan="7" bgcolor="{$cell_color}" align="center">
+                        <input type="submit" value="Delete" class="button">
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      {literal}
+      <script language="JavaScript">
+      <!--
+      window.onload = toggleReminderTypeFields;
+      //-->
+      </script>
+      {/literal}
+

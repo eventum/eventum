@@ -1,0 +1,220 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              {literal}
+              <script language="JavaScript">
+              <!--
+              function validateForm(f)
+              {
+                  if (isWhitespace(f.title.value)) {
+                      alert('Please enter the title of this status.');
+                      selectField(f, 'title');
+                      return false;
+                  }
+                  if (isWhitespace(f.abbreviation.value)) {
+                      alert('Please enter the abbreviation of this status.');
+                      selectField(f, 'abbreviation');
+                      return false;
+                  }
+                  if (isWhitespace(f.rank.value)) {
+                      alert('Please enter the rank of this status.');
+                      selectField(f, 'rank');
+                      return false;
+                  }
+                  if (!hasOneSelected(f, 'projects[]')) {
+                      alert('Please assign the appropriate projects for this status.');
+                      selectField(f, 'projects[]');
+                      return false;
+                  }
+                  if (isWhitespace(f.color.value)) {
+                      alert('Please enter the color of this status.');
+                      selectField(f, 'color');
+                      return false;
+                  }
+                  return true;
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="status_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Manage Statuses</b>
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the new status.
+                    {elseif $result == -2}
+                      Please enter the title for this new status.
+                    {elseif $result == 1}
+                      Thank you, the status was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the status information.
+                    {elseif $result == -2}
+                      Please enter the title for this status.
+                    {elseif $result == 1}
+                      Thank you, the status was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Title:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="title" size="40" class="default" value="{$info.sta_title|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="title"}
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Abbreviation:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="abbreviation" size="5" class="default" value="{$info.sta_abbreviation}" maxlength="3">
+                  {include file="error_icon.tpl.html" field="abbreviation"}
+                  <span class="small_default">(three letter abbreviation)</span>
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Rank:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="rank" size="5" class="default" value="{$info.sta_rank}">
+                  {include file="error_icon.tpl.html" field="rank"}
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Closed Context ?</b>
+                </td>
+                <td bgcolor="{$light_color}" class="default">
+                  <input type="radio" name="is_closed" value="1" {if $info.sta_is_closed == '1'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('status_form', 'is_closed', 0);">Yes</a>
+                  <input type="radio" name="is_closed" value="0" {if $info.sta_is_closed != '1'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('status_form', 'is_closed', 1);">No</a>
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <nobr><b>Assigned Projects:</b></nobr>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="projects[]" multiple size="3" class="default">
+                  {html_options options=$project_list selected=$info.projects}
+                  </select>
+                  {include file="error_icon.tpl.html" field="projects[]"}
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Color:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="color" size="10" class="default" value="{$info.sta_color}">
+                  {include file="error_icon.tpl.html" field="color"}
+                  <span class="small_default">(this color will be used in the issue listing page)</span>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update Status">
+                  {else}
+                  <input class="button" type="submit" value="Create Status">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Statuses:</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  {literal}
+                  <script language="JavaScript">
+                  <!--
+                  function checkDelete(f)
+                  {
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the statuses.');
+                          return false;
+                      }
+                      if (!confirm('This action will remove the selected entries. This will also update any \nissues currently set to this status to a new status \'undefined\'.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="cat" value="delete">
+                    <tr>
+                      <td bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Rank</b>&nbsp;</td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Abbreviation</b>&nbsp;</td>
+                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
+                      <td width="30%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Projects</b></td>
+                      <td width="30%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Color</b></td>
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].sta_id}"></td>
+                      <td bgcolor="{$row_color}" class="default" align="center">{$list[i].sta_rank}</td>
+                      <td bgcolor="{$row_color}" class="default" align="center">{$list[i].sta_abbreviation}</td>
+                      <td width="40%" bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].sta_id}" title="update this entry">{$list[i].sta_title}</a>
+                      </td>
+                      <td width="30%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{$list[i].projects|escape:"html"}
+                      </td>
+                      <td width="30%" bgcolor="{$list[i].sta_color}" class="default">
+                        &nbsp;{$list[i].sta_color}
+                      </td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
+                        <i>No statuses could be found.</i>
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr>
+                      <td bgcolor="{$cell_color}">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                      </td>
+                      <td colspan="5" bgcolor="{$cell_color}" align="center">
+                        <input type="submit" value="Delete" class="button">
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+

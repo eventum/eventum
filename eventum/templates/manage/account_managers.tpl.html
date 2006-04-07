@@ -1,0 +1,181 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              <script language="JavaScript">
+              <!--
+              var url = '{$smarty.server.PHP_SELF}';
+              var cam_id = '{$smarty.get.id}';
+              {literal}
+              function populateCustomerComboBox(f)
+              {
+                  if (cam_id == '') {
+                      url += '?prj_id=' + getSelectedOption(f, 'project');
+                  } else {
+                      url += '?cat=edit&id=' + cam_id + '&prj_id=' + getSelectedOption(f, 'project');
+                  }
+                  window.location.href = url;
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="manager_form" method="post" action="{$smarty.server.PHP_SELF}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Manage Customer Account Managers</b>
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the new account manager.
+                    {elseif $result == 1}
+                      Thank you, the account manager was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the account manager information.
+                    {elseif $result == 1}
+                      Thank you, the account manager was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Project:</b>
+                </td>
+                <td width="80%" bgcolor="{$light_color}">
+                  <select name="project" class="default" onChange="javascript:populateCustomerComboBox(this.form);">
+                    <option value="-1">Please choose an option</option>
+                    {html_options options=$project_list selected=$info.cam_prj_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="project"}
+                </td>
+              </tr>
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Customer:</b>
+                </td>
+                <td width="80%" bgcolor="{$light_color}">
+                  <select name="customer" class="default">
+                  {html_options options=$customers selected=$info.cam_customer_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="customer"}
+                </td>
+              </tr>
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Account Manager:</b>
+                </td>
+                <td width="80%" bgcolor="{$light_color}">
+                  <select name="manager" class="default">
+                  {html_options options=$user_options selected=$info.cam_usr_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="manager"}
+                </td>
+              </tr>
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Type:</b>
+                </td>
+                <td width="80%" bgcolor="{$light_color}">
+                  <select name="type" class="default">
+                    <option value="primary" {if $info.cam_type == 'primary'}selected{/if}>Primary Technical Account Manager</option>
+                    <option value="backup" {if $info.cam_type == 'backup'}selected{/if}>Backup Technical Account Manager</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update Account Manager">
+                  {else}
+                  <input class="button" type="submit" value="Create Account Manager">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Customer Account Managers:</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <script language="JavaScript">
+                  <!--
+                  {literal}
+                  function checkDelete(f)
+                  {
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the account managers.');
+                          return false;
+                      }
+                      if (!confirm('This action will remove the selected account managers.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="cat" value="delete">
+                    <tr>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Customer</b></td>
+                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Account Manager</b></td>
+                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Type</b></td>
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center">
+                        <input type="checkbox" name="items[]" value="{$list[i].cam_id}">
+                      </td>
+                      <td width="40%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{$list[i].customer_title}
+                      </td>
+                      <td width="40%" bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].cam_id}" title="update this entry">{$list[i].usr_full_name}</a>
+                      </td>
+                      <td width="20%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{$list[i].cam_type}
+                      </td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="4" bgcolor="{$light_color}" align="center" class="default">
+                        <i>No account managers could be found.</i>
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr>
+                      <td colspan="4" bgcolor="{$cell_color}">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                        <input type="submit" value="Delete" class="button">
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+

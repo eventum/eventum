@@ -1,0 +1,13 @@
+A new user was just created for you in the system.
+
+To start using the system, please load the URL below:
+{$app_base_url}index.php
+
+----------------------------------------------------------------------
+        Full Name: {$user.usr_full_name}
+    Email Address: {$user.usr_email} 
+         Password: {$user.usr_password}
+Assigned Projects: {foreach from=$user.projects item=project name=project}
+{if not $smarty.foreach.project.first}                   {/if}{$project.prj_title}: {$project.role}
+{/foreach}
+----------------------------------------------------------------------

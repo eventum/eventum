@@ -1,0 +1,13 @@
+Your user account has been updated in {$app_title}. 
+
+Your account information as it now exists appears below.
+    
+----------------------------------------------------------------------
+        Full Name: {$user.usr_full_name}
+    Email Address: {$user.usr_email} 
+Assigned Projects: {foreach from=$user.projects item=project name=project}
+{if not $smarty.foreach.project.first}                   {/if}{$project.prj_title}: {$project.role}
+{/foreach}
+----------------------------------------------------------------------
+
+<{$app_base_url}>

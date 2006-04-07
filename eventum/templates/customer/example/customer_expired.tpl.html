@@ -1,0 +1,47 @@
+{include file="header.tpl.html"}
+<br />
+<br />
+<table align="center" width="400" border="0" cellspacing="0" cellpadding="1" bgcolor="red">
+    <tr>
+      <td>
+        <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
+          <tr>
+            <td><img src="images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+            <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Expired Customer</span></td>
+          </tr>
+          <tr>
+            <td><img src="images/blank.gif" width="10" height="0"></td>
+            <td>
+              <table width="100%">
+                <tr>
+                  <td class="default" width="120"><b>Contact:</b></td>
+                  <td class="default">{$customer.contact_name}</td>
+                </tr>
+                <tr>
+                  <td class="default" width="120"><b>Company Name:</b></td>
+                  <td class="default">{$customer.company_name}</td>
+                </tr>
+                <tr>
+                  <td class="default" width="120"><b>Contract #:</b></td>
+                  <td class="default">{$customer.contract_id}</td>
+                </tr>
+                <tr>
+                  <td class="default" width="120"><b>Support Level:</b></td>
+                  <td class="default">{$customer.support_level}</td>
+                </tr>
+                <tr>
+                  <td class="default" width="120"><b>Expired:</b></td>
+                  <td class="default">{$customer.expiration_date}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+</table>
+<div align="center" class="default">
+<br />
+<a href="javascript:back(-1)" class="link">Back</a>
+</div>
+{include file="footer.tpl.html"}

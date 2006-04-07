@@ -1,0 +1,308 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              {literal}
+              <script language="JavaScript">
+              <!--
+              function validateForm(f)
+              {
+                  if (f.project.selectedIndex == 0) {
+                      alert('Please choose the project to be associated with this email account.');
+                      selectField(f, 'project');
+                      return false;
+                  }
+                  if (f.type.selectedIndex == 0) {
+                      alert('Please choose the type of email server to be associated with this email account.');
+                      selectField(f, 'type');
+                      return false;
+                  }
+                  if (isWhitespace(f.hostname.value)) {
+                      alert('Please enter the hostname for this email account.');
+                      selectField(f, 'hostname');
+                      return false;
+                  }
+                  if (isWhitespace(f.port.value)) {
+                      alert('Please enter the port number for this email account.');
+                      selectField(f, 'port');
+                      return false;
+                  }
+                  if (!isNumberOnly(f.port.value)) {
+                      alert('Please enter a valid port number for this email account.');
+                      selectField(f, 'port');
+                      return false;
+                  }
+                  if (!isNumberOnly(f.port.value)) {
+                      alert('Please enter the port number for this email account.');
+                      selectField(f, 'port');
+                      return false;
+                  }
+                  var server_type = getSelectedOption(f, 'type');
+                  if ((server_type.indexOf('imap') != -1) && (isWhitespace(f.folder.value))) {
+                      alert('Please enter the IMAP folder for this email account.');
+                      selectField(f, 'folder');
+                      return false;
+                  }
+                  if (isWhitespace(f.username.value)) {
+                      alert('Please enter the username for this email account.');
+                      selectField(f, 'username');
+                      return false;
+                  }
+                  if (isWhitespace(f.password.value)) {
+                      alert('Please enter the password for this email account.');
+                      selectField(f, 'password');
+                      return false;
+                  }
+                  return true;
+              }
+              function toggleFolderField(f)
+              {
+                  var element = getPageElement('imap_folder');
+                  var option = getSelectedOption(f, 'type');
+                  if (option.indexOf('imap') != -1) {
+                      element.style.display = getDisplayStyle();
+                      f.folder.disabled = false;
+                  } else {
+                      element.style.display = 'none';
+                      f.folder.disabled = true;
+                  }
+              }
+              function testSettings(f)
+              {
+                  var features = 'width=320,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+                  var popupWin = window.open('', '_testEmailSettings', features);
+                  popupWin.focus();
+                  var old_action = f.action;
+                  f.action = 'check_email_settings.php';
+                  f.target = '_testEmailSettings';
+                  f.submit();
+                  f.action = old_action;
+                  f.target = '';
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="email_account_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Manage Email Accounts</b>
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the new account.
+                    {elseif $result == 1}
+                      Thank you, the email account was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the account information.
+                    {elseif $result == 1}
+                      Thank you, the account was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="100" bgcolor="{$cell_color}" class="default_white">
+                  <nobr><b>Associated Project:</b></nobr>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <select name="project" class="default">
+                    <option value="-1"></option>
+                    {html_options options=$all_projects selected=$info.ema_prj_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="project"}
+                </td>
+              </tr>
+              <tr>
+                <td width="100" bgcolor="{$cell_color}" class="default_white">
+                  <b>Type:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <select name="type" class="default" onChange="javascript:toggleFolderField(this.form);">
+                    <option value="-1"></option>
+                    <option value="imap" {if $info.ema_type == 'imap'}selected{/if}>IMAP</option>
+                    <option value="imap/ssl" {if $info.ema_type == 'imap/ssl'}selected{/if}>IMAP over SSL</option>
+                    <option value="imap/ssl/novalidate-cert" {if $info.ema_type == 'imap/ssl/novalidate-cert'}selected{/if}>IMAP over SSL (self-signed)</option>
+                    <option value="imap/notls" {if $info.ema_type == 'imap/notls'}selected{/if}>IMAP, no TLS</option>
+                    <option value="imap/tls" {if $info.ema_type == 'imap/tls'}selected{/if}>IMAP, with TLS</option>
+                    <option value="imap/tls/novalidate-cert" {if $info.ema_type == 'imap/tls/novalidate-cert'}selected{/if}>IMAP, with TLS (self-signed)</option>
+                    <option value="pop3" {if $info.ema_type == 'pop3'}selected{/if}>POP3</option>
+                    <option value="pop3/ssl" {if $info.ema_type == 'pop3/ssl'}selected{/if}>POP3 over SSL</option>
+                    <option value="pop3/ssl/novalidate-cert" {if $info.ema_type == 'pop3/ssl/novalidate-cert'}selected{/if}>POP3 over SSL (self-signed)</option>
+                    <option value="pop3/notls" {if $info.ema_type == 'pop3/notls'}selected{/if}>POP3, no TLS</option>
+                    <option value="pop3/tls" {if $info.ema_type == 'pop3/tls'}selected{/if}>POP3, with TLS</option>
+                    <option value="pop3/tls/novalidate-cert" {if $info.ema_type == 'pop3/tls/novalidate-cert'}selected{/if}>POP3, with TLS (self-signed)</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td width="100" bgcolor="{$cell_color}" class="default_white">
+                  <b>Hostname:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <input type="text" class="default" name="hostname" size="30" value="{$info.ema_hostname|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="hostname"}
+                </td>
+              </tr>
+              <tr>
+                <td width="100" bgcolor="{$cell_color}" class="default_white">
+                  <b>Port:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <input type="text" class="default" name="port" size="10" value="{$info.ema_port}"> <span class="default">(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)</span>
+                  {include file="error_icon.tpl.html" field="port"}
+                </td>
+              </tr>
+              <tr id="imap_folder">
+                <td width="100" bgcolor="{$cell_color}" class="default_white">
+                  <b>IMAP Folder:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <input type="text" class="default" name="folder" size="20" value="{if $info.ema_folder == ""}INBOX{else}{$info.ema_folder}{/if}"> <span class="default">(default folder is INBOX)</span>
+                  {include file="error_icon.tpl.html" field="folder"}
+                </td>
+              </tr>
+              <tr>
+                <td width="100" bgcolor="{$cell_color}" class="default_white">
+                  <b>Username:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <input type="text" class="default" name="username" size="20" value="{$info.ema_username|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="username"}
+                </td>
+              </tr>
+              <tr>
+                <td width="100" bgcolor="{$cell_color}" class="default_white">
+                  <b>Password:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <input type="password" class="default" name="password" size="20" value="{$info.ema_password|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="password"}
+                </td>
+              </tr>
+              <tr>
+                <td width="100" bgcolor="{$cell_color}" class="default_white">
+                  <b>Advanced Options:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%" class="default">
+                  <input type="checkbox" name="get_only_new" value="1" {if $info.ema_get_only_new}checked{/if}>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('email_account_form', 'get_only_new', 0);">Only Download Unread Messages</a><br />
+                  <input type="checkbox" name="leave_copy" value="1" {if $smarty.get.cat == 'edit'}{if $info.ema_leave_copy}checked{/if}{else}checked{/if}>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('email_account_form', 'leave_copy', 0);">Leave Copy of Messages On Server</a><br />
+                  <input type="checkbox" name="use_routing" value="1" {if $info.ema_use_routing}checked{/if}>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('email_account_form', 'use_routing', 0);">Use account for non-subject based email/note/draft routing.
+                    <b> Note: </b>If you check this, you cannot leave a copy of messages on the server.</a>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  <input class="button" type="button" value="Test Settings" onClick="javascript:testSettings(this.form);">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update Account">
+                  {else}
+                  <input class="button" type="submit" value="Create Account">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Accounts:</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  {literal}
+                  <script language="JavaScript">
+                  <!--
+                  function checkDelete(f)
+                  {
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the accounts.');
+                          return false;
+                      }
+                      if (!confirm('This action will remove the selected entries.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="cat" value="delete">
+                    <tr>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Associated Project</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Hostname</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Type</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Port</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Username</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Mailbox</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Auto-Creation of Issues</b></td>
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" align="center" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].ema_id}"></td>
+                      <td bgcolor="{$row_color}" class="default">&nbsp;{$list[i].prj_title}</td>
+                      <td width="30%"bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ema_id}" title="update this entry">{$list[i].ema_hostname|escape:"html"}</a></td>
+                      <td bgcolor="{$row_color}" class="default">&nbsp;{$list[i].ema_type}</td>
+                      <td bgcolor="{$row_color}" class="default">&nbsp;{$list[i].ema_port}</td>
+                      <td bgcolor="{$row_color}" class="default">&nbsp;{$list[i].ema_username|escape:"html"}</td>
+                      <td bgcolor="{$row_color}" class="default">&nbsp;{$list[i].ema_folder}</td>
+                      <td bgcolor="{$row_color}" class="default">&nbsp;<a href="issue_auto_creation.php?ema_id={$list[i].ema_id}" class="link">{$list[i].ema_issue_auto_creation|ucfirst}</a></td>
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="8" bgcolor="{$light_color}" align="center" class="default">
+                        <i>No email accounts could be found.</i>
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr bgcolor="{$cell_color}">
+                      <td width="4" align="center">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                      </td>
+                      <td colspan="7" align="center">
+                        <input type="submit" value="Delete" class="button">
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      {literal}
+      <script language="JavaScript">
+      <!--
+      window.onload = setFolderField;
+      function setFolderField()
+      {
+          var f = getForm('email_account_form');
+          toggleFolderField(f);
+      }
+      //-->
+      </script>
+      {/literal}
+

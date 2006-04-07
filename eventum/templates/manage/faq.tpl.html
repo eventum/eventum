@@ -1,0 +1,233 @@
+
+      <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+              <script language="JavaScript">
+              <!--
+              var url = '{$smarty.server.PHP_SELF}';
+              var id = '{$smarty.get.id}';
+              {literal}
+              function populateComboBox(f)
+              {
+                  if (id == '') {
+                      url += '?prj_id=' + getSelectedOption(f, 'project');
+                  } else {
+                      url += '?cat=edit&id=' + id + '&prj_id=' + getSelectedOption(f, 'project');
+                  }
+                  window.location.href = url;
+              }
+              function validateForm(f)
+              {
+                  if (getSelectedOption(f, 'project') == -1) {
+                      selectField(f, 'project');
+                      alert('Please choose the project for this FAQ entry.');
+                      return false;
+                  }
+                  var field = getFormElement(f, 'support_levels[]');
+                  if (field) {
+                      if (!hasOneSelected(f, 'support_levels[]')) {
+                          selectField(f, 'support_levels[]');
+                          alert('Please assign the appropriate support levels for this FAQ entry.');
+                          return false;
+                      }
+                  }
+                  if (isWhitespace(f.rank.value)) {
+                      selectField(f, 'rank');
+                      alert('Please enter the rank of this FAQ entry.');
+                      return false;
+                  }
+                  if (!isNumberOnly(f.rank.value)) {
+                      selectField(f, 'rank');
+                      alert('Please enter a number for the rank of this FAQ entry.');
+                      return false;
+                  }
+                  if (isWhitespace(f.title.value)) {
+                      selectField(f, 'title');
+                      alert('Please enter the title of this FAQ entry.');
+                      return false;
+                  }
+                  return true;
+              }
+              //-->
+              </script>
+              {/literal}
+              <form name="news_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              {if $smarty.get.cat == 'edit'}
+              <input type="hidden" name="cat" value="update">
+              <input type="hidden" name="id" value="{$smarty.get.id}">
+              {else}
+              <input type="hidden" name="cat" value="new">
+              {/if}
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Manage Internal FAQ</b>
+                </td>
+              </tr>
+              {if $result != ""}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                  {if $smarty.post.cat == "new"}
+                    {if $result == -1}
+                      An error occurred while trying to add the FAQ entry.
+                    {elseif $result == -2}
+                      Please enter the title for this FAQ entry.
+                    {elseif $result == -3}
+                      Please enter the message for this FAQ entry.
+                    {elseif $result == 1}
+                      Thank you, the FAQ entry was added successfully.
+                    {/if}
+                  {elseif $smarty.post.cat == "update"}
+                    {if $result == -1}
+                      An error occurred while trying to update the FAQ entry information.
+                    {elseif $result == -2}
+                      Please enter the title for this FAQ entry.
+                    {elseif $result == -3}
+                      Please enter the message for this FAQ entry.
+                    {elseif $result == 1}
+                      Thank you, the FAQ entry was updated successfully.
+                    {/if}
+                  {/if}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="150" bgcolor="{$cell_color}" class="default_white">
+                  <b>Project:</b>
+                </td>
+                <td width="80%" bgcolor="{$light_color}">
+                  <select name="project" class="default" onChange="javascript:populateComboBox(this.form);">
+                    <option value="-1">Please choose an option</option>
+                    {html_options options=$project_list selected=$info.faq_prj_id}
+                  </select>
+                  {include file="error_icon.tpl.html" field="project"}
+                </td>
+              </tr>
+              {if $backend_uses_support_levels}
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <nobr><b>Assigned Support<br />Levels:</b></nobr>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <select name="support_levels[]" class="default" size="4" multiple>
+                    {html_options options=$support_levels selected=$info.support_levels}
+                  </select>
+                  {include file="error_icon.tpl.html" field="support_levels[]"}
+                </td>
+              </tr>
+              {/if}
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Rank:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" size="5" class="default" name="rank" value="{$info.faq_rank}">
+                  {include file="error_icon.tpl.html" field="rank"}
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Title:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <input type="text" name="title" size="40" class="default" value="{$info.faq_title|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="title"}
+                </td>
+              </tr>
+              <tr>
+                <td width="140" bgcolor="{$cell_color}" class="default_white">
+                  <b>Message:</b>
+                </td>
+                <td bgcolor="{$light_color}">
+                  <textarea name="message" cols="50" rows="10">{$info.faq_message|escape:"html"}</textarea>
+                  {include file="error_icon.tpl.html" field="message"}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  {if $smarty.get.cat == 'edit'}
+                  <input class="button" type="submit" value="Update FAQ Entry">
+                  {else}
+                  <input class="button" type="submit" value="Create FAQ Entry">
+                  {/if}
+                  <input class="button" type="reset" value="Reset">
+                </td>
+              </tr>
+              </form>
+              <tr>
+                <td colspan="2" class="default">
+                  <b>Existing Internal FAQ Entries:</b>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  {literal}
+                  <script language="JavaScript">
+                  <!--
+                  function checkDelete(f)
+                  {
+                      if (!hasOneChecked(f, 'items[]')) {
+                          alert('Please select at least one of the FAQ entries.');
+                          return false;
+                      }
+                      if (!confirm('This action will permanently remove the selected FAQ entries.')) {
+                          return false;
+                      } else {
+                          return true;
+                      }
+                  }
+                  //-->
+                  </script>
+                  {/literal}
+                  <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                    <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                    <input type="hidden" name="cat" value="delete">
+                    <tr>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>Rank</b>&nbsp;</td>
+                      <td width="{if $backend_uses_support_levels}50%{else}100%{/if}" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
+                      {if $backend_uses_support_levels}
+                      <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Support Levels</b></td>
+                      {/if}
+                    </tr>
+                    {section name="i" loop=$list}
+                    {cycle values=$cycle assign="row_color"}
+                    <tr>
+                      <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].faq_id}"></td>
+                      <td bgcolor="{$row_color}" class="default" align="center" nowrap>
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].faq_id}&rank=desc"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].faq_rank}
+                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].faq_id}&rank=asc"><img src="{$rel_url}images/asc.gif" border="0"></a>
+                      </td>
+                      <td width="50%" bgcolor="{$row_color}" class="default">
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].faq_id}" title="update this entry">{$list[i].faq_title|escape:"html"}</a>
+                      </td>
+                      {if $backend_uses_support_levels}
+                      <td width="50%" bgcolor="{$row_color}" class="default">
+                        &nbsp;{$list[i].support_levels|escape:"html"}
+                      </td>
+                      {/if}
+                    </tr>
+                    {sectionelse}
+                    <tr>
+                      <td colspan="{if $backend_uses_support_levels}4{else}3{/if}" bgcolor="{$light_color}" align="center" class="default">
+                        <i>No FAQ entries could be found.</i>
+                      </td>
+                    </tr>
+                    {/section}
+                    <tr>
+                      <td width="4" align="center" bgcolor="{$cell_color}">
+                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                      </td>
+                      <td colspan="{if $backend_uses_support_levels}3{else}2{/if}" bgcolor="{$cell_color}" align="center">
+                        <input type="submit" value="Delete" class="button">
+                      </td>
+                    </tr>
+                    </form>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+

@@ -1,0 +1,210 @@
+{literal}
+<script language="Javascript">
+function validateForm(f)
+{
+    if (isWhitespace(f.pattern.value)) {
+        alert('Please enter a pattern.');
+        selectField(f, 'pattern');
+        return false;
+    }
+    if (f.replacement.value == '') {
+        alert('Please enter a replacement value.');
+        selectField(f, 'replacement');
+        return false;
+    }
+    if (!hasOneSelected(f, 'projects[]')) {
+        alert('Please select projects this link filter should be active for.');
+        selectField(f, 'projects[]');
+        return false;
+    }
+    if (!hasOneSelected(f, 'usr_role')) {
+        alert('Please select the minimum user role that should be able to see this link filter.');
+        selectField(f, 'usr_role');
+        return false;
+    }
+    return true;
+}
+
+function checkDelete(f)
+{
+    if (!hasOneChecked(f, 'items[]')) {
+      alert('Please select at least one link filter.');
+      return false;
+    }
+    if (!confirm('WARNING: This action will remove the selected link filters permanently.\nPlease click OK to confirm.')) {
+      return false;
+    } else {
+      return true;
+    }
+}
+</script>
+{/literal}
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1">
+    <tr>
+        <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+                <form name="link_filter_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                {if $smarty.get.cat == 'edit'}
+                <input type="hidden" name="cat" value="update">
+                <input type="hidden" name="id" value="{$smarty.get.id}">
+                {else}
+                <input type="hidden" name="cat" value="new">
+                {/if}
+                <tr>
+                    <td colspan="2" class="default">
+                        <b>Manage Link Filters</b> {include file="help_link.tpl.html" topic="link_filters"}
+                    </td>
+                </tr>
+                {if $result != ""}
+                <tr>
+                    <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
+                    {if $smarty.post.cat == "new"}
+                        {if $result == -1}
+                            An error occurred while trying to add the new link filter.
+                        {elseif $result == 1}
+                            Thank you, the link filter was added successfully.
+                        {/if}
+                    {elseif $smarty.post.cat == "update"}
+                        {if $result == -1}
+                            An error occurred while trying to update the link filter.
+                        {elseif $result == 1}
+                            Thank you, the link filter was updated successfully.
+                        {/if}
+                    {elseif $smarty.post.cat == "delete"}
+                        {if $result == -1}
+                            An error occurred while trying to delete the link filter.
+                        {elseif $result == 1}
+                            Thank you, the link filter was deleted successfully.
+                        {/if}
+                    {/if}
+                    </td>
+                </tr>
+                {/if}
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <b>Pattern: *</b>
+                    </td>
+                    <td bgcolor="{$light_color}">
+                        <input type="text" name="pattern" size="40" class="default" value="{$info.lfi_pattern|escape:"html"}">
+                        {include file="error_icon.tpl.html" field="pattern"}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <b>Replacement: *</b>
+                    </td>
+                    <td bgcolor="{$light_color}" width="80%">
+                        <input type="text" name="replacement" size="40" class="default" value="{$info.lfi_replacement|escape:"html"}">
+                        {include file="error_icon.tpl.html" field="replacement"}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <b>Description:</b>
+                    </td>
+                    <td bgcolor="{$light_color}">
+                        <input type="text" name="description" size="50" class="default" value="{$info.lfi_description|escape:"html"}">
+                        {include file="error_icon.tpl.html" field="description"}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <nobr><b>Assigned Projects: *</b></nobr>
+                    </td>
+                    <td bgcolor="{$light_color}">
+                        <select name="projects[]" multiple size="3" class="default">
+                            {html_options options=$project_list selected=$info.projects}
+                        </select>
+                        {include file="error_icon.tpl.html" field="projects[]"}
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120" bgcolor="{$cell_color}" class="default_white">
+                        <b>Minimum User Role: *</b>
+                    </td>
+                    <td bgcolor="{$light_color}" width="80%">
+                        <select name="usr_role" class="default">
+                            {html_options options=$user_roles selected=$info.lfi_usr_role}
+                        </select>
+                        {include file="error_icon.tpl.html" field="usr_role"}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" bgcolor="{$cell_color}" align="center">
+                        {if $smarty.get.cat == 'edit'}
+                        <input class="button" type="submit" value="Update Link Filter">
+                        {else}
+                        <input class="button" type="submit" value="Create Link Filter">
+                        {/if}
+                        <input class="button" type="reset" value="Reset">
+                    </td>
+                </tr>
+                </form>
+                <tr>
+                    <td colspan="2" class="default">
+                        <b>Existing Link Filters</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table border="0" width="100%" cellpadding="1" cellspacing="1">
+                            <form name="delete_link_filters" onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+                            <tr>
+                                <td bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Pattern</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Replacement</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Description</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Minimum Role</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Projects</b></td>
+                            </tr>
+                            {section name="i" loop=$list}
+                            {cycle values=$cycle assign="row_color"}
+                            <tr>
+                                <td width="4" nowrap bgcolor="{$row_color}" align="center">
+                                    <input type="checkbox" name="items[]" value="{$list[i].lfi_id}" {if $smarty.section.i.total == 0}disabled{/if}>
+                                </td>
+                                <td width="20%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].lfi_id}" title="update this entry">{$list[i].lfi_pattern|escape:"html"}</a>
+                                </td>
+                                <td width="20%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;{$list[i].lfi_replacement|escape:"html"}
+                                </td>
+                                <td width="20%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;{$list[i].lfi_description}
+                                </td>
+                                <td width="20%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;{$list[i].min_usr_role_name}
+                                </td>
+                                <td width="20%" bgcolor="{$row_color}" class="default">
+                                    &nbsp;{", "|join:$list[i].project_names}
+                                </td>
+                            </tr>
+                            {sectionelse}
+                            <tr>
+                                <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
+                                    <i>No link filters could be found.</i>
+                                </td>
+                            </tr>
+                            {/section}
+                            <tr>
+                                <td colspan="6" bgcolor="{$cell_color}">
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td width="4" bgcolor="{$cell_color}" align="center">
+                                                <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                                                <input type="hidden" name="cat" value="delete">
+                                            </td>
+                                            <td colspan="4" bgcolor="{$cell_color}" align="center">
+                                                <input type="submit" value="Delete" class="button">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,157 @@
+{include file="header.tpl.html"}
+<br />
+<form action="{$smarty.server.PHP_SELF}" name="workload_report" method="post">
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" width="400">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="2" class="default_white">
+            <b>Workload by Date Range Report</b>
+          </td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+          <td class="default" align="right">
+            <b>Type:</b>
+          </td>
+          <td align="left">
+            &nbsp;&nbsp;
+            <select name="type" class="default" onChange="setIntervals('')">
+                {html_options options=$types selected=$type}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="default" align="right">
+            <b>Interval:</b>
+          </td>
+          <td align="left">
+            &nbsp;&nbsp;
+            <select name="interval" class="default">
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="default" align="right">
+            <b>Start:</b>
+          </td>
+          <td align="left">
+            &nbsp;&nbsp;
+            {html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
+          </td>
+        </tr>
+        <tr>
+          <td class="default" align="right">
+            <b>End:</b>
+          </td>
+          <td align="left">
+            &nbsp;&nbsp;
+            {html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" all_extra="class='default'"}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <input type="submit" name="submit" value="Generate" class="shortcut">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<div class="default" style="color: red" align="center">
+    Warning: Some type and interval options, combined with large <br />
+    date ranges can produce extremely large graphs.
+</div>
+</form>
+<script language="Javascript">
+{literal}
+var f = document.forms["workload_report"];
+var options = new Array(2);
+options[0] = new Array(3);// individual
+options[0][0] = new Option("Day", "day");
+options[0][1] = new Option("Week", "week");
+options[0][2] = new Option("Month", "month")
+
+options[1] = new Array(4);// aggregate
+options[1][0] = new Option("Day of Week", "dow");
+options[1][1] = new Option("Week", "week");
+options[1][2] = new Option("Day of Month", "dom")
+options[1][2] = new Option("Month", "month")
+
+
+function setIntervals(selectedValue)
+{
+    f.interval.length = options[f.type.selectedIndex].length;
+    for (i = 0; i < options[f.type.selectedIndex].length; i++) {
+        f.interval.options[i] = options[f.type.selectedIndex][i];
+        if (options[f.type.selectedIndex][i].value == selectedValue) {
+            f.interval.options[i].selected = true;
+        }
+    }
+}
+{/literal}
+setIntervals('{$interval}');
+</script>
+{if $data != ''}
+<center>
+<h3>Project: {$current_project_name}</h3>
+</center>
+<table width="400" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr bgcolor="{$cell_color}">
+          <th class="default_white">
+            &nbsp;
+          </th>
+          <th class="default_white">
+            Total
+          </th>
+          <th class="default_white">
+            Avg
+          </th>
+          <th class="default_white">
+            Med
+          </th>
+          <th class="default_white">
+            Max
+          </th>
+        </tr>
+        {foreach name="workload" from=$data key=loop_name item=row}
+        {cycle values=$cycle assign="row_color"}
+        <tr bgcolor="{$row_color}">
+          <td align="center" class="default">{$loop_name}</td>
+          <td align="center" class="default">{$row.stats.total}</td>
+          <td align="center" class="default">{$row.stats.avg|round:2}</td>
+          <td align="center" class="default">{$row.stats.median}</td>
+          <td align="center" class="default">{$row.stats.max}</td>
+        </tr>
+        {/foreach}
+      </table>
+    </td>
+  </tr>
+</table>
+<div class="default" align="center">
+Avg/Med/Max Issues/Emails
+{if $interval == 'day'}
+    per day
+{elseif $interval == 'week'}
+    per week
+{elseif $interval == 'month'}
+    per month
+{elseif $interval == 'dow'}
+    per day of week
+{/if}
+for {$start_date} through {$end_date}.
+</div>
+<br />
+<div align="center">
+    <img src="workload_date_range_graph.php?graph=issue&interval={$interval}&start_date={$start_date}&end_date={$end_date}"><br /><br />
+    <img src="workload_date_range_graph.php?graph=issue&type=pie&interval={$interval}&start_date={$start_date}&end_date={$end_date}"><br /><br />
+    <img src="workload_date_range_graph.php?graph=email&interval={$interval}&start_date={$start_date}&end_date={$end_date}"><br /><br />
+    <img src="workload_date_range_graph.php?graph=email&type=pie&interval={$interval}&start_date={$start_date}&end_date={$end_date}">
+</div>
+{/if}
+{include file="footer.tpl.html"}

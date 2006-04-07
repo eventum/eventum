@@ -1,0 +1,105 @@
+{include file="header.tpl.html"}
+
+<br />
+<form method="post" action="{$smarty.server.PHP_SELF}" name="weekly_report">
+<input type="hidden" name="cat" value="generate">
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td bgcolor="{$cell_color}" colspan="3" class="default_white">
+            <b>Weekly Report</b>
+          </td>
+        </tr>
+        <tr>
+          <td width="120" class="default">
+            <b>Report Type:</b>
+          </td>
+          <td width="200" class="default" NOWRAP>
+            <input type="radio" name="report_type" value="weekly" class="default" {if $report_type!='range'}checked{/if} onClick="changeType('weekly');">
+                <a id="link" class="link" href="javascript:void(null)" 
+                            onClick="javascript:checkRadio('weekly_report', 'report_type', 0);changeType('weekly');">Weekly</a>&nbsp;
+            <input type="radio" name="report_type" value="range" {if $report_type=='range'}CHECKED{/if} onClick="changeType('range');">
+                <a id="link" class="link" href="javascript:void(null)" 
+                            onClick="javascript:checkRadio('weekly_report', 'report_type', 1);changeType('range');">Date Range</a>&nbsp;
+          </td>
+          <td rowspan="5">
+            <input type="submit" value="Generate" class="shortcut">
+          </td>
+        </tr>
+        <tr id="week_row">
+          <td width="120" class="default">
+            <b>Week:</b>
+          </td>
+          <td width="200">
+            <select class="default" name="week">
+                {html_options options=$weeks selected=$week}
+            </select>
+          </td>
+        </tr>
+        <tr id="start_row">
+          <td width="120" class="default">
+            <b>Start:</b>
+          </td>
+          <td width="200">
+            {html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
+          </td>
+        </tr>
+        <tr id="end_row">
+          <td width="120" class="default">
+            <b>End:</b>
+          </td>
+          <td width="200">
+            {html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
+          </td>
+        </tr>
+        <tr>
+          <td width="120" class="default">
+            <b>Developer:</b>
+          </td>
+          <td width="200">
+            <select class="default" name="developer">
+                {html_options options=$users selected=$developer}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td width="120" class="default">
+            <b>Options:</b>
+          </td>
+          <td width="200" class="default">
+            <input type="checkbox" name="separate_closed" value="1" class="default" {if $smarty.post.separate_closed == 1}checked{/if}>
+            <a id="link" class="link" href="javascript:void(null)" 
+                            onClick="javascript:toggleCheckbox('weekly_report', 'separate_closed', 0)">Separate Closed Issues</a>&nbsp;
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+<script language="JavaScript">
+{literal}
+function changeType(type) {
+    if (type == 'range') {
+        document.getElementById('week_row').style.display = 'none';
+        document.getElementById('start_row').style.display = getDisplayStyle();
+        document.getElementById('end_row').style.display = getDisplayStyle();
+    } else {
+        document.getElementById('week_row').style.display = getDisplayStyle();
+        document.getElementById('start_row').style.display = 'none';
+        document.getElementById('end_row').style.display = 'none';
+    }
+}
+{/literal}
+
+changeType('{$report_type}');
+</script>
+
+{if $data != ''}
+<pre>
+{include file="reports/weekly_data.tpl.html"}
+</pre>
+{/if}
+{include file="footer.tpl.html"}

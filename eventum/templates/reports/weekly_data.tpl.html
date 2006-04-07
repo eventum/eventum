@@ -1,0 +1,42 @@
+{$data.user.usr_full_name} {if $data.group_name != ''}[{$data.group_name}] {/if}{if $report_type == 'weekly'}Weekly {/if}Report {$data.start} - {$data.end}
+
+{$application_title} issues worked on:
+
+{section name=issue loop=$data.issues.other}
+{$data.issues.other[issue].iss_id|str_pad:4:" ":"STR_PAD_LEFT"} {$data.issues.other[issue].iss_summary|htmlspecialchars}
+{sectionelse}
+No issues touched this time period
+{/section}
+
+{if $smarty.post.separate_closed == 1}
+Issues Closed:
+
+{section name=issue loop=$data.issues.closed}
+{$data.issues.closed[issue].iss_id|str_pad:4:" ":"STR_PAD_LEFT"} {$data.issues.closed[issue].iss_summary|htmlspecialchars}
+{sectionelse}
+No issues closed this time period
+{/section}
+{/if}
+
+New Issues Assigned:  {$data.new_assigned_count}
+
+{section name=status loop=$data.status_counts}
+{assign var="title" value="`$data.status_counts[status].sta_title`:"}
+{$title|str_pad:"22"}{$data.status_counts[status].total}
+{/section}
+Total Issues:         {math equation="x+y" x=$data.issues.other|@count y=$data.issues.closed|@count}
+
+
+Eventum Emails:       {$data.email_count.associated}
+Other Emails:         {$data.email_count.other}
+Total Phone Calls:    {$data.phone_count}
+Total Notes:          {$data.note_count}
+
+Phone Time Spent:     {if $data.time_tracking.Telephone_Discussion.formatted_time == ''}00h 00m{else}{$data.time_tracking.Telephone_Discussion.formatted_time}{/if}
+
+Email Time Spent:     {if $data.time_tracking.Email_Discussion.formatted_time == ''}00h 00m{else}{$data.time_tracking.Email_Discussion.formatted_time}{/if}
+
+Login Time Spent:     {if $data.time_tracking.Login_Work.formatted_time == ''}00h 00m{else}{$data.time_tracking.Login_Work.formatted_time}{/if}
+
+
+Total Time Spent:     {$data.total_time}
