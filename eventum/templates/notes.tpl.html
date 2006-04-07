@@ -1,0 +1,114 @@
+
+{literal}
+<script language="JavaScript">
+<!--
+function deleteNote(note_id)
+{
+    if (!confirm('This action will permanently delete the specified note.')) {
+        return false;
+    } else {
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('popup.php?cat=delete_note&id=' + note_id, '_popup', features);
+        popupWin.focus();
+    }
+}
+function convertNote(note_id)
+{
+    if (!confirm('This note will be deleted & converted to an email, one either sent immediately or saved as a draft.')) {
+        return false;
+    } else {
+        var features = 'width=420,height=180,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('convert_note.php?id=' + note_id, '_convertNote', features);
+        popupWin.focus();
+    }
+}
+function viewNote(note_id, sequence)
+{
+    var features = 'width=560,height=500,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var noteWin = window.open('view_note.php?id=' + note_id + '&num=' + sequence, '_note' + note_id, features);
+    noteWin.focus();
+}
+function postInternalNote(issue_id)
+{
+    var features = 'width=560,height=600,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var noteWin = window.open('post_note.php?issue_id=' + issue_id, '_postNote', features);
+    noteWin.focus();
+}
+function replyNote(note_id, issue_id)
+{
+    var features = 'width=560,height=500,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var noteWin = window.open('post_note.php?cat=reply&id=' + note_id + '&issue_id=' + issue_id, '_postNote', features);
+    noteWin.focus();
+}
+//-->
+</script>
+{/literal}
+<br />
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<form name="add_note_form" target="_notes" method="post">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+        <tr>
+          <td class="default">
+            <b>Internal Notes ({$notes|@count})</b>
+          </td>
+          <td align="right" class="default">
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
+            [ <a id="notes_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('notes');">{get_innerhtml element_name="notes" total=$notes|@count}</a> ]
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <table width="100%" cellpadding="2" cellspacing="1">
+              <tr id="notes1" {get_display_style element_name="notes" total=$notes|@count} bgcolor="{$internal_color}">
+                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getNote" ec_id="note"}</td>
+                <td class="default_white" align="center">#</td>
+                <td class="default_white">Reply</td>
+                <td width="20%" class="default_white">Posted Date</td>
+                <td width="20%" class="default_white">User</td>
+                <td width="60%" class="default_white">Title</td>
+              </tr>
+              {section name="i" loop=$notes}
+              {cycle values=$cycle assign="row_color"}
+              <tr id="notes{$smarty.section.i.iteration+1}" {get_display_style element_name="notes" total=$notes|@count} bgcolor="{$row_color}">
+                <td class="default" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$notes[i].not_id}</td>
+                <td class="default" align="center">{$smarty.section.i.iteration}</td>
+                <td align="center">
+                  <a title="reply to this note" href="javascript:void(null);" onClick="javascript:replyNote({$notes[i].not_id}, {$smarty.get.id});" class="link"><img src="{$rel_url}images/icons/reply.gif" border="0"></a>
+                </td>
+                <td class="default">{$notes[i].not_created_date}</td>
+                <td class="default">
+                  {$notes[i].usr_full_name|escape:"html"}
+                  {if $current_user_id == $notes[i].not_usr_id}[ <a class="link" href="javascript:void(null);" onClick="javascript:deleteNote({$notes[i].not_id});">delete</a> ]{/if}
+                </td>
+                <td class="default">
+                  <a title="view note details" href="javascript:void(null);" onClick="javascript:viewNote({$notes[i].not_id}, {$smarty.section.i.iteration});" class="link">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
+                  {if $notes[i].has_blocked_message} (<a href="javascript:void(null);" onClick="javascript:convertNote({$notes[i].not_id});" class="link">convert note</a>){/if}
+                </td>
+              </tr>
+              {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$notes[i].not_id colspan="6"}
+              {sectionelse}
+              <tr id="notes2" {get_display_style element_name="notes" total=$notes|@count}>
+                <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
+                  <i>No internal notes could be found.</i>
+                </td>
+              </tr>
+              {/section}
+              {if $current_role > $roles.reporter}
+              <tr>
+                <td colspan="6" bgcolor="{$internal_color}" align="center">
+                  <input type="button" value="Post Internal Note" class="button" onClick="javascript:postInternalNote({$smarty.get.id});">
+                </td>
+              </tr>
+              {/if}
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</form>
+</table>
+
