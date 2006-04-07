@@ -1,0 +1,101 @@
+{include file="header.tpl.html"}
+
+<br />
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+        <tr>
+          <td class="default">
+            <b>History of Changes of Issue #{$smarty.get.iss_id}</b>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+              <tr>
+                <td bgcolor="{$cell_color}" class="default_white">Date</td>
+                <td bgcolor="{$cell_color}" width="70%" class="default_white">Summary</td>
+              </tr>
+              {section name="i" loop=$changes}
+              {cycle values=$cycle assign="row_color"}
+              <tr>
+                <td align="center" {if $changes[i].htt_role > $roles.customer}bgcolor="{$internal_color}" class="default_white"{else}bgcolor="{$row_color}" class="default"{/if} nowrap>
+                  {$changes[i].his_created_date}
+                </td>
+                <td bgcolor="{$row_color}" width="85%" class="default">
+                  {$changes[i].his_summary|escape:"html"|replace:"no value set":"<i>no value set</i>"}
+                </td>
+              </tr>
+              {sectionelse}
+              <tr>
+                <td colspan="2" bgcolor="{$light_color}" class="default" align="center">
+                  <i>No changes could be found.</i>
+                </td>
+              </tr>
+              {/section}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  <input type="button" class="button" value="Close" onClick="javascript:window.close();">
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+
+{if $current_role > $roles.customer}
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+        <tr>
+          <td class="default">
+            <b>History of Reminders Triggered for Issue #{$smarty.get.iss_id}</b>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+              <tr>
+                <td bgcolor="{$cell_color}" class="default_white">Date</td>
+                <td bgcolor="{$cell_color}" width="70%" class="default_white">Triggered Action</td>
+              </tr>
+              {section name="i" loop=$reminders}
+              {cycle values=$cycle assign="row_color"}
+              <tr>
+                <td align="center" bgcolor="{$row_color}" class="default" nowrap>
+                  {$reminders[i].rmh_created_date}
+                </td>
+                <td bgcolor="{$row_color}" width="85%" class="default">
+                  {$reminders[i].rma_title|escape:"html"}
+                </td>
+              </tr>
+              {sectionelse}
+              <tr>
+                <td colspan="2" bgcolor="{$light_color}" class="default" align="center">
+                  <i>No reminders could be found.</i>
+                </td>
+              </tr>
+              {/section}
+              <tr>
+                <td colspan="2" bgcolor="{$cell_color}" align="center">
+                  <input type="button" class="button" value="Close" onClick="javascript:window.close();">
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+
+{include file="app_info.tpl.html"}
+{include file="footer.tpl.html"}
