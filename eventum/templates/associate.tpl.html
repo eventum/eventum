@@ -1,0 +1,150 @@
+{include file="header.tpl.html" extra_title=$extra_title}
+
+{if $associate_result}
+  <br />
+  <center>
+  <span class="default">
+  {if $associate_result == -1}
+    <b>An error occurred while trying to associate the selected email message{if $total_emails > 1}s{/if}</b>
+  {elseif $associate_result == 1}
+    <b>Thank you, the selected email message{if $total_emails > 1}s{/if} {if $total_emails > 1}were{else}was{/if} associated successfully.</b>
+  {/if}
+  </span>
+  </center>
+  <script language="JavaScript">
+  <!--
+  {if $current_user_prefs.close_popup_windows == '1'}
+  setTimeout('closeAndRefresh()', 2000);
+  {/if}
+  //-->
+  </script>
+  <br />
+  {if not $current_user_prefs.close_popup_windows}
+  <center>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+  </center>
+  {/if}
+{else}
+{if $unknown_contacts != ''}
+<br />
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td><img src="{$rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Warning: Unknown Contacts Found</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default">
+            The following addresses could not be matched against the system user records:
+            <br /><br />
+            <ul>
+              {section name="i" loop=$unknown_contacts}
+              <li>{$unknown_contacts[i]|escape:"html"}</li>
+              {/section}
+            </ul>
+            Please make sure you have selected the correct email messages to associate.
+            <br /><br />
+            <center>
+            <a class="link" href="javascript:window.close();">Close Window</a>
+            </center>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<br />
+{/if}
+<script language="JavaScript">
+<!--
+var found_unknown = {if $unknown_contacts != ''}1{else}0{/if};
+{literal}
+function validateForm(f)
+{
+    if ((found_unknown) && (!confirm('Warning: Unknown contacts were found in the selected email messages. Please\nmake sure you have selected the correct email messages to associate.'))) {
+        return false;
+    } else {
+        return true;
+    }
+}
+//-->
+</script>
+{/literal}
+<form name="associate_email_form" method="post" action="associate.php" onSubmit="javascript:return validateForm(this);">
+<input type="hidden" name="cat" value="associate">
+<input type="hidden" name="issue" value="{$smarty.get.issue}">
+{section name="i" loop=$emails}
+<input type="hidden" name="item[]" value="{$emails[i]}">
+{/section}
+<table align="center" width="100%" cellpadding="3">
+  <tr>
+    <td>
+      <table width="100%" cellspacing="0" cellpadding="2" border="0">
+        <tr>
+          <td colspan="2" class="default">
+            <b>Associate Email Message{if $total_emails > 1}s{/if} to Issue #{$smarty.get.issue}</b>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" bgcolor="{$dark_color}" class="default">
+            <img src="{$rel_url}images/icons/error.gif"> <b>Please choose one of the following actions to take in regards to the selected email message{if $total_emails > 1}s{/if}:</b>
+            <br /><br />
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}" align="right" valign="top">
+            <input type="radio" name="target" value="email" checked>
+          </td>
+          <td bgcolor="{$dark_color}" class="default">
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('associate_email_form', 'target', 0);">Save Message{if $total_emails > 1}s{/if} as {if $total_emails == 1}an {/if}Email{if $total_emails > 1}s{/if}</a></b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}">&nbsp;</td>
+          <td bgcolor="{$dark_color}" class="small_default">
+            <b>NOTE:</b> Email{if $total_emails > 1}s{/if} will be broadcasted to the full notification list, including any customers, if this option is chosen.
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}" align="right" valign="top">
+            <input type="radio" name="target" value="reference">
+          </td>
+          <td bgcolor="{$dark_color}" class="default">
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('associate_email_form', 'target', 1);">Save Message{if $total_emails > 1}s{/if} as Reference Email{if $total_emails > 1}s{/if}</a></b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}">&nbsp;</td>
+          <td bgcolor="{$dark_color}" class="small_default">
+            <b>NOTE:</b> Email{if $total_emails > 1}s{/if} will <b>NOT</b> be sent to the notification list, if this option if chosen. This is useful as way to backload a set of emails into an existing issue.
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}" align="right">
+            <input type="radio" name="target" value="note">
+          </td>
+          <td class="default" bgcolor="{$dark_color}">
+            <b><a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('associate_email_form', 'target', 2);">Save Message{if $total_emails > 1}s{/if} as {if $total_emails == 1}an {/if}Internal Note{if $total_emails > 1}s{/if}</a></b>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="{$dark_color}">&nbsp;</td>
+          <td bgcolor="{$dark_color}" class="small_default">
+            <b>NOTE:</b> Email{if $total_emails > 1}s{/if} will be saved as {if $total_emails == 1}a{/if} note{if $total_emails > 1}s{/if} and broadcasted only to staff users.
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" bgcolor="{$cell_color}" align="right">
+            <input type="submit" value="Continue &gt;&gt;" class="button">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</form>
+{/if}
+
+{include file="footer.tpl.html"}
