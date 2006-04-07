@@ -1,0 +1,96 @@
+
+{literal}
+<script language="JavaScript">
+<!--
+function deletePhoneEntry(phone_id)
+{
+    if (!confirm('This action will permanently delete the specified phone support entry.')) {
+        return false;
+    } else {
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('popup.php?cat=delete_phone&id=' + phone_id, '_popup', features);
+        popupWin.focus();
+    }
+}
+function addPhoneCall()
+{
+    var features = 'width=850,height=450,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    {/literal}
+    var issue_id = {$smarty.get.id};
+    var popupWin = window.open('phone_calls.php?iss_id=' + issue_id, 'phone_calls_' + issue_id, features);
+    {literal}
+    popupWin.focus();
+}
+//-->
+</script>
+{/literal}
+<br />
+<table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+        <tr>
+          <td class="default">
+          <b>Phone Calls ({$phone_entries|@count})</b>
+        </td>
+        <td align="right" class="default">
+            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
+            [ <a id="phone_support_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('phone_support');">{get_innerhtml element_name="phone_support" total=$phone_entries|@count}</a> ]
+            {/if}
+        </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
+              <tr id="phone_support1" {get_display_style element_name="phone_support" total=$phone_entries|@count} bgcolor="{$internal_color}">
+                <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getPhoneSupport" ec_id="phone"}</td>
+                <td width="5" class="default_white" align="center">#</td>
+                <td width="20%" class="default_white" nowrap>Recorded Date</td>
+                <td width="15%" class="default_white">Entered By</td>
+                <td width="10%" class="default_white">From</td>
+                <td width="10%" class="default_white">To</td>
+                <td width="10%" class="default_white">Call Type</td>
+                <td width="20%" class="default_white">Category</td>
+                <td width="20%" class="default_white">Phone Number</td>
+              </tr>
+              {section name="i" loop=$phone_entries}
+              {cycle values=$cycle assign="row_color"}
+              <tr id="phone_support{$smarty.section.i.iteration+1}" {get_display_style element_name="phone_support" total=$phone_entries|@count} bgcolor="{$row_color}">
+                <td class="default" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id}</td>
+                <td class="default" nowrap>{$smarty.section.i.iteration}</td>
+                <td class="default" nowrap>{$phone_entries[i].phs_created_date}</td>
+                <td class="default">
+                    {$phone_entries[i].usr_full_name}
+                    {if $current_user_id == $phone_entries[i].phs_usr_id}
+                      [ <a class="link" href="javascript:void(null);" onClick="javascript:deletePhoneEntry({$phone_entries[i].phs_id});">delete</a> ]
+                    {/if}
+                </td>
+                <td class="default">{$phone_entries[i].phs_call_from_lname}, {$phone_entries[i].phs_call_from_fname}</td>
+                <td class="default">{$phone_entries[i].phs_call_to_lname}, {$phone_entries[i].phs_call_to_fname}</td>
+                <td class="default">{$phone_entries[i].phs_type|capitalize}</td>
+                <td class="default" nowrap>{$phone_entries[i].phc_title}</td>
+                <td class="default" nowrap>{$phone_entries[i].phs_phone_number} ({$phone_entries[i].phs_phone_type})</td>
+              </tr>
+              {include file="expandable_cell/body.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id colspan="9"}
+              {sectionelse}
+              <tr id="phone_support2" {get_display_style element_name="phone_support" total=$phone_entries|@count}>
+                <td colspan="9" bgcolor="{$light_color}" class="default" align="center">
+                  <i>No phone calls recorded yet.</i>
+                </td>
+              </tr>
+              {/section}
+              {if $current_role > $roles.customer}
+              <tr>
+                <td colspan="9" bgcolor="{$internal_color}" align="center">
+                  <input type="submit" value="Add Phone Call" class="button" onClick="javascript:addPhoneCall();">
+                </td>
+              </tr>
+              {/if}
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
