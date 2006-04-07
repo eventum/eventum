@@ -1,0 +1,62 @@
+{include file="header.tpl.html" extra_title="Redeem Incident - Issue#$issue_id"}
+<br />
+<table align="center" width="95%">
+  <form method="POST" action="redeem_incident.php" name="redeem_incident">
+  <input type="hidden" name="iss_id" value="{$issue_id}">
+  
+  <tr>
+    <td class="default" align="center">
+    {if $res != ''}
+      {if $res == -1}
+        <span style="color: red"><b>There was an error marking this issue as redeemed</b></span>
+      {elseif $res == -2}
+        <b>This issue already has been marked as redeemed</b>
+      {elseif $res == 1}
+        <b>Thank you, the issue was successfully marked.</b>
+      {/if}
+    {else}
+      Please choose the incident types to redeem for this issue.
+    {/if}
+    </td>
+  </tr>
+  <tr>
+    <td bgcolor="{$cell_color}">
+      <table width="100%" align="center" bgcolor="White">
+        {foreach from=$incident_details item=type_details key=type_id}
+        {cycle values=$cycle assign="row_color"}
+        <tr bgcolor="{$row_color}" class="default">
+          <td>
+            {if $res == ''}<input type="checkbox" name="redeem[{$type_id}]" value="1" {if $redeemed[$type_id].is_redeemed == 1}checked{/if}>{/if}
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('redeem_incident', 'redeem[{$type_id}]', 0);">{$type_details.title} (Total: {$type_details.total}; Left: {$type_details.total-$type_details.redeemed})</a>
+          </td>
+        </tr>
+        {/foreach}
+        {if $res == ''}
+        <tr>
+          <td bgcolor="{$cell_color}" align="center">
+            <input type="submit" name="submit" value="Redeem Incidents" class="shortcut">
+          </td>
+        </tr>
+        {/if}
+      </table>
+    </td>
+  </tr>
+  {if $res != ''}
+  <tr>
+    <td align="center">
+    <script language="JavaScript">
+    <!--
+    {if $current_user_prefs.close_popup_windows == '1'}
+    setTimeout('closeAndRefresh()', 2000);
+    {/if}
+    //-->
+    </script>
+    {if not $current_user_prefs.close_popup_windows}
+      <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+    {/if}
+    </td>
+  </tr>
+  {/if}
+  </form>
+</table>
+{include file="footer.tpl.html"}
