@@ -30,9 +30,8 @@
 
 // this will eventually be used to support more than one language
 $avail_langs = array(
-    "en"
+    "en_US"
 );
-@define("APP_DEFAULT_LANG" , "en");
 
 /**
  * Class to handle the logic behind the internationalization issues
@@ -44,6 +43,7 @@ $avail_langs = array(
 
 class Language
 {
+
     /**
      * Method used to set the appropriate preference of the language
      * for the application.
@@ -53,21 +53,12 @@ class Language
      */
     function setPreference()
     {
-        global $HTTP_GET_VARS, $HTTP_SESSION_VARS, $app_lang, $avail_langs;
+        global $HTTP_GET_VARS, $HTTP_SESSION_VARS, $avail_langs;
 
-        @session_start();
-        if (!empty($HTTP_GET_VARS["lang"])) {
-            session_register("app_lang");
-            if (!in_array($HTTP_GET_VARS["lang"], $avail_langs)) {
-                $app_lang = APP_DEFAULT_LANG;
-            } else {
-                $app_lang = $HTTP_GET_VARS["lang"];
-            }
-        }
-        if (empty($app_lang)) {
-            $app_lang = APP_DEFAULT_LANG;
-        }
-        @define("APP_CURRENT_LANG", $app_lang);
+        define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
+        setlocale(LC_ALL, APP_CURRENT_LOCALE);
+        bindtextdomain("eventum", APP_INC_PATH . "localization/");
+        textdomain("eventum");
     }
 }
 
