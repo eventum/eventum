@@ -9,28 +9,28 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td bgcolor="{$cell_color}" colspan="3" class="default_white">
-            <b>Weekly Report</b>
+            <b>{t}Weekly Report{/t}</b>
           </td>
         </tr>
         <tr>
           <td width="120" class="default">
-            <b>Report Type:</b>
+            <b>{t}Report Type:{/t}</b>
           </td>
           <td width="200" class="default" NOWRAP>
             <input type="radio" name="report_type" value="weekly" class="default" {if $report_type!='range'}checked{/if} onClick="changeType('weekly');">
                 <a id="link" class="link" href="javascript:void(null)" 
-                            onClick="javascript:checkRadio('weekly_report', 'report_type', 0);changeType('weekly');">Weekly</a>&nbsp;
+                            onClick="javascript:checkRadio('weekly_report', 'report_type', 0);changeType('weekly');">{t}Weekly{/t}</a>&nbsp;
             <input type="radio" name="report_type" value="range" {if $report_type=='range'}CHECKED{/if} onClick="changeType('range');">
                 <a id="link" class="link" href="javascript:void(null)" 
-                            onClick="javascript:checkRadio('weekly_report', 'report_type', 1);changeType('range');">Date Range</a>&nbsp;
+                            onClick="javascript:checkRadio('weekly_report', 'report_type', 1);changeType('range');">{t}Date Range{/t}</a>&nbsp;
           </td>
           <td rowspan="5">
-            <input type="submit" value="Generate" class="shortcut">
+            <input type="submit" value="{t}Generate{/t}" class="shortcut">
           </td>
         </tr>
         <tr id="week_row">
           <td width="120" class="default">
-            <b>Week:</b>
+            <b>{t}Week{/t}:</b>
           </td>
           <td width="200">
             <select class="default" name="week">
@@ -40,7 +40,7 @@
         </tr>
         <tr id="start_row">
           <td width="120" class="default">
-            <b>Start:</b>
+            <b>{t}Start{/t}:</b>
           </td>
           <td width="200">
             {html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
@@ -48,7 +48,7 @@
         </tr>
         <tr id="end_row">
           <td width="120" class="default">
-            <b>End:</b>
+            <b>{t}End:{/t}</b>
           </td>
           <td width="200">
             {html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
@@ -56,7 +56,7 @@
         </tr>
         <tr>
           <td width="120" class="default">
-            <b>Developer:</b>
+            <b>{t}Developer{/t}:</b>
           </td>
           <td width="200">
             <select class="default" name="developer">
@@ -66,12 +66,12 @@
         </tr>
         <tr>
           <td width="120" class="default">
-            <b>Options:</b>
+            <b>{t}Options{/t}:</b>
           </td>
           <td width="200" class="default">
             <input type="checkbox" name="separate_closed" value="1" class="default" {if $smarty.post.separate_closed == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)" 
-                            onClick="javascript:toggleCheckbox('weekly_report', 'separate_closed', 0)">Separate Closed Issues</a>&nbsp;
+                            onClick="javascript:toggleCheckbox('weekly_report', 'separate_closed', 0)">{t}Separate Closed Issues{/t}</a>&nbsp;
           </td>
         </tr>
       </table>

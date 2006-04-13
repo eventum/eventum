@@ -1,11 +1,11 @@
 {include file="header.tpl.html"}
 {if $type == 'email'}
-    <h3 align="center">Email Workload by Time of day</h3>
-    <p align="center" class="default" width="80%">Based on all issues recorded in Eventum since start to present.</p>
+    <h3 align="center">{t}Email Workload by Time of day{/t}</h3>
+    <p align="center" class="default" width="80%">{t}Based on all issues recorded in Eventum since start to present.{/t}</p>
 {else}
-    <h3 align="center">Workload by Time of day</h3>
-    <p align="center" class="default" width="80%">Based on all issues recorded in Eventum since start to present. 
-        Actions are any event that shows up in the history of an issue, such as a user or a developer updating an issue, uploading a file, sending an email, etc.
+    <h3 align="center">{t}Workload by Time of day{/t}</h3>
+    <p align="center" class="default" width="80%">{t}Based on all issues recorded in Eventum since start to present. 
+        Actions are any event that shows up in the history of an issue, such as a user or a developer updating an issue, uploading a file, sending an email, etc.{/t}
     </p>
 {/if}
 <div align="center">
@@ -18,17 +18,17 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr bgcolor="{$cell_color}">
           <th class="default_white">
-            Time Period<br />
-            (GMT)
+            {t}Time Period --><br />
+            {t}(GMT) -->
           </th>
           <th class="default_white">
-            Developer {if $type == "email"}Emails{else}Actions{/if}
+            {t}Developer{/t} {if $type == "email"}{t}Emails -->{else}{t}Actions -->{/if}
           </th>
           <th class="default_white">
-            Customer {if $type == "email"}Emails{else}Actions{/if}
+            {t}Customer --> {if $type == "email"}{t}Emails -->{else}{t}Actions -->{/if}
           </th>
           <th class="default_white">
-            Time Period<br />
+            {t}Time Period{/t}<br />
             ({$user_tz})
           </th>
         </tr>

@@ -171,7 +171,7 @@ function custom_field_prompt_choose_controller(e) {
     
     details = custom_field_get_details_by_target(target_id);
     
-    alert('Please choose ' + details.controlling_field_name + ' first');
+    alert('{/literal}{t}Please choose{/t} ' + details.controlling_field_name + ' {t}first{/t}{literal}');
     target_field.blur();
     e.cancelBubble = true;
     return false;

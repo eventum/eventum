@@ -7,7 +7,7 @@ function validateForm(f)
 {
     if (getSelectedOption(f, 'custom_field') == -1) {
         selectField(f, 'custom_field');
-        alert('Please select the custom field that you would like to generate a report against.');
+        alert('{/literal}{t}Please select the custom field that you would like to generate a report against.{/t}{literal}');
         return false;
     }
     return true;
@@ -23,15 +23,15 @@ function validateForm(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td bgcolor="{$cell_color}" colspan="3" class="default_white">
-            <b>Custom Fields Report</b>
+            <b>{t}Custom Fields Report{/t}</b>
           </td>
         </tr>
         <tr>
           <td width="30%" class="default" align="center">
-            <b>Field to Graph</b>
+            <b>{t}Field to Graph{/t}</b>
           </td>
           <td width="30%" class="default" align="center">
-            <b>Options to Graph</b>
+            <b>{t}Options to Graph{/t}</b>
           </td>
         </tr>
         <tr>
@@ -50,7 +50,7 @@ function validateForm(f)
         <tr>
           <td width="30%" class="default" align="center" height="10">
             {if $has_customer_integration}
-              <b>Group By</b>
+              <b>{t}Group By{/t}</b>
             {/if}
           </td>
         </tr>
@@ -59,10 +59,10 @@ function validateForm(f)
             {if $has_customer_integration}
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="issue" {if $group_by != 'customer'}CHECKED{/if}>
                 <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:checkRadio('custom_fields_report', 'group_by', 0);">Issue</a><br />
+                            onClick="javascript:checkRadio('custom_fields_report', 'group_by', 0);">{t}Issue{/t}</a><br />
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="customer" {if $group_by == 'customer'}CHECKED{/if}>
                 <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:checkRadio('custom_fields_report', 'group_by', 1);">Customer</a><br />
+                            onClick="javascript:checkRadio('custom_fields_report', 'group_by', 1);">{t}Customer{/t}</a><br />
             {else}
               <input type="hidden" name="group_by" value="issue">
             {/if}
@@ -70,7 +70,7 @@ function validateForm(f)
         </tr>
         <tr>
           <td colspan="2" align="center">
-            <input type="submit" name="cat" value="Generate" class="shortcut">
+            <input type="submit" name="cat" value="{t}Generate{/t}" class="shortcut">
           </td>
         </tr>
       </table>
@@ -129,7 +129,7 @@ setOptions('{$custom_field}', false);
 <div align="center" class="default">
     <img src="custom_fields_graph.php?{$smarty.server.QUERY_STRING}"><br /><br />
     <img src="custom_fields_graph.php?{$smarty.server.QUERY_STRING}&type=pie"><br />
-    Percentages may not add up to exactly 100% due to rounding.<br /><br />
+    {t}Percentages may not add up to exactly 100% due to rounding{/t}.<br /><br />
 </div>
 {/if}
 
@@ -141,18 +141,18 @@ setOptions('{$custom_field}', false);
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td bgcolor="{$cell_color}" colspan="{$colspan}" class="default_white">
-            <b>Issues/Customers matching criteria</b>
+            <b>{t}Issues/Customers matching criteria{/t}</b>
           </td>
         </tr>
         <tr>
           {if $has_customer_integration}
-          <td bgcolor="{$cell_color}" class="default_white">Customer</td>
+          <td bgcolor="{$cell_color}" class="default_white">{t}Customer{/t}</td>
           {/if}
           {if $smarty.request.group_by == 'customer'}
-          <td bgcolor="{$cell_color}" class="default_white">Issue Count</td>
+          <td bgcolor="{$cell_color}" class="default_white">{t}Issue Count{/t}</td>
           {else}
-          <td bgcolor="{$cell_color}" class="default_white">Issue ID</td>
-          <td bgcolor="{$cell_color}" class="default_white">Summary</td>
+          <td bgcolor="{$cell_color}" class="default_white">{t}Issue ID{/t}</td>
+          <td bgcolor="{$cell_color}" class="default_white">{t}Summary{/t}</td>
           {/if}
         </tr>
         {foreach from=$data item=row}
@@ -172,7 +172,7 @@ setOptions('{$custom_field}', false);
         </tr>
         {foreachelse}
         <tr>
-            <td colspan="8" class="default" align="center" bgcolor="{$dark_color}"><i>No data found</i></td>
+            <td colspan="8" class="default" align="center" bgcolor="{$dark_color}"><i>{t}No data found{/t}</i></td>
         </tr>
         {/foreach}
       </table>
