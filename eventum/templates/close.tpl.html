@@ -10,15 +10,15 @@
         <tr>
           <td class="default">
             {if $close_result == -1}
-            <b>Sorry, an error happened while trying to run your query.</b>
+            <b>{t}Sorry, an error happened while trying to run your query.{/t}</b>
             {elseif $close_result == 1}
-            <b>Thank you, the issue was closed successfully. Please choose
-            from one of the options below:</b>
+            <b>{t}Thank you, the issue was closed successfully. Please choose
+            from one of the options below:{/t}</b>
             <ul>
-              <li><a href="view.php?id={$smarty.post.issue_id}" class="link">Open the Issue Details Page</a></li>
-              <li><a href="list.php" class="link">Open the Issue Listing Page</a></li>
+              <li><a href="view.php?id={$smarty.post.issue_id}" class="link">{t}Open the Issue Details Page{/t}</a></li>
+              <li><a href="list.php" class="link">{t}Open the Issue Listing Page{/t}</a></li>
               {if $app_setup.support_email == 'enabled' and $current_role > $roles.viewer}
-              <li><a href="emails.php" class="link">Open the Emails Listing Page</a></li>
+              <li><a href="emails.php" class="link">{t}Open the Emails Listing Page{/t}</a></li>
               {/if}
             </ul>
             {/if}
@@ -38,24 +38,24 @@ function validateClose(f)
 {
     if (getSelectedOption(f, 'status') == -1) {
         selectField(f, 'status');
-        alert('Please choose the new status for this issue.');
+        alert('{/literal}{t}Please choose the new status for this issue.{/t}{literal}');
         return false;
     }
     if (isWhitespace(f.reason.value)) {
         selectField(f, 'reason');
-        alert('Please enter the reason for closing this issue.');
+        alert('{/literal}{t}Please enter the reason for closing this issue.{/t}{literal}');
         return false;
     }
 
     if (!isWhitespace(f.time_spent.value)) {
         if (!isNumberOnly(f.time_spent.value)) {
             selectField(f, 'time_spent');
-            alert('Please enter integers (or floating point numbers) on the time spent field.');
+            alert('{/literal}{t}Please enter integers (or floating point numbers) on the time spent field.{/t}{literal}');
             return false;
         }
         if (f.category.options[f.category.selectedIndex].value == '') {
             selectField(f, 'category');
-            alert('Please choose the time tracking category for this new entry.');
+            alert('{/literal}{t}Please choose the time tracking category for this new entry.{/t}{literal}');
             return false;
         }
     }
@@ -71,8 +71,8 @@ function validateClose(f)
             }
         }
         if (has_checked_incident == false) {
-            return confirm('This customer has a per incident contract. You have chosen not to redeem any incidents. Press \'OK\' ' +
-             'to confirm or \'Cancel\' to revise.');
+            return confirm('{/literal}{t}This customer has a per incident contract. You have chosen not to redeem any incidents. Press \'OK\' ' +
+             'to confirm or \'Cancel\' to revise.{/t}{literal}');
         }
     }
     return true;
@@ -102,16 +102,16 @@ function toggleNotificationList()
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default" nowrap>
-            <b>Close Issue</b> (Issue ID: {$smarty.get.id})
+            <b>{t}Close Issue{/t}</b> ({t}Issue ID:{/t} {$smarty.get.id})
           </td>
         </tr>
         <tr>
           <td width="160" bgcolor="{$cell_color}" class="default_white">
-            <b>Status: *</b><br />
+            <b>{t}Status:{/t} *</b><br />
           </td>
           <td bgcolor="{$light_color}">
             <select class="default" name="status">
-              <option value="-1">Please choose a status</option>
+              <option value="-1">{t}Please choose a status{/t}</option>
               {html_options options=$statuses}
             </select>
             <script language="Javascript">selectOnlyValidOption(document.forms['close_form'].elements['status']);</script>
@@ -121,7 +121,7 @@ function toggleNotificationList()
         {if $resolutions|@count > 0}
         <tr>
           <td width="160" bgcolor="{$cell_color}" class="default_white">
-            <b>Resolution:</b><br />
+            <b>{t}Resolution:{/t}</b><br />
           </td>
           <td bgcolor="{$light_color}">
             <select class="default" name="resolution">
@@ -134,7 +134,7 @@ function toggleNotificationList()
         {/if}
         <tr>
           <td width="160" bgcolor="{$cell_color}" class="default_white">
-            <b>Send Notification About Issue Being Closed?</b><br />
+            <b>{t}Send Notification About Issue Being Closed?{/t}</b><br />
           </td>
           <td bgcolor="{$light_color}" class="default">
             <input type="radio" name="send_notification" checked value="1">
@@ -145,18 +145,18 @@ function toggleNotificationList()
         </tr>
         <tr>
           <td width="160" bgcolor="{$cell_color}" class="default_white">
-            <b>Send Notification To:</b><br />
+            <b>{t}Send Notification To:{/t}</b><br />
           </td>
           <td bgcolor="{$light_color}" class="default">
             <input id="notification_internal" type="radio" name="notification_list" checked value="internal" onchange="toggleNotificationList()">
-            <label for="notification_internal">Internal Users ({$notification_list_internal|default:"<i>None</i>"})</label><br />
+            <label for="notification_internal">{t}Internal Users{/t} ({$notification_list_internal|default:"<i>None</i>"})</label><br />
             <input id="notification_all" type="radio" name="notification_list" value="all" onchange="toggleNotificationList()">
-            <label for="notification_all">All ({$notification_list_all|default:"<i>None</i>"})</label>
+            <label for="notification_all">{t}All{/t} ({$notification_list_all|default:"<i>None</i>"})</label>
           </td>
         </tr>
         <tr>
           <td width="160" bgcolor="{$internal_color}" class="default_white" id="reason_cell">
-            <b>Reason for closing issue: *</b><br />
+            <b>{t}Reason for closing issue:{/t} *</b><br />
           </td>
           <td bgcolor="{$light_color}" class="default">
             <textarea name="reason" rows="8" style="width: 97%"></textarea>
@@ -169,7 +169,7 @@ function toggleNotificationList()
         </script>
         <tr>
           <td width="160" bgcolor="{$internal_color}" class="default_white">
-            <b>Incident Types to Redeem: </b><br />
+            <b>{t}Incident Types to Redeem:{/t} </b><br />
           </td>
           <td bgcolor="{$light_color}" class="default">
             {foreach from=$incident_details item=type_details key=type_id}
@@ -182,7 +182,7 @@ function toggleNotificationList()
         {/if}
         <tr>
           <td width="160" bgcolor="{$internal_color}" class="default_white">
-            <b>Time Spent: </b><br />
+            <b>{t}Time Spent:{/t} </b><br />
           </td>
           <td bgcolor="{$light_color}">
             <input class="default" type="text" size="5" name="time_spent" class="default"> <span class="default">(in minutes)</span>{include file="error_icon.tpl.html" field="time_spent"}
@@ -190,11 +190,11 @@ function toggleNotificationList()
         </tr>
         <tr>
           <td width="160" bgcolor="{$internal_color}" class="default_white">
-            <b>Time Category: </b><br />
+            <b>{t}Time Category:{/t} </b><br />
           </td>
           <td bgcolor="{$light_color}">
             <select name="category" class="default">
-              <option value="">Please choose a category</option>
+              <option value="">{t}Please choose a category{/t}</option>
               {html_options options=$time_categories}
             </select>
             {include file="error_icon.tpl.html" field="category"}
@@ -203,8 +203,8 @@ function toggleNotificationList()
           <td colspan="2">
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
               <tr>
-                <td><input class="button" type="button" value="&lt;&lt; Back" onClick="javascript:history.go(-1);"></td>
-                <td width="100%" align="center"><input class="button" type="submit" value="Close Issue"></td>
+                <td><input class="button" type="button" value="&lt;&lt; {t}Back{/t}" onClick="javascript:history.go(-1);"></td>
+                <td width="100%" align="center"><input class="button" type="submit" value="{t}Close Issue{/t}"></td>
               </tr>
             </table>
           </td>

@@ -7,15 +7,15 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
         <tr>
           <td class="default">
-            <b>History of Changes of Issue #{$smarty.get.iss_id}</b>
+            <b>{t}History of Changes to Issue{/t} #{$smarty.get.iss_id}</b>
           </td>
         </tr>
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
               <tr>
-                <td bgcolor="{$cell_color}" class="default_white">Date</td>
-                <td bgcolor="{$cell_color}" width="70%" class="default_white">Summary</td>
+                <td bgcolor="{$cell_color}" class="default_white">{t}Date{/t}</td>
+                <td bgcolor="{$cell_color}" width="70%" class="default_white">{t}Summary{/t}</td>
               </tr>
               {section name="i" loop=$changes}
               {cycle values=$cycle assign="row_color"}
@@ -30,13 +30,13 @@
               {sectionelse}
               <tr>
                 <td colspan="2" bgcolor="{$light_color}" class="default" align="center">
-                  <i>No changes could be found.</i>
+                  <i>{t}No changes could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
-                  <input type="button" class="button" value="Close" onClick="javascript:window.close();">
+                  <input type="button" class="button" value="{t}Close{/t}" onClick="javascript:window.close();">
                 </td>
               </tr>
             </table>
@@ -55,15 +55,15 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
         <tr>
           <td class="default">
-            <b>History of Reminders Triggered for Issue #{$smarty.get.iss_id}</b>
+            <b>{t}History of Reminders Triggered for Issue{/t} #{$smarty.get.iss_id}</b>
           </td>
         </tr>
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
               <tr>
-                <td bgcolor="{$cell_color}" class="default_white">Date</td>
-                <td bgcolor="{$cell_color}" width="70%" class="default_white">Triggered Action</td>
+                <td bgcolor="{$cell_color}" class="default_white">{t}Date{/t}</td>
+                <td bgcolor="{$cell_color}" width="70%" class="default_white">{t}Triggered Action{/t}</td>
               </tr>
               {section name="i" loop=$reminders}
               {cycle values=$cycle assign="row_color"}
@@ -78,13 +78,13 @@
               {sectionelse}
               <tr>
                 <td colspan="2" bgcolor="{$light_color}" class="default" align="center">
-                  <i>No reminders could be found.</i>
+                  <i>{t}No reminders could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
-                  <input type="button" class="button" value="Close" onClick="javascript:window.close();">
+                  <input type="button" class="button" value="{t}Close{/t}" onClick="javascript:window.close();">
                 </td>
               </tr>
             </table>

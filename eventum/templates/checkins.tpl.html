@@ -5,10 +5,10 @@
 function removeCheckins(f)
 {
     if (!hasOneChecked(f, 'item[]')) {
-        alert('Please choose which entries need to be removed.');
+        alert('{/literal}{t}Please choose which entries need to be removed.{/t}{literal}');
         return false;
     }
-    if (!confirm('This action will permanently delete the selected entries.')) {
+    if (!confirm('{/literal}{t}This action will permanently delete the selected entries.{/t}{literal}')) {
         return false;
     } else {
         var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -29,7 +29,7 @@ function removeCheckins(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default" nowrap>
-            <b>SCM Integration - Checkins</b>
+            <b>{t}SCM Integration - Checkins{/t}</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
@@ -46,11 +46,11 @@ function removeCheckins(f)
                   <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
                   {/if}
                 </td>
-                <td class="default_white" nowrap>Date</td>
-                <td class="default_white">User</td>
-                <td class="default_white" nowrap>Module / Directory</td>
-                <td class="default_white" nowrap>File</td>
-                <td width="55%" class="default_white">Commit Message</td>
+                <td class="default_white" nowrap>{t}Date{/t}</td>
+                <td class="default_white">{t}User{/t}</td>
+                <td class="default_white" nowrap>{t}Module / Directory{/t}</td>
+                <td class="default_white" nowrap>{t}File{/t}</td>
+                <td width="55%" class="default_white">{t}Commit Message{/t}</td>
               </tr>
               {section name="i" loop=$checkins}
               {cycle values=$cycle assign="row_color"}
@@ -63,12 +63,12 @@ function removeCheckins(f)
                 <td class="default">{$checkins[i].isc_module|escape:"html"}</td>
                 <td class="default" nowrap>
                   {if $checkins[i].checkout_url}
-                  <a title="see the source of revision {$checkins[i].isc_new_version} of {$checkins[i].isc_filename}" target="_checkout" class="link" href="{$checkins[i].checkout_url}">{$checkins[i].isc_filename|escape:"html"} ({$checkins[i].isc_new_version})</a>
+                  <a title="{t}see the source of revision{/t} {$checkins[i].isc_new_version} {t}of{/t} {$checkins[i].isc_filename}" target="_checkout" class="link" href="{$checkins[i].checkout_url}">{$checkins[i].isc_filename|escape:"html"} ({$checkins[i].isc_new_version})</a>
                   {else}
                   {$checkins[i].isc_filename|escape:"html"}
                   {/if}
                   {if $checkins[i].diff_url}
-                  [<a title="see the diff to revision {$checkins[i].isc_old_version}" target="_checkout" class="link" href="{$checkins[i].diff_url}">diff to {$checkins[i].isc_old_version}</a>]
+                  [<a title="{t}see the diff to revision{/t} {$checkins[i].isc_old_version}" target="_checkout" class="link" href="{$checkins[i].diff_url}">{t}diff to{/t} {$checkins[i].isc_old_version}</a>]
                   {/if}
                 </td>
                 <td class="default">
@@ -78,15 +78,15 @@ function removeCheckins(f)
               {sectionelse}
               <tr>
                 <td colspan="6" bgcolor="{$light_color}" class="default" align="center">
-                  <i>No checkins could be found.</i>
+                  <i>{t}No checkins could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
               <tr>
                 <td colspan="6" bgcolor="{$cell_color}">
                   {if $checkins != ""}
-                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
-                  <input type="submit" class="button" value="Remove Selected">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="submit" class="button" value="{t}Remove Selected{/t}">
                   {/if}
                 </td>
               </tr>

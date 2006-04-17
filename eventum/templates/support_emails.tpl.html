@@ -5,10 +5,10 @@
 function removeEmails(f)
 {
     if (!hasOneChecked(f, 'item[]')) {
-        alert('Please choose which entries need to be disassociated with the current issue.');
+        alert('{/literal}{t}Please choose which entries need to be disassociated with the current issue.{/t}{literal}');
         return false;
     }
-    if (!confirm('This action will remove the association of the selected entries to the current issue.')) {
+    if (!confirm('{/literal}{t}This action will remove the association of the selected entries to the current issue.{/t}{literal}')) {
         return false;
     } else {
         var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -54,11 +54,11 @@ function sendEmail(account_id, issue_id)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default" nowrap>
-            <b>Associated Emails ({if $emails|@is_array}{$emails|@count}{else}0{/if})</b>
+            <b>{t}Associated Emails{/t} ({if $emails|@is_array}{$emails|@count}{else}0{/if})</b>
           </td>
           <td align="right" class="default">
             {if $current_role >= $roles.standard_user}
-            [ <a href="mail_queue.php?iss_id={$smarty.get.id}" class="link" title="view the history of sent emails">Mail Queue Log</a> ]
+            [ <a href="mail_queue.php?iss_id={$smarty.get.id}" class="link" title="{t}view the history of sent emails{/t}">{t}Mail Queue Log{/t}</a> ]
             {/if}
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
             [ <a id="support_emails_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('support_emails');">{get_innerhtml element_name="support_emails" total=$emails|@count}</a> ]
@@ -70,15 +70,15 @@ function sendEmail(account_id, issue_id)
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr id="support_emails1" {get_display_style element_name="support_emails" total=$emails|@count} bgcolor="{$cell_color}">
                 {if $emails != "" and $current_role > $roles.viewer and $current_role != $roles.customer}
-                <td width="5"><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');"></td>
+                <td width="5"><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');"></td>
                 {/if}
                 <td class="default_white" align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email" remote_func="getEmail"}</td>
                 <td width="5" class="default_white" align="center">#</td>
-                <td width="5" class="default_white">Reply</td>
-                <td width="15%" class="default_white">From</td>
-                <td width="20%" class="default_white">To</td>
-                <td width="15%" class="default_white" nowrap>Date</td>
-                <td width="50%" class="default_white">Subject</td>
+                <td width="5" class="default_white">{t}Reply{/t}</td>
+                <td width="15%" class="default_white">{t}From{/t}</td>
+                <td width="20%" class="default_white">{t}To{/t}</td>
+                <td width="15%" class="default_white" nowrap>{t}Date{/t}</td>
+                <td width="50%" class="default_white">{t}Subject{/t}</td>
               </tr>
               {section name="i" loop=$emails}
               {cycle values=$cycle assign="row_color"}
@@ -93,12 +93,12 @@ function sendEmail(account_id, issue_id)
                 </td>
                 <td class="default" align="center" bgcolor="{$row_color}">{$smarty.section.i.iteration}</td>
                 <td align="center" bgcolor="{$row_color}">
-                  <a title="reply to this email" href="javascript:void(null);" onClick="javascript:reply({$emails[i].sup_ema_id}, {$emails[i].sup_id});" class="link"><img src="{$rel_url}images/icons/reply.gif" border="0"></a>
+                  <a title="{t}reply to this email{/t}" href="javascript:void(null);" onClick="javascript:reply({$emails[i].sup_ema_id}, {$emails[i].sup_id});" class="link"><img src="{$rel_url}images/icons/reply.gif" border="0"></a>
                 </td>
                 <td class="default" bgcolor="{$row_color}">{$emails[i].sup_from|escape:"html"}</td>
                 <td class="default" bgcolor="{$row_color}">
                   {if $emails[i].sup_to == ""}
-                  <i>sent to notification list</i>
+                  <i>{t}sent to notification list{/t}</i>
                   {else}
                   {$emails[i].sup_to|escape:"html"}
                   {/if}
@@ -115,7 +115,7 @@ function sendEmail(account_id, issue_id)
               {sectionelse}
               <tr id="support_emails2" {get_display_style element_name="support_emails" total=$emails|@count}>
                 <td colspan="{$email_col_count}" bgcolor="{$light_color}" class="default" align="center">
-                  <i>No associated emails could be found.</i>
+                  <i>{t}No associated emails could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
@@ -127,14 +127,14 @@ function sendEmail(account_id, issue_id)
                       <td nowrap width="10">
                         <nobr>
                         {if $emails != "" and $current_role != $roles.customer}
-                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
-                        <input type="submit" class="button" value="Disassociate Selected">
+                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                        <input type="submit" class="button" value="{t}Disassociate Selected{/t}">
                         {/if}
                         </nobr>
                       </td>
                       <td align="center">
                         {if $ema_id != ""}
-                        <input type="button" class="button" value="Send Email" onClick="javascript:sendEmail({$ema_id}, {$smarty.get.id});">
+                        <input type="button" class="button" value="{t}Send Email{/t}" onClick="javascript:sendEmail({$ema_id}, {$smarty.get.id});">
                         {/if}
                       </td>
                     </tr>

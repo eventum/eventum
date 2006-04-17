@@ -16,7 +16,7 @@
             {if $child_links != ""}
             <br /><br />
             <span class="default">
-            <b>Available Related Topics:</b>
+            <b>{t}Available Related Topics:{/t}</b>
             <ul>
               {section name="i" loop=$child_links}
               <li><a href="{$rel_url}help.php?topic={$child_links[i].topic}" class="link">{$child_links[i].title|escape:"html"}</a></li>
