@@ -4,24 +4,24 @@
       <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="1" cellpadding="4">
         <tr>
           <td bgcolor="#FFFFFF" class="default" colspan="3">
-            <b>Bulk Update Tool</b>
+            <b>{t}Bulk Update Tool{/t}</b>
           </td>
         </tr>
         <tr>
           {assign var="colspan" value=2}
-          <td bgcolor="{$cell_color}" class="default_white">Assignment</td>
-          <td bgcolor="{$cell_color}" class="default_white">Status</td>
+          <td bgcolor="{$cell_color}" class="default_white">{t}Assignment{/t}</td>
+          <td bgcolor="{$cell_color}" class="default_white">{t}Status{/t}</td>
           {if $releases|@count > 0}
           {assign var="colspan" value=$colspan+1}
-          <td bgcolor="{$cell_color}" class="default_white">Release</td>
+          <td bgcolor="{$cell_color}" class="default_white">{t}Release{/t}</td>
           {/if}
           {if $priorities|@count > 0}
           {assign var="colspan" value=$colspan+1}
-          <td bgcolor="{$cell_color}" class="default_white">Priority</td>
+          <td bgcolor="{$cell_color}" class="default_white">{t}Priority{/t}</td>
           {/if}
           {if $categories|@count > 0}
           {assign var="colspan" value=$colspan+1}
-          <td bgcolor="{$cell_color}" class="default_white">Category</td>
+          <td bgcolor="{$cell_color}" class="default_white">{t}Category{/t}</td>
           {/if}
         </tr>
         <tr>
@@ -68,8 +68,8 @@
         </tr>
         <tr>
           <td bgcolor="{$cell_color}" colspan="{$colspan}" align="center">
-            <input type="button" value="Bulk Update" onclick="bulkUpdate()" class="button">
-            <input type="button" value="Reset" class="button" onclick="resetBulkUpdate()">
+            <input type="button" value="{t}Bulk Update{/t}" onclick="bulkUpdate()" class="button">
+            <input type="button" value="{t}Reset{/t}" class="button" onclick="resetBulkUpdate()">
           </td>
         </tr>
       </table>

@@ -1,7 +1,7 @@
 {include file="header.tpl.html"}
 <br />
 {if $no_customer_integration == 1}
-    <span class="default">The current project does not have customer integration so this report can not be viewed.</span>
+    <span class="default">{t}The current project does not have customer integration so this report can not be viewed.{/t}</span>
 {else}
 <form method="post" action="{$smarty.server.PHP_SELF}" name="customer_stats_report">
 <input type="hidden" name="cat" value="generate">
@@ -76,19 +76,19 @@ function clearDate()
           <td align="left" valign="bottom" class="default" colspan="2" NOWRAP>
             <input type="checkbox" name="include_expired" value="1" {if $include_expired==1}CHECKED{/if}>
             <a id="link" class="link" href="javascript:void(null)" 
-                            onClick="javascript:toggleCheckbox('customer_stats_report', 'include_expired');">Include expired contracts</a>
+                            onClick="javascript:toggleCheckbox('customer_stats_report', 'include_expired');">{t}Include expired contracts{/t}</a>
           </td>
         </tr>
         <tr>
           <td class="default" align="center" valign="top">
           {if $current_role >= $roles.manager}
-            <b>Customer</b>
+            <b>{t}Customer{/t}</b>
             {/if}
           </td>
           <td align="center" valign="top" colspan="2">
             {if $current_role >= $roles.manager}
             <select name="customer[]" class="default">
-                <option value="">All</option>
+                <option value="">{t}All{/t}</option>
                 {html_options options=$customers selected=$customer}
             </select>
             {/if}
@@ -112,8 +112,8 @@ function clearDate()
 
 {if $data != ''}
 <span class="default">
-<span style="color: red">Red values indicate value is higher than the aggregate one.</span><br />
-<span style="color: blue">Blue values indicate value is lower than the aggregate one.</span><br />
+<span style="color: red">{t}Red values indicate value is higher than the aggregate one.{/t}</span><br />
+<span style="color: blue">{t}Blue values indicate value is lower than the aggregate one.{/t}</span><br />
 </span>
 
 {$date_msg}
@@ -125,10 +125,10 @@ function clearDate()
             <!-- header row -->
             <tr bgcolor="{$cell_color}">
                 <th rowspan="2" class="default_white">{$row_label}</th>
-                {if $display.customer_counts == 1}<th colspan="3" class="default_white">Customers</th>{/if}
-                {if $display.issue_counts == 1}<th colspan="4" class="default_white">Issues<sup>1</sup></th>{/if}
-                {if $display.email_counts == 1}<th colspan="3" class="default_white">Emails by Customers<sup>2</sup></th>
-                <th colspan="3" class="default_white">Emails by Staff<sup>3</sup></th>{/if}
+                {if $display.customer_counts == 1}<th colspan="3" class="default_white">{t}Customers{/t}</th>{/if}
+                {if $display.issue_counts == 1}<th colspan="4" class="default_white">{t}Issues{/t}<sup>1</sup></th>{/if}
+                {if $display.email_counts == 1}<th colspan="3" class="default_white">{t}Emails by Customers{/t}<sup>2</sup></th>
+                <th colspan="3" class="default_white">{t}Emails by Staff{/t}<sup>3</sup></th>{/if}
             </tr>
             <tr bgcolor="{$cell_color}">
                 {if $display.customer_counts == 1}

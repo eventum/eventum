@@ -7,7 +7,7 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td bgcolor="{$cell_color}" colspan="2" class="default_white">
-            <b>Workload by Date Range Report</b>
+            <b>{t}Workload by Date Range Report{/t}</b>
           </td>
         </tr>
         <tr>
@@ -25,7 +25,7 @@
         </tr>
         <tr>
           <td class="default" align="right">
-            <b>Interval:</b>
+            <b>{t}Interval{/t}:</b>
           </td>
           <td align="left">
             &nbsp;&nbsp;
@@ -35,7 +35,7 @@
         </tr>
         <tr>
           <td class="default" align="right">
-            <b>Start:</b>
+            <b>{t}Start{/t}:</b>
           </td>
           <td align="left">
             &nbsp;&nbsp;
@@ -44,7 +44,7 @@
         </tr>
         <tr>
           <td class="default" align="right">
-            <b>End:</b>
+            <b>{t}End{/t}:</b>
           </td>
           <td align="left">
             &nbsp;&nbsp;
@@ -53,7 +53,7 @@
         </tr>
         <tr>
           <td colspan="2" align="center">
-            <input type="submit" name="submit" value="Generate" class="shortcut">
+            <input type="submit" name="submit" value="{t}Generate{/t}" class="shortcut">
           </td>
         </tr>
       </table>
@@ -61,8 +61,8 @@
   </tr>
 </table>
 <div class="default" style="color: red" align="center">
-    Warning: Some type and interval options, combined with large <br />
-    date ranges can produce extremely large graphs.
+   {t} Warning: Some type and interval options, combined with large <br />
+    date ranges can produce extremely large graphs.{/t}
 </div>
 </form>
 <script language="Javascript">
@@ -70,15 +70,15 @@
 var f = document.forms["workload_report"];
 var options = new Array(2);
 options[0] = new Array(3);// individual
-options[0][0] = new Option("Day", "day");
-options[0][1] = new Option("Week", "week");
-options[0][2] = new Option("Month", "month")
+options[0][0] = new Option("'{/literal}{t}Day'{/t}{literal}", "{/literal}{t}day{/t}{literal}");
+options[0][1] = new Option("{/literal}{t}Week{/t}{literal}", "{/literal}{t}week{/t}{literal}");
+options[0][2] = new Option("{/literal}{t}Month{/t}{literal}", "{/literal}{t}month{/t}{literal}")
 
 options[1] = new Array(4);// aggregate
-options[1][0] = new Option("Day of Week", "dow");
-options[1][1] = new Option("Week", "week");
-options[1][2] = new Option("Day of Month", "dom")
-options[1][2] = new Option("Month", "month")
+options[1][0] = new Option("{/literal}{t}Day of Week{/t}{literal}", "{/literal}{t}dow{/t}{literal}");
+options[1][1] = new Option("{/literal}{t}Week{/t}{literal}", "{/literal}{t}week{/t}{literal}");
+options[1][2] = new Option("{/literal}{t}Day of Month{/t}{literal}", "{/literal}{t}dom{/t}{literal}")
+options[1][2] = new Option("{/literal}{t}Month{/t}{literal}", "{/literal}{t}month{/t}{literal}")
 
 
 function setIntervals(selectedValue)
@@ -134,7 +134,7 @@ setIntervals('{$interval}');
   </tr>
 </table>
 <div class="default" align="center">
-Avg/Med/Max Issues/Emails
+{t}Avg/Med/Max Issues/Emails{/t}
 {if $interval == 'day'}
     per day
 {elseif $interval == 'week'}

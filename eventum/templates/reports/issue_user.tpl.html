@@ -7,11 +7,11 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr bgcolor="{$cell_color}">
-          <td align="center" class="default_white">Issue ID</td>
-          <td align="center" class="default_white">Summary</td>
-          <td align="center" class="default_white">Status</td>
-          <td align="center" class="default_white">Time Spent</td>
-          <td align="center" class="default_white">Created</td>
+          <td align="center" class="default_white">{t}Issue ID{/t}</td>
+          <td align="center" class="default_white">{t}Summary{/t}</td>
+          <td align="center" class="default_white">{t}Status{/t}</td>
+          <td align="center" class="default_white">{t}Time Spent{/t}</td>
+          <td align="center" class="default_white">{t}Created{/t}</td>
         </tr>
         {foreach key=issue_id item=issue from=$assigned_issues}
         <tr>

@@ -8,7 +8,7 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td bgcolor="{$cell_color}" colspan="3" class="default_white">
-            <b>Showing all open issues older than {$cutoff_days} days.</b>
+            <b>{t}Showing all open issues older than {/t}{$cutoff_days} {t}days{/t}.</b>
           </td>
         </tr>
         <tr>
@@ -35,16 +35,16 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr bgcolor="{$cell_color}">
-          <td rowspan="2" align="center" class="default_white">Issue ID</td>
-          <td rowspan="2" align="center" class="default_white">Summary</td>
-          <td rowspan="2" align="center" class="default_white">Status</td>
-          <td rowspan="2" align="center" class="default_white">Time Spent</td>
-          <td rowspan="2" align="center" class="default_white">Created</td>
-          <td colspan="2" align="center" class="default_white">Days and Hours Since</td>
+          <td rowspan="2" align="center" class="default_white">{t}Issue ID{/t}</td>
+          <td rowspan="2" align="center" class="default_white">{t}Summary{/t}</td>
+          <td rowspan="2" align="center" class="default_white">{t}Status{/t}</td>
+          <td rowspan="2" align="center" class="default_white">{t}Time Spent{/t}</td>
+          <td rowspan="2" align="center" class="default_white">{t}Created{/t}</td>
+          <td colspan="2" align="center" class="default_white">{t}Days and Hours Since{/t}</td>
         </tr>
         <tr bgcolor="{$cell_color}">
-          <td align="center" class="default_white">Last Update</td>
-          <td align="center" class="default_white">Last Outgoing Msg</td>
+          <td align="center" class="default_white">{t}Last Update{/t}</td>
+          <td align="center" class="default_white">{t}Last Outgoing Msg{/t}</td>
         </tr>
         {foreach key=issue_id item=issue from=$assigned_issues}
         <tr>
