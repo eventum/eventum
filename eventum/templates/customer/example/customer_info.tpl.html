@@ -7,7 +7,7 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default" nowrap>
-            <b>Customer Details</b>
+            <b>{t}Customer Details{/t}</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
@@ -20,7 +20,7 @@
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr>
                 <td bgcolor="{$cell_color}" class="default_white">
-                  <nobr><b>Contact Person:</b>&nbsp;</nobr>
+                  <nobr><b>{t}Contact Person{/t}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$light_color}">
                   {$issue.iss_contact_person_lname}, {$issue.iss_contact_person_fname}
@@ -28,7 +28,7 @@
               </tr>
               <tr>
                 <td bgcolor="{$cell_color}" class="default_white">
-                  <nobr><b>Contact Email:</b>&nbsp;</nobr>
+                  <nobr><b>{t}Contact Email{/t}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$light_color}">
                   {$issue.iss_contact_email}
@@ -36,7 +36,7 @@
               </tr>
               <tr>
                 <td bgcolor="{$cell_color}" class="default_white">
-                  <nobr><b>Phone Number:</b>&nbsp;</nobr>
+                  <nobr><b>{t}Phone Number{/t}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$light_color}">
                   {$issue.iss_contact_phone}
@@ -44,7 +44,7 @@
               </tr>
               <tr>
                 <td bgcolor="{$cell_color}" class="default_white">
-                  <nobr><b>Timezone:</b>&nbsp;</nobr>
+                  <nobr><b>{t}Timezone{/t}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$light_color}">
                   {$issue.iss_contact_timezone}
@@ -53,7 +53,7 @@
               {if $current_role > $roles.standard_user}
               <tr>
                 <td bgcolor="{$internal_color}" class="default_white">
-                  <nobr><b>Contact's Local Time:</b>&nbsp;</nobr>
+                  <nobr><b>{t}Contact's Local Time{/t}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$light_color}">
                   {$issue.contact_local_time}
@@ -61,7 +61,7 @@
               </tr>
               <tr>
                 <td bgcolor="{$internal_color}" class="default_white">
-                  <b>Maximum First Response Time:</b>&nbsp;<br />
+                  <b>{t}Maximum First Response Time{/t}:</b>&nbsp;<br />
                 </td>
                 <td width="100%" bgcolor="{$light_color}" class="default">
                   {$issue.max_first_response_time}
@@ -69,7 +69,7 @@
               </tr>
               <tr>
                 <td bgcolor="{$internal_color}" class="default_white">
-                  <b>Time Until First Response Deadline:</b>&nbsp;<br />
+                  <b>{t}Time Until First Response Deadline{/t}:</b>&nbsp;<br />
                 </td>
                 <td width="100%" bgcolor="{$light_color}" class="default">
                   {$issue.max_first_response_time_left}
@@ -82,7 +82,7 @@
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr>
                 <td bgcolor="{$cell_color}" class="default_white">
-                  <nobr><b>Customer:</b>&nbsp;</nobr>
+                  <nobr><b>{t}Customer{/t}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$light_color}">
                   {$issue.customer_info.customer_name}
@@ -90,7 +90,7 @@
               </tr>
               <tr>
                 <td bgcolor="{$cell_color}" class="default_white">
-                  <nobr><b>Support Level:</b>&nbsp;</nobr>
+                  <nobr><b>{t}Support Level{/t}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$light_color}">
                   {$issue.customer_info.support_level}
@@ -98,7 +98,7 @@
               </tr>
               <tr>
                 <td bgcolor="{$cell_color}" class="default_white">
-                  <nobr><b>Support Expiration Date:</b>&nbsp;</nobr>
+                  <nobr><b>{t}Support Expiration Date{/t}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$light_color}">
                   {$issue.customer_info.expiration_date}
@@ -107,7 +107,7 @@
               {if $current_role > $roles.standard_user}
               <tr>
                 <td bgcolor="{$internal_color}" class="default_white">
-                  <b>Sales Account Manager:</b>&nbsp;<br />
+                  <b>{t}Sales Account Manager{/t}:</b>&nbsp;<br />
                 </td>
                 <td width="100%" bgcolor="{$light_color}" class="default">
                   {$issue.customer_info.account_manager[0]}
@@ -115,12 +115,12 @@
               </tr>
               <tr>
                 <td bgcolor="{$internal_color}" class="default_white">
-                  <b>Notes About Customer:</b>&nbsp;<br />
+                  <b>{t}Notes About Customer{/t}:</b>&nbsp;<br />
                   {if $current_role > $roles.developer}
                     {if $issue.customer_info.note.cno_id eq ''}
-                        <a href="{$app_base_url}manage/customer_notes.php?customer_id={$issue.iss_customer_id}" class="white_link">Add</a>
+                        <a href="{$app_base_url}manage/customer_notes.php?customer_id={$issue.iss_customer_id}" class="white_link">{t}Add{/t}</a>
                     {else}
-                        <a href="{$app_base_url}manage/customer_notes.php?cat=edit&id={$issue.customer_info.note.cno_id}" class="white_link">Edit</a>
+                        <a href="{$app_base_url}manage/customer_notes.php?cat=edit&id={$issue.customer_info.note.cno_id}" class="white_link">{t}Edit{/t}</a>
                     {/if}
                   {/if}
                 </td>

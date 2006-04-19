@@ -8,10 +8,10 @@ function validateForm(f)
     var field1 = getFormElement(f, 'field', 0);
     var field2 = getFormElement(f, 'field', 1);
     if ((!field1.checked) && (!field2.checked)) {
-        errors[errors.length] = new Option('Field', 'field');
+        errors[errors.length] = new Option('{/literal}{t}Field{/t}{literal}', 'field');
     }
     if (isWhitespace(f.value.value)) {
-        errors[errors.length] = new Option('Value', 'value');
+        errors[errors.length] = new Option('{/literal}{t}Value{/t}{literal}', 'value');
     }
 }
 //-->
@@ -26,21 +26,21 @@ function validateForm(f)
       <table width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default">
-            <b>Customer Lookup Tool</b>
+            <b>{t}Customer Lookup Tool{/t}</b>
           </td>
         </tr>
         <tr>
           <td width="100" bgcolor="{$cell_color}" class="default_white">
-            <b>Field: *</b>
+            <b>{t}Field{/t}: *</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
-            <input type="radio" name="field" value="email" {if $smarty.post.field == '' or $smarty.post.field == 'email'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('customer_lookup_form', 'field', 0);">Email Address</a><br />
-            <input type="radio" name="field" value="customer_id" {if $smarty.post.field == 'customer_id'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('customer_lookup_form', 'field', 1);">Customer ID</a><br />
+            <input type="radio" name="field" value="email" {if $smarty.post.field == '' or $smarty.post.field == 'email'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('customer_lookup_form', 'field', 0);">{t}Email Address{/t}</a><br />
+            <input type="radio" name="field" value="customer_id" {if $smarty.post.field == 'customer_id'}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('customer_lookup_form', 'field', 1);">{t}Customer ID{/t}</a><br />
           </td>
         </tr>
         <tr>
           <td width="100" bgcolor="{$cell_color}" class="default_white">
-            <b>Value: *</b>
+            <b>{t}Value{/t}: *</b>
           </td>
           <td bgcolor="{$light_color}">
             <input type="text" name="value" size="20" class="default" value="{$smarty.post.value}">
@@ -49,8 +49,8 @@ function validateForm(f)
         </tr>
         <tr>
           <td align="center" colspan="2" bgcolor="{$cell_color}">
-            <input class="button" type="submit" value="Lookup">&nbsp;&nbsp;
-            <input class="button" type="button" value="Cancel" onClick="javascript:window.close();">
+            <input class="button" type="submit" value="{t}Lookup{/t}">&nbsp;&nbsp;
+            <input class="button" type="button" value="{t}Cancel{/t}" onClick="javascript:window.close();">
           </td>
         </tr>
       </table>
@@ -109,13 +109,13 @@ function selectCustomerContact(customer_id, customer_name, contact_id, contact_l
 //-->
 </script>
 {/literal}
-&nbsp;<span class="default"><b>Results:</b></span>
+&nbsp;<span class="default"><b>{t}Results{/t}:</b></span>
 <table width="100%" cellpadding="1" cellspacing="1">
   <tr>
-    <td bgcolor="{$cell_color}" class="default_white"><b>Customer</b></td>
-    <td bgcolor="{$cell_color}" class="default_white"><b>Support Type</b></td>
-    <td bgcolor="{$cell_color}" class="default_white"><b>Expiration Date</b></td>
-    <td bgcolor="{$cell_color}" class="default_white"><b>Status</b></td>
+    <td bgcolor="{$cell_color}" class="default_white"><b>{t}Customer{/t}</b></td>
+    <td bgcolor="{$cell_color}" class="default_white"><b>{t}Support Type{/t}</b></td>
+    <td bgcolor="{$cell_color}" class="default_white"><b>{t}Expiration Date{/t}</b></td>
+    <td bgcolor="{$cell_color}" class="default_white"><b>{t}Status{/t}</b></td>
   </tr>
   {section name="i" loop=$results}
   {cycle values=$cycle assign="row_color"}
@@ -137,7 +137,7 @@ function selectCustomerContact(customer_id, customer_name, contact_id, contact_l
   {sectionelse}
   <tr bgcolor="{$light_color}">
     <td colspan="5" class="default" align="center">
-      <i>No results could be found</i>
+      <i>{t}No results could be found{/t}</i>
     </td>
   </tr>
   {/section}

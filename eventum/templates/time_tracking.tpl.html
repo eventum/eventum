@@ -1,10 +1,9 @@
-
 {literal}
 <script language="JavaScript">
 <!--
 function deleteTimeEntry(time_id)
 {
-    if (!confirm('This action will permanently delete the specified time tracking entry.')) {
+    if (!confirm('{/literal}{t}This action will permanently delete the specified time tracking entry.{/t}{literal}')) {
         return false;
     } else {
         var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -32,7 +31,7 @@ function addTimeEntry()
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
         <tr>
           <td class="default" nowrap>
-            <b>Time Tracking ({$time_entries|@count})</b>
+            <b>{t}Time Tracking{/t} ({$time_entries|@count})</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
@@ -45,11 +44,11 @@ function addTimeEntry()
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr id="time_tracker1" {get_display_style element_name="time_tracker" total=$time_entries|@count} bgcolor="{$internal_color}">
                 <td class="default_white" align="center" width="5">#</td>
-                <td class="default_white" nowrap>Date of Work</td>
-                <td class="default_white" nowrap>User</td>
-                <td class="default_white">Time Spent</td>
-                <td class="default_white">Category</td>
-                <td width="50%" class="default_white">Summary</td>
+                <td class="default_white" nowrap>{t}Date of Work{/t}</td>
+                <td class="default_white" nowrap>{t}User{/t}</td>
+                <td class="default_white">{t}Time Spent{/t}</td>
+                <td class="default_white">{t}Category{/t}</td>
+                <td width="50%" class="default_white">{t}Summary{/t}</td>
               </tr>
               {section name="i" loop=$time_entries}
               {cycle values=$cycle assign="row_color"}
@@ -66,21 +65,21 @@ function addTimeEntry()
               </tr>
               {if $smarty.section.i.last}
               <tr id="time_tracker{math equation="2 + x" x=$time_entries|@count}" {get_display_style element_name="time_tracker" total=$time_entries|@count}>
-                <td bgcolor="{$internal_color}" colspan="3" class="default_white" align="right">Total Time Spent:</td>
+                <td bgcolor="{$internal_color}" colspan="3" class="default_white" align="right">{t}Total Time Spent{/t}:</td>
                 <td bgcolor="{$dark_color}" colspan="3" class="default">{$total_time_spent}</td>
               </tr>
               {/if}
               {sectionelse}
               <tr id="time_tracker2" {get_display_style element_name="time_tracker" total=$time_entries|@count}>
                 <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
-                  <i>No time tracking entries could be found.</i>
+                  <i>{t}No time tracking entries could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
               {if $current_role > $roles.viewer}
               <tr>
                 <td colspan="6" bgcolor="{$internal_color}" align="center" width="100%" nowrap>
-                  <input type="button" value="Add Time Entry" class="button" onClick="addTimeEntry()">
+                  <input type="button" value="{t}Add Time Entry{/t}" class="button" onClick="addTimeEntry()">
                 </td>
               </tr>
               {/if}

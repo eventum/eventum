@@ -1,13 +1,14 @@
-{include file="header.tpl.html" extra_title="Associate Emails"}
+{capture assign="extra_title"}{t}Associate Emails{/t}{/capture}
+{include file="header.tpl.html" extra_title=$extra_title}
 {include file="navigation.tpl.html"}
 
 {if $app_setup.support_email != 'enabled'}
   <table width="300" align="center">
     <tr>
       <td>
-        &nbsp;<span class="default"><b>Sorry, but this feature has been disabled by the administrator.</b>
+        &nbsp;<span class="default"><b>{t}Sorry, but this feature has been disabled by the administrator.{/t}</b>
         <br /><br />
-        &nbsp;<a class="link" href="javascript:history.go(-1);">Go Back</a></span>
+        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
         <br /><br />
       </td>
     </tr>
@@ -16,9 +17,9 @@
   <table width="300" align="center">
     <tr>
       <td>
-        &nbsp;<span class="default"><b>Sorry, but you do not have access to this page.</b>
+        &nbsp;<span class="default"><b>{t}Sorry, but you do not have access to this page.{/t}</b>
         <br /><br />
-        &nbsp;<a class="link" href="javascript:history.go(-1);">Go Back</a></span>
+        &nbsp;<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a></span>
         <br /><br />
       </td>
     </tr>
@@ -95,7 +96,7 @@ function openRemovedList()
 function associateEmails(f)
 {
     if (!hasOneChecked(f, 'item[]')) {
-        alert('Please choose which emails need to be associated.');
+        alert('{/literal}{t}Please choose which emails need to be associated.{/t}{literal}');
         return false;
     }
     if (f.issue.options[f.issue.selectedIndex].value == 'support') {
@@ -117,10 +118,10 @@ function associateEmails(f)
 function removeEmails(f)
 {
     if (!hasOneChecked(f, 'item[]')) {
-        alert('Please choose which emails need to be marked as deleted.');
+        alert('{/literal}{t}Please choose which emails need to be marked as deleted.{/t}{literal}');
         return false;
     }
-    if (!confirm('This action will mark the selected email messages as deleted.')) {
+    if (!confirm('{/literal}{t}This action will mark the selected email messages as deleted.{/t}{literal}')) {
         return false;
     } else {
         var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -143,37 +144,37 @@ function removeEmails(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="{if $has_customer_integration}7{else}6{/if}" class="default">
-            <b>Viewing Emails ({$list_info.total_rows} emails found{if $list_info.end_offset > 0}, {math equation="x + 1" x=$list_info.start_offset} - {$list_info.end_offset} shown{/if})</b>
+            <b>{t}Viewing Emails{/t} ({$list_info.total_rows} {t}emails found{/t}{if $list_info.end_offset > 0}, {math equation="x + 1" x=$list_info.start_offset} - {$list_info.end_offset} {t}shown{/t}{/if})</b>
             {include file="help_link.tpl.html" topic="support_emails"}
           </td>
         </tr>
         <tr bgcolor="{$cell_color}">
-          <td width="1%">{if $list}<input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">{/if}</td>
+          <td width="1%">{if $list}<input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">{/if}</td>
           <td align="center" class="default_white">
-            <a title="sort by sender" href="{$sorting.links.sup_from}" class="white_link">Sender</a>
-            {if $sorting.images.sup_from != ""}<a title="sort by sender" href="{$sorting.links.sup_from}" class="white_link"><img border="0" src="{$sorting.images.sup_from}"></a>{/if}
+            <a title="sort by sender" href="{$sorting.links.sup_from}" class="white_link">{t}Sender{/t}</a>
+            {if $sorting.images.sup_from != ""}<a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link"><img border="0" src="{$sorting.images.sup_from}"></a>{/if}
           </td>
           {if $has_customer_integration}
           <td align="center" class="default_white" nowrap>
-            <a title="sort by sender" href="{$sorting.links.sup_customer_id}" class="white_link">Customer</a>
-            {if $sorting.images.sup_customer_id != ""}<a title="sort by customer" href="{$sorting.links.sup_customer_id}" class="white_link"><img border="0" src="{$sorting.images.sup_customer_id}"></a>{/if}
+            <a title="sort by sender" href="{$sorting.links.sup_customer_id}" class="white_link">{t}Customer{/t}</a>
+            {if $sorting.images.sup_customer_id != ""}<a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link"><img border="0" src="{$sorting.images.sup_customer_id}"></a>{/if}
           </td>
           {/if}
           <td align="center" class="default_white">
-            <a title="sort by date" href="{$sorting.links.sup_date}" class="white_link">Date</a>
-            {if $sorting.images.sup_date != ""}<a title="sort by date" href="{$sorting.links.sup_date}" class="white_link"><img border="0" src="{$sorting.images.sup_date}"></a>{/if}
+            <a title="sort by date" href="{$sorting.links.sup_date}" class="white_link">{t}Date{/t}</a>
+            {if $sorting.images.sup_date != ""}<a title="{t}sort by date{/t}" href="{$sorting.links.sup_date}" class="white_link"><img border="0" src="{$sorting.images.sup_date}"></a>{/if}
           </td>
           <td align="center" class="default_white">
-            <a title="sort by recipient" href="{$sorting.links.sup_to}" class="white_link">To</a>
-            {if $sorting.images.sup_to != ""}<a title="sort by recipient" href="{$sorting.links.sup_to}" class="white_link"><img border="0" src="{$sorting.images.sup_to}"></a>{/if}
+            <a title="sort by recipient" href="{$sorting.links.sup_to}" class="white_link">{t}To{/t}</a>
+            {if $sorting.images.sup_to != ""}<a title="{t}sort by recipient{/t}" href="{$sorting.links.sup_to}" class="white_link"><img border="0" src="{$sorting.images.sup_to}"></a>{/if}
           </td>
           <td align="center" class="default_white" nowrap>
-            <a title="sort by status" href="{$sorting.links.sup_iss_id}" class="white_link">Status</a>
-            {if $sorting.images.sup_iss_id != ""}<a title="sort by status" href="{$sorting.links.sup_iss_id}" class="white_link"><img border="0" src="{$sorting.images.sup_iss_id}"></a>{/if}
+            <a title="sort by status" href="{$sorting.links.sup_iss_id}" class="white_link">{t}Status{/t}</a>
+            {if $sorting.images.sup_iss_id != ""}<a title="{t}sort by status{/t}" href="{$sorting.links.sup_iss_id}" class="white_link"><img border="0" src="{$sorting.images.sup_iss_id}"></a>{/if}
           </td>
           <td class="default_white" width="45%">
-            &nbsp;<a title="sort by subject" href="{$sorting.links.sup_subject}" class="white_link">Subject</a>
-            {if $sorting.images.sup_subject != ""}<a title="sort by subject" href="{$sorting.links.sup_subject}" class="white_link"><img border="0" src="{$sorting.images.sup_subject}"></a>{/if}
+            &nbsp;<a title="sort by subject" href="{$sorting.links.sup_subject}" class="white_link">{t}Subject{/t}</a>
+            {if $sorting.images.sup_subject != ""}<a title="{t}sort by subject{/t}" href="{$sorting.links.sup_subject}" class="white_link"><img border="0" src="{$sorting.images.sup_subject}"></a>{/if}
           </td>
         </tr>
         {section name="i" loop=$list}
@@ -187,22 +188,23 @@ function removeEmails(f)
           <td class="default">{$list[i].sup_to|escape:"html"|replace:",":" "}</td>
           <td align="center" class="default" nowrap>
             {if $list[i].sup_iss_id != 0}
-            associated (<a class="link" title="view issue details" href="view.php?id={$list[i].sup_iss_id}">{$list[i].sup_iss_id}</a>)
+            {t}associated{/t} (<a class="link" title="{t}view issue details{/t}" href="view.php?id={$list[i].sup_iss_id}">{$list[i].sup_iss_id}</a>)
             {else}
-            <b>pending</b>
+            <b>{t}pending{/t}</b>
             {/if}
           </td>
           <td class="default" width="45%">
-            &nbsp;<a href="javascript:void(null);" title="view email details" onClick="javascript:viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});" class="link">{$list[i].sup_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
+            {capture assign="default_subject"}<{t}Empty Subject Header{/t}>{/capture}
+            &nbsp;<a href="javascript:void(null);" title="{t}view email details{/t}" onClick="javascript:viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});" class="link">{$list[i].sup_subject|default:$default_subject|escape:"html"}</a>
             {if $list[i].sup_has_attachment}
-            <a href="javascript:void(null);" title="view email details" onClick="javascript:viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a
+            <a href="javascript:void(null);" title="{t}view email details{/t}" onClick="javascript:viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});" class="link"><img src="{$rel_url}images/attachment.gif" border="0"></a
             {/if}
           </td>
         </tr>
         {sectionelse}
         <tr bgcolor="gray">
           <td colspan="{if $has_customer_integration}7{else}6{/if}" class="default_white" align="center">
-            <i>No emails could be found.</i>
+            <i>{t}No emails could be found.{/t}</i>
           </td>
         </tr>
         {/section}
@@ -212,13 +214,13 @@ function removeEmails(f)
               <tr>
                 <td width="35%">
                   {if $list}
-                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
-                  <input type="button" value="Associate &gt;" class="shortcut" onClick="javascript:associateEmails(this.form);">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}Associate{/t} &gt;" class="shortcut" onClick="javascript:associateEmails(this.form);">
                   <select name="issue" class="default">
-                    <option value="new">New Issue</option>
+                    <option value="new">{t}New Issue{/t}</option>
                     {html_options output=$issues values=$issues}
                   </select>
-                  {if not ($os.mac and $browser.ie)}<a title="lookup issues by their summaries" href="javascript:void(null);" onClick="return overlib(getOverlibContents('{include file="lookup_layer.tpl.html" list=$assoc_issues}', 'email_list_form', 'issue'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, RIGHT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+                  {if not ($os.mac and $browser.ie)}<a title="{t}lookup issues by their summaries{/t}" href="javascript:void(null);" onClick="return overlib(getOverlibContents('{include file="lookup_layer.tpl.html" list=$assoc_issues}', 'email_list_form', 'issue'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, RIGHT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
                   {/if}
                 </td>
                 <td width="40%" align="center">
@@ -237,12 +239,12 @@ function removeEmails(f)
                     <option value="25" {if $options.rows == 25}selected{/if}>25</option>
                     <option value="50" {if $options.rows == 50}selected{/if}>50</option>
                     <option value="100" {if $options.rows == 100}selected{/if}>100</option>
-                    <option value="ALL" {if $options.rows == "ALL"}selected{/if}>ALL</option>
+                    <option value="ALL" {if $options.rows == "ALL"}selected{/if}>{t}ALL{/t}</option>
                   </select>
-                  <input type="button" value="Set" class="shortcut" onClick="javascript:resizePager(this.form);">
+                  <input type="button" value="{t}Set{/t}" class="shortcut" onClick="javascript:resizePager(this.form);">
                 </td>
                 <td width="25%" class="default_white" align="right">
-                  <input type="checkbox" id="hide_associated" name="hide_associated" {if $options.hide_associated}checked{/if} onClick="javascript:hideAssociated(this.form);"> <label for="hide_associated">Hide Associated Emails</label>&nbsp;
+                  <input type="checkbox" id="hide_associated" name="hide_associated" {if $options.hide_associated}checked{/if} onClick="javascript:hideAssociated(this.form);"> <label for="hide_associated">{t}Hide Associated Emails{/t}</label>&nbsp;
                 </td>
               </tr>
             </table>
@@ -254,11 +256,11 @@ function removeEmails(f)
               <tr>
                 <td colspan="3">
                   {if $list}
-                  <input type="button" value="Remove Selected Emails" class="shortcut" onClick="javascript:removeEmails(this.form);">
+                  <input type="button" value="{t}Remove Selected Emails{/t}" class="shortcut" onClick="javascript:removeEmails(this.form);">
                   {/if}
                 </td>
                 <td align="right" class="default">
-                  <a title="list all removed emails" class="link" href="javascript:void(null);" onClick="javascript:openRemovedList();">List Removed Emails</a>&nbsp;
+                  <a title="{t}list all removed emails{/t}" class="link" href="javascript:void(null);" onClick="javascript:openRemovedList();">{t}List Removed Emails{/t}</a>&nbsp;
                 </td>
               </tr>
             </table>
