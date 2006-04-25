@@ -3,22 +3,22 @@
 function validateForm(f)
 {
     if (isWhitespace(f.group_name.value)) {
-        alert('Please enter the name of this group.');
+        alert('{/literal}{t}Please enter the name of this group.{/t}{literal}');
         selectField(f, 'group_name');
         return false;
     }
     if (!hasOneSelected(f, 'projects[]')) {
-        alert('Please assign the appropriate projects for this group.');
+        alert('{/literal}{t}Please assign the appropriate projects for this group.{/t}{literal}');
         selectField(f, 'projects[]');
         return false;
     }
     if (!hasOneSelected(f, 'users[]')) {
-        alert('Please assign the appropriate users for this group.');
+        alert('{/literal}{t}Please assign the appropriate users for this group.{/t}{literal}');
         selectField(f, 'users[]');
         return false;
     }
     if (f.manager.value == '') {
-        alert('Please assign the manager of this group.');
+        alert('{/literal}{t}Please assign the manager of this group.{/t}{literal}');
         selectField(f, 'manager');
         return false;
     } else {
@@ -35,10 +35,10 @@ function validateForm(f)
 function checkDelete(f)
 {
     if (!hasOneChecked(f, 'items[]')) {
-      alert('Please select at least one of the groups.');
+      alert('{/literal}{t}Please select at least one of the groups.{/t}{literal}');
       return false;
     }
-    if (!confirm('WARNING: This action will remove the selected groups permanently.\nPlease click OK to confirm.')) {
+    if (!confirm('{/literal}{t}WARNING: This action will remove the selected groups permanently.\nPlease click OK to confirm.{/t}{literal}')) {
       return false;
     } else {
       return true;
@@ -59,7 +59,7 @@ function checkDelete(f)
                 {/if}
                 <tr>
                     <td colspan="2" class="default">
-                        <b>Manage Groups</b>
+                        <b>{t}Manage Groups{/t}</b>
                     </td>
                 </tr>
                 {if $result != ""}
@@ -67,15 +67,15 @@ function checkDelete(f)
                     <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                     {if $smarty.post.cat == "new"}
                         {if $result == -1}
-                            An error occurred while trying to add the new group.
+                            {t}An error occurred while trying to add the new group.{/t}
                         {elseif $result == 1}
-                            Thank you, the group was added successfully.
+                            {t}Thank you, the group was added successfully.{/t}
                         {/if}
                     {elseif $smarty.post.cat == "update"}
                         {if $result == -1}
-                            An error occurred while trying to update the group information.
+                            {t}An error occurred while trying to update the group information.{/t}
                         {elseif $result == 1}
-                            Thank you, the group was updated successfully.
+                            {t}Thank you, the group was updated successfully.{/t}
                         {/if}
                     {/if}
                     </td>
@@ -83,7 +83,7 @@ function checkDelete(f)
                 {/if}
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>Name: *</b>
+                        <b>{t}Name: *{/t}</b>
                     </td>
                     <td bgcolor="{$light_color}">
                         <input type="text" name="group_name" size="40" class="default" value="{$info.grp_name}">
@@ -92,7 +92,7 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>Description:</b>
+                        <b>{t}Description:{/t}</b>
                     </td>
                     <td bgcolor="{$light_color}">
                         <input type="text" name="description" size="100" class="default" value="{$info.grp_description}">
@@ -101,7 +101,7 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <nobr><b>Assigned Projects: *</b></nobr>
+                        <nobr><b>{t}Assigned Projects: *{/t}</b></nobr>
                     </td>
                     <td bgcolor="{$light_color}">
                         <select name="projects[]" multiple size="3" class="default">
@@ -112,7 +112,7 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>Users: *</b>
+                        <b>{t}Users: *{/t}</b>
                     </td>
                     <td bgcolor="{$light_color}" width="80%">
                         <select name="users[]" multiple size="6" class="default" onChange="javascript:showSelections('group_form', 'users[]');">
@@ -125,11 +125,11 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>Manager: *</b>
+                        <b>{t}Manager: *{/t}</b>
                     </td>
                     <td bgcolor="{$light_color}" width="80%">
                         <select name="manager" size="1" class="default">
-                            <option value="">-- Select One --</option>
+                            <option value="">{t}-- Select One --{/t}</option>
                             {html_options options=$user_options selected=$info.grp_manager_usr_id}
                         </select>
                         {include file="error_icon.tpl.html" field="manager"}
@@ -139,17 +139,17 @@ function checkDelete(f)
                 <tr>
                     <td colspan="2" bgcolor="{$cell_color}" align="center">
                         {if $smarty.get.cat == 'edit'}
-                        <input class="button" type="submit" value="Update Group">
+                        <input class="button" type="submit" value="{t}Update Group{/t}">
                         {else}
-                        <input class="button" type="submit" value="Create Group">
+                        <input class="button" type="submit" value="{t}Create Group{/t}">
                         {/if}
-                        <input class="button" type="reset" value="Reset">
+                        <input class="button" type="reset" value="{t}Reset{/t}">
                     </td>
                 </tr>
                 </form>
                 <tr>
                     <td colspan="2" class="default">
-                        <b>Existing Groups</b>
+                        <b>{t}Existing Groups{/t}</b>
                     </td>
                 </tr>
                 <tr>
@@ -158,10 +158,10 @@ function checkDelete(f)
                             <form name="delete_group" onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                             <tr>
                                 <td bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Name</b></td>
-                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Description</b></td>
-                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Manager</b></td>
-                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Projects</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Name{/t}</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Description{/t}</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Manager{/t}</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Projects{/t}</b></td>
                             </tr>
                             {section name="i" loop=$list}
                             {cycle values=$cycle assign="row_color"}
@@ -185,7 +185,7 @@ function checkDelete(f)
                             {sectionelse}
                             <tr>
                                 <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
-                                    <i>No groups could be found.</i>
+                                    <i>{t}No groups could be found.{/t}</i>
                                 </td>
                             </tr>
                             {/section}
@@ -194,11 +194,11 @@ function checkDelete(f)
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                                         <tr>
                                             <td width="4" bgcolor="{$cell_color}" align="center">
-                                                <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
-                                                <input type="hidden" name="cat" value="delete">
+                                                <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                                                <input type="hidden" name="cat" value="{t}delete{/t}">
                                             </td>
                                             <td colspan="4" bgcolor="{$cell_color}" align="center">
-                                                <input type="submit" value="Delete" class="button">
+                                                <input type="submit" value="{t}Delete{/t}" class="button">
                                             </td>
                                         </tr>
                                     </table>

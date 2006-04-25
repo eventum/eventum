@@ -10,7 +10,7 @@
               function validateForm(f)
               {
                   if (isWhitespace(f.title.value)) {
-                      alert('Please enter the title of this release.');
+                      alert('{/literal}{t}Please enter the title of this release.{/t}{literal}');
                       selectField(f, 'title');
                       return false;
                   }
@@ -35,10 +35,10 @@
               {/if}
               <tr>
                 <td class="default">
-                  <b>Manage Releases</b>
+                  <b>{t}Manage Releases{/t}</b>
                 </td>
                 <td class="default" align="right">
-                  (Current Project: {$project.prj_title})
+                  ({t}Current Project:{/t} {$project.prj_title})
                 </td>
               </tr>
               {if $result != ""}
@@ -46,19 +46,19 @@
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
-                      An error occurred while trying to add the new release.
+                      {t}An error occurred while trying to add the new release.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this new release.
+                      {t}Please enter the title for this new release.{/t}
                     {elseif $result == 1}
-                      Thank you, the release was added successfully.
+                      {t}Thank you, the release was added successfully.{/t}
                     {/if}
                   {elseif $smarty.post.cat == "update"}
                     {if $result == -1}
-                      An error occurred while trying to update the release information.
+                      {t}An error occurred while trying to update the release information.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this release.
+                      {t}Please enter the title for this release.{/t}
                     {elseif $result == 1}
-                      Thank you, the release was updated successfully.
+                      {t}Thank you, the release was updated successfully.{/t}
                     {/if}
                   {/if}
                 </td>
@@ -66,7 +66,7 @@
               {/if}
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Title:</b>
+                  <b>{t}Title:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" name="title" size="40" class="default" value="{$info.pre_title}">
@@ -75,7 +75,7 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Tentative Date:</b>
+                  <b>{t}Tentative Date:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   {html_select_date field_array="scheduled_date" prefix="" time=$info.pre_scheduled_date start_year="-10" end_year="+10" all_extra='class="default"'}
@@ -94,29 +94,29 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Status:</b>
+                  <b>{t}Status:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="status" class="default">
-                    <option value="available" {if $info.pre_status == 'available'}selected{/if}>Available - Users may use this release</option>
-                    <option value="unavailable" {if $info.pre_status == 'unavailable'}selected{/if}>Unavailable - Users may NOT use this release</option>
+                    <option value="available" {if $info.pre_status == 'available'}selected{/if}>{t}Available - Users may use this release{/t}</option>
+                    <option value="unavailable" {if $info.pre_status == 'unavailable'}selected{/if}>{t}Unavailable - Users may NOT use this release{/t}</option>
                   </select>
                 </td>
               </tr>
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="Update Release">
+                  <input class="button" type="submit" value="{t}Update Release{/t}">
                   {else}
-                  <input class="button" type="submit" value="Create Release">
+                  <input class="button" type="submit" value="{t}Create Release{/t}">
                   {/if}
-                  <input class="button" type="reset" value="Reset">
+                  <input class="button" type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
                 <td colspan="2" class="default">
-                  <b>Existing Releases:</b>
+                  <b>{t}Existing Releases:{/t}</b>
                 </td>
               </tr>
               <tr>
@@ -127,10 +127,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('Please select at least one of the releases.');
+                          alert('{/literal}{t}Please select at least one of the releases.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('This action will remove the selected entries.')) {
+                      if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;
@@ -144,17 +144,17 @@
                     <input type="hidden" name="prj_id" value="{$project.prj_id}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Tentative Date</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Status</b></td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Tentative Date{/t}</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Status{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].pre_id}"></td>
                       <td width="40%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pre_id}&prj_id={$project.prj_id}" title="update this entry">{$list[i].pre_title}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pre_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pre_title}</a>
                       </td>
                       <td bgcolor="{$row_color}" class="default">&nbsp;{$list[i].pre_scheduled_date}</td>
                       <td bgcolor="{$row_color}" class="default">&nbsp;{$list[i].pre_status}</td>
@@ -162,16 +162,16 @@
                     {sectionelse}
                     <tr>
                       <td colspan="4" bgcolor="{$light_color}" align="center" class="default">
-                        <i>No releases could be found.</i>
+                        <i>{t}No releases could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
                       <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="3" bgcolor="{$cell_color}" align="center">
-                        <input type="submit" value="Delete" class="button">
+                        <input type="submit" value="{t}Delete{/t}" class="button">
                       </td>
                     </tr>
                     </form>

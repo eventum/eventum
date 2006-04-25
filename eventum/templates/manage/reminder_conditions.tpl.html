@@ -14,21 +14,21 @@
               function validateForm(f)
               {
                   if (hasSelected(f.field, -1)) {
-                      errors[errors.length] = new Option('Field', 'field');
+                      errors[errors.length] = new Option('{/literal}{t}Field{/t}{literal}', 'field');
                   }
                   if (hasSelected(f.operator, -1)) {
-                      errors[errors.length] = new Option('Operator', 'operator');
+                      errors[errors.length] = new Option('{/literal}{t}Operator{/t}{literal}', 'operator');
                   }
                   if (f.comparison_field != 'undefined' && f.comparison_field.selectedIndex > 0) {
                       
                   } else {
                       if (f.value.type == 'select-one') {
                           if (hasSelected(f.value, -1)) {
-                              errors[errors.length] = new Option('Value', 'value');
+                              errors[errors.length] = new Option('{/literal}{t}Value{/t}{literal}', 'value');
                           }
                       } else if (f.value.type == 'text') {
                           if (isWhitespace(f.value.value)) {
-                              errors[errors.length] = new Option('Value', 'value');
+                              errors[errors.length] = new Option('{/literal}{t}Value{/t}{literal}', 'value');
                           }
                       }
                   }
@@ -63,10 +63,10 @@
                   <table width="100%" cellspacing="0" cellpadding="0">
                     <tr>
                       <td align="left" class="default">
-                        <b>Manage Reminder Conditions</b>
+                        <b>{t}Manage Reminder Conditions{/t}</b>
                       </td>
                       <td align="right" class="default">
-                        (<a href="reminders.php?cat=edit&id={$rem_id}" class="link" title="view reminder details">Reminder #{$rem_id}: {$rem_title}</a> -> <a href="reminder_actions.php?cat=edit&rem_id={$rem_id}&id={$rma_id}" class="link" title="view reminder action details">Action #{$rma_id}: {$rma_title}</a>)
+                        (<a href="reminders.php?cat=edit&id={$rem_id}" class="link" title="{t}view reminder details{/t}">{t}Reminder{/t} #{$rem_id}: {$rem_title}</a> -> <a href="reminder_actions.php?cat=edit&rem_id={$rem_id}&id={$rma_id}" class="link" title="{t}view reminder action details{/t}">{t}Action{/t} #{$rma_id}: {$rma_title}</a>)
                       </td>
                     </tr>
                   </table>
@@ -77,19 +77,19 @@
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
-                      An error occurred while trying to add the new condition.
+                      {t}An error occurred while trying to add the new condition.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this new condition.
+                      {t}Please enter the title for this new condition.{/t}
                     {elseif $result == 1}
-                      Thank you, the condition was added successfully.
+                      {t}Thank you, the condition was added successfully.{/t}
                     {/if}
                   {elseif $smarty.post.cat == "update"}
                     {if $result == -1}
-                      An error occurred while trying to update the condition information.
+                      {t}An error occurred while trying to update the condition information.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this condition.
+                      {t}Please enter the title for this condition.{/t}
                     {elseif $result == 1}
-                      Thank you, the condition was updated successfully.
+                      {t}Thank you, the condition was updated successfully.{/t}
                     {/if}
                   {/if}
                 </td>
@@ -97,11 +97,11 @@
               {/if}
               <tr>
                 <td width="150" bgcolor="{$cell_color}" class="default_white">
-                  <b>Field:</b>
+                  <b>{t}Field:{/t}</b>
                 </td>
                 <td width="90%" bgcolor="{$light_color}">
                   <select name="field" class="default" onChange="javascript:setValueField(this.form);">
-                    <option value="-1">Please choose an option</option>
+                    <option value="-1">{t}Please choose an option{/t}</option>
                     {html_options options=$fields selected=$info.rlc_rmf_id}
                   </select>
                   {include file="error_icon.tpl.html" field="field"}
@@ -109,11 +109,11 @@
               </tr>
               <tr>
                 <td width="150" bgcolor="{$cell_color}" class="default_white">
-                  <b>Operator:</b>
+                  <b>{t}Operator:{/t}</b>
                 </td>
                 <td width="90%" bgcolor="{$light_color}">
                   <select name="operator" class="default">
-                    <option value="-1">Please choose an option</option>
+                    <option value="-1">{t}Please choose an option{/t}</option>
                     {html_options options=$operators selected=$info.rlc_rmo_id}
                   </select>
                   {include file="error_icon.tpl.html" field="operator"}
@@ -121,12 +121,12 @@
               </tr>
               <tr>
                 <td width="150" bgcolor="{$cell_color}" class="default_white">
-                  <b>Value:</b>
+                  <b>{t}Value:{/t}</b>
                 </td>
                 <td width="90%" bgcolor="{$light_color}">
                   {if $show_status_options == 'yes' or $show_category_options == 'yes'}
                   <select name="value" class="default">
-                    <option value="-1">Please choose an option</option>
+                    <option value="-1">{t}Please choose an option{/t}</option>
                     {if $show_status_options == 'yes'}
                     {html_options options=$statuses selected=$info.rlc_value}
                     {elseif $show_category_options == 'yes'}
@@ -136,14 +136,14 @@
                   {else}
                   {if $show_field_options == 'yes'}
                     <select name="comparison_field" class="default" onchange="disableValueField(this)">
-                        <option value="-1">Please choose a field</option>
+                        <option value="-1">{t}Please choose a field{/t}</option>
                         {html_options options=$comparable_fields selected=$info.rlc_comparison_rmf_id}
                     </select>
                     {include file="error_icon.tpl.html" field="comparison_field"}
-                    <span class="default">or</span>&nbsp;
+                    <span class="default">{t}or{/t}</span>&nbsp;
                   {/if}
                   <input type="text" size="5" name="value" class="default" value="{$info.rlc_value}">
-                  <span class="small_default"><i>(in hours please)</i></span>
+                  <span class="small_default"><i>{t}(in hours please){/t}</i></span>
                   <script language="Javascript">disableValueField(document.forms['reminder_form'].comparison_field)</script>
                   {/if}
                   {include file="error_icon.tpl.html" field="value"}
@@ -152,17 +152,17 @@
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="Update Condition">
+                  <input class="button" type="submit" value="{t}Update Condition{/t}">
                   {else}
-                  <input class="button" type="submit" value="Add Condition">
+                  <input class="button" type="submit" value="{t}Add Condition{/t}">
                   {/if}
-                  <input class="button" type="reset" value="Reset">
+                  <input class="button" type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
                 <td colspan="2" class="default">
-                  <b>Existing Conditions:</b> (<a href="reminder_actions.php?cat=edit&rem_id={$rem_id}&id={$rma_id}" class="link">Back to Reminder Action List</a>)
+                  <b>{t}Existing Conditions:{/t}</b> (<a href="reminder_actions.php?cat=edit&rem_id={$rem_id}&id={$rma_id}" class="link">{t}Back to Reminder Action List{/t}</a>)
                 </td>
               </tr>
               <tr>
@@ -181,10 +181,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('Please select at least one of the conditions.');
+                          alert('{/literal}{t}Please select at least one of the conditions.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('This action will remove the selected entries.')) {
+                      if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;
@@ -199,23 +199,23 @@
                     <input type="hidden" name="rem_id" value="{$rem_id}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Field</b></td>
-                      <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Operator</b></td>
-                      <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Value</b></td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Field{/t}</b></td>
+                      <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Operator{/t}</b></td>
+                      <td width="33%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Value{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].rlc_id}"></td>
-                      <td width="33%" bgcolor="{$row_color}" class="default">&nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&rem_id={$rem_id}&rma_id={$rma_id}&id={$list[i].rlc_id}" title="update this entry">{$list[i].rmf_title|escape:"html"}</a></td>
+                      <td width="33%" bgcolor="{$row_color}" class="default">&nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&rem_id={$rem_id}&rma_id={$rma_id}&id={$list[i].rlc_id}" title="{t}update this entry{/t}">{$list[i].rmf_title|escape:"html"}</a></td>
                       <td width="33%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].rmo_title|escape:"html"}</td>
                       <td width="33%" bgcolor="{$row_color}" class="default">&nbsp;{$list[i].rlc_value|escape:"html"}</td>
                     </tr>
                     {sectionelse}
                     <tr>
                       <td colspan="4" bgcolor="{$light_color}" align="center" class="default">
-                        <i>No conditions could be found.</i>
+                        <i>{t}No conditions could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
@@ -224,11 +224,11 @@
                         <table width="100%" cellspacing="0" cellpadding="0">
                           <tr>
                             <td align="left">
-                              <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                              <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                             </td>
                             <td width="100%" align="center">
-                              <input type="submit" value="Delete" class="button">&nbsp;&nbsp;
-                              <input type="button" value="Review SQL Query" class="button" onClick="javascript:reviewSQL();">
+                              <input type="submit" value="{t}Delete{/t}" class="button">&nbsp;&nbsp;
+                              <input type="button" value="{t}Review SQL Query{/t}" class="button" onClick="javascript:reviewSQL();">
                             </td>
                           </tr>
                         </table>
