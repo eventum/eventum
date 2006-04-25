@@ -4,9 +4,9 @@
 {if $app_setup.open_signup != 'enabled'}
 <center>
 <span class="default">
-<b>Sorry, but this feature has been disabled by the administrator.</b>
+<b>{t}Sorry, but this feature has been disabled by the administrator.{/t}</b>
 <br /><br />
-<a class="link" href="javascript:history.go(-1);">Go Back</a>
+<a class="link" href="javascript:history.go(-1);">{t}Go Back{/t}</a>
 </span>
 </center>
 {else}
@@ -16,22 +16,22 @@
 function validateForm(f)
 {
     if (isWhitespace(f.full_name.value)) {
-        alert('Please enter your full name.');
+        alert('{/literal}{t}Please enter your full name.{/t}{literal}');
         selectField(f, 'full_name');
         return false;
     }
     if (isWhitespace(f.email.value)) {
-        alert('Please enter your email address.');
+        alert('{/literal}{t}Please enter your email address.{/t}{literal}');
         selectField(f, 'email');
         return false;
     }
     if (!isEmail(f.email.value)) {
-        alert('Please enter a valid email address.');
+        alert('{/literal}{t}Please enter a valid email address.{/t}{literal}');
         selectField(f, 'email');
         return false;
     }
     if (isWhitespace(f.passwd.value)) {
-        alert('Please enter your password.');
+        alert('{/literal}{t}Please enter your password.{/t}{literal}');
         selectField(f, 'passwd');
         return false;
     }
@@ -48,7 +48,7 @@ function validateForm(f)
       <table bgcolor="#006486" width="100%" border="0" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" align="center">
-            <h2 style="color: white;">Account Signup</h2>
+            <h2 style="color: white;">{t}Account Signup{/t}</h2>
             <hr size="1" noshade color="white">
           </td>
         </tr>
@@ -57,15 +57,15 @@ function validateForm(f)
           <td colspan="2" align="center" class="error">
             <b>
             {if $signup_result == -1}
-              Error: An error occurred while trying to run your query.
+              {t}Error: An error occurred while trying to run your query.{/t}
             {elseif $signup_result == -2}
-              Error: The email address specified is already associated with 
-              an user in the system.
+              {t}Error: The email address specified is already associated with 
+              an user in the system.{/t}
             {elseif $signup_result == 1}
-              Thank you, your account creation request was processed 
+              {t}Thank you, your account creation request was processed 
               successfully. For security reasons a confirmation email 
               was sent to the provided email address with instructions
-              on how to confirm your request and activate your account.
+              on how to confirm your request and activate your account.{/t}
             {/if}
             </b>
           </td>
@@ -73,21 +73,21 @@ function validateForm(f)
         {/if}
         {if $signup_result != 1}
         <tr>
-          <td align="right" width="130" class="default_white"><b><u>F</u>ull Name:</b></td>
+          <td align="right" width="130" class="default_white"><b>{t}<u>F</u>ull Name:{/t}</b></td>
           <td width="75%">
             <input accessKey="f" class="default" type="text" name="full_name" size="50" maxlength="255">
             {include file="error_icon.tpl.html" field="full_name"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="130" class="default_white"><b><u>E</u>mail Address:</b></td>
+          <td align="right" width="130" class="default_white"><b>{t}<u>E</u>mail Address:{/t}</b></td>
           <td width="75%">
             <input accessKey="e" class="default" type="text" name="email" size="50" maxlength="255">
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="130" class="default_white"><b><u>P</u>assword:</b></td>
+          <td align="right" width="130" class="default_white"><b>{t}<u>P</u>assword:{/t}</b></td>
           <td width="75%">
             <input accessKey="p" class="default" type="password" name="passwd" size="20" maxlength="32">
             {include file="error_icon.tpl.html" field="passwd"}
@@ -95,13 +95,13 @@ function validateForm(f)
         </tr>
         <tr>
           <td colspan="2" align="center">
-            <input class="button" type="submit" value="Create Account">
+            <input class="button" type="submit" value="{t}Create Account{/t}">
           </td>
         </tr>
         {/if}
         <tr align="center">
           <td colspan="2" class="default_white">
-            <a class="white_link" href="index.php">Back to Login Form</a>
+            <a class="white_link" href="index.php">{t}Back to Login Form{/t}</a>
           </td>
         </tr>
       </table>

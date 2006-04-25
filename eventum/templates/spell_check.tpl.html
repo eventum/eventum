@@ -97,19 +97,19 @@ function buildSuggestionBox()
       <table width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default">
-            <b>Spell Check</b>
+            <b>{t}Spell Check{/t}</b>
           </td>
         </tr>
         {if $spell_check.total_words == 0}
         <tr>
           <td bgcolor="{$light_color}" class="default" align="center">
-            <b>No spelling mistakes could be found.</b>
+            <b>{t}No spelling mistakes could be found.{/t}</b>
           </td>
         </tr>
         {else}
         <tr>
           <td width="130" bgcolor="{$cell_color}" class="default_white">
-            <b>Misspelled Words:</b>
+            <b>{t}Misspelled Words:{/t}</b>
           </td>
           <td width="60%" bgcolor="{$light_color}">
             <select class="default" name="misspelled_words" onChange="javascript:buildSuggestionBox();">
@@ -119,18 +119,18 @@ function buildSuggestionBox()
         </tr>
         <tr>
           <td width="130" bgcolor="{$cell_color}" class="default_white">
-            <b>Suggestions:</b>
+            <b>{t}Suggestions:{/t}</b>
           </td>
           <td width="60%" bgcolor="{$light_color}">
             <select class="default" name="suggestion">
-              <option>Choose a misspelled word</option>
+              <option>{t}Choose a misspelled word{/t}</option>
             </select>
           </td>
         </tr>
         {/if}
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center">
-            {if $spell_check.total_words > 0}<input class="button" type="button" value="Fix Spelling" onClick="javascript:fixSpelling();">&nbsp;&nbsp;{/if}
+            {if $spell_check.total_words > 0}<input class="button" type="button" value="{t}Fix Spelling{/t}" onClick="javascript:fixSpelling();">&nbsp;&nbsp;{/if}
             <input class="button" type="button" value="Close" onClick="javascript:window.close();">
           </td>
         </tr>

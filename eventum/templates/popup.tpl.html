@@ -4,145 +4,145 @@
 <center>
   <span class="default">
 {if $note_add_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $note_add_result == -2}
-  <b>Please enter the note text on the input box below.</b>
+  <b>{t}Please enter the note text on the input box below.{/t}</b>
 {elseif $note_add_result == 1}
-  <b>Thank you, the new note was created and associated with the issue below.</b>
+  <b>{t}Thank you, the new note was created and associated with the issue below.{/t}</b>
 {/if}
 
 {if $note_delete_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $note_delete_result == -2}
-  <b>You do not have permission to delete this note.</b>
+  <b>{t}You do not have permission to delete this note.{/t}</b>
 {elseif $note_delete_result == 1}
-  <b>Thank you, the note was removed successfully.</b>
+  <b>{t}Thank you, the note was removed successfully.{/t}</b>
 {/if}
 
 {if $time_delete_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $time_delete_result == 1}
-  <b>Thank you, the time tracking entry was removed successfully.</b>
+  <b>{t}Thank you, the time tracking entry was removed successfully.{/t}</b>
 {/if}
 
 {if $bulk_update_result == 1}
-  <b>Thank you, the selected issues were updated successfully.</b>
+  <b>{t}Thank you, the selected issues were updated successfully.{/t}</b>
 {elseif $bulk_update_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {/if}
 
 {if $set_initial_impact_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $set_initial_impact_result == 1}
-  <b>Thank you, the inital impact analysis was set successfully.</b>
+  <b>{t}Thank you, the inital impact analysis was set successfully.{/t}</b>
 {/if}
 
 {if $add_requirement_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $add_requirement_result == 1}
-  <b>Thank you, the new requirement was added successfully.</b>
+  <b>{t}Thank you, the new requirement was added successfully.{/t}</b>
 {/if}
 
 {if $set_impact_requirement_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $set_impact_requirement_result == 1}
-  <b>Thank you, the impact analysis was set successfully.</b>
+  <b>{t}Thank you, the impact analysis was set successfully.{/t}</b>
 {/if}
 
 {if $requirement_delete_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $requirement_delete_result == 1}
-  <b>Thank you, the selected requirements were removed successfully.</b>
+  <b>{t}Thank you, the selected requirements were removed successfully.{/t}</b>
 {/if}
 
 {if $save_filter_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $save_filter_result == 1}
-  <b>Thank you, the custom filter was saved successfully.</b>
+  <b>{t}Thank you, the custom filter was saved successfully.{/t}</b>
 {/if}
 
 {if $delete_filter_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $delete_filter_result == 1}
-  <b>Thank you, the selected custom filters were removed successfully.</b>
+  <b>{t}Thank you, the selected custom filters were removed successfully.{/t}</b>
 {/if}
 
 {if $remove_association_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $remove_association_result == 1}
-  <b>Thank you, the association to the selected emails were removed successfully.</b>
+  <b>{t}Thank you, the association to the selected emails were removed successfully.{/t}</b>
 {/if}
 
 {if $remove_attachment_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $remove_attachment_result == -2}
-  <b>You do not have the permission to remove this attachment.</b>
+  <b>{t}You do not have the permission to remove this attachment.{/t}</b>
 {elseif $remove_attachment_result == 1}
-  <b>Thank you, the attachment was removed successfully.</b>
+  <b>{t}Thank you, the attachment was removed successfully.{/t}</b>
 {/if}
 
 {if $remove_file_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $remove_file_result == -2}
-  <b>You do not have the permission to remove this file.</b>
+  <b>{t}You do not have the permission to remove this file.{/t}</b>
 {elseif $remove_file_result == 1}
-  <b>Thank you, the file was removed successfully.</b>
+  <b>{t}Thank you, the file was removed successfully.{/t}</b>
 {/if}
 
 {if $remove_checkin_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $remove_checkin_result == 1}
-  <b>Thank you, the selected checkin information entries were removed successfully.</b>
+  <b>{t}Thank you, the selected checkin information entries were removed successfully.{/t}</b>
 {/if}
 
 
 {if $remove_email_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $remove_email_result == 1}
-  <b>Thank you, the emails were marked as removed successfully.</b>
+  <b>{t}Thank you, the emails were marked as removed successfully.{/t}</b>
 {/if}
 
 {if $clear_duplicate_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $clear_duplicate_result == 1}
-  <b>Thank you, the current issue is no longer marked as a duplicate.</b>
+  <b>{t}Thank you, the current issue is no longer marked as a duplicate.{/t}</b>
 {/if}
 
 {if $delete_phone_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $delete_phone_result == -2}
-  <b>You do not have permission to remove this phone support entry.</b>
+  <b>{t}You do not have permission to remove this phone support entry.{/t}</b>
 {elseif $delete_phone_result == 1}
-  <b>Thank you, the phone support entry was removed successfully.</b>
+  <b>{t}Thank you, the phone support entry was removed successfully.{/t}</b>
 {elseif $delete_phone_result == 2}
-  <b>Thank you, the phone support entry was removed successfully.<br />
-  The associated time tracking entry was also deleted.</b>
+  <b>{t}Thank you, the phone support entry was removed successfully.{/t}<br />
+  {t}The associated time tracking entry was also deleted.{/t}</b>
 {/if}
 
 {if $new_status_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $new_status_result == 1}
-  <b>Thank you, the issue was updated successfully.</b>
+  <b>{t}Thank you, the issue was updated successfully.{/t}</b>
 {/if}
 
 {if $unassign_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $unassign_result == -2}
-  <b>Error: the issue is already unassigned.</b>
+  <b>{t}Error: the issue is already unassigned.{/t}</b>
 {elseif $unassign_result == 1}
-  <b>Thank you, the issue was unassigned successfully.</b>
+  <b>{t}Thank you, the issue was unassigned successfully.{/t}</b>
 {/if}
 
 {if $authorize_reply_result == -1}
-  <b>Error: you are already authorized to send emails in this issue.</b>
+  <b>{t}Error: you are already authorized to send emails in this issue.{/t}</b>
 {elseif $authorize_reply_result == 1}
-  <b>Thank you, you are now authorized to send emails in this issue.</b>
+  <b>{t}Thank you, you are now authorized to send emails in this issue.{/t}</b>
 {/if}
 
 {if $remove_quarantine_result == -1}
-    <b>An error occurred while trying to run your query</b>
+    <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $remove_quarantine_result == 1}
-  <b>Thank you, this issue was removed from quarantine.</b>
+  <b>{t}Thank you, this issue was removed from quarantine.{/t}</b>
 {/if}
     
   </span>
@@ -159,7 +159,7 @@ setTimeout('closeAndRefresh()', 2000);
 <br />
 {if not $current_user_prefs.close_popup_windows}
 <center>
-  <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+  <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
 </center>
 {/if}
 

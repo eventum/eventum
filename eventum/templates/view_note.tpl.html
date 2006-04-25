@@ -5,10 +5,10 @@
 <table width="100%" align="center">
   <tr>
     <td align="center">
-      &nbsp;<span class="default"><b>The specified note does not exist. <br />
-      It could have been converted to an email.</b>
+      &nbsp;<span class="default"><b>{t}The specified note does not exist.{/t} <br />
+      {t}It could have been converted to an email.{/t}</b>
       <br /><br />
-      &nbsp;<a class="link" href="javascript:self.close();">Close</a></span>
+      &nbsp;<a class="link" href="javascript:self.close();">{t}Close{/t}</a></span>
     </td>
   </tr>
 </table>
@@ -42,7 +42,7 @@ function viewNote(id)
       <table width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default">
-            <b>View Note Details{if $issue_id} (Associated with Issue #{$issue_id}){/if}</b>
+            <b>{t}View Note Details{/t}{if $issue_id} ({t}Associated with Issue{/t} #{$issue_id}){/if}</b>
           </td>
         </tr>
         {if $next != "" || $previous != ""}
@@ -52,12 +52,12 @@ function viewNote(id)
               <tr>
                 <td>
                   {if $previous != ""}
-                  <input class="button" type="button" value="&lt;&lt; Previous Note" onClick="javascript:viewNote({$previous});">
+                  <input class="button" type="button" value="&lt;&lt; {t}Previous Note{/t}" onClick="javascript:viewNote({$previous});">
                   {/if}
                 </td>
                 <td align="right">
                   {if $next != ""}
-                  <input class="button" type="button" value="Next Note &gt;&gt;" onClick="javascript:viewNote({$next});">
+                  <input class="button" type="button" value="{t}Next Note{/t} &gt;&gt;" onClick="javascript:viewNote({$next});">
                   {/if}
                 </td>
               </tr>
@@ -67,7 +67,7 @@ function viewNote(id)
         {/if}
         <tr>
           <td width="120" bgcolor="{$internal_color}" class="default_white">
-            <b>Posted Date:</b>
+            <b>{t}Posted Date:{/t}</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
             {$note.not_created_date}
@@ -75,7 +75,7 @@ function viewNote(id)
         </tr>
         <tr>
           <td width="120" bgcolor="{$internal_color}" class="default_white">
-            <b>From:</b>
+            <b>{t}From:{/t}</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
             {$note.not_from|escape:"html"}
@@ -83,7 +83,7 @@ function viewNote(id)
         </tr>
         <tr>
           <td width="120" bgcolor="{$internal_color}" class="default_white">
-            <b>Title:</b>
+            <b>{t}Title:{/t}</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
             {$note.not_title|default:"<Empty Title>"|escape:"html"}
@@ -92,12 +92,12 @@ function viewNote(id)
         {if $note.attachments}
         <tr>
           <td width="120" bgcolor="{$internal_color}" class="default_white">
-            <b>Attachments:</b>
+            <b>{t}Attachments:{/t}</b>
           </td>
           <td bgcolor="{$dark_color}" class="default">
             {section name="i" loop=$note.attachments}
-            <a title="download file" class="link" href="get_attachment.php?cat=blocked_email&note_id={$note.not_id}&filename={$note.attachments[i].filename}{if $note.attachments[i].cid}&cid={$note.attachments[i].cid|escape:"html"}{/if}"><img src="{$rel_url}images/attachment.gif" border="0"></a>
-            <a title="download file" class="link" href="get_attachment.php?cat=blocked_email&note_id={$note.not_id}&filename={$note.attachments[i].filename}{if $note.attachments[i].cid}&cid={$note.attachments[i].cid|escape:"html"}{/if}">{$note.attachments[i].filename}</a><br />
+            <a title="{t}download file{/t}" class="link" href="get_attachment.php?cat=blocked_email&note_id={$note.not_id}&filename={$note.attachments[i].filename}{if $note.attachments[i].cid}&cid={$note.attachments[i].cid|escape:"html"}{/if}"><img src="{$rel_url}images/attachment.gif" border="0"></a>
+            <a title="{t}download file{/t}" class="link" href="get_attachment.php?cat=blocked_email&note_id={$note.not_id}&filename={$note.attachments[i].filename}{if $note.attachments[i].cid}&cid={$note.attachments[i].cid|escape:"html"}{/if}">{$note.attachments[i].filename}</a><br />
             {/section}
           </td>
         </tr>
@@ -107,12 +107,12 @@ function viewNote(id)
             <table width="100%">
               <tr>
                 <td>
-                  <span class="default_white"><b>Message:</b></span>
-                  <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="javascript:displayFixedWidth('email_message');">display in fixed width font</a>)</span>
+                  <span class="default_white"><b>{t}Message:{/t}</b></span>
+                  <span class="small_default_white">(<a class="white_link" href="javascript:void(null);" onClick="javascript:displayFixedWidth('email_message');">{t}display in fixed width font{/t}</a>)</span>
                 </td>
                 <td align="right" class="default_white">
                   {if $note.has_blocked_message}
-                  <a class="white_link" href="javascript:void(null);" onClick="javascript:openRawHeaders();">Blocked Message Raw Headers</a>
+                  <a class="white_link" href="javascript:void(null);" onClick="javascript:openRawHeaders();">{t}Blocked Message Raw Headers{/t}</a>
                   {/if}
                 </td>
               </tr>
@@ -126,8 +126,8 @@ function viewNote(id)
         </tr>
         <tr>
           <td colspan="2" bgcolor="{$internal_color}" align="center">
-            <input class="button" type="button" value="Reply" onClick="javascript:reply({$smarty.get.id}, {$issue_id});">&nbsp;&nbsp;
-            <input class="button" type="button" value="Close" onClick="javascript:window.close();">
+            <input class="button" type="button" value="{t}Reply{/t}" onClick="javascript:reply({$smarty.get.id}, {$issue_id});">&nbsp;&nbsp;
+            <input class="button" type="button" value="{t}Close{/t}" onClick="javascript:window.close();">
           </td>
         </tr>
         {if $next != "" || $previous != ""}
@@ -137,12 +137,12 @@ function viewNote(id)
               <tr>
                 <td>
                   {if $previous != ""}
-                  <input class="button" type="button" value="&lt;&lt; Previous Note" onClick="javascript:viewNote({$previous});">
+                  <input class="button" type="button" value="&lt;&lt; {t}Previous Note{/t}" onClick="javascript:viewNote({$previous});">
                   {/if}
                 </td>
                 <td align="right">
                   {if $next != ""}
-                  <input class="button" type="button" value="Next Note &gt;&gt;" onClick="javascript:viewNote({$next});">
+                  <input class="button" type="button" value="{t}Next Note{/t} &gt;&gt;" onClick="javascript:viewNote({$next});">
                   {/if}
                 </td>
               </tr>

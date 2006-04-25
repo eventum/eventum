@@ -6,18 +6,18 @@
             <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
                 <td>
-                  <span class="default"><b>News and Announcements</b></span>
+                  <span class="default"><b>{t}News and Announcements{/t}</b></span>
                 </td>
               </tr>
               <tr>
                 <td bgcolor="{$light_color}" class="default">
                   {section name="i" loop=$news}
-                  <b>{$news[i].nws_created_date} - <a href="news.php?id={$news[i].nws_id}" class="link" title="full news entry">{$news[i].nws_title}</a></b>
+                  <b>{$news[i].nws_created_date} - <a href="news.php?id={$news[i].nws_id}" class="link" title="{t}full news entry{/t}">{$news[i].nws_title}</a></b>
                   <br /><br />
                   {$news[i].nws_message|activateLinks:"links"}
                   <br /><br />
                   {/section}
-                  <a href="news.php" class="link">Read All Notices</a>
+                  <a href="news.php" class="link">{t}Read All Notices{/t}</a>
                 </td>
               </tr>
             </table>

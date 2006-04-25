@@ -100,27 +100,27 @@ function validateForm(f)
         <input type="hidden" name="hidden1" value="">
         <tr>
           <td>
-            <span class="default">Subject/Body:</span><br />
+            <span class="default">{t}Subject/Body:{/t}</span><br />
             <input class="default" type="text" name="keywords" size="20" value="{$options.keywords|escape:"html"}">
           </td>
           <td>
-            <span class="default">Sender:</span><br />
+            <span class="default">{t}Sender:{/t}</span><br />
             <input class="default" type="text" name="sender" size="20" value="{$options.sender|escape:"html"}">
           </td>
           <td>
-            <span class="default">To:</span><br />
+            <span class="default">{t}To:{/t}</span><br />
             <input class="default" type="text" name="to" size="20" value="{$options.to|escape:"html"}">
           </td>
           <td>
-            <span class="default">Email Account:</span><br />
+            <span class="default">{t}Email Account:{/t}</span><br />
             <select name="ema_id" class="default">
-              <option value="">any</option>
+              <option value="">{t}any{/t}</option>
               {html_options options=$accounts selected=$options.ema_id}
             </select>
           </td>
           <td>
-            <input class="button" type="submit" value="Search">
-            <input class="button" type="button" value="Clear" onClick="javascript:clearFilters(this.form);">
+            <input class="button" type="submit" value="{t}Search{/t}">
+            <input class="button" type="button" value="{t}Clear{/t}" onClick="javascript:clearFilters(this.form);">
           </td>
         </tr>
         <tr>
@@ -129,11 +129,11 @@ function validateForm(f)
               <tr>
                 <td nowrap width="50%">
                   <input {if $options.filter.arrival_date == "yes"}checked{/if} type="checkbox" name="filter[arrival_date]" value="yes" onClick="javascript:toggleDateFields(this.form, 'arrival_date');">
-                  <span class="default"><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('email_filter_form', 'filter[arrival_date]');toggleDateFields(getForm('email_filter_form'), 'arrival_date');">Filter by Arrival Date:</a></span><br />
+                  <span class="default"><a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('email_filter_form', 'filter[arrival_date]');toggleDateFields(getForm('email_filter_form'), 'arrival_date');">{t}Filter by Arrival Date:{/t}</a></span><br />
                   <select name="arrival_date[filter_type]" class="default" onChange="javascript:checkDateFilterType(this.form, this);">
-                    <option {if $options.arrival_date.filter_type == "greater"}selected{/if} value="greater">Greater Than</option>
-                    <option {if $options.arrival_date.filter_type == "less"}selected{/if} value="less">Less Than</option>
-                    <option {if $options.arrival_date.filter_type == "between"}selected{/if} value="between">Between</option>
+                    <option {if $options.arrival_date.filter_type == "greater"}selected{/if} value="greater">{t}Greater Than{/t}</option>
+                    <option {if $options.arrival_date.filter_type == "less"}selected{/if} value="less">{t}Less Than{/t}</option>
+                    <option {if $options.arrival_date.filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
                   </select>&nbsp;
                   {html_select_date field_array="arrival_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
@@ -145,7 +145,7 @@ function validateForm(f)
                   </script>&nbsp;&nbsp;
                 </td>
                 <td nowrap id="arrival_date1" width="50%" valign="bottom">
-                  <span class="default">Arrival Date: <i>(End date)</i></span><br />
+                  <span class="default">{t}Arrival Date:{/t} <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="arrival_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
                   <script language="JavaScript" type="text/javascript">
                   <!--

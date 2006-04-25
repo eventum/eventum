@@ -67,7 +67,7 @@ function clearFilters(f)
   <input type="hidden" name="show_notification_list_issues" value="{$options.show_notification_list_issues}">
   <tr>
     <td class="default">
-      <span style="font-size: 25px; color: black; font-weight: bold;">Quick Search</span>
+      <span style="font-size: 25px; color: black; font-weight: bold;">{t}Quick Search{/t}</span>
     </td>
   </tr>
 </table>
@@ -75,24 +75,24 @@ function clearFilters(f)
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
   <tr>
     <td>
-      <span class="default">Keyword(s):</span><br />
+      <span class="default">{t}Keyword(s):{/t}</span><br />
       <input class="default" type="text" name="keywords" size="15" value="{$options.keywords|escape:"html"}">
     </td>
   </tr>
   <tr>
     <td>
-      <span class="default">Assigned:</span><br />
+      <span class="default">{t}Assigned:{/t}</span><br />
       <select name="users" class="default">
-        <option value="">any</option>
+        <option value="">{t}any{/t}</option>
         {html_options options=$users selected=$options.users}
       </select>
     </td>
   </tr>
   <tr>
     <td>
-      <span class="default">Status:</span><br />
+      <span class="default">{t}Status:{/t}</span><br />
       <select name="status" class="default">
-        <option value="">any</option>
+        <option value="">{t}any{/t}</option>
         {foreach key=sta_id item=sta_title from=$status}
         <option value="{$sta_id}" {if $sta_id == $options.status}selected{/if}>{$sta_title}</option>
         {/foreach}
@@ -101,18 +101,18 @@ function clearFilters(f)
   </tr>
   <tr>
     <td>
-      <span class="default">Category:</span><br />
+      <span class="default">{t}Category:{/t}</span><br />
       <select name="category" class="default">
-        <option value="">any</option>
+        <option value="">{t}any{/t}</option>
         {html_options options=$categories selected=$options.category}
       </select>
     </td>
   </tr>
   <tr>
     <td>
-      <span class="default">Priority:</span><br />
+      <span class="default">{t}Priority:{/t}</span><br />
       <select name="priority" class="default">
-        <option value="">any</option>
+        <option value="">{t}any{/t}</option>
         {section name="i" loop=$priorities}
         <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.priority}selected{/if}>{$priorities[i].pri_title}</option>
         {/section}
@@ -121,8 +121,8 @@ function clearFilters(f)
   </tr>
   <tr>
     <td>
-      <input class="button" type="submit" value="Search">
-      <input class="button" type="button" value="Clear" onClick="javascript:clearFilters(this.form);">
+      <input class="button" type="submit" value="{t}Search{/t}">
+      <input class="button" type="button" value="{t}Clear{/t}" onClick="javascript:clearFilters(this.form);">
     </td>
   </tr>
   </form>
