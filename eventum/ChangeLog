@@ -3,6 +3,7 @@ Eventum Issue Tracking System
 
 ???, Version ???
 - Fixed bug with user recieving an update email when they updated the issue (Bryan)
+- Fixed bug with inserting attachment from email with an apostrophe in the email name (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

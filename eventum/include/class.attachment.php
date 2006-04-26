@@ -25,7 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-//
 
 
 include_once(APP_INC_PATH . "class.error_handler.php");
@@ -43,7 +42,6 @@ include_once(APP_INC_PATH . "class.workflow.php");
  * uploaded to issues in the application.
  *
  * @author  João Prado Maia <jpm@mysql.com>
- * @version $Revision: 1.28 $
  */
 class Attachment
 {
@@ -559,12 +557,12 @@ class Attachment
                     '" . Misc::escapeString($description) . "',
                     '" . Misc::escapeString($attachment_status) . "'";
         if ($unknown_user != false) {
-            $stmt .= ", '$unknown_user'";
+            $stmt .= ", '" . Misc::escapeString($unknown_user) . "'";
         }
         if ($associated_note_id != false) {
-            $stmt .= ", $associated_note_id ";
+            $stmt .= ", " . Misc::escapeInteger($associated_note_id);
         }
-        $stmt .= ")";
+        $stmt .= " )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
