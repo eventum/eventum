@@ -9,10 +9,10 @@
               function validateForm(f)
               {
                   if (hasSelected(f.type, -1)) {
-                      errors[errors.length] = new Option('Action Type', 'type');
+                      errors[errors.length] = new Option('{/literal}{t}Action Type{/t}{literal}', 'type');
                   }
                   if (isWhitespace(f.rank.value)) {
-                      errors[errors.length] = new Option('Rank', 'rank');
+                      errors[errors.length] = new Option('{/literal}{t}Rank{/t}{literal}', 'rank');
                   }
                   // hack to make the multiple select box actually submit something
                   selectAllOptions(f, 'user_list[]');
@@ -34,10 +34,10 @@
                   <table width="100%" cellspacing="0" cellpadding="0">
                     <tr>
                       <td align="left" class="default">
-                        <b>Manage Reminder Actions</b>
+                        <b>{t}Manage Reminder Actions{/t}</b>
                       </td>
                       <td align="right" class="default">
-                        (<a href="reminders.php?cat=edit&id={$rem_id}" class="link" title="view reminder details">Reminder #{$rem_id}: {$rem_title}</a>)
+                        (<a href="reminders.php?cat=edit&id={$rem_id}" class="link" title="{t}view reminder details{/t}">Reminder #{$rem_id}: {$rem_title}</a>)
                       </td>
                     </tr>
                   </table>
@@ -48,19 +48,19 @@
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
-                      An error occurred while trying to add the new action.
+                      {t}An error occurred while trying to add the new action.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this new action.
+                      {t}Please enter the title for this new action.{/t}
                     {elseif $result == 1}
-                      Thank you, the action was added successfully.
+                      {t}Thank you, the action was added successfully.{/t}
                     {/if}
                   {elseif $smarty.post.cat == "update"}
                     {if $result == -1}
-                      An error occurred while trying to update the action information.
+                      {t}An error occurred while trying to update the action information.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this action.
+                      {t}Please enter the title for this action.{/t}
                     {elseif $result == 1}
-                      Thank you, the action was updated successfully.
+                      {t}Thank you, the action was updated successfully.{/t}
                     {/if}
                   {/if}
                 </td>
@@ -68,7 +68,7 @@
               {/if}
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Title:</b>
+                  <b>{t}Title:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" size="50" name="title" class="default" value="{$info.rma_title|escape:"html"}">
@@ -117,11 +117,11 @@
               {/literal}
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Action Type:</b>
+                  <b>{t}Action Type:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="type" class="default" onChange="javascript:checkActionType(this.form);">
-                    <option value="-1">Please choose an option</option>
+                    <option value="-1">{t}Please choose an option{/t}</option>
                     {html_options options=$action_types selected=$info.rma_rmt_id}
                   </select>
                   {include file="error_icon.tpl.html" field="type"}
@@ -130,7 +130,7 @@
                     <tr>
                       <td><input class="default" type="text" name="email_address"></td>
                       <td>&nbsp;</td>
-                      <td class="default_white" valign="bottom"><b>Email List:</b></td>
+                      <td class="default_white" valign="bottom"><b>{t}Email List:{/t}</b></td>
                     </tr>
                     <tr>
                       <td>
@@ -139,9 +139,9 @@
                         </select>
                       </td>
                       <td>
-                        <input class="shortcut" type="button" value="Add &gt;&gt;" onClick="javascript:addUserList(this.form);">
+                        <input class="shortcut" type="button" value="{t}Add{/t} &gt;&gt;" onClick="javascript:addUserList(this.form);">
                         <br /><br />
-                        <input class="shortcut" type="button" value="Remove" onClick="javascript:removeUserList(this.form);">
+                        <input class="shortcut" type="button" value="{t}Remove{/t}" onClick="javascript:removeUserList(this.form);">
                       </td>
                       <td>
                         <select class="default" name="user_list[]" multiple size="4">
@@ -155,60 +155,60 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Rank:</b>
+                  <b>{t}Rank:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" size="5" class="default" name="rank" value="{$info.rma_rank}">
                   {include file="error_icon.tpl.html" field="rank"}
-                  <span class="small_default"><i>(this will determine the order in which actions are triggered)</i></span>
+                  <span class="small_default"><i>({t}this will determine the order in which actions are triggered{/t})</i></span>
                 </td>
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Alert Group Leader:</b>
+                  <b>{t}Alert Group Leader:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
                   <input type="radio" name="alert_group_leader" value="1" {if $info.rma_alert_group_leader}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_group_leader', 0);">Yes</a>&nbsp;&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_group_leader', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="alert_group_leader" value="0" {if not $info.rma_alert_group_leader}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_group_leader', 1);">No</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_group_leader', 1);">{t}No{/t}</a>
                 </td>
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Alert IRC:</b>
+                  <b>{t}Alert IRC:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
                   <input type="radio" name="alert_irc" value="1" {if $info.rma_alert_irc}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_irc', 0);">Yes</a>&nbsp;&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_irc', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="alert_irc" value="0" {if not $info.rma_alert_irc}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_irc', 1);">No</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('reminder_form', 'alert_irc', 1);">{t}No{/t}</a>
                 </td>
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Boilerplate:</b>
+                  <b>{t}Boilerplate:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" size="40" class="default" name="boilerplate" value="{$info.rma_boilerplate}">
                   {include file="error_icon.tpl.html" field="boilerplate"}
-                  <span class="small_default"><i>(this will show up on the bottom of the reminder messages)</i></span>
+                  <span class="small_default"><i>({t}this will show up on the bottom of the reminder messages{/t})</i></span>
                 </td>
               </tr>
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="Update Action">
+                  <input class="button" type="submit" value="{t}Update Action{/t}">
                   {else}
-                  <input class="button" type="submit" value="Add Action">
+                  <input class="button" type="submit" value="{t}Add Action{/t}">
                   {/if}
-                  <input class="button" type="reset" value="Reset">
+                  <input class="button" type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
                 <td colspan="2" class="default">
-                  <b>Existing Actions:</b> (<a href="reminders.php?cat=edit&id={$rem_id}" class="link">Back to Reminder List</a>)
+                  <b>{t}Existing Actions:{/t}</b> (<a href="reminders.php?cat=edit&id={$rem_id}" class="link">{t}Back to Reminder List{/t}</a>)
                 </td>
               </tr>
               <tr>
@@ -219,10 +219,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('Please select at least one of the actions.');
+                          alert('{/literal}{t}Please select at least one of the actions.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('This action will remove the selected entries.')) {
+                      if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;
@@ -237,10 +237,10 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>Rank</b>&nbsp;</td>
-                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
-                      <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Type</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Details</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
+                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Type{/t}</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Details{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -266,16 +266,16 @@
                     {sectionelse}
                     <tr>
                       <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
-                        <i>No actions could be found.</i>
+                        <i>{t}No actions could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
                       <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="4" bgcolor="{$cell_color}" align="center">
-                        <input type="submit" value="Delete" class="button">
+                        <input type="submit" value="{t}Delete{/t}" class="button">
                       </td>
                     </tr>
                     </form>

@@ -509,7 +509,7 @@ function collapseDescription()
                 </td>
                 <td width="50%" align="right">
                   {if $statuses != ''}
-                  <input type="button" value="{t}Change Status To &gt;{/t}" class="button" onClick="javascript:changeIssueStatus(this.form, '{$issue.iss_id}', '{$issue.iss_sta_id}');">
+                  <input type="button" value="{t}Change Status To{/t} &gt;" class="button" onClick="javascript:changeIssueStatus(this.form, '{$issue.iss_id}', '{$issue.iss_sta_id}');">
                   <select class="default" name="new_status">
                     {html_options options=$statuses selected=$issue.iss_sta_id}
                   </select>

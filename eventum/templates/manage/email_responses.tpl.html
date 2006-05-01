@@ -9,7 +9,7 @@
               function validateForm(f)
               {
                   if (isWhitespace(f.title.value)) {
-                      alert('Please enter the title of this email response.');
+                      alert('{/literal}{t}Please enter the title of this email response.{/t}{literal}');
                       selectField(f, 'title');
                       return false;
                   }
@@ -27,7 +27,7 @@
               {/if}
               <tr>
                 <td colspan="2" class="default">
-                  <b>Manage Canned Email Responses</b>
+                  <b>{t}Manage Canned Email Responses{/t}</b>
                 </td>
               </tr>
               {if $result != ""}
@@ -35,19 +35,19 @@
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
-                      An error occurred while trying to add the new email response.
+                      {t}An error occurred while trying to add the new email response.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this new email response.
+                      {t}Please enter the title for this new email response.{/t}
                     {elseif $result == 1}
-                      Thank you, the email response was added successfully.
+                      {t}Thank you, the email response was added successfully.{/t}
                     {/if}
                   {elseif $smarty.post.cat == "update"}
                     {if $result == -1}
-                      An error occurred while trying to update the email response information.
+                      {t}An error occurred while trying to update the email response information.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this email response.
+                      {t}Please enter the title for this email response.{/t}
                     {elseif $result == 1}
-                      Thank you, the email response was updated successfully.
+                      {t}Thank you, the email response was updated successfully.{/t}
                     {/if}
                   {/if}
                 </td>
@@ -55,7 +55,7 @@
               {/if}
               <tr>
                 <td width="140" bgcolor="{$cell_color}" class="default_white">
-                  <b>Projects:</b>
+                  <b>{t}Projects:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}" width="80%">
                   <select name="projects[]" multiple size="4" class="default">
@@ -66,7 +66,7 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Title:</b>
+                  <b>{t}Title:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" name="title" size="40" class="default" value="{$info.ere_title|escape:"html"}">
@@ -75,7 +75,7 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Response Body:</b>
+                  <b>{t}Response Body:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <textarea name="response_body" cols="50" rows="10">{$info.ere_response_body|escape:"html"}</textarea>
@@ -85,17 +85,17 @@
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="Update Email Response">
+                  <input class="button" type="submit" value="{t}Update Email Response{/t}">
                   {else}
-                  <input class="button" type="submit" value="Create Email Response">
+                  <input class="button" type="submit" value="{t}Create Email Response{/t}">
                   {/if}
-                  <input class="button" type="reset" value="Reset">
+                  <input class="button" type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
                 <td colspan="2" class="default">
-                  <b>Existing Canned Email Responses:</b>
+                  <b>{t}Existing Canned Email Responses:{/t}</b>
                 </td>
               </tr>
               <tr>
@@ -106,10 +106,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('Please select at least one of the email responses.');
+                          alert('{/literal}{t}Please select at least one of the email responses.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('This action will remove the selected entries.')) {
+                      if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;
@@ -123,15 +123,15 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="60%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
-                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Projects</b></td>
+                      <td width="60%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Projects{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].ere_id}"></td>
                       <td width="60%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ere_id}" title="update this entry">{$list[i].ere_title}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ere_id}" title="{t}update this entry{/t}">{$list[i].ere_title}</a>
                       </td>
                       <td width="40%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].projects|escape:"html"}
@@ -140,16 +140,16 @@
                     {sectionelse}
                     <tr>
                       <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
-                        <i>No canned email responses could be found.</i>
+                        <i>{t}No canned email responses could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
                       <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="2" bgcolor="{$cell_color}" align="center">
-                        <input type="submit" value="Delete" class="button">
+                        <input type="submit" value="{t}Delete{/t}" class="button">
                       </td>
                     </tr>
                     </form>

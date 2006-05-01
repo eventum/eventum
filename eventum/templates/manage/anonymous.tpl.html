@@ -11,31 +11,31 @@
                   var field1 = getFormElement(f, 'anonymous_post', 0);
                   var field2 = getFormElement(f, 'anonymous_post', 1);
                   if ((!field1.checked) && (!field2.checked)) {
-                      alert('Please choose whether the anonymous posting feature should be allowed or not for this project');
+                      alert('{/literal}{t}Please choose whether the anonymous posting feature should be allowed or not for this project{/t}{literal}');
                       return false;
                   }
                   if (field1.checked) {
                       var field = getFormElement(f, 'options[show_custom_fields]');
                       if (field.selectedIndex == 0) {
-                          alert('Please choose whether to show custom fields for remote invocations or not.');
+                          alert('{/literal}{t}Please choose whether to show custom fields for remote invocations or not.{/t}{literal}');
                           selectField(f, 'options[show_custom_fields]');
                           return false;
                       }
                       field = getFormElement(f, 'options[reporter]');
                       if (field.selectedIndex == 0) {
-                          alert('Please choose the reporter for remote invocations.');
+                          alert('{/literal}{t}Please choose the reporter for remote invocations.{/t}{literal}');
                           selectField(f, 'options[reporter]');
                           return false;
                       }
                       field = getFormElement(f, 'options[category]');
                       if (field.selectedIndex == 0) {
-                          alert('Please choose the default category for remote invocations.');
+                          alert('{/literal}{t}Please choose the default category for remote invocations.{/t}{literal}');
                           selectField(f, 'options[category]');
                           return false;
                       }
                       field = getFormElement(f, 'options[priority]');
                       if (field.selectedIndex == 0) {
-                          alert('Please choose the default priority for remote invocations.');
+                          alert('{/literal}{t}Please choose the default priority for remote invocations.{/t}{literal}');
                           selectField(f, 'options[priority]');
                           return false;
                       }
@@ -43,7 +43,7 @@
                     {if $allow_unassigned_issues != 'yes'}
              {literal}
                       if (!hasOneSelected(f, 'options[users][]')) {
-                          alert('Please choose at least one person to assign the new issues created remotely.');
+                          alert('{/literal}{t}Please choose at least one person to assign the new issues created remotely.{/t}{literal}');
                           selectField(f, 'options[users][]');
                           return false;
                       }
@@ -85,8 +85,8 @@
                 <td colspan="2" class="default">
                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                      <td class="default"><b>Anonymous Reporting of New Issues</b></td>
-                      <td align="right" class="default">(Current Project: {$project.prj_title})</td>
+                      <td class="default"><b>{t}Anonymous Reporting of New Issues{/t}</b></td>
+                      <td align="right" class="default">({t}Current Project:{/t} {$project.prj_title})</td>
                     </tr>
                   </table>
                 </td>
@@ -95,42 +95,42 @@
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $result == -1}
-                    An error occurred while trying to update the information.
+                    {t}An error occurred while trying to update the information.{/t}
                   {elseif $result == 1}
-                    Thank you, the information was updated successfully.
+                    {t}Thank you, the information was updated successfully.{/t}
                   {/if}
                 </td>
               </tr>
               {/if}
               <tr>
                 <td width="130" nowrap bgcolor="{$cell_color}" class="default_white">
-                  <b>Anonymous Reporting: *</b>
+                  <b>{t}Anonymous Reporting:{/t} *</b>
                 </td>
                 <td width="80%" bgcolor="{$light_color}" class="default">
                   <input type="radio" name="anonymous_post" value="enabled" {if $project.prj_anonymous_post == 'enabled'}checked{/if} onClick="javascript:disableFields(getForm('anon_form'), false);"> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'anonymous_post', 0);disableFields(getForm('anon_form'), false);">Enabled</a>&nbsp;&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'anonymous_post', 0);disableFields(getForm('anon_form'), false);">{t}Enabled{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="anonymous_post" value="disabled" {if $project.prj_anonymous_post == 'disabled'}checked{/if} onClick="javascript:disableFields(getForm('anon_form'), true);"> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'anonymous_post', 1);disableFields(getForm('anon_form'), true);">Disabled</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'anonymous_post', 1);disableFields(getForm('anon_form'), true);">{t}Disabled{/t}</a>
                 </td>
               </tr>
               <tr>
                 <td width="130" nowrap bgcolor="{$cell_color}" class="default_white">
-                  <b>Show Custom Fields ? *</b>
+                  <b>{t}Show Custom Fields ?{/t} *</b>
                 </td>
                 <td width="80%" bgcolor="{$light_color}" class="default">
                   <input type="radio" name="options[show_custom_fields]" value="yes" {if $options.show_custom_fields == 'yes'}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'options[show_custom_fields]', 0);">Enabled</a>&nbsp;&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'options[show_custom_fields]', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="options[show_custom_fields]" value="no" {if $options.show_custom_fields == 'no'}checked{/if}> 
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'options[show_custom_fields]', 1);">Disabled</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('anon_form', 'options[show_custom_fields]', 1);">{t}Disabled{/t}</a>
                 </td>
               </tr>
               <tr>
                 <td width="130" bgcolor="{$cell_color}" class="default_white">
-                  <b>Reporter: *</b>
+                  <b>{t}Reporter:{/t} *</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="options[reporter]" class="default" tabindex="1">
-                    <option value="-1">Please choose an user</option>
+                    <option value="-1">{t}Please choose an user{/t}</option>
                     {html_options options=$users selected=$options.reporter}
                   </select>
                   {include file="error_icon.tpl.html" field="options[reporter]"}
@@ -138,11 +138,11 @@
               </tr>
               <tr>
                 <td width="130" bgcolor="{$cell_color}" class="default_white">
-                  <b>Default Category: *</b>
+                  <b>{t}Default Category:{/t} *</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="options[category]" class="default" tabindex="2">
-                    <option value="-1">Please choose a category</option>
+                    <option value="-1">{t}Please choose a category{/t}</option>
                     {html_options options=$cats selected=$options.category}
                   </select>
                   {include file="error_icon.tpl.html" field="options[category]"}
@@ -150,11 +150,11 @@
               </tr>
               <tr>
                 <td width="130" bgcolor="{$cell_color}" class="default_white">
-                  <b>Default Priority: *</b>
+                  <b>{t}Default Priority:{/t} *</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="options[priority]" class="default" tabindex="3">
-                    <option value="-1">Please choose a priority</option>
+                    <option value="-1">{t}Please choose a priority{/t}</option>
                     {section name="i" loop=$priorities}
                     <option value="{$priorities[i].pri_id}" {if $priorities[i].pri_id == $options.priority}selected{/if}>{$priorities[i].pri_title}</option>
                     {/section}
@@ -164,7 +164,7 @@
               </tr>
               <tr>
                 <td width="150" bgcolor="{$cell_color}" class="default_white">
-                  <b>Assignment:{if $allow_unassigned_issues != 'yes'} *{/if}</b>
+                  <b>{t}Assignment:{/t}{if $allow_unassigned_issues != 'yes'} *{/if}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="options[users][]" multiple size="3" class="default" tabindex="4">
@@ -175,8 +175,8 @@
               </tr>
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
-                  <input class="button" type="submit" value="Update Setup">
-                  <input class="button" type="reset" value="Reset">
+                  <input class="button" type="submit" value="{t}Update Setup{/t}">
+                  <input class="button" type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>

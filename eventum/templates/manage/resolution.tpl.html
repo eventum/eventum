@@ -9,7 +9,7 @@
               function validateForm(f)
               {
                   if (isWhitespace(f.title.value)) {
-                      alert('Please enter the title of this resolution.');
+                      alert('{/literal}{t}Please enter the title of this resolution.{/t}{literal}');
                       selectField(f, 'title');
                       return false;
                   }
@@ -27,7 +27,7 @@
               {/if}
               <tr>
                 <td colspan="2" class="default">
-                  <b>Manage Issue Resolutions</b>
+                  <b>{t}Manage Issue Resolutions{/t}</b>
                 </td>
               </tr>
               {if $result != ""}
@@ -35,19 +35,19 @@
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
-                      An error occurred while trying to add the new issue resolution.
+                      {t}An error occurred while trying to add the new issue resolution.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this new issue resolution.
+                      {t}Please enter the title for this new issue resolution.{/t}
                     {elseif $result == 1}
-                      Thank you, the issue resolution was added successfully.
+                      {t}Thank you, the issue resolution was added successfully.{/t}
                     {/if}
                   {elseif $smarty.post.cat == "update"}
                     {if $result == -1}
-                      An error occurred while trying to update the issue resolution information.
+                      {t}An error occurred while trying to update the issue resolution information.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this issue resolution.
+                      {t}Please enter the title for this issue resolution.{/t}
                     {elseif $result == 1}
-                      Thank you, the issue resolution was updated successfully.
+                      {t}Thank you, the issue resolution was updated successfully.{/t}
                     {/if}
                   {/if}
                 </td>
@@ -55,7 +55,7 @@
               {/if}
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Title:</b>
+                  <b>{t}Title:{/t}</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" name="title" size="40" class="default" value="{$info.res_title}">
@@ -65,17 +65,17 @@
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="Update Resolution">
+                  <input class="button" type="submit" value="{t}Update Resolution{/t}">
                   {else}
-                  <input class="button" type="submit" value="Create Resolution">
+                  <input class="button" type="submit" value="{t}Create Resolution{/t}">
                   {/if}
-                  <input class="button" type="reset" value="Reset">
+                  <input class="button" type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
                 <td colspan="2" class="default">
-                  <b>Existing Resolutions:</b>
+                  <b>{t}Existing Resolutions:{/t}</b>
                 </td>
               </tr>
               <tr>
@@ -86,10 +86,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('Please select at least one of the resolutions.');
+                          alert('{/literal}{t}Please select at least one of the resolutions.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('This action will remove the selected entries.')) {
+                      if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;
@@ -102,30 +102,30 @@
                     <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="100%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="100%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].res_id}"></td>
                       <td width="100%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].res_id}" title="update this entry">{$list[i].res_title}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].res_id}" title="{t}update this entry{/t}">{$list[i].res_title}</a>
                       </td>
                     </tr>
                     {sectionelse}
                     <tr>
                       <td colspan="2" bgcolor="{$light_color}" align="center" class="default">
-                        <i>No resolutions could be found.</i>
+                        <i>{t}No resolutions could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
                       <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td bgcolor="{$cell_color}" align="center">
-                        <input type="submit" value="Delete" class="button">
+                        <input type="submit" value="{t}Delete{/t}" class="button">
                       </td>
                     </tr>
                     </form>
