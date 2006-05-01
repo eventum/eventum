@@ -41,7 +41,8 @@ function smarty_block_textformat($params, $content, &$smarty)
     $wrap_char = "\n";
     $wrap_cut = false;
     $assign = null;
-    
+    $strip = true;
+
     foreach ($params as $_key => $_val) {
         switch ($_key) {
             case 'style':
@@ -58,6 +59,7 @@ function smarty_block_textformat($params, $content, &$smarty)
                 break;
 
             case 'wrap_cut':
+            case 'strip':
                 $$_key = (bool)$_val;
                 break;
 
@@ -68,6 +70,7 @@ function smarty_block_textformat($params, $content, &$smarty)
 
     if ($style == 'email') {
         $wrap = 72;
+        $strip = false;
     }
 
     // split into paragraphs
@@ -79,7 +82,9 @@ function smarty_block_textformat($params, $content, &$smarty)
             continue;
         }
         // convert mult. spaces & special chars to single space
-        $paragraph = preg_replace(array('!\s+!','!(^\s+)|(\s+$)!'),array(' ',''),$paragraph);
+        if ($strip) {
+            $paragraph = preg_replace(array('!\s+!','!(^\s+)|(\s+$)!'),array(' ',''),$paragraph);
+        }
         // indent first line
         if($indent_first > 0) {
             $paragraph = str_repeat($indent_char,$indent_first) . $paragraph;
