@@ -1,11 +1,11 @@
-Your user account has been updated in {$app_title}. 
+{t 1=$app_title}Your user account has been updated in %1{/t}.
 
-Your account information as it now exists appears below.
-    
+{t}Your account information as it now exists appears below.{/t}
+
 ----------------------------------------------------------------------
-        Full Name: {$user.usr_full_name}
-    Email Address: {$user.usr_email} 
-Assigned Projects: {foreach from=$user.projects item=project name=project}
+        {t}Full Name{/t}: {$user.usr_full_name}
+    {t}Email Address{/t}: {$user.usr_email}
+{t}Assigned Projects{/t}: {foreach from=$user.projects item=project name=project}
 {if not $smarty.foreach.project.first}                   {/if}{$project.prj_title}: {$project.role}
 {/foreach}
 ----------------------------------------------------------------------

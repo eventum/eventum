@@ -10,17 +10,17 @@
         function validateImpactAnalysis(f)
         {
             if (isWhitespace(f.dev_time.value)) {
-                alert('Please enter the estimated development time for this task.');
+                alert('{/literal}{t}Please enter the estimated development time for this task.{/t}{literal}');
                 selectField(f, 'dev_time');
                 return false;
             }
             if (!isFloat(f.dev_time.value)) {
-                alert('Please use only floating point numbers (or integers) on the estimated development time field.');
+                alert('{/literal}{t}Please use only floating point numbers (or integers) on the estimated development time field.{/t}{literal}');
                 selectField(f, 'dev_time');
                 return false;
             }
             if (isWhitespace(f.impact_analysis.value)) {
-                alert('Please enter the analysis for the changes required by this issue.');
+                alert('{/literal}{t}Please enter the analysis for the changes required by this issue.{/t}{literal}');
                 selectField(f, 'impact_analysis');
                 return false;
             }
@@ -37,7 +37,7 @@
         <input type="hidden" name="issue_id" value="{$smarty.get.id}">
         <tr>
           <td class="default" nowrap>
-            <b>Impact Analysis</b>
+            <b>{t}Impact Analysis{/t}</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
@@ -47,18 +47,18 @@
         </tr>
         {if $current_role > $roles.reporter}
         <tr id="impact_analysis1" {get_display_style element_name="impact_analysis"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Total Estimated Dev. Time:</b></td>
+          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>{t}Total Estimated Dev. Time{/t}:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             {if $issue.iss_developer_est_time == ""}
-            <input class="default" type="text" name="dev_time"> <span class="default">(in hours)</span>
+            <input class="default" type="text" name="dev_time"> <span class="default">({t}in hours{/t})</span>
             {include file="error_icon.tpl.html" field="dev_time"}
             {else}
-            <span class="default">{$issue.iss_developer_est_time} hours</span>
+            <span class="default">{$issue.iss_developer_est_time} {t}hours{/t}</span>
             {/if}
           </td>
         </tr>
         <tr id="impact_analysis2" {get_display_style element_name="impact_analysis"}>
-          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>Initial Impact Analysis:</b></td>
+          <td bgcolor="{$cell_color}" class="default_white" width="190" nowrap><b>{t}Initial Impact Analysis{/t}:</b></td>
           <td bgcolor="{$light_color}" width="100%">
             {if $issue.iss_impact_analysis == ""}
             <textarea name="impact_analysis" rows="8" style="width: 97%"></textarea>
@@ -71,7 +71,7 @@
         <tr id="impact_analysis3" {get_display_style element_name="impact_analysis"}>
           <td colspan="2" bgcolor="{$cell_color}" align="center" width="100%" nowrap>
             {if $issue.iss_impact_analysis == ""}
-            <input type="submit" value="Update" class="button">
+            <input type="submit" value="{t}Update{/t}" class="button">
             {/if}
           </td>
         </tr>
@@ -83,10 +83,10 @@
         function validateDeleteReq(f)
         {
             if (!hasOneChecked(f, 'item[]')) {
-                alert('Please choose which entries need to be removed.');
+                alert('{/literal}{t}Please choose which entries need to be removed.{/t}{literal}');
                 return false;
             }
-            if (!confirm('This action will permanently delete the selected entries.')) {
+            if (!confirm('{/literal}{t}This action will permanently delete the selected entries.{/t}{literal}')) {
                 return false;
             } else {
                 var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -106,20 +106,20 @@
         {/literal}
         <tr id="{if $current_role > $roles.reporter}impact_analysis4{else}impact_analysis1{/if}" {get_display_style element_name="impact_analysis"}>
           <td colspan="2" class="default" width="100%">
-            <b>Further Requirements:</b>
+            <b>{t}Further Requirements{/t}:</b>
             <table width="100%" cellpadding="2" cellspacing="1">
               <form onSubmit="javascript:return validateDeleteReq(this);" method="post" action="popup.php" target="_setImpact">
               <input type="hidden" name="cat" value="delete_requirement">
               <tr bgcolor="{$cell_color}">
                 <td width="5">
                   {if $impacts != "" and $current_role > $roles.reporter}
-                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
                   {/if}
                 </td>
-                <td class="default_white">Handler</td>
-                <td width="35%" class="default_white">Requirement</td>
-                <td class="default_white" nowrap>Estimated Dev. Time</td>
-                <td width="35%" class="default_white">Impact Analysis</td>
+                <td class="default_white">{t}Handler{/t}</td>
+                <td width="35%" class="default_white">{t}Requirement{/t}</td>
+                <td class="default_white" nowrap>{t}Estimated Dev. Time{/t}</td>
+                <td width="35%" class="default_white">{t}Impact Analysis{/t}</td>
               </tr>
               {section name="i" loop=$impacts}
               {cycle values=$cycle assign="row_color"}
@@ -129,14 +129,14 @@
                 <td class="default" valign="top">{$impacts[i].isr_requirement} [submitted by {$impacts[i].submitter_name}]</td>
                 <td valign="top" class="default">
                   {if $impacts[i].formatted_dev_time == "00:00"}
-                  <a href="javascript:void(null);" onClick="javascript:openReqDetails({$impacts[i].isr_id});" class="link">update entry</a>
+                  <a href="javascript:void(null);" onClick="javascript:openReqDetails({$impacts[i].isr_id});" class="link">{t}update entry{/t}</a>
                   {else}
                   {$impacts[i].formatted_dev_time}
                   {/if}
                 </td>
                 <td valign="top" class="default">
                   {if $impacts[i].isr_impact_analysis == ""}
-                  <a href="javascript:void(null);" onClick="javascript:openReqDetails({$impacts[i].isr_id});" class="link">update entry</a>
+                  <a href="javascript:void(null);" onClick="javascript:openReqDetails({$impacts[i].isr_id});" class="link">{t}update entry{/t}</a>
                   {else}
                   {$impacts[i].isr_impact_analysis}
                   {/if}
@@ -145,15 +145,15 @@
               {if %i.last% && %i.total% > 0}
               <tr bgcolor="{$cell_color}">
                 <td colspan="5">
-                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
-                  <input type="submit" value="Remove Selected" class="button">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="submit" value="{t}Remove Selected{/t}" class="button">
                 </td>
               </tr>
               {/if}
               {sectionelse}
               <tr>
                 <td colspan="5" bgcolor="{$light_color}" align="center" class="default">
-                  <i>No entries could be found.</i>
+                  <i>{t}No entries could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
@@ -171,7 +171,7 @@
               function validateNewRequirement(f)
               {
                   if (isWhitespace(f.new_requirement.value)) {
-                      alert('Please enter the new requirement for this issue.');
+                      alert('{/literal}{t}Please enter the new requirement for this issue.{/t}{literal}');
                       selectField(f, 'new_requirement');
                       return false;
                   }
@@ -194,7 +194,7 @@
               </tr>
               <tr bgcolor="{$cell_color}">
                 <td width="100%" align="center">
-                  <input type="submit" value="Add New Requirement" class="button">
+                  <input type="submit" value="{t}Add New Requirement{/t}" class="button">
                 </td>
               </tr>
               </form>

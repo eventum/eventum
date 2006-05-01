@@ -8,14 +8,14 @@
     <td class="default" align="center">
     {if $res != ''}
       {if $res == -1}
-        <span style="color: red"><b>There was an error marking this issue as redeemed</b></span>
+        <span style="color: red"><b>{t}There was an error marking this issue as redeemed{/t}</b></span>
       {elseif $res == -2}
-        <b>This issue already has been marked as redeemed</b>
+        <b>{t}This issue already has been marked as redeemed{/t}</b>
       {elseif $res == 1}
-        <b>Thank you, the issue was successfully marked.</b>
+        <b>{t}Thank you, the issue was successfully marked.{/t}</b>
       {/if}
     {else}
-      Please choose the incident types to redeem for this issue.
+      {t}Please choose the incident types to redeem for this issue.{/t}
     {/if}
     </td>
   </tr>
@@ -27,14 +27,14 @@
         <tr bgcolor="{$row_color}" class="default">
           <td>
             {if $res == ''}<input type="checkbox" name="redeem[{$type_id}]" value="1" {if $redeemed[$type_id].is_redeemed == 1}checked{/if}>{/if}
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('redeem_incident', 'redeem[{$type_id}]', 0);">{$type_details.title} (Total: {$type_details.total}; Left: {$type_details.total-$type_details.redeemed})</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('redeem_incident', 'redeem[{$type_id}]', 0);">{$type_details.title} ({t}Total{/t}: {$type_details.total}; {t}Left{/t}: {$type_details.total-$type_details.redeemed})</a>
           </td>
         </tr>
         {/foreach}
         {if $res == ''}
         <tr>
           <td bgcolor="{$cell_color}" align="center">
-            <input type="submit" name="submit" value="Redeem Incidents" class="shortcut">
+            <input type="submit" name="submit" value="{t}Redeem Incidents{/t}" class="shortcut">
           </td>
         </tr>
         {/if}
@@ -52,7 +52,7 @@
     //-->
     </script>
     {if not $current_user_prefs.close_popup_windows}
-      <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+      <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
     {/if}
     </td>
   </tr>

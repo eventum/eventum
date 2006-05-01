@@ -41,7 +41,7 @@ function showAllDrafts(thisBox)
         <form name="draft_form">
         <tr>
           <td class="default" nowrap>
-            <b>Drafts ({$drafts|@count})</b>
+            <b>{t}Drafts{/t} ({$drafts|@count})</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
@@ -54,14 +54,14 @@ function showAllDrafts(thisBox)
             <table width="100%" cellpadding="2" cellspacing="1">
               <tr id="drafts1" {get_display_style element_name="drafts" total=$drafts|@count} bgcolor="{$internal_color}">
                 <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getDraft" ec_id="draft"}</td>
-                <td width="5" class="default_white" align="center">#</td>
+                <td width="5" class="default_white" align="center">{t}#{/t}</td>
                 {if $smarty.request.show_all_drafts == 1}
-                <td width="5%" class="default_white">Status</td>
+                <td width="5%" class="default_white">{t}Status{/t}</td>
                 {/if}
-                <td width="20%" class="default_white">From</td>
-                <td width="20%" class="default_white">To</td>
-                <td width="20%" class="default_white" nowrap>Last Updated Date</td>
-                <td width="40%" class="default_white">Subject</td>
+                <td width="20%" class="default_white">{t}From{/t}</td>
+                <td width="20%" class="default_white">{t}To{/t}</td>
+                <td width="20%" class="default_white" nowrap>{t}Last Updated Date{/t}</td>
+                <td width="40%" class="default_white">{t}Subject{/t}</td>
               </tr>
               {section name="i" loop=$drafts}
               {cycle values=$cycle assign="row_color"}
@@ -82,7 +82,7 @@ function showAllDrafts(thisBox)
               {sectionelse}
               <tr id="drafts2" {get_display_style element_name="drafts" total=$drafts|@count}>
                 <td colspan="{$draft_col_count}" bgcolor="{$light_color}" class="default" align="center">
-                  <i>No email drafts could be found.</i>
+                  <i>{t}No email drafts could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
@@ -92,9 +92,9 @@ function showAllDrafts(thisBox)
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td width="20%">&nbsp;</td>
-                      <td width="60%" align="center"><input type="button" value="Create Draft" class="button" onClick="javascript:createDraft({$smarty.get.id});"></td>
+                      <td width="60%" align="center"><input type="button" value="{t}Create Draft{/t}" class="button" onClick="javascript:createDraft({$smarty.get.id});"></td>
                       <td width="20%" align="right">
-                        <input type="checkbox" name="show_all_drafts" id="show_all_drafts" value="1" {if $smarty.request.show_all_drafts == 1}checked{/if} onClick="javascript:showAllDrafts(this)"><span class="default_white"><label for="show_all_drafts">Show All Drafts</label></span>
+                        <input type="checkbox" name="show_all_drafts" id="show_all_drafts" value="1" {if $smarty.request.show_all_drafts == 1}checked{/if} onClick="javascript:showAllDrafts(this)"><span class="default_white"><label for="show_all_drafts">{t}Show All Drafts</label{/t}></span>
                       </td>
                     </tr>
                   </table>

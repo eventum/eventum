@@ -19,7 +19,7 @@ function updateCustomFields(issue_id)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default" nowrap>
-            <b>Custom Fields</b>
+            <b>{t}Custom Fields{/t}</b>
           </td>
           <td align="right" class="default">
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
@@ -47,14 +47,14 @@ function updateCustomFields(issue_id)
               {sectionelse}
               <tr id="custom_fields1" {get_display_style element_name="custom_fields" total=$custom_fields|@count}>
                 <td colspan="2" bgcolor="{$light_color}" align="center" class="default">
-                  <i>No custom fields could be found.</i>
+                  <i>{t}No custom fields could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
               {if $current_role > $roles.reporter and $custom_fields != ""}
               <tr>
                 <td align="center" colspan="2" bgcolor="{$cell_color}">
-                  <input class="button" type="button" value="Update" onClick="javascript:updateCustomFields({$smarty.get.id});">
+                  <input class="button" type="button" value="{t}Update{/t}" onClick="javascript:updateCustomFields({$smarty.get.id});">
                 </td>
               </tr>
               {/if}

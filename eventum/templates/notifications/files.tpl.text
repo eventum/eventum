@@ -1,38 +1,35 @@
-This is an automated message sent at your request from {$app_title}.
+{textformat style="email"}{t}This is an automated message sent at your request from{/t} {$app_title}.
 
-To view more details of this issue, or to update it, please visit the 
-following URL:
+{t}To view more details of this issue, or to update it, please visit the following URL{/t}:
 {$app_base_url}view.php?id={$data.iss_id}
+{/textformat}
 
-New Attachment:
+{t}New Attachment{/t}:
 ----------------------------------------------------------------------
-      Owner: {$data.attachment.usr_full_name}
-       Date: {$data.attachment.iat_created_date}
-      Files:
+      {t}Owner{/t}: {$data.attachment.usr_full_name}
+       {t}Date{/t}: {$data.attachment.iat_created_date}
+      {t}Files{/t}:
 {section name="i" loop=$data.attachment.files}
-             {$data.attachment.files[i].iaf_filename} ({$data.attachment.files[i].iaf_filesize})             
+             {$data.attachment.files[i].iaf_filename} ({$data.attachment.files[i].iaf_filesize})
 {/section}
-Description:
+{t}Description{/t}:
 ----------------------------------------------------------------------
 {$data.attachment.iat_description}
 ----------------------------------------------------------------------
 
-These are the current issue details:
-
+{t}These are the current issue details{/t}:
 ----------------------------------------------------------------------
-               ID: {$data.iss_id}
-          Summary: {$data.iss_summary}
-           Status: {$data.sta_title}
-          Project: {$data.prj_title}
-      Reported By: {$data.usr_full_name}
-         Priority: {$data.pri_title}
-      Description:
+               {t}ID{/t}: {$data.iss_id}
+          {t}Summary{/t}: {$data.iss_summary}
+           {t}Status{/t}: {$data.sta_title}
+          {t}Project{/t}: {$data.prj_title}
+      {t}Reported By{/t}: {$data.usr_full_name}
+         {t}Priority{/t}: {$data.pri_title}
+      {t}Description{/t}:
 ----------------------------------------------------------------------
 {$data.iss_description}
 ----------------------------------------------------------------------
 
-Please Note: If you do not wish to receive any future email 
-notifications from {$app_title}, please change your account preferences by 
-visiting the URL below:
-{$app_base_url}preferences.php
-
+{textformat style="email"}
+{t 1=$app_title}Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below{/t}:
+{$app_base_url}preferences.php{/textformat}

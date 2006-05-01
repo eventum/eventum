@@ -5,9 +5,9 @@
 <center>
   <span class="default">
 {if $result_msg == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
 {elseif $result_msg == 1}
-  <b>Thank you, the emails were {if $smarty.post.cat == 'remove'}removed{else}restored{/if} successfully.</b>
+  <b>{t}Thank you, the emails were {if $smarty.post.cat == 'remove'}removed{else}restored{/if} successfully.{/t}</b>
 {/if}
   </span>
 </center>
@@ -25,7 +25,7 @@ setTimeout('window.close()', 2000);
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
         <tr>
           <td class="default">
-            <b>Removed Emails</b>
+            <b>{t}Removed Emails{/t}</b>
           </td>
         </tr>
         <tr>
@@ -36,7 +36,7 @@ setTimeout('window.close()', 2000);
             function validateForm(f)
             {
                 if (!hasOneChecked(f, 'item[]')) {
-                    alert('Please choose which emails need to be restored.');
+                    alert('{/literal}{t}Please choose which emails need to be restored.{/t}{literal}');
                     return false;
                 }
                 f.submit();
@@ -44,10 +44,10 @@ setTimeout('window.close()', 2000);
             function removeEmails(f)
             {
                 if (!hasOneChecked(f, 'item[]')) {
-                    alert('Please choose which emails need to be permanently removed.');
+                    alert('{/literal}{t}Please choose which emails need to be permanently removed.{/t}{literal}');
                     return false;
                 }
-                if (!confirm('WARNING: This action will permanently remove the selected emails from your email account.')) {
+                if (!confirm('{/literal}{t}WARNING: This action will permanently remove the selected emails from your email account.{/t}{literal}')) {
                     return false;
                 } else {
                     f.cat.value = 'remove';
@@ -62,11 +62,11 @@ setTimeout('window.close()', 2000);
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
               <tr>
                 <td width="1%" bgcolor="{$cell_color}">
-                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
                 </td>
-                <td bgcolor="{$cell_color}" class="default_white">Date</td>
-                <td bgcolor="{$cell_color}" width="20%" class="default_white">From</td>
-                <td bgcolor="{$cell_color}" width="50%" class="default_white">Subject</td>
+                <td bgcolor="{$cell_color}" class="default_white">{t}Date{/t}</td>
+                <td bgcolor="{$cell_color}" width="20%" class="default_white">{t}From{/t}</td>
+                <td bgcolor="{$cell_color}" width="50%" class="default_white">{t}Subject{/t}</td>
               </tr>
               {section name="i" loop=$list}
               {cycle values=$cycle assign="row_color"}
@@ -87,22 +87,22 @@ setTimeout('window.close()', 2000);
               {sectionelse}
               <tr>
                 <td colspan="4" bgcolor="{$light_color}" class="default" align="center">
-                  <i>No emails could be found.</i>
+                  <i>{t}No emails could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
               <tr>
                 <td bgcolor="{$cell_color}" width="1%" align="center">
-                  <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
+                  <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
                 </td>
                 <td colspan="3" bgcolor="{$cell_color}">
-                  <input type="button" class="button" value="Restore Emails" onClick="javascript:validateForm(this.form);">
-                  <input type="button" class="button" value="Close" onClick="javascript:window.close();">
+                  <input type="button" class="button" value="{t}Restore Emails{/t}" onClick="javascript:validateForm(this.form);">
+                  <input type="button" class="button" value="{t}Close{/t}" onClick="javascript:window.close();">
                 </td>
               </tr>
               <tr>
                 <td colspan="4" bgcolor="{$dark_color}" align="left">
-                  <input type="button" class="button" value="Permanently Remove" onClick="javascript:removeEmails(this.form);">
+                  <input type="button" class="button" value="{t}Permanently Remove{/t}" onClick="javascript:removeEmails(this.form);">
                 </td>
               </tr>
             </table>
