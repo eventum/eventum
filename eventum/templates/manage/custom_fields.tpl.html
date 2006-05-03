@@ -10,12 +10,12 @@
               function validateForm(f)
               {
                   if (isWhitespace(f.title.value)) {
-                      alert('Please enter the title of this custom field.');
+                      alert('{/literal}{t}Please enter the title of this custom field.{/t}{literal}');
                       selectField(f, 'title');
                       return false;
                   }
                   if (!hasOneSelected(f, 'projects[]')) {
-                      alert('Please assign the appropriate projects for this custom field.');
+                      alert('{/literal}{t}Please assign the appropriate projects for this custom field.{/t}{literal}');
                       selectField(f, 'projects[]');
                       return false;
                   }
@@ -37,9 +37,9 @@
                       }
                   }
                   if (removed_projects.length > 0) {
-                      var answer = confirm('WARNING: You have removed project(s) ' + removed_projects + ' from the list ' +
-                         'of associated projects. This will remove all data for this field from the selected project(s). ' +
-                         'Do you want to continue?');
+                      var answer = confirm('{/literal}{t}WARNING: You have removed project(s){/t}{literal} ' + removed_projects + ' {/literal}{t}from the list{/t}{literal} ' +
+                         '{/literal}{t}of associated projects. This will remove all data for this field from the selected project(s).{/t}{literal} ' +
+                         '{/literal}{t}Do you want to continue?{/t}{literal}');
                       if (answer == false) {
                           return false;
                       }
@@ -54,7 +54,7 @@
               {
                   var value = f.new_value.value;
                   if (isWhitespace(value)) {
-                      alert('Please enter the new value for the combo box.');
+                      alert('{/literal}{t}Please enter the new value for the combo box.{/t}{literal}');
                       f.new_value.value = '';
                       f.new_value.focus();
                       return false;
@@ -69,7 +69,7 @@
                   // check for an existing option with the same value
                   for (var i = 0; i < field.options.length; i++) {
                       if (field.options[i].text == value) {
-                          alert('The specified value already exists in the list of options.');
+                          alert('{/literal}{t}The specified value already exists in the list of options.{/t}{literal}');
                           f.new_value.focus();
                           return false;
                       }
@@ -89,7 +89,7 @@
               function updateFieldOption(f)
               {
                   if (isWhitespace(f.new_value.value)) {
-                      alert('Please enter the updated value.');
+                      alert('{/literal}{t}Please enter the updated value.{/t}{literal}');
                       f.new_value.value = '';
                       f.new_value.focus();
                       return false;
@@ -109,7 +109,7 @@
               {
                   var options = getSelectedItems(getFormElement(f, 'field_options[]'));
                   if (options.length == 0) {
-                      alert('Please select an option from the list.');
+                      alert('{/literal}{t}Please select an option from the list.{/t}{literal}');
                       return false;
                   }
                   editing_option_id = options[0].value;
@@ -124,7 +124,7 @@
                   } else {
                       var options = getSelectedItems(getFormElement(f, 'field_options[]'));
                       if (options.length == 0) {
-                          alert('Please select an option from the list.');
+                          alert('{/literal}{t}Please select an option from the list.{/t}{literal}');
                           return false;
                       }
                       var remove = new Array();
@@ -137,7 +137,7 @@
                   }
                   var field = getFormElement(f, 'field_options[]');
                   if ((delete_first == null) && (field.options.length == 0)) {
-                      field.options[0] = new Option('enter a new option above', '-1');
+                      field.options[0] = new Option('{/literal}{t}enter a new option above{/t}{literal}', '-1');
                   }
               }
               function toggleCustomOptionsField(show_field)
@@ -181,7 +181,7 @@
               {/if}
               <tr>
                 <td colspan="2" class="default">
-                  <b>Manage Custom Fields</b>
+                  <b>{t}Manage Custom Fields{/t}</b>
                 </td>
               </tr>
               {if $result != ""}
@@ -189,15 +189,15 @@
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
-                      An error occurred while trying to add the new custom field.
+                      {t}An error occurred while trying to add the new custom field.{/t}
                     {elseif $result == 1}
-                      Thank you, the custom field was added successfully.
+                      {t}Thank you, the custom field was added successfully.{/t}
                     {/if}
                   {elseif $smarty.post.cat == "update"}
                     {if $result == -1}
-                      An error occurred while trying to update the custom field information.
+                      {t}An error occurred while trying to update the custom field information.{/t}
                     {elseif $result == 1}
-                      Thank you, the custom field was updated successfully.
+                      {t}Thank you, the custom field was updated successfully.{/t}
                     {/if}
                   {/if}
                 </td>
@@ -205,7 +205,7 @@
               {/if}
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Title:</b>
+                  <b>{t}Title{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" name="title" size="40" class="default" value="{$info.fld_title}">
@@ -214,16 +214,16 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Short Description:</b>
+                  <b>{t}Short Description{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" name="description" size="30" class="default" value="{$info.fld_description}">
-                  <span class="small_default">(it will show up by the side of the field)</span>
+                  <span class="small_default">({t}it will show up by the side of the field{/t})</span>
                 </td>
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Assigned Projects:</b>
+                  <b>{t}Assigned Projects{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="projects[]" multiple size="3" class="default">
@@ -234,66 +234,66 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Target Forms:</b>
+                  <b>{t}Target Forms{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <span class="default">
-                  <input type="checkbox" name="report_form" value="1" {if $info.fld_report_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form', 0);checkRequiredFields();">Report Form</a><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="report_form_required" value="1" {if $info.fld_report_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form_required', 0);">Required Field</a><br />
-                  <input type="checkbox" name="anon_form" value="1" {if $info.fld_anonymous_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form', 0);checkRequiredFields();">Anonymous Form</a><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="anon_form_required" value="1" {if $info.fld_anonymous_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form_required', 0);">Required Field</a>
+                  <input type="checkbox" name="report_form" value="1" {if $info.fld_report_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form', 0);checkRequiredFields();">{t}Report Form{/t}</a><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="report_form_required" value="1" {if $info.fld_report_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form_required', 0);">{t}Required Field{/t}</a><br />
+                  <input type="checkbox" name="anon_form" value="1" {if $info.fld_anonymous_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form', 0);checkRequiredFields();">{t}Anonymous Form{/t}</a><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="anon_form_required" value="1" {if $info.fld_anonymous_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form_required', 0);">{t}Required Field{/t}</a>
                   </span>
                 </td>
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Display on List Issues Page:</b>
+                  <b>{t}Display on List Issues Page{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <span class="default">
                   <input type="radio" name="list_display" value="1" {if $info.fld_list_display == 1}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'list_display', 0);">Yes</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'list_display', 0);">{t}Yes{/t}</a>
                   <input type="radio" name="list_display" value="0" {if $info.fld_list_display != 1}checked{/if}>
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'list_display', 1);">No</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'list_display', 1);">{t}No{/t}</a>
                   </span>
                 </td>
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Field Type:</b>
+                  <b>{t}Field Type{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}" class="default">
                   <input type="radio" name="field_type" value="text" {if $info.fld_type == 'text'}checked{/if} onClick="javascript:toggleCustomOptionsField(true);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 0);toggleCustomOptionsField(true);">Text Input</a>&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 0);toggleCustomOptionsField(true);">{t}Text Input{/t}</a>&nbsp;
                   <input type="radio" name="field_type" value="textarea" {if $info.fld_type == 'textarea'}checked{/if} onClick="javascript:toggleCustomOptionsField(true);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 1);toggleCustomOptionsField(true);">Textarea</a>&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 1);toggleCustomOptionsField(true);">{t}Textarea{/t}</a>&nbsp;
                   <input type="radio" name="field_type" value="combo" {if $info.fld_type == 'combo'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 2);toggleCustomOptionsField(false);">Combo Box</a>&nbsp;
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 2);toggleCustomOptionsField(false);">{t}Combo Box{/t}</a>&nbsp;
                   <input type="radio" name="field_type" value="multiple" {if $info.fld_type == 'multiple'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 3);toggleCustomOptionsField(false);">Multiple Combo Box</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 3);toggleCustomOptionsField(false);">{t}Multiple Combo Box{/t}</a>
                   <input type="radio" name="field_type" value="date" {if $info.fld_type == 'date'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
-                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 4);toggleCustomOptionsField(true);">Date</a>
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 4);toggleCustomOptionsField(true);">{t}Date{/t}</a>
                 </td>
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Field Options:</b>
+                  <b>{t}Field Options{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <table bgcolor="{$dark_color}" cellspacing="0" cellpadding="0" border="0">
                     <tr>
                       <td rowspan="2"><img src="{$rel_url}images/blank.gif" width="30" height="1"></td>
                       <td valign="top">
-                        <span class="default"><b>Set available options:</b></span><br />
-                        <input class="default" type="text" name="new_value" size="26"><input class="shortcut" name="add_button" type="button" value="Add" onClick="javascript:addFieldOption(this.form);">{if $smarty.get.cat == 'edit'}<input class="shortcut" name="update_button" type="button" value="Update Value" disabled onClick="javascript:updateFieldOption(this.form);">{/if}<br />
+                        <span class="default"><b>{t}Set available options{/t}:</b></span><br />
+                        <input class="default" type="text" name="new_value" size="26"><input class="shortcut" name="add_button" type="button" value="{t}Add{/t}" onClick="javascript:addFieldOption(this.form);">{if $smarty.get.cat == 'edit'}<input class="shortcut" name="update_button" type="button" value="{t}Update Value{/t}" disabled onClick="javascript:updateFieldOption(this.form);">{/if}<br />
                       </td>
                       <td rowspan="3" class="default">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<b>OR</b>&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;<b>{t}OR{/t}</b>&nbsp;&nbsp;&nbsp;&nbsp;
                       </td>
                       <td valign="top">
-                        <span class="default"><b>Choose Custom Field Backend:</b></span><br />
+                        <span class="default"><b>{t}Choose Custom Field Backend{/t}:</b></span><br />
                         <select name="custom_field_backend" class="default">
-                          <option value="" label="Please select a backend">Please select a backend</option>
+                          <option value="" label="{t}Please select a backend{/t}">{t}Please select a backend{/t}</option>
                           {html_options options=$backend_list selected=$info.fld_backend}
                         </select>
                       </td>
@@ -306,7 +306,7 @@
                             <td>
                               <select name="field_options[]" multiple size="3" class="default">
                               {if $info.field_options == "" OR $info.fld_backend != ''}
-                                <option value="-1">enter a new option above</option>
+                                <option value="-1">{t}enter a new option above{/t}</option>
                               {else}
                                 {html_options options=$info.field_options}
                               {/if}
@@ -314,9 +314,9 @@
                             </td>
                             <td valign="top">
                               {if $smarty.get.cat == 'edit'}
-                              <input class="shortcut" type="button" name="edit_button" value="Edit Option" onClick="javascript:editFieldOption(this.form);"><br />
+                              <input class="shortcut" type="button" name="edit_button" value="{t}Edit Option{/t}" onClick="javascript:editFieldOption(this.form);"><br />
                               {/if}
-                              <input class="shortcut" type="button" name="remove_button" value="Remove" onClick="javascript:removeFieldOption(this.form);">
+                              <input class="shortcut" type="button" name="remove_button" value="{t}Remove{/t}" onClick="javascript:removeFieldOption(this.form);">
                             </td>
                           </tr>
                         </table>
@@ -327,7 +327,7 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Minimum Role:</b>
+                  <b>{t}Minimum Role{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="min_role" class="default">
@@ -337,7 +337,7 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Rank:</b>
+                  <b>{t}Rank{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" name="rank" value="{$info.fld_rank}" size="3" class="default">
@@ -346,17 +346,17 @@
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="Update Custom Field">
+                  <input class="button" type="submit" value="{t}Update Custom Field{/t}">
                   {else}
-                  <input class="button" type="submit" value="Create Custom Field">
+                  <input class="button" type="submit" value="{t}Create Custom Field{/t}">
                   {/if}
-                  <input class="button" type="reset" value="Reset">
+                  <input class="button" type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
                 <td colspan="2" class="default">
-                  <b>Existing Custom Fields:</b>
+                  <b>{t}Existing Custom Fields{/t}:</b>
                 </td>
               </tr>
               <tr>
@@ -367,10 +367,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('Please select at least one of the custom fields.');
+                          alert('{/literal}{t}Please select at least one of the custom fields.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('This action will permanently remove the selected custom fields.')) {
+                      if (!confirm('{/literal}{t}This action will permanently remove the selected custom fields.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;
@@ -381,15 +381,15 @@
                   {/literal}
                   <table border="0" width="100%" cellpadding="1" cellspacing="1">
                     <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
-                    <input type="hidden" name="cat" value="delete">
+                    <input type="hidden" name="cat" value="{t}delete{/t}">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td nowrap bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Rank</b></td>
-                      <td width="15%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
-                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Assigned Projects</b></td>
-                      <td width="10%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Min. Role</b></td>
-                      <td width="5%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Type</b></td>
-                      <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Options</b></td>
+                      <td nowrap bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Rank{/t}</b></td>
+                      <td width="15%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Assigned Projects{/t}</b></td>
+                      <td width="10%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Min. Role{/t}</b></td>
+                      <td width="5%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Type{/t}</b></td>
+                      <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Options{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -398,11 +398,11 @@
                         <input type="checkbox" name="items[]" value="{$list[i].fld_id}" {if $smarty.section.i.total == 0}disabled{/if}>
                       </td>
                       <td bgcolor="{$row_color}" class="default" nowrap>
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=1" title="move field down"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].fld_rank}
-                        <a class="link" href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=-1" title="move field up"><img src="{$rel_url}images/asc.gif" border="0"></a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=1" title="{t}move field down{/t}"><img src="{$rel_url}images/desc.gif" border="0"></a> {$list[i].fld_rank}
+                        <a class="link" href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=-1" title="{t}move field up{/t}"><img src="{$rel_url}images/asc.gif" border="0"></a>
                       </td>
                       <td width="15%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].fld_id}" title="update this entry">{$list[i].fld_title}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].fld_id}" title="{t}update this entry{/t}">{$list[i].fld_title}</a>
                       </td>
                       <td width="20%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].projects}
@@ -411,7 +411,7 @@
                         &nbsp;{$list[i].min_role_name}
                       </td>
                       <td width="5%" bgcolor="{$row_color}" class="default">
-                        <nobr>&nbsp;{if $list[i].fld_type == 'combo'}Combo Box{elseif $list[i].fld_type == 'multiple'}Multiple Combo Box{elseif $list[i].fld_type == 'textarea'}Textarea{elseif $list[i].fld_type == 'date'}Date{else}Text Input{/if}</nobr>
+                        <nobr>&nbsp;{if $list[i].fld_type == 'combo'}{t}Combo Box{/t}{elseif $list[i].fld_type == 'multiple'}{t}Multiple Combo Box{/t}{elseif $list[i].fld_type == 'textarea'}{t}Textarea{/t}{elseif $list[i].fld_type == 'date'}{t}Date{/t}{else}{t}Text Input{/t}{/if}</nobr>
                       </td>
                       <td width="50%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].field_options}
@@ -420,16 +420,16 @@
                     {sectionelse}
                     <tr>
                       <td colspan="7" bgcolor="{$light_color}" align="center" class="default">
-                        <i>No custom fields could be found.</i>
+                        <i>{t}No custom fields could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
                       <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="6" bgcolor="{$cell_color}">
-                        <input type="submit" value="Delete" class="button">
+                        <input type="submit" value="{t}Delete{/t}" class="button">
                       </td>
                     </tr>
                     </form>

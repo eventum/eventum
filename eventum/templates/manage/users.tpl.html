@@ -9,30 +9,30 @@
               function validateForm(f)
               {
                   if (isWhitespace(f.email.value)) {
-                      alert('Please enter the email of this user.');
+                      alert('{/literal}{t}Please enter the email of this user.{/t}{literal}');
                       selectField(f, 'email');
                       return false;
                   }
                   if (!isEmail(f.email.value)) {
-                      alert('Please enter a valid email address.');
+                      alert('{/literal}{t}Please enter a valid email address.{/t}{literal}');
                       selectField(f, 'email');
                       return false;
                   }
                   if (f.cat.value == 'update') {
                       if ((!isWhitespace(f.password.value)) && (f.password.value.length < 6)) {
-                          alert('Please enter a password of at least 6 characters.');
+                          alert('{/literal}{t}Please enter a password of at least 6 characters.{/t}{literal}');
                           selectField(f, 'password');
                           return false;
                       }
                   } else {
                       if ((isWhitespace(f.password.value)) || (f.password.value.length < 6)) {
-                          alert('Please enter a password of at least 6 characters.');
+                          alert('{/literal}{t}Please enter a password of at least 6 characters.{/t}{literal}');
                           selectField(f, 'password');
                           return false;
                       }
                   }
                   if (isWhitespace(f.full_name.value)) {
-                      alert('Please enter the full name of this user.');
+                      alert('{/literal}{t}Please enter the full name of this user.{/t}{literal}');
                       selectField(f, 'full_name');
                       return false;
                   }
@@ -51,7 +51,7 @@
                     }
                   }
                   if (!has_project_selected) {
-                      alert('Please assign the appropriate projects for this user.');
+                      alert('{/literal}{t}Please assign the appropriate projects for this user.{/t}{literal}');
                       selectField(f, 'projects[]');
                       return false;
                   }
@@ -69,7 +69,7 @@
               {/if}
               <tr>
                 <td colspan="2" class="default">
-                  <b>Manage Users</b>
+                  <b>{t}Manage Users{/t}</b>
                 </td>
               </tr>
               {if $result != ""}
@@ -77,15 +77,15 @@
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
-                      An error occurred while trying to add the new user.
+                      {t}An error occurred while trying to add the new user.{/t}
                     {elseif $result == 1}
-                      Thank you, the user was added successfully.
+                      {t}Thank you, the user was added successfully.{/t}
                     {/if}
                   {elseif $smarty.post.cat == "update"}
                     {if $result == -1}
-                      An error occurred while trying to update the user information.
+                      {t}An error occurred while trying to update the user information.{/t}
                     {elseif $result == 1}
-                      Thank you, the user was updated successfully.
+                      {t}Thank you, the user was updated successfully.{/t}
                     {/if}
                   {/if}
                 </td>
@@ -93,7 +93,7 @@
               {/if}
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Email Address:</b>
+                  <b>{t}Email Address{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" name="email" size="40" class="default" value="{$info.usr_email}">
@@ -102,19 +102,19 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Password:</b>
+                  <b>{t}Password{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="password" name="password" size="20" class="default">
                   {if $smarty.get.cat == 'edit'}
-                  <span class="default">(leave empty to keep the current password)</span>
+                  <span class="default">({t}leave empty to keep the current password{/t})</span>
                   {/if}
                   {include file="error_icon.tpl.html" field="password"}
                 </td>
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>Full Name:</b>
+                  <b>{t}Full Name{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" name="full_name" size="40" class="default" value="{$info.usr_full_name}">
@@ -123,7 +123,7 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <nobr><b>Assigned Projects and Roles:</b></nobr>
+                  <nobr><b>{t}Assigned Projects and Roles{/t}:</b></nobr>
                 </td>
                 <td bgcolor="{$light_color}">
                   <table border="0">
@@ -132,7 +132,7 @@
                       <td class="default">{$prj_name}:</td>
                       <td>
                         {if $info.roles.$prj_id.pru_role == $roles.customer}
-                        <span class="default">Customer</span>
+                        <span class="default">{t}Customer{/t}</span>
                         <input type="hidden" name="role[{$prj_id}]" value="{$roles.customer}">
                         {else}
                         <select name="role[{$prj_id}]" class="default"  {if $current_role < $info.roles.$prj_id.pru_role}disabled{/if}>
@@ -150,17 +150,17 @@
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="Update User">
+                  <input class="button" type="submit" value="{t}Update User{/t}">
                   {else}
-                  <input class="button" type="submit" value="Create User">
+                  <input class="button" type="submit" value="{t}Create User{/t}">
                   {/if}
-                  <input class="button" type="reset" value="Reset">
+                  <input class="button" type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
                 <td colspan="2" class="default">
-                  <b>Existing Users:</b>
+                  <b>{t}Existing Users{/t}:</b>
                 </td>
               </tr>
               <tr>
@@ -181,19 +181,19 @@
                       var total = getTotalCheckboxes(f, 'items[]');
                       if (getSelectedOption(f, 'status') == 'inactive') {
                           if (active_users.length < 2) {
-                              alert('You cannot change the status of the only active user left in the system.');
+                              alert('{/literal}{t}You cannot change the status of the only active user left in the system.{/t}{literal}');
                               return false;
                           }
                           if (total == total_selected) {
-                              alert('You cannot inactivate all of the users in the system.');
+                              alert('{/literal}{t}You cannot inactivate all of the users in the system.{/t}{literal}');
                               return false;
                           }
                       }
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('Please select at least one of the users.');
+                          alert('{/literal}{t}Please select at least one of the users.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('This action will change the status of the selected users.')) {
+                      if (!confirm('{/literal}{t}This action will change the status of the selected users.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;
@@ -215,12 +215,12 @@
                     <form name="change_status_form" onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="change_status">
                     <tr>
-                      <td bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Full Name</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Role</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Email Address</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Status</b></td>
-                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Group</b></td>
+                      <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t} " class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Full Name{/t}</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Role{/t}</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Email Address{/t}</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Status{/t}</b></td>
+                      <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Group{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
@@ -229,7 +229,7 @@
                         <input type="checkbox" name="items[]" value="{$list[i].usr_id}" {if $smarty.section.i.total == 0}disabled{/if}>
                       </td>
                       <td width="15%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].usr_id}" title="update this entry">{$list[i].usr_full_name}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].usr_id}" title="{t}update this entry{/t}">{$list[i].usr_full_name}</a>
                       </td>
                       <td width="15%" bgcolor="{$row_color}" class="default" nowrap>
                         {foreach from=$list[i].roles item=role_data}
@@ -237,7 +237,7 @@
                         {/foreach}
                       </td>
                       <td width="35%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a href="mailto:{$list[i].usr_email}" class="link" title="send email to {$list[i].usr_email}">{$list[i].usr_email}</a>
+                        &nbsp;<a href="mailto:{$list[i].usr_email}" class="link" title="{t}send email to{/t} {$list[i].usr_email}">{$list[i].usr_email}</a>
                       </td>
                       <td width="20%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].usr_status|capitalize}
@@ -249,7 +249,7 @@
                     {sectionelse}
                     <tr>
                       <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
-                        <i>No users could be found.</i>
+                        <i>{t}No users could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
@@ -258,16 +258,16 @@
                         <table width="100%" border="0" cellpadding="0" cellspacing="0">
                           <tr>
                             <td>
-                              <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
-                              <input type="submit" value="Update Status &gt;&gt;" class="button">
+                              <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                              <input type="submit" value="{t}Update Status{/t} &gt;&gt;" class="button">
                               <select name="status" class="default">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
+                                <option value="active">{t}Active{/t}</option>
+                                <option value="inactive">{t}Inactive{/t}</option>
                               </select>
                             </td>
                             <td align="right" bgcolor="{$cell_color}" class="default_white">
                               <input type="checkbox" id="show_customers" name="show_customers" value="yes" {if $smarty.get.show_customers == 1}checked{/if} onClick="javascript:showCustomerUsers(this.form);">
-                              <label for="show_customers">Show Customers</label>&nbsp;
+                              <label for="show_customers">{t}Show Customers{/t}</label>&nbsp;
                             </td>
                           </tr>
                         </table>

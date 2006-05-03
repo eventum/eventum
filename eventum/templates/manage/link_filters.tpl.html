@@ -3,22 +3,22 @@
 function validateForm(f)
 {
     if (isWhitespace(f.pattern.value)) {
-        alert('Please enter a pattern.');
+        alert('{/literal}{t}Please enter a pattern.{/t}{literal}');
         selectField(f, 'pattern');
         return false;
     }
     if (f.replacement.value == '') {
-        alert('Please enter a replacement value.');
+        alert('{/literal}{t}Please enter a replacement value.{/t}{literal}');
         selectField(f, 'replacement');
         return false;
     }
     if (!hasOneSelected(f, 'projects[]')) {
-        alert('Please select projects this link filter should be active for.');
+        alert('{/literal}{t}Please select projects this link filter should be active for.{/t}{literal}');
         selectField(f, 'projects[]');
         return false;
     }
     if (!hasOneSelected(f, 'usr_role')) {
-        alert('Please select the minimum user role that should be able to see this link filter.');
+        alert('{/literal}{t}Please select the minimum user role that should be able to see this link filter.{/t}{literal}');
         selectField(f, 'usr_role');
         return false;
     }
@@ -28,10 +28,10 @@ function validateForm(f)
 function checkDelete(f)
 {
     if (!hasOneChecked(f, 'items[]')) {
-      alert('Please select at least one link filter.');
+      alert('{/literal}{t}Please select at least one link filter.{/t}{literal}');
       return false;
     }
-    if (!confirm('WARNING: This action will remove the selected link filters permanently.\nPlease click OK to confirm.')) {
+    if (!confirm('{/literal}{t}WARNING: This action will remove the selected link filters permanently.{/t}{literal}\n{/literal}{t}Please click OK to confirm.{/t}{literal}')) {
       return false;
     } else {
       return true;
@@ -52,7 +52,7 @@ function checkDelete(f)
                 {/if}
                 <tr>
                     <td colspan="2" class="default">
-                        <b>Manage Link Filters</b> {include file="help_link.tpl.html" topic="link_filters"}
+                        <b>{t}Manage Link Filters{/t}</b> {include file="help_link.tpl.html" topic="link_filters"}
                     </td>
                 </tr>
                 {if $result != ""}
@@ -60,21 +60,21 @@ function checkDelete(f)
                     <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                     {if $smarty.post.cat == "new"}
                         {if $result == -1}
-                            An error occurred while trying to add the new link filter.
+                            {t}An error occurred while trying to add the new link filter.{/t}
                         {elseif $result == 1}
-                            Thank you, the link filter was added successfully.
+                            {t}Thank you, the link filter was added successfully.{/t}
                         {/if}
                     {elseif $smarty.post.cat == "update"}
                         {if $result == -1}
-                            An error occurred while trying to update the link filter.
+                            {t}An error occurred while trying to update the link filter.{/t}
                         {elseif $result == 1}
-                            Thank you, the link filter was updated successfully.
+                            {t}Thank you, the link filter was updated successfully.{/t}
                         {/if}
                     {elseif $smarty.post.cat == "delete"}
                         {if $result == -1}
-                            An error occurred while trying to delete the link filter.
+                            {t}An error occurred while trying to delete the link filter.{/t}
                         {elseif $result == 1}
-                            Thank you, the link filter was deleted successfully.
+                            {t}Thank you, the link filter was deleted successfully.{/t}
                         {/if}
                     {/if}
                     </td>
@@ -82,7 +82,7 @@ function checkDelete(f)
                 {/if}
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>Pattern: *</b>
+                        <b>{t}Pattern{/t}: *</b>
                     </td>
                     <td bgcolor="{$light_color}">
                         <input type="text" name="pattern" size="40" class="default" value="{$info.lfi_pattern|escape:"html"}">
@@ -91,7 +91,7 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>Replacement: *</b>
+                        <b>{t}Replacement{/t}: *</b>
                     </td>
                     <td bgcolor="{$light_color}" width="80%">
                         <input type="text" name="replacement" size="40" class="default" value="{$info.lfi_replacement|escape:"html"}">
@@ -100,7 +100,7 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>Description:</b>
+                        <b>{t}Description{/t}:</b>
                     </td>
                     <td bgcolor="{$light_color}">
                         <input type="text" name="description" size="50" class="default" value="{$info.lfi_description|escape:"html"}">
@@ -109,7 +109,7 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <nobr><b>Assigned Projects: *</b></nobr>
+                        <nobr><b>{t}Assigned Projects{/t}: *</b></nobr>
                     </td>
                     <td bgcolor="{$light_color}">
                         <select name="projects[]" multiple size="3" class="default">
@@ -120,7 +120,7 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>Minimum User Role: *</b>
+                        <b>{t}Minimum User Role{/t}: *</b>
                     </td>
                     <td bgcolor="{$light_color}" width="80%">
                         <select name="usr_role" class="default">
@@ -132,17 +132,17 @@ function checkDelete(f)
                 <tr>
                     <td colspan="2" bgcolor="{$cell_color}" align="center">
                         {if $smarty.get.cat == 'edit'}
-                        <input class="button" type="submit" value="Update Link Filter">
+                        <input class="button" type="submit" value="{t}Update Link Filter{/t}">
                         {else}
-                        <input class="button" type="submit" value="Create Link Filter">
+                        <input class="button" type="submit" value="{t}Create Link Filter{/t}">
                         {/if}
-                        <input class="button" type="reset" value="Reset">
+                        <input class="button" type="reset" value="{t}Reset{/t}">
                     </td>
                 </tr>
                 </form>
                 <tr>
                     <td colspan="2" class="default">
-                        <b>Existing Link Filters</b>
+                        <b>{t}Existing Link Filters{/t}</b>
                     </td>
                 </tr>
                 <tr>
@@ -151,11 +151,11 @@ function checkDelete(f)
                             <form name="delete_link_filters" onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                             <tr>
                                 <td bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Pattern</b></td>
-                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Replacement</b></td>
-                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Description</b></td>
-                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Minimum Role</b></td>
-                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Projects</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Pattern{/t}</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Replacement{/t}</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Description{/t}</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Minimum Role{/t}</b></td>
+                                <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Projects{/t}</b></td>
                             </tr>
                             {section name="i" loop=$list}
                             {cycle values=$cycle assign="row_color"}
@@ -164,7 +164,7 @@ function checkDelete(f)
                                     <input type="checkbox" name="items[]" value="{$list[i].lfi_id}" {if $smarty.section.i.total == 0}disabled{/if}>
                                 </td>
                                 <td width="20%" bgcolor="{$row_color}" class="default">
-                                    &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].lfi_id}" title="update this entry">{$list[i].lfi_pattern|escape:"html"}</a>
+                                    &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].lfi_id}" title="{t}update this entry{/t}">{$list[i].lfi_pattern|escape:"html"}</a>
                                 </td>
                                 <td width="20%" bgcolor="{$row_color}" class="default">
                                     &nbsp;{$list[i].lfi_replacement|escape:"html"}
@@ -182,7 +182,7 @@ function checkDelete(f)
                             {sectionelse}
                             <tr>
                                 <td colspan="6" bgcolor="{$light_color}" align="center" class="default">
-                                    <i>No link filters could be found.</i>
+                                    <i>{t}No link filters could be found.{/t}</i>
                                 </td>
                             </tr>
                             {/section}
@@ -191,11 +191,11 @@ function checkDelete(f)
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0">
                                         <tr>
                                             <td width="4" bgcolor="{$cell_color}" align="center">
-                                                <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                                                <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                                                 <input type="hidden" name="cat" value="delete">
                                             </td>
                                             <td colspan="4" bgcolor="{$cell_color}" align="center">
-                                                <input type="submit" value="Delete" class="button">
+                                                <input type="submit" value="{t}Delete{/t}" class="button">
                                             </td>
                                         </tr>
                                     </table>

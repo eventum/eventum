@@ -1,8 +1,8 @@
 {if $prj_id == ''}
     <span class="default">
-    This page can only be accessed in relation to a project. Please go to the project page and choose 
-    "Edit Fields to Display" to access this page.<br />
-    <a href="{$rel_url}manage/projects.php">Manage Projects</a>
+    {t}This page can only be accessed in relation to a project. Please go to the project page and choose
+    "Edit Fields to Display" to access this page.{/t}<br />
+    <a href="{$rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
     </span>
 {else}
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
@@ -15,32 +15,32 @@
         <input type="hidden" name="prj_id" value="{$prj_id}">
         <tr>
           <td class="default" nowrap colspan="2">
-            <b>Manage Columns to Display</b> {include file="help_link.tpl.html" topic="column_display"}
+            <b>{t}Manage Columns to Display{/t}</b> {include file="help_link.tpl.html" topic="column_display"}
           </td>
           <td class="default" align="right">
-            (Current Project: {$project_name})
+            ({t}Current Project{/t}: {$project_name})
           </td>
         </tr>
         {if $result != ""}
         <tr>
           <td colspan="3" bgcolor="{$cell_color}" align="center" class="error">
               {if $result == -1}
-                An error occurred while trying to save columns to display.
+                {t}An error occurred while trying to save columns to display.{/t}
               {elseif $result == 1}
-                Thank you, columns to display was saved successfully.
+                {t}Thank you, columns to display was saved successfully.{/t}
               {/if}
           </td>
         </tr>
         {/if}
         <tr>
           <td bgcolor="{$cell_color}" class="default_white" align="center" width="40%">
-            <b>Column Name</b>
+            <b>{t}Column Name{/t}</b>
           </td>
           <td bgcolor="{$cell_color}" class="default_white" align="center" width="20%">
-            <b>Minimum Role</b>
+            <b>{t}Minimum Role{/t}</b>
           </td>
           <td bgcolor="{$cell_color}" class="default_white" align="center" width="40%">
-            <b>Order</b>
+            <b>{t}Order{/t}</b>
           </td>
         </tr>
         {assign var=default_rank value=1}
@@ -75,7 +75,7 @@
         {/foreach}
         <tr>
           <td bgcolor="{$cell_color}" align="center" colspan="3">
-            <input type="submit" name="save" value="Save" class="button">
+            <input type="submit" name="save" value="{t}Save{/t}" class="button">
           </td>
         </tr>
       </table>

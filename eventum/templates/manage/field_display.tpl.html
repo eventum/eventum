@@ -1,8 +1,8 @@
 {if $prj_id == ''}
     <span class="default">
-    This page can only be accessed in relation to a project. Please go to the project page and choose 
-    "Edit Fields to Display" to access this page.<br />
-    <a href="{$rel_url}manage/projects.php">Manage Projects</a>
+    {t}This page can only be accessed in relation to a project. Please go to the project page and choose
+    "Edit Fields to Display" to access this page.{/t}<br />
+    <a href="{$rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
     </span>
 {else}
 <form name="display_form" method="post" action="{$smarty.server.PHP_SELF}?prj_id={$prj_id}">
@@ -12,16 +12,16 @@
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
                 <tr>
                     <td class="default" colspan="2">
-                        <b>Edit Fields to Display</b> {include file="help_link.tpl.html" topic="field_display"}
+                        <b>{t}Edit Fields to Display{/t}</b> {include file="help_link.tpl.html" topic="field_display"}
                     </td>
                 </tr>
                 {if $result != ""}
                 <tr>
                     <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                       {if $result == -1}
-                        An error occurred while trying to update field display settings.
+                        {t}An error occurred while trying to update field display settings.{/t}
                       {elseif $result == 1}
-                        Thank you, field display settings were updated successfully.
+                        {t}Thank you, field display settings were updated successfully.{/t}
                       {/if}
                     </td>
                 </tr>
@@ -30,7 +30,7 @@
                 {cycle values=$cycle assign="row_color"}
                 <tr>
                     <td bgcolor="{$cell_color}" align="center" class="default_white" width="150">
-                        {$field_title} Field:
+                        {$field_title} {t}Field{/t}:
                     </td>
                     <td bgcolor="{$row_color}">
                         <select name="min_role[{$field_name}]" class="default">
@@ -42,8 +42,8 @@
                 <tr>
                 <tr>
                     <td bgcolor="{$cell_color}" colspan="2">
-                        <input class="button" type="submit" value="Set Display Preferences">
-                        <input class="button" type="reset" value="Reset">
+                        <input class="button" type="submit" value="{t}Set Display Preferences{/t}">
+                        <input class="button" type="reset" value="{t}Reset{/t}">
                     </td>
                 </tr>
             </table>

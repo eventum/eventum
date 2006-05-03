@@ -9,12 +9,12 @@
               function validateForm(f)
               {
                   if (isWhitespace(f.title.value)) {
-                      alert('Please enter the title of this news entry.');
+                      alert('{/literal}{t}Please enter the title of this news entry.{/t}{literal}');
                       selectField(f, 'title');
                       return false;
                   }
                   if (!hasOneSelected(f, 'projects[]')) {
-                      alert('Please assign the appropriate projects for this news entry.');
+                      alert('{/literal}{t}Please assign the appropriate projects for this news entry.{/t}{literal}');
                       selectField(f, 'projects[]');
                       return false;
                   }
@@ -32,7 +32,7 @@
               {/if}
               <tr>
                 <td colspan="2" class="default">
-                  <b>Manage News</b>
+                  <b>{t}Manage News{/t}</b>
                 </td>
               </tr>
               {if $result != ""}
@@ -40,23 +40,23 @@
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $smarty.post.cat == "new"}
                     {if $result == -1}
-                      An error occurred while trying to add the news entry.
+                      {t}An error occurred while trying to add the news entry.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this news entry.
+                      {t}Please enter the title for this news entry.{/t}
                     {elseif $result == -3}
-                      Please enter the message for this news entry.
+                      {t}Please enter the message for this news entry.{/t}
                     {elseif $result == 1}
-                      Thank you, the news entry was added successfully.
+                      {t}Thank you, the news entry was added successfully.{/t}
                     {/if}
                   {elseif $smarty.post.cat == "update"}
                     {if $result == -1}
-                      An error occurred while trying to update the news entry information.
+                      {t}An error occurred while trying to update the news entry information.{/t}
                     {elseif $result == -2}
-                      Please enter the title for this news entry.
+                      {t}Please enter the title for this news entry.{/t}
                     {elseif $result == -3}
-                      Please enter the message for this news entry.
+                      {t}Please enter the message for this news entry.{/t}
                     {elseif $result == 1}
-                      Thank you, the news entry was updated successfully.
+                      {t}Thank you, the news entry was updated successfully.{/t}
                     {/if}
                   {/if}
                 </td>
@@ -64,7 +64,7 @@
               {/if}
               <tr>
                 <td width="140" bgcolor="{$cell_color}" class="default_white">
-                  <nobr><b>Assigned Projects:</b></nobr>
+                  <nobr><b>{t}Assigned Projects{/t}:</b></nobr>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="projects[]" multiple size="3" class="default">
@@ -75,18 +75,18 @@
               </tr>
               <tr>
                 <td width="140" bgcolor="{$cell_color}" class="default_white">
-                  <b>Status:</b>
+                  <b>{t}Status{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="status" class="default">
-                    <option value="active" {if $info.nws_status != 'inactive'}selected{/if}>Active</option>
-                    <option value="inactive" {if $info.nws_status == 'inactive'}selected{/if}>Inactive</option>
+                    <option value="active" {if $info.nws_status != 'inactive'}selected{/if}>{t}Active{/t}</option>
+                    <option value="inactive" {if $info.nws_status == 'inactive'}selected{/if}>{t}Inactive{/t}</option>
                   </select>
                 </td>
               </tr>
               <tr>
                 <td width="140" bgcolor="{$cell_color}" class="default_white">
-                  <b>Title:</b>
+                  <b>{t}Title{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <input type="text" name="title" size="40" class="default" value="{$info.nws_title|escape:"html"}">
@@ -95,7 +95,7 @@
               </tr>
               <tr>
                 <td width="140" bgcolor="{$cell_color}" class="default_white">
-                  <b>Message:</b>
+                  <b>{t}Message{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <textarea name="message" cols="50" rows="10">{$info.nws_message|escape:"html"}</textarea>
@@ -105,17 +105,17 @@
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center">
                   {if $smarty.get.cat == 'edit'}
-                  <input class="button" type="submit" value="Update News Entry">
+                  <input class="button" type="submit" value="{t}Update News Entry{/t}">
                   {else}
-                  <input class="button" type="submit" value="Create News Entry">
+                  <input class="button" type="submit" value="{t}Create News Entry{/t}">
                   {/if}
-                  <input class="button" type="reset" value="Reset">
+                  <input class="button" type="reset" value="{t}Reset{/t}">
                 </td>
               </tr>
               </form>
               <tr>
                 <td colspan="2" class="default">
-                  <b>Existing News Entries:</b>
+                  <b>{t}Existing News Entries{/t}:</b>
                 </td>
               </tr>
               <tr>
@@ -126,10 +126,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('Please select at least one of the news entries.');
+                          alert('{/literal}{t}Please select at least one of the news entries.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('This action will permanently remove the selected news entries.')) {
+                      if (!confirm('{/literal}{t}This action will permanently remove the selected news entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;
@@ -143,16 +143,16 @@
                     <input type="hidden" name="cat" value="delete">
                     <tr>
                       <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
-                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Title</b></td>
-                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Projects</b></td>
-                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>Status</b></td>
+                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
+                      <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Projects{/t}</b></td>
+                      <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Status{/t}</b></td>
                     </tr>
                     {section name="i" loop=$list}
                     {cycle values=$cycle assign="row_color"}
                     <tr>
                       <td width="4" nowrap bgcolor="{$row_color}" align="center"><input type="checkbox" name="items[]" value="{$list[i].nws_id}"></td>
                       <td width="40%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].nws_id}" title="update this entry">{$list[i].nws_title}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].nws_id}" title="{t}update this entry{/t}">{$list[i].nws_title}</a>
                       </td>
                       <td width="40%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].projects|escape:"html"}
@@ -164,16 +164,16 @@
                     {sectionelse}
                     <tr>
                       <td colspan="4" bgcolor="{$light_color}" align="center" class="default">
-                        <i>No news entries could be found.</i>
+                        <i>{t}No news entries could be found.{/t}</i>
                       </td>
                     </tr>
                     {/section}
                     <tr>
                       <td width="4" align="center" bgcolor="{$cell_color}">
-                        <input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
+                        <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');">
                       </td>
                       <td colspan="3" bgcolor="{$cell_color}" align="center">
-                        <input type="submit" value="Delete" class="button">
+                        <input type="submit" value="{t}Delete{/t}" class="button">
                       </td>
                     </tr>
                     </form>
