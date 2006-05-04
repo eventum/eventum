@@ -94,7 +94,7 @@ function showAllDrafts(thisBox)
                       <td width="20%">&nbsp;</td>
                       <td width="60%" align="center"><input type="button" value="{t}Create Draft{/t}" class="button" onClick="javascript:createDraft({$smarty.get.id});"></td>
                       <td width="20%" align="right">
-                        <input type="checkbox" name="show_all_drafts" id="show_all_drafts" value="1" {if $smarty.request.show_all_drafts == 1}checked{/if} onClick="javascript:showAllDrafts(this)"><span class="default_white"><label for="show_all_drafts">{t}Show All Drafts</label{/t}></span>
+                        <input type="checkbox" name="show_all_drafts" id="show_all_drafts" value="1" {if $smarty.request.show_all_drafts == 1}checked{/if} onClick="javascript:showAllDrafts(this)"><span class="default_white"><label for="show_all_drafts">{t}Show All Drafts{/t}</label></span>
                       </td>
                     </tr>
                   </table>

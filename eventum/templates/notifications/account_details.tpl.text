@@ -1,11 +1,12 @@
-This is an automated message sent at your request from {$app_title}.
+{textformat style="email"}{t name=$app_title}This is an automated message sent at your request from %1.{/t}
 
-Your full account information is available below.
+{t}Your full account information is available below.{/t}
+{/textformat}
 
 ----------------------------------------------------------------------
-        Full Name: {$user.usr_full_name}
-    Email Address: {$user.usr_email} 
-Assigned Projects: {foreach from=$user.projects item=project name=project}
+        {t}Full Name{/t}: {$user.usr_full_name}
+    {t}Email Address{/t}: {$user.usr_email}
+{t}Assigned Projects{/t}: {foreach from=$user.projects item=project name=project}
 {if not $smarty.foreach.project.first}                   {/if}{$project.prj_title}: {$project.role}
 {/foreach}
 ----------------------------------------------------------------------

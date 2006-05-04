@@ -12,15 +12,15 @@ allowed_emails[allowed_emails.length] = '{$allowed_emails[i]}';
 function validate(f)
 {
     if (isWhitespace(f.email.value)) {
-        alert('Please enter a valid email address.');
+        alert('{/literal}{t}Please enter a valid email address.{/t}{literal}');
         selectField(f, 'email');
         return false;
     }
     // extra check to see if the given email address is allowed in this issue or not
     var email = getEmailFromAddress(f.email.value);
     if (!inArray(email, allowed_emails)) {
-        var msg = "The given email address '" + f.email.value + "' is neither a known staff member or customer technical contact.";
-        msg += "\nAre you sure you want to add this address to the notification list?";
+        var msg = "{/literal}{t}The given email address{/t}{literal} '" + f.email.value + "' {/literal}{t}is neither a known staff member or customer technical contact.{/t}{literal}";
+        msg += "\n{/literal}{t}Are you sure you want to add this address to the notification list?{/t}{literal}";
         if (!confirm(msg)) {
             return false;
         } else {
@@ -67,25 +67,25 @@ function removeOption(f, field_name)
         {if $current_role > $roles.reporter}
         <tr>
           <td colspan="2" class="default">
-            <b>Notification Options</b>
+            <b>{t}Notification Options{/t}</b>
           </td>
         </tr>
         {if $update_result != ""}
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
             {if $update_result == -1}
-              An error occurred while trying to update the notification entry.
+              {t}An error occurred while trying to update the notification entry.{/t}
             {elseif $update_result == -2}
-              Error: the given email address is not allowed to be added to the notification list.
+              {t}Error: the given email address is not allowed to be added to the notification list.{/t}
             {elseif $update_result == 1}
-              Thank you, the notification entry was updated successfully.
+              {t}Thank you, the notification entry was updated successfully.{/t}
             {/if}
           </td>
         </tr>
         {/if}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>Email:</b>
+            <b>{t}Email{/t}:</b>
           </td>
           <td bgcolor="{$light_color}">
             <input type="text" name="email" size="40" class="default" value="{if $info.sub_email != ''}{$info.sub_email}{else}{$current_email}{/if}">
@@ -95,30 +95,30 @@ function removeOption(f, field_name)
         </tr>
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>Get a Notification When:</b>
+            <b>{t}Get a Notification When{/t}:</b>
           </td>
           <td bgcolor="{$light_color}" class="default">
-            <input type="checkbox" name="actions[]" {if ($info == '' && $default_actions.emails == 1) || $info.emails == 1}checked{/if} value="emails"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 0);">Emails are Received or Sent</a><br />
-            <input type="checkbox" name="actions[]" {if $info == '' || $info.updated == 1}checked{/if} value="updated"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 1);">Overview or Details are Changed</a><br />
-            <input type="checkbox" name="actions[]" {if $info == '' || $info.closed == 1}checked{/if} value="closed"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 2);">Issue is Closed</a><br />
-            <input type="checkbox" name="actions[]" {if $info == '' || $info.files == 1}checked{/if} value="files"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 3);">Files are Attached</a>
+            <input type="checkbox" name="actions[]" {if ($info == '' && $default_actions.emails == 1) || $info.emails == 1}checked{/if} value="emails"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 0);">{t}Emails are Received or Sent{/t}</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.updated == 1}checked{/if} value="updated"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 1);">{t}Overview or Details are Changed{/t}</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.closed == 1}checked{/if} value="closed"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 2);">{t}Issue is Closed{/t}</a><br />
+            <input type="checkbox" name="actions[]" {if $info == '' || $info.files == 1}checked{/if} value="files"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('notification_form', 'actions[]', 3);">{t}Files are Attached{/t}</a>
           </td>
         </tr>
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center">
             {if $smarty.get.cat == 'edit'}
-            <input class="button" type="submit" value="Update Subscription">
+            <input class="button" type="submit" value="{t}Update Subscription{/t}">
             {else}
-            <input class="button" type="submit" value="Add Subscription">
+            <input class="button" type="submit" value="{t}Add Subscription{/t}">
             {/if}
-            <input class="button" type="reset" value="Reset">
+            <input class="button" type="reset" value="{t}Reset{/t}">
           </td>
         </tr>
         </form>
         {/if}
         <tr>
           <td colspan="2" class="default">
-            <b>Existing Subscribers for this Issue:</b>
+            <b>{t}Existing Subscribers for this Issue{/t}:</b>
           </td>
         </tr>
         <tr>
@@ -129,10 +129,10 @@ function removeOption(f, field_name)
             function checkDelete(f)
             {
                 if (!hasOneChecked(f, 'items[]')) {
-                    alert('Please select at least one of the subscribers.');
+                    alert('{/literal}{t}Please select at least one of the subscribers.{/t}{literal}');
                     return false;
                 }
-                if (!confirm('This action will remove the selected entries.')) {
+                if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
                     return false;
                 } else {
                     return true;
@@ -147,15 +147,15 @@ function removeOption(f, field_name)
               <input type="hidden" name="issue_id" value="{$issue_id}">
               <tr>
                 <td bgcolor="{$cell_color}" nowrap>&nbsp;</td>
-                <td bgcolor="{$cell_color}" class="default_white"><b>Email</b> (click to edit)</td>
-                <td bgcolor="{$cell_color}" class="default_white"><b>Actions</b></td>
+                <td bgcolor="{$cell_color}" class="default_white"><b>{t}Email{/t}</b> ({t}click to edit{/t})</td>
+                <td bgcolor="{$cell_color}" class="default_white"><b>{t}Actions{/t}</b></td>
               </tr>
               {section name="i" loop=$list}
               {cycle values=$cycle assign="row_color"}
               <tr>
                 <td width="4" nowrap bgcolor="{$row_color}"><input type="checkbox" name="items[]" value="{$list[i].sub_id}"></td>
                 <td width="60%" bgcolor="{$row_color}" class="default">
-                  <a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&iss_id={$list[i].sub_iss_id}&id={$list[i].sub_id}" title="update this entry">{$list[i].sub_email|escape:"html"}</a>
+                  <a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&iss_id={$list[i].sub_iss_id}&id={$list[i].sub_id}" title="{t}update this entry{/t}">{$list[i].sub_email|escape:"html"}</a>
                 </td>
                 <td width="40%" bgcolor="{$row_color}" class="default">
                   {$list[i].actions}
@@ -164,15 +164,15 @@ function removeOption(f, field_name)
               {sectionelse}
               <tr>
                 <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
-                  <i>No subscribers could be found.</i>
+                  <i>{t}No subscribers could be found.{/t}</i>
                 </td>
               </tr>
               {/section}
               {if $current_role > $roles.reporter}
               <tr>
                 <td colspan="3" bgcolor="{$cell_color}" align="center">
-                  <input type="submit" value="Remove Selected" class="button">
-                  <input type="button" value="Close" class="button" onClick="javascript:window.close();">
+                  <input type="submit" value="{t}Remove Selected{/t}" class="button">
+                  <input type="button" value="{t}Close{/t}" class="button" onClick="javascript:window.close();">
                 </td>
               </tr>
               {/if}

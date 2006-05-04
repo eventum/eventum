@@ -1,22 +1,22 @@
-The following {$type} reminder could not be sent out because 
-no recipients could be found:
+{t name=$type}The following %1 reminder could not be sent out because
+no recipients could be found{/t}:
 ============================================================
 
-Automated Issue #{$data.iss_id} Reminder Alert!
+{t}Automated Issue{/t} #{$data.iss_id} {t}Reminder Alert{/t}!
 
-          URL: {$app_base_url}view.php?id={$data.iss_id}
-      Summary: {$data.iss_summary}
-   Assignment: {$data.assigned_users}
+          {t}URL{/t}: {$app_base_url}view.php?id={$data.iss_id}
+      {t}Summary{/t}: {$data.iss_summary}
+   {t}Assignment{/t}: {$data.assigned_users}
 {if $has_customer_integration}
-     Customer: {$data.customer_info.customer_name}
-Support Level: {$data.customer_info.support_level}
+     {t}Customer{/t}: {$data.customer_info.customer_name}
+{t}Support Level{/t}: {$data.customer_info.support_level}
 {/if}
 
- Alert Reason:  
-     Triggered Reminder "{$reminder.rem_title}"
-               Action "{$action.rma_title}"
+ {t}Alert Reason{/t}:
+     {t}Triggered Reminder{/t} "{$reminder.rem_title}"
+               {t}Action{/t} "{$action.rma_title}"
     
-  Alert Query:
+  {t}Alert Query{/t}:
      {section name="i" loop=$conditions}
      {$conditions[i].rmf_title} - {$conditions[i].rmo_title} - {$conditions[i].rlc_value}
      {/section}

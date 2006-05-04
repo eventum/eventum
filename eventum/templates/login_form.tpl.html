@@ -5,10 +5,10 @@
 function validateForm(f)
 {
     if (isWhitespace(f.email.value)) {
-        errors[errors.length] = new Option('Email Address', 'email');
+        errors[errors.length] = new Option('{/literal}{t}Email Address{/t}{literal}', 'email');
     }
     if (isWhitespace(f.passwd.value)) {
-        errors[errors.length] = new Option('Password', 'passwd');
+        errors[errors.length] = new Option('{/literal}{t}Password{/t}{literal}', 'passwd');
     }
     if (errors.length > 0) {
         return false;
@@ -27,7 +27,7 @@ function validateForm(f)
         <tr>
           <td colspan="2" align="center">
             <br /><br />
-            <h3>{$app_setup.tool_caption|default:$application_title} - Login</h3>
+            <h3>{$app_setup.tool_caption|default:$application_title} - {t}Login{/t}</h3>
           </td>
         </tr>
       </table>
@@ -46,45 +46,45 @@ function validateForm(f)
           <td colspan="2" align="center" class="error" bgcolor="#006486">
             <b>
             {if $smarty.get.err == 1}
-              Error: Please provide your email address.
+              {t}Error: Please provide your email address.{/t}
             {elseif $smarty.get.err == 2}
-              Error: Please provide your password.
+              {t}Error: Please provide your password.{/t}
             {elseif $smarty.get.err == 3 or $smarty.get.err == 4}
-              Error: The email address / password combination could not be found in the system.
+              {t}Error: The email address / password combination could not be found in the system.{/t}
             {elseif $smarty.get.err == 5}
-              Your session has expired. Please login again to continue.
+              {t}Your session has expired. Please login again to continue.{/t}
             {elseif $smarty.get.err == 6}
-              Thank you, you are now logged out of {$application_title}.
+              {t name=$application_title}Thank you, you are now logged out of %1{/t}.
             {elseif $smarty.get.err == 7}
-              Error: Your user status is currently set as inactive. Please 
-              contact your local system administrator for further information.
+              {t}Error: Your user status is currently set as inactive. Please
+              contact your local system administrator for further information.{/t}
             {elseif $smarty.get.err == 8}
-              Thank you, your account is now active and ready to be 
-              used. Use the form below to login.
+              {t}Thank you, your account is now active and ready to be
+              used. Use the form below to login.{/t}
             {elseif $smarty.get.err == 9}
-              Error: Your user status is currently set as pending. This 
-              means that you still need to confirm your account 
-              creation request. Please contact your local system 
-              administrator for further information.
+              {t}Error: Your user status is currently set as pending. This
+              means that you still need to confirm your account
+              creation request. Please contact your local system
+              administrator for further information.{/t}
             {elseif $smarty.get.err == 11}
-              Error: Cookies support seem to be disabled in your browser. Please enable this feature and try again.
+              {t}Error: Cookies support seem to be disabled in your browser. Please enable this feature and try again.{/t}
             {elseif $smarty.get.err == 12}
-              Error: In order for {$application_title} to work properly, you must enable cookie support in your browser. Please login 
-              again and accept all cookies coming from it.
+              {t name=$application_title}Error: In order for %1 to work properly, you must enable cookie support in your browser. Please login
+              again and accept all cookies coming from it.{/t}
             {/if}
             </b>
           </td>
         </tr>
         {/if}
         <tr>
-          <td align="right" width="40%" class="default_white" bgcolor="#006486"><b><u>E</u>mail Address:</b></td>
+          <td align="right" width="40%" class="default_white" bgcolor="#006486"><b>{t}Email Address{/t}:</b></td>
           <td width="60%" bgcolor="#006486">
             <input accessKey="e" class="default" type="text" name="email" value="{$email|default:$smarty.get.email|escape:"html"}" size="30">
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="40%" class="default_white" bgcolor="#006486"><b><u>P</u>assword:</b></td>
+          <td align="right" width="40%" class="default_white" bgcolor="#006486"><b>{t}Password{/t}:</b></td>
           <td width="60%" bgcolor="#006486">
             <input accessKey="p" class="default" type="password" name="passwd" size="20" maxlength="32">
             {include file="error_icon.tpl.html" field="passwd"}
@@ -92,24 +92,24 @@ function validateForm(f)
         </tr>
         <tr align="center">
           <td colspan="2" bgcolor="#006486">
-            <input type="submit" name="Submit" value="Login" class="button">
+            <input type="submit" name="Submit" value="{t}Login{/t}" class="button">
           </td>
         </tr>
         <tr>
           <td colspan="2" class="default_white" align="center" bgcolor="#006486">
             <label for="remember_login" accesskey="r"></label>
-            <input type="checkbox" id="remember_login" name="remember_login" value="1"> <b><a id="white_link" class="white_link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('login_form', 'remember_login');"><u>R</u>emember Login</a></b>
+            <input type="checkbox" id="remember_login" name="remember_login" value="1"> <b><a id="white_link" class="white_link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('login_form', 'remember_login');">{t}Remember Login{/t}</a></b>
           </td>
         </tr>
         <tr align="center">
           <td colspan="2" class="default_white" bgcolor="#006486">
-            <a class="white_link" href="forgot_password.php{if $smarty.get.email != ""}?email={$smarty.get.email|escape:"html"}{/if}">I Forgot My Password</a>&nbsp;&nbsp;
-            {if $app_setup.open_signup == 'enabled'}<a class="white_link" href="signup.php">Signup for an Account</a>{/if}
+            <a class="white_link" href="forgot_password.php{if $smarty.get.email != ""}?email={$smarty.get.email|escape:"html"}{/if}">{t}I Forgot My Password{/t}</a>&nbsp;&nbsp;
+            {if $app_setup.open_signup == 'enabled'}<a class="white_link" href="signup.php">{t}Signup for an Account{/t}</a>{/if}
           </td>
         </tr>
         <tr>
           <td bgcolor="#006486" colspan="2" align="center" class="default_white">
-            <b>* Requires support for cookies and <br />javascript in your browser</b>
+            <b>* {t}Requires support for cookies and javascript in your browser{/t}</b>
           </td>
         </tr>
       </table>
@@ -125,7 +125,7 @@ function validateForm(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default">
-            <b>NOTE: You may report issues without the need to login by using the following URL:</b>
+            <b>{t}NOTE: You may report issues without the need to login by using the following URL{/t}:</b>
             <br /><br />
             <a href="{$app_base_url}post.php" class="link">{$app_base_url}post.php</a>
           </td>

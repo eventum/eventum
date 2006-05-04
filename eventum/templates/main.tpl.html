@@ -1,5 +1,6 @@
 {include file="header.tpl.html" extra_title="Stats"}
 {include file="navigation.tpl.html"}
+
 {if $current_role == $roles.customer}
   {include file="customer/$customer_backend_name/customer_report.tpl.html"}
 {else}
@@ -12,13 +13,13 @@
             <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
                 <td>
-                  <span class="default"><b>Overall Stats</b></span>
+                  <span class="default"><b>{t}Overall Stats{/t}</b></span>
                   <hr size="1" noshade color="{$cell_color}">
                 </td>
               </tr>
               <tr>
                 <td nowrap class="default">
-                  <b>Issues by Status:</b>
+                  <b>{t}Issues by Status{/t}:</b>
                   <br /><br />
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     {section name="i" loop=$status}
@@ -28,12 +29,12 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td class="default">No issues could be found.</td>
+                      <td class="default">{t}No issues could be found.{/t}</td>
                     </tr>
                     {/section}
                   </table>
                   <br /><br />
-                  <b>Issues by Release:</b>
+                  <b>{t}Issues by Release{/t}:</b>
                   <br /><br />
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     {section name="i" loop=$releases}
@@ -43,12 +44,12 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td class="default">No issues could be found.</td>
+                      <td class="default">{t}No issues could be found.{/t}</td>
                     </tr>
                     {/section}
                   </table>
                   <br /><br />
-                  <b>Issues by Priority:</b>
+                  <b>{t}Issues by Priority{/t}:</b>
                   <br /><br />
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     {section name="i" loop=$priorities}
@@ -58,12 +59,12 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td class="default">No issues could be found.</td>
+                      <td class="default">{t}No issues could be found.{/t}</td>
                     </tr>
                     {/section}
                   </table>
                   <br /><br />
-                  <b>Issues by Category:</b>
+                  <b>{t}Issues by Category{/t}:</b>
                   <br /><br />
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     {section name="i" loop=$categories}
@@ -73,12 +74,12 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td class="default">No issues could be found.</td>
+                      <td class="default">{t}No issues could be found.{/t}</td>
                     </tr>
                     {/section}
                   </table>
                   <br /><br />
-                  <b>Assigned Issues:</b>
+                  <b>{t}Assigned Issues{/t}:</b>
                   <br /><br />
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     {section name="i" loop=$users}
@@ -88,25 +89,25 @@
                     </tr>
                     {sectionelse}
                     <tr>
-                      <td class="default">No issues could be found.</td>
+                      <td class="default">{t}No issues could be found.{/t}</td>
                     </tr>
                     {/section}
                   </table>
                   {if $app_setup.support_email == 'enabled' and $current_role > $roles.reporter}
                   <br /><br />
-                  <b>Emails:</b>
+                  <b>{t}Emails{/t}:</b>
                   <br /><br />
                   <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                      <td class="default"><a class="link" href="emails.php?hide_associated=0">Associated</a></td>
+                      <td class="default"><a class="link" href="emails.php?hide_associated=0">{t}Associated{/t}</a></td>
                       <td align="right" class="default">{$emails.associated}</td>
                     </tr>
                     <tr>
-                      <td class="default"><a class="link" href="emails.php?hide_associated=1">Pending</a></td>
+                      <td class="default"><a class="link" href="emails.php?hide_associated=1">{t}Pending{/t}</a></td>
                       <td align="right" class="default">{$emails.pending}</td>
                     </tr>
                     <tr>
-                      <td class="default">Removed</td>
+                      <td class="default">{t}Removed{/t}</td>
                       <td align="right" class="default">{$emails.removed}</td>
                     </tr>
                   </table>
@@ -131,7 +132,7 @@
             <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
                 <td>
-                  <span class="default"><b>Did you Know?</b></span>
+                  <span class="default"><b>{t}Did you Know?{/t}</b></span>
                 </td>
               </tr>
               <tr>
@@ -152,7 +153,7 @@
             <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
                 <td>
-                  <span class="default"><b>Graphical Stats (All Issues)</b></span>
+                  <span class="default"><b>{t}Graphical Stats (All Issues){/t}</b></span>
                 </td>
               </tr>
               <tr>

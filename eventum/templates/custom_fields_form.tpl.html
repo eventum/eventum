@@ -5,9 +5,9 @@
   <center>
   <span class="default">
   {if $update_result == -1}
-    <b>An error occurred while trying to run your query</b>
+    <b>{t}An error occurred while trying to run your query{/t}</b>
   {elseif $update_result == 1}
-    <b>Thank you, the custom field values were updated successfully.</b>
+    <b>{t}Thank you, the custom field values were updated successfully.{/t}</b>
   {/if}
   </span>
   </center>
@@ -21,7 +21,7 @@
   <br />
   {if not $current_user_prefs.close_popup_windows}
   <center>
-    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+    <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
   </center>
   {/if}
 {else}
@@ -46,7 +46,7 @@ function validateForm(f)
       <table width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default">
-            <b>Update Issue Details</b>
+            <b>{t}Update Issue Details{/t}</b>
           </td>
         </tr>
         {section name="i" loop=$custom_fields}
@@ -70,7 +70,7 @@ function validateForm(f)
             {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" year_empty='' month_empty='' day_empty='' time=$date_value start_year=-1 end_year=+2 day_value_format=%02d}
             {else}
             <select id="custom_field_{$custom_fields[i].fld_id}" class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if}>
-              {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">Please choose an option</option>{/if}
+              {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">{t}Please choose an option{/t}</option>{/if}
               {html_options options=$custom_fields[i].field_options selected=$custom_fields[i].selected_cfo_id}
             </select>
             {/if}
@@ -85,14 +85,14 @@ function validateForm(f)
         {sectionelse}
         <tr>
           <td align="center" class="default" colspan="2" bgcolor="{$dark_color}">
-            <b>No custom field could be found.</b>
+            <b>{t}No custom field could be found.{/t}</b>
           </td>
         </tr>
         {/section}
         <tr>
           <td colspan="2" bgcolor="{$cell_color}">
-            <input class="button" type="submit" value="Update Values">&nbsp;&nbsp;
-            <input class="button" type="button" value="Close" onClick="javascript:window.close();">
+            <input class="button" type="submit" value="{t}Update Values{/t}">&nbsp;&nbsp;
+            <input class="button" type="button" value="{t}Close{/t}" onClick="javascript:window.close();">
           </td>
         </tr>
       </table>

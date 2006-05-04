@@ -12,9 +12,9 @@ setTimeout('window.close()', 2000);
 <center>
 <span class="default">
   {if $set_analysis_result == -1}
-  <b>An error occurred while trying to run your query</b>
+  <b>{t}An error occurred while trying to run your query{/t}</b>
   {elseif $set_analysis_result == 1}
-  <b>Thank you, the impact analysis was updated successfully.</b>
+  <b>{t}Thank you, the impact analysis was updated successfully.{/t}</b>
   {/if}
 </span>
 </center>
@@ -25,12 +25,12 @@ setTimeout('window.close()', 2000);
 function validate(f)
 {
     if (!isFloat(f.dev_time.value)) {
-        alert("Please use only floating point numbers on the estimated development time field.");
+        alert("{/literal}{t}Please use only floating point numbers on the estimated development time field.{/t}{literal}");
         selectField(f, 'dev_time');
         return false;
     }
     if (isWhitespace(f.impact_analysis.value)) {
-        alert("Please enter the impact analysis for this new requirement.");
+        alert("{/literal}{t}Please enter the impact analysis for this new requirement.{/t}{literal}");
         selectField(f, 'impact_analysis');
         return false;
     }
@@ -48,21 +48,21 @@ function validate(f)
       <table width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default">
-            <b>Enter Impact Analysis</b>
+            <b>{t}Enter Impact Analysis{/t}</b>
           </td>
         </tr>
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>Estimated Dev. Time: *</b>
+            <b>{t}Estimated Dev. Time{/t}: *</b>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="dev_time" size="6" class="default"> <span class="default">(in hours)</span>
+            <input type="text" name="dev_time" size="6" class="default"> <span class="default">({t}in hours{/t})</span>
             {include file="error_icon.tpl.html" field="dev_time"}
           </td>
         </tr>
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>Impact <br />Analysis: *</b>
+            <b>{t}Impact <br />Analysis{/t}: *</b>
           </td>
           <td bgcolor="{$dark_color}">
             <textarea name="impact_analysis" rows="10" style="width: 97%"></textarea>

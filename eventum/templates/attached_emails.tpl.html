@@ -7,7 +7,7 @@ var url = '{$smarty.server.PHP_SELF}?cat=associate&';
 function removeEmails(f)
 {
     if (!hasOneChecked(f, 'emails[]')) {
-        alert('Please choose which entries need to be removed.');
+        alert('{/literal}{t}Please choose which entries need to be removed.{/t}{literal}');
         return false;
     }
     // loop through all of the form elements and build a dynamic url
@@ -30,17 +30,17 @@ function removeEmails(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td bgcolor="{$light_color}" colspan="3" class="default">
-            <b>Attached Emails</b>
+            <b>{t}Attached Emails{/t}</b>
           </td>
         </tr>
         <tr>
           <td>
             <table cellpadding="2" cellspacing="1" bgcolor="white" width="100%" border="0">
               <tr>
-                <td bgcolor="{$cell_color}" class="default_white" width="10">Remove?</td>
-                <td bgcolor="{$cell_color}" class="default_white">Sender</td>
-                <td bgcolor="{$cell_color}" class="default_white">Subject</td>
-                <td bgcolor="{$cell_color}" class="default_white" width="10"><nobr>Notify Sender?</nobr></td>
+                <td bgcolor="{$cell_color}" class="default_white" width="10">{t}Remove?{/t}</td>
+                <td bgcolor="{$cell_color}" class="default_white">{t}Sender{/t}</td>
+                <td bgcolor="{$cell_color}" class="default_white">{t}Subject{/t}</td>
+                <td bgcolor="{$cell_color}" class="default_white" width="10"><nobr>{t}Notify Sender?{t}</nobr></td>
               </tr>
               {section name="i" loop=$emails}
               {cycle values=$cycle assign="row_color"}
@@ -61,7 +61,7 @@ function removeEmails(f)
               {/section}
               <tr>
                 <td colspan="4">
-                  <input type="button" class="button" value="Remove Selected" onClick="javascript:removeEmails(this.form);">
+                  <input type="button" class="button" value="{t}Remove Selected{/t}" onClick="javascript:removeEmails(this.form);">
                 </td>
               </tr>
             </table>

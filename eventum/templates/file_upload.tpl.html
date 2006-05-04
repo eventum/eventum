@@ -5,11 +5,11 @@
     <center>
     <span class="default"><b>
     {if $upload_file_result == -1}
-      An error occurred while trying to process the uploaded file.
+      {t}An error occurred while trying to process the uploaded file.{/t}
     {elseif $upload_file_result == -2}
-      The uploaded file is already attached to the current issue. Please rename the file and try again.
+      {t}The uploaded file is already attached to the current issue. Please rename the file and try again.{/t}
     {elseif $upload_file_result == 1}
-      Thank you, the uploaded file was associated with the issue below.
+      {t}Thank you, the uploaded file was associated with the issue below.{/t}
     {/if}
     </b></span>
     </center>
@@ -23,7 +23,7 @@
     <br />
     {if not $current_user_prefs.close_popup_windows}
     <center>
-      <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">Continue</a></span>
+      <span class="default"><a class="link" href="javascript:void(null);" onClick="javascript:closeAndRefresh();">{t}Continue{/t}</a></span>
     </center>
     {/if}
 {else}
@@ -49,7 +49,7 @@ function validateUpload(f)
     <td width="100%">
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td colspan="2" class="default"><b>Add New Files:</b></td>
+          <td colspan="2" class="default"><b>{t}Add New Files{/t}:</b></td>
         </tr>
         <form name="attachment_form" action="file_upload.php" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateUpload');">
         <input type="hidden" name="cat" value="upload_file">
@@ -60,12 +60,12 @@ function validateUpload(f)
               {if $current_role > $roles.customer}
               <tr>
                 <td bgcolor="{$internal_color}" class="default_white" width="120" nowrap>
-                  <b>Status:</b>
+                  <b>{t}Status{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <select name="status" class="default">
-                    <option value="public">Public (visible to all)</option>
-                    <option value="internal">Private (standard user and above only)</option>
+                    <option value="public">{t}Public{/t} ({t}visible to all{/t})</option>
+                    <option value="internal">{t}Private{/t} ({t}standard user and above only{/t})</option>
                   </select>
                 </td>
               </tr>
@@ -74,7 +74,7 @@ function validateUpload(f)
               {/if}
               <tr>
                 <td bgcolor="{$cell_color}" class="default_white" width="120" nowrap>
-                  <b>Filenames:</b>
+                  <b>{t}Filenames{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
@@ -88,14 +88,14 @@ function validateUpload(f)
                       <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
                     </tr>
                     <tr>
-                      <td class="small_default"><b>Note: The current maximum allowed upload file size is {$max_attachment_size}</b></td>
+                      <td class="small_default"><b>N{t}ote: The current maximum allowed upload file size is{/t} {$max_attachment_size}</b></td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr bgcolor="{$light_color}">
                 <td bgcolor="{$cell_color}" class="default_white" width="120" nowrap>
-                  <b>Description:</b>
+                  <b>{t}Description{/t}:</b>
                 </td>
                 <td bgcolor="{$light_color}">
                   <textarea name="file_description" rows="4" style="width: 97%"></textarea>
@@ -103,7 +103,7 @@ function validateUpload(f)
               </tr>
               <tr bgcolor="{$cell_color}">
                 <td colspan="2" align="center">
-                  <input type="submit" class="button" value="Upload File">
+                  <input type="submit" class="button" value="{t}Upload File{/t}">
                 </td>
               </tr>
             </table>
@@ -116,6 +116,6 @@ function validateUpload(f)
 </table>
 {/if}
 {else}
-<center><span class="default">You do not have the correct role to access this page</span></center>
+<center><span class="default">{t}You do not have the correct role to access this page{/t}</span></center>
 {/if}
 {include file="footer.tpl.html"}

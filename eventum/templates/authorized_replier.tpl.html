@@ -8,7 +8,7 @@
 function validate(f)
 {
     if (isWhitespace(f.email.value)) {
-        alert('Please enter a valid email address.');
+        alert('{/literal}{t}Please enter a valid email address.{/t}{literal}');
         selectField(f, 'email');
         return false;
     }
@@ -51,25 +51,25 @@ function removeOption(f, field_name)
         {if $current_role > $roles.reporter}
         <tr>
           <td colspan="2" class="default">
-            <b>Authorized Repliers</b>
+            <b>{t}Authorized Repliers{/t}</b>
           </td>
         </tr>
         {if $insert_result != ""}
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
             {if $insert_result == -1}
-              An error occurred while trying to insert the authorized replier.
+              {t}An error occurred while trying to insert the authorized replier.{/t}
             {elseif $insert_result == -2}
-              Users with a role of "customer" or below are not allowed to be added to the authorized repliers list.
+              {t}Users with a role of "customer" or below are not allowed to be added to the authorized repliers list.{/t}
             {elseif $insert_result == 1}
-              Thank you, the authorized replier was inserted successfully.
+              {t}Thank you, the authorized replier was inserted successfully.{/t}
             {/if}
           </td>
         </tr>
         {/if}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
-            <b>Email:</b>
+            <b>{t}Email{/t}:</b>
           </td>
           <td bgcolor="{$light_color}">
             <input type="text" name="email" size="40" class="default" value="{$info.sub_email}">
@@ -79,15 +79,15 @@ function removeOption(f, field_name)
         </tr>
         <tr>
           <td colspan="2" bgcolor="{$cell_color}" align="center">
-            <input class="button" type="submit" value="Add Authorized Replier">
-            <input class="button" type="reset" value="Reset">
+            <input class="button" type="submit" value="{t}Add Authorized Replier{/t}">
+            <input class="button" type="reset" value="{t}Reset{/t}">
           </td>
         </tr>
         </form>
         {/if}
         <tr>
           <td colspan="2" class="default">
-            <b>Existing Authorized Repliers for this Issue:</b>
+            <b>{t}Existing Authorized Repliers for this Issue{/t}:</b>
           </td>
         </tr>
         <tr>
@@ -98,10 +98,10 @@ function removeOption(f, field_name)
             function checkDelete(f)
             {
                 if (!hasOneChecked(f, 'items[]')) {
-                    alert('Please select at least one of the authorized repliers.');
+                    alert('{/literal}{t}Please select at least one of the authorized repliers.{/t}{literal}');
                     return false;
                 }
-                if (!confirm('This action will remove the selected entries.')) {
+                if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
                     return false;
                 } else {
                     return true;
@@ -116,7 +116,7 @@ function removeOption(f, field_name)
               <input type="hidden" name="issue_id" value="{$issue_id}">
               <tr>
                 <td bgcolor="{$cell_color}" nowrap>&nbsp;</td>
-                <td bgcolor="{$cell_color}" class="default_white"><b>Email</b></td>
+                <td bgcolor="{$cell_color}" class="default_white"><b>{t}Email{/t}</b></td>
               </tr>
               {section name="i" loop=$list.all}
               {cycle values=$cycle assign="row_color"}
@@ -130,15 +130,15 @@ function removeOption(f, field_name)
               {sectionelse}
               <tr>
                 <td colspan="3" bgcolor="{$light_color}" align="center" class="default">
-                  <b>No authorized repliers could be found.</b>
+                  <b>{t}No authorized repliers could be found.{/t}</b>
                 </td>
               </tr>
               {/section}
               {if $current_role > $roles.reporter}
               <tr>
                 <td colspan="3" bgcolor="{$cell_color}" align="center">
-                  <input type="submit" value="Remove Selected" class="button">
-                  <input type="button" value="Close" class="button" onClick="javascript:closeAndRefresh();">
+                  <input type="submit" value="{t}Remove Selected{/t}" class="button">
+                  <input type="button" value="{t}Close{/t}" class="button" onClick="javascript:closeAndRefresh();">
                 </td>
               </tr>
               {/if}

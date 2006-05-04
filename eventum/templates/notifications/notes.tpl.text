@@ -2,25 +2,23 @@
 
 
 ----------------------------------------------------------------------
-These are the current issue details:
+{t}These are the current issue details{/t}:
 ----------------------------------------------------------------------
-               ID: {$data.iss_id}
-          Summary: {$data.iss_summary}
-           Status: {$data.sta_title}
-          Project: {$data.prj_title}
-      Reported By: {$data.usr_full_name}
-         Priority: {$data.pri_title}
-      Description:
+               {t}ID{/t}: {$data.iss_id}
+          {t}Summary{/t}: {$data.iss_summary}
+           {t}Status{/t}: {$data.sta_title}
+          {t}Project{/t}: {$data.prj_title}
+      {t}Reported By{/t}: {$data.usr_full_name}
+         {t}Priority{/t}: {$data.pri_title}
+      {t}Description{/t}:
 ----------------------------------------------------------------------
 {$data.iss_description}
 ----------------------------------------------------------------------
 
-To view more details of this issue, or to update it, please visit the 
-following URL:
+
+{textformat style="email"}
+{t}To view more details of this issue, or to update it, please visit the following URL{/t}:
 {$app_base_url}view.php?id={$data.iss_id}
 
-Please Note: If you do not wish to receive any future email 
-notifications from {$app_title}, please change your account preferences by 
-visiting the URL below:
-{$app_base_url}preferences.php
-
+{t name=$app_title}Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below{/t}:
+{$app_base_url}preferences.php{/textformat}
