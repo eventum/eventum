@@ -49,9 +49,15 @@ if (!@file_exists($ttf_font)) {
 }
 
 // Some data
+$colors = array();
 if ($HTTP_GET_VARS["plot"] == "status") {
     $data = Stats::getAssocStatus();
     $graph_title = "Issues by Status";
+    foreach ($data as $sta_title => $trash) {
+        $sta_id = Status::getStatusID($sta_title);
+        $status_details = Status::getDetails($sta_id);
+        $colors[] = $status_details['sta_color'];
+    }
 } elseif ($HTTP_GET_VARS["plot"] == "release") {
     $data = Stats::getAssocRelease();
     $graph_title = "Issues by Release";
@@ -84,7 +90,11 @@ $graph->title->SetFont($font, FS_BOLD, 12);
 
 // The pie plot
 $p1 = new PiePlot($data);
-$p1->SetTheme('pastel');
+if (count($colors) > 0) {
+    $p1->SetSliceColors($colors);
+} else {
+    $p1->SetTheme('pastel');
+}
 
 // Move center of pie to the left to make better room
 // for the legend
