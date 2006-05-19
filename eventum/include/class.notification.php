@@ -723,6 +723,10 @@ class Notification
             if (empty($users[$i]["sub_usr_id"])) {
                 $email = $users[$i]["sub_email"];
             } else {
+                if (Auth::getUserID() == $users[$i]["sub_usr_id"]) {
+                    // don't notify the user who made this change
+                    continue;
+                }
                 $email = User::getFromHeader($users[$i]["sub_usr_id"]);
             }
             // now add it to the list of emails
