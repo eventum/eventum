@@ -2117,7 +2117,7 @@ class Issue
             }
             // need to notify any emails being converted into issues ?
             if (@count($HTTP_POST_VARS["notify_senders"]) > 0) {
-                $recipients = Notification::notifyEmailConvertedIntoIssue($prj_id, $new_issue_id, $HTTP_POST_VARS["notify_senders"], $customer_id);
+                $recipients = Notification::notifyEmailConvertedIntoIssue($prj_id, $new_issue_id, $HTTP_POST_VARS["notify_senders"], @$HTTP_POST_VARS['customer']);
             } else {
                 $recipients = array();
             }
