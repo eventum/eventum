@@ -22,10 +22,8 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: s.config.inc.php 1.8 04/01/19 15:19:26-00:00 jpradomaia $
 //
 ini_set('allow_url_fopen', 0);
 ini_set("display_errors", 0);
@@ -96,7 +94,7 @@ if (stristr(PHP_OS, 'darwin')) {
 @define("APP_RELATIVE_URL", "%{APP_RELATIVE_URL}%");
 @define("APP_BASE_URL", "%{PROTOCOL_TYPE}%" . APP_HOSTNAME . APP_RELATIVE_URL);
 @define("APP_COOKIE_URL", APP_RELATIVE_URL);
-@define("APP_COOKIE_DOMAIN", APP_HOSTNAME);
+@define("APP_COOKIE_DOMAIN", null);
 @define("APP_COOKIE", "eventum");
 @define("APP_COOKIE_EXPIRE", time() + (60 * 60 * 8));
 @define("APP_PROJECT_COOKIE", "eventum_project");
@@ -158,6 +156,9 @@ $HTTP_POST_VARS = Misc::dispelMagicQuotes($HTTP_POST_VARS);
 $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
 
 // handle the language preferences now
+define('APP_DEFAULT_LOCALE', 'en_US');
+
+@session_start();
 @include_once(APP_INC_PATH . "class.language.php");
 Language::setPreference();
 
