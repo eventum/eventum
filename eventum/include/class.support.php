@@ -491,7 +491,7 @@ class Support
         $message_id = Mail_API::getMessageID($headers, $body);
         if ((!Support::exists($message_id)) && (!Note::exists($message_id))) {
             $structure = Mime_Helper::decode($message, true, true);
-            $message_body = Mime_Helper::getMessageBody(&$structure);
+            $message_body = Mime_Helper::getMessageBody($structure);
             if (Mime_Helper::hasAttachments($message)) {
                 $has_attachments = 1;
             } else {
@@ -820,6 +820,12 @@ class Support
             $issue_id = Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID,
                     $from, Mime_Helper::fixEncoding($subject), $message_body, @$options['category'],
                     $options['priority'], @$options['users'], $date, $message_id);
+
+            // add sender to authorized repliers list if they are not a real user
+            $sender_usr_id = User::getUserIDByEmail($sender_email);
+            if (empty($sender_usr_id)) {
+                Authorized_Replier::manualInsert($issue_id, $sender_email, false);
+            }
             // associate any existing replied-to email with this new issue
             if ((!empty($associate_email)) && (!empty($reference_issue_id))) {
                 $reference_sup_id = Support::getIDByMessageID($associate_email);
@@ -2422,13 +2428,15 @@ class Support
         $issue_id = $email['issue_id'];
         $prj_id = Issue::getProjectID($issue_id);
         $sender_email = strtolower(Mail_API::getEmailAddress($email['headers']['from']));
+        list($text_headers, $body) = Mime_Helper::splitHeaderBody($email['full_email']);
         if ((Mail_API::isVacationAutoResponder($email['headers'])) || (Notification::isBounceMessage($sender_email)) ||
                 (!Support::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
             $HTTP_POST_VARS = array(
                 'blocked_msg' => $email['full_email'],
                 'title'       => @$email['headers']['subject'],
-                'note'        => Mail_API::getCannedBlockedMsgExplanation($issue_id) . $email['body']
+                'note'        => Mail_API::getCannedBlockedMsgExplanation($issue_id) . $email['body'],
+                'message_id'  => Mail_API::getMessageID($text_headers, $body),
             );
             // avoid having this type of message re-open the issue
             if (Mail_API::isVacationAutoResponder($email['headers'])) {

@@ -6,6 +6,8 @@ Eventum Issue Tracking System
 - Fixed bug with inserting attachment from email with an apostrophe in the email name (Bryan)
 - Changed support_email table to not truncate long to and cc lists (Bryan)
 - Changed status graph colors to actually match the status colors (Bryan)
+- Fixed bug with downloading notes multiple times (Bryan)
+- Automatically add sender of email to authorized repliers list when auto creating an issue (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
