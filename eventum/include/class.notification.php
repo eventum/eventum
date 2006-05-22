@@ -1528,27 +1528,34 @@ class Notification
         );
         $prj_id = Issue::getProjectID($issue_id);
         $stmt = "SELECT
-                    DISTINCT sub_usr_id,
+                    sub_usr_id,
                     usr_full_name,
+                    usr_email,
                     pru_role
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user";
+
+        if ($type != false) {
+            $stmt .= ",
+                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type";
+        }
+        $stmt .= "
+                    )
+                    LEFT JOIN
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
+                    ON
+                        (sub_usr_id = pru_usr_id AND pru_prj_id = $prj_id)
                  WHERE
-                    sub_id = sbt_sub_id AND
                     sub_usr_id=usr_id AND
-                    sub_usr_id = pru_usr_id AND
-                    pru_prj_id = $prj_id AND
                     sub_iss_id=$issue_id";
         if ($type != false) {
-            $stmt .= " AND\nsbt_type = '" . Misc::escapeString($type) . "'";
-        }
-        if ($min_role != false) {
-            $stmt .= " AND\npru_role >= " . Misc::escapeInteger($min_role);
+            $stmt .= " AND\nsbt_sub_id = sub_id AND
+                      sbt_type = '" . Misc::escapeString($type) . "'";
         }
         $users = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+
         for ($i = 0; $i < count($users); $i++) {
             if ($users[$i]['pru_role'] != User::getRoleID('Customer')) {
                 $subscribers['staff'][] = $users[$i]['usr_full_name'];
