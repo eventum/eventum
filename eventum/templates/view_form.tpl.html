@@ -78,7 +78,8 @@ function removeQuarantine(issue_id)
 function validateForm(f)
 {
     // if no emails accounts are setup, don't display confirmation message.
-    if (({/literal}{$current_role} < {$roles.developer}{literal}) && (ema_id != '') && !confirm('{/literal}{t}NOTE: If you need to send new information regarding this issue, please use \nthe EMAIL related buttons available at the bottom of the screen.{/t}{literal}')) {
+    if (({/literal}{$current_role} < {$roles.developer}{literal}) && (ema_id != '') &&
+            !confirm("{/literal}{t}NOTE: If you need to send new information regarding this issue, please use the EMAIL related buttons available at the bottom of the screen.{/t}{literal}")) {
         return false;
     }
     return true;
@@ -126,9 +127,9 @@ function collapseDescription()
             </span>
             {include file="customer/$customer_backend_name/quarantine.tpl.html"}<br />
             {if $current_role > $roles.customer && $quarantine.iqu_expiration != ''}
-                {t}Quarantine expires in{/t} {$quarantine.time_till_expiration}<br />
+                {t 1=$quarantine.time_till_expiration}Quarantine expires in %1{/t}<br />
             {/if}
-            {t}Please see the <a class="link" href="faq.php">FAQ</a> for information regarding quarantined issues.{/t}
+            {t escape="none"}Please see the <a class="link" href="faq.php">FAQ</a> for information regarding quarantined issues.{/t}
             </span>
             {if $current_role > $roles.developer}
             <br /><br />
@@ -159,7 +160,7 @@ function collapseDescription()
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td width="100%" align="center" class="default" bgcolor="{$light_color}">
-            {t}<b>Note: </b>This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.{/t}
+            <b>{t}Note: {/t}</b>{t}This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.{/t}
           </td>
         </tr>
       </table>

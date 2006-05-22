@@ -42,7 +42,7 @@ function validateForm(f)
             return false;
         }
     }
-    
+
     var field = getFormElement(f, 'setup[smtp][from]');
     if (isWhitespace(field.value)) {
         selectField(f, 'setup[smtp][from]');
@@ -156,15 +156,15 @@ function disableAuthFields(f, bool)
             <br />
             <a class="link" href="{if $smarty.post.is_ssl == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}">{if $smarty.post.is_ssl == 'yes'}https://{else}http://{/if}{$smarty.post.hostname}{$smarty.post.relative_url}</a>
             <br /><br />
-            {t}Email Address:{/t} admin@example.com {t}(literally){/t}<br />
-            {t}Password:{/t} admin<br />
+            {t}Email Address: admin@example.com (literally){/t}<br />
+            {t}Password: admin{/t}<br />
             <br />
             <b>{t}NOTE: For security reasons it is highly recommended that the default password be changed as soon as possible.{/t}
             <br /><br />
             <hr size="1" noshade color="#000000">
-            {t}Remember to protect your 'setup' directory (like changing its permissions) to prevent anyone else 
-            from changing your existing Eventum configuration.<br /><br />
-            In order to check if your permissions are setup correctly visit the <a class="link" href="check_permissions.php">Check Permissions</a> page.{/t}
+            {t}Remember to protect your 'setup' directory (like changing its permissions) to prevent anyone else
+            from changing your existing Eventum configuration.{/t}<br /><br />
+            {t escape="none"}In order to check if your permissions are setup correctly visit the <a class="link" href="check_permissions.php">Check Permissions</a> page.{/t}
             {if not $is_imap_enabled}
             <br /><br />
             <hr size="1" noshade color="#000000">
@@ -185,9 +185,10 @@ function disableAuthFields(f, bool)
 <table align="center" width="600" bgcolor="red">
 <tr>
 <td align="center" class="default" bgcolor="white">
-<span style="font-weight: bold; font-size: 160%; color: red;">{t}Warning!{/t}</span><br />{t}You are running PHP version{/t} {$phpversion}. {t}While all effort has been made to ensure eventum works correctly with
-PHP 5 and greater, it has not been thoroughly tested and may not work properly. <br /><br />
-Please report any problems you find to eventum-users@lists.mysql.com.{/t}
+<span style="font-weight: bold; font-size: 160%; color: red;">{t}Warning!{/t}</span><br />{t 1=$phpversion}You are running PHP version %1.
+While all effort has been made to ensure eventum works correctly with
+PHP 5 and greater, it has not been thoroughly tested and may not work properly.{/t}
+{t}Please report any problems you find to eventum-users@lists.mysql.com.{/t}
 </td></tr>
 </table>
 <br />
@@ -276,7 +277,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.{/t}
         </tr>
         <tr>
           <td colspan="2" align="center">
-            <span class="small_default"><i>({t}<b>Note:</b> This user requires permission to create and drop tables in the specified database.<br />This value is used only for these installation procedures, and is not saved if you provide a separate user below.{/t})</i></span>
+            <span class="small_default"><i>({t escape="none"}<b>Note:</b> This user requires permission to create and drop tables in the specified database.<br />This value is used only for these installation procedures, and is not saved if you provide a separate user below.{/t})</i></span>
           </td>
         </tr>
         <tr>
@@ -350,7 +351,7 @@ Please report any problems you find to eventum-users@lists.mysql.com.{/t}
         </tr>
         <tr>
           <td colspan="2" class="small_default" align="center">
-            {t}<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.{/t}
+            {t escape="none"}<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.{/t}
             &nbsp;
             <hr size="1" noshade color="#000000">
           </td>
@@ -388,9 +389,9 @@ Please report any problems you find to eventum-users@lists.mysql.com.{/t}
             <b>{t}Requires Authentication?{/t}&nbsp;</b>
           </td>
           <td width="80%" class="default">
-            <input type="radio" name="setup[smtp][auth]" value="1" {if $smarty.request.setup.smtp.auth == 1}checked{/if} onClick="javascript:disableAuthFields(this.form, false);" tabindex="{$tabindex}"> 
+            <input type="radio" name="setup[smtp][auth]" value="1" {if $smarty.request.setup.smtp.auth == 1}checked{/if} onClick="javascript:disableAuthFields(this.form, false);" tabindex="{$tabindex}">
             <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('install_form', 'setup[smtp][auth]', 0);disableAuthFields(getForm('install_form'), false);">{t}Yes{/t}</a>&nbsp;&nbsp;
-            <input type="radio" name="setup[smtp][auth]" value="0" {if $smarty.request.setup.smtp.auth != 1}checked{/if} onClick="javascript:disableAuthFields(this.form, true);" tabindex="{$tabindex}"> 
+            <input type="radio" name="setup[smtp][auth]" value="0" {if $smarty.request.setup.smtp.auth != 1}checked{/if} onClick="javascript:disableAuthFields(this.form, true);" tabindex="{$tabindex}">
             <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('install_form', 'setup[smtp][auth]', 1);disableAuthFields(getForm('install_form'), true);">{t}No{/t}</a>
           </td>
         </tr>

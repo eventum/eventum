@@ -84,7 +84,7 @@ function validateForm(f)
 {if $project_auto_switched == 1}
 <center>
   <span class="banner_red">
-    {t}Note: Project automatically switched to {/t}'{$current_project_name}' {t}from{/t} '{$old_project}'.
+    {t 1=$current_project_name 2=$old_project}Note: Project automatically switched to '%1' from '%2'.{/t}
   </span>
 </center>
 <br />

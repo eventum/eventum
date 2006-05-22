@@ -59,13 +59,9 @@ function validateForm(f)
             {if $signup_result == -1}
               {t}Error: An error occurred while trying to run your query.{/t}
             {elseif $signup_result == -2}
-              {t}Error: The email address specified is already associated with 
-              an user in the system.{/t}
+              {t}Error: The email address specified is already associated with an user in the system.{/t}
             {elseif $signup_result == 1}
-              {t}Thank you, your account creation request was processed 
-              successfully. For security reasons a confirmation email 
-              was sent to the provided email address with instructions
-              on how to confirm your request and activate your account.{/t}
+              {t}Thank you, your account creation request was processed successfully. For security reasons a confirmation email was sent to the provided email address with instructions on how to confirm your request and activate your account.{/t}
             {/if}
             </b>
           </td>
@@ -73,21 +69,21 @@ function validateForm(f)
         {/if}
         {if $signup_result != 1}
         <tr>
-          <td align="right" width="130" class="default_white"><b>{t}<u>F</u>ull Name:{/t}</b></td>
+          <td align="right" width="130" class="default_white"><b>{t}Full Name:{/t}</b></td>
           <td width="75%">
             <input accessKey="f" class="default" type="text" name="full_name" size="50" maxlength="255">
             {include file="error_icon.tpl.html" field="full_name"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="130" class="default_white"><b>{t}<u>E</u>mail Address:{/t}</b></td>
+          <td align="right" width="130" class="default_white"><b>{t}Email Address:{/t}</b></td>
           <td width="75%">
             <input accessKey="e" class="default" type="text" name="email" size="50" maxlength="255">
             {include file="error_icon.tpl.html" field="email"}
           </td>
         </tr>
         <tr>
-          <td align="right" width="130" class="default_white"><b>{t}<u>P</u>assword:{/t}</b></td>
+          <td align="right" width="130" class="default_white"><b>{t}Password:{/t}</b></td>
           <td width="75%">
             <input accessKey="p" class="default" type="password" name="passwd" size="20" maxlength="32">
             {include file="error_icon.tpl.html" field="passwd"}

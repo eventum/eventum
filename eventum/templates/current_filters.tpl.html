@@ -23,18 +23,17 @@
               <b>{if $filter_param == 'keywords' && $options.use_fulltext == 1}{t}Fulltext{/t}&nbsp;{/if}{$filter.title}</b>:&nbsp;
               {if $filter.is_date == true}
                 {if $filter_details.filter_type == 'in_past'}
-                  {t}In Past{/t} {$filter_details.time_period} {t}hours{/t}
+                  {t 1=$filter_details.time_period}In Past %1 hours{/t}
                 {elseif $filter_details.filter_type == 'null'}
                   {t}Is NULL{/t}
                 {elseif $filter_details.filter_type == 'between'}
                   {assign var=end_var value=`$filter_param`_end}
                   {assign var=end_details value=$options.$end_var}
-                  {t}Is between{/t} {$filter_details.Year}-{$filter_details.Month}-{$filter_details.Day} {t}AND{/t} &nbsp;
-                  {$end_details.Year}-{$end_details.Month}-{$end_details.Day}
+                  {t 1=$filter_details.Year 2=$filter_details.Month 3=$filter_details.Day 4=$end_details.Year 5=$end_details.Month 6=$end_details.Day}Is between %1-%2-%3 AND %4-%5-%6{/t}
                 {elseif $filter_details.filter_type == 'greater'}
-                  {t}Is greater than{/t} {$filter_details.Year}-{$filter_details.Month}-{$filter_details.Day}
+                  {t 1=$filter_details.Year 2=$filter_details.Month 3=$filter_details.Day}Is greater than %1-%2-%3{/t}
                 {elseif $filter_details.filter_type == 'less'}
-                  {t}Is less than{/t} {$filter_details.Year}-{$filter_details.Month}-{$filter_details.Day}
+                  {t 1=$filter_details.Year 2=$filter_details.Month 3=$filter_details.Day}Is less than %1-%2-%3{/t}
                 {/if}
               {elseif $filter_param == 'status'}
                 {$status[$filter_details]}

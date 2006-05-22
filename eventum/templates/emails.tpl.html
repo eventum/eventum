@@ -144,7 +144,8 @@ function removeEmails(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="{if $has_customer_integration}7{else}6{/if}" class="default">
-            <b>{t}Viewing Emails{/t} ({$list_info.total_rows} {t}emails found{/t}{if $list_info.end_offset > 0}, {math equation="x + 1" x=$list_info.start_offset} - {$list_info.end_offset} {t}shown{/t}{/if})</b>
+            {math equation="x + 1" x=$list_info.start_offset assign="start_offset_plus_one"}
+            <b>{t count=$list_info.end_offset 1=$list_info.total_rows 2=$start_offset_plus_one 3=$list_info.end_offset plural="Viewing Emails (%1 emails found, %2 - %3 shown)"}Viewing Emails (%1 emails found){/t}</b>
             {include file="help_link.tpl.html" topic="support_emails"}
           </td>
         </tr>

@@ -28,9 +28,9 @@
 <script language="JavaScript">
 <!--
 {if $has_customer_integration}
-    var convert_email_warning = '{t}WARNING: Converting this note to an email will send the email to any customers that may \nbe listed in this issue\'s notification list.{/t}';
+    var convert_email_warning = '{t}WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue\'s notification list.{/t}';
 {else}
-    var convert_email_warning = '{t}WARNING: Converting this note to an email will send the email to all users\n listed in this issue\'s notification list.{/t}';
+    var convert_email_warning = '{t}WARNING: Converting this note to an email will send the email to all users listed in this issue\'s notification list.{/t}';
 {/if}
 {literal}
 function validateForm(f)
@@ -78,7 +78,7 @@ function disableAR(flag)
         <tr>
           <td bgcolor="{$dark_color}">&nbsp;</td>
           <td bgcolor="{$dark_color}" class="small_default">
-            <b>{t}ALERT:{/t}</b> {t}Email will be re-sent from your name, NOT original sender's, and without any attachments.{/t}
+            {t escape="none"}<b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, and without any attachments.{/t}
           </td>
         </tr>
         <tr>
