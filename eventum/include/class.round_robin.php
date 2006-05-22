@@ -42,7 +42,7 @@ class Round_Robin
      * @param   integer $end The blackout end hour
      * @return  array The blackout dates
      */
-    function getBlackoutDates($user, $start, $end)
+    function getBlackoutDates(&$user, $start, $end)
     {
         $start = substr($start, 0, 2);
         $end = substr($end, 0, 2);
@@ -125,7 +125,7 @@ class Round_Robin
                     break;
                 }
             }
-            // if no user is currently set as the 'next' assignee, 
+            // if no user is currently set as the 'next' assignee,
             // then just get the first one in the list
             if (empty($next_usr_id)) {
                 $next_usr_id = $user_ids[0];
@@ -136,7 +136,7 @@ class Round_Robin
             do {
                 $user = new Date(Date_API::getCurrentUnixTimestampGMT());
                 $user->convertTZById($users[$next_usr_id]['timezone']);
-                list($today, $tomorrow) = Round_Robin::getBlackoutDates(&$user, $blackout_start, $blackout_end);
+                list($today, $tomorrow) = Round_Robin::getBlackoutDates($user, $blackout_start, $blackout_end);
                 $first = new Date($today . ' ' . $blackout_start);
                 $first->setTZById($users[$next_usr_id]['timezone']);
                 $second = new Date($tomorrow . ' ' . $blackout_end);
@@ -248,7 +248,7 @@ class Round_Robin
 
 
     /**
-     * Retrieves the list of users, round robin blackout hours and their 
+     * Retrieves the list of users, round robin blackout hours and their
      * respective preferences with regards to timezones.
      *
      * @access  public
@@ -495,7 +495,7 @@ class Round_Robin
 
 
     /**
-     * Method used to remove the user associations for a given round robin 
+     * Method used to remove the user associations for a given round robin
      * entry ID.
      *
      * @access  public
