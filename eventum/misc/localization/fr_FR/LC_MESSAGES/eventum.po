@@ -1,0 +1,3245 @@
+# translation of messages.po to US English
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Bryan Alsdorf <bryan@mysql.com>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: messages\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-05-22 23:17-0500\n"
+"PO-Revision-Date: 2006-05-22 23:27-0500\n"
+"Last-Translator: Bryan Alsdorf <bryan@mysql.com>\n"
+"Language-Team: US English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.2\n"
+
+#: eventum.c:2 eventum.c:2477
+msgid "Issue"
+msgstr ""
+
+#: eventum.c:5
+msgid "Add Phone Entry"
+msgstr ""
+
+#: eventum.c:8 eventum.c:95 eventum.c:836 eventum.c:1811 eventum.c:1820
+#: eventum.c:1829 eventum.c:1838 eventum.c:1841 eventum.c:1847 eventum.c:1853
+#: eventum.c:1859 eventum.c:1865 eventum.c:1871 eventum.c:1877 eventum.c:1883
+#: eventum.c:1892 eventum.c:1901 eventum.c:1907 eventum.c:1913 eventum.c:1919
+#: eventum.c:1934 eventum.c:1940 eventum.c:1955 eventum.c:1964 eventum.c:2258
+#: eventum.c:2300 eventum.c:2384 eventum.c:2408 eventum.c:2420 eventum.c:2462
+#: eventum.c:3032
+msgid "An error occurred while trying to run your query"
+msgstr ""
+
+#: eventum.c:11
+msgid "Thank you, the phone entry was added successfully."
+msgstr ""
+
+#: eventum.c:14 eventum.c:101 eventum.c:419 eventum.c:467 eventum.c:761
+#: eventum.c:794 eventum.c:842 eventum.c:1136 eventum.c:1961 eventum.c:1970
+#: eventum.c:2255 eventum.c:2381 eventum.c:2390 eventum.c:2405 eventum.c:2417
+#: eventum.c:2426 eventum.c:2825 eventum.c:3038
+msgid "Continue"
+msgstr ""
+
+#: eventum.c:17
+msgid "Please select a valid date for when the phone call took place."
+msgstr ""
+
+#: eventum.c:20 eventum.c:110 eventum.c:650
+msgid "Please enter integers (or floating point numbers) on the time spent field."
+msgstr ""
+
+#: eventum.c:23
+msgid "Please enter the description for this new phone support entry."
+msgstr ""
+
+#: eventum.c:26
+msgid "Please choose the category for this new phone support entry."
+msgstr ""
+
+#: eventum.c:29
+msgid "Record Phone Call"
+msgstr ""
+
+#: eventum.c:32
+msgid "Date of Call"
+msgstr ""
+
+#: eventum.c:35
+msgid "Reason"
+msgstr ""
+
+#: eventum.c:38
+msgid "Call From"
+msgstr ""
+
+#: eventum.c:41 eventum.c:50
+msgid "last name"
+msgstr ""
+
+#: eventum.c:44 eventum.c:53
+msgid "first name"
+msgstr ""
+
+#: eventum.c:47
+msgid "Call To"
+msgstr ""
+
+#: eventum.c:56
+msgid "Type"
+msgstr ""
+
+#: eventum.c:59
+msgid "Incoming"
+msgstr ""
+
+#: eventum.c:62
+msgid "Outgoing"
+msgstr ""
+
+#: eventum.c:65
+msgid "Customer Phone Number"
+msgstr ""
+
+#: eventum.c:68
+msgid "Office"
+msgstr ""
+
+#: eventum.c:71
+msgid "Home"
+msgstr ""
+
+#: eventum.c:74
+msgid "Mobile"
+msgstr ""
+
+#: eventum.c:77
+msgid "Temp Number"
+msgstr ""
+
+#: eventum.c:80 eventum.c:3173 eventum.c:3236
+msgid "Other"
+msgstr ""
+
+#: eventum.c:83 eventum.c:128 eventum.c:2504 eventum.c:2840
+msgid "Time Spent"
+msgstr ""
+
+#: eventum.c:86 eventum.c:131 eventum.c:2204 eventum.c:2210 eventum.c:2507
+msgid "in minutes"
+msgstr ""
+
+#: eventum.c:89 eventum.c:509 eventum.c:1163 eventum.c:2063 eventum.c:2075
+msgid "Description"
+msgstr ""
+
+#: eventum.c:92
+msgid "Save Phone Call"
+msgstr ""
+
+#: eventum.c:98
+msgid "Thank you, the time tracking entry was added successfully."
+msgstr ""
+
+#: eventum.c:104
+msgid "Please enter the summary for this new time tracking entry."
+msgstr ""
+
+#: eventum.c:107 eventum.c:653
+msgid "Please choose the time tracking category for this new entry."
+msgstr ""
+
+#: eventum.c:113
+msgid "Please select a valid date of work."
+msgstr ""
+
+#: eventum.c:116
+msgid "Record Time Worked"
+msgstr ""
+
+#: eventum.c:119 eventum.c:218 eventum.c:1214 eventum.c:2060 eventum.c:2072
+#: eventum.c:2846 eventum.c:3242
+msgid "Summary"
+msgstr ""
+
+#: eventum.c:122 eventum.c:167 eventum.c:584 eventum.c:1796 eventum.c:2843
+#: eventum.c:3161
+msgid "Category"
+msgstr ""
+
+#: eventum.c:125 eventum.c:698
+msgid "Please choose a category"
+msgstr ""
+
+#: eventum.c:134 eventum.c:2834
+msgid "Date of Work"
+msgstr ""
+
+#: eventum.c:137 eventum.c:2855
+msgid "Add Time Entry"
+msgstr ""
+
+#: eventum.c:140 eventum.c:152 eventum.c:1559
+msgid "Advanced Search"
+msgstr ""
+
+#: eventum.c:143
+msgid "Please enter the title for this saved search."
+msgstr ""
+
+#: eventum.c:146 eventum.c:470 eventum.c:593 eventum.c:707 eventum.c:1265
+msgid "Please choose which entries need to be removed."
+msgstr ""
+
+#: eventum.c:149 eventum.c:596 eventum.c:1268
+msgid "This action will permanently delete the selected entries."
+msgstr ""
+
+#: eventum.c:155
+msgid "Keyword(s)"
+msgstr ""
+
+#: eventum.c:158
+msgid "Customer Identity (i.e. \"Example Inc.\", \"johndoe@example.com\", 12345)"
+msgstr ""
+
+#: eventum.c:161
+msgid "All Text (emails, notes, etc)"
+msgstr ""
+
+#: eventum.c:164
+msgid "Assigned"
+msgstr ""
+
+#: eventum.c:170 eventum.c:176 eventum.c:182 eventum.c:194 eventum.c:956
+#: eventum.c:2339 eventum.c:2345 eventum.c:2351 eventum.c:2357
+msgid "any"
+msgstr ""
+
+#: eventum.c:173 eventum.c:209 eventum.c:581 eventum.c:3182
+msgid "Priority"
+msgstr ""
+
+#: eventum.c:179 eventum.c:215 eventum.c:503 eventum.c:575 eventum.c:920
+#: eventum.c:1037 eventum.c:1142 eventum.c:3164 eventum.c:3176
+msgid "Status"
+msgstr ""
+
+#: eventum.c:185 eventum.c:3215
+msgid "Reporter"
+msgstr ""
+
+#: eventum.c:188
+msgid "Any"
+msgstr ""
+
+#: eventum.c:191 eventum.c:578
+msgid "Release"
+msgstr ""
+
+#: eventum.c:197 eventum.c:1406
+msgid "Hide Closed Issues"
+msgstr ""
+
+#: eventum.c:200
+msgid "Rows Per Page:"
+msgstr ""
+
+#: eventum.c:203 eventum.c:1082 eventum.c:1400
+msgid "ALL"
+msgstr ""
+
+#: eventum.c:206
+msgid "Sort By"
+msgstr ""
+
+#: eventum.c:212
+msgid "Issue ID"
+msgstr ""
+
+#: eventum.c:221
+msgid "Last Action Date"
+msgstr ""
+
+#: eventum.c:224
+msgid "Sort Order:"
+msgstr ""
+
+#: eventum.c:227
+msgid "ascending"
+msgstr ""
+
+#: eventum.c:230
+msgid "descending"
+msgstr ""
+
+#: eventum.c:233
+msgid "Show Issues in Which I Am:"
+msgstr ""
+
+#: eventum.c:236
+msgid "Authorized to Send Emails"
+msgstr ""
+
+#: eventum.c:239
+msgid "In Notification List"
+msgstr ""
+
+#: eventum.c:242
+msgid "Show date fields to search by"
+msgstr ""
+
+#: eventum.c:245
+msgid "Created"
+msgstr ""
+
+#: eventum.c:248 eventum.c:266 eventum.c:293 eventum.c:320 eventum.c:347
+#: eventum.c:968
+msgid "Greater Than"
+msgstr ""
+
+#: eventum.c:251 eventum.c:269 eventum.c:296 eventum.c:323 eventum.c:350
+#: eventum.c:971
+msgid "Less Than"
+msgstr ""
+
+#: eventum.c:254 eventum.c:272 eventum.c:299 eventum.c:326 eventum.c:353
+#: eventum.c:974
+msgid "Between"
+msgstr ""
+
+#: eventum.c:257 eventum.c:278 eventum.c:305 eventum.c:332 eventum.c:359
+msgid "In Past"
+msgstr ""
+
+#: eventum.c:260 eventum.c:281 eventum.c:308 eventum.c:335 eventum.c:362
+#: eventum.c:1256 eventum.c:3212
+msgid "hours"
+msgstr ""
+
+#: eventum.c:263 eventum.c:284
+msgid "Last Updated"
+msgstr ""
+
+#: eventum.c:275 eventum.c:302 eventum.c:329 eventum.c:356
+msgid "Is Null"
+msgstr ""
+
+#: eventum.c:287 eventum.c:314 eventum.c:341 eventum.c:368 eventum.c:980
+msgid "End date"
+msgstr ""
+
+#: eventum.c:290
+msgid "First Response by Staff"
+msgstr ""
+
+#: eventum.c:311
+msgid "First Response By Staff"
+msgstr ""
+
+#: eventum.c:317 eventum.c:338
+msgid "Last Response by Staff"
+msgstr ""
+
+#: eventum.c:344 eventum.c:365
+msgid "Status Closed"
+msgstr ""
+
+#: eventum.c:371
+msgid "Show additional fields to search by"
+msgstr ""
+
+#: eventum.c:374
+msgid "Run Search"
+msgstr ""
+
+#: eventum.c:377 eventum.c:545 eventum.c:590 eventum.c:1727 eventum.c:2087
+#: eventum.c:2120 eventum.c:2138 eventum.c:2159 eventum.c:2513 eventum.c:3002
+msgid "Reset"
+msgstr ""
+
+#: eventum.c:380
+msgid "Search Title"
+msgstr ""
+
+#: eventum.c:383
+msgid "Global Search"
+msgstr ""
+
+#: eventum.c:386
+msgid "Saved Searches"
+msgstr ""
+
+#: eventum.c:389
+msgid "edit this custom search"
+msgstr ""
+
+#: eventum.c:392
+msgid "global filter"
+msgstr ""
+
+#: eventum.c:395
+msgid "RSS feed for this custom search"
+msgstr ""
+
+#: eventum.c:398 eventum.c:623 eventum.c:683 eventum.c:1010 eventum.c:1070
+#: eventum.c:1274 eventum.c:1295 eventum.c:1358 eventum.c:1391 eventum.c:2273
+#: eventum.c:2288 eventum.c:2786 eventum.c:2813
+msgid "All"
+msgstr ""
+
+#: eventum.c:401
+msgid "No custom searches could be found."
+msgstr ""
+
+#: eventum.c:404
+msgid "Page generated in %1 seconds"
+msgstr ""
+
+#: eventum.c:407
+msgid "queries"
+msgstr ""
+
+#: eventum.c:410
+msgid "Benchmark Statistics"
+msgstr ""
+
+#: eventum.c:413
+msgid "An error occurred while trying to associate the selected email message"
+msgstr ""
+
+#: eventum.c:416
+msgid "Thank you, the selected email message was associated successfully."
+msgid_plural "Thank you, the selected email messages were associated successfully."
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:422
+msgid "Warning: Unknown Contacts Found"
+msgstr ""
+
+#: eventum.c:425
+msgid "The following addresses could not be matched against the system user records:"
+msgstr ""
+
+#: eventum.c:428
+msgid "Please make sure you have selected the correct email messages to associate."
+msgstr ""
+
+#: eventum.c:431 eventum.c:1112
+msgid "Close Window"
+msgstr ""
+
+#: eventum.c:434
+msgid ""
+"Warning: Unknown contacts were found in the selected email messages. Please "
+"make sure you have selected the correct email messages to associate."
+msgstr ""
+
+#: eventum.c:437
+msgid "Associate Email Message to Issue #%1"
+msgid_plural "Associate Email Messages to Issue #%1"
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:440
+msgid ""
+"Please choose one of the following actions to take in regards to the "
+"selected email message"
+msgid_plural ""
+"Please choose one of the following actions to take in regards to the "
+"selected email messages"
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:443
+msgid "Save Message"
+msgstr ""
+
+#: eventum.c:446
+msgid "as"
+msgstr ""
+
+#: eventum.c:449
+msgid "an"
+msgstr ""
+
+#: eventum.c:452
+msgid ""
+"<b>NOTE:</b> Email will be broadcasted to the full notification list, "
+"including any customers, if this option is chosen."
+msgid_plural ""
+"<b>NOTE:</b> Emails will be broadcasted to the full notification list, "
+"including any customers, if this option is chosen."
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:455
+msgid "Save Message as Reference Email"
+msgid_plural "Save Message as Reference Emails"
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:458
+msgid ""
+"<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if this "
+"option if chosen. This is useful as way to backload a set of emails into an "
+"existing issue."
+msgid_plural ""
+"<b>NOTE:</b> Emails will <b>NOT</b> be sent to the notification list, if "
+"this option if chosen. This is useful as way to backload a set of emails "
+"into an existing issue."
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:461
+msgid "Save Message as an Internal Note"
+msgid_plural "Save Messages as an Internal Notes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:464
+msgid ""
+"<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff "
+"users."
+msgid_plural ""
+"<b>NOTE:</b> Emails will be saved as notes and broadcasted only to staff "
+"users."
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:473 eventum.c:710
+msgid "Attached Emails"
+msgstr ""
+
+#: eventum.c:476 eventum.c:713
+msgid "Remove?"
+msgstr ""
+
+#: eventum.c:479 eventum.c:716 eventum.c:1013
+msgid "Sender"
+msgstr ""
+
+#: eventum.c:482 eventum.c:719 eventum.c:932 eventum.c:1043 eventum.c:2282
+#: eventum.c:2492 eventum.c:2801 eventum.c:3068
+msgid "Subject"
+msgstr ""
+
+#: eventum.c:485 eventum.c:563 eventum.c:626 eventum.c:725 eventum.c:1298
+#: eventum.c:1754
+msgid "Remove Selected"
+msgstr ""
+
+#: eventum.c:488
+msgid "This action will permanently delete the selected attachment."
+msgstr ""
+
+#: eventum.c:491
+msgid "This action will permanently delete the selected file."
+msgstr ""
+
+#: eventum.c:494
+msgid "Attached Files"
+msgstr ""
+
+#: eventum.c:497
+msgid "Files"
+msgstr ""
+
+#: eventum.c:500
+msgid "Owner"
+msgstr ""
+
+#: eventum.c:506 eventum.c:602 eventum.c:1025 eventum.c:1211 eventum.c:1226
+#: eventum.c:2276 eventum.c:2798
+msgid "Date"
+msgstr ""
+
+#: eventum.c:512 eventum.c:515 eventum.c:1667 eventum.c:1802
+msgid "delete"
+msgstr ""
+
+#: eventum.c:518
+msgid "No attachments could be found."
+msgstr ""
+
+#: eventum.c:521 eventum.c:1166
+msgid "Upload File"
+msgstr ""
+
+#: eventum.c:524 eventum.c:1679 eventum.c:2096 eventum.c:2720
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: eventum.c:527 eventum.c:3230
+msgid "Authorized Repliers"
+msgstr ""
+
+#: eventum.c:530
+msgid "An error occurred while trying to insert the authorized replier."
+msgstr ""
+
+#: eventum.c:533
+msgid ""
+"Users with a role of \"customer\" or below are not allowed to be added to "
+"the authorized repliers list."
+msgstr ""
+
+#: eventum.c:536
+msgid "Thank you, the authorized replier was inserted successfully."
+msgstr ""
+
+#: eventum.c:539 eventum.c:557 eventum.c:1703 eventum.c:1739
+msgid "Email"
+msgstr ""
+
+#: eventum.c:542
+msgid "Add Authorized Replier"
+msgstr ""
+
+#: eventum.c:548
+msgid "Existing Authorized Repliers for this Issue"
+msgstr ""
+
+#: eventum.c:551
+msgid "Please select at least one of the authorized repliers."
+msgstr ""
+
+#: eventum.c:554 eventum.c:1736
+msgid "This action will remove the selected entries."
+msgstr ""
+
+#: eventum.c:560
+msgid "No authorized repliers could be found."
+msgstr ""
+
+#: eventum.c:566 eventum.c:857 eventum.c:1220 eventum.c:1235 eventum.c:1757
+#: eventum.c:2294 eventum.c:3086 eventum.c:3290 eventum.c:3293 eventum.c:3299
+#: eventum.c:3344
+msgid "Close"
+msgstr ""
+
+#: eventum.c:569
+msgid "Bulk Update Tool"
+msgstr ""
+
+#: eventum.c:572 eventum.c:3227
+msgid "Assignment"
+msgstr ""
+
+#: eventum.c:587
+msgid "Bulk Update"
+msgstr ""
+
+#: eventum.c:599
+msgid "SCM Integration - Checkins"
+msgstr ""
+
+#: eventum.c:605 eventum.c:1658 eventum.c:2837
+msgid "User"
+msgstr ""
+
+#: eventum.c:608
+msgid "Module / Directory"
+msgstr ""
+
+#: eventum.c:611
+msgid "File"
+msgstr ""
+
+#: eventum.c:614
+msgid "Commit Message"
+msgstr ""
+
+#: eventum.c:617
+msgid "diff to %1"
+msgstr ""
+
+#: eventum.c:620
+msgid "No checkins could be found."
+msgstr ""
+
+#: eventum.c:629 eventum.c:869 eventum.c:2861
+msgid "Sorry, an error happened while trying to run your query."
+msgstr ""
+
+#: eventum.c:632
+msgid ""
+"Thank you, the issue was closed successfully. Please choose from one of the "
+"options below:"
+msgstr ""
+
+#: eventum.c:635 eventum.c:875
+msgid "Open the Issue Details Page"
+msgstr ""
+
+#: eventum.c:638 eventum.c:878
+msgid "Open the Issue Listing Page"
+msgstr ""
+
+#: eventum.c:641 eventum.c:881
+msgid "Open the Emails Listing Page"
+msgstr ""
+
+#: eventum.c:644
+msgid "Please choose the new status for this issue."
+msgstr ""
+
+#: eventum.c:647
+msgid "Please enter the reason for closing this issue."
+msgstr ""
+
+#: eventum.c:656
+msgid ""
+"This customer has a per incident contract. You have chosen not to redeem any "
+"incidents. Press 'OK' to confirm or 'Cancel' to revise."
+msgstr ""
+
+#: eventum.c:659 eventum.c:704 eventum.c:3005 eventum.c:3275
+msgid "Close Issue"
+msgstr ""
+
+#: eventum.c:662 eventum.c:893
+msgid "Issue ID:"
+msgstr ""
+
+#: eventum.c:665 eventum.c:2342 eventum.c:2906 eventum.c:2912
+msgid "Status:"
+msgstr ""
+
+#: eventum.c:668
+msgid "Please choose a status"
+msgstr ""
+
+#: eventum.c:671
+msgid "Resolution:"
+msgstr ""
+
+#: eventum.c:674
+msgid "Send Notification About Issue Being Closed?"
+msgstr ""
+
+#: eventum.c:677
+msgid "Send Notification To:"
+msgstr ""
+
+#: eventum.c:680
+msgid "Internal Users"
+msgstr ""
+
+#: eventum.c:686
+msgid "Reason for closing issue:"
+msgstr ""
+
+#: eventum.c:689
+msgid "Incident Types to Redeem:"
+msgstr ""
+
+#: eventum.c:692 eventum.c:2018
+msgid "Time Spent:"
+msgstr ""
+
+#: eventum.c:695
+msgid "Time Category:"
+msgstr ""
+
+#: eventum.c:701 eventum.c:905
+msgid "Back"
+msgstr ""
+
+#: eventum.c:722
+msgid "Notify Sender?"
+msgstr ""
+
+#: eventum.c:728
+msgid "Password Confirmation"
+msgstr ""
+
+#: eventum.c:731
+msgid "Account Creation"
+msgstr ""
+
+#: eventum.c:734
+msgid "Error"
+msgstr ""
+
+#: eventum.c:737
+msgid "Password Confirmation Success"
+msgstr ""
+
+#: eventum.c:740 eventum.c:1409
+msgid ""
+"The provided trial account email address could not be\n"
+"confirmed. Please contact the local Technical Support staff for\n"
+"further assistance."
+msgstr ""
+
+#: eventum.c:743
+msgid ""
+"The provided trial account email address could not be\n"
+"            found. Please contact the local Technical Support staff for\n"
+"            further assistance."
+msgstr ""
+
+#: eventum.c:746
+msgid ""
+"The provided trial account encrypted hash could not be\n"
+"            authenticated. Please contact the local Technical\n"
+"            Support staff for further assistance."
+msgstr ""
+
+#: eventum.c:749
+msgid ""
+"Thank you, your request for a new password was confirmed successfully. You "
+"should receive an email with your new password shortly."
+msgstr ""
+
+#: eventum.c:752 eventum.c:1202 eventum.c:2750
+msgid "Back to Login Form"
+msgstr ""
+
+#: eventum.c:755
+msgid "An error occurred while trying to convert the selected note."
+msgstr ""
+
+#: eventum.c:758
+msgid "Thank you, the note was converted successfully."
+msgstr ""
+
+#: eventum.c:764
+msgid ""
+"WARNING: Converting this note to an email will send the email to any "
+"customers that may be listed in this issue's notification list."
+msgstr ""
+
+#: eventum.c:767
+msgid ""
+"WARNING: Converting this note to an email will send the email to all users "
+"listed in this issue's notification list."
+msgstr ""
+
+#: eventum.c:770
+msgid ""
+"WARNING: By converting this blocked message to a draft any attachments this "
+"message may have will be lost."
+msgstr ""
+
+#: eventum.c:773
+msgid "Convert Note To Email"
+msgstr ""
+
+#: eventum.c:776
+msgid "Convert to Draft and Save For Later Editing"
+msgstr ""
+
+#: eventum.c:779
+msgid ""
+"<b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, "
+"and without any attachments."
+msgstr ""
+
+#: eventum.c:782
+msgid "Convert to Email and Send Now"
+msgstr ""
+
+#: eventum.c:785
+msgid "ALERT:"
+msgstr ""
+
+#: eventum.c:788
+msgid "Email will be re-sent from original sender, including any attachments."
+msgstr ""
+
+#: eventum.c:791
+msgid "Add sender to authorized repliers list?"
+msgstr ""
+
+#: eventum.c:797
+msgid "Current filters:"
+msgstr ""
+
+#: eventum.c:800
+msgid "Fulltext"
+msgstr ""
+
+#: eventum.c:803
+msgid "In Past %1 hours"
+msgstr ""
+
+#: eventum.c:806
+msgid "Is NULL"
+msgstr ""
+
+#: eventum.c:809
+msgid "Is between %1-%2-%3 AND %4-%5-%6"
+msgstr ""
+
+#: eventum.c:812
+msgid "Is greater than %1-%2-%3"
+msgstr ""
+
+#: eventum.c:815
+msgid "Is less than %1-%2-%3"
+msgstr ""
+
+#: eventum.c:818
+msgid "un-assigned"
+msgstr ""
+
+#: eventum.c:821
+msgid "myself and un-assigned"
+msgstr ""
+
+#: eventum.c:824
+msgid "myself and my group"
+msgstr ""
+
+#: eventum.c:827
+msgid "myself, un-assigned and my group"
+msgstr ""
+
+#: eventum.c:830 eventum.c:2006 eventum.c:2177 eventum.c:2186 eventum.c:2195
+#: eventum.c:2690
+msgid "Yes"
+msgstr ""
+
+#: eventum.c:833 eventum.c:3158
+msgid "None"
+msgstr ""
+
+#: eventum.c:839
+msgid "Thank you, the custom field values were updated successfully."
+msgstr ""
+
+#: eventum.c:845
+msgid "Update Issue Details"
+msgstr ""
+
+#: eventum.c:848 eventum.c:914
+msgid "Please choose an option"
+msgstr ""
+
+#: eventum.c:851
+msgid "No custom field could be found."
+msgstr ""
+
+#: eventum.c:854
+msgid "Update Values"
+msgstr ""
+
+#: eventum.c:860
+msgid "Custom Fields"
+msgstr ""
+
+#: eventum.c:863
+msgid "No custom fields could be found."
+msgstr ""
+
+#: eventum.c:866 eventum.c:1262 eventum.c:2996
+msgid "Update"
+msgstr ""
+
+#: eventum.c:872
+msgid ""
+"Thank you, the issue was marked as a duplicate successfully. Please choose \n"
+"            from one of the options below:"
+msgstr ""
+
+#: eventum.c:884
+msgid ""
+"Otherwise, you will be automatically redirected to the Issue Details Page in "
+"5 seconds."
+msgstr ""
+
+#: eventum.c:887
+msgid "Please choose the duplicated issue."
+msgstr ""
+
+#: eventum.c:890 eventum.c:908
+msgid "Mark Issue as Duplicate"
+msgstr ""
+
+#: eventum.c:896
+msgid "Duplicated Issue:"
+msgstr ""
+
+#: eventum.c:899
+msgid "Please select an issue"
+msgstr ""
+
+#: eventum.c:902
+msgid "Comments:"
+msgstr ""
+
+#: eventum.c:911 eventum.c:2033 eventum.c:2090 eventum.c:2531
+msgid "Required fields"
+msgstr ""
+
+#: eventum.c:917
+msgid "Drafts"
+msgstr ""
+
+#: eventum.c:923 eventum.c:1787 eventum.c:2279 eventum.c:2471 eventum.c:2792
+#: eventum.c:3056
+msgid "From"
+msgstr ""
+
+#: eventum.c:926 eventum.c:1031 eventum.c:1790 eventum.c:2474 eventum.c:2795
+#: eventum.c:3059
+msgid "To"
+msgstr ""
+
+#: eventum.c:929 eventum.c:1121 eventum.c:3185
+msgid "Last Updated Date"
+msgstr ""
+
+#: eventum.c:935
+msgid "No email drafts could be found."
+msgstr ""
+
+#: eventum.c:938 eventum.c:2456
+msgid "Create Draft"
+msgstr ""
+
+#: eventum.c:941
+msgid "Show All Drafts"
+msgstr ""
+
+#: eventum.c:944
+msgid "Subject/Body:"
+msgstr ""
+
+#: eventum.c:947 eventum.c:2675
+msgid "Sender:"
+msgstr ""
+
+#: eventum.c:950
+msgid "To:"
+msgstr ""
+
+#: eventum.c:953
+msgid "Email Account:"
+msgstr ""
+
+#: eventum.c:959 eventum.c:1634 eventum.c:2360
+msgid "Search"
+msgstr ""
+
+#: eventum.c:962 eventum.c:2363
+msgid "Clear"
+msgstr ""
+
+#: eventum.c:965
+msgid "Filter by Arrival Date:"
+msgstr ""
+
+#: eventum.c:977
+msgid "Arrival Date:"
+msgstr ""
+
+#: eventum.c:983 eventum.c:1565
+msgid "Associate Emails"
+msgstr ""
+
+#: eventum.c:986 eventum.c:2708
+msgid "Sorry, but this feature has been disabled by the administrator."
+msgstr ""
+
+#: eventum.c:989 eventum.c:995 eventum.c:1772 eventum.c:2711 eventum.c:3011
+#: eventum.c:3017 eventum.c:3023 eventum.c:3356 eventum.c:3362
+msgid "Go Back"
+msgstr ""
+
+#: eventum.c:992
+msgid "Sorry, but you do not have access to this page."
+msgstr ""
+
+#: eventum.c:998
+msgid "Please choose which emails need to be associated."
+msgstr ""
+
+#: eventum.c:1001
+msgid "Please choose which emails need to be marked as deleted."
+msgstr ""
+
+#: eventum.c:1004
+msgid "This action will mark the selected email messages as deleted."
+msgstr ""
+
+#: eventum.c:1007
+msgid "Viewing Emails (%1 emails found)"
+msgid_plural "Viewing Emails (%1 emails found, %2 - %3 shown)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:1016
+msgid "sort by sender"
+msgstr ""
+
+#: eventum.c:1019 eventum.c:3140
+msgid "Customer"
+msgstr ""
+
+#: eventum.c:1022
+msgid "sort by customer"
+msgstr ""
+
+#: eventum.c:1028
+msgid "sort by date"
+msgstr ""
+
+#: eventum.c:1034
+msgid "sort by recipient"
+msgstr ""
+
+#: eventum.c:1040
+msgid "sort by status"
+msgstr ""
+
+#: eventum.c:1046
+msgid "sort by subject"
+msgstr ""
+
+#: eventum.c:1049
+msgid "associated"
+msgstr ""
+
+#: eventum.c:1052 eventum.c:1382 eventum.c:1385
+msgid "view issue details"
+msgstr ""
+
+#: eventum.c:1055
+msgid "pending"
+msgstr ""
+
+#: eventum.c:1058
+msgid "Empty Subject Header"
+msgstr ""
+
+#: eventum.c:1061 eventum.c:1064
+msgid "view email details"
+msgstr ""
+
+#: eventum.c:1067 eventum.c:2285
+msgid "No emails could be found."
+msgstr ""
+
+#: eventum.c:1073
+msgid "Associate"
+msgstr ""
+
+#: eventum.c:1076
+msgid "New Issue"
+msgstr ""
+
+#: eventum.c:1079
+msgid "lookup issues by their summaries"
+msgstr ""
+
+#: eventum.c:1085 eventum.c:1403
+msgid "Set"
+msgstr ""
+
+#: eventum.c:1088
+msgid "Hide Associated Emails"
+msgstr ""
+
+#: eventum.c:1091
+msgid "Remove Selected Emails"
+msgstr ""
+
+#: eventum.c:1094
+msgid "list all removed emails"
+msgstr ""
+
+#: eventum.c:1097
+msgid "List Removed Emails"
+msgstr ""
+
+#: eventum.c:1100 eventum.c:1103
+msgid "error condition detected"
+msgstr ""
+
+#: eventum.c:1106
+msgid "Error: You are not allowed to view the requested FAQ entry."
+msgstr ""
+
+#: eventum.c:1109
+msgid "Last updated"
+msgstr ""
+
+#: eventum.c:1115
+msgid "Article Entries"
+msgstr ""
+
+#: eventum.c:1118 eventum.c:1661
+msgid "Title"
+msgstr ""
+
+#: eventum.c:1124
+msgid "read faq entry"
+msgstr ""
+
+#: eventum.c:1127
+msgid "An error occurred while trying to process the uploaded file."
+msgstr ""
+
+#: eventum.c:1130
+msgid ""
+"The uploaded file is already attached to the current issue. Please rename "
+"the file and try again."
+msgstr ""
+
+#: eventum.c:1133
+msgid "Thank you, the uploaded file was associated with the issue below."
+msgstr ""
+
+#: eventum.c:1139
+msgid "Add New Files"
+msgstr ""
+
+#: eventum.c:1145
+msgid "Public"
+msgstr ""
+
+#: eventum.c:1148
+msgid "visible to all"
+msgstr ""
+
+#: eventum.c:1151
+msgid "Private"
+msgstr ""
+
+#: eventum.c:1154
+msgid "standard user and above only"
+msgstr ""
+
+#: eventum.c:1157
+msgid "Filenames"
+msgstr ""
+
+#: eventum.c:1160
+msgid "ote: The current maximum allowed upload file size is"
+msgstr ""
+
+#: eventum.c:1169
+msgid "You do not have the correct role to access this page"
+msgstr ""
+
+#: eventum.c:1172
+msgid "Please enter your account email address."
+msgstr ""
+
+#: eventum.c:1175
+msgid ""
+"<b>Note:</b> Please enter your email address below and a new random password "
+"will be created and assigned to your account. For security purposes a "
+"confirmation message will be sent to your email address and after confirming "
+"it the new password will be then activated and sent to you."
+msgstr ""
+
+#: eventum.c:1178
+msgid "Request a Password"
+msgstr ""
+
+#: eventum.c:1181 eventum.c:2729
+msgid "Error: An error occurred while trying to run your query."
+msgstr ""
+
+#: eventum.c:1184
+msgid ""
+"Thank you, a confirmation message was just emailed to you. Please follow the "
+"instructions available in this message to confirm your password creation "
+"request."
+msgstr ""
+
+#: eventum.c:1187 eventum.c:1436
+msgid ""
+"Error: Your user status is currently set as inactive. Please\n"
+"              contact your local system administrator for further "
+"information."
+msgstr ""
+
+#: eventum.c:1190
+msgid " Error: Please provide your email address."
+msgstr ""
+
+#: eventum.c:1193
+msgid "Error: No user account was found matching the entered email address."
+msgstr ""
+
+#: eventum.c:1196 eventum.c:2741
+msgid "Email Address:"
+msgstr ""
+
+#: eventum.c:1199
+msgid "Send New Password"
+msgstr ""
+
+#: eventum.c:1205
+msgid "get context sensitive help"
+msgstr ""
+
+#: eventum.c:1208
+msgid "History of Changes to Issue"
+msgstr ""
+
+#: eventum.c:1217
+msgid "No changes could be found."
+msgstr ""
+
+#: eventum.c:1223
+msgid "History of Reminders Triggered for Issue"
+msgstr ""
+
+#: eventum.c:1229
+msgid "Triggered Action"
+msgstr ""
+
+#: eventum.c:1232
+msgid "No reminders could be found."
+msgstr ""
+
+#: eventum.c:1238
+msgid "Please enter the estimated development time for this task."
+msgstr ""
+
+#: eventum.c:1241
+msgid ""
+"Please use only floating point numbers (or integers) on the estimated "
+"development time field."
+msgstr ""
+
+#: eventum.c:1244
+msgid "Please enter the analysis for the changes required by this issue."
+msgstr ""
+
+#: eventum.c:1247 eventum.c:1286
+msgid "Impact Analysis"
+msgstr ""
+
+#: eventum.c:1250
+msgid "Total Estimated Dev. Time"
+msgstr ""
+
+#: eventum.c:1253 eventum.c:2318 eventum.c:2942
+msgid "in hours"
+msgstr ""
+
+#: eventum.c:1259
+msgid "Initial Impact Analysis"
+msgstr ""
+
+#: eventum.c:1271
+msgid "Further Requirements"
+msgstr ""
+
+#: eventum.c:1277
+msgid "Handler"
+msgstr ""
+
+#: eventum.c:1280
+msgid "Requirement"
+msgstr ""
+
+#: eventum.c:1283 eventum.c:2315 eventum.c:3209
+msgid "Estimated Dev. Time"
+msgstr ""
+
+#: eventum.c:1289 eventum.c:1292
+msgid "update entry"
+msgstr ""
+
+#: eventum.c:1301
+msgid "No entries could be found."
+msgstr ""
+
+#: eventum.c:1304
+msgid "Please enter the new requirement for this issue."
+msgstr ""
+
+#: eventum.c:1307
+msgid "Add New Requirement"
+msgstr ""
+
+#: eventum.c:1310
+msgid "News and Announcements"
+msgstr ""
+
+#: eventum.c:1313
+msgid "full news entry"
+msgstr ""
+
+#: eventum.c:1316
+msgid "Read All Notices"
+msgstr ""
+
+#: eventum.c:1319
+msgid "Please choose which issues to update."
+msgstr ""
+
+#: eventum.c:1322
+msgid "Please choose new values for the select issues"
+msgstr ""
+
+#: eventum.c:1325
+msgid "Warning: If you continue, you will change the "
+msgstr ""
+
+#: eventum.c:1328
+msgid "for all selected issues. Are you sure you want to continue?"
+msgstr ""
+
+#: eventum.c:1331
+msgid "Search Results"
+msgstr ""
+
+#: eventum.c:1334
+msgid "issues found"
+msgstr ""
+
+#: eventum.c:1337
+msgid "shown"
+msgstr ""
+
+#: eventum.c:1340
+msgid "hide / show the quick search form"
+msgstr ""
+
+#: eventum.c:1343
+msgid "quick search"
+msgstr ""
+
+#: eventum.c:1346
+msgid "hide / show the advanced search form"
+msgstr ""
+
+#: eventum.c:1349
+msgid "advanced search"
+msgstr ""
+
+#: eventum.c:1352
+msgid "current filters"
+msgstr ""
+
+#: eventum.c:1355
+msgid "bulk update tool"
+msgstr ""
+
+#: eventum.c:1361 eventum.c:1364 eventum.c:1376 eventum.c:1379
+msgid "sort by"
+msgstr ""
+
+#: eventum.c:1367
+msgid "sort by summary"
+msgstr ""
+
+#: eventum.c:1370
+msgid "Export Data:"
+msgstr ""
+
+#: eventum.c:1373
+msgid "Export to Excel"
+msgstr ""
+
+#: eventum.c:1388 eventum.c:1487 eventum.c:1493 eventum.c:1499 eventum.c:1505
+#: eventum.c:1511
+msgid "No issues could be found."
+msgstr ""
+
+#: eventum.c:1394 eventum.c:1637
+msgid "Go"
+msgstr ""
+
+#: eventum.c:1397
+msgid "Rows per Page:"
+msgstr ""
+
+#: eventum.c:1412 eventum.c:1451 eventum.c:2132
+msgid "Email Address"
+msgstr ""
+
+#: eventum.c:1415 eventum.c:1454
+msgid "Password"
+msgstr ""
+
+#: eventum.c:1418 eventum.c:1457 eventum.c:2129
+msgid "Login"
+msgstr ""
+
+#: eventum.c:1421
+msgid "Error: Please provide your email address."
+msgstr ""
+
+#: eventum.c:1424
+msgid "Error: Please provide your password."
+msgstr ""
+
+#: eventum.c:1427
+msgid ""
+"Error: The email address / password combination could not be found in the "
+"system."
+msgstr ""
+
+#: eventum.c:1430
+msgid "Your session has expired. Please login again to continue."
+msgstr ""
+
+#: eventum.c:1433
+msgid "Thank you, you are now logged out of %1"
+msgstr ""
+
+#: eventum.c:1439
+msgid ""
+"Thank you, your account is now active and ready to be\n"
+"              used. Use the form below to login."
+msgstr ""
+
+#: eventum.c:1442
+msgid ""
+"Error: Your user status is currently set as pending. This\n"
+"              means that you still need to confirm your account\n"
+"              creation request. Please contact your local system\n"
+"              administrator for further information."
+msgstr ""
+
+#: eventum.c:1445
+msgid ""
+"Error: Cookies support seem to be disabled in your browser. Please enable "
+"this feature and try again."
+msgstr ""
+
+#: eventum.c:1448
+msgid ""
+"Error: In order for %1 to work properly, you must enable cookie support in "
+"your browser. Please login\n"
+"              again and accept all cookies coming from it."
+msgstr ""
+
+#: eventum.c:1460
+msgid "Remember Login"
+msgstr ""
+
+#: eventum.c:1463
+msgid "I Forgot My Password"
+msgstr ""
+
+#: eventum.c:1466
+msgid "Signup for an Account"
+msgstr ""
+
+#: eventum.c:1469
+msgid "Requires support for cookies and javascript in your browser"
+msgstr ""
+
+#: eventum.c:1472
+msgid ""
+"NOTE: You may report issues without the need to login by using the following "
+"URL"
+msgstr ""
+
+#: eventum.c:1475 eventum.c:1478
+msgid "paste or start typing here"
+msgstr ""
+
+#: eventum.c:1481
+msgid "Overall Stats"
+msgstr ""
+
+#: eventum.c:1484
+msgid "Issues by Status"
+msgstr ""
+
+#: eventum.c:1490
+msgid "Issues by Release"
+msgstr ""
+
+#: eventum.c:1496
+msgid "Issues by Priority"
+msgstr ""
+
+#: eventum.c:1502
+msgid "Issues by Category"
+msgstr ""
+
+#: eventum.c:1508
+msgid "Assigned Issues"
+msgstr ""
+
+#: eventum.c:1514
+msgid "Emails"
+msgstr ""
+
+#: eventum.c:1517
+msgid "Associated"
+msgstr ""
+
+#: eventum.c:1520
+msgid "Pending"
+msgstr ""
+
+#: eventum.c:1523
+msgid "Removed"
+msgstr ""
+
+#: eventum.c:1526
+msgid "Did you Know?"
+msgstr ""
+
+#: eventum.c:1529
+msgid "Graphical Stats (All Issues)"
+msgstr ""
+
+#: eventum.c:1532
+msgid "logout from"
+msgstr ""
+
+#: eventum.c:1535
+msgid "Logout"
+msgstr ""
+
+#: eventum.c:1538
+msgid "manage the application settings, users, projects, etc"
+msgstr ""
+
+#: eventum.c:1541
+msgid "Administration"
+msgstr ""
+
+#: eventum.c:1544
+msgid "create a new issue"
+msgstr ""
+
+#: eventum.c:1547
+msgid "Create Issue"
+msgstr ""
+
+#: eventum.c:1550
+msgid "list the issues stored in the system"
+msgstr ""
+
+#: eventum.c:1553
+msgid "List Issues"
+msgstr ""
+
+#: eventum.c:1556
+msgid "get access to advanced search parameters"
+msgstr ""
+
+#: eventum.c:1562
+msgid "list available emails"
+msgstr ""
+
+#: eventum.c:1568
+msgid "list all issues assigned to you"
+msgstr ""
+
+#: eventum.c:1571
+msgid "My Assignments"
+msgstr ""
+
+#: eventum.c:1574
+msgid "general statistics"
+msgstr ""
+
+#: eventum.c:1577
+msgid "Stats"
+msgstr ""
+
+#: eventum.c:1580
+msgid "reporting system"
+msgstr ""
+
+#: eventum.c:1583
+msgid "Reports"
+msgstr ""
+
+#: eventum.c:1586
+msgid "internal faq"
+msgstr ""
+
+#: eventum.c:1589
+msgid "Internal FAQ"
+msgstr ""
+
+#: eventum.c:1592
+msgid "help documentation"
+msgstr ""
+
+#: eventum.c:1595
+msgid "Help"
+msgstr ""
+
+#: eventum.c:1598 eventum.c:2051 eventum.c:2069 eventum.c:2375
+msgid "Project"
+msgstr ""
+
+#: eventum.c:1601
+msgid "Please enter a valid issue ID."
+msgstr ""
+
+#: eventum.c:1604
+msgid "Switch"
+msgstr ""
+
+#: eventum.c:1607
+msgid "CLOCKED"
+msgstr ""
+
+#: eventum.c:1610
+msgid "IN"
+msgstr ""
+
+#: eventum.c:1613
+msgid "OUT"
+msgstr ""
+
+#: eventum.c:1616
+msgid "modify your account details and preferences"
+msgstr ""
+
+#: eventum.c:1619
+msgid "Preferences"
+msgstr ""
+
+#: eventum.c:1622
+msgid "change your account clocked-in status"
+msgstr ""
+
+#: eventum.c:1625
+msgid "Clock"
+msgstr ""
+
+#: eventum.c:1628
+msgid "Out"
+msgstr ""
+
+#: eventum.c:1631
+msgid "In"
+msgstr ""
+
+#: eventum.c:1640
+msgid "Important Notices"
+msgstr ""
+
+#: eventum.c:1643
+msgid "This action will permanently delete the specified note."
+msgstr ""
+
+#: eventum.c:1646
+msgid ""
+"This note will be deleted & converted to an email, one either sent "
+"immediately or saved as a draft."
+msgstr ""
+
+#: eventum.c:1649
+msgid "Internal Notes"
+msgstr ""
+
+#: eventum.c:1652 eventum.c:2789 eventum.c:3083 eventum.c:3266 eventum.c:3341
+msgid "Reply"
+msgstr ""
+
+#: eventum.c:1655
+msgid "Posted Date"
+msgstr ""
+
+#: eventum.c:1664
+msgid "reply to this note"
+msgstr ""
+
+#: eventum.c:1670
+msgid "convert note"
+msgstr ""
+
+#: eventum.c:1673
+msgid "No internal notes could be found."
+msgstr ""
+
+#: eventum.c:1676 eventum.c:2021
+msgid "Post Internal Note"
+msgstr ""
+
+#: eventum.c:1682
+msgid "The given email address"
+msgstr ""
+
+#: eventum.c:1685
+msgid "is neither a known staff member or customer technical contact."
+msgstr ""
+
+#: eventum.c:1688
+msgid "Are you sure you want to add this address to the notification list?"
+msgstr ""
+
+#: eventum.c:1691
+msgid "Notification Options"
+msgstr ""
+
+#: eventum.c:1694
+msgid "An error occurred while trying to update the notification entry."
+msgstr ""
+
+#: eventum.c:1697
+msgid ""
+"Error: the given email address is not allowed to be added to the "
+"notification list."
+msgstr ""
+
+#: eventum.c:1700
+msgid "Thank you, the notification entry was updated successfully."
+msgstr ""
+
+#: eventum.c:1706
+msgid "Get a Notification When"
+msgstr ""
+
+#: eventum.c:1709
+msgid "Emails are Received or Sent"
+msgstr ""
+
+#: eventum.c:1712
+msgid "Overview or Details are Changed"
+msgstr ""
+
+#: eventum.c:1715
+msgid "Issue is Closed"
+msgstr ""
+
+#: eventum.c:1718
+msgid "Files are Attached"
+msgstr ""
+
+#: eventum.c:1721
+msgid "Update Subscription"
+msgstr ""
+
+#: eventum.c:1724
+msgid "Add Subscription"
+msgstr ""
+
+#: eventum.c:1730
+msgid "Existing Subscribers for this Issue"
+msgstr ""
+
+#: eventum.c:1733
+msgid "Please select at least one of the subscribers."
+msgstr ""
+
+#: eventum.c:1742
+msgid "click to edit"
+msgstr ""
+
+#: eventum.c:1745
+msgid "Actions"
+msgstr ""
+
+#: eventum.c:1748
+msgid "update this entry"
+msgstr ""
+
+#: eventum.c:1751
+msgid "No subscribers could be found."
+msgstr ""
+
+#: eventum.c:1760
+msgid "Database Error"
+msgstr ""
+
+#: eventum.c:1763
+msgid ""
+"There seems to be a problem connecting to the database server specified in "
+"your configuration file. Please contact your local system administrator for "
+"further assistance."
+msgstr ""
+
+#: eventum.c:1766
+msgid ""
+"There seems to be a problem finding the required database tables in the "
+"database server specified in your configuration file. Please contact your "
+"local system administrator for further assistance."
+msgstr ""
+
+#: eventum.c:1769
+msgid "Sorry, you do not have permission to access this page."
+msgstr ""
+
+#: eventum.c:1775
+msgid "This action will permanently delete the specified phone support entry."
+msgstr ""
+
+#: eventum.c:1778
+msgid "Phone Calls"
+msgstr ""
+
+#: eventum.c:1781
+msgid "Recorded Date"
+msgstr ""
+
+#: eventum.c:1784
+msgid "Entered By"
+msgstr ""
+
+#: eventum.c:1793
+msgid "Call Type"
+msgstr ""
+
+#: eventum.c:1799
+msgid "Phone Number"
+msgstr ""
+
+#: eventum.c:1805
+msgid "No phone calls recorded yet."
+msgstr ""
+
+#: eventum.c:1808
+msgid "Add Phone Call"
+msgstr ""
+
+#: eventum.c:1814
+msgid "Please enter the note text on the input box below."
+msgstr ""
+
+#: eventum.c:1817
+msgid "Thank you, the new note was created and associated with the issue below."
+msgstr ""
+
+#: eventum.c:1823
+msgid "You do not have permission to delete this note."
+msgstr ""
+
+#: eventum.c:1826
+msgid "Thank you, the note was removed successfully."
+msgstr ""
+
+#: eventum.c:1832
+msgid "Thank you, the time tracking entry was removed successfully."
+msgstr ""
+
+#: eventum.c:1835
+msgid "Thank you, the selected issues were updated successfully."
+msgstr ""
+
+#: eventum.c:1844
+msgid "Thank you, the inital impact analysis was set successfully."
+msgstr ""
+
+#: eventum.c:1850
+msgid "Thank you, the new requirement was added successfully."
+msgstr ""
+
+#: eventum.c:1856
+msgid "Thank you, the impact analysis was set successfully."
+msgstr ""
+
+#: eventum.c:1862
+msgid "Thank you, the selected requirements were removed successfully."
+msgstr ""
+
+#: eventum.c:1868
+msgid "Thank you, the custom filter was saved successfully."
+msgstr ""
+
+#: eventum.c:1874
+msgid "Thank you, the selected custom filters were removed successfully."
+msgstr ""
+
+#: eventum.c:1880
+msgid "Thank you, the association to the selected emails were removed successfully."
+msgstr ""
+
+#: eventum.c:1886
+msgid "You do not have the permission to remove this attachment."
+msgstr ""
+
+#: eventum.c:1889
+msgid "Thank you, the attachment was removed successfully."
+msgstr ""
+
+#: eventum.c:1895
+msgid "You do not have the permission to remove this file."
+msgstr ""
+
+#: eventum.c:1898
+msgid "Thank you, the file was removed successfully."
+msgstr ""
+
+#: eventum.c:1904
+msgid ""
+"Thank you, the selected checkin information entries were removed "
+"successfully."
+msgstr ""
+
+#: eventum.c:1910
+msgid "Thank you, the emails were marked as removed successfully."
+msgstr ""
+
+#: eventum.c:1916
+msgid "Thank you, the current issue is no longer marked as a duplicate."
+msgstr ""
+
+#: eventum.c:1922
+msgid "You do not have permission to remove this phone support entry."
+msgstr ""
+
+#: eventum.c:1925 eventum.c:1928
+msgid "Thank you, the phone support entry was removed successfully."
+msgstr ""
+
+#: eventum.c:1931
+msgid "The associated time tracking entry was also deleted."
+msgstr ""
+
+#: eventum.c:1937
+msgid "Thank you, the issue was updated successfully."
+msgstr ""
+
+#: eventum.c:1943
+msgid "Error: the issue is already unassigned."
+msgstr ""
+
+#: eventum.c:1946
+msgid "Thank you, the issue was unassigned successfully."
+msgstr ""
+
+#: eventum.c:1949
+msgid "Error: you are already authorized to send emails in this issue."
+msgstr ""
+
+#: eventum.c:1952
+msgid "Thank you, you are now authorized to send emails in this issue."
+msgstr ""
+
+#: eventum.c:1958
+msgid "Thank you, this issue was removed from quarantine."
+msgstr ""
+
+#: eventum.c:1967
+msgid "Thank you, the internal note was posted successfully."
+msgstr ""
+
+#: eventum.c:1973
+msgid "Please enter the title of this note."
+msgstr ""
+
+#: eventum.c:1976
+msgid "Please enter the message body of this note."
+msgstr ""
+
+#: eventum.c:1979
+msgid "Post New Internal Note"
+msgstr ""
+
+#: eventum.c:1982 eventum.c:3317
+msgid "From:"
+msgstr ""
+
+#: eventum.c:1985
+msgid "Recipients:"
+msgstr ""
+
+#: eventum.c:1988 eventum.c:2480 eventum.c:3167
+msgid "Notification List"
+msgstr ""
+
+#: eventum.c:1991 eventum.c:3320
+msgid "Title:"
+msgstr ""
+
+#: eventum.c:1994
+msgid "Extra Note Recipients:"
+msgstr ""
+
+#: eventum.c:1997 eventum.c:2963
+msgid "Clear Selections"
+msgstr ""
+
+#: eventum.c:2000
+msgid "Add Extra Recipients To Notification List?"
+msgstr ""
+
+#: eventum.c:2003 eventum.c:2027 eventum.c:2948 eventum.c:2981
+msgid "yes"
+msgstr ""
+
+#: eventum.c:2009 eventum.c:2954 eventum.c:2960
+msgid "no"
+msgstr ""
+
+#: eventum.c:2012 eventum.c:2180 eventum.c:2189 eventum.c:2198 eventum.c:2693
+msgid "No"
+msgstr ""
+
+#: eventum.c:2015 eventum.c:2501
+msgid "New Status for Issue"
+msgstr ""
+
+#: eventum.c:2024 eventum.c:2516
+msgid "Cancel"
+msgstr ""
+
+#: eventum.c:2030 eventum.c:2522
+msgid "Add Email Signature"
+msgstr ""
+
+#: eventum.c:2036
+msgid ""
+"Sorry, but there are no projects currently setup as allowing anonymous "
+"posting."
+msgstr ""
+
+#: eventum.c:2039
+msgid ""
+"Thank you, the new issue was created successfully. For your records, the new "
+"issue ID is <font color=\"red\">%1</font>"
+msgstr ""
+
+#: eventum.c:2042
+msgid "You may <a class=\"link\" href=\"%1\">%2</a> if you so wish."
+msgstr ""
+
+#: eventum.c:2045
+msgid "Please choose the project that this new issue will apply to."
+msgstr ""
+
+#: eventum.c:2048 eventum.c:2066
+msgid "Report New Issue"
+msgstr ""
+
+#: eventum.c:2054
+msgid "Please choose a project"
+msgstr ""
+
+#: eventum.c:2057
+msgid "Next"
+msgstr ""
+
+#: eventum.c:2078
+msgid "Attach Files"
+msgstr ""
+
+#: eventum.c:2081
+msgid "Keep Form Open"
+msgstr ""
+
+#: eventum.c:2084
+msgid "Submit"
+msgstr ""
+
+#: eventum.c:2093 eventum.c:2714
+msgid "Please enter your full name."
+msgstr ""
+
+#: eventum.c:2099
+msgid "Please enter your new password with at least 6 characters."
+msgstr ""
+
+#: eventum.c:2102
+msgid "The two passwords do not match. Please review your information and try again."
+msgstr ""
+
+#: eventum.c:2105
+msgid "User Details"
+msgstr ""
+
+#: eventum.c:2108 eventum.c:2123 eventum.c:2141 eventum.c:2165
+msgid "An error occurred while trying to run your query."
+msgstr ""
+
+#: eventum.c:2111
+msgid "Thank you, your full name was updated successfully."
+msgstr ""
+
+#: eventum.c:2114
+msgid "Full Name"
+msgstr ""
+
+#: eventum.c:2117
+msgid "Update Full Name"
+msgstr ""
+
+#: eventum.c:2126
+msgid "Thank you, your email address was updated successfully."
+msgstr ""
+
+#: eventum.c:2135
+msgid "Update Email Address"
+msgstr ""
+
+#: eventum.c:2144
+msgid "Thank you, your password was updated successfully."
+msgstr ""
+
+#: eventum.c:2147
+msgid "Change Password"
+msgstr ""
+
+#: eventum.c:2150
+msgid "New Password"
+msgstr ""
+
+#: eventum.c:2153
+msgid "Confirm New Password"
+msgstr ""
+
+#: eventum.c:2156
+msgid "Update Password"
+msgstr ""
+
+#: eventum.c:2162
+msgid "Account Preferences"
+msgstr ""
+
+#: eventum.c:2168
+msgid "Thank you, your account preferences were updated successfully."
+msgstr ""
+
+#: eventum.c:2171
+msgid "Timezone"
+msgstr ""
+
+#: eventum.c:2174
+msgid "Automatically close confirmation popup windows ?"
+msgstr ""
+
+#: eventum.c:2183
+msgid "Receive emails when all issues are created ?"
+msgstr ""
+
+#: eventum.c:2192
+msgid "Receive emails when new issues are assigned to you ?"
+msgstr ""
+
+#: eventum.c:2201
+msgid "Refresh Rate for Issue Listing Page"
+msgstr ""
+
+#: eventum.c:2207
+msgid "Refresh Rate for Email Listing Page"
+msgstr ""
+
+#: eventum.c:2213
+msgid "Email Signature"
+msgstr ""
+
+#: eventum.c:2216
+msgid "Edit Signature"
+msgstr ""
+
+#: eventum.c:2219
+msgid "Upload New Signature"
+msgstr ""
+
+#: eventum.c:2222
+msgid "Automatically append email signature when composing web based emails"
+msgstr ""
+
+#: eventum.c:2225
+msgid "Automatically append email signature when composing internal notes"
+msgstr ""
+
+#: eventum.c:2228
+msgid "SMS Email Address"
+msgstr ""
+
+#: eventum.c:2231
+msgid "only used for automatic issue reminders"
+msgstr ""
+
+#: eventum.c:2234
+msgid "There was an error marking this issue as redeemed"
+msgstr ""
+
+#: eventum.c:2237
+msgid "This issue already has been marked as redeemed"
+msgstr ""
+
+#: eventum.c:2240
+msgid "Thank you, the issue was successfully marked."
+msgstr ""
+
+#: eventum.c:2243
+msgid "Please choose the incident types to redeem for this issue."
+msgstr ""
+
+#: eventum.c:2246
+msgid "Total"
+msgstr ""
+
+#: eventum.c:2249
+msgid "Left"
+msgstr ""
+
+#: eventum.c:2252
+msgid "Redeem Incidents"
+msgstr ""
+
+#: eventum.c:2261
+msgid "Removed Emails"
+msgstr ""
+
+#: eventum.c:2264
+msgid "Please choose which emails need to be restored."
+msgstr ""
+
+#: eventum.c:2267
+msgid "Please choose which emails need to be permanently removed."
+msgstr ""
+
+#: eventum.c:2270
+msgid ""
+"WARNING: This action will permanently remove the selected emails from your "
+"email account."
+msgstr ""
+
+#: eventum.c:2291
+msgid "Restore Emails"
+msgstr ""
+
+#: eventum.c:2297
+msgid "Permanently Remove"
+msgstr ""
+
+#: eventum.c:2303
+msgid "Thank you, the impact analysis was updated successfully."
+msgstr ""
+
+#: eventum.c:2306
+msgid ""
+"Please use only floating point numbers on the estimated development time "
+"field."
+msgstr ""
+
+#: eventum.c:2309
+msgid "Please enter the impact analysis for this new requirement."
+msgstr ""
+
+#: eventum.c:2312
+msgid "Enter Impact Analysis"
+msgstr ""
+
+#: eventum.c:2321
+msgid "Impact <br />Analysis"
+msgstr ""
+
+#: eventum.c:2324
+msgid "Widen the field"
+msgstr ""
+
+#: eventum.c:2327
+msgid "Shorten the field"
+msgstr ""
+
+#: eventum.c:2330
+msgid "Quick Search"
+msgstr ""
+
+#: eventum.c:2333
+msgid "Keyword(s):"
+msgstr ""
+
+#: eventum.c:2336
+msgid "Assigned:"
+msgstr ""
+
+#: eventum.c:2348 eventum.c:2903
+msgid "Category:"
+msgstr ""
+
+#: eventum.c:2354 eventum.c:2918
+msgid "Priority:"
+msgstr ""
+
+#: eventum.c:2366
+msgid "Please choose the project."
+msgstr ""
+
+#: eventum.c:2369
+msgid "Select Project"
+msgstr ""
+
+#: eventum.c:2372
+msgid "You are not allowed to use the selected project."
+msgstr ""
+
+#: eventum.c:2378
+msgid "Remember Selection"
+msgstr ""
+
+#: eventum.c:2387
+msgid "Thank you, you are now assigned to the issue"
+msgstr ""
+
+#: eventum.c:2393
+msgid "WARNING"
+msgstr ""
+
+#: eventum.c:2396
+msgid "The following user is already assigned to this issue"
+msgid_plural "The following users are already assigned to this issue"
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:2399
+msgid "Replace current assignee with Myself."
+msgid_plural "Replace current assignees with Myself."
+msgstr[0] ""
+msgstr[1] ""
+
+#: eventum.c:2402
+msgid "Add Myself to list of assignees."
+msgstr ""
+
+#: eventum.c:2411
+msgid ""
+"Sorry, but the email could not be queued. This might be related to problems "
+"with your SMTP account settings.\n"
+"  Please contact the administrator of this application for further "
+"assistance."
+msgstr ""
+
+#: eventum.c:2414
+msgid "Thank you, the email was queued to be sent successfully."
+msgstr ""
+
+#: eventum.c:2423
+msgid "Thank you, the email message was saved as a draft successfully."
+msgstr ""
+
+#: eventum.c:2429
+msgid "If you close this window, you will lose your message"
+msgstr ""
+
+#: eventum.c:2432
+msgid "Please enter the recipient of this email."
+msgstr ""
+
+#: eventum.c:2435
+msgid "Please enter the subject of this email."
+msgstr ""
+
+#: eventum.c:2438
+msgid "Please enter the message body of this email."
+msgstr ""
+
+#: eventum.c:2441
+msgid ""
+"WARNING: You are not assigned to this issue so your email will be blocked.\n"
+"Your blocked email will be converted to a note that can be recovered later.\n"
+"For more information, please see the topic 'email blocking' in help."
+msgstr ""
+
+#: eventum.c:2444
+msgid ""
+"WARNING: This email will be sent to all names on this issue's Notification "
+"List, including CUSTOMERS.\n"
+"If you want the CUSTOMER to receive your message now, press OK.\n"
+"Otherwise, to return to your editing window, press CANCEL."
+msgstr ""
+
+#: eventum.c:2447
+msgid ""
+"WARNING: This email will be sent to all names on this issue's Notification "
+"List.\n"
+"If you want all users to receive your message now, press OK.\n"
+"Otherwise, to return to your editing window, press CANCEL."
+msgstr ""
+
+#: eventum.c:2450
+msgid "Warning: This draft has already been sent. You cannot resend it."
+msgstr ""
+
+#: eventum.c:2453
+msgid "Warning: This draft has already been edited. You cannot send or edit it."
+msgstr ""
+
+#: eventum.c:2459 eventum.c:2510 eventum.c:2819
+msgid "Send Email"
+msgstr ""
+
+#: eventum.c:2465
+msgid ""
+"Sorry, but the email could not be sent. This might be related to problems "
+"with your SMTP account settings.\n"
+"              Please contact the administrator of this application for "
+"assistance."
+msgstr ""
+
+#: eventum.c:2468
+msgid "Thank you, the email was sent successfully."
+msgstr ""
+
+#: eventum.c:2483
+msgid "Members"
+msgstr ""
+
+#: eventum.c:2486 eventum.c:3065
+msgid "Cc"
+msgstr ""
+
+#: eventum.c:2489
+msgid "Add Unknown Recipients to Issue Notification List"
+msgstr ""
+
+#: eventum.c:2495
+msgid "Canned Responses"
+msgstr ""
+
+#: eventum.c:2498
+msgid "Use Canned Response"
+msgstr ""
+
+#: eventum.c:2519
+msgid "Check Spelling"
+msgstr ""
+
+#: eventum.c:2525
+msgid "Save Draft Changes"
+msgstr ""
+
+#: eventum.c:2528
+msgid "Save as Draft"
+msgstr ""
+
+#: eventum.c:2534
+msgid "Please enter the hostname for the server of this installation of Eventum."
+msgstr ""
+
+#: eventum.c:2537
+msgid "Please enter the relative URL of this installation of Eventum."
+msgstr ""
+
+#: eventum.c:2540
+msgid "Please enter the full path in the server of this installation of Eventum."
+msgstr ""
+
+#: eventum.c:2543
+msgid "Please enter the database hostname for this installation of Eventum."
+msgstr ""
+
+#: eventum.c:2546
+msgid "Please enter the database name for this installation of Eventum."
+msgstr ""
+
+#: eventum.c:2549
+msgid "Please enter the database username for this installation of Eventum."
+msgstr ""
+
+#: eventum.c:2552
+msgid "Please enter the alternate username for this installation of Eventum."
+msgstr ""
+
+#: eventum.c:2555
+msgid ""
+"Please enter the sender address that will be used for all outgoing "
+"notification emails."
+msgstr ""
+
+#: eventum.c:2558
+msgid "Please enter a valid email address for the sender address."
+msgstr ""
+
+#: eventum.c:2561
+msgid "Please enter the SMTP server hostname."
+msgstr ""
+
+#: eventum.c:2564
+msgid "Please enter the SMTP server port number."
+msgstr ""
+
+#: eventum.c:2567
+msgid "Please indicate whether the SMTP server requires authentication or not."
+msgstr ""
+
+#: eventum.c:2570
+msgid "Please enter the SMTP server username."
+msgstr ""
+
+#: eventum.c:2573
+msgid "Please enter the SMTP server password."
+msgstr ""
+
+#: eventum.c:2576
+msgid "An Error Was Found"
+msgstr ""
+
+#: eventum.c:2579
+msgid "Details:"
+msgstr ""
+
+#: eventum.c:2582
+msgid "Success!"
+msgstr ""
+
+#: eventum.c:2585
+msgid ""
+"Thank You, Eventum is now properly setup and ready to be used. Open the "
+"following URL to login on it for the first time:"
+msgstr ""
+
+#: eventum.c:2588
+msgid "Email Address: admin@example.com (literally)"
+msgstr ""
+
+#: eventum.c:2591
+msgid "Password: admin"
+msgstr ""
+
+#: eventum.c:2594
+msgid ""
+"NOTE: For security reasons it is highly recommended that the default "
+"password be changed as soon as possible."
+msgstr ""
+
+#: eventum.c:2597
+msgid ""
+"Remember to protect your 'setup' directory (like changing its permissions) "
+"to prevent anyone else\n"
+"            from changing your existing Eventum configuration."
+msgstr ""
+
+#: eventum.c:2600
+msgid ""
+"In order to check if your permissions are setup correctly visit the <a class="
+"\"link\" href=\"check_permissions.php\">Check Permissions</a> page."
+msgstr ""
+
+#: eventum.c:2603
+msgid ""
+"WARNING: If you want to use the email integration features to download "
+"messages saved on a IMAP/POP3 server, you will need to\n"
+"            enable the IMAP extension in your PHP.INI configuration file. "
+"See the PHP manual for more details."
+msgstr ""
+
+#: eventum.c:2606
+msgid "Warning!"
+msgstr ""
+
+#: eventum.c:2609
+msgid ""
+"You are running PHP version %1.\n"
+"While all effort has been made to ensure eventum works correctly with\n"
+"PHP 5 and greater, it has not been thoroughly tested and may not work "
+"properly."
+msgstr ""
+
+#: eventum.c:2612
+msgid "Please report any problems you find to eventum-users@lists.mysql.com."
+msgstr ""
+
+#: eventum.c:2615
+msgid "Eventum Installation"
+msgstr ""
+
+#: eventum.c:2618
+msgid "Server Hostname:"
+msgstr ""
+
+#: eventum.c:2621
+msgid "SSL Server"
+msgstr ""
+
+#: eventum.c:2624
+msgid "Eventum Relative URL:"
+msgstr ""
+
+#: eventum.c:2627
+msgid "Installation Path:"
+msgstr ""
+
+#: eventum.c:2630
+msgid "MySQL Server Hostname:"
+msgstr ""
+
+#: eventum.c:2633
+msgid "MySQL Database:"
+msgstr ""
+
+#: eventum.c:2636
+msgid "Create Database"
+msgstr ""
+
+#: eventum.c:2639
+msgid "MySQL Table Prefix:"
+msgstr ""
+
+#: eventum.c:2642
+msgid "Drop Tables If They Already Exist"
+msgstr ""
+
+#: eventum.c:2645
+msgid "MySQL Username:"
+msgstr ""
+
+#: eventum.c:2648
+msgid ""
+"<b>Note:</b> This user requires permission to create and drop tables in the "
+"specified database.<br />This value is used only for these installation "
+"procedures, and is not saved if you provide a separate user below."
+msgstr ""
+
+#: eventum.c:2651
+msgid "MySQL Password:"
+msgstr ""
+
+#: eventum.c:2654
+msgid "Use a Separate MySQL User for Normal Eventum Use"
+msgstr ""
+
+#: eventum.c:2657
+msgid "Enter the details below:"
+msgstr ""
+
+#: eventum.c:2660 eventum.c:2696
+msgid "Username:"
+msgstr ""
+
+#: eventum.c:2663 eventum.c:2699 eventum.c:2744
+msgid "Password:"
+msgstr ""
+
+#: eventum.c:2666
+msgid "Create User and Permissions"
+msgstr ""
+
+#: eventum.c:2669
+msgid "SMTP Configuration"
+msgstr ""
+
+#: eventum.c:2672
+msgid ""
+"<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
+"emails are properly sent when creating new users/projects."
+msgstr ""
+
+#: eventum.c:2678
+msgid "must be a valid email address"
+msgstr ""
+
+#: eventum.c:2681
+msgid "Hostname:"
+msgstr ""
+
+#: eventum.c:2684
+msgid "Port:"
+msgstr ""
+
+#: eventum.c:2687
+msgid "Requires Authentication?"
+msgstr ""
+
+#: eventum.c:2702
+msgid "Start Installation"
+msgstr ""
+
+#: eventum.c:2705
+msgid "Required Fields"
+msgstr ""
+
+#: eventum.c:2717
+msgid "Please enter your email address."
+msgstr ""
+
+#: eventum.c:2723
+msgid "Please enter your password."
+msgstr ""
+
+#: eventum.c:2726
+msgid "Account Signup"
+msgstr ""
+
+#: eventum.c:2732
+msgid ""
+"Error: The email address specified is already associated with an user in the "
+"system."
+msgstr ""
+
+#: eventum.c:2735
+msgid ""
+"Thank you, your account creation request was processed successfully. For "
+"security reasons a confirmation email was sent to the provided email address "
+"with instructions on how to confirm your request and activate your account."
+msgstr ""
+
+#: eventum.c:2738
+msgid "Full Name:"
+msgstr ""
+
+#: eventum.c:2747
+msgid "Create Account"
+msgstr ""
+
+#: eventum.c:2753
+msgid "Spell Check"
+msgstr ""
+
+#: eventum.c:2756
+msgid "No spelling mistakes could be found."
+msgstr ""
+
+#: eventum.c:2759
+msgid "Misspelled Words:"
+msgstr ""
+
+#: eventum.c:2762
+msgid "Suggestions:"
+msgstr ""
+
+#: eventum.c:2765
+msgid "Choose a misspelled word"
+msgstr ""
+
+#: eventum.c:2768
+msgid "Fix Spelling"
+msgstr ""
+
+#: eventum.c:2771
+msgid "Please choose which entries need to be disassociated with the current issue."
+msgstr ""
+
+#: eventum.c:2774
+msgid ""
+"This action will remove the association of the selected entries to the "
+"current issue."
+msgstr ""
+
+#: eventum.c:2777
+msgid "Associated Emails"
+msgstr ""
+
+#: eventum.c:2780
+msgid "view the history of sent emails"
+msgstr ""
+
+#: eventum.c:2783
+msgid "Mail Queue Log"
+msgstr ""
+
+#: eventum.c:2804
+msgid "reply to this email"
+msgstr ""
+
+#: eventum.c:2807 eventum.c:3062
+msgid "sent to notification list"
+msgstr ""
+
+#: eventum.c:2810
+msgid "No associated emails could be found."
+msgstr ""
+
+#: eventum.c:2816
+msgid "Disassociate Selected"
+msgstr ""
+
+#: eventum.c:2822
+msgid "Thank you, your current selected project was changed successfully."
+msgstr ""
+
+#: eventum.c:2828
+msgid "This action will permanently delete the specified time tracking entry."
+msgstr ""
+
+#: eventum.c:2831
+msgid "Time Tracking"
+msgstr ""
+
+#: eventum.c:2849
+msgid "Total Time Spent"
+msgstr ""
+
+#: eventum.c:2852
+msgid "No time tracking entries could be found."
+msgstr ""
+
+#: eventum.c:2858
+msgid "Back to Top"
+msgstr ""
+
+#: eventum.c:2864
+msgid ""
+"Also, all issues that are marked as duplicates from this one were updated as "
+"well."
+msgstr ""
+
+#: eventum.c:2867
+msgid "Return to Issue"
+msgstr ""
+
+#: eventum.c:2870
+msgid "Details Page"
+msgstr ""
+
+#: eventum.c:2873
+msgid "Please enter the summary for this issue."
+msgstr ""
+
+#: eventum.c:2876
+msgid "Please enter the description for this issue."
+msgstr ""
+
+#: eventum.c:2879
+msgid "Percentage complete should be between 0 and 100"
+msgstr ""
+
+#: eventum.c:2882
+msgid "Please select an assignment for this issue"
+msgstr ""
+
+#: eventum.c:2885
+msgid "Note: Project automatically switched to '%1' from '%2'."
+msgstr ""
+
+#: eventum.c:2888
+msgid "Update Issue Overview"
+msgstr ""
+
+#: eventum.c:2891
+msgid "edit the authorized repliers list for this issue"
+msgstr ""
+
+#: eventum.c:2894 eventum.c:3131
+msgid "Edit Authorized Replier List"
+msgstr ""
+
+#: eventum.c:2897 eventum.c:3134
+msgid "Edit Notification List"
+msgstr ""
+
+#: eventum.c:2900 eventum.c:3137
+msgid "History of Changes"
+msgstr ""
+
+#: eventum.c:2909
+msgid "Notification List:"
+msgstr ""
+
+#: eventum.c:2915
+msgid "Submitted Date:"
+msgstr ""
+
+#: eventum.c:2921
+msgid "Update Date:"
+msgstr ""
+
+#: eventum.c:2924
+msgid "Associated Issues:"
+msgstr ""
+
+#: eventum.c:2927
+msgid "Reporter:"
+msgstr ""
+
+#: eventum.c:2930
+msgid "Expected Resolution Date:"
+msgstr ""
+
+#: eventum.c:2933
+msgid "Scheduled Release:"
+msgstr ""
+
+#: eventum.c:2936
+msgid "Percentage Complete:"
+msgstr ""
+
+#: eventum.c:2939
+msgid "Estimated Dev. Time:"
+msgstr ""
+
+#: eventum.c:2945
+msgid "Assignment:"
+msgstr ""
+
+#: eventum.c:2951
+msgid "Keep Current Assignments:"
+msgstr ""
+
+#: eventum.c:2957
+msgid "Change Assignments:"
+msgstr ""
+
+#: eventum.c:2966
+msgid "Current Selections:"
+msgstr ""
+
+#: eventum.c:2969
+msgid "Authorized Repliers:"
+msgstr ""
+
+#: eventum.c:2972
+msgid "Staff:"
+msgstr ""
+
+#: eventum.c:2975
+msgid "Other:"
+msgstr ""
+
+#: eventum.c:2978
+msgid "Group:"
+msgstr ""
+
+#: eventum.c:2984
+msgid "Summary:"
+msgstr ""
+
+#: eventum.c:2987
+msgid "Description:"
+msgstr ""
+
+#: eventum.c:2990
+msgid "Private:"
+msgstr ""
+
+#: eventum.c:2993
+msgid "Trigger Reminders:"
+msgstr ""
+
+#: eventum.c:2999
+msgid "Cancel Update"
+msgstr ""
+
+#: eventum.c:3008
+msgid "Error: The issue could not be found."
+msgstr ""
+
+#: eventum.c:3014 eventum.c:3359
+msgid "Sorry, you do not have the required privileges to view this issue."
+msgstr ""
+
+#: eventum.c:3020
+msgid ""
+"Sorry, but you do not have the required permission level to access this "
+"screen."
+msgstr ""
+
+#: eventum.c:3026
+msgid ""
+"Re-directing the parent window to the issue report page. This window will be "
+"closed automatically."
+msgstr ""
+
+#: eventum.c:3029
+msgid "This message already belongs to that account"
+msgstr ""
+
+#: eventum.c:3035
+msgid "Thank you, the email was successfully moved."
+msgstr ""
+
+#: eventum.c:3041
+msgid "View Email Details"
+msgstr ""
+
+#: eventum.c:3044 eventum.c:3305
+msgid "Associated with Issue"
+msgstr ""
+
+#: eventum.c:3047 eventum.c:3089
+msgid "Previous Message"
+msgstr ""
+
+#: eventum.c:3050 eventum.c:3092
+msgid "Next Message"
+msgstr ""
+
+#: eventum.c:3053
+msgid "Received"
+msgstr ""
+
+#: eventum.c:3071
+msgid "Attachments"
+msgstr ""
+
+#: eventum.c:3074
+msgid "Message"
+msgstr ""
+
+#: eventum.c:3077 eventum.c:3335
+msgid "display in fixed width font"
+msgstr ""
+
+#: eventum.c:3080
+msgid "Raw Headers"
+msgstr ""
+
+#: eventum.c:3095
+msgid "Move Message To"
+msgstr ""
+
+#: eventum.c:3098
+msgid "Please select the new status for this issue."
+msgstr ""
+
+#: eventum.c:3101
+msgid ""
+"NOTE: If you need to send new information regarding this issue, please use "
+"the EMAIL related buttons available at the bottom of the screen."
+msgstr ""
+
+#: eventum.c:3104
+msgid "Previous Issue"
+msgstr ""
+
+#: eventum.c:3107
+msgid "Next Issue"
+msgstr ""
+
+#: eventum.c:3110
+msgid "This Issue is Currently Quarantined"
+msgstr ""
+
+#: eventum.c:3113
+msgid "Quarantine expires in %1"
+msgstr ""
+
+#: eventum.c:3116
+msgid ""
+"Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information "
+"regarding quarantined issues."
+msgstr ""
+
+#: eventum.c:3119
+msgid "Remove Quarantine"
+msgstr ""
+
+#: eventum.c:3122
+msgid "Note: "
+msgstr ""
+
+#: eventum.c:3125
+msgid ""
+"This issue is marked private. Only Managers, the reporter and users assigned "
+"to the issue can view it."
+msgstr ""
+
+#: eventum.c:3128
+msgid "Issue Overview"
+msgstr ""
+
+#: eventum.c:3143
+msgid "Complete Details"
+msgstr ""
+
+#: eventum.c:3146
+msgid "Customer Contract"
+msgstr ""
+
+#: eventum.c:3149
+msgid "Support Level"
+msgstr ""
+
+#: eventum.c:3152
+msgid "Support Options"
+msgstr ""
+
+#: eventum.c:3155
+msgid "Redeemed Incident Types"
+msgstr ""
+
+#: eventum.c:3170 eventum.c:3233
+msgid "Staff"
+msgstr ""
+
+#: eventum.c:3179
+msgid "Submitted Date"
+msgstr ""
+
+#: eventum.c:3188
+msgid "Scheduled Release"
+msgstr ""
+
+#: eventum.c:3191
+msgid "Associated Issues"
+msgstr ""
+
+#: eventum.c:3194
+msgid "No issues associated"
+msgstr ""
+
+#: eventum.c:3197
+msgid "Resolution"
+msgstr ""
+
+#: eventum.c:3200
+msgid "Expected Resolution Date"
+msgstr ""
+
+#: eventum.c:3203
+msgid "No resolution date given"
+msgstr ""
+
+#: eventum.c:3206
+msgid "Percentage Complete"
+msgstr ""
+
+#: eventum.c:3218
+msgid "Duplicates"
+msgstr ""
+
+#: eventum.c:3221
+msgid "Duplicate of"
+msgstr ""
+
+#: eventum.c:3224
+msgid "Duplicated by"
+msgstr ""
+
+#: eventum.c:3239
+msgid "Group"
+msgstr ""
+
+#: eventum.c:3245
+msgid "Initial Description"
+msgstr ""
+
+#: eventum.c:3248
+msgid "fixed width font"
+msgstr ""
+
+#: eventum.c:3251
+msgid "Description is currently collapsed"
+msgstr ""
+
+#: eventum.c:3254
+msgid "Click to expand."
+msgstr ""
+
+#: eventum.c:3257
+msgid "Unassign Issue"
+msgstr ""
+
+#: eventum.c:3260
+msgid "Assign Issue To Myself"
+msgstr ""
+
+#: eventum.c:3263
+msgid "Update Issue"
+msgstr ""
+
+#: eventum.c:3269
+msgid "Clear Duplicate Status"
+msgstr ""
+
+#: eventum.c:3272
+msgid "Mark as Duplicate"
+msgstr ""
+
+#: eventum.c:3278
+msgid "Signup as Authorized Replier"
+msgstr ""
+
+#: eventum.c:3281
+msgid "Edit Incident Redemption"
+msgstr ""
+
+#: eventum.c:3284
+msgid "Change Status To"
+msgstr ""
+
+#: eventum.c:3287
+msgid "View Email Raw
