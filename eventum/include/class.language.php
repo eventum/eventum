@@ -22,15 +22,20 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: s.class.language.php 1.10 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
 // this will eventually be used to support more than one language
 $avail_langs = array(
-    "en_US"
+    "en_US",
+    "ru_RU",
+    "de_DE",
+    "fr_FR",
+    "it_IT",
+    "fi_FI",
+    "es_ES",
+    "nl_NL"
 );
 
 /**
@@ -38,7 +43,7 @@ $avail_langs = array(
  * of the application.
  *
  * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
+ * @author Bryan Alsdorf <bryan@mysql.com>
  */
 
 class Language
@@ -55,9 +60,12 @@ class Language
     {
         global $HTTP_GET_VARS, $HTTP_SESSION_VARS, $avail_langs;
 
+        // please add the following line to config.inc.php, changing to whatever language you prefer
+        // define('APP_DEFAULT_LOCALE', 'en_US');
+
         define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
-        setlocale(LC_ALL, APP_CURRENT_LOCALE);
-        bindtextdomain("eventum", APP_INC_PATH . "localization/");
+        $new_locale = setlocale(LC_MESSAGES, APP_CURRENT_LOCALE);
+        bindtextdomain("eventum", APP_PATH . "misc/localization/");
         textdomain("eventum");
     }
 }
