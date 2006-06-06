@@ -10,6 +10,7 @@ Eventum Issue Tracking System
 - Automatically add sender of email to authorized repliers list when auto creating an issue (Bryan)
 - Refresh parent window when closing notification popup (Bug #20020) (Bryan)
 - Changed Eventum to honor default notification options when adding an address from an email (Bryan)
+- Fixed bug with special "bullet" character when submitting an issue (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
