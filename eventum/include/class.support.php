@@ -1993,7 +1993,7 @@ class Support
                 $recipients = array_merge($recipients, Support::getRecipientsCC($HTTP_POST_VARS['cc']));
                 for ($i = 0; $i < count($recipients); $i++) {
                     if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($HTTP_POST_VARS["issue_id"], $recipients[$i]))) {
-                        Notification::subscribeEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], Mail_API::getEmailAddress($recipients[$i]), array('emails'));
+                        Notification::subscribeEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], Mail_API::getEmailAddress($recipients[$i]), Notification::getDefaultActions());
                     }
                 }
             }
