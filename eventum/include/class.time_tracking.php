@@ -450,7 +450,7 @@ class Time_Tracking
                     " . $HTTP_POST_VARS["issue_id"] . ",
                     $usr_id,
                     '$created_date',
-                    " . $HTTP_POST_VARS["time_spent"] . ",
+                    " . Misc::escapeInteger($HTTP_POST_VARS["time_spent"]) . ",
                     '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
