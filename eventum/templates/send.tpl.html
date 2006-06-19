@@ -256,7 +256,7 @@ function setSignature(f)
             {include file="error_icon.tpl.html" field="message"}
           </td>
         </tr>
-        {if $issue_id and $current_role != $roles.customer and $read_only != 1}
+        {if $issue_id and $current_role > $roles.customer and $read_only != 1}
             {if $hide_email_buttons != 'yes'}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
