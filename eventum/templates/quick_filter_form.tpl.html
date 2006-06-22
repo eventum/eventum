@@ -56,7 +56,7 @@ function runCustomFilter(f)
 {
     var cst_id = getSelectedOption(f, 'custom_filter');
     if (isWhitespace(cst_id)) {
-        alert('Please select the custom filter to search against.');
+        alert('{/literal}{t}Please select the custom filter to search against.{/t}{literal}');
         f.custom_filter.focus();
         return false;
     }
@@ -67,7 +67,7 @@ function runCustomFilter(f)
 //-->
 </script>
 {/literal}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table bgcolor="{$cell_color}" border="1" cellspacing="0" cellpadding="1" align="center">
   <tr id="filter_form1" {get_display_style element_name="filter_form"}>
     <td>
       &nbsp;
@@ -110,10 +110,10 @@ function runCustomFilter(f)
             <span class="default">Keyword(s):</span><br />
             <input class="default" type="text" name="keywords" size="40" value="{$options.keywords|escape:"html"}">
           </td>
-          <td nowrap colspan="2">
+          <td nowrap colspan="{if $categories|@count > 0}3{else}2{/if}">
             {if $has_customer_integration}
-            <input class="default" type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.search_type != 'all_text'}checked{/if}> <label for="search_type_customer" class="default">Customer Identity (i.e. "Example Inc.", "johndoe@example.com", 12345)</label><br />
-            <input class="default" type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.search_type == 'all_text'}checked{/if}> <label for="search_type_all_text" class="default">All Text (emails, notes, etc)</label>
+            <input class="default" type="radio" name="search_type" value="customer" id="search_type_customer" {if $options.search_type != 'all_text'}checked{/if}> <label for="search_type_customer" class="default">{t}Customer Identity (i.e. "Example Inc.", "johndoe@example.com", 12345){/t}</label><br />
+            <input class="default" type="radio" name="search_type" value="all_text" id="search_type_all_text" {if $options.search_type == 'all_text'}checked{/if}> <label for="search_type_all_text" class="default">{t}All Text (emails, notes, etc){/t}</label>
             {else}
             <input type="hidden" name="search_type" value="all_text" id="search_type">
             {/if}
@@ -122,13 +122,13 @@ function runCustomFilter(f)
             &nbsp;
           </td>
           <td rowspan="2" align="center">
-            <input class="button" type="submit" value="Search" style="width: 100%"><br /><br />
-            <input class="button" type="button" value="Clear Filters" style="width: 100%" onClick="javascript:clearFilters(this.form);">
+            <input class="button" type="submit" value="{t}Search{/t}" style="width: 100%"><br /><br />
+            <input class="button" type="button" value="{t}Clear Filters{/t}" style="width: 100%" onClick="javascript:clearFilters(this.form);">
           </td>
         </tr>
         <tr>
           <td valign="top">
-            <span class="default">Assigned:</span><br />
+            <span class="default">{t}Assigned{/t}:</span><br />
             <select name="users" class="default">
               {html_options options=$assign_options selected=$options.users}
             </select>
@@ -137,20 +137,20 @@ function runCustomFilter(f)
           <td valign="top">
             <span class="default">Category:</span><br />
             <select name="category" class="default">
-              <option value="">any</option>
+              <option value="">{t}any{/t}</option>
               {html_options options=$categories selected=$options.category}
             </select>
           </td>
           {/if}
           <td valign="top">
-            <span class="default">Priority:</span><br />
+            <span class="default">{t}Priority{/t}:</span><br />
             <select name="priority" class="default">
               <option value="">any</option>
               {html_options options=$priorities selected=$options.priority}
             </select>
           </td>
           <td valign="top">
-            <span class="default">Status:</span><br />
+            <span class="default">{t}Status{/t}:</span><br />
             <select name="status" class="default">
               <option value="">any</option>
               {foreach key=sta_id item=sta_title from=$status}
@@ -177,14 +177,14 @@ function runCustomFilter(f)
         <tr>
           {if $browser.ie5up}
           <td class="default">
-            [ <a class="link" href="javascript:void(open('{$rel_url}searchbar.php', '_search'));">quick search bar</a> ]
+            [ <a class="link" href="javascript:void(open('{$rel_url}searchbar.php', '_search'));">{t}quick search bar{/t}</a> ]
           </td>
           {/if}
           <td class="default" align="center">
-            <a target="_top" title="create advanced searches" href="{$rel_url}adv_search.php" class="link">Advanced Search</a>
+            <a target="_top" title="create advanced searches" href="{$rel_url}adv_search.php" class="link">{t}Advanced Search{/t}</a>
           </td>
           <td align="right">
-            <span class="default">Saved Searches:</span>
+            <span class="default">{t}Saved Searches{/t}:</span>
             <select name="custom_filter" class="default" onChange="javascript:runCustomFilter(this.form);">
               <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
               {html_options options=$custom}

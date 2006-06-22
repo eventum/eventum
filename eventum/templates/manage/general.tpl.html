@@ -480,7 +480,7 @@
                       <td width="80%">
                         <input type="text" name="email_routing[address_prefix]" value="{if $setup.email_routing.address_prefix}{$setup.email_routing.address_prefix}{else}issue_{/if}" class="default">
                         {include file="error_icon.tpl.html" field="email_routing[address_prefix]"}
-                        <span class="small_default">{t}(i.e. <b>issue_</b>51@example.com){/t}</span>
+                        <span class="small_default">{t escape="none"}(i.e. <b>issue_</b>51@example.com){/t}</span>
                       </td>
                     </tr>
                     <tr>
@@ -490,7 +490,7 @@
                       <td width="80%">
                         <input type="text" name="email_routing[address_host]" class="default" value="{$setup.email_routing.address_host}">
                         {include file="error_icon.tpl.html" field="email_routing[address_host]"}
-                        <span class="small_default">{t}(i.e. issue_51@<b>example.com</b>){/t}</span>
+                        <span class="small_default">{t escape="none"}(i.e. issue_51@<b>example.com</b>){/t}</span>
                       </td>
                     </tr>
                     <tr>
@@ -562,7 +562,7 @@
                       <td width="80%">
                         <input type="text" name="note_routing[address_prefix]" value="{if $setup.note_routing.address_prefix}{$setup.note_routing.address_prefix}{else}note_{/if}" class="default">
                         {include file="error_icon.tpl.html" field="note_routing[address_prefix]"}
-                        <span class="small_default">{t}(i.e. <b>note_</b>51@example.com){/t}</span>
+                        <span class="small_default">{t escape="none"}(i.e. <b>note_</b>51@example.com){/t}</span>
                       </td>
                     </tr>
                     <tr>
@@ -572,7 +572,7 @@
                       <td width="80%">
                         <input type="text" name="note_routing[address_host]" class="default" value="{$setup.note_routing.address_host}">
                         {include file="error_icon.tpl.html" field="note_routing[address_host]"}
-                        <span class="small_default">{t}(i.e. note_51@<b>example.com</b>){/t}</span>
+                        <span class="small_default">{t escape="none"}(i.e. note_51@<b>example.com</b>){/t}</span>
                       </td>
                     </tr>
                   </table>
@@ -599,7 +599,7 @@
                       <td width="80%">
                         <input type="text" name="draft_routing[address_prefix]" value="{if $setup.draft_routing.address_prefix}{$setup.draft_routing.address_prefix}{else}draft_{/if}" class="default">
                         {include file="error_icon.tpl.html" field="draft_routing[address_prefix]"}
-                        <span class="small_default">{t}(i.e. <b>draft_</b>51@example.com){/t}</span>
+                        <span class="small_default">{t escape="none"}(i.e. <b>draft_</b>51@example.com){/t}</span>
                       </td>
                     </tr>
                     <tr>
@@ -609,7 +609,7 @@
                       <td width="80%">
                         <input type="text" name="draft_routing[address_host]" class="default" value="{$setup.draft_routing.address_host}">
                         {include file="error_icon.tpl.html" field="draft_routing[address_host]"}
-                        <span class="small_default">{t}(i.e. draft_51@<b>example.com</b>){/t}</span>
+                        <span class="small_default">{t escape="none"}(i.e. draft_51@<b>example.com</b>){/t}</span>
                       </td>
                     </tr>
                   </table>
@@ -617,7 +617,7 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t}SCM <br />Integration:{/t}</b> {include file="help_link.tpl.html" topic="scm_integration"}
+                  <b>{t escape="none"}SCM <br />Integration:{/t}</b> {include file="help_link.tpl.html" topic="scm_integration"}
                 </td>
                 <td bgcolor="{$light_color}" class="default">
                   <table>
@@ -682,7 +682,7 @@
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'spell_checker', 0);">{t}Enabled{/t}</a>&nbsp;&nbsp;
                   <input type="radio" name="spell_checker" value="disabled" {if $setup.spell_checker != 'enabled'}checked{/if}>
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'spell_checker', 1);">{t}Disabled{/t}</a></span>
-                  &nbsp;&nbsp;<span class="small_default">{t}(requires <a target="_aspell" class="link" href="http://aspell.sourceforge.net/">aspell</a> installed in your server){/t}</span>
+                  &nbsp;&nbsp;<span class="small_default">{t escape="none"}(requires <a target="_aspell" class="link" href="http://aspell.sourceforge.net/">aspell</a> installed in your server){/t}</span>
                 </td>
               </tr>
               <tr>

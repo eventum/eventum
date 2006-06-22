@@ -1,7 +1,8 @@
-{include file="header.tpl.html" extra_title="Mail Queue"}
+{capture assign="extra_title"}Mail Queue{/capture}
+{include file="header.tpl.html" extra_title=$extra_title}
 {include file="navigation.tpl.html"}
 {if $denied == 1}
-    <div class="default" align="center">Sorry, you do not have permission to view this page</div>
+    <div class="default" align="center">{t}Sorry, you do not have permission to view this page{/t}</div>
 {else}
 <script language="javascript">
 {include file="js/httpclient.js"}
@@ -11,7 +12,7 @@
   <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
     <tr>
       <td class="default" nowrap>
-        <b>Mail Queue for Issue #{$issue_id}</b>
+        <b>{t 1=$issue_id}Mail Queue for Issue #%1{/t}</b>
       </td>
     </tr>
     <tr>
@@ -19,10 +20,10 @@
         <table width="100%" cellpadding="2" cellspacing="1">
           <tr bgcolor="{$cell_color}">
             <td class="default_white" NOWRAP>{include file="expandable_cell/buttons.tpl.html" remote_func="getMailQueue" ec_id="mailqueue"}</td>
-            <td width="20%" class="default_white">Recipient</td>
-            <td width="20%" class="default_white" nowrap>Queued Date</td>
-            <td width="10%" class="default_white">Status</td>
-            <td width="50%" class="default_white">Subject</td>
+            <td width="20%" class="default_white">{t}Recipient{/t}</td>
+            <td width="20%" class="default_white" nowrap>{t}Queued Date{/t}</td>
+            <td width="10%" class="default_white">{t}Status{/t}</td>
+            <td width="50%" class="default_white">{t}Subject{/t}</td>
           </tr>
           {section name="i" loop=$data}
           {cycle values=$cycle assign="row_color"}
@@ -37,7 +38,7 @@
           {sectionelse}
           <tr>
             <td colspan="5" bgcolor="{$light_color}" class="default" align="center">
-              <i>No mail queue could be found.</i>
+              <i>{t}No mail queue could be found.{/t}</i>
             </td>
           </tr>
           {/section}

@@ -4,7 +4,7 @@
     <p align="center" class="default" width="80%">{t}Based on all issues recorded in Eventum since start to present.{/t}</p>
 {else}
     <h3 align="center">{t}Workload by Time of day{/t}</h3>
-    <p align="center" class="default" width="80%">{t}Based on all issues recorded in Eventum since start to present. 
+    <p align="center" class="default" width="80%">{t}Based on all issues recorded in Eventum since start to present.
         Actions are any event that shows up in the history of an issue, such as a user or a developer updating an issue, uploading a file, sending an email, etc.{/t}
     </p>
 {/if}
@@ -18,14 +18,14 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr bgcolor="{$cell_color}">
           <th class="default_white">
-            {t}Time Period --><br />
-            {t}(GMT) -->
+            {t}Time Period{/t}<br />
+            {t}(GMT){/t}
           </th>
           <th class="default_white">
-            {t}Developer{/t} {if $type == "email"}{t}Emails -->{else}{t}Actions -->{/if}
+            {t}Developer{/t} {if $type == "email"}{t}Emails{/t}{else}{t}Actions{/t}{/if}
           </th>
           <th class="default_white">
-            {t}Customer --> {if $type == "email"}{t}Emails -->{else}{t}Actions -->{/if}
+            {t}Customer{/t}{if $type == "email"}{t}Emails{/t}{else}{t}Actions{/t}{/if}
           </th>
           <th class="default_white">
             {t}Time Period{/t}<br />
