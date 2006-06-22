@@ -217,7 +217,7 @@ if (!empty($html)) {
 include_once("../include/Smarty/Smarty.class.php");
 
 $tpl = new Smarty();
-$tpl->template_dir = '../templates/en';
+$tpl->template_dir = '../templates/';
 $tpl->compile_dir = "../templates_c";
 $tpl->config_dir = '';
 
