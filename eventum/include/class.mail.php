@@ -25,7 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-//
 
 include_once(APP_INC_PATH . "class.error_handler.php");
 include_once(APP_INC_PATH . "class.setup.php");
@@ -250,7 +249,7 @@ class Mail_API
             for ($i = 0; $i < count($t); $i++) {
                 $returns[] = array(
                     'sender_name' => $t[$i]->personal,
-                    'email'       => $t[$i]->mailbox . '@' . $t[0]->host,
+                    'email'       => $t[$i]->mailbox . '@' . $t[$i]->host,
                     'username'    => $t[$i]->mailbox,
                     'host'        => $t[$i]->host
                 );
