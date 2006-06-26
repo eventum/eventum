@@ -41,7 +41,7 @@
 include_once(APP_PEAR_PATH . "Mail/mimeDecode.php");
 
 /**
- * Class to handle the business logic related to the MIME email 
+ * Class to handle the business logic related to the MIME email
  * processing. The is8bit(), endode() and _encode() functions come from
  * the excellent Horde package at http://www.horde.org. These functions are
  * licensed under the LGPL, and Horde's copyright notice is available
@@ -95,7 +95,7 @@ class Mime_Helper
         } elseif (isset($parts["html"])) {
             $is_html = true;
             $str = join("\n\n", $parts["html"]);
-            
+
             // hack for inotes to prevent content from being displayed all on one line.
             $str = str_replace("</DIV><DIV>", "\n", $str);
             $str = str_replace(array("<br>", "<br />", "<BR>", "<BR />"), "\n", $str);
@@ -157,7 +157,7 @@ class Mime_Helper
         if (strstr($address, '<')) {
             $address = stripslashes($address);
             $first_part = substr($address, 0, strrpos($address, '<') - 1);
-            $first_part = '"' . $first_part . '"';
+            $first_part = '"' . str_replace('"', '\"',($first_part)) . '"';
             $second_part = substr($address, strrpos($address, '<'));
             $address = $first_part . ' ' . $second_part;
         }
@@ -176,7 +176,7 @@ class Mime_Helper
     {
         if (strstr($address, '<')) {
             $address = stripslashes($address);
-            $first_part = substr($address, 0, strrpos($address, '<') - 1);
+            $first_part = addslashes(substr($address, 0, strrpos($address, '<') - 1));
             $second_part = substr($address, strrpos($address, '<'));
             $address = $first_part;
         }
@@ -203,18 +203,18 @@ class Mime_Helper
         if (Mime_Helper::is8bit($address)) {
             // split into name and address section
             preg_match("/(.*)<(.*)>/", $address, $matches);
-           $address = "=?" . APP_CHARSET . "?Q?" . 
+           $address = "=?" . APP_CHARSET . "?Q?" .
                 str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . "?= <" . $matches[2] . ">";
            return $address;
         } else {
             return MIME_Helper::quoteSender($address);
         }
     }
-    
-    
+
+
     /**
      * Decodes a quoted printable encoded address and returns the string.
-     * 
+     *
      * @param   string $address The address to decode
      * @return  string The decoded address
      */
@@ -226,11 +226,11 @@ class Mime_Helper
             return $address;
         }
     }
-    
-    
+
+
     /**
      * Returns if a specified string contains a quoted printable address.
-     * 
+     *
      * @param   string $address The address
      * @return  boolean If the address is quoted printable encoded.
      */
@@ -242,7 +242,7 @@ class Mime_Helper
             return false;
         }
     }
-    
+
 
     /**
      * Determine if a string contains 8-bit characters.
@@ -454,7 +454,7 @@ class Mime_Helper
 
 
     /**
-     * Method used to parse and return the full list of attachments 
+     * Method used to parse and return the full list of attachments
      * associated with a message.
      *
      * @access  public
@@ -469,7 +469,7 @@ class Mime_Helper
 
 
     /**
-     * Method used to parse and return the full list of attachment CIDs 
+     * Method used to parse and return the full list of attachment CIDs
      * associated with a message.
      *
      * @access  public
@@ -510,8 +510,8 @@ class Mime_Helper
             if (($return_filename != FALSE) && ($mime_part_filename != $return_filename)) {
                 return array();
             }
-            // if requested, return only the details of 
-            // a particular attachment CID. Only really needed 
+            // if requested, return only the details of
+            // a particular attachment CID. Only really needed
             // as hack for inline images
             if (($return_cid != FALSE) && (@$mime_part->d_parameters['content-id'] != $return_cid)) {
                 return array();
@@ -519,7 +519,7 @@ class Mime_Helper
             $found = 1;
         } else {
             if ((!in_array($content_type, Mime_Helper::_getInvalidContentTypes())) &&
-                    (in_array(@strtolower($mime_part->disposition), Mime_Helper::_getValidDispositions())) && 
+                    (in_array(@strtolower($mime_part->disposition), Mime_Helper::_getValidDispositions())) &&
                     (!empty($mime_part_filename))) {
                 // if requested, return only the details of a particular filename
                 if (($return_filename != FALSE) && ($mime_part_filename != $return_filename)) {
@@ -534,7 +534,7 @@ class Mime_Helper
                 'cid'      => @$mime_part->headers['content-id'],
                 'filetype' => $content_type
             );
-            // only include the body of the attachment when 
+            // only include the body of the attachment when
             // requested to save some memory
             if ($return_body == TRUE) {
                 $t['blob'] = &$mime_part->body;
@@ -725,7 +725,7 @@ class Mime_Helper
 
 
     /**
-     * Returns the internal list of attachment dispositions that we do not 
+     * Returns the internal list of attachment dispositions that we do not
      * support as valid attachment types.
      *
      * @access private
@@ -738,11 +738,11 @@ class Mime_Helper
             'inline'
         );
     }
-    
-    
+
+
     /**
      * Splits the full email into headers and body
-     * 
+     *
      * @access  public
      * @param   string $message The full email message
      * @param   boolean $unfold If headers should be unfolded
