@@ -1555,6 +1555,10 @@ class Notification
                       sbt_type = '" . Misc::escapeString($type) . "'";
         }
         $users = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($users)) {
+            Error_Handler::logError(array($users->getMessage(), $users->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
 
         for ($i = 0; $i < count($users); $i++) {
             if ($users[$i]['pru_role'] != User::getRoleID('Customer')) {
@@ -1590,6 +1594,10 @@ class Notification
                 $stmt .= " AND\nsbt_type = '" . Misc::escapeString($type) . "'";
             }
             $emails = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+            if (PEAR::isError($emails)) {
+                Error_Handler::logError(array($emails->getMessage(), $emails->getDebugInfo()), __FILE__, __LINE__);
+                return array();
+            }
             for ($i = 0; $i < count($emails); $i++) {
                 if (empty($emails[$i]['sub_email'])) {
                     continue;
