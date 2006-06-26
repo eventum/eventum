@@ -520,7 +520,7 @@ class Support
                     if (empty($mail_domain)) {
                         return false;
                     }
-                    if (preg_match("/$prefix(\d*)@$mail_domain/i", $email->toaddress, $matches)) {
+                    if ((isset($email->toaddress)) && (preg_match("/$prefix(\d*)@$mail_domain/i", $email->toaddress, $matches))) {
                         $return = Routing::route_emails($message);
                         if ($return == true) {
                             Support::deleteMessage($info, $mbox, $num);
