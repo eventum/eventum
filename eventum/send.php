@@ -160,6 +160,7 @@ if (!empty($issue_id)) {
     // set if the current user is allowed to send emails on this issue or not
     $sender_details = User::getDetails($usr_id);
     $tpl->assign("can_send_email", Support::isAllowedToEmail($issue_id, $sender_details["usr_email"]));
+    $tpl->assign('subscribers', Notification::getSubscribers($issue_id, 'emails'));
 }
 if ((!@empty($HTTP_GET_VARS["ema_id"])) || (!@empty($HTTP_POST_VARS["ema_id"]))) {
     @$tpl->assign("ema_id", $HTTP_GET_VARS["ema_id"] ? $HTTP_GET_VARS["ema_id"] : $HTTP_POST_VARS["ema_id"]);
@@ -173,7 +174,6 @@ $tpl->assign("assoc_emails", array_keys($t));
 
 $tpl->assign("canned_responses", Email_Response::getAssocList($prj_id));
 $tpl->assign("js_canned_responses", Email_Response::getAssocListBodies($prj_id));
-$tpl->assign('subscribers', Notification::getSubscribers($issue_id, 'emails'));
 
 $user_prefs = Prefs::get($usr_id);
 $tpl->assign("current_user_prefs", $user_prefs);
