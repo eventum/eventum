@@ -66,6 +66,7 @@ class Language
         define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
         $new_locale = setlocale(LC_MESSAGES, APP_CURRENT_LOCALE);
         bindtextdomain("eventum", APP_PATH . "misc/localization/");
+        bind_textdomain_codeset("eventum", APP_CHARSET);
         textdomain("eventum");
     }
 }
