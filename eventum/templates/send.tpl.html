@@ -70,18 +70,18 @@ function validate(f)
 {
     if (f.to != null) {
         if (isWhitespace(f.to.value)) {
-            alert('{/literal}{t}Please enter the recipient of this email.{/t}{literal}');
+            alert('{/literal}{t escape=js}Please enter the recipient of this email.{/t}{literal}');
             selectField(f, 'to');
             return false;
         }
     }
     if (isWhitespace(f.subject.value)) {
-        alert('{/literal}{t}Please enter the subject of this email.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter the subject of this email.{/t}{literal}');
         selectField(f, 'subject');
         return false;
     }
     if (isWhitespace(f.message.value)) {
-        alert('{/literal}{t}Please enter the message body of this email.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter the message body of this email.{/t}{literal}');
         selectField(f, 'message');
         return false;
     }

@@ -59,14 +59,14 @@ function viewEmail(ema_id, id)
 function moveMessage()
 {
     f = document.forms[0];
-    
+
     new_ema_id = f.new_ema_id.value;
-    
+
     if (new_ema_id == ema_id) {
-        alert('{/literal}{t}This message already belongs to that account{/t}{literal}');
+        alert('{/literal}{t escape=js}This message already belongs to that account{/t}{literal}');
         return false;
     }
-    
+
     window.location = 'view_email.php?cat=move_email&id=' + sup_id + '&ema_id=' + ema_id + '&new_ema_id=' + new_ema_id;
 }
 //-->
