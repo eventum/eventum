@@ -1,5 +1,4 @@
-{t name=$type}The following %1 reminder could not be sent out because
-no recipients could be found{/t}:
+{t name=$type}The following %1 reminder could not be sent out because no recipients could be found{/t}:
 ============================================================
 
 {t}Automated Issue{/t} #{$data.iss_id} {t}Reminder Alert{/t}!
@@ -15,7 +14,7 @@ no recipients could be found{/t}:
  {t}Alert Reason{/t}:
      {t}Triggered Reminder{/t} "{$reminder.rem_title}"
                {t}Action{/t} "{$action.rma_title}"
-    
+
   {t}Alert Query{/t}:
      {section name="i" loop=$conditions}
      {$conditions[i].rmf_title} - {$conditions[i].rmo_title} - {$conditions[i].rlc_value}
