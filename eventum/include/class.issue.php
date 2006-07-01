@@ -132,6 +132,7 @@ class Issue
         $headings[] = 'Status';
         $headings[] = 'Status Change Date';
         $headings[] = 'Last Action Date';
+        $headings[] = 'Est. Dev. TIme';
         $headings[] = 'Summary';
         return $headings;
     }
@@ -1261,7 +1262,7 @@ class Issue
                 $structure = Mime_Helper::decode($full_email, true, false);
 
                 $email = array(
-                    'ema_id'        =>  Email_Account::getEmailAccount(),
+                    'ema_id'        =>  Email_Account::getEmailAccount(Issue::getProjectID($issue_id)),
                     'issue_id'      =>  $issue_id,
                     'message_id'    =>  $message_id,
                     'date'          =>  Date_API::getCurrentDateGMT(),
@@ -2552,6 +2553,7 @@ class Issue
                 $fields[] = $res[$i]['sta_title'];
                 $fields[] = $res[$i]["status_change_date"];
                 $fields[] = $res[$i]["last_action_date"];
+                $fields[] = $res[$i]['iss_dev_time'];
                 $fields[] = $res[$i]['iss_summary'];
 
                 if (count($custom_fields) > 0) {
