@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Added new 'Estimated Development Time' report (Bryan)
 - Fixed bug that allowed reporter to change the status when sending an email (Bryan)
 - Fixed bug with closing an issue while switching projects in another window (Bryan)
+- Fixed PHP error on associate email page (Bryan, Rusty Nejdl)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
