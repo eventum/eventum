@@ -214,7 +214,7 @@ class Mail_API
             // is the address in the format 'name' <address> ?
             if ((strstr($address, "'")) || (strstr($address, "."))) {
                 $first_part = substr($address, 0, strpos($address, '<') - 1);
-                $first_part = '"' . $first_part . '"';
+                $first_part = '"' . str_replace('"', '\"', preg_replace("/(^\")|(\"$)/", '', $first_part)) . '"';
                 $second_part = substr($address, strpos($address, '<'));
                 $address = $first_part . ' ' . $second_part;
                 // if the address was already in the format "'name'" <address>, then this code
