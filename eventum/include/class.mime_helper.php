@@ -176,7 +176,7 @@ class Mime_Helper
     {
         if (strstr($address, '<')) {
             $address = stripslashes($address);
-            $first_part = addslashes(substr($address, 0, strrpos($address, '<') - 1));
+            $first_part = substr($address, 0, strrpos($address, '<') - 1);
             $second_part = substr($address, strrpos($address, '<'));
             $address = $first_part;
         }
