@@ -716,6 +716,61 @@ class User
 
 
     /**
+     * Method used to get the email address of the specified user.
+     *
+     * @access  public
+     * @param   integer $usr_id The user ID or user ids
+     * @return  string The user' full name
+     */
+    function getEmail($usr_id)
+    {
+        static $returns;
+
+        if (!is_array($usr_id)) {
+            $items = array($usr_id);
+        } else {
+            $items = $usr_id;
+        }
+
+        $key = md5(serialize($usr_id));
+        if (!empty($returns[$key])) {
+            return $returns[$key];
+        }
+
+        if (count($items) < 1) {
+            if (!is_array($usr_id)) {
+                return '';
+            } else {
+                return array();
+            }
+        }
+
+        $stmt = "SELECT
+                    usr_email
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                 WHERE
+                    usr_id IN (" . implode(', ', Misc::escapeInteger($items)) . ")";
+        if (!is_array($usr_id)) {
+            $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        } else {
+            $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        }
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            if (!is_array($usr_id)) {
+                return '';
+            } else {
+                return array();
+            }
+        } else {
+            $returns[$key] = $res;
+            return $res;
+        }
+    }
+
+
+    /**
      * Method used to get the group id of the specified user.
      *
      * @access  public
