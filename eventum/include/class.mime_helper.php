@@ -223,7 +223,7 @@ class Mime_Helper
         if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
             return str_replace("_", ' ', quoted_printable_decode($matches[1])) . " <" . $matches[2] . ">";
         } else {
-            return $address;
+            return Mime_Helper::removeQuotes($address);
         }
     }
 
