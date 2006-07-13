@@ -47,7 +47,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 // customers should not be able to see this page
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('Standard User')) {
+if ($role_id == User::getRoleID('Customer')) {
     Auth::redirect(APP_RELATIVE_URL . "list.php");
 }
 
