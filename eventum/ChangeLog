@@ -17,6 +17,7 @@ Eventum Issue Tracking System
 - Fixed PHP error on associate email page (Bryan, Rusty Nejdl)
 - Changed Advanced Search to allow reporters to access it (Bryan)
 - Added X-Eventum-Assignee header to emails (Bryan)
+- Fixed bug with date fields on advanced search page not showing correctly (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

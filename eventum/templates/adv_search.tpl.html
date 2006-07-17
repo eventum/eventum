@@ -146,10 +146,10 @@ function changeDateFieldsVisibility(display)
             for (var j = 0; j < selects.length; j++) {
                 selects[j].disabled = !display;
             }
-            var inputs = getPageElement(element_name).getElementsByTagName('input');
-            for (var j = 0; j < inputs.length; j++) {
-                inputs[j].disabled = !display;
-            }
+        }
+        var inputs = getPageElement(element_name).getElementsByTagName('input');
+        for (var j = 0; j < inputs.length; j++) {
+            inputs[j].disabled = !display;
         }
     }
 }
