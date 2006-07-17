@@ -653,6 +653,8 @@ class Mime_Helper
                         @$parts['attachments'][] = $obj->body;
                     } elseif(strtolower(@$obj->disposition) == 'attachment') {
                         @$parts['attachments'][] = $obj->body;
+                    } else {
+                        @$parts['text'][] = $obj->body;
                     }
             }
         }
