@@ -111,15 +111,16 @@ class Customer
         if (empty($setup_backends[$prj_id])) {
             $backend_class = Customer::_getBackendNameByProject($prj_id);
             if (empty($backend_class)) {
-                return false;
+                $setup_backends[$prj_id] = false;
+            } else {
+                $file_name_chunks = explode(".", $backend_class);
+                $class_name = $file_name_chunks[1] . "_Customer_Backend";
+
+                include_once(APP_INC_PATH . "customer/$backend_class");
+
+                $setup_backends[$prj_id] = new $class_name;
+                $setup_backends[$prj_id]->connect();
             }
-            $file_name_chunks = explode(".", $backend_class);
-            $class_name = $file_name_chunks[1] . "_Customer_Backend";
-            
-            include_once(APP_INC_PATH . "customer/$backend_class");
-            
-            $setup_backends[$prj_id] = new $class_name;
-            $setup_backends[$prj_id]->connect();
         }
         return $setup_backends[$prj_id];
     }
@@ -157,7 +158,7 @@ class Customer
 
     /**
      * Returns true if the backend uses support levels, false otherwise
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The project ID
      * @return  boolean True if the project uses support levels.
@@ -174,7 +175,7 @@ class Customer
 
 
     /**
-     * Returns the contract status associated with the given customer ID. 
+     * Returns the contract status associated with the given customer ID.
      * Possible return values are 'active', 'in_grace_period' and 'expired'.
      *
      * @access  public
@@ -236,8 +237,8 @@ class Customer
         $backend =& Customer::_getBackend($prj_id);
         return $backend->isRedeemedIncident($issue_id, $incident_type);
     }
-    
-    
+
+
     /**
      * Returns an array of the curently redeemed incident types for the issue.
      *
@@ -260,11 +261,11 @@ class Customer
         }
         return $data;
     }
-    
-    
+
+
     /**
      * Updates the incident counts
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
@@ -314,7 +315,7 @@ class Customer
 
     /**
      * Marks an issue as not a redeemed incident.
-     * 
+     *
      * @see /docs/Customer_API.html
      * @access  public
      * @param   integer $prj_id The project ID
@@ -428,7 +429,7 @@ class Customer
 
     /**
      * Returns a list of customers (companies) in the customer database.
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The project ID
      * @return  array An associated array of customers.
@@ -474,7 +475,7 @@ class Customer
 
 
     /**
-     * Method used to get the list of email addresses associated with the 
+     * Method used to get the list of email addresses associated with the
      * contacts of a given customer.
      *
      * @access  public
@@ -596,8 +597,8 @@ class Customer
 
 
     /**
-     * Performs a customer lookup and returns the matches, if 
-     * appropriate. 
+     * Performs a customer lookup and returns the matches, if
+     * appropriate.
      *
      * @access  public
      * @param   integer $prj_id The project ID
@@ -644,7 +645,7 @@ class Customer
 
 
     /**
-     * Returns the support level of the current support contract for a given 
+     * Returns the support level of the current support contract for a given
      * customer ID.
      *
      * @access  public
@@ -677,7 +678,7 @@ class Customer
 
     /**
      * Returns an array of support levels grouped together.
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The project ID
      * @return  array an array of support levels.
@@ -741,7 +742,7 @@ class Customer
 
     /**
      * Method used to send an email notification to the sender of a
-     * set of email messages that were manually converted into an 
+     * set of email messages that were manually converted into an
      * issue.
      *
      * @access  public
@@ -807,7 +808,7 @@ class Customer
 
 
     /**
-     * Returns the end date of the current support contract for a given 
+     * Returns the end date of the current support contract for a given
      * customer ID.
      *
      * @access  public
@@ -838,7 +839,7 @@ class Customer
 
 
     /**
-     * Returns the start date of the current support contract for a given 
+     * Returns the start date of the current support contract for a given
      * customer ID.
      *
      * @access  public
@@ -962,7 +963,7 @@ class Customer
 
 
     /**
-     * Method used to add a new association of Eventum user => 
+     * Method used to add a new association of Eventum user =>
      * customer ID. This association will provide the basis for a
      * new role of technical account manager in Eventum.
      *
@@ -1051,7 +1052,7 @@ class Customer
 
 
     /**
-     * Method used to remove a technical account manager from the 
+     * Method used to remove a technical account manager from the
      * system.
      *
      * @access  public
@@ -1113,7 +1114,7 @@ class Customer
 
     /**
      * Returns any notes for for the specified customer.
-     * 
+     *
      * @access  public
      * @param   integer $customer_id The customer ID
      * @return  array An array containg the note details.
@@ -1141,7 +1142,7 @@ class Customer
 
     /**
      * Returns any note details for for the specified id.
-     * 
+     *
      * @access  public
      * @param   integer $customer_id The customer ID
      * @return  array An array containg the note details.
@@ -1168,7 +1169,7 @@ class Customer
 
     /**
      * Returns an array of notes for all customers.
-     * 
+     *
      * @access  public
      * @return  array An array of notes.
      */
@@ -1198,7 +1199,7 @@ class Customer
 
     /**
      * Updates a note.
-     * 
+     *
      * @access  public
      * @param   integer $cno_id The id of this note.
      * @param   integer $prj_id The project ID
@@ -1228,7 +1229,7 @@ class Customer
 
     /**
      * Adds a quick note for the specified customer.
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The id of the customer.
@@ -1263,7 +1264,7 @@ class Customer
 
     /**
      * Removes the selected notes from the database.
-     * 
+     *
      * @access  public
      * @param   array $ids An array of cno_id's to be deleted.
      */
