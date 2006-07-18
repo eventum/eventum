@@ -210,7 +210,7 @@ class Mail_API
     {
         // check if we have a <
         if ((strstr($address, '<')) && (!Mime_Helper::isQuotedPrintable($address))) {
-            $address = stripslashes($address);
+            $address = stripslashes(trim($address));
             // is the address in the format 'name' <address> ?
             if ((strstr($address, "'")) || (strstr($address, "."))) {
                 $first_part = substr($address, 0, strpos($address, '<') - 1);
