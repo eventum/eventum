@@ -341,7 +341,7 @@ class Notification
         $headers["Subject"] = Mail_API::formatSubject($issue_id, $headers['Subject']);
 
         if (empty($type)) {
-            if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
+            if (($sender_usr_id != false) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) == User::getRoleID("Customer"))) {
                 $type = 'customer_email';
             } else {
                 $type = 'other_email';
@@ -1550,6 +1550,10 @@ class Notification
                  WHERE
                     sub_usr_id=usr_id AND
                     sub_iss_id=$issue_id";
+        if ($min_role != false) {
+            $stmt .= " AND
+                    pru_role >= " . Misc::escapeInteger($min_role);
+        }
         if ($type != false) {
             $stmt .= " AND\nsbt_sub_id = sub_id AND
                       sbt_type = '" . Misc::escapeString($type) . "'";
