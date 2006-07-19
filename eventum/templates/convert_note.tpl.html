@@ -28,9 +28,9 @@
 <script language="JavaScript">
 <!--
 {if $has_customer_integration}
-    var convert_email_warning = '{t}WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue\'s notification list.{/t}';
+    var convert_email_warning = "{t escape=js}WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue\'s notification list.{/t}";
 {else}
-    var convert_email_warning = '{t}WARNING: Converting this note to an email will send the email to all users listed in this issue\'s notification list.{/t}';
+    var convert_email_warning = "{t escape=js}WARNING: Converting this note to an email will send the email to all users listed in this issue\'s notification list.{/t}";
 {/if}
 {literal}
 function validateForm(f)
@@ -96,9 +96,9 @@ function disableAR(flag)
           </td>
         </tr>
         <tr>
-          <td bgcolor="{$dark_color}"><input type="checkbox" name="add_authorized_replier" value="1" disabled></td>
+          <td bgcolor="{$dark_color}"><input type="checkbox" name="add_authorized_replier" value="1" disabled id="add_authorized_replier_check"></td>
           <td bgcolor="{$dark_color}" class="small_default">
-            {t}Add sender to authorized repliers list?{/t}
+            <label for="add_authorized_replier_check">{t}Add sender to authorized repliers list?{/t}</label>
           </td>
         </tr>
         <tr>

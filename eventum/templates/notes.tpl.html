@@ -14,7 +14,7 @@ function deleteNote(note_id)
 }
 function convertNote(note_id)
 {
-    if (!confirm('{/literal}{t}This note will be deleted & converted to an email, one either sent immediately or saved as a draft.{/t}{literal}')) {
+    if (!confirm('{/literal}{t escape=none}This note will be deleted & converted to an email, one either sent immediately or saved as a draft.{/t}{literal}')) {
         return false;
     } else {
         var features = 'width=420,height=180,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';

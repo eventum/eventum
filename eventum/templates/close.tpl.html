@@ -70,7 +70,7 @@ function validateClose(f)
             }
         }
         if (has_checked_incident == false) {
-            return confirm('{/literal}{t}This customer has a per incident contract. You have chosen not to redeem any incidents. Press \'OK\' to confirm or \'Cancel\' to revise.{/t}{literal}');
+            return confirm('{/literal}{t escape=js}This customer has a per incident contract. You have chosen not to redeem any incidents. Press \'OK\' to confirm or \'Cancel\' to revise.{/t}{literal}');
         }
     }
     return true;
