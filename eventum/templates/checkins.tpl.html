@@ -63,12 +63,12 @@ function removeCheckins(f)
                 <td class="default">{$checkins[i].isc_module|escape:"html"}</td>
                 <td class="default" nowrap>
                   {if $checkins[i].checkout_url}
-                  <a title="{t 1=$checkins[i].isc_new_version 2=$checkins[i].isc_filename}see the source of revision %1 of %2" target="_checkout" class="link" href="{$checkins[i].checkout_url}">{$checkins[i].isc_filename|escape:"html"} ({$checkins[i].isc_new_version})</a>
+                  <a title="{t 1=$checkins[i].isc_new_version 2=$checkins[i].isc_filename}see the source of revision %1 of %2{/t}" target="_checkout" class="link" href="{$checkins[i].checkout_url}">{$checkins[i].isc_filename|escape:"html"} ({$checkins[i].isc_new_version})</a>
                   {else}
                   {$checkins[i].isc_filename|escape:"html"}
                   {/if}
                   {if $checkins[i].diff_url}
-                  [<a title="{t 1=$checkins[i].isc_old_version}see the diff to revision %1" target="_checkout" class="link" href="{$checkins[i].diff_url}">{t 1=$checkins[i].isc_old_version}diff to %1{/t}</a>]
+                  [<a title="{t 1=$checkins[i].isc_old_version}see the diff to revision %1{/t}" target="_checkout" class="link" href="{$checkins[i].diff_url}">{t 1=$checkins[i].isc_old_version}diff to %1{/t}</a>]
                   {/if}
                 </td>
                 <td class="default">
