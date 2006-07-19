@@ -20,6 +20,7 @@ Eventum Issue Tracking System
 - Fixed bug with date fields on advanced search page not showing correctly (Bryan)
 - Fixed bug with message body not being displayed when Content-Type is missing (Bryan)
 - Fixed PHP warning in customer backend (Bryan)
+- Fixed bug caused by whitespace at start of email address (Elan Ruusamäe)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
