@@ -50,7 +50,7 @@ $tpl->assign("extra_title", "Close Issue #$issue_id");
 $notification_list = Notification::getSubscribers($issue_id, 'closed');
 $tpl->assign("notification_list_all", $notification_list['all']);
 
-$notification_list_internal = Notification::getSubscribers($issue_id, 'closed', User::getRoleID("standard User"));
+$notification_list_internal = Notification::getSubscribers($issue_id, 'closed', User::getRoleID("Standard User"));
 $tpl->assign("notification_list_internal", $notification_list_internal['all']);
 
 if (@$HTTP_POST_VARS["cat"] == "close") {
