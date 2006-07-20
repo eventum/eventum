@@ -67,7 +67,7 @@ function runCustomFilter(f)
 //-->
 </script>
 {/literal}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" width="850">
   <tr id="filter_form1" {get_display_style element_name="filter_form"}>
     <td>
       &nbsp;
@@ -118,7 +118,7 @@ function runCustomFilter(f)
             <input type="hidden" name="search_type" value="all_text" id="search_type">
             {/if}
           </td>
-          <td rowspan="2" align="center">
+          <td rowspan="2" align="center" width="100">
             <input class="button" type="submit" value="{t}Search{/t}" style="width: 100%"><br /><br />
             <input class="button" type="button" value="{t}Clear Filters{/t}" style="width: 100%" onClick="javascript:clearFilters(this.form);">
           </td>
