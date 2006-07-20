@@ -1783,7 +1783,7 @@ class Support
             if (Customer::hasCustomerIntegration($prj_id)) {
                 // check for a customer contact with several email addresses
                 $customer_id = Issue::getCustomerID($issue_id);
-                $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id, Issue::getContractID($issue_id)));
+                $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id));
                 $contact_emails = array_map('strtolower', $contact_emails);
                 if ((!in_array(strtolower($sender_email), $contact_emails)) &&
                         (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
