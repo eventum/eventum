@@ -25,8 +25,6 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id$
-//
 
 
 include_once(APP_INC_PATH . "class.error_handler.php");
@@ -174,7 +172,11 @@ class Mail_Queue
         $emails = Mail_Queue::_getList($status, $limit);
         // foreach email
         for ($i = 0; $i < count($emails); $i++) {
-            $result = Mail_Queue::_sendEmail($emails[$i]['recipient'], $emails[$i]['headers'], $emails[$i]['body']);
+            $current_status = $status;
+            if ($emails[$i]['maq_type'] == 'error') {
+                $current_status = 'error';
+            }
+            $result = Mail_Queue::_sendEmail($emails[$i]['recipient'], $emails[$i]['headers'], $emails[$i]['body'], $current_status);
             if (PEAR::isError($result)) {
                 Mail_Queue::_saveLog($emails[$i]['id'], 'error', Mail_Queue::_getErrorMessage($result));
             } else {
@@ -195,9 +197,10 @@ class Mail_Queue
      * @param   string $recipient The recipient of this message
      * @param   string $text_headers The full headers of this message
      * @param   string $body The full body of this message
+     * @param   string $status The status of this message
      * @return  true, or a PEAR_Error object
      */
-    function _sendEmail($recipient, $text_headers, $body)
+    function _sendEmail($recipient, $text_headers, $body, $status)
     {
         $header_names = Mime_Helper::getHeaderNames($text_headers);
         $_headers = Mail_Queue::_getHeaders($text_headers, $body);
@@ -228,7 +231,7 @@ class Mail_Queue
         $res = $mail->send($recipient, $headers, $body);
         if (PEAR::isError($res)) {
             // special handling of errors when the mail server is down
-            if (strstr($res->getMessage(), 'unable to connect to smtp server')) {
+            if (($status == 'error') || (strstr($res->getMessage(), 'unable to connect to smtp server')) || (stristr($res->getMessage(), 'Failed to connect to') !== false)) {
                 Error_Handler::logToFile(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             } else {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

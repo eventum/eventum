@@ -116,8 +116,8 @@ class Error_Handler
             $msg .= $contents;
             ob_end_clean();
         }
-        // avoid triggering an email notification about a query that 
-        // was bigger than max_allowed_packet (usually 16 megs on 3.23 
+        // avoid triggering an email notification about a query that
+        // was bigger than max_allowed_packet (usually 16 megs on 3.23
         // client libraries)
         if (strlen($msg) > 16777216) {
             return false;
@@ -125,7 +125,7 @@ class Error_Handler
         foreach ($notify_list as $notify_email) {
             $mail = new Mail_API;
             $mail->setTextBody($msg);
-            $mail->send($setup['smtp']['from'], $notify_email, $subject);
+            $mail->send($setup['smtp']['from'], $notify_email, $subject, 0, false, 'error');
         }
     }
 
