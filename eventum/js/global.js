@@ -766,6 +766,8 @@ function replaceSpecialCharacters(e)
             thisChar = "...";
         } else if (charCode == 8226) {
             thisChar = "*";
+        } else if (charCode == 8211) {
+            thisChar = "-";
         }
         newString = newString + thisChar;
     }
