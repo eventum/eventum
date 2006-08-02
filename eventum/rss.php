@@ -153,7 +153,9 @@ $options = array(
     'status'        => $filter['cst_iss_sta_id'],
     'hide_closed'   => $filter['cst_hide_closed'],
     'sort_by'       => $filter['cst_sort_by'],
-    'sort_order'    => $filter['cst_sort_order']
+    'sort_order'    => $filter['cst_sort_order'],
+    'custom_field'  => $filter['cst_custom_field'],
+    'search_type'   => $filter['cst_search_type']
 );
 $issues = Issue::getListing($filter['cst_prj_id'], $options, 0, 'ALL', TRUE);
 $issues = $issues['list'];
