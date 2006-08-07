@@ -27,6 +27,7 @@ Eventum Issue Tracking System
 - Fixed bug with special "dash" character when submitting an issue (Bryan)
 - Fixed problem with rss feeds searching by custom fields (Bryan)
 - Worked on removing instances of call time pass by reference (Bryan)
+- Fixed bug with subject based routing with special characters (Bryan, Thanks to Frank Tilmans)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

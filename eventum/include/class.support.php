@@ -587,7 +587,8 @@ class Support
                 // the following items are not inserted, but useful in some methods
                 'headers'        => @$structure->headers
             );
-            $should_create_array = Support::createIssueFromEmail($info, $headers, $message_body, $t['date'], @$email->fromaddress, @$email->subject);
+            $should_create_array = Support::createIssueFromEmail($info, $headers, $message_body, $t['date'], @$email->fromaddress,
+                                        Mime_Helper::fixEncoding( @$email->subject));
             $should_create_issue = $should_create_array['should_create_issue'];
             $associate_email = $should_create_array['associate_email'];
             if (!empty($should_create_array['issue_id'])) {
