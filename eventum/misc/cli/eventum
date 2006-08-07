@@ -37,27 +37,27 @@ $client = new XML_RPC_Client($relative_url . "rpc/xmlrpc.php", $url, $port);
 //$client->setDebug(1);
 
 // need to process authentication first
-Command_Line::checkAuthentication(&$client, $user_email, $user_password);
+Command_Line::checkAuthentication($client, $user_email, $user_password);
 
 $auth = array($user_email, $user_password);
 
 // log command
-Command_Line::log(&$client, $auth, join(" ", $HTTP_SERVER_VARS['argv']));
+Command_Line::log($client, $auth, join(" ", $HTTP_SERVER_VARS['argv']));
 
 $issue_id = (integer) $HTTP_SERVER_VARS['argv'][1];
 if ($issue_id > 0) {
     if (count($HTTP_SERVER_VARS['argv']) == 2) {
-        Command_Line::printIssueDetails(&$client, $auth, $issue_id);
+        Command_Line::printIssueDetails($client, $auth, $issue_id);
     } else {
         if ($should_confirm) {
-            Command_Line::promptConfirmation(&$client, $auth, $issue_id, @$HTTP_SERVER_VARS['argv']);
+            Command_Line::promptConfirmation($client, $auth, $issue_id, @$HTTP_SERVER_VARS['argv']);
         }
         switch ($HTTP_SERVER_VARS['argv'][2]) {
             case 'assign':
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the developer");
                 }
-                Command_Line::assignIssue(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::assignIssue($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
                 break;
             case 'add-replier':
             case 'ar':
@@ -65,13 +65,13 @@ if ($issue_id > 0) {
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the developer");
                 }
-                Command_Line::addAuthorizedReplier(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::addAuthorizedReplier($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
                 break;
             case 'set-status':
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the status");
                 }
-                Command_Line::setIssueStatus(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::setIssueStatus($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
                 break;
             case 'add-time':
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
@@ -81,28 +81,28 @@ if ($issue_id > 0) {
                 if ($check == 0) {
                     Command_Line::quit("Third argument to command 'add-time' should be a number");
                 }
-                Command_Line::addTimeEntry(&$client, $auth, $issue_id, $check);
+                Command_Line::addTimeEntry($client, $auth, $issue_id, $check);
                 break;
             case 'list-files':
             case 'lf':
-                Command_Line::printFileList(&$client, $auth, $issue_id);
+                Command_Line::printFileList($client, $auth, $issue_id);
                 break;
             case 'get-file':
             case 'gf':
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the file number");
                 }
-                Command_Line::getFile(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::getFile($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
                 break;
             case 'close':
-                Command_Line::closeIssue(&$client, $auth, $issue_id);
+                Command_Line::closeIssue($client, $auth, $issue_id);
                 break;
 
             // email related commands
             case 'list-emails':
             case 'le':
                 // lists all emails for the given issue
-                Command_Line::listEmails(&$client, $auth, $issue_id);
+                Command_Line::listEmails($client, $auth, $issue_id);
                 break;
             case 'get-email':
             case 'ge':
@@ -115,14 +115,14 @@ if ($issue_id > 0) {
                 } else {
                     $full = false;
                 }
-                Command_Line::printEmail(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3], $full);
+                Command_Line::printEmail($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3], $full);
                 break;
 
             // note related commands
             case 'list-notes':
             case 'ln':
                 // list notes for the given issues
-                Command_Line::listNotes(&$client, $auth, $issue_id);
+                Command_Line::listNotes($client, $auth, $issue_id);
                 break;
             case 'get-note':
             case 'gn':
@@ -130,7 +130,7 @@ if ($issue_id > 0) {
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the note number");
                 }
-                Command_Line::printNote(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::printNote($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
                 break;
             case 'convert-note':
             case 'cn':
@@ -146,14 +146,14 @@ if ($issue_id > 0) {
                 } else {
                     $authorize_sender = false;
                 }
-                Command_Line::convertNote(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3], $HTTP_SERVER_VARS['argv'][4], $authorize_sender);
+                Command_Line::convertNote($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3], $HTTP_SERVER_VARS['argv'][4], $authorize_sender);
                 break;
-            
+
             // draft related commands
             case 'list-drafts':
             case 'ld':
                 // list drafts
-                Command_Line::listDrafts(&$client, $auth, $issue_id);
+                Command_Line::listDrafts($client, $auth, $issue_id);
                 break;
             case 'get-draft':
             case 'gd':
@@ -161,7 +161,7 @@ if ($issue_id > 0) {
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the draft number");
                 }
-                Command_Line::printDraft(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::printDraft($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
                 break;
             case 'send-draft':
             case 'sd':
@@ -169,26 +169,26 @@ if ($issue_id > 0) {
                 if (count($HTTP_SERVER_VARS['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the draft number");
                 }
-                Command_Line::sendDraft(&$client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::sendDraft($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
                 break;
-                
+
             case 'redeem':
                 // marking an issue as redeemed
-                Command_Line::redeemIssue(&$client, $auth, $issue_id);
+                Command_Line::redeemIssue($client, $auth, $issue_id);
                 break;
-            
+
             case 'unredeem':
                 // unmarks issue as redeemed incident
-                Command_Line::unredeemIssue(&$client, $auth, $issue_id);
+                Command_Line::unredeemIssue($client, $auth, $issue_id);
                 break;
-            
+
             default:
                 Command_Line::quit("Unknown command '" . $HTTP_SERVER_VARS['argv'][2] . "'");
         }
     }
 } else {
     if ($HTTP_SERVER_VARS['argv'][1] == 'developers') {
-        Command_Line::printDeveloperList(&$client, $auth);
+        Command_Line::printDeveloperList($client, $auth);
     } elseif ($HTTP_SERVER_VARS['argv'][1] == 'open-issues') {
         if (count($HTTP_SERVER_VARS['argv']) == 3) {
             if (@$HTTP_SERVER_VARS['argv'][2] == 'my') {
@@ -209,27 +209,27 @@ if ($issue_id > 0) {
             $show_all_issues = true;
             $status = '';
         }
-        Command_Line::printOpenIssues(&$client, $auth, $show_all_issues, $status);
+        Command_Line::printOpenIssues($client, $auth, $show_all_issues, $status);
     } elseif ($HTTP_SERVER_VARS['argv'][1] == 'list-status') {
-        Command_Line::printStatusList(&$client, $auth);
+        Command_Line::printStatusList($client, $auth);
     } elseif ($HTTP_SERVER_VARS['argv'][1] == 'customer') {
         if (count($HTTP_SERVER_VARS['argv']) != 4) {
             Command_Line::quit("Wrong parameter count");
         }
-        Command_Line::lookupCustomer(&$client, $auth, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3]);
+        Command_Line::lookupCustomer($client, $auth, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3]);
     } elseif (($HTTP_SERVER_VARS['argv'][1] == 'weekly-report') || ($HTTP_SERVER_VARS['argv'][1] == 'wr')) {
         if (count(@$HTTP_SERVER_VARS['argv']) == 4) {
             // date range
-            Command_Line::getWeeklyReport(&$client, $auth, 0, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3]);
+            Command_Line::getWeeklyReport($client, $auth, 0, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3]);
         } else {
             // weekly
             if (@$HTTP_SERVER_VARS['argv'][2] == '') {
                 @$HTTP_SERVER_VARS['argv'][2] = 0;
             }
-            Command_Line::getWeeklyReport(&$client, $auth, $HTTP_SERVER_VARS['argv'][2]);
+            Command_Line::getWeeklyReport($client, $auth, $HTTP_SERVER_VARS['argv'][2]);
         }
     } elseif ($HTTP_SERVER_VARS['argv'][1] == 'clock') {
-        Command_Line::timeClock(&$client, $auth, @$HTTP_SERVER_VARS['argv'][2]);
+        Command_Line::timeClock($client, $auth, @$HTTP_SERVER_VARS['argv'][2]);
     }  else {
         Command_Line::quit("Unknown parameter '" . $HTTP_SERVER_VARS['argv'][1] . "'");
     }
