@@ -501,6 +501,12 @@ class Support
             // try to manually parse that value from the full headers
             $reference_msg_id = Mail_API::getReferenceMessageID($headers);
 
+            // pass in $email by reference so it can be modified
+            $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $message, $email);
+            if ($workflow === -1) {
+                return true;
+            }
+
             // route emails if neccassary
             if ($info['ema_use_routing'] == 1) {
                 $setup = Setup::load();
@@ -815,7 +821,7 @@ class Support
             }
         }
         // check whether we need to create a new issue or not
-        if (($info['ema_issue_auto_creation'] == 'enabled') && ($should_create_issue)) {
+        if (($info['ema_issue_auto_creation'] == 'enabled') && ($should_create_issue) && (!Notification::isBounceMessage($sender_email))) {
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
             Auth::createFakeCookie(APP_SYSTEM_USER_ID, $info['ema_prj_id']);
             $issue_id = Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID,

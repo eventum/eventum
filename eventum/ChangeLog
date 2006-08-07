@@ -29,6 +29,8 @@ Eventum Issue Tracking System
 - Worked on removing instances of call time pass by reference (Bryan)
 - Fixed bug with subject based routing with special characters (Bryan, Thanks to Frank Tilmans)
 - Fixed bug with saving mail queue log (Bryan, Thanks to Peter van den Heuvel)
+- Fixed bug with email bounces causing infinite mail loop when auto creating issues (Bryan)
+- Added workflow method to be called before email is downloaded (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
