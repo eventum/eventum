@@ -319,8 +319,8 @@ class Mail_Queue
                  ) VALUES (
                     $maq_id,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '$status',
-                    '$server_message'
+                    '" . Misc::escapeString($status) . "',
+                    '" . Misc::escapeString($server_message) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -330,7 +330,7 @@ class Mail_Queue
             $stmt = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
                      SET
-                        maq_status='$status'
+                        maq_status='" . Misc::escapeString($status) . "'
                      WHERE
                         maq_id=$maq_id";
             $GLOBALS["db_api"]->dbh->query($stmt);
