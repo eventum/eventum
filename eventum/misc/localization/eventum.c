@@ -551,7 +551,10 @@ gettext("Issues");
 gettext("Issues by User");
 
 /* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Open Issues Report");
+gettext("Open Issues By Assignee");
+
+/* /work/eventum/templates/reports/tree.tpl.html */
+gettext("Open Issues By Reporter");
 
 /* /work/eventum/templates/reports/tree.tpl.html */
 gettext("Weekly Report");

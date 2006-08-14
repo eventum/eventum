@@ -50,8 +50,14 @@ if (empty($HTTP_GET_VARS['cutoff_days'])) {
 } else {
     $cutoff_days = $HTTP_GET_VARS['cutoff_days'];
 }
+
+if (empty($_GET['group_by_reporter'])) {
+    $group_by_reporter = false;
+} else {
+    $group_by_reporter = true;
+}
 $tpl->assign("cutoff_days", $cutoff_days);
-$res = Report::getOpenIssuesByUser($prj_id, $cutoff_days);
+$res = Report::getOpenIssuesByUser($prj_id, $cutoff_days, $group_by_reporter);
 $tpl->assign("users", $res);
 
 $tpl->displayTemplate();

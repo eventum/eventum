@@ -31,6 +31,7 @@ Eventum Issue Tracking System
 - Fixed bug with saving mail queue log (Bryan, Thanks to Peter van den Heuvel)
 - Fixed bug with email bounces causing infinite mail loop when auto creating issues (Bryan)
 - Added workflow method to be called before email is downloaded (Bryan)
+- Added "Open Issues By Reporter" report (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
