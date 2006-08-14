@@ -144,14 +144,14 @@ class Report
     }
 
     /**
-     * Method used to get all open issues and group them by user.
+     * Method used to get all open issues and group them by assignee or reporter.
      *
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $cutoff_days The number of days to use as a cutoff period
      * @return  array The list of issues
      */
-    function getOpenIssuesByUser($prj_id, $cutoff_days)
+    function getOpenIssuesByUser($prj_id, $cutoff_days, $group_by_reporter = false)
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $cutoff_days = Misc::escapeInteger($cutoff_days);
@@ -159,7 +159,8 @@ class Report
         $cutoff_ts = $ts - ($cutoff_days * DAY);
 
         $stmt = "SELECT
-                    usr_full_name,
+                    assignee.usr_full_name as assignee_name,
+                    reporter.usr_full_name as reporter_name,
                     iss_id,
                     iss_summary,
                     sta_title,
@@ -172,7 +173,8 @@ class Report
                     (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user as assignee,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user as reporter
                     )
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
@@ -182,12 +184,18 @@ class Report
                     sta_is_closed=0 AND
                     iss_prj_id=$prj_id AND
                     iss_id=isu_iss_id AND
-                    isu_usr_id=usr_id AND
+                    isu_usr_id=assignee.usr_id AND
+                    iss_usr_id=reporter.usr_id AND
                     UNIX_TIMESTAMP(iss_created_date) < $cutoff_ts
-                 ORDER BY
-                    usr_full_name";
+                 ORDER BY\n";
+        if ($group_by_reporter) {
+            $stmt .= "reporter.usr_full_name";
+        } else {
+            $stmt .= "assignee.usr_full_name";
+        }
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
+            print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
@@ -200,7 +208,12 @@ class Report
                 if (empty($res[$i]['iss_last_response_date'])) {
                     $res[$i]['iss_last_response_date'] = $res[$i]['iss_created_date'];
                 }
-                $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
+                if ($group_by_reporter) {
+                    $name = $res[$i]['reporter_name'];
+                } else {
+                    $name = $res[$i]['assignee_name'];
+                }
+                $issues[$name][$res[$i]['iss_id']] = array(
                     'iss_summary'         => $res[$i]['iss_summary'],
                     'sta_title'           => $res[$i]['sta_title'],
                     'iss_created_date'    => Date_API::getFormattedDate($res[$i]['iss_created_date']),
