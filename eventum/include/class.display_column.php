@@ -170,59 +170,59 @@ class Display_Column
         $columns = array(
             "list_issues"   =>  array(
                 "pri_rank"    =>  array(
-                    "title" =>  "Priority"
+                    "title" =>  gettext("Priority")
                 ),
                 "iss_id"    =>  array(
-                    "title" =>  "Issue ID"
+                    "title" =>  gettext("Issue ID")
                 ),
                 "usr_full_name" =>  array(
-                    "title" =>  "Reporter"
+                    "title" =>  gettext("Reporter")
                 ),
                 "iss_grp_id"    =>  array(
-                    "title" =>  "Group"
+                    "title" =>  gettext("Group")
                 ),
                 "assigned"  =>  array(
-                    "title" =>  "Assigned"
+                    "title" =>  gettext("Assigned")
                 ),
                 "time_spent"    =>  array(
-                    "title" =>  "Time Spent"
+                    "title" =>  gettext("Time Spent")
                 ),
                 "iss_percent_complete"    =>  array(
-                    "title" =>  "% Complete",
+                    "title" =>  gettext("% Complete"),
                     "default_role"  =>  9
                 ),
                 "iss_dev_time"    =>  array(
-                    "title" =>  "Est Dev Time",
+                    "title" =>  gettext("Est Dev Time"),
                     "default_role"  =>  9
                 ),
                 "prc_title"     =>  array(
-                    "title" =>  "Category"
+                    "title" =>  gettext("Category")
                 ),
                 "pre_title" =>  array(
-                    "title" =>  "Release"
+                    "title" =>  gettext("Release")
                 ),
                 "iss_customer_id"   =>  array(
-                    "title" =>  "Customer"
+                    "title" =>  gettext("Customer")
                 ),
                 "sta_rank"    =>  array(
-                    "title" =>  "Status"
+                    "title" =>  gettext("Status")
                 ),
                 "sta_change_date"   =>  array(
-                    "title" =>  "Status Change Date"
+                    "title" =>  gettext("Status Change Date")
                 ),
                 "last_action_date"  =>  array(
-                    "title" =>  "Last Action Date"
+                    "title" =>  gettext("Last Action Date")
                 ),
                 "custom_fields" =>  array(
-                    "title" =>  "Custom Fields"
+                    "title" =>  gettext("Custom Fields")
                 ),
                 "iss_summary"   =>  array(
-                    "title" =>  "Summary",
+                    "title" =>  gettext("Summary"),
                     "align" =>  "left",
                     "width" =>  '30%'
                 ),
                 "iss_expected_resolution_date"  =>  array(
-                    "title" =>  "Expected Resolution Date"
+                    "title" =>  gettext("Expected Resolution Date")
                 )
             )
         );
