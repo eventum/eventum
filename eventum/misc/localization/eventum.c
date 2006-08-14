@@ -439,6 +439,117 @@ gettext("Advanced Search");
 /* /work/eventum/templates/quick_filter_form.tpl.html */
 gettext("Saved Searches");
 
+/* /work/eventum/templates/new.tpl.html */
+gettext("There was an error creating your issue.");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Thank you, the new issue was created successfully. Please choose from one of the options below");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Thank you, the new issue was created successfully.");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("However, the following errors were encountered:");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Please choose from one of the options below:");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Open the Issue Details Page");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Open the Issue Listing Page");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Open the Emails Listing Page");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Report a New Issue");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Warning: your issue is currently quarantined.\n                Please see the <a href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Category");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Priority");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Assignment");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Summary");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Initial Description");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Estimated Dev. Time (only numbers)");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Create New Issue");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Current Project");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Category");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Please choose a category");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Priority");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Please choose a priority");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Assignment");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Group");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Scheduled Release");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("un-scheduled");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Summary");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Initial Description");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Estimated Dev. Time");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Private");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Add Files");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Files");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Note: The current maximum allowed upload file size is %1");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Submit");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Reset");
+
+/* /work/eventum/templates/new.tpl.html */
+gettext("Required fields");
+
 /* /work/eventum/templates/bulk_update.tpl.html */
 gettext("Bulk Update Tool");
 
@@ -1406,6 +1517,12 @@ gettext("File");
 gettext("Commit Message");
 
 /* /work/eventum/templates/checkins.tpl.html */
+gettext("see the source of revision %1 of %2");
+
+/* /work/eventum/templates/checkins.tpl.html */
+gettext("see the diff to revision %1");
+
+/* /work/eventum/templates/checkins.tpl.html */
 gettext("diff to %1");
 
 /* /work/eventum/templates/checkins.tpl.html */
@@ -1553,10 +1670,16 @@ gettext("sort by");
 gettext("sort by");
 
 /* /work/eventum/templates/list.tpl.html */
+gettext("Summary");
+
+/* /work/eventum/templates/list.tpl.html */
 gettext("sort by summary");
 
 /* /work/eventum/templates/list.tpl.html */
 gettext("Export Data:");
+
+/* /work/eventum/templates/list.tpl.html */
+gettext("generate excel-friendly report");
 
 /* /work/eventum/templates/list.tpl.html */
 gettext("Export to Excel");
@@ -1682,19 +1805,10 @@ gettext("in hours");
 gettext("Assignment:");
 
 /* /work/eventum/templates/update_form.tpl.html */
-gettext("yes");
-
-/* /work/eventum/templates/update_form.tpl.html */
 gettext("Keep Current Assignments:");
 
 /* /work/eventum/templates/update_form.tpl.html */
-gettext("no");
-
-/* /work/eventum/templates/update_form.tpl.html */
 gettext("Change Assignments:");
-
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("no");
 
 /* /work/eventum/templates/update_form.tpl.html */
 gettext("Clear Selections");
