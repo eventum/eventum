@@ -67,7 +67,7 @@ function runCustomFilter(f)
 //-->
 </script>
 {/literal}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" width="850">
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr id="filter_form1" {get_display_style element_name="filter_form"}>
     <td>
       &nbsp;
@@ -107,7 +107,7 @@ function runCustomFilter(f)
         <input type="hidden" name="release" value="{$options.release}">
         <tr>
           <td nowrap>
-            <span class="default">Keyword(s):</span><br />
+            <span class="default">{t}Keyword(s){/t}:</span><br />
             <input class="default" type="text" name="keywords" size="40" value="{$options.keywords|escape:"html"}">
           </td>
           <td nowrap colspan="{if $categories|@count > 0}3{else}2{/if}">
@@ -119,8 +119,8 @@ function runCustomFilter(f)
             {/if}
           </td>
           <td rowspan="2" align="center" width="100">
-            <input class="button" type="submit" value="{t}Search{/t}" style="width: 100%"><br /><br />
-            <input class="button" type="button" value="{t}Clear Filters{/t}" style="width: 100%" onClick="javascript:clearFilters(this.form);">
+            <input class="button" type="submit" value="{t}Search{/t}"><br /><br />
+            <input class="button" type="button" value="{t}Clear Filters{/t}" onClick="javascript:clearFilters(this.form);">
           </td>
         </tr>
         <tr>
@@ -132,7 +132,7 @@ function runCustomFilter(f)
           </td>
           {if $categories|@count > 0}
           <td valign="top">
-            <span class="default">Category:</span><br />
+            <span class="default">{t}Category{/t}:</span><br />
             <select name="category" class="default">
               <option value="">{t}any{/t}</option>
               {html_options options=$categories selected=$options.category}
@@ -142,14 +142,14 @@ function runCustomFilter(f)
           <td valign="top">
             <span class="default">{t}Priority{/t}:</span><br />
             <select name="priority" class="default">
-              <option value="">any</option>
+              <option value="">{t}any{/t}</option>
               {html_options options=$priorities selected=$options.priority}
             </select>
           </td>
           <td valign="top">
             <span class="default">{t}Status{/t}:</span><br />
             <select name="status" class="default">
-              <option value="">any</option>
+              <option value="">{t}any{/t}</option>
               {foreach key=sta_id item=sta_title from=$status}
               <option value="{$sta_id}" {if $sta_id == $options.status}selected{/if}>{$sta_title}</option>
               {/foreach}
