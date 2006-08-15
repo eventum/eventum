@@ -211,11 +211,11 @@ function disableFields()
             <table cellspacing="0" cellpadding="1" width="100%">
               <tr>
                 <td class="default_white">
-                  <a title="sort by summary" href="{$sorting.links.iss_summary}" class="white_link">Summary</a>
+                  <a title="sort by summary" href="{$sorting.links.iss_summary}" class="white_link">{t}Summary{/t}</a>
                   {if $sorting.images.iss_summary != ""}<a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}" class="white_link"><img border="0" src="{$sorting.images.iss_summary}"></a>{/if}
                 </td>
                 <td align="right">
-                  <span class="default_white">{t}Export Data:{/t}</span> <input alt="generate excel-friendly report" type="image" src="{$rel_url}images/excel.jpg" class="shortcut" value="{t}Export to Excel{/t}" onClick="javascript:return downloadCSV();">
+                  <span class="default_white">{t}Export Data:{/t}</span> <input alt="{t}generate excel-friendly report{/t}" type="image" src="{$rel_url}images/excel.jpg" class="shortcut" value="{t}Export to Excel{/t}" onClick="javascript:return downloadCSV();">
                 </td>
               </tr>
             </table>
