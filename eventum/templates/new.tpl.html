@@ -6,7 +6,7 @@
         <tr>
             <td>
                 <div style="font-size: 24; color: red; border: thin solid Red;" align="center">
-                    There was an error creating your issue.
+                {t}There was an error creating your issue.{/t}
                 </div>
             </td>
         </tr>
@@ -22,36 +22,35 @@
         <tr>
           <td class="default">
             {if $errors|@count == 0}
-            <b>Thank you, the new issue was created successfully. Please choose
-            from one of the options below:</b>
+            <b>{t}Thank you, the new issue was created successfully. Please choose from one of the options below{/t}:</b>
             {else}
-                Thank you, the new issue was created successfully. <br />
-                <span style="color: red">However, the following errors were encountered:
+                {t}Thank you, the new issue was created successfully.{/t} <br />
+                <span style="color: red">{t}However, the following errors were encountered:{/t}
                 <ul>
                 {foreach from=$errors name=errors item=error}
                     <li>{$error}</li>
                 {/foreach}
                 </ul>
                 </span>
-                Please choose from one of the options below:</b>
+                {t}Please choose from one of the options below:{/t}</b>
             {/if}
             <ul>
-              <li><a href="view.php?id={$new_issue_id}" class="link">Open the Issue Details Page</a></li>
-              <li><a href="list.php" class="link">Open the Issue Listing Page</a></li>
+              <li><a href="view.php?id={$new_issue_id}" class="link">{t}Open the Issue Details Page{/t}</a></li>
+              <li><a href="list.php" class="link">{t}Open the Issue Listing Page{/t}</a></li>
               {if $app_setup.support_email == 'enabled' and $current_role > $roles.customer}
-              <li><a href="emails.php" class="link">Open the Emails Listing Page</a></li>
+              <li><a href="emails.php" class="link">{t}Open the Emails Listing Page{/t}</a></li>
               {/if}
-              <li><a href="new.php" class="link">Report a New Issue</a></li>
+              <li><a href="new.php" class="link">{t}Report a New Issue{/t}</a></li>
             </ul>
-            <b>Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.</b>
+            <b>{t}Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.{/t}</b>
           </td>
         </tr>
         {if $quarantine_status > 0}
         <tr>
             <td align="center" class="default" colspan="2">
                 <br />
-                <b><span style="color: red">Warning: your issue is currently quarantined.
-                Please see the <a href="faq.php">FAQ</a> for information regarding quarantined issues.
+                <b><span style="color: red">{t escape="none"}Warning: your issue is currently quarantined.
+                Please see the <a href="faq.php">FAQ</a> for information regarding quarantined issues.{/t}
                 </b>
                 <br /><br />
                 </span>
@@ -90,41 +89,41 @@ function validateForm(f)
     {if $cats|@count > 0 && $current_role >= $field_display_settings.category}
     {literal}
     if (hasSelected(f.category, -1)) {
-        errors[errors.length] = new Option('Category', 'category');
+        errors[errors.length] = new Option('{/literal}{t}Category{/t}{literal}', 'category');
     }
     {/literal}
     {/if}
     {if $current_role >= $field_display_settings.priority}
     {literal}
     if (hasSelected(f.priority, -1)) {
-        errors[errors.length] = new Option('Priority', 'priority');
+        errors[errors.length] = new Option('{/literal}{t}Priority{/t}{literal}', 'priority');
     }
     {/literal}
     {/if}
     {if $allow_unassigned_issues != 'yes' && $current_role >= $field_display_settings.assignment}
     {literal}
     if (!hasOneSelected(f, 'users[]')) {
-        errors[errors.length] = new Option('Assignment', 'users[]');
+        errors[errors.length] = new Option('{/literal}{t}Assignment{/t}{literal}', 'users[]');
     }
     {/literal}
     {/if}
     {literal}
     if (isWhitespace(f.summary.value)) {
-        errors[errors.length] = new Option('Summary', 'summary');
+        errors[errors.length] = new Option('{/literal}{t}Summary{/t}{literal}', 'summary');
     }
 
     // replace special characters in description
     replaceSpecialCharacters(f.description);
 
     if (isWhitespace(f.description.value)) {
-        errors[errors.length] = new Option('Initial Description', 'description');
+        errors[errors.length] = new Option('{/literal}{t}Initial Description{/t}{literal}', 'description');
     }
     {/literal}
     {if $current_role >= $field_display_settings.estimated_dev_time}
     {literal}
     if (!isWhitespace(f.estimated_dev_time.value)) {
         if (!isFloat(f.estimated_dev_time.value)) {
-            errors[errors.length] = new Option('Estimated Dev. Time (only numbers)', 'estimated_dev_time');
+            errors[errors.length] = new Option('{/literal}{t}Estimated Dev. Time (only numbers){/t}{literal}', 'estimated_dev_time');
         }
     }
     {/literal}
@@ -192,20 +191,20 @@ function validateForm(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default">
-            <b>Create New Issue</b>
+            <b>{t}Create New Issue{/t}</b>
           </td>
           <td align="right" class="default">
-            (Current Project: {$current_project_name})
+            ({t}Current Project{/t}: {$current_project_name})
           </td>
         </tr>
         {if $cats|@count > 0 && $current_role >= $field_display_settings.category}
         <tr>
           <td width="150" bgcolor="{if $field_display_settings.category > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
-            <b>Category: *</b> {include file="help_link.tpl.html" topic="report_category"}
+            <b>{t}Category{/t}: *</b> {include file="help_link.tpl.html" topic="report_category"}
           </td>
           <td bgcolor="{$light_color}">
             <select name="category" class="default" tabindex="{$tabindex++}">
-              <option value="-1">Please choose a category</option>
+              <option value="-1">{t}Please choose a category{/t}</option>
               {html_options options=$cats selected=$smarty.post.category}
             </select>
             {include file="error_icon.tpl.html" field="category"}
@@ -215,7 +214,7 @@ function validateForm(f)
         {if $current_role >= $field_display_settings.priority}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>Priority: *</b> {include file="help_link.tpl.html" topic="report_priority"}
+            <b>{t}Priority{/t}: *</b> {include file="help_link.tpl.html" topic="report_priority"}
           </td>
           <td bgcolor="{$light_color}">
             {* Figure out default priority *}
@@ -225,7 +224,7 @@ function validateForm(f)
               {assign var="priority" value=3}
             {/if}
             <select name="priority" class="default" tabindex="{$tabindex++}">
-              <option value="-1">Please choose a priority</option>
+              <option value="-1">{t}Please choose a priority{/t}</option>
               {html_options options=$priorities selected=$priority}
             </select>
             {include file="error_icon.tpl.html" field="priority"}
@@ -235,7 +234,7 @@ function validateForm(f)
         {if $current_role >= $field_display_settings.assignment}
         <tr>
           <td width="150" bgcolor="{if $field_display_settings.assignment > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
-            <b>Assignment: {if $allow_unassigned_issues != 'yes'}*{/if}</b> {include file="help_link.tpl.html" topic="report_assignment"}
+            <b>{t}Assignment{/t}: {if $allow_unassigned_issues != 'yes'}*{/if}</b> {include file="help_link.tpl.html" topic="report_assignment"}
           </td>
           <td bgcolor="{$light_color}">
             {if $new_issue_id == ''}
@@ -252,7 +251,7 @@ function validateForm(f)
         {if $groups|@count > 0 && $current_role >= $field_display_settings.group}
         <tr>
           <td width="150" bgcolor="{if $field_display_settings.assignment > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
-            <b>Group:
+            <b>{t}Group{/t}: </b>
           </td>
           <td bgcolor="{$light_color}">
             {if $new_issue_id == ''}
@@ -269,14 +268,14 @@ function validateForm(f)
         {if $releases|@count > 0 && $current_role >= $field_display_settings.release}
         <tr>
           <td width="150" bgcolor="{if $field_display_settings.release > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
-            <b>Scheduled Release:</b> {include file="help_link.tpl.html" topic="report_release"}
+            <b>{t}Scheduled Release{/t}:</b> {include file="help_link.tpl.html" topic="report_release"}
           </td>
           <td bgcolor="{$light_color}">
             {if $new_issue_id == ''}
                 {assign var='selected_release' value=$smarty.post.release}
             {/if}
             <select name="release" class="default" tabindex="{$tabindex++}">
-              <option value="0">un-scheduled</option>
+              <option value="0">{t}un-scheduled{/t}</option>
               {html_options options=$releases selected=$selected_release}
             </select>
           </td>
@@ -284,7 +283,7 @@ function validateForm(f)
         {/if}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>Summary: *</b> {include file="help_link.tpl.html" topic="report_summary"}
+            <b>{t}Summary{/t}: *</b> {include file="help_link.tpl.html" topic="report_summary"}
           </td>
           <td bgcolor="{$light_color}">
             {if $new_issue_id != ''}
@@ -298,7 +297,7 @@ function validateForm(f)
         </tr>
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>Initial Description: *</b> {include file="help_link.tpl.html" topic="report_description"}
+            <b>{t}Initial Description{/t}: *</b> {include file="help_link.tpl.html" topic="report_description"}
           </td>
           <td bgcolor="{$light_color}">
             {if $new_issue_id != ''}
@@ -313,7 +312,7 @@ function validateForm(f)
         {if $current_role >= $field_display_settings.estimated_dev_time}
         <tr>
           <td width="150" bgcolor="{if $field_display_settings.estimated_dev_time > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
-            <nobr><b>Estimated Dev. Time:</b> {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
+            <nobr><b>{t}Estimated Dev. Time{/t}:</b> {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
           </td>
           <td bgcolor="{$light_color}">
             {if $new_issue_id == ''}
@@ -327,7 +326,7 @@ function validateForm(f)
         {if $current_role >= $field_display_settings.private}
         <tr>
           <td width="150" bgcolor="{if $field_display_settings.private > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
-            <nobr><b>Private:</b> &nbsp;</nobr>
+            <nobr><b>{t}Private{/t}:</b> &nbsp;</nobr>
           </td>
           <td bgcolor="{$light_color}" class="default">
             <input type="radio" name="private" value="1" {if $smarty.post.private}checked{/if} tabindex="{$tabindex++}">
@@ -348,12 +347,12 @@ function validateForm(f)
         {if $current_role >= $field_display_settings.file}
         <tr>
           <td colspan="2" class="default">
-            <b>Add Files</b>
+            <b>{t}Add Files{/t}</b>
           </td>
         </tr>
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
-            <b>Files:</b>
+            <b>{t}Files{/t}:</b>
           </td>
           <td bgcolor="{$light_color}">
             <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
@@ -363,7 +362,7 @@ function validateForm(f)
                 </td>
               </tr>
             </table>
-            <span class="small_default"><i>Note: The current maximum allowed upload file size is {$max_attachment_size}</i></span>
+            <span class="small_default"><i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i></span>
           </td>
         </tr>
         {/if}
@@ -377,8 +376,8 @@ function validateForm(f)
                   </nobr>
                 </td>
                 <td width="40%" align="center">
-                  <input name="main_submit_button" class="button" type="submit" value="Submit" tabindex="{$tabindex++}">&nbsp;&nbsp;
-                  <input class="button" type="reset" value="Reset" tabindex="{$tabindex++}">
+                  <input name="main_submit_button" class="button" type="submit" value="{t}Submit{/t}" tabindex="{$tabindex++}">&nbsp;&nbsp;
+                  <input class="button" type="reset" value="{t}Reset{/t}" tabindex="{$tabindex++}">
                 </td>
                 <td width="30%" nowrap class="default_white">
                   &nbsp;
@@ -389,7 +388,7 @@ function validateForm(f)
         </tr>
         <tr>
           <td colspan="2" class="default">
-            <b>* Required fields</b>
+            <b>* {t}Required fields{/t}</b>
           </td>
         </tr>
       </table>
