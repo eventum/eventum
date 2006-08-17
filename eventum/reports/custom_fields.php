@@ -56,7 +56,7 @@ if (is_array($fields) && count($fields) > 0) {
         $options[$field["fld_id"]] = Custom_Field::getOptions($field["fld_id"]);
     }
 } else {
-    echo "No custom fields for this project";
+    echo gettext("No custom fields for this project");
     exit;
 }
 

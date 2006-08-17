@@ -178,7 +178,7 @@ function disableFields()
                 {if $current_role != $roles.customer}
                 <td align="right" class="default" nowrap>
                   {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
-                  hide/show:
+                  {t}hide/show{/t}:
                   [ <a class="link" title="{t}hide / show the quick search form{/t}" href="javascript:void(null);" onClick="javascript:toggleVisibility('filter_form');">{t}quick search{/t}</a> ]
                   {if $current_role > $roles.reporter}[ <a class="link" title="{t}hide / show the advanced search form{/t}" href="javascript:void(null);" onClick="javascript:toggleVisibility('custom_filter_form');">{t}advanced search{/t}</a> ]{/if}
                   {if $current_role > $roles.reporter}[ <a class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('current_filters');"> {t}current filters{/t}</a> ]{/if}

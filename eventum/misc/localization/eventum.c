@@ -407,6 +407,9 @@ gettext("An error was found while trying to change your account clocked-in statu
 gettext("Please select the custom filter to search against.");
 
 /* /work/eventum/templates/quick_filter_form.tpl.html */
+gettext("Keyword(s)");
+
+/* /work/eventum/templates/quick_filter_form.tpl.html */
 gettext("Customer Identity (i.e. \"Example Inc.\", \"johndoe@example.com\", 12345)");
 
 /* /work/eventum/templates/quick_filter_form.tpl.html */
@@ -422,13 +425,22 @@ gettext("Clear Filters");
 gettext("Assigned");
 
 /* /work/eventum/templates/quick_filter_form.tpl.html */
+gettext("Category");
+
+/* /work/eventum/templates/quick_filter_form.tpl.html */
 gettext("any");
 
 /* /work/eventum/templates/quick_filter_form.tpl.html */
 gettext("Priority");
 
 /* /work/eventum/templates/quick_filter_form.tpl.html */
+gettext("any");
+
+/* /work/eventum/templates/quick_filter_form.tpl.html */
 gettext("Status");
+
+/* /work/eventum/templates/quick_filter_form.tpl.html */
+gettext("any");
 
 /* /work/eventum/templates/quick_filter_form.tpl.html */
 gettext("quick search bar");
@@ -629,6 +641,12 @@ gettext("Showing all open issues older than ");
 gettext("days");
 
 /* /work/eventum/templates/reports/open_issues.tpl.html */
+gettext("Number of Days");
+
+/* /work/eventum/templates/reports/open_issues.tpl.html */
+gettext("Submit");
+
+/* /work/eventum/templates/reports/open_issues.tpl.html */
 gettext("Issue ID");
 
 /* /work/eventum/templates/reports/open_issues.tpl.html */
@@ -713,6 +731,9 @@ gettext("Created");
 gettext("Workload by Date Range Report");
 
 /* /work/eventum/templates/reports/workload_date_range.tpl.html */
+gettext("Type");
+
+/* /work/eventum/templates/reports/workload_date_range.tpl.html */
 gettext("Interval");
 
 /* /work/eventum/templates/reports/workload_date_range.tpl.html */
@@ -728,7 +749,7 @@ gettext("Generate");
 gettext(" Warning: Some type and interval options, combined with large <br />\n    date ranges can produce extremely large graphs.");
 
 /* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Day'");
+gettext("Day");
 
 /* /work/eventum/templates/reports/workload_date_range.tpl.html */
 gettext("day");
@@ -776,6 +797,33 @@ gettext("Avg/Med/Max Issues/Emails");
 gettext("The current project does not have customer integration so this report can not be viewed.");
 
 /* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Customer Stats Report");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Date Range");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Sections to Display");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("From");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("year");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("mon");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("day");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("To");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Options");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
 gettext("Include expired contracts");
 
 /* /work/eventum/templates/reports/customer_stats.tpl.html */
@@ -783,6 +831,12 @@ gettext("Customer");
 
 /* /work/eventum/templates/reports/customer_stats.tpl.html */
 gettext("All");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Generate");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Feedback");
 
 /* /work/eventum/templates/reports/customer_stats.tpl.html */
 gettext("Red values indicate value is higher than the aggregate one.");
@@ -801,6 +855,105 @@ gettext("Emails by Customers");
 
 /* /work/eventum/templates/reports/customer_stats.tpl.html */
 gettext("Emails by Staff");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Count");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Using CSC");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Issues in CSC");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Tot");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Max");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Tot");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Tot");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Time To First Response");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Time To Close");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Min");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Max");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Min");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Max");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Support Level");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Time Tracking");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Total");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Refers to the number of issues in eventum for the given support level or customer.\n    Average and median counts do not include customers who have never opened an issue.");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Refers to the number of emails sent by customers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Refers to the number of emails sent by developers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("Date issue was opened - Date issue was closed for all closed issues.");
+
+/* /work/eventum/templates/reports/customer_stats.tpl.html */
+gettext("All time tracking information for the given support level or customer. Issues without any time tracking data do not affect the average or median.");
 
 /* /work/eventum/templates/reports/recent_activity.tpl.html */
 gettext("Recent Activity");
@@ -1641,6 +1794,9 @@ gettext("issues found");
 
 /* /work/eventum/templates/list.tpl.html */
 gettext("shown");
+
+/* /work/eventum/templates/list.tpl.html */
+gettext("hide/show");
 
 /* /work/eventum/templates/list.tpl.html */
 gettext("hide / show the quick search form");
