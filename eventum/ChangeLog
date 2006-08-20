@@ -33,6 +33,7 @@ Eventum Issue Tracking System
 - Added workflow method to be called before email is downloaded (Bryan)
 - Added "Open Issues By Reporter" report (Bryan)
 - Fixed bug with UTF8 characters on graphs (Bryan)
+- Send emails with charset specified in config (Bug #17267) (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

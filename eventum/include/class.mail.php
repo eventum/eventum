@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 
@@ -40,7 +40,7 @@ include_once(APP_INC_PATH . "class.reminder.php");
  * different platforms.
  *
  * @version 1.0
- * @author Jo„o Prado Maia <jpm@mysql.com>
+ * @author Jo√£o Prado Maia <jpm@mysql.com>
  */
 
 class Mail_API
@@ -560,7 +560,7 @@ class Mail_API
         $to = MIME_Helper::encodeAddress($to);
         $subject = MIME_Helper::encode($subject);
 
-        $body = $this->mime->get();
+        $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET));
         $headers = array(
             'From'    => $from,
             'To'      => Mail_API::fixAddressQuoting($to),
@@ -601,7 +601,7 @@ class Mail_API
         $to = MIME_Helper::encodeAddress($to);
         $subject = MIME_Helper::encode($subject);
 
-        $body = $this->mime->get();
+        $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET));
         $this->setHeaders(array(
             'From'    => $from,
             'To'      => $to,
