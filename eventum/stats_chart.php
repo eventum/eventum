@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 // @(#) $Id: s.stats_chart.php 1.11 03/10/01 17:20:27-00:00 jpradomaia $
@@ -71,7 +71,7 @@ if ($HTTP_GET_VARS["plot"] == "status") {
     $data = Stats::getAssocCategory();
     $graph_title = "Issues by Category";
 }
-$labels = array_keys($data);
+$labels = array_map('utf8_decode', array_keys($data));
 $data = array_values($data);
 
 // check the values coming from the database and if they are all empty, then
