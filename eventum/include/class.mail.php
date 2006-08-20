@@ -560,7 +560,7 @@ class Mail_API
         $to = MIME_Helper::encodeAddress($to);
         $subject = MIME_Helper::encode($subject);
 
-        $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET));
+        $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
         $headers = array(
             'From'    => $from,
             'To'      => Mail_API::fixAddressQuoting($to),
@@ -601,7 +601,7 @@ class Mail_API
         $to = MIME_Helper::encodeAddress($to);
         $subject = MIME_Helper::encode($subject);
 
-        $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET));
+        $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
         $this->setHeaders(array(
             'From'    => $from,
             'To'      => $to,
