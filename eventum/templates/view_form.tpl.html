@@ -339,7 +339,7 @@ function collapseDescription()
             <b>{t}Reporter{/t}:</b>
           </td>
           <td width="50%" {if $current_role <= $roles.customer}colspan="3" {/if}bgcolor="{$light_color}" class="default">
-            {$issue.reporter}
+            <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1" class="link">{$issue.reporter}</a>
           </td>
           {if $current_role > $roles.customer}
           <td width="150" bgcolor="{$internal_color}" class="default_white">
