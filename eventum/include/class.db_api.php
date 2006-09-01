@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 // @(#) $Id: s.class.db_api.php 1.19 04/01/19 15:19:26-00:00 jpradomaia $
@@ -38,7 +38,7 @@ include_once(APP_INC_PATH . "class.error_handler.php");
  * useful to mantain a data dictionary of the current database schema tables.
  *
  * @version 1.0
- * @author Jo„o Prado Maia <jpm@mysql.com>
+ * @author Jo√£o Prado Maia <jpm@mysql.com>
  */
 
 class DB_API

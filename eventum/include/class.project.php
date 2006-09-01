@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 // @(#) $Id: s.class.project.php 1.36 04/01/07 20:59:37-00:00 jpradomaia $
@@ -46,7 +46,7 @@ include_once(APP_INC_PATH . "class.display_column.php");
  * of projects in the system.
  *
  * @version 1.0
- * @author Jo„o Prado Maia <jpm@mysql.com>
+ * @author Jo√£o Prado Maia <jpm@mysql.com>
  */
 
 class Project

@@ -22,10 +22,8 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id$
 //
 
 include_once(APP_INC_PATH . "class.email_account.php");
@@ -139,7 +137,7 @@ class Draft
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $emd_id = Misc::escapeInteger($emd_id);
-        $parent_id = Misc::escapeInteger($issue_id);
+        $parent_id = Misc::escapeInteger($parent_id);
         if (empty($parent_id)) {
             $parent_id = 'NULL';
         }

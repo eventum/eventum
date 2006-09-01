@@ -121,7 +121,7 @@ class Date
         $this->tz = Date_TimeZone::getDefault();
         if (is_null($date)) {
             $this->setDate(date("Y-m-d H:i:s"));
-        } elseif (is_object($date) && 
+        } elseif (is_object($date) &&
             ((get_class($date) == 'date') ||
             (is_subclass_of($date,'date')))
         ) {
@@ -429,9 +429,9 @@ class Date
      * convertTZ().
      *
      * @access public
-     * @param object Date_TimeZone $tz the Date_TimeZone object to use, if called 
+     * @param object Date_TimeZone $tz the Date_TimeZone object to use, if called
      * with a paramater that is not a Date_TimeZone object, will fall through to
-     * setTZbyID(). 
+     * setTZbyID().
      */
     function setTZ($tz)
     {

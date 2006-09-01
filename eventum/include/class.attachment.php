@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 
@@ -41,7 +41,7 @@ include_once(APP_INC_PATH . "class.workflow.php");
  * Class designed to handle all business logic related to attachments being
  * uploaded to issues in the application.
  *
- * @author  Jo„o Prado Maia <jpm@mysql.com>
+ * @author  Jo√£o Prado Maia <jpm@mysql.com>
  */
 class Attachment
 {
@@ -583,7 +583,7 @@ class Attachment
      */
     function nameToSafe($name, $maxlen = 250)
     {
-        $noalpha = '·ÈÌÛ˙‡ËÏÚ˘‰ÎÔˆ¸¡…Õ”⁄¿»Ã“ŸƒÀœ÷‹‚ÍÓÙ˚¬ Œ‘€ÒÁ«@';
+        $noalpha = '√°√©√≠√≥√∫√†√®√¨√≤√π√§√´√Ø√∂√º√Å√â√ç√ì√ö√Ä√à√å√í√ô√Ñ√ã√è√ñ√ú√¢√™√Æ√¥√ª√Ç√ä√é√î√õ√±√ß√á@';
         $alpha = 'aeiouaeiouaeiouAEIOUAEIOUAEIOUaeiouAEIOUncCa';
         $name = substr($name, 0, $maxlen);
         $name = strtr($name, $noalpha, $alpha);

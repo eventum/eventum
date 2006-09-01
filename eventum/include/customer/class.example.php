@@ -32,10 +32,10 @@ include_once(APP_INC_PATH . "class.date.php");
 /**
  * Example customer backend. This does not cover all functionality, but should provide an idea
  * on how to implement a backend.
- * 
+ *
  * @author Bryan Alsdorf <bryan@mysql.com>
  */
-class Example_Customer_Backend extends Abstract_Customer_Backend 
+class Example_Customer_Backend extends Abstract_Customer_Backend
 {
     // array of customer data used for this example
     var $data;
@@ -50,7 +50,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                 "customer_id"     => 1,
                 "customer_name"   => "Bryan's widget factory",
                 "start_date"      => '2004-03-10',
-                "expiration_date" => '2005-03-10',
+                "expiration_date" => '2007-03-10',
                 "contacts" => array(
                     array(
                         'contact_id' => 87,
@@ -131,7 +131,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
     /**
      * Returns true if the backend uses support levels, false otherwise
-     * 
+     *
      * @access  public
      * @return  boolean True if the project uses support levels.
      */
@@ -143,7 +143,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
 
     /**
-     * Returns the contract status associated with the given customer ID. 
+     * Returns the contract status associated with the given customer ID.
      * Possible return values are 'active', 'in_grace_period' and 'expired'.
      *
      * @access  public
@@ -203,13 +203,13 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
 
     // PLEASE NOTE:
-    // This example does not implement per-incident 
+    // This example does not implement per-incident
     // support so those methods will not be included here
 
 
     /**
      * Returns a list of customers (companies) in the customer database.
-     * 
+     *
      * @access  public
      * @return  array An associated array of customers.
      */
@@ -257,7 +257,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
 
     /**
-     * Method used to get the list of email addresses associated with the 
+     * Method used to get the list of email addresses associated with the
      * contacts of a given customer.
      *
      * @access  public
@@ -287,7 +287,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         $assoc = array();
         foreach ($this->data as $company_id => $details) {
             foreach ($details['contacts'] as $contact) {
-                // in a perfect world you would want to do partial searches 
+                // in a perfect world you would want to do partial searches
                 // here, but as an example in_array() will do
                 if (in_array($contact["email"], $emails)) {
                     return array($company_id, $contact['contact_id']);
@@ -346,7 +346,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
             }
         }
 
-        // get the list of distinct persons from the notification 
+        // get the list of distinct persons from the notification
         // list, phone support and notes tables
         $stmt = "SELECT
                     iss_id,
@@ -520,7 +520,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                 $ids[] = $customer['customer_id'];
                 continue;
             }
-            
+
             foreach ($customer['contacts'] as $contact) {
                 if (stristr($contact['email'], $email) !== false) {
                     $ids[] = $customer['customer_id'];
@@ -532,8 +532,8 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
 
     /**
-     * Performs a customer lookup and returns the matches, if 
-     * appropriate. 
+     * Performs a customer lookup and returns the matches, if
+     * appropriate.
      *
      * @access  public
      * @param   string $field The field that we are trying to search against
@@ -595,7 +595,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
 
     /**
-     * Returns the support level of the current support contract for a given 
+     * Returns the support level of the current support contract for a given
      * customer ID.
      *
      * @access  public
@@ -633,7 +633,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
     /**
      * Returns an array of support levels grouped together.
-     * 
+     *
      * @access  public
      * @return  array an array of support levels.
      */
@@ -753,7 +753,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
 
     /**
-     * Returns the end date of the current support contract for a given 
+     * Returns the end date of the current support contract for a given
      * customer ID.
      *
      * @access  public
@@ -780,7 +780,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
 
     /**
-     * Returns the start date of the current support contract for a given 
+     * Returns the start date of the current support contract for a given
      * customer ID.
      *
      * @access  public
@@ -895,7 +895,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
     /**
      * Method used to send an email notification to the sender of a
-     * set of email messages that were manually converted into an 
+     * set of email messages that were manually converted into an
      * issue.
      *
      * @access  public
@@ -925,7 +925,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     {
         // send a notification email to your customer here
     }
-    
+
 
     /**
      * Method used to get the contract details for a given customer contact.
@@ -939,7 +939,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         $contact = $this->getContactDetails($contact_id);
         $customer = $this->getDetails($contact['customer_id']);
         $support_levels = $this->getSupportLevelAssocList();
-        
+
         return array(
             'contact_name'    => $contact['first_name'] . ' ' . $contact['last_name'],
             'company_name'    => $customer['customer_name'],
@@ -948,6 +948,6 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
             'expiration_date' => $customer['expiration_date']
         );
     }
-    
+
 }
 ?>

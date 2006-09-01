@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 // @(#) $Id: s.class.pager.php 1.7 03/12/31 17:29:01-00:00 jpradomaia $
@@ -34,7 +34,7 @@ include_once(APP_INC_PATH . "class.error_handler.php");
  * Class to manage paginated links on the frontend pages.
  *
  * @version 1.0
- * @author Jo„o Prado Maia <jpm@mysql.com>
+ * @author Jo√£o Prado Maia <jpm@mysql.com>
  */
 
 class Pager
@@ -123,17 +123,10 @@ class Pager
             return array();
         }
         if ($link_str == -1) {
-            if (APP_CURRENT_LANG == "br") {
-                $link_str = array(
-                    "previous" => "&lt;&lt; Anterior",
-                    "next"     => "PrÛxima &gt;&gt;"
-                );
-            } else {
-                $link_str = array(
-                    "previous" => "&lt;&lt; Previous",
-                    "next"     => "Next &gt;&gt;"
-                );
-            }
+            $link_str = array(
+                "previous" => "&lt;&lt; Previous",
+                "next"     => "Next &gt;&gt;"
+            );
         }
         $extra_vars = Pager::_buildQueryString();
         $file = $HTTP_SERVER_VARS["SCRIPT_NAME"];

@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 // @(#) $Id: s.xmlrpc_client.php 1.3 03/01/16 01:47:32-00:00 jpm $
@@ -40,7 +40,7 @@ $client->setDebug(true);
 $params = array(
     new XML_RPC_Value(5, "int"),
     new XML_RPC_Value("Testando pelo XML-RPC", "string"),
-    new XML_RPC_Value("descriÁ„o iria aqui", "string")
+    new XML_RPC_Value("descri√ß√£o iria aqui", "string")
 );
 $msg = new XML_RPC_Message("addIssue", $params);
 $result = $client->send($msg);

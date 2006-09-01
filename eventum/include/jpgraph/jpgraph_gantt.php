@@ -64,7 +64,7 @@ class DateLocale {
 	array("M","T","O","T","F","L","S"));			// Swedish locale
     var $iShortDay = array(
 	array("Mon","Tue","Wed","Thu","Fri","Sat","Sun"),
-	array("Mån","Tis","Ons","Tor","Fre","Lör","Sön"));
+	array("MÃ¥n","Tis","Ons","Tor","Fre","LÃ¶r","SÃ¶n"));
     var $iShortMonth = array(
 	array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"),
 	array("Jan","Feb","Mar","Apr","Maj","Jun","Jul","Aug","Sep","Okt","Nov","Dec"));

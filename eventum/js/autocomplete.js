@@ -1,7 +1,7 @@
 // Author: Matt Kruse <matt@mattkruse.com>
 // WWW: http://www.mattkruse.com/
 //
-// Modified by Jo„o Prado Maia <jpm@mysql.com>
+// Modified by Jo√£o Prado Maia <jpm@mysql.com>
 
 function autoComplete(field, options)
 {
