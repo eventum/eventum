@@ -36,6 +36,7 @@ Eventum Issue Tracking System
 - Send emails with charset specified in config (Bug #17267) (Bryan)
 - Added link from reporter to show all issues reported by that user (Bryan)
 - Correctly show changes to issue private status in history (Bryan)
+- Set last response date if sending an email from a user with a role of Standard User or above (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
