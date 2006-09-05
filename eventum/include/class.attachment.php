@@ -576,14 +576,18 @@ class Attachment
     /**
      * Method used to replace unsafe characters by safe characters.
      *
+     * Side-effects: if $name is not in ISO8859-1 encoding, not very logical
+     * replacements are done. Eventually the non-ASCII characters are stripped.
+     *
      * @access  public
-     * @param   string $name The name of the file to be checked
+     * @param   string $name The name of the file to be checked. In ISO8859-1 encoding.
      * @param   integer $maxlen The maximum length of the filename
-     * @return  string The 'safe' version of the filename
+     * @return  string The 'safe' version of the filename. Always in US-ASCII encoding.
      */
     function nameToSafe($name, $maxlen = 250)
     {
-        $noalpha = 'áéíóúàèìòùäëïöüÁÉÍÓÚÀÈÌÒÙÄËÏÖÜâêîôûÂÊÎÔÛñçÇ@';
+        // using hex bytes as these need to be *bytes*, not dependant on sourcefile encoding.
+        $noalpha = "\xe1\xe9\xed\xf3\xfa\xe0\xe8\xec\xf2\xf9\xe4\xeb\xef\xf6\xfc\xc1\xc9\xcd\xd3\xda\xc0\xc8\xcc\xd2\xd9\xc4\xcb\xcf\xd6\xdc\xe2\xea\xee\xf4\xfb\xc2\xca\xce\xd4\xdb\xf1\xe7\xc7\x40";
         $alpha = 'aeiouaeiouaeiouAEIOUAEIOUAEIOUaeiouAEIOUncCa';
         $name = substr($name, 0, $maxlen);
         $name = strtr($name, $noalpha, $alpha);
