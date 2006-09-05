@@ -699,6 +699,23 @@ class Misc
         }
         return $values;
     }
+
+
+    /**
+     * Changes a boolean value to either "Yes" or "No".
+     *
+     * @access  public
+     * @param   boolean $value The boolean value
+     * @return  string Either 'Yes' or 'No'.
+     */
+    function getBooleanDisplayValue($value)
+    {
+        if ($value == true) {
+            return gettext('Yes');
+        } else {
+            return gettext('No');
+        }
+    }
 }
 
 // benchmarking the included file (aka setup time)
