@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 
@@ -58,7 +58,7 @@ include_once(APP_INC_PATH . "class.session.php");
  * Class designed to handle all business logic related to the issues in the
  * system, such as adding or updating them or listing them in the grid mode.
  *
- * @author  Jo„o Prado Maia <jpm@mysql.com>
+ * @author  Jo√£o Prado Maia <jpm@mysql.com>
  * @version $Revision: 1.114 $
  */
 
@@ -755,6 +755,25 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
+            // update last response dates if this is a staff response
+            if ($type == "staff response") {
+                $stmt = "UPDATE
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         SET
+                            iss_last_response_date='" . Date_API::getCurrentDateGMT() . "'
+                         WHERE
+                            iss_id = " . Misc::escapeInteger($issue_id);
+                $GLOBALS["db_api"]->dbh->query($stmt);
+                $stmt = "UPDATE
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         SET
+                            iss_first_response_date='" . Date_API::getCurrentDateGMT() . "'
+                         WHERE
+                            iss_first_response_date IS NULL AND
+                            iss_id = " . Misc::escapeInteger($issue_id);
+                $GLOBALS["db_api"]->dbh->query($stmt);
+            }
+
             return true;
         }
     }
@@ -1468,6 +1487,9 @@ class Issue
             if ($current["iss_description"] != $HTTP_POST_VARS["description"]) {
                 $updated_fields["Description"] = '';
             }
+            if ((isset($HTTP_POST_VARS['private'])) && ($HTTP_POST_VARS['private'] != $current['iss_private'])) {
+                $updated_fields["Private"] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($HTTP_POST_VARS['private']));
+            }
             if (count($updated_fields) > 0) {
                 // log the changes
                 $changes = '';
@@ -1489,7 +1511,7 @@ class Issue
             }
 
             // record group change as a seperate change
-            if ($current["iss_grp_id"] != $HTTP_POST_VARS["group"]) {
+            if ($current["iss_grp_id"] != (int)$HTTP_POST_VARS["group"]) {
                 History::add($issue_id, $usr_id, History::getTypeID('group_changed'),
                     "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($HTTP_POST_VARS["group"])) . ") by " . User::getFullName($usr_id));
             }

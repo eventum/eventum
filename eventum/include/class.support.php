@@ -22,7 +22,7 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 
@@ -46,7 +46,7 @@ include_once(APP_INC_PATH . "class.routing.php");
  * the application.
  *
  * @version 1.0
- * @author Jo„o Prado Maia <jpm@mysql.com>
+ * @author Jo√£o Prado Maia <jpm@mysql.com>
  */
 
 class Support
@@ -2092,26 +2092,6 @@ class Support
             // save a history entry for this
             History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'),
                             'Outgoing email sent by ' . User::getFullName(Auth::getUserID()));
-
-            // also update the last_response_date field for the associated issue
-            if (Auth::getCurrentRole() > User::getRoleID('Customer')) {
-                $stmt = "UPDATE
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                         SET
-                            iss_last_response_date='" . Date_API::getCurrentDateGMT() . "'
-                         WHERE
-                            iss_id=" . Misc::escapeInteger($HTTP_POST_VARS["issue_id"]);
-                $GLOBALS["db_api"]->dbh->query($stmt);
-
-                $stmt = "UPDATE
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                         SET
-                            iss_first_response_date='" . Date_API::getCurrentDateGMT() . "'
-                         WHERE
-                            iss_first_response_date IS NULL AND
-                            iss_id=" . Misc::escapeInteger($HTTP_POST_VARS["issue_id"]);
-                $GLOBALS["db_api"]->dbh->query($stmt);
-            }
         }
 
         return 1;
