@@ -156,7 +156,8 @@ class Report
         $prj_id = Misc::escapeInteger($prj_id);
         $cutoff_days = Misc::escapeInteger($cutoff_days);
         $ts = Date_API::getCurrentUnixTimestampGMT();
-        $cutoff_ts = $ts - ($cutoff_days * DAY);
+        $ts_diff = $cutoff_days * DAY;
+
 
         $stmt = "SELECT
                     assignee.usr_full_name as assignee_name,
@@ -186,7 +187,7 @@ class Report
                     iss_id=isu_iss_id AND
                     isu_usr_id=assignee.usr_id AND
                     iss_usr_id=reporter.usr_id AND
-                    UNIX_TIMESTAMP(iss_created_date) < $cutoff_ts
+                    UNIX_TIMESTAMP(iss_created_date) < ($now + $ts_diff)
                  ORDER BY\n";
         if ($group_by_reporter) {
             $stmt .= "reporter.usr_full_name";

@@ -45,7 +45,7 @@ if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
 
 $prj_id = Auth::getCurrentProject();
 
-if (empty($HTTP_GET_VARS['cutoff_days'])) {
+if (!isset($HTTP_GET_VARS['cutoff_days'])) {
     $cutoff_days = 7;
 } else {
     $cutoff_days = $HTTP_GET_VARS['cutoff_days'];
