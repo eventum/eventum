@@ -187,7 +187,7 @@ class Report
                     iss_id=isu_iss_id AND
                     isu_usr_id=assignee.usr_id AND
                     iss_usr_id=reporter.usr_id AND
-                    UNIX_TIMESTAMP(iss_created_date) < (now() + $ts_diff)
+                    UNIX_TIMESTAMP(iss_created_date) < (UNIX_TIMESTAMP() - $ts_diff)
                  ORDER BY\n";
         if ($group_by_reporter) {
             $stmt .= "reporter.usr_full_name";
