@@ -15,11 +15,6 @@ function validateForm(f)
         alert('{/literal}{t}Please enter the relative URL of this installation of Eventum.{/t}{literal}');
         return false;
     }
-    if (isWhitespace(f.path.value)) {
-        selectField(f, 'path');
-        alert('{/literal}{t}Please enter the full path in the server of this installation of Eventum.{/t}{literal}');
-        return false;
-    }
     if (isWhitespace(f.db_hostname.value)) {
         selectField(f, 'db_hostname');
         alert('{/literal}{t}Please enter the database hostname for this installation of Eventum.{/t}{literal}');
@@ -181,18 +176,6 @@ function disableAuthFields(f, bool)
 </table>
 {else}
 <br />
-{if $phpversion >= 5}
-<table align="center" width="600" bgcolor="red">
-<tr>
-<td align="center" class="default" bgcolor="white">
-<span style="font-weight: bold; font-size: 160%; color: red;">{t}Warning!{/t}</span><br />{t 1=$phpversion}You are running PHP version %1.
-While all effort has been made to ensure eventum works correctly with
-PHP 5 and greater, it has not been thoroughly tested and may not work properly.{/t}
-{t}Please report any problems you find to eventum-users@lists.mysql.com.{/t}
-</td></tr>
-</table>
-<br />
-{/if}
 <table width="600" bgcolor="#000000" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="install_form" action="{$smarty.server.PHP_SELF}" method="post" onSubmit="javascript:return validateForm(this);">
 <input type="hidden" name="cat" value="install">
@@ -223,15 +206,6 @@ PHP 5 and greater, it has not been thoroughly tested and may not work properly.{
           <td>
             <input type="text" name="relative_url" value="{$smarty.post.rel_url|default:$rel_url}" class="default" size="30" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="relative_url"}
-          </td>
-        </tr>
-        <tr>
-          <td width="180" class="default" align="right">
-            <b>{t}Installation Path:{/t} *</b>
-          </td>
-          <td>
-            <input type="text" name="path" value="{$smarty.post.path|default:$installation_path}" class="default" size="50" tabindex="{$tabindex}">
-            {include file="error_icon.tpl.html" field="path"}
           </td>
         </tr>
         <tr>
