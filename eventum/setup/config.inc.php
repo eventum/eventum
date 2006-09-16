@@ -47,11 +47,7 @@ if (!function_exists('is_a')) {
 }
 
 // definitions of path related variables
-$app_path = '%{APP_PATH}%';
-if ((substr($app_path, -1) != '/') && (substr($app_path, -2) != '\\')) {
-    $app_path .= '/';
-}
-@define("APP_PATH", $app_path);
+@define("APP_PATH", dirname(__FILE__) . '/');
 @define("APP_INC_PATH", APP_PATH . "include/");
 @define("APP_PEAR_PATH", APP_INC_PATH . "pear/");
 @define("APP_TPL_PATH", APP_PATH . "templates/");
