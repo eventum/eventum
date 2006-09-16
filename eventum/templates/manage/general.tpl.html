@@ -305,11 +305,12 @@
                   <table>
                     <tr>
                       <td width="100" class="default" align="right">
-                        {t}Sender:{/t}&nbsp;
+                        {t}Sender Email{/t}:&nbsp;
                       </td>
                       <td width="80%">
                         <input type="text" class="default" name="smtp[from]" size="30" value="{$setup.smtp.from|escape:"html"}">
                         {include file="error_icon.tpl.html" field="smtp[from]"}
+                        <span class="small_default">{t}(This MUST contain a real email address, i.e. "eventum@example.com" or "Eventum <eventum@example.com>"){/t}</span>
                       </td>
                     </tr>
                     <tr>
