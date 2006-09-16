@@ -587,89 +587,89 @@ class Filter
         //      "param" => name that appears in get, post or cookie
         $fields = array(
             'iss_pri_id'    =>  array(
-                'title' =>  'Priority',
+                'title' =>  gettext("Priority"),
                 'param' =>  'priority',
                 'quickfilter'   =>  true
             ),
             'keywords'  =>  array(
-                'title' =>  'Keyword(s)',
+                'title' =>  gettext("Keyword(s)"),
                 'param' =>  'keywords',
                 'quickfilter'   =>  true
             ),
             'users' =>  array(
-                'title' =>  'Assigned',
+                'title' =>  gettext("Assigned"),
                 'param' =>  'users',
                 'quickfilter'   =>  true
             ),
             'iss_prc_id'    =>  array(
-                'title' =>  'Category',
+                'title' =>  gettext("Category"),
                 'param' =>  'category',
                 'quickfilter'   =>  true
             ),
             'iss_sta_id'    =>  array(
-                'title' =>  'Status',
+                'title' =>  gettext("Status"),
                 'param' =>  'status',
                 'quickfilter'   =>  true
             ),
             'iss_pre_id'    =>  array(
-                'title' =>  'Release',
+                'title' =>  gettext("Release"),
                 'param' =>  'release'
             ),
             'created_date'  =>  array(
-                'title' =>  'Created Date',
+                'title' =>  gettext("Created Date"),
                 'param' =>  'created_date',
                 'is_date'   =>  true
             ),
             'updated_date'  =>  array(
-                'title' =>  'Updated Date',
+                'title' =>  gettext("Updated Date"),
                 'param' =>  'updated_date',
                 'is_date'   =>  true
             ),
             'last_response_date'  =>  array(
-                'title' =>  'Last Response Date',
+                'title' =>  gettext("Last Response Date"),
                 'param' =>  'last_response_date',
                 'is_date'   =>  true
             ),
             'first_response_date'  =>  array(
-                'title' =>  'First Response Date',
+                'title' =>  gettext("First Response Date"),
                 'param' =>  'first_response_date',
                 'is_date'   =>  true
             ),
             'closed_date'  =>  array(
-                'title' =>  'Closed Date',
+                'title' =>  gettext("Closed Date"),
                 'param' =>  'closed_date',
                 'is_date'   =>  true
             ),
             'rows'  =>  array(
-                'title' =>  'Rows Per Page',
+                'title' =>  gettext("Rows Per Page"),
                 'param' =>  'rows'
             ),
             'sort_by'   =>  array(
-                'title' =>  'Sort By',
+                'title' =>  gettext("Sort By"),
                 'param' =>  'sort_by'
             ),
             'sort_order'    =>  array(
-                'title' =>  'Sort Order',
+                'title' =>  gettext("Sort Order"),
                 'param' =>  'sort_order',
             ),
             'hide_closed'   =>  array(
-                'title' =>  'Hide Closed Issues',
+                'title' =>  gettext("Hide Closed Issues"),
                 'param' =>  'hide_closed'
             ),
             'show_authorized'   =>  array(
-                'title' =>  'Authorized to Send Emails',
+                'title' =>  gettext("Authorized to Send Emails"),
                 'param' =>  'show_authorized_issues'
             ),
             'show_notification_list'    =>  array(
-                'title' =>  'In Notification List',
+                'title' =>  gettext("In Notification List"),
                 'param' =>  'show_notification_list_issues'
             ),
             'search_type'   =>  array(
-                'title' =>  'Search Type',
+                'title' =>  gettext("Search Type"),
                 'param' =>  'search_type'
             ),
             'reporter'  =>  array(
-                'title' =>  'Reporter',
+                'title' =>  gettext("Reporter"),
                 'param' =>  'reporter'
             )
         );

@@ -69,7 +69,21 @@ class Language
         bindtextdomain("eventum", APP_PATH . "misc/localization/");
         bind_textdomain_codeset("eventum", APP_CHARSET);
         textdomain("eventum");
+
+
+        ini_set('mbstring.internal_encoding', 'UTF8');
     }
+}
+
+
+// helper function to help with translating strings with variables in them
+function ev_gettext($string)
+{
+    $arg = array();
+   for($i = 1 ; $i < func_num_args(); $i++)
+       $arg[] = func_get_arg($i);
+
+   return vsprintf(gettext($string), $arg);
 }
 
 // benchmarking the included file (aka setup time)

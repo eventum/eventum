@@ -124,8 +124,8 @@ class Pager
         }
         if ($link_str == -1) {
             $link_str = array(
-                "previous" => "&lt;&lt; Previous",
-                "next"     => "Next &gt;&gt;"
+                "previous" => "&lt;&lt; " . gettext("Previous"),
+                "next"     => gettext("Next") . " &gt;&gt;"
             );
         }
         $extra_vars = Pager::_buildQueryString();

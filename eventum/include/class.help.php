@@ -32,103 +32,103 @@ include_once(APP_INC_PATH . "class.error_handler.php");
 
 $topics = array(
     "main" => array(
-        "title"  => "Help Topics",
+        "title"  => gettext("Help Topics"),
         "parent" => ""
     ),
     "report" => array(
-        "title"  => "Reporting Issues",
+        "title"  => gettext("Reporting Issues"),
         "parent" => "main"
     ),
     "report_category" => array(
-        "title"  => "Category Field",
+        "title"  => gettext("Category Field"),
         "parent" => "report"
     ),
     "report_priority" => array(
-        "title"  => "Priority Field",
+        "title"  => gettext("Priority Field"),
         "parent" => "report"
     ),
     "report_assignment" => array(
-        "title"  => "Assignment Field",
+        "title"  => gettext("Assignment Field"),
         "parent" => "report"
     ),
     "report_release" => array(
-        "title"  => "Scheduled Release Field",
+        "title"  => gettext("Scheduled Release Field"),
         "parent" => "report"
     ),
     "report_summary" => array(
-        "title"  => "Summary Field",
+        "title"  => gettext("Summary Field"),
         "parent" => "report"
     ),
     "report_description" => array(
-        "title"  => "Description Field",
+        "title"  => gettext("Description Field"),
         "parent" => "report"
     ),
     "report_estimated_dev_time" => array(
-        "title"  => "Estimated Development Time Field",
+        "title"  => gettext("Estimated Development Time Field"),
         "parent" => "report"
     ),
     "scm_integration" => array(
-        "title"  => "SCM Integration",
+        "title"  => gettext("SCM Integration"),
         "parent" => "main"
     ),
     "scm_integration_usage" => array(
-        "title"  => "Usage Examples",
+        "title"  => gettext("Usage Examples"),
         "parent" => "scm_integration"
     ),
     "scm_integration_installation" => array(
-        "title"  => "Installation Instructions",
+        "title"  => gettext("Installation Instructions"),
         "parent" => "scm_integration"
     ),
     "list" => array(
-        "title"  => "Listing / Searching for Issues",
+        "title"  => gettext("Listing / Searching for Issues"),
         "parent" => "main"
     ),
     "adv_search" => array(
-        "title"  => "Advanced Search / Creating Custom Queries",
+        "title"  => gettext("Advanced Search / Creating Custom Queries"),
         "parent" => "main"
     ),
     "support_emails" => array(
-        "title"  => "Associate Emails",
+        "title"  => gettext("Associate Emails"),
         "parent" => "main"
     ),
     "preferences" => array(
-        "title"  => "Account Preferences",
+        "title"  => gettext("Account Preferences"),
         "parent" => "main"
     ),
     "notifications" => array(
-        "title"  => "Email Notifications",
+        "title"  => gettext("Email Notifications"),
         "parent" => "main"
     ),
     "view" => array(
-        "title"  => "Viewing Issues",
+        "title"  => gettext("Viewing Issues"),
         "parent" => "main"
     ),
     "email_blocking" => array(
-        "title" => "Email Blocking",
+        "title"  => gettext("Email Blocking"),
         "parent" => "main"
     ),
     "link_filters" => array(
-        "title" => "Link Filters",
+        "title"  => gettext("Link Filters"),
         "parent" => "main"
     ),
     "field_display" => array(
-        "title" => "Edit Fields to Display",
+        "title"  => gettext("Edit Fields to Display"),
         "parent" => "main"
     ),
     "column_display" => array(
-        "title" => "Edit Columns to Display",
+        "title"  => gettext("Edit Columns to Display"),
         "parent" => "main"
     ),
     "customize_listing" => array(
-        "title" => "Customize Issue Listing Screen",
+        "title"  => gettext("Customize Issue Listing Screen"),
         "parent" => "main"
     ),
     "segregate_reporter" => array(
-        "title" => "Segregate Reporters",
+        "title"  => gettext("Segregate Reporters"),
         "parent" => "main"
     ),
     "permission_levels" => array(
-        "title" => "User Permission Levels",
+        "title"  => gettext("User Permission Levels"),
         "parent" => "main"
     ),
 );

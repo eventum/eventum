@@ -220,13 +220,13 @@ class Reminder_Condition
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 if (!empty($res[$i]['rlc_comparison_rmf_id'])) {
-                    $res[$i]['rlc_value'] = 'Field: ' . Reminder_Condition::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
+                    $res[$i]['rlc_value'] = gettext("Field") . ': ' . Reminder_Condition::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
                 }elseif (strtolower($res[$i]['rmf_title']) == 'status') {
                     $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
                 } elseif (strtolower($res[$i]['rmf_title']) == 'category') {
                     $res[$i]['rlc_value'] = Category::getTitle($res[$i]['rlc_value']);
                 } elseif (strtoupper($res[$i]['rlc_value']) != 'NULL') {
-                    $res[$i]['rlc_value'] .= ' hours';
+                    $res[$i]['rlc_value'] .= ' ' . gettext("hours");
                 }
             }
             return $res;

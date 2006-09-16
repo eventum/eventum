@@ -82,11 +82,11 @@ class Monitor
         $free_space = disk_free_space($partition);
         $free_percentage = ($free_space * 100) / $total_space;
         if ($free_percentage < $low_limit) {
-            echo "ERROR: Almost no free disk space left (percentage left: $free_percentage)\n";
+            echo gettext("ERROR: Almost no free disk space left (percentage left") . ": $free_percentage)\n";
             exit;
         }
         if ($free_percentage < $high_limit) {
-            echo "ERROR: Free disk space left is getting very low (percentage left: $free_percentage)\n";
+            echo gettext("ERROR: Free disk space left is getting very low (percentage left") . ": $free_percentage)\n";
         }
     }
 
@@ -103,25 +103,25 @@ class Monitor
         foreach ($required_files as $file_path => $options) {
             // check if file exists
             if (!file_exists($file_path)) {
-                echo "ERROR: File could not be found (path: $file_path)\n";
+                echo gettext("ERROR: File could not be found (path") . ": $file_path)\n";
                 continue;
             }
             // check the owner and group for these files
             list($owner, $group) = Monitor::_getOwnerAndGroup($file_path);
             if ((@$options['check_owner']) && ($options['owner'] != $owner)) {
-                echo "ERROR: File owner mismatch (path: $file_path; current owner: $owner; correct owner: " . $options['owner'] . ")\n";
+                echo ev_gettext('ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %3$s)', $file_path, $owner, $options['owner']) . "\n";
             }
             if ((@$options['check_group']) && ($options['group'] != $group)) {
-                echo "ERROR: File group mismatch (path: $file_path; current group: $group; correct group: " . $options['group'] . ")\n";
+                echo ev_gettext('ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %3$s)', $file_path, $group, $options['group']) . "\n";
             }
             // check permission bits
             $perm = Monitor::_getOctalPerms($file_path);
             if ((@$options['check_permission']) && ($options['permission'] != $perm)) {
-                echo "ERROR: File permission mismatch (path: $file_path; current perm: $perm; correct perm: " . $options['permission'] . ")\n";
+                echo ev_gettext('ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)', $file_path, $perm, $options['permission']) . "\n";
             }
             // check filesize
             if ((@$options['check_filesize']) && (filesize($file_path) < $options['filesize'])) {
-                echo "ERROR: File size mismatch (path: $file_path; current filesize: " . filesize($file_path) . ")\n";
+                echo ev_gettext('ERROR: File size mismatch (path: %1$s; current filesize: %2$s)', $file_path, filesize($file_path)) . ")\n";
             }
         }
         $required_directories = array(
@@ -141,13 +141,13 @@ class Monitor
         foreach ($required_directories as $dir_path => $options) {
             // check if directory exists
             if (!file_exists($dir_path)) {
-                echo "ERROR: Directory could not be found (path: $dir_path)\n";
+                echo ev_gettext('ERROR: Directory could not be found (path: %1$s)', $dir_path) . "\n";
                 continue;
             }
             // check permission bits
             $perm = Monitor::_getOctalPerms($dir_path);
             if ((@$options['check_permission']) && ($options['permission'] != $perm)) {
-                echo "ERROR: Directory permission mismatch (path: $dir_path; current perm: $perm; correct perm: " . $options['permission'] . ")\n";
+                echo ev_gettext('ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)', $dir_path, $perm, $options['permission']) . "\n";
             }
         }
     }
@@ -170,7 +170,7 @@ class Monitor
         );
         $dbh = DB::connect($dsn);
         if (PEAR::isError($dbh)) {
-            echo "ERROR: Could not connect to the mysql database. Detailed error message:\n\n";
+            echo gettext("ERROR: Could not connect to the mysql database. Detailed error message:") . "\n\n";
             echo $dbh->getMessage() . '/' .  $dbh->getDebugInfo();
         } else {
             $required_tables = array(
@@ -268,7 +268,7 @@ class Monitor
         ob_end_clean();
         $lines = explode("\n", $contents);
         if (count($lines) <= 1) {
-            echo "ERROR: Could not find IRC bot pid from process list.\n";
+            echo gettext("ERROR: Could not find IRC bot pid from process list.") . "\n";
         }
     }
 

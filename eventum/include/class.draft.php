@@ -113,7 +113,7 @@ class Draft
             }
             Issue::markAsUpdated($issue_id, "draft saved");
             if ($add_history_entry) {
-                History::add($issue_id, $usr_id, History::getTypeID('draft_added'), 'Email message saved as a draft by ' . User::getFullName($usr_id));
+                History::add($issue_id, $usr_id, History::getTypeID('draft_added'), ev_gettext('Email message saved as a draft by %1$s', User::getFullName($usr_id)));
             }
             return 1;
         }
@@ -157,7 +157,7 @@ class Draft
             return -1;
         } else {
             Issue::markAsUpdated($issue_id, "draft saved");
-            History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), 'Email message draft updated by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), ev_gettext('Email message draft updated by %1$s', User::getFullName($usr_id)));
             Draft::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
             return 1;
         }

@@ -78,7 +78,7 @@ class Impact_Analysis
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_added'), 'New requirement submitted by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_added'), ev_gettext('New requirement submitted by %1$s', User::getFullName($usr_id)));
             return 1;
         }
     }
@@ -171,7 +171,7 @@ class Impact_Analysis
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_updated'), 'Impact analysis submitted by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_updated'), ev_gettext('Impact analysis submitted by %1$s', User::getFullName($usr_id)));
             return 1;
         }
     }
@@ -207,7 +207,7 @@ class Impact_Analysis
         } else {
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_removed'), 'Impact analysis removed by ' . User::getFullName(Auth::getUserID()));
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_removed'), ev_gettext('Impact analysis removed by %1$s', User::getFullName(Auth::getUserID())));
             return 1;
         }
     }

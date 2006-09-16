@@ -701,7 +701,7 @@ class Support
                                 }
                             }
                             // log routed email
-                            History::add($t['issue_id'], $usr_id, History::getTypeID('email_routed'), "Email routed from " . $structure->headers['from']);
+                            History::add($t['issue_id'], $usr_id, History::getTypeID('email_routed'), ev_gettext('Email routed from %1$s', $structure->headers['from']));
                         }
                     }
                 } else {
@@ -1344,9 +1344,9 @@ class Support
         $attachments = Mime_Helper::getAttachments($full_email);
         if (count($attachments) > 0) {
             if (empty($associated_note_id)) {
-                $history_log = 'Attachment originated from an email';
+                $history_log = gettext("Attachment originated from an email");
             } else {
-                $history_log = 'Attachment originated from a note';
+                $history_log = gettext("Attachment originated from a note");
             }
             $attachment_id = Attachment::add($issue_id, $usr_id, $history_log, $internal_only, $unknown_user, $associated_note_id);
             for ($i = 0; $i < count($attachments); $i++) {
@@ -1398,7 +1398,7 @@ class Support
             $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
             for ($i = 0; $i < count($res); $i++) {
                 History::add($issue_id, $usr_id, History::getTypeID('email_associated'),
-                       'Email (subject: \'' . $res[$i] . '\') associated by ' . User::getFullName($usr_id));
+                       ev_gettext('Email (subject: \'%1$s\') associated by %2$s', $res[$i], User::getFullName($usr_id)));
             }
             return 1;
         }
@@ -1489,7 +1489,6 @@ class Support
             return "";
         } else {
             // gotta parse MIME based emails now
-            $output = Mime_Helper::decode($res["seb_full_email"], true);
             $res["message"] = Mime_Helper::getMessageBody($output); // XXX: check which code relies on this var
             $res["attachments"] = Mime_Helper::getAttachmentCIDs($res["seb_full_email"]);
             $res["timestamp"] = Date_API::getUnixTimestamp($res['sup_date'], 'GMT');
@@ -1758,7 +1757,7 @@ class Support
             $subjects = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
             for ($i = 0; $i < count($HTTP_POST_VARS["item"]); $i++) {
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'),
-                                'Email (subject: \'' . $subjects[$HTTP_POST_VARS["item"][$i]] . '\') disassociated by ' . User::getFullName(Auth::getUserID()));
+                                ev_gettext('Email (subject: \'%1$s\') disassociated by %2$s', $subjects[$HTTP_POST_VARS["item"][$i]], User::getFullName(Auth::getUserID())));
             }
             return 1;
         }
@@ -2091,7 +2090,7 @@ class Support
             }
             // save a history entry for this
             History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'),
-                            'Outgoing email sent by ' . User::getFullName(Auth::getUserID()));
+                            ev_gettext('Outgoing email sent by %1$s', User::getFullName(Auth::getUserID())));
         }
 
         return 1;
@@ -2454,7 +2453,7 @@ class Support
                 $usr_id = APP_SYSTEM_USER_ID;
             }
             // log blocked email
-            History::add($issue_id, $usr_id, History::getTypeID('email_blocked'), "Email from '" . $email['from'] . "' blocked.");
+            History::add($issue_id, $usr_id, History::getTypeID('email_blocked'), ev_gettext('Email from \'%1$s\' blocked', $email['from']));
             return true;
         }
         return false;

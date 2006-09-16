@@ -189,7 +189,7 @@ class Customer_Stats_Report
     function getAllRow()
     {
         $row = array(
-            "title" =>  "Aggregate"
+            "title" =>  gettext("Aggregate")
         );
         
         // get complete list of customers.
@@ -665,9 +665,9 @@ class Customer_Stats_Report
     function getRowLabel()
     {
         if ($this->isCustomerBased()) {
-            return "Customer";
+            return gettext("Customer");
         } else {
-            return "Support Level";
+            return gettext("Support Level");
         }
     }
     
@@ -682,16 +682,16 @@ class Customer_Stats_Report
     {
         return array(
             1   =>  array(
-                        "title" =>  "Total Workload by Support Level",
-                        "desc"  =>  "Includes issue count, Developer email Count, Customer Email Count, Customers count by Support Level",
+                        "title" =>  gettext("Total Workload by Support Level"),
+                        "desc"  =>  gettext("Includes issue count, Developer email Count, Customer Email Count, Customers count by Support Level"),
                         "size"  => array(
                                         "x" =>  800,
                                         "y" =>  350
                         )
             ),
             2   =>  array(
-                        "title" =>  "Avg Workload per Customer by Support Level",
-                        "desc"  =>  "Displays average number of issues, developer emails and customer emails per issue by support level",
+                        "title" =>  gettext("Avg Workload per Customer by Support Level"),
+                        "desc"  =>  gettext("Displays average number of issues, developer emails and customer emails per issue by support level"),
                         "size"  =>  array(
                                         "x" =>  800,
                                         "y" =>  350
@@ -699,22 +699,22 @@ class Customer_Stats_Report
                         "value_format"  =>  "%.1f"
             ),
             3   =>  array(
-                        "title" =>  "Avg and Median Time to Close by Support Level",
-                        "desc"  =>  "Displays time stats",
+                        "title" =>  gettext("Avg and Median Time to Close by Support Level"),
+                        "desc"  =>  gettext("Displays time stats"),
                         "size"  =>  array(
                                         "x" =>  600,
                                         "y" =>  350
                         ),
-                        "y_label"   =>  "Days"
+                        "y_label"   =>  gettext("Days")
             ),
             4   =>  array(
-                        "title" =>  "Avg and Median Time to First Response by Support Level",
-                        "desc"  =>  "Displays time stats",
+                        "title" =>  gettext("Avg and Median Time to First Response by Support Level"),
+                        "desc"  =>  gettext("Displays time stats"),
                         "size"  =>  array(
                                         "x" =>  600,
                                         "y" =>  350
                         ),
-                        "y_label"   =>  "Hours"
+                        "y_label"   =>  gettext("Hours")
             )
         );
     }
@@ -729,11 +729,11 @@ class Customer_Stats_Report
     function getDisplaySections()
     {
         return array(
-            "customer_counts"   =>  "Customer Counts",
-            "issue_counts"  =>  "Issue Counts",
-            "email_counts"  =>  "Email Counts",
-            "time_stats"    =>  "Time Statistics",
-            "time_tracking" =>  "Time Tracking"
+            "customer_counts"   =>  gettext("Customer Counts"),
+            "issue_counts"  =>  gettext("Issue Counts"),
+            "email_counts"  =>  gettext("Email Counts"),
+            "time_stats"    =>  gettext("Time Statistics"),
+            "time_tracking" =>  gettext("Time Tracking")
         );
     }
     

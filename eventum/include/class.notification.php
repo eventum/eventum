@@ -817,7 +817,7 @@ class Notification
                 case 'closed':
                     $data = Notification::getIssueDetails($issue_id);
                     $data["closer_name"] = User::getFullName(History::getIssueCloser($issue_id));
-                    $subject = 'Closed';
+                    $subject = gettext('Closed');
 
                     if ($ids != false) {
                         $data['reason'] = Support::getEmail($ids);
@@ -920,7 +920,7 @@ class Notification
             if ($type == 'notes') {
                 // special handling of blocked messages
                 if (!empty($data['note']['not_blocked_message'])) {
-                    $subject = 'BLOCKED';
+                    $subject = gettext('BLOCKED');
                     $final_type = 'blocked_email';
                 }
                 if (!empty($data["note"]["not_unknown_user"])) {
@@ -1330,7 +1330,7 @@ class Notification
         $mail = new Mail_API;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": User account information updated");
+        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . gettext("User account information updated"));
     }
 
 
@@ -1361,7 +1361,7 @@ class Notification
         $mail = new Mail_API;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": User account password changed");
+        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . gettext("User account password changed"));
     }
 
 
@@ -1392,7 +1392,7 @@ class Notification
         $mail = new Mail_API;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": New User information");
+        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . gettext("New User information"));
     }
 
 
@@ -1505,7 +1505,7 @@ class Notification
         $mail = new Mail_API;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": Your User Account Details");
+        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . gettext("Your User Account Details"));
     }
 
 
@@ -1776,7 +1776,7 @@ class Notification
             $GLOBALS["db_api"]->dbh->query($stmt);
             // need to save a history entry for this
             History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'),
-                            "Notification list entry ('$subscriber') removed by " . User::getFullName(Auth::getUserID()));
+                            ev_gettext('Notification list entry (%1$s) removed by %2$s', $subscriber, User::getFullName(Auth::getUserID())));
         }
         Issue::markAsUpdated($issue_id);
         return true;
@@ -1927,7 +1927,7 @@ class Notification
             // need to save a history entry for this
             if ($add_history) {
                 History::add($issue_id, $usr_id, History::getTypeID('notification_added'),
-                                "Notification list entry ('" . User::getFromHeader($subscriber_usr_id) . "') added by " . User::getFullName($usr_id));
+                                ev_gettext('Notification list entry (%1$s) added by %2$s', User::getFromHeader($subscriber_usr_id), User::getFullName($usr_id)));
             }
             return 1;
         }
@@ -2008,7 +2008,7 @@ class Notification
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
             History::add($issue_id, $usr_id, History::getTypeID('notification_added'),
-                            "Notification list entry ('$email') added by " . User::getFullName($usr_id));
+                            ev_gettext('Notification list entry (\'%1$s\') added by %2$s', $email, User::getFullName($usr_id)));
             return 1;
         }
     }
@@ -2106,7 +2106,7 @@ class Notification
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
             History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_updated'),
-                            "Notification list entry ('" . Notification::getSubscriber($sub_id) . "') updated by " . User::getFullName(Auth::getUserID()));
+                            ev_gettext('Notification list entry (\'%1$s\') updated by %2$s', Notification::getSubscriber($sub_id), User::getFullName(Auth::getUserID())));
             return 1;
         }
     }

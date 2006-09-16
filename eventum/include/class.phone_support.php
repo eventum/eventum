@@ -79,8 +79,8 @@ class Phone_Support
 
 
     /**
-     * Method used to update the values stored in the database. 
-     * Typically the user would modify the title of the category in 
+     * Method used to update the values stored in the database.
+     * Typically the user would modify the title of the category in
      * the application and this method would be called.
      *
      * @access  public
@@ -111,7 +111,7 @@ class Phone_Support
 
 
     /**
-     * Method used to remove user-selected categories from the 
+     * Method used to remove user-selected categories from the
      * database.
      *
      * @access  public
@@ -191,7 +191,7 @@ class Phone_Support
 
 
     /**
-     * Method used to get an associative array of the list of 
+     * Method used to get an associative array of the list of
      * categories associated with a specific project.
      *
      * @access  public
@@ -245,7 +245,7 @@ class Phone_Support
 
 
     /**
-     * Method used to get the full listing of phone support entries 
+     * Method used to get the full listing of phone support entries
      * associated with a specific issue.
      *
      * @access  public
@@ -288,7 +288,7 @@ class Phone_Support
 
 
     /**
-     * Method used to add a phone support entry using the user 
+     * Method used to add a phone support entry using the user
      * interface form available in the application.
      *
      * @access  public
@@ -300,7 +300,7 @@ class Phone_Support
 
         $usr_id = Auth::getUserID();
         // format the date from the form
-        $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d', 
+        $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d',
             $HTTP_POST_VARS["date"]["Year"], $HTTP_POST_VARS["date"]["Month"],
             $HTTP_POST_VARS["date"]["Day"], $HTTP_POST_VARS["date"]["Hour"],
             $HTTP_POST_VARS["date"]["Minute"], 0);
@@ -344,7 +344,7 @@ class Phone_Support
             $phs_id = $GLOBALS["db_api"]->get_last_insert_id();
             $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Telephone Discussion');
             $HTTP_POST_VARS['time_spent'] = $HTTP_POST_VARS['call_length'];
-            $HTTP_POST_VARS['summary'] = 'Time entry inserted from phone call.';
+            $HTTP_POST_VARS['summary'] = gettext("Time entry inserted from phone call.");
             Time_Tracking::insertEntry();
             $stmt = "SELECT
                         max(ttr_id)
@@ -354,13 +354,13 @@ class Phone_Support
                         ttr_iss_id = " . Misc::escapeInteger($HTTP_POST_VARS["issue_id"]) . " AND
                         ttr_usr_id = $usr_id";
             $ttr_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
-            
+
             Issue::markAsUpdated($HTTP_POST_VARS['issue_id'], 'phone call');
             // need to save a history entry for this
-            History::add($HTTP_POST_VARS['issue_id'], $usr_id, History::getTypeID('phone_entry_added'), 
-                            'Phone Support entry submitted by ' . User::getFullName($usr_id));
+            History::add($HTTP_POST_VARS['issue_id'], $usr_id, History::getTypeID('phone_entry_added'),
+                            ev_gettext('Phone Support entry submitted by %1$s', User::getFullName($usr_id)));
             // XXX: send notifications for the issue being updated (new notification type phone_support?)
-            
+
             // update phone record with time tracking ID.
             if ((!empty($phs_id)) && (!empty($ttr_id))) {
                 $stmt = "UPDATE
@@ -381,7 +381,7 @@ class Phone_Support
 
 
     /**
-     * Method used to remove a specific phone support entry from the 
+     * Method used to remove a specific phone support entry from the
      * application.
      *
      * @access  public
@@ -391,7 +391,7 @@ class Phone_Support
     function remove($phone_id)
     {
         $phone_id = Misc::escapeInteger($phone_id);
-        
+
         $stmt = "SELECT
                     phs_iss_id,
                     phs_ttr_id,
@@ -416,9 +416,9 @@ class Phone_Support
         } else {
             Issue::markAsUpdated($details["phs_iss_id"]);
             // need to save a history entry for this
-            History::add($details["phs_iss_id"], Auth::getUserID(), History::getTypeID('phone_entry_removed'), 
-                            'Phone Support entry removed by ' . User::getFullName(Auth::getUserID()));
-            
+            History::add($details["phs_iss_id"], Auth::getUserID(), History::getTypeID('phone_entry_removed'),
+                            ev_gettext('Phone Support entry removed by %1$s', User::getFullName(Auth::getUserID())));
+
             if (!empty($details["phs_ttr_id"])) {
                 $time_result = Time_Tracking::removeEntry($details["phs_ttr_id"], $details['phs_usr_id']);
                 if ($time_result == 1) {
@@ -460,7 +460,7 @@ class Phone_Support
 
     /**
      * Returns the number of calls by a user in a time range.
-     * 
+     *
      * @access  public
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date

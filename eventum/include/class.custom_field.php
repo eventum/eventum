@@ -312,7 +312,7 @@ class Custom_Field
                 }
                 $i++;
             }
-            History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), "Custom field updated ($changes) by " . User::getFullName(Auth::getUserID()));
+            History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID())));
         }
         return 1;
     }

@@ -100,7 +100,7 @@ class Reminder_Action
 
 
     /**
-     * Returns an associative array with the list of reminder action 
+     * Returns an associative array with the list of reminder action
      * IDs and their respective ranking.
      *
      * @access  private
@@ -446,7 +446,7 @@ class Reminder_Action
 
 
     /**
-     * Method used to get the list of reminder actions to be displayed in the 
+     * Method used to get the list of reminder actions to be displayed in the
      * administration section.
      *
      * @access  public
@@ -597,13 +597,13 @@ class Reminder_Action
         $group_leader_usr_id = 0;
         if ($action['rma_alert_group_leader']) {
             if (Reminder::isDebug()) {
-                echo "  - Processing Group Leader notification\n";
+                echo "  - " . gettext("Processing Group Leader notification") . "\n";
             }
             $group_id = Issue::getGroupID($issue_id);
             // check if there's even a group associated with this issue
             if (empty($group_id)) {
                 if (Reminder::isDebug()) {
-                    echo "  - No group associated with issue $issue_id\n";
+                    echo "  - " . ev_gettext('No group associated with issue %1$s', $issue_id) . "\n";
                 }
             } else {
                 $group_details = Group::getDetails($group_id);
@@ -613,7 +613,7 @@ class Reminder_Action
             }
         }
         if (Reminder::isDebug()) {
-           echo "  - Performing action '$action_type' for issue #$issue_id\n";
+           echo "  - " . ev_gettext('Performing action %1$s for issue # %2$s', $action_type, $issue_id) . "\n";
         }
         switch ($action_type) {
             case 'email_assignee':
@@ -723,7 +723,7 @@ class Reminder_Action
             if (Reminder::isDebug()) {
                 echo "  - No recipients could be found\n";
             }
-            // if not even an irc alert was sent, then save 
+            // if not even an irc alert was sent, then save
             // a notice about this on reminder_sent@, if needed
             if (!$action['rma_alert_irc']) {
                 if (@$setup['email_reminder']['status'] == 'enabled') {
@@ -762,7 +762,7 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "[#$issue_id] Reminder: " . $action['rma_title'], 0, $issue_id, 'reminder');
+                $mail->send($setup["from"], $address, "[#$issue_id] " . gettext("Reminder") . ": " . $action['rma_title'], 0, $issue_id, 'reminder');
             }
         }
         // - eventum saves the day once again
@@ -802,14 +802,14 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "[#$issue_id] Reminder Not Triggered: " . $action['rma_title'], 0, $issue_id);
+                $mail->send($setup["from"], $address, "[#$issue_id] " . gettext("Reminder Not Triggered") . ": " . $action['rma_title'], 0, $issue_id);
             }
         }
     }
 
 
     /**
-     * Returns the given list of issues with only the issues that 
+     * Returns the given list of issues with only the issues that
      * were last triggered for the given reminder action ID.
      *
      * @access  public
@@ -837,7 +837,7 @@ class Reminder_Action
         } else {
             $repeat_issues = array();
             foreach ($issues as $issue_id) {
-                // if the issue was already triggered and the last triggered 
+                // if the issue was already triggered and the last triggered
                 // action was the given one, then add it to the list of repeat issues
                 if ((in_array($issue_id, array_keys($triggered_actions))) && ($triggered_actions[$issue_id] == $rma_id)) {
                     $repeat_issues[] = $issue_id;
@@ -849,7 +849,7 @@ class Reminder_Action
 
 
     /**
-     * Records the last triggered reminder action for a given 
+     * Records the last triggered reminder action for a given
      * issue ID.
      *
      * @access  public

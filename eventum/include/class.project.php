@@ -580,14 +580,14 @@ class Project
                 Status::addProjectAssociation($sta_id, $new_prj_id);
             }
             Display_Column::setupNewProject($new_prj_id);
-            
+
             return 1;
         }
     }
 
 
     /**
-     * Method used to get the list of projects available in the 
+     * Method used to get the list of projects available in the
      * system.
      *
      * @access  public
@@ -772,7 +772,7 @@ class Project
 
 
     /**
-     * Method used to get a list of emails that are associated with a given 
+     * Method used to get a list of emails that are associated with a given
      * project and issue.
      *
      * @access  public
@@ -792,7 +792,7 @@ class Project
 
 
     /**
-     * Method used to get a list of names and emails that are 
+     * Method used to get a list of names and emails that are
      * associated with a given project and issue.
      *
      * @access  public
@@ -824,7 +824,7 @@ class Project
 
 
     /**
-     * Method used to get an associative array of names and emails 
+     * Method used to get an associative array of names and emails
      * that are associated with a given project and issue.
      *
      * @access  public
@@ -869,7 +869,7 @@ class Project
 
 
     /**
-     * Method used to get the list of projects that allow remote 
+     * Method used to get the list of projects that allow remote
      * invocation of issues.
      *
      * @access  public
@@ -897,7 +897,7 @@ class Project
 
 
     /**
-     * Method used to get the list of projects assigned to a given user that 
+     * Method used to get the list of projects assigned to a given user that
      * allow remote invocation of issues.
      *
      * @access  public
@@ -1025,7 +1025,7 @@ class Project
 
     /**
      * Sets the minimum role needed to view a specific field on the issue creation form.
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The project ID.
      * @param   array $settings An array of fields and role is required to view them.
@@ -1043,7 +1043,7 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
-        
+
         // insert new values
         foreach ($settings as $field => $min_role) {
             $stmt = "INSERT INTO
@@ -1069,7 +1069,7 @@ class Project
 
     /**
      * Returns display settings for a specific project.
-     * 
+     *
      * @access public
      * @param   integer $prj_id The project ID
      * @return  array An associative array of minimum role required to access a field.
@@ -1100,21 +1100,21 @@ class Project
 
     /**
      * Returns an array of fields which can be hidden.
-     * 
+     *
      * @access  public
      * @return  array
      */
     function getDisplayFields()
     {
         return array(
-            "category"  =>  "Category",
-            "priority"  =>  "Priority",
-            "assignment"    =>  "Assignment",
-            "release"   =>  "Scheduled Release",
-            "estimated_dev_time"    =>  "Estimated Dev. Time",
-            "group"     =>  "Group",
-            "file"  =>  "File",
-            "private"   =>  "Private"
+            "category"  =>  gettext("Category"),
+            "priority"  =>  gettext("Priority"),
+            "assignment"    =>  gettext("Assignment"),
+            "release"   =>  gettext("Scheduled Release"),
+            "estimated_dev_time"    =>  gettext("Estimated Dev. Time"),
+            "group"     =>  gettext("Group"),
+            "file"  =>  gettext("File"),
+            "private"   =>  gettext("Private")
         );
     }
 }
