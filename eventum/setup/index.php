@@ -118,9 +118,6 @@ function checkRequirements()
     if (ini_get('file_uploads') != "1") {
         $errors[] = "The 'file_uploads' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
     }
-    if (ini_get('allow_call_time_pass_reference') != "1") {
-        $errors[] = "The 'allow_call_time_pass_reference' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
-    }
     $error = checkPermissions('../locks', "Directory 'locks'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;
@@ -290,10 +287,6 @@ function install()
     if (!is_writable('../config.inc.php')) {
         return "The file 'config.inc.php' in Eventum's root directory needs to be writable by the web server user. Please correct this problem and try again.";
     }
-    // gotta check and see if the provided installation path really exists...
-    if (!file_exists($HTTP_POST_VARS['path'])) {
-        return "The provided installation path could not be found. Please review your information and try again.";
-    }
     // need to create a random private key variable
     $private_key = '<?php
 $private_key = "' . md5(microtime()) . '";
@@ -387,12 +380,7 @@ $private_key = "' . md5(microtime()) . '";
         $HTTP_POST_VARS['db_username'] = $HTTP_POST_VARS['eventum_user'];
         $HTTP_POST_VARS['db_password'] = $HTTP_POST_VARS['eventum_password'];
     }
-    // make sure there is a / in the end of the APP_PATH constant
-    if (substr($HTTP_POST_VARS['path'], 0, -1) != '/') {
-        $HTTP_POST_VARS['path'] .= '/';
-    }
     $config_contents = implode("", file("config.inc.php"));
-    $config_contents = str_replace("%{APP_PATH}%", $HTTP_POST_VARS['path'], $config_contents);
     $config_contents = str_replace("%{APP_SQL_DBHOST}%", $HTTP_POST_VARS['db_hostname'], $config_contents);
     $config_contents = str_replace("%{APP_SQL_DBNAME}%", $HTTP_POST_VARS['db_name'], $config_contents);
     $config_contents = str_replace("%{APP_SQL_DBUSER}%", $HTTP_POST_VARS['db_username'], $config_contents);
@@ -460,14 +448,8 @@ foreach ($pieces as $piece) {
 $relative_url[] = '';
 $relative_url = implode("/", $relative_url);
 
-if (substr(@$HTTP_SERVER_VARS['DOCUMENT_ROOT'], -1) == '/') {
-    $HTTP_SERVER_VARS['DOCUMENT_ROOT'] = substr($HTTP_SERVER_VARS['DOCUMENT_ROOT'], 0, -1);
-}
-$installation_path = @$HTTP_SERVER_VARS['DOCUMENT_ROOT'] . $relative_url;
-
 $tpl->assign("phpversion", phpversion());
 $tpl->assign("rel_url", $relative_url);
-$tpl->assign("installation_path", $installation_path);
 if (@$HTTP_SERVER_VARS['HTTPS'] == 'on') {
     $ssl_mode = 'enabled';
 } else {
