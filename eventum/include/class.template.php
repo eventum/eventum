@@ -198,7 +198,6 @@ class Template_API
         $this->assign("app_base_url", APP_BASE_URL);
         $this->assign("rel_url", APP_RELATIVE_URL);
         $this->assign("locale", APP_CURRENT_LOCALE);
-        $this->assign("SID", SID);
 
         // now for the browser detection stuff
         Net_UserAgent_Detect::detect();
