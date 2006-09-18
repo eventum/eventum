@@ -43,7 +43,6 @@ function replyNote(note_id, issue_id)
 //-->
 </script>
 {/literal}
-<br />
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="add_note_form" target="_notes" method="post">
   <tr>
@@ -54,6 +53,7 @@ function replyNote(note_id, issue_id)
             <b>{t}Internal Notes{/t} ({$notes|@count})</b>
           </td>
           <td align="right" class="default">
+            [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
             [ <a id="notes_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('notes');">{get_innerhtml element_name="notes" total=$notes|@count}</a> ]
             {/if}

@@ -24,7 +24,6 @@ function addPhoneCall()
 //-->
 </script>
 {/literal}
-<br />
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
@@ -34,7 +33,8 @@ function addPhoneCall()
           <b>{t}Phone Calls{/t} ({$phone_entries|@count})</b>
         </td>
         <td align="right" class="default">
-            {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
+            [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
+          {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
             [ <a id="phone_support_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('phone_support');">{get_innerhtml element_name="phone_support" total=$phone_entries|@count}</a> ]
             {/if}
         </td>

@@ -11,7 +11,6 @@ function updateCustomFields(issue_id)
 //-->
 </script>
 {/literal}
-<br />
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <form method="get" action="{$smarty.server.PHP_SELF}">
   <tr>
@@ -22,6 +21,7 @@ function updateCustomFields(issue_id)
             <b>{t}Custom Fields{/t}</b>
           </td>
           <td align="right" class="default">
+         [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up}
             [ <a id="custom_fields_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('custom_fields');">{get_innerhtml element_name="custom_fields" total=$custom_fields|@count}</a> ]
             {/if}

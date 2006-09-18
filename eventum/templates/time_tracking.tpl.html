@@ -23,7 +23,6 @@ function addTimeEntry()
 //-->
 </script>
 {/literal}
-<br />
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="add_time_form" method="post" action="#">
   <tr>
@@ -34,6 +33,7 @@ function addTimeEntry()
             <b>{t}Time Tracking{/t} ({$time_entries|@count})</b>
           </td>
           <td align="right" class="default">
+          [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}
             [ <a id="time_tracker_link" class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('time_tracker');">{get_innerhtml element_name="time_tracker" total=$time_entries|@count}</a> ]
             {/if}
