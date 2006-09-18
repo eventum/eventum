@@ -28,6 +28,8 @@
 // @(#) $Id: $
 //
 
+ini_set("memory_limit", "256M");
+
 include_once("../../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.auth.php");
@@ -35,8 +37,6 @@ include_once(APP_INC_PATH . "class.lock.php");
 include_once(APP_INC_PATH . "class.issue.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_PEAR_PATH . 'Net/SmartIRC.php');
-
-ini_set("memory_limit", "256M");
 
 // the following is the list of IRC channels that the bot should connect to,
 // and the associated project name

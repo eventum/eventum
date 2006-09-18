@@ -26,7 +26,9 @@
 // +----------------------------------------------------------------------+
 //
 // @(#) $Id$
-//
+
+ini_set("memory_limit", "256M");
+
 include_once("../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.mail_queue.php");
@@ -58,8 +60,6 @@ if (!Mail_Queue::isSafeToRun()) {
     echo "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n";
     exit;
 }
-
-ini_set("memory_limit", "256M");
 
 // handle only pending emails
 $limit = 50;

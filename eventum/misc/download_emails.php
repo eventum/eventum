@@ -26,14 +26,14 @@
 // +----------------------------------------------------------------------+
 //
 // @(#) $Id: s.download_emails.php 1.4 03/04/15 14:50:39-00:00 jpm $
-//
+
+ini_set("memory_limit", "256M");
+
 include_once("../config.inc.php");
 include_once(APP_INC_PATH . "class.support.php");
 include_once(APP_INC_PATH . "class.lock.php");
 include_once(APP_INC_PATH . "class.project.php");
 include_once(APP_INC_PATH . "db_access.php");
-
-ini_set("memory_limit", "256M");
 
 // we need the IMAP extension for this to work
 if (!function_exists('imap_open')) {
