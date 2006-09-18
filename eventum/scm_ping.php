@@ -26,7 +26,14 @@
 // +----------------------------------------------------------------------+
 //
 // @(#) $Id: s.cvs_ping.php 1.4 03/01/16 01:47:31-00:00 jpm $
-//
+
+// shortcut to exit out when no issue id-s are passed in request
+// as this script is always called by CVS but we handle only ones which can be
+// associated with issues.
+if (empty($_GET['issue'])) {
+    exit;
+}
+
 include_once("config.inc.php");
 include_once(APP_INC_PATH . "class.misc.php");
 include_once(APP_INC_PATH . "class.scm.php");
