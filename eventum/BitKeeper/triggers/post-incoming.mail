@@ -1,13 +1,13 @@
 #!/bin/sh
 
 DOMAIN=mysql.com
-TO=iit-commits@$DOMAIN
+TO=eventum-commits@$DOMAIN
 FROM=$BKD_USER@$DOMAIN
 REPO=eventum
  
 [ "$BK_EVENT" = "incoming push" ] || exit
 [ "$BKD_REALHOST" = "stage.mysql.com" ] || exit
-[ "$BKD_ROOT" = "/web/$REPO" ] || exit
+[ "$BKD_ROOT" = "/data0/$REPO" ] || exit
 
 CHANGESET=`bk -R prs -r+ -h -d':P:::I:' ChangeSet`
 
