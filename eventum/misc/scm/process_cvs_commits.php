@@ -37,6 +37,21 @@ $eventum_port = 80;
 // DO NOT CHANGE ANYTHING AFTER THIS LINE
 //
 
+if (isset($eventum_url)) {
+    $data = parse_url($eventum_url);
+} else {
+    // legacy
+    $data = array();
+    $data['host'] = $eventum_domain;
+    $data['path'] = $eventum_relative_url;
+    $data['port'] = $eventum_port;
+    $data['scheme'] = 'http';
+}
+
+if (!isset($data['port'])) {
+    $data['port'] = $data['scheme'] == 'https' ? 443 : 80;
+}
+
 if (isset($_SERVER)) {
     $HTTP_SERVER_VARS = $_SERVER;
 }
@@ -78,7 +93,7 @@ if (count($matches) > 1) {
     $username = rawurlencode($username);
 
     // build the GET url to use
-    $ping_url = $eventum_relative_url . "scm_ping.php?module=$cvs_module&username=$username&commit_msg=$commit_msg";
+    $ping_url = $data['path']. "scm_ping.php?module=$cvs_module&username=$username&commit_msg=$commit_msg";
     foreach ($matches[1] as $issue_id) {
         $ping_url .= "&issue[]=$issue_id";
     }
@@ -89,13 +104,16 @@ if (count($matches) > 1) {
         $ping_url .= "&new_versions[$i]=" . rawurlencode($modified_files[$i]['new_revision']);
     }
 
-    $fp = fsockopen($eventum_domain, $eventum_port, $errno, $errstr, 30);
+    $address = $data['host'];
+    if ($data['scheme'] == 'https') {
+        $address = "ssl://$address";
+    }
+    $fp = fsockopen($address, $data['port'], $errno, $errstr, 30);
     if (!$fp) {
-        echo "Error: Could not ping the Eventum SCM handler script.\n";
-        exit();
+        die("Error: Could not ping the Eventum SCM handler script.\n");
     } else {
         $msg = "GET $ping_url HTTP/1.1\r\n";
-        $msg .= "Host: $eventum_domain\r\n";
+        $msg .= "Host: $data[host]\r\n";
         $msg .= "Connection: Close\r\n\r\n";
         fwrite($fp, $msg);
         $buf = fgets($fp, 4096);
