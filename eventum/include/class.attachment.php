@@ -101,7 +101,8 @@ class Attachment
             'png',
             'bmp',
             'html',
-            'htm'
+            'htm',
+            'xml',
         );
     }
 
