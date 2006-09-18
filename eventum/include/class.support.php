@@ -511,22 +511,22 @@ class Support
             if ($info['ema_use_routing'] == 1) {
                 $setup = Setup::load();
 
+                // we create addresses array so it can be reused
+                $addresses = array();
+                if (isset($email->to)) {
+                    foreach ($email->to as $address) {
+                        $addresses[] = $address->mailbox . '@' . $address->host;
+                    }
+                }
+                if (isset($email->cc)) {
+                    foreach ($email->cc as $address) {
+                        $addresses[] = $address->mailbox . '@' . $address->host;
+                    }
+                }
+
                 if (@$setup['email_routing']['status'] == 'enabled') {
-                    $prefix = $setup['email_routing']['address_prefix'];
-                    // escape plus signs so 'issue+1@example.com' becomes a valid routing address
-                    $prefix = str_replace('+', '\+', $prefix);
-                    $mail_domain = $setup['email_routing']['address_host'];
-                    $mail_domain_alias = @$setup['email_routing']['host_alias'];
-                    if (!empty($mail_domain_alias)) {
-                        $mail_domain = "[" . $mail_domain . "|" . $mail_domain_alias . "]";
-                    }
-                    if (empty($prefix)) {
-                        return false;
-                    }
-                    if (empty($mail_domain)) {
-                        return false;
-                    }
-                    if ((isset($email->toaddress)) && (preg_match("/$prefix(\d*)@$mail_domain/i", $email->toaddress, $matches))) {
+                    $res = Routing::getMatchingIssueIDs($addresses, 'email');
+                    if ($res != false) {
                         $return = Routing::route_emails($message);
                         if ($return == true) {
                             Support::deleteMessage($info, $mbox, $num);
@@ -535,18 +535,8 @@ class Support
                     }
                 }
                 if (@$setup['note_routing']['status'] == 'enabled') {
-                    $prefix = $setup['note_routing']['address_prefix'];
-                    // escape plus signs so 'note+1@example.com' becomes a valid routing address
-                    $prefix = str_replace('+', '\+', $prefix);
-                    $mail_domain = $setup['note_routing']['address_host'];
-                    if (empty($prefix)) {
-                        return false;
-                    }
-                    if (empty($mail_domain)) {
-                        return false;
-                    }
-
-                    if (preg_match("/$prefix(\d*)@$mail_domain/i", $email->toaddress, $matches)) {
+                    $res = Routing::getMatchingIssueIDs($addresses, 'note');
+                    if ($res != false) {
                         $return = Routing::route_notes($message);
                         if ($return == true) {
                             Support::deleteMessage($info, $mbox, $num);
@@ -555,18 +545,8 @@ class Support
                     }
                 }
                 if (@$setup['draft_routing']['status'] == 'enabled') {
-                    $prefix = $setup['draft_routing']['address_prefix'];
-                    // escape plus signs so 'draft+1@example.com' becomes a valid routing address
-                    $prefix = str_replace('+', '\+', $prefix);
-                    $mail_domain = $setup['draft_routing']['address_host'];
-                    if (empty($prefix)) {
-                        return false;
-                    }
-                    if (empty($mail_domain)) {
-                        return false;
-                    }
-
-                    if (preg_match("/$prefix(\d*)@$mail_domain/i", $email->toaddress, $matches)) {
+                    $res = Routing::getMatchingIssueIDs($addresses, 'draft');
+                    if ($res != false) {
                         $return = Routing::route_drafts($message);
                         if ($return == true) {
                             Support::deleteMessage($info, $mbox, $num);
