@@ -169,7 +169,7 @@ class Routing
             $has_magic_cookie = false;
         }
 
-        if (Mime_Helper::hasAttachments($full_message)) {
+        if (Mime_Helper::hasAttachments($structure)) {
             $has_attachments = 1;
         } else {
             $has_attachments = 0;
@@ -371,7 +371,7 @@ class Routing
 
         // add the full email to the note if there are any attachments
         // this is needed because the front end code will display attachment links
-        if (Mime_Helper::hasAttachments($full_message)) {
+        if (Mime_Helper::hasAttachments($structure)) {
             $HTTP_POST_VARS['blocked_msg'] = $full_message;
         }
         $res = Note::insert(Auth::getUserID(), $issue_id, false, false);

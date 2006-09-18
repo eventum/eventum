@@ -524,7 +524,7 @@ class Note
         $body = Mime_Helper::getMessageBody($structure);
         $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
         if ($target == 'email') {
-            if (Mime_Helper::hasAttachments($blocked_message)) {
+            if (Mime_Helper::hasAttachments($structure)) {
                 $has_attachments = 1;
             } else {
                 $has_attachments = 0;

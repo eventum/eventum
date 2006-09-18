@@ -57,12 +57,16 @@ class Mime_Helper
      * Method used to get charset from raw email.
      *
      * @access  public
-     * @param   string $input The full body of the message
+     * @param   mixed   $input The full body of the message or decoded email.
      * @return  string charset extracted from Content-Type header of email.
      */
     function getCharacterSet($input)
     {
-        $structure = Mime_Helper::decode($input, false, false);
+        if (!is_object($input)) {
+            $input = Mime_Helper::decode($input, false, false);
+        } else {
+            $structure = $input;
+        }
         if (empty($structure)) {
             return false;
         }
@@ -440,13 +444,15 @@ class Mime_Helper
      * Method used to check whether a given email message has any attachments.
      *
      * @access  public
-     * @param   string $message The full body of the message
+     * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  boolean
      */
     function hasAttachments($message)
     {
-        $output = Mime_Helper::decode($message, true);
-        $attachments = Mime_Helper::_getAttachmentDetails($output, TRUE);
+        if (!is_object($message)) {
+            $message = Mime_Helper::decode($message, true);
+        }
+        $attachments = Mime_Helper::_getAttachmentDetails($message, TRUE);
         if (count($attachments) > 0) {
             return true;
         } else {
@@ -460,13 +466,15 @@ class Mime_Helper
      * associated with a message.
      *
      * @access  public
-     * @param   string $message The full body of the message
+     * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  array The list of attachments, if any
      */
     function getAttachments($message)
     {
-        $output = Mime_Helper::decode($message, true);
-        return Mime_Helper::_getAttachmentDetails($output, TRUE);
+        if (!is_object($message)) {
+            $message = Mime_Helper::decode($message, true);
+        }
+        return Mime_Helper::_getAttachmentDetails($message, TRUE);
     }
 
 
@@ -475,14 +483,15 @@ class Mime_Helper
      * associated with a message.
      *
      * @access  public
-     * @param   string $message The full body of the message
+     * @param   mixed   $message The full body of the message or parsed message structure.
      * @return  array The list of attachment CIDs, if any
      */
-    function getAttachmentCIDs(&$message)
+    function getAttachmentCIDs($message)
     {
-        // gotta parse MIME based emails now
-        $output = Mime_Helper::decode($message, true);
-        return Mime_Helper::_getAttachmentDetails($output, TRUE);
+        if (!is_object($message)) {
+            $message = Mime_Helper::decode($message, true);
+        }
+        return Mime_Helper::_getAttachmentDetails($message, TRUE);
     }
 
 
@@ -495,6 +504,7 @@ class Mime_Helper
                 $attachments = array_merge($t, $attachments);
             }
         }
+        // FIXME: content-type is always lowered by PEAR class (CHECKME) and why not $mime_part->content_type?
         $content_type = strtolower(@$mime_part->ctype_primary . '/' . @$mime_part->ctype_secondary);
         if ($content_type == '/') {
             $content_type = '';
@@ -553,7 +563,7 @@ class Mime_Helper
      * attachment.
      *
      * @access  public
-     * @param   string $message The full content of the message
+     * @param   mixed   $message The full content of the message or parsed message structure.
      * @param   string $filename The filename to look for
      * @param   string $cid The content-id to look for, if any
      * @return  string The full encoded content of the attachment
@@ -561,8 +571,10 @@ class Mime_Helper
     function getAttachment($message, $filename, $cid = FALSE)
     {
         $parts = array();
-        $output = Mime_Helper::decode($message, true);
-        $details = Mime_Helper::_getAttachmentDetails($output, TRUE, $filename, $cid);
+        if (!is_object($message)) {
+            $message = Mime_Helper::decode($message, true);
+        }
+        $details = Mime_Helper::_getAttachmentDetails($message, TRUE, $filename, $cid);
         if (count($details) == 1) {
             return array(
                 $details[0]['filetype'],
@@ -582,7 +594,7 @@ class Mime_Helper
      * @param   boolean $include_bodies Whether to include the bodies in the return value or not
      * @return  mixed The decoded content of the message
      */
-    function decode(&$message, $include_bodies = FALSE, $decode_bodies = TRUE)
+    function decode($message, $include_bodies = FALSE, $decode_bodies = TRUE)
     {
         // need to fix a pretty annoying bug where if the 'boundary' part of a
         // content-type header is split into another line, the PEAR library would
@@ -612,9 +624,9 @@ class Mime_Helper
      * @access  public
      * @param   object $obj The decoded object structure of the MIME message
      * @param   array $parts The parsed parts of the MIME message
-     * @return  array List of parts that exist in the MIME message
+     * @return  void
      */
-    function parse_output(&$obj, &$parts)
+    function parse_output($obj, &$parts)
     {
         if (!empty($obj->parts)) {
             for ($i = 0; $i < count($obj->parts); $i++) {

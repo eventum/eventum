@@ -481,18 +481,21 @@ class Support
         }
 
         $email = @imap_headerinfo($mbox, $num);
-        $body = imap_body($mbox, $num);
         $headers = imap_fetchheader($mbox, $num);
-        $message = $headers . $body;
+        $body = imap_body($mbox, $num);
         // check for mysterious blank messages
-        if (empty($message)) {
+        if (empty($body) and empty($headers)) {
             return '';
         }
         $message_id = Mail_API::getMessageID($headers, $body);
+        $message = $headers . $body;
+        // we don't need $body anymore -- free memory
+        unset($body);
+
         if ((!Support::exists($message_id)) && (!Note::exists($message_id))) {
             $structure = Mime_Helper::decode($message, true, true);
             $message_body = Mime_Helper::getMessageBody($structure);
-            if (Mime_Helper::hasAttachments($message)) {
+            if (Mime_Helper::hasAttachments($structure)) {
                 $has_attachments = 1;
             } else {
                 $has_attachments = 0;
@@ -1413,7 +1416,7 @@ class Support
             for ($i = 0; $i < count($res); $i++) {
                 // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
                 $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
-                if (Mime_Helper::hasAttachments($res[$i]['seb_full_email'])) {
+                if (Mime_Helper::hasAttachments($structure)) {
                     $has_attachments = 1;
                 } else {
                     $has_attachments = 0;
