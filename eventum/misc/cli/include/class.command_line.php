@@ -1533,6 +1533,9 @@ Account Manager: " . @$details['customer_info']['account_manager'];
     {
         $msg = new XML_RPC_Message("isValidLogin", array(new XML_RPC_Value($email), new XML_RPC_Value($password)));
         $result = $rpc_conn->send($msg);
+        if (!is_object($result)) {
+            Command_Line::quit("result is not an object. This is most likely due connection problems or openssl/curl extension not loaded.");
+        }
         if ($result->faultCode()) {
             Command_Line::quit($result->faultString());
         }
