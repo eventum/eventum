@@ -472,13 +472,9 @@ class Misc
         if ((!empty($minutes)) && ($minutes < 6)) {
             $return = sprintf("%02dm", $minutes);
         } elseif ($hours > 24 && $omit_days == false) {
-            $mins = ($minutes % 60) / 60;
-            $days = $hours / 24;
-            $hours = $hours % 24;
-            $hours += $mins;
-            $return = sprintf("%02dd %.1fh", $days, $hours);
+            $return = sprintf("%dd %dh %dm (%dh %dm)", floor($minutes/24/60), floor($minutes/60)%24, $minutes%60, floor($minutes/60), $minutes%60);
         } else {
-            $return = round($hours,1) . 'h';
+            $return = sprintf("%dh %dm", floor($minutes/60), $minutes%60);
         }
         if ($omit_empty) {
             $chunks = explode(" ", $return);
