@@ -182,7 +182,7 @@ class Mime_Helper
             $second_part = substr($address, strrpos($address, '<'));
             $address = $first_part;
         }
-        if (preg_match('/^"(.*)"/', $address)) {
+        if (preg_match('/^".*"/', $address)) {
             $address = preg_replace('/^"(.*)"/', '\\1', $address);
         }
         if (!empty($second_part)) {
@@ -238,7 +238,7 @@ class Mime_Helper
      */
     function isQuotedPrintable($address)
     {
-        if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
+        if (preg_match("/=\?.+\?Q\?.+\?= <.+>/i", $address)) {
             return true;
         } else {
             return false;
@@ -588,9 +588,9 @@ class Mime_Helper
         // content-type header is split into another line, the PEAR library would
         // not work correctly. this fix will make the boundary part go to the
         // same line as the content-type one
-        if (preg_match("/^(boundary=).*/m", $message)) {
-            $pattern = "/(Content-Type: multipart\/)(.+); ?\r?\n(boundary=)(.*)$/im";
-            $replacement = '$1$2; $3$4';
+        if (preg_match('/^boundary=/m', $message)) {
+            $pattern = "#(Content-Type: multipart/.+); ?\r?\n(boundary=)$#im";
+            $replacement = '$1; $2';
             $message = preg_replace($pattern, $replacement, $message);
         }
 

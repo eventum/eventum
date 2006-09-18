@@ -60,9 +60,10 @@ class Routing
         // save the full message for logging purposes
         Support::saveRoutedEmail($full_message);
 
-        if (preg_match("/^(boundary=).*/m", $full_message)) {
-            $pattern = "/(Content-Type: multipart\/)(.+); ?\r?\n(boundary=)(.*)$/im";
-            $replacement = '$1$2; $3$4';
+        // join the Content-Type line (for easier parsing?)
+        if (preg_match('/^boundary=/m', $full_message)) {
+            $pattern = "#(Content-Type: multipart/.+); ?\r?\n(boundary=.*)$#im";
+            $replacement = '$1; $2';
             $full_message = preg_replace($pattern, $replacement, $full_message);
         }
         // associate routed emails to the internal system account
@@ -83,7 +84,7 @@ class Routing
         //
 
         // remove the reply-to: header
-        if (preg_match("/^(reply-to:).*/im", $full_message)) {
+        if (preg_match('/^reply-to:.*/im', $full_message)) {
             $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
         }
 
@@ -270,9 +271,10 @@ class Routing
         // save the full message for logging purposes
         Note::saveRoutedNote($full_message);
 
-        if (preg_match("/^(boundary=).*/m", $full_message)) {
-            $pattern = "/(Content-Type: multipart\/)(.+); ?\r?\n(boundary=)(.*)$/im";
-            $replacement = '$1$2; $3$4';
+        // join the Content-Type line (for easier parsing?)
+        if (preg_match('/^boundary=/m', $full_message)) {
+            $pattern = "#(Content-Type: multipart/.+); ?\r?\n(boundary=.*)$#im";
+            $replacement = '$1; $2';
             $full_message = preg_replace($pattern, $replacement, $full_message);
         }
 
@@ -289,7 +291,7 @@ class Routing
         //
 
         // remove the reply-to: header
-        if (preg_match("/^(reply-to:).*/im", $full_message)) {
+        if (preg_match('/^reply-to:.*/im', $full_message)) {
             $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
         }
 
