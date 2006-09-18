@@ -96,6 +96,11 @@ if (count($matches) > 1) {
         $msg .= "Host: $eventum_domain\r\n";
         $msg .= "Connection: Close\r\n\r\n";
         fwrite($fp, $msg);
+        $buf = fgets($fp, 4096);
+        list($proto, $status, $msg) = explode(' ', trim($buf), 3);
+        if ($status != '200') {
+            echo "Error: Could not ping the Eventum SCM handler script: HTTP status code: $status $msg\n";
+        }
         fclose($fp);
     }
 }
