@@ -17,7 +17,7 @@
         </tr>
         <tr>
           <td bgcolor="{$light_color}" class="default">
-            {$headers|escape:"html"|nl2br}
+            {$headers|escape:"html"|replace:"\t":"&nbsp;&nbsp;"|nl2br}
           </td>
         </tr>
         <tr>
