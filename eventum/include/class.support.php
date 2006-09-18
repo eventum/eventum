@@ -1471,13 +1471,10 @@ class Support
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            // gotta parse MIME based emails now
-            $res["message"] = Mime_Helper::getMessageBody($output); // XXX: check which code relies on this var
             $res["attachments"] = Mime_Helper::getAttachmentCIDs($res["seb_full_email"]);
             $res["timestamp"] = Date_API::getUnixTimestamp($res['sup_date'], 'GMT');
             $res["sup_date"] = Date_API::getFormattedDate($res["sup_date"]);
             $res["sup_subject"] = Mime_Helper::fixEncoding($res["sup_subject"]);
-            // remove extra 'Re: ' from subject
             $res['reply_subject'] = Mail_API::removeExcessRe('Re: ' . $res["sup_subject"], true);
             $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
             $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);

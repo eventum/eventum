@@ -39,10 +39,6 @@ $tpl = new Template_API();
 $tpl->setTemplate("view_email.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
-
-$email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]);
-$email["message"] = str_replace("&amp;nbsp;", "&nbsp;",$email["message"]);
-
 $issue_id = Support::getIssueFromEmail($HTTP_GET_VARS["id"]);
 
 if (!Issue::canAccess($issue_id, Auth::getUserID())) {
@@ -51,6 +47,8 @@ if (!Issue::canAccess($issue_id, Auth::getUserID())) {
     exit;
 }
 
+$email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]);
+$email['seb_body'] = str_replace("&amp;nbsp;", "&nbsp;", $email['seb_body']);
 $tpl->bulkAssign(array(
     "email"           => $email,
     "issue_id"        => $issue_id,

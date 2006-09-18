@@ -129,7 +129,7 @@ if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
         $email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]);
         $date = Misc::formatReplyDate($email["timestamp"]);
         $header = "\n\n\nOn $date, " . $email["sup_from"] . " wrote:\n>\n";
-        $email["seb_body"] = $header . Misc::formatReply($email["message"]);
+        $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
         $tpl->bulkAssign(array(
             "email"           => $email,
             "parent_email_id" => $HTTP_GET_VARS["id"]

@@ -104,7 +104,7 @@ if (@$HTTP_GET_VARS["cat"] == "associate") {
             $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($HTTP_GET_VARS["item"][0]), $HTTP_GET_VARS["item"][0]);
             $tpl->assign(array(
                 'issue_summary'     => $email_details['sup_subject'],
-                'issue_description' => $email_details['message']
+                'issue_description' => $email_details['seb_body']
             ));
             // also auto pre-fill the customer contact text fields
             if (Customer::hasCustomerIntegration($prj_id)) {
