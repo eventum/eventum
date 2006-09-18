@@ -38,6 +38,7 @@ Eventum Issue Tracking System
 - Correctly show changes to issue private status in history (Bryan)
 - Set last response date if sending an email from a user with a role of Standard User or above (Bryan)
 - Added --separate-closed argument to Eventum CLI weekly-report command (Elan Ruusamäe)
+- Removed double emails decoding bug (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

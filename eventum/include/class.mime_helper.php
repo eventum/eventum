@@ -100,9 +100,6 @@ class Mime_Helper
             $str = str_replace("</DIV><DIV>", "\n", $str);
             $str = str_replace(array("<br>", "<br />", "<BR>", "<BR />"), "\n", $str);
         }
-        if (@$output->headers['content-transfer-encoding'] == 'quoted-printable') {
-            $str = Mime_Helper::decodeBody($str, 'quoted-printable');
-        }
         // XXX: do we also need to do something here about base64 encoding?
         if ($is_html) {
             $str = strip_tags($str);
@@ -657,35 +654,6 @@ class Mime_Helper
                         @$parts['text'][] = $obj->body;
                     }
             }
-        }
-    }
-
-
-    /**
-     * Method used to decode the body of a MIME encoded message.
-     *
-     * @access  public
-     * @param   string $input The full body of the message
-     * @param   string $encoding The encoding used in the message
-     * @return  string The decoded message body
-     */
-    function decodeBody($input, $encoding = '7bit')
-    {
-        switch ($encoding) {
-            case '7bit':
-                return $input;
-                break;
-
-            case 'quoted-printable':
-                return Mime_Helper::_quotedPrintableDecode($input);
-                break;
-
-            case 'base64':
-                return base64_decode($input);
-                break;
-
-            default:
-                return $input;
         }
     }
 
