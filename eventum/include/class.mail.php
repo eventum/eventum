@@ -244,6 +244,9 @@ class Mail_API
         $address = Mime_Helper::encodeValue($address);
         include_once(APP_PEAR_PATH . "Mail/RFC822.php");
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
+        if (PEAR::isError($t)) {
+            Error_Handler::logError(array($t->getMessage(), $t->getDebugInfo()), __FILE__, __LINE__);
+        }
         if ($multiple) {
             $returns = array();
             for ($i = 0; $i < count($t); $i++) {

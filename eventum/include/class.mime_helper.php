@@ -39,6 +39,7 @@
 */
 
 include_once(APP_PEAR_PATH . "Mail/mimeDecode.php");
+include_once(APP_INC_PATH . "class.error_handler.php");
 
 /**
  * Class to handle the business logic related to the MIME email
@@ -88,6 +89,10 @@ class Mime_Helper
     {
         $parts = array();
         Mime_Helper::parse_output($output, $parts);
+        if (empty($parts)) {
+            Error_Handler::logError(array("Mime_Helper::parse_output failed. Corrupted MIME in email?", $output), __FILE__, __LINE__);
+            // we continue as if nothing happened until it's clear it's right check to do.
+        }
         $str = '';
         $is_html = false;
         if (isset($parts["text"])) {
