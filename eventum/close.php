@@ -80,5 +80,9 @@ if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentCont
     ));
 }
 
+$usr_id = Auth::getUserID();
+$user_prefs = Prefs::get($usr_id);
+$tpl->assign("current_user_prefs", $user_prefs);
+
 $tpl->displayTemplate();
 ?>
