@@ -31,10 +31,9 @@ include_once("../config.inc.php");
 include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.routing.php");
 
-$email_account_id = $HTTP_SERVER_VARS['argv'][1];
 $full_message = Misc::getInput();
 
-$return = Routing::route_emails($full_message, $email_account_id);
+$return = Routing::route_emails($full_message);
 if (is_array($return)) {
     echo $return[1];
     exit($return[0]);
