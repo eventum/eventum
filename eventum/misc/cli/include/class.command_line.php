@@ -1144,15 +1144,17 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      * @param   integer $week The week for the report. If start and end date are set, this is ignored.
      * @param   string $start_date The start date of the report. (optional)
      * @param   string $end_date The end_date of the report. (optional)
+     * @param   boolean If closed issues should be separated from other issues. 
      */
-    function getWeeklyReport(&$rpc_conn, $auth, $week, $start_date = '', $end_date = '')
+    function getWeeklyReport(&$rpc_conn, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
     {
         $msg = new XML_RPC_Message("getWeeklyReport", array(
             new XML_RPC_Value($auth[0], 'string'),
             new XML_RPC_Value($auth[1], 'string'),
             new XML_RPC_Value($week, "int"),
             new XML_RPC_Value($start_date, "string"),
-            new XML_RPC_Value($end_date, "string")
+            new XML_RPC_Value($end_date, "string"),
+            new XML_RPC_Value($separate_closed ? 1 : 0, 'int'), 
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
@@ -1687,7 +1689,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
             "help"      =>  "Looks up a customer's record information."
         );
         $usage[] = array(
-            "command"   =>  array("weekly-report ([<week>])|([<start>] [<end>])", "wr ([<week>])|([<start>] [<end>])"),
+            "command"   =>  array("weekly-report ([<week>] [--separate-closed])|([<start>] [<end>] [--separate-closed])", "wr ([<week>])|([<start>] [<end>] [--separate-closed])"),
             "help"      =>  "Fetches the weekly report. Week is specified as an integer with 0 representing
      the current week, -1 the previous week and so on. If the week is omitted it defaults
      to the current week. Alternately, a date range can be set. Dates should be in the format 'YYYY-MM-DD'."

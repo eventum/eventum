@@ -653,7 +653,7 @@ function mayChangeIssue($p)
     }
 }
 
-$getWeeklyReport_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String));
+$getWeeklyReport_sig = array(array($XML_RPC_String, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int, $XML_RPC_String, $XML_RPC_String, $XML_RPC_Int));
 function getWeeklyReport($p)
 {
     $email = XML_RPC_decode($p->getParam(0));
@@ -665,6 +665,7 @@ function getWeeklyReport($p)
     $week = abs(XML_RPC_decode($p->getParam(2)));
     $start = XML_RPC_decode($p->getParam(3));
     $end = XML_RPC_decode($p->getParam(4));
+    $separate_closed = XML_RPC_decode($p->getParam(5));
     
     // we have to set a project so the template class works, even though the weekly report doesn't actually need it
     $projects = Project::getAssocList(Auth::getUserID());
@@ -680,9 +681,14 @@ function getWeeklyReport($p)
         $start = date("Y-m-d", $start);
     }
     
+    if ($separate_closed) {
+        // emulate smarty value for reports/weekly_data.tpl.tmpl:
+        // {if $smarty.post.separate_closed == 1}
+        $_POST['separate_closed'] = true;
+    }
     $tpl = new Template_API();
     $tpl->setTemplate("reports/weekly_data.tpl.html");
-    $tpl->assign("data", Report::getWeeklyReport(User::getUserIDByEmail($email), $start, $end));
+    $tpl->assign("data", Report::getWeeklyReport(User::getUserIDByEmail($email), $start, $end, $separate_closed));
     
     $ret = $tpl->getTemplateContents(). "\n";
     return new XML_RPC_Response(XML_RPC_Encode(base64_encode($ret)));

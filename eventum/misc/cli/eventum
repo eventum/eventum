@@ -218,15 +218,19 @@ if ($issue_id > 0) {
         }
         Command_Line::lookupCustomer($client, $auth, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3]);
     } elseif (($HTTP_SERVER_VARS['argv'][1] == 'weekly-report') || ($HTTP_SERVER_VARS['argv'][1] == 'wr')) {
-        if (count(@$HTTP_SERVER_VARS['argv']) == 4) {
+        if (count(@$HTTP_SERVER_VARS['argv']) >= 4 and $HTTP_SERVER_VARS['argv'][3] != '--separate-closed') {
+            $separate_closed = (@$HTTP_SERVER_VARS['argv'][4] == '--separate-closed');
             // date range
-            Command_Line::getWeeklyReport($client, $auth, 0, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3]);
+            Command_Line::getWeeklyReport($client, $auth, 0, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3], $separate_closed);
         } else {
             // weekly
             if (@$HTTP_SERVER_VARS['argv'][2] == '') {
+                $separate_closed = false;
                 @$HTTP_SERVER_VARS['argv'][2] = 0;
+            } else {
+                $separate_closed = (@$HTTP_SERVER_VARS['argv'][3] == '--separate-closed' or @$HTTP_SERVER_VARS['argv'][2] == '--separate-closed');
             }
-            Command_Line::getWeeklyReport($client, $auth, $HTTP_SERVER_VARS['argv'][2]);
+            Command_Line::getWeeklyReport($client, $auth, $HTTP_SERVER_VARS['argv'][2], '', '', $separate_closed);
         }
     } elseif ($HTTP_SERVER_VARS['argv'][1] == 'clock') {
         Command_Line::timeClock($client, $auth, @$HTTP_SERVER_VARS['argv'][2]);
