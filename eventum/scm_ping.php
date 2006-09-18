@@ -33,8 +33,6 @@ include_once(APP_INC_PATH . "class.scm.php");
 include_once(APP_INC_PATH . "class.workflow.php");
 include_once(APP_INC_PATH . "db_access.php");
 
-$HTTP_GET_VARS = Misc::array_map_deep($HTTP_GET_VARS, 'base64_decode');
-
 foreach ($HTTP_GET_VARS['issue'] as $issue_id) {
     $files = array();
     for ($y = 0; $y < count($HTTP_GET_VARS['files']); $y++) {

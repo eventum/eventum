@@ -73,18 +73,18 @@ preg_match($pattern, $commit_msg, $matches);
 
 if (count($matches) > 1) {
     // need to encode all of the url arguments
-    $issue_id = base64_encode($matches[1]);
-    $commit_msg = base64_encode($commit_msg);
-    $cvs_module = base64_encode($cvs_module);
-    $username = base64_encode($username);
+    $issue_id = rawurlencode($matches[1]);
+    $commit_msg = rawurlencode($commit_msg);
+    $cvs_module = rawurlencode($cvs_module);
+    $username = rawurlencode($username);
 
     // build the GET url to use
     $ping_url = $eventum_relative_url . "scm_ping.php?module=$cvs_module&username=$username&commit_msg=$commit_msg";
     $ping_url .= "&issue[]=$issue_id";
     for ($i = 0; $i < count($modified_files); $i++) {
-        $ping_url .= "&files[$i]=" . base64_encode($modified_files[$i]['filename']);
-        $ping_url .= "&old_versions[$i]=" . base64_encode($modified_files[$i]['old_revision']);
-        $ping_url .= "&new_versions[$i]=" . base64_encode($modified_files[$i]['new_revision']);
+        $ping_url .= "&files[$i]=" . rawurlencode($modified_files[$i]['filename']);
+        $ping_url .= "&old_versions[$i]=" . rawurlencode($modified_files[$i]['old_revision']);
+        $ping_url .= "&new_versions[$i]=" . rawurlencode($modified_files[$i]['new_revision']);
     }
 
     $fp = fsockopen($eventum_domain, $eventum_port, $errno, $errstr, 30);
