@@ -319,7 +319,7 @@ class Routing
         }
 
         if (empty($issue_id)) {
-            return array(65, gettext("Error: The routed note had no associated Eventum issue ID or had an invalid recipient address.")" . "\n");
+            return array(65, gettext("Error: The routed note had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
         }
 
         $prj_id = Issue::getProjectID($issue_id);
