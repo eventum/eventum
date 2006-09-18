@@ -41,6 +41,7 @@ Eventum Issue Tracking System
 - Removed double emails decoding bug (Bryan)
 - Fix corruption of SCM commits messages of certain commit messages (Elan Ruusamäe)
 - Allow SCM commit messages contain multiple issue IDs (Elan Ruusamäe)
+- Add "Add signature" feature to issue close page (Elan Ruusamäe)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
