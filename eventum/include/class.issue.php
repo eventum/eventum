@@ -2296,38 +2296,38 @@ class Issue
 
         $custom_fields = Custom_Field::getFieldsToBeListed(Auth::getCurrentProject());
 
+        // default order for last action date, priority should be descending
+        // for textual fields, like summary, ascending is reasonable
         $fields = array(
-            "pri_rank",
-            "iss_id",
-            "iss_customer_id",
-            "prc_title",
-            "sta_rank",
-            "iss_created_date",
-            "iss_summary",
-            "last_action_date",
-            "usr_full_name",
-            "iss_expected_resolution_date"
+            "pri_rank" => "desc",
+            "iss_id" => "desc",
+            "iss_customer_id" => "desc",
+            "prc_title" => "asc",
+            "sta_rank" => "asc",
+            "iss_created_date" => "desc",
+            "iss_summary" => "asc",
+            "last_action_date" => "desc",
+            "usr_full_name" => "asc",
+            "iss_expected_resolution_date" => "desc",
         );
 
         foreach ($custom_fields as $fld_id => $fld_name) {
-            $fields[] = 'custom_field_' . $fld_id;
+            $fields['custom_field_' . $fld_id] = "desc";
         }
         $items = array(
             "links"  => array(),
             "images" => array()
         );
-        for ($i = 0; $i < count($fields); $i++) {
-            if ($options["sort_by"] == $fields[$i]) {
-                $items["images"][$fields[$i]] = "images/" . strtolower($options["sort_order"]) . ".gif";
+        foreach ($fields as $field => $sort_order) {
+            if ($options["sort_by"] == $field) {
+                $items["images"][$field] = "images/" . strtolower($options["sort_order"]) . ".gif";
                 if (strtolower($options["sort_order"]) == "asc") {
                     $sort_order = "desc";
                 } else {
                     $sort_order = "asc";
                 }
-                $items["links"][$fields[$i]] = $HTTP_SERVER_VARS["PHP_SELF"] . "?sort_by=" . $fields[$i] . "&sort_order=" . $sort_order;
-            } else {
-                $items["links"][$fields[$i]] = $HTTP_SERVER_VARS["PHP_SELF"] . "?sort_by=" . $fields[$i] . "&sort_order=asc";
             }
+            $items["links"][$field] = $HTTP_SERVER_VARS["PHP_SELF"] . "?sort_by=" . $field . "&sort_order=" . $sort_order;
         }
         return $items;
     }
