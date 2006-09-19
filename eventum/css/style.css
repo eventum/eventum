@@ -34,7 +34,7 @@
 }
 .button {
   font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 70%;
+  font-size: 65%;
   font-weight: bold
 }
 .button_overlib {
@@ -159,4 +159,8 @@ h4 {
   font-weight: bold;
   border: 1px solid Red;
   padding: 2px 2px 2px 2px;
+}
+
+div.view_issue_seperator {
+  padding-top: 10px;
 }

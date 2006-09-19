@@ -26,26 +26,35 @@
   </table>
 {else}
   {include file="view_form.tpl.html"}
+  <div class="view_issue_seperator"></div>
   {include file="custom_fields.tpl.html"}
+  <div class="view_issue_seperator"></div>
   {if $has_customer_integration and $issue.iss_customer_id}
   {include file="customer/$customer_backend_name/customer_info.tpl.html"}
+  <div class="view_issue_seperator"></div>
   {/if}
   {include file="attachments.tpl.html"}
+  <div class="view_issue_seperator"></div>
   {if $current_role > $roles.customer and $app_setup.scm_integration == 'enabled'}
   {include file="checkins.tpl.html"}
+  <div class="view_issue_seperator"></div>
   {/if}
   {if $current_role >= $roles.reporter and $current_role != $roles.customer}
   {include file="time_tracking.tpl.html"}
+  <div class="view_issue_seperator"></div>
   {/if}
   {if $current_role > $roles.customer}
   {include file="notes.tpl.html"}
+  <div class="view_issue_seperator"></div>
   {/if}
   {if $current_role > $roles.customer}
   {include file="phone_support.tpl.html"}
+  <div class="view_issue_seperator"></div>
   {/if}
   {if $app_setup.support_email == 'enabled'}
     {if $current_role > $roles.customer}
       {include file="email_drafts.tpl.html"}
+      <div class="view_issue_seperator"></div>
     {/if}
   {include file="support_emails.tpl.html"}
   {/if}
