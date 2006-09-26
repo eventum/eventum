@@ -137,6 +137,13 @@ if (APP_BENCHMARK) {
     $bench->start();
 }
 
+// handle the language preferences now
+define('APP_DEFAULT_LOCALE', 'en_US');
+
+@session_start();
+include_once(APP_INC_PATH . "class.language.php");
+Language::setPreference();
+
 include_once(APP_INC_PATH . "class.misc.php");
 
 if (isset($_GET)) {
@@ -155,13 +162,6 @@ if (isset($_GET)) {
 $HTTP_GET_VARS = Misc::dispelMagicQuotes($HTTP_GET_VARS);
 $HTTP_POST_VARS = Misc::dispelMagicQuotes($HTTP_POST_VARS);
 $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
-
-// handle the language preferences now
-define('APP_DEFAULT_LOCALE', 'en_US');
-
-@session_start();
-@include_once(APP_INC_PATH . "class.language.php");
-Language::setPreference();
 
 // set charset
 header("content-type: text/html;charset=" . APP_CHARSET);

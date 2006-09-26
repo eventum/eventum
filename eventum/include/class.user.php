@@ -51,6 +51,16 @@ $roles = array(
     7 => "Administrator"
 );
 
+$localized_roles = array(
+    1 => gettext("Viewer"),
+    2 => gettext("Reporter"),
+    3 => gettext("Customer"),
+    4 => gettext("Standard User"),
+    5 => gettext("Developer"),
+    6 => gettext("Manager"),
+    7 => gettext("Administrator")
+);
+
 /**
  * Class to handle the business logic related to the administration
  * of users and permissions in the system.
@@ -555,19 +565,17 @@ class User
     function getRoles($exclude_role = FALSE)
     {
         if ($exclude_role == false) {
-            return $GLOBALS["roles"];
+            return $GLOBALS['localized_roles'];
         } else {
+            $roles = $GLOBALS['localized_roles'];
             if (!is_array($exclude_role)) {
                 $exclude_role = array($exclude_role);
             }
-            $exclude_role = array_map('strtolower', $exclude_role);
-            $t = array();
-            foreach ($GLOBALS["roles"] as $role_id => $role_title) {
-                if (!in_array(strtolower($role_title), $exclude_role)) {
-                    $t[$role_id] = $role_title;
-                }
+            foreach ($exclude_role as $role_title) {
+                unset($roles[User::getRoleID($role_title)]);
             }
-            return $t;
+
+            return $roles;
         }
     }
 
@@ -581,7 +589,7 @@ class User
      */
     function getRole($role_id)
     {
-        return $GLOBALS["roles"][$role_id];
+        return $GLOBALS['localized_roles'][$role_id];
     }
 
 
