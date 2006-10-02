@@ -170,8 +170,11 @@ class Attachment
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
                  WHERE
                     iaf_id=$iaf_id AND
-                    iat_id=iaf_iat_id AND
+                    iat_id=iaf_iat_id";
+        if (Auth::getCurrentRole() < User::getRoleID("Administrator")) {
+            $stmt .= " AND
                     iat_usr_id=$usr_id";
+        }
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -282,8 +285,11 @@ class Attachment
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
                  WHERE
-                    iat_id=$iat_id AND
+                    iat_id=$iat_id";
+        if (Auth::getCurrentRole() < User::getRoleID("Administrator")) {
+            $stmt .= " AND
                     iat_usr_id=$usr_id";
+        }
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -297,9 +303,12 @@ class Attachment
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
                          WHERE
                             iat_id=$iat_id AND
-                            iat_iss_id=$res AND
-                            iat_usr_id=$usr_id";
-                $GLOBALS["db_api"]->dbh->query($stmt);
+                            iat_iss_id=$res";
+                $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                if (PEAR::isError($res)) {
+                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    return -1;
+                }
                 for ($i = 0; $i < count($files); $i++) {
                     Attachment::removeFile($files[$i]['iaf_id']);
                 }
@@ -327,7 +336,11 @@ class Attachment
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
                  WHERE
                     iaf_id=" . $iaf_id;
-        $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
     }
 
 
