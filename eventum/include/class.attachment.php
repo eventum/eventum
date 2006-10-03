@@ -171,7 +171,7 @@ class Attachment
                  WHERE
                     iaf_id=$iaf_id AND
                     iat_id=iaf_iat_id";
-        if (Auth::getCurrentRole() < User::getRoleID("Administrator")) {
+        if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
             $stmt .= " AND
                     iat_usr_id=$usr_id";
         }
@@ -286,7 +286,7 @@ class Attachment
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
                  WHERE
                     iat_id=$iat_id";
-        if (Auth::getCurrentRole() < User::getRoleID("Administrator")) {
+        if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
             $stmt .= " AND
                     iat_usr_id=$usr_id";
         }
