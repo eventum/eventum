@@ -495,6 +495,7 @@ CREATE TABLE %TABLE_PREFIX%user (
   usr_preferences longtext,
   usr_sms_email varchar(255) NULL,
   usr_clocked_in tinyint(1) DEFAULT 0,
+  usr_lang varchar(5),
   PRIMARY KEY  (usr_id),
   UNIQUE KEY usr_email (usr_email),
   KEY usr_email_password (usr_email, usr_password),

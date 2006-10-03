@@ -1394,6 +1394,33 @@ class User
         }
         return 1;
     }
+
+
+    function getLang($usr_id)
+    {
+        static $returns;
+
+        $usr_id = Misc::escapeInteger($usr_id);
+        if (empty($returns[$usr_id])) {
+            $sql = "SELECT
+                        usr_lang
+                    FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                    WHERE
+                        usr_id = $usr_id";
+            $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return APP_DEFAULT_LOCALE;
+            } else {
+                if (empty($res)) {
+                    $res = APP_DEFAULT_LOCALE;
+                }
+                $returns[$usr_id] = $res;
+            }
+        }
+        return $returns[$usr_id];
+    }
 }
 
 // benchmarking the included file (aka setup time)

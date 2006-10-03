@@ -35,7 +35,8 @@ $avail_langs = array(
     "it_IT",
     "fi_FI",
     "es_ES",
-    "nl_NL"
+    "nl_NL",
+    "sv_SE"
 );
 
 /**
@@ -63,7 +64,17 @@ class Language
         // please add the following line to config.inc.php, changing to whatever language you prefer
         // define('APP_DEFAULT_LOCALE', 'en_US');
 
-        define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
+        $usr_id = Auth::getUserID();
+        if (empty($usr_id)) {
+            define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
+        } else {
+            $usr_lang = User::getLang($usr_id);
+            if (!in_array($usr_lang, $avail_langs)) {
+                $usr_lang = APP_DEFAULT_LOCALE;
+            }
+            define('APP_CURRENT_LOCALE', $usr_lang);
+        }
+
         $new_locale = setlocale(LC_TIME, APP_CURRENT_LOCALE . '.UTF8', APP_CURRENT_LOCALE);
         $new_locale = setlocale(LC_MESSAGES, APP_CURRENT_LOCALE . '.UTF8', APP_CURRENT_LOCALE);
         bindtextdomain("eventum", APP_PATH . "misc/localization/");

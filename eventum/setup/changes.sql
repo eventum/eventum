@@ -654,3 +654,6 @@ ALTER TABLE eventum_note ADD COLUMN not_has_attachment tinyint(1) NOT NULL defau
 # May 12th
 ALTER TABLE eventum_support_email CHANGE COLUMN sup_to sup_to tinytext;
 ALTER TABLE eventum_support_email CHANGE COLUMN sup_cc sup_cc tinytext;
+
+# October 2nd
+ALTER TABLE eventum_user ADD COLUMN usr_lang varchar(5);
