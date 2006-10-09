@@ -206,7 +206,7 @@ class SCM
             Issue::markAsUpdated($issue_id, 'scm checkin');
             // need to save a history entry for this
             History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('scm_checkin_associated'),
-                            ev_gettext("SCM Checkins associated by SCM user \'") . $HTTP_GET_VARS["username"] . '\'.');
+                            ev_gettext("SCM Checkins associated by SCM user '") . $HTTP_GET_VARS["username"] . '\'.');
             return 1;
         }
     }
