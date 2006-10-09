@@ -26,6 +26,8 @@
 // +----------------------------------------------------------------------+
 //
 
+include_once(APP_INC_PATH . "class.auth.php");
+
 // this will eventually be used to support more than one language
 $avail_langs = array(
     "en_US",
