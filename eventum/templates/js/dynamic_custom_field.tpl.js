@@ -18,7 +18,7 @@ dynamic_options[i].groups = new Array();
         {/foreach}
     dynamic_options[i].groups[j].options = new Array();
         {foreach from=$group.options item=option key=option_value}
-        dynamic_options[i].groups[j].options[dynamic_options[i].groups[j].options.length] = new Option('{$option}', '{$option_value}');
+        dynamic_options[i].groups[j].options[dynamic_options[i].groups[j].options.length] = new Option('{$option|escape:'javascript'}', '{$option_value|escape:'javascript'}');
         {/foreach}
     {/foreach}
 {/foreach}
@@ -54,11 +54,11 @@ function custom_field_init_dynamic_options(fld_id)
                 target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id + '_month');
                 target_field.onmousedown = custom_field_prompt_choose_controller;
                 target_field.onkeypress = custom_field_prompt_choose_controller;
-                
+
                 target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id + '_day');
                 target_field.onmousedown = custom_field_prompt_choose_controller;
                 target_field.onkeypress = custom_field_prompt_choose_controller;
-                
+
                 target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id + '_year');
                 target_field.onmousedown = custom_field_prompt_choose_controller;
                 target_field.onkeypress = custom_field_prompt_choose_controller;
@@ -90,7 +90,7 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
 
     // get current value of controller field
     value = controller.options[controller.selectedIndex].value;
-    
+
     // find the object
     if (target_fld_id != undefined) {
         details = new Array();
@@ -109,9 +109,9 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
         } else {
             targets[0] = target = getPageElement('custom_field_' + details[i].target_field_id);
         }
-        
+
         for (var targ_num = 0; targ_num < targets.length; targ_num++) {
-            target = targets[targ_num];    
+            target = targets[targ_num];
             // see if this value has a set of options for the child field
             if (keep_target_value) {
                 // get the current value
@@ -150,7 +150,7 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
                     }
                 }
             }
-    
+
             if (details[i].hide_when_no_options == 1) {
                 if (show == false) {
                     target.parentNode.parentNode.style.display = 'none';
@@ -160,7 +160,7 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
             }
         }
     }
-    
+
 }
 
 function custom_field_prompt_choose_controller(e) {
@@ -168,9 +168,9 @@ function custom_field_prompt_choose_controller(e) {
     target_field = getEventTarget(e);
     chunks = target_field.id.split('_');
     target_id = chunks[2];
-    
+
     details = custom_field_get_details_by_target(target_id);
-    
+
     alert('{/literal}{t}Please choose{/t} ' + details.controlling_field_name + ' {t}first{/t}{literal}');
     target_field.blur();
     e.cancelBubble = true;
