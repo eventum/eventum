@@ -52,6 +52,7 @@ Eventum Issue Tracking System
 - Speedup SCM commits that are not associated with Eventum issue (Elan Ruusamäe)
 - Optimized regex and memory usage (Elan Ruusamäe)
 - Change permissions to allow Administrators to delete attachments from any users (Bryan)
+- Remove "Remember Login" checkbox since it is confusing and mislabeled. (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

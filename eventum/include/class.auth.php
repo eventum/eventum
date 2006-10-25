@@ -141,7 +141,7 @@ class Auth
         }
 
         // if the current session is still valid, then renew the expiration
-        Auth::createLoginCookie($cookie_name, $cookie['email'], $cookie['autologin']);
+        Auth::createLoginCookie($cookie_name, $cookie['email']);
         // renew the project cookie as well
         $prj_cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
         Auth::setCurrentProject($prj_id, $prj_cookie["remember"]);
@@ -272,17 +272,15 @@ class Auth
      * @access  public
      * @param   string $cookie_name The cookie name to be created
      * @param   string $email The email address to be stored in the cookie
-     * @param   integer $autologin Flag to indicate whether this user should be automatically logged in or not
      * @return  void
      */
-    function createLoginCookie($cookie_name, $email, $autologin = 0)
+    function createLoginCookie($cookie_name, $email)
     {
         $time = time();
         $cookie = array(
             "email"      => $email,
             "login_time" => $time,
             "hash"       => md5($GLOBALS["private_key"] . md5($time) . $email),
-            "autologin"  => $autologin
         );
         $cookie = base64_encode(serialize($cookie));
         setcookie($cookie_name, $cookie, APP_COOKIE_EXPIRE, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
@@ -413,7 +411,7 @@ class Auth
         if (empty($info)) {
             return '';
         } else {
-            return @User::getUserIDByEmail($info["email"]);
+            return User::getUserIDByEmail($info["email"]);
         }
     }
 
@@ -513,7 +511,6 @@ class Auth
             "email" => $user_details['usr_email'],
             "login_time"    =>  $time,
             "hash"       => md5($GLOBALS["private_key"] . md5($time) . $user_details['usr_email']),
-            "autologin" =>  0
         );
         $HTTP_COOKIE_VARS[APP_COOKIE] = base64_encode(serialize($cookie));
         if ($project) {

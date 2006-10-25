@@ -44,16 +44,12 @@ $tpl->setTemplate("index.tpl.html");
 
 if (Auth::hasValidCookie(APP_COOKIE)) {
     $cookie = Auth::getCookieInfo(APP_COOKIE);
-    if ($cookie["autologin"]) {
-        if (!empty($HTTP_GET_VARS["url"])) {
-            $extra = '?url=' . $HTTP_GET_VARS["url"];
-        } else {
-            $extra = '';
-        }
-        Auth::redirect(APP_RELATIVE_URL . "select_project.php" . $extra);
+    if (!empty($_REQUEST["url"])) {
+        $extra = '?url=' . $_REQUEST["url"];
     } else {
-        $tpl->assign("email", $cookie["email"]);
+        $extra = '';
     }
+    Auth::redirect(APP_RELATIVE_URL . "select_project.php" . $extra);
 }
 
 $projects = Project::getAnonymousList();
