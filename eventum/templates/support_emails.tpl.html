@@ -76,7 +76,7 @@ function sendEmail(account_id, issue_id)
                 <td width="5" class="default_white" align="center">#</td>
                 <td width="5" class="default_white">{t}Reply{/t}</td>
                 <td width="15%" class="default_white">{t}From{/t}</td>
-                <td width="20%" class="default_white">{t}To{/t}</td>
+                <td width="20%" class="default_white">{t}Recipients{/t}</td>
                 <td width="15%" class="default_white" nowrap>{t}Date{/t}</td>
                 <td width="50%" class="default_white">{t}Subject{/t}</td>
               </tr>
@@ -101,6 +101,10 @@ function sendEmail(account_id, issue_id)
                   <i>{t}sent to notification list{/t}</i>
                   {else}
                   {$emails[i].sup_to|escape:"html"}
+                  {/if}
+                  {if $emails[i].sup_cc != ""}
+                  <br/>
+                  {$emails[i].sup_cc|escape:"html"}
                   {/if}
                 </td>
                 <td class="default" nowrap bgcolor="{$row_color}">{$emails[i].sup_date}</td>

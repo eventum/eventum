@@ -53,6 +53,7 @@ Eventum Issue Tracking System
 - Optimized regex and memory usage (Elan Ruusamäe)
 - Change permissions to allow Administrators to delete attachments from any users (Bryan)
 - Remove "Remember Login" checkbox since it is confusing and mislabeled. (Bryan)
+- Dislay all recipients for emails in issue details screen (Elan Ruusamäe)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
