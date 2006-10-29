@@ -64,6 +64,7 @@ $usr_id = Auth::getUserID();
 $tpl->assign(array(
     "units" =>  $units,
     "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+    "developer" => $usr_id,
     "type_list" =>  $type_list,
     "activity_types"    =>  $_REQUEST['activity_types']
 ));
