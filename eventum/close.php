@@ -44,8 +44,14 @@ $tpl->setTemplate("close.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 
 $prj_id = Auth::getCurrentProject();
-$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["id"];
+$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : @$HTTP_GET_VARS["id"];
 $tpl->assign("extra_title", "Close Issue #$issue_id");
+
+if (!Issue::exists($issue_id, false)) {
+    $tpl->assign("no_issue", true);
+    $tpl->displayTemplate();
+    exit;
+}
 
 $notification_list = Notification::getSubscribers($issue_id, 'closed');
 $tpl->assign("notification_list_all", $notification_list['all']);
