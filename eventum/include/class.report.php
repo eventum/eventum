@@ -641,7 +641,8 @@ class Report
             }
             $sql .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                    WHERE\n";
+                    WHERE
+                        iss_prj_id = $prj_id AND\n";
             if (!is_object($backend)) {
                 $sql .= "cfo_id = icf_value AND";
             }
@@ -682,7 +683,8 @@ class Report
             }
             $stmt .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                    WHERE\n";
+                    WHERE
+                        iss_prj_id = $prj_id AND\n";
             if (!is_object($backend)) {
                 $stmt .= "cfo_id = icf_value AND";
             }
