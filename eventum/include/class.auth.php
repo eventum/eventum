@@ -118,6 +118,12 @@ class Auth
             Auth::removeCookie($cookie_name);
             Auth::redirect(APP_RELATIVE_URL . "index.php?err=7", $is_popup);
         }
+
+        $usr_id = Auth::getUserID();
+
+        // check the session
+        Session::verify($usr_id);
+
         // check whether the project selection is set or not
         $prj_id = Auth::getCurrentProject();
         if (empty($prj_id)) {

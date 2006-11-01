@@ -81,6 +81,57 @@ class Session
         GLOBAL $HTTP_SESSION_VARS;
         return isset($HTTP_SESSION_VARS[$name]);
     }
+
+
+    /**
+     * Initialize the session
+     *
+     * @access  public
+     * @param   integer $usr_id The ID of the user
+     */
+    function init($usr_id)
+    {
+        @session_start();
+
+        // clear all old session variables
+        $_SESSION = array();
+
+        // regenerate ID to prevent session fixation
+        session_regenerate_id();
+
+        // set the IP in the session so we can check it later
+        $_SESSION['login_ip'] = $_SERVER['REMOTE_ADDR'];
+
+        // store user ID in session
+        $_SESSION['usr_id'] = $usr_id;// XXX: Should we perform checks on this usr ID before accepting it?
+    }
+
+
+    /**
+     * Verify that the current request to use the session has the same IP address as the request that started it.
+     *
+     * @access  public
+     * @param   integer $usr_id The ID of the user
+     */
+    function verify($usr_id)
+    {
+        @session_start();
+
+        // Don't check the IP of the session, since this caused problems for users that use a proxy farm that uses
+        // a different IP address each page load.
+        if (!Session::is_set('usr_id')) {
+            Session::init($usr_id);
+        }
+    }
+
+
+    /**
+     * Destroys the current session
+     */
+    function destroy()
+    {
+        @session_destroy();
+    }
 }
 
 // benchmarking the included file (aka setup time)
