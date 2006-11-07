@@ -577,7 +577,7 @@ class Support
                 'headers'        => @$structure->headers
             );
             $should_create_array = Support::createIssueFromEmail($info, $headers, $message_body, $t['date'], @$email->fromaddress,
-                                        Mime_Helper::fixEncoding( @$email->subject));
+                                        Mime_Helper::fixEncoding( @$email->subject), $t['to'], $t['cc']);
             $should_create_issue = $should_create_array['should_create_issue'];
             $associate_email = $should_create_array['associate_email'];
             if (!empty($should_create_array['issue_id'])) {
@@ -666,6 +666,10 @@ class Support
                                 // broadcast this email only to the assignees for this issue
                                 $internal_only = true;
                                 $assignee_only = true;
+                            } elseif (!empty($should_create_array['issue_id'])) {
+                                // if a new issue was created, only send a copy of the email to the assignee (if any), don't resend to the original TO/CC list
+                                $assignee_only = true;
+                                $internal_only = true;
                             }
                             Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
                             // try to get usr_id of sender, if not, use system account
@@ -719,9 +723,11 @@ class Support
      * @param   string  $date The date this message was sent
      * @param   string  $from The name and email address of the sender.
      * @param   string  $subject The subject of this message.
+     * @param   array   $to An array of to addresses
+     * @param   array   $cc An array of cc addresses
      * @return  array   An array of information about the message
      */
-    function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject)
+    function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
         $should_create_issue = false;
         $issue_id = '';
@@ -820,6 +826,43 @@ class Support
             if ((!empty($associate_email)) && (!empty($reference_issue_id))) {
                 $reference_sup_id = Support::getIDByMessageID($associate_email);
                 Support::associate(APP_SYSTEM_USER_ID, $issue_id, array($reference_sup_id));
+            }
+
+
+            // add to and cc addresses to notification list
+            $prj_id = Auth::getCurrentProject();
+            $project_details = Project::getDetails($prj_id);
+            $addresses_not_too_add = array($project_details['prj_outgoing_sender_email']);
+
+            if (!empty($to)) {
+                $to_addresses = Mail_API::getAddressInfo($to, true);
+                foreach ($to_addresses as $address) {
+                    if ((in_array($address['email'], $addresses_not_too_add)) || (!Workflow::shouldEmailAddress($prj_id, $address['email']))) {
+                        continue;
+                    }
+                    if (empty($address['sender_name'])) {
+                        $recipient = $address['email'];
+                    } else {
+                        $recipient = Mail_API::getFormattedName($address['sender_name'], $address['email']);
+                    }
+                    Notification::subscribeEmail(Auth::getUserID(), $issue_id, $address['email'], Notification::getDefaultActions());
+                    Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $from, $date, $subject, $recipient);
+                }
+            }
+            if (!empty($cc)) {
+                $cc_addresses = Mail_API::getAddressInfo($cc, true);
+                foreach ($cc_addresses as $address) {
+                    if ((in_array($address['email'], $addresses_not_too_add)) || (!Workflow::shouldEmailAddress($prj_id, $address['email']))) {
+                        continue;
+                    }
+                    if (empty($address['sender_name'])) {
+                        $recipient = $address['email'];
+                    } else {
+                        $recipient = Mail_API::getFormattedName($address['sender_name'], $address['email']);
+                    }
+                    Notification::subscribeEmail(Auth::getUserID(), $issue_id, $address['email'], Notification::getDefaultActions());
+                    Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $from, $date, $subject, $recipient);
+                }
             }
         }
         // need to check crm for customer association
@@ -1004,29 +1047,6 @@ class Support
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
-                if (Issue::exists($row['issue_id'], false)) {
-                    $project_details = Project::getDetails(Issue::getProjectID($row['issue_id']));
-                    $addresses_not_too_add = array($project_details['prj_outgoing_sender_email'], Mail_API::getEmailAddress(Notification::getFixedFromHeader($row['issue_id'], '', 'issue')));
-
-                    if (!empty($row['to'])) {
-                        $to_addresses = Mail_API::getAddressInfo($row['to'], true);
-                        foreach ($to_addresses as $address) {
-                            if (in_array($address['email'], $addresses_not_too_add)) {
-                                continue;
-                            }
-                            Notification::subscribeEmail(Auth::getUserID(), $row['issue_id'], $address['email'], Notification::getDefaultActions());
-                        }
-                    }
-                    if (!empty($row['cc'])) {
-                        $cc_addresses = Mail_API::getAddressInfo($row['cc'], true);
-                        foreach ($cc_addresses as $address) {
-                            if (in_array($address['email'], $addresses_not_too_add)) {
-                                continue;
-                            }
-                            Notification::subscribeEmail(Auth::getUserID(), $row['issue_id'], $address['email'], Notification::getDefaultActions());
-                        }
-                    }
-                }
                 Workflow::handleNewEmail(Email_Account::getProjectID($row["ema_id"]), @$row["issue_id"], $structure, $row, $closing);
                 return 1;
             }

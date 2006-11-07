@@ -465,7 +465,7 @@ class Routing
         History::add($issue_id, Auth::getUserID(), History::getTypeID('draft_routed'), gettext("Draft routed from") . " " . $structure->headers['from']);
         return true;
     }
-     
+
     /**
      * Check for $adresses for matches
      *
@@ -492,7 +492,7 @@ class Routing
         }
         $mail_domain = quotemeta($settings['address_host']);
 
-        // it is not checked for type when host alias is asked. this leaves 
+        // it is not checked for type when host alias is asked. this leaves
         // room foradding host_alias for other than email routing.
         if (isset($settings['host_alias'])) {
             // TODO: can't quotemeta() host alias as it can contain multiple hosts separated with pipe

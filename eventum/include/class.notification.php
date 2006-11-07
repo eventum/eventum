@@ -1082,14 +1082,23 @@ class Notification
      * @param   string $sender The sender of the email message (and the recipient of this notification)
      * @param   string $date The arrival date of the email message
      * @param   string $subject The subject line of the email message
+     * @param   string $additional_recipient The user who should recieve this email who is not the sender of the original email.
      * @return  void
      */
-    function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject)
+    function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
     {
         if (Customer::hasCustomerIntegration($prj_id)) {
             Customer::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject);
         } else {
-            if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress($sender))) {
+            if ($additional_recipient != false) {
+                $recipient = $additional_recipient;
+                $is_message_sender = false;
+            } else {
+                $recipient = $sender;
+                $is_message_sender = true;
+            }
+
+            if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress($recipient))) {
                 return;
             }
             $data = Issue::getDetails($issue_id);
@@ -1100,7 +1109,9 @@ class Notification
             $tpl->bulkAssign(array(
                 "app_title"   => Misc::getToolCaption(),
                 "data"        => $data,
-                "sender_name" => Mail_API::getName($sender)
+                "sender_name" => Mail_API::getName($sender),
+                'recipient_name'    => Mail_API::getName($recipient),
+                'is_message_sender' =>  $is_message_sender
             ));
 
             // figure out if sender has a real account or not
@@ -1127,8 +1138,8 @@ class Notification
             $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
             $setup = $mail->getSMTPSettings();
             $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
-            $sender = Mime_Helper::fixEncoding($sender);
-            $mail->send($from, $sender, "[#$issue_id] Issue Created: " . $data['iss_summary'], 0, $issue_id, 'auto_created_issue');
+            $recipient = Mime_Helper::fixEncoding($recipient);
+            $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 0, $issue_id, 'auto_created_issue');
         }
     }
 

@@ -246,7 +246,6 @@ class Mail_API
      */
     function getAddressInfo($address, $multiple = false)
     {
-        $address = Mail_API::fixAddressQuoting($address);
         $address = Mime_Helper::encodeValue($address);
         include_once(APP_PEAR_PATH . "Mail/RFC822.php");
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
@@ -304,6 +303,9 @@ class Mail_API
         $returns = array();
         foreach ($info as $row) {
             if (!empty($row['sender_name'])) {
+                if ((substr($row['sender_name'], 0, 1) == '"') && (substr($row['sender_name'], -1) == '"')) {
+                    $row['sender_name'] = substr($row['sender_name'], 1, -1);
+                }
                 $returns[] = Mime_Helper::fixEncoding($row['sender_name']);
             } else {
                 $returns[] = $row['email'];
