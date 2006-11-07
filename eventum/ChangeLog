@@ -58,6 +58,7 @@ Eventum Issue Tracking System
 - Dislay all recipients for emails in issue details screen (Elan Ruusamäe)
 - Fixed bug with attachments breaking with magic_quotes_sybase = On (Dave Greco)
 - Fixed stylesheet bugs (Dave Greco)
+- Automatically add addresses on to/cc list to notification list when associating an email (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

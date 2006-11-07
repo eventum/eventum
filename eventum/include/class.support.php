@@ -1004,6 +1004,29 @@ class Support
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
+                if (Issue::exists($row['issue_id'], false)) {
+                    $project_details = Project::getDetails(Issue::getProjectID($row['issue_id']));
+                    $addresses_not_too_add = array($project_details['prj_outgoing_sender_email'], Mail_API::getEmailAddress(Notification::getFixedFromHeader($row['issue_id'], '', 'issue')));
+
+                    if (!empty($row['to'])) {
+                        $to_addresses = Mail_API::getAddressInfo($row['to'], true);
+                        foreach ($to_addresses as $address) {
+                            if (in_array($address['email'], $addresses_not_too_add)) {
+                                continue;
+                            }
+                            Notification::subscribeEmail(Auth::getUserID(), $row['issue_id'], $address['email'], Notification::getDefaultActions());
+                        }
+                    }
+                    if (!empty($row['cc'])) {
+                        $cc_addresses = Mail_API::getAddressInfo($row['cc'], true);
+                        foreach ($cc_addresses as $address) {
+                            if (in_array($address['email'], $addresses_not_too_add)) {
+                                continue;
+                            }
+                            Notification::subscribeEmail(Auth::getUserID(), $row['issue_id'], $address['email'], Notification::getDefaultActions());
+                        }
+                    }
+                }
                 Workflow::handleNewEmail(Email_Account::getProjectID($row["ema_id"]), @$row["issue_id"], $structure, $row, $closing);
                 return 1;
             }
@@ -1399,7 +1422,7 @@ class Support
      * @param   boolean $authorize If the senders should be added the authorized repliers list
      * @return  integer 1 if it worked, -1 otherwise
      */
-    function associate($usr_id, $issue_id, $items, $authorize = false)
+    function associate($usr_id, $issue_id, $items, $authorize = false, $add_recipients_to_nl = false)
     {
         $res = Support::associateEmail($usr_id, $issue_id, $items);
         if ($res == 1) {

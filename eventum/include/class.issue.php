@@ -2136,7 +2136,7 @@ class Issue
             // need to associate any emails ?
             if (!empty($HTTP_POST_VARS["attached_emails"])) {
                 $items = explode(",", $HTTP_POST_VARS["attached_emails"]);
-                Support::associate($usr_id, $new_issue_id, $items, true);
+                Support::associate($usr_id, $new_issue_id, $items);
             }
             // need to notify any emails being converted into issues ?
             if (@count($HTTP_POST_VARS["notify_senders"]) > 0) {
