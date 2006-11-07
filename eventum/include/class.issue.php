@@ -2804,6 +2804,10 @@ class Issue
                     continue;
                 }
                 $field = Custom_Field::getDetails($fld_id);
+                if (($field['fld_type'] == 'date') &&
+                        ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day'])))) {
+                    continue;
+                }
 
                 if ($field['fld_type'] == 'multiple') {
                     $search_value = Misc::escapeInteger($search_value);
@@ -2868,6 +2872,11 @@ class Issue
                     continue;
                 }
                 $field = Custom_Field::getDetails($fld_id);
+                if (($field['fld_type'] == 'date') &&
+                        ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day'])))) {
+                    continue;
+                }
+
                 if ($field['fld_type'] == 'multiple') {
                     $search_value = Misc::escapeInteger($search_value);
                     foreach ($search_value as $cfo_id) {

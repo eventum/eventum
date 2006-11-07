@@ -52,7 +52,9 @@ Eventum Issue Tracking System
 - Speedup SCM commits that are not associated with Eventum issue (Elan Ruusamäe)
 - Optimized regex and memory usage (Elan Ruusamäe)
 - Change permissions to allow Administrators to delete attachments from any users (Bryan)
-- Remove "Remember Login" checkbox since it is confusing and mislabeled. (Bryan)
+- Remove "Remember Login" checkbox since it is confusing and mislabeled (Bryan)
+- Fixed bug with custom fields report showing data across projects (Bryan)
+- Fixed bug with Custom Fields with a type of date (Dave Greco)
 - Dislay all recipients for emails in issue details screen (Elan Ruusamäe)
 
 31 Mar 2006, Version 1.7.1
