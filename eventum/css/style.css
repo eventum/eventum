@@ -121,7 +121,7 @@ h4 {
   font-weight: normal;
   font-size: 55%;
   color: #999999;
-  border: 1 solid #999999;
+  border: 1px solid #999999;
 }
 .lookup_field_overlib {
   font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -129,7 +129,7 @@ h4 {
   font-weight: normal;
   font-size: 90%;
   color: #999999;
-  border: 1 solid #999999;
+  border: 1px solid #999999;
 }
 .footer {
   font-family: Verdana, Arial, Helvetica, sans-serif;

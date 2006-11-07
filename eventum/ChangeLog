@@ -56,6 +56,8 @@ Eventum Issue Tracking System
 - Fixed bug with custom fields report showing data across projects (Bryan)
 - Fixed bug with Custom Fields with a type of date (Dave Greco)
 - Dislay all recipients for emails in issue details screen (Elan Ruusamäe)
+- Fixed bug with attachments breaking with magic_quotes_sybase = On (Dave Greco)
+- Fixed stylesheet bugs (Dave Greco)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

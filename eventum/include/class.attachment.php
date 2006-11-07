@@ -516,7 +516,7 @@ class Attachment
                     '" . Misc::escapeString($filename) . "',
                     '" . $filesize . "',
                     '" . Misc::escapeString($filetype) . "',
-                    '" . addslashes($blob) . "'
+                    '" . Misc::escapeString($blob) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
