@@ -26,20 +26,7 @@
 // +----------------------------------------------------------------------+
 //
 
-include_once(APP_INC_PATH . "class.auth.php");
-
-// this will eventually be used to support more than one language
-$avail_langs = array(
-    "en_US",
-    "ru_RU",
-    "de_DE",
-    "fr_FR",
-    "it_IT",
-    "fi_FI",
-    "es_ES",
-    "nl_NL",
-    "sv_SE"
-);
+// the list of available languges is in config.inc.php
 
 /**
  * Class to handle the logic behind the internationalization issues
@@ -66,19 +53,24 @@ class Language
         // please add the following line to config.inc.php, changing to whatever language you prefer
         // define('APP_DEFAULT_LOCALE', 'en_US');
 
+
         $usr_id = Auth::getUserID();
         if (empty($usr_id)) {
             define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
         } else {
             $usr_lang = User::getLang($usr_id);
-            if (!in_array($usr_lang, $avail_langs)) {
+            if (!in_array($usr_lang, array_keys($avail_langs))) {
                 $usr_lang = APP_DEFAULT_LOCALE;
             }
             define('APP_CURRENT_LOCALE', $usr_lang);
         }
 
         $new_locale = setlocale(LC_TIME, APP_CURRENT_LOCALE . '.UTF8', APP_CURRENT_LOCALE);
-        $new_locale = setlocale(LC_MESSAGES, APP_CURRENT_LOCALE . '.UTF8', APP_CURRENT_LOCALE);
+        if (APP_GETTEXT_MODE == 'native') {
+            $new_locale = setlocale(LC_MESSAGES, APP_CURRENT_LOCALE . '.UTF8', APP_CURRENT_LOCALE);
+        } elseif (APP_GETTEXT_MODE == 'php') {
+            $new_locale = T_setlocale(LC_MESSAGES, APP_CURRENT_LOCALE);
+        }
         bindtextdomain("eventum", APP_PATH . "misc/localization/");
         bind_textdomain_codeset("eventum", APP_CHARSET);
         textdomain("eventum");
@@ -97,6 +89,15 @@ function ev_gettext($string)
        $arg[] = func_get_arg($i);
 
    return vsprintf(gettext($string), $arg);
+}
+
+
+// if there is no gettext support built into PHP, or we are running in language compatability mode include PHP-gettext
+if ((!function_exists('gettext'))) {
+    include_once(APP_INC_PATH . "php-gettext/gettext.inc");
+    define('APP_GETTEXT_MODE', 'php');
+} else {
+    define('APP_GETTEXT_MODE', 'native');
 }
 
 // benchmarking the included file (aka setup time)
