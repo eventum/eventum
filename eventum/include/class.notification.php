@@ -817,7 +817,7 @@ class Notification
                 case 'closed':
                     $data = Notification::getIssueDetails($issue_id);
                     $data["closer_name"] = User::getFullName(History::getIssueCloser($issue_id));
-                    $subject = gettext('Closed');
+                    $subject = ev_gettext('Closed');
 
                     if ($ids != false) {
                         $data['reason'] = Support::getEmail($ids);
@@ -920,7 +920,7 @@ class Notification
             if ($type == 'notes') {
                 // special handling of blocked messages
                 if (!empty($data['note']['not_blocked_message'])) {
-                    $subject = gettext('BLOCKED');
+                    $subject = ev_gettext('BLOCKED');
                     $final_type = 'blocked_email';
                 }
                 if (!empty($data["note"]["not_unknown_user"])) {
@@ -1341,7 +1341,7 @@ class Notification
         $mail = new Mail_API;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . gettext("User account information updated"));
+        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("User account information updated"));
     }
 
 
@@ -1372,7 +1372,7 @@ class Notification
         $mail = new Mail_API;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . gettext("User account password changed"));
+        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("User account password changed"));
     }
 
 
@@ -1403,7 +1403,7 @@ class Notification
         $mail = new Mail_API;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . gettext("New User information"));
+        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("New User information"));
     }
 
 
@@ -1516,7 +1516,7 @@ class Notification
         $mail = new Mail_API;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . gettext("Your User Account Details"));
+        $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("Your User Account Details"));
     }
 
 

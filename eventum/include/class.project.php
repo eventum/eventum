@@ -1107,14 +1107,14 @@ class Project
     function getDisplayFields()
     {
         return array(
-            "category"  =>  gettext("Category"),
-            "priority"  =>  gettext("Priority"),
-            "assignment"    =>  gettext("Assignment"),
-            "release"   =>  gettext("Scheduled Release"),
-            "estimated_dev_time"    =>  gettext("Estimated Dev. Time"),
-            "group"     =>  gettext("Group"),
-            "file"  =>  gettext("File"),
-            "private"   =>  gettext("Private")
+            "category"  =>  ev_gettext("Category"),
+            "priority"  =>  ev_gettext("Priority"),
+            "assignment"    =>  ev_gettext("Assignment"),
+            "release"   =>  ev_gettext("Scheduled Release"),
+            "estimated_dev_time"    =>  ev_gettext("Estimated Dev. Time"),
+            "group"     =>  ev_gettext("Group"),
+            "file"  =>  ev_gettext("File"),
+            "private"   =>  ev_gettext("Private")
         );
     }
 }

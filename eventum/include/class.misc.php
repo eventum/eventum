@@ -707,9 +707,9 @@ class Misc
     function getBooleanDisplayValue($value)
     {
         if ($value == true) {
-            return gettext('Yes');
+            return ev_gettext('Yes');
         } else {
-            return gettext('No');
+            return ev_gettext('No');
         }
     }
 }

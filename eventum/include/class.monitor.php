@@ -82,11 +82,11 @@ class Monitor
         $free_space = disk_free_space($partition);
         $free_percentage = ($free_space * 100) / $total_space;
         if ($free_percentage < $low_limit) {
-            echo gettext("ERROR: Almost no free disk space left (percentage left") . ": $free_percentage)\n";
+            echo ev_gettext("ERROR: Almost no free disk space left (percentage left") . ": $free_percentage)\n";
             exit;
         }
         if ($free_percentage < $high_limit) {
-            echo gettext("ERROR: Free disk space left is getting very low (percentage left") . ": $free_percentage)\n";
+            echo ev_gettext("ERROR: Free disk space left is getting very low (percentage left") . ": $free_percentage)\n";
         }
     }
 
@@ -103,7 +103,7 @@ class Monitor
         foreach ($required_files as $file_path => $options) {
             // check if file exists
             if (!file_exists($file_path)) {
-                echo gettext("ERROR: File could not be found (path") . ": $file_path)\n";
+                echo ev_gettext("ERROR: File could not be found (path") . ": $file_path)\n";
                 continue;
             }
             // check the owner and group for these files
@@ -170,7 +170,7 @@ class Monitor
         );
         $dbh = DB::connect($dsn);
         if (PEAR::isError($dbh)) {
-            echo gettext("ERROR: Could not connect to the mysql database. Detailed error message:") . "\n\n";
+            echo ev_gettext("ERROR: Could not connect to the mysql database. Detailed error message:") . "\n\n";
             echo $dbh->getMessage() . '/' .  $dbh->getDebugInfo();
         } else {
             $required_tables = array(
@@ -268,7 +268,7 @@ class Monitor
         ob_end_clean();
         $lines = explode("\n", $contents);
         if (count($lines) <= 1) {
-            echo gettext("ERROR: Could not find IRC bot pid from process list.") . "\n";
+            echo ev_gettext("ERROR: Could not find IRC bot pid from process list.") . "\n";
         }
     }
 

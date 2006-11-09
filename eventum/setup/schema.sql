@@ -525,7 +525,7 @@ DROP TABLE IF EXISTS %TABLE_PREFIX%custom_field_option;
 CREATE TABLE %TABLE_PREFIX%custom_field_option (
   cfo_id int(10) unsigned NOT NULL auto_increment,
   cfo_fld_id int(10) unsigned NOT NULL default 0,
-  cfo_value varchar(64) NOT NULL default '',
+  cfo_value varchar(128) NOT NULL default '',
   PRIMARY KEY  (cfo_id),
   KEY icf_fld_id (cfo_fld_id)
 ) TYPE = MYISAM;

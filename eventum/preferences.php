@@ -44,6 +44,7 @@ $usr_id = Auth::getUserID();
 
 if (@$HTTP_POST_VARS["cat"] == "update_account") {
     $res = Prefs::set($usr_id);
+    $tpl->assign('update_lang_result', User::setLang(Auth::getUserID(), $_POST['language']));
     $tpl->assign('update_account_result', $res);
     User::updateSMS($usr_id, @$HTTP_POST_VARS['sms_email']);
 } elseif (@$HTTP_POST_VARS["cat"] == "update_name") {
@@ -66,6 +67,8 @@ if (empty($prefs)) {
 $tpl->assign("user_prefs", $prefs);
 $tpl->assign("assigned_projects", Project::getAssocList($usr_id, false, true));
 $tpl->assign("zones", Date_API::getTimezoneList());
+$tpl->assign('avail_langs', $avail_langs);
+$tpl->assign('current_locale', User::getLang(Auth::getUserID(), true));
 
 $tpl->displayTemplate();
 ?>

@@ -657,3 +657,6 @@ ALTER TABLE eventum_support_email CHANGE COLUMN sup_cc sup_cc tinytext;
 
 # October 2nd
 ALTER TABLE eventum_user ADD COLUMN usr_lang varchar(5);
+
+
+ALTER TABLE eventum_custom_field_option CHANGE COLUMN cfo_value cfo_value varchar(128) NOT NULL;

@@ -75,17 +75,17 @@ $tpl->assign("sorting", Issue::getSortingInfo($options));
 $groups = Group::getAssocList($prj_id);
 $users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
 $assign_options = array(
-    ""      =>  gettext("Any"),
-    "-1"    =>  gettext("un-assigned"),
-    "-2"    =>  gettext("myself and un-assigned")
+    ""      =>  ev_gettext("Any"),
+    "-1"    =>  ev_gettext("un-assigned"),
+    "-2"    =>  ev_gettext("myself and un-assigned")
 );
 if (User::getGroupID($usr_id) != '') {
-    $assign_options['-3'] = gettext('myself and my group');
-    $assign_options['-4'] = gettext('myself, un-assigned and my group');
+    $assign_options['-3'] = ev_gettext('myself and my group');
+    $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
 }
 if ((count($groups) > 0) && (Auth::getCurrentRole() > User::getRoleID("Customer"))) {
     foreach ($groups as $grp_id => $grp_name) {
-        $assign_options["grp:$grp_id"] = gettext("Group") . ": " . $grp_name;
+        $assign_options["grp:$grp_id"] = ev_gettext("Group") . ": " . $grp_name;
     }
 }
 $assign_options += $users;

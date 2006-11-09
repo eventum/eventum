@@ -344,7 +344,7 @@ class Phone_Support
             $phs_id = $GLOBALS["db_api"]->get_last_insert_id();
             $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Telephone Discussion');
             $HTTP_POST_VARS['time_spent'] = $HTTP_POST_VARS['call_length'];
-            $HTTP_POST_VARS['summary'] = gettext("Time entry inserted from phone call.");
+            $HTTP_POST_VARS['summary'] = ev_gettext("Time entry inserted from phone call.");
             Time_Tracking::insertEntry();
             $stmt = "SELECT
                         max(ttr_id)

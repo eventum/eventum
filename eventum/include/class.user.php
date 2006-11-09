@@ -52,13 +52,13 @@ $roles = array(
 );
 
 $localized_roles = array(
-    1 => gettext("Viewer"),
-    2 => gettext("Reporter"),
-    3 => gettext("Customer"),
-    4 => gettext("Standard User"),
-    5 => gettext("Developer"),
-    6 => gettext("Manager"),
-    7 => gettext("Administrator")
+    1 => ev_gettext("Viewer"),
+    2 => ev_gettext("Reporter"),
+    3 => ev_gettext("Customer"),
+    4 => ev_gettext("Standard User"),
+    5 => ev_gettext("Developer"),
+    6 => ev_gettext("Manager"),
+    7 => ev_gettext("Administrator")
 );
 
 /**
@@ -1396,12 +1396,12 @@ class User
     }
 
 
-    function getLang($usr_id)
+    function getLang($usr_id, $force_refresh = false)
     {
         static $returns;
 
         $usr_id = Misc::escapeInteger($usr_id);
-        if (empty($returns[$usr_id])) {
+        if ((empty($returns[$usr_id])) || ($force_refresh == true)) {
             $sql = "SELECT
                         usr_lang
                     FROM
@@ -1420,6 +1420,23 @@ class User
             }
         }
         return $returns[$usr_id];
+    }
+
+
+    function setLang($usr_id, $language)
+    {
+        $sql = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
+                SET
+                    usr_lang = '" . Misc::escapeString($language) . "'
+                WHERE
+                    usr_id = " . Misc::escapeInteger($usr_id);
+        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return true;
     }
 }
 

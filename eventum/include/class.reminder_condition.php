@@ -220,13 +220,13 @@ class Reminder_Condition
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 if (!empty($res[$i]['rlc_comparison_rmf_id'])) {
-                    $res[$i]['rlc_value'] = gettext("Field") . ': ' . Reminder_Condition::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
+                    $res[$i]['rlc_value'] = ev_gettext("Field") . ': ' . Reminder_Condition::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
                 }elseif (strtolower($res[$i]['rmf_title']) == 'status') {
                     $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
                 } elseif (strtolower($res[$i]['rmf_title']) == 'category') {
                     $res[$i]['rlc_value'] = Category::getTitle($res[$i]['rlc_value']);
                 } elseif (strtoupper($res[$i]['rlc_value']) != 'NULL') {
-                    $res[$i]['rlc_value'] .= ' ' . gettext("hours");
+                    $res[$i]['rlc_value'] .= ' ' . ev_gettext("hours");
                 }
             }
             return $res;
@@ -300,7 +300,7 @@ class Reminder_Condition
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_field\n";
         if ($comparable_only == true) {
-            $stmt .= "WHERE rmf_allow_column_compare = 1\n";   
+            $stmt .= "WHERE rmf_allow_column_compare = 1\n";
         }
         $stmt .= "ORDER BY
                     rmf_title ASC";
@@ -338,7 +338,7 @@ class Reminder_Condition
             return $res;
         }
     }
-    
+
 
     /**
      * Method used to see if a specific reminder field can be compared to other fields.

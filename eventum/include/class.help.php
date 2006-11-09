@@ -32,110 +32,110 @@ include_once(APP_INC_PATH . "class.error_handler.php");
 
 $topics = array(
     "main" => array(
-        "title"  => gettext("Help Topics"),
+        "title"  => ev_gettext("Help Topics"),
         "parent" => ""
     ),
     "report" => array(
-        "title"  => gettext("Reporting Issues"),
+        "title"  => ev_gettext("Reporting Issues"),
         "parent" => "main"
     ),
     "report_category" => array(
-        "title"  => gettext("Category Field"),
+        "title"  => ev_gettext("Category Field"),
         "parent" => "report"
     ),
     "report_priority" => array(
-        "title"  => gettext("Priority Field"),
+        "title"  => ev_gettext("Priority Field"),
         "parent" => "report"
     ),
     "report_assignment" => array(
-        "title"  => gettext("Assignment Field"),
+        "title"  => ev_gettext("Assignment Field"),
         "parent" => "report"
     ),
     "report_release" => array(
-        "title"  => gettext("Scheduled Release Field"),
+        "title"  => ev_gettext("Scheduled Release Field"),
         "parent" => "report"
     ),
     "report_summary" => array(
-        "title"  => gettext("Summary Field"),
+        "title"  => ev_gettext("Summary Field"),
         "parent" => "report"
     ),
     "report_description" => array(
-        "title"  => gettext("Description Field"),
+        "title"  => ev_gettext("Description Field"),
         "parent" => "report"
     ),
     "report_estimated_dev_time" => array(
-        "title"  => gettext("Estimated Development Time Field"),
+        "title"  => ev_gettext("Estimated Development Time Field"),
         "parent" => "report"
     ),
     "scm_integration" => array(
-        "title"  => gettext("SCM Integration"),
+        "title"  => ev_gettext("SCM Integration"),
         "parent" => "main"
     ),
     "scm_integration_usage" => array(
-        "title"  => gettext("Usage Examples"),
+        "title"  => ev_gettext("Usage Examples"),
         "parent" => "scm_integration"
     ),
     "scm_integration_installation" => array(
-        "title"  => gettext("Installation Instructions"),
+        "title"  => ev_gettext("Installation Instructions"),
         "parent" => "scm_integration"
     ),
     "list" => array(
-        "title"  => gettext("Listing / Searching for Issues"),
+        "title"  => ev_gettext("Listing / Searching for Issues"),
         "parent" => "main"
     ),
     "adv_search" => array(
-        "title"  => gettext("Advanced Search / Creating Custom Queries"),
+        "title"  => ev_gettext("Advanced Search / Creating Custom Queries"),
         "parent" => "main"
     ),
     "support_emails" => array(
-        "title"  => gettext("Associate Emails"),
+        "title"  => ev_gettext("Associate Emails"),
         "parent" => "main"
     ),
     "preferences" => array(
-        "title"  => gettext("Account Preferences"),
+        "title"  => ev_gettext("Account Preferences"),
         "parent" => "main"
     ),
     "notifications" => array(
-        "title"  => gettext("Email Notifications"),
+        "title"  => ev_gettext("Email Notifications"),
         "parent" => "main"
     ),
     "view" => array(
-        "title"  => gettext("Viewing Issues"),
+        "title"  => ev_gettext("Viewing Issues"),
         "parent" => "main"
     ),
     "email_blocking" => array(
-        "title"  => gettext("Email Blocking"),
+        "title"  => ev_gettext("Email Blocking"),
         "parent" => "main"
     ),
     "link_filters" => array(
-        "title"  => gettext("Link Filters"),
+        "title"  => ev_gettext("Link Filters"),
         "parent" => "main"
     ),
     "field_display" => array(
-        "title"  => gettext("Edit Fields to Display"),
+        "title"  => ev_gettext("Edit Fields to Display"),
         "parent" => "main"
     ),
     "column_display" => array(
-        "title"  => gettext("Edit Columns to Display"),
+        "title"  => ev_gettext("Edit Columns to Display"),
         "parent" => "main"
     ),
     "customize_listing" => array(
-        "title"  => gettext("Customize Issue Listing Screen"),
+        "title"  => ev_gettext("Customize Issue Listing Screen"),
         "parent" => "main"
     ),
     "segregate_reporter" => array(
-        "title"  => gettext("Segregate Reporters"),
+        "title"  => ev_gettext("Segregate Reporters"),
         "parent" => "main"
     ),
     "permission_levels" => array(
-        "title"  => gettext("User Permission Levels"),
+        "title"  => ev_gettext("User Permission Levels"),
         "parent" => "main"
     ),
 );
 
 /**
- * Class to handle the business logic related to the help 
- * documentation, such as providing a dynamic list of topics related 
+ * Class to handle the business logic related to the help
+ * documentation, such as providing a dynamic list of topics related
  * to the current topic and such.
  *
  * @version 1.0
@@ -145,7 +145,7 @@ $topics = array(
 class Help
 {
     /**
-     * Method used to check whether a specific topic exists or not. 
+     * Method used to check whether a specific topic exists or not.
      * This is mainly used in the help documentation main page to see
      * if a requested topic exists, and to show a default one
      * otherwise.
@@ -167,7 +167,7 @@ class Help
 
 
     /**
-     * Method used to get the parent help documentation topic 
+     * Method used to get the parent help documentation topic
      * associated with a specific topic title.
      *
      * @access  public

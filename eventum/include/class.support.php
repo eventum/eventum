@@ -1370,9 +1370,9 @@ class Support
         $attachments = Mime_Helper::getAttachments($full_email);
         if (count($attachments) > 0) {
             if (empty($associated_note_id)) {
-                $history_log = gettext("Attachment originated from an email");
+                $history_log = ev_gettext("Attachment originated from an email");
             } else {
-                $history_log = gettext("Attachment originated from a note");
+                $history_log = ev_gettext("Attachment originated from a note");
             }
             $attachment_id = Attachment::add($issue_id, $usr_id, $history_log, $internal_only, $unknown_user, $associated_note_id);
             for ($i = 0; $i < count($attachments); $i++) {

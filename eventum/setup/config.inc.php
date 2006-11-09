@@ -137,14 +137,26 @@ if (APP_BENCHMARK) {
     $bench->start();
 }
 
+
 // handle the language preferences now
+$avail_langs = array(
+    "en_US" =>  "English",
+//    "ru_RU" =>  "Russian",
+//    "de_DE" =>  "German",
+//    "fr_FR" =>  "French",
+    "it_IT" =>  "Italian",
+//    "fi_FI" =>  "Finish",
+//    "es_ES" =>  "Spanish",
+//    "nl_NL" =>  "Dutch",
+    "sv_SE" =>  "Swedish"
+);
 define('APP_DEFAULT_LOCALE', 'en_US');
 
-@session_start();
 include_once(APP_INC_PATH . "class.language.php");
-Language::setPreference();
-
+include_once(APP_INC_PATH . "db_access.php");
+include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.misc.php");
+Language::setPreference();
 
 if (isset($_GET)) {
     $HTTP_POST_VARS = $_POST;

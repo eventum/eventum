@@ -60,16 +60,16 @@ if ($HTTP_GET_VARS["plot"] == "status") {
     }
 } elseif ($HTTP_GET_VARS["plot"] == "release") {
     $data = Stats::getAssocRelease();
-    $graph_title = gettext("Issues by Release");
+    $graph_title = ev_gettext("Issues by Release");
 } elseif ($HTTP_GET_VARS["plot"] == "priority") {
     $data = Stats::getAssocPriority();
-    $graph_title = gettext("Issues by Priority");
+    $graph_title = ev_gettext("Issues by Priority");
 } elseif ($HTTP_GET_VARS["plot"] == "user") {
     $data = Stats::getAssocUser();
-    $graph_title = gettext("Issues by Assignment");
+    $graph_title = ev_gettext("Issues by Assignment");
 } elseif ($HTTP_GET_VARS["plot"] == "category") {
     $data = Stats::getAssocCategory();
-    $graph_title = gettext("Issues by Category");
+    $graph_title = ev_gettext("Issues by Category");
 }
 $labels = array_map('utf8_decode', array_keys($data));
 $data = array_values($data);

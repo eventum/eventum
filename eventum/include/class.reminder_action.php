@@ -597,7 +597,7 @@ class Reminder_Action
         $group_leader_usr_id = 0;
         if ($action['rma_alert_group_leader']) {
             if (Reminder::isDebug()) {
-                echo "  - " . gettext("Processing Group Leader notification") . "\n";
+                echo "  - " . ev_gettext("Processing Group Leader notification") . "\n";
             }
             $group_id = Issue::getGroupID($issue_id);
             // check if there's even a group associated with this issue
@@ -762,7 +762,7 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "[#$issue_id] " . gettext("Reminder") . ": " . $action['rma_title'], 0, $issue_id, 'reminder');
+                $mail->send($setup["from"], $address, "[#$issue_id] " . ev_gettext("Reminder") . ": " . $action['rma_title'], 0, $issue_id, 'reminder');
             }
         }
         // - eventum saves the day once again
@@ -802,7 +802,7 @@ class Reminder_Action
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "[#$issue_id] " . gettext("Reminder Not Triggered") . ": " . $action['rma_title'], 0, $issue_id);
+                $mail->send($setup["from"], $address, "[#$issue_id] " . ev_gettext("Reminder Not Triggered") . ": " . $action['rma_title'], 0, $issue_id);
             }
         }
     }

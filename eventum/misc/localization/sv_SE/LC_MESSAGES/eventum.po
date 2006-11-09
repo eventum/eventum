@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-22 23:17-0500\n"
-"PO-Revision-Date: 2006-10-02 11:15+0200\n"
+"PO-Revision-Date: 2006-10-26 18:31+0200\n"
 "Last-Translator: Jostein Martinsen <jostein.martinsen@redpill.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "Ange beskrivning för det här telefonsamtalet."
 
 #: eventum.c:26
 msgid "Please choose the category for this new phone support entry."
-msgstr "Ange kategori för det nya telefonsamtalet"
+msgstr "Ange kategori för det nya telefonsamtalet."
 
 #: eventum.c:29
 msgid "Record Phone Call"
@@ -145,23 +145,23 @@ msgstr "Spara telefonsamtal"
 
 #: eventum.c:98
 msgid "Thank you, the time tracking entry was added successfully."
-msgstr "Tack så mycket, tidsnoteringen har sparats"
+msgstr "Tack så mycket, tidsnoteringen har sparats."
 
 #: eventum.c:104
 msgid "Please enter the summary for this new time tracking entry."
-msgstr "Vänligen ange information för den nya tidsnoteringen"
+msgstr "Vänligen ange information för den nya tidsnoteringen."
 
 #: eventum.c:107 eventum.c:653
 msgid "Please choose the time tracking category for this new entry."
-msgstr "Vänligen välj kategori för tidsnoteringen"
+msgstr "Vänligen välj kategori för tidsnoteringen."
 
 #: eventum.c:113
 msgid "Please select a valid date of work."
-msgstr "Vänligen välj ett giltigt datum för nedlagd tid"
+msgstr "Vänligen välj ett giltigt datum för nedlagd tid."
 
 #: eventum.c:116
 msgid "Record Time Worked"
-msgstr "Spara Nedlagt Tid"
+msgstr "Spara nedlagd tid"
 
 #: eventum.c:119 eventum.c:218 eventum.c:1214 eventum.c:2060 eventum.c:2072
 #: eventum.c:2846 eventum.c:3242
@@ -191,15 +191,15 @@ msgstr "Avancerad sök"
 
 #: eventum.c:143
 msgid "Please enter the title for this saved search."
-msgstr "Vänligen ange en titel för den sparade sökningen"
+msgstr "Vänligen ange en titel för den sparade sökningen."
 
 #: eventum.c:146 eventum.c:470 eventum.c:593 eventum.c:707 eventum.c:1265
 msgid "Please choose which entries need to be removed."
-msgstr "Vänligen välj vilken notering som skall tas bort"
+msgstr "Vänligen välj vilka poster som skall tas bort."
 
 #: eventum.c:149 eventum.c:596 eventum.c:1268
 msgid "This action will permanently delete the selected entries."
-msgstr "Den här åtgärden kommer ta bort valda poster"
+msgstr "Den här åtgärden kommer ta bort valda poster."
 
 #: eventum.c:155
 msgid "Keyword(s)"
@@ -265,11 +265,11 @@ msgstr "Ärende ID"
 
 #: eventum.c:221
 msgid "Last Action Date"
-msgstr "Senaste Uppdateringsdatum"
+msgstr "Senaste uppdateringsdatum"
 
 #: eventum.c:224
 msgid "Sort Order:"
-msgstr "Sorteringsordning"
+msgstr "Sorteringsordning:"
 
 #: eventum.c:227
 msgid "ascending"
@@ -302,12 +302,12 @@ msgstr "Skapad"
 #: eventum.c:248 eventum.c:266 eventum.c:293 eventum.c:320 eventum.c:347
 #: eventum.c:968
 msgid "Greater Than"
-msgstr "Efter"
+msgstr "Större än"
 
 #: eventum.c:251 eventum.c:269 eventum.c:296 eventum.c:323 eventum.c:350
 #: eventum.c:971
 msgid "Less Than"
-msgstr "Före"
+msgstr "Mindre än"
 
 #: eventum.c:254 eventum.c:272 eventum.c:299 eventum.c:326 eventum.c:353
 #: eventum.c:974
@@ -417,7 +417,7 @@ msgstr "Ett fel uppstod vid försök att associera det valda e-postmeddelandet"
 #: eventum.c:416
 msgid "Thank you, the selected email message was associated successfully."
 msgid_plural "Thank you, the selected email messages were associated successfully."
-msgstr[0] "Tack så mycket, det valda e-postmeddelandet har associerats"
+msgstr[0] "Tack så mycket, det valda e-postmeddelandet har associerats."
 msgstr[1] "Tack så mycket, de valda e-postmeddelandena har associerats"
 
 #: eventum.c:422
@@ -440,7 +440,7 @@ msgstr "Stäng fönster"
 msgid ""
 "Warning: Unknown contacts were found in the selected email messages. Please "
 "make sure you have selected the correct email messages to associate."
-msgstr "Varning: Okända kontakter hittades i det valda e-postmeddelandet. Vänligen kontrollera att du valt korrekta e-postmeddelanden att associera"
+msgstr "Varning: Okända kontakter hittades i det valda e-postmeddelandet. Vänligen kontrollera att du valt korrekta e-postmeddelanden att associera."
 
 #: eventum.c:437
 msgid "Associate Email Message to Issue #%1"
@@ -495,7 +495,7 @@ msgid_plural ""
 "<b>NOTE:</b> Emails will <b>NOT</b> be sent to the notification list, if "
 "this option if chosen. This is useful as way to backload a set of emails "
 "into an existing issue."
-msgstr[0] "E-post kommer <b>INTE</b> skickas till notifieringslistan om detta väljs. Detta är användbart som ett sätt att koppla e-postmeddelande till ett ärende"
+msgstr[0] "E-post kommer <b>INTE</b> skickas till notifieringslistan om detta väljs. Detta är användbart som ett sätt att koppla e-postmeddelande till ett ärende."
 msgstr[1] "E-post kommer <b>INTE</b> skickas till notifieringslistan om detta väljs. Detta är användbart som ett sätt att koppla e-postmeddelande till ett ärende"
 
 #: eventum.c:461
@@ -511,7 +511,7 @@ msgid ""
 msgid_plural ""
 "<b>NOTE:</b> Emails will be saved as notes and broadcasted only to staff "
 "users."
-msgstr[0] "<b>NOTERING:</b> E-postmeddelande kommer sparas som notering och endast skickas till personal</b>"
+msgstr[0] "<b>NOTERING:</b> E-postmeddelande kommer sparas som notering och endast skickas till personal."
 msgstr[1] "<b>NOTERING:</b> E-postmeddelandena kommer sparas som noteringar och endast skickas till personal</b>"
 
 #: eventum.c:473 eventum.c:710
@@ -575,7 +575,7 @@ msgstr "Ladda upp fil"
 
 #: eventum.c:524 eventum.c:1679 eventum.c:2096 eventum.c:2720
 msgid "Please enter a valid email address."
-msgstr "Ange en giltig e-post adress"
+msgstr "Ange en giltig e-post adress."
 
 #: eventum.c:527 eventum.c:3230
 msgid "Authorized Repliers"
@@ -583,17 +583,17 @@ msgstr "Behöriga besvarare"
 
 #: eventum.c:530
 msgid "An error occurred while trying to insert the authorized replier."
-msgstr "Ett fel inträffade vid försök att spara den behöriga besvararen"
+msgstr "Ett fel inträffade vid försök att spara den behöriga besvararen."
 
 #: eventum.c:533
 msgid ""
 "Users with a role of \"customer\" or below are not allowed to be added to "
 "the authorized repliers list."
-msgstr "Användare med en roll lägre än \"customer\" eller lägre har inte behörighet att läggas tll i listan över behöriga besvarare"
+msgstr "Användare med en roll lägre än \"customer\" eller lägre har inte behörighet att läggas tll i listan över behöriga besvarare."
 
 #: eventum.c:536
 msgid "Thank you, the authorized replier was inserted successfully."
-msgstr "Tack så mycket, behöriga besvarare har lagts till"
+msgstr "Tack så mycket, behöriga besvarare har lagts till."
 
 #: eventum.c:539 eventum.c:557 eventum.c:1703 eventum.c:1739
 msgid "Email"
@@ -609,15 +609,15 @@ msgstr "Behöriga besvarare för det här ärendet"
 
 #: eventum.c:551
 msgid "Please select at least one of the authorized repliers."
-msgstr "Vänligen, välj minst en av de behöriga besvararna"
+msgstr "Vänligen, välj minst en av de behöriga besvararna."
 
 #: eventum.c:554 eventum.c:1736
 msgid "This action will remove the selected entries."
-msgstr "Den här åtgärden kommer ta bort vald post"
+msgstr "Den här åtgärden kommer ta bort vald post."
 
 #: eventum.c:560
 msgid "No authorized repliers could be found."
-msgstr "Inga behöriga besvarare kunde hittas"
+msgstr "Inga behöriga besvarare kunde hittas."
 
 #: eventum.c:566 eventum.c:857 eventum.c:1220 eventum.c:1235 eventum.c:1757
 #: eventum.c:2294 eventum.c:3086 eventum.c:3290 eventum.c:3293 eventum.c:3299
@@ -627,7 +627,7 @@ msgstr "Stäng"
 
 #: eventum.c:569
 msgid "Bulk Update Tool"
-msgstr "Massuppdateingsverktyg"
+msgstr "Massuppdateringsverktyg"
 
 #: eventum.c:572 eventum.c:3227
 msgid "Assignment"
@@ -663,11 +663,11 @@ msgstr "diff mot %1"
 
 #: eventum.c:620
 msgid "No checkins could be found."
-msgstr "Hittade inga inchekningar"
+msgstr "Hittade inga inchekningar."
 
 #: eventum.c:629 eventum.c:869 eventum.c:2861
 msgid "Sorry, an error happened while trying to run your query."
-msgstr "Tyvärr, ett fel uppstod vid försök att ställa din fråga"
+msgstr "Tyvärr, ett fel uppstod vid försök att ställa din fråga."
 
 #: eventum.c:632
 msgid ""
@@ -689,17 +689,17 @@ msgstr "Öppna listvun för e-post"
 
 #: eventum.c:644
 msgid "Please choose the new status for this issue."
-msgstr "Vänligen välj ny status för ärendet"
+msgstr "Vänligen välj ny status för ärendet."
 
 #: eventum.c:647
 msgid "Please enter the reason for closing this issue."
-msgstr "Vänligen ange orska till att äredet stängs"
+msgstr "Vänligen ange orska till att äredet stängs."
 
 #: eventum.c:656
 msgid ""
 "This customer has a per incident contract. You have chosen not to redeem any "
 "incidents. Press 'OK' to confirm or 'Cancel' to revise."
-msgstr "Den här kunden har avtal per incident. Du har valt att inte återskapa några ärenden. Klicka på 'OK' för att bekräfta eller 'Cancel' för att avbryta"
+msgstr "Den här kunden har avtal per incident. Du har valt att inte återskapa några ärenden. Klicka på 'OK' för att bekräfta eller 'Cancel' för att avbryta."
 
 #: eventum.c:659 eventum.c:704 eventum.c:3005 eventum.c:3275
 msgid "Close Issue"
@@ -735,11 +735,11 @@ msgstr "Interna användare"
 
 #: eventum.c:686
 msgid "Reason for closing issue:"
-msgstr "Anledning till att ärendet stängs"
+msgstr "Anledning till att ärendet stängs:"
 
 #: eventum.c:689
 msgid "Incident Types to Redeem:"
-msgstr "Ärendetyper att återskapa"
+msgstr "Ärendetyper att återskapa:"
 
 #: eventum.c:692 eventum.c:2018
 msgid "Time Spent:"
@@ -785,20 +785,28 @@ msgid ""
 "The provided trial account email address could not be\n"
 "            found. Please contact the local Technical Support staff for\n"
 "            further assistance."
-msgstr "Det tillhandahållna utvärderingskontots e-postadress kunde inte \nhittas. Vänligen kontakta supporten för ytterligare info."
+msgstr ""
+"Det tillhandahållna utvärderingskontots e-postadress\n"
+"             kunde inte hittas. Vänligen kontakta support\n"
+"             för ytterligare info."
 
 #: eventum.c:746
 msgid ""
 "The provided trial account encrypted hash could not be\n"
 "            authenticated. Please contact the local Technical\n"
 "            Support staff for further assistance."
-msgstr "Det tillhandahållna utvärderingskontots krypterade hash kunde inte \nautoriseras. Vänligen kontakta supporten för ytterligare info."
+msgstr ""
+"Det tillhandahållna utvärderingskontots krypterade\n"
+"           hash kunde inte \nautoriseras. Vänligen \n"
+"           kontakta support för ytterligare info."
 
 #: eventum.c:749
 msgid ""
 "Thank you, your request for a new password was confirmed successfully. You "
 "should receive an email with your new password shortly."
-msgstr "Tck så mycket, din begäran om ett nytt lösenord har genomförts. Inom kort kommer du få ett e-postmeddelande med ditt nya lösenord. "
+msgstr ""
+"Tck så mycket, din begäran om ett nytt lösenord har genomförts. "
+"Inom kort kommer du få ett e-postmeddelande med ditt nya lösenord. "
 
 #: eventum.c:752 eventum.c:1202 eventum.c:2750
 msgid "Back to Login Form"
@@ -842,7 +850,9 @@ msgstr "Konvertera til utkast och spara för att editera senare"
 msgid ""
 "<b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, "
 "and without any attachments."
-msgstr "<b>OBS:</b> E-post kommer skickas om från ditt namn, INTE orginalavsändare, och utan bilagor. "
+msgstr ""
+"<b>OBS:</b> E-post kommer återsändas från ditt namn, INTE orginalavsändare, "
+"och utan bilagor. "
 
 #: eventum.c:782
 msgid "Convert to Email and Send Now"
@@ -949,13 +959,15 @@ msgstr "Updatera"
 msgid ""
 "Thank you, the issue was marked as a duplicate successfully. Please choose \n"
 "            from one of the options below:"
-msgstr "Tack, ärendet har markerats som dublett. Var vänlig \n välj ett av alternativen nedan: "
+msgstr ""
+"Tack, ärendet har markerats som dublett. Var vänlig \n "
+"             välj ett av alternativen nedan: "
 
 #: eventum.c:884
 msgid ""
 "Otherwise, you will be automatically redirected to the Issue Details Page in "
 "5 seconds."
-msgstr "I annat fall, kommer du automatiskt dirigeras till ärendets deltaljsida inom 5 sekunder"
+msgstr "I annat fall, kommer du automatiskt dirigeras till ärendets detaljsida inom 5 sekunder."
 
 #: eventum.c:887
 msgid "Please choose the duplicated issue."
@@ -963,11 +975,11 @@ msgstr "Var vänlig välj det dubblerade ärendet."
 
 #: eventum.c:890 eventum.c:908
 msgid "Mark Issue as Duplicate"
-msgstr "Markera Ärendet som Dublett"
+msgstr "Markera ärendet som dublett"
 
 #: eventum.c:896
 msgid "Duplicated Issue:"
-msgstr "Dubblerat Ärende:"
+msgstr "Dubblerat ärende:"
 
 #: eventum.c:899
 msgid "Please select an issue"
@@ -975,7 +987,7 @@ msgstr "Var vänlig välj ett ärende"
 
 #: eventum.c:902
 msgid "Comments:"
-msgstr "Kommentarer"
+msgstr "Kommentarer:"
 
 #: eventum.c:911 eventum.c:2033 eventum.c:2090 eventum.c:2531
 msgid "Required fields"
@@ -1001,7 +1013,7 @@ msgstr "Senast uppdateringsdatum"
 
 #: eventum.c:935
 msgid "No email drafts could be found."
-msgstr "Inga e-postutkast kunde hittas"
+msgstr "Inga e-postutkast kunde hittas."
 
 #: eventum.c:938 eventum.c:2456
 msgid "Create Draft"
@@ -1013,19 +1025,19 @@ msgstr "Visa Alla Utkast"
 
 #: eventum.c:944
 msgid "Subject/Body:"
-msgstr "Ämne/Body"
+msgstr "Ämne/Body:"
 
 #: eventum.c:947 eventum.c:2675
 msgid "Sender:"
-msgstr "Avsändare"
+msgstr "Avsändare:"
 
 #: eventum.c:950
 msgid "To:"
-msgstr "Till"
+msgstr "Till:"
 
 #: eventum.c:953
 msgid "Email Account:"
-msgstr "E-postkonto"
+msgstr "E-postkonto:"
 
 #: eventum.c:959 eventum.c:1634 eventum.c:2360
 msgid "Search"
@@ -1037,11 +1049,11 @@ msgstr "Rensa"
 
 #: eventum.c:965
 msgid "Filter by Arrival Date:"
-msgstr "Filtrera efter Ankomstdatum"
+msgstr "Filtrera efter Ankomstdatum:"
 
 #: eventum.c:977
 msgid "Arrival Date:"
-msgstr "Ankomstdatum"
+msgstr "Ankomstdatum:"
 
 #: eventum.c:983 eventum.c:1565
 msgid "Associate Emails"
@@ -1049,7 +1061,7 @@ msgstr "Associera E-post"
 
 #: eventum.c:986 eventum.c:2708
 msgid "Sorry, but this feature has been disabled by the administrator."
-msgstr "Tyvärr, den här funktionen har blivit avaktiverad av administratören"
+msgstr "Tyvärr, den här funktionen har blivit av-aktiverad av administratören."
 
 #: eventum.c:989 eventum.c:995 eventum.c:1772 eventum.c:2711 eventum.c:3011
 #: eventum.c:3017 eventum.c:3023 eventum.c:3356 eventum.c:3362
@@ -1058,19 +1070,19 @@ msgstr "Tillbaka"
 
 #: eventum.c:992
 msgid "Sorry, but you do not have access to this page."
-msgstr "Tyvärr, du har inte behörighet till den här sidan"
+msgstr "Tyvärr, du har inte behörighet till den här sidan."
 
 #: eventum.c:998
 msgid "Please choose which emails need to be associated."
-msgstr "Var vänlig välj vilka e-postmeddelanden som skall associeras"
+msgstr "Var vänlig välj vilka e-postmeddelanden som skall associeras."
 
 #: eventum.c:1001
 msgid "Please choose which emails need to be marked as deleted."
-msgstr "Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna"
+msgstr "Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna."
 
 #: eventum.c:1004
 msgid "This action will mark the selected email messages as deleted."
-msgstr "Den här händelsen kommer att markera det valda e-postmeddelandet som borttaget"
+msgstr "Den här händelsen kommer att markera det valda e-postmeddelandet som borttaget."
 
 #: eventum.c:1007
 msgid "Viewing Emails (%1 emails found)"
@@ -1128,7 +1140,7 @@ msgstr "visa e-postdetaljer"
 
 #: eventum.c:1067 eventum.c:2285
 msgid "No emails could be found."
-msgstr "Inga e-postmeddelanden hittades"
+msgstr "Inga e-postmeddelanden hittades."
 
 #: eventum.c:1073
 msgid "Associate"
@@ -1168,7 +1180,7 @@ msgstr "felaktighet upptäckt"
 
 #: eventum.c:1106
 msgid "Error: You are not allowed to view the requested FAQ entry."
-msgstr "Fel: Du har inte tillåtelse att se den begärda FAQ-inlägget"
+msgstr "Fel: Du har inte tillåtelse att se den begärda FAQ-inlägget."
 
 #: eventum.c:1109
 msgid "Last updated"
@@ -1188,17 +1200,17 @@ msgstr "läs faq-inlägg"
 
 #: eventum.c:1127
 msgid "An error occurred while trying to process the uploaded file."
-msgstr "Ett fel uppstod vid försök att ladda upp fil"
+msgstr "Ett fel uppstod vid försök att ladda upp fil."
 
 #: eventum.c:1130
 msgid ""
 "The uploaded file is already attached to the current issue. Please rename "
 "the file and try again."
-msgstr "Den uppladdade filen är redan bifogad till det nuvarande ärendet. Var vänlig \n byt namn på filen och försök igen"
+msgstr "Den uppladdade filen är redan bifogad till det nuvarande ärendet. Var vänlig \n byt namn på filen och försök igen."
 
 #: eventum.c:1133
 msgid "Thank you, the uploaded file was associated with the issue below."
-msgstr "Tack, den uppladdade filen har associerats med ärendet nedan"
+msgstr "Tack, den uppladdade filen har associerats med ärendet nedan."
 
 #: eventum.c:1139
 msgid "Add New Files"
@@ -1234,7 +1246,7 @@ msgstr "Du har inte korrekt roll för att få åtkomst till den här sidan"
 
 #: eventum.c:1172
 msgid "Please enter your account email address."
-msgstr "Var vänlig ange ditt kontos e-postadress"
+msgstr "Var vänlig ange ditt kontos e-postadress."
 
 #: eventum.c:1175
 msgid ""
@@ -1242,22 +1254,26 @@ msgid ""
 "will be created and assigned to your account. For security purposes a "
 "confirmation message will be sent to your email address and after confirming "
 "it the new password will be then activated and sent to you."
-msgstr "<b>Notera:</b>Var vänlig ange din e-postadress nedan och ett nytt slumpmässigt lösenord. \n kommer att skapas och assignas till ditt konto. Av säkerhetsskäl kommer ett bekräftelsemeddelande \n skickas till din e-postadress och efter bekräftelse \n kommer det nya lösenordet bli aktiverat och skickas till dig."
+msgstr ""
+"<b>Notera:</b>Var vänlig ange din e-postadress nedan, ett nytt slumpmässigt lösenord "
+"kommer att skapas och tilldelas till ditt konto. Av säkerhetsskäl kommer ett "
+"bekräftelsemeddelande skickas till din e-postadress och efter bekräftelse "
+"kommer det nya lösenordet bli aktiverat och skickas till dig."
 
 #: eventum.c:1178
 msgid "Request a Password"
-msgstr "Begär ett Lösenord"
+msgstr "Begär lösenord"
 
 #: eventum.c:1181 eventum.c:2729
 msgid "Error: An error occurred while trying to run your query."
-msgstr "Fel: ett fel upp vid försök att köra din fråga"
+msgstr "Fel: ett fel upp vid försök att köra din fråga."
 
 #: eventum.c:1184
 msgid ""
 "Thank you, a confirmation message was just emailed to you. Please follow the "
 "instructions available in this message to confirm your password creation "
 "request."
-msgstr "Tack, ett bekräftelsemeddelande har just blivit skickat till dig. Var vänlig \n följ instruktionerna i meddelandet och bekräfta begäran om lösenord"
+msgstr "Tack, ett bekräftelsemeddelande har just blivit skickat till dig. Var vänlig \n följ instruktionerna i meddelandet och bekräfta begäran om lösenord."
 
 #: eventum.c:1187 eventum.c:1436
 msgid ""
@@ -1268,15 +1284,15 @@ msgstr "Fel: din användare är just nu satt till inaktiv. Var vänlig \n kontak
 
 #: eventum.c:1190
 msgid " Error: Please provide your email address."
-msgstr "Fel: var vänlig ange din e-postadress"
+msgstr "Fel: var vänlig ange din e-postadress."
 
 #: eventum.c:1193
 msgid "Error: No user account was found matching the entered email address."
-msgstr "Fel: inget användarkonto hittades som matchar den angivna e-postadressen"
+msgstr "Fel: inget användarkonto hittades som matchar den angivna e-postadressen."
 
 #: eventum.c:1196 eventum.c:2741
 msgid "Email Address:"
-msgstr "E-postadress"
+msgstr "E-postadress:"
 
 #: eventum.c:1199
 msgid "Send New Password"
@@ -1292,7 +1308,7 @@ msgstr "Ärendehistorik"
 
 #: eventum.c:1217
 msgid "No changes could be found."
-msgstr "Inga förändringar hittades"
+msgstr "Inga förändringar hittades."
 
 #: eventum.c:1223
 msgid "History of Reminders Triggered for Issue"
@@ -1304,11 +1320,11 @@ msgstr "Triggad Händelse"
 
 #: eventum.c:1232
 msgid "No reminders could be found."
-msgstr "Inga påminnelser hittades"
+msgstr "Inga påminnelser hittades."
 
 #: eventum.c:1238
 msgid "Please enter the estimated development time for this task."
-msgstr "Var vänlig ange beräknad utvecklingstid för den här uppgiften"
+msgstr "Var vänlig ange beräknad utvecklingstid för den här uppgiften."
 
 #: eventum.c:1241
 msgid ""
@@ -1318,7 +1334,7 @@ msgstr "Var vänlig använd enbart floating point nummer (eller integer) på \n 
 
 #: eventum.c:1244
 msgid "Please enter the analysis for the changes required by this issue."
-msgstr "Var vänlig ange analys för förändringar som behövs för det här ärendet"
+msgstr "Var vänlig ange analys för förändringar som behövs för det här ärendet."
 
 #: eventum.c:1247 eventum.c:1286
 msgid "Impact Analysis"
@@ -1358,11 +1374,11 @@ msgstr "uppdatering notering"
 
 #: eventum.c:1301
 msgid "No entries could be found."
-msgstr "Inga noteringar hittades"
+msgstr "Inga noteringar hittades."
 
 #: eventum.c:1304
 msgid "Please enter the new requirement for this issue."
-msgstr "Var vänlig ange nytt krav för det här ärendet"
+msgstr "Var vänlig ange nytt krav för det här ärendet."
 
 #: eventum.c:1307
 msgid "Add New Requirement"
@@ -1382,7 +1398,7 @@ msgstr "Läs alla notiser"
 
 #: eventum.c:1319
 msgid "Please choose which issues to update."
-msgstr "Var vänlig välj ärenden att uppdatera"
+msgstr "Var vänlig välj ärenden att uppdatera."
 
 #: eventum.c:1322
 msgid "Please choose new values for the select issues"
@@ -1418,7 +1434,7 @@ msgstr "Snabbsökning"
 
 #: eventum.c:1346
 msgid "hide / show the advanced search form"
-msgstr "Göm/visa avancerad sökning"
+msgstr "Göm / visa avancerad sökning"
 
 #: eventum.c:1349
 msgid "advanced search"
@@ -1442,7 +1458,7 @@ msgstr "sortera efter sammanfattning"
 
 #: eventum.c:1370
 msgid "Export Data:"
-msgstr "Exportera data"
+msgstr "Exportera data:"
 
 #: eventum.c:1373
 msgid "Export to Excel"
@@ -1507,20 +1523,23 @@ msgid ""
 "              means that you still need to confirm your account\n"
 "              creation request. Please contact your local system\n"
 "              administrator for further information."
-msgstr "Fel: Din användarstatus är väntande. Detta betyder att du måste bekräfta att ditt konto skapas. Vänligen kontakta systemadministratören för ytterligare information."
+msgstr ""
+"Fel: Din användarstatus är väntande. Detta betyder att du\n"
+"måste bekräfta att ditt konto skapas. Vänligen kontakta \n"
+"systemadministratören för ytterligare information."
 
 #: eventum.c:1445
 msgid ""
 "Error: Cookies support seem to be disabled in your browser. Please enable "
 "this feature and try again."
-msgstr "Fe: Cookies verkar inte vara aktiverad i din webläsare. Vänligen aktivera cookie och försök igen"
+msgstr "Fe: Cookies verkar inte vara aktiverad i din webläsare. Vänligen aktivera cookie och försök igen."
 
 #: eventum.c:1448
 msgid ""
 "Error: In order for %1 to work properly, you must enable cookie support in "
 "your browser. Please login\n"
 "              again and accept all cookies coming from it."
-msgstr "Fel: för att %1 ska fungera ordentligt, måste du kontrollera att du har cookie aktiverat."
+msgstr "Fel: för att %1 ska fungera ordentligt, måste du kontrollera att du har cookies aktiverat."
 
 #: eventum.c:1460
 msgid "Remember Login"
@@ -1682,7 +1701,7 @@ msgstr "Projekt"
 
 #: eventum.c:1601
 msgid "Please enter a valid issue ID."
-msgstr "Vänligen ange ett giltigt ärende ID"
+msgstr "Vänligen ange ett giltigt ärende ID."
 
 #: eventum.c:1604
 msgid "Switch"
@@ -1872,7 +1891,7 @@ msgstr "Du har inte behörighet till sidan."
 
 #: eventum.c:1775
 msgid "This action will permanently delete the specified phone support entry."
-msgstr "Den här åtgärden kommer ta bort telefonsupportposten"
+msgstr "Den här åtgärden kommer ta bort telefonsupportposten."
 
 #: eventum.c:1778
 msgid "Phone Calls"
@@ -1978,7 +1997,7 @@ msgstr "Tack så mycket, de valda checkin informationsposterna har tagits bort."
 
 #: eventum.c:1910
 msgid "Thank you, the emails were marked as removed successfully."
-msgstr "Tack så mycket, e-postmeddelandet har markerats som borttaget"
+msgstr "Tack så mycket, e-postmeddelandet har markerats som borttaget."
 
 #: eventum.c:1916
 msgid "Thank you, the current issue is no longer marked as a duplicate."
@@ -1994,7 +2013,7 @@ msgstr "Tack så mycket, telefonsupportposten har tagits bort."
 
 #: eventum.c:1931
 msgid "The associated time tracking entry was also deleted."
-msgstr "Den associerade tidsredovisningsposten togs också bort"
+msgstr "Den associerade tidsredovisningsposten togs också bort."
 
 #: eventum.c:1937
 msgid "Thank you, the issue was updated successfully."
@@ -2142,7 +2161,7 @@ msgstr "Vänligen ange ditt nya lösenord med minst 6 tecken."
 
 #: eventum.c:2102
 msgid "The two passwords do not match. Please review your information and try again."
-msgstr "De två lösenorden matchar inte. Vänligen försök igen"
+msgstr "De två lösenorden matchar inte. Vänligen försök igen."
 
 #: eventum.c:2105
 msgid "User Details"
@@ -2314,7 +2333,7 @@ msgstr "Tack så mycket, förändringsanalys har uppdaterats."
 msgid ""
 "Please use only floating point numbers on the estimated development time "
 "field."
-msgstr "Vänligen välj endast decimaltal för beräknad utvecklingstid"
+msgstr "Vänligen välj endast decimaltal för beräknad utvecklingstid."
 
 #: eventum.c:2309
 msgid "Please enter the impact analysis for this new requirement."
@@ -2402,7 +2421,9 @@ msgid ""
 "with your SMTP account settings.\n"
 "  Please contact the administrator of this application for further "
 "assistance."
-msgstr "E-postmeddelandet kunde inte läggas till i kön. Det kan bero på dina SMTP inställningar.\n Kontakta systemadministratören för ytterligare information."
+msgstr ""
+"E-postmeddelandet kunde inte läggas till i kön. Det kan bero på dina SMTP "
+"inställningar.\n Kontakta systemadministratören för ytterligare information."
 
 #: eventum.c:2414
 msgid "Thank you, the email was queued to be sent successfully."
@@ -2683,7 +2704,10 @@ msgid ""
 "<b>Note:</b> This user requires permission to create and drop tables in the "
 "specified database.<br />This value is used only for these installation "
 "procedures, and is not saved if you provide a separate user below."
-msgstr "<b>Notera:</b> Användaren kräver behörighet för att skapa och tabort tabeller i databasen.<br />Värdet används endast för det installationsförfarandeoch sparas inte om du angivit en annan användare nedanför. "
+msgstr ""
+"<b>Notera:</b> Användaren kräver behörighet för att skapa och tabort tabeller "
+"i databasen.<br />Värdet används endast för det installationsförfarandeoch "
+"sparas inte om du angivit en annan användare nedanför. "
 
 #: eventum.c:2651
 msgid "MySQL Password:"
@@ -2717,7 +2741,9 @@ msgstr "SMTP Konfiguration"
 msgid ""
 "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure "
 "emails are properly sent when creating new users/projects."
-msgstr "<b>Notera:</b> SMTP (utgående e-post) konfiguration krävs för att försäkra sig om att e-postmeddelanden skickas när man skapar nytt ärende/projekt."
+msgstr ""
+"<b>Notera:</b> Konfiguration av SMTP (utgående e-post) krävs för att "
+"e-postmeddelanden skall kunna skickas när man skapar nya användare/projekt."
 
 #: eventum.c:2678
 msgid "must be a valid email address"
@@ -2733,7 +2759,7 @@ msgstr "Port:"
 
 #: eventum.c:2687
 msgid "Requires Authentication?"
-msgstr "Kräver autentisering"
+msgstr "Krävs autentisering?"
 
 #: eventum.c:2702
 msgid "Start Installation"
@@ -2759,7 +2785,7 @@ msgstr "Skaffa konto"
 msgid ""
 "Error: The email address specified is already associated with an user in the "
 "system."
-msgstr "Fel: Den angivna adresssen är upptagen av en annan användare i systemet"
+msgstr "Fel: Den angivna adresssen är upptagen av en annan användare i systemet."
 
 #: eventum.c:2735
 msgid ""
@@ -2802,7 +2828,7 @@ msgstr "Kontrollera stavningen"
 
 #: eventum.c:2771
 msgid "Please choose which entries need to be disassociated with the current issue."
-msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet"
+msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet."
 
 #: eventum.c:2774
 msgid ""
@@ -2930,7 +2956,7 @@ msgstr "Updaterat datum:"
 
 #: eventum.c:2924
 msgid "Associated Issues:"
-msgstr "Associerade ärenden"
+msgstr "Associerade ärenden:"
 
 #: eventum.c:2927
 msgid "Reporter:"
@@ -3022,7 +3048,9 @@ msgstr "Du har inte behörighet för sidan."
 msgid ""
 "Re-directing the parent window to the issue report page. This window will be "
 "closed automatically."
-msgstr "Omdirrigerar huvudfönstret till ärenderapport sidan. Det här fönstret kommer att stängas automatiskt."
+msgstr ""
+"Omdirrigerar huvudfönstret till ärenderapport sidan. Det här fönstret "
+"kommer att stängas automatiskt."
 
 #: eventum.c:3029
 msgid "This message already belongs to that account"
@@ -3080,7 +3108,9 @@ msgstr "Vänligen ange ny status för ärendet."
 msgid ""
 "NOTE: If you need to send new information regarding this issue, please use "
 "the EMAIL related buttons available at the bottom of the screen."
-msgstr "OBS: Om du behöver skicka ny information om ett ärende, vänligen använd e-postknappen som finns längst ned på sidan."
+msgstr ""
+"OBS: Om du behöver skicka ny information om ett ärende, "
+"vänligen använd e-postknappen som finns längst ned på sidan."
 
 #: eventum.c:3104
 msgid "Previous Issue"
@@ -3102,7 +3132,9 @@ msgstr "Karantänen upphör om %1"
 msgid ""
 "Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information "
 "regarding quarantined issues."
-msgstr "Vänigen se i <a class=\"link\" href=\"faq.php\">FAQ:n</a> för information om ärenden i karantän."
+msgstr ""
+"Vänigen se i <a class=\"link\" href=\"faq.php\">FAQ:n</a> "
+"för information om ärenden i karantän."
 
 #: eventum.c:3119
 msgid "Remove Quarantine"
@@ -3116,7 +3148,9 @@ msgstr "Notering:"
 msgid ""
 "This issue is marked private. Only Managers, the reporter and users assigned "
 "to the issue can view it."
-msgstr "Det här ärendet är markerat som privat. Endast Managers, rapportören och tilldelade användare kan se ärendet"
+msgstr ""
+"Det här ärendet är markerat som privat. Endast Managers, "
+"rapportören och tilldelade användare kan se ärendet."
 
 #: eventum.c:3128
 msgid "Issue Overview"
@@ -3208,7 +3242,7 @@ msgstr "Beskrivningen är ihopfälld"
 
 #: eventum.c:3254
 msgid "Click to expand."
-msgstr "Expandera"
+msgstr "Expandera."
 
 #: eventum.c:3257
 msgid "Unassign Issue"

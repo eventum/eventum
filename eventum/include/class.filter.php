@@ -74,7 +74,7 @@ class Filter
 
 
     /**
-     * Method used to check whether the given user is the owner of the custom 
+     * Method used to check whether the given user is the owner of the custom
      * filter ID.
      *
      * @access  public
@@ -106,7 +106,7 @@ class Filter
 
 
     /**
-     * Method used to save the changes made to an existing custom 
+     * Method used to save the changes made to an existing custom
      * filter, or to create a new custom filter.
      *
      * @access  public
@@ -146,7 +146,7 @@ class Filter
                 $$date_end_var = 'NULL';
             }
         }
-        
+
         // save custom fields to search
         if ((is_array($HTTP_POST_VARS['custom_field'])) && (count($HTTP_POST_VARS['custom_field']) > 0)) {
             foreach ($HTTP_POST_VARS['custom_field'] as $fld_id => $search_value) {
@@ -158,7 +158,7 @@ class Filter
         } else {
             $custom_field_string = '';
         }
-        
+
         if (empty($HTTP_POST_VARS['is_global'])) {
             $is_global_filter = 0;
         } else {
@@ -330,8 +330,8 @@ class Filter
 
 
     /**
-     * Method used to get an associative array of the full list of 
-     * custom filters (filter id => filter title) associated with the 
+     * Method used to get an associative array of the full list of
+     * custom filters (filter id => filter title) associated with the
      * current user and the current 'active' project.
      *
      * @access  public
@@ -364,7 +364,7 @@ class Filter
 
     /**
      * Method used to get an array of the full list of the custom
-     * filters associated with the current user and the current 
+     * filters associated with the current user and the current
      * 'active' project.
      *
      * @access  public
@@ -424,16 +424,16 @@ class Filter
                     $res[$i]['url'] .= 'custom_field=' . urlencode($res[$i]['cst_custom_field']);
                 }
             }
-            
+
             return $res;
         }
     }
-    
-    
+
+
     /**
      * Takes the saved search details and information about filters and returns an array of
      * of the saved search information.
-     * 
+     *
      * @access  private
      * @param   array $details An array of information about the saved search, usually the direct row from the database.
      * @param   array $info An array of information about filters
@@ -475,7 +475,7 @@ class Filter
 
 
     /**
-     * Method used to get an associative array of the full details of 
+     * Method used to get an associative array of the full details of
      * a specific custom filter.
      *
      * @access  public
@@ -529,7 +529,7 @@ class Filter
                 if (Auth::getCurrentRole() >= User::getRoleID('Manager')) {
                     $stmt .= " cst_is_global=1 AND ";
                 } else {
-                    $stmt .= " 
+                    $stmt .= "
                         cst_is_global=1 AND
                         cst_usr_id=" . Auth::getUserID() . " AND ";
                 }
@@ -572,11 +572,11 @@ class Filter
             return true;
         }
     }
-    
-    
+
+
     /**
      * Returns an array of information about all the different filter fields.
-     * 
+     *
      * @access  public
      * @return  Array an array of information.
      */
@@ -587,93 +587,93 @@ class Filter
         //      "param" => name that appears in get, post or cookie
         $fields = array(
             'iss_pri_id'    =>  array(
-                'title' =>  gettext("Priority"),
+                'title' =>  ev_gettext("Priority"),
                 'param' =>  'priority',
                 'quickfilter'   =>  true
             ),
             'keywords'  =>  array(
-                'title' =>  gettext("Keyword(s)"),
+                'title' =>  ev_gettext("Keyword(s)"),
                 'param' =>  'keywords',
                 'quickfilter'   =>  true
             ),
             'users' =>  array(
-                'title' =>  gettext("Assigned"),
+                'title' =>  ev_gettext("Assigned"),
                 'param' =>  'users',
                 'quickfilter'   =>  true
             ),
             'iss_prc_id'    =>  array(
-                'title' =>  gettext("Category"),
+                'title' =>  ev_gettext("Category"),
                 'param' =>  'category',
                 'quickfilter'   =>  true
             ),
             'iss_sta_id'    =>  array(
-                'title' =>  gettext("Status"),
+                'title' =>  ev_gettext("Status"),
                 'param' =>  'status',
                 'quickfilter'   =>  true
             ),
             'iss_pre_id'    =>  array(
-                'title' =>  gettext("Release"),
+                'title' =>  ev_gettext("Release"),
                 'param' =>  'release'
             ),
             'created_date'  =>  array(
-                'title' =>  gettext("Created Date"),
+                'title' =>  ev_gettext("Created Date"),
                 'param' =>  'created_date',
                 'is_date'   =>  true
             ),
             'updated_date'  =>  array(
-                'title' =>  gettext("Updated Date"),
+                'title' =>  ev_gettext("Updated Date"),
                 'param' =>  'updated_date',
                 'is_date'   =>  true
             ),
             'last_response_date'  =>  array(
-                'title' =>  gettext("Last Response Date"),
+                'title' =>  ev_gettext("Last Response Date"),
                 'param' =>  'last_response_date',
                 'is_date'   =>  true
             ),
             'first_response_date'  =>  array(
-                'title' =>  gettext("First Response Date"),
+                'title' =>  ev_gettext("First Response Date"),
                 'param' =>  'first_response_date',
                 'is_date'   =>  true
             ),
             'closed_date'  =>  array(
-                'title' =>  gettext("Closed Date"),
+                'title' =>  ev_gettext("Closed Date"),
                 'param' =>  'closed_date',
                 'is_date'   =>  true
             ),
             'rows'  =>  array(
-                'title' =>  gettext("Rows Per Page"),
+                'title' =>  ev_gettext("Rows Per Page"),
                 'param' =>  'rows'
             ),
             'sort_by'   =>  array(
-                'title' =>  gettext("Sort By"),
+                'title' =>  ev_gettext("Sort By"),
                 'param' =>  'sort_by'
             ),
             'sort_order'    =>  array(
-                'title' =>  gettext("Sort Order"),
+                'title' =>  ev_gettext("Sort Order"),
                 'param' =>  'sort_order',
             ),
             'hide_closed'   =>  array(
-                'title' =>  gettext("Hide Closed Issues"),
+                'title' =>  ev_gettext("Hide Closed Issues"),
                 'param' =>  'hide_closed'
             ),
             'show_authorized'   =>  array(
-                'title' =>  gettext("Authorized to Send Emails"),
+                'title' =>  ev_gettext("Authorized to Send Emails"),
                 'param' =>  'show_authorized_issues'
             ),
             'show_notification_list'    =>  array(
-                'title' =>  gettext("In Notification List"),
+                'title' =>  ev_gettext("In Notification List"),
                 'param' =>  'show_notification_list_issues'
             ),
             'search_type'   =>  array(
-                'title' =>  gettext("Search Type"),
+                'title' =>  ev_gettext("Search Type"),
                 'param' =>  'search_type'
             ),
             'reporter'  =>  array(
-                'title' =>  gettext("Reporter"),
+                'title' =>  ev_gettext("Reporter"),
                 'param' =>  'reporter'
             )
         );
-        
+
         // add custom fields
         $custom_fields = Custom_Field::getFieldsByProject(Auth::getCurrentProject());
         if (count($custom_fields) > 0) {
@@ -687,7 +687,7 @@ class Filter
                 );
             }
         }
-            
+
         return $fields;
     }
 }

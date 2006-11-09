@@ -115,8 +115,8 @@ class Mail_API
      */
     function getCannedBlockedMsgExplanation()
     {
-        $msg = gettext("WARNING: This message was blocked because the sender was not allowed to send emails to the associated issue.") . " ";
-        $msg .= gettext("Only staff members listed in the assignment or authorized replier fields can send emails.") . "\n";
+        $msg = ev_gettext("WARNING: This message was blocked because the sender was not allowed to send emails to the associated issue.") . " ";
+        $msg .= ev_gettext("Only staff members listed in the assignment or authorized replier fields can send emails.") . "\n";
         $msg .= str_repeat('-', 70) . "\n\n";
         return $msg;
     }
@@ -481,9 +481,9 @@ class Mail_API
     function getWarningMessage($type)
     {
         if ($type == 'allowed') {
-            $str = gettext("ADVISORY: Your reply will be sent to the notification list.");
+            $str = ev_gettext("ADVISORY: Your reply will be sent to the notification list.");
         } else {
-            $str = gettext("WARNING: If replying, add yourself to Authorized Repliers list first.");
+            $str = ev_gettext("WARNING: If replying, add yourself to Authorized Repliers list first.");
         }
         return $str;
     }

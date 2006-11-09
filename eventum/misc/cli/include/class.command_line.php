@@ -1144,7 +1144,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      * @param   integer $week The week for the report. If start and end date are set, this is ignored.
      * @param   string $start_date The start date of the report. (optional)
      * @param   string $end_date The end_date of the report. (optional)
-     * @param   boolean If closed issues should be separated from other issues. 
+     * @param   boolean If closed issues should be separated from other issues.
      */
     function getWeeklyReport(&$rpc_conn, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
     {
@@ -1154,7 +1154,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
             new XML_RPC_Value($week, "int"),
             new XML_RPC_Value($start_date, "string"),
             new XML_RPC_Value($end_date, "string"),
-            new XML_RPC_Value($separate_closed ? 1 : 0, 'int'), 
+            new XML_RPC_Value($separate_closed ? 1 : 0, 'int'),
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {

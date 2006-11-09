@@ -33,7 +33,7 @@ include_once(APP_INC_PATH . "class.time_tracking.php");
 include_once(APP_PEAR_PATH . "Math/Stats.php");
 
 /**
- * The Customer Stats report will be too complex to group with the rest of 
+ * The Customer Stats report will be too complex to group with the rest of
  * the reports so I am seperating it into a seperate class.
  *
  * @version 1.0
@@ -47,54 +47,54 @@ class Customer_Stats_Report
      * @var integer
      */
     var $prj_id;
-    
+
     /**
      * Support Levels to show
      * @var array
      */
     var $levels;
-    
+
     /**
      * Customers to display stats for
      * @var array
      */
     var $customers;
-    
+
     /**
      * Start date of the report
      * @var string
      */
     var $start_date;
-    
+
     /**
      * End date of the report
      * @var string
      */
     var $end_date;
-    
+
     /**
      * The current customer restriction
      * @var array
      */
     var $current_customers;
-    
+
     /**
      * If expired contracts should be excluded.
      * @var boolean
      */
     var $exclude_expired_contracts;
-    
+
     /**
      * An array listing the union of time tracking categories that have data.
      * @var array
      */
     var $time_tracking_categories = array();
-    
+
     /**
      * Class Constructor. Accepts the support level, customer,
      * start date and end date to be used in this report. If a customer is
      * specified the support level is ignored. If the date is left off or invalid all dates are included.
-     * 
+     *
      * @access  public
      * @param   integer $prj_id The id of the project this report is for.
      * @param   array $levels The support levels that should be shown in this report.
@@ -110,25 +110,25 @@ class Customer_Stats_Report
         $this->start_date = $start_date;
         $this->end_date = $end_date;
     }
-    
-    
+
+
     /**
      * Returns all data for this report.
-     * 
+     *
      * @access  public
      * @return  array
      */
     function getData()
     {
         $data = array();
-        
+
         // determine if this should be customer based or support level based.
         if ($this->isCustomerBased()) {
             // customer based
-            
+
             // get "all" row of data
             $data[] = $this->getAllRow();
-            
+
             foreach ($this->customers as $customer_id) {
                 $details = Customer::getDetails($this->prj_id, $customer_id);
                 $data[] = $this->getDataRow($details["customer_name"], array($customer_id));
@@ -143,7 +143,7 @@ class Customer_Stats_Report
                         $data[] = $this->getAllRow();
                         continue;
                     }
-                    
+
                     $support_options = array();
                     if ($this->exclude_expired_contracts) {
                         $support_options[] = CUSTOMER_EXCLUDE_EXPIRED;
@@ -153,14 +153,14 @@ class Customer_Stats_Report
                 }
             }
         }
-        
+
         return $data;
     }
-    
-    
+
+
     /**
      * Returns data row for specified name and customers.
-     * 
+     *
      * @param   string  $name Name of data row.
      * @param   string  $customers  Customers to include in this row.
      * @return  array   An array of data.
@@ -177,21 +177,21 @@ class Customer_Stats_Report
             "time_stats"    =>  $this->getTimeStats()
         );
     }
-    
-    
+
+
     /**
      * Returns the "all" row, that is the row that always appears at the top of the report
      * and covers all support levels and customers regardless of what is selected.
-     * 
+     *
      * @access  private
      * @return  array The array of data for this row.
      */
     function getAllRow()
     {
         $row = array(
-            "title" =>  gettext("Aggregate")
+            "title" =>  ev_gettext("Aggregate")
         );
-        
+
         // get complete list of customers.
         $all_levels = array();
         $levels = Customer::getSupportLevelAssocList($this->prj_id);
@@ -204,27 +204,27 @@ class Customer_Stats_Report
             $support_option = array();
         }
         $this->current_customers = Customer::getListBySupportLevel($this->prj_id, $all_levels, $support_option);
-        
+
         // get customers
         $row["customer_counts"] = $this->getCustomerCounts("All");
-        
+
         // get total # of issues, avg issues per customer, median issues per customer
         $row['issue_counts'] = $this->getIssueCounts("All");
-        
+
         // get actions counts such as # of customer actions per issue, avg customer actions per issue,
         // median customer actions per issue.
         $row['email_counts'] = $this->getEmailCounts();
-        
+
         // get time tracking information
         $row['time_tracking'] = $this->getTimeTracking();
-        
+
         // get other time related stats such as avg and median time between issues and avg and median time to close.
         $row['time_stats'] = $this->getTimeStats();
-        
+
         return $row;
     }
-    
-    
+
+
     /**
      * Returns various customer statistics.
      *
@@ -235,7 +235,7 @@ class Customer_Stats_Report
     function getCustomerCounts($name)
     {
         $customer_count = count($this->current_customers);
-        
+
         // split by low/medium/high
         $issue_counts = $this->getIssueCountsByCustomer($name);
         $activity = array(
@@ -262,7 +262,7 @@ class Customer_Stats_Report
         } else {
             $inactive_count = 0;
         }
-        
+
         return array(
                 "customer_count"    =>  $customer_count,
                 "activity"  =>  $activity,
@@ -270,14 +270,14 @@ class Customer_Stats_Report
                 "inactive"  =>  $inactive_count
         );
     }
-    
-    
+
+
     /**
      * Returns the counts relating to number of issues.
      *  - total: total number of issues for the support level.
      *  - avg: Average number of issues opened by customers for support level.
      *  - median: Median number of issues opened by customers for support level.
-     * 
+     *
      * @access  private
      * @param   string $name The name of this data row.
      * @return  array Array of counts.
@@ -288,7 +288,7 @@ class Customer_Stats_Report
         if ((is_array($issue_counts)) && (count($issue_counts) > 0)) {
             $stats = new Math_Stats();
             $stats->setData($issue_counts);
-            
+
             return array(
                 "total" =>  $stats->sum(),
                 "avg"   =>  $stats->mean(),
@@ -304,27 +304,27 @@ class Customer_Stats_Report
             );
         }
     }
-    
+
     /**
      * Returns an array of issue counts for customers.
-     * 
+     *
      * @access  private
      * @param   string $name The name of this data row.
      */
     function getIssueCountsByCustomer($name)
     {
         static $issue_counts;
-        
+
         // poor man's caching system...
         if (!empty($issue_counts[$name])) {
             return $issue_counts[$name];
         }
-        
+
         $stmt = "SELECT
                     count(*)
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 WHERE 
+                 WHERE
                     " . $this->getWhereClause("iss_customer_id", "iss_created_date") . "
                  GROUP BY
                     iss_customer_id";
@@ -336,11 +336,11 @@ class Customer_Stats_Report
         $issue_counts[$name] = $res;
         return $res;
     }
-    
-    
+
+
     /**
      * Returns the counts relating to # of customer and developer emails.
-     * 
+     *
      * @access  public
      * @return  array Array of counts.
      */
@@ -362,7 +362,7 @@ class Customer_Stats_Report
                     sup_iss_id = iss_id AND
                     sup_usr_id = pru_usr_id AND
                     ema_prj_id = pru_prj_id AND
-                    pru_role = " . User::getRoleID('Customer') . " AND 
+                    pru_role = " . User::getRoleID('Customer') . " AND
                     " . $this->getWhereClause("iss_customer_id", "sup_date") . "
                  GROUP BY
                     sup_iss_id";
@@ -371,11 +371,11 @@ class Customer_Stats_Report
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
         }
-        
+
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
-            
+
             $counts["customer"]["total"] = $stats->sum();
             $counts["customer"]["avg"] = $stats->mean();
             $counts["customer"]["median"] = $stats->median();
@@ -384,7 +384,7 @@ class Customer_Stats_Report
             $counts["customer"]["avg"] = 0;
             $counts["customer"]["median"] = 0;
         }
-        
+
         $stmt = "SELECT
                     count(*)
                  FROM
@@ -397,7 +397,7 @@ class Customer_Stats_Report
                     sup_iss_id = iss_id AND
                     sup_usr_id = pru_usr_id AND
                     ema_prj_id = pru_prj_id AND
-                    pru_role != " . User::getRoleID('Customer') . " AND 
+                    pru_role != " . User::getRoleID('Customer') . " AND
                     " . $this->getWhereClause("iss_customer_id", "sup_date") . "
                  GROUP BY
                     sup_iss_id";
@@ -409,7 +409,7 @@ class Customer_Stats_Report
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
-            
+
             $counts["developer"]["total"] = $stats->sum();
             $counts["developer"]["avg"] = $stats->mean();
             $counts["developer"]["median"] = $stats->median();
@@ -418,26 +418,26 @@ class Customer_Stats_Report
             $counts["developer"]["avg"] = 0;
             $counts["developer"]["median"] = 0;
         }
-        
+
         return $counts;
     }
-    
-    
+
+
     /**
      * Returns information from time tracking module, split by category
-     * 
+     *
      * @access  private
      * @return  array Array of counts.
      */
     function getTimeTracking()
     {
         $time = array();
-        
+
         // get total stats
         $time[0] = $this->getIndividualTimeTracking();
         $time[0]["name"] = "Total";
         $this->time_tracking_categories[0] = "Total";
-        
+
         // get categories
         $categories = Time_Tracking::getAssocCategories();
         foreach ($categories as $ttc_id => $category) {
@@ -445,18 +445,18 @@ class Customer_Stats_Report
             if (count($individual) > 0) {
                 $time[$ttc_id] = $individual;
                 $time[$ttc_id]["name"] = $category;
-                
+
                 $this->time_tracking_categories[$ttc_id] = $category;
             }
         }
-        
+
         return $time;
     }
-    
-    
+
+
     /**
      * Returns time tracking information for a certain category, or all categories if no category is passed.
-     * 
+     *
      * @access  public
      * @param   $ttc_id The id of the time tracking category. Default false
      * @return  array Array of time tracking information
@@ -497,11 +497,11 @@ class Customer_Stats_Report
             return array();
         }
     }
-    
-    
+
+
     /**
      * Returns information about time to close and time to first response.
-     * 
+     *
      * @access  private
      * @return  array Array of counts.
      */
@@ -513,7 +513,7 @@ class Customer_Stats_Report
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
-                    iss_closed_date IS NOT NULL AND 
+                    iss_closed_date IS NOT NULL AND
                     " . $this->getWhereClause("iss_customer_id", array("iss_created_date", "iss_closed_date"));
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
@@ -523,7 +523,7 @@ class Customer_Stats_Report
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
-            
+
             $time_to_close = array(
                 "avg"   =>  $stats->mean(),
                 "avg_formatted" =>  Misc::getFormattedTime($stats->mean()),
@@ -546,14 +546,14 @@ class Customer_Stats_Report
                 "min_formatted" =>  Misc::getFormattedTime(0)
             );
         }
-        
+
         // time to first response
         $stmt = "SELECT
                     round(((unix_timestamp(iss_first_response_date) - unix_timestamp(iss_created_date)) / 60))
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
-                    iss_first_response_date IS NOT NULL AND 
+                    iss_first_response_date IS NOT NULL AND
                     " . $this->getWhereClause("iss_customer_id", array("iss_created_date", "iss_closed_date"));
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
@@ -563,7 +563,7 @@ class Customer_Stats_Report
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
-            
+
             $time_to_first_response = array(
                 "avg"   =>  $stats->mean(),
                 "avg_formatted" =>  Misc::getFormattedTime($stats->mean()),
@@ -586,28 +586,28 @@ class Customer_Stats_Report
                 "min_formatted" =>  Misc::getFormattedTime(0)
             );
         }
-        
+
         return array(
             "time_to_close" => $time_to_close,
             "time_to_first_response"    =>  $time_to_first_response
         );
     }
-    
-    
+
+
     /**
      * Returns if this report is customer based
-     * 
+     *
      * @return  boolean
      */
     function isCustomerBased()
     {
         return ((is_array($this->customers)) && (count($this->customers) > 0) && (!in_array("", $this->customers)));
     }
-    
-    
+
+
     /**
      * Sets if expired contracts should be exclude
-     * 
+     *
      * @access  public
      * @param   boolean $split If expired contracts should be excluded
      */
@@ -615,12 +615,12 @@ class Customer_Stats_Report
     {
         $this->exclude_expired_contracts = $exclude;
     }
-    
-    
+
+
     /**
      * Returns where clause based on what the current support level/customer is set to, and date range currently set.
      * If $date_field is an array, the fields will be ORed together.
-     * 
+     *
      * @param   string $customer_field The name of customer_id field
      * @param   mixed $date_field The name of the date field
      * @return  string A string with the SQL limiting the resultset
@@ -636,8 +636,8 @@ class Customer_Stats_Report
                 $where .= "1 = 2";
             }
         }
-        
-        
+
+
         if ((!empty($this->start_date)) && (!empty($this->end_date))) {
             if (!empty($customer_field)) {
                 $where .= " AND\n";
@@ -654,27 +654,27 @@ class Customer_Stats_Report
         }
         return $where;
     }
-    
-    
+
+
     /**
      * Returns the text for the row label. Will be "Support Level" if viewing support levels and "Customer" if viewing a specific customer.
-     * 
+     *
      * @access  public
      * @return  string The text for the row label.
      */
     function getRowLabel()
     {
         if ($this->isCustomerBased()) {
-            return gettext("Customer");
+            return ev_gettext("Customer");
         } else {
-            return gettext("Support Level");
+            return ev_gettext("Support Level");
         }
     }
-    
-    
+
+
     /**
      * Returns an array of graph types
-     * 
+     *
      * @access  public
      * @return  array An array of graph types
      */
@@ -682,16 +682,16 @@ class Customer_Stats_Report
     {
         return array(
             1   =>  array(
-                        "title" =>  gettext("Total Workload by Support Level"),
-                        "desc"  =>  gettext("Includes issue count, Developer email Count, Customer Email Count, Customers count by Support Level"),
+                        "title" =>  ev_gettext("Total Workload by Support Level"),
+                        "desc"  =>  ev_gettext("Includes issue count, Developer email Count, Customer Email Count, Customers count by Support Level"),
                         "size"  => array(
                                         "x" =>  800,
                                         "y" =>  350
                         )
             ),
             2   =>  array(
-                        "title" =>  gettext("Avg Workload per Customer by Support Level"),
-                        "desc"  =>  gettext("Displays average number of issues, developer emails and customer emails per issue by support level"),
+                        "title" =>  ev_gettext("Avg Workload per Customer by Support Level"),
+                        "desc"  =>  ev_gettext("Displays average number of issues, developer emails and customer emails per issue by support level"),
                         "size"  =>  array(
                                         "x" =>  800,
                                         "y" =>  350
@@ -699,47 +699,47 @@ class Customer_Stats_Report
                         "value_format"  =>  "%.1f"
             ),
             3   =>  array(
-                        "title" =>  gettext("Avg and Median Time to Close by Support Level"),
-                        "desc"  =>  gettext("Displays time stats"),
+                        "title" =>  ev_gettext("Avg and Median Time to Close by Support Level"),
+                        "desc"  =>  ev_gettext("Displays time stats"),
                         "size"  =>  array(
                                         "x" =>  600,
                                         "y" =>  350
                         ),
-                        "y_label"   =>  gettext("Days")
+                        "y_label"   =>  ev_gettext("Days")
             ),
             4   =>  array(
-                        "title" =>  gettext("Avg and Median Time to First Response by Support Level"),
-                        "desc"  =>  gettext("Displays time stats"),
+                        "title" =>  ev_gettext("Avg and Median Time to First Response by Support Level"),
+                        "desc"  =>  ev_gettext("Displays time stats"),
                         "size"  =>  array(
                                         "x" =>  600,
                                         "y" =>  350
                         ),
-                        "y_label"   =>  gettext("Hours")
+                        "y_label"   =>  ev_gettext("Hours")
             )
         );
     }
-    
-    
+
+
     /**
      * Returns the list of sections that can be displayed.
-     * 
+     *
      * @access  public
      * @return  array An array of sections.
      */
     function getDisplaySections()
     {
         return array(
-            "customer_counts"   =>  gettext("Customer Counts"),
-            "issue_counts"  =>  gettext("Issue Counts"),
-            "email_counts"  =>  gettext("Email Counts"),
-            "time_stats"    =>  gettext("Time Statistics"),
-            "time_tracking" =>  gettext("Time Tracking")
+            "customer_counts"   =>  ev_gettext("Customer Counts"),
+            "issue_counts"  =>  ev_gettext("Issue Counts"),
+            "email_counts"  =>  ev_gettext("Email Counts"),
+            "time_stats"    =>  ev_gettext("Time Statistics"),
+            "time_tracking" =>  ev_gettext("Time Tracking")
         );
     }
-    
+
     /**
      * Returns the list of time tracking categories that have data.
-     * 
+     *
      * @access  public
      * @return  array An array of time tracking categories
      */
