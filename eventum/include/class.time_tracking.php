@@ -526,9 +526,12 @@ class Time_Tracking
                     SUM(ttr_time_spent) as total_time
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
+                    iss_id = ttr_iss_id AND
                     ttr_ttc_id = ttc_id AND
+                    iss_prj_id = " . Auth::getCurrentProject() . " AND
                     ttr_usr_id = " . Misc::escapeInteger($usr_id) . " AND
                     ttr_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'
                  GROUP BY

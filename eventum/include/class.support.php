@@ -2275,8 +2275,11 @@ class Support
         $stmt = "SELECT
                     COUNT(sup_id)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
+                    ema_id = sup_ema_id AND
+                    ema_prj_id = " . Auth::getCurrentProject() . " AND
                     sup_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
                     sup_from LIKE '%" . Misc::escapeString($usr_info["usr_email"]) . "%' AND
                     sup_iss_id ";

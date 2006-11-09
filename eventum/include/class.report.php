@@ -296,6 +296,7 @@ class Report
      */
     function getWeeklyReport($usr_id, $start, $end, $separate_closed = false)
     {
+        $prj_id = Auth::getCurrentProject();
         $usr_id = Misc::escapeInteger($usr_id);
 
         // figure out timezone
@@ -340,6 +341,7 @@ class Report
                     iss_id = isu_iss_id AND
                     iss_sta_id = sta_id AND
                     isu_usr_id = $usr_id AND
+                    iss_prj_id = " . Auth::getCurrentProject() . " AND
                     isu_assigned_date BETWEEN '$start_ts' AND '$end_ts'";
         $newly_assigned = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($newly_assigned)) {

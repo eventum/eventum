@@ -59,6 +59,7 @@ Eventum Issue Tracking System
 - Fixed bug with attachments breaking with magic_quotes_sybase = On (Dave Greco)
 - Fixed stylesheet bugs (Dave Greco)
 - Automatically add addresses on to/cc list to notification list when auto creating a new issue (Bryan)
+- Change weekly report to be project specific (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

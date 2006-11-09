@@ -615,8 +615,11 @@ class Note
         $stmt = "SELECT
                     COUNT(not_id)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
+                    not_iss_id = iss_id AND
+                    iss_prj_id = " . Auth::getCurrentProject() . " AND
                     not_created_date BETWEEN '$start' AND '$end' AND
                     not_usr_id = $usr_id AND
                     not_removed = 0";

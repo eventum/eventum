@@ -243,7 +243,8 @@ class History
                         'remote_replier_added',
                         'replier_added',
                         'replier_removed',
-                        'replier_other_added'))) . ")
+                        'replier_other_added'))) . ") AND
+                    iss_prj_id = " . Auth::getCurrentProject() . "
                  GROUP BY
                     iss_id";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -298,6 +299,7 @@ class History
                  WHERE
                     his_iss_id = iss_id AND
                     iss_sta_id = sta_id AND
+                    iss_prj_id = " . Auth::getCurrentProject() . " AND
                     his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
                     his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'";
         if ($statuses != false) {

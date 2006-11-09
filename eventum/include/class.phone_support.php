@@ -472,8 +472,11 @@ class Phone_Support
         $stmt = "SELECT
                     COUNT(phs_id)
                  FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
+                    phs_iss_id = iss_id AND
+                    iss_prj_id = " . Auth::getCurrentProject() . " AND
                     phs_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
                     phs_usr_id = " . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
