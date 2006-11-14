@@ -77,6 +77,13 @@ function validateForm(f)
     {literal}
     return true;
 }
+
+function closeIssue(issue_id)
+{
+    if (confirm('{/literal}{t}Warning: All changes to this issue will be lost if you continue and close this issue.{/t}{literal}')) {
+        window.location.href='close.php?id=' + issue_id;
+    }
+}
 //-->
 </script>
 {/literal}
@@ -375,7 +382,7 @@ function validateForm(f)
                   <input class="button" type="button" value="{t}Cancel Update{/t}" onClick="javascript:history.go(-1);">&nbsp;
                   <input class="button" type="reset" value="{t}Reset{/t}">
                   {if (not $issue.sta_is_closed) and $current_role > $roles.customer}
-                  &nbsp;<input class="button" type="button" value="{t}Close Issue{/t}" onClick="javascript:window.location.href='close.php?id={$issue.iss_id}';">
+                  &nbsp;<input class="button" type="button" value="{t}Close Issue{/t}" onClick="javascript:closeIssue({$issue.iss_id});">
                   {/if}
                 </td>
               </tr>
