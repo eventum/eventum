@@ -509,9 +509,9 @@ class User
         if ($prj_id != false) {
             $stmt .= " AND pru_prj_id = " . Misc::escapeInteger($prj_id) . " AND
                        usr_id = pru_usr_id";
-        }
-        if ($role != NULL) {
-            $stmt .= " AND pru_role > $role ";
+            if ($role != NULL) {
+                $stmt .= " AND pru_role > $role ";
+            }
         }
         if ($grp_id != false) {
             if ($exclude_grouped == false) {
