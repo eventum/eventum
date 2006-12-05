@@ -61,6 +61,7 @@ Eventum Issue Tracking System
 - Automatically add addresses on to/cc list to notification list when auto creating a new issue (Bryan)
 - Change weekly report to be project specific (Bryan)
 - Added warning message when closing issue from update issue page (Bryan)
+- Added Ignore Issue Status Changes to weekly report window (Elan Ruusamäe)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

@@ -215,10 +215,24 @@ class History
      * @param   date $start The start date
      * @param   date $end The end date
      * @param   date $separate_closed If closed issues should be included in a separate array
+     * @param   array $htt_exclude Addtional History Types to ignore
      * @return  array An array of issues touched by the user.
      */
-    function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false)
+    function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array())
     {
+
+        $htt_list = History::getTypeID(
+            array_merge(array(
+                'notification_removed',
+                'notification_added',
+                'notification_updated',
+                'remote_replier_added',
+                'replier_added',
+                'replier_removed',
+                'replier_other_added',
+            ), $htt_exclude)
+        );
+
         $stmt = "SELECT
                     iss_id,
                     iss_prj_id,
@@ -236,14 +250,7 @@ class History
                     his_iss_id = iss_id AND
                     his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
                     his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
-                    his_htt_id NOT IN(" . join(',', History::getTypeID(array(
-                        'notification_removed',
-                        'notification_added',
-                        'notification_updated',
-                        'remote_replier_added',
-                        'replier_added',
-                        'replier_removed',
-                        'replier_other_added'))) . ") AND
+                    his_htt_id NOT IN(" . join(',', $htt_list) . ") AND
                     iss_prj_id = " . Auth::getCurrentProject() . "
                  GROUP BY
                     iss_id";
