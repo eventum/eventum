@@ -68,12 +68,15 @@ class Language
         $new_locale = setlocale(LC_TIME, APP_CURRENT_LOCALE . '.UTF8', APP_CURRENT_LOCALE);
         if (APP_GETTEXT_MODE == 'native') {
             $new_locale = setlocale(LC_MESSAGES, APP_CURRENT_LOCALE . '.UTF8', APP_CURRENT_LOCALE);
+            bindtextdomain("eventum", APP_PATH . "misc/localization/");
+            bind_textdomain_codeset("eventum", APP_CHARSET);
+            textdomain("eventum");
         } elseif (APP_GETTEXT_MODE == 'php') {
-            $new_locale = T_setlocale(LC_MESSAGES, APP_CURRENT_LOCALE);
+            $new_locale = _setlocale(LC_MESSAGES, APP_CURRENT_LOCALE);
+            _bindtextdomain("eventum", APP_PATH . "misc/localization/");
+            _bind_textdomain_codeset("eventum", APP_CHARSET);
+            _textdomain("eventum");
         }
-        bindtextdomain("eventum", APP_PATH . "misc/localization/");
-        bind_textdomain_codeset("eventum", APP_CHARSET);
-        textdomain("eventum");
 
 
         ini_set('mbstring.internal_encoding', 'UTF8');
@@ -84,20 +87,45 @@ class Language
 // helper function to help with translating strings with variables in them
 function ev_gettext($string)
 {
-    $arg = array();
-   for($i = 1 ; $i < func_num_args(); $i++)
-       $arg[] = func_get_arg($i);
+    if (func_num_args() > 1) {
+        $arg = array();
+        for($i = 1 ; $i < func_num_args(); $i++) {
+            $arg[] = func_get_arg($i);
+        }
 
-   return vsprintf(gettext($string), $arg);
+        if (APP_GETTEXT_MODE == 'php') {
+            $string = _gettext($string);
+        } else {
+            $string = gettext($string);
+        }
+
+        return vsprintf($string, $arg);
+    } else {
+        if (APP_GETTEXT_MODE == 'php') {
+            return _gettext($string);
+        } else {
+            return gettext($string);
+        }
+    }
+}
+
+
+function ev_ngettext($string, $plural, $number)
+{
+    if (APP_GETTEXT_MODE == 'php') {
+        return _ngettext($string, $plural, $number);
+    } else {
+        return ngettext($string, $plural, $number);
+    }
 }
 
 
 // if there is no gettext support built into PHP, or we are running in language compatability mode include PHP-gettext
-if ((!function_exists('gettext'))) {
+if ((!function_exists('gettext')) || ((defined('APP_GETTEXT_MODE')) && (APP_GETTEXT_MODE == 'php'))) {
     include_once(APP_INC_PATH . "php-gettext/gettext.inc");
-    define('APP_GETTEXT_MODE', 'php');
+    @define('APP_GETTEXT_MODE', 'php');
 } else {
-    define('APP_GETTEXT_MODE', 'native');
+    @define('APP_GETTEXT_MODE', 'native');
 }
 
 // benchmarking the included file (aka setup time)
