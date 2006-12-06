@@ -616,41 +616,41 @@ class Notification
             }
             $assign_diff = Misc::arrayDiff($old['assigned_users'], $new['assignments']);
             if (count($assign_diff) > 0) {
-                $diffs[] = '-Assignment List: ' . $old['assignments'];
-                @$diffs[] = '+Assignment List: ' . implode(', ', User::getFullName($new['assignments']));
+                $diffs[] = '-' . ev_gettext('Assignment List') . ': ' . $old['assignments'];
+                @$diffs[] = '+' . ev_gettext('Assignment List') . ': ' . implode(', ', User::getFullName($new['assignments']));
             }
         }
         if (@$old['iss_expected_resolution_date'] != $new['expected_resolution_date']) {
-            $diffs[] = '-Expected Resolution Date: ' . $old['iss_expected_resolution_date'];
-            $diffs[] = '+Expected Resolution Date: ' . $new['expected_resolution_date'];
+            $diffs[] = '-' . ev_gettext('Expected Resolution Date') . ': ' . $old['iss_expected_resolution_date'];
+            $diffs[] = '+' . ev_gettext('Expected Resolution Date') . ': ' . $new['expected_resolution_date'];
         }
         if ($old["iss_prc_id"] != $new["category"]) {
-            $diffs[] = '-Category: ' . Category::getTitle($old["iss_prc_id"]);
-            $diffs[] = '+Category: ' . Category::getTitle($new["category"]);
+            $diffs[] = '-' . ev_gettext('Category') . ': ' . Category::getTitle($old["iss_prc_id"]);
+            $diffs[] = '+' . ev_gettext('Category') . ': ' . Category::getTitle($new["category"]);
         }
         if ((@$new["keep"] == "no") && ($old["iss_pre_id"] != $new["release"])) {
-            $diffs[] = '-Release: ' . Release::getTitle($old["iss_pre_id"]);
-            $diffs[] = '+Release: ' . Release::getTitle($new["release"]);
+            $diffs[] = '-' . ev_gettext('Release') . ': ' . Release::getTitle($old["iss_pre_id"]);
+            $diffs[] = '+' . ev_gettext('Release') . ': ' . Release::getTitle($new["release"]);
         }
         if ($old["iss_pri_id"] != $new["priority"]) {
-            $diffs[] = '-Priority: ' . Priority::getTitle($old["iss_pri_id"]);
-            $diffs[] = '+Priority: ' . Priority::getTitle($new["priority"]);
+            $diffs[] = '-' . ev_gettext('Priority') . ': ' . Priority::getTitle($old["iss_pri_id"]);
+            $diffs[] = '+' . ev_gettext('Priority') . ': ' . Priority::getTitle($new["priority"]);
         }
         if ($old["iss_sta_id"] != $new["status"]) {
-            $diffs[] = '-Status: ' . Status::getStatusTitle($old["iss_sta_id"]);
-            $diffs[] = '+Status: ' . Status::getStatusTitle($new["status"]);
+            $diffs[] = '-' . ev_gettext('Status') . ': ' . Status::getStatusTitle($old["iss_sta_id"]);
+            $diffs[] = '+' . ev_gettext('Status') . ': ' . Status::getStatusTitle($new["status"]);
         }
         if ($old["iss_res_id"] != $new["resolution"]) {
-            $diffs[] = '-Resolution: ' . Resolution::getTitle($old["iss_res_id"]);
-            $diffs[] = '+Resolution: ' . Resolution::getTitle($new["resolution"]);
+            $diffs[] = '-' . ev_gettext('Resolution') . ': ' . Resolution::getTitle($old["iss_res_id"]);
+            $diffs[] = '+' . ev_gettext('Resolution') . ': ' . Resolution::getTitle($new["resolution"]);
         }
         if ($old["iss_dev_time"] != $new["estimated_dev_time"]) {
-            $diffs[] = '-Estimated Dev. Time: ' . Misc::getFormattedTime($old["iss_dev_time"]*60);
-            $diffs[] = '+Estimated Dev. Time: ' . Misc::getFormattedTime($new["estimated_dev_time"]*60);
+            $diffs[] = '-' . ev_gettext('Estimated Dev. Time') . ': ' . Misc::getFormattedTime($old["iss_dev_time"]*60);
+            $diffs[] = '+' . ev_gettext('Estimated Dev. Time') . ': ' . Misc::getFormattedTime($new["estimated_dev_time"]*60);
         }
         if ($old["iss_summary"] != $new["summary"]) {
-            $diffs[] = '-Summary: ' . $old['iss_summary'];
-            $diffs[] = '+Summary: ' . $new['summary'];
+            $diffs[] = '-' . ev_gettext('Summary') . ': ' . $old['iss_summary'];
+            $diffs[] = '+' . ev_gettext('Summary') . ': ' . $new['summary'];
         }
         if ($old["iss_description"] != $new["description"]) {
             // need real diff engine here
@@ -690,7 +690,7 @@ class Notification
         $data = Notification::getIssueDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
-        Notification::notifySubscribers($issue_id, $emails, 'updated', $data, 'Updated', FALSE);
+        Notification::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), FALSE);
     }
 
 
@@ -907,6 +907,13 @@ class Notification
                 continue;
             }
 
+            // change the current locale
+            if (!empty($recipient_usr_id)) {
+                Language::set(User::getLang($recipient_usr_id));
+            } else {
+                Language::set(APP_DEFAULT_LOCALE);
+            }
+
             // send email (use PEAR's classes)
             $mail = new Mail_API;
             $mail->setTextBody($tpl->getTemplateContents());
@@ -955,6 +962,9 @@ class Notification
             }
             $mail->send($from, $emails[$i], $full_subject, TRUE, $issue_id, $final_type, $sender_usr_id, $type_id);
         }
+
+        // restore correct language
+        Language::restore();
     }
 
 
@@ -1064,7 +1074,7 @@ class Notification
         $irc_notice .= $data['iss_summary'];
         Notification::notifyIRC($prj_id, $irc_notice, $issue_id);
         $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
-        $subject = 'New Issue';
+        $subject = ev_gettext('New Issue');
         $headers = array(
             "Message-ID"    =>  $data['iss_root_message_id']
         );
@@ -1097,6 +1107,7 @@ class Notification
                 $recipient = $sender;
                 $is_message_sender = true;
             }
+            $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient));
 
             if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress($recipient))) {
                 return;
@@ -1130,6 +1141,14 @@ class Notification
                     'subject' => $subject
                 )
             ));
+
+            // change the current locale
+            if (!empty($recipient_usr_id)) {
+                Language::set(User::getLang($recipient_usr_id));
+            } else {
+                Language::set(APP_DEFAULT_LOCALE);
+            }
+
             $text_message = $tpl->getTemplateContents();
 
             // send email (use PEAR's classes)
@@ -1140,6 +1159,8 @@ class Notification
             $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
             $recipient = Mime_Helper::fixEncoding($recipient);
             $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 0, $issue_id, 'auto_created_issue');
+
+            Language::restore();
         }
     }
 
@@ -1178,6 +1199,9 @@ class Notification
 
             $data = Issue::getDetails($issue_id);
             foreach ($recipients as $sup_id => $recipient) {
+
+                $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient));
+
                 // open text template
                 $tpl = new Template_API;
                 $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
@@ -1193,6 +1217,14 @@ class Notification
                         'subject' => $email_details['sup_subject']
                     )
                 ));
+
+                // change the current locale
+                if (!empty($recipient_usr_id)) {
+                    Language::set(User::getLang($recipient_usr_id));
+                } else {
+                    Language::set(APP_DEFAULT_LOCALE);
+                }
+
                 $text_message = $tpl->getTemplateContents();
 
                 // send email (use PEAR's classes)
@@ -1203,6 +1235,7 @@ class Notification
                 $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
                 $mail->send($from, $recipient, 'New Issue Created', 1, $issue_id, 'email_converted_to_issue');
             }
+            Language::restore();
             return $recipient_emails;
         }
     }
@@ -1335,6 +1368,10 @@ class Notification
             "app_title"    => Misc::getToolCaption(),
             "user"         => $info
         ));
+
+        // change the current locale
+        Language::set(User::getLang($usr_id));
+
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
@@ -1342,6 +1379,8 @@ class Notification
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("User account information updated"));
+
+        Language::restore();
     }
 
 
@@ -1366,6 +1405,10 @@ class Notification
             "app_title"    => Misc::getToolCaption(),
             "user"         => $info
         ));
+
+        // change the current locale
+        Language::set(User::getLang($usr_id));
+
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
@@ -1373,6 +1416,8 @@ class Notification
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("User account password changed"));
+
+        Language::restore();
     }
 
 
@@ -1397,6 +1442,10 @@ class Notification
             "app_title"    => Misc::getToolCaption(),
             "user"         => $info
         ));
+
+        // change the current locale
+        Language::set(User::getLang($usr_id));
+
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
@@ -1404,6 +1453,8 @@ class Notification
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("New User information"));
+
+        Language::restore();
     }
 
 
@@ -1431,18 +1482,23 @@ class Notification
                 "issue"        => $issue,
                 "data"         => $data
             ));
-            $text_message = $tpl->getTemplateContents();
 
             for ($i = 0; $i < count($assignees); $i++) {
                 if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress(User::getFromHeader($assignees[$i])))) {
                     continue;
                 }
+
+                // change the current locale
+                Language::set(User::getLang($assignees[$i]));
+                $text_message = $tpl->getTemplateContents();
+
                 // send email (use PEAR's classes)
                 $mail = new Mail_API;
                 $mail->setTextBody($text_message);
                 $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
                 $mail->send(Notification::getFixedFromHeader($issue_id, '', 'issue'), User::getFromHeader($assignees[$i]), "[#$issue_id] $title: " . $issue['iss_summary'], TRUE, $issue_id, $type);
             }
+            Language::restore();
         }
 
     }
@@ -1480,15 +1536,18 @@ class Notification
             "issue"        => $issue,
             "current_user" => User::getFullName(Auth::getUserID())
         ));
-        $text_message = $tpl->getTemplateContents();
 
         for ($i = 0; $i < count($emails); $i++) {
+            $text_message = $tpl->getTemplateContents();
+            Language::set(User::getLang(User::getUserIDByEmail(Mail_API::getEmailAddress($emails[$i]))));
+
             // send email (use PEAR's classes)
             $mail = new Mail_API;
             $mail->setTextBody($text_message);
             $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
             $mail->send(Notification::getFixedFromHeader($issue_id, '', 'issue'), $emails[$i], "[#$issue_id] New Assignment: " . $issue['iss_summary'], TRUE, $issue_id, 'assignment');
         }
+        Language::restore();
     }
 
 
@@ -1510,6 +1569,8 @@ class Notification
             "app_title"    => Misc::getToolCaption(),
             "user"         => $info
         ));
+
+        Language::set(User::getLang($usr_id));
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
@@ -1517,6 +1578,7 @@ class Notification
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("Your User Account Details"));
+        Language::restore();
     }
 
 

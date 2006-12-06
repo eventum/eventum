@@ -1,8277 +1,8286 @@
-/* /work/eventum/templates/help/report_description.tpl.html */
-gettext("Description Field");
+/* templates//help/report_description.tpl.html */
+ev_gettext("Description Field");
 
-/* /work/eventum/templates/help/report_description.tpl.html */
-gettext("The description field should be used to describe the new issue. Good\npractices dictate that this field should have a description of what\nhappened, steps to reproduce the problem/issue and what you expected \nto happen instead.");
+/* templates//help/report_description.tpl.html */
+ev_gettext("The description field should be used to describe the new issue. Good\npractices dictate that this field should have a description of what\nhappened, steps to reproduce the problem/issue and what you expected \nto happen instead.");
 
-/* /work/eventum/templates/help/report_priority.tpl.html */
-gettext("Priority Field");
+/* templates//help/report_priority.tpl.html */
+ev_gettext("Priority Field");
 
-/* /work/eventum/templates/help/report_priority.tpl.html */
-gettext("This field is used to prioritize issues, as to make project management\na little easier. If you are not sure, or don't know what the appropriate\npriority should be for new issues, choose 'not prioritized' as the \noption and leave the issue to be prioritized by a project manager.");
+/* templates//help/report_priority.tpl.html */
+ev_gettext("This field is used to prioritize issues, as to make project management\na little easier. If you are not sure, or don't know what the appropriate\npriority should be for new issues, choose 'not prioritized' as the \noption and leave the issue to be prioritized by a project manager.");
 
-/* /work/eventum/templates/help/report_priority.tpl.html */
-gettext("Note: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
+/* templates//help/report_priority.tpl.html */
+ev_gettext("Note: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
 
-/* /work/eventum/templates/help/view_attachment.tpl.html */
-gettext("Attachments");
+/* templates//help/view_attachment.tpl.html */
+ev_gettext("Attachments");
 
-/* /work/eventum/templates/help/view_time.tpl.html */
-gettext("Time Tracking");
+/* templates//help/view_time.tpl.html */
+ev_gettext("Time Tracking");
 
-/* /work/eventum/templates/help/scm_integration_usage.tpl.html */
-gettext("Usage Examples");
+/* templates//help/scm_integration_usage.tpl.html */
+ev_gettext("Usage Examples");
 
-/* /work/eventum/templates/help/scm_integration_usage.tpl.html */
-gettext("An integration script will need to be installed in your CVS root \nrepository in order to send a message to Eventum whenever changes are\ncommitted to the repository. This message will then be processed by\nEventum and the changes to the appropriate files will be associated\nwith existing issue mentioned in your commit message.");
+/* templates//help/scm_integration_usage.tpl.html */
+ev_gettext("An integration script will need to be installed in your CVS root \nrepository in order to send a message to Eventum whenever changes are\ncommitted to the repository. This message will then be processed by\nEventum and the changes to the appropriate files will be associated\nwith existing issue mentioned in your commit message.");
 
-/* /work/eventum/templates/help/scm_integration_usage.tpl.html */
-gettext("So to examplify its use, whenever the users are ready to commit the\nchanges to the CVS repository, they will add a special string to\nspecify which issue this is related to. The following would be a\ngood example of its use:");
+/* templates//help/scm_integration_usage.tpl.html */
+ev_gettext("So to examplify its use, whenever the users are ready to commit the\nchanges to the CVS repository, they will add a special string to\nspecify which issue this is related to. The following would be a\ngood example of its use:");
 
-/* /work/eventum/templates/help/scm_integration_usage.tpl.html */
-gettext("[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)\" form.php");
+/* templates//help/scm_integration_usage.tpl.html */
+ev_gettext("[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)\" form.php");
 
-/* /work/eventum/templates/help/scm_integration_usage.tpl.html */
-gettext("You may also use 'bug' to specify the issue ID - whichever you are more\ncomfortable with.");
+/* templates//help/scm_integration_usage.tpl.html */
+ev_gettext("You may also use 'bug' to specify the issue ID - whichever you are more\ncomfortable with.");
 
-/* /work/eventum/templates/help/scm_integration_usage.tpl.html */
-gettext("This command will be parsed by the CVS integration script (provided to\nyou and available in %eventum_path%/misc/scm/process_cvs_commits.php) and it\nwill notify Eventum that these changes are to be associated with issue\n#13.");
+/* templates//help/scm_integration_usage.tpl.html */
+ev_gettext("This command will be parsed by the CVS integration script (provided to\nyou and available in %eventum_path%/misc/scm/process_cvs_commits.php) and it\nwill notify Eventum that these changes are to be associated with issue\n#13.");
 
-/* /work/eventum/templates/help/adv_search.tpl.html */
-gettext("Advanced Search / Creating Custom Queries");
+/* templates//help/adv_search.tpl.html */
+ev_gettext("Advanced Search / Creating Custom Queries");
 
-/* /work/eventum/templates/help/adv_search.tpl.html */
-gettext("This page allows you to create and modify saved custom searches, which\nwill save searches that can be executed from the Issue Listing screen.");
+/* templates//help/adv_search.tpl.html */
+ev_gettext("This page allows you to create and modify saved custom searches, which\nwill save searches that can be executed from the Issue Listing screen.");
 
-/* /work/eventum/templates/help/adv_search.tpl.html */
-gettext("Most of the time users will want to run common used queries against\nthe issue database, and this is a feature perfect for such situations,\njust create a custom query in this screen and run it from the Issue\nListing page.");
+/* templates//help/adv_search.tpl.html */
+ev_gettext("Most of the time users will want to run common used queries against\nthe issue database, and this is a feature perfect for such situations,\njust create a custom query in this screen and run it from the Issue\nListing page.");
 
-/* /work/eventum/templates/help/view.tpl.html */
-gettext("Viewing Issues");
+/* templates//help/view.tpl.html */
+ev_gettext("Viewing Issues");
 
-/* /work/eventum/templates/help/view.tpl.html */
-gettext("The issue details screen can be accessed quickly by using the 'Go'\ninput field in the top of your browser window. Just enter the issue \nnumber and it will take you to the appropriate screen.");
+/* templates//help/view.tpl.html */
+ev_gettext("The issue details screen can be accessed quickly by using the 'Go'\ninput field in the top of your browser window. Just enter the issue \nnumber and it will take you to the appropriate screen.");
 
-/* /work/eventum/templates/help/view.tpl.html */
-gettext("The Issue Details page will also show '<< Previous Issue' and 'Next\nIssue >>' links that are related to the previous and next issues for\nthe current active filter, if appropriate.");
+/* templates//help/view.tpl.html */
+ev_gettext("The Issue Details page will also show '<< Previous Issue' and 'Next\nIssue >>' links that are related to the previous and next issues for\nthe current active filter, if appropriate.");
 
-/* /work/eventum/templates/help/view.tpl.html */
-gettext("The full history of changes related to the current issue is available\nby clickin on the 'History of Changes' link.");
+/* templates//help/view.tpl.html */
+ev_gettext("The full history of changes related to the current issue is available\nby clickin on the 'History of Changes' link.");
 
-/* /work/eventum/templates/help/list.tpl.html */
-gettext("Listing / Searching for Issues");
+/* templates//help/list.tpl.html */
+ev_gettext("Listing / Searching for Issues");
 
-/* /work/eventum/templates/help/list.tpl.html */
-gettext("The Issue Listing page uses a grid layout to simplify the manual\nsearch for issues in a project. You may sort for (almost) any column\nin this grid form, and users with the appropriate permissions may also\nassign selected issues to another user.");
+/* templates//help/list.tpl.html */
+ev_gettext("The Issue Listing page uses a grid layout to simplify the manual\nsearch for issues in a project. You may sort for (almost) any column\nin this grid form, and users with the appropriate permissions may also\nassign selected issues to another user.");
 
-/* /work/eventum/templates/help/list.tpl.html */
-gettext("The quick search table in the top of the screen helps the users find\nthe issues they want quickly. More advanced searches may be created\nusing the Advanced Search tool.");
+/* templates//help/list.tpl.html */
+ev_gettext("The quick search table in the top of the screen helps the users find\nthe issues they want quickly. More advanced searches may be created\nusing the Advanced Search tool.");
 
-/* /work/eventum/templates/help/support_emails.tpl.html */
-gettext("Associate Emails");
+/* templates//help/support_emails.tpl.html */
+ev_gettext("Associate Emails");
 
-/* /work/eventum/templates/help/support_emails.tpl.html */
-gettext("This screen allows users with the appropriate permissions to associate\nemails with existing issues, or create new issues and \nassociate emails with them.");
+/* templates//help/support_emails.tpl.html */
+ev_gettext("This screen allows users with the appropriate permissions to associate\nemails with existing issues, or create new issues and \nassociate emails with them.");
 
-/* /work/eventum/templates/help/support_emails.tpl.html */
-gettext("In order to do that, however, the administrator of the system needs\nto configure email accounts to make the software download\nthe email messages from the appropriate POP3/IMAP server.");
+/* templates//help/support_emails.tpl.html */
+ev_gettext("In order to do that, however, the administrator of the system needs\nto configure email accounts to make the software download\nthe email messages from the appropriate POP3/IMAP server.");
 
-/* /work/eventum/templates/help/support_emails.tpl.html */
-gettext("One of the optimal uses of this feature is to create a separate \n'issues' or 'support' POP3/IMAP account and ask your customers or \nend-users to send support questions, issues or suggestions to that \nmailbox. Eventum will then download the emails and provide \nthem to the users of the system.");
+/* templates//help/support_emails.tpl.html */
+ev_gettext("One of the optimal uses of this feature is to create a separate \n'issues' or 'support' POP3/IMAP account and ask your customers or \nend-users to send support questions, issues or suggestions to that \nmailbox. Eventum will then download the emails and provide \nthem to the users of the system.");
 
-/* /work/eventum/templates/help/report.tpl.html */
-gettext("Reporting New Issues");
+/* templates//help/report.tpl.html */
+ev_gettext("Reporting New Issues");
 
-/* /work/eventum/templates/help/report.tpl.html */
-gettext("To report new issues, click in the 'Create Issue' link in the top of \nyour browser window.");
+/* templates//help/report.tpl.html */
+ev_gettext("To report new issues, click in the 'Create Issue' link in the top of \nyour browser window.");
 
-/* /work/eventum/templates/help/segregate_reporter.tpl.html */
-gettext("Segregate Reporter");
+/* templates//help/segregate_reporter.tpl.html */
+ev_gettext("Segregate Reporter");
 
-/* /work/eventum/templates/help/segregate_reporter.tpl.html */
-gettext("If this option is enabled, users with a role of Reporter will only be able to see issues they reported.");
+/* templates//help/segregate_reporter.tpl.html */
+ev_gettext("If this option is enabled, users with a role of Reporter will only be able to see issues they reported.");
 
-/* /work/eventum/templates/help/view_note.tpl.html */
-gettext("Notes");
+/* templates//help/view_note.tpl.html */
+ev_gettext("Notes");
 
-/* /work/eventum/templates/help/notifications.tpl.html */
-gettext("Email Notifications");
+/* templates//help/notifications.tpl.html */
+ev_gettext("Email Notifications");
 
-/* /work/eventum/templates/help/notifications.tpl.html */
-gettext("This feature allows system users to subscribe to email notifications\nwhen changes are done to specific issues. The current actions that\ntrigger email notifications are:");
+/* templates//help/notifications.tpl.html */
+ev_gettext("This feature allows system users to subscribe to email notifications\nwhen changes are done to specific issues. The current actions that\ntrigger email notifications are:");
 
-/* /work/eventum/templates/help/notifications.tpl.html */
-gettext("Issue details are updated");
+/* templates//help/notifications.tpl.html */
+ev_gettext("Issue details are updated");
 
-/* /work/eventum/templates/help/notifications.tpl.html */
-gettext("Issues are Closed");
+/* templates//help/notifications.tpl.html */
+ev_gettext("Issues are Closed");
 
-/* /work/eventum/templates/help/notifications.tpl.html */
-gettext("Notes are added to existing issues");
+/* templates//help/notifications.tpl.html */
+ev_gettext("Notes are added to existing issues");
 
-/* /work/eventum/templates/help/notifications.tpl.html */
-gettext("Emails are associated to existing issues");
+/* templates//help/notifications.tpl.html */
+ev_gettext("Emails are associated to existing issues");
 
-/* /work/eventum/templates/help/notifications.tpl.html */
-gettext("Files are attached to existing issues");
+/* templates//help/notifications.tpl.html */
+ev_gettext("Files are attached to existing issues");
 
-/* /work/eventum/templates/help/notifications.tpl.html */
-gettext("System users may subscribe to the actions above for specific issues\nwhen they report new issues or by visiting the issue details screen \nand subscribing manually by using the 'Edit Notification List' link.");
+/* templates//help/notifications.tpl.html */
+ev_gettext("System users may subscribe to the actions above for specific issues\nwhen they report new issues or by visiting the issue details screen \nand subscribing manually by using the 'Edit Notification List' link.");
 
-/* /work/eventum/templates/help/customize_listing.tpl.html */
-gettext("Customize Issue Listing Screen");
+/* templates//help/customize_listing.tpl.html */
+ev_gettext("Customize Issue Listing Screen");
 
-/* /work/eventum/templates/help/customize_listing.tpl.html */
-gettext("This page allows you to dynamically configure the values displayed in the \n\"Status Change Date\" column in the issue listing screen, for a particular\nproject.\n<br /><br />\nThis column is useful to display the amount of time since the last change\nin status for each issue. For example, if issue #1234 is set to status\n'Closed', you could configure Eventum to display the difference\nin time between \"now\" and the date value stored in the closed date\nfield.\n<br /><br />\nSince the list of statuses available per project is dynamic and \ndatabase driven, this manual process is needed to associate a status\nto a date field coming from the database.");
+/* templates//help/customize_listing.tpl.html */
+ev_gettext("This page allows you to dynamically configure the values displayed in the \n\"Status Change Date\" column in the issue listing screen, for a particular\nproject.\n<br /><br />\nThis column is useful to display the amount of time since the last change\nin status for each issue. For example, if issue #1234 is set to status\n'Closed', you could configure Eventum to display the difference\nin time between \"now\" and the date value stored in the closed date\nfield.\n<br /><br />\nSince the list of statuses available per project is dynamic and \ndatabase driven, this manual process is needed to associate a status\nto a date field coming from the database.");
 
-/* /work/eventum/templates/help/view_impact.tpl.html */
-gettext("Impact Analysis");
+/* templates//help/view_impact.tpl.html */
+ev_gettext("Impact Analysis");
 
-/* /work/eventum/templates/help/email_blocking.tpl.html */
-gettext("Email Blocking");
+/* templates//help/email_blocking.tpl.html */
+ev_gettext("Email Blocking");
 
-/* /work/eventum/templates/help/email_blocking.tpl.html */
-gettext("To prevent inappropriate emails reaching the notification list, only users that are assigned\nto the issue are allowed to email through Eventum. If an un-authorized\nuser sends an email to <i>issue-XXXX@example.com</i> it is converted into a note and\nstored for later use. This note can be converted into an email at a later date.");
+/* templates//help/email_blocking.tpl.html */
+ev_gettext("To prevent inappropriate emails reaching the notification list, only users that are assigned\nto the issue are allowed to email through Eventum. If an un-authorized\nuser sends an email to <i>issue-XXXX@example.com</i> it is converted into a note and\nstored for later use. This note can be converted into an email at a later date.");
 
-/* /work/eventum/templates/help/report_assignment.tpl.html */
-gettext("Assignment Field");
+/* templates//help/report_assignment.tpl.html */
+ev_gettext("Assignment Field");
 
-/* /work/eventum/templates/help/report_assignment.tpl.html */
-gettext("This field is used to determine who should be assigned to this new \nissue. You are be able to assign a new issue to several persons at the\nsame time.\n<br /><br />\nIf you don't know who should be the assigned person for this new issue,\nassign it to your Project Lead.");
+/* templates//help/report_assignment.tpl.html */
+ev_gettext("This field is used to determine who should be assigned to this new \nissue. You are be able to assign a new issue to several persons at the\nsame time.\n<br /><br />\nIf you don't know who should be the assigned person for this new issue,\nassign it to your Project Lead.");
 
-/* /work/eventum/templates/help/report_category.tpl.html */
-gettext("Category Field");
+/* templates//help/report_category.tpl.html */
+ev_gettext("Category Field");
 
-/* /work/eventum/templates/help/report_category.tpl.html */
-gettext("This field is used to categorize issues by a common denominator, such\nas 'Feature Request', 'Bug' or 'Support Inquiry'.\n<br /><br />\nNote: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
+/* templates//help/report_category.tpl.html */
+ev_gettext("This field is used to categorize issues by a common denominator, such\nas 'Feature Request', 'Bug' or 'Support Inquiry'.\n<br /><br />\nNote: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
 
-/* /work/eventum/templates/help/banner.tpl.html */
-gettext("Close Window");
+/* templates//help/banner.tpl.html */
+ev_gettext("Close Window");
 
-/* /work/eventum/templates/help/preferences.tpl.html */
-gettext("Account Preferences");
+/* templates//help/preferences.tpl.html */
+ev_gettext("Account Preferences");
 
-/* /work/eventum/templates/help/preferences.tpl.html */
-gettext("This screen allows users to change their appropriate full name, account\npassword and email address. This address will be used by the system to\nsend email notifications whenever details about issues you are \nsubscribed to changes.");
+/* templates//help/preferences.tpl.html */
+ev_gettext("This screen allows users to change their appropriate full name, account\npassword and email address. This address will be used by the system to\nsend email notifications whenever details about issues you are \nsubscribed to changes.");
 
-/* /work/eventum/templates/help/preferences.tpl.html */
-gettext("You may also set the appropriate timezone where you live in this \nscreen, and all of the software will adjust the dates displayed in\nthe system accordingly.");
+/* templates//help/preferences.tpl.html */
+ev_gettext("You may also set the appropriate timezone where you live in this \nscreen, and all of the software will adjust the dates displayed in\nthe system accordingly.");
 
-/* /work/eventum/templates/help/preferences.tpl.html */
-gettext("The default options for email notifications are used to pre-select\nthe notification related fields when you report a new issue, or \nsubscribe manually for changes in the issue details page.");
+/* templates//help/preferences.tpl.html */
+ev_gettext("The default options for email notifications are used to pre-select\nthe notification related fields when you report a new issue, or \nsubscribe manually for changes in the issue details page.");
 
-/* /work/eventum/templates/help/scm_integration.tpl.html */
-gettext("SCM Integration");
+/* templates//help/scm_integration.tpl.html */
+ev_gettext("SCM Integration");
 
-/* /work/eventum/templates/help/scm_integration.tpl.html */
-gettext("This feature allows your software development teams to integrate your\nSource Control Management system with your Issue Tracking System.");
+/* templates//help/scm_integration.tpl.html */
+ev_gettext("This feature allows your software development teams to integrate your\nSource Control Management system with your Issue Tracking System.");
 
-/* /work/eventum/templates/help/scm_integration.tpl.html */
-gettext("The integration is implemented in such a way that it will be forward\ncompatible with pretty much any SCM system, such as CVS. When entering\nthe required information for the checkout page and diff page input\nfields, use the following placeholders:");
+/* templates//help/scm_integration.tpl.html */
+ev_gettext("The integration is implemented in such a way that it will be forward\ncompatible with pretty much any SCM system, such as CVS. When entering\nthe required information for the checkout page and diff page input\nfields, use the following placeholders:");
 
-/* /work/eventum/templates/help/scm_integration.tpl.html */
-gettext("The CVS module name");
+/* templates//help/scm_integration.tpl.html */
+ev_gettext("The CVS module name");
 
-/* /work/eventum/templates/help/scm_integration.tpl.html */
-gettext("The filename that was committed");
+/* templates//help/scm_integration.tpl.html */
+ev_gettext("The filename that was committed");
 
-/* /work/eventum/templates/help/scm_integration.tpl.html */
-gettext("The old revision of the file");
+/* templates//help/scm_integration.tpl.html */
+ev_gettext("The old revision of the file");
 
-/* /work/eventum/templates/help/scm_integration.tpl.html */
-gettext("The new revision of the file");
+/* templates//help/scm_integration.tpl.html */
+ev_gettext("The new revision of the file");
 
-/* /work/eventum/templates/help/scm_integration.tpl.html */
-gettext("As an example, using the <a href=\"http://www.horde.org/chora/\" class=\"link\" target=\"_chora\">Chora CVS viewer</a> [highly recommended] from the Horde project you\nwould usually have the following URL as the diff page:");
+/* templates//help/scm_integration.tpl.html */
+ev_gettext("As an example, using the <a href=\"http://www.horde.org/chora/\" class=\"link\" target=\"_chora\">Chora CVS viewer</a> [highly recommended] from the Horde project you\nwould usually have the following URL as the diff page:");
 
-/* /work/eventum/templates/help/scm_integration.tpl.html */
-gettext("http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h");
+/* templates//help/scm_integration.tpl.html */
+ev_gettext("http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h");
 
-/* /work/eventum/templates/help/scm_integration.tpl.html */
-gettext("With that information in mind, the appropriate value to be entered in\nthe 'Checkout page' input field is:");
+/* templates//help/scm_integration.tpl.html */
+ev_gettext("With that information in mind, the appropriate value to be entered in\nthe 'Checkout page' input field is:");
 
-/* /work/eventum/templates/help/index.tpl.html */
-gettext("Available Related Topics:");
+/* templates//help/index.tpl.html */
+ev_gettext("Available Related Topics:");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Available Help Topics");
+/* templates//help/main.tpl.html */
+ev_gettext("Available Help Topics");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Please refer to the following help sections for more information on \nspecific parts of the application:");
+/* templates//help/main.tpl.html */
+ev_gettext("Please refer to the following help sections for more information on \nspecific parts of the application:");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Listing / Searching for Issues");
+/* templates//help/main.tpl.html */
+ev_gettext("Listing / Searching for Issues");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Reporting New Issues");
+/* templates//help/main.tpl.html */
+ev_gettext("Reporting New Issues");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Advanced Search / Creating Custom Queries");
+/* templates//help/main.tpl.html */
+ev_gettext("Advanced Search / Creating Custom Queries");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Associate Emails");
+/* templates//help/main.tpl.html */
+ev_gettext("Associate Emails");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Account Preferences");
+/* templates//help/main.tpl.html */
+ev_gettext("Account Preferences");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Viewing Issues");
+/* templates//help/main.tpl.html */
+ev_gettext("Viewing Issues");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Email Notifications");
+/* templates//help/main.tpl.html */
+ev_gettext("Email Notifications");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Email Blocking");
+/* templates//help/main.tpl.html */
+ev_gettext("Email Blocking");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Configuration Parameters");
+/* templates//help/main.tpl.html */
+ev_gettext("Configuration Parameters");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("SCM Integration");
+/* templates//help/main.tpl.html */
+ev_gettext("SCM Integration");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Usage Examples");
+/* templates//help/main.tpl.html */
+ev_gettext("Usage Examples");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Installation Instructions");
+/* templates//help/main.tpl.html */
+ev_gettext("Installation Instructions");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Customize Issue Listing Screen");
+/* templates//help/main.tpl.html */
+ev_gettext("Customize Issue Listing Screen");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Link Filters");
+/* templates//help/main.tpl.html */
+ev_gettext("Link Filters");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Edit Fields to Display");
+/* templates//help/main.tpl.html */
+ev_gettext("Edit Fields to Display");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("Segregate Reporters");
+/* templates//help/main.tpl.html */
+ev_gettext("Segregate Reporters");
 
-/* /work/eventum/templates/help/main.tpl.html */
-gettext("User Permission Levels");
+/* templates//help/main.tpl.html */
+ev_gettext("User Permission Levels");
 
-/* /work/eventum/templates/help/scm_integration_installation.tpl.html */
-gettext("Installation Instructions");
+/* templates//help/scm_integration_installation.tpl.html */
+ev_gettext("Installation Instructions");
 
-/* /work/eventum/templates/help/scm_integration_installation.tpl.html */
-gettext("The process_commits.pl script, which is available in the misc \nsub-directory in your Eventum installation directory, will need to be \ninstalled in your CVSROOT CVS module by following the procedure below:");
+/* templates//help/scm_integration_installation.tpl.html */
+ev_gettext("The process_commits.pl script, which is available in the misc \nsub-directory in your Eventum installation directory, will need to be \ninstalled in your CVSROOT CVS module by following the procedure below:");
 
-/* /work/eventum/templates/help/scm_integration_installation.tpl.html */
-gettext("The first thing to do is to checkout the CVSROOT module from your CVS\nrepository:");
+/* templates//help/scm_integration_installation.tpl.html */
+ev_gettext("The first thing to do is to checkout the CVSROOT module from your CVS\nrepository:");
 
-/* /work/eventum/templates/help/scm_integration_installation.tpl.html */
-gettext("The command above will checkout and create the CVSROOT directory that\nyou will need to work with. Next, open the <b>loginfo</b> file and\nadd the following line:");
+/* templates//help/scm_integration_installation.tpl.html */
+ev_gettext("The command above will checkout and create the CVSROOT directory that\nyou will need to work with. Next, open the <b>loginfo</b> file and\nadd the following line:");
 
-/* /work/eventum/templates/help/scm_integration_installation.tpl.html */
-gettext("Replace %repository path% by the appropriate absolute path in your\nCVS server, such as /home/username/repository for instance. Also make\nsure to put the appropriate path to your Perl binary.");
+/* templates//help/scm_integration_installation.tpl.html */
+ev_gettext("Replace %repository path% by the appropriate absolute path in your\nCVS server, such as /home/username/repository for instance. Also make\nsure to put the appropriate path to your Perl binary.");
 
-/* /work/eventum/templates/help/scm_integration_installation.tpl.html */
-gettext("You may also turn the parsing of commit messages for just a single CVS\nmodule by substituting the 'ALL' in the line above to the appropriate\nCVS module name, as in:");
+/* templates//help/scm_integration_installation.tpl.html */
+ev_gettext("You may also turn the parsing of commit messages for just a single CVS\nmodule by substituting the 'ALL' in the line above to the appropriate\nCVS module name, as in:");
 
-/* /work/eventum/templates/help/scm_integration_installation.tpl.html */
-gettext("The last step of this installation process is to login into the CVS\nserver and copy the process_cvs_commits.php script into the CVSROOT \ndirectory. Make sure you give the appropriate permissions to the \nscript.");
+/* templates//help/scm_integration_installation.tpl.html */
+ev_gettext("The last step of this installation process is to login into the CVS\nserver and copy the process_cvs_commits.php script into the CVSROOT \ndirectory. Make sure you give the appropriate permissions to the \nscript.");
 
-/* /work/eventum/templates/help/report_release.tpl.html */
-gettext("Scheduled Release Field");
+/* templates//help/report_release.tpl.html */
+ev_gettext("Scheduled Release Field");
 
-/* /work/eventum/templates/help/report_release.tpl.html */
-gettext("This field is used to determine what the deadline should be for when\nthis new issue should be completed and resolved. If you don't know \nwhat the deadline should be for this new issue, leave the field as\n'un-scheduled', and a project manager will set it appropriately.");
+/* templates//help/report_release.tpl.html */
+ev_gettext("This field is used to determine what the deadline should be for when\nthis new issue should be completed and resolved. If you don't know \nwhat the deadline should be for this new issue, leave the field as\n'un-scheduled', and a project manager will set it appropriately.");
 
-/* /work/eventum/templates/help/report_release.tpl.html */
-gettext("Note: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
+/* templates//help/report_release.tpl.html */
+ev_gettext("Note: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
 
-/* /work/eventum/templates/help/report_estimated_dev_time.tpl.html */
-gettext("Estimated Development Time Field");
+/* templates//help/report_estimated_dev_time.tpl.html */
+ev_gettext("Estimated Development Time Field");
 
-/* /work/eventum/templates/help/report_estimated_dev_time.tpl.html */
-gettext("This field is used by the reporters of new issues to estimate the \ntotal development time for the issue. It is especially important as a \nmetrics tool to get a simple estimate of how much time each issue will\ntake from discovery, going through implementation and testing up until\nrelease time.");
+/* templates//help/report_estimated_dev_time.tpl.html */
+ev_gettext("This field is used by the reporters of new issues to estimate the \ntotal development time for the issue. It is especially important as a \nmetrics tool to get a simple estimate of how much time each issue will\ntake from discovery, going through implementation and testing up until\nrelease time.");
 
-/* /work/eventum/templates/help/report_estimated_dev_time.tpl.html */
-gettext("This field can also be used as a way to check the estimation abilities\nof project managers against the impact analysis given by the \ndevelopers themselves. That is, the value entered by a project manager\nhere can be compared against the impact analysis / estimated \ndevelopment time entered by the developers, and this way get more \nexperience estimating the required time for new projects.");
+/* templates//help/report_estimated_dev_time.tpl.html */
+ev_gettext("This field can also be used as a way to check the estimation abilities\nof project managers against the impact analysis given by the \ndevelopers themselves. That is, the value entered by a project manager\nhere can be compared against the impact analysis / estimated \ndevelopment time entered by the developers, and this way get more \nexperience estimating the required time for new projects.");
 
-/* /work/eventum/templates/help/field_display.tpl.html */
-gettext("Edit Fields to Display");
+/* templates//help/field_display.tpl.html */
+ev_gettext("Edit Fields to Display");
 
-/* /work/eventum/templates/help/field_display.tpl.html */
-gettext("This page allows you to dynamically control which fields are displayed \nto users of a certain minimum role.\nFor example, you could use this page so that only users of the role \"<i>standard user</i>\" \n(and higher ranking roles) are able to set the category or \nrelease fields when reporting a new issue.");
+/* templates//help/field_display.tpl.html */
+ev_gettext("This page allows you to dynamically control which fields are displayed \nto users of a certain minimum role.\nFor example, you could use this page so that only users of the role \"<i>standard user</i>\" \n(and higher ranking roles) are able to set the category or \nrelease fields when reporting a new issue.");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("User Permission Levels");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("User Permission Levels");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("The following is a brief overview of the available user permission levels \nin Eventum:");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("The following is a brief overview of the available user permission levels \nin Eventum:");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Viewer");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Viewer");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Allowed to view all issues on the projects associated to \nthis user; cannot create new issues or edit existing issues.");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Allowed to view all issues on the projects associated to \nthis user; cannot create new issues or edit existing issues.");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Reporter");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Reporter");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Allowed to view all issues on the projects associated to \nthis user; Allowed to create new issues and to send emails on existing\nissues.");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Allowed to view all issues on the projects associated to \nthis user; Allowed to create new issues and to send emails on existing\nissues.");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Customer");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("This is a special permission level reserved for the Customer\nIntegration API, which allows you to integrate Eventum with your CRM database. \nWhen this feature is enabled, this type of user can only access issues associated\nwith their own customer. Allowed to create new issues, update and send emails\nto existing issues.");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("This is a special permission level reserved for the Customer\nIntegration API, which allows you to integrate Eventum with your CRM database. \nWhen this feature is enabled, this type of user can only access issues associated\nwith their own customer. Allowed to create new issues, update and send emails\nto existing issues.");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Standard User");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Standard User");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Allowed to view all issues on the projects associated to\nthis user; Allowed to create new issues, update existing issues, and to send\nemails and notes to existing issues.");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Allowed to view all issues on the projects associated to\nthis user; Allowed to create new issues, update existing issues, and to send\nemails and notes to existing issues.");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Developer");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Developer");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Similar in every way to the above permission level, but \nthis extra level allows you to segregate users who will deal with issues, and\noverall normal staff users who do not handle issues themselves.");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Similar in every way to the above permission level, but \nthis extra level allows you to segregate users who will deal with issues, and\noverall normal staff users who do not handle issues themselves.");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Manager");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Manager");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Allowed to view all issues on the projects associated to\nthis user; Allowed to create new issues, update existing issues, and to send\nemails and notes to existing issues. Also, this type of user is also allowed on\nthe special administration section of Eventum to tweak most project-level \nfeatures and options.");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Allowed to view all issues on the projects associated to\nthis user; Allowed to create new issues, update existing issues, and to send\nemails and notes to existing issues. Also, this type of user is also allowed on\nthe special administration section of Eventum to tweak most project-level \nfeatures and options.");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("Administrator");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("Administrator");
 
-/* /work/eventum/templates/help/permission_levels.tpl.html */
-gettext("This type of user has full access to Eventum, including\nthe low level configuration parameters available through the administration\ninterface.");
+/* templates//help/permission_levels.tpl.html */
+ev_gettext("This type of user has full access to Eventum, including\nthe low level configuration parameters available through the administration\ninterface.");
 
-/* /work/eventum/templates/help/column_display.tpl.html */
-gettext("Edit Columns to Display");
+/* templates//help/column_display.tpl.html */
+ev_gettext("Edit Columns to Display");
 
-/* /work/eventum/templates/help/column_display.tpl.html */
-gettext("This page allows you to dynamically control which columns are displayed on the list issues page.");
+/* templates//help/column_display.tpl.html */
+ev_gettext("This page allows you to dynamically control which columns are displayed on the list issues page.");
 
-/* /work/eventum/templates/help/column_display.tpl.html */
-gettext("You can set the minimum role required to view a column. For example, if you set the mimimum role for 'Category'\nto be 'Manager' anyone with a role lower then 'Manager' will not be able to see that column. To hide a column\nfrom all users, select 'Never Display'.");
+/* templates//help/column_display.tpl.html */
+ev_gettext("You can set the minimum role required to view a column. For example, if you set the mimimum role for 'Category'\nto be 'Manager' anyone with a role lower then 'Manager' will not be able to see that column. To hide a column\nfrom all users, select 'Never Display'.");
 
-/* /work/eventum/templates/help/column_display.tpl.html */
-gettext("Please note that some columns may be hidden even if you specify they should be shown. For example, if no releases\nare defined in the system the 'Release' column will be hidden.");
+/* templates//help/column_display.tpl.html */
+ev_gettext("Please note that some columns may be hidden even if you specify they should be shown. For example, if no releases\nare defined in the system the 'Release' column will be hidden.");
 
-/* /work/eventum/templates/help/link_filters.tpl.html */
-gettext("Link Filters");
+/* templates//help/link_filters.tpl.html */
+ev_gettext("Link Filters");
 
-/* /work/eventum/templates/help/link_filters.tpl.html */
-gettext("Link filters are used to replace text such as 'Bug #42' with an automatic\nlink to some external resource. It uses regular expressions to replace the text.\nSpecify the search pattern in the pattern field without delimiters. Specify the entire\nstring you would like to use as a replacement with $x to insert the matched text. For example:\n<br /><br />\nPattern: \"bug #(d+)\"<br />\nReplacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug #$1&lt;/a&gt;\"");
+/* templates//help/link_filters.tpl.html */
+ev_gettext("Link filters are used to replace text such as 'Bug #42' with an automatic\nlink to some external resource. It uses regular expressions to replace the text.\nSpecify the search pattern in the pattern field without delimiters. Specify the entire\nstring you would like to use as a replacement with $x to insert the matched text. For example:\n<br /><br />\nPattern: \"bug #(d+)\"<br />\nReplacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug #$1&lt;/a&gt;\"");
 
-/* /work/eventum/templates/help/report_summary.tpl.html */
-gettext("Summary Field");
+/* templates//help/report_summary.tpl.html */
+ev_gettext("Summary Field");
 
-/* /work/eventum/templates/help/report_summary.tpl.html */
-gettext("This field is used as a simple and descriptive title to this new\nissue. As a suggestion, it should be descriptive and short enough to\nbe used by other users to remember quickly what the issue was all\nabout.");
+/* templates//help/report_summary.tpl.html */
+ev_gettext("This field is used as a simple and descriptive title to this new\nissue. As a suggestion, it should be descriptive and short enough to\nbe used by other users to remember quickly what the issue was all\nabout.");
 
-/* /work/eventum/templates/tips/keyboard_shortcuts.tpl.html */
-gettext("You can switch to the 'Search' or 'Go' boxes quickly by using a\nspecial shortcut keystroke in your keyboard.<br />\n<br />\nUse the following shortcuts:<br />\n<br />\n<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the 'Search' box<br />\n<br />\n<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box");
+/* templates//tips/keyboard_shortcuts.tpl.html */
+ev_gettext("You can switch to the 'Search' or 'Go' boxes quickly by using a\nspecial shortcut keystroke in your keyboard.<br />\n<br />\nUse the following shortcuts:<br />\n<br />\n<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the 'Search' box<br />\n<br />\n<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box");
 
-/* /work/eventum/templates/tips/custom_queries.tpl.html */
-gettext("You can create as many custom queries as you want through the\n<a class=\"link\" href=\"adv_search.php\">Advanced Search</a> interface.\nThere is also the ability to save and modify custom queries and load\nthem quickly from the Issue Listing screen.");
+/* templates//tips/custom_queries.tpl.html */
+ev_gettext("You can create as many custom queries as you want through the\n<a class=\"link\" href=\"adv_search.php\">Advanced Search</a> interface.\nThere is also the ability to save and modify custom queries and load\nthem quickly from the Issue Listing screen.");
 
-/* /work/eventum/templates/tips/canned_responses.tpl.html */
-gettext("You can create canned email responses and use them when sending emails from the\nsystem. That is an useful feature when dealing with lots of issues that relate\nto the same problem.\n<br /><br />\nIf no canned email responses are available through the Email window, please\ncontact an user with the appropriate permissions (administrator or manager) to\nadd some for you.");
+/* templates//tips/canned_responses.tpl.html */
+ev_gettext("You can create canned email responses and use them when sending emails from the\nsystem. That is an useful feature when dealing with lots of issues that relate\nto the same problem.\n<br /><br />\nIf no canned email responses are available through the Email window, please\ncontact an user with the appropriate permissions (administrator or manager) to\nadd some for you.");
 
-/* /work/eventum/templates/mail_queue.tpl.html */
-gettext("Sorry, you do not have permission to view this page");
+/* templates//mail_queue.tpl.html */
+ev_gettext("Sorry, you do not have permission to view this page");
 
-/* /work/eventum/templates/mail_queue.tpl.html */
-gettext("Mail Queue for Issue #%1");
+/* templates//mail_queue.tpl.html */
+ev_gettext("Mail Queue for Issue #%1");
 
-/* /work/eventum/templates/mail_queue.tpl.html */
-gettext("Recipient");
+/* templates//mail_queue.tpl.html */
+ev_gettext("Recipient");
 
-/* /work/eventum/templates/mail_queue.tpl.html */
-gettext("Queued Date");
+/* templates//mail_queue.tpl.html */
+ev_gettext("Queued Date");
 
-/* /work/eventum/templates/mail_queue.tpl.html */
-gettext("Status");
+/* templates//mail_queue.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/mail_queue.tpl.html */
-gettext("Subject");
+/* templates//mail_queue.tpl.html */
+ev_gettext("Subject");
 
-/* /work/eventum/templates/mail_queue.tpl.html */
-gettext("No mail queue could be found.");
+/* templates//mail_queue.tpl.html */
+ev_gettext("No mail queue could be found.");
 
-/* /work/eventum/templates/clock_status.tpl.html */
-gettext("Thank you, your account clocked-in status was changed successfully.");
+/* templates//clock_status.tpl.html */
+ev_gettext("Thank you, your account clocked-in status was changed successfully.");
 
-/* /work/eventum/templates/clock_status.tpl.html */
-gettext("An error was found while trying to change your account clocked-in status.");
+/* templates//clock_status.tpl.html */
+ev_gettext("An error was found while trying to change your account clocked-in status.");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Please select the custom filter to search against.");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Please select the custom filter to search against.");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Keyword(s)");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Keyword(s)");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Customer Identity (i.e. \"Example Inc.\", \"johndoe@example.com\", 12345)");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Customer Identity (i.e. \"Example Inc.\", \"johndoe@example.com\", 12345)");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("All Text (emails, notes, etc)");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("All Text (emails, notes, etc)");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Search");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Search");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Clear Filters");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Clear Filters");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Assigned");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Assigned");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Category");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("any");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Priority");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("any");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Status");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("any");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("quick search bar");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("quick search bar");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Advanced Search");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Advanced Search");
 
-/* /work/eventum/templates/quick_filter_form.tpl.html */
-gettext("Saved Searches");
+/* templates//quick_filter_form.tpl.html */
+ev_gettext("Saved Searches");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("There was an error creating your issue.");
+/* templates//new.tpl.html */
+ev_gettext("There was an error creating your issue.");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Thank you, the new issue was created successfully. Please choose from one of the options below");
+/* templates//new.tpl.html */
+ev_gettext("Thank you, the new issue was created successfully. Please choose from one of the options below");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Thank you, the new issue was created successfully.");
+/* templates//new.tpl.html */
+ev_gettext("Thank you, the new issue was created successfully.");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("However, the following errors were encountered:");
+/* templates//new.tpl.html */
+ev_gettext("However, the following errors were encountered:");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Please choose from one of the options below:");
+/* templates//new.tpl.html */
+ev_gettext("Please choose from one of the options below:");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Open the Issue Details Page");
+/* templates//new.tpl.html */
+ev_gettext("Open the Issue Details Page");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Open the Issue Listing Page");
+/* templates//new.tpl.html */
+ev_gettext("Open the Issue Listing Page");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Open the Emails Listing Page");
+/* templates//new.tpl.html */
+ev_gettext("Open the Emails Listing Page");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Report a New Issue");
+/* templates//new.tpl.html */
+ev_gettext("Report a New Issue");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
+/* templates//new.tpl.html */
+ev_gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Warning: your issue is currently quarantined.\n                Please see the <a href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
+/* templates//new.tpl.html */
+ev_gettext("Warning: your issue is currently quarantined.\n                Please see the <a href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Category");
+/* templates//new.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Priority");
+/* templates//new.tpl.html */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Assignment");
+/* templates//new.tpl.html */
+ev_gettext("Assignment");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Summary");
+/* templates//new.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Initial Description");
+/* templates//new.tpl.html */
+ev_gettext("Initial Description");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Estimated Dev. Time (only numbers)");
+/* templates//new.tpl.html */
+ev_gettext("Estimated Dev. Time (only numbers)");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Create New Issue");
+/* templates//new.tpl.html */
+ev_gettext("Create New Issue");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Current Project");
+/* templates//new.tpl.html */
+ev_gettext("Current Project");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Category");
+/* templates//new.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Please choose a category");
+/* templates//new.tpl.html */
+ev_gettext("Please choose a category");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Priority");
+/* templates//new.tpl.html */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Please choose a priority");
+/* templates//new.tpl.html */
+ev_gettext("Please choose a priority");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Assignment");
+/* templates//new.tpl.html */
+ev_gettext("Assignment");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Group");
+/* templates//new.tpl.html */
+ev_gettext("Group");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Scheduled Release");
+/* templates//new.tpl.html */
+ev_gettext("Scheduled Release");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("un-scheduled");
+/* templates//new.tpl.html */
+ev_gettext("un-scheduled");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Summary");
+/* templates//new.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Initial Description");
+/* templates//new.tpl.html */
+ev_gettext("Initial Description");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Estimated Dev. Time");
+/* templates//new.tpl.html */
+ev_gettext("Estimated Dev. Time");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Private");
+/* templates//new.tpl.html */
+ev_gettext("Private");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Add Files");
+/* templates//new.tpl.html */
+ev_gettext("Add Files");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Files");
+/* templates//new.tpl.html */
+ev_gettext("Files");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Note: The current maximum allowed upload file size is %1");
+/* templates//new.tpl.html */
+ev_gettext("Note: The current maximum allowed upload file size is %1");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Submit");
+/* templates//new.tpl.html */
+ev_gettext("Keep form open to report another issue");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Reset");
+/* templates//new.tpl.html */
+ev_gettext("Submit");
 
-/* /work/eventum/templates/new.tpl.html */
-gettext("Required fields");
+/* templates//new.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/bulk_update.tpl.html */
-gettext("Bulk Update Tool");
+/* templates//new.tpl.html */
+ev_gettext("Required fields");
 
-/* /work/eventum/templates/bulk_update.tpl.html */
-gettext("Assignment");
+/* templates//bulk_update.tpl.html */
+ev_gettext("Bulk Update Tool");
 
-/* /work/eventum/templates/bulk_update.tpl.html */
-gettext("Status");
+/* templates//bulk_update.tpl.html */
+ev_gettext("Assignment");
 
-/* /work/eventum/templates/bulk_update.tpl.html */
-gettext("Release");
+/* templates//bulk_update.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/bulk_update.tpl.html */
-gettext("Priority");
+/* templates//bulk_update.tpl.html */
+ev_gettext("Release");
 
-/* /work/eventum/templates/bulk_update.tpl.html */
-gettext("Category");
+/* templates//bulk_update.tpl.html */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/bulk_update.tpl.html */
-gettext("Bulk Update");
+/* templates//bulk_update.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/bulk_update.tpl.html */
-gettext("Reset");
+/* templates//bulk_update.tpl.html */
+ev_gettext("Bulk Update");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Weekly");
+/* templates//bulk_update.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Report");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Weekly");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("issues worked on");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Report");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("No issues touched this time period");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("issues worked on");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Issues Closed");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("No issues touched this time period");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("No issues closed this time period");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Issues Closed");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("New Issues Assigned");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("No issues closed this time period");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Total Issues");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("New Issues Assigned");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Eventum Emails");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Total Issues");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Other Emails");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Eventum Emails");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Total Phone Calls");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Other Emails");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Total Notes");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Total Phone Calls");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Phone Time Spent");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Total Notes");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Email Time Spent");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Phone Time Spent");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Login Time Spent");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Email Time Spent");
 
-/* /work/eventum/templates/reports/weekly_data.tpl.html */
-gettext("Total Time Spent");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Login Time Spent");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Showing all open issues older than ");
+/* templates//reports/weekly_data.tpl.html */
+ev_gettext("Total Time Spent");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("days");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Showing all open issues older than ");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Number of Days");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("days");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Submit");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Number of Days");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Issue ID");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Submit");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Summary");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Status");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Time Spent");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Created");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Time Spent");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Days and Hours Since");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Created");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Last Update");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Days and Hours Since");
 
-/* /work/eventum/templates/reports/open_issues.tpl.html */
-gettext("Last Outgoing Msg");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Last Update");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Available Reports");
+/* templates//reports/open_issues.tpl.html */
+ev_gettext("Last Outgoing Msg");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Issues");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Available Reports");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Issues by User");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Issues");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Open Issues By Assignee");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Issues by User");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Open Issues By Reporter");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Open Issues By Assignee");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Weekly Report");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Open Issues By Reporter");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Workload by time period");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Weekly Report");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Email by time period");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Workload by time period");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Custom Fields");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Email by time period");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Customer Profile Stats");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Custom Fields");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Recent Activity");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Customer Profile Stats");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Workload By Date Range");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Recent Activity");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Stalled Issues");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Workload By Date Range");
 
-/* /work/eventum/templates/reports/tree.tpl.html */
-gettext("Estimated Development Time");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Stalled Issues");
 
-/* /work/eventum/templates/reports/issue_user.tpl.html */
-gettext("Issue ID");
+/* templates//reports/tree.tpl.html */
+ev_gettext("Estimated Development Time");
 
-/* /work/eventum/templates/reports/issue_user.tpl.html */
-gettext("Summary");
+/* templates//reports/issue_user.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/reports/issue_user.tpl.html */
-gettext("Status");
+/* templates//reports/issue_user.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/reports/issue_user.tpl.html */
-gettext("Time Spent");
+/* templates//reports/issue_user.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/reports/issue_user.tpl.html */
-gettext("Created");
+/* templates//reports/issue_user.tpl.html */
+ev_gettext("Time Spent");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Workload by Date Range Report");
+/* templates//reports/issue_user.tpl.html */
+ev_gettext("Created");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Type");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Workload by Date Range Report");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Interval");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Type");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Start");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Interval");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("End");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Start");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Generate");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("End");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext(" Warning: Some type and interval options, combined with large <br />\n    date ranges can produce extremely large graphs.");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Generate");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Day");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext(" Warning: Some type and interval options, combined with large <br />\n    date ranges can produce extremely large graphs.");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("day");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Day");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Week");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("day");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("week");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Week");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Month");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("week");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("month");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Month");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Day of Week");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("month");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("dow");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Day of Week");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Week");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("dow");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("week");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Week");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Day of Month");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("week");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("dom");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Day of Month");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Month");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("dom");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("month");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Month");
 
-/* /work/eventum/templates/reports/workload_date_range.tpl.html */
-gettext("Avg/Med/Max Issues/Emails");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("month");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("The current project does not have customer integration so this report can not be viewed.");
+/* templates//reports/workload_date_range.tpl.html */
+ev_gettext("Avg/Med/Max Issues/Emails");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Customer Stats Report");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("The current project does not have customer integration so this report can not be viewed.");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Date Range");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Customer Stats Report");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Sections to Display");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Date Range");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("From");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Sections to Display");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("year");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("From");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("mon");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("year");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("day");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("mon");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("To");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("day");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Options");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("To");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Include expired contracts");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Options");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Customer");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Include expired contracts");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("All");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Generate");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Feedback");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Generate");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Red values indicate value is higher than the aggregate one.");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Feedback");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Blue values indicate value is lower than the aggregate one.");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Red values indicate value is higher than the aggregate one.");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Customers");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Blue values indicate value is lower than the aggregate one.");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Issues");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Customers");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Emails by Customers");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Issues");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Emails by Staff");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Emails by Customers");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Count");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Emails by Staff");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Using CSC");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Count");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Issues in CSC");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Using CSC");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Tot");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Issues in CSC");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Avg");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Tot");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Med");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Avg");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Max");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Med");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Tot");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Max");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Avg");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Tot");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Med");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Avg");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Tot");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Med");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Avg");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Tot");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Med");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Avg");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Time To First Response");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Med");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Time To Close");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Time To First Response");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Min");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Time To Close");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Avg");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Min");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Med");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Avg");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Max");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Med");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Min");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Max");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Avg");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Min");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Med");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Avg");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Max");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Med");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Support Level");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Max");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Time Tracking");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Support Level");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Total");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Time Tracking");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Avg");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Total");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Med");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Avg");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Refers to the number of issues in eventum for the given support level or customer.\n    Average and median counts do not include customers who have never opened an issue.");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Med");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Refers to the number of emails sent by customers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Refers to the number of issues in eventum for the given support level or customer.\n    Average and median counts do not include customers who have never opened an issue.");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Refers to the number of emails sent by developers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Refers to the number of emails sent by customers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("Date issue was opened - Date issue was closed for all closed issues.");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Refers to the number of emails sent by developers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
 
-/* /work/eventum/templates/reports/customer_stats.tpl.html */
-gettext("All time tracking information for the given support level or customer. Issues without any time tracking data do not affect the average or median.");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("Date issue was opened - Date issue was closed for all closed issues.");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Recent Activity");
+/* templates//reports/customer_stats.tpl.html */
+ev_gettext("All time tracking information for the given support level or customer. Issues without any time tracking data do not affect the average or median.");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Recent Activity Report");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Recent Activity");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Report Type");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Recent Activity Report");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Recent");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Report Type");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Date Range");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Recent");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Activity Type");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Date Range");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Activity in Past");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Activity Type");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Start");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Activity in Past");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("End");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Start");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Developer");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("End");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("All");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Developer");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Sort Order");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Ascending");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Sort Order");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Descending");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Ascending");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Generate");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Descending");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Recent Phone Calls");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Generate");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Issue ID");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Recent Phone Calls");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Customer");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Date");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Developer");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Type");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Developer");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Line");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Type");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Description");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Line");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("No Phone Calls Found");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Description");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Recent Notes");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("No Phone Calls Found");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Issue ID");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Recent Notes");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Customer");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Posted Date");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("User");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Posted Date");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Title");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("User");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("No Notes Found");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Recent Emails");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("No Notes Found");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Issue ID");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Recent Emails");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Customer");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("From");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("To");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("From");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Date");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("To");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Subject");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("sent to notification list");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Subject");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("No Emails Found");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("sent to notification list");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Recent Drafts");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("No Emails Found");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Issue ID");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Recent Drafts");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Customer");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Status");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("From");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("To");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("From");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Date");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("To");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Subject");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("No Drafts Found");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Subject");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Recent Time Entries");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("No Drafts Found");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Issue ID");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Recent Time Entries");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Customer");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Date of Work");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("User");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Date of Work");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Time Spent");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("User");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Category");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Time Spent");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Summary");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("No Time Entries Found");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Recent Reminder Actions");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("No Time Entries Found");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Issue ID");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Recent Reminder Actions");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Customer");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Date Triggered");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("Title");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Date Triggered");
 
-/* /work/eventum/templates/reports/recent_activity.tpl.html */
-gettext("No Reminder Entries Found");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/reports/estimated_dev_time.tpl.html */
-gettext("Estimated Development Time by Category");
+/* templates//reports/recent_activity.tpl.html */
+ev_gettext("No Reminder Entries Found");
 
-/* /work/eventum/templates/reports/estimated_dev_time.tpl.html */
-gettext("Based on all open issue in Eventum for <b>%1</b>.");
+/* templates//reports/estimated_dev_time.tpl.html */
+ev_gettext("Estimated Development Time by Category");
 
-/* /work/eventum/templates/reports/estimated_dev_time.tpl.html */
-gettext("Category");
+/* templates//reports/estimated_dev_time.tpl.html */
+ev_gettext("Based on all open issue in Eventum for <b>%1</b>.");
 
-/* /work/eventum/templates/reports/estimated_dev_time.tpl.html */
-gettext("Estimated time (Hours)");
+/* templates//reports/estimated_dev_time.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Email Workload by Time of day");
+/* templates//reports/estimated_dev_time.tpl.html */
+ev_gettext("Estimated time (Hours)");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Based on all issues recorded in Eventum since start to present.");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Email Workload by Time of day");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Workload by Time of day");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Based on all issues recorded in Eventum since start to present.");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Based on all issues recorded in Eventum since start to present.\n        Actions are any event that shows up in the history of an issue, such as a user or a developer updating an issue, uploading a file, sending an email, etc.");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Workload by Time of day");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Time Period");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Based on all issues recorded in Eventum since start to present.\n        Actions are any event that shows up in the history of an issue, such as a user or a developer updating an issue, uploading a file, sending an email, etc.");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("(GMT)");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Time Period");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Developer");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("(GMT)");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Emails");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Developer");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Actions");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Emails");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Customer");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Actions");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Emails");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Actions");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Emails");
 
-/* /work/eventum/templates/reports/workload_time_period.tpl.html */
-gettext("Time Period");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Actions");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Stalled Issues Report");
+/* templates//reports/workload_time_period.tpl.html */
+ev_gettext("Time Period");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Stalled Issues Report");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Stalled Issues Report");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Show Issues with no Response Between");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Stalled Issues Report");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Developers");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Show Issues with no Response Between");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Status");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Developers");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Sort Order");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Ascending");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Sort Order");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Ascending");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Ascending");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Descending");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Ascending");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Descending");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Descending");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Generate");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Descending");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Issue ID");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Generate");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Summary");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Status");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Time Spent<");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Created");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Time Spent");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Last Response<");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Created");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Days and Hours Since");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Last Response");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Last Update");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Days and Hours Since");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("Last Outgoing Msg");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Last Update");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("view issue details");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("Last Outgoing Msg");
 
-/* /work/eventum/templates/reports/stalled_issues.tpl.html */
-gettext("view issue details");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("view issue details");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("Weekly Report");
+/* templates//reports/stalled_issues.tpl.html */
+ev_gettext("view issue details");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("Report Type:");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Weekly Report");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("Weekly");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Report Type:");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("Date Range");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Weekly");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("Generate");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Date Range");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("Week");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Generate");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("Start");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Week");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("End:");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Start");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("Developer");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("End:");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("Options");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Developer");
 
-/* /work/eventum/templates/reports/weekly.tpl.html */
-gettext("Separate Closed Issues");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Options");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Please select the custom field that you would like to generate a report against.");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Separate Closed Issues");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Custom Fields Report");
+/* templates//reports/weekly.tpl.html */
+ev_gettext("Ignore Issue Status Changes");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Field to Graph");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Please select the custom field that you would like to generate a report against.");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Options to Graph");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Custom Fields Report");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Group By");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Field to Graph");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Issue");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Options to Graph");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Customer");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Group By");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Generate");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Issue");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Percentages may not add up to exactly 100% due to rounding");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Issues/Customers matching criteria");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Generate");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Customer");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Percentages may not add up to exactly 100% due to rounding");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Issue Count");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Issues/Customers matching criteria");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Issue ID");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("Summary");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Issue Count");
 
-/* /work/eventum/templates/reports/custom_fields.tpl.html */
-gettext("No data found");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Advanced Search");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Please enter the title for this saved search.");
+/* templates//reports/custom_fields.tpl.html */
+ev_gettext("No data found");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Please choose which entries need to be removed.");
+/* templates//adv_search.tpl.html */
+ev_gettext("Advanced Search");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("This action will permanently delete the selected entries.");
+/* templates//adv_search.tpl.html */
+ev_gettext("Please enter the title for this saved search.");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Advanced Search");
+/* templates//adv_search.tpl.html */
+ev_gettext("Please choose which entries need to be removed.");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Keyword(s)");
+/* templates//adv_search.tpl.html */
+ev_gettext("This action will permanently delete the selected entries.");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Customer Identity (i.e. \"Example Inc.\", \"johndoe@example.com\", 12345)");
+/* templates//adv_search.tpl.html */
+ev_gettext("Advanced Search");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("All Text (emails, notes, etc)");
+/* templates//adv_search.tpl.html */
+ev_gettext("Keyword(s)");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Assigned");
+/* templates//adv_search.tpl.html */
+ev_gettext("Customer Identity (i.e. \"Example Inc.\", \"johndoe@example.com\", 12345)");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Category");
+/* templates//adv_search.tpl.html */
+ev_gettext("All Text (emails, notes, etc)");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("any");
+/* templates//adv_search.tpl.html */
+ev_gettext("Assigned");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Priority");
+/* templates//adv_search.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("any");
+/* templates//adv_search.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Status");
+/* templates//adv_search.tpl.html */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("any");
+/* templates//adv_search.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Reporter");
+/* templates//adv_search.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Any");
+/* templates//adv_search.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Release");
+/* templates//adv_search.tpl.html */
+ev_gettext("Reporter");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("any");
+/* templates//adv_search.tpl.html */
+ev_gettext("Any");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Hide Closed Issues");
+/* templates//adv_search.tpl.html */
+ev_gettext("Release");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Rows Per Page:");
+/* templates//adv_search.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("ALL");
+/* templates//adv_search.tpl.html */
+ev_gettext("Hide Closed Issues");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Sort By");
+/* templates//adv_search.tpl.html */
+ev_gettext("Rows Per Page:");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Priority");
+/* templates//adv_search.tpl.html */
+ev_gettext("ALL");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Issue ID");
+/* templates//adv_search.tpl.html */
+ev_gettext("Sort By");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Status");
+/* templates//adv_search.tpl.html */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Summary");
+/* templates//adv_search.tpl.html */
+ev_gettext("Issue ID");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Last Action Date");
+/* templates//adv_search.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Sort Order:");
+/* templates//adv_search.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("ascending");
+/* templates//adv_search.tpl.html */
+ev_gettext("Last Action Date");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("descending");
+/* templates//adv_search.tpl.html */
+ev_gettext("Sort Order:");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Show Issues in Which I Am:");
+/* templates//adv_search.tpl.html */
+ev_gettext("ascending");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Authorized to Send Emails");
+/* templates//adv_search.tpl.html */
+ev_gettext("descending");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("In Notification List");
+/* templates//adv_search.tpl.html */
+ev_gettext("Show Issues in Which I Am:");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Show date fields to search by");
+/* templates//adv_search.tpl.html */
+ev_gettext("Authorized to Send Emails");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Created");
+/* templates//adv_search.tpl.html */
+ev_gettext("In Notification List");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Greater Than");
+/* templates//adv_search.tpl.html */
+ev_gettext("Show date fields to search by");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Less Than");
+/* templates//adv_search.tpl.html */
+ev_gettext("Created");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Between");
+/* templates//adv_search.tpl.html */
+ev_gettext("Greater Than");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("In Past");
+/* templates//adv_search.tpl.html */
+ev_gettext("Less Than");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("hours");
+/* templates//adv_search.tpl.html */
+ev_gettext("Between");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Last Updated");
+/* templates//adv_search.tpl.html */
+ev_gettext("In Past");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Greater Than");
+/* templates//adv_search.tpl.html */
+ev_gettext("hours");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Less Than");
+/* templates//adv_search.tpl.html */
+ev_gettext("Last Updated");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Between");
+/* templates//adv_search.tpl.html */
+ev_gettext("Greater Than");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Is Null");
+/* templates//adv_search.tpl.html */
+ev_gettext("Less Than");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("In Past");
+/* templates//adv_search.tpl.html */
+ev_gettext("Between");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("hours");
+/* templates//adv_search.tpl.html */
+ev_gettext("Is Null");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Last Updated");
+/* templates//adv_search.tpl.html */
+ev_gettext("In Past");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("End date");
+/* templates//adv_search.tpl.html */
+ev_gettext("hours");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("First Response by Staff");
+/* templates//adv_search.tpl.html */
+ev_gettext("Last Updated");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Greater Than");
+/* templates//adv_search.tpl.html */
+ev_gettext("End date");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Less Than");
+/* templates//adv_search.tpl.html */
+ev_gettext("First Response by Staff");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Between");
+/* templates//adv_search.tpl.html */
+ev_gettext("Greater Than");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Is Null");
+/* templates//adv_search.tpl.html */
+ev_gettext("Less Than");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("In Past");
+/* templates//adv_search.tpl.html */
+ev_gettext("Between");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("hours");
+/* templates//adv_search.tpl.html */
+ev_gettext("Is Null");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("First Response By Staff");
+/* templates//adv_search.tpl.html */
+ev_gettext("In Past");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("End date");
+/* templates//adv_search.tpl.html */
+ev_gettext("hours");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Last Response by Staff");
+/* templates//adv_search.tpl.html */
+ev_gettext("First Response By Staff");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Greater Than");
+/* templates//adv_search.tpl.html */
+ev_gettext("End date");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Less Than");
+/* templates//adv_search.tpl.html */
+ev_gettext("Last Response by Staff");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Between");
+/* templates//adv_search.tpl.html */
+ev_gettext("Greater Than");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Is Null");
+/* templates//adv_search.tpl.html */
+ev_gettext("Less Than");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("In Past");
+/* templates//adv_search.tpl.html */
+ev_gettext("Between");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("hours");
+/* templates//adv_search.tpl.html */
+ev_gettext("Is Null");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Last Response by Staff");
+/* templates//adv_search.tpl.html */
+ev_gettext("In Past");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("End date");
+/* templates//adv_search.tpl.html */
+ev_gettext("hours");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Status Closed");
+/* templates//adv_search.tpl.html */
+ev_gettext("Last Response by Staff");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Greater Than");
+/* templates//adv_search.tpl.html */
+ev_gettext("End date");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Less Than");
+/* templates//adv_search.tpl.html */
+ev_gettext("Status Closed");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Between");
+/* templates//adv_search.tpl.html */
+ev_gettext("Greater Than");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Is Null");
+/* templates//adv_search.tpl.html */
+ev_gettext("Less Than");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("In Past");
+/* templates//adv_search.tpl.html */
+ev_gettext("Between");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("hours");
+/* templates//adv_search.tpl.html */
+ev_gettext("Is Null");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Status Closed");
+/* templates//adv_search.tpl.html */
+ev_gettext("In Past");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("End date");
+/* templates//adv_search.tpl.html */
+ev_gettext("hours");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Show additional fields to search by");
+/* templates//adv_search.tpl.html */
+ev_gettext("Status Closed");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Run Search");
+/* templates//adv_search.tpl.html */
+ev_gettext("End date");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Reset");
+/* templates//adv_search.tpl.html */
+ev_gettext("Show additional fields to search by");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Search Title");
+/* templates//adv_search.tpl.html */
+ev_gettext("Run Search");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Global Search");
+/* templates//adv_search.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("Saved Searches");
+/* templates//adv_search.tpl.html */
+ev_gettext("Search Title");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("edit this custom search");
+/* templates//adv_search.tpl.html */
+ev_gettext("Global Search");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("global filter");
+/* templates//adv_search.tpl.html */
+ev_gettext("Saved Searches");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("RSS feed for this custom search");
+/* templates//adv_search.tpl.html */
+ev_gettext("edit this custom search");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("All");
+/* templates//adv_search.tpl.html */
+ev_gettext("global filter");
 
-/* /work/eventum/templates/adv_search.tpl.html */
-gettext("No custom searches could be found.");
+/* templates//adv_search.tpl.html */
+ev_gettext("RSS feed for this custom search");
 
-/* /work/eventum/templates/help_link.tpl.html */
-gettext("get context sensitive help");
+/* templates//adv_search.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/offline.tpl.html */
-gettext("Database Error");
+/* templates//adv_search.tpl.html */
+ev_gettext("No custom searches could be found.");
 
-/* /work/eventum/templates/offline.tpl.html */
-gettext("There seems to be a problem connecting to the database server specified in your configuration file. Please contact your local system administrator for further assistance.");
+/* templates//help_link.tpl.html */
+ev_gettext("get context sensitive help");
 
-/* /work/eventum/templates/offline.tpl.html */
-gettext("There seems to be a problem finding the required database tables in the database server specified in your configuration file. Please contact your local system administrator for further assistance.");
+/* templates//offline.tpl.html */
+ev_gettext("Database Error");
 
-/* /work/eventum/templates/view_headers.tpl.html */
-gettext("View Email Raw Headers");
+/* templates//offline.tpl.html */
+ev_gettext("There seems to be a problem connecting to the database server specified in your configuration file. Please contact your local system administrator for further assistance.");
 
-/* /work/eventum/templates/view_headers.tpl.html */
-gettext("Close");
+/* templates//offline.tpl.html */
+ev_gettext("There seems to be a problem finding the required database tables in the database server specified in your configuration file. Please contact your local system administrator for further assistance.");
 
-/* /work/eventum/templates/view_headers.tpl.html */
-gettext("Close");
+/* templates//view_headers.tpl.html */
+ev_gettext("View Email Raw Headers");
 
-/* /work/eventum/templates/view.tpl.html */
-gettext("Error: The issue #%1 could not be found.");
+/* templates//view_headers.tpl.html */
+ev_gettext("Close");
 
-/* /work/eventum/templates/view.tpl.html */
-gettext("Go Back");
+/* templates//view_headers.tpl.html */
+ev_gettext("Close");
 
-/* /work/eventum/templates/view.tpl.html */
-gettext("Sorry, you do not have the required privileges to view this issue.");
+/* templates//view.tpl.html */
+ev_gettext("Error: The issue #%1 could not be found.");
 
-/* /work/eventum/templates/view.tpl.html */
-gettext("Go Back");
+/* templates//view.tpl.html */
+ev_gettext("Go Back");
 
-/* /work/eventum/templates/error_icon.tpl.html */
-gettext("error condition detected");
+/* templates//view.tpl.html */
+ev_gettext("Sorry, you do not have the required privileges to view this issue.");
 
-/* /work/eventum/templates/error_icon.tpl.html */
-gettext("error condition detected");
+/* templates//view.tpl.html */
+ev_gettext("Go Back");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("Please choose which entries need to be removed.");
+/* templates//error_icon.tpl.html */
+ev_gettext("error condition detected");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("This action will permanently delete the selected entries.");
+/* templates//error_icon.tpl.html */
+ev_gettext("error condition detected");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("SCM Integration - Checkins");
+/* templates//checkins.tpl.html */
+ev_gettext("Please choose which entries need to be removed.");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("Date");
+/* templates//checkins.tpl.html */
+ev_gettext("This action will permanently delete the selected entries.");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("User");
+/* templates//checkins.tpl.html */
+ev_gettext("SCM Integration - Checkins");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("Module / Directory");
+/* templates//checkins.tpl.html */
+ev_gettext("Back to Top");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("File");
+/* templates//checkins.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("Commit Message");
+/* templates//checkins.tpl.html */
+ev_gettext("User");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("see the source of revision %1 of %2");
+/* templates//checkins.tpl.html */
+ev_gettext("Module / Directory");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("see the diff to revision %1");
+/* templates//checkins.tpl.html */
+ev_gettext("File");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("diff to %1");
+/* templates//checkins.tpl.html */
+ev_gettext("Commit Message");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("No checkins could be found.");
+/* templates//checkins.tpl.html */
+ev_gettext("see the source of revision %1 of %2");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("All");
+/* templates//checkins.tpl.html */
+ev_gettext("see the diff to revision %1");
 
-/* /work/eventum/templates/checkins.tpl.html */
-gettext("Remove Selected");
+/* templates//checkins.tpl.html */
+ev_gettext("diff to %1");
 
-/* /work/eventum/templates/history.tpl.html */
-gettext("History of Changes to Issue");
+/* templates//checkins.tpl.html */
+ev_gettext("No checkins could be found.");
 
-/* /work/eventum/templates/history.tpl.html */
-gettext("Date");
+/* templates//checkins.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/history.tpl.html */
-gettext("Summary");
+/* templates//checkins.tpl.html */
+ev_gettext("Remove Selected");
 
-/* /work/eventum/templates/history.tpl.html */
-gettext("No changes could be found.");
+/* templates//history.tpl.html */
+ev_gettext("History of Changes to Issue");
 
-/* /work/eventum/templates/history.tpl.html */
-gettext("Close");
+/* templates//history.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/history.tpl.html */
-gettext("History of Reminders Triggered for Issue");
+/* templates//history.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/history.tpl.html */
-gettext("Date");
+/* templates//history.tpl.html */
+ev_gettext("No changes could be found.");
 
-/* /work/eventum/templates/history.tpl.html */
-gettext("Triggered Action");
+/* templates//history.tpl.html */
+ev_gettext("Close");
 
-/* /work/eventum/templates/history.tpl.html */
-gettext("No reminders could be found.");
+/* templates//history.tpl.html */
+ev_gettext("History of Reminders Triggered for Issue");
 
-/* /work/eventum/templates/history.tpl.html */
-gettext("Close");
+/* templates//history.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("An error occurred while trying to associate the selected email message");
+/* templates//history.tpl.html */
+ev_gettext("Triggered Action");
 
-/* /work/eventum/templates/associate.tpl.html */
+/* templates//history.tpl.html */
+ev_gettext("No reminders could be found.");
+
+/* templates//history.tpl.html */
+ev_gettext("Close");
+
+/* templates//associate.tpl.html */
+ev_gettext("An error occurred while trying to associate the selected email message");
+
+/* templates//associate.tpl.html */
 ngettext("Thank you, the selected email message was associated successfully.","Thank you, the selected email messages were associated successfully.",x);
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("Continue");
+/* templates//associate.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("Warning: Unknown Contacts Found");
+/* templates//associate.tpl.html */
+ev_gettext("Warning: Unknown Contacts Found");
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("The following addresses could not be matched against the system user records:");
+/* templates//associate.tpl.html */
+ev_gettext("The following addresses could not be matched against the system user records:");
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("Please make sure you have selected the correct email messages to associate.");
+/* templates//associate.tpl.html */
+ev_gettext("Please make sure you have selected the correct email messages to associate.");
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("Close Window");
+/* templates//associate.tpl.html */
+ev_gettext("Close Window");
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("Warning: Unknown contacts were found in the selected email messages. Please make sure you have selected the correct email messages to associate.");
+/* templates//associate.tpl.html */
+ev_gettext("Warning: Unknown contacts were found in the selected email messages. Please make sure you have selected the correct email messages to associate.");
 
-/* /work/eventum/templates/associate.tpl.html */
+/* templates//associate.tpl.html */
 ngettext("Associate Email Message to Issue #%1","Associate Email Messages to Issue #%1",x);
 
-/* /work/eventum/templates/associate.tpl.html */
+/* templates//associate.tpl.html */
 ngettext("Please choose one of the following actions to take in regards to the selected email message","Please choose one of the following actions to take in regards to the selected email messages",x);
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("Save Message");
+/* templates//associate.tpl.html */
+ev_gettext("Save Message");
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("as");
+/* templates//associate.tpl.html */
+ev_gettext("as");
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("an");
+/* templates//associate.tpl.html */
+ev_gettext("an");
 
-/* /work/eventum/templates/associate.tpl.html */
+/* templates//associate.tpl.html */
 ngettext("<b>NOTE:</b> Email will be broadcasted to the full notification list, including any customers, if this option is chosen.","<b>NOTE:</b> Emails will be broadcasted to the full notification list, including any customers, if this option is chosen.",x);
 
-/* /work/eventum/templates/associate.tpl.html */
+/* templates//associate.tpl.html */
 ngettext("Save Message as Reference Email","Save Message as Reference Emails",x);
 
-/* /work/eventum/templates/associate.tpl.html */
+/* templates//associate.tpl.html */
 ngettext("<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if this option if chosen. This is useful as way to backload a set of emails into an existing issue.","<b>NOTE:</b> Emails will <b>NOT</b> be sent to the notification list, if this option if chosen. This is useful as way to backload a set of emails into an existing issue.",x);
 
-/* /work/eventum/templates/associate.tpl.html */
+/* templates//associate.tpl.html */
 ngettext("Save Message as an Internal Note","Save Messages as an Internal Notes",x);
 
-/* /work/eventum/templates/associate.tpl.html */
+/* templates//associate.tpl.html */
 ngettext("<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff users.","<b>NOTE:</b> Emails will be saved as notes and broadcasted only to staff users.",x);
 
-/* /work/eventum/templates/associate.tpl.html */
-gettext("Continue");
+/* templates//associate.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Please choose which issues to update.");
+/* templates//list.tpl.html */
+ev_gettext("Please choose which issues to update.");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Please choose new values for the select issues");
+/* templates//list.tpl.html */
+ev_gettext("Please choose new values for the select issues");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Warning: If you continue, you will change the ");
+/* templates//list.tpl.html */
+ev_gettext("Warning: If you continue, you will change the ");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("for all selected issues. Are you sure you want to continue?");
+/* templates//list.tpl.html */
+ev_gettext("for all selected issues. Are you sure you want to continue?");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Search Results");
+/* templates//list.tpl.html */
+ev_gettext("Search Results");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("issues found");
+/* templates//list.tpl.html */
+ev_gettext("issues found");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("shown");
+/* templates//list.tpl.html */
+ev_gettext("shown");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("hide/show");
+/* templates//list.tpl.html */
+ev_gettext("hide/show");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("hide / show the quick search form");
+/* templates//list.tpl.html */
+ev_gettext("hide / show the quick search form");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("quick search");
+/* templates//list.tpl.html */
+ev_gettext("quick search");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("hide / show the advanced search form");
+/* templates//list.tpl.html */
+ev_gettext("hide / show the advanced search form");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("advanced search");
+/* templates//list.tpl.html */
+ev_gettext("advanced search");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("current filters");
+/* templates//list.tpl.html */
+ev_gettext("current filters");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("bulk update tool");
+/* templates//list.tpl.html */
+ev_gettext("bulk update tool");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("All");
+/* templates//list.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("sort by");
+/* templates//list.tpl.html */
+ev_gettext("sort by");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("sort by");
+/* templates//list.tpl.html */
+ev_gettext("sort by");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Summary");
+/* templates//list.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("sort by summary");
+/* templates//list.tpl.html */
+ev_gettext("sort by summary");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Export Data:");
+/* templates//list.tpl.html */
+ev_gettext("Export Data:");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("generate excel-friendly report");
+/* templates//list.tpl.html */
+ev_gettext("generate excel-friendly report");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Export to Excel");
+/* templates//list.tpl.html */
+ev_gettext("Export to Excel");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("sort by");
+/* templates//list.tpl.html */
+ev_gettext("sort by");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("sort by");
+/* templates//list.tpl.html */
+ev_gettext("sort by");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("view issue details");
+/* templates//list.tpl.html */
+ev_gettext("view issue details");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("view issue details");
+/* templates//list.tpl.html */
+ev_gettext("view issue details");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("No issues could be found.");
+/* templates//list.tpl.html */
+ev_gettext("No issues could be found.");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("All");
+/* templates//list.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Go");
+/* templates//list.tpl.html */
+ev_gettext("Go");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Rows per Page:");
+/* templates//list.tpl.html */
+ev_gettext("Rows per Page:");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("ALL");
+/* templates//list.tpl.html */
+ev_gettext("ALL");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Set");
+/* templates//list.tpl.html */
+ev_gettext("Set");
 
-/* /work/eventum/templates/list.tpl.html */
-gettext("Hide Closed Issues");
+/* templates//list.tpl.html */
+ev_gettext("Hide Closed Issues");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Sorry, an error happened while trying to run your query.");
+/* templates//update_form.tpl.html */
+ev_gettext("Sorry, an error happened while trying to run your query.");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Also, all issues that are marked as duplicates from this one were updated as well.");
+/* templates//update_form.tpl.html */
+ev_gettext("Thank you, issue #%1 was updated successfully.");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Return to Issue");
+/* templates//update_form.tpl.html */
+ev_gettext("Also, all issues that are marked as duplicates from this one were updated as well.");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Details Page");
+/* templates//update_form.tpl.html */
+ev_gettext("Return to Issue #%1 Details Page");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Please enter the summary for this issue.");
+/* templates//update_form.tpl.html */
+ev_gettext("Please enter the summary for this issue.");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Please enter the description for this issue.");
+/* templates//update_form.tpl.html */
+ev_gettext("Please enter the description for this issue.");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Percentage complete should be between 0 and 100");
+/* templates//update_form.tpl.html */
+ev_gettext("Percentage complete should be between 0 and 100");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Please select an assignment for this issue");
+/* templates//update_form.tpl.html */
+ev_gettext("Please select an assignment for this issue");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Note: Project automatically switched to '%1' from '%2'.");
+/* templates//update_form.tpl.html */
+ev_gettext("Warning: All changes to this issue will be lost if you continue and close this issue.");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Update Issue Overview");
+/* templates//update_form.tpl.html */
+ev_gettext("Note: Project automatically switched to '%1' from '%2'.");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("edit the authorized repliers list for this issue");
+/* templates//update_form.tpl.html */
+ev_gettext("Update Issue Overview");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Edit Authorized Replier List");
+/* templates//update_form.tpl.html */
+ev_gettext("edit the authorized repliers list for this issue");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Edit Notification List");
+/* templates//update_form.tpl.html */
+ev_gettext("Edit Authorized Replier List");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("History of Changes");
+/* templates//update_form.tpl.html */
+ev_gettext("Edit Notification List");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Category:");
+/* templates//update_form.tpl.html */
+ev_gettext("History of Changes");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Status:");
+/* templates//update_form.tpl.html */
+ev_gettext("Category:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Notification List:");
+/* templates//update_form.tpl.html */
+ev_gettext("Status:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Status:");
+/* templates//update_form.tpl.html */
+ev_gettext("Notification List:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Submitted Date:");
+/* templates//update_form.tpl.html */
+ev_gettext("Status:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Priority:");
+/* templates//update_form.tpl.html */
+ev_gettext("Submitted Date:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Update Date:");
+/* templates//update_form.tpl.html */
+ev_gettext("Priority:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Associated Issues:");
+/* templates//update_form.tpl.html */
+ev_gettext("Update Date:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Reporter:");
+/* templates//update_form.tpl.html */
+ev_gettext("Associated Issues:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Expected Resolution Date:");
+/* templates//update_form.tpl.html */
+ev_gettext("Reporter:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Scheduled Release:");
+/* templates//update_form.tpl.html */
+ev_gettext("Expected Resolution Date:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Percentage Complete:");
+/* templates//update_form.tpl.html */
+ev_gettext("Scheduled Release:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Estimated Dev. Time:");
+/* templates//update_form.tpl.html */
+ev_gettext("Percentage Complete:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("in hours");
+/* templates//update_form.tpl.html */
+ev_gettext("Estimated Dev. Time:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Assignment:");
+/* templates//update_form.tpl.html */
+ev_gettext("in hours");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Keep Current Assignments:");
+/* templates//update_form.tpl.html */
+ev_gettext("Assignment:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Change Assignments:");
+/* templates//update_form.tpl.html */
+ev_gettext("Keep Current Assignments:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Clear Selections");
+/* templates//update_form.tpl.html */
+ev_gettext("Change Assignments:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Current Selections:");
+/* templates//update_form.tpl.html */
+ev_gettext("Clear Selections");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Authorized Repliers:");
+/* templates//update_form.tpl.html */
+ev_gettext("Current Selections:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Staff:");
+/* templates//update_form.tpl.html */
+ev_gettext("Authorized Repliers:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Other:");
+/* templates//update_form.tpl.html */
+ev_gettext("Staff:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Group:");
+/* templates//update_form.tpl.html */
+ev_gettext("Other:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("yes");
+/* templates//update_form.tpl.html */
+ev_gettext("Group:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Summary:");
+/* templates//update_form.tpl.html */
+ev_gettext("yes");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Description:");
+/* templates//update_form.tpl.html */
+ev_gettext("Summary:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Private:");
+/* templates//update_form.tpl.html */
+ev_gettext("Description:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Trigger Reminders:");
+/* templates//update_form.tpl.html */
+ev_gettext("Private:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Update");
+/* templates//update_form.tpl.html */
+ev_gettext("Trigger Reminders:");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Cancel Update");
+/* templates//update_form.tpl.html */
+ev_gettext("Update");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Reset");
+/* templates//update_form.tpl.html */
+ev_gettext("Cancel Update");
 
-/* /work/eventum/templates/update_form.tpl.html */
-gettext("Close Issue");
+/* templates//update_form.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("Please choose which entries need to be disassociated with the current issue.");
+/* templates//update_form.tpl.html */
+ev_gettext("Close Issue");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("This action will remove the association of the selected entries to the current issue.");
+/* templates//support_emails.tpl.html */
+ev_gettext("Please choose which entries need to be disassociated with the current issue.");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("Associated Emails");
+/* templates//support_emails.tpl.html */
+ev_gettext("This action will remove the association of the selected entries to the current issue.");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("view the history of sent emails");
+/* templates//support_emails.tpl.html */
+ev_gettext("Associated Emails");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("Mail Queue Log");
+/* templates//support_emails.tpl.html */
+ev_gettext("Back to Top");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("All");
+/* templates//support_emails.tpl.html */
+ev_gettext("view the history of sent emails");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("Reply");
+/* templates//support_emails.tpl.html */
+ev_gettext("Mail Queue Log");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("From");
+/* templates//support_emails.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("To");
+/* templates//support_emails.tpl.html */
+ev_gettext("Reply");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("Date");
+/* templates//support_emails.tpl.html */
+ev_gettext("From");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("Subject");
+/* templates//support_emails.tpl.html */
+ev_gettext("Recipients");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("reply to this email");
+/* templates//support_emails.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("sent to notification list");
+/* templates//support_emails.tpl.html */
+ev_gettext("Subject");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("No associated emails could be found.");
+/* templates//support_emails.tpl.html */
+ev_gettext("reply to this email");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("All");
+/* templates//support_emails.tpl.html */
+ev_gettext("sent to notification list");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("Disassociate Selected");
+/* templates//support_emails.tpl.html */
+ev_gettext("No associated emails could be found.");
 
-/* /work/eventum/templates/support_emails.tpl.html */
-gettext("Send Email");
+/* templates//support_emails.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/permission_denied.tpl.html */
-gettext("Sorry, you do not have permission to access this page.");
+/* templates//support_emails.tpl.html */
+ev_gettext("Disassociate Selected");
 
-/* /work/eventum/templates/permission_denied.tpl.html */
-gettext("Go Back");
+/* templates//support_emails.tpl.html */
+ev_gettext("Send Email");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Sorry, an error happened while trying to run your query.");
+/* templates//permission_denied.tpl.html */
+ev_gettext("Sorry, you do not have permission to access this page.");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Thank you, the issue was marked as a duplicate successfully. Please choose \n            from one of the options below:");
+/* templates//permission_denied.tpl.html */
+ev_gettext("Go Back");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Open the Issue Details Page");
+/* templates//duplicate.tpl.html */
+ev_gettext("Sorry, an error happened while trying to run your query.");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Open the Issue Listing Page");
+/* templates//duplicate.tpl.html */
+ev_gettext("Thank you, the issue was marked as a duplicate successfully. Please choose \n            from one of the options below:");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Open the Emails Listing Page");
+/* templates//duplicate.tpl.html */
+ev_gettext("Open the Issue Details Page");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
+/* templates//duplicate.tpl.html */
+ev_gettext("Open the Issue Listing Page");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Please choose the duplicated issue.");
+/* templates//duplicate.tpl.html */
+ev_gettext("Open the Emails Listing Page");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Mark Issue as Duplicate");
+/* templates//duplicate.tpl.html */
+ev_gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Issue ID:");
+/* templates//duplicate.tpl.html */
+ev_gettext("Please choose the duplicated issue.");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Duplicated Issue:");
+/* templates//duplicate.tpl.html */
+ev_gettext("Mark Issue as Duplicate");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Please select an issue");
+/* templates//duplicate.tpl.html */
+ev_gettext("Issue ID:");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Comments:");
+/* templates//duplicate.tpl.html */
+ev_gettext("Duplicated Issue:");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Back");
+/* templates//duplicate.tpl.html */
+ev_gettext("Please select an issue");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Mark Issue as Duplicate");
+/* templates//duplicate.tpl.html */
+ev_gettext("Comments:");
 
-/* /work/eventum/templates/duplicate.tpl.html */
-gettext("Required fields");
+/* templates//duplicate.tpl.html */
+ev_gettext("Back");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//duplicate.tpl.html */
+ev_gettext("Mark Issue as Duplicate");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Thank you, the internal note was posted successfully.");
+/* templates//duplicate.tpl.html */
+ev_gettext("Required fields");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Continue");
+/* templates//post_note.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Please enter the title of this note.");
+/* templates//post_note.tpl.html */
+ev_gettext("Thank you, the internal note was posted successfully.");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Please enter the message body of this note.");
+/* templates//post_note.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Post New Internal Note");
+/* templates//post_note.tpl.html */
+ev_gettext("Please enter the title of this note.");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("From:");
+/* templates//post_note.tpl.html */
+ev_gettext("Please enter the message body of this note.");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Recipients:");
+/* templates//post_note.tpl.html */
+ev_gettext("Post New Internal Note");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Notification List");
+/* templates//post_note.tpl.html */
+ev_gettext("From:");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Title:");
+/* templates//post_note.tpl.html */
+ev_gettext("Recipients:");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Extra Note Recipients:");
+/* templates//post_note.tpl.html */
+ev_gettext("Notification List");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Clear Selections");
+/* templates//post_note.tpl.html */
+ev_gettext("Title:");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Add Extra Recipients To Notification List?");
+/* templates//post_note.tpl.html */
+ev_gettext("Extra Note Recipients:");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("yes");
+/* templates//post_note.tpl.html */
+ev_gettext("Clear Selections");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Yes");
+/* templates//post_note.tpl.html */
+ev_gettext("Add Extra Recipients To Notification List?");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("no");
+/* templates//post_note.tpl.html */
+ev_gettext("yes");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("No");
+/* templates//post_note.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("New Status for Issue");
+/* templates//post_note.tpl.html */
+ev_gettext("no");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Time Spent:");
+/* templates//post_note.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Post Internal Note");
+/* templates//post_note.tpl.html */
+ev_gettext("New Status for Issue");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Cancel");
+/* templates//post_note.tpl.html */
+ev_gettext("Time Spent:");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("yes");
+/* templates//post_note.tpl.html */
+ev_gettext("Post Internal Note");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Add Email Signature");
+/* templates//post_note.tpl.html */
+ev_gettext("Cancel");
 
-/* /work/eventum/templates/post_note.tpl.html */
-gettext("Required fields");
+/* templates//post_note.tpl.html */
+ev_gettext("yes");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Sorry, an error happened while trying to run your query.");
+/* templates//post_note.tpl.html */
+ev_gettext("Add Email Signature");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Thank you, the issue was closed successfully. Please choose from one of the options below:");
+/* templates//post_note.tpl.html */
+ev_gettext("Required fields");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Open the Issue Details Page");
+/* templates//close.tpl.html */
+ev_gettext("Error: The issue #%1 could not be found.");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Open the Issue Listing Page");
+/* templates//close.tpl.html */
+ev_gettext("Go Back");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Open the Emails Listing Page");
+/* templates//close.tpl.html */
+ev_gettext("Sorry, an error happened while trying to run your query.");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Please choose the new status for this issue.");
+/* templates//close.tpl.html */
+ev_gettext("Thank you, the issue was closed successfully. Please choose from one of the options below:");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Please enter the reason for closing this issue.");
+/* templates//close.tpl.html */
+ev_gettext("Open the Issue Details Page");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Please enter integers (or floating point numbers) on the time spent field.");
+/* templates//close.tpl.html */
+ev_gettext("Open the Issue Listing Page");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Please choose the time tracking category for this new entry.");
+/* templates//close.tpl.html */
+ev_gettext("Open the Emails Listing Page");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("This customer has a per incident contract. You have chosen not to redeem any incidents. Press 'OK' to confirm or 'Cancel' to revise.");
+/* templates//close.tpl.html */
+ev_gettext("Please choose the new status for this issue.");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Close Issue");
+/* templates//close.tpl.html */
+ev_gettext("Please enter the reason for closing this issue.");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Issue ID:");
+/* templates//close.tpl.html */
+ev_gettext("Please enter integers (or floating point numbers) on the time spent field.");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Status:");
+/* templates//close.tpl.html */
+ev_gettext("Please choose the time tracking category for this new entry.");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Please choose a status");
+/* templates//close.tpl.html */
+ev_gettext("This customer has a per incident contract. You have chosen not to redeem any incidents. Press 'OK' to confirm or 'Cancel' to revise.");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Resolution:");
+/* templates//close.tpl.html */
+ev_gettext("Close Issue");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Send Notification About Issue Being Closed?");
+/* templates//close.tpl.html */
+ev_gettext("Issue ID:");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Send Notification To:");
+/* templates//close.tpl.html */
+ev_gettext("Status:");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Internal Users");
+/* templates//close.tpl.html */
+ev_gettext("Please choose a status");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("All");
+/* templates//close.tpl.html */
+ev_gettext("Resolution:");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Reason for closing issue:");
+/* templates//close.tpl.html */
+ev_gettext("Send Notification About Issue Being Closed?");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Incident Types to Redeem:");
+/* templates//close.tpl.html */
+ev_gettext("Send Notification To:");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Time Spent:");
+/* templates//close.tpl.html */
+ev_gettext("Internal Users");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Time Category:");
+/* templates//close.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Please choose a category");
+/* templates//close.tpl.html */
+ev_gettext("Reason for closing issue:");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Back");
+/* templates//close.tpl.html */
+ev_gettext("Incident Types to Redeem:");
 
-/* /work/eventum/templates/close.tpl.html */
-gettext("Close Issue");
+/* templates//close.tpl.html */
+ev_gettext("Time Spent:");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//close.tpl.html */
+ev_gettext("Time Category:");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Please enter the note text on the input box below.");
+/* templates//close.tpl.html */
+ev_gettext("Please choose a category");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the new note was created and associated with the issue below.");
+/* templates//close.tpl.html */
+ev_gettext("Back");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//close.tpl.html */
+ev_gettext("Close Issue");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("You do not have permission to delete this note.");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the note was removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("Please enter the note text on the input box below.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the new note was created and associated with the issue below.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the time tracking entry was removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the selected issues were updated successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("You do not have permission to delete this note.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the note was removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the inital impact analysis was set successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the time tracking entry was removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the selected issues were updated successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the new requirement was added successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the impact analysis was set successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the inital impact analysis was set successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the selected requirements were removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the new requirement was added successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the custom filter was saved successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the impact analysis was set successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the selected custom filters were removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the selected requirements were removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the association to the selected emails were removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the custom filter was saved successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("You do not have the permission to remove this attachment.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the selected custom filters were removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the attachment was removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the association to the selected emails were removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("You do not have the permission to remove this file.");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the file was removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("You do not have the permission to remove this attachment.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the attachment was removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the selected checkin information entries were removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("You do not have the permission to remove this file.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the emails were marked as removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the file was removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the current issue is no longer marked as a duplicate.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the selected checkin information entries were removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("You do not have permission to remove this phone support entry.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the emails were marked as removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the phone support entry was removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the phone support entry was removed successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the current issue is no longer marked as a duplicate.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("The associated time tracking entry was also deleted.");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("You do not have permission to remove this phone support entry.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the issue was updated successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the phone support entry was removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the phone support entry was removed successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Error: the issue is already unassigned.");
+/* templates//popup.tpl.html */
+ev_gettext("The associated time tracking entry was also deleted.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, the issue was unassigned successfully.");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Error: you are already authorized to send emails in this issue.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the issue was updated successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, you are now authorized to send emails in this issue.");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//popup.tpl.html */
+ev_gettext("Error: the issue is already unassigned.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Thank you, this issue was removed from quarantine.");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, the issue was unassigned successfully.");
 
-/* /work/eventum/templates/popup.tpl.html */
-gettext("Continue");
+/* templates//popup.tpl.html */
+ev_gettext("Error: you are already authorized to send emails in this issue.");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("Quick Search");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, you are now authorized to send emails in this issue.");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("Keyword(s):");
+/* templates//popup.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("Assigned:");
+/* templates//popup.tpl.html */
+ev_gettext("Thank you, this issue was removed from quarantine.");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("any");
+/* templates//popup.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("Status:");
+/* templates//searchbar.tpl.html */
+ev_gettext("Quick Search");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("any");
+/* templates//searchbar.tpl.html */
+ev_gettext("Keyword(s):");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("Category:");
+/* templates//searchbar.tpl.html */
+ev_gettext("Assigned:");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("any");
+/* templates//searchbar.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("Priority:");
+/* templates//searchbar.tpl.html */
+ev_gettext("Status:");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("any");
+/* templates//searchbar.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("Search");
+/* templates//searchbar.tpl.html */
+ev_gettext("Category:");
 
-/* /work/eventum/templates/searchbar.tpl.html */
-gettext("Clear");
+/* templates//searchbar.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/lookup_field.tpl.html */
-gettext("paste or start typing here");
+/* templates//searchbar.tpl.html */
+ev_gettext("Priority:");
 
-/* /work/eventum/templates/lookup_field.tpl.html */
-gettext("paste or start typing here");
+/* templates//searchbar.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("An error occurred while trying to convert the selected note.");
+/* templates//searchbar.tpl.html */
+ev_gettext("Search");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("Thank you, the note was converted successfully.");
+/* templates//searchbar.tpl.html */
+ev_gettext("Clear");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("Continue");
+/* templates//lookup_field.tpl.html */
+ev_gettext("paste or start typing here");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue's notification list.");
+/* templates//lookup_field.tpl.html */
+ev_gettext("paste or start typing here");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("WARNING: Converting this note to an email will send the email to all users listed in this issue's notification list.");
+/* templates//convert_note.tpl.html */
+ev_gettext("An error occurred while trying to convert the selected note.");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.");
+/* templates//convert_note.tpl.html */
+ev_gettext("Thank you, the note was converted successfully.");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("Convert Note To Email");
+/* templates//convert_note.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("Convert to Draft and Save For Later Editing");
+/* templates//convert_note.tpl.html */
+ev_gettext("WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue's notification list.");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("<b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, and without any attachments.");
+/* templates//convert_note.tpl.html */
+ev_gettext("WARNING: Converting this note to an email will send the email to all users listed in this issue's notification list.");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("Convert to Email and Send Now");
+/* templates//convert_note.tpl.html */
+ev_gettext("WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("ALERT:");
+/* templates//convert_note.tpl.html */
+ev_gettext("Convert Note To Email");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("Email will be re-sent from original sender, including any attachments.");
+/* templates//convert_note.tpl.html */
+ev_gettext("Convert to Draft and Save For Later Editing");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("Add sender to authorized repliers list?");
+/* templates//convert_note.tpl.html */
+ev_gettext("<b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, and without any attachments.");
 
-/* /work/eventum/templates/convert_note.tpl.html */
-gettext("Continue");
+/* templates//convert_note.tpl.html */
+ev_gettext("Convert to Email and Send Now");
 
-/* /work/eventum/templates/spell_check.tpl.html */
-gettext("Spell Check");
+/* templates//convert_note.tpl.html */
+ev_gettext("ALERT:");
 
-/* /work/eventum/templates/spell_check.tpl.html */
-gettext("No spelling mistakes could be found.");
+/* templates//convert_note.tpl.html */
+ev_gettext("Email will be re-sent from original sender, including any attachments.");
 
-/* /work/eventum/templates/spell_check.tpl.html */
-gettext("Misspelled Words:");
+/* templates//convert_note.tpl.html */
+ev_gettext("Add sender to authorized repliers list?");
 
-/* /work/eventum/templates/spell_check.tpl.html */
-gettext("Suggestions:");
+/* templates//convert_note.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/spell_check.tpl.html */
-gettext("Choose a misspelled word");
+/* templates//spell_check.tpl.html */
+ev_gettext("Spell Check");
 
-/* /work/eventum/templates/spell_check.tpl.html */
-gettext("Fix Spelling");
+/* templates//spell_check.tpl.html */
+ev_gettext("No spelling mistakes could be found.");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("Subject/Body:");
+/* templates//spell_check.tpl.html */
+ev_gettext("Misspelled Words:");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("Sender:");
+/* templates//spell_check.tpl.html */
+ev_gettext("Suggestions:");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("To:");
+/* templates//spell_check.tpl.html */
+ev_gettext("Choose a misspelled word");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("Email Account:");
+/* templates//spell_check.tpl.html */
+ev_gettext("Fix Spelling");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("any");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("Subject/Body:");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("Search");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("Sender:");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("Clear");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("To:");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("Filter by Arrival Date:");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("Email Account:");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("Greater Than");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("any");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("Less Than");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("Search");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("Between");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("Clear");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("Arrival Date:");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("Filter by Arrival Date:");
 
-/* /work/eventum/templates/email_filter_form.tpl.html */
-gettext("End date");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("Greater Than");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Sorry, but this feature has been disabled by the administrator.");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("Less Than");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Go Back");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("Between");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Please enter your full name.");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("Arrival Date:");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Please enter your email address.");
+/* templates//email_filter_form.tpl.html */
+ev_gettext("End date");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Please enter a valid email address.");
+/* templates//signup.tpl.html */
+ev_gettext("Sorry, but this feature has been disabled by the administrator.");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Please enter your password.");
+/* templates//signup.tpl.html */
+ev_gettext("Go Back");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Account Signup");
+/* templates//signup.tpl.html */
+ev_gettext("Please enter your full name.");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Error: An error occurred while trying to run your query.");
+/* templates//signup.tpl.html */
+ev_gettext("Please enter your email address.");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Error: The email address specified is already associated with an user in the system.");
+/* templates//signup.tpl.html */
+ev_gettext("Please enter a valid email address.");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Thank you, your account creation request was processed successfully. For security reasons a confirmation email was sent to the provided email address with instructions on how to confirm your request and activate your account.");
+/* templates//signup.tpl.html */
+ev_gettext("Please enter your password.");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Full Name:");
+/* templates//signup.tpl.html */
+ev_gettext("Account Signup");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Email Address:");
+/* templates//signup.tpl.html */
+ev_gettext("Error: An error occurred while trying to run your query.");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Password:");
+/* templates//signup.tpl.html */
+ev_gettext("Error: The email address specified is already associated with an user in the system.");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Create Account");
+/* templates//signup.tpl.html */
+ev_gettext("Thank you, your account creation request was processed successfully. For security reasons a confirmation email was sent to the provided email address with instructions on how to confirm your request and activate your account.");
 
-/* /work/eventum/templates/signup.tpl.html */
-gettext("Back to Login Form");
+/* templates//signup.tpl.html */
+ev_gettext("Full Name:");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext("Please enter your account email address.");
+/* templates//signup.tpl.html */
+ev_gettext("Email Address:");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext("<b>Note:</b> Please enter your email address below and a new random password will be created and assigned to your account. For security purposes a confirmation message will be sent to your email address and after confirming it the new password will be then activated and sent to you.");
+/* templates//signup.tpl.html */
+ev_gettext("Password:");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext("Request a Password");
+/* templates//signup.tpl.html */
+ev_gettext("Create Account");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext("Error: An error occurred while trying to run your query.");
+/* templates//signup.tpl.html */
+ev_gettext("Back to Login Form");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext("Thank you, a confirmation message was just emailed to you. Please follow the instructions available in this message to confirm your password creation request.");
+/* templates//forgot_password.tpl.html */
+ev_gettext("Please enter your account email address.");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext("Error: Your user status is currently set as inactive. Please\n              contact your local system administrator for further information.");
+/* templates//forgot_password.tpl.html */
+ev_gettext("<b>Note:</b> Please enter your email address below and a new random password will be created and assigned to your account. For security purposes a confirmation message will be sent to your email address and after confirming it the new password will be then activated and sent to you.");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext(" Error: Please provide your email address.");
+/* templates//forgot_password.tpl.html */
+ev_gettext("Request a Password");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext("Error: No user account was found matching the entered email address.");
+/* templates//forgot_password.tpl.html */
+ev_gettext("Error: An error occurred while trying to run your query.");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext("Email Address:");
+/* templates//forgot_password.tpl.html */
+ev_gettext("Thank you, a confirmation message was just emailed to you. Please follow the instructions available in this message to confirm your password creation request.");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext("Send New Password");
+/* templates//forgot_password.tpl.html */
+ev_gettext("Error: Your user status is currently set as inactive. Please\n              contact your local system administrator for further information.");
 
-/* /work/eventum/templates/forgot_password.tpl.html */
-gettext("Back to Login Form");
+/* templates//forgot_password.tpl.html */
+ev_gettext(" Error: Please provide your email address.");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("The specified note does not exist. <br />\n      It could have been converted to an email.");
+/* templates//forgot_password.tpl.html */
+ev_gettext("Error: No user account was found matching the entered email address.");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Close");
+/* templates//forgot_password.tpl.html */
+ev_gettext("Email Address:");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("View Note Details");
+/* templates//forgot_password.tpl.html */
+ev_gettext("Send New Password");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Associated with Issue");
+/* templates//forgot_password.tpl.html */
+ev_gettext("Back to Login Form");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Previous Note");
+/* templates//view_note.tpl.html */
+ev_gettext("The specified note does not exist. <br />\n      It could have been converted to an email.");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Next Note");
+/* templates//view_note.tpl.html */
+ev_gettext("Close");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Posted Date:");
+/* templates//view_note.tpl.html */
+ev_gettext("View Note Details");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("From:");
+/* templates//view_note.tpl.html */
+ev_gettext("Associated with Issue");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Title:");
+/* templates//view_note.tpl.html */
+ev_gettext("Previous Note");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Attachments:");
+/* templates//view_note.tpl.html */
+ev_gettext("Next Note");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("download file");
+/* templates//view_note.tpl.html */
+ev_gettext("Posted Date:");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("download file");
+/* templates//view_note.tpl.html */
+ev_gettext("From:");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Message:");
+/* templates//view_note.tpl.html */
+ev_gettext("Title:");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("display in fixed width font");
+/* templates//view_note.tpl.html */
+ev_gettext("Attachments:");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Blocked Message Raw Headers");
+/* templates//view_note.tpl.html */
+ev_gettext("download file");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Reply");
+/* templates//view_note.tpl.html */
+ev_gettext("download file");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Close");
+/* templates//view_note.tpl.html */
+ev_gettext("Message:");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Previous Note");
+/* templates//view_note.tpl.html */
+ev_gettext("display in fixed width font");
 
-/* /work/eventum/templates/view_note.tpl.html */
-gettext("Next Note");
+/* templates//view_note.tpl.html */
+ev_gettext("Blocked Message Raw Headers");
 
-/* /work/eventum/templates/latest_news.tpl.html */
-gettext("News and Announcements");
+/* templates//view_note.tpl.html */
+ev_gettext("Reply");
 
-/* /work/eventum/templates/latest_news.tpl.html */
-gettext("full news entry");
+/* templates//view_note.tpl.html */
+ev_gettext("Close");
 
-/* /work/eventum/templates/latest_news.tpl.html */
-gettext("Read All Notices");
+/* templates//view_note.tpl.html */
+ev_gettext("Previous Note");
 
-/* /work/eventum/templates/time_tracking.tpl.html */
-gettext("This action will permanently delete the specified time tracking entry.");
+/* templates//view_note.tpl.html */
+ev_gettext("Next Note");
 
-/* /work/eventum/templates/time_tracking.tpl.html */
-gettext("Time Tracking");
+/* templates//latest_news.tpl.html */
+ev_gettext("News and Announcements");
 
-/* /work/eventum/templates/time_tracking.tpl.html */
-gettext("Date of Work");
+/* templates//latest_news.tpl.html */
+ev_gettext("full news entry");
 
-/* /work/eventum/templates/time_tracking.tpl.html */
-gettext("User");
+/* templates//latest_news.tpl.html */
+ev_gettext("Read All Notices");
 
-/* /work/eventum/templates/time_tracking.tpl.html */
-gettext("Time Spent");
+/* templates//time_tracking.tpl.html */
+ev_gettext("This action will permanently delete the specified time tracking entry.");
 
-/* /work/eventum/templates/time_tracking.tpl.html */
-gettext("Category");
+/* templates//time_tracking.tpl.html */
+ev_gettext("Time Tracking");
 
-/* /work/eventum/templates/time_tracking.tpl.html */
-gettext("Summary");
+/* templates//time_tracking.tpl.html */
+ev_gettext("Back to Top");
 
-/* /work/eventum/templates/time_tracking.tpl.html */
-gettext("Total Time Spent");
+/* templates//time_tracking.tpl.html */
+ev_gettext("Date of Work");
 
-/* /work/eventum/templates/time_tracking.tpl.html */
-gettext("No time tracking entries could be found.");
+/* templates//time_tracking.tpl.html */
+ev_gettext("User");
 
-/* /work/eventum/templates/time_tracking.tpl.html */
-gettext("Add Time Entry");
+/* templates//time_tracking.tpl.html */
+ev_gettext("Time Spent");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Field");
+/* templates//time_tracking.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Value");
+/* templates//time_tracking.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Customer Lookup Tool");
+/* templates//time_tracking.tpl.html */
+ev_gettext("Total Time Spent");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Field");
+/* templates//time_tracking.tpl.html */
+ev_gettext("No time tracking entries could be found.");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Email Address");
+/* templates//time_tracking.tpl.html */
+ev_gettext("Add Time Entry");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Customer ID");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Field");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Value");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Value");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Lookup");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Customer Lookup Tool");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Cancel");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Field");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Results");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Email Address");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Customer");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Customer ID");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Support Type");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Value");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Expiration Date");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Lookup");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("Status");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Cancel");
 
-/* /work/eventum/templates/customer/example/customer_lookup.tpl.html */
-gettext("No results could be found");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Results");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Customer");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Contact");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Support Type");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Contact Person Last Name");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Expiration Date");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Contact Person First Name");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Contact Email");
+/* templates//customer/example/customer_lookup.tpl.html */
+ev_gettext("No results could be found");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Contact Email");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Customer Details");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Contact");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Customer");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Contact Person Last Name");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Lookup Customer");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Contact Person First Name");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Contact");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Contact Email");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Add Primary Contact to Notification List? *");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Contact Email");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Yes");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Customer Details");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("No");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Notify Customer About New Issue? *");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Lookup Customer");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Yes");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Contact");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("No");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Add Primary Contact to Notification List? *");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Last Name");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("First Name");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Email");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Notify Customer About New Issue? *");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Phone Number");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Timezone");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("Additional Contact Emails");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Last Name");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("(hold ctrl to select multiple options)");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("First Name");
 
-/* /work/eventum/templates/customer/example/report_form_fields.tpl.html */
-gettext("(only technical contacts listed on your contract)");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Email");
 
-/* /work/eventum/templates/customer/example/customer_report.tpl.html */
-gettext("Example customer API front page");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Phone Number");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Customer Details");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Timezone");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Contact Person");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("Additional Contact Emails");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Contact Email");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("(hold ctrl to select multiple options)");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Phone Number");
+/* templates//customer/example/report_form_fields.tpl.html */
+ev_gettext("(only technical contacts listed on your contract)");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Timezone");
+/* templates//customer/example/customer_report.tpl.html */
+ev_gettext("Example customer API front page");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Contact's Local Time");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Customer Details");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Maximum First Response Time");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Contact Person");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Time Until First Response Deadline");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Contact Email");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Customer");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Phone Number");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Support Level");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Timezone");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Support Expiration Date");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Contact's Local Time");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Sales Account Manager");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Maximum First Response Time");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Notes About Customer");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Time Until First Response Deadline");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Add");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/customer/example/customer_info.tpl.html */
-gettext("Edit");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Support Level");
 
-/* /work/eventum/templates/customer/example/quarantine.tpl.html */
-gettext("Quarantine explanation goes here...");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Support Expiration Date");
 
-/* /work/eventum/templates/customer/example/customer_expired.tpl.html */
-gettext("Expired Customer");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Sales Account Manager");
 
-/* /work/eventum/templates/customer/example/customer_expired.tpl.html */
-gettext("Contact");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Notes About Customer");
 
-/* /work/eventum/templates/customer/example/customer_expired.tpl.html */
-gettext("Company Name");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Add");
 
-/* /work/eventum/templates/customer/example/customer_expired.tpl.html */
-gettext("Contract #");
+/* templates//customer/example/customer_info.tpl.html */
+ev_gettext("Edit");
 
-/* /work/eventum/templates/customer/example/customer_expired.tpl.html */
-gettext("Support Level");
+/* templates//customer/example/quarantine.tpl.html */
+ev_gettext("Quarantine explanation goes here...");
 
-/* /work/eventum/templates/customer/example/customer_expired.tpl.html */
-gettext("Expired");
+/* templates//customer/example/customer_expired.tpl.html */
+ev_gettext("Expired Customer");
 
-/* /work/eventum/templates/customer/example/customer_expired.tpl.html */
-gettext("Back");
+/* templates//customer/example/customer_expired.tpl.html */
+ev_gettext("Contact");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Issue");
+/* templates//customer/example/customer_expired.tpl.html */
+ev_gettext("Company Name");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Add Phone Entry");
+/* templates//customer/example/customer_expired.tpl.html */
+ev_gettext("Contract #");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//customer/example/customer_expired.tpl.html */
+ev_gettext("Support Level");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Thank you, the phone entry was added successfully.");
+/* templates//customer/example/customer_expired.tpl.html */
+ev_gettext("Expired");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Continue");
+/* templates//customer/example/customer_expired.tpl.html */
+ev_gettext("Back");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Please select a valid date for when the phone call took place.");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Issue");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Please enter integers (or floating point numbers) on the time spent field.");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Add Phone Entry");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Please enter the description for this new phone support entry.");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Please choose the category for this new phone support entry.");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Thank you, the phone entry was added successfully.");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Record Phone Call");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Date of Call");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Please select a valid date for when the phone call took place.");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Reason");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Please enter integers (or floating point numbers) on the time spent field.");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Call From");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Please enter the description for this new phone support entry.");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("last name");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Please choose the category for this new phone support entry.");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("first name");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Record Phone Call");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Call To");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Date of Call");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("last name");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Reason");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("first name");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Call From");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Type");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("last name");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Incoming");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("first name");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Outgoing");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Call To");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Customer Phone Number");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("last name");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Office");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("first name");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Home");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Type");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Mobile");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Incoming");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Temp Number");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Outgoing");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Other");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Customer Phone Number");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Time Spent");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Office");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("in minutes");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Home");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Description");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Mobile");
 
-/* /work/eventum/templates/add_phone_entry.tpl.html */
-gettext("Save Phone Call");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Temp Number");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Associate Emails");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Other");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Sorry, but this feature has been disabled by the administrator.");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Time Spent");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Go Back");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("in minutes");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Sorry, but you do not have access to this page.");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Description");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Go Back");
+/* templates//add_phone_entry.tpl.html */
+ev_gettext("Save Phone Call");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Please choose which emails need to be associated.");
+/* templates//emails.tpl.html */
+ev_gettext("Associate Emails");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Please choose which emails need to be marked as deleted.");
+/* templates//emails.tpl.html */
+ev_gettext("Sorry, but this feature has been disabled by the administrator.");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("This action will mark the selected email messages as deleted.");
+/* templates//emails.tpl.html */
+ev_gettext("Go Back");
 
-/* /work/eventum/templates/emails.tpl.html */
+/* templates//emails.tpl.html */
+ev_gettext("Sorry, but you do not have access to this page.");
+
+/* templates//emails.tpl.html */
+ev_gettext("Go Back");
+
+/* templates//emails.tpl.html */
+ev_gettext("Please choose which emails need to be associated.");
+
+/* templates//emails.tpl.html */
+ev_gettext("Please choose which emails need to be marked as deleted.");
+
+/* templates//emails.tpl.html */
+ev_gettext("This action will mark the selected email messages as deleted.");
+
+/* templates//emails.tpl.html */
 ngettext("Viewing Emails (%1 emails found)","Viewing Emails (%1 emails found, %2 - %3 shown)",x);
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("All");
+/* templates//emails.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Sender");
+/* templates//emails.tpl.html */
+ev_gettext("Sender");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("sort by sender");
+/* templates//emails.tpl.html */
+ev_gettext("sort by sender");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Customer");
+/* templates//emails.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("sort by customer");
+/* templates//emails.tpl.html */
+ev_gettext("sort by customer");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Date");
+/* templates//emails.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("sort by date");
+/* templates//emails.tpl.html */
+ev_gettext("sort by date");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("To");
+/* templates//emails.tpl.html */
+ev_gettext("To");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("sort by recipient");
+/* templates//emails.tpl.html */
+ev_gettext("sort by recipient");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Status");
+/* templates//emails.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("sort by status");
+/* templates//emails.tpl.html */
+ev_gettext("sort by status");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Subject");
+/* templates//emails.tpl.html */
+ev_gettext("Subject");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("sort by subject");
+/* templates//emails.tpl.html */
+ev_gettext("sort by subject");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("associated");
+/* templates//emails.tpl.html */
+ev_gettext("associated");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("view issue details");
+/* templates//emails.tpl.html */
+ev_gettext("view issue details");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("pending");
+/* templates//emails.tpl.html */
+ev_gettext("pending");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Empty Subject Header");
+/* templates//emails.tpl.html */
+ev_gettext("Empty Subject Header");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("view email details");
+/* templates//emails.tpl.html */
+ev_gettext("view email details");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("view email details");
+/* templates//emails.tpl.html */
+ev_gettext("view email details");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("No emails could be found.");
+/* templates//emails.tpl.html */
+ev_gettext("No emails could be found.");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("All");
+/* templates//emails.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Associate");
+/* templates//emails.tpl.html */
+ev_gettext("Associate");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("New Issue");
+/* templates//emails.tpl.html */
+ev_gettext("New Issue");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("lookup issues by their summaries");
+/* templates//emails.tpl.html */
+ev_gettext("lookup issues by their summaries");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("ALL");
+/* templates//emails.tpl.html */
+ev_gettext("ALL");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Set");
+/* templates//emails.tpl.html */
+ev_gettext("Set");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Hide Associated Emails");
+/* templates//emails.tpl.html */
+ev_gettext("Hide Associated Emails");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("Remove Selected Emails");
+/* templates//emails.tpl.html */
+ev_gettext("Remove Selected Emails");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("list all removed emails");
+/* templates//emails.tpl.html */
+ev_gettext("list all removed emails");
 
-/* /work/eventum/templates/emails.tpl.html */
-gettext("List Removed Emails");
+/* templates//emails.tpl.html */
+ev_gettext("List Removed Emails");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the hostname for the server of this installation of Eventum.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the hostname for the server of this installation of Eventum.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the relative URL of this installation of Eventum.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the relative URL of this installation of Eventum.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the full path in the server of this installation of Eventum.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the database hostname for this installation of Eventum.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the database hostname for this installation of Eventum.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the database name for this installation of Eventum.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the database name for this installation of Eventum.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the database username for this installation of Eventum.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the database username for this installation of Eventum.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the alternate username for this installation of Eventum.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the alternate username for this installation of Eventum.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the sender address that will be used for all outgoing notification emails.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the sender address that will be used for all outgoing notification emails.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter a valid email address for the sender address.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter a valid email address for the sender address.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the SMTP server hostname.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the SMTP server hostname.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the SMTP server port number.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the SMTP server port number.");
+/* templates//setup.tpl.html */
+ev_gettext("Please indicate whether the SMTP server requires authentication or not.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please indicate whether the SMTP server requires authentication or not.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the SMTP server username.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the SMTP server username.");
+/* templates//setup.tpl.html */
+ev_gettext("Please enter the SMTP server password.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please enter the SMTP server password.");
+/* templates//setup.tpl.html */
+ev_gettext("An Error Was Found");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("An Error Was Found");
+/* templates//setup.tpl.html */
+ev_gettext("Details:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Details:");
+/* templates//setup.tpl.html */
+ev_gettext("Success!");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Success!");
+/* templates//setup.tpl.html */
+ev_gettext("Thank You, Eventum is now properly setup and ready to be used. Open the following URL to login on it for the first time:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Thank You, Eventum is now properly setup and ready to be used. Open the following URL to login on it for the first time:");
+/* templates//setup.tpl.html */
+ev_gettext("Email Address: admin@example.com (literally)");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Email Address: admin@example.com (literally)");
+/* templates//setup.tpl.html */
+ev_gettext("Password: admin");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Password: admin");
+/* templates//setup.tpl.html */
+ev_gettext("NOTE: For security reasons it is highly recommended that the default password be changed as soon as possible.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("NOTE: For security reasons it is highly recommended that the default password be changed as soon as possible.");
+/* templates//setup.tpl.html */
+ev_gettext("Remember to protect your 'setup' directory (like changing its permissions) to prevent anyone else\n            from changing your existing Eventum configuration.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Remember to protect your 'setup' directory (like changing its permissions) to prevent anyone else\n            from changing your existing Eventum configuration.");
+/* templates//setup.tpl.html */
+ev_gettext("In order to check if your permissions are setup correctly visit the <a class=\"link\" href=\"check_permissions.php\">Check Permissions</a> page.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("In order to check if your permissions are setup correctly visit the <a class=\"link\" href=\"check_permissions.php\">Check Permissions</a> page.");
+/* templates//setup.tpl.html */
+ev_gettext("WARNING: If you want to use the email integration features to download messages saved on a IMAP/POP3 server, you will need to\n            enable the IMAP extension in your PHP.INI configuration file. See the PHP manual for more details.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("WARNING: If you want to use the email integration features to download messages saved on a IMAP/POP3 server, you will need to\n            enable the IMAP extension in your PHP.INI configuration file. See the PHP manual for more details.");
+/* templates//setup.tpl.html */
+ev_gettext("Eventum Installation");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Warning!");
+/* templates//setup.tpl.html */
+ev_gettext("Server Hostname:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("You are running PHP version %1.\nWhile all effort has been made to ensure eventum works correctly with\nPHP 5 and greater, it has not been thoroughly tested and may not work properly.");
+/* templates//setup.tpl.html */
+ev_gettext("SSL Server");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Please report any problems you find to eventum-users@lists.mysql.com.");
+/* templates//setup.tpl.html */
+ev_gettext("Eventum Relative URL:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Eventum Installation");
+/* templates//setup.tpl.html */
+ev_gettext("MySQL Server Hostname:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Server Hostname:");
+/* templates//setup.tpl.html */
+ev_gettext("MySQL Database:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("SSL Server");
+/* templates//setup.tpl.html */
+ev_gettext("Create Database");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Eventum Relative URL:");
+/* templates//setup.tpl.html */
+ev_gettext("MySQL Table Prefix:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Installation Path:");
+/* templates//setup.tpl.html */
+ev_gettext("Drop Tables If They Already Exist");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("MySQL Server Hostname:");
+/* templates//setup.tpl.html */
+ev_gettext("MySQL Username:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("MySQL Database:");
+/* templates//setup.tpl.html */
+ev_gettext("<b>Note:</b> This user requires permission to create and drop tables in the specified database.<br />This value is used only for these installation procedures, and is not saved if you provide a separate user below.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Create Database");
+/* templates//setup.tpl.html */
+ev_gettext("MySQL Password:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("MySQL Table Prefix:");
+/* templates//setup.tpl.html */
+ev_gettext("Use a Separate MySQL User for Normal Eventum Use");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Drop Tables If They Already Exist");
+/* templates//setup.tpl.html */
+ev_gettext("Enter the details below:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("MySQL Username:");
+/* templates//setup.tpl.html */
+ev_gettext("Username:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("<b>Note:</b> This user requires permission to create and drop tables in the specified database.<br />This value is used only for these installation procedures, and is not saved if you provide a separate user below.");
+/* templates//setup.tpl.html */
+ev_gettext("Password:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("MySQL Password:");
+/* templates//setup.tpl.html */
+ev_gettext("Create User and Permissions");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Use a Separate MySQL User for Normal Eventum Use");
+/* templates//setup.tpl.html */
+ev_gettext("SMTP Configuration");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Enter the details below:");
+/* templates//setup.tpl.html */
+ev_gettext("<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Username:");
+/* templates//setup.tpl.html */
+ev_gettext("Sender:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Password:");
+/* templates//setup.tpl.html */
+ev_gettext("must be a valid email address");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Create User and Permissions");
+/* templates//setup.tpl.html */
+ev_gettext("Hostname:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("SMTP Configuration");
+/* templates//setup.tpl.html */
+ev_gettext("Port:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.");
+/* templates//setup.tpl.html */
+ev_gettext("Requires Authentication?");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Sender:");
+/* templates//setup.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("must be a valid email address");
+/* templates//setup.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Hostname:");
+/* templates//setup.tpl.html */
+ev_gettext("Username:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Port:");
+/* templates//setup.tpl.html */
+ev_gettext("Password:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Requires Authentication?");
+/* templates//setup.tpl.html */
+ev_gettext("Start Installation");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Yes");
+/* templates//setup.tpl.html */
+ev_gettext("Required Fields");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("No");
+/* templates//current_filters.tpl.html */
+ev_gettext("Current filters:");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Username:");
+/* templates//current_filters.tpl.html */
+ev_gettext("Fulltext");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Password:");
+/* templates//current_filters.tpl.html */
+ev_gettext("In Past %1 hours");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Start Installation");
+/* templates//current_filters.tpl.html */
+ev_gettext("Is NULL");
 
-/* /work/eventum/templates/setup.tpl.html */
-gettext("Required Fields");
+/* templates//current_filters.tpl.html */
+ev_gettext("Is between %1-%2-%3 AND %4-%5-%6");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("Current filters:");
+/* templates//current_filters.tpl.html */
+ev_gettext("Is greater than %1-%2-%3");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("Fulltext");
+/* templates//current_filters.tpl.html */
+ev_gettext("Is less than %1-%2-%3");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("In Past %1 hours");
+/* templates//current_filters.tpl.html */
+ev_gettext("un-assigned");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("Is NULL");
+/* templates//current_filters.tpl.html */
+ev_gettext("myself and un-assigned");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("Is between %1-%2-%3 AND %4-%5-%6");
+/* templates//current_filters.tpl.html */
+ev_gettext("myself and my group");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("Is greater than %1-%2-%3");
+/* templates//current_filters.tpl.html */
+ev_gettext("myself, un-assigned and my group");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("Is less than %1-%2-%3");
+/* templates//current_filters.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("un-assigned");
+/* templates//current_filters.tpl.html */
+ev_gettext("None");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("myself and un-assigned");
+/* templates//phone_support.tpl.html */
+ev_gettext("This action will permanently delete the specified phone support entry.");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("myself and my group");
+/* templates//phone_support.tpl.html */
+ev_gettext("Phone Calls");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("myself, un-assigned and my group");
+/* templates//phone_support.tpl.html */
+ev_gettext("Back to Top");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("Yes");
+/* templates//phone_support.tpl.html */
+ev_gettext("Recorded Date");
 
-/* /work/eventum/templates/current_filters.tpl.html */
-gettext("None");
+/* templates//phone_support.tpl.html */
+ev_gettext("Entered By");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("This action will permanently delete the specified phone support entry.");
+/* templates//phone_support.tpl.html */
+ev_gettext("From");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("Phone Calls");
+/* templates//phone_support.tpl.html */
+ev_gettext("To");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("Recorded Date");
+/* templates//phone_support.tpl.html */
+ev_gettext("Call Type");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("Entered By");
+/* templates//phone_support.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("From");
+/* templates//phone_support.tpl.html */
+ev_gettext("Phone Number");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("To");
+/* templates//phone_support.tpl.html */
+ev_gettext("delete");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("Call Type");
+/* templates//phone_support.tpl.html */
+ev_gettext("No phone calls recorded yet.");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("Category");
+/* templates//phone_support.tpl.html */
+ev_gettext("Add Phone Call");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("Phone Number");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Please enter the title of this resolution.");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("delete");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Manage Issue Resolutions");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("No phone calls recorded yet.");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("An error occurred while trying to add the new issue resolution.");
 
-/* /work/eventum/templates/phone_support.tpl.html */
-gettext("Add Phone Call");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Please enter the title for this new issue resolution.");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Please enter the title of this resolution.");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Thank you, the issue resolution was added successfully.");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Manage Issue Resolutions");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("An error occurred while trying to update the issue resolution information.");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("An error occurred while trying to add the new issue resolution.");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Please enter the title for this issue resolution.");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Please enter the title for this new issue resolution.");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Thank you, the issue resolution was updated successfully.");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Thank you, the issue resolution was added successfully.");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Title:");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("An error occurred while trying to update the issue resolution information.");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Update Resolution");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Please enter the title for this issue resolution.");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Create Resolution");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Thank you, the issue resolution was updated successfully.");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Title:");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Existing Resolutions:");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Update Resolution");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Please select at least one of the resolutions.");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Create Resolution");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Reset");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Existing Resolutions:");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Please select at least one of the resolutions.");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("No resolutions could be found.");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("All");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Title");
+/* templates//manage/resolution.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("update this entry");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Please assign the appropriate users for this round robin entry.");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("No resolutions could be found.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Manage Round Robin Assignments");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("All");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("An error occurred while trying to add the round robin entry.");
 
-/* /work/eventum/templates/manage/resolution.tpl.html */
-gettext("Delete");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Please enter the title for this round robin entry.");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Please assign the appropriate users for this round robin entry.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Please enter the message for this round robin entry.");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Manage Round Robin Assignments");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Thank you, the round robin entry was added successfully.");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("An error occurred while trying to add the round robin entry.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("An error occurred while trying to update the round robin entry information.");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Please enter the title for this round robin entry.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Please enter the title for this round robin entry.");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Please enter the message for this round robin entry.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Please enter the message for this round robin entry.");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Thank you, the round robin entry was added successfully.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Thank you, the round robin entry was updated successfully.");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("An error occurred while trying to update the round robin entry information.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Project:");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Please enter the title for this round robin entry.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Please enter the message for this round robin entry.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Assignable Users:");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Thank you, the round robin entry was updated successfully.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Blackout Time Range:");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Project:");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Update Round Robin Entry");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Please choose an option");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Create Round Robin Entry");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Assignable Users:");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Blackout Time Range:");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Existing Round Robin Entries:");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Update Round Robin Entry");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Please select at least one of the round robin entries.");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Create Round Robin Entry");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("This action will permanently remove the selected round robin entries.");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Reset");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Existing Round Robin Entries:");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Project");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Please select at least one of the round robin entries.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Assignable Users");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("This action will permanently remove the selected round robin entries.");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("All");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("No round robin entries could be found.");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Project");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Assignable Users");
+/* templates//manage/round_robin.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("update this entry");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Action Type");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("No round robin entries could be found.");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Rank");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("All");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Manage Reminder Actions");
 
-/* /work/eventum/templates/manage/round_robin.tpl.html */
-gettext("Delete");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("view reminder details");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Action Type");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("An error occurred while trying to add the new action.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Rank");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Please enter the title for this new action.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Manage Reminder Actions");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Thank you, the action was added successfully.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("view reminder details");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("An error occurred while trying to update the action information.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("An error occurred while trying to add the new action.");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Please enter the title for this action.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Please enter the title for this new action.");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Thank you, the action was updated successfully.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Thank you, the action was added successfully.");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Title:");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("An error occurred while trying to update the action information.");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Action Type:");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Please enter the title for this action.");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Thank you, the action was updated successfully.");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Email List:");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Title:");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Add");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Action Type:");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Remove");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Please choose an option");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Rank:");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Email List:");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("this will determine the order in which actions are triggered");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Add");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Alert Group Leader:");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Remove");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Rank:");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("this will determine the order in which actions are triggered");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Alert IRC:");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Alert Group Leader:");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Yes");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("No");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Boilerplate:");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Alert IRC:");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("this will show up on the bottom of the reminder messages");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Yes");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Update Action");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("No");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Add Action");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Boilerplate:");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("this will show up on the bottom of the reminder messages");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Existing Actions:");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Update Action");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Back to Reminder List");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Add Action");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Please select at least one of the actions.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Reset");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Existing Actions:");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Rank");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Back to Reminder List");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Please select at least one of the actions.");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Type");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Details");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Rank");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("No actions could be found.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Title");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Type");
+/* templates//manage/reminder_actions.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Details");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Please choose whether the anonymous posting feature should be allowed or not for this project");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("No actions could be found.");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Please choose whether to show custom fields for remote invocations or not.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("All");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Please choose the reporter for remote invocations.");
 
-/* /work/eventum/templates/manage/reminder_actions.tpl.html */
-gettext("Delete");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Please choose the default category for remote invocations.");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Please choose whether the anonymous posting feature should be allowed or not for this project");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Please choose the default priority for remote invocations.");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Please choose whether to show custom fields for remote invocations or not.");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Please choose at least one person to assign the new issues created remotely.");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Please choose the reporter for remote invocations.");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Anonymous Reporting of New Issues");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Please choose the default category for remote invocations.");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Current Project:");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Please choose the default priority for remote invocations.");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("An error occurred while trying to update the information.");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Please choose at least one person to assign the new issues created remotely.");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Thank you, the information was updated successfully.");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Anonymous Reporting of New Issues");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Anonymous Reporting:");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Current Project:");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("An error occurred while trying to update the information.");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Thank you, the information was updated successfully.");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Show Custom Fields ?");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Anonymous Reporting:");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Enabled");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Disabled");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Reporter:");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Show Custom Fields ?");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Please choose an user");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Enabled");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Default Category:");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Disabled");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Please choose a category");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Reporter:");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Default Priority:");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Please choose an user");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Please choose a priority");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Default Category:");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Assignment:");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Please choose a category");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Update Setup");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Default Priority:");
+/* templates//manage/anonymous.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Please choose a priority");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Please choose whether the issue auto creation feature should be allowed or not for this email account");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Assignment:");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Please choose the default category.");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Update Setup");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Please choose the default priority.");
 
-/* /work/eventum/templates/manage/anonymous.tpl.html */
-gettext("Reset");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Auto-Creation of Issues");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Please choose whether the issue auto creation feature should be allowed or not for this email account");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Associated Project:");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Please choose the default category.");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Auto-Creation of Issues:");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Please choose the default priority.");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Auto-Creation of Issues");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Associated Project:");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Only for Known Customers?");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Auto-Creation of Issues:");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Enabled");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Disabled");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Default Category:");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Only for Known Customers?");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Please choose a category");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Yes");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Default Priority:");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("No");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Please choose a priority");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Default Category:");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Assignment:");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Please choose a category");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Update Setup");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Default Priority:");
+/* templates//manage/issue_auto_creation.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Please choose a priority");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Please enter the title of this email response.");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Assignment:");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Manage Canned Email Responses");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Update Setup");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("An error occurred while trying to add the new email response.");
 
-/* /work/eventum/templates/manage/issue_auto_creation.tpl.html */
-gettext("Reset");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Please enter the title for this new email response.");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Please enter the title of this email response.");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Thank you, the email response was added successfully.");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Manage Canned Email Responses");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("An error occurred while trying to update the email response information.");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("An error occurred while trying to add the new email response.");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Please enter the title for this email response.");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Please enter the title for this new email response.");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Thank you, the email response was updated successfully.");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Thank you, the email response was added successfully.");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Projects:");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("An error occurred while trying to update the email response information.");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Title:");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Please enter the title for this email response.");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Response Body:");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Thank you, the email response was updated successfully.");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Update Email Response");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Projects:");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Create Email Response");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Title:");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Response Body:");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Existing Canned Email Responses:");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Update Email Response");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Please select at least one of the email responses.");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Create Email Response");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Reset");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Existing Canned Email Responses:");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Projects");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Please select at least one of the email responses.");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("No canned email responses could be found.");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Title");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Projects");
+/* templates//manage/email_responses.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("update this entry");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Please choose the project that you wish to customize.");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("No canned email responses could be found.");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Customize Issue Listing Screen");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("All");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("An error occurred while trying to add the new customization.");
 
-/* /work/eventum/templates/manage/email_responses.tpl.html */
-gettext("Delete");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Please enter the title for this new customization.");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Please choose the project that you wish to customize.");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Thank you, the customization was added successfully.");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Customize Issue Listing Screen");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("An error occurred while trying to update the customization information.");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("An error occurred while trying to add the new customization.");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Please enter the title for this customization.");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Please enter the title for this new customization.");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Thank you, the customization was updated successfully.");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Thank you, the customization was added successfully.");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Project:");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("An error occurred while trying to update the customization information.");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Please enter the title for this customization.");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Status:");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Thank you, the customization was updated successfully.");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Date Field:");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Project:");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Label:");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Please choose an option");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Update Customization");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Status:");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Create Customization");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Date Field:");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Label:");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Existing Customizations:");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Update Customization");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Please select at least one of the customizations.");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Create Customization");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Reset");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Existing Customizations:");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Project");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Please select at least one of the customizations.");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Label");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("All");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Date Field");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Project");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("No customizations could be found.");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Status");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Label");
+/* templates//manage/customize_listing.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Date Field");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Please enter the title of this time tracking category");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("No customizations could be found.");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Manage Time Tracking Categories");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("All");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("An error occurred while trying to add the new time tracking category.");
 
-/* /work/eventum/templates/manage/customize_listing.tpl.html */
-gettext("Delete");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Please enter the title for this new time tracking category.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Please enter the title of this time tracking category");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Thank you, the time tracking category was added successfully.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Manage Time Tracking Categories");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("An error occurred while trying to update the time tracking category information.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("An error occurred while trying to add the new time tracking category.");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Please enter the title for this time tracking category.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Please enter the title for this new time tracking category.");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Thank you, the time tracking category was updated successfully.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Thank you, the time tracking category was added successfully.");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Title:");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("An error occurred while trying to update the time tracking category information.");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Update Category");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Please enter the title for this time tracking category.");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Create Category");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Thank you, the time tracking category was updated successfully.");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Title:");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Existing Categories:");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Update Category");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Please select at least one of the time tracking categories.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Create Category");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Reset");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Existing Categories:");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Please select at least one of the time tracking categories.");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("No time tracking categories could be found.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("All");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Title");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("update this entry");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("Note:");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("No time tracking categories could be found.");
+/* templates//manage/time_tracking.tpl.html */
+ev_gettext("'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories are\n                    required by Eventum and cannot be deleted.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("All");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Please enter the name of this group.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Delete");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Please assign the appropriate projects for this group.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("Note:");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Please assign the appropriate users for this group.");
 
-/* /work/eventum/templates/manage/time_tracking.tpl.html */
-gettext("'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories are\n                    required by Eventum and cannot be deleted.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Please assign the manager of this group.");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Please enter the name of this group.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Please select at least one of the groups.");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Please assign the appropriate projects for this group.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("WARNING: This action will remove the selected groups permanently.nPlease click OK to confirm.");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Please assign the appropriate users for this group.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Manage Groups");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Please assign the manager of this group.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("An error occurred while trying to add the new group.");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Please select at least one of the groups.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Thank you, the group was added successfully.");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("WARNING: This action will remove the selected groups permanently.nPlease click OK to confirm.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("An error occurred while trying to update the group information.");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Manage Groups");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Thank you, the group was updated successfully.");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("An error occurred while trying to add the new group.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Name: *");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Thank you, the group was added successfully.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Description:");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("An error occurred while trying to update the group information.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Assigned Projects: *");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Thank you, the group was updated successfully.");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Users: *");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Name: *");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Manager: *");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Description:");
+/* templates//manage/groups.tpl.html */
+ev_gettext("-- Select One --");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Assigned Projects: *");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Update Group");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Users: *");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Create Group");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Manager: *");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("-- Select One --");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Existing Groups");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Update Group");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Name");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Create Group");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Description");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Reset");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Manager");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Existing Groups");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Projects");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Name");
+/* templates//manage/groups.tpl.html */
+ev_gettext("No groups could be found.");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Description");
+/* templates//manage/groups.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Manager");
+/* templates//manage/groups.tpl.html */
+ev_gettext("delete");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Projects");
+/* templates//manage/groups.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("No groups could be found.");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Please enter the title of this release.");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("All");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Manage Releases");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("delete");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Current Project:");
 
-/* /work/eventum/templates/manage/groups.tpl.html */
-gettext("Delete");
+/* templates//manage/releases.tpl.html */
+ev_gettext("An error occurred while trying to add the new release.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Please enter the title of this release.");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Please enter the title for this new release.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Manage Releases");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Thank you, the release was added successfully.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Current Project:");
+/* templates//manage/releases.tpl.html */
+ev_gettext("An error occurred while trying to update the release information.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("An error occurred while trying to add the new release.");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Please enter the title for this release.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Please enter the title for this new release.");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Thank you, the release was updated successfully.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Thank you, the release was added successfully.");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Title:");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("An error occurred while trying to update the release information.");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Tentative Date:");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Please enter the title for this release.");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Status:");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Thank you, the release was updated successfully.");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Available - Users may use this release");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Title:");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Unavailable - Users may NOT use this release");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Tentative Date:");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Update Release");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Status:");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Create Release");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Available - Users may use this release");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Unavailable - Users may NOT use this release");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Existing Releases:");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Update Release");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Please select at least one of the releases.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Create Release");
+/* templates//manage/releases.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Reset");
+/* templates//manage/releases.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Existing Releases:");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Please select at least one of the releases.");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Tentative Date");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("All");
+/* templates//manage/releases.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Title");
+/* templates//manage/releases.tpl.html */
+ev_gettext("No releases could be found.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Tentative Date");
+/* templates//manage/releases.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Status");
+/* templates//manage/releases.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("update this entry");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Please enter the title of this status.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("No releases could be found.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Please enter the abbreviation of this status.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("All");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Please enter the rank of this status.");
 
-/* /work/eventum/templates/manage/releases.tpl.html */
-gettext("Delete");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Please assign the appropriate projects for this status.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Please enter the title of this status.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Please enter the color of this status.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Please enter the abbreviation of this status.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Manage Statuses");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Please enter the rank of this status.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("An error occurred while trying to add the new status.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Please assign the appropriate projects for this status.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Please enter the title for this new status.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Please enter the color of this status.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Thank you, the status was added successfully.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Manage Statuses");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("An error occurred while trying to update the status information.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("An error occurred while trying to add the new status.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Please enter the title for this status.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Please enter the title for this new status.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Thank you, the status was updated successfully.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Thank you, the status was added successfully.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Title:");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("An error occurred while trying to update the status information.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Abbreviation:");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Please enter the title for this status.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("(three letter abbreviation)");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Thank you, the status was updated successfully.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Rank:");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Title:");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Closed Context ?");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Abbreviation:");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("(three letter abbreviation)");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Rank:");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Assigned Projects:");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Closed Context ?");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Color:");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Yes");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("(this color will be used in the issue listing page)");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("No");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Update Status");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Assigned Projects:");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Create Status");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Color:");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("(this color will be used in the issue listing page)");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Existing Statuses:");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Update Status");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Please select at least one of the statuses.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Create Status");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("This action will remove the selected entries. This will also update any nissues currently set to this status to a new status 'undefined'.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Reset");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Existing Statuses:");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Rank");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Please select at least one of the statuses.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Abbreviation");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("This action will remove the selected entries. This will also update any nissues currently set to this status to a new status 'undefined'.");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("All");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Projects");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Rank");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Color");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Abbreviation");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Title");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("No statuses could be found.");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Projects");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Color");
+/* templates//manage/statuses.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("update this entry");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Field");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("No statuses could be found.");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Operator");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("All");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Value");
 
-/* /work/eventum/templates/manage/statuses.tpl.html */
-gettext("Delete");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Value");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Field");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Manage Reminder Conditions");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Operator");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("view reminder details");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Value");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Reminder");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Value");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("view reminder action details");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Manage Reminder Conditions");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Action");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("view reminder details");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("An error occurred while trying to add the new condition.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Reminder");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Please enter the title for this new condition.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("view reminder action details");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Thank you, the condition was added successfully.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Action");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("An error occurred while trying to update the condition information.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("An error occurred while trying to add the new condition.");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Please enter the title for this condition.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Please enter the title for this new condition.");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Thank you, the condition was updated successfully.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Thank you, the condition was added successfully.");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Field:");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("An error occurred while trying to update the condition information.");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Please enter the title for this condition.");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Operator:");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Thank you, the condition was updated successfully.");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Field:");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Value:");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Please choose an option");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Operator:");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Please choose a field");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Please choose an option");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("or");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Value:");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("(in hours please)");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Please choose an option");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Update Condition");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Please choose a field");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Add Condition");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("or");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("(in hours please)");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Existing Conditions:");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Update Condition");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Back to Reminder Action List");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Add Condition");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Please select at least one of the conditions.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Reset");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Existing Conditions:");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Back to Reminder Action List");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Field");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Please select at least one of the conditions.");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Operator");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Value");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("All");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Field");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("No conditions could be found.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Operator");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Value");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("update this entry");
+/* templates//manage/reminder_conditions.tpl.html */
+ev_gettext("Review SQL Query");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("No conditions could be found.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Please choose the project to be associated with this email account.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("All");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Please choose the type of email server to be associated with this email account.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Delete");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Please enter the hostname for this email account.");
 
-/* /work/eventum/templates/manage/reminder_conditions.tpl.html */
-gettext("Review SQL Query");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Please enter the port number for this email account.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Please choose the project to be associated with this email account.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Please enter a valid port number for this email account.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Please choose the type of email server to be associated with this email account.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Please enter the port number for this email account.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Please enter the hostname for this email account.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Please enter the IMAP folder for this email account.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Please enter the port number for this email account.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Please enter the username for this email account.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Please enter a valid port number for this email account.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Please enter the password for this email account.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Please enter the port number for this email account.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Manage Email Accounts");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Please enter the IMAP folder for this email account.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("An error occurred while trying to add the new account.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Please enter the username for this email account.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Thank you, the email account was added successfully.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Please enter the password for this email account.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("An error occurred while trying to update the account information.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Manage Email Accounts");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Thank you, the account was updated successfully.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("An error occurred while trying to add the new account.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Associated Project:");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Thank you, the email account was added successfully.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Type:");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("An error occurred while trying to update the account information.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("IMAP");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Thank you, the account was updated successfully.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("IMAP over SSL");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Associated Project:");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("IMAP over SSL (self-signed)");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Type:");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("IMAP, no TLS");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("IMAP");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("IMAP, with TLS");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("IMAP over SSL");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("IMAP, with TLS (self-signed)");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("IMAP over SSL (self-signed)");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("POP3");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("IMAP, no TLS");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("POP3 over SSL");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("IMAP, with TLS");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("POP3 over SSL (self-signed)");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("IMAP, with TLS (self-signed)");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("POP3, no TLS");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("POP3");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("POP3, with TLS");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("POP3 over SSL");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("POP3, with TLS (self-signed)");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("POP3 over SSL (self-signed)");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Hostname:");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("POP3, no TLS");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Port:");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("POP3, with TLS");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("POP3, with TLS (self-signed)");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("IMAP Folder:");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Hostname:");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("(default folder is INBOX)");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Port:");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Username:");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Password:");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("IMAP Folder:");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Advanced Options:");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("(default folder is INBOX)");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Only Download Unread Messages");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Username:");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Leave Copy of Messages On Server");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Password:");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Use account for non-subject based email/note/draft routing.\n                    <b> Note: </b>If you check this, you cannot leave a copy of messages on the server.</a>");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Advanced Options:");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Test Settings");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Only Download Unread Messages");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Update Account");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Leave Copy of Messages On Server");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Create Account");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Use account for non-subject based email/note/draft routing.\n                    <b> Note: </b>If you check this, you cannot leave a copy of messages on the server.</a>");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Test Settings");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Existing Accounts:");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Update Account");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Please select at least one of the accounts.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Create Account");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Reset");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Existing Accounts:");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Associated Project");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Please select at least one of the accounts.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Hostname");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Type");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("All");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Port");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Associated Project");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Username");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Hostname");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Mailbox");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Type");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Auto-Creation of Issues");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Port");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Username");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("No email accounts could be found.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Mailbox");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Auto-Creation of Issues");
+/* templates//manage/email_accounts.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("update this entry");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please choose the project for this FAQ entry.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("No email accounts could be found.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please assign the appropriate support levels for this FAQ entry.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("All");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please enter the rank of this FAQ entry.");
 
-/* /work/eventum/templates/manage/email_accounts.tpl.html */
-gettext("Delete");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please enter a number for the rank of this FAQ entry.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please choose the project for this FAQ entry.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please enter the title of this FAQ entry.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please assign the appropriate support levels for this FAQ entry.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Manage Internal FAQ");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please enter the rank of this FAQ entry.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("An error occurred while trying to add the FAQ entry.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please enter a number for the rank of this FAQ entry.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please enter the title for this FAQ entry.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please enter the title of this FAQ entry.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please enter the message for this FAQ entry.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Manage Internal FAQ");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Thank you, the FAQ entry was added successfully.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("An error occurred while trying to add the FAQ entry.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("An error occurred while trying to update the FAQ entry information.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please enter the title for this FAQ entry.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please enter the title for this FAQ entry.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please enter the message for this FAQ entry.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please enter the message for this FAQ entry.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Thank you, the FAQ entry was added successfully.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Thank you, the FAQ entry was updated successfully.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("An error occurred while trying to update the FAQ entry information.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Project:");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please enter the title for this FAQ entry.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please enter the message for this FAQ entry.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Assigned Support");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Thank you, the FAQ entry was updated successfully.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Levels:");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Project:");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Rank:");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please choose an option");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Title:");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Assigned Support");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Message:");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Levels:");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Update FAQ Entry");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Rank:");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Create FAQ Entry");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Title:");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Message:");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Existing Internal FAQ Entries:");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Update FAQ Entry");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Please select at least one of the FAQ entries.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Create FAQ Entry");
+/* templates//manage/faq.tpl.html */
+ev_gettext("This action will permanently remove the selected FAQ entries.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Reset");
+/* templates//manage/faq.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Existing Internal FAQ Entries:");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Rank");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Please select at least one of the FAQ entries.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("This action will permanently remove the selected FAQ entries.");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Support Levels");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("All");
+/* templates//manage/faq.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Rank");
+/* templates//manage/faq.tpl.html */
+ev_gettext("No FAQ entries could be found.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Title");
+/* templates//manage/faq.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Support Levels");
+/* templates//manage/faq.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("update this entry");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Manage Customer Account Managers");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("No FAQ entries could be found.");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("An error occurred while trying to add the new account manager.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("All");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Thank you, the account manager was added successfully.");
 
-/* /work/eventum/templates/manage/faq.tpl.html */
-gettext("Delete");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("An error occurred while trying to update the account manager information.");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Manage Customer Account Managers");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Thank you, the account manager was updated successfully.");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("An error occurred while trying to add the new account manager.");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Project:");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Thank you, the account manager was added successfully.");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("An error occurred while trying to update the account manager information.");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Customer:");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Thank you, the account manager was updated successfully.");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Account Manager:");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Project:");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Type:");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Please choose an option");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Primary Technical Account Manager");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Customer:");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Backup Technical Account Manager");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Account Manager:");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Update Account Manager");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Type:");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Create Account Manager");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Primary Technical Account Manager");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Backup Technical Account Manager");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Existing Customer Account Managers:");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Update Account Manager");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Please select at least one of the account managers.");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Create Account Manager");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("This action will remove the selected account managers.");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Reset");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Existing Customer Account Managers:");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Please select at least one of the account managers.");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Account Manager");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("This action will remove the selected account managers.");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Type");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("All");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Customer");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("No account managers could be found.");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Account Manager");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Type");
+/* templates//manage/account_managers.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("update this entry");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please enter the sender address that will be used for all outgoing notification emails.");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("No account managers could be found.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please enter the SMTP server hostname.");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("All");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please enter the SMTP server port number.");
 
-/* /work/eventum/templates/manage/account_managers.tpl.html */
-gettext("Delete");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please indicate whether the SMTP server requires authentication or not.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please enter the sender address that will be used for all outgoing notification emails.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please enter the SMTP server username.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please enter the SMTP server hostname.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please enter the SMTP server password.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please enter the SMTP server port number.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please enter the email address of where copies of outgoing emails should be sent to.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please indicate whether the SMTP server requires authentication or not.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please choose whether the system should allow visitors to signup for new accounts or not.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please enter the SMTP server username.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please select the assigned projects for users that create their own accounts.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please enter the SMTP server password.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please enter the email address prefix for the email routing interface.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please enter the email address of where copies of outgoing emails should be sent to.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please enter the email address hostname for the email routing interface.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please choose whether the system should allow visitors to signup for new accounts or not.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please choose whether the SCM integration feature should be enabled or not.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please select the assigned projects for users that create their own accounts.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please enter the checkout page URL for your SCM integration tool.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please enter the email address prefix for the email routing interface.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please enter the diff page URL for your SCM integration tool.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please enter the email address hostname for the email routing interface.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please choose whether the email integration feature should be enabled or not.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please choose whether the SCM integration feature should be enabled or not.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please choose whether the daily tips feature should be enabled or not.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please enter the checkout page URL for your SCM integration tool.");
+/* templates//manage/general.tpl.html */
+ev_gettext("General Setup");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please enter the diff page URL for your SCM integration tool.");
+/* templates//manage/general.tpl.html */
+ev_gettext("ERROR: The system doesn't have the appropriate permissions to\n                    create the configuration file in the setup directory");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please choose whether the email integration feature should be enabled or not.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please contact your local system\n                    administrator and ask for write privileges on the provided path.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please choose whether the daily tips feature should be enabled or not.");
+/* templates//manage/general.tpl.html */
+ev_gettext("ERROR: The system doesn't have the appropriate permissions to\n                    update the configuration file in the setup directory");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("General Setup");
+/* templates//manage/general.tpl.html */
+ev_gettext("Please contact your local system\n                    administrator and ask for write privileges on the provided filename.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("ERROR: The system doesn't have the appropriate permissions to\n                    create the configuration file in the setup directory");
+/* templates//manage/general.tpl.html */
+ev_gettext("Thank you, the setup information was saved successfully.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please contact your local system\n                    administrator and ask for write privileges on the provided path.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Tool Caption:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("ERROR: The system doesn't have the appropriate permissions to\n                    update the configuration file in the setup directory");
+/* templates//manage/general.tpl.html */
+ev_gettext("SMTP (Outgoing Email) Settings:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Please contact your local system\n                    administrator and ask for write privileges on the provided filename.");
+/* templates//manage/general.tpl.html */
+ev_gettext("Sender Email");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Thank you, the setup information was saved successfully.");
+/* templates//manage/general.tpl.html */
+ev_gettext("(This MUST contain a real email address, i.e. \"eventum@example.com\" or \"Eventum <eventum@example.com>\")");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Tool Caption:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Hostname:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("SMTP (Outgoing Email) Settings:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Port:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Sender:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Requires Authentication?");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Hostname:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Port:");
+/* templates//manage/general.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Requires Authentication?");
+/* templates//manage/general.tpl.html */
+ev_gettext("Username:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Yes");
+/* templates//manage/general.tpl.html */
+ev_gettext("Password:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("No");
+/* templates//manage/general.tpl.html */
+ev_gettext("Save a Copy of Every Outgoing Issue Notification Email");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Username:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Address to Send Saved Messages:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Password:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Open Account Signup:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Save a Copy of Every Outgoing Issue Notification Email");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Address to Send Saved Messages:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Open Account Signup:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Assigned Projects:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Assigned Role:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Subject Based Routing:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Assigned Projects:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Assigned Role:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Subject Based Routing:");
+/* templates//manage/general.tpl.html */
+ev_gettext("If enabled, Eventum will look in the subject line of incoming notes/emails to determine which issue they should be associated with.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Recipient Type Flag:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Recipient Type Flag:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("If enabled, Eventum will look in the subject line of incoming notes/emails to determine which issue they should be associated with.");
+/* templates//manage/general.tpl.html */
+ev_gettext("(This will be included in the From address of all emails sent by Eventum)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Recipient Type Flag:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Before Sender Name");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Recipient Type Flag:");
+/* templates//manage/general.tpl.html */
+ev_gettext("After Sender Name");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(This will be included in the From address of all emails sent by Eventum)");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Routing Interface:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Before Sender Name");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("After Sender Name");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Routing Interface:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Address Prefix:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("(i.e. <b>issue_</b>51@example.com)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Address Hostname:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Address Prefix:");
+/* templates//manage/general.tpl.html */
+ev_gettext("(i.e. issue_51@<b>example.com</b>)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(i.e. <b>issue_</b>51@example.com)");
+/* templates//manage/general.tpl.html */
+ev_gettext("Host Alias:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Address Hostname:");
+/* templates//manage/general.tpl.html */
+ev_gettext("(Alternate domains that point to 'Address Hostname')");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(i.e. issue_51@<b>example.com</b>)");
+/* templates//manage/general.tpl.html */
+ev_gettext("Warn Users Whether They Can Send Emails to Issue:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Host Alias:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(Alternate domains that point to 'Address Hostname')");
+/* templates//manage/general.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Warn Users Whether They Can Send Emails to Issue:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Note Recipient Type Flag:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Yes");
+/* templates//manage/general.tpl.html */
+ev_gettext("Recipient Type Flag:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("No");
+/* templates//manage/general.tpl.html */
+ev_gettext("(This will be included in the From address of all notes sent by Eventum)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Note Recipient Type Flag:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Before Sender Name");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Recipient Type Flag:");
+/* templates//manage/general.tpl.html */
+ev_gettext("After Sender Name");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(This will be included in the From address of all notes sent by Eventum)");
+/* templates//manage/general.tpl.html */
+ev_gettext("Internal Note Routing Interface:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Before Sender Name");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("After Sender Name");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Internal Note Routing Interface:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Note Address Prefix:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("(i.e. <b>note_</b>51@example.com)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Address Hostname:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Note Address Prefix:");
+/* templates//manage/general.tpl.html */
+ev_gettext("(i.e. note_51@<b>example.com</b>)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(i.e. <b>note_</b>51@example.com)");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Draft Interface:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Address Hostname:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(i.e. note_51@<b>example.com</b>)");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Draft Interface:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Draft Address Prefix:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("(i.e. <b>draft_</b>51@example.com)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Address Hostname:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Draft Address Prefix:");
+/* templates//manage/general.tpl.html */
+ev_gettext("(i.e. draft_51@<b>example.com</b>)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(i.e. <b>draft_</b>51@example.com)");
+/* templates//manage/general.tpl.html */
+ev_gettext("SCM <br />Integration:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Address Hostname:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(i.e. draft_51@<b>example.com</b>)");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("SCM <br />Integration:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Checkout Page:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Diff Page:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Integration Feature:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Checkout Page:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Diff Page:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Integration Feature:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Daily Tips:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Daily Tips:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Spell Checker:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Spell Checker:");
+/* templates//manage/general.tpl.html */
+ev_gettext("(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell.sourceforge.net/\">aspell</a> installed in your server)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("IRC Notifications:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell.sourceforge.net/\">aspell</a> installed in your server)");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("IRC Notifications:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Allow Un-Assigned Issues?");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Allow Un-Assigned Issues?");
+/* templates//manage/general.tpl.html */
+ev_gettext("Default Options for Notifications:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Yes");
+/* templates//manage/general.tpl.html */
+ev_gettext("Issues are Updated");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("No");
+/* templates//manage/general.tpl.html */
+ev_gettext("Issues are Closed");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Default Options for Notifications:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Emails are Associated");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Issues are Updated");
+/* templates//manage/general.tpl.html */
+ev_gettext("Files are Attached");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Issues are Closed");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Reminder System Status Information:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Emails are Associated");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Files are Attached");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Reminder System Status Information:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Addresses To Send Information To:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("(separate multiple addresses with commas)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Error Logging System:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Addresses To Send Information To:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(separate multiple addresses with commas)");
+/* templates//manage/general.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Error Logging System:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Email Addresses To Send Errors To:");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Enabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("(separate multiple addresses with commas)");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Disabled");
+/* templates//manage/general.tpl.html */
+ev_gettext("Update Setup");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Email Addresses To Send Errors To:");
+/* templates//manage/general.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("(separate multiple addresses with commas)");
+/* templates//manage/users.tpl.html */
+ev_gettext("Please enter the email of this user.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Update Setup");
+/* templates//manage/users.tpl.html */
+ev_gettext("Please enter a valid email address.");
 
-/* /work/eventum/templates/manage/general.tpl.html */
-gettext("Reset");
+/* templates//manage/users.tpl.html */
+ev_gettext("Please enter a password of at least 6 characters.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Please enter the email of this user.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Please enter a password of at least 6 characters.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Please enter a valid email address.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Please enter the full name of this user.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Please enter a password of at least 6 characters.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Please assign the appropriate projects for this user.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Please enter a password of at least 6 characters.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Manage Users");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Please enter the full name of this user.");
+/* templates//manage/users.tpl.html */
+ev_gettext("An error occurred while trying to add the new user.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Please assign the appropriate projects for this user.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Thank you, the user was added successfully.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Manage Users");
+/* templates//manage/users.tpl.html */
+ev_gettext("An error occurred while trying to update the user information.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("An error occurred while trying to add the new user.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Thank you, the user was updated successfully.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Thank you, the user was added successfully.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Email Address");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("An error occurred while trying to update the user information.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Password");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Thank you, the user was updated successfully.");
+/* templates//manage/users.tpl.html */
+ev_gettext("leave empty to keep the current password");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Email Address");
+/* templates//manage/users.tpl.html */
+ev_gettext("Full Name");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Password");
+/* templates//manage/users.tpl.html */
+ev_gettext("Assigned Projects and Roles");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("leave empty to keep the current password");
+/* templates//manage/users.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Full Name");
+/* templates//manage/users.tpl.html */
+ev_gettext("Update User");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Assigned Projects and Roles");
+/* templates//manage/users.tpl.html */
+ev_gettext("Create User");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Customer");
+/* templates//manage/users.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Update User");
+/* templates//manage/users.tpl.html */
+ev_gettext("Existing Users");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Create User");
+/* templates//manage/users.tpl.html */
+ev_gettext("You cannot change the status of the only active user left in the system.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Reset");
+/* templates//manage/users.tpl.html */
+ev_gettext("You cannot inactivate all of the users in the system.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Existing Users");
+/* templates//manage/users.tpl.html */
+ev_gettext("Please select at least one of the users.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("You cannot change the status of the only active user left in the system.");
+/* templates//manage/users.tpl.html */
+ev_gettext("This action will change the status of the selected users.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("You cannot inactivate all of the users in the system.");
+/* templates//manage/users.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Please select at least one of the users.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Full Name");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("This action will change the status of the selected users.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Role");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("All");
+/* templates//manage/users.tpl.html */
+ev_gettext("Email Address");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Full Name");
+/* templates//manage/users.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Role");
+/* templates//manage/users.tpl.html */
+ev_gettext("Group");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Email Address");
+/* templates//manage/users.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Status");
+/* templates//manage/users.tpl.html */
+ev_gettext("send email to");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Group");
+/* templates//manage/users.tpl.html */
+ev_gettext("No users could be found.");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("update this entry");
+/* templates//manage/users.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("send email to");
+/* templates//manage/users.tpl.html */
+ev_gettext("Update Status");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("No users could be found.");
+/* templates//manage/users.tpl.html */
+ev_gettext("Active");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("All");
+/* templates//manage/users.tpl.html */
+ev_gettext("Inactive");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Update Status");
+/* templates//manage/users.tpl.html */
+ev_gettext("Show Customers");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Active");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Please enter the title of this category");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Inactive");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Manage Categories");
 
-/* /work/eventum/templates/manage/users.tpl.html */
-gettext("Show Customers");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Current Project");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Please enter the title of this category");
+/* templates//manage/categories.tpl.html */
+ev_gettext("An error occurred while trying to add the new category.");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Manage Categories");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Please enter the title for this new category.");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Current Project");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Thank you, the category was added successfully.");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("An error occurred while trying to add the new category.");
+/* templates//manage/categories.tpl.html */
+ev_gettext("An error occurred while trying to update the category information.");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Please enter the title for this new category.");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Please enter the title for this category.");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Thank you, the category was added successfully.");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Thank you, the category was updated successfully.");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("An error occurred while trying to update the category information.");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Update Category");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Please enter the title for this category.");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Create Category");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Thank you, the category was updated successfully.");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Update Category");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Existing Categories:");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Create Category");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Please select at least one of the categories.");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Reset");
+/* templates//manage/categories.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Existing Categories:");
+/* templates//manage/categories.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Please select at least one of the categories.");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/categories.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("All");
+/* templates//manage/categories.tpl.html */
+ev_gettext("No categories could be found.");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Title");
+/* templates//manage/categories.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("update this entry");
+/* templates//manage/categories.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("No categories could be found.");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Please enter the title of this priority");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("All");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Please enter the rank of this priority");
 
-/* /work/eventum/templates/manage/categories.tpl.html */
-gettext("Delete");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Manage Priorities");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Please enter the title of this priority");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Current Project");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Please enter the rank of this priority");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("An error occurred while trying to add the new priority.");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Manage Priorities");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Please enter the title for this new priority.");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Current Project");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Thank you, the priority was added successfully.");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("An error occurred while trying to add the new priority.");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("An error occurred while trying to update the priority information.");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Please enter the title for this new priority.");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Please enter the title for this priority.");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Thank you, the priority was added successfully.");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Thank you, the priority was updated successfully.");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("An error occurred while trying to update the priority information.");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Please enter the title for this priority.");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Rank");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Thank you, the priority was updated successfully.");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Update Priority");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Title");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Create Priority");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Rank");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Update Priority");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Existing Priorities");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Create Priority");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Please select at least one of the priorities.");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Reset");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Existing Priorities");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Please select at least one of the priorities.");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Rank");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("All");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Rank");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("No priorities could be found.");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Title");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("update this entry");
+/* templates//manage/priorities.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("No priorities could be found.");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Please choose the customer for this new note.");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("All");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Manage Customer Quick Notes");
 
-/* /work/eventum/templates/manage/priorities.tpl.html */
-gettext("Delete");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("An error occurred while trying to add the new note.");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Please choose the customer for this new note.");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Thank you, the note was added successfully.");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Manage Customer Quick Notes");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("An error occurred while trying to update the note.");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("An error occurred while trying to add the new note.");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Thank you, the note was updated successfully.");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Thank you, the note was added successfully.");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("An error occurred while trying to delete the note.");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("An error occurred while trying to update the note.");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Thank you, the note was deleted successfully.");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Thank you, the note was updated successfully.");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Project");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("An error occurred while trying to delete the note.");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Thank you, the note was deleted successfully.");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Project");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Please choose a customer");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Please choose an option");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Note");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Customer");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Update Note");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Please choose a customer");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Create Note");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Note");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Update Note");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Existing Customer Quick Notes");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Create Note");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Please select at least one of the notes.");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Reset");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("This action will permanently remove the selected entries.");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Existing Customer Quick Notes");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Please select at least one of the notes.");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Note");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("This action will permanently remove the selected entries.");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("No notes could be found.");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Customer");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Note");
+/* templates//manage/customer_notes.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("No notes could be found.");
+/* templates//manage/field_display.tpl.html */
+ev_gettext("This page can only be accessed in relation to a project. Please go to the project page and choose\n\"Edit Fields to Display\" to access this page.");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("All");
+/* templates//manage/field_display.tpl.html */
+ev_gettext("Manage Projects");
 
-/* /work/eventum/templates/manage/customer_notes.tpl.html */
-gettext("Delete");
+/* templates//manage/field_display.tpl.html */
+ev_gettext("Edit Fields to Display");
 
-/* /work/eventum/templates/manage/field_display.tpl.html */
-gettext("This page can only be accessed in relation to a project. Please go to the project page and choose\n\"Edit Fields to Display\" to access this page.");
+/* templates//manage/field_display.tpl.html */
+ev_gettext("An error occurred while trying to update field display settings.");
 
-/* /work/eventum/templates/manage/field_display.tpl.html */
-gettext("Manage Projects");
+/* templates//manage/field_display.tpl.html */
+ev_gettext("Thank you, field display settings were updated successfully.");
 
-/* /work/eventum/templates/manage/field_display.tpl.html */
-gettext("Edit Fields to Display");
+/* templates//manage/field_display.tpl.html */
+ev_gettext("Field");
 
-/* /work/eventum/templates/manage/field_display.tpl.html */
-gettext("An error occurred while trying to update field display settings.");
+/* templates//manage/field_display.tpl.html */
+ev_gettext("Set Display Preferences");
 
-/* /work/eventum/templates/manage/field_display.tpl.html */
-gettext("Thank you, field display settings were updated successfully.");
+/* templates//manage/field_display.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/field_display.tpl.html */
-gettext("Field");
+/* templates//manage/column_display.tpl.html */
+ev_gettext("This page can only be accessed in relation to a project. Please go to the project page and choose\n\"Edit Fields to Display\" to access this page.");
 
-/* /work/eventum/templates/manage/field_display.tpl.html */
-gettext("Set Display Preferences");
+/* templates//manage/column_display.tpl.html */
+ev_gettext("Manage Projects");
 
-/* /work/eventum/templates/manage/field_display.tpl.html */
-gettext("Reset");
+/* templates//manage/column_display.tpl.html */
+ev_gettext("Manage Columns to Display");
 
-/* /work/eventum/templates/manage/column_display.tpl.html */
-gettext("This page can only be accessed in relation to a project. Please go to the project page and choose\n\"Edit Fields to Display\" to access this page.");
+/* templates//manage/column_display.tpl.html */
+ev_gettext("Current Project");
 
-/* /work/eventum/templates/manage/column_display.tpl.html */
-gettext("Manage Projects");
+/* templates//manage/column_display.tpl.html */
+ev_gettext("An error occurred while trying to save columns to display.");
 
-/* /work/eventum/templates/manage/column_display.tpl.html */
-gettext("Manage Columns to Display");
+/* templates//manage/column_display.tpl.html */
+ev_gettext("Thank you, columns to display was saved successfully.");
 
-/* /work/eventum/templates/manage/column_display.tpl.html */
-gettext("Current Project");
+/* templates//manage/column_display.tpl.html */
+ev_gettext("Column Name");
 
-/* /work/eventum/templates/manage/column_display.tpl.html */
-gettext("An error occurred while trying to save columns to display.");
+/* templates//manage/column_display.tpl.html */
+ev_gettext("Minimum Role");
 
-/* /work/eventum/templates/manage/column_display.tpl.html */
-gettext("Thank you, columns to display was saved successfully.");
+/* templates//manage/column_display.tpl.html */
+ev_gettext("Order");
 
-/* /work/eventum/templates/manage/column_display.tpl.html */
-gettext("Column Name");
+/* templates//manage/column_display.tpl.html */
+ev_gettext("Save");
 
-/* /work/eventum/templates/manage/column_display.tpl.html */
-gettext("Minimum Role");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Please enter the title of this custom field.");
 
-/* /work/eventum/templates/manage/column_display.tpl.html */
-gettext("Order");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Please assign the appropriate projects for this custom field.");
 
-/* /work/eventum/templates/manage/column_display.tpl.html */
-gettext("Save");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("WARNING: You have removed project(s)");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Please enter the title of this custom field.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("from the list");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Please assign the appropriate projects for this custom field.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("of associated projects. This will remove all data for this field from the selected project(s).");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("WARNING: You have removed project(s)");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Do you want to continue?");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("from the list");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Please enter the new value for the combo box.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("of associated projects. This will remove all data for this field from the selected project(s).");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("The specified value already exists in the list of options.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Do you want to continue?");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Please enter the updated value.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Please enter the new value for the combo box.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Please select an option from the list.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("The specified value already exists in the list of options.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Please select an option from the list.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Please enter the updated value.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("enter a new option above");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Please select an option from the list.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Manage Custom Fields");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Please select an option from the list.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("An error occurred while trying to add the new custom field.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("enter a new option above");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Thank you, the custom field was added successfully.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Manage Custom Fields");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("An error occurred while trying to update the custom field information.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("An error occurred while trying to add the new custom field.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Thank you, the custom field was updated successfully.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Thank you, the custom field was added successfully.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("An error occurred while trying to update the custom field information.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Short Description");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Thank you, the custom field was updated successfully.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("it will show up by the side of the field");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Title");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Assigned Projects");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Short Description");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Target Forms");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("it will show up by the side of the field");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Report Form");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Assigned Projects");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Required Field");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Target Forms");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Anonymous Form");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Report Form");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Required Field");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Required Field");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Display on List Issues Page");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Anonymous Form");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Required Field");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Display on List Issues Page");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Field Type");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Yes");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Text Input");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("No");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Textarea");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Field Type");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Combo Box");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Text Input");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Multiple Combo Box");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Textarea");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Combo Box");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Field Options");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Multiple Combo Box");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Set available options");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Date");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Add");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Field Options");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Update Value");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Set available options");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("OR");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Add");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Choose Custom Field Backend");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Update Value");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Please select a backend");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("OR");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Please select a backend");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Choose Custom Field Backend");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("enter a new option above");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Please select a backend");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Edit Option");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Please select a backend");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Remove");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("enter a new option above");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Minimum Role");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Edit Option");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Rank");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Remove");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Update Custom Field");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Minimum Role");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Create Custom Field");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Rank");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Update Custom Field");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Existing Custom Fields");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Create Custom Field");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Please select at least one of the custom fields.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Reset");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("This action will permanently remove the selected custom fields.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Existing Custom Fields");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("delete");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Please select at least one of the custom fields.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Rank");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("This action will permanently remove the selected custom fields.");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("delete");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Assigned Projects");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Rank");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Min. Role");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Title");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Type");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Assigned Projects");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Options");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Min. Role");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("move field down");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Type");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("move field up");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Options");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("move field down");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Combo Box");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("move field up");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Multiple Combo Box");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("update this entry");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Textarea");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Combo Box");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Multiple Combo Box");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Text Input");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Textarea");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("No custom fields could be found.");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Date");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Text Input");
+/* templates//manage/custom_fields.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("No custom fields could be found.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Manage Issue Reminders");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("All");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Updating Reminder");
 
-/* /work/eventum/templates/manage/custom_fields.tpl.html */
-gettext("Delete");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Creating New Reminder");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Manage Issue Reminders");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("An error occurred while trying to add the new reminder.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Updating Reminder");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please enter the title for this new reminder.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Creating New Reminder");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Thank you, the reminder was added successfully.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("An error occurred while trying to add the new reminder.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("An error occurred while trying to update the reminder information.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please enter the title for this new reminder.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please enter the title for this reminder.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Thank you, the reminder was added successfully.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Thank you, the reminder was updated successfully.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("An error occurred while trying to update the reminder information.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please choose a project that will be associated with this reminder.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please enter the title for this reminder.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please enter the title for this reminder.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Thank you, the reminder was updated successfully.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please enter the rank for this reminder.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please choose a project that will be associated with this reminder.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please choose the support levels that will be associated with this reminder.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please enter the title for this reminder.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please choose the customers that will be associated with this reminder.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please enter the rank for this reminder.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please enter the issue IDs that will be associated with this reminder.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please choose the support levels that will be associated with this reminder.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please choose the priorities that will be associated with this reminder.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please choose the customers that will be associated with this reminder.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please enter the issue IDs that will be associated with this reminder.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please choose the priorities that will be associated with this reminder.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Rank");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please choose an option");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Reminder Type");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Title");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("By Support Level");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Rank");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("By Customer");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Reminder Type");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("By Issue ID");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("By Support Level");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("All Issues");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("By Customer");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Also Filter By Issue Priorities");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("By Issue ID");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Skip Weekends");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("All Issues");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Also Filter By Issue Priorities");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Skip Weekends");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("If yes, this reminder will not activate on weekends and time will not accumulate on the weekends.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Yes");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Update Reminder");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("No");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Create Reminder");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("If yes, this reminder will not activate on weekends and time will not accumulate on the weekends.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Update Reminder");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Existing Issue Reminders");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Create Reminder");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Please select at least one of the reminders.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Reset");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Existing Issue Reminders");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("ID");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Please select at least one of the reminders.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Rank");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("ID");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Project");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Rank");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Type");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Title");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Issue Priorities");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Project");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Details");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Type");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Issue Priorities");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("All Issues");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Details");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("By Support Level");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("update this entry");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("By Customer");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("All Issues");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("By Issue ID");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("By Support Level");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("No reminders could be found.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("By Customer");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("By Issue ID");
+/* templates//manage/reminders.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("No reminders could be found.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Please enter a pattern.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("All");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Please enter a replacement value.");
 
-/* /work/eventum/templates/manage/reminders.tpl.html */
-gettext("Delete");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Please select projects this link filter should be active for.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Please enter a pattern.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Please select the minimum user role that should be able to see this link filter.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Please enter a replacement value.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Please select at least one link filter.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Please select projects this link filter should be active for.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("WARNING: This action will remove the selected link filters permanently.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Please select the minimum user role that should be able to see this link filter.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Please click OK to confirm.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Please select at least one link filter.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Manage Link Filters");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("WARNING: This action will remove the selected link filters permanently.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("An error occurred while trying to add the new link filter.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Please click OK to confirm.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Thank you, the link filter was added successfully.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Manage Link Filters");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("An error occurred while trying to update the link filter.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("An error occurred while trying to add the new link filter.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Thank you, the link filter was updated successfully.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Thank you, the link filter was added successfully.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("An error occurred while trying to delete the link filter.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("An error occurred while trying to update the link filter.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Thank you, the link filter was deleted successfully.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Thank you, the link filter was updated successfully.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Pattern");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("An error occurred while trying to delete the link filter.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Replacement");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Thank you, the link filter was deleted successfully.");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Description");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Pattern");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Assigned Projects");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Replacement");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Minimum User Role");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Description");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Update Link Filter");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Assigned Projects");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Create Link Filter");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Minimum User Role");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Update Link Filter");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Existing Link Filters");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Create Link Filter");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Pattern");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Reset");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Replacement");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Existing Link Filters");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Description");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Pattern");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Minimum Role");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Replacement");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Projects");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Description");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Minimum Role");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("No link filters could be found.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Projects");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("update this entry");
+/* templates//manage/link_filters.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("No link filters could be found.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Please enter the title of this news entry.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("All");
+/* templates//manage/news.tpl.html */
+ev_gettext("Please assign the appropriate projects for this news entry.");
 
-/* /work/eventum/templates/manage/link_filters.tpl.html */
-gettext("Delete");
+/* templates//manage/news.tpl.html */
+ev_gettext("Manage News");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Please enter the title of this news entry.");
+/* templates//manage/news.tpl.html */
+ev_gettext("An error occurred while trying to add the news entry.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Please assign the appropriate projects for this news entry.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Please enter the title for this news entry.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Manage News");
+/* templates//manage/news.tpl.html */
+ev_gettext("Please enter the message for this news entry.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("An error occurred while trying to add the news entry.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Thank you, the news entry was added successfully.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Please enter the title for this news entry.");
+/* templates//manage/news.tpl.html */
+ev_gettext("An error occurred while trying to update the news entry information.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Please enter the message for this news entry.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Please enter the title for this news entry.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Thank you, the news entry was added successfully.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Please enter the message for this news entry.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("An error occurred while trying to update the news entry information.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Thank you, the news entry was updated successfully.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Please enter the title for this news entry.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Assigned Projects");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Please enter the message for this news entry.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Thank you, the news entry was updated successfully.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Active");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Assigned Projects");
+/* templates//manage/news.tpl.html */
+ev_gettext("Inactive");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Status");
+/* templates//manage/news.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Active");
+/* templates//manage/news.tpl.html */
+ev_gettext("Message");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Inactive");
+/* templates//manage/news.tpl.html */
+ev_gettext("Update News Entry");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Title");
+/* templates//manage/news.tpl.html */
+ev_gettext("Create News Entry");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Message");
+/* templates//manage/news.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Update News Entry");
+/* templates//manage/news.tpl.html */
+ev_gettext("Existing News Entries");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Create News Entry");
+/* templates//manage/news.tpl.html */
+ev_gettext("Please select at least one of the news entries.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Reset");
+/* templates//manage/news.tpl.html */
+ev_gettext("This action will permanently remove the selected news entries.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Existing News Entries");
+/* templates//manage/news.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Please select at least one of the news entries.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Projects");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("This action will permanently remove the selected news entries.");
+/* templates//manage/news.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Title");
+/* templates//manage/news.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Projects");
+/* templates//manage/news.tpl.html */
+ev_gettext("No news entries could be found.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Status");
+/* templates//manage/news.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("update this entry");
+/* templates//manage/news.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("No news entries could be found.");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Sorry, but you do not have the required permission level to access this screen.");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("All");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Go Back");
 
-/* /work/eventum/templates/manage/news.tpl.html */
-gettext("Delete");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Configuration");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Sorry, but you do not have the required permission level to access this screen.");
+/* templates//manage/manage.tpl.html */
+ev_gettext("General Setup");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Go Back");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Email Accounts");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Configuration");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Custom Fields");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("General Setup");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Customize Issue Listing Screen");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Email Accounts");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Areas");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Custom Fields");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Internal FAQ");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Customize Issue Listing Screen");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Round Robin Assignments");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Areas");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage News");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Internal FAQ");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Issue Reminders");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Round Robin Assignments");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Customer Account Managers");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage News");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Customer Quick Notes");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Issue Reminders");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Statuses");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Customer Account Managers");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Projects");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Customer Quick Notes");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Add / Edit Releases");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Statuses");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Add / Edit Categories");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Projects");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Add / Edit Priorities");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Add / Edit Releases");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Add / Edit Phone Support Categories");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Add / Edit Categories");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Anonymous Reporting Options");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Add / Edit Priorities");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Edit Fields to Display");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Add / Edit Phone Support Categories");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Edit Columns to Display");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Anonymous Reporting Options");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Users");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Edit Fields to Display");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Groups");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Edit Columns to Display");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Time Tracking Categories");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Users");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Issue Resolutions");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Groups");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Canned Email Responses");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Time Tracking Categories");
+/* templates//manage/manage.tpl.html */
+ev_gettext("Manage Link Filters");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Issue Resolutions");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Please enter the title of this project.");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Canned Email Responses");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Please assign the users for this project.");
 
-/* /work/eventum/templates/manage/manage.tpl.html */
-gettext("Manage Link Filters");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Please assign the statuses for this project.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Please enter the title of this project.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Please choose the initial status from one of the assigned statuses of this project.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Please assign the users for this project.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Please enter a valid outgoing sender address for this project.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Please assign the statuses for this project.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Manage Projects");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Please choose the initial status from one of the assigned statuses of this project.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("An error occurred while trying to add the new project.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Please enter a valid outgoing sender address for this project.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Please enter the title for this new project.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Manage Projects");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Thank you, the project was added successfully.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("An error occurred while trying to add the new project.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("An error occurred while trying to update the project information.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Please enter the title for this new project.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Please enter the title for this project.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Thank you, the project was added successfully.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Thank you, the project was updated successfully.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("An error occurred while trying to update the project information.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Please enter the title for this project.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Thank you, the project was updated successfully.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Active");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Title");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Archived");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Status");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Customer Integration Backend");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Active");
+/* templates//manage/projects.tpl.html */
+ev_gettext("No Customer Integration");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Archived");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Workflow Backend");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Customer Integration Backend");
+/* templates//manage/projects.tpl.html */
+ev_gettext("No Workflow Management");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("No Customer Integration");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Project Lead");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Workflow Backend");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Users");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("No Workflow Management");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Statuses");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Project Lead");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Initial Status for New Issues");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Users");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Outgoing Email Sender Name");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Statuses");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Outgoing Email Sender Address");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Initial Status for New Issues");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Remote Invocation");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Outgoing Email Sender Name");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Enabled");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Outgoing Email Sender Address");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Disabled");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Remote Invocation");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Segregate Reporters");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Enabled");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Disabled");
+/* templates//manage/projects.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Segregate Reporters");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Update Project");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Yes");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Create Project");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("No");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Update Project");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Existing Projects");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Create Project");
+/* templates//manage/projects.tpl.html */
+ev_gettext("You cannot remove all of the projects in the system.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Reset");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Please select at least one of the projects.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Existing Projects");
+/* templates//manage/projects.tpl.html */
+ev_gettext("WARNING: This action will remove the selected projects permanently.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("You cannot remove all of the projects in the system.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("It will remove all of its associated entries as well (issues, notes, attachments,netc), so please click OK to confirm.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Please select at least one of the projects.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("WARNING: This action will remove the selected projects permanently.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("It will remove all of its associated entries as well (issues, notes, attachments,netc), so please click OK to confirm.");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Project Lead");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("All");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Title");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Actions");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Project Lead");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Edit Releases");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Status");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Edit Categories");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Actions");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Edit Priorities");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Edit Releases");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Edit Phone Support Categories");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Edit Categories");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Anonymous Reporting");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Edit Priorities");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Edit Fields to Display");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Edit Phone Support Categories");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Edit Columns to Display");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Anonymous Reporting");
+/* templates//manage/projects.tpl.html */
+ev_gettext("No projects could be found.");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Edit Fields to Display");
+/* templates//manage/projects.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Edit Columns to Display");
+/* templates//manage/projects.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("No projects could be found.");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Please enter the title of this category");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("All");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Manage Phone Support Categories");
 
-/* /work/eventum/templates/manage/projects.tpl.html */
-gettext("Delete");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Current Project");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Please enter the title of this category");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("An error occurred while trying to add the new category.");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Manage Phone Support Categories");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Please enter the title for this new category.");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Current Project");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Thank you, the category was added successfully.");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("An error occurred while trying to add the new category.");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("An error occurred while trying to update the category information.");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Please enter the title for this new category.");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Please enter the title for this category.");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Thank you, the category was added successfully.");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Thank you, the category was updated successfully.");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("An error occurred while trying to update the category information.");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Please enter the title for this category.");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Update Category");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Thank you, the category was updated successfully.");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Create Category");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Title");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Update Category");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Existing Phone Support Categories");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Create Category");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Please select at least one of the categories.");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Reset");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Existing Phone Support Categories");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Please select at least one of the categories.");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("All");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("No phone support categories could be found.");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Title");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("update this entry");
+/* templates//manage/phone_categories.tpl.html */
+ev_gettext("Delete");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("No phone support categories could be found.");
+/* templates//attached_emails.tpl.html */
+ev_gettext("Please choose which entries need to be removed.");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("All");
+/* templates//attached_emails.tpl.html */
+ev_gettext("Attached Emails");
 
-/* /work/eventum/templates/manage/phone_categories.tpl.html */
-gettext("Delete");
+/* templates//attached_emails.tpl.html */
+ev_gettext("Remove?");
 
-/* /work/eventum/templates/attached_emails.tpl.html */
-gettext("Please choose which entries need to be removed.");
+/* templates//attached_emails.tpl.html */
+ev_gettext("Sender");
 
-/* /work/eventum/templates/attached_emails.tpl.html */
-gettext("Attached Emails");
+/* templates//attached_emails.tpl.html */
+ev_gettext("Subject");
 
-/* /work/eventum/templates/attached_emails.tpl.html */
-gettext("Remove?");
+/* templates//attached_emails.tpl.html */
+ev_gettext("Remove Selected");
 
-/* /work/eventum/templates/attached_emails.tpl.html */
-gettext("Sender");
+/* templates//preferences.tpl.html */
+ev_gettext("Please enter your full name.");
 
-/* /work/eventum/templates/attached_emails.tpl.html */
-gettext("Subject");
+/* templates//preferences.tpl.html */
+ev_gettext("Please enter a valid email address.");
 
-/* /work/eventum/templates/attached_emails.tpl.html */
-gettext("Remove Selected");
+/* templates//preferences.tpl.html */
+ev_gettext("Please enter your new password with at least 6 characters.");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Please enter your full name.");
+/* templates//preferences.tpl.html */
+ev_gettext("The two passwords do not match. Please review your information and try again.");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Please enter a valid email address.");
+/* templates//preferences.tpl.html */
+ev_gettext("User Details");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Please enter your new password with at least 6 characters.");
+/* templates//preferences.tpl.html */
+ev_gettext("An error occurred while trying to run your query.");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("The two passwords do not match. Please review your information and try again.");
+/* templates//preferences.tpl.html */
+ev_gettext("Thank you, your full name was updated successfully.");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("User Details");
+/* templates//preferences.tpl.html */
+ev_gettext("Full Name");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("An error occurred while trying to run your query.");
+/* templates//preferences.tpl.html */
+ev_gettext("Update Full Name");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Thank you, your full name was updated successfully.");
+/* templates//preferences.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Full Name");
+/* templates//preferences.tpl.html */
+ev_gettext("An error occurred while trying to run your query.");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Update Full Name");
+/* templates//preferences.tpl.html */
+ev_gettext("Thank you, your email address was updated successfully.");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Reset");
+/* templates//preferences.tpl.html */
+ev_gettext("Login");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("An error occurred while trying to run your query.");
+/* templates//preferences.tpl.html */
+ev_gettext("Email Address");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Thank you, your email address was updated successfully.");
+/* templates//preferences.tpl.html */
+ev_gettext("Update Email Address");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Login");
+/* templates//preferences.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Email Address");
+/* templates//preferences.tpl.html */
+ev_gettext("An error occurred while trying to run your query.");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Update Email Address");
+/* templates//preferences.tpl.html */
+ev_gettext("Thank you, your password was updated successfully.");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Reset");
+/* templates//preferences.tpl.html */
+ev_gettext("Change Password");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("An error occurred while trying to run your query.");
+/* templates//preferences.tpl.html */
+ev_gettext("New Password");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Thank you, your password was updated successfully.");
+/* templates//preferences.tpl.html */
+ev_gettext("Confirm New Password");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Change Password");
+/* templates//preferences.tpl.html */
+ev_gettext("Update Password");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("New Password");
+/* templates//preferences.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Confirm New Password");
+/* templates//preferences.tpl.html */
+ev_gettext("Account Preferences");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Update Password");
+/* templates//preferences.tpl.html */
+ev_gettext("An error occurred while trying to run your query.");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Reset");
+/* templates//preferences.tpl.html */
+ev_gettext("Thank you, your account preferences were updated successfully.");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Account Preferences");
+/* templates//preferences.tpl.html */
+ev_gettext("Your language change will take affect next page load");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("An error occurred while trying to run your query.");
+/* templates//preferences.tpl.html */
+ev_gettext("Available Languages");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Thank you, your account preferences were updated successfully.");
+/* templates//preferences.tpl.html */
+ev_gettext("Timezone");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Timezone");
+/* templates//preferences.tpl.html */
+ev_gettext("Automatically close confirmation popup windows ?");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Automatically close confirmation popup windows ?");
+/* templates//preferences.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Yes");
+/* templates//preferences.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("No");
+/* templates//preferences.tpl.html */
+ev_gettext("Receive emails when all issues are created ?");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Receive emails when all issues are created ?");
+/* templates//preferences.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Yes");
+/* templates//preferences.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("No");
+/* templates//preferences.tpl.html */
+ev_gettext("Receive emails when new issues are assigned to you ?");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Receive emails when new issues are assigned to you ?");
+/* templates//preferences.tpl.html */
+ev_gettext("Yes");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Yes");
+/* templates//preferences.tpl.html */
+ev_gettext("No");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("No");
+/* templates//preferences.tpl.html */
+ev_gettext("Refresh Rate for Issue Listing Page");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Refresh Rate for Issue Listing Page");
+/* templates//preferences.tpl.html */
+ev_gettext("in minutes");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("in minutes");
+/* templates//preferences.tpl.html */
+ev_gettext("Refresh Rate for Email Listing Page");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Refresh Rate for Email Listing Page");
+/* templates//preferences.tpl.html */
+ev_gettext("in minutes");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("in minutes");
+/* templates//preferences.tpl.html */
+ev_gettext("Email Signature");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Email Signature");
+/* templates//preferences.tpl.html */
+ev_gettext("Edit Signature");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Edit Signature");
+/* templates//preferences.tpl.html */
+ev_gettext("Upload New Signature");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Upload New Signature");
+/* templates//preferences.tpl.html */
+ev_gettext("Automatically append email signature when composing web based emails");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Automatically append email signature when composing web based emails");
+/* templates//preferences.tpl.html */
+ev_gettext("Automatically append email signature when composing internal notes");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("Automatically append email signature when composing internal notes");
+/* templates//preferences.tpl.html */
+ev_gettext("SMS Email Address");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("SMS Email Address");
+/* templates//preferences.tpl.html */
+ev_gettext("only used for automatic issue reminders");
 
-/* /work/eventum/templates/preferences.tpl.html */
-gettext("only used for automatic issue reminders");
+/* templates//preferences.tpl.html */
+ev_gettext("Update Preferences");
 
-/* /work/eventum/templates/resize_textarea.tpl.html */
-gettext("Widen the field");
+/* templates//preferences.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/resize_textarea.tpl.html */
-gettext("Shorten the field");
+/* templates//resize_textarea.tpl.html */
+ev_gettext("Widen the field");
 
-/* /work/eventum/templates/localized.tpl.html */
-gettext("The provided trial account email address could not be\nconfirmed. Please contact the local Technical Support staff for\nfurther assistance.");
+/* templates//resize_textarea.tpl.html */
+ev_gettext("Shorten the field");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("This action will permanently delete the specified note.");
+/* templates//notes.tpl.html */
+ev_gettext("This action will permanently delete the specified note.");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("This note will be deleted & converted to an email, one either sent immediately or saved as a draft.");
+/* templates//notes.tpl.html */
+ev_gettext("This note will be deleted & converted to an email, one either sent immediately or saved as a draft.");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("Internal Notes");
+/* templates//notes.tpl.html */
+ev_gettext("Internal Notes");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("Reply");
+/* templates//notes.tpl.html */
+ev_gettext("Back to Top");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("Posted Date");
+/* templates//notes.tpl.html */
+ev_gettext("Reply");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("User");
+/* templates//notes.tpl.html */
+ev_gettext("Posted Date");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("Title");
+/* templates//notes.tpl.html */
+ev_gettext("User");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("reply to this note");
+/* templates//notes.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("delete");
+/* templates//notes.tpl.html */
+ev_gettext("reply to this note");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("convert note");
+/* templates//notes.tpl.html */
+ev_gettext("delete");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("No internal notes could be found.");
+/* templates//notes.tpl.html */
+ev_gettext("convert note");
 
-/* /work/eventum/templates/notes.tpl.html */
-gettext("Post Internal Note");
+/* templates//notes.tpl.html */
+ev_gettext("No internal notes could be found.");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//notes.tpl.html */
+ev_gettext("Post Internal Note");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Thank you, the time tracking entry was added successfully.");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Continue");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Thank you, the time tracking entry was added successfully.");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Please enter the summary for this new time tracking entry.");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Please choose the time tracking category for this new entry.");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Please enter the summary for this new time tracking entry.");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Please enter integers (or floating point numbers) on the time spent field.");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Please choose the time tracking category for this new entry.");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Please select a valid date of work.");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Please enter integers (or floating point numbers) on the time spent field.");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Record Time Worked");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Please select a valid date of work.");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Summary");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Record Time Worked");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Category");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Please choose a category");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Time Spent");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Please choose a category");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("in minutes");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Time Spent");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Date of Work");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("in minutes");
 
-/* /work/eventum/templates/add_time_tracking.tpl.html */
-gettext("Add Time Entry");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Date of Work");
 
-/* /work/eventum/templates/top_link.tpl.html */
-gettext("Back to Top");
+/* templates//add_time_tracking.tpl.html */
+ev_gettext("Add Time Entry");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Re-directing the parent window to the issue report page. This window will be closed automatically.");
+/* templates//top_link.tpl.html */
+ev_gettext("Back to Top");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("This message already belongs to that account");
+/* templates//view_email.tpl.html */
+ev_gettext("Re-directing the parent window to the issue report page. This window will be closed automatically.");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//view_email.tpl.html */
+ev_gettext("This message already belongs to that account");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Thank you, the email was successfully moved.");
+/* templates//view_email.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Continue");
+/* templates//view_email.tpl.html */
+ev_gettext("Thank you, the email was successfully moved.");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("View Email Details");
+/* templates//view_email.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Associated with Issue");
+/* templates//view_email.tpl.html */
+ev_gettext("View Email Details");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Previous Message");
+/* templates//view_email.tpl.html */
+ev_gettext("Associated with Issue");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Next Message");
+/* templates//view_email.tpl.html */
+ev_gettext("Previous Message");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Received");
+/* templates//view_email.tpl.html */
+ev_gettext("Next Message");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("From");
+/* templates//view_email.tpl.html */
+ev_gettext("Received");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("To");
+/* templates//view_email.tpl.html */
+ev_gettext("From");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("sent to notification list");
+/* templates//view_email.tpl.html */
+ev_gettext("To");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Cc");
+/* templates//view_email.tpl.html */
+ev_gettext("sent to notification list");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Subject");
+/* templates//view_email.tpl.html */
+ev_gettext("Cc");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Attachments");
+/* templates//view_email.tpl.html */
+ev_gettext("Subject");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Message");
+/* templates//view_email.tpl.html */
+ev_gettext("Attachments");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("display in fixed width font");
+/* templates//view_email.tpl.html */
+ev_gettext("Message");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Raw Headers");
+/* templates//view_email.tpl.html */
+ev_gettext("display in fixed width font");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Reply");
+/* templates//view_email.tpl.html */
+ev_gettext("Raw Headers");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Close");
+/* templates//view_email.tpl.html */
+ev_gettext("Reply");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Previous Message");
+/* templates//view_email.tpl.html */
+ev_gettext("Close");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Next Message");
+/* templates//view_email.tpl.html */
+ev_gettext("Previous Message");
 
-/* /work/eventum/templates/view_email.tpl.html */
-gettext("Move Message To");
+/* templates//view_email.tpl.html */
+ev_gettext("Next Message");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Please enter a valid email address.");
+/* templates//view_email.tpl.html */
+ev_gettext("Move Message To");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Authorized Repliers");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Please enter a valid email address.");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("An error occurred while trying to insert the authorized replier.");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Authorized Repliers");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Users with a role of \"customer\" or below are not allowed to be added to the authorized repliers list.");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("An error occurred while trying to insert the authorized replier.");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Thank you, the authorized replier was inserted successfully.");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Users with a role of \"customer\" or below are not allowed to be added to the authorized repliers list.");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Email");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Thank you, the authorized replier was inserted successfully.");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Add Authorized Replier");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Email");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Reset");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Add Authorized Replier");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Existing Authorized Repliers for this Issue");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Please select at least one of the authorized repliers.");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Existing Authorized Repliers for this Issue");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Please select at least one of the authorized repliers.");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Email");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("No authorized repliers could be found.");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Email");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Remove Selected");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("No authorized repliers could be found.");
 
-/* /work/eventum/templates/authorized_replier.tpl.html */
-gettext("Close");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Remove Selected");
 
-/* /work/eventum/templates/faq.tpl.html */
-gettext("Error: You are not allowed to view the requested FAQ entry.");
+/* templates//authorized_replier.tpl.html */
+ev_gettext("Close");
 
-/* /work/eventum/templates/faq.tpl.html */
-gettext("Last updated");
+/* templates//faq.tpl.html */
+ev_gettext("Error: You are not allowed to view the requested FAQ entry.");
 
-/* /work/eventum/templates/faq.tpl.html */
-gettext("Close Window");
+/* templates//faq.tpl.html */
+ev_gettext("Last updated");
 
-/* /work/eventum/templates/faq.tpl.html */
-gettext("Article Entries");
+/* templates//faq.tpl.html */
+ev_gettext("Close Window");
 
-/* /work/eventum/templates/faq.tpl.html */
-gettext("Title");
+/* templates//faq.tpl.html */
+ev_gettext("Article Entries");
 
-/* /work/eventum/templates/faq.tpl.html */
-gettext("Last Updated Date");
+/* templates//faq.tpl.html */
+ev_gettext("Title");
 
-/* /work/eventum/templates/faq.tpl.html */
-gettext("read faq entry");
+/* templates//faq.tpl.html */
+ev_gettext("Last Updated Date");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("logout from");
+/* templates//faq.tpl.html */
+ev_gettext("read faq entry");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Logout");
+/* templates//navigation.tpl.html */
+ev_gettext("logout from");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("manage the application settings, users, projects, etc");
+/* templates//navigation.tpl.html */
+ev_gettext("Logout");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Administration");
+/* templates//navigation.tpl.html */
+ev_gettext("manage the application settings, users, projects, etc");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("create a new issue");
+/* templates//navigation.tpl.html */
+ev_gettext("Administration");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Create Issue");
+/* templates//navigation.tpl.html */
+ev_gettext("create a new issue");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("list the issues stored in the system");
+/* templates//navigation.tpl.html */
+ev_gettext("Create Issue");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("List Issues");
+/* templates//navigation.tpl.html */
+ev_gettext("list the issues stored in the system");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("get access to advanced search parameters");
+/* templates//navigation.tpl.html */
+ev_gettext("List Issues");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Advanced Search");
+/* templates//navigation.tpl.html */
+ev_gettext("get access to advanced search parameters");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("list available emails");
+/* templates//navigation.tpl.html */
+ev_gettext("Advanced Search");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Associate Emails");
+/* templates//navigation.tpl.html */
+ev_gettext("list available emails");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("list all issues assigned to you");
+/* templates//navigation.tpl.html */
+ev_gettext("Associate Emails");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("My Assignments");
+/* templates//navigation.tpl.html */
+ev_gettext("list all issues assigned to you");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("general statistics");
+/* templates//navigation.tpl.html */
+ev_gettext("My Assignments");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Stats");
+/* templates//navigation.tpl.html */
+ev_gettext("general statistics");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("reporting system");
+/* templates//navigation.tpl.html */
+ev_gettext("Stats");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Reports");
+/* templates//navigation.tpl.html */
+ev_gettext("reporting system");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("internal faq");
+/* templates//navigation.tpl.html */
+ev_gettext("Reports");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Internal FAQ");
+/* templates//navigation.tpl.html */
+ev_gettext("internal faq");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("help documentation");
+/* templates//navigation.tpl.html */
+ev_gettext("Internal FAQ");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Help");
+/* templates//navigation.tpl.html */
+ev_gettext("help documentation");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Project");
+/* templates//navigation.tpl.html */
+ev_gettext("Help");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Please enter a valid issue ID.");
+/* templates//navigation.tpl.html */
+ev_gettext("Project");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Switch");
+/* templates//navigation.tpl.html */
+ev_gettext("Please enter a valid issue ID.");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("CLOCKED");
+/* templates//navigation.tpl.html */
+ev_gettext("Switch");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("IN");
+/* templates//navigation.tpl.html */
+ev_gettext("CLOCKED");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("OUT");
+/* templates//navigation.tpl.html */
+ev_gettext("IN");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("modify your account details and preferences");
+/* templates//navigation.tpl.html */
+ev_gettext("OUT");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Preferences");
+/* templates//navigation.tpl.html */
+ev_gettext("modify your account details and preferences");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("change your account clocked-in status");
+/* templates//navigation.tpl.html */
+ev_gettext("Preferences");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Clock");
+/* templates//navigation.tpl.html */
+ev_gettext("change your account clocked-in status");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Out");
+/* templates//navigation.tpl.html */
+ev_gettext("Clock");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("In");
+/* templates//navigation.tpl.html */
+ev_gettext("Out");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Search");
+/* templates//navigation.tpl.html */
+ev_gettext("In");
 
-/* /work/eventum/templates/navigation.tpl.html */
-gettext("Go");
+/* templates//navigation.tpl.html */
+ev_gettext("Search");
 
-/* /work/eventum/templates/expandable_cell/buttons.tpl.html */
-gettext("Expand all collapsed cells");
+/* templates//navigation.tpl.html */
+ev_gettext("Go");
 
-/* /work/eventum/templates/expandable_cell/buttons.tpl.html */
-gettext("Expand all collapsed cells");
+/* templates//expandable_cell/buttons.tpl.html */
+ev_gettext("Expand all collapsed cells");
 
-/* /work/eventum/templates/expandable_cell/buttons.tpl.html */
-gettext("Expand collapsed cell");
+/* templates//expandable_cell/buttons.tpl.html */
+ev_gettext("Expand all collapsed cells");
 
-/* /work/eventum/templates/expandable_cell/buttons.tpl.html */
-gettext("Collapse expanded cell");
+/* templates//expandable_cell/buttons.tpl.html */
+ev_gettext("Expand collapsed cell");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Overall Stats");
+/* templates//expandable_cell/buttons.tpl.html */
+ev_gettext("Collapse expanded cell");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Issues by Status");
+/* templates//main.tpl.html */
+ev_gettext("Overall Stats");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("No issues could be found.");
+/* templates//main.tpl.html */
+ev_gettext("Issues by Status");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Issues by Release");
+/* templates//main.tpl.html */
+ev_gettext("No issues could be found.");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("No issues could be found.");
+/* templates//main.tpl.html */
+ev_gettext("Issues by Release");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Issues by Priority");
+/* templates//main.tpl.html */
+ev_gettext("No issues could be found.");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("No issues could be found.");
+/* templates//main.tpl.html */
+ev_gettext("Issues by Priority");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Issues by Category");
+/* templates//main.tpl.html */
+ev_gettext("No issues could be found.");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("No issues could be found.");
+/* templates//main.tpl.html */
+ev_gettext("Issues by Category");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Assigned Issues");
+/* templates//main.tpl.html */
+ev_gettext("No issues could be found.");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("No issues could be found.");
+/* templates//main.tpl.html */
+ev_gettext("Assigned Issues");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Emails");
+/* templates//main.tpl.html */
+ev_gettext("No issues could be found.");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Associated");
+/* templates//main.tpl.html */
+ev_gettext("Emails");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Pending");
+/* templates//main.tpl.html */
+ev_gettext("Associated");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Removed");
+/* templates//main.tpl.html */
+ev_gettext("Pending");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Did you Know?");
+/* templates//main.tpl.html */
+ev_gettext("Removed");
 
-/* /work/eventum/templates/main.tpl.html */
-gettext("Graphical Stats (All Issues)");
+/* templates//main.tpl.html */
+ev_gettext("Did you Know?");
 
-/* /work/eventum/templates/confirm.tpl.html */
-gettext("Password Confirmation");
+/* templates//main.tpl.html */
+ev_gettext("Graphical Stats (All Issues)");
 
-/* /work/eventum/templates/confirm.tpl.html */
-gettext("Account Creation");
+/* templates//confirm.tpl.html */
+ev_gettext("Password Confirmation");
 
-/* /work/eventum/templates/confirm.tpl.html */
-gettext("Error");
+/* templates//confirm.tpl.html */
+ev_gettext("Account Creation");
 
-/* /work/eventum/templates/confirm.tpl.html */
-gettext("Password Confirmation Success");
+/* templates//confirm.tpl.html */
+ev_gettext("Error");
 
-/* /work/eventum/templates/confirm.tpl.html */
-gettext("The provided trial account email address could not be\nconfirmed. Please contact the local Technical Support staff for\nfurther assistance.");
+/* templates//confirm.tpl.html */
+ev_gettext("Password Confirmation Success");
 
-/* /work/eventum/templates/confirm.tpl.html */
-gettext("The provided trial account email address could not be\n            found. Please contact the local Technical Support staff for\n            further assistance.");
+/* templates//confirm.tpl.html */
+ev_gettext("The provided trial account email address could not be\nconfirmed. Please contact the local Technical Support staff for\nfurther assistance.");
 
-/* /work/eventum/templates/confirm.tpl.html */
-gettext("The provided trial account encrypted hash could not be\n            authenticated. Please contact the local Technical\n            Support staff for further assistance.");
+/* templates//confirm.tpl.html */
+ev_gettext("The provided trial account email address could not be\n            found. Please contact the local Technical Support staff for\n            further assistance.");
 
-/* /work/eventum/templates/confirm.tpl.html */
-gettext("Thank you, your request for a new password was confirmed successfully. You should receive an email with your new password shortly.");
+/* templates//confirm.tpl.html */
+ev_gettext("The provided trial account encrypted hash could not be\n            authenticated. Please contact the local Technical\n            Support staff for further assistance.");
 
-/* /work/eventum/templates/confirm.tpl.html */
-gettext("Back to Login Form");
+/* templates//confirm.tpl.html */
+ev_gettext("Thank you, your request for a new password was confirmed successfully. You should receive an email with your new password shortly.");
 
-/* /work/eventum/templates/custom_fields_form.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//confirm.tpl.html */
+ev_gettext("Back to Login Form");
 
-/* /work/eventum/templates/custom_fields_form.tpl.html */
-gettext("Thank you, the custom field values were updated successfully.");
+/* templates//custom_fields_form.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/custom_fields_form.tpl.html */
-gettext("Continue");
+/* templates//custom_fields_form.tpl.html */
+ev_gettext("Thank you, the custom field values were updated successfully.");
 
-/* /work/eventum/templates/custom_fields_form.tpl.html */
-gettext("Update Issue Details");
+/* templates//custom_fields_form.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/custom_fields_form.tpl.html */
-gettext("Please choose an option");
+/* templates//custom_fields_form.tpl.html */
+ev_gettext("Update Issue Details");
 
-/* /work/eventum/templates/custom_fields_form.tpl.html */
-gettext("No custom field could be found.");
+/* templates//custom_fields_form.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/custom_fields_form.tpl.html */
-gettext("Update Values");
+/* templates//custom_fields_form.tpl.html */
+ev_gettext("No custom field could be found.");
 
-/* /work/eventum/templates/custom_fields_form.tpl.html */
-gettext("Close");
+/* templates//custom_fields_form.tpl.html */
+ev_gettext("Update Values");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("The following %1 reminder could not be sent out because no recipients could be found");
+/* templates//custom_fields_form.tpl.html */
+ev_gettext("Close");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("Automated Issue");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("The following %1 reminder could not be sent out because no recipients could be found");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("Reminder Alert");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("Automated Issue");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("URL");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("Reminder Alert");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("Summary");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("URL");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("Assignment");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("Customer");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("Assignment");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("Support Level");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("Alert Reason");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("Support Level");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("Triggered Reminder");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("Alert Reason");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("Action");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("Triggered Reminder");
 
-/* /work/eventum/templates/reminders/alert_no_recipients.tpl.text */
-gettext("Alert Query");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("Action");
 
-/* /work/eventum/templates/reminders/email_alert.tpl.text */
-gettext("Automated Issue # %1 Reminder Alert");
+/* templates//reminders/alert_no_recipients.tpl.text */
+ev_gettext("Alert Query");
 
-/* /work/eventum/templates/reminders/email_alert.tpl.text */
-gettext("URL");
+/* templates//reminders/email_alert.tpl.text */
+ev_gettext("Automated Issue # %1 Reminder Alert");
 
-/* /work/eventum/templates/reminders/email_alert.tpl.text */
-gettext("Summary");
+/* templates//reminders/email_alert.tpl.text */
+ev_gettext("URL");
 
-/* /work/eventum/templates/reminders/email_alert.tpl.text */
-gettext("Assignment");
+/* templates//reminders/email_alert.tpl.text */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/reminders/email_alert.tpl.text */
-gettext("Customer");
+/* templates//reminders/email_alert.tpl.text */
+ev_gettext("Assignment");
 
-/* /work/eventum/templates/reminders/email_alert.tpl.text */
-gettext("Support Level");
+/* templates//reminders/email_alert.tpl.text */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/reminders/email_alert.tpl.text */
-gettext("Alert Reason");
+/* templates//reminders/email_alert.tpl.text */
+ev_gettext("Support Level");
 
-/* /work/eventum/templates/reminders/email_alert.tpl.text */
-gettext("Triggered Reminder");
+/* templates//reminders/email_alert.tpl.text */
+ev_gettext("Alert Reason");
 
-/* /work/eventum/templates/reminders/email_alert.tpl.text */
-gettext("Action");
+/* templates//reminders/email_alert.tpl.text */
+ev_gettext("Triggered Reminder");
 
-/* /work/eventum/templates/reminders/email_alert.tpl.text */
-gettext("Alert Query");
+/* templates//reminders/email_alert.tpl.text */
+ev_gettext("Action");
 
-/* /work/eventum/templates/reminders/sms_alert.tpl.text */
-gettext("This is a SMS reminder alert regarding issue # %1. Certain conditions triggered this action, and this issue may require immediate action in your part.");
+/* templates//reminders/email_alert.tpl.text */
+ev_gettext("Alert Query");
 
-/* /work/eventum/templates/self_assign.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//reminders/sms_alert.tpl.text */
+ev_gettext("This is a SMS reminder alert regarding issue # %1. Certain conditions triggered this action, and this issue may require immediate action in your part.");
 
-/* /work/eventum/templates/self_assign.tpl.html */
-gettext("Thank you, you are now assigned to the issue");
+/* templates//self_assign.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/self_assign.tpl.html */
-gettext("Continue");
+/* templates//self_assign.tpl.html */
+ev_gettext("Thank you, you are now assigned to the issue");
 
-/* /work/eventum/templates/self_assign.tpl.html */
-gettext("WARNING");
+/* templates//self_assign.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/self_assign.tpl.html */
+/* templates//self_assign.tpl.html */
+ev_gettext("WARNING");
+
+/* templates//self_assign.tpl.html */
 ngettext("The following user is already assigned to this issue","The following users are already assigned to this issue",x);
 
-/* /work/eventum/templates/self_assign.tpl.html */
+/* templates//self_assign.tpl.html */
 ngettext("Replace current assignee with Myself.","Replace current assignees with Myself.",x);
 
-/* /work/eventum/templates/self_assign.tpl.html */
-gettext("Add Myself to list of assignees.");
+/* templates//self_assign.tpl.html */
+ev_gettext("Add Myself to list of assignees.");
 
-/* /work/eventum/templates/self_assign.tpl.html */
-gettext("Continue");
+/* templates//self_assign.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/edit_custom_fields.tpl.html */
-gettext("Please choose an option");
+/* templates//edit_custom_fields.tpl.html */
+ev_gettext("Please choose an option");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Sorry, but there are no projects currently setup as allowing anonymous posting.");
+/* templates//post.tpl.html */
+ev_gettext("Sorry, but there are no projects currently setup as allowing anonymous posting.");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Thank you, the new issue was created successfully. For your records, the new issue ID is <font color=\"red\">%1</font>");
+/* templates//post.tpl.html */
+ev_gettext("Thank you, the new issue was created successfully. For your records, the new issue ID is <font color=\"red\">%1</font>");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("You may <a class=\"link\" href=\"%1\">%2</a> if you so wish.");
+/* templates//post.tpl.html */
+ev_gettext("You may <a class=\"link\" href=\"%1\">%2</a> if you so wish.");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Please choose the project that this new issue will apply to.");
+/* templates//post.tpl.html */
+ev_gettext("Please choose the project that this new issue will apply to.");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Report New Issue");
+/* templates//post.tpl.html */
+ev_gettext("Report New Issue");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Project");
+/* templates//post.tpl.html */
+ev_gettext("Project");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Please choose a project");
+/* templates//post.tpl.html */
+ev_gettext("Please choose a project");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Next");
+/* templates//post.tpl.html */
+ev_gettext("Next");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Summary");
+/* templates//post.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Description");
+/* templates//post.tpl.html */
+ev_gettext("Description");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Report New Issue");
+/* templates//post.tpl.html */
+ev_gettext("Report New Issue");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Project");
+/* templates//post.tpl.html */
+ev_gettext("Project");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Summary");
+/* templates//post.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Description");
+/* templates//post.tpl.html */
+ev_gettext("Description");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Attach Files");
+/* templates//post.tpl.html */
+ev_gettext("Attach Files");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Keep Form Open");
+/* templates//post.tpl.html */
+ev_gettext("Keep Form Open");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Submit");
+/* templates//post.tpl.html */
+ev_gettext("Submit");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Reset");
+/* templates//post.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/post.tpl.html */
-gettext("Required fields");
+/* templates//post.tpl.html */
+ev_gettext("Required fields");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//send.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Sorry, but the email could not be queued. This might be related to problems with your SMTP account settings.\n  Please contact the administrator of this application for further assistance.");
+/* templates//send.tpl.html */
+ev_gettext("Sorry, but the email could not be queued. This might be related to problems with your SMTP account settings.\n  Please contact the administrator of this application for further assistance.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Thank you, the email was queued to be sent successfully.");
+/* templates//send.tpl.html */
+ev_gettext("Thank you, the email was queued to be sent successfully.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Continue");
+/* templates//send.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//send.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Thank you, the email message was saved as a draft successfully.");
+/* templates//send.tpl.html */
+ev_gettext("Thank you, the email message was saved as a draft successfully.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Continue");
+/* templates//send.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("If you close this window, you will lose your message");
+/* templates//send.tpl.html */
+ev_gettext("If you close this window, you will lose your message");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Please enter the recipient of this email.");
+/* templates//send.tpl.html */
+ev_gettext("Please enter the recipient of this email.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Please enter the subject of this email.");
+/* templates//send.tpl.html */
+ev_gettext("Please enter the subject of this email.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Please enter the message body of this email.");
+/* templates//send.tpl.html */
+ev_gettext("Please enter the message body of this email.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("WARNING: You are not assigned to this issue so your email will be blocked.\nYour blocked email will be converted to a note that can be recovered later.\nFor more information, please see the topic 'email blocking' in help.");
+/* templates//send.tpl.html */
+ev_gettext("WARNING: You are not assigned to this issue so your email will be blocked.\nYour blocked email will be converted to a note that can be recovered later.\nFor more information, please see the topic 'email blocking' in help.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("WARNING: This email will be sent to all names on this issue's Notification List, including CUSTOMERS.\nIf you want the CUSTOMER to receive your message now, press OK.\nOtherwise, to return to your editing window, press CANCEL.");
+/* templates//send.tpl.html */
+ev_gettext("WARNING: This email will be sent to all names on this issue's Notification List, including CUSTOMERS.\nIf you want the CUSTOMER to receive your message now, press OK.\nOtherwise, to return to your editing window, press CANCEL.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("WARNING: This email will be sent to all names on this issue's Notification List.\nIf you want all users to receive your message now, press OK.\nOtherwise, to return to your editing window, press CANCEL.");
+/* templates//send.tpl.html */
+ev_gettext("WARNING: This email will be sent to all names on this issue's Notification List.\nIf you want all users to receive your message now, press OK.\nOtherwise, to return to your editing window, press CANCEL.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Warning: This draft has already been sent. You cannot resend it.");
+/* templates//send.tpl.html */
+ev_gettext("Warning: This draft has already been sent. You cannot resend it.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Warning: This draft has already been edited. You cannot send or edit it.");
+/* templates//send.tpl.html */
+ev_gettext("Warning: This draft has already been edited. You cannot send or edit it.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Create Draft");
+/* templates//send.tpl.html */
+ev_gettext("Create Draft");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Send Email");
+/* templates//send.tpl.html */
+ev_gettext("Send Email");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//send.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Sorry, but the email could not be sent. This might be related to problems with your SMTP account settings.\n              Please contact the administrator of this application for assistance.");
+/* templates//send.tpl.html */
+ev_gettext("Sorry, but the email could not be sent. This might be related to problems with your SMTP account settings.\n              Please contact the administrator of this application for assistance.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Thank you, the email was sent successfully.");
+/* templates//send.tpl.html */
+ev_gettext("Thank you, the email was sent successfully.");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("From");
+/* templates//send.tpl.html */
+ev_gettext("From");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("To");
+/* templates//send.tpl.html */
+ev_gettext("To");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Issue");
+/* templates//send.tpl.html */
+ev_gettext("Issue");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Notification List");
+/* templates//send.tpl.html */
+ev_gettext("Notification List");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Members");
+/* templates//send.tpl.html */
+ev_gettext("Members");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Cc");
+/* templates//send.tpl.html */
+ev_gettext("Cc");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Add Unknown Recipients to Issue Notification List");
+/* templates//send.tpl.html */
+ev_gettext("Add Unknown Recipients to Issue Notification List");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Subject");
+/* templates//send.tpl.html */
+ev_gettext("Subject");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Canned Responses");
+/* templates//send.tpl.html */
+ev_gettext("Canned Responses");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Use Canned Response");
+/* templates//send.tpl.html */
+ev_gettext("Use Canned Response");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("New Status for Issue");
+/* templates//send.tpl.html */
+ev_gettext("New Status for Issue");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Time Spent");
+/* templates//send.tpl.html */
+ev_gettext("Time Spent");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("in minutes");
+/* templates//send.tpl.html */
+ev_gettext("in minutes");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Send Email");
+/* templates//send.tpl.html */
+ev_gettext("Send Email");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Reset");
+/* templates//send.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Cancel");
+/* templates//send.tpl.html */
+ev_gettext("Cancel");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Check Spelling");
+/* templates//send.tpl.html */
+ev_gettext("Check Spelling");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Add Email Signature");
+/* templates//send.tpl.html */
+ev_gettext("Add Email Signature");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Save Draft Changes");
+/* templates//send.tpl.html */
+ev_gettext("Save Draft Changes");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Save as Draft");
+/* templates//send.tpl.html */
+ev_gettext("Save as Draft");
 
-/* /work/eventum/templates/send.tpl.html */
-gettext("Required fields");
+/* templates//send.tpl.html */
+ev_gettext("Required fields");
 
-/* /work/eventum/templates/app_info.tpl.html */
-gettext("Page generated in %1 seconds");
+/* templates//app_info.tpl.html */
+ev_gettext("Page generated in %1 seconds");
 
-/* /work/eventum/templates/app_info.tpl.html */
-gettext("queries");
+/* templates//app_info.tpl.html */
+ev_gettext("queries");
 
-/* /work/eventum/templates/app_info.tpl.html */
-gettext("Benchmark Statistics");
+/* templates//app_info.tpl.html */
+ev_gettext("Benchmark Statistics");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Email Address");
+/* templates//login_form.tpl.html */
+ev_gettext("Email Address");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Password");
+/* templates//login_form.tpl.html */
+ev_gettext("Password");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Login");
+/* templates//login_form.tpl.html */
+ev_gettext("Login");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Error: Please provide your email address.");
+/* templates//login_form.tpl.html */
+ev_gettext("Error: Please provide your email address.");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Error: Please provide your password.");
+/* templates//login_form.tpl.html */
+ev_gettext("Error: Please provide your password.");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Error: The email address / password combination could not be found in the system.");
+/* templates//login_form.tpl.html */
+ev_gettext("Error: The email address / password combination could not be found in the system.");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Your session has expired. Please login again to continue.");
+/* templates//login_form.tpl.html */
+ev_gettext("Your session has expired. Please login again to continue.");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Thank you, you are now logged out of %1");
+/* templates//login_form.tpl.html */
+ev_gettext("Thank you, you are now logged out of %1");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Error: Your user status is currently set as inactive. Please\n              contact your local system administrator for further information.");
+/* templates//login_form.tpl.html */
+ev_gettext("Error: Your user status is currently set as inactive. Please\n              contact your local system administrator for further information.");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Thank you, your account is now active and ready to be\n              used. Use the form below to login.");
+/* templates//login_form.tpl.html */
+ev_gettext("Thank you, your account is now active and ready to be\n              used. Use the form below to login.");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Error: Your user status is currently set as pending. This\n              means that you still need to confirm your account\n              creation request. Please contact your local system\n              administrator for further information.");
+/* templates//login_form.tpl.html */
+ev_gettext("Error: Your user status is currently set as pending. This\n              means that you still need to confirm your account\n              creation request. Please contact your local system\n              administrator for further information.");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Error: Cookies support seem to be disabled in your browser. Please enable this feature and try again.");
+/* templates//login_form.tpl.html */
+ev_gettext("Error: Cookies support seem to be disabled in your browser. Please enable this feature and try again.");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Error: In order for %1 to work properly, you must enable cookie support in your browser. Please login\n              again and accept all cookies coming from it.");
+/* templates//login_form.tpl.html */
+ev_gettext("Error: In order for %1 to work properly, you must enable cookie support in your browser. Please login\n              again and accept all cookies coming from it.");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Email Address");
+/* templates//login_form.tpl.html */
+ev_gettext("Email Address");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Password");
+/* templates//login_form.tpl.html */
+ev_gettext("Password");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Login");
+/* templates//login_form.tpl.html */
+ev_gettext("Login");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Remember Login");
+/* templates//login_form.tpl.html */
+ev_gettext("I Forgot My Password");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("I Forgot My Password");
+/* templates//login_form.tpl.html */
+ev_gettext("Signup for an Account");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Signup for an Account");
+/* templates//login_form.tpl.html */
+ev_gettext("Requires support for cookies and javascript in your browser");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("Requires support for cookies and javascript in your browser");
+/* templates//login_form.tpl.html */
+ev_gettext("NOTE: You may report issues without the need to login by using the following URL");
 
-/* /work/eventum/templates/login_form.tpl.html */
-gettext("NOTE: You may report issues without the need to login by using the following URL");
+/* templates//notification.tpl.html */
+ev_gettext("Please enter a valid email address.");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Please enter a valid email address.");
+/* templates//notification.tpl.html */
+ev_gettext("The given email address");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("The given email address");
+/* templates//notification.tpl.html */
+ev_gettext("is neither a known staff member or customer technical contact.");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("is neither a known staff member or customer technical contact.");
+/* templates//notification.tpl.html */
+ev_gettext("Are you sure you want to add this address to the notification list?");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Are you sure you want to add this address to the notification list?");
+/* templates//notification.tpl.html */
+ev_gettext("Notification Options");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Notification Options");
+/* templates//notification.tpl.html */
+ev_gettext("An error occurred while trying to update the notification entry.");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("An error occurred while trying to update the notification entry.");
+/* templates//notification.tpl.html */
+ev_gettext("Error: the given email address is not allowed to be added to the notification list.");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Error: the given email address is not allowed to be added to the notification list.");
+/* templates//notification.tpl.html */
+ev_gettext("Thank you, the notification entry was updated successfully.");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Thank you, the notification entry was updated successfully.");
+/* templates//notification.tpl.html */
+ev_gettext("Email");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Email");
+/* templates//notification.tpl.html */
+ev_gettext("Get a Notification When");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Get a Notification When");
+/* templates//notification.tpl.html */
+ev_gettext("Emails are Received or Sent");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Emails are Received or Sent");
+/* templates//notification.tpl.html */
+ev_gettext("Overview or Details are Changed");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Overview or Details are Changed");
+/* templates//notification.tpl.html */
+ev_gettext("Issue is Closed");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Issue is Closed");
+/* templates//notification.tpl.html */
+ev_gettext("Files are Attached");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Files are Attached");
+/* templates//notification.tpl.html */
+ev_gettext("Update Subscription");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Update Subscription");
+/* templates//notification.tpl.html */
+ev_gettext("Add Subscription");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Add Subscription");
+/* templates//notification.tpl.html */
+ev_gettext("Reset");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Reset");
+/* templates//notification.tpl.html */
+ev_gettext("Existing Subscribers for this Issue");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Existing Subscribers for this Issue");
+/* templates//notification.tpl.html */
+ev_gettext("Please select at least one of the subscribers.");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Please select at least one of the subscribers.");
+/* templates//notification.tpl.html */
+ev_gettext("This action will remove the selected entries.");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("This action will remove the selected entries.");
+/* templates//notification.tpl.html */
+ev_gettext("Email");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Email");
+/* templates//notification.tpl.html */
+ev_gettext("click to edit");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("click to edit");
+/* templates//notification.tpl.html */
+ev_gettext("Actions");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Actions");
+/* templates//notification.tpl.html */
+ev_gettext("update this entry");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("update this entry");
+/* templates//notification.tpl.html */
+ev_gettext("No subscribers could be found.");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("No subscribers could be found.");
+/* templates//notification.tpl.html */
+ev_gettext("Remove Selected");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Remove Selected");
+/* templates//notification.tpl.html */
+ev_gettext("Close");
 
-/* /work/eventum/templates/notification.tpl.html */
-gettext("Close");
+/* templates//file_upload.tpl.html */
+ev_gettext("An error occurred while trying to process the uploaded file.");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("An error occurred while trying to process the uploaded file.");
+/* templates//file_upload.tpl.html */
+ev_gettext("The uploaded file is already attached to the current issue. Please rename the file and try again.");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("The uploaded file is already attached to the current issue. Please rename the file and try again.");
+/* templates//file_upload.tpl.html */
+ev_gettext("Thank you, the uploaded file was associated with the issue below.");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("Thank you, the uploaded file was associated with the issue below.");
+/* templates//file_upload.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("Continue");
+/* templates//file_upload.tpl.html */
+ev_gettext("Add New Files");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("Add New Files");
+/* templates//file_upload.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("Status");
+/* templates//file_upload.tpl.html */
+ev_gettext("Public");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("Public");
+/* templates//file_upload.tpl.html */
+ev_gettext("visible to all");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("visible to all");
+/* templates//file_upload.tpl.html */
+ev_gettext("Private");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("Private");
+/* templates//file_upload.tpl.html */
+ev_gettext("standard user and above only");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("standard user and above only");
+/* templates//file_upload.tpl.html */
+ev_gettext("Filenames");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("Filenames");
+/* templates//file_upload.tpl.html */
+ev_gettext("ote: The current maximum allowed upload file size is");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("ote: The current maximum allowed upload file size is");
+/* templates//file_upload.tpl.html */
+ev_gettext("Description");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("Description");
+/* templates//file_upload.tpl.html */
+ev_gettext("Upload File");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("Upload File");
+/* templates//file_upload.tpl.html */
+ev_gettext("You do not have the correct role to access this page");
 
-/* /work/eventum/templates/file_upload.tpl.html */
-gettext("You do not have the correct role to access this page");
+/* templates//update.tpl.html */
+ev_gettext("Error: The issue could not be found.");
 
-/* /work/eventum/templates/update.tpl.html */
-gettext("Error: The issue could not be found.");
+/* templates//update.tpl.html */
+ev_gettext("Go Back");
 
-/* /work/eventum/templates/update.tpl.html */
-gettext("Go Back");
+/* templates//update.tpl.html */
+ev_gettext("Sorry, you do not have the required privileges to view this issue.");
 
-/* /work/eventum/templates/update.tpl.html */
-gettext("Sorry, you do not have the required privileges to view this issue.");
+/* templates//update.tpl.html */
+ev_gettext("Go Back");
 
-/* /work/eventum/templates/update.tpl.html */
-gettext("Go Back");
+/* templates//update.tpl.html */
+ev_gettext("Sorry, but you do not have the required permission level to access this screen.");
 
-/* /work/eventum/templates/update.tpl.html */
-gettext("Sorry, but you do not have the required permission level to access this screen.");
+/* templates//update.tpl.html */
+ev_gettext("Go Back");
 
-/* /work/eventum/templates/update.tpl.html */
-gettext("Go Back");
+/* templates//requirement.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/requirement.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//requirement.tpl.html */
+ev_gettext("Thank you, the impact analysis was updated successfully.");
 
-/* /work/eventum/templates/requirement.tpl.html */
-gettext("Thank you, the impact analysis was updated successfully.");
+/* templates//requirement.tpl.html */
+ev_gettext("Please use only floating point numbers on the estimated development time field.");
 
-/* /work/eventum/templates/requirement.tpl.html */
-gettext("Please use only floating point numbers on the estimated development time field.");
+/* templates//requirement.tpl.html */
+ev_gettext("Please enter the impact analysis for this new requirement.");
 
-/* /work/eventum/templates/requirement.tpl.html */
-gettext("Please enter the impact analysis for this new requirement.");
+/* templates//requirement.tpl.html */
+ev_gettext("Enter Impact Analysis");
 
-/* /work/eventum/templates/requirement.tpl.html */
-gettext("Enter Impact Analysis");
+/* templates//requirement.tpl.html */
+ev_gettext("Estimated Dev. Time");
 
-/* /work/eventum/templates/requirement.tpl.html */
-gettext("Estimated Dev. Time");
+/* templates//requirement.tpl.html */
+ev_gettext("in hours");
 
-/* /work/eventum/templates/requirement.tpl.html */
-gettext("in hours");
+/* templates//requirement.tpl.html */
+ev_gettext("Impact <br />Analysis");
 
-/* /work/eventum/templates/requirement.tpl.html */
-gettext("Impact <br />Analysis");
+/* templates//notifications/new.tpl.text */
+ev_gettext("This is an automated message sent at your request from %1");
 
-/* /work/eventum/templates/notifications/new.tpl.text */
-gettext("This is an automated message sent at your request from %1");
+/* templates//notifications/new.tpl.text */
+ev_gettext("A new issue was just created and assigned to you.");
 
-/* /work/eventum/templates/notifications/new.tpl.text */
-gettext("A new issue was just created and assigned to you.");
+/* templates//notifications/new.tpl.text */
+ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
 
-/* /work/eventum/templates/notifications/new.tpl.text */
-gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates//notifications/new.tpl.text */
+ev_gettext("ID");
 
-/* /work/eventum/templates/notifications/new.tpl.text */
-gettext("ID");
+/* templates//notifications/new.tpl.text */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/notifications/new.tpl.text */
-gettext("Summary");
+/* templates//notifications/new.tpl.text */
+ev_gettext("Project");
 
-/* /work/eventum/templates/notifications/new.tpl.text */
-gettext("Project");
+/* templates//notifications/new.tpl.text */
+ev_gettext("Reported By");
 
-/* /work/eventum/templates/notifications/new.tpl.text */
-gettext("Reported By");
+/* templates//notifications/new.tpl.text */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/notifications/new.tpl.text */
-gettext("Priority");
+/* templates//notifications/new.tpl.text */
+ev_gettext("Description");
 
-/* /work/eventum/templates/notifications/new.tpl.text */
-gettext("Description");
+/* templates//notifications/new.tpl.text */
+ev_gettext("Please Note: If you do not wish to receive any future email\nnotifications from %1, please change your account preferences by\nvisiting the URL below");
 
-/* /work/eventum/templates/notifications/new.tpl.text */
-gettext("Please Note: If you do not wish to receive any future email\nnotifications from %1, please change your account preferences by\nvisiting the URL below");
+/* templates//notifications/new_user.tpl.text */
+ev_gettext("A new user was just created for you in the system.");
 
-/* /work/eventum/templates/notifications/new_user.tpl.text */
-gettext("A new user was just created for you in the system.");
+/* templates//notifications/new_user.tpl.text */
+ev_gettext("To start using the system, please load the URL below");
 
-/* /work/eventum/templates/notifications/new_user.tpl.text */
-gettext("To start using the system, please load the URL below");
+/* templates//notifications/new_user.tpl.text */
+ev_gettext("Full Name");
 
-/* /work/eventum/templates/notifications/new_user.tpl.text */
-gettext("Full Name");
+/* templates//notifications/new_user.tpl.text */
+ev_gettext("Email Address");
 
-/* /work/eventum/templates/notifications/new_user.tpl.text */
-gettext("Email Address");
+/* templates//notifications/new_user.tpl.text */
+ev_gettext("Password");
 
-/* /work/eventum/templates/notifications/new_user.tpl.text */
-gettext("Password");
+/* templates//notifications/new_user.tpl.text */
+ev_gettext("Assigned Projects");
 
-/* /work/eventum/templates/notifications/new_user.tpl.text */
-gettext("Assigned Projects");
+/* templates//notifications/updated_password.tpl.text */
+ev_gettext("Your user account password has been updated in %1");
 
-/* /work/eventum/templates/notifications/updated_password.tpl.text */
-gettext("Your user account password has been updated in %1");
+/* templates//notifications/updated_password.tpl.text */
+ev_gettext("Your account information as it now exists appears below.");
 
-/* /work/eventum/templates/notifications/updated_password.tpl.text */
-gettext("Your account information as it now exists appears below.");
+/* templates//notifications/updated_password.tpl.text */
+ev_gettext("Full Name");
 
-/* /work/eventum/templates/notifications/updated_password.tpl.text */
-gettext("Full Name");
+/* templates//notifications/updated_password.tpl.text */
+ev_gettext("Email Address");
 
-/* /work/eventum/templates/notifications/updated_password.tpl.text */
-gettext("Email Address");
+/* templates//notifications/updated_password.tpl.text */
+ev_gettext("Password");
 
-/* /work/eventum/templates/notifications/updated_password.tpl.text */
-gettext("Password");
+/* templates//notifications/updated_password.tpl.text */
+ev_gettext("Assigned Projects");
 
-/* /work/eventum/templates/notifications/updated_password.tpl.text */
-gettext("Assigned Projects");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("This is an automated message sent at your request from %1.");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("This is an automated message sent at your request from %1.");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("This issue was just closed by");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("This issue was just closed by");
+/* templates//notifications/closed.tpl.text */
+ev_gettext(" with the message");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("with the message");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("ID");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("ID");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("Summary");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("Status");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("Status");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("Project");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("Project");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("Reported By");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("Reported By");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("Priority");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("Description");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("Description");
+/* templates//notifications/closed.tpl.text */
+ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
 
-/* /work/eventum/templates/notifications/closed.tpl.text */
-gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates//notifications/visitor_account.tpl.text */
+ev_gettext("Hello,\n\nWe just received a request to create a new account in %1\nFor security reasons we need you to confirm this request so we can finish the account creation process.\n\nIf this is not a real request from you, or you are not interested in creating a new account anymore, please disregard this email. In a week the request will be erased automatically. However, if you would like to confirm the new account, please do so by visiting the URL below:\n");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("Dear");
+/* templates//notifications/new_auto_created_issue.tpl.text */
+ev_gettext("Dear");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("This is an automated message sent at your request from %1");
+/* templates//notifications/new_auto_created_issue.tpl.text */
+ev_gettext("This is an automated message sent from %1");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("We received a message from you and for your convenience, we created an issue that will be used by our staff to handle your message.");
+/* templates//notifications/new_auto_created_issue.tpl.text */
+ev_gettext("We received a message from you and for your convenience, we created an issue that will be used by our staff to handle your message.");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("Date");
+/* templates//notifications/new_auto_created_issue.tpl.text */
+ev_gettext("To view more details of this issue, or to update it, please visit the\nfollowing URL");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("From");
+/* templates//notifications/new_auto_created_issue.tpl.text */
+ev_gettext("To add more information to this issue, simply reply to this email.");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("Subject");
+/* templates//notifications/new_auto_created_issue.tpl.text */
+ev_gettext("Issue");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("To view more details of this issue, or to update it, please visit the\nfollowing URL");
+/* templates//notifications/new_auto_created_issue.tpl.text */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("Issue");
+/* templates//notifications/new_auto_created_issue.tpl.text */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("Summary");
+/* templates//notifications/new_auto_created_issue.tpl.text */
+ev_gettext("Submitted");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("Priority");
+/* templates//notifications/notes.tpl.text */
+ev_gettext("These are the current issue details");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("Submitted");
+/* templates//notifications/notes.tpl.text */
+ev_gettext("ID");
 
-/* /work/eventum/templates/notifications/new_auto_created_issue.tpl.text */
-gettext("Please Note: If you do not wish to receive any future email\nnotifications from %1, please change your account preferences by\nvisiting the URL below");
+/* templates//notifications/notes.tpl.text */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/notifications/notes.tpl.text */
-gettext("These are the current issue details");
+/* templates//notifications/notes.tpl.text */
+ev_gettext("Status");
 
-/* /work/eventum/templates/notifications/notes.tpl.text */
-gettext("ID");
+/* templates//notifications/notes.tpl.text */
+ev_gettext("Project");
 
-/* /work/eventum/templates/notifications/notes.tpl.text */
-gettext("Summary");
+/* templates//notifications/notes.tpl.text */
+ev_gettext("Reported By");
 
-/* /work/eventum/templates/notifications/notes.tpl.text */
-gettext("Status");
+/* templates//notifications/notes.tpl.text */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/notifications/notes.tpl.text */
-gettext("Project");
+/* templates//notifications/notes.tpl.text */
+ev_gettext("Description");
 
-/* /work/eventum/templates/notifications/notes.tpl.text */
-gettext("Reported By");
+/* templates//notifications/notes.tpl.text */
+ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
 
-/* /work/eventum/templates/notifications/notes.tpl.text */
-gettext("Priority");
+/* templates//notifications/notes.tpl.text */
+ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
 
-/* /work/eventum/templates/notifications/notes.tpl.text */
-gettext("Description");
+/* templates//notifications/account_details.tpl.text */
+ev_gettext("This is an automated message sent at your request from %1.");
 
-/* /work/eventum/templates/notifications/notes.tpl.text */
-gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates//notifications/account_details.tpl.text */
+ev_gettext("Your full account information is available below.");
 
-/* /work/eventum/templates/notifications/notes.tpl.text */
-gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates//notifications/account_details.tpl.text */
+ev_gettext("Full Name");
 
-/* /work/eventum/templates/notifications/account_details.tpl.text */
-gettext("This is an automated message sent at your request from %1.");
+/* templates//notifications/account_details.tpl.text */
+ev_gettext("Email Address");
 
-/* /work/eventum/templates/notifications/account_details.tpl.text */
-gettext("Your full account information is available below.");
+/* templates//notifications/account_details.tpl.text */
+ev_gettext("Assigned Projects");
 
-/* /work/eventum/templates/notifications/account_details.tpl.text */
-gettext("Full Name");
+/* templates//notifications/updated_account.tpl.text */
+ev_gettext("Your user account has been updated in %1");
 
-/* /work/eventum/templates/notifications/account_details.tpl.text */
-gettext("Email Address");
+/* templates//notifications/updated_account.tpl.text */
+ev_gettext("Your account information as it now exists appears below.");
 
-/* /work/eventum/templates/notifications/account_details.tpl.text */
-gettext("Assigned Projects");
+/* templates//notifications/updated_account.tpl.text */
+ev_gettext("Full Name");
 
-/* /work/eventum/templates/notifications/updated_account.tpl.text */
-gettext("Your user account has been updated in %1");
+/* templates//notifications/updated_account.tpl.text */
+ev_gettext("Email Address");
 
-/* /work/eventum/templates/notifications/updated_account.tpl.text */
-gettext("Your account information as it now exists appears below.");
+/* templates//notifications/updated_account.tpl.text */
+ev_gettext("Assigned Projects");
 
-/* /work/eventum/templates/notifications/updated_account.tpl.text */
-gettext("Full Name");
+/* templates//notifications/password_confirmation.tpl.text */
+ev_gettext("Hello,\n\nWe just received a request to create a new random password for your account in %1. For security reasons we need you to confirm this request so we can finish the password creation process.\n\nIf this is not a real request from you, or if you don't need a new password anymore, please disregard this email.\n\nHowever, if you would like to confirm this request, please do so by visiting the URL below:\n");
 
-/* /work/eventum/templates/notifications/updated_account.tpl.text */
-gettext("Email Address");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("This is an automated message sent at your request from %1");
 
-/* /work/eventum/templates/notifications/updated_account.tpl.text */
-gettext("Assigned Projects");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("An issue was assigned to you by %1");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("This is an automated message sent at your request from %1");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("An issue was assigned to you by %1");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("ID");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("ID");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("Project");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("Summary");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("Reported By");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("Project");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("Assignment");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("Reported By");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("Assignment");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("Description");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("Priority");
+/* templates//notifications/assigned.tpl.text */
+ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("Description");
+/* templates//notifications/files.tpl.text */
+ev_gettext("This is an automated message sent at your request from");
 
-/* /work/eventum/templates/notifications/assigned.tpl.text */
-gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates//notifications/files.tpl.text */
+ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("This is an automated message sent at your request from");
+/* templates//notifications/files.tpl.text */
+ev_gettext("New Attachment");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Owner");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("New Attachment");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Date");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Owner");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Files");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Date");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Description");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Files");
+/* templates//notifications/files.tpl.text */
+ev_gettext("These are the current issue details");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Description");
+/* templates//notifications/files.tpl.text */
+ev_gettext("ID");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("These are the current issue details");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("ID");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Status");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Summary");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Project");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Status");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Reported By");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Project");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Reported By");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Description");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Priority");
+/* templates//notifications/files.tpl.text */
+ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Description");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("This is an automated message sent at your request from");
 
-/* /work/eventum/templates/notifications/files.tpl.text */
-gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("A new issue was just created in the system.");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("This is an automated message sent at your request from");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("A new issue was just created in the system.");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("ID");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("ID");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Project");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Summary");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Reported");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Project");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Assignment");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Reported");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Assignment");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Description");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Priority");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Issue Details");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Description");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Attachments");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Issue Details");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Files");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Attachments");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Description");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Files");
+/* templates//notifications/new_issue.tpl.text */
+ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Description");
+/* templates//notifications/updated.tpl.text */
+ev_gettext("This is an automated message sent at your request from %1");
 
-/* /work/eventum/templates/notifications/new_issue.tpl.text */
-gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates//notifications/updated.tpl.text */
+ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
 
-/* /work/eventum/templates/notifications/updated.tpl.text */
-gettext("This is an automated message sent at your request from");
+/* templates//notifications/updated.tpl.text */
+ev_gettext("Issue #");
 
-/* /work/eventum/templates/notifications/updated.tpl.text */
-gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates//notifications/updated.tpl.text */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/notifications/updated.tpl.text */
-gettext("Issue #");
+/* templates//notifications/updated.tpl.text */
+ev_gettext("Changed Fields");
 
-/* /work/eventum/templates/notifications/updated.tpl.text */
-gettext("Summary");
+/* templates//notifications/updated.tpl.text */
+ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
 
-/* /work/eventum/templates/notifications/updated.tpl.text */
-gettext("Changed Fields");
+/* templates//view_form.tpl.html */
+ev_gettext("Please select the new status for this issue.");
 
-/* /work/eventum/templates/notifications/updated.tpl.text */
-gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates//view_form.tpl.html */
+ev_gettext("NOTE: If you need to send new information regarding this issue, please use the EMAIL related buttons available at the bottom of the screen.");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Please select the new status for this issue.");
+/* templates//view_form.tpl.html */
+ev_gettext("Previous Issue");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("NOTE: If you need to send new information regarding this issue, please use the EMAIL related buttons available at the bottom of the screen.");
+/* templates//view_form.tpl.html */
+ev_gettext("Next Issue");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Previous Issue");
+/* templates//view_form.tpl.html */
+ev_gettext("This Issue is Currently Quarantined");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Next Issue");
+/* templates//view_form.tpl.html */
+ev_gettext("Quarantine expires in %1");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("This Issue is Currently Quarantined");
+/* templates//view_form.tpl.html */
+ev_gettext("Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Quarantine expires in %1");
+/* templates//view_form.tpl.html */
+ev_gettext("Remove Quarantine");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
+/* templates//view_form.tpl.html */
+ev_gettext("Note: ");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Remove Quarantine");
+/* templates//view_form.tpl.html */
+ev_gettext("This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Note: ");
+/* templates//view_form.tpl.html */
+ev_gettext("Issue Overview");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.");
+/* templates//view_form.tpl.html */
+ev_gettext("Edit Authorized Replier List");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Issue Overview");
+/* templates//view_form.tpl.html */
+ev_gettext("Edit Notification List");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Edit Authorized Replier List");
+/* templates//view_form.tpl.html */
+ev_gettext("History of Changes");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Edit Notification List");
+/* templates//view_form.tpl.html */
+ev_gettext("Customer");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("History of Changes");
+/* templates//view_form.tpl.html */
+ev_gettext("Complete Details");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Customer");
+/* templates//view_form.tpl.html */
+ev_gettext("Customer Contract");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Complete Details");
+/* templates//view_form.tpl.html */
+ev_gettext("Support Level");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Customer Contract");
+/* templates//view_form.tpl.html */
+ev_gettext("Support Options");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Support Level");
+/* templates//view_form.tpl.html */
+ev_gettext("Redeemed Incident Types");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Support Options");
+/* templates//view_form.tpl.html */
+ev_gettext("None");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Redeemed Incident Types");
+/* templates//view_form.tpl.html */
+ev_gettext("Category");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("None");
+/* templates//view_form.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Category");
+/* templates//view_form.tpl.html */
+ev_gettext("Notification List");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Status");
+/* templates//view_form.tpl.html */
+ev_gettext("Staff");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Notification List");
+/* templates//view_form.tpl.html */
+ev_gettext("Other");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Staff");
+/* templates//view_form.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Other");
+/* templates//view_form.tpl.html */
+ev_gettext("Submitted Date");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Status");
+/* templates//view_form.tpl.html */
+ev_gettext("Priority");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Submitted Date");
+/* templates//view_form.tpl.html */
+ev_gettext("Last Updated Date");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Priority");
+/* templates//view_form.tpl.html */
+ev_gettext("Scheduled Release");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Last Updated Date");
+/* templates//view_form.tpl.html */
+ev_gettext("Associated Issues");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Scheduled Release");
+/* templates//view_form.tpl.html */
+ev_gettext("No issues associated");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Associated Issues");
+/* templates//view_form.tpl.html */
+ev_gettext("Resolution");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("No issues associated");
+/* templates//view_form.tpl.html */
+ev_gettext("Expected Resolution Date");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Resolution");
+/* templates//view_form.tpl.html */
+ev_gettext("No resolution date given");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Expected Resolution Date");
+/* templates//view_form.tpl.html */
+ev_gettext("Percentage Complete");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("No resolution date given");
+/* templates//view_form.tpl.html */
+ev_gettext("Estimated Dev. Time");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Percentage Complete");
+/* templates//view_form.tpl.html */
+ev_gettext("hours");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Estimated Dev. Time");
+/* templates//view_form.tpl.html */
+ev_gettext("Reporter");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("hours");
+/* templates//view_form.tpl.html */
+ev_gettext("Duplicates");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Reporter");
+/* templates//view_form.tpl.html */
+ev_gettext("Duplicate of");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Duplicates");
+/* templates//view_form.tpl.html */
+ev_gettext("Duplicated by");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Duplicate of");
+/* templates//view_form.tpl.html */
+ev_gettext("Assignment");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Duplicated by");
+/* templates//view_form.tpl.html */
+ev_gettext("Authorized Repliers");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Assignment");
+/* templates//view_form.tpl.html */
+ev_gettext("Staff");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Authorized Repliers");
+/* templates//view_form.tpl.html */
+ev_gettext("Other");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Staff");
+/* templates//view_form.tpl.html */
+ev_gettext("Group");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Other");
+/* templates//view_form.tpl.html */
+ev_gettext("Summary");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Group");
+/* templates//view_form.tpl.html */
+ev_gettext("Initial Description");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Summary");
+/* templates//view_form.tpl.html */
+ev_gettext("fixed width font");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Initial Description");
+/* templates//view_form.tpl.html */
+ev_gettext("Description is currently collapsed");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("fixed width font");
+/* templates//view_form.tpl.html */
+ev_gettext("Click to expand.");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Description is currently collapsed");
+/* templates//view_form.tpl.html */
+ev_gettext("Unassign Issue");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Click to expand.");
+/* templates//view_form.tpl.html */
+ev_gettext("Assign Issue To Myself");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Unassign Issue");
+/* templates//view_form.tpl.html */
+ev_gettext("Update Issue");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Assign Issue To Myself");
+/* templates//view_form.tpl.html */
+ev_gettext("Reply");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Update Issue");
+/* templates//view_form.tpl.html */
+ev_gettext("Clear Duplicate Status");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Reply");
+/* templates//view_form.tpl.html */
+ev_gettext("Mark as Duplicate");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Clear Duplicate Status");
+/* templates//view_form.tpl.html */
+ev_gettext("Close Issue");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Mark as Duplicate");
+/* templates//view_form.tpl.html */
+ev_gettext("Signup as Authorized Replier");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Close Issue");
+/* templates//view_form.tpl.html */
+ev_gettext("Edit Incident Redemption");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Signup as Authorized Replier");
+/* templates//view_form.tpl.html */
+ev_gettext("Change Status To");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Edit Incident Redemption");
+/* templates//email_drafts.tpl.html */
+ev_gettext("Drafts");
 
-/* /work/eventum/templates/view_form.tpl.html */
-gettext("Change Status To");
+/* templates//email_drafts.tpl.html */
+ev_gettext("Back to Top");
 
-/* /work/eventum/templates/column_display.tpl.html */
-gettext("Please choose which entries need to be removed.");
+/* templates//email_drafts.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/column_display.tpl.html */
-gettext("Attached Emails");
+/* templates//email_drafts.tpl.html */
+ev_gettext("From");
 
-/* /work/eventum/templates/column_display.tpl.html */
-gettext("Remove?");
+/* templates//email_drafts.tpl.html */
+ev_gettext("To");
 
-/* /work/eventum/templates/column_display.tpl.html */
-gettext("Sender");
+/* templates//email_drafts.tpl.html */
+ev_gettext("Last Updated Date");
 
-/* /work/eventum/templates/column_display.tpl.html */
-gettext("Subject");
+/* templates//email_drafts.tpl.html */
+ev_gettext("Subject");
 
-/* /work/eventum/templates/column_display.tpl.html */
-gettext("Notify Sender?");
+/* templates//email_drafts.tpl.html */
+ev_gettext("No email drafts could be found.");
 
-/* /work/eventum/templates/column_display.tpl.html */
-gettext("Remove Selected");
+/* templates//email_drafts.tpl.html */
+ev_gettext("Create Draft");
 
-/* /work/eventum/templates/email_drafts.tpl.html */
-gettext("Drafts");
+/* templates//email_drafts.tpl.html */
+ev_gettext("Show All Drafts");
 
-/* /work/eventum/templates/email_drafts.tpl.html */
-gettext("Status");
+/* templates//redeem_incident.tpl.html */
+ev_gettext("There was an error marking this issue as redeemed");
 
-/* /work/eventum/templates/email_drafts.tpl.html */
-gettext("From");
+/* templates//redeem_incident.tpl.html */
+ev_gettext("This issue already has been marked as redeemed");
 
-/* /work/eventum/templates/email_drafts.tpl.html */
-gettext("To");
+/* templates//redeem_incident.tpl.html */
+ev_gettext("Thank you, the issue was successfully marked.");
 
-/* /work/eventum/templates/email_drafts.tpl.html */
-gettext("Last Updated Date");
+/* templates//redeem_incident.tpl.html */
+ev_gettext("Please choose the incident types to redeem for this issue.");
 
-/* /work/eventum/templates/email_drafts.tpl.html */
-gettext("Subject");
+/* templates//redeem_incident.tpl.html */
+ev_gettext("Total");
 
-/* /work/eventum/templates/email_drafts.tpl.html */
-gettext("No email drafts could be found.");
+/* templates//redeem_incident.tpl.html */
+ev_gettext("Left");
 
-/* /work/eventum/templates/email_drafts.tpl.html */
-gettext("Create Draft");
+/* templates//redeem_incident.tpl.html */
+ev_gettext("Redeem Incidents");
 
-/* /work/eventum/templates/email_drafts.tpl.html */
-gettext("Show All Drafts");
+/* templates//redeem_incident.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/redeem_incident.tpl.html */
-gettext("There was an error marking this issue as redeemed");
+/* templates//custom_fields.tpl.html */
+ev_gettext("Custom Fields");
 
-/* /work/eventum/templates/redeem_incident.tpl.html */
-gettext("This issue already has been marked as redeemed");
+/* templates//custom_fields.tpl.html */
+ev_gettext("Back to Top");
 
-/* /work/eventum/templates/redeem_incident.tpl.html */
-gettext("Thank you, the issue was successfully marked.");
+/* templates//custom_fields.tpl.html */
+ev_gettext("No custom fields could be found.");
 
-/* /work/eventum/templates/redeem_incident.tpl.html */
-gettext("Please choose the incident types to redeem for this issue.");
+/* templates//custom_fields.tpl.html */
+ev_gettext("Update");
 
-/* /work/eventum/templates/redeem_incident.tpl.html */
-gettext("Total");
+/* templates//switch.tpl.html */
+ev_gettext("Thank you, your current selected project was changed successfully.");
 
-/* /work/eventum/templates/redeem_incident.tpl.html */
-gettext("Left");
+/* templates//switch.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/redeem_incident.tpl.html */
-gettext("Redeem Incidents");
+/* templates//news.tpl.html */
+ev_gettext("Important Notices");
 
-/* /work/eventum/templates/redeem_incident.tpl.html */
-gettext("Continue");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Please enter the estimated development time for this task.");
 
-/* /work/eventum/templates/custom_fields.tpl.html */
-gettext("Custom Fields");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Please use only floating point numbers (or integers) on the estimated development time field.");
 
-/* /work/eventum/templates/custom_fields.tpl.html */
-gettext("No custom fields could be found.");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Please enter the analysis for the changes required by this issue.");
 
-/* /work/eventum/templates/custom_fields.tpl.html */
-gettext("Update");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Impact Analysis");
 
-/* /work/eventum/templates/switch.tpl.html */
-gettext("Thank you, your current selected project was changed successfully.");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Total Estimated Dev. Time");
 
-/* /work/eventum/templates/switch.tpl.html */
-gettext("Continue");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("in hours");
 
-/* /work/eventum/templates/news.tpl.html */
-gettext("Important Notices");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("hours");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Please enter the estimated development time for this task.");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Initial Impact Analysis");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Please use only floating point numbers (or integers) on the estimated development time field.");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Update");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Please enter the analysis for the changes required by this issue.");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Please choose which entries need to be removed.");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Impact Analysis");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("This action will permanently delete the selected entries.");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Total Estimated Dev. Time");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Further Requirements");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("in hours");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("hours");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Handler");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Initial Impact Analysis");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Requirement");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Update");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Estimated Dev. Time");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Please choose which entries need to be removed.");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Impact Analysis");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("This action will permanently delete the selected entries.");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("update entry");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Further Requirements");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("update entry");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("All");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Handler");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Remove Selected");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Requirement");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("No entries could be found.");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Estimated Dev. Time");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Please enter the new requirement for this issue.");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Impact Analysis");
+/* templates//impact_analysis.tpl.html */
+ev_gettext("Add New Requirement");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("update entry");
+/* templates//attachments.tpl.html */
+ev_gettext("This action will permanently delete the selected attachment.");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("update entry");
+/* templates//attachments.tpl.html */
+ev_gettext("This action will permanently delete the selected file.");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("All");
+/* templates//attachments.tpl.html */
+ev_gettext("Attached Files");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Remove Selected");
+/* templates//attachments.tpl.html */
+ev_gettext("Back to Top");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("No entries could be found.");
+/* templates//attachments.tpl.html */
+ev_gettext("Files");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Please enter the new requirement for this issue.");
+/* templates//attachments.tpl.html */
+ev_gettext("Owner");
 
-/* /work/eventum/templates/impact_analysis.tpl.html */
-gettext("Add New Requirement");
+/* templates//attachments.tpl.html */
+ev_gettext("Status");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("This action will permanently delete the selected attachment.");
+/* templates//attachments.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("This action will permanently delete the selected file.");
+/* templates//attachments.tpl.html */
+ev_gettext("Description");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("Attached Files");
+/* templates//attachments.tpl.html */
+ev_gettext("delete");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("Files");
+/* templates//attachments.tpl.html */
+ev_gettext("delete");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("Owner");
+/* templates//attachments.tpl.html */
+ev_gettext("No attachments could be found.");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("Status");
+/* templates//attachments.tpl.html */
+ev_gettext("Upload File");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("Date");
+/* templates//select_project.tpl.html */
+ev_gettext("Please choose the project.");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("Description");
+/* templates//select_project.tpl.html */
+ev_gettext("Select Project");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("delete");
+/* templates//select_project.tpl.html */
+ev_gettext("You are not allowed to use the selected project.");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("delete");
+/* templates//select_project.tpl.html */
+ev_gettext("Project");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("No attachments could be found.");
+/* templates//select_project.tpl.html */
+ev_gettext("Remember Selection");
 
-/* /work/eventum/templates/attachments.tpl.html */
-gettext("Upload File");
+/* templates//select_project.tpl.html */
+ev_gettext("Continue");
 
-/* /work/eventum/templates/select_project.tpl.html */
-gettext("Please choose the project.");
+/* templates//removed_emails.tpl.html */
+ev_gettext("An error occurred while trying to run your query");
 
-/* /work/eventum/templates/select_project.tpl.html */
-gettext("Select Project");
+/* templates//removed_emails.tpl.html */
+ev_gettext("Removed Emails");
 
-/* /work/eventum/templates/select_project.tpl.html */
-gettext("You are not allowed to use the selected project.");
+/* templates//removed_emails.tpl.html */
+ev_gettext("Please choose which emails need to be restored.");
 
-/* /work/eventum/templates/select_project.tpl.html */
-gettext("Project");
+/* templates//removed_emails.tpl.html */
+ev_gettext("Please choose which emails need to be permanently removed.");
 
-/* /work/eventum/templates/select_project.tpl.html */
-gettext("Remember Selection");
+/* templates//removed_emails.tpl.html */
+ev_gettext("WARNING: This action will permanently remove the selected emails from your email account.");
 
-/* /work/eventum/templates/select_project.tpl.html */
-gettext("Continue");
+/* templates//removed_emails.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("An error occurred while trying to run your query");
+/* templates//removed_emails.tpl.html */
+ev_gettext("Date");
 
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("Removed Emails");
+/* templates//removed_emails.tpl.html */
+ev_gettext("From");
 
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("Please choose which emails need to be restored.");
+/* templates//removed_emails.tpl.html */
+ev_gettext("Subject");
 
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("Please choose which emails need to be permanently removed.");
+/* templates//removed_emails.tpl.html */
+ev_gettext("No emails could be found.");
 
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("WARNING: This action will permanently remove the selected emails from your email account.");
+/* templates//removed_emails.tpl.html */
+ev_gettext("All");
 
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("All");
+/* templates//removed_emails.tpl.html */
+ev_gettext("Restore Emails");
 
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("Date");
+/* templates//removed_emails.tpl.html */
+ev_gettext("Close");
 
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("From");
-
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("Subject");
-
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("No emails could be found.");
-
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("All");
-
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("Restore Emails");
-
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("Close");
-
-/* /work/eventum/templates/removed_emails.tpl.html */
-gettext("Permanently Remove");
+/* templates//removed_emails.tpl.html */
+ev_gettext("Permanently Remove");
 

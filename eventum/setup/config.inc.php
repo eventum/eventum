@@ -152,6 +152,10 @@ $avail_langs = array(
 );
 define('APP_DEFAULT_LOCALE', 'en_US');
 
+// 'native' or 'php'. Try native first, if you experience strange issues
+// such as language switching randomly, try php
+define('APP_GETTEXT_MODE', 'native');
+
 include_once(APP_INC_PATH . "class.language.php");
 include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.auth.php");
