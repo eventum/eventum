@@ -344,18 +344,20 @@ class User
             }
             // send confirmation email to user
             $hash = md5($HTTP_POST_VARS["full_name"] . md5($HTTP_POST_VARS["email"]) . $GLOBALS["private_key"]);
-            $msg = "Hello,\n\n";
-            $msg .= "We just received a request to create a new account in our issue tracking system. ";
-            $msg .= "For security reasons we need you to confirm this request so we can finish the account creation process.\n\n";
-            $msg .= "If this is not a real request from you, or you are not interested in creating a new account anymore, ";
-            $msg .= "please disregard this email. In a week the request will be erased automatically.\n\n";
-            $msg .= "However, if you would like to confirm the new account, please do so by visiting the URL below:\n\n";
-            $msg .= APP_BASE_URL . "confirm.php?cat=newuser&email=" . $HTTP_POST_VARS["email"] . "&hash=" . $hash . "\n\n";
+
+            $tpl = new Template_API;
+            $tpl->setTemplate('notifications/visitor_account.tpl.text');
+            $tpl->bulkAssign(array(
+                "app_title"   => Misc::getToolCaption(),
+                "email"     =>  $HTTP_POST_VARS['email'],
+                'hash'      =>  $hash
+            ));
+            $text_message = $tpl->getTemplateContents();
 
             $setup = Setup::load();
             $mail = new Mail_API;
             // need to make this message MIME based
-            $mail->setTextBody($msg);
+            $mail->setTextBody($text_message);
             $mail->send($setup["smtp"]["from"], $HTTP_POST_VARS["email"], APP_SHORT_NAME . ": New Account - Confirmation Required");
             return 1;
         }
@@ -375,18 +377,20 @@ class User
         $info = User::getDetails($usr_id);
         // send confirmation email to user
         $hash = md5($info["usr_full_name"] . md5($info["usr_email"]) . $GLOBALS["private_key"]);
-        $msg = "Hello,\n\n";
-        $msg .= "We just received a request to create a new random password for your account in our issue tracking system. ";
-        $msg .= "For security reasons we need you to confirm this request so we can finish the password creation process.\n\n";
-        $msg .= "If this is not a real request from you, or if you don't need a new password anymore, ";
-        $msg .= "please disregard this email.\n\n";
-        $msg .= "However, if you would like to confirm this request, please do so by visiting the URL below:\n\n";
-        $msg .= APP_BASE_URL . "confirm.php?cat=password&email=" . $info["usr_email"] . "&hash=" . $hash . "\n\n";
+
+        $tpl = new Template_API;
+        $tpl->setTemplate('notifications/password_confirmation.tpl.text');
+        $tpl->bulkAssign(array(
+            "app_title" => Misc::getToolCaption(),
+            "user"      =>  $info,
+            'hash'      =>  $hash
+        ));
+        $text_message = $tpl->getTemplateContents();
 
         $setup = Setup::load();
         $mail = new Mail_API;
         // need to make this message MIME based
-        $mail->setTextBody($msg);
+        $mail->setTextBody($text_message);
         $mail->send($setup["smtp"]["from"], $info["usr_email"], APP_SHORT_NAME . ": New Password - Confirmation Required");
     }
 
