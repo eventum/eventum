@@ -1065,13 +1065,12 @@ class Support
     function getParam($name)
     {
         global $HTTP_POST_VARS, $HTTP_GET_VARS;
-        $profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'email');
 
         if (isset($HTTP_GET_VARS[$name])) {
             return $HTTP_GET_VARS[$name];
         } elseif (isset($HTTP_POST_VARS[$name])) {
             return $HTTP_POST_VARS[$name];
-        } elseif (isset($profile[$name])) {
+        } elseif ($profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'email') && isset($profile[$name])) {
             return $profile[$name];
         } else {
             return "";
