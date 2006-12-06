@@ -2407,7 +2407,7 @@ class Support
      * Deletes the specified message from the server
      * NOTE: YOU STILL MUST call imap_expunge($mbox) to permanently delete the message.
      *
-     * @param   array $info Ana rray of email account information
+     * @param   array $info An array of email account information
      * @param   object $mbox The mailbox object
      * @param   integer $num The number of the message to delete.
      */
