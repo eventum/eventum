@@ -341,15 +341,15 @@ class Mime_Helper
      *
      * @access  public
      * @param   string $hdr_value The string to be encoded
-     * @param   string $encoding The encoding of the string
+     * @param   string $charset The charset of the string
      * @return  string The encoded string
      */
-    function encodeValue($hdr_value, $encoding = 'iso-8859-1')
+    function encodeValue($hdr_value, $charset = 'iso-8859-1')
     {
         preg_match_all('/(\w*[\x80-\xFF]+\w*)/', $hdr_value, $matches);
         foreach ($matches[1] as $value) {
             $replacement = preg_replace('/([\x80-\xFF])/e', '"=" . strtoupper(dechex(ord("\1")))', $value);
-            $hdr_value = str_replace($value, '=?' . $encoding . '?Q?' . $replacement . '?=', $hdr_value);
+            $hdr_value = str_replace($value, '=?' . $charset . '?Q?' . $replacement . '?=', $hdr_value);
         }
         return $hdr_value;
     }
