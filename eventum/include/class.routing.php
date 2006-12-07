@@ -96,15 +96,6 @@ class Routing
             $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
         }
 
-        // check for magic cookie
-        if (Mail_API::hasMagicCookie($full_message)) {
-            // strip the magic cookie
-            $full_message = Mail_API::stripMagicCookie($full_message);
-            $has_magic_cookie = true;
-        } else {
-            $has_magic_cookie = false;
-        }
-
         Auth::createFakeCookie(APP_SYSTEM_USER_ID);
 
         $structure = Mime_Helper::decode($full_message, true, true);
@@ -158,12 +149,6 @@ class Routing
 
         $prj_id = Issue::getProjectID($issue_id);
         Auth::createFakeCookie(APP_SYSTEM_USER_ID, $prj_id);
-        $staff_emails = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
-        $staff_emails = array_map('strtolower', $staff_emails);
-        // only allow staff users to use the magic cookie
-        if (!in_array($sender_email, array_values($staff_emails))) {
-            $has_magic_cookie = false;
-        }
 
         if (Mime_Helper::hasAttachments($structure)) {
             $has_attachments = 1;
@@ -212,7 +197,7 @@ class Routing
             $t['customer_id'] = "NULL";
         }
 
-        if ((!$has_magic_cookie) && (Support::blockEmailIfNeeded($t))) {
+        if (Support::blockEmailIfNeeded($t)) {
             return true;
         }
 

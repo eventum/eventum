@@ -123,36 +123,6 @@ class Mail_API
 
 
     /**
-     * Checks whether the given string contains the magic cookie or not.
-     *
-     * @access  public
-     * @param   string $message The email message
-     * @return  boolean
-     */
-    function hasMagicCookie($message)
-    {
-        if (strstr($message, 'really-send-this-mail')) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    /**
-     * Returns the given string without the magic cookie, if any.
-     *
-     * @access  public
-     * @param   string $message The email message
-     * @return  string The message without the magic cookie
-     */
-    function stripMagicCookie($message)
-    {
-        return str_replace('really-send-this-mail', '', $message);
-    }
-
-
-    /**
      * Checks whether the given headers are from a vacation
      * auto-responder message or not.
      *
