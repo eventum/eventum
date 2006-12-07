@@ -62,6 +62,10 @@ class Language
     {
         global $avail_langs;
 
+        if (defined('APP_SKIP_LANG_INIT')) {
+            return;
+        }
+
         $usr_id = Auth::getUserID();
         if (empty($usr_id)) {
             define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
