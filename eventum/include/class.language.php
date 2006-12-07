@@ -41,8 +41,6 @@ class Language
 
     function setup()
     {
-        global $avail_langs;
-
         // please add the following line to config.inc.php, changing to whatever language you prefer
         // define('APP_DEFAULT_LOCALE', 'en_US');
 
@@ -62,10 +60,6 @@ class Language
     {
         global $avail_langs;
 
-        if (defined('APP_SKIP_LANG_INIT')) {
-            return;
-        }
-
         $usr_id = Auth::getUserID();
         if (empty($usr_id)) {
             define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
@@ -76,7 +70,6 @@ class Language
             }
             define('APP_CURRENT_LOCALE', $usr_lang);
         }
-
         Language::set(APP_CURRENT_LOCALE);
     }
 

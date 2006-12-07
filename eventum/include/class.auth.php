@@ -121,8 +121,9 @@ class Auth
         // check the session
         Session::verify($usr_id);
 
-        // set the language
-        Language::setPreference();
+        if (!defined('SKIP_LANGUAGE_INIT')) {
+            Language::setPreference();
+        }
 
         // check whether the project selection is set or not
         $prj_id = Auth::getCurrentProject();

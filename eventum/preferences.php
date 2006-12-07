@@ -27,6 +27,11 @@
 //
 // @(#) $Id: s.preferences.php 1.9 04/01/07 15:50:18-00:00 jpradomaia $
 //
+
+// skip language init if we're saving language
+if (@$_POST['language']) {
+    define('SKIP_LANGUAGE_INIT', true);
+}
 include_once("config.inc.php");
 include_once(APP_INC_PATH . "class.template.php");
 include_once(APP_INC_PATH . "class.auth.php");
@@ -35,20 +40,21 @@ include_once(APP_INC_PATH . "class.setup.php");
 include_once(APP_INC_PATH . "class.date.php");
 include_once(APP_INC_PATH . "db_access.php");
 
+// must do Language::setPreference before template is initialized
+if (@$_POST["cat"] == "update_account") {
+    $res = User::setLang(Auth::getUserID(), $_POST['language']);
+    Language::setPreference();
+}
+
 $tpl = new Template_API();
 $tpl->setTemplate("preferences.tpl.html");
-
-if (isset($_POST['language'])) {
-    define('APP_SKIP_LANG_INIT', true);
-}
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $usr_id = Auth::getUserID();
 
 if (@$_POST["cat"] == "update_account") {
-    $tpl->assign('update_lang_result', User::setLang(Auth::getUserID(), $_POST['language']));
-    Language::setPreference();($_POST['language']);
+    $tpl->assign('update_lang_result', $res);
     $res = Prefs::set($usr_id);
     $tpl->assign('update_account_result', $res);
     User::updateSMS($usr_id, @$_POST['sms_email']);
