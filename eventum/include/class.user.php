@@ -51,16 +51,6 @@ $roles = array(
     7 => "Administrator"
 );
 
-$localized_roles = array(
-    1 => ev_gettext("Viewer"),
-    2 => ev_gettext("Reporter"),
-    3 => ev_gettext("Customer"),
-    4 => ev_gettext("Standard User"),
-    5 => ev_gettext("Developer"),
-    6 => ev_gettext("Manager"),
-    7 => ev_gettext("Administrator")
-);
-
 /**
  * Class to handle the business logic related to the administration
  * of users and permissions in the system.
@@ -1426,7 +1416,24 @@ class User
         }
         return true;
     }
+
+
+    function setLocalizedRoles()
+    {
+        $GLOBALS['localized_roles'] = array(
+            1 => ev_gettext("Viewer"),
+            2 => ev_gettext("Reporter"),
+            3 => ev_gettext("Customer"),
+            4 => ev_gettext("Standard User"),
+            5 => ev_gettext("Developer"),
+            6 => ev_gettext("Manager"),
+            7 => ev_gettext("Administrator")
+        );
+    }
+
 }
+
+User::setLocalizedRoles();
 
 // benchmarking the included file (aka setup time)
 if (APP_BENCHMARK) {
