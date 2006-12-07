@@ -174,8 +174,8 @@ if (isset($_GET)) {
     $HTTP_COOKIE_VARS = $_COOKIE;
 }
 // fix magic_quote_gpc'ed values
-$HTTP_GET_VARS = Misc::dispelMagicQuotes($HTTP_GET_VARS);
-$HTTP_POST_VARS = Misc::dispelMagicQuotes($HTTP_POST_VARS);
+$_GET = Misc::dispelMagicQuotes($_GET);
+$_POST = Misc::dispelMagicQuotes($_POST);
 $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
 
 Language::setup();
