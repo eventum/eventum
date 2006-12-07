@@ -104,9 +104,8 @@ class Routing
         if (isset($structure->headers['to'])) {
             $issue_id = Routing::getMatchingIssueIDs($structure->headers['to'], 'email');
         }
-        // validation is always a good idea
+        // we need to try the Cc header as well
         if (empty($issue_id) and isset($structure->headers['cc'])) {
-            // we need to try the Cc header as well
             $issue_id = Routing::getMatchingIssueIDs($structure->headers['cc'], 'email');
         }
 
