@@ -113,14 +113,12 @@ class Routing
             return array(65, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
         }
 
-        if (empty($email_account_id)) {
-            $issue_prj_id = Issue::getProjectID($issue_id);
-            if (empty($issue_prj_id)) {
-                return array(65, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
-            }
-            $email_account_id = Email_Account::getEmailAccount($issue_prj_id);
+        $issue_prj_id = Issue::getProjectID($issue_id);
+        if (empty($issue_prj_id)) {
+            return array(65, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
         }
 
+        $email_account_id = Email_Account::getEmailAccount($issue_prj_id);
         if (empty($email_account_id)) {
             return array(78, ev_gettext("Error: Please provide the email account ID.") . "\n");
         }
