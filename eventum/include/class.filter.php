@@ -114,9 +114,7 @@ class Filter
      */
     function save()
     {
-        global $HTTP_POST_VARS;
-
-        $cst_id = Filter::getFilterID($HTTP_POST_VARS["title"]);
+        $cst_id = Filter::getFilterID($_POST["title"]);
         // loop through all available date fields and prepare the values for the sql query
         $date_fields = array(
             'created_date',
@@ -129,11 +127,11 @@ class Filter
             $date_var = $field_name;
             $filter_type_var = $field_name . '_filter_type';
             $date_end_var = $field_name . '_end';
-            if (@$HTTP_POST_VARS['filter'][$field_name] == 'yes') {
-                $$date_var = "'" . Misc::escapeString($HTTP_POST_VARS[$field_name]["Year"] . "-" . $HTTP_POST_VARS[$field_name]["Month"] . "-" . $HTTP_POST_VARS[$field_name]["Day"]) . "'";
-                $$filter_type_var = "'" . $HTTP_POST_VARS[$field_name]['filter_type'] . "'";
+            if (@$_POST['filter'][$field_name] == 'yes') {
+                $$date_var = "'" . Misc::escapeString($_POST[$field_name]["Year"] . "-" . $_POST[$field_name]["Month"] . "-" . $_POST[$field_name]["Day"]) . "'";
+                $$filter_type_var = "'" . $_POST[$field_name]['filter_type'] . "'";
                 if ($$filter_type_var == "'between'") {
-                    $$date_end_var = "'" . Misc::escapeString($HTTP_POST_VARS[$date_end_var]["Year"] . "-" . $HTTP_POST_VARS[$date_end_var]["Month"] . "-" . $HTTP_POST_VARS[$date_end_var]["Day"]) . "'";
+                    $$date_end_var = "'" . Misc::escapeString($_POST[$date_end_var]["Year"] . "-" . $_POST[$date_end_var]["Month"] . "-" . $_POST[$date_end_var]["Day"]) . "'";
                 } elseif (($$filter_type_var == "'null'") || ($$filter_type_var == "'in_past'")) {
                     $$date_var = "NULL";
                     $$date_end_var = "NULL";
@@ -148,39 +146,39 @@ class Filter
         }
 
         // save custom fields to search
-        if ((is_array($HTTP_POST_VARS['custom_field'])) && (count($HTTP_POST_VARS['custom_field']) > 0)) {
-            foreach ($HTTP_POST_VARS['custom_field'] as $fld_id => $search_value) {
+        if ((is_array($_POST['custom_field'])) && (count($_POST['custom_field']) > 0)) {
+            foreach ($_POST['custom_field'] as $fld_id => $search_value) {
                 if (empty($search_value)) {
-                    unset($HTTP_POST_VARS[$fld_id]);
+                    unset($_POST[$fld_id]);
                 }
             }
-            $custom_field_string = serialize($HTTP_POST_VARS['custom_field']);
+            $custom_field_string = serialize($_POST['custom_field']);
         } else {
             $custom_field_string = '';
         }
 
-        if (empty($HTTP_POST_VARS['is_global'])) {
+        if (empty($_POST['is_global'])) {
             $is_global_filter = 0;
         } else {
-            $is_global_filter = $HTTP_POST_VARS['is_global'];
+            $is_global_filter = $_POST['is_global'];
         }
         if ($cst_id != 0) {
             $stmt = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                      SET
-                        cst_iss_pri_id='" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . "',
-                        cst_keywords='" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
-                        cst_users='" . Misc::escapeString($HTTP_POST_VARS["users"]) . "',
-                        cst_reporter=" . Misc::escapeInteger($HTTP_POST_VARS["reporter"]) . ",
-                        cst_iss_sta_id='" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "',
-                        cst_iss_pre_id='" . Misc::escapeInteger(@$HTTP_POST_VARS["release"]) . "',
-                        cst_iss_prc_id='" . Misc::escapeInteger(@$HTTP_POST_VARS["category"]) . "',
-                        cst_rows='" . Misc::escapeString($HTTP_POST_VARS["rows"]) . "',
-                        cst_sort_by='" . Misc::escapeString($HTTP_POST_VARS["sort_by"]) . "',
-                        cst_sort_order='" . Misc::escapeString($HTTP_POST_VARS["sort_order"]) . "',
-                        cst_hide_closed='" . Misc::escapeInteger(@$HTTP_POST_VARS["hide_closed"]) . "',
-                        cst_show_authorized='" . Misc::escapeString(@$HTTP_POST_VARS["show_authorized_issues"]) . "',
-                        cst_show_notification_list='" . Misc::escapeString(@$HTTP_POST_VARS["show_notification_list_issues"]) . "',
+                        cst_iss_pri_id='" . Misc::escapeInteger($_POST["priority"]) . "',
+                        cst_keywords='" . Misc::escapeString($_POST["keywords"]) . "',
+                        cst_users='" . Misc::escapeString($_POST["users"]) . "',
+                        cst_reporter=" . Misc::escapeInteger($_POST["reporter"]) . ",
+                        cst_iss_sta_id='" . Misc::escapeInteger($_POST["status"]) . "',
+                        cst_iss_pre_id='" . Misc::escapeInteger(@$_POST["release"]) . "',
+                        cst_iss_prc_id='" . Misc::escapeInteger(@$_POST["category"]) . "',
+                        cst_rows='" . Misc::escapeString($_POST["rows"]) . "',
+                        cst_sort_by='" . Misc::escapeString($_POST["sort_by"]) . "',
+                        cst_sort_order='" . Misc::escapeString($_POST["sort_order"]) . "',
+                        cst_hide_closed='" . Misc::escapeInteger(@$_POST["hide_closed"]) . "',
+                        cst_show_authorized='" . Misc::escapeString(@$_POST["show_authorized_issues"]) . "',
+                        cst_show_notification_list='" . Misc::escapeString(@$_POST["show_notification_list_issues"]) . "',
                         cst_created_date=$created_date,
                         cst_created_date_filter_type=$created_date_filter_type,
                         cst_created_date_time_period='" . @Misc::escapeInteger(@$_REQUEST['created_date']['time_period']) . "',
@@ -202,7 +200,7 @@ class Filter
                         cst_closed_date_time_period='" . @Misc::escapeInteger(@$_REQUEST['closed_date']['time_period']) . "',
                         cst_closed_date_end=" . Misc::escapeString($closed_date_end) . ",
                         cst_is_global=" . Misc::escapeInteger($is_global_filter) . ",
-                        cst_search_type='" . Misc::escapeString($HTTP_POST_VARS['search_type']) . "',
+                        cst_search_type='" . Misc::escapeString($_POST['search_type']) . "',
                         cst_custom_field='" . Misc::escapeString($custom_field_string) . "'
                      WHERE
                         cst_id=$cst_id";
@@ -252,20 +250,20 @@ class Filter
                      ) VALUES (
                         " . Auth::getUserID() . ",
                         " . Auth::getCurrentProject() . ",
-                        '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                        '" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . "',
-                        '" . Misc::escapeString($HTTP_POST_VARS["keywords"]) . "',
-                        '" . Misc::escapeString($HTTP_POST_VARS["users"]) . "',
-                        '" . Misc::escapeInteger($HTTP_POST_VARS["reporter"]) . "',
-                        '" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . "',
-                        '" . Misc::escapeInteger(@$HTTP_POST_VARS["release"]) . "',
-                        '" . Misc::escapeInteger(@$HTTP_POST_VARS["category"]) . "',
-                        '" . Misc::escapeString($HTTP_POST_VARS["rows"]) . "',
-                        '" . Misc::escapeString($HTTP_POST_VARS["sort_by"]) . "',
-                        '" . Misc::escapeString($HTTP_POST_VARS["sort_order"]) . "',
-                        '" . Misc::escapeInteger(@$HTTP_POST_VARS["hide_closed"]) . "',
-                        '" . Misc::escapeString(@$HTTP_POST_VARS["show_authorized_issues"]) . "',
-                        '" . Misc::escapeString(@$HTTP_POST_VARS["show_notification_list_issues"]) . "',
+                        '" . Misc::escapeString($_POST["title"]) . "',
+                        '" . Misc::escapeInteger($_POST["priority"]) . "',
+                        '" . Misc::escapeString($_POST["keywords"]) . "',
+                        '" . Misc::escapeString($_POST["users"]) . "',
+                        '" . Misc::escapeInteger($_POST["reporter"]) . "',
+                        '" . Misc::escapeInteger($_POST["status"]) . "',
+                        '" . Misc::escapeInteger(@$_POST["release"]) . "',
+                        '" . Misc::escapeInteger(@$_POST["category"]) . "',
+                        '" . Misc::escapeString($_POST["rows"]) . "',
+                        '" . Misc::escapeString($_POST["sort_by"]) . "',
+                        '" . Misc::escapeString($_POST["sort_order"]) . "',
+                        '" . Misc::escapeInteger(@$_POST["hide_closed"]) . "',
+                        '" . Misc::escapeString(@$_POST["show_authorized_issues"]) . "',
+                        '" . Misc::escapeString(@$_POST["show_notification_list_issues"]) . "',
                         $created_date,
                         $created_date_filter_type,
                         '" . @Misc::escapeInteger(@$_REQUEST['created_date']['time_period']) . "',
@@ -287,7 +285,7 @@ class Filter
                         '" . @Misc::escapeInteger(@$_REQUEST['closed_date']['time_period']) . "',
                         $closed_date_end,
                         " . Misc::escapeInteger($is_global_filter) . ",
-                        '" . Misc::escapeString($HTTP_POST_VARS['search_type']) . "',
+                        '" . Misc::escapeString($_POST['search_type']) . "',
                         '" . Misc::escapeString($custom_field_string) . "'
                      )";
         }
@@ -518,10 +516,8 @@ class Filter
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = implode(", ", Misc::escapeInteger($HTTP_POST_VARS["item"]));
-        foreach ($HTTP_POST_VARS["item"] as $cst_id) {
+        $items = implode(", ", Misc::escapeInteger($_POST["item"]));
+        foreach ($_POST["item"] as $cst_id) {
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                      WHERE";

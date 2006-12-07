@@ -39,7 +39,7 @@ $tpl = new Template_API();
 $tpl->setTemplate("view_email.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
-$issue_id = Support::getIssueFromEmail($HTTP_GET_VARS["id"]);
+$issue_id = Support::getIssueFromEmail($_GET["id"]);
 
 if (!Issue::canAccess($issue_id, Auth::getUserID())) {
     $tpl->setTemplate("permission_denied.tpl.html");
@@ -47,27 +47,27 @@ if (!Issue::canAccess($issue_id, Auth::getUserID())) {
     exit;
 }
 
-$email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]);
+$email = Support::getEmailDetails($_GET["ema_id"], $_GET["id"]);
 $email['seb_body'] = str_replace("&amp;nbsp;", "&nbsp;", $email['seb_body']);
 $tpl->bulkAssign(array(
     "email"           => $email,
     "issue_id"        => $issue_id,
-    'extra_title'     => "Email #" . $HTTP_GET_VARS['id'] . ": " . $email['sup_subject'],
+    'extra_title'     => "Email #" . $_GET['id'] . ": " . $email['sup_subject'],
     'email_accounts'  =>  Email_Account::getAssocList(array_keys(Project::getAssocList(Auth::getUserID())), true)
 ));
 
-if (@$HTTP_GET_VARS['cat'] == 'list_emails') {
-    $sides = Support::getListingSides($HTTP_GET_VARS["id"]);
+if (@$_GET['cat'] == 'list_emails') {
+    $sides = Support::getListingSides($_GET["id"]);
     $tpl->assign(array(
         'previous' => $sides['previous'],
         'next'     => $sides['next']
     ));
-} elseif ((@$HTTP_GET_VARS['cat'] == 'move_email') && (Auth::getCurrentRole() >= User::getRoleID("Standard User"))) {
-    $res = Support::moveEmail(@$HTTP_GET_VARS['id'], @$HTTP_GET_VARS['ema_id'], @$HTTP_GET_VARS['new_ema_id']);
+} elseif ((@$_GET['cat'] == 'move_email') && (Auth::getCurrentRole() >= User::getRoleID("Standard User"))) {
+    $res = Support::moveEmail(@$_GET['id'], @$_GET['ema_id'], @$_GET['new_ema_id']);
     $tpl->assign("move_email_result", $res);
     $tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
 } else {
-    $sides = Support::getIssueSides($issue_id, $HTTP_GET_VARS["id"]);
+    $sides = Support::getIssueSides($issue_id, $_GET["id"]);
     $tpl->assign(array(
         'previous' => $sides['previous'],
         'next'     => $sides['next']

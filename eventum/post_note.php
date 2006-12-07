@@ -42,7 +42,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
-@$issue_id = $HTTP_GET_VARS["issue_id"] ? $HTTP_GET_VARS["issue_id"] : $HTTP_POST_VARS["issue_id"];
+@$issue_id = $_GET["issue_id"] ? $_GET["issue_id"] : $_POST["issue_id"];
 $details = Issue::getDetails($issue_id);
 $tpl->assign("issue_id", $issue_id);
 $tpl->assign("issue", $details);
@@ -53,12 +53,12 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
     exit;
 }
 
-if (@$HTTP_POST_VARS["cat"] == "post_note") {
+if (@$_POST["cat"] == "post_note") {
     // change status
-    if (!@empty($HTTP_POST_VARS['new_status'])) {
-        $res = Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
+    if (!@empty($_POST['new_status'])) {
+        $res = Issue::setStatus($issue_id, $_POST['new_status']);
         if ($res != -1) {
-            $new_status = Status::getStatusTitle($HTTP_POST_VARS['new_status']);
+            $new_status = Status::getStatusTitle($_POST['new_status']);
             History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " . User::getFullName($usr_id));
         }
     }
@@ -66,21 +66,21 @@ if (@$HTTP_POST_VARS["cat"] == "post_note") {
     $res = Note::insert($usr_id, $issue_id);
     $tpl->assign("post_result", $res);
     // enter the time tracking entry about this phone support entry
-    if (!empty($HTTP_POST_VARS['time_spent'])) {
-        $HTTP_POST_VARS['issue_id'] = $issue_id;
-        $HTTP_POST_VARS['category'] = $HTTP_POST_VARS['time_category'];
-        $HTTP_POST_VARS['summary'] = 'Time entry inserted when sending an internal note.';
+    if (!empty($_POST['time_spent'])) {
+        $_POST['issue_id'] = $issue_id;
+        $_POST['category'] = $_POST['time_category'];
+        $_POST['summary'] = 'Time entry inserted when sending an internal note.';
         Time_Tracking::insertEntry();
     }
-} elseif (@$HTTP_GET_VARS["cat"] == "reply") {
-    if (!@empty($HTTP_GET_VARS["id"])) {
-        $note = Note::getDetails($HTTP_GET_VARS["id"]);
+} elseif (@$_GET["cat"] == "reply") {
+    if (!@empty($_GET["id"])) {
+        $note = Note::getDetails($_GET["id"]);
         $date = Misc::formatReplyDate($note["timestamp"]);
         $header = "\n\n\nOn $date, " . $note["not_from"] . " wrote:\n>\n";
         $note["not_body"] = $header . Misc::formatReply($note["not_note"]);
         $tpl->bulkAssign(array(
             "note"           => $note,
-            "parent_note_id" => $HTTP_GET_VARS["id"]
+            "parent_note_id" => $_GET["id"]
         ));
         $reply_subject = Mail_API::removeExcessRe($note['not_title']);
     }

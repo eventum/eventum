@@ -44,7 +44,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
-@$issue_id = $HTTP_GET_VARS["issue_id"] ? $HTTP_GET_VARS["issue_id"] : $HTTP_POST_VARS["issue_id"];
+@$issue_id = $_GET["issue_id"] ? $_GET["issue_id"] : $_POST["issue_id"];
 $tpl->assign("issue_id", $issue_id);
 
 if (!Issue::canAccess($issue_id, $usr_id)) {
@@ -56,50 +56,50 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
 // since emails associated with issues are sent to the notification list, not the to: field, set the to field to be blank
 // this field should already be blank, but may also be unset.
 if (!empty($issue_id)) {
-    $HTTP_POST_VARS['to'] = '';
+    $_POST['to'] = '';
 }
 
-if (@$HTTP_POST_VARS["cat"] == "send_email") {
-    $res = Support::sendEmail($HTTP_POST_VARS['parent_id']);
+if (@$_POST["cat"] == "send_email") {
+    $res = Support::sendEmail($_POST['parent_id']);
     $tpl->assign("send_result", $res);
-    if (!@empty($HTTP_POST_VARS['new_status'])) {
-        $res = Issue::setStatus($issue_id, $HTTP_POST_VARS['new_status']);
+    if (!@empty($_POST['new_status'])) {
+        $res = Issue::setStatus($issue_id, $_POST['new_status']);
         if ($res != -1) {
-            $new_status = Status::getStatusTitle($HTTP_POST_VARS['new_status']);
+            $new_status = Status::getStatusTitle($_POST['new_status']);
             History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " . User::getFullName($usr_id) . " when sending an email");
         }
     }
     // remove the existing email draft, if appropriate
-    if (!empty($HTTP_POST_VARS['draft_id'])) {
-        Draft::remove($HTTP_POST_VARS['draft_id']);
+    if (!empty($_POST['draft_id'])) {
+        Draft::remove($_POST['draft_id']);
     }
     // enter the time tracking entry about this new email
-    if (!empty($HTTP_POST_VARS['time_spent'])) {
-        $HTTP_POST_VARS['issue_id'] = $issue_id;
-        $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Email Discussion');
-        $HTTP_POST_VARS['summary'] = 'Time entry inserted when sending outgoing email.';
+    if (!empty($_POST['time_spent'])) {
+        $_POST['issue_id'] = $issue_id;
+        $_POST['category'] = Time_Tracking::getCategoryID('Email Discussion');
+        $_POST['summary'] = 'Time entry inserted when sending outgoing email.';
         Time_Tracking::insertEntry();
     }
-} elseif (@$HTTP_POST_VARS["cat"] == "save_draft") {
-    $res = Draft::saveEmail($issue_id, $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"], $HTTP_POST_VARS["parent_id"]);
+} elseif (@$_POST["cat"] == "save_draft") {
+    $res = Draft::saveEmail($issue_id, $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $_POST["parent_id"]);
     $tpl->assign("draft_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "update_draft") {
-    $res = Draft::update($issue_id, $HTTP_POST_VARS["draft_id"], $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"], $HTTP_POST_VARS["parent_id"]);
+} elseif (@$_POST["cat"] == "update_draft") {
+    $res = Draft::update($issue_id, $_POST["draft_id"], $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $_POST["parent_id"]);
     $tpl->assign("draft_result", $res);
 }
 
 // enter the time tracking entry about this new email
-if ((@$HTTP_POST_VARS["cat"] == "save_draft") || (@$HTTP_POST_VARS["cat"] == "update_draft")) {
-    if (!empty($HTTP_POST_VARS['time_spent'])) {
-        $HTTP_POST_VARS['issue_id'] = $issue_id;
-        $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Email Discussion');
-        $HTTP_POST_VARS['summary'] = 'Time entry inserted when saving an email draft.';
+if ((@$_POST["cat"] == "save_draft") || (@$_POST["cat"] == "update_draft")) {
+    if (!empty($_POST['time_spent'])) {
+        $_POST['issue_id'] = $issue_id;
+        $_POST['category'] = Time_Tracking::getCategoryID('Email Discussion');
+        $_POST['summary'] = 'Time entry inserted when saving an email draft.';
         Time_Tracking::insertEntry();
     }
 }
 
-if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
-    $draft = Draft::getDetails($HTTP_GET_VARS['id']);
+if (@$_GET['cat'] == 'view_draft') {
+    $draft = Draft::getDetails($_GET['id']);
     $email = array(
         'sup_subject' => $draft['emd_subject'],
         'seb_body'    => $draft['emd_body'],
@@ -108,13 +108,13 @@ if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
     );
     // try to guess the correct email account to be associated with this email
     if (!empty($draft['emd_sup_id'])) {
-        $HTTP_GET_VARS['ema_id'] = Email_Account::getAccountByEmail($draft['emd_sup_id']);
+        $_GET['ema_id'] = Email_Account::getAccountByEmail($draft['emd_sup_id']);
     } else {
         // if we are not replying to an existing message, just get the first email account you can find...
-        $HTTP_GET_VARS['ema_id'] = Email_Account::getEmailAccount();
+        $_GET['ema_id'] = Email_Account::getEmailAccount();
     }
     $tpl->bulkAssign(array(
-        "draft_id"        => $HTTP_GET_VARS['id'],
+        "draft_id"        => $_GET['id'],
         "email"           => $email,
         "parent_email_id" => $draft['emd_sup_id'],
         "draft_status"    => $draft['emd_status']
@@ -122,24 +122,24 @@ if (@$HTTP_GET_VARS['cat'] == 'view_draft') {
     if ($draft['emd_status'] != 'pending') {
         $tpl->assign("read_only", 1);
     }
-} elseif (@$HTTP_GET_VARS['cat'] == 'create_draft') {
+} elseif (@$_GET['cat'] == 'create_draft') {
     $tpl->assign("hide_email_buttons", "yes");
 } else {
-    if (!@empty($HTTP_GET_VARS["id"])) {
-        $email = Support::getEmailDetails($HTTP_GET_VARS["ema_id"], $HTTP_GET_VARS["id"]);
+    if (!@empty($_GET["id"])) {
+        $email = Support::getEmailDetails($_GET["ema_id"], $_GET["id"]);
         $date = Misc::formatReplyDate($email["timestamp"]);
         $header = "\n\n\nOn $date, " . $email["sup_from"] . " wrote:\n>\n";
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
         $tpl->bulkAssign(array(
             "email"           => $email,
-            "parent_email_id" => $HTTP_GET_VARS["id"]
+            "parent_email_id" => $_GET["id"]
         ));
     }
 }
 
 // special handling when someone tries to 'reply' to an issue
-if (@$HTTP_GET_VARS["cat"] == 'reply') {
-    $details = Issue::getReplyDetails($HTTP_GET_VARS['issue_id']);
+if (@$_GET["cat"] == 'reply') {
+    $details = Issue::getReplyDetails($_GET['issue_id']);
     if ($details != '') {
         $date = Misc::formatReplyDate($details['created_date_ts']);
         $header = "\n\n\nOn $date, " . $details['reporter'] . " wrote:\n>\n";
@@ -148,7 +148,7 @@ if (@$HTTP_GET_VARS["cat"] == 'reply') {
         $tpl->bulkAssign(array(
             "email"           => $details,
             "parent_email_id" => 0,
-            "extra_title"     => "Issue #" . $HTTP_GET_VARS['issue_id'] . ": Reply"
+            "extra_title"     => "Issue #" . $_GET['issue_id'] . ": Reply"
         ));
     }
 }
@@ -162,8 +162,8 @@ if (!empty($issue_id)) {
     $tpl->assign("can_send_email", Support::isAllowedToEmail($issue_id, $sender_details["usr_email"]));
     $tpl->assign('subscribers', Notification::getSubscribers($issue_id, 'emails'));
 }
-if ((!@empty($HTTP_GET_VARS["ema_id"])) || (!@empty($HTTP_POST_VARS["ema_id"]))) {
-    @$tpl->assign("ema_id", $HTTP_GET_VARS["ema_id"] ? $HTTP_GET_VARS["ema_id"] : $HTTP_POST_VARS["ema_id"]);
+if ((!@empty($_GET["ema_id"])) || (!@empty($_POST["ema_id"]))) {
+    @$tpl->assign("ema_id", $_GET["ema_id"] ? $_GET["ema_id"] : $_POST["ema_id"]);
 }
 $tpl->assign("from", User::getFromHeader($usr_id));
 

@@ -38,7 +38,7 @@ $tpl->setTemplate("add_phone_entry.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["iss_id"];
+$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 
 if (!Issue::canAccess($issue_id, Auth::getUserID())) {
     $tpl = new Template_API();
@@ -47,7 +47,7 @@ if (!Issue::canAccess($issue_id, Auth::getUserID())) {
     exit;
 }
 
-if (@$HTTP_POST_VARS["cat"] == "add_phone") {
+if (@$_POST["cat"] == "add_phone") {
     $res = Phone_Support::insert();
     $tpl->assign("add_phone_result", $res);
 }

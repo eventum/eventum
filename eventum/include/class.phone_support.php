@@ -54,9 +54,7 @@ class Phone_Support
      */
     function insertCategory()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "INSERT INTO
@@ -65,8 +63,8 @@ class Phone_Support
                     phc_prj_id,
                     phc_title
                  ) VALUES (
-                    " . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
+                    " . Misc::escapeInteger($_POST["prj_id"]) . ",
+                    '" . Misc::escapeString($_POST["title"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -88,18 +86,16 @@ class Phone_Support
      */
     function updateCategory()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
                  SET
-                    phc_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
+                    phc_title='" . Misc::escapeString($_POST["title"]) . "'
                  WHERE
-                    phc_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . " AND
-                    phc_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    phc_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
+                    phc_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -119,9 +115,7 @@ class Phone_Support
      */
     function removeCategory()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
                  WHERE
@@ -296,14 +290,12 @@ class Phone_Support
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
         $usr_id = Auth::getUserID();
         // format the date from the form
         $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d',
-            $HTTP_POST_VARS["date"]["Year"], $HTTP_POST_VARS["date"]["Month"],
-            $HTTP_POST_VARS["date"]["Day"], $HTTP_POST_VARS["date"]["Hour"],
-            $HTTP_POST_VARS["date"]["Minute"], 0);
+            $_POST["date"]["Year"], $_POST["date"]["Month"],
+            $_POST["date"]["Day"], $_POST["date"]["Hour"],
+            $_POST["date"]["Minute"], 0);
         // convert the date to GMT timezone
         $created_date = Date_API::getDateGMT($created_date);
         $stmt = "INSERT INTO
@@ -322,18 +314,18 @@ class Phone_Support
                     phs_call_to_lname,
                     phs_call_to_fname
                  ) VALUES (
-                    " . Misc::escapeInteger($HTTP_POST_VARS["issue_id"]) . ",
+                    " . Misc::escapeInteger($_POST["issue_id"]) . ",
                     $usr_id,
-                    " . Misc::escapeInteger($HTTP_POST_VARS["phone_category"]) . ",
+                    " . Misc::escapeInteger($_POST["phone_category"]) . ",
                     '" . Misc::escapeString($created_date) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["phone_number"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["phone_type"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["from_lname"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["from_fname"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["to_lname"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["to_fname"]) . "'
+                    '" . Misc::escapeString($_POST["type"]) . "',
+                    '" . Misc::escapeString($_POST["phone_number"]) . "',
+                    '" . Misc::escapeString($_POST["description"]) . "',
+                    '" . Misc::escapeString($_POST["phone_type"]) . "',
+                    '" . Misc::escapeString($_POST["from_lname"]) . "',
+                    '" . Misc::escapeString($_POST["from_fname"]) . "',
+                    '" . Misc::escapeString($_POST["to_lname"]) . "',
+                    '" . Misc::escapeString($_POST["to_fname"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -342,22 +334,22 @@ class Phone_Support
         } else {
             // enter the time tracking entry about this phone support entry
             $phs_id = $GLOBALS["db_api"]->get_last_insert_id();
-            $HTTP_POST_VARS['category'] = Time_Tracking::getCategoryID('Telephone Discussion');
-            $HTTP_POST_VARS['time_spent'] = $HTTP_POST_VARS['call_length'];
-            $HTTP_POST_VARS['summary'] = ev_gettext("Time entry inserted from phone call.");
+            $_POST['category'] = Time_Tracking::getCategoryID('Telephone Discussion');
+            $_POST['time_spent'] = $_POST['call_length'];
+            $_POST['summary'] = ev_gettext("Time entry inserted from phone call.");
             Time_Tracking::insertEntry();
             $stmt = "SELECT
                         max(ttr_id)
                      FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
                      WHERE
-                        ttr_iss_id = " . Misc::escapeInteger($HTTP_POST_VARS["issue_id"]) . " AND
+                        ttr_iss_id = " . Misc::escapeInteger($_POST["issue_id"]) . " AND
                         ttr_usr_id = $usr_id";
             $ttr_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
 
-            Issue::markAsUpdated($HTTP_POST_VARS['issue_id'], 'phone call');
+            Issue::markAsUpdated($_POST['issue_id'], 'phone call');
             // need to save a history entry for this
-            History::add($HTTP_POST_VARS['issue_id'], $usr_id, History::getTypeID('phone_entry_added'),
+            History::add($_POST['issue_id'], $usr_id, History::getTypeID('phone_entry_added'),
                             ev_gettext('Phone Support entry submitted by %1$s', User::getFullName($usr_id)));
             // XXX: send notifications for the issue being updated (new notification type phone_support?)
 

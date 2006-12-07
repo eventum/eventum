@@ -33,41 +33,41 @@ include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.user.php");
 include_once(APP_INC_PATH . "class.validation.php");
 
-if (Validation::isWhitespace($HTTP_POST_VARS["email"])) {
+if (Validation::isWhitespace($_POST["email"])) {
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=1");
 }
-if (Validation::isWhitespace($HTTP_POST_VARS["passwd"])) {
-    Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'empty password');
-    Auth::redirect(APP_RELATIVE_URL . "index.php?err=2&email=" . $HTTP_POST_VARS["email"]);
+if (Validation::isWhitespace($_POST["passwd"])) {
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'empty password');
+    Auth::redirect(APP_RELATIVE_URL . "index.php?err=2&email=" . $_POST["email"]);
 }
 
 // check if user exists
-if (!Auth::userExists($HTTP_POST_VARS["email"])) {
-    Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'unknown user');
+if (!Auth::userExists($_POST["email"])) {
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'unknown user');
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=3");
 }
 // check if the password matches
-if (!Auth::isCorrectPassword($HTTP_POST_VARS["email"], $HTTP_POST_VARS["passwd"])) {
-    Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'wrong password');
-    Auth::redirect(APP_RELATIVE_URL . "index.php?err=3&email=" . $HTTP_POST_VARS["email"]);
+if (!Auth::isCorrectPassword($_POST["email"], $_POST["passwd"])) {
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'wrong password');
+    Auth::redirect(APP_RELATIVE_URL . "index.php?err=3&email=" . $_POST["email"]);
 }
 // check if this user did already confirm his account
-if (Auth::isPendingUser($HTTP_POST_VARS["email"])) {
-    Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'pending user');
+if (Auth::isPendingUser($_POST["email"])) {
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'pending user');
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=9", $is_popup);
 }
 // check if this user is really an active one
-if (!Auth::isActiveUser($HTTP_POST_VARS["email"])) {
-    Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'failure', 'inactive user');
+if (!Auth::isActiveUser($_POST["email"])) {
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'inactive user');
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=7", $is_popup);
 }
 
-Auth::saveLoginAttempt($HTTP_POST_VARS["email"], 'success');
+Auth::saveLoginAttempt($_POST["email"], 'success');
 // redirect to the initial page
-@Auth::createLoginCookie(APP_COOKIE, $HTTP_POST_VARS["email"]);
-Session::init(User::getUserIDByEmail($HTTP_POST_VARS['email']));
-if (!empty($HTTP_POST_VARS["url"])) {
-    $extra = '?url=' . urlencode($HTTP_POST_VARS["url"]);
+@Auth::createLoginCookie(APP_COOKIE, $_POST["email"]);
+Session::init(User::getUserIDByEmail($_POST['email']));
+if (!empty($_POST["url"])) {
+    $extra = '?url=' . urlencode($_POST["url"]);
 } else {
     $extra = '';
 }

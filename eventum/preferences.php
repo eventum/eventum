@@ -42,18 +42,18 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $usr_id = Auth::getUserID();
 
-if (@$HTTP_POST_VARS["cat"] == "update_account") {
+if (@$_POST["cat"] == "update_account") {
     $res = Prefs::set($usr_id);
     $tpl->assign('update_lang_result', User::setLang(Auth::getUserID(), $_POST['language']));
     $tpl->assign('update_account_result', $res);
-    User::updateSMS($usr_id, @$HTTP_POST_VARS['sms_email']);
-} elseif (@$HTTP_POST_VARS["cat"] == "update_name") {
+    User::updateSMS($usr_id, @$_POST['sms_email']);
+} elseif (@$_POST["cat"] == "update_name") {
     $res = User::updateFullName($usr_id);
     $tpl->assign('update_name_result', $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "update_email") {
+} elseif (@$_POST["cat"] == "update_email") {
     $res = User::updateEmail($usr_id);
     $tpl->assign('update_email_result', $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "update_password") {
+} elseif (@$_POST["cat"] == "update_password") {
     $res = User::updatePassword($usr_id);
     $tpl->assign('update_password_result', $res);
 }

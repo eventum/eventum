@@ -38,11 +38,11 @@ $tpl->setTemplate("removed_emails.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, NULL, true);
 
-if (@$HTTP_POST_VARS["cat"] == "restore") {
+if (@$_POST["cat"] == "restore") {
     $res = Support::restoreEmails();
     $tpl->assign("result_msg", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "remove") {
-    $res = Support::expungeEmails($HTTP_POST_VARS["item"]);
+} elseif (@$_POST["cat"] == "remove") {
+    $res = Support::expungeEmails($_POST["item"]);
     $tpl->assign("result_msg", $res);
 }
 

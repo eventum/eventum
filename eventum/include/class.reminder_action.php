@@ -190,8 +190,6 @@ class Reminder_Action
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
                  (
@@ -204,14 +202,14 @@ class Reminder_Action
                     rma_alert_group_leader,
                     rma_boilerplate
                  ) VALUES (
-                    " . Misc::escapeInteger($HTTP_POST_VARS['rem_id']) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS['type']) . ",
+                    " . Misc::escapeInteger($_POST['rem_id']) . ",
+                    " . Misc::escapeInteger($_POST['type']) . ",
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    '" . Misc::escapeInteger($HTTP_POST_VARS['rank']) . "',
-                    " . Misc::escapeInteger($HTTP_POST_VARS['alert_irc']) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS['alert_group_leader']) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS['boilerplate']) . "'
+                    '" . Misc::escapeString($_POST['title']) . "',
+                    '" . Misc::escapeInteger($_POST['rank']) . "',
+                    " . Misc::escapeInteger($_POST['alert_irc']) . ",
+                    " . Misc::escapeInteger($_POST['alert_group_leader']) . ",
+                    '" . Misc::escapeString($_POST['boilerplate']) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -220,8 +218,8 @@ class Reminder_Action
         } else {
             $new_rma_id = $GLOBALS["db_api"]->get_last_insert_id();
             // add the user list, if appropriate
-            if (Reminder_Action::isUserList($HTTP_POST_VARS['type'])) {
-                Reminder_Action::associateUserList($new_rma_id, $HTTP_POST_VARS['user_list']);
+            if (Reminder_Action::isUserList($_POST['type'])) {
+                Reminder_Action::associateUserList($new_rma_id, $_POST['user_list']);
             }
             return 1;
         }
@@ -306,30 +304,28 @@ class Reminder_Action
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_action
                  SET
                     rma_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    rma_rank='" . Misc::escapeInteger($HTTP_POST_VARS['rank']) . "',
-                    rma_title='" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    rma_rmt_id=" . Misc::escapeInteger($HTTP_POST_VARS['type']) . ",
-                    rma_alert_irc=" . Misc::escapeInteger($HTTP_POST_VARS['alert_irc']) . ",
-                    rma_alert_group_leader=" . Misc::escapeInteger($HTTP_POST_VARS['alert_group_leader']) . ",
-                    rma_boilerplate='" . Misc::escapeString($HTTP_POST_VARS['boilerplate']) . "'
+                    rma_rank='" . Misc::escapeInteger($_POST['rank']) . "',
+                    rma_title='" . Misc::escapeString($_POST['title']) . "',
+                    rma_rmt_id=" . Misc::escapeInteger($_POST['type']) . ",
+                    rma_alert_irc=" . Misc::escapeInteger($_POST['alert_irc']) . ",
+                    rma_alert_group_leader=" . Misc::escapeInteger($_POST['alert_group_leader']) . ",
+                    rma_boilerplate='" . Misc::escapeString($_POST['boilerplate']) . "'
                  WHERE
-                    rma_id=" . Misc::escapeInteger($HTTP_POST_VARS['id']);
+                    rma_id=" . Misc::escapeInteger($_POST['id']);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
             // remove any user list associated with this reminder action
-            Reminder_Action::clearActionUserList($HTTP_POST_VARS['id']);
+            Reminder_Action::clearActionUserList($_POST['id']);
             // add the user list back in, if appropriate
-            if (Reminder_Action::isUserList($HTTP_POST_VARS['type'])) {
-                Reminder_Action::associateUserList($HTTP_POST_VARS['id'], $HTTP_POST_VARS['user_list']);
+            if (Reminder_Action::isUserList($_POST['type'])) {
+                Reminder_Action::associateUserList($_POST['id'], $_POST['user_list']);
             }
             return 1;
         }

@@ -46,7 +46,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $tpl->assign("type", "issue_auto_creation");
 
-@$ema_id = $HTTP_POST_VARS["ema_id"] ? $HTTP_POST_VARS["ema_id"] : $HTTP_GET_VARS["ema_id"];
+@$ema_id = $_POST["ema_id"] ? $_POST["ema_id"] : $_GET["ema_id"];
 
 $role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
@@ -56,8 +56,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
 
     $prj_id = Email_Account::getProjectID($ema_id);
 
-    if (@$HTTP_POST_VARS["cat"] == "update") {
-        @Email_Account::updateIssueAutoCreation($ema_id, $HTTP_POST_VARS['issue_auto_creation'], $HTTP_POST_VARS['options']);
+    if (@$_POST["cat"] == "update") {
+        @Email_Account::updateIssueAutoCreation($ema_id, $_POST['issue_auto_creation'], $_POST['options']);
     }
     // load the form fields
     $tpl->assign("info", Email_Account::getDetails($ema_id));

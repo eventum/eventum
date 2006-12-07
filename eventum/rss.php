@@ -72,78 +72,78 @@ function returnError($msg)
 // Extra tweak needed for IIS/ISAPI users since the PHP_AUTH_USER/PW variables are
 // not set on that particular platform. Instead what you get is a base64 encoded
 // value of the username:password under HTTP_AUTHORIZATION
-if (!empty($HTTP_SERVER_VARS['HTTP_AUTHORIZATION'])) {
-    $pieces = explode(':', base64_decode(substr($HTTP_SERVER_VARS['HTTP_AUTHORIZATION'], 6)));
-    $HTTP_SERVER_VARS['PHP_AUTH_USER'] = $pieces[0];
-    $HTTP_SERVER_VARS['PHP_AUTH_PW'] = $pieces[1];
-} elseif ((!empty($HTTP_SERVER_VARS['ALL_HTTP'])) && (strstr($HTTP_SERVER_VARS['ALL_HTTP'], 'HTTP_AUTHORIZATION'))) {
-    preg_match('/HTTP_AUTHORIZATION:Basic (.*)/', $HTTP_SERVER_VARS['ALL_HTTP'], $matches);
+if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
+    $pieces = explode(':', base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
+    $_SERVER['PHP_AUTH_USER'] = $pieces[0];
+    $_SERVER['PHP_AUTH_PW'] = $pieces[1];
+} elseif ((!empty($_SERVER['ALL_HTTP'])) && (strstr($_SERVER['ALL_HTTP'], 'HTTP_AUTHORIZATION'))) {
+    preg_match('/HTTP_AUTHORIZATION:Basic (.*)/', $_SERVER['ALL_HTTP'], $matches);
     if (count($matches) > 0) {
         $pieces = explode(':', base64_decode($matches[1]));
-        $HTTP_SERVER_VARS['PHP_AUTH_USER'] = $pieces[0];
-        $HTTP_SERVER_VARS['PHP_AUTH_PW'] = $pieces[1];
+        $_SERVER['PHP_AUTH_USER'] = $pieces[0];
+        $_SERVER['PHP_AUTH_PW'] = $pieces[1];
     }
 }
 
-if (!isset($HTTP_SERVER_VARS['PHP_AUTH_USER'])) {
+if (!isset($_SERVER['PHP_AUTH_USER'])) {
     authenticate();
     echo 'Error: You are required to authenticate in order to access the requested RSS feed.';
     exit;
 } else {
     // check the authentication
-    if (Validation::isWhitespace($HTTP_SERVER_VARS['PHP_AUTH_USER'])) {
+    if (Validation::isWhitespace($_SERVER['PHP_AUTH_USER'])) {
         authenticate();
         echo 'Error: Please provide your email address.';
         exit;
     }
-    if (Validation::isWhitespace($HTTP_SERVER_VARS['PHP_AUTH_PW'])) {
+    if (Validation::isWhitespace($_SERVER['PHP_AUTH_PW'])) {
         authenticate();
         echo 'Error: Please provide your password.';
         exit;
     }
     // check if user exists
-    if (!Auth::userExists($HTTP_SERVER_VARS['PHP_AUTH_USER'])) {
+    if (!Auth::userExists($_SERVER['PHP_AUTH_USER'])) {
         authenticate();
         echo 'Error: The user specified does not exist.';
         exit;
     }
     // check if the password matches
-    if (!Auth::isCorrectPassword($HTTP_SERVER_VARS['PHP_AUTH_USER'], $HTTP_SERVER_VARS['PHP_AUTH_PW'])) {
+    if (!Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
         authenticate();
         echo 'Error: The provided email address/password combo is not correct.';
         exit;
     }
     // check if this user did already confirm his account
-    if (Auth::isPendingUser($HTTP_SERVER_VARS['PHP_AUTH_USER'])) {
+    if (Auth::isPendingUser($_SERVER['PHP_AUTH_USER'])) {
         authenticate();
         echo 'Error: The provided user still needs to have its account confirmed.';
         exit;
     }
     // check if this user is really an active one
-    if (!Auth::isActiveUser($HTTP_SERVER_VARS['PHP_AUTH_USER'])) {
+    if (!Auth::isActiveUser($_SERVER['PHP_AUTH_USER'])) {
         authenticate();
         echo 'Error: The provided user is currently set as an inactive user.';
         exit;
     }
 
     // check if the required parameter 'custom_id' is really being passed
-    if (empty($HTTP_GET_VARS['custom_id'])) {
+    if (empty($_GET['custom_id'])) {
         returnError("Error: The required 'custom_id' parameter was not provided.");
         exit;
     }
 
-    $usr_id = User::getUserIDByEmail($HTTP_SERVER_VARS['PHP_AUTH_USER']);
+    $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER']);
     // check if the passed 'custom_id' parameter is associated with the usr_id
-    if ((!Filter::isGlobal($HTTP_GET_VARS['custom_id'])) && (!Filter::isOwner($HTTP_GET_VARS['custom_id'], $usr_id))) {
+    if ((!Filter::isGlobal($_GET['custom_id'])) && (!Filter::isOwner($_GET['custom_id'], $usr_id))) {
         returnError('Error: The provided custom filter ID is not associated with the given email address.');
         exit;
     }
 }
 
 
-$filter = Filter::getDetails($HTTP_GET_VARS["custom_id"], FALSE);
+$filter = Filter::getDetails($_GET["custom_id"], FALSE);
 
-Auth::createFakeCookie(User::getUserIDByEmail($HTTP_SERVER_VARS['PHP_AUTH_USER']), $filter['cst_prj_id']);
+Auth::createFakeCookie(User::getUserIDByEmail($_SERVER['PHP_AUTH_USER']), $filter['cst_prj_id']);
 
 $options = array(
     'users'         => $filter['cst_users'],

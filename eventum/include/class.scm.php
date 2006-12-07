@@ -79,9 +79,7 @@ class SCM
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = implode(", ", Misc::escapeInteger($HTTP_POST_VARS["item"]));
+        $items = implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "SELECT
                     isc_iss_id
                  FROM
@@ -174,8 +172,6 @@ class SCM
      */
     function logCheckin($issue_id, $i)
     {
-        global $HTTP_GET_VARS;
-
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
                  (
@@ -189,13 +185,13 @@ class SCM
                     isc_commit_msg
                  ) VALUES (
                     $issue_id,
-                    '" . Misc::escapeString($HTTP_GET_VARS["module"]) . "',
-                    '" . Misc::escapeString($HTTP_GET_VARS["files"][$i]) . "',
-                    '" . Misc::escapeString($HTTP_GET_VARS["old_versions"][$i]) . "',
-                    '" . Misc::escapeString($HTTP_GET_VARS["new_versions"][$i]) . "',
+                    '" . Misc::escapeString($_GET["module"]) . "',
+                    '" . Misc::escapeString($_GET["files"][$i]) . "',
+                    '" . Misc::escapeString($_GET["old_versions"][$i]) . "',
+                    '" . Misc::escapeString($_GET["new_versions"][$i]) . "',
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($HTTP_GET_VARS["username"]) . "',
-                    '" . Misc::escapeString($HTTP_GET_VARS["commit_msg"]) . "'
+                    '" . Misc::escapeString($_GET["username"]) . "',
+                    '" . Misc::escapeString($_GET["commit_msg"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -206,7 +202,7 @@ class SCM
             Issue::markAsUpdated($issue_id, 'scm checkin');
             // need to save a history entry for this
             History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('scm_checkin_associated'),
-                            ev_gettext("SCM Checkins associated by SCM user '") . $HTTP_GET_VARS["username"] . '\'.');
+                            ev_gettext("SCM Checkins associated by SCM user '") . $_GET["username"] . '\'.');
             return 1;
         }
     }

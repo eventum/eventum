@@ -139,7 +139,7 @@ class Workflow
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The ID of the user.
      * @param   array $old_details The old details of the issues.
-     * @param   array $changes The changes that were applied to this issue (the $HTTP_POST_VARS)
+     * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
     function handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {
@@ -192,7 +192,7 @@ class Workflow
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The id of the user who locked the issue.
      * @param   array $old_details The old details of the issue.
-     * @param   array $changes The changes that were applied to this issue (the $HTTP_POST_VARS)
+     * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
     function handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes)
     {

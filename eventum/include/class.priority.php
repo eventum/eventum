@@ -182,9 +182,7 @@ class Priority
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
@@ -209,19 +207,17 @@ class Priority
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  SET
-                    pri_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    pri_rank=" . Misc::escapeInteger($HTTP_POST_VARS['rank']) . "
+                    pri_title='" . Misc::escapeString($_POST["title"]) . "',
+                    pri_rank=" . Misc::escapeInteger($_POST['rank']) . "
                  WHERE
-                    pri_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . " AND
-                    pri_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    pri_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
+                    pri_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -240,9 +236,7 @@ class Priority
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "INSERT INTO
@@ -252,9 +246,9 @@ class Priority
                     pri_title,
                     pri_rank
                  ) VALUES (
-                    " . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    " . Misc::escapeInteger($HTTP_POST_VARS['rank']) . "
+                    " . Misc::escapeInteger($_POST["prj_id"]) . ",
+                    '" . Misc::escapeString($_POST["title"]) . "',
+                    " . Misc::escapeInteger($_POST['rank']) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {

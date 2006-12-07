@@ -35,7 +35,7 @@ include_once(APP_INC_PATH . "db_access.php");
 $tpl = new Template_API();
 $tpl->setTemplate("signup.tpl.html");
 
-if (@$HTTP_POST_VARS['cat'] == 'signup') {
+if (@$_POST['cat'] == 'signup') {
     $setup = Setup::load();
     $res = User::createVisitorAccount($setup['accounts_role'], $setup['accounts_projects']);
     $tpl->assign('signup_result', $res);

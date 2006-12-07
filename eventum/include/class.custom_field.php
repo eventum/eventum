@@ -154,10 +154,8 @@ class Custom_Field
      */
     function updateValues()
     {
-        global $HTTP_POST_VARS;
-
         $prj_id = Auth::getCurrentProject();
-        $issue_id = Misc::escapeInteger($HTTP_POST_VARS["issue_id"]);
+        $issue_id = Misc::escapeInteger($_POST["issue_id"]);
 
         $old_values = Custom_Field::getValuesByIssue($prj_id, $issue_id);
 
@@ -168,7 +166,7 @@ class Custom_Field
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  WHERE
-                    fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($HTTP_POST_VARS['custom_fields']))) . ")";
+                    fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
         $field_types = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 
         // get the titles for all of the custom fields being submitted
@@ -178,11 +176,11 @@ class Custom_Field
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  WHERE
-                    fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($HTTP_POST_VARS['custom_fields']))) . ")";
+                    fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
         $field_titles = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 
         $updated_fields = array();
-        foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
+        foreach ($_POST["custom_fields"] as $fld_id => $value) {
 
             $fld_id = Misc::escapeInteger($fld_id);
 
@@ -270,7 +268,7 @@ class Custom_Field
                     $updated_fields[$field_titles[$fld_id]] = History::formatChanges($icf_value, $value);
                 }
             } else {
-                $old_value = Custom_Field::getDisplayValue($HTTP_POST_VARS['issue_id'], $fld_id, true);
+                $old_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id, true);
 
                 if (!is_array($old_value)) {
                     $old_value = array($old_value);
@@ -280,21 +278,21 @@ class Custom_Field
                 }
                 if ((count(array_diff($old_value, $value)) > 0) || (count(array_diff($value, $old_value)) > 0)) {
 
-                    $old_display_value = Custom_Field::getDisplayValue($HTTP_POST_VARS['issue_id'], $fld_id);
+                    $old_display_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id);
                     // need to remove all associated options from issue_custom_field and then
                     // add the selected options coming from the form
-                    Custom_Field::removeIssueAssociation($fld_id, $HTTP_POST_VARS["issue_id"]);
+                    Custom_Field::removeIssueAssociation($fld_id, $_POST["issue_id"]);
                     if (@count($value) > 0) {
-                        Custom_Field::associateIssue($HTTP_POST_VARS["issue_id"], $fld_id, $value);
+                        Custom_Field::associateIssue($_POST["issue_id"], $fld_id, $value);
                     }
-                    $new_display_value = Custom_Field::getDisplayValue($HTTP_POST_VARS['issue_id'], $fld_id);
+                    $new_display_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id);
                     $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_display_value, $new_display_value);
                 }
             }
         }
 
         Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, Custom_Field::getValuesByIssue($prj_id, $issue_id));
-        Issue::markAsUpdated($HTTP_POST_VARS["issue_id"]);
+        Issue::markAsUpdated($_POST["issue_id"]);
         // need to save a history entry for this
 
         if (count($updated_fields) > 0) {
@@ -312,7 +310,7 @@ class Custom_Field
                 }
                 $i++;
             }
-            History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID())));
+            History::add($_POST["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID())));
         }
         return 1;
     }
@@ -657,9 +655,7 @@ class Custom_Field
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  WHERE
@@ -712,28 +708,26 @@ class Custom_Field
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (empty($HTTP_POST_VARS["report_form"])) {
-            $HTTP_POST_VARS["report_form"] = 0;
+        if (empty($_POST["report_form"])) {
+            $_POST["report_form"] = 0;
         }
-        if (empty($HTTP_POST_VARS["report_form_required"])) {
-            $HTTP_POST_VARS["report_form_required"] = 0;
+        if (empty($_POST["report_form_required"])) {
+            $_POST["report_form_required"] = 0;
         }
-        if (empty($HTTP_POST_VARS["anon_form"])) {
-            $HTTP_POST_VARS["anon_form"] = 0;
+        if (empty($_POST["anon_form"])) {
+            $_POST["anon_form"] = 0;
         }
-        if (empty($HTTP_POST_VARS["anon_form_required"])) {
-            $HTTP_POST_VARS["anon_form_required"] = 0;
+        if (empty($_POST["anon_form_required"])) {
+            $_POST["anon_form_required"] = 0;
         }
-        if (empty($HTTP_POST_VARS["list_display"])) {
-            $HTTP_POST_VARS["list_display"] = 0;
+        if (empty($_POST["list_display"])) {
+            $_POST["list_display"] = 0;
         }
-        if (empty($HTTP_POST_VARS["min_role"])) {
-            $HTTP_POST_VARS["min_role"] = 1;
+        if (empty($_POST["min_role"])) {
+            $_POST["min_role"] = 1;
         }
-        if (!isset($HTTP_POST_VARS["rank"])) {
-            $HTTP_POST_VARS["rank"] = (Custom_Field::getMaxRank() + 1);
+        if (!isset($_POST["rank"])) {
+            $_POST["rank"] = (Custom_Field::getMaxRank() + 1);
         }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
@@ -750,17 +744,17 @@ class Custom_Field
                     fld_rank,
                     fld_backend
                  ) VALUES (
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["field_type"]) . "',
-                    " . Misc::escapeInteger($HTTP_POST_VARS["report_form"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["report_form_required"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["anon_form"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["anon_form_required"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["list_display"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["min_role"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
-                    '" . Misc::escapeString(@$HTTP_POST_VARS['custom_field_backend']) . "'
+                    '" . Misc::escapeString($_POST["title"]) . "',
+                    '" . Misc::escapeString($_POST["description"]) . "',
+                    '" . Misc::escapeString($_POST["field_type"]) . "',
+                    " . Misc::escapeInteger($_POST["report_form"]) . ",
+                    " . Misc::escapeInteger($_POST["report_form_required"]) . ",
+                    " . Misc::escapeInteger($_POST["anon_form"]) . ",
+                    " . Misc::escapeInteger($_POST["anon_form_required"]) . ",
+                    " . Misc::escapeInteger($_POST["list_display"]) . ",
+                    " . Misc::escapeInteger($_POST["min_role"]) . ",
+                    " . Misc::escapeInteger($_POST['rank']) . ",
+                    '" . Misc::escapeString(@$_POST['custom_field_backend']) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -768,15 +762,15 @@ class Custom_Field
             return -1;
         } else {
             $new_id = $GLOBALS["db_api"]->get_last_insert_id();
-            if (($HTTP_POST_VARS["field_type"] == 'combo') || ($HTTP_POST_VARS["field_type"] == 'multiple')) {
-                foreach ($HTTP_POST_VARS["field_options"] as $option_value) {
+            if (($_POST["field_type"] == 'combo') || ($_POST["field_type"] == 'multiple')) {
+                foreach ($_POST["field_options"] as $option_value) {
                     $params = Custom_Field::parseParameters($option_value);
                     Custom_Field::addOptions($new_id, $params["value"]);
                 }
             }
             // add the project associations!
-            for ($i = 0; $i < count($HTTP_POST_VARS["projects"]); $i++) {
-                Custom_Field::associateProject($HTTP_POST_VARS["projects"][$i], $new_id);
+            for ($i = 0; $i < count($_POST["projects"]); $i++) {
+                Custom_Field::associateProject($_POST["projects"][$i], $new_id);
             }
             return 1;
         }
@@ -1012,79 +1006,77 @@ class Custom_Field
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        if (empty($HTTP_POST_VARS["report_form"])) {
-            $HTTP_POST_VARS["report_form"] = 0;
+        if (empty($_POST["report_form"])) {
+            $_POST["report_form"] = 0;
         }
-        if (empty($HTTP_POST_VARS["report_form_required"])) {
-            $HTTP_POST_VARS["report_form_required"] = 0;
+        if (empty($_POST["report_form_required"])) {
+            $_POST["report_form_required"] = 0;
         }
-        if (empty($HTTP_POST_VARS["anon_form"])) {
-            $HTTP_POST_VARS["anon_form"] = 0;
+        if (empty($_POST["anon_form"])) {
+            $_POST["anon_form"] = 0;
         }
-        if (empty($HTTP_POST_VARS["anon_form_required"])) {
-            $HTTP_POST_VARS["anon_form_required"] = 0;
+        if (empty($_POST["anon_form_required"])) {
+            $_POST["anon_form_required"] = 0;
         }
-        if (empty($HTTP_POST_VARS["list_display"])) {
-            $HTTP_POST_VARS["list_display"] = 0;
+        if (empty($_POST["list_display"])) {
+            $_POST["list_display"] = 0;
         }
-        if (empty($HTTP_POST_VARS["min_role"])) {
-            $HTTP_POST_VARS["min_role"] = 1;
+        if (empty($_POST["min_role"])) {
+            $_POST["min_role"] = 1;
         }
-        if (!isset($HTTP_POST_VARS["rank"])) {
-            $HTTP_POST_VARS["rank"] = (Custom_Field::getMaxRank() + 1);
+        if (!isset($_POST["rank"])) {
+            $_POST["rank"] = (Custom_Field::getMaxRank() + 1);
         }
-        $old_details = Custom_Field::getDetails($HTTP_POST_VARS["id"]);
+        $old_details = Custom_Field::getDetails($_POST["id"]);
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  SET
-                    fld_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    fld_description='" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    fld_type='" . Misc::escapeString($HTTP_POST_VARS["field_type"]) . "',
-                    fld_report_form=" . Misc::escapeInteger($HTTP_POST_VARS["report_form"]) . ",
-                    fld_report_form_required=" . Misc::escapeInteger($HTTP_POST_VARS["report_form_required"]) . ",
-                    fld_anonymous_form=" . Misc::escapeInteger($HTTP_POST_VARS["anon_form"]) . ",
-                    fld_anonymous_form_required=" . Misc::escapeInteger($HTTP_POST_VARS["anon_form_required"]) . ",
-                    fld_list_display=" . Misc::escapeInteger($HTTP_POST_VARS["list_display"]) . ",
-                    fld_min_role=" . Misc::escapeInteger($HTTP_POST_VARS['min_role']) . ",
-                    fld_rank = " . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
-                    fld_backend = '" . Misc::escapeString(@$HTTP_POST_VARS['custom_field_backend']) . "'
+                    fld_title='" . Misc::escapeString($_POST["title"]) . "',
+                    fld_description='" . Misc::escapeString($_POST["description"]) . "',
+                    fld_type='" . Misc::escapeString($_POST["field_type"]) . "',
+                    fld_report_form=" . Misc::escapeInteger($_POST["report_form"]) . ",
+                    fld_report_form_required=" . Misc::escapeInteger($_POST["report_form_required"]) . ",
+                    fld_anonymous_form=" . Misc::escapeInteger($_POST["anon_form"]) . ",
+                    fld_anonymous_form_required=" . Misc::escapeInteger($_POST["anon_form_required"]) . ",
+                    fld_list_display=" . Misc::escapeInteger($_POST["list_display"]) . ",
+                    fld_min_role=" . Misc::escapeInteger($_POST['min_role']) . ",
+                    fld_rank = " . Misc::escapeInteger($_POST['rank']) . ",
+                    fld_backend = '" . Misc::escapeString(@$_POST['custom_field_backend']) . "'
                  WHERE
-                    fld_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    fld_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
             // if the current custom field is a combo box, get all of the current options
-            if (in_array($HTTP_POST_VARS["field_type"], array('combo', 'multiple'))) {
+            if (in_array($_POST["field_type"], array('combo', 'multiple'))) {
                 $stmt = "SELECT
                             cfo_id
                          FROM
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
                          WHERE
-                            cfo_fld_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                            cfo_fld_id=" . Misc::escapeInteger($_POST["id"]);
                 $current_options = $GLOBALS["db_api"]->dbh->getCol($stmt);
             }
             // gotta remove all custom field options if the field is being changed from a combo box to a text field
-            if (($old_details["fld_type"] != $HTTP_POST_VARS["field_type"]) &&
+            if (($old_details["fld_type"] != $_POST["field_type"]) &&
                       (!in_array($old_details['fld_type'], array('text', 'textarea'))) &&
-                      (!in_array($HTTP_POST_VARS["field_type"], array('combo', 'multiple')))) {
-                Custom_Field::removeOptionsByFields($HTTP_POST_VARS["id"]);
+                      (!in_array($_POST["field_type"], array('combo', 'multiple')))) {
+                Custom_Field::removeOptionsByFields($_POST["id"]);
             }
             // update the custom field options, if any
-            if (($HTTP_POST_VARS["field_type"] == "combo") || ($HTTP_POST_VARS["field_type"] == "multiple")) {
+            if (($_POST["field_type"] == "combo") || ($_POST["field_type"] == "multiple")) {
                 $updated_options = array();
-                if (empty($HTTP_POST_VARS['custom_field_backend'])) {
-                    foreach ($HTTP_POST_VARS["field_options"] as $option_value) {
+                if (empty($_POST['custom_field_backend'])) {
+                    foreach ($_POST["field_options"] as $option_value) {
                         $params = Custom_Field::parseParameters($option_value);
                         if ($params["type"] == 'new') {
-                            Custom_Field::addOptions($HTTP_POST_VARS["id"], $params["value"]);
+                            Custom_Field::addOptions($_POST["id"], $params["value"]);
                         } else {
                             $updated_options[] = $params["id"];
                             // check if the user is trying to update the value of this option
-                            if ($params["value"] != Custom_Field::getOptionValue($HTTP_POST_VARS["id"], $params["id"])) {
+                            if ($params["value"] != Custom_Field::getOptionValue($_POST["id"], $params["id"])) {
                                 Custom_Field::updateOption($params["id"], $params["value"]);
                             }
                         }
@@ -1093,34 +1085,34 @@ class Custom_Field
             }
             // get the diff between the current options and the ones posted by the form
             // and then remove the options not found in the form submissions
-            if (in_array($HTTP_POST_VARS["field_type"], array('combo', 'multiple'))) {
+            if (in_array($_POST["field_type"], array('combo', 'multiple'))) {
                 $diff_ids = @array_diff($current_options, $updated_options);
                 if (@count($diff_ids) > 0) {
-                    Custom_Field::removeOptions($HTTP_POST_VARS['id'], array_values($diff_ids));
+                    Custom_Field::removeOptions($_POST['id'], array_values($diff_ids));
                 }
             }
             // now we need to check for any changes in the project association of this custom field
             // and update the mapping table accordingly
-            $old_proj_ids = @array_keys(Custom_Field::getAssociatedProjects($HTTP_POST_VARS["id"]));
+            $old_proj_ids = @array_keys(Custom_Field::getAssociatedProjects($_POST["id"]));
             // COMPAT: this next line requires PHP > 4.0.4
-            $diff_ids = array_diff($old_proj_ids, $HTTP_POST_VARS["projects"]);
+            $diff_ids = array_diff($old_proj_ids, $_POST["projects"]);
             if (count($diff_ids) > 0) {
                 foreach ($diff_ids as $removed_prj_id) {
-                    Custom_Field::removeIssueAssociation($HTTP_POST_VARS["id"], false, $removed_prj_id );
+                    Custom_Field::removeIssueAssociation($_POST["id"], false, $removed_prj_id );
                 }
             }
             // update the project associations now
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                      WHERE
-                        pcf_fld_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                        pcf_fld_id=" . Misc::escapeInteger($_POST["id"]);
             $res = $GLOBALS["db_api"]->dbh->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
-                for ($i = 0; $i < count($HTTP_POST_VARS["projects"]); $i++) {
-                    Custom_Field::associateProject($HTTP_POST_VARS["projects"][$i], $HTTP_POST_VARS["id"]);
+                for ($i = 0; $i < count($_POST["projects"]); $i++) {
+                    Custom_Field::associateProject($_POST["projects"][$i], $_POST["id"]);
                 }
             }
             return 1;

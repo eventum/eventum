@@ -42,8 +42,8 @@ if (stristr(APP_BASE_URL, 'https:')) {
 // fix for IE6 (KB812935)
 header('Cache-Control: must-revalidate');
 
-if ($HTTP_GET_VARS['cat'] == 'attachment') {
-    $file = Attachment::getDetails($HTTP_GET_VARS["id"]);
+if ($_GET['cat'] == 'attachment') {
+    $file = Attachment::getDetails($_GET["id"]);
     if (!empty($file)) {
         if (!Issue::canAccess($file['iat_iss_id'], Auth::getUserID())) {
             $tpl = new Template_API();

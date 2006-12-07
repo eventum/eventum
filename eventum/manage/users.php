@@ -50,18 +50,18 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $excluded_roles = array('customer', 'administrator');
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", User::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", User::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "change_status") {
+    } elseif (@$_POST["cat"] == "change_status") {
         User::changeStatus();
     }
 
     $project_roles = array();
     $project_list = Project::getAll();
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $info = User::getDetails($HTTP_GET_VARS["id"]);
+    if (@$_GET["cat"] == "edit") {
+        $info = User::getDetails($_GET["id"]);
         $tpl->assign("info", $info);
     }
     foreach ($project_list as $prj_id => $prj_title) {
@@ -77,7 +77,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         }
         $project_roles[$prj_id] = $user_roles = array(0 => "No Access") + User::getRoles($excluded_roles);
     }
-    if (@$HTTP_GET_VARS['show_customers'] == 1) {
+    if (@$_GET['show_customers'] == 1) {
         $show_customer = true;
     } else {
         $show_customer = false;

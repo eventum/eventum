@@ -48,32 +48,32 @@ if ($role_id == User::getRoleID('administrator')) {
 
     $tpl->assign("project_list", Project::getAll());
 
-    if (@$HTTP_POST_VARS["cat"] == "update") {
+    if (@$_POST["cat"] == "update") {
         $setup = array();
-        $setup["tool_caption"] = $HTTP_POST_VARS["tool_caption"];
-        $setup["support_email"] = $HTTP_POST_VARS["support_email"];
-        $setup["daily_tips"] = $HTTP_POST_VARS["daily_tips"];
-        $setup["spell_checker"] = $HTTP_POST_VARS["spell_checker"];
-        $setup["irc_notification"] = $HTTP_POST_VARS["irc_notification"];
-        $setup["allow_unassigned_issues"] = $HTTP_POST_VARS["allow_unassigned_issues"];
-        @$setup["update"] = $HTTP_POST_VARS["update"];
-        @$setup["closed"] = $HTTP_POST_VARS["closed"];
-        @$setup["notes"] = $HTTP_POST_VARS["notes"];
-        @$setup["emails"] = $HTTP_POST_VARS["emails"];
-        @$setup["files"] = $HTTP_POST_VARS["files"];
-        @$setup["smtp"] = $HTTP_POST_VARS["smtp"];
-        @$setup["scm_integration"] = $HTTP_POST_VARS["scm_integration"];
-        @$setup["checkout_url"] = $HTTP_POST_VARS["checkout_url"];
-        @$setup["diff_url"] = $HTTP_POST_VARS["diff_url"];
-        @$setup["open_signup"] = $HTTP_POST_VARS["open_signup"];
-        @$setup["accounts_projects"] = $HTTP_POST_VARS["accounts_projects"];
-        @$setup["accounts_role"] = $HTTP_POST_VARS["accounts_role"];
-        @$setup['subject_based_routing'] = $HTTP_POST_VARS['subject_based_routing'];
-        @$setup['email_routing'] = $HTTP_POST_VARS['email_routing'];
-        @$setup['note_routing'] = $HTTP_POST_VARS['note_routing'];
-        @$setup['draft_routing'] = $HTTP_POST_VARS['draft_routing'];
-        @$setup['email_error'] = $HTTP_POST_VARS['email_error'];
-        @$setup['email_reminder'] = $HTTP_POST_VARS['email_reminder'];
+        $setup["tool_caption"] = $_POST["tool_caption"];
+        $setup["support_email"] = $_POST["support_email"];
+        $setup["daily_tips"] = $_POST["daily_tips"];
+        $setup["spell_checker"] = $_POST["spell_checker"];
+        $setup["irc_notification"] = $_POST["irc_notification"];
+        $setup["allow_unassigned_issues"] = $_POST["allow_unassigned_issues"];
+        @$setup["update"] = $_POST["update"];
+        @$setup["closed"] = $_POST["closed"];
+        @$setup["notes"] = $_POST["notes"];
+        @$setup["emails"] = $_POST["emails"];
+        @$setup["files"] = $_POST["files"];
+        @$setup["smtp"] = $_POST["smtp"];
+        @$setup["scm_integration"] = $_POST["scm_integration"];
+        @$setup["checkout_url"] = $_POST["checkout_url"];
+        @$setup["diff_url"] = $_POST["diff_url"];
+        @$setup["open_signup"] = $_POST["open_signup"];
+        @$setup["accounts_projects"] = $_POST["accounts_projects"];
+        @$setup["accounts_role"] = $_POST["accounts_role"];
+        @$setup['subject_based_routing'] = $_POST['subject_based_routing'];
+        @$setup['email_routing'] = $_POST['email_routing'];
+        @$setup['note_routing'] = $_POST['note_routing'];
+        @$setup['draft_routing'] = $_POST['draft_routing'];
+        @$setup['email_error'] = $_POST['email_error'];
+        @$setup['email_reminder'] = $_POST['email_reminder'];
         $options = Setup::load();
         @$setup['downloading_emails'] = $options['downloading_emails'];
         $res = Setup::save($setup);

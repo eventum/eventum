@@ -35,16 +35,16 @@ ini_set("memory_limit", "64M");
 set_magic_quotes_runtime(0);
 
 if (isset($_GET)) {
-    $HTTP_POST_VARS = $_POST;
-    $HTTP_GET_VARS = $_GET;
-    $HTTP_SERVER_VARS = $_SERVER;
-    $HTTP_ENV_VARS = $_ENV;
-    $HTTP_POST_FILES = $_FILES;
+    $_POST = $_POST;
+    $_GET = $_GET;
+    $_SERVER = $_SERVER;
+    $_ENV = $_ENV;
+    $_FILES = $_FILES;
     // seems like PHP 4.1.0 didn't implement the $_SESSION auto-global...
     if (isset($_SESSION)) {
-        $HTTP_SESSION_VARS = $_SESSION;
+        $_SESSION = $_SESSION;
     }
-    $HTTP_COOKIE_VARS = $_COOKIE;
+    $_COOKIE = $_COOKIE;
 }
 
 function checkPermissions($file, $desc, $is_directory = FALSE)
@@ -220,9 +220,7 @@ $tpl->config_dir = '';
 
 function replace_table_prefix($str)
 {
-    global $HTTP_POST_VARS;
-
-    return str_replace('%TABLE_PREFIX%', $HTTP_POST_VARS['db_table_prefix'], $str);
+    return str_replace('%TABLE_PREFIX%', $_POST['db_table_prefix'], $str);
 }
 
 function getErrorMessage($type, $message)
@@ -280,8 +278,6 @@ function getTableList($conn)
 
 function install()
 {
-    global $HTTP_POST_VARS;
-
     clearstatcache();
     // check if config.inc.php in the root directory is writable
     if (!is_writable('../config.inc.php')) {
@@ -304,44 +300,44 @@ $private_key = "' . md5(microtime()) . '";
     }
     fclose($fp);
     // check if we can connect
-    $conn = @mysql_connect($HTTP_POST_VARS['db_hostname'], $HTTP_POST_VARS['db_username'], $HTTP_POST_VARS['db_password']);
+    $conn = @mysql_connect($_POST['db_hostname'], $_POST['db_username'], $_POST['db_password']);
     if (!$conn) {
         return getErrorMessage('connect', mysql_error());
     }
     $db_list = getDatabaseList($conn);
     $db_list = array_map('strtolower', $db_list);
-    if (@$HTTP_POST_VARS['create_db'] == 'yes') {
-        if (!in_array(strtolower($HTTP_POST_VARS['db_name']), $db_list)) {
-            if (!mysql_query('CREATE DATABASE ' . $HTTP_POST_VARS['db_name'], $conn)) {
+    if (@$_POST['create_db'] == 'yes') {
+        if (!in_array(strtolower($_POST['db_name']), $db_list)) {
+            if (!mysql_query('CREATE DATABASE ' . $_POST['db_name'], $conn)) {
                 return getErrorMessage('create_db', mysql_error());
             }
         }
     } else {
-        if ((count($db_list) > 0) && (!in_array(strtolower($HTTP_POST_VARS['db_name']), $db_list))) {
+        if ((count($db_list) > 0) && (!in_array(strtolower($_POST['db_name']), $db_list))) {
             return "The provided database name could not be found. Review your information or specify that the database should be created in the form below.";
         }
     }
     // create the new user, if needed
-    if (@$HTTP_POST_VARS["alternate_user"] == 'yes') {
+    if (@$_POST["alternate_user"] == 'yes') {
         $user_list = getUserList($conn);
         if (count($user_list) > 0) {
             $user_list = array_map('strtolower', $user_list);
-            if (@$HTTP_POST_VARS["create_user"] == 'yes') {
-                if (!in_array(strtolower(@$HTTP_POST_VARS['eventum_user']), $user_list)) {
-                    $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON " . $HTTP_POST_VARS['db_name'] . ".* TO '" . $HTTP_POST_VARS["eventum_user"] . "'@'%' IDENTIFIED BY '" . $HTTP_POST_VARS["eventum_password"] . "'";
+            if (@$_POST["create_user"] == 'yes') {
+                if (!in_array(strtolower(@$_POST['eventum_user']), $user_list)) {
+                    $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON " . $_POST['db_name'] . ".* TO '" . $_POST["eventum_user"] . "'@'%' IDENTIFIED BY '" . $_POST["eventum_password"] . "'";
                     if (!mysql_query($stmt, $conn)) {
                         return getErrorMessage('create_user', mysql_error());
                     }
                 }
             } else {
-                if (!in_array(strtolower(@$HTTP_POST_VARS['eventum_user']), $user_list)) {
+                if (!in_array(strtolower(@$_POST['eventum_user']), $user_list)) {
                     return "The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.";
                 }
             }
         }
     }
     // check if we can use the database
-    if (!mysql_select_db($HTTP_POST_VARS['db_name'])) {
+    if (!mysql_select_db($_POST['db_name'])) {
         return getErrorMessage('select_db', mysql_error());
     }
     // check the CREATE and DROP privileges by trying to create and drop a test table
@@ -362,7 +358,7 @@ $private_key = "' . md5(microtime()) . '";
     $queries = array_map("trim", $queries);
     $queries = array_map("replace_table_prefix", $queries);
     foreach ($queries as $stmt) {
-        if ((stristr($stmt, 'DROP TABLE')) && (@$HTTP_POST_VARS['drop_tables'] != 'yes')) {
+        if ((stristr($stmt, 'DROP TABLE')) && (@$_POST['drop_tables'] != 'yes')) {
             continue;
         }
         // need to check if a CREATE TABLE on an existing table throws an error
@@ -376,20 +372,20 @@ $private_key = "' . md5(microtime()) . '";
         }
     }
     // substitute the appropriate values in config.inc.php!!!
-    if (@$HTTP_POST_VARS['alternate_user'] == 'yes') {
-        $HTTP_POST_VARS['db_username'] = $HTTP_POST_VARS['eventum_user'];
-        $HTTP_POST_VARS['db_password'] = $HTTP_POST_VARS['eventum_password'];
+    if (@$_POST['alternate_user'] == 'yes') {
+        $_POST['db_username'] = $_POST['eventum_user'];
+        $_POST['db_password'] = $_POST['eventum_password'];
     }
     $config_contents = implode("", file("config.inc.php"));
-    $config_contents = str_replace("%{APP_SQL_DBHOST}%", $HTTP_POST_VARS['db_hostname'], $config_contents);
-    $config_contents = str_replace("%{APP_SQL_DBNAME}%", $HTTP_POST_VARS['db_name'], $config_contents);
-    $config_contents = str_replace("%{APP_SQL_DBUSER}%", $HTTP_POST_VARS['db_username'], $config_contents);
-    $config_contents = str_replace("%{APP_SQL_DBPASS}%", $HTTP_POST_VARS['db_password'], $config_contents);
-    $config_contents = str_replace("%{APP_TABLE_PREFIX}%", $HTTP_POST_VARS['db_table_prefix'], $config_contents);
-    $config_contents = str_replace("%{APP_HOSTNAME}%", $HTTP_POST_VARS['hostname'], $config_contents);
-    $config_contents = str_replace("%{APP_RELATIVE_URL}%", $HTTP_POST_VARS['relative_url'], $config_contents);
+    $config_contents = str_replace("%{APP_SQL_DBHOST}%", $_POST['db_hostname'], $config_contents);
+    $config_contents = str_replace("%{APP_SQL_DBNAME}%", $_POST['db_name'], $config_contents);
+    $config_contents = str_replace("%{APP_SQL_DBUSER}%", $_POST['db_username'], $config_contents);
+    $config_contents = str_replace("%{APP_SQL_DBPASS}%", $_POST['db_password'], $config_contents);
+    $config_contents = str_replace("%{APP_TABLE_PREFIX}%", $_POST['db_table_prefix'], $config_contents);
+    $config_contents = str_replace("%{APP_HOSTNAME}%", $_POST['hostname'], $config_contents);
+    $config_contents = str_replace("%{APP_RELATIVE_URL}%", $_POST['relative_url'], $config_contents);
     $config_contents = str_replace("%{APP_VERSION}%", "1.7.1", $config_contents);
-    if (@$HTTP_POST_VARS['is_ssl'] == 'yes') {
+    if (@$_POST['is_ssl'] == 'yes') {
         $protocol_type = 'https://';
     } else {
         $protocol_type = 'http://';
@@ -428,7 +424,7 @@ $private_key = "' . md5(microtime()) . '";
     return 'success';
 }
 
-if (@$HTTP_POST_VARS["cat"] == 'install') {
+if (@$_POST["cat"] == 'install') {
     $res = install();
     $tpl->assign("result", $res);
     // check for the optional IMAP extension
@@ -436,7 +432,7 @@ if (@$HTTP_POST_VARS["cat"] == 'install') {
 }
 
 
-$full_url = dirname($HTTP_SERVER_VARS['PHP_SELF']);
+$full_url = dirname($_SERVER['PHP_SELF']);
 $pieces = explode("/", $full_url);
 $relative_url = array();
 $relative_url[] = '';
@@ -450,7 +446,7 @@ $relative_url = implode("/", $relative_url);
 
 $tpl->assign("phpversion", phpversion());
 $tpl->assign("rel_url", $relative_url);
-if (@$HTTP_SERVER_VARS['HTTPS'] == 'on') {
+if (@$_SERVER['HTTPS'] == 'on') {
     $ssl_mode = 'enabled';
 } else {
     $ssl_mode = 'disabled';

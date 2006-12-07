@@ -40,21 +40,21 @@ include_once(APP_INC_PATH . "class.scm.php");
 include_once(APP_INC_PATH . "class.workflow.php");
 include_once(APP_INC_PATH . "db_access.php");
 
-foreach ($HTTP_GET_VARS['issue'] as $issue_id) {
+foreach ($_GET['issue'] as $issue_id) {
     $files = array();
-    for ($y = 0; $y < count($HTTP_GET_VARS['files']); $y++) {
+    for ($y = 0; $y < count($_GET['files']); $y++) {
         SCM::logCheckin($issue_id, $y);
         $files[] = array(
-            'file' => $HTTP_GET_VARS['files'][$y],
-            'old_version' => $HTTP_GET_VARS['old_versions'][$y],
-            'new_version' => $HTTP_GET_VARS['new_versions'][$y],
+            'file' => $_GET['files'][$y],
+            'old_version' => $_GET['old_versions'][$y],
+            'new_version' => $_GET['new_versions'][$y],
         );
     }
 
     $prj_id = Issue::getProjectID($issue_id);
-    $module = $HTTP_GET_VARS['module'];
-    $username = $HTTP_GET_VARS['username'];
-    $commit_msg = $HTTP_GET_VARS['commit_msg'];
+    $module = $_GET['module'];
+    $username = $_GET['username'];
+    $commit_msg = $_GET['commit_msg'];
 
     Workflow::handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg);
 }

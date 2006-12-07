@@ -38,10 +38,10 @@ $tpl->setTemplate("help/index.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-if ((empty($HTTP_GET_VARS["topic"])) || (!Help::topicExists($HTTP_GET_VARS["topic"]))) {
+if ((empty($_GET["topic"])) || (!Help::topicExists($_GET["topic"]))) {
     $topic = 'main';
 } else {
-    $topic = $HTTP_GET_VARS["topic"];
+    $topic = $_GET["topic"];
 }
 $tpl->assign("topic", $topic);
 $tpl->assign("links", Help::getNavigationLinks($topic));

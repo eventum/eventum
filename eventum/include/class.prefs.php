@@ -120,23 +120,21 @@ class Prefs
      */
     function set($usr_id)
     {
-        global $HTTP_POST_VARS, $HTTP_POST_FILES;
-
         // if the user is trying to upload a new signature, override any changes to the textarea
-        if (!empty($HTTP_POST_FILES["file_signature"]["name"])) {
-            $HTTP_POST_VARS['signature'] = Misc::getFileContents($HTTP_POST_FILES["file_signature"]["tmp_name"]);
+        if (!empty($_FILES["file_signature"]["name"])) {
+            $_POST['signature'] = Misc::getFileContents($_FILES["file_signature"]["tmp_name"]);
         }
 
         $data = serialize(array(
-            'close_popup_windows'     => $HTTP_POST_VARS['close_popup_windows'],
-            'receive_assigned_emails' => $HTTP_POST_VARS['receive_assigned_emails'],
-            'receive_new_emails'      => @$HTTP_POST_VARS['receive_new_emails'],
-            'timezone'                => $HTTP_POST_VARS['timezone'],
-            'list_refresh_rate'       => $HTTP_POST_VARS['list_refresh_rate'],
-            'emails_refresh_rate'     => $HTTP_POST_VARS['emails_refresh_rate'],
-            'email_signature'         => @$HTTP_POST_VARS['signature'],
-            'auto_append_sig'         => @$HTTP_POST_VARS['auto_append_sig'],
-            'auto_append_note_sig'    => @$HTTP_POST_VARS['auto_append_note_sig']
+            'close_popup_windows'     => $_POST['close_popup_windows'],
+            'receive_assigned_emails' => $_POST['receive_assigned_emails'],
+            'receive_new_emails'      => @$_POST['receive_new_emails'],
+            'timezone'                => $_POST['timezone'],
+            'list_refresh_rate'       => $_POST['list_refresh_rate'],
+            'emails_refresh_rate'     => $_POST['emails_refresh_rate'],
+            'email_signature'         => @$_POST['signature'],
+            'auto_append_sig'         => @$_POST['auto_append_sig'],
+            'auto_append_note_sig'    => @$_POST['auto_append_note_sig']
         ));
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user

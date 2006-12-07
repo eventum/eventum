@@ -37,7 +37,7 @@ include_once(APP_INC_PATH . "class.reminder_condition.php");
 
 
 // if requested, clear the lock
-if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
+if (in_array('--fix-lock', @$_SERVER['argv'])) {
     Lock::release('check_reminders');
     echo "The lock file was removed successfully.\n";
     exit;

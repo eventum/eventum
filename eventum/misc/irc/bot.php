@@ -62,7 +62,7 @@ $password = '';
 // ============================================
 
 // if requested, clear the lock
-if (in_array('--fix-lock', @$HTTP_SERVER_VARS['argv'])) {
+if (in_array('--fix-lock', @$_SERVER['argv'])) {
     Lock::release('irc_bot');
     echo "The lock file was removed successfully.\n";
     exit;

@@ -41,7 +41,7 @@ class Language
 
     function setup()
     {
-        global $HTTP_GET_VARS, $HTTP_SESSION_VARS, $avail_langs;
+        global $avail_langs;
 
         // please add the following line to config.inc.php, changing to whatever language you prefer
         // define('APP_DEFAULT_LOCALE', 'en_US');
@@ -60,7 +60,7 @@ class Language
      */
     function setPreference()
     {
-        global $HTTP_GET_VARS, $HTTP_SESSION_VARS, $avail_langs;
+        global $avail_langs;
 
         $usr_id = Auth::getUserID();
         if (empty($usr_id)) {

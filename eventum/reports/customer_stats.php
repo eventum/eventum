@@ -55,26 +55,26 @@ if (!Customer::hasCustomerIntegration($prj_id)) {
     exit;
 }
 
-if (count(@$HTTP_POST_VARS["start"]) > 0 &&
-        (@$HTTP_POST_VARS["start"]["Year"] != 0) &&
-        (@$HTTP_POST_VARS["start"]["Month"] != 0) &&
-        (@$HTTP_POST_VARS["start"]["Day"] != 0)) {
-    $start_date = join("-", $HTTP_POST_VARS["start"]);
+if (count(@$_POST["start"]) > 0 &&
+        (@$_POST["start"]["Year"] != 0) &&
+        (@$_POST["start"]["Month"] != 0) &&
+        (@$_POST["start"]["Day"] != 0)) {
+    $start_date = join("-", $_POST["start"]);
 } else {
     $start_date = "0000-00-00";
 }
-if (count(@$HTTP_POST_VARS["end"]) > 0 &&
-        (@$HTTP_POST_VARS["end"]["Year"] != 0) &&
-        (@$HTTP_POST_VARS["end"]["Month"] != 0) &&
-        (@$HTTP_POST_VARS["end"]["Day"] != 0)) {
-    $end_date = join("-", $HTTP_POST_VARS["end"]);
+if (count(@$_POST["end"]) > 0 &&
+        (@$_POST["end"]["Year"] != 0) &&
+        (@$_POST["end"]["Month"] != 0) &&
+        (@$_POST["end"]["Day"] != 0)) {
+    $end_date = join("-", $_POST["end"]);
 } else {
     $end_date = "0000-00-00";
 }
 
-if (count(@$HTTP_POST_VARS["display_sections"]) < 1) {
-    $HTTP_POST_VARS["display_sections"] = array_keys(Customer_Stats_Report::getDisplaySections());
-    unset($HTTP_POST_VARS["display_sections"][4]);
+if (count(@$_POST["display_sections"]) < 1) {
+    $_POST["display_sections"] = array_keys(Customer_Stats_Report::getDisplaySections());
+    unset($_POST["display_sections"][4]);
 }
 
 $support_levels = array('Aggregate' => 'Aggregate');
@@ -83,8 +83,8 @@ foreach ($grouped_levels as $level_name => $level_ids) {
     $support_levels[$level_name] = $level_name;
 }
 
-if (count(@$HTTP_POST_VARS["support_level"]) < 1) {
-    $HTTP_POST_VARS["support_level"] = array('Aggregate');
+if (count(@$_POST["support_level"]) < 1) {
+    $_POST["support_level"] = array('Aggregate');
 }
 
 // XXX: internal only - Remove all mentions of InnoDB
@@ -94,13 +94,13 @@ $tpl->assign(array(
     "has_support_levels"=>  Customer::doesBackendUseSupportLevels($prj_id),
     "project_name"      =>  Auth::getCurrentProjectName(),
     "support_levels"    =>  $support_levels,
-    "support_level"     =>  @$HTTP_POST_VARS["support_level"],
+    "support_level"     =>  @$_POST["support_level"],
     "start_date"        =>  $start_date,
     "end_date"          =>  $end_date,
     "sections"          =>  Customer_Stats_Report::getDisplaySections(),
-    "display_sections"  =>  $HTTP_POST_VARS["display_sections"],
-    "split_innoDB"      =>  @$HTTP_POST_VARS["split_innoDB"],
-    "include_expired"   =>  @$HTTP_POST_VARS["include_expired"],
+    "display_sections"  =>  $_POST["display_sections"],
+    "split_innoDB"      =>  @$_POST["split_innoDB"],
+    "include_expired"   =>  @$_POST["include_expired"],
     "graphs"            =>  Customer_Stats_Report::getGraphTypes()
 ));
 
@@ -108,19 +108,19 @@ $tpl->assign(array(
 if (Auth::getCurrentRole() >= User::getRoleID('manager')) {
     $tpl->assign(array(
     "customers"         =>  Customer::getAssocList($prj_id),
-    "customer"          =>  @$HTTP_POST_VARS["customer"]
+    "customer"          =>  @$_POST["customer"]
     ));
 }
 
 // loop through display sections
 $display = array();
-foreach ($HTTP_POST_VARS["display_sections"] as $section) {
+foreach ($_POST["display_sections"] as $section) {
     $display[$section] = 1;
 }
 $tpl->assign("display", $display);
 
 
-if (@$HTTP_POST_VARS["cat"] == "Generate") {
+if (@$_POST["cat"] == "Generate") {
     
     if ($start_date == "0000-00-00") {
         $start_date = '';
@@ -142,14 +142,14 @@ if (@$HTTP_POST_VARS["cat"] == "Generate") {
     
     $csr = new Customer_Stats_Report(
                     $prj_id,
-                    @$HTTP_POST_VARS["support_level"],
-                    @$HTTP_POST_VARS["customer"],
+                    @$_POST["support_level"],
+                    @$_POST["customer"],
                     $start_date,
                     $end_date);
-    if (@$HTTP_POST_VARS["split_innoDB"] == 1) {
+    if (@$_POST["split_innoDB"] == 1) {
         $csr->splitByInnoDB(true);
     }
-    if (@$HTTP_POST_VARS["include_expired"] == 1) {
+    if (@$_POST["include_expired"] == 1) {
         $csr->excludeExpired(false);
     } else {
         $csr->excludeExpired(true);

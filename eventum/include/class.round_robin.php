@@ -307,10 +307,8 @@ class Round_Robin
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        $blackout_start = $HTTP_POST_VARS['blackout_start']['Hour'] . ':' . $HTTP_POST_VARS['blackout_start']['Minute'] . ':00';
-        $blackout_end = $HTTP_POST_VARS['blackout_end']['Hour'] . ':' . $HTTP_POST_VARS['blackout_end']['Minute'] . ':00';
+        $blackout_start = $_POST['blackout_start']['Hour'] . ':' . $_POST['blackout_start']['Minute'] . ':00';
+        $blackout_end = $_POST['blackout_end']['Hour'] . ':' . $_POST['blackout_end']['Minute'] . ':00';
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
                  (
@@ -318,7 +316,7 @@ class Round_Robin
                     prr_blackout_start,
                     prr_blackout_end
                  ) VALUES (
-                    " . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
+                    " . Misc::escapeInteger($_POST["project"]) . ",
                     '" . Misc::escapeString($blackout_start) . "',
                     '" . Misc::escapeString($blackout_end) . "'
                  )";
@@ -329,7 +327,7 @@ class Round_Robin
         } else {
             $new_id = $GLOBALS["db_api"]->get_last_insert_id();
             // add all of the user associated with this round robin entry
-            foreach ($HTTP_POST_VARS['users'] as $usr_id) {
+            foreach ($_POST['users'] as $usr_id) {
                 Round_Robin::addUserAssociation($new_id, $usr_id);
             }
             return 1;
@@ -467,27 +465,25 @@ class Round_Robin
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        $blackout_start = $HTTP_POST_VARS['blackout_start']['Hour'] . ':' . $HTTP_POST_VARS['blackout_start']['Minute'] . ':00';
-        $blackout_end = $HTTP_POST_VARS['blackout_end']['Hour'] . ':' . $HTTP_POST_VARS['blackout_end']['Minute'] . ':00';
+        $blackout_start = $_POST['blackout_start']['Hour'] . ':' . $_POST['blackout_start']['Minute'] . ':00';
+        $blackout_end = $_POST['blackout_end']['Hour'] . ':' . $_POST['blackout_end']['Minute'] . ':00';
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
                  SET
-                    prr_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
+                    prr_prj_id=" . Misc::escapeInteger($_POST["project"]) . ",
                     prr_blackout_start='" . Misc::escapeString($blackout_start) . "',
                     prr_blackout_end='" . Misc::escapeString($blackout_end) . "'
                  WHERE
-                    prr_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    prr_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
             // remove all of the associations with users, then add them all again
-            Round_Robin::removeUserAssociations($HTTP_POST_VARS['id']);
-            foreach ($HTTP_POST_VARS['users'] as $usr_id) {
-                Round_Robin::addUserAssociation($HTTP_POST_VARS['id'], $usr_id);
+            Round_Robin::removeUserAssociations($_POST['id']);
+            foreach ($_POST['users'] as $usr_id) {
+                Round_Robin::addUserAssociation($_POST['id'], $usr_id);
             }
             return 1;
         }
@@ -530,9 +526,7 @@ class Round_Robin
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_round_robin
                  WHERE
@@ -542,7 +536,7 @@ class Round_Robin
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Round_Robin::removeUserAssociations($HTTP_POST_VARS['items']);
+            Round_Robin::removeUserAssociations($_POST['items']);
             return true;
         }
     }

@@ -43,8 +43,8 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $tpl->assign("type", "reminder_conditions");
 
-$rem_id = @$HTTP_POST_VARS['rem_id'] ? $HTTP_POST_VARS['rem_id'] : $HTTP_GET_VARS['rem_id'];
-$rma_id = @$HTTP_POST_VARS['rma_id'] ? $HTTP_POST_VARS['rma_id'] : $HTTP_GET_VARS['rma_id'];
+$rem_id = @$_POST['rem_id'] ? $_POST['rem_id'] : $_GET['rem_id'];
+$rma_id = @$_POST['rma_id'] ? $_POST['rma_id'] : $_GET['rma_id'];
 
 $role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
@@ -52,28 +52,28 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Reminder_Condition::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Reminder_Condition::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         Reminder_Condition::remove();
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $info = Reminder_Condition::getDetails($HTTP_GET_VARS["id"]);
-        if (!empty($HTTP_GET_VARS['field'])) {
-            $info['rlc_rmf_id'] = $HTTP_GET_VARS['field'];
+    if (@$_GET["cat"] == "edit") {
+        $info = Reminder_Condition::getDetails($_GET["id"]);
+        if (!empty($_GET['field'])) {
+            $info['rlc_rmf_id'] = $_GET['field'];
         } else {
-            $HTTP_GET_VARS['field'] = $info['rlc_rmf_id'];
+            $_GET['field'] = $info['rlc_rmf_id'];
         }
         $tpl->assign("info", $info);
         
     }
 
-    if (!empty($HTTP_GET_VARS['field'])) {
-        $field_title = Reminder_Condition::getFieldTitle($HTTP_GET_VARS['field']);
-        if (Reminder_Condition::canFieldBeCompared($HTTP_GET_VARS['field'])) {
+    if (!empty($_GET['field'])) {
+        $field_title = Reminder_Condition::getFieldTitle($_GET['field']);
+        if (Reminder_Condition::canFieldBeCompared($_GET['field'])) {
             $tpl->assign(array(
                 'show_field_options'    =>  'yes',
                 'comparable_fields'     =>  Reminder_Condition::getFieldAdminList(true)
@@ -93,9 +93,9 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         } else {
             $tpl->assign('show_status_options', 'no');
         }
-        if (@$HTTP_GET_VARS["cat"] != "edit") {
+        if (@$_GET["cat"] != "edit") {
             $tpl->assign('info', array(
-                'rlc_rmf_id' => $HTTP_GET_VARS['field'],
+                'rlc_rmf_id' => $_GET['field'],
                 'rlc_rmo_id' => '',
                 'rlc_value'  => ''
             ));

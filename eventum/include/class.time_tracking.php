@@ -105,9 +105,7 @@ class Time_Tracking
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  WHERE
@@ -130,17 +128,15 @@ class Time_Tracking
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
                  SET
-                    ttc_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
+                    ttc_title='" . Misc::escapeString($_POST["title"]) . "'
                  WHERE
-                    ttc_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    ttc_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -159,9 +155,7 @@ class Time_Tracking
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "INSERT INTO
@@ -170,7 +164,7 @@ class Time_Tracking
                     ttc_title,
                     ttc_created_date
                  ) VALUES (
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    '" . Misc::escapeString($_POST["title"]) . "',
                     '" . Date_API::getCurrentDateGMT() . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -422,14 +416,12 @@ class Time_Tracking
      */
     function insertEntry()
     {
-        global $HTTP_POST_VARS;
-
-        if (!empty($HTTP_POST_VARS["date"])) {
+        if (!empty($_POST["date"])) {
             // format the date from the form
             $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d',
-                $HTTP_POST_VARS["date"]["Year"], $HTTP_POST_VARS["date"]["Month"],
-                $HTTP_POST_VARS["date"]["Day"], $HTTP_POST_VARS["date"]["Hour"],
-                $HTTP_POST_VARS["date"]["Minute"], 0);
+                $_POST["date"]["Year"], $_POST["date"]["Month"],
+                $_POST["date"]["Day"], $_POST["date"]["Hour"],
+                $_POST["date"]["Minute"], 0);
             // convert the date to GMT timezone
             $created_date = Date_API::getDateGMT($created_date);
         } else {
@@ -446,21 +438,21 @@ class Time_Tracking
                     ttr_time_spent,
                     ttr_summary
                  ) VALUES (
-                    " . $HTTP_POST_VARS["category"] . ",
-                    " . $HTTP_POST_VARS["issue_id"] . ",
+                    " . $_POST["category"] . ",
+                    " . $_POST["issue_id"] . ",
                     $usr_id,
                     '$created_date',
-                    " . Misc::escapeInteger($HTTP_POST_VARS["time_spent"]) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "'
+                    " . Misc::escapeInteger($_POST["time_spent"]) . ",
+                    '" . Misc::escapeString($_POST["summary"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'time added');
+            Issue::markAsUpdated($_POST["issue_id"], 'time added');
             // need to save a history entry for this
-            History::add($HTTP_POST_VARS["issue_id"], $usr_id, History::getTypeID('time_added'), ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id)));
+            History::add($_POST["issue_id"], $usr_id, History::getTypeID('time_added'), ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id)));
             return 1;
         }
     }

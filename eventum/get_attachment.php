@@ -35,15 +35,15 @@ include_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (@$HTTP_GET_VARS['cat'] == 'blocked_email') {
-    $email = Note::getBlockedMessage($HTTP_GET_VARS["note_id"]);
+if (@$_GET['cat'] == 'blocked_email') {
+    $email = Note::getBlockedMessage($_GET["note_id"]);
 } else {
-    $email = Support::getFullEmail($HTTP_GET_VARS["sup_id"]);
+    $email = Support::getFullEmail($_GET["sup_id"]);
 }
-if (!empty($HTTP_GET_VARS['cid'])) {
-    list($mimetype, $data) = Mime_Helper::getAttachment($email, $HTTP_GET_VARS["filename"], $HTTP_GET_VARS["cid"]);
+if (!empty($_GET['cid'])) {
+    list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET["filename"], $_GET["cid"]);
 } else {
-    list($mimetype, $data) = Mime_Helper::getAttachment($email, $HTTP_GET_VARS["filename"]);
+    list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET["filename"]);
 }
-Attachment::outputDownload($data, $HTTP_GET_VARS["filename"], strlen($data), $mimetype);
+Attachment::outputDownload($data, $_GET["filename"], strlen($data), $mimetype);
 ?>

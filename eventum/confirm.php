@@ -36,20 +36,20 @@ include_once(APP_INC_PATH . "db_access.php");
 $tpl = new Template_API();
 $tpl->setTemplate("confirm.tpl.html");
 
-if (@$HTTP_GET_VARS['cat'] == 'newuser') {
-    $res = @User::checkHash($HTTP_GET_VARS["email"], $HTTP_GET_VARS["hash"]);
+if (@$_GET['cat'] == 'newuser') {
+    $res = @User::checkHash($_GET["email"], $_GET["hash"]);
     if ($res == 1) {
-        User::confirmVisitorAccount($HTTP_GET_VARS["email"]);
+        User::confirmVisitorAccount($_GET["email"]);
         // redirect user to login form with pretty message
-        Auth::redirect('index.php?err=8&email=' . $HTTP_GET_VARS["email"]);
+        Auth::redirect('index.php?err=8&email=' . $_GET["email"]);
         exit;
     }
     $tpl->assign("confirm_result", $res);
-} elseif (@$HTTP_GET_VARS['cat'] == 'password') {
-    $res = @User::checkHash($HTTP_GET_VARS["email"], $HTTP_GET_VARS["hash"]);
+} elseif (@$_GET['cat'] == 'password') {
+    $res = @User::checkHash($_GET["email"], $_GET["hash"]);
     if ($res == 1) {
-        User::confirmNewPassword($HTTP_GET_VARS["email"]);
-        $tpl->assign("email", $HTTP_GET_VARS["email"]);
+        User::confirmNewPassword($_GET["email"]);
+        $tpl->assign("email", $_GET["email"]);
     }
     $tpl->assign("confirm_result", $res);
 }

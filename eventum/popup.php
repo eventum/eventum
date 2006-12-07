@@ -54,72 +54,72 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
-if (@$HTTP_GET_VARS["cat"] == "delete_note") {
-    $res = Note::remove($HTTP_GET_VARS["id"]);
+if (@$_GET["cat"] == "delete_note") {
+    $res = Note::remove($_GET["id"]);
     $tpl->assign("note_delete_result", $res);
-} elseif (@$HTTP_GET_VARS["cat"] == "delete_time") {
-    $res = Time_Tracking::removeEntry($HTTP_GET_VARS["id"], $usr_id);
+} elseif (@$_GET["cat"] == "delete_time") {
+    $res = Time_Tracking::removeEntry($_GET["id"], $usr_id);
     $tpl->assign("time_delete_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "bulk_update") {
+} elseif (@$_POST["cat"] == "bulk_update") {
     $res = Issue::bulkUpdate();
     $tpl->assign("bulk_update_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "set_initial_impact") {
-    $res = Issue::setImpactAnalysis($HTTP_POST_VARS["issue_id"]);
+} elseif (@$_POST["cat"] == "set_initial_impact") {
+    $res = Issue::setImpactAnalysis($_POST["issue_id"]);
     $tpl->assign("set_initial_impact_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "add_requirement") {
-    $res = Impact_Analysis::insert($HTTP_POST_VARS["issue_id"]);
+} elseif (@$_POST["cat"] == "add_requirement") {
+    $res = Impact_Analysis::insert($_POST["issue_id"]);
     $tpl->assign("add_requirement_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "set_impact_requirement") {
-    $res = Impact_Analysis::update($HTTP_POST_VARS["isr_id"]);
+} elseif (@$_POST["cat"] == "set_impact_requirement") {
+    $res = Impact_Analysis::update($_POST["isr_id"]);
     $tpl->assign("set_impact_requirement_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "delete_requirement") {
+} elseif (@$_POST["cat"] == "delete_requirement") {
     $res = Impact_Analysis::remove();
     $tpl->assign("requirement_delete_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "save_filter") {
+} elseif (@$_POST["cat"] == "save_filter") {
     $res = Filter::save();
     $tpl->assign("save_filter_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "delete_filter") {
+} elseif (@$_POST["cat"] == "delete_filter") {
     $res = Filter::remove();
     $tpl->assign("delete_filter_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "remove_support_email") {
+} elseif (@$_POST["cat"] == "remove_support_email") {
     $res = Support::removeAssociation();
     $tpl->assign("remove_association_result", $res);
-} elseif (@$HTTP_GET_VARS["cat"] == "delete_attachment") {
-    $res = Attachment::remove($HTTP_GET_VARS["id"]);
+} elseif (@$_GET["cat"] == "delete_attachment") {
+    $res = Attachment::remove($_GET["id"]);
     $tpl->assign("remove_attachment_result", $res);
-} elseif (@$HTTP_GET_VARS["cat"] == "delete_file") {
-    $res = Attachment::removeIndividualFile($HTTP_GET_VARS["id"]);
+} elseif (@$_GET["cat"] == "delete_file") {
+    $res = Attachment::removeIndividualFile($_GET["id"]);
     $tpl->assign("remove_file_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "remove_checkin") {
+} elseif (@$_POST["cat"] == "remove_checkin") {
     $res = SCM::remove();
     $tpl->assign("remove_checkin_result", $res);
-} elseif (@$HTTP_GET_VARS['cat'] == 'unassign') {
-    $res = Issue::deleteUserAssociation($HTTP_GET_VARS["iss_id"], $usr_id);
-    Workflow::handleAssignmentChange($prj_id, $HTTP_GET_VARS["iss_id"], Auth::getUserID(), Issue::getDetails($HTTP_GET_VARS["iss_id"]), Issue::getAssignedUserIDs($HTTP_GET_VARS["iss_id"]));
+} elseif (@$_GET['cat'] == 'unassign') {
+    $res = Issue::deleteUserAssociation($_GET["iss_id"], $usr_id);
+    Workflow::handleAssignmentChange($prj_id, $_GET["iss_id"], Auth::getUserID(), Issue::getDetails($_GET["iss_id"]), Issue::getAssignedUserIDs($_GET["iss_id"]));
     $tpl->assign('unassign_result', $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "remove_email") {
+} elseif (@$_POST["cat"] == "remove_email") {
     $res = Support::removeEmails();
     $tpl->assign("remove_email_result", $res);
-} elseif (@$HTTP_GET_VARS["cat"] == "clear_duplicate") {
-    $res = Issue::clearDuplicateStatus($HTTP_GET_VARS["iss_id"]);
+} elseif (@$_GET["cat"] == "clear_duplicate") {
+    $res = Issue::clearDuplicateStatus($_GET["iss_id"]);
     $tpl->assign("clear_duplicate_result", $res);
-} elseif (@$HTTP_GET_VARS["cat"] == "delete_phone") {
-    $res = Phone_Support::remove($HTTP_GET_VARS["id"]);
+} elseif (@$_GET["cat"] == "delete_phone") {
+    $res = Phone_Support::remove($_GET["id"]);
     $tpl->assign("delete_phone_result", $res);
-} elseif (@$HTTP_GET_VARS["cat"] == "new_status") {
+} elseif (@$_GET["cat"] == "new_status") {
     // XXX: need to call the workflow api in the following function?
-    $res = Issue::setStatus($HTTP_GET_VARS["iss_id"], $HTTP_GET_VARS["new_sta_id"], true);
+    $res = Issue::setStatus($_GET["iss_id"], $_GET["new_sta_id"], true);
     if ($res == 1) {
-        History::add($HTTP_GET_VARS["iss_id"], $usr_id, History::getTypeID('status_changed'), 
-                "Issue manually set to status '" . Status::getStatusTitle($HTTP_GET_VARS["new_sta_id"]) . "' by " . User::getFullName($usr_id));
+        History::add($_GET["iss_id"], $usr_id, History::getTypeID('status_changed'), 
+                "Issue manually set to status '" . Status::getStatusTitle($_GET["new_sta_id"]) . "' by " . User::getFullName($usr_id));
     }
     $tpl->assign("new_status_result", $res);
-} elseif (@$HTTP_GET_VARS['cat'] == 'authorize_reply') {
-    $res = Authorized_Replier::addUser($HTTP_GET_VARS["iss_id"], $usr_id);
+} elseif (@$_GET['cat'] == 'authorize_reply') {
+    $res = Authorized_Replier::addUser($_GET["iss_id"], $usr_id);
     $tpl->assign('authorize_reply_result', $res);
-} elseif (@$HTTP_GET_VARS['cat'] == 'remove_quarantine') {
+} elseif (@$_GET['cat'] == 'remove_quarantine') {
     if (Auth::getCurrentRole() > User::getRoleID('Developer')) {
-        $res = Issue::setQuarantine($HTTP_GET_VARS['iss_id'], 0);
+        $res = Issue::setQuarantine($_GET['iss_id'], 0);
         $tpl->assign('remove_quarantine_result', $res);
     }
 }

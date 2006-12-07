@@ -48,19 +48,19 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    @$prj_id = $HTTP_POST_VARS["prj_id"] ? $HTTP_POST_VARS["prj_id"] : $HTTP_GET_VARS["prj_id"];
+    @$prj_id = $_POST["prj_id"] ? $_POST["prj_id"] : $_GET["prj_id"];
     $tpl->assign("project", Project::getDetails($prj_id));
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Release::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Release::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         Release::remove();
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", Release::getDetails($HTTP_GET_VARS["id"]));
+    if (@$_GET["cat"] == "edit") {
+        $tpl->assign("info", Release::getDetails($_GET["id"]));
     }
 
     $tpl->assign("list", Release::getList($prj_id));

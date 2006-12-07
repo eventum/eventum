@@ -44,7 +44,7 @@ $tpl->setTemplate("close.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 
 $prj_id = Auth::getCurrentProject();
-$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : @$HTTP_GET_VARS["id"];
+$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : @$_GET["id"];
 $tpl->assign("extra_title", "Close Issue #$issue_id");
 
 if (!Issue::exists($issue_id, false)) {
@@ -59,11 +59,11 @@ $tpl->assign("notification_list_all", $notification_list['all']);
 $notification_list_internal = Notification::getSubscribers($issue_id, 'closed', User::getRoleID("Standard User"));
 $tpl->assign("notification_list_internal", $notification_list_internal['all']);
 
-if (@$HTTP_POST_VARS["cat"] == "close") {
-    $res = Issue::close(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $HTTP_POST_VARS["send_notification"], $HTTP_POST_VARS["resolution"], $HTTP_POST_VARS["status"], $HTTP_POST_VARS["reason"], @$_REQUEST['notification_list']);
+if (@$_POST["cat"] == "close") {
+    $res = Issue::close(Auth::getUserID(), $_POST["issue_id"], $_POST["send_notification"], $_POST["resolution"], $_POST["status"], $_POST["reason"], @$_REQUEST['notification_list']);
 
-    if (!empty($HTTP_POST_VARS['time_spent'])) {
-        $HTTP_POST_VARS['summary'] = 'Time entry inserted when closing issue.';
+    if (!empty($_POST['time_spent'])) {
+        $_POST['summary'] = 'Time entry inserted when closing issue.';
         Time_Tracking::insertEntry();
     }
 

@@ -49,7 +49,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "save") {
+    if (@$_POST["cat"] == "save") {
         $tpl->assign("result", Display_Column::save());
     }
 

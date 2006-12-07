@@ -155,13 +155,11 @@ class Project
      */
     function updateAnonymousPost($prj_id)
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  SET
-                    prj_anonymous_post='" . Misc::escapeString($HTTP_POST_VARS["anonymous_post"]) . "',
-                    prj_anonymous_post_options='" . Misc::escapeString(@serialize($HTTP_POST_VARS["options"])) . "'
+                    prj_anonymous_post='" . Misc::escapeString($_POST["anonymous_post"]) . "',
+                    prj_anonymous_post_options='" . Misc::escapeString(@serialize($_POST["options"])) . "'
                  WHERE
                     prj_id=" . Misc::escapeInteger($prj_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -360,9 +358,7 @@ class Project
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
@@ -372,18 +368,18 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Project::removeUserByProjects($HTTP_POST_VARS["items"]);
-            Category::removeByProjects($HTTP_POST_VARS["items"]);
-            Release::removeByProjects($HTTP_POST_VARS["items"]);
-            Filter::removeByProjects($HTTP_POST_VARS["items"]);
-            Email_Account::removeAccountByProjects($HTTP_POST_VARS["items"]);
-            Issue::removeByProjects($HTTP_POST_VARS["items"]);
-            Custom_Field::removeByProjects($HTTP_POST_VARS["items"]);
-            $statuses = array_keys(Status::getAssocStatusList($HTTP_POST_VARS["items"]));
-            foreach ($HTTP_POST_VARS["items"] as $prj_id) {
+            Project::removeUserByProjects($_POST["items"]);
+            Category::removeByProjects($_POST["items"]);
+            Release::removeByProjects($_POST["items"]);
+            Filter::removeByProjects($_POST["items"]);
+            Email_Account::removeAccountByProjects($_POST["items"]);
+            Issue::removeByProjects($_POST["items"]);
+            Custom_Field::removeByProjects($_POST["items"]);
+            $statuses = array_keys(Status::getAssocStatusList($_POST["items"]));
+            foreach ($_POST["items"] as $prj_id) {
                 Status::removeProjectAssociations($statuses, $prj_id);
             }
-            Group::disassociateProjects($HTTP_POST_VARS["items"]);
+            Group::disassociateProjects($_POST["items"]);
             return true;
         }
     }
@@ -426,46 +422,44 @@ class Project
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  SET
-                    prj_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    prj_status='" . Misc::escapeString($HTTP_POST_VARS["status"]) . "',
-                    prj_lead_usr_id=" . Misc::escapeInteger($HTTP_POST_VARS["lead_usr_id"]) . ",
-                    prj_initial_sta_id=" . Misc::escapeInteger($HTTP_POST_VARS["initial_status"]) . ",
-                    prj_outgoing_sender_name='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
-                    prj_outgoing_sender_email='" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
-                    prj_remote_invocation='" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
-                    prj_segregate_reporter='" . Misc::escapeString($HTTP_POST_VARS["segregate_reporter"]) . "',
-                    prj_customer_backend='" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "',
-                    prj_workflow_backend='" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "'
+                    prj_title='" . Misc::escapeString($_POST["title"]) . "',
+                    prj_status='" . Misc::escapeString($_POST["status"]) . "',
+                    prj_lead_usr_id=" . Misc::escapeInteger($_POST["lead_usr_id"]) . ",
+                    prj_initial_sta_id=" . Misc::escapeInteger($_POST["initial_status"]) . ",
+                    prj_outgoing_sender_name='" . Misc::escapeString($_POST["outgoing_sender_name"]) . "',
+                    prj_outgoing_sender_email='" . Misc::escapeString($_POST["outgoing_sender_email"]) . "',
+                    prj_remote_invocation='" . Misc::escapeString($_POST["remote_invocation"]) . "',
+                    prj_segregate_reporter='" . Misc::escapeString($_POST["segregate_reporter"]) . "',
+                    prj_customer_backend='" . Misc::escapeString($_POST["customer_backend"]) . "',
+                    prj_workflow_backend='" . Misc::escapeString($_POST["workflow_backend"]) . "'
                  WHERE
-                    prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    prj_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Project::removeUserByProjects(array($HTTP_POST_VARS["id"]), $HTTP_POST_VARS["users"]);
-            for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
-                if ($HTTP_POST_VARS["users"][$i] == $HTTP_POST_VARS["lead_usr_id"]) {
-                    Project::associateUser($HTTP_POST_VARS["id"], $HTTP_POST_VARS["users"][$i], User::getRoleID("Manager"));
-                } elseif (User::getRoleByUser($HTTP_POST_VARS["users"][$i], $HTTP_POST_VARS["id"]) == '') {
+            Project::removeUserByProjects(array($_POST["id"]), $_POST["users"]);
+            for ($i = 0; $i < count($_POST["users"]); $i++) {
+                if ($_POST["users"][$i] == $_POST["lead_usr_id"]) {
+                    Project::associateUser($_POST["id"], $_POST["users"][$i], User::getRoleID("Manager"));
+                } elseif (User::getRoleByUser($_POST["users"][$i], $_POST["id"]) == '') {
                     // users who are now being associated with this project should be set to 'Standard User'
-                    Project::associateUser($HTTP_POST_VARS["id"], $HTTP_POST_VARS["users"][$i], User::getRoleID("Standard User"));
+                    Project::associateUser($_POST["id"], $_POST["users"][$i], User::getRoleID("Standard User"));
                 }
             }
-            $statuses = array_keys(Status::getAssocStatusList($HTTP_POST_VARS["id"]));
+            $statuses = array_keys(Status::getAssocStatusList($_POST["id"]));
             if (count($statuses) > 0) {
-                Status::removeProjectAssociations($statuses, $HTTP_POST_VARS["id"]);
+                Status::removeProjectAssociations($statuses, $_POST["id"]);
             }
-            foreach ($HTTP_POST_VARS['statuses'] as $sta_id) {
-                Status::addProjectAssociation($sta_id, $HTTP_POST_VARS["id"]);
+            foreach ($_POST['statuses'] as $sta_id) {
+                Status::addProjectAssociation($sta_id, $_POST["id"]);
             }
             return 1;
         }
@@ -532,9 +526,7 @@ class Project
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "INSERT INTO
@@ -552,15 +544,15 @@ class Project
                     prj_workflow_backend
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["status"]) . "',
-                    " . Misc::escapeInteger($HTTP_POST_VARS["lead_usr_id"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["initial_status"]) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_name"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["outgoing_sender_email"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["remote_invocation"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["customer_backend"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["workflow_backend"]) . "'
+                    '" . Misc::escapeString($_POST["title"]) . "',
+                    '" . Misc::escapeString($_POST["status"]) . "',
+                    " . Misc::escapeInteger($_POST["lead_usr_id"]) . ",
+                    " . Misc::escapeInteger($_POST["initial_status"]) . ",
+                    '" . Misc::escapeString($_POST["outgoing_sender_name"]) . "',
+                    '" . Misc::escapeString($_POST["outgoing_sender_email"]) . "',
+                    '" . Misc::escapeString($_POST["remote_invocation"]) . "',
+                    '" . Misc::escapeString($_POST["customer_backend"]) . "',
+                    '" . Misc::escapeString($_POST["workflow_backend"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -568,15 +560,15 @@ class Project
             return -1;
         } else {
             $new_prj_id = $GLOBALS["db_api"]->get_last_insert_id();
-            for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
-                if ($HTTP_POST_VARS["users"][$i] == $HTTP_POST_VARS["lead_usr_id"]) {
+            for ($i = 0; $i < count($_POST["users"]); $i++) {
+                if ($_POST["users"][$i] == $_POST["lead_usr_id"]) {
                     $role_id = User::getRoleID("Manager");
                 } else {
                     $role_id = User::getRoleID("Standard User");
                 }
-                Project::associateUser($new_prj_id, $HTTP_POST_VARS["users"][$i], $role_id);
+                Project::associateUser($new_prj_id, $_POST["users"][$i], $role_id);
             }
-            foreach ($HTTP_POST_VARS['statuses'] as $sta_id) {
+            foreach ($_POST['statuses'] as $sta_id) {
                 Status::addProjectAssociation($sta_id, $new_prj_id);
             }
             Display_Column::setupNewProject($new_prj_id);

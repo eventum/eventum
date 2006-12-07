@@ -50,7 +50,7 @@ if (!@file_exists($ttf_font)) {
 
 // Some data
 $colors = array();
-if ($HTTP_GET_VARS["plot"] == "status") {
+if ($_GET["plot"] == "status") {
     $data = Stats::getAssocStatus();
     $graph_title = "Issues by Status";
     foreach ($data as $sta_title => $trash) {
@@ -58,16 +58,16 @@ if ($HTTP_GET_VARS["plot"] == "status") {
         $status_details = Status::getDetails($sta_id);
         $colors[] = $status_details['sta_color'];
     }
-} elseif ($HTTP_GET_VARS["plot"] == "release") {
+} elseif ($_GET["plot"] == "release") {
     $data = Stats::getAssocRelease();
     $graph_title = ev_gettext("Issues by Release");
-} elseif ($HTTP_GET_VARS["plot"] == "priority") {
+} elseif ($_GET["plot"] == "priority") {
     $data = Stats::getAssocPriority();
     $graph_title = ev_gettext("Issues by Priority");
-} elseif ($HTTP_GET_VARS["plot"] == "user") {
+} elseif ($_GET["plot"] == "user") {
     $data = Stats::getAssocUser();
     $graph_title = ev_gettext("Issues by Assignment");
-} elseif ($HTTP_GET_VARS["plot"] == "category") {
+} elseif ($_GET["plot"] == "category") {
     $data = Stats::getAssocCategory();
     $graph_title = ev_gettext("Issues by Category");
 }

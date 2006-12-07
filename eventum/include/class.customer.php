@@ -972,8 +972,6 @@ class Customer
      */
     function insertAccountManager()
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
                  (
@@ -982,10 +980,10 @@ class Customer
                     cam_usr_id,
                     cam_type
                  ) VALUES (
-                    " . Misc::escapeInteger($HTTP_POST_VARS['project']) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS['customer']) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS['manager']) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS['type']) . "'
+                    " . Misc::escapeInteger($_POST['project']) . ",
+                    " . Misc::escapeInteger($_POST['customer']) . ",
+                    " . Misc::escapeInteger($_POST['manager']) . ",
+                    '" . Misc::escapeString($_POST['type']) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -1030,17 +1028,15 @@ class Customer
      */
     function updateAccountManager()
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
                  SET
-                    cam_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS['project']) . ",
-                    cam_customer_id=" . Misc::escapeInteger($HTTP_POST_VARS['customer']) . ",
-                    cam_usr_id=" . Misc::escapeInteger($HTTP_POST_VARS['manager']) . ",
-                    cam_type='" . Misc::escapeString($HTTP_POST_VARS['type']) . "'
+                    cam_prj_id=" . Misc::escapeInteger($_POST['project']) . ",
+                    cam_customer_id=" . Misc::escapeInteger($_POST['customer']) . ",
+                    cam_usr_id=" . Misc::escapeInteger($_POST['manager']) . ",
+                    cam_type='" . Misc::escapeString($_POST['type']) . "'
                  WHERE
-                    cam_id=" . $HTTP_POST_VARS['id'];
+                    cam_id=" . $_POST['id'];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1060,9 +1056,7 @@ class Customer
      */
     function removeAccountManager()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_account_manager
                  WHERE

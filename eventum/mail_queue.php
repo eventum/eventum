@@ -38,7 +38,7 @@ $tpl->setTemplate("mail_queue.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$issue_id = $HTTP_GET_VARS["iss_id"];
+$issue_id = $_GET["iss_id"];
 
 if ((Auth::getCurrentRole() < User::getRoleID('Developer')) ||
         (Issue::getProjectID($issue_id) != Auth::getCurrentProject())) {

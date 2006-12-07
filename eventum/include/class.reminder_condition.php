@@ -74,8 +74,6 @@ class Reminder_Condition
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
                  (
@@ -87,11 +85,11 @@ class Reminder_Condition
                     rlc_comparison_rmf_id
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
-                    " . Misc::escapeInteger($HTTP_POST_VARS['rma_id']) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS['field']) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS['operator']) . ",
-                    '" . Misc::escapeString(@$HTTP_POST_VARS['value']) . "',
-                    '" . Misc::escapeInteger(@$HTTP_POST_VARS['comparison_field']) . "'
+                    " . Misc::escapeInteger($_POST['rma_id']) . ",
+                    " . Misc::escapeInteger($_POST['field']) . ",
+                    " . Misc::escapeInteger($_POST['operator']) . ",
+                    '" . Misc::escapeString(@$_POST['value']) . "',
+                    '" . Misc::escapeInteger(@$_POST['comparison_field']) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -111,18 +109,16 @@ class Reminder_Condition
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
                  SET
                     rlc_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    rlc_rmf_id=" . Misc::escapeInteger($HTTP_POST_VARS['field']) . ",
-                    rlc_rmo_id=" . Misc::escapeInteger($HTTP_POST_VARS['operator']) . ",
-                    rlc_value='" . Misc::escapeString(@$HTTP_POST_VARS['value']) . "',
-                    rlc_comparison_rmf_id = '" . Misc::escapeInteger(@$HTTP_POST_VARS['comparison_field']) . "'
+                    rlc_rmf_id=" . Misc::escapeInteger($_POST['field']) . ",
+                    rlc_rmo_id=" . Misc::escapeInteger($_POST['operator']) . ",
+                    rlc_value='" . Misc::escapeString(@$_POST['value']) . "',
+                    rlc_comparison_rmf_id = '" . Misc::escapeInteger(@$_POST['comparison_field']) . "'
                  WHERE
-                    rlc_id=" . Misc::escapeInteger($HTTP_POST_VARS['id']);
+                    rlc_id=" . Misc::escapeInteger($_POST['id']);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -142,9 +138,7 @@ class Reminder_Condition
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
                  WHERE

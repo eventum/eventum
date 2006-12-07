@@ -44,17 +44,17 @@ if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
 
 $prj_id = Auth::getCurrentProject();
 
-if (count(@$HTTP_POST_VARS["start"]) > 0 &&
-        (@$HTTP_POST_VARS["start"]["Year"] != 0) &&
-        (@$HTTP_POST_VARS["start"]["Month"] != 0) &&
-        (@$HTTP_POST_VARS["start"]["Day"] != 0)) {
-    $start_date = join("-", $HTTP_POST_VARS["start"]);
+if (count(@$_POST["start"]) > 0 &&
+        (@$_POST["start"]["Year"] != 0) &&
+        (@$_POST["start"]["Month"] != 0) &&
+        (@$_POST["start"]["Day"] != 0)) {
+    $start_date = join("-", $_POST["start"]);
 }
-if (count(@$HTTP_POST_VARS["end"]) > 0 &&
-        (@$HTTP_POST_VARS["end"]["Year"] != 0) &&
-        (@$HTTP_POST_VARS["end"]["Month"] != 0) &&
-        (@$HTTP_POST_VARS["end"]["Day"] != 0)) {
-    $end_date = join("-", $HTTP_POST_VARS["end"]);
+if (count(@$_POST["end"]) > 0 &&
+        (@$_POST["end"]["Year"] != 0) &&
+        (@$_POST["end"]["Month"] != 0) &&
+        (@$_POST["end"]["Day"] != 0)) {
+    $end_date = join("-", $_POST["end"]);
 }
 
 $tpl->assign(array(
@@ -62,32 +62,32 @@ $tpl->assign(array(
     "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "start_date"    =>  @$start_date,
     "end_date"      =>  @$end_date,
-    "report_type"   =>  @$HTTP_POST_VARS["report_type"]
+    "report_type"   =>  @$_POST["report_type"]
 ));
 
-if (!empty($HTTP_POST_VARS["developer"])) {
+if (!empty($_POST["developer"])) {
 
     //split date up
-    if (@$HTTP_POST_VARS["report_type"] == "weekly") {
-        $dates = explode("_", $HTTP_POST_VARS["week"]);
+    if (@$_POST["report_type"] == "weekly") {
+        $dates = explode("_", $_POST["week"]);
     } else {
         $dates = array($start_date, $end_date);
     }
 
     // print out emails
-    $data = Report::getWeeklyReport($HTTP_POST_VARS["developer"], $dates[0], $dates[1], @$_REQUEST['separate_closed'], @$_REQUEST['ignore_statuses']);
+    $data = Report::getWeeklyReport($_POST["developer"], $dates[0], $dates[1], @$_REQUEST['separate_closed'], @$_REQUEST['ignore_statuses']);
     $tpl->assign("data", $data);
 }
 
-if (empty($HTTP_POST_VARS["week"])) {
+if (empty($_POST["week"])) {
     $tpl->assign("week", Date_API::getCurrentWeek());
 } else {
-    $tpl->assign("week", $HTTP_POST_VARS["week"]);
+    $tpl->assign("week", $_POST["week"]);
 }
-if (empty($HTTP_POST_VARS["developer"])) {
+if (empty($_POST["developer"])) {
     $tpl->assign("developer", Auth::getUserID());
 } else {
-    $tpl->assign("developer", $HTTP_POST_VARS["developer"]);
+    $tpl->assign("developer", $_POST["developer"]);
 }
 
 $tpl->displayTemplate();

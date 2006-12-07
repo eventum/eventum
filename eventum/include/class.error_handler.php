@@ -78,8 +78,6 @@ class Error_Handler
      */
     function _notify($error_msg = "unknown", $script = "unknown", $line = "unknown")
     {
-        global $HTTP_SERVER_VARS;
-
         $setup = Setup::load();
         $notify_list = trim($setup['email_error']['addresses']);
         if (empty($notify_list)) {
@@ -99,8 +97,8 @@ class Error_Handler
         } else {
             $msg .= "'$error_msg'\n\n";
         }
-        @$msg .= "That happened on page '" . $HTTP_SERVER_VARS["PHP_SELF"] . "' from IP Address '" . getenv("REMOTE_ADDR") . "' coming from the page (referrer) '" . getenv("HTTP_REFERER") . "'.\n\n";
-        @$msg .= "The user agent given was '" . $HTTP_SERVER_VARS['HTTP_USER_AGENT'] . "'.\n\n";
+        @$msg .= "That happened on page '" . $_SERVER["PHP_SELF"] . "' from IP Address '" . getenv("REMOTE_ADDR") . "' coming from the page (referrer) '" . getenv("HTTP_REFERER") . "'.\n\n";
+        @$msg .= "The user agent given was '" . $_SERVER['HTTP_USER_AGENT'] . "'.\n\n";
         $msg .= "-- \nSincerely yours,\nAutomated Error_Handler Class";
         // only try to include the backtrace if we are on PHP 4.3.0 or later
         if (version_compare(phpversion(), "4.3.0", ">=")) {
@@ -140,8 +138,6 @@ class Error_Handler
      */
     function logToFile($error_msg = "unknown", $script = "unknown", $line = "unknown")
     {
-        global $HTTP_SERVER_VARS;
-
         $msg = "[" . date("D M d H:i:s Y") . "] ";
         $msg .= "An error was found on line '" . $line . "' of script " . "'$script'.\n\n";
         $msg .= "The error message passed to us was:\n\n";

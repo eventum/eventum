@@ -42,11 +42,11 @@ if (!Auth::hasCookieSupport(APP_COOKIE)) {
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=11");
 }
 
-if ((@$HTTP_GET_VARS["err"] == '') && (Auth::hasValidCookie(APP_COOKIE))) {
+if ((@$_GET["err"] == '') && (Auth::hasValidCookie(APP_COOKIE))) {
     $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
     if ($cookie["remember"]) {
-        if (!empty($HTTP_GET_VARS["url"])) {
-            Auth::redirect($HTTP_GET_VARS["url"]);
+        if (!empty($_GET["url"])) {
+            Auth::redirect($_GET["url"]);
         } else {
             Auth::redirect(APP_RELATIVE_URL . "main.php");
         }
@@ -63,17 +63,17 @@ if ((@$HTTP_GET_VARS["err"] == '') && (Auth::hasValidCookie(APP_COOKIE))) {
         Auth::setCurrentProject($prj_id, 0);
         handleExpiredCustomer($prj_id);
 
-        if (!empty($HTTP_GET_VARS["url"])) {
-            Auth::redirect($HTTP_GET_VARS["url"]);
+        if (!empty($_GET["url"])) {
+            Auth::redirect($_GET["url"]);
         } else {
             Auth::redirect(APP_RELATIVE_URL . "main.php");
         }
-    } elseif ((!empty($HTTP_GET_VARS["url"])) && (
-            (preg_match("/.*view\.php\?id=(\d*)/", $HTTP_GET_VARS["url"], $matches) > 0) ||
-            (preg_match("/switch_prj_id=(\d*)/", $HTTP_GET_VARS["url"], $matches) > 0)
+    } elseif ((!empty($_GET["url"])) && (
+            (preg_match("/.*view\.php\?id=(\d*)/", $_GET["url"], $matches) > 0) ||
+            (preg_match("/switch_prj_id=(\d*)/", $_GET["url"], $matches) > 0)
             )) {
         // check if url is directly linking to an issue, and if it is, don't prompt for project
-        if (stristr($HTTP_GET_VARS["url"], 'view.php')) {
+        if (stristr($_GET["url"], 'view.php')) {
             $prj_id = Issue::getProjectID($matches[1]);
         } else {
             $prj_id = $matches[1];
@@ -81,32 +81,32 @@ if ((@$HTTP_GET_VARS["err"] == '') && (Auth::hasValidCookie(APP_COOKIE))) {
         if (!empty($assigned_projects[$prj_id])) {
             Auth::setCurrentProject($prj_id, 0);
             handleExpiredCustomer($prj_id);
-            Auth::redirect($HTTP_GET_VARS["url"]);
+            Auth::redirect($_GET["url"]);
         }
     }
 }
 
-if (@$HTTP_GET_VARS["err"] != '') {
+if (@$_GET["err"] != '') {
     Auth::removeCookie(APP_PROJECT_COOKIE);
-    $tpl->assign("err", $HTTP_GET_VARS["err"]);
+    $tpl->assign("err", $_GET["err"]);
 }
 
-if (@$HTTP_POST_VARS["cat"] == "select") {
+if (@$_POST["cat"] == "select") {
     $usr_id = Auth::getUserID();
     $projects = Project::getAssocList($usr_id);
-    if (!in_array($HTTP_POST_VARS["project"], array_keys($projects))) {
+    if (!in_array($_POST["project"], array_keys($projects))) {
         // show error message
         $tpl->assign("err", 1);
     } else {
         // create cookie and redirect
-        if (empty($HTTP_POST_VARS["remember"])) {
-            $HTTP_POST_VARS["remember"] = 0;
+        if (empty($_POST["remember"])) {
+            $_POST["remember"] = 0;
         }
-        Auth::setCurrentProject($HTTP_POST_VARS["project"], $HTTP_POST_VARS["remember"]);
-        handleExpiredCustomer($HTTP_POST_VARS["project"]);
+        Auth::setCurrentProject($_POST["project"], $_POST["remember"]);
+        handleExpiredCustomer($_POST["project"]);
 
-        if (!empty($HTTP_POST_VARS["url"])) {
-            Auth::redirect($HTTP_POST_VARS["url"]);
+        if (!empty($_POST["url"])) {
+            Auth::redirect($_POST["url"]);
         } else {
             Auth::redirect(APP_RELATIVE_URL . "main.php");
         }

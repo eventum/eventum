@@ -87,11 +87,9 @@ class Pager
      */
     function _buildQueryString()
     {
-        global $HTTP_GET_VARS;
-
         $query_str = "";
         // gotta check manually here
-        $params = $HTTP_GET_VARS;
+        $params = $_GET;
         while (list($key, $value) = each($params)) {
             if ($key != "pagerRow") {
                 $query_str .= "&" . $key . "=" . urlencode($value);
@@ -116,8 +114,6 @@ class Pager
      */
     function getLinks($row, $total_rows, $per_page, $show_links = "all", $show_blank = "off", $link_str = -1)
     {
-        global $HTTP_SERVER_VARS;
-
         // check for emptyness
         if ((empty($total_rows)) || (empty($per_page))) {
             return array();
@@ -129,7 +125,7 @@ class Pager
             );
         }
         $extra_vars = Pager::_buildQueryString();
-        $file = $HTTP_SERVER_VARS["SCRIPT_NAME"];
+        $file = $_SERVER["SCRIPT_NAME"];
         $number_of_pages = ceil($total_rows / $per_page);
         $subscript = 0;
         for ($current = 0; $current < $number_of_pages; $current++) {

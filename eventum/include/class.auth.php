@@ -77,8 +77,7 @@ class Auth
      */
     function getRequestedURL()
     {
-        global $HTTP_SERVER_VARS;
-        return urlencode($HTTP_SERVER_VARS["REQUEST_URI"]);
+        return urlencode($_SERVER["REQUEST_URI"]);
     }
 
 
@@ -95,16 +94,14 @@ class Auth
      */
     function checkAuthentication($cookie_name, $failed_url = NULL, $is_popup = false)
     {
-        global $HTTP_COOKIE_VARS;
-
         if ($failed_url == NULL) {
             $failed_url = APP_RELATIVE_URL . "index.php?err=5";
         }
         $failed_url .= "&url=" . Auth::getRequestedURL();
-        if (!isset($HTTP_COOKIE_VARS[$cookie_name])) {
+        if (!isset($_COOKIE[$cookie_name])) {
             Auth::redirect($failed_url, $is_popup);
         }
-        $cookie = $HTTP_COOKIE_VARS[$cookie_name];
+        $cookie = $_COOKIE[$cookie_name];
         $cookie = unserialize(base64_decode($cookie));
         if (!Auth::isValidCookie($cookie)) {
             Auth::removeCookie($cookie_name);
@@ -204,9 +201,7 @@ class Auth
      */
     function hasCookieSupport($cookie_name)
     {
-        global $HTTP_COOKIE_VARS;
-
-        if (@!in_array($cookie_name, array_keys($HTTP_COOKIE_VARS))) {
+        if (@!in_array($cookie_name, array_keys($_COOKIE))) {
             return false;
         } else {
             return true;
@@ -223,9 +218,7 @@ class Auth
      */
     function hasValidCookie($cookie_name)
     {
-        global $HTTP_COOKIE_VARS;
-
-        $cookie = @$HTTP_COOKIE_VARS[$cookie_name];
+        $cookie = @$_COOKIE[$cookie_name];
         $cookie = unserialize(base64_decode($cookie));
         if (!Auth::isValidCookie($cookie)) {
             return false;
@@ -245,9 +238,7 @@ class Auth
      */
     function getCookieInfo($cookie_name)
     {
-        global $HTTP_COOKIE_VARS;
-
-        $cookie = @$HTTP_COOKIE_VARS[$cookie_name];
+        $cookie = @$_COOKIE[$cookie_name];
         return unserialize(base64_decode($cookie));
     }
 
@@ -510,7 +501,6 @@ class Auth
      */
     function createFakeCookie($usr_id, $project = false)
     {
-        global $HTTP_COOKIE_VARS;
         include_once(APP_INC_PATH . "private_key.php");
 
         $user_details = User::getDetails($usr_id);
@@ -521,14 +511,14 @@ class Auth
             "login_time"    =>  $time,
             "hash"       => md5($GLOBALS["private_key"] . md5($time) . $user_details['usr_email']),
         );
-        $HTTP_COOKIE_VARS[APP_COOKIE] = base64_encode(serialize($cookie));
+        $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
         if ($project) {
             $cookie = array(
                 "prj_id"   => $project,
                 "remember" => false
             );
         }
-        $HTTP_COOKIE_VARS[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
+        $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
     }
 
 

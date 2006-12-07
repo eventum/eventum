@@ -38,8 +38,8 @@ $tpl->setTemplate("requirement.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-if (@$HTTP_POST_VARS["cat"] == "set_analysis") {
-    $res = Impact_Analysis::update($HTTP_POST_VARS["isr_id"]);
+if (@$_POST["cat"] == "set_analysis") {
+    $res = Impact_Analysis::update($_POST["isr_id"]);
     $tpl->assign("set_analysis_result", $res);
 }
 

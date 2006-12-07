@@ -40,8 +40,8 @@ $tpl->setTemplate('news.tpl.html');
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $prj_id = Auth::getCurrentProject();
-if (!empty($HTTP_GET_VARS["id"])) {
-    $t = News::getDetails($HTTP_GET_VARS['id']);
+if (!empty($_GET["id"])) {
+    $t = News::getDetails($_GET['id']);
     $t['nws_created_date'] = Date_API::getFormattedDate($t["nws_created_date"]);
     $tpl->assign("news", array($t));
 } else {

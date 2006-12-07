@@ -41,14 +41,14 @@ $tpl->setTemplate("authorized_replier.tpl.html");
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $prj_id = Auth::getCurrentProject();
-$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["iss_id"];
+$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 $tpl->assign("issue_id", $issue_id);
 
-if (@$HTTP_POST_VARS["cat"] == "insert") {
-    $res = Authorized_Replier::manualInsert($issue_id, $HTTP_POST_VARS['email']);
+if (@$_POST["cat"] == "insert") {
+    $res = Authorized_Replier::manualInsert($issue_id, $_POST['email']);
     $tpl->assign("insert_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "delete") {
-    $res = Authorized_Replier::removeRepliers($HTTP_POST_VARS["items"]);
+} elseif (@$_POST["cat"] == "delete") {
+    $res = Authorized_Replier::removeRepliers($_POST["items"]);
     $tpl->assign("delete_result", $res);
 }
 

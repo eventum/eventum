@@ -47,16 +47,16 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Round_Robin::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Round_Robin::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         Round_Robin::remove();
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $info = Round_Robin::getDetails($HTTP_GET_VARS["id"]);
+    if (@$_GET["cat"] == "edit") {
+        $info = Round_Robin::getDetails($_GET["id"]);
         $tpl->assign("info", $info);
         $_REQUEST['prj_id'] = $info['prr_prj_id'];
     }

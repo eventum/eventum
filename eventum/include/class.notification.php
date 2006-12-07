@@ -2120,8 +2120,6 @@ class Notification
      */
     function update($sub_id)
     {
-        global $HTTP_POST_VARS;
-
         $sub_id = Misc::escapeInteger($sub_id);
 
         $stmt = "SELECT
@@ -2133,13 +2131,13 @@ class Notification
                     sub_id=$sub_id";
         list($issue_id, $usr_id) = $GLOBALS["db_api"]->dbh->getRow($stmt);
 
-        $email = strtolower(Mail_API::getEmailAddress($HTTP_POST_VARS["email"]));
+        $email = strtolower(Mail_API::getEmailAddress($_POST["email"]));
         $usr_id = User::getUserIDByEmail($email);
         if (!empty($usr_id)) {
             $email = '';
         } else {
             $usr_id = 0;
-            $email = Misc::escapeString($HTTP_POST_VARS["email"]);
+            $email = Misc::escapeString($_POST["email"]);
         }
         $prj_id = Issue::getProjectID($issue_id);
 
@@ -2172,8 +2170,8 @@ class Notification
                         sbt_sub_id=$sub_id";
             $GLOBALS["db_api"]->dbh->query($stmt);
             // now add them all again
-            for ($i = 0; $i < count($HTTP_POST_VARS["actions"]); $i++) {
-                Notification::addType($sub_id, $HTTP_POST_VARS["actions"][$i]);
+            for ($i = 0; $i < count($_POST["actions"]); $i++) {
+                Notification::addType($sub_id, $_POST["actions"][$i]);
             }
             // need to mark the issue as updated
             Issue::markAsUpdated($issue_id);

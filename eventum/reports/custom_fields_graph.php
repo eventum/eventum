@@ -48,14 +48,14 @@ if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
  * Generates a graph for the selected custom field
  */
 
-$data = Report::getCustomFieldReport(@$HTTP_GET_VARS["custom_field"], @$HTTP_GET_VARS["custom_options"], @$HTTP_GET_VARS["group_by"]);
-$field_details = Custom_Field::getDetails(@$HTTP_GET_VARS["custom_field"]);
+$data = Report::getCustomFieldReport(@$_GET["custom_field"], @$_GET["custom_options"], @$_GET["group_by"]);
+$field_details = Custom_Field::getDetails(@$_GET["custom_field"]);
 
 if (count($data) < 2) {
     header("Location: " . APP_RELATIVE_URL . "images/no_data.gif");
 }
 
-if (@$HTTP_GET_VARS["type"] == "pie") {
+if (@$_GET["type"] == "pie") {
     
     if (empty($data["All Others"])) {
         unset($data["All Others"]);
@@ -135,7 +135,7 @@ if (@$HTTP_GET_VARS["type"] == "pie") {
     $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 }
 
-if (@$HTTP_GET_VARS["group_by"] == "customers") {
+if (@$_GET["group_by"] == "customers") {
     "Customers by " . $field_details["fld_title"];
 } else {
     $title = "Issues by " . $field_details["fld_title"];

@@ -280,14 +280,12 @@ class Note
      */
     function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true, $closing = false, $send_notification = true)
     {
-        global $HTTP_POST_VARS;
-
         $issue_id = Misc::escapeInteger($issue_id);
 
-        if (@$HTTP_POST_VARS['add_extra_recipients'] != 'yes') {
+        if (@$_POST['add_extra_recipients'] != 'yes') {
             $note_cc = array();
         } else {
-            $note_cc = $HTTP_POST_VARS['note_cc'];
+            $note_cc = $_POST['note_cc'];
         }
         // add the poster to the list of people to be subscribed to the notification list
         // only if there is no 'unknown user'.
@@ -297,11 +295,11 @@ class Note
                 Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getDefaultActions());
             }
         }
-        if (Validation::isWhitespace($HTTP_POST_VARS["note"])) {
+        if (Validation::isWhitespace($_POST["note"])) {
             return -2;
         }
-        if (empty($HTTP_POST_VARS['message_id'])) {
-            $HTTP_POST_VARS['message_id'] = Mail_API::generateMessageID();
+        if (empty($_POST['message_id'])) {
+            $_POST['message_id'] = Mail_API::generateMessageID();
         }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
@@ -311,11 +309,11 @@ class Note
                     not_created_date,
                     not_note,
                     not_title";
-        if (!@empty($HTTP_POST_VARS['blocked_msg'])) {
+        if (!@empty($_POST['blocked_msg'])) {
             $stmt .= ", not_blocked_message";
         }
         $stmt .= ", not_message_id";
-        if (!@empty($HTTP_POST_VARS['parent_id'])) {
+        if (!@empty($_POST['parent_id'])) {
             $stmt .= ", not_parent_id";
         }
         if ($unknown_user != false) {
@@ -326,14 +324,14 @@ class Note
                     $issue_id,
                     $usr_id,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["note"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'";
-        if (!@empty($HTTP_POST_VARS['blocked_msg'])) {
-            $stmt .= ", '" . Misc::escapeString($HTTP_POST_VARS['blocked_msg']) . "'";
+                    '" . Misc::escapeString($_POST["note"]) . "',
+                    '" . Misc::escapeString($_POST["title"]) . "'";
+        if (!@empty($_POST['blocked_msg'])) {
+            $stmt .= ", '" . Misc::escapeString($_POST['blocked_msg']) . "'";
         }
-        $stmt .= ", '" . Misc::escapeString($HTTP_POST_VARS['message_id']) . "'";
-        if (!@empty($HTTP_POST_VARS['parent_id'])) {
-            $stmt .= ", " . Misc::escapeInteger($HTTP_POST_VARS['parent_id']) . "";
+        $stmt .= ", '" . Misc::escapeString($_POST['message_id']) . "'";
+        if (!@empty($_POST['parent_id'])) {
+            $stmt .= ", " . Misc::escapeInteger($_POST['parent_id']) . "";
         }
         if ($unknown_user != false) {
             $stmt .= ", '" . Misc::escapeString($unknown_user) . "'";
@@ -354,8 +352,8 @@ class Note
             // send notifications for the issue being updated
             if ($send_notification) {
                 $internal_only = true;
-                if ((@$HTTP_POST_VARS['add_extra_recipients'] != 'yes') && (@count($HTTP_POST_VARS['note_cc']) > 0)) {
-                    Notification::notify($issue_id, 'notes', $new_note_id, $internal_only, $HTTP_POST_VARS['note_cc']);
+                if ((@$_POST['add_extra_recipients'] != 'yes') && (@count($_POST['note_cc']) > 0)) {
+                    Notification::notify($issue_id, 'notes', $new_note_id, $internal_only, $_POST['note_cc']);
                 } else {
                     Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
                 }

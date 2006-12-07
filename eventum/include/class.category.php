@@ -100,9 +100,7 @@ class Category
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
@@ -127,18 +125,16 @@ class Category
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  SET
-                    prc_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
+                    prc_title='" . Misc::escapeString($_POST["title"]) . "'
                  WHERE
-                    prc_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . " AND
-                    prc_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    prc_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
+                    prc_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -157,9 +153,7 @@ class Category
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "INSERT INTO
@@ -168,8 +162,8 @@ class Category
                     prc_prj_id,
                     prc_title
                  ) VALUES (
-                    " . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "'
+                    " . Misc::escapeInteger($_POST["prj_id"]) . ",
+                    '" . Misc::escapeString($_POST["title"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {

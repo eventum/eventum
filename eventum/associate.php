@@ -41,52 +41,52 @@ $tpl->setTemplate("associate.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-if (@$HTTP_POST_VARS['cat'] == 'associate') {
-    if ($HTTP_POST_VARS['target'] == 'email') {
-        $res = Support::associate(Auth::getUserID(), $HTTP_POST_VARS['issue'], $HTTP_POST_VARS['item']);
+if (@$_POST['cat'] == 'associate') {
+    if ($_POST['target'] == 'email') {
+        $res = Support::associate(Auth::getUserID(), $_POST['issue'], $_POST['item']);
         if ($res == 1) {
-            Workflow::handleManualEmailAssociation(Issue::getProjectID($HTTP_POST_VARS['issue']), $HTTP_POST_VARS['issue']);
+            Workflow::handleManualEmailAssociation(Issue::getProjectID($_POST['issue']), $_POST['issue']);
         }
         $tpl->assign("associate_result", $res);
-    } elseif ($HTTP_POST_VARS['target'] == 'reference') {
-        $res = Support::associateEmail(Auth::getUserID(), $HTTP_POST_VARS['issue'], $HTTP_POST_VARS['item']);
+    } elseif ($_POST['target'] == 'reference') {
+        $res = Support::associateEmail(Auth::getUserID(), $_POST['issue'], $_POST['item']);
         if ($res == 1) {
-            Workflow::handleManualEmailAssociation(Issue::getProjectID($HTTP_POST_VARS['issue']), $HTTP_POST_VARS['issue']);
+            Workflow::handleManualEmailAssociation(Issue::getProjectID($_POST['issue']), $_POST['issue']);
         }
         $tpl->assign("associate_result", $res);
     } else {
-        for ($i = 0; $i < count($HTTP_POST_VARS['item']); $i++) {
-            $email = Support::getEmailDetails(Email_Account::getAccountByEmail($HTTP_POST_VARS['item'][$i]), $HTTP_POST_VARS['item'][$i]);
+        for ($i = 0; $i < count($_POST['item']); $i++) {
+            $email = Support::getEmailDetails(Email_Account::getAccountByEmail($_POST['item'][$i]), $_POST['item'][$i]);
             // add the message body as a note
-            $HTTP_POST_VARS['blocked_msg'] = $email['seb_full_email'];
-            $HTTP_POST_VARS['title'] = $email['sup_subject'];
-            $HTTP_POST_VARS['note'] = $email['seb_body'];
+            $_POST['blocked_msg'] = $email['seb_full_email'];
+            $_POST['title'] = $email['sup_subject'];
+            $_POST['note'] = $email['seb_body'];
             // XXX: probably broken to use the current logged in user as the 'owner' of 
             // XXX: this new note, but that's how it was already
-            $res = Note::insert(Auth::getUserID(), $HTTP_POST_VARS['issue']);
+            $res = Note::insert(Auth::getUserID(), $_POST['issue']);
             // remove the associated email
             if ($res) {
-                list($HTTP_POST_VARS["from"]) = Support::getSender(array($HTTP_POST_VARS['item'][$i]));
-                Workflow::handleBlockedEmail(Issue::getProjectID($HTTP_POST_VARS['issue']), $HTTP_POST_VARS['issue'], $HTTP_POST_VARS, 'associated');
-                Support::removeEmail($HTTP_POST_VARS['item'][$i]);
+                list($_POST["from"]) = Support::getSender(array($_POST['item'][$i]));
+                Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue']), $_POST['issue'], $_POST, 'associated');
+                Support::removeEmail($_POST['item'][$i]);
             }
         }
         $tpl->assign("associate_result", $res);
     }
-    @$tpl->assign('total_emails', count($HTTP_POST_VARS['item']));
+    @$tpl->assign('total_emails', count($_POST['item']));
 } else {
-    @$tpl->assign('emails', $HTTP_GET_VARS['item']);
-    @$tpl->assign('total_emails', count($HTTP_GET_VARS['item']));
-    $prj_id = Issue::getProjectID($HTTP_GET_VARS['issue']);
+    @$tpl->assign('emails', $_GET['item']);
+    @$tpl->assign('total_emails', count($_GET['item']));
+    $prj_id = Issue::getProjectID($_GET['issue']);
     if (Customer::hasCustomerIntegration($prj_id)) {
         // check if the selected emails all have sender email addresses that are associated with the issue' customer
-        $senders = Support::getSender($HTTP_GET_VARS['item']);
+        $senders = Support::getSender($_GET['item']);
         $sender_emails = array();
         for ($i = 0; $i < count($senders); $i++) {
             $email = Mail_API::getEmailAddress($senders[$i]);
             $sender_emails[$email] = $senders[$i];
         }
-        $customer_id = Issue::getCustomerID($HTTP_GET_VARS['issue']);
+        $customer_id = Issue::getCustomerID($_GET['issue']);
         if (!empty($customer_id)) {
             $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id));
             $unknown_contacts = array();

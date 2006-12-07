@@ -73,9 +73,7 @@ class Email_Response
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "INSERT INTO
@@ -84,8 +82,8 @@ class Email_Response
                     ere_title,
                     ere_response_body
                  ) VALUES (
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["response_body"]) . "'
+                    '" . Misc::escapeString($_POST["title"]) . "',
+                    '" . Misc::escapeString($_POST["response_body"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -94,7 +92,7 @@ class Email_Response
         } else {
             $new_response_id = $GLOBALS["db_api"]->get_last_insert_id();
             // now populate the project-news mapping table
-            foreach ($HTTP_POST_VARS['projects'] as $prj_id) {
+            foreach ($_POST['projects'] as $prj_id) {
                 Email_Response::addProjectAssociation($new_response_id, $prj_id);
             }
             return 1;
@@ -110,9 +108,7 @@ class Email_Response
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response
                  WHERE
@@ -122,7 +118,7 @@ class Email_Response
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Email_Response::removeProjectAssociations($HTTP_POST_VARS['items']);
+            Email_Response::removeProjectAssociations($_POST['items']);
             return true;
         }
     }
@@ -169,29 +165,27 @@ class Email_Response
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-        
-        $HTTP_POST_VARS['id'] = Misc::escapeInteger($HTTP_POST_VARS['id']);
+        $_POST['id'] = Misc::escapeInteger($_POST['id']);
 
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response
                  SET
-                    ere_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    ere_response_body='" . Misc::escapeString($HTTP_POST_VARS["response_body"]) . "'
+                    ere_title='" . Misc::escapeString($_POST["title"]) . "',
+                    ere_response_body='" . Misc::escapeString($_POST["response_body"]) . "'
                  WHERE
-                    ere_id=" . $HTTP_POST_VARS["id"];
+                    ere_id=" . $_POST["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
             // remove all of the associations with projects, then add them all again
-            Email_Response::removeProjectAssociations($HTTP_POST_VARS['id']);
-            foreach ($HTTP_POST_VARS['projects'] as $prj_id) {
-                Email_Response::addProjectAssociation($HTTP_POST_VARS['id'], $prj_id);
+            Email_Response::removeProjectAssociations($_POST['id']);
+            foreach ($_POST['projects'] as $prj_id) {
+                Email_Response::addProjectAssociation($_POST['id'], $prj_id);
             }
             return 1;
         }

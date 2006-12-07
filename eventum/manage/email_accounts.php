@@ -48,16 +48,16 @@ $role_id = Auth::getCurrentRole();
 if ($role_id == User::getRoleID('administrator')) {
     $tpl->assign("show_setup_links", true);
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Email_Account::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Email_Account::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         Email_Account::remove();
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", Email_Account::getDetails($HTTP_GET_VARS["id"]));
+    if (@$_GET["cat"] == "edit") {
+        $tpl->assign("info", Email_Account::getDetails($_GET["id"]));
     }
     $tpl->assign("list", Email_Account::getList());
 } else {

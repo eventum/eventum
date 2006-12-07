@@ -46,7 +46,7 @@ if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
 $prj_id = Auth::getCurrentProject();
 
 
-if ($HTTP_GET_VARS['cat'] == 'user') {
+if ($_GET['cat'] == 'user') {
     $res = Report::getIssuesByUser($prj_id);
     $tpl->assign("users", $res);
 }

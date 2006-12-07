@@ -53,18 +53,18 @@ if (!isset($data['port'])) {
 }
 
 if (isset($_SERVER)) {
-    $HTTP_SERVER_VARS = $_SERVER;
+    $_SERVER = $_SERVER;
 }
 
 $input = getInput();
 
 // remove the first element which is the name of this script
-array_shift($HTTP_SERVER_VARS['argv']);
+array_shift($_SERVER['argv']);
 
 // save who is committing these changes
-$username = array_shift($HTTP_SERVER_VARS['argv']);
+$username = array_shift($_SERVER['argv']);
 // save what the name of the module is
-$cvs_arguments = array_shift($HTTP_SERVER_VARS['argv']);
+$cvs_arguments = array_shift($_SERVER['argv']);
 $pieces = explode(' ', $cvs_arguments);
 $cvs_module = array_shift($pieces);
 

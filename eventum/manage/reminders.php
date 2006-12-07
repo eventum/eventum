@@ -50,18 +50,18 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Reminder::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Reminder::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         Reminder::remove();
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $info = Reminder::getDetails($HTTP_GET_VARS["id"]);
-        if (!empty($HTTP_GET_VARS['prj_id'])) {
-            $info['rem_prj_id'] = $HTTP_GET_VARS['prj_id'];
+    if (@$_GET["cat"] == "edit") {
+        $info = Reminder::getDetails($_GET["id"]);
+        if (!empty($_GET['prj_id'])) {
+            $info['rem_prj_id'] = $_GET['prj_id'];
         }
         // only show customers and support levels if the selected project really needs it
         $project_has_customer_integration = Customer::hasCustomerIntegration($info['rem_prj_id']);
@@ -81,24 +81,24 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $priorities = array_flip(Priority::getAssocList($info['rem_prj_id']));
         unset($priorities['Not Prioritized']);
         $tpl->assign("priorities", array_flip($priorities));
-    } elseif (@$HTTP_GET_VARS["cat"] == "change_rank") {
-        Reminder::changeRank($HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
-    } elseif (!empty($HTTP_GET_VARS['prj_id'])) {
-        $tpl->assign("info", array('rem_prj_id' => $HTTP_GET_VARS['prj_id']));
-        $tpl->assign('issues', Reminder::getIssueAssocListByProject($HTTP_GET_VARS['prj_id']));
+    } elseif (@$_GET["cat"] == "change_rank") {
+        Reminder::changeRank($_GET['id'], $_GET['rank']);
+    } elseif (!empty($_GET['prj_id'])) {
+        $tpl->assign("info", array('rem_prj_id' => $_GET['prj_id']));
+        $tpl->assign('issues', Reminder::getIssueAssocListByProject($_GET['prj_id']));
         // wouldn't make much sense to create a reminder for a 'Not Prioritized' 
         // issue, so let's remove that as an option
-        $priorities = array_flip(Priority::getAssocList($HTTP_GET_VARS['prj_id']));
+        $priorities = array_flip(Priority::getAssocList($_GET['prj_id']));
         unset($priorities['Not Prioritized']);
         $tpl->assign("priorities", array_flip($priorities));
         // only show customers and support levels if the selected project really needs it
-        $project_has_customer_integration = Customer::hasCustomerIntegration($HTTP_GET_VARS['prj_id']);
+        $project_has_customer_integration = Customer::hasCustomerIntegration($_GET['prj_id']);
         $tpl->assign("project_has_customer_integration", $project_has_customer_integration);
         if ($project_has_customer_integration) {
-            $tpl->assign("customers", Customer::getAssocList($HTTP_GET_VARS['prj_id']));
-            $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($HTTP_GET_VARS['prj_id']);
+            $tpl->assign("customers", Customer::getAssocList($_GET['prj_id']));
+            $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($_GET['prj_id']);
             if ($backend_uses_support_levels) {
-                $tpl->assign("support_levels", Customer::getSupportLevelAssocList($HTTP_GET_VARS['prj_id']));
+                $tpl->assign("support_levels", Customer::getSupportLevelAssocList($_GET['prj_id']));
             }
             $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
         }

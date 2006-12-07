@@ -38,10 +38,10 @@ $tpl->setTemplate("view_headers.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-if (@$HTTP_GET_VARS['cat'] == 'note') {
-    $headers = Note::getBlockedMessage($HTTP_GET_VARS["id"]);
+if (@$_GET['cat'] == 'note') {
+    $headers = Note::getBlockedMessage($_GET["id"]);
 } else {
-    $headers = Support::getFullEmail($HTTP_GET_VARS["id"]);
+    $headers = Support::getFullEmail($_GET["id"]);
 }
 $tpl->assign("headers", $headers);
 

@@ -39,11 +39,11 @@ $tpl->setTemplate("history.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-$tpl->assign("changes", History::getListing($HTTP_GET_VARS["iss_id"]));
+$tpl->assign("changes", History::getListing($_GET["iss_id"]));
 
 $role_id = Auth::getCurrentRole();
 if ($role_id > User::getRoleID('Customer')) {
-    $tpl->assign("reminders", Reminder::getHistoryList($HTTP_GET_VARS["iss_id"]));
+    $tpl->assign("reminders", Reminder::getHistoryList($_GET["iss_id"]));
 }
 
 $tpl->displayTemplate();

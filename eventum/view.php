@@ -54,7 +54,7 @@ $role_id = Auth::getCurrentRole();
 
 $associated_projects = @array_keys(Project::getAssocList($usr_id));
 
-@$issue_id = $HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["id"];
+@$issue_id = $_POST["issue_id"] ? $_POST["issue_id"] : $_GET["id"];
 $tpl->assign("extra_title", "Issue #$issue_id Details");
 
 // check if the requested issue is a part of the 'current' project. If it doesn't

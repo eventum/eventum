@@ -111,12 +111,10 @@ class News
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
-        if (Validation::isWhitespace($HTTP_POST_VARS["message"])) {
+        if (Validation::isWhitespace($_POST["message"])) {
             return -3;
         }
         $stmt = "INSERT INTO
@@ -130,9 +128,9 @@ class News
                  ) VALUES (
                     " . Auth::getUserID() . ",
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["message"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["status"]) . "'
+                    '" . Misc::escapeString($_POST["title"]) . "',
+                    '" . Misc::escapeString($_POST["message"]) . "',
+                    '" . Misc::escapeString($_POST["status"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -141,7 +139,7 @@ class News
         } else {
             $new_news_id = $GLOBALS["db_api"]->get_last_insert_id();
             // now populate the project-news mapping table
-            foreach ($HTTP_POST_VARS['projects'] as $prj_id) {
+            foreach ($_POST['projects'] as $prj_id) {
                 News::addProjectAssociation($new_news_id, $prj_id);
             }
             return 1;
@@ -157,9 +155,7 @@ class News
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  WHERE
@@ -169,7 +165,7 @@ class News
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            News::removeProjectAssociations($HTTP_POST_VARS['items']);
+            News::removeProjectAssociations($_POST['items']);
             return true;
         }
     }
@@ -215,31 +211,29 @@ class News
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
-        if (Validation::isWhitespace($HTTP_POST_VARS["message"])) {
+        if (Validation::isWhitespace($_POST["message"])) {
             return -3;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  SET
-                    nws_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    nws_message='" . Misc::escapeString($HTTP_POST_VARS["message"]) . "',
-                    nws_status='" . Misc::escapeString($HTTP_POST_VARS["status"]) . "'
+                    nws_title='" . Misc::escapeString($_POST["title"]) . "',
+                    nws_message='" . Misc::escapeString($_POST["message"]) . "',
+                    nws_status='" . Misc::escapeString($_POST["status"]) . "'
                  WHERE
-                    nws_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    nws_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
             // remove all of the associations with projects, then add them all again
-            News::removeProjectAssociations($HTTP_POST_VARS['id']);
-            foreach ($HTTP_POST_VARS['projects'] as $prj_id) {
-                News::addProjectAssociation($HTTP_POST_VARS['id'], $prj_id);
+            News::removeProjectAssociations($_POST['id']);
+            foreach ($_POST['projects'] as $prj_id) {
+                News::addProjectAssociation($_POST['id'], $prj_id);
             }
             return 1;
         }

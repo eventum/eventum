@@ -52,7 +52,7 @@ $tpl->setTemplate("update.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : @$HTTP_GET_VARS["id"];
+$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : @$_GET["id"];
 
 if (empty($issue_id)) {
     $tpl->displayTemplate();
@@ -80,10 +80,10 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
     $tpl->assign("auth_customer", 'denied');
 } else {
     $new_prj_id = Issue::getProjectID($issue_id);
-    if (@$HTTP_POST_VARS["cat"] == "update") {
-        $res = Issue::update($HTTP_POST_VARS["issue_id"]);
+    if (@$_POST["cat"] == "update") {
+        $res = Issue::update($_POST["issue_id"]);
         $tpl->assign("update_result", $res);
-        if (Issue::hasDuplicates($HTTP_POST_VARS["issue_id"])) {
+        if (Issue::hasDuplicates($_POST["issue_id"])) {
             $tpl->assign("has_duplicates", "yes");
         }
     }

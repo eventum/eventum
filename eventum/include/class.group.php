@@ -55,8 +55,6 @@ class Group
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
                  (
@@ -64,9 +62,9 @@ class Group
                     grp_description,
                     grp_manager_usr_id
                  ) VALUES (
-                    '" . Misc::escapeString($HTTP_POST_VARS["group_name"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    '" . Misc::escapeInteger($HTTP_POST_VARS["manager"]) . "'
+                    '" . Misc::escapeString($_POST["group_name"]) . "',
+                    '" . Misc::escapeString($_POST["description"]) . "',
+                    '" . Misc::escapeInteger($_POST["manager"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -75,9 +73,9 @@ class Group
         } else {
             $grp_id = $GLOBALS["db_api"]->get_last_insert_id();
             
-            Group::setProjects($grp_id, $HTTP_POST_VARS["projects"]);
+            Group::setProjects($grp_id, $_POST["projects"]);
             
-            foreach ($HTTP_POST_VARS["users"] as $usr_id) {
+            foreach ($_POST["users"] as $usr_id) {
                 User::setGroupID($usr_id, $grp_id);
             }
             return 1;
@@ -93,34 +91,32 @@ class Group
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        $HTTP_POST_VARS['id'] = Misc::escapeInteger($HTTP_POST_VARS['id']);
+        $_POST['id'] = Misc::escapeInteger($_POST['id']);
         
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
                  SET
-                    grp_name = '" . Misc::escapeString($HTTP_POST_VARS["group_name"]) . "',
-                    grp_description = '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    grp_manager_usr_id = '" . Misc::escapeInteger($HTTP_POST_VARS["manager"]) . "'
+                    grp_name = '" . Misc::escapeString($_POST["group_name"]) . "',
+                    grp_description = '" . Misc::escapeString($_POST["description"]) . "',
+                    grp_manager_usr_id = '" . Misc::escapeInteger($_POST["manager"]) . "'
                  WHERE
-                    grp_id = " . $HTTP_POST_VARS["id"];
+                    grp_id = " . $_POST["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Group::setProjects($HTTP_POST_VARS["id"], $HTTP_POST_VARS["projects"]);
+            Group::setProjects($_POST["id"], $_POST["projects"]);
             // get old users so we can remove any ones that have been removed
-            $existing_users = Group::getUsers($HTTP_POST_VARS["id"]);
-            $diff = array_diff($existing_users, Misc::escapeInteger($HTTP_POST_VARS["users"]));
+            $existing_users = Group::getUsers($_POST["id"]);
+            $diff = array_diff($existing_users, Misc::escapeInteger($_POST["users"]));
             if (count($diff) > 0) {
                 foreach ($diff as $usr_id) {
                     User::setGroupID($usr_id, false);
                 }
             }
-            foreach ($HTTP_POST_VARS["users"] as $usr_id) {
-                User::setGroupID($usr_id, $HTTP_POST_VARS["id"]);
+            foreach ($_POST["users"] as $usr_id) {
+                User::setGroupID($usr_id, $_POST["id"]);
             }
             return 1;
         }
@@ -134,9 +130,7 @@ class Group
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        foreach (Misc::escapeInteger(@$HTTP_POST_VARS["items"]) as $grp_id) {
+        foreach (Misc::escapeInteger(@$_POST["items"]) as $grp_id) {
             $users = Group::getUsers($grp_id);
             
             $stmt = "DELETE FROM

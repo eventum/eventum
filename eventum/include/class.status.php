@@ -263,9 +263,7 @@ class Status
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS['title'])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
         $stmt = "INSERT INTO
@@ -277,11 +275,11 @@ class Status
                     sta_color,
                     sta_is_closed
                  ) VALUES (
-                    '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS['abbreviation']) . "',
-                    " . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS['color']) . "',
-                    " . Misc::escapeInteger($HTTP_POST_VARS['is_closed']) . "
+                    '" . Misc::escapeString($_POST['title']) . "',
+                    '" . Misc::escapeString($_POST['abbreviation']) . "',
+                    " . Misc::escapeInteger($_POST['rank']) . ",
+                    '" . Misc::escapeString($_POST['color']) . "',
+                    " . Misc::escapeInteger($_POST['is_closed']) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -290,7 +288,7 @@ class Status
         } else {
             $new_status_id = $GLOBALS["db_api"]->get_last_insert_id();
             // now populate the project-status mapping table
-            foreach ($HTTP_POST_VARS['projects'] as $prj_id) {
+            foreach ($_POST['projects'] as $prj_id) {
                 Status::addProjectAssociation($new_status_id, $prj_id);
             }
             return 1;
@@ -306,37 +304,35 @@ class Status
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  SET
-                    sta_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    sta_abbreviation='" . Misc::escapeString($HTTP_POST_VARS["abbreviation"]) . "',
-                    sta_rank=" . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
-                    sta_color='" . Misc::escapeString($HTTP_POST_VARS["color"]) . "',
-                    sta_is_closed=" . Misc::escapeInteger($HTTP_POST_VARS['is_closed']) . "
+                    sta_title='" . Misc::escapeString($_POST["title"]) . "',
+                    sta_abbreviation='" . Misc::escapeString($_POST["abbreviation"]) . "',
+                    sta_rank=" . Misc::escapeInteger($_POST['rank']) . ",
+                    sta_color='" . Misc::escapeString($_POST["color"]) . "',
+                    sta_is_closed=" . Misc::escapeInteger($_POST['is_closed']) . "
                  WHERE
-                    sta_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    sta_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $projects = Status::getAssociatedProjects($HTTP_POST_VARS['id']);
+            $projects = Status::getAssociatedProjects($_POST['id']);
             $current_projects = array_keys($projects);
             // remove all of the associations with projects, then add them all again
-            Status::removeProjectAssociations($HTTP_POST_VARS['id']);
-            foreach ($HTTP_POST_VARS['projects'] as $prj_id) {
-                Status::addProjectAssociation($HTTP_POST_VARS['id'], $prj_id);
+            Status::removeProjectAssociations($_POST['id']);
+            foreach ($_POST['projects'] as $prj_id) {
+                Status::addProjectAssociation($_POST['id'], $prj_id);
             }
             // need to update all issues that are not supposed to have the changed sta_id to '0'
             $removed_projects = array();
             foreach ($current_projects as $project_id) {
-                if (!in_array($project_id, $HTTP_POST_VARS['projects'])) {
+                if (!in_array($project_id, $_POST['projects'])) {
                     $removed_projects[] = $project_id;
                 }
             }
@@ -346,7 +342,7 @@ class Status
                          SET
                             iss_sta_id=0
                          WHERE
-                            iss_sta_id=" . Misc::escapeInteger($HTTP_POST_VARS['id']) . " AND
+                            iss_sta_id=" . Misc::escapeInteger($_POST['id']) . " AND
                             iss_prj_id IN (" . implode(', ', $removed_projects) . ")";
                 $res = $GLOBALS["db_api"]->dbh->query($stmt);
                 if (PEAR::isError($res)) {
@@ -366,9 +362,7 @@ class Status
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
@@ -378,7 +372,7 @@ class Status
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Status::removeProjectAssociations($HTTP_POST_VARS['items']);
+            Status::removeProjectAssociations($_POST['items']);
             // also set all issues currently set to these statuses to status '0'
             $stmt = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue

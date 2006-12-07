@@ -38,13 +38,13 @@ $tpl->setTemplate("duplicate.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (@$HTTP_POST_VARS["cat"] == "mark") {
-    $res = Issue::markAsDuplicate($HTTP_POST_VARS["issue_id"]);
+if (@$_POST["cat"] == "mark") {
+    $res = Issue::markAsDuplicate($_POST["issue_id"]);
     $tpl->assign("duplicate_result", $res);
 } else {
     // need to show only the issues that have iss_duplicated_iss_id = NULL
-    $tpl->assign("issues", Issue::getColList("iss_duplicated_iss_id IS NULL AND iss_id <> " . $HTTP_GET_VARS["id"]));
-    $tpl->assign("assoc_issues", Issue::getAssocList("iss_duplicated_iss_id IS NULL AND iss_id <> " . $HTTP_GET_VARS["id"]));
+    $tpl->assign("issues", Issue::getColList("iss_duplicated_iss_id IS NULL AND iss_id <> " . $_GET["id"]));
+    $tpl->assign("assoc_issues", Issue::getAssocList("iss_duplicated_iss_id IS NULL AND iss_id <> " . $_GET["id"]));
 }
 
 $tpl->displayTemplate();

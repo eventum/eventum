@@ -440,21 +440,19 @@ class Attachment
      */
     function attach($usr_id, $status = 'public')
     {
-        global $HTTP_POST_VARS, $HTTP_POST_FILES;
-
         $files = array();
-        for ($i = 0; $i < count($HTTP_POST_FILES["attachment"]["name"]); $i++) {
-            $filename = @$HTTP_POST_FILES["attachment"]["name"][$i];
+        for ($i = 0; $i < count($_FILES["attachment"]["name"]); $i++) {
+            $filename = @$_FILES["attachment"]["name"][$i];
             if (empty($filename)) {
                 continue;
             }
-            $blob = Misc::getFileContents($HTTP_POST_FILES["attachment"]["tmp_name"][$i]);
+            $blob = Misc::getFileContents($_FILES["attachment"]["tmp_name"][$i]);
             if (empty($blob)) {
                 return -1;
             }
             $files[] = array(
                 "filename"  =>  $filename,
-                "type"      =>  $HTTP_POST_FILES['attachment']['type'][$i],
+                "type"      =>  $_FILES['attachment']['type'][$i],
                 "blob"      =>  $blob
             );
         }
@@ -466,26 +464,26 @@ class Attachment
         } else {
             $internal_only = false;
         }
-        $attachment_id = Attachment::add($HTTP_POST_VARS["issue_id"], $usr_id, @$HTTP_POST_VARS["file_description"], $internal_only);
+        $attachment_id = Attachment::add($_POST["issue_id"], $usr_id, @$_POST["file_description"], $internal_only);
         foreach ($files as $file) {
-            Attachment::addFile($attachment_id, $HTTP_POST_VARS["issue_id"], $file["filename"], $file["type"], $file["blob"]);
+            Attachment::addFile($attachment_id, $_POST["issue_id"], $file["filename"], $file["type"], $file["blob"]);
         }
 
-        Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], "file uploaded");
+        Issue::markAsUpdated($_POST["issue_id"], "file uploaded");
         // need to save a history entry for this
-        History::add($HTTP_POST_VARS["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
+        History::add($_POST["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
 
         // if there is customer integration, mark last customer action
-        if ((Customer::hasCustomerIntegration(Issue::getProjectID($HTTP_POST_VARS["issue_id"]))) && (User::getRoleByUser($usr_id, Issue::getProjectID($HTTP_POST_VARS["issue_id"])) == User::getRoleID('Customer'))) {
-            Issue::recordLastCustomerAction($HTTP_POST_VARS["issue_id"]);
+        if ((Customer::hasCustomerIntegration(Issue::getProjectID($_POST["issue_id"]))) && (User::getRoleByUser($usr_id, Issue::getProjectID($_POST["issue_id"])) == User::getRoleID('Customer'))) {
+            Issue::recordLastCustomerAction($_POST["issue_id"]);
         }
 
-        Workflow::handleAttachment(Issue::getProjectID($HTTP_POST_VARS["issue_id"]), $HTTP_POST_VARS["issue_id"], $usr_id);
+        Workflow::handleAttachment(Issue::getProjectID($_POST["issue_id"]), $_POST["issue_id"], $usr_id);
 
         // send notifications for the issue being updated
         // XXX: eventually need to restrict the list of people who receive a notification about this in a better fashion
         if ($status == 'public') {
-            Notification::notify($HTTP_POST_VARS["issue_id"], 'files', $attachment_id);
+            Notification::notify($_POST["issue_id"], 'files', $attachment_id);
         }
         return 1;
     }
@@ -542,8 +540,6 @@ class Attachment
      */
     function add($issue_id, $usr_id, $description, $internal_only = FALSE, $unknown_user = FALSE, $associated_note_id = FALSE)
     {
-        global $HTTP_POST_VARS;
-
         if ($internal_only) {
             $attachment_status = 'internal';
         } else {

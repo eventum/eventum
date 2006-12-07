@@ -38,10 +38,10 @@ $tpl->setTemplate("file_upload.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
-$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["iss_id"];
+$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 
-if (@$HTTP_POST_VARS["cat"] == "upload_file") {
-    $res = Attachment::attach($usr_id, $HTTP_POST_VARS['status']);
+if (@$_POST["cat"] == "upload_file") {
+    $res = Attachment::attach($usr_id, $_POST['status']);
     $tpl->assign("upload_file_result", $res);
 }
 

@@ -1574,10 +1574,8 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function isSafeExecution()
     {
-        global $HTTP_SERVER_VARS;
-
-        if ($HTTP_SERVER_VARS['argv'][count($HTTP_SERVER_VARS['argv'])-1] == '--safe') {
-            unset($HTTP_SERVER_VARS['argv'][count($HTTP_SERVER_VARS['argv'])-1]);
+        if ($_SERVER['argv'][count($_SERVER['argv'])-1] == '--safe') {
+            unset($_SERVER['argv'][count($_SERVER['argv'])-1]);
             return true;
         } else {
             return false;

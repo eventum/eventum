@@ -421,17 +421,15 @@ class Draft
      */
     function send($draft_id)
     {
-        global $HTTP_POST_VARS;
-
         $draft_id = Misc::escapeInteger($draft_id);
         $draft = Draft::getDetails($draft_id);
-        $HTTP_POST_VARS["issue_id"] = $draft["emd_iss_id"];
-        $HTTP_POST_VARS["subject"] = $draft["emd_subject"];
-        $HTTP_POST_VARS["from"] = User::getFromHeader(Auth::getUserID());
-        $HTTP_POST_VARS["to"] = $draft["to"];
-        $HTTP_POST_VARS["cc"] = @join(";", $draft["cc"]);
-        $HTTP_POST_VARS["message"] = $draft["emd_body"];
-        $HTTP_POST_VARS["ema_id"] = Email_Account::getEmailAccount();
+        $_POST["issue_id"] = $draft["emd_iss_id"];
+        $_POST["subject"] = $draft["emd_subject"];
+        $_POST["from"] = User::getFromHeader(Auth::getUserID());
+        $_POST["to"] = $draft["to"];
+        $_POST["cc"] = @join(";", $draft["cc"]);
+        $_POST["message"] = $draft["emd_body"];
+        $_POST["ema_id"] = Email_Account::getEmailAccount();
         $res = Support::sendEmail();
         if ($res == 1) {
            Draft::remove($draft_id);

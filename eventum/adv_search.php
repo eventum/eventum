@@ -83,14 +83,14 @@ $tpl->assign(array(
     "reporters"     => Project::getReporters($prj_id)
 ));
 
-if (!empty($HTTP_GET_VARS["custom_id"])) {
+if (!empty($_GET["custom_id"])) {
     $check_perm = true;
-    if (Filter::isGlobal($HTTP_GET_VARS["custom_id"])) {
+    if (Filter::isGlobal($_GET["custom_id"])) {
         if ($role_id >= User::getRoleID('Manager')) {
             $check_perm = false;
         }
     }
-    $tpl->assign("options", Filter::getDetails($HTTP_GET_VARS["custom_id"], $check_perm));
+    $tpl->assign("options", Filter::getDetails($_GET["custom_id"], $check_perm));
 }
 
 $tpl->displayTemplate();

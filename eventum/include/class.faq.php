@@ -89,9 +89,7 @@ class FAQ
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
                  WHERE
@@ -101,7 +99,7 @@ class FAQ
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            FAQ::removeSupportLevelAssociations($HTTP_POST_VARS['items']);
+            FAQ::removeSupportLevelAssociations($_POST['items']);
             return true;
         }
     }
@@ -144,36 +142,34 @@ class FAQ
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        $HTTP_POST_VARS['id'] = Misc::escapeInteger($HTTP_POST_VARS['id']);
+        $_POST['id'] = Misc::escapeInteger($_POST['id']);
         
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
-        if (Validation::isWhitespace($HTTP_POST_VARS["message"])) {
+        if (Validation::isWhitespace($_POST["message"])) {
             return -3;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
                  SET
-                    faq_prj_id=" . $HTTP_POST_VARS['project'] . ",
+                    faq_prj_id=" . $_POST['project'] . ",
                     faq_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    faq_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    faq_message='" . Misc::escapeString($HTTP_POST_VARS["message"]) . "',
-                    faq_rank=" . $HTTP_POST_VARS['rank'] . "
+                    faq_title='" . Misc::escapeString($_POST["title"]) . "',
+                    faq_message='" . Misc::escapeString($_POST["message"]) . "',
+                    faq_rank=" . $_POST['rank'] . "
                  WHERE
-                    faq_id=" . $HTTP_POST_VARS["id"];
+                    faq_id=" . $_POST["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
             // remove all of the associations with support levels, then add them all again
-            FAQ::removeSupportLevelAssociations($HTTP_POST_VARS['id']);
-            if (Customer::doesBackendUseSupportLevels($HTTP_POST_VARS['project'])) {
-                foreach ($HTTP_POST_VARS['support_levels'] as $support_level_id) {
-                    FAQ::addSupportLevelAssociation($HTTP_POST_VARS['id'], $support_level_id);
+            FAQ::removeSupportLevelAssociations($_POST['id']);
+            if (Customer::doesBackendUseSupportLevels($_POST['project'])) {
+                foreach ($_POST['support_levels'] as $support_level_id) {
+                    FAQ::addSupportLevelAssociation($_POST['id'], $support_level_id);
                 }
             }
             return 1;
@@ -189,12 +185,10 @@ class FAQ
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
-        if (Validation::isWhitespace($HTTP_POST_VARS["message"])) {
+        if (Validation::isWhitespace($_POST["message"])) {
             return -3;
         }
         $stmt = "INSERT INTO
@@ -207,12 +201,12 @@ class FAQ
                     faq_message,
                     faq_rank
                  ) VALUES (
-                    " . $HTTP_POST_VARS['project'] . ",
+                    " . $_POST['project'] . ",
                     " . Auth::getUserID() . ",
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["message"]) . "',
-                    " . $HTTP_POST_VARS['rank'] . "
+                    '" . Misc::escapeString($_POST["title"]) . "',
+                    '" . Misc::escapeString($_POST["message"]) . "',
+                    " . $_POST['rank'] . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -220,9 +214,9 @@ class FAQ
             return -1;
         } else {
             $new_faq_id = $GLOBALS["db_api"]->get_last_insert_id();
-            if (Customer::doesBackendUseSupportLevels(Misc::escapeInteger($HTTP_POST_VARS['project']))) {
+            if (Customer::doesBackendUseSupportLevels(Misc::escapeInteger($_POST['project']))) {
                 // now populate the faq-support level mapping table
-                foreach ($HTTP_POST_VARS['support_levels'] as $support_level_id) {
+                foreach ($_POST['support_levels'] as $support_level_id) {
                     FAQ::addSupportLevelAssociation($new_faq_id, $support_level_id);
                 }
             }

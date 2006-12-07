@@ -55,8 +55,6 @@ class Impact_Analysis
      */
     function insert($issue_id)
     {
-        global $HTTP_POST_VARS;
-
         $usr_id = Auth::getUserID();
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
@@ -69,7 +67,7 @@ class Impact_Analysis
                     " . Misc::escapeInteger($issue_id) . ",
                     $usr_id,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["new_requirement"]) . "'
+                    '" . Misc::escapeString($_POST["new_requirement"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -142,8 +140,6 @@ class Impact_Analysis
      */
     function update($isr_id)
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "SELECT
                     isr_iss_id
                  FROM
@@ -153,7 +149,7 @@ class Impact_Analysis
         $issue_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
 
         // we are storing minutes, not hours
-        $dev_time = $HTTP_POST_VARS["dev_time"] * 60;
+        $dev_time = $_POST["dev_time"] * 60;
         $usr_id = Auth::getUserID();
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
@@ -161,7 +157,7 @@ class Impact_Analysis
                     isr_updated_usr_id=$usr_id,
                     isr_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     isr_dev_time=$dev_time,
-                    isr_impact_analysis='" . Misc::escapeString($HTTP_POST_VARS["impact_analysis"]) . "'
+                    isr_impact_analysis='" . Misc::escapeString($_POST["impact_analysis"]) . "'
                  WHERE
                     isr_id=" . Misc::escapeInteger($isr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -185,9 +181,7 @@ class Impact_Analysis
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = implode(", ", Misc::escapeInteger($HTTP_POST_VARS["item"]));
+        $items = implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "SELECT
                     isr_iss_id
                  FROM

@@ -308,10 +308,8 @@ class User
      */
     function createVisitorAccount($role, $projects)
     {
-        global $HTTP_POST_VARS;
-
         // check for double submits
-        if (Auth::userExists($HTTP_POST_VARS["email"])) {
+        if (Auth::userExists($_POST["email"])) {
             return -2;
         }
         $prefs = Prefs::getDefaults($projects);
@@ -326,9 +324,9 @@ class User
                     usr_status
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Auth::hashPassword(Misc::escapeString($HTTP_POST_VARS["passwd"])) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["email"]) . "',
+                    '" . Auth::hashPassword(Misc::escapeString($_POST["passwd"])) . "',
+                    '" . Misc::escapeString($_POST["full_name"]) . "',
+                    '" . Misc::escapeString($_POST["email"]) . "',
                     '" . Misc::escapeString($prefs) . "',
                     'pending'
                  )";
@@ -343,13 +341,13 @@ class User
                 Project::associateUser($projects[$i], $new_usr_id, $role);
             }
             // send confirmation email to user
-            $hash = md5($HTTP_POST_VARS["full_name"] . md5($HTTP_POST_VARS["email"]) . $GLOBALS["private_key"]);
+            $hash = md5($_POST["full_name"] . md5($_POST["email"]) . $GLOBALS["private_key"]);
 
             $tpl = new Template_API;
             $tpl->setTemplate('notifications/visitor_account.tpl.text');
             $tpl->bulkAssign(array(
                 "app_title"   => Misc::getToolCaption(),
-                "email"     =>  $HTTP_POST_VARS['email'],
+                "email"     =>  $_POST['email'],
                 'hash'      =>  $hash
             ));
             $text_message = $tpl->getTemplateContents();
@@ -358,7 +356,7 @@ class User
             $mail = new Mail_API;
             // need to make this message MIME based
             $mail->setTextBody($text_message);
-            $mail->send($setup["smtp"]["from"], $HTTP_POST_VARS["email"], APP_SHORT_NAME . ": New Account - Confirmation Required");
+            $mail->send($setup["smtp"]["from"], $_POST["email"], APP_SHORT_NAME . ": New Account - Confirmation Required");
             return 1;
         }
     }
@@ -405,12 +403,10 @@ class User
      */
     function confirmNewPassword($email)
     {
-        global $HTTP_POST_VARS;
-
         $usr_id = User::getUserIDByEmail($email);
         // create the new password
-        $HTTP_POST_VARS["new_password"] = substr(md5(microtime() . uniqid("")), 0, 12);
-        $HTTP_POST_VARS["confirm_password"] = $HTTP_POST_VARS["new_password"];
+        $_POST["new_password"] = substr(md5(microtime() . uniqid("")), 0, 12);
+        $_POST["confirm_password"] = $_POST["new_password"];
         User::updatePassword($usr_id, true);
     }
 
@@ -866,8 +862,6 @@ class User
      */
     function changeStatus()
     {
-        global $HTTP_POST_VARS;
-
         // check if the user being inactivated is the last one
         $stmt = "SELECT
                     COUNT(*)
@@ -876,15 +870,15 @@ class User
                  WHERE
                     usr_status='active'";
         $total_active = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (($total_active < 2) && ($HTTP_POST_VARS["status"] == "inactive")) {
+        if (($total_active < 2) && ($_POST["status"] == "inactive")) {
             return false;
         }
 
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_status='" . $HTTP_POST_VARS["status"] . "'
+                    usr_status='" . $_POST["status"] . "'
                  WHERE
                     usr_id IN ($items)";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -907,15 +901,13 @@ class User
      */
     function updatePassword($usr_id, $send_notification = FALSE)
     {
-        global $HTTP_POST_VARS;
-
-        if ($HTTP_POST_VARS['new_password'] != $HTTP_POST_VARS['confirm_password']) {
+        if ($_POST['new_password'] != $_POST['confirm_password']) {
             return -2;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_password='" . Auth::hashPassword($HTTP_POST_VARS["new_password"]) . "'
+                    usr_password='" . Auth::hashPassword($_POST["new_password"]) . "'
                  WHERE
                     usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -924,7 +916,7 @@ class User
             return -1;
         } else {
             if ($send_notification) {
-                Notification::notifyUserPassword($usr_id, $HTTP_POST_VARS["new_password"]);
+                Notification::notifyUserPassword($usr_id, $_POST["new_password"]);
             }
             return 1;
         }
@@ -940,12 +932,10 @@ class User
      */
     function updateFullName($usr_id)
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_full_name='" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "'
+                    usr_full_name='" . Misc::escapeString($_POST["full_name"]) . "'
                  WHERE
                     usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -968,12 +958,10 @@ class User
      */
     function updateEmail($usr_id)
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_email='" . Misc::escapeString($HTTP_POST_VARS["email"]) . "'
+                    usr_email='" . Misc::escapeString($_POST["email"]) . "'
                  WHERE
                     usr_id=" . Misc::escapeInteger($usr_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -995,25 +983,23 @@ class User
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
         // system account should not be updateable
-        if ($HTTP_POST_VARS["id"] == APP_SYSTEM_USER_ID) {
+        if ($_POST["id"] == APP_SYSTEM_USER_ID) {
             return 1;
         }
 
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
-                    usr_full_name='" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
-                    usr_email='" . Misc::escapeString($HTTP_POST_VARS["email"]) . "'";
-        if (!empty($HTTP_POST_VARS["password"])) {
+                    usr_full_name='" . Misc::escapeString($_POST["full_name"]) . "',
+                    usr_email='" . Misc::escapeString($_POST["email"]) . "'";
+        if (!empty($_POST["password"])) {
             $stmt .= ",
-                    usr_password='" . Auth::hashPassword($HTTP_POST_VARS["password"]) . "'";
+                    usr_password='" . Auth::hashPassword($_POST["password"]) . "'";
         }
         $stmt .= "
                  WHERE
-                    usr_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    usr_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1023,13 +1009,13 @@ class User
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_user
                      WHERE
-                        pru_usr_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                        pru_usr_id=" . Misc::escapeInteger($_POST["id"]);
             $res = $GLOBALS["db_api"]->dbh->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
-                foreach ($HTTP_POST_VARS["role"] as $prj_id => $role) {
+                foreach ($_POST["role"] as $prj_id => $role) {
                     if ($role < 1) {
                         continue;
                     }
@@ -1041,7 +1027,7 @@ class User
                                 pru_role
                              ) VALUES (
                                 " . $prj_id . ",
-                                " . Misc::escapeInteger($HTTP_POST_VARS["id"]) . ",
+                                " . Misc::escapeInteger($_POST["id"]) . ",
                                 " . $role . "
                              )";
                     $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -1051,10 +1037,10 @@ class User
                     }
                 }
             }
-            if (!empty($HTTP_POST_VARS["password"])) {
-                Notification::notifyUserPassword($HTTP_POST_VARS["id"], $HTTP_POST_VARS["password"]);
+            if (!empty($_POST["password"])) {
+                Notification::notifyUserPassword($_POST["id"], $_POST["password"]);
             } else {
-                Notification::notifyUserAccount($HTTP_POST_VARS["id"]);
+                Notification::notifyUserAccount($_POST["id"]);
             }
             return 1;
         }
@@ -1069,10 +1055,8 @@ class User
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
         $projects = array();
-        foreach ($HTTP_POST_VARS["role"] as $prj_id => $role) {
+        foreach ($_POST["role"] as $prj_id => $role) {
             if ($role < 1) {
                 continue;
             }
@@ -1093,9 +1077,9 @@ class User
                     NULL,
                     NULL,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Auth::hashPassword(Misc::escapeString($HTTP_POST_VARS["password"])) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["full_name"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["email"]) . "',
+                    '" . Auth::hashPassword(Misc::escapeString($_POST["password"])) . "',
+                    '" . Misc::escapeString($_POST["full_name"]) . "',
+                    '" . Misc::escapeString($_POST["email"]) . "',
                     '" . Misc::escapeString($prefs) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -1105,14 +1089,14 @@ class User
         } else {
             $new_usr_id = $GLOBALS["db_api"]->get_last_insert_id();
             // add the project associations!
-            foreach ($HTTP_POST_VARS["role"] as $prj_id => $role) {
+            foreach ($_POST["role"] as $prj_id => $role) {
                 if ($role < 1) {
                     continue;
                 }
                 Project::associateUser($prj_id, $new_usr_id, $role);
             }
             // send email to user
-            Notification::notifyNewUser($new_usr_id, $HTTP_POST_VARS["password"]);
+            Notification::notifyNewUser($new_usr_id, $_POST["password"]);
             return 1;
         }
     }

@@ -36,7 +36,7 @@ include_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
 
 $font = FF_FONT1;
 
-$stats = unserialize(base64_decode($HTTP_POST_VARS["encoded_stats"]));
+$stats = unserialize(base64_decode($_POST["encoded_stats"]));
 $labels = array();
 $data = array();
 foreach ($stats as $point) {

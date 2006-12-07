@@ -48,23 +48,23 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Group::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Group::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         Group::remove();
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $info = Group::getDetails($HTTP_GET_VARS["id"]);
+    if (@$_GET["cat"] == "edit") {
+        $info = Group::getDetails($_GET["id"]);
         $tpl->assign("info", $info);
-        $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), false, $HTTP_GET_VARS["id"]);
+        $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), false, $_GET["id"]);
     } else {
         $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), true);
     }
 
-    if (@$HTTP_GET_VARS['show_customers'] == 1) {
+    if (@$_GET['show_customers'] == 1) {
         $show_customer = true;
     } else {
         $show_customer = false;

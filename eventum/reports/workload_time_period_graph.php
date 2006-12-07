@@ -51,7 +51,7 @@ if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
 // get timezone of current user
 $user_prefs = Prefs::get($usr_id);
 
-if (@$HTTP_GET_VARS["type"] == "email") {
+if (@$_GET["type"] == "email") {
     $data = Report::getEmailWorkloadByTimePeriod(@$user_prefs["timezone"], true);
     $graph_title = "Email by Time Period";
     $event_type = "emails";

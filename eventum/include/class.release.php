@@ -158,9 +158,7 @@ class Release
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         // gotta fix the issues that are using this release
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -197,21 +195,19 @@ class Release
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
-        $scheduled_date = $HTTP_POST_VARS["scheduled_date"]["Year"] . "-" . $HTTP_POST_VARS["scheduled_date"]["Month"] . "-" . $HTTP_POST_VARS["scheduled_date"]["Day"];
+        $scheduled_date = $_POST["scheduled_date"]["Year"] . "-" . $_POST["scheduled_date"]["Month"] . "-" . $_POST["scheduled_date"]["Day"];
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  SET
-                    pre_title='" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    pre_title='" . Misc::escapeString($_POST["title"]) . "',
                     pre_scheduled_date='" . Misc::escapeString($scheduled_date) . "',
-                    pre_status='" . Misc::escapeString($HTTP_POST_VARS["status"]) . "'
+                    pre_status='" . Misc::escapeString($_POST["status"]) . "'
                  WHERE
-                    pre_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . " AND
-                    pre_id=" . Misc::escapeInteger($HTTP_POST_VARS["id"]);
+                    pre_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
+                    pre_id=" . Misc::escapeInteger($_POST["id"]);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -231,12 +227,10 @@ class Release
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (Validation::isWhitespace($HTTP_POST_VARS["title"])) {
+        if (Validation::isWhitespace($_POST["title"])) {
             return -2;
         }
-        $scheduled_date = $HTTP_POST_VARS["scheduled_date"]["Year"] . "-" . $HTTP_POST_VARS["scheduled_date"]["Month"] . "-" . $HTTP_POST_VARS["scheduled_date"]["Day"];
+        $scheduled_date = $_POST["scheduled_date"]["Year"] . "-" . $_POST["scheduled_date"]["Month"] . "-" . $_POST["scheduled_date"]["Day"];
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  (
@@ -245,10 +239,10 @@ class Release
                     pre_scheduled_date,
                     pre_status
                  ) VALUES (
-                    " . Misc::escapeInteger($HTTP_POST_VARS["prj_id"]) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS["title"]) . "',
+                    " . Misc::escapeInteger($_POST["prj_id"]) . ",
+                    '" . Misc::escapeString($_POST["title"]) . "',
                     '" . Misc::escapeString($scheduled_date) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["status"]) . "'
+                    '" . Misc::escapeString($_POST["status"]) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {

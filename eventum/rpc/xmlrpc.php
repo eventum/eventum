@@ -954,19 +954,17 @@ function logCommand($p)
  */
 function createFakeCookie($email, $project = false)
 {
-    global $HTTP_COOKIE_VARS;
-
     $cookie = array(
         "email" => $email
     );
-    $HTTP_COOKIE_VARS[APP_COOKIE] = base64_encode(serialize($cookie));
+    $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
     if ($project) {
         $cookie = array(
             "prj_id"   => $project,
             "remember" => false
         );
     }
-    $HTTP_COOKIE_VARS[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
+    $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
 }
 
 

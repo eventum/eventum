@@ -43,7 +43,7 @@ flush();
 
 echo "<span class='default'>";
 echo "<b>The following is the SQL statement produced by this reminder:</b><br /><br />";
-echo nl2br(Reminder::getSQLQuery($HTTP_GET_VARS['rem_id'], $HTTP_GET_VARS['rma_id']));
+echo nl2br(Reminder::getSQLQuery($_GET['rem_id'], $_GET['rma_id']));
 
 ?>
 

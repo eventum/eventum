@@ -69,7 +69,7 @@ $color_index = 0;
 
 $graph_types = Customer_Stats_Report::getGraphTypes();
 
-$graph_id = $HTTP_GET_VARS["graph_id"];
+$graph_id = $_GET["graph_id"];
 
 $plots = array();
 $max_title_len = 0;

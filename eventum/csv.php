@@ -33,7 +33,7 @@ include_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$csv = base64_decode($HTTP_POST_VARS["csv_data"]);
+$csv = base64_decode($_POST["csv_data"]);
 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified

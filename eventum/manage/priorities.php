@@ -48,21 +48,21 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    @$prj_id = $HTTP_POST_VARS["prj_id"] ? $HTTP_POST_VARS["prj_id"] : $HTTP_GET_VARS["prj_id"];
+    @$prj_id = $_POST["prj_id"] ? $_POST["prj_id"] : $_GET["prj_id"];
     $tpl->assign("project", Project::getDetails($prj_id));
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Priority::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Priority::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         Priority::remove();
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", Priority::getDetails($HTTP_GET_VARS["id"]));
-    } elseif (@$HTTP_GET_VARS["cat"] == "change_rank") {
-        Priority::changeRank($prj_id, $HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
+    if (@$_GET["cat"] == "edit") {
+        $tpl->assign("info", Priority::getDetails($_GET["id"]));
+    } elseif (@$_GET["cat"] == "change_rank") {
+        Priority::changeRank($prj_id, $_GET['id'], $_GET['rank']);
     }
     $tpl->assign("list", Priority::getList($prj_id));
 } else {

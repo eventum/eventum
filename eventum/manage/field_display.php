@@ -43,7 +43,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $tpl->assign("type", "field_display");
 
-$prj_id = @$HTTP_GET_VARS["prj_id"];
+$prj_id = @$_GET["prj_id"];
 
 $role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
@@ -51,8 +51,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (count(@$HTTP_POST_VARS["min_role"]) > 0) {
-        $tpl->assign("result", Project::updateFieldDisplaySettings($prj_id, $HTTP_POST_VARS["min_role"]));
+    if (count(@$_POST["min_role"]) > 0) {
+        $tpl->assign("result", Project::updateFieldDisplaySettings($prj_id, $_POST["min_role"]));
     }
 
     $fields = Project::getDisplayFields();

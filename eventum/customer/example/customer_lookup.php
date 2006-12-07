@@ -44,8 +44,8 @@ if ($role_id < User::getRoleID('Developer')) {
     Auth::redirect(APP_RELATIVE_URL . "list.php");
 }
 
-if (@$HTTP_POST_VARS['cat'] == 'lookup') {
-    $tpl->assign("results", Customer::lookup($prj_id, $HTTP_POST_VARS['field'], $HTTP_POST_VARS['value']));
+if (@$_POST['cat'] == 'lookup') {
+    $tpl->assign("results", Customer::lookup($prj_id, $_POST['field'], $_POST['value']));
 }
 
 $tpl->displayTemplate();

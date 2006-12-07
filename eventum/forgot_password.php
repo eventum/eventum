@@ -36,11 +36,11 @@ include_once(APP_INC_PATH . "db_access.php");
 $tpl = new Template_API();
 $tpl->setTemplate("forgot_password.tpl.html");
 
-if (@$HTTP_POST_VARS["cat"] == "reset_password") {
-    if (empty($HTTP_POST_VARS["email"])) {
+if (@$_POST["cat"] == "reset_password") {
+    if (empty($_POST["email"])) {
         $tpl->assign("result", 4);
     }
-    $usr_id = User::getUserIDByEmail($HTTP_POST_VARS["email"]);
+    $usr_id = User::getUserIDByEmail($_POST["email"]);
     if (empty($usr_id)) {
         $tpl->assign("result", 5);
     } else {

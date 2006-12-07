@@ -235,9 +235,7 @@ class Email_Account
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
@@ -247,7 +245,7 @@ class Email_Account
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Support::removeEmailByAccounts($HTTP_POST_VARS["items"]);
+            Support::removeEmailByAccounts($_POST["items"]);
             return true;
         }
     }
@@ -261,19 +259,17 @@ class Email_Account
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
-        if (empty($HTTP_POST_VARS["get_only_new"])) {
-            $HTTP_POST_VARS["get_only_new"] = 0;
+        if (empty($_POST["get_only_new"])) {
+            $_POST["get_only_new"] = 0;
         }
-        if (empty($HTTP_POST_VARS["leave_copy"])) {
-            $HTTP_POST_VARS["leave_copy"] = 0;
+        if (empty($_POST["leave_copy"])) {
+            $_POST["leave_copy"] = 0;
         }
-        if (empty($HTTP_POST_VARS["use_routing"])) {
-            $HTTP_POST_VARS["use_routing"] = 0;
-        } elseif ($HTTP_POST_VARS['use_routing'] == 1) {
+        if (empty($_POST["use_routing"])) {
+            $_POST["use_routing"] = 0;
+        } elseif ($_POST['use_routing'] == 1) {
             // if an account will be used for routing, you can't leave the message on the server
-            $HTTP_POST_VARS['leave_copy'] = 0;
+            $_POST['leave_copy'] = 0;
         }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
@@ -289,16 +285,16 @@ class Email_Account
                     ema_leave_copy,
                     ema_use_routing
                  ) VALUES (
-                    " . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["hostname"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["port"]) . "',
-                    '" . Misc::escapeString(@$HTTP_POST_VARS["folder"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["username"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["password"]) . "',
-                    " . Misc::escapeInteger($HTTP_POST_VARS["get_only_new"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["leave_copy"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["use_routing"]) . "
+                    " . Misc::escapeInteger($_POST["project"]) . ",
+                    '" . Misc::escapeString($_POST["type"]) . "',
+                    '" . Misc::escapeString($_POST["hostname"]) . "',
+                    '" . Misc::escapeString($_POST["port"]) . "',
+                    '" . Misc::escapeString(@$_POST["folder"]) . "',
+                    '" . Misc::escapeString($_POST["username"]) . "',
+                    '" . Misc::escapeString($_POST["password"]) . "',
+                    " . Misc::escapeInteger($_POST["get_only_new"]) . ",
+                    " . Misc::escapeInteger($_POST["leave_copy"]) . ",
+                    " . Misc::escapeInteger($_POST["use_routing"]) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -318,35 +314,33 @@ class Email_Account
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
-        if (empty($HTTP_POST_VARS["get_only_new"])) {
-            $HTTP_POST_VARS["get_only_new"] = 0;
+        if (empty($_POST["get_only_new"])) {
+            $_POST["get_only_new"] = 0;
         }
-        if (empty($HTTP_POST_VARS["leave_copy"])) {
-            $HTTP_POST_VARS["leave_copy"] = 0;
+        if (empty($_POST["leave_copy"])) {
+            $_POST["leave_copy"] = 0;
         }
-        if (empty($HTTP_POST_VARS["use_routing"])) {
-            $HTTP_POST_VARS["use_routing"] = 0;
-        } elseif ($HTTP_POST_VARS['use_routing'] == 1) {
+        if (empty($_POST["use_routing"])) {
+            $_POST["use_routing"] = 0;
+        } elseif ($_POST['use_routing'] == 1) {
             // if an account will be used for routing, you can't leave the message on the server
-            $HTTP_POST_VARS['leave_copy'] = 0;
+            $_POST['leave_copy'] = 0;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  SET
-                    ema_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
-                    ema_type='" . Misc::escapeString($HTTP_POST_VARS["type"]) . "',
-                    ema_hostname='" . Misc::escapeString($HTTP_POST_VARS["hostname"]) . "',
-                    ema_port='" . Misc::escapeString($HTTP_POST_VARS["port"]) . "',
-                    ema_folder='" . Misc::escapeString(@$HTTP_POST_VARS["folder"]) . "',
-                    ema_username='" . Misc::escapeString($HTTP_POST_VARS["username"]) . "',
-                    ema_password='" . Misc::escapeString($HTTP_POST_VARS["password"]) . "',
-                    ema_get_only_new=" . Misc::escapeInteger($HTTP_POST_VARS["get_only_new"]) . ",
-                    ema_leave_copy=" . Misc::escapeInteger($HTTP_POST_VARS["leave_copy"]) . ",
-                    ema_use_routing=" . Misc::escapeInteger($HTTP_POST_VARS["use_routing"]) . "
+                    ema_prj_id=" . Misc::escapeInteger($_POST["project"]) . ",
+                    ema_type='" . Misc::escapeString($_POST["type"]) . "',
+                    ema_hostname='" . Misc::escapeString($_POST["hostname"]) . "',
+                    ema_port='" . Misc::escapeString($_POST["port"]) . "',
+                    ema_folder='" . Misc::escapeString(@$_POST["folder"]) . "',
+                    ema_username='" . Misc::escapeString($_POST["username"]) . "',
+                    ema_password='" . Misc::escapeString($_POST["password"]) . "',
+                    ema_get_only_new=" . Misc::escapeInteger($_POST["get_only_new"]) . ",
+                    ema_leave_copy=" . Misc::escapeInteger($_POST["leave_copy"]) . ",
+                    ema_use_routing=" . Misc::escapeInteger($_POST["use_routing"]) . "
                  WHERE
-                    ema_id=" . $HTTP_POST_VARS["id"];
+                    ema_id=" . $_POST["id"];
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

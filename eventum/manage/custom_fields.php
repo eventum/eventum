@@ -45,18 +45,18 @@ $role_id = Auth::getCurrentRole();
 if ($role_id == User::getRoleID('administrator')) {
     $tpl->assign("show_setup_links", true);
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Custom_Field::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Custom_Field::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         Custom_Field::remove();
     }elseif (@$_REQUEST["cat"] == "change_rank") {
         Custom_Field::changeRank();
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", Custom_Field::getDetails($HTTP_GET_VARS["id"]));
+    if (@$_GET["cat"] == "edit") {
+        $tpl->assign("info", Custom_Field::getDetails($_GET["id"]));
     }
     
     $excluded_roles = array();

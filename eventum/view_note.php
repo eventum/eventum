@@ -42,7 +42,7 @@ $tpl->setTemplate("view_note.tpl.html");
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
 
-$note = Note::getDetails($HTTP_GET_VARS["id"]);
+$note = Note::getDetails($_GET["id"]);
 
 if ($note == '') {
     $tpl->assign("note", '');
@@ -50,7 +50,7 @@ if ($note == '') {
     exit;
 } else {
     $note["message"] = $note["not_note"];
-    $issue_id = Note::getIssueID($HTTP_GET_VARS["id"]);
+    $issue_id = Note::getIssueID($_GET["id"]);
     $usr_id = Auth::getUserID();
 }
 
@@ -60,18 +60,18 @@ if ((User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRol
     exit;
 }
 
-$note = Note::getDetails($HTTP_GET_VARS["id"]);
+$note = Note::getDetails($_GET["id"]);
 $note["message"] = $note["not_note"];
 
-$issue_id = Note::getIssueID($HTTP_GET_VARS["id"]);
+$issue_id = Note::getIssueID($_GET["id"]);
 $tpl->bulkAssign(array(
     "note"        => $note,
     "issue_id"    => $issue_id,
-    'extra_title' => "Note #" . $HTTP_GET_VARS['num'] . ": " . $note['not_title']
+    'extra_title' => "Note #" . $_GET['num'] . ": " . $note['not_title']
 ));
 
 if (!empty($issue_id)) {
-    $sides = Note::getSideLinks($issue_id, $HTTP_GET_VARS["id"]);
+    $sides = Note::getSideLinks($issue_id, $_GET["id"]);
     $tpl->assign(array(
         'previous' => $sides['previous'],
         'next'     => $sides['next']

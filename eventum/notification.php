@@ -42,7 +42,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
-$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["iss_id"];
+$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 $tpl->assign("issue_id", $issue_id);
 
 // format default actions properly
@@ -53,17 +53,17 @@ foreach ($default as $action) {
 }
 $tpl->assign("default_actions", $res);
 
-if (@$HTTP_POST_VARS["cat"] == "insert") {
-    $res = Notification::subscribeEmail($usr_id, $issue_id, $HTTP_POST_VARS['email'], $HTTP_POST_VARS['actions']);
+if (@$_POST["cat"] == "insert") {
+    $res = Notification::subscribeEmail($usr_id, $issue_id, $_POST['email'], $_POST['actions']);
     $tpl->assign("insert_result", $res);
-} elseif (@$HTTP_GET_VARS["cat"] == "edit") {
-    $res = Notification::getDetails($HTTP_GET_VARS["id"]);
+} elseif (@$_GET["cat"] == "edit") {
+    $res = Notification::getDetails($_GET["id"]);
     $tpl->assign("info", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "update") {
-    $res = Notification::update($HTTP_POST_VARS["id"]);
+} elseif (@$_POST["cat"] == "update") {
+    $res = Notification::update($_POST["id"]);
     $tpl->assign("update_result", $res);
-} elseif (@$HTTP_POST_VARS["cat"] == "delete") {
-    $res = Notification::remove($HTTP_POST_VARS["items"]);
+} elseif (@$_POST["cat"] == "delete") {
+    $res = Notification::remove($_POST["items"]);
     $tpl->assign("delete_result", $res);
 }
 

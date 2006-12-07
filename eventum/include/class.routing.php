@@ -55,7 +55,7 @@ class Routing
      */
     function route_emails($full_message)
     {
-        GLOBAL $HTTP_POST_VARS;
+        GLOBAL $_POST;
 
         // need some validation here
         if (empty($full_message)) {
@@ -244,7 +244,7 @@ class Routing
      */
     function route_notes($full_message)
     {
-        GLOBAL $HTTP_POST_VARS;
+        GLOBAL $_POST;
 
         // save the full message for logging purposes
         Note::saveRoutedNote($full_message);
@@ -338,7 +338,7 @@ class Routing
         }
 
         // insert the new note and send notification about it
-        $HTTP_POST_VARS = array(
+        $_POST = array(
             'title'                => @$structure->headers['subject'],
             'note'                 => $body,
             'note_cc'              => $cc_users,
@@ -350,7 +350,7 @@ class Routing
         // add the full email to the note if there are any attachments
         // this is needed because the front end code will display attachment links
         if (Mime_Helper::hasAttachments($structure)) {
-            $HTTP_POST_VARS['blocked_msg'] = $full_message;
+            $_POST['blocked_msg'] = $full_message;
         }
         $res = Note::insert(Auth::getUserID(), $issue_id, false, false);
         // need to handle attachments coming from notes as well
@@ -371,7 +371,7 @@ class Routing
      */
     function route_drafts($full_message)
     {
-        GLOBAL $HTTP_POST_VARS;
+        GLOBAL $_POST;
 
         // save the full message for logging purposes
         Draft::saveRoutedMessage($full_message);

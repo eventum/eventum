@@ -48,21 +48,21 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
-        $tpl->assign("result", Customer::insertNote($HTTP_POST_VARS["project"], $HTTP_POST_VARS["customer"], $HTTP_POST_VARS["note"]));
-    } else if (@$HTTP_POST_VARS["cat"] == "update") {
-        $tpl->assign("result", Customer::updateNote($HTTP_POST_VARS["id"], $HTTP_POST_VARS["project"], $HTTP_POST_VARS["customer"], $HTTP_POST_VARS["note"])); 
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
-        $tpl->assign("result", Customer::removeNotes($HTTP_POST_VARS['items']));
-    } elseif (!empty($HTTP_GET_VARS['prj_id'])) {
-        $tpl->assign("info", array('cno_prj_id' => $HTTP_GET_VARS['prj_id']));
-        $tpl->assign('customers', Customer::getAssocList($HTTP_GET_VARS['prj_id']));
+    if (@$_POST["cat"] == "new") {
+        $tpl->assign("result", Customer::insertNote($_POST["project"], $_POST["customer"], $_POST["note"]));
+    } else if (@$_POST["cat"] == "update") {
+        $tpl->assign("result", Customer::updateNote($_POST["id"], $_POST["project"], $_POST["customer"], $_POST["note"])); 
+    } elseif (@$_POST["cat"] == "delete") {
+        $tpl->assign("result", Customer::removeNotes($_POST['items']));
+    } elseif (!empty($_GET['prj_id'])) {
+        $tpl->assign("info", array('cno_prj_id' => $_GET['prj_id']));
+        $tpl->assign('customers', Customer::getAssocList($_GET['prj_id']));
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $info = Customer::getNoteDetailsByID($HTTP_GET_VARS["id"]);
-        if (!empty($HTTP_GET_VARS['prj_id'])) {
-            $info['cno_prj_id'] = $HTTP_GET_VARS['prj_id'];
+    if (@$_GET["cat"] == "edit") {
+        $info = Customer::getNoteDetailsByID($_GET["id"]);
+        if (!empty($_GET['prj_id'])) {
+            $info['cno_prj_id'] = $_GET['prj_id'];
         }
         $tpl->assign('customers', Customer::getAssocList($info['cno_prj_id']));
         $tpl->assign("info", $info);

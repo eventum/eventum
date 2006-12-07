@@ -47,16 +47,16 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", News::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", News::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         News::remove();
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", News::getAdminDetails($HTTP_GET_VARS["id"]));
+    if (@$_GET["cat"] == "edit") {
+        $tpl->assign("info", News::getAdminDetails($_GET["id"]));
     }
 
     $tpl->assign("list", News::getList());

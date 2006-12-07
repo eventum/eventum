@@ -50,8 +50,8 @@ class Session
      */
     function set($name, $var)
     {
-        GLOBAL $HTTP_SESSION_VARS;
-        $HTTP_SESSION_VARS[$name] = $var;
+        GLOBAL $_SESSION;
+        $_SESSION[$name] = $var;
     }
     
     
@@ -64,8 +64,8 @@ class Session
      */
     function get($name)
     {
-        GLOBAL $HTTP_SESSION_VARS;
-        return @$HTTP_SESSION_VARS[$name];
+        GLOBAL $_SESSION;
+        return @$_SESSION[$name];
     }
     
     
@@ -78,8 +78,8 @@ class Session
      */
     function is_set($name)
     {
-        GLOBAL $HTTP_SESSION_VARS;
-        return isset($HTTP_SESSION_VARS[$name]);
+        GLOBAL $_SESSION;
+        return isset($_SESSION[$name]);
     }
 
 

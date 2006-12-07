@@ -50,7 +50,7 @@ $prj_id = Auth::getCurrentProject();
 // get timezone of current user
 $user_prefs = Prefs::get($usr_id);
 
-if (@$HTTP_GET_VARS["type"] == "email") {
+if (@$_GET["type"] == "email") {
     $data = Report::getEmailWorkloadByTimePeriod(@$user_prefs["timezone"]);
 } else {
     $data = Report::getWorkloadByTimePeriod(@$user_prefs["timezone"]);
@@ -58,7 +58,7 @@ if (@$HTTP_GET_VARS["type"] == "email") {
 
 $tpl->assign(array(
     "data"    => $data,
-    "type"    => @$HTTP_GET_VARS["type"],
+    "type"    => @$_GET["type"],
     "user_tz" => Date_API::getTimezoneShortNameByUser($usr_id)
 ));
 $tpl->displayTemplate();

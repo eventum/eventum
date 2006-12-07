@@ -46,21 +46,21 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Customer::insertAccountManager());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Customer::updateAccountManager());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         Customer::removeAccountManager();
-    } elseif (!empty($HTTP_GET_VARS['prj_id'])) {
-        $tpl->assign("info", array('cam_prj_id' => $HTTP_GET_VARS['prj_id']));
-        $tpl->assign('customers', Customer::getAssocList($HTTP_GET_VARS['prj_id']));
+    } elseif (!empty($_GET['prj_id'])) {
+        $tpl->assign("info", array('cam_prj_id' => $_GET['prj_id']));
+        $tpl->assign('customers', Customer::getAssocList($_GET['prj_id']));
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $info = Customer::getAccountManagerDetails($HTTP_GET_VARS["id"]);
-        if (!empty($HTTP_GET_VARS['prj_id'])) {
-            $info['cam_prj_id'] = $HTTP_GET_VARS['prj_id'];
+    if (@$_GET["cat"] == "edit") {
+        $info = Customer::getAccountManagerDetails($_GET["id"]);
+        if (!empty($_GET['prj_id'])) {
+            $info['cam_prj_id'] = $_GET['prj_id'];
         }
         $tpl->assign('customers', Customer::getAssocList($info['cam_prj_id']));
         $tpl->assign("info", $info);

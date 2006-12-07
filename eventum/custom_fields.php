@@ -39,7 +39,7 @@ $tpl->setTemplate("custom_fields_form.tpl.html");
 Auth::checkAuthentication(APP_COOKIE);
 
 $prj_id = Auth::getCurrentProject();
-$issue_id = @$HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : $HTTP_GET_VARS["issue_id"];
+$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["issue_id"];
 
 if (!Issue::canAccess($issue_id, Auth::getUserID())) {
     $tpl = new Template_API();
@@ -48,7 +48,7 @@ if (!Issue::canAccess($issue_id, Auth::getUserID())) {
     exit;
 }
 
-if (@$HTTP_POST_VARS["cat"] == "update_values") {
+if (@$_POST["cat"] == "update_values") {
     $res = Custom_Field::updateValues();
     $tpl->assign("update_result", $res);
     $tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));

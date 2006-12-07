@@ -319,9 +319,7 @@ class Support
      */
     function restoreEmails()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["item"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  SET
@@ -634,7 +632,9 @@ class Support
                                     $cc_users[] = $users[$email];
                                 }
                             }
-                            $GLOBALS['HTTP_POST_VARS'] = array(
+
+                            // XXX FIXME, this is not nice thing to do
+                            $_POST = array(
                                 'title'                => Mail_API::removeExcessRe($t['subject']),
                                 'note'                 => $t['body'],
                                 'note_cc'              => $cc_users,
@@ -1064,12 +1064,10 @@ class Support
      */
     function getParam($name)
     {
-        global $HTTP_POST_VARS, $HTTP_GET_VARS;
-
-        if (isset($HTTP_GET_VARS[$name])) {
-            return $HTTP_GET_VARS[$name];
-        } elseif (isset($HTTP_POST_VARS[$name])) {
-            return $HTTP_POST_VARS[$name];
+        if (isset($_GET[$name])) {
+            return $_GET[$name];
+        } elseif (isset($_POST[$name])) {
+            return $_POST[$name];
         } elseif ($profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'email') && isset($profile[$name])) {
             return $profile[$name];
         } else {
@@ -1142,8 +1140,6 @@ class Support
      */
     function getSortingInfo($options)
     {
-        global $HTTP_SERVER_VARS;
-
         $fields = array(
             "sup_from",
             "sup_customer_id",
@@ -1164,9 +1160,9 @@ class Support
                 } else {
                     $sort_order = "asc";
                 }
-                $items["links"][$fields[$i]] = $HTTP_SERVER_VARS["PHP_SELF"] . "?sort_by=" . $fields[$i] . "&sort_order=" . $sort_order;
+                $items["links"][$fields[$i]] = $_SERVER["PHP_SELF"] . "?sort_by=" . $fields[$i] . "&sort_order=" . $sort_order;
             } else {
-                $items["links"][$fields[$i]] = $HTTP_SERVER_VARS["PHP_SELF"] . "?sort_by=" . $fields[$i] . "&sort_order=asc";
+                $items["links"][$fields[$i]] = $_SERVER["PHP_SELF"] . "?sort_by=" . $fields[$i] . "&sort_order=asc";
             }
         }
         return $items;
@@ -1717,9 +1713,7 @@ class Support
      */
     function removeEmails()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["item"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  SET
@@ -1745,9 +1739,7 @@ class Support
      */
     function removeAssociation()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["item"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["item"]));
         $stmt = "SELECT
                     sup_iss_id
                  FROM
@@ -1777,9 +1769,9 @@ class Support
                      WHERE
                         sup_id IN ($items)";
             $subjects = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-            for ($i = 0; $i < count($HTTP_POST_VARS["item"]); $i++) {
+            for ($i = 0; $i < count($_POST["item"]); $i++) {
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'),
-                                ev_gettext('Email (subject: \'%1$s\') disassociated by %2$s', $subjects[$HTTP_POST_VARS["item"][$i]], User::getFullName(Auth::getUserID())));
+                                ev_gettext('Email (subject: \'%1$s\') disassociated by %2$s', $subjects[$_POST["item"][$i]], User::getFullName(Auth::getUserID())));
             }
             return 1;
         }
@@ -1967,8 +1959,6 @@ class Support
      */
     function sendEmail($parent_sup_id = FALSE)
     {
-        global $HTTP_POST_VARS, $HTTP_SERVER_VARS;
-
         // if we are replying to an existing email, set the In-Reply-To: header accordingly
         if ($parent_sup_id) {
             $in_reply_to = Support::getMessageIDByID($parent_sup_id);
@@ -1977,51 +1967,51 @@ class Support
         }
 
         // get ID of whoever is sending this.
-        $sender_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($HTTP_POST_VARS["from"]));
+        $sender_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($_POST["from"]));
         if (empty($sender_usr_id)) {
             $sender_usr_id = false;
         }
 
         // get type of email this is
-        if (!empty($HTTP_POST_VARS['type'])) {
-            $type = $HTTP_POST_VARS['type'];
+        if (!empty($_POST['type'])) {
+            $type = $_POST['type'];
         } else {
             $type = '';
         }
 
 
         // remove extra 'Re: ' from subject
-        $HTTP_POST_VARS['subject'] = Mail_API::removeExcessRe($HTTP_POST_VARS['subject'], true);
+        $_POST['subject'] = Mail_API::removeExcessRe($_POST['subject'], true);
         $internal_only = false;
         $message_id = Mail_API::generateMessageID();
         // hack needed to get the full headers of this web-based email
-        $full_email = Support::buildFullHeaders($HTTP_POST_VARS["issue_id"], $message_id, $HTTP_POST_VARS["from"],
-                $HTTP_POST_VARS["to"], $HTTP_POST_VARS["cc"], $HTTP_POST_VARS["subject"], $HTTP_POST_VARS["message"], $in_reply_to);
+        $full_email = Support::buildFullHeaders($_POST["issue_id"], $message_id, $_POST["from"],
+                $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $in_reply_to);
 
         // email blocking should only be done if this is an email about an associated issue
-        if (!empty($HTTP_POST_VARS['issue_id'])) {
+        if (!empty($_POST['issue_id'])) {
             $user_info = User::getNameEmail(Auth::getUserID());
             // check whether the current user is allowed to send this email to customers or not
-            if (!Support::isAllowedToEmail($HTTP_POST_VARS["issue_id"], $user_info['usr_email'])) {
+            if (!Support::isAllowedToEmail($_POST["issue_id"], $user_info['usr_email'])) {
                 // add the message body as a note
-                $HTTP_POST_VARS['blocked_msg'] = $full_email;
-                $HTTP_POST_VARS['title'] = $HTTP_POST_VARS["subject"];
-                $HTTP_POST_VARS['note'] = Mail_API::getCannedBlockedMsgExplanation() . $HTTP_POST_VARS["message"];
-                Note::insert(Auth::getUserID(), $HTTP_POST_VARS["issue_id"]);
-                Workflow::handleBlockedEmail(Issue::getProjectID($HTTP_POST_VARS['issue_id']), $HTTP_POST_VARS['issue_id'], $HTTP_POST_VARS, 'web');
+                $_POST['blocked_msg'] = $full_email;
+                $_POST['title'] = $_POST["subject"];
+                $_POST['note'] = Mail_API::getCannedBlockedMsgExplanation() . $_POST["message"];
+                Note::insert(Auth::getUserID(), $_POST["issue_id"]);
+                Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'web');
                 return 1;
             }
         }
 
         // only send a direct email if the user doesn't want to add the Cc'ed people to the notification list
-        if (@$HTTP_POST_VARS['add_unknown'] == 'yes') {
-            if (!empty($HTTP_POST_VARS['issue_id'])) {
+        if (@$_POST['add_unknown'] == 'yes') {
+            if (!empty($_POST['issue_id'])) {
                 // add the recipients to the notification list of the associated issue
-                $recipients = array($HTTP_POST_VARS['to']);
-                $recipients = array_merge($recipients, Support::getRecipientsCC($HTTP_POST_VARS['cc']));
+                $recipients = array($_POST['to']);
+                $recipients = array_merge($recipients, Support::getRecipientsCC($_POST['cc']));
                 for ($i = 0; $i < count($recipients); $i++) {
-                    if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($HTTP_POST_VARS["issue_id"], $recipients[$i]))) {
-                        Notification::subscribeEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], Mail_API::getEmailAddress($recipients[$i]), Notification::getDefaultActions());
+                    if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($_POST["issue_id"], $recipients[$i]))) {
+                        Notification::subscribeEmail(Auth::getUserID(), $_POST["issue_id"], Mail_API::getEmailAddress($recipients[$i]), Notification::getDefaultActions());
                     }
                 }
             }
@@ -2033,20 +2023,20 @@ class Support
             // In the case of replying to an email that is not yet associated with an issue, then
             // we are always directly sending the email, without using any notification list
             // functionality.
-            if (!empty($HTTP_POST_VARS['issue_id'])) {
+            if (!empty($_POST['issue_id'])) {
                 // send direct emails only to the unknown addresses, and leave the rest to be
                 // catched by the notification list
-                $from = Notification::getFixedFromHeader($HTTP_POST_VARS['issue_id'], $HTTP_POST_VARS['from'], 'issue');
+                $from = Notification::getFixedFromHeader($_POST['issue_id'], $_POST['from'], 'issue');
                 // build the list of unknown recipients
-                if (!empty($HTTP_POST_VARS['to'])) {
-                    $recipients = array($HTTP_POST_VARS['to']);
-                    $recipients = array_merge($recipients, Support::getRecipientsCC($HTTP_POST_VARS['cc']));
+                if (!empty($_POST['to'])) {
+                    $recipients = array($_POST['to']);
+                    $recipients = array_merge($recipients, Support::getRecipientsCC($_POST['cc']));
                 } else {
-                    $recipients = Support::getRecipientsCC($HTTP_POST_VARS['cc']);
+                    $recipients = Support::getRecipientsCC($_POST['cc']);
                 }
                 $unknowns = array();
                 for ($i = 0; $i < count($recipients); $i++) {
-                    if (!Notification::isSubscribedToEmails($HTTP_POST_VARS['issue_id'], $recipients[$i])) {
+                    if (!Notification::isSubscribedToEmails($_POST['issue_id'], $recipients[$i])) {
                         $unknowns[] = $recipients[$i];
                     }
                 }
@@ -2054,8 +2044,8 @@ class Support
                     $to = array_shift($unknowns);
                     $cc = implode('; ', $unknowns);
                     // send direct emails
-                    Support::sendDirectEmail($HTTP_POST_VARS['issue_id'], $from, $to, $cc,
-                            $HTTP_POST_VARS['subject'], $HTTP_POST_VARS['message'], $message_id, $sender_usr_id);
+                    Support::sendDirectEmail($_POST['issue_id'], $from, $to, $cc,
+                            $_POST['subject'], $_POST['message'], $message_id, $sender_usr_id);
                 }
             } else {
                 // send direct emails to all recipients, since we don't have an associated issue
@@ -2068,22 +2058,22 @@ class Support
                     $from = User::getFromHeader(Auth::getUserID());
                 }
                 // send direct emails
-                Support::sendDirectEmail($HTTP_POST_VARS['issue_id'], $from, $HTTP_POST_VARS['to'], $HTTP_POST_VARS['cc'],
-                        $HTTP_POST_VARS['subject'], $HTTP_POST_VARS['message'], $message_id);
+                Support::sendDirectEmail($_POST['issue_id'], $from, $_POST['to'], $_POST['cc'],
+                        $_POST['subject'], $_POST['message'], $message_id);
             }
         }
 
         $t = array(
             'customer_id'    => 'NULL',
-            'issue_id'       => $HTTP_POST_VARS["issue_id"] ? $HTTP_POST_VARS["issue_id"] : 0,
-            'ema_id'         => $HTTP_POST_VARS['ema_id'],
+            'issue_id'       => $_POST["issue_id"] ? $_POST["issue_id"] : 0,
+            'ema_id'         => $_POST['ema_id'],
             'message_id'     => $message_id,
             'date'           => Date_API::getCurrentDateGMT(),
-            'from'           => $HTTP_POST_VARS['from'],
-            'to'             => $HTTP_POST_VARS['to'],
-            'cc'             => @$HTTP_POST_VARS['cc'],
-            'subject'        => @$HTTP_POST_VARS['subject'],
-            'body'           => $HTTP_POST_VARS['message'],
+            'from'           => $_POST['from'],
+            'to'             => $_POST['to'],
+            'cc'             => @$_POST['cc'],
+            'subject'        => @$_POST['subject'],
+            'body'           => $_POST['message'],
             'full_email'     => $full_email,
             'has_attachment' => 0
         );
@@ -2097,21 +2087,21 @@ class Support
         $structure = Mime_Helper::decode($full_email, true, false);
         $t['headers'] = $structure->headers;
         $res = Support::insertEmail($t, $structure, $sup_id);
-        if (!empty($HTTP_POST_VARS["issue_id"])) {
+        if (!empty($_POST["issue_id"])) {
             // need to send a notification
-            Notification::notifyNewEmail(Auth::getUserID(), $HTTP_POST_VARS["issue_id"], $t, $internal_only, false, $type, $sup_id);
+            Notification::notifyNewEmail(Auth::getUserID(), $_POST["issue_id"], $t, $internal_only, false, $type, $sup_id);
             // mark this issue as updated
             if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
-                Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'customer action');
+                Issue::markAsUpdated($_POST["issue_id"], 'customer action');
             } else {
-                if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($HTTP_POST_VARS['issue_id'])) > User::getRoleID('Customer'))) {
-                    Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'staff response');
+                if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($_POST['issue_id'])) > User::getRoleID('Customer'))) {
+                    Issue::markAsUpdated($_POST["issue_id"], 'staff response');
                 } else {
-                    Issue::markAsUpdated($HTTP_POST_VARS["issue_id"], 'user response');
+                    Issue::markAsUpdated($_POST["issue_id"], 'user response');
                 }
             }
             // save a history entry for this
-            History::add($HTTP_POST_VARS["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'),
+            History::add($_POST["issue_id"], Auth::getUserID(), History::getTypeID('email_sent'),
                             ev_gettext('Outgoing email sent by %1$s', User::getFullName(Auth::getUserID())));
         }
 
@@ -2430,8 +2420,6 @@ class Support
      */
     function blockEmailIfNeeded($email)
     {
-        global $HTTP_POST_VARS;
-
         if (empty($email['issue_id'])) {
             return false;
         }
@@ -2443,7 +2431,7 @@ class Support
         if ((Mail_API::isVacationAutoResponder($email['headers'])) || (Notification::isBounceMessage($sender_email)) ||
                 (!Support::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
-            $HTTP_POST_VARS = array(
+            $_POST = array(
                 'blocked_msg' => $email['full_email'],
                 'title'       => @$email['headers']['subject'],
                 'note'        => Mail_API::getCannedBlockedMsgExplanation($issue_id) . $email['body'],
@@ -2461,8 +2449,8 @@ class Support
                 Support::extractAttachments($issue_id, $email['full_email'], true, $res);
             }
 
-            $HTTP_POST_VARS['issue_id'] = $issue_id;
-            $HTTP_POST_VARS['from'] = $sender_email;
+            $_POST['issue_id'] = $issue_id;
+            $_POST['from'] = $sender_email;
 
             // avoid having this type of message re-open the issue
             if (Mail_API::isVacationAutoResponder($email['headers'])) {
@@ -2470,7 +2458,7 @@ class Support
             } else {
                 $email_type = 'routed';
             }
-            Workflow::handleBlockedEmail($prj_id, $issue_id, $HTTP_POST_VARS, $email_type);
+            Workflow::handleBlockedEmail($prj_id, $issue_id, $_POST, $email_type);
 
             // try to get usr_id of sender, if not, use system account
             $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($email['from']));

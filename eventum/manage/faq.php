@@ -48,25 +48,25 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", FAQ::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", FAQ::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
+    } elseif (@$_POST["cat"] == "delete") {
         FAQ::remove();
-    } elseif (!empty($HTTP_GET_VARS['prj_id'])) {
-        $tpl->assign("info", array('faq_prj_id' => $HTTP_GET_VARS['prj_id']));
-        $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($HTTP_GET_VARS['prj_id']);
+    } elseif (!empty($_GET['prj_id'])) {
+        $tpl->assign("info", array('faq_prj_id' => $_GET['prj_id']));
+        $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($_GET['prj_id']);
         $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
         if ($backend_uses_support_levels) {
-            $tpl->assign("support_levels", Customer::getSupportLevelAssocList($HTTP_GET_VARS['prj_id']));
+            $tpl->assign("support_levels", Customer::getSupportLevelAssocList($_GET['prj_id']));
         }
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $info = FAQ::getDetails($HTTP_GET_VARS["id"]);
-        if (!empty($HTTP_GET_VARS['prj_id'])) {
-            $info['faq_prj_id'] = $HTTP_GET_VARS['prj_id'];
+    if (@$_GET["cat"] == "edit") {
+        $info = FAQ::getDetails($_GET["id"]);
+        if (!empty($_GET['prj_id'])) {
+            $info['faq_prj_id'] = $_GET['prj_id'];
         }
         $backend_uses_support_levels = Customer::doesBackendUseSupportLevels($info['faq_prj_id']);
         $tpl->assign("backend_uses_support_levels", $backend_uses_support_levels);
@@ -74,8 +74,8 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
             $tpl->assign("support_levels", Customer::getSupportLevelAssocList($info['faq_prj_id']));
         }
         $tpl->assign("info", $info);
-    } elseif (@$HTTP_GET_VARS["cat"] == "change_rank") {
-        FAQ::changeRank($HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
+    } elseif (@$_GET["cat"] == "change_rank") {
+        FAQ::changeRank($_GET['id'], $_GET['rank']);
     }
 
     $tpl->assign("list", FAQ::getList());

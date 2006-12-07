@@ -55,7 +55,7 @@ if (Customer::hasCustomerIntegration($prj_id)) {
     if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
         $customer_id = User::getCustomerID($usr_id);
         // check if the current customer has already redeemed all available per-incident tickets
-        if ((empty($HTTP_POST_VARS['cat'])) && (Customer::hasPerIncidentContract($prj_id, $customer_id)) &&
+        if ((empty($_POST['cat'])) && (Customer::hasPerIncidentContract($prj_id, $customer_id)) &&
                 (!Customer::hasIncidentsLeft($prj_id, $customer_id))) {
             // show warning about per-incident limitation
             $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/incident_limit_reached.tpl.html");
@@ -67,7 +67,7 @@ if (Customer::hasCustomerIntegration($prj_id)) {
     }
 }
 
-if (@$HTTP_POST_VARS["cat"] == "report") {
+if (@$_POST["cat"] == "report") {
     $res = Issue::insert();
     if ($res != -1) {
         // show direct links to the issue page, issue listing page and
@@ -82,14 +82,14 @@ if (@$HTTP_POST_VARS["cat"] == "report") {
     }
 }
 
-if (@$HTTP_GET_VARS["cat"] == "associate") {
-    if (@count($HTTP_GET_VARS["item"]) > 0) {
-        $res = Support::getListDetails($HTTP_GET_VARS["item"]);
+if (@$_GET["cat"] == "associate") {
+    if (@count($_GET["item"]) > 0) {
+        $res = Support::getListDetails($_GET["item"]);
         $tpl->assign("emails", $res);
-        $tpl->assign("attached_emails", @implode(",", $HTTP_GET_VARS["item"]));
+        $tpl->assign("attached_emails", @implode(",", $_GET["item"]));
         if (Customer::hasCustomerIntegration($prj_id)) {
             // also need to guess the contact_id from any attached emails
-            $info = Customer::getCustomerInfoFromEmails($prj_id, $HTTP_GET_VARS["item"]);
+            $info = Customer::getCustomerInfoFromEmails($prj_id, $_GET["item"]);
             $tpl->assign(array(
                 "customer_id"   => $info['customer_id'],
                 'customer_name' => $info['customer_name'],
@@ -100,8 +100,8 @@ if (@$HTTP_GET_VARS["cat"] == "associate") {
         }
         // if we are dealing with just one message, use the subject line as the
         // summary for the issue, and the body as the description
-        if (count($HTTP_GET_VARS["item"]) == 1) {
-            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($HTTP_GET_VARS["item"][0]), $HTTP_GET_VARS["item"][0]);
+        if (count($_GET["item"]) == 1) {
+            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($_GET["item"][0]), $_GET["item"][0]);
             $tpl->assign(array(
                 'issue_summary'     => $email_details['sup_subject'],
                 'issue_description' => $email_details['seb_body']

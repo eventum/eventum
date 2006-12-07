@@ -42,7 +42,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $tpl->assign("type", "reminder_actions");
 
-$rem_id = @$HTTP_POST_VARS['rem_id'] ? $HTTP_POST_VARS['rem_id'] : $HTTP_GET_VARS['rem_id'];
+$rem_id = @$_POST['rem_id'] ? $_POST['rem_id'] : $_GET['rem_id'];
 
 $role_id = Auth::getCurrentRole();
 if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRoleID('manager'))) {
@@ -50,18 +50,18 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
         $tpl->assign("show_setup_links", true);
     }
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
+    if (@$_POST["cat"] == "new") {
         $tpl->assign("result", Reminder_Action::insert());
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
+    } elseif (@$_POST["cat"] == "update") {
         $tpl->assign("result", Reminder_Action::update());
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
-        @Reminder_Action::remove($HTTP_POST_VARS['items']);
+    } elseif (@$_POST["cat"] == "delete") {
+        @Reminder_Action::remove($_POST['items']);
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $tpl->assign("info", Reminder_Action::getDetails($HTTP_GET_VARS["id"]));
-    } elseif (@$HTTP_GET_VARS["cat"] == "change_rank") {
-        Reminder_Action::changeRank($HTTP_GET_VARS['rem_id'], $HTTP_GET_VARS['id'], $HTTP_GET_VARS['rank']);
+    if (@$_GET["cat"] == "edit") {
+        $tpl->assign("info", Reminder_Action::getDetails($_GET["id"]));
+    } elseif (@$_GET["cat"] == "change_rank") {
+        Reminder_Action::changeRank($_GET['rem_id'], $_GET['id'], $_GET['rank']);
     }
 
     $tpl->assign("rem_id", $rem_id);

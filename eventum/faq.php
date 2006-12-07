@@ -61,8 +61,8 @@ if (!Customer::hasCustomerIntegration($prj_id)) {
 }
 $tpl->assign("faqs", FAQ::getListBySupportLevel($support_level_id));
 
-if (!empty($HTTP_GET_VARS["id"])) {
-    $t = FAQ::getDetails($HTTP_GET_VARS['id']);
+if (!empty($_GET["id"])) {
+    $t = FAQ::getDetails($_GET['id']);
     // check if this customer should have access to this FAQ entry or not
     if (($support_level_id != -1) && (!in_array($support_level_id, $t['support_levels']))) {
         $tpl->assign('faq', -1);

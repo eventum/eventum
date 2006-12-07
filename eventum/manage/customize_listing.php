@@ -46,16 +46,16 @@ $role_id = Auth::getCurrentRole();
 if ($role_id == User::getRoleID('administrator')) {
     $tpl->assign("show_setup_links", true);
 
-    if (@$HTTP_POST_VARS["cat"] == "new") {
-        $tpl->assign("result", Status::insertCustomization($HTTP_POST_VARS['project'], $HTTP_POST_VARS['status'], $HTTP_POST_VARS['date_field'], $HTTP_POST_VARS['label']));
-    } elseif (@$HTTP_POST_VARS["cat"] == "update") {
-        $tpl->assign("result", Status::updateCustomization($HTTP_POST_VARS['id'], $HTTP_POST_VARS['project'], $HTTP_POST_VARS['status'], $HTTP_POST_VARS['date_field'], $HTTP_POST_VARS['label']));
-    } elseif (@$HTTP_POST_VARS["cat"] == "delete") {
-        Status::removeCustomization($HTTP_POST_VARS['items']);
+    if (@$_POST["cat"] == "new") {
+        $tpl->assign("result", Status::insertCustomization($_POST['project'], $_POST['status'], $_POST['date_field'], $_POST['label']));
+    } elseif (@$_POST["cat"] == "update") {
+        $tpl->assign("result", Status::updateCustomization($_POST['id'], $_POST['project'], $_POST['status'], $_POST['date_field'], $_POST['label']));
+    } elseif (@$_POST["cat"] == "delete") {
+        Status::removeCustomization($_POST['items']);
     }
 
-    if (@$HTTP_GET_VARS["cat"] == "edit") {
-        $details = Status::getCustomizationDetails($HTTP_GET_VARS["id"]);
+    if (@$_GET["cat"] == "edit") {
+        $details = Status::getCustomizationDetails($_GET["id"]);
         $tpl->assign(array(
             "info"        => $details,
             'project_id'  => $details['psd_prj_id'],
@@ -64,7 +64,7 @@ if ($role_id == User::getRoleID('administrator')) {
     }
 
     $display_customer_fields = false;
-    @$prj_id = $HTTP_POST_VARS["prj_id"] ? $HTTP_POST_VARS["prj_id"] : $HTTP_GET_VARS["prj_id"];
+    @$prj_id = $_POST["prj_id"] ? $_POST["prj_id"] : $_GET["prj_id"];
     if (!empty($prj_id)) {
         $tpl->assign("status_list", Status::getAssocStatusList($prj_id, TRUE));
         $tpl->assign('project_id', $prj_id);

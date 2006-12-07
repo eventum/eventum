@@ -448,8 +448,6 @@ class Reminder
      */
     function insert()
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  (
@@ -460,10 +458,10 @@ class Reminder
                     rem_skip_weekend
                  ) VALUES (
                     '" . Date_API::getCurrentDateGMT() . "',
-                    " . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    " . Misc::escapeInteger($HTTP_POST_VARS['project']) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS['skip_weekend']) . "
+                    " . Misc::escapeInteger($_POST['rank']) . ",
+                    '" . Misc::escapeString($_POST['title']) . "',
+                    " . Misc::escapeInteger($_POST['project']) . ",
+                    " . Misc::escapeInteger($_POST['skip_weekend']) . "
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
@@ -472,24 +470,24 @@ class Reminder
         } else {
             $new_rem_id = $GLOBALS["db_api"]->get_last_insert_id();
             // map the reminder requirements now
-            if ((@$HTTP_POST_VARS['reminder_type'] == 'support_level') && (count($HTTP_POST_VARS['support_levels']) > 0)) {
-                for ($i = 0; $i < count($HTTP_POST_VARS['support_levels']); $i++) {
-                    Reminder::addSupportLevelAssociation($new_rem_id, $HTTP_POST_VARS['support_levels'][$i]);
+            if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
+                for ($i = 0; $i < count($_POST['support_levels']); $i++) {
+                    Reminder::addSupportLevelAssociation($new_rem_id, $_POST['support_levels'][$i]);
                 }
-            } elseif ((@$HTTP_POST_VARS['reminder_type'] == 'issue') && (count($HTTP_POST_VARS['issues']) > 0)) {
-                for ($i = 0; $i < count($HTTP_POST_VARS['issues']); $i++) {
-                    Reminder::addIssueAssociation($new_rem_id, $HTTP_POST_VARS['issues'][$i]);
+            } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
+                for ($i = 0; $i < count($_POST['issues']); $i++) {
+                    Reminder::addIssueAssociation($new_rem_id, $_POST['issues'][$i]);
                 }
-            } elseif ((@$HTTP_POST_VARS['reminder_type'] == 'customer') && (count($HTTP_POST_VARS['customers']) > 0)) {
-                for ($i = 0; $i < count($HTTP_POST_VARS['customers']); $i++) {
-                    Reminder::addCustomerAssociation($new_rem_id, $HTTP_POST_VARS['customers'][$i]);
+            } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
+                for ($i = 0; $i < count($_POST['customers']); $i++) {
+                    Reminder::addCustomerAssociation($new_rem_id, $_POST['customers'][$i]);
                 }
-            } elseif (@$HTTP_POST_VARS['reminder_type'] == 'all_issues') {
+            } elseif (@$_POST['reminder_type'] == 'all_issues') {
                  Reminder::associateAllIssues($new_rem_id);
             }
-            if ((@$HTTP_POST_VARS['check_priority'] == 'yes') && (count($HTTP_POST_VARS['priorities']) > 0)) {
-                for ($i = 0; $i < count($HTTP_POST_VARS['priorities']); $i++) {
-                    Reminder::addPriorityAssociation($new_rem_id, $HTTP_POST_VARS['priorities'][$i]);
+            if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
+                for ($i = 0; $i < count($_POST['priorities']); $i++) {
+                    Reminder::addPriorityAssociation($new_rem_id, $_POST['priorities'][$i]);
                 }
             }
             return 1;
@@ -505,43 +503,41 @@ class Reminder
      */
     function update()
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  SET
                     rem_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    rem_rank=" . Misc::escapeInteger($HTTP_POST_VARS['rank']) . ",
-                    rem_title='" . Misc::escapeString($HTTP_POST_VARS['title']) . "',
-                    rem_prj_id=" . Misc::escapeInteger($HTTP_POST_VARS['project']) . ",
-                    rem_skip_weekend=" . Misc::escapeInteger($HTTP_POST_VARS['skip_weekend']) . "
+                    rem_rank=" . Misc::escapeInteger($_POST['rank']) . ",
+                    rem_title='" . Misc::escapeString($_POST['title']) . "',
+                    rem_prj_id=" . Misc::escapeInteger($_POST['project']) . ",
+                    rem_skip_weekend=" . Misc::escapeInteger($_POST['skip_weekend']) . "
                  WHERE
-                    rem_id=" . Misc::escapeInteger($HTTP_POST_VARS['id']);
+                    rem_id=" . Misc::escapeInteger($_POST['id']);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Reminder::removeAllAssociations($HTTP_POST_VARS['id']);
+            Reminder::removeAllAssociations($_POST['id']);
             // map the reminder requirements now
-            if ((@$HTTP_POST_VARS['reminder_type'] == 'support_level') && (count($HTTP_POST_VARS['support_levels']) > 0)) {
-                for ($i = 0; $i < count($HTTP_POST_VARS['support_levels']); $i++) {
-                    Reminder::addSupportLevelAssociation($HTTP_POST_VARS['id'], $HTTP_POST_VARS['support_levels'][$i]);
+            if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
+                for ($i = 0; $i < count($_POST['support_levels']); $i++) {
+                    Reminder::addSupportLevelAssociation($_POST['id'], $_POST['support_levels'][$i]);
                 }
-            } elseif ((@$HTTP_POST_VARS['reminder_type'] == 'issue') && (count($HTTP_POST_VARS['issues']) > 0)) {
-                for ($i = 0; $i < count($HTTP_POST_VARS['issues']); $i++) {
-                    Reminder::addIssueAssociation($HTTP_POST_VARS['id'], $HTTP_POST_VARS['issues'][$i]);
+            } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
+                for ($i = 0; $i < count($_POST['issues']); $i++) {
+                    Reminder::addIssueAssociation($_POST['id'], $_POST['issues'][$i]);
                 }
-            } elseif ((@$HTTP_POST_VARS['reminder_type'] == 'customer') && (count($HTTP_POST_VARS['customers']) > 0)) {
-                for ($i = 0; $i < count($HTTP_POST_VARS['customers']); $i++) {
-                    Reminder::addCustomerAssociation($HTTP_POST_VARS['id'], $HTTP_POST_VARS['customers'][$i]);
+            } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
+                for ($i = 0; $i < count($_POST['customers']); $i++) {
+                    Reminder::addCustomerAssociation($_POST['id'], $_POST['customers'][$i]);
                 }
-            } elseif (@$HTTP_POST_VARS['reminder_type'] == 'all_issues') {
-                 Reminder::associateAllIssues($HTTP_POST_VARS['id']);
+            } elseif (@$_POST['reminder_type'] == 'all_issues') {
+                 Reminder::associateAllIssues($_POST['id']);
             }
-            if ((@$HTTP_POST_VARS['check_priority'] == 'yes') && (count($HTTP_POST_VARS['priorities']) > 0)) {
-                for ($i = 0; $i < count($HTTP_POST_VARS['priorities']); $i++) {
-                    Reminder::addPriorityAssociation($HTTP_POST_VARS['id'], $HTTP_POST_VARS['priorities'][$i]);
+            if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
+                for ($i = 0; $i < count($_POST['priorities']); $i++) {
+                    Reminder::addPriorityAssociation($_POST['id'], $_POST['priorities'][$i]);
                 }
             }
             return 1;
@@ -558,9 +554,7 @@ class Reminder
      */
     function remove()
     {
-        global $HTTP_POST_VARS;
-
-        $items = @implode(", ", Misc::escapeInteger($HTTP_POST_VARS["items"]));
+        $items = @implode(", ", Misc::escapeInteger($_POST["items"]));
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  WHERE
@@ -570,7 +564,7 @@ class Reminder
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Reminder::removeAllAssociations($HTTP_POST_VARS["items"]);
+            Reminder::removeAllAssociations($_POST["items"]);
             $stmt = "SELECT
                         rma_id
                      FROM

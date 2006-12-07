@@ -51,17 +51,17 @@ if (!function_exists('imap_open')) {
     echo "Please refer to the PHP manual for more details about how to enable the IMAP extension.</b>";
 } else {
     // check if the hostname is just an IP based one
-    if ((!preg_match("/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/", $HTTP_POST_VARS["hostname"])) &&
-            (gethostbyname($HTTP_POST_VARS["hostname"]) == $HTTP_POST_VARS["hostname"])) {
+    if ((!preg_match("/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/", $_POST["hostname"])) &&
+            (gethostbyname($_POST["hostname"]) == $_POST["hostname"])) {
         echo "<b>The provided hostname could not be resolved. Please check your information and try again.</b>";
     } else {
         $account = array(
-            "ema_hostname" => $HTTP_POST_VARS["hostname"],
-            "ema_port"     => $HTTP_POST_VARS["port"],
-            "ema_type"     => $HTTP_POST_VARS["type"],
-            "ema_folder"   => $HTTP_POST_VARS["folder"],
-            "ema_username" => $HTTP_POST_VARS["username"],
-            "ema_password" => $HTTP_POST_VARS["password"]
+            "ema_hostname" => $_POST["hostname"],
+            "ema_port"     => $_POST["port"],
+            "ema_type"     => $_POST["type"],
+            "ema_folder"   => $_POST["folder"],
+            "ema_username" => $_POST["username"],
+            "ema_password" => $_POST["password"]
         );
         $mbox = Support::connectEmailServer($account);
         if (!$mbox) {

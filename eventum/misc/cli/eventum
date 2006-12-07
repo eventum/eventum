@@ -23,11 +23,11 @@ if (empty($relative_url)) {
     $relative_url = '/';
 }
 
-if (count($HTTP_SERVER_VARS['argv']) == 1) {
+if (count($_SERVER['argv']) == 1) {
     Command_Line::quit("Requirement argument not found");
 }
 // show usage information if user gave --help
-if (($HTTP_SERVER_VARS['argv'][1] == '--help') || ($HTTP_SERVER_VARS['argv'][1] == 'help')) {
+if (($_SERVER['argv'][1] == '--help') || ($_SERVER['argv'][1] == 'help')) {
     Command_Line::usage(__FILE__);
 }
 
@@ -42,42 +42,42 @@ Command_Line::checkAuthentication($client, $user_email, $user_password);
 $auth = array($user_email, $user_password);
 
 // log command
-Command_Line::log($client, $auth, join(" ", $HTTP_SERVER_VARS['argv']));
+Command_Line::log($client, $auth, join(" ", $_SERVER['argv']));
 
-$issue_id = (integer) $HTTP_SERVER_VARS['argv'][1];
+$issue_id = (integer) $_SERVER['argv'][1];
 if ($issue_id > 0) {
-    if (count($HTTP_SERVER_VARS['argv']) == 2) {
+    if (count($_SERVER['argv']) == 2) {
         Command_Line::printIssueDetails($client, $auth, $issue_id);
     } else {
         if ($should_confirm) {
-            Command_Line::promptConfirmation($client, $auth, $issue_id, @$HTTP_SERVER_VARS['argv']);
+            Command_Line::promptConfirmation($client, $auth, $issue_id, @$_SERVER['argv']);
         }
-        switch ($HTTP_SERVER_VARS['argv'][2]) {
+        switch ($_SERVER['argv'][2]) {
             case 'assign':
-                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                if (count($_SERVER['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the developer");
                 }
-                Command_Line::assignIssue($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::assignIssue($client, $auth, $issue_id, $_SERVER['argv'][3]);
                 break;
             case 'add-replier':
             case 'ar':
                 // adds a user to the list of authorized repliers
-                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                if (count($_SERVER['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the developer");
                 }
-                Command_Line::addAuthorizedReplier($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::addAuthorizedReplier($client, $auth, $issue_id, $_SERVER['argv'][3]);
                 break;
             case 'set-status':
-                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                if (count($_SERVER['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the status");
                 }
-                Command_Line::setIssueStatus($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::setIssueStatus($client, $auth, $issue_id, $_SERVER['argv'][3]);
                 break;
             case 'add-time':
-                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                if (count($_SERVER['argv']) == 3) {
                     Command_Line::quit("Missing parameter for time worked");
                 }
-                $check = (integer) $HTTP_SERVER_VARS['argv'][3];
+                $check = (integer) $_SERVER['argv'][3];
                 if ($check == 0) {
                     Command_Line::quit("Third argument to command 'add-time' should be a number");
                 }
@@ -89,10 +89,10 @@ if ($issue_id > 0) {
                 break;
             case 'get-file':
             case 'gf':
-                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                if (count($_SERVER['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the file number");
                 }
-                Command_Line::getFile($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::getFile($client, $auth, $issue_id, $_SERVER['argv'][3]);
                 break;
             case 'close':
                 Command_Line::closeIssue($client, $auth, $issue_id);
@@ -107,15 +107,15 @@ if ($issue_id > 0) {
             case 'get-email':
             case 'ge':
                 // views an email
-                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                if (count($_SERVER['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the email number");
                 }
-                if (@$HTTP_SERVER_VARS['argv'][4] == "--full") {
+                if (@$_SERVER['argv'][4] == "--full") {
                     $full = true;
                 } else {
                     $full = false;
                 }
-                Command_Line::printEmail($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3], $full);
+                Command_Line::printEmail($client, $auth, $issue_id, $_SERVER['argv'][3], $full);
                 break;
 
             // note related commands
@@ -127,26 +127,26 @@ if ($issue_id > 0) {
             case 'get-note':
             case 'gn':
                 // view a note
-                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                if (count($_SERVER['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the note number");
                 }
-                Command_Line::printNote($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::printNote($client, $auth, $issue_id, $_SERVER['argv'][3]);
                 break;
             case 'convert-note':
             case 'cn':
                 // convert a note to an email
-                if (empty($HTTP_SERVER_VARS['argv'][3])) {
+                if (empty($_SERVER['argv'][3])) {
                     Command_Line::quit("Missing parameter for the note number");
                 }
-                if (@$HTTP_SERVER_VARS['argv'][4] != 'draft' && @$HTTP_SERVER_VARS['argv'][4] != 'email' ) {
+                if (@$_SERVER['argv'][4] != 'draft' && @$_SERVER['argv'][4] != 'email' ) {
                     Command_Line::quit("4th parameter must be 'draft' or 'email'");
                 }
-                if (@$HTTP_SERVER_VARS['argv'][5] == 'authorize') {
+                if (@$_SERVER['argv'][5] == 'authorize') {
                     $authorize_sender = true;
                 } else {
                     $authorize_sender = false;
                 }
-                Command_Line::convertNote($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3], $HTTP_SERVER_VARS['argv'][4], $authorize_sender);
+                Command_Line::convertNote($client, $auth, $issue_id, $_SERVER['argv'][3], $_SERVER['argv'][4], $authorize_sender);
                 break;
 
             // draft related commands
@@ -158,18 +158,18 @@ if ($issue_id > 0) {
             case 'get-draft':
             case 'gd':
                 // viewing a draft
-                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                if (count($_SERVER['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the draft number");
                 }
-                Command_Line::printDraft($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::printDraft($client, $auth, $issue_id, $_SERVER['argv'][3]);
                 break;
             case 'send-draft':
             case 'sd':
                 // viewing a draft
-                if (count($HTTP_SERVER_VARS['argv']) == 3) {
+                if (count($_SERVER['argv']) == 3) {
                     Command_Line::quit("Missing parameter for the draft number");
                 }
-                Command_Line::sendDraft($client, $auth, $issue_id, $HTTP_SERVER_VARS['argv'][3]);
+                Command_Line::sendDraft($client, $auth, $issue_id, $_SERVER['argv'][3]);
                 break;
 
             case 'redeem':
@@ -183,59 +183,59 @@ if ($issue_id > 0) {
                 break;
 
             default:
-                Command_Line::quit("Unknown command '" . $HTTP_SERVER_VARS['argv'][2] . "'");
+                Command_Line::quit("Unknown command '" . $_SERVER['argv'][2] . "'");
         }
     }
 } else {
-    if ($HTTP_SERVER_VARS['argv'][1] == 'developers') {
+    if ($_SERVER['argv'][1] == 'developers') {
         Command_Line::printDeveloperList($client, $auth);
-    } elseif ($HTTP_SERVER_VARS['argv'][1] == 'open-issues') {
-        if (count($HTTP_SERVER_VARS['argv']) == 3) {
-            if (@$HTTP_SERVER_VARS['argv'][2] == 'my') {
+    } elseif ($_SERVER['argv'][1] == 'open-issues') {
+        if (count($_SERVER['argv']) == 3) {
+            if (@$_SERVER['argv'][2] == 'my') {
                 $show_all_issues = false;
                 $status = '';
             } else {
                 $show_all_issues = true;
-                $status = $HTTP_SERVER_VARS['argv'][2];
+                $status = $_SERVER['argv'][2];
             }
-        } elseif (count($HTTP_SERVER_VARS['argv']) == 4) {
-            if (@$HTTP_SERVER_VARS['argv'][3] == 'my') {
+        } elseif (count($_SERVER['argv']) == 4) {
+            if (@$_SERVER['argv'][3] == 'my') {
                 $show_all_issues = false;
             } else {
                 $show_all_issues = true;
             }
-            $status = $HTTP_SERVER_VARS['argv'][2];
+            $status = $_SERVER['argv'][2];
         } else {
             $show_all_issues = true;
             $status = '';
         }
         Command_Line::printOpenIssues($client, $auth, $show_all_issues, $status);
-    } elseif ($HTTP_SERVER_VARS['argv'][1] == 'list-status') {
+    } elseif ($_SERVER['argv'][1] == 'list-status') {
         Command_Line::printStatusList($client, $auth);
-    } elseif ($HTTP_SERVER_VARS['argv'][1] == 'customer') {
-        if (count($HTTP_SERVER_VARS['argv']) != 4) {
+    } elseif ($_SERVER['argv'][1] == 'customer') {
+        if (count($_SERVER['argv']) != 4) {
             Command_Line::quit("Wrong parameter count");
         }
-        Command_Line::lookupCustomer($client, $auth, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3]);
-    } elseif (($HTTP_SERVER_VARS['argv'][1] == 'weekly-report') || ($HTTP_SERVER_VARS['argv'][1] == 'wr')) {
-        if (count(@$HTTP_SERVER_VARS['argv']) >= 4 and $HTTP_SERVER_VARS['argv'][3] != '--separate-closed') {
-            $separate_closed = (@$HTTP_SERVER_VARS['argv'][4] == '--separate-closed');
+        Command_Line::lookupCustomer($client, $auth, $_SERVER['argv'][2], $_SERVER['argv'][3]);
+    } elseif (($_SERVER['argv'][1] == 'weekly-report') || ($_SERVER['argv'][1] == 'wr')) {
+        if (count(@$_SERVER['argv']) >= 4 and $_SERVER['argv'][3] != '--separate-closed') {
+            $separate_closed = (@$_SERVER['argv'][4] == '--separate-closed');
             // date range
-            Command_Line::getWeeklyReport($client, $auth, 0, $HTTP_SERVER_VARS['argv'][2], $HTTP_SERVER_VARS['argv'][3], $separate_closed);
+            Command_Line::getWeeklyReport($client, $auth, 0, $_SERVER['argv'][2], $_SERVER['argv'][3], $separate_closed);
         } else {
             // weekly
-            if (@$HTTP_SERVER_VARS['argv'][2] == '') {
+            if (@$_SERVER['argv'][2] == '') {
                 $separate_closed = false;
-                @$HTTP_SERVER_VARS['argv'][2] = 0;
+                @$_SERVER['argv'][2] = 0;
             } else {
-                $separate_closed = (@$HTTP_SERVER_VARS['argv'][3] == '--separate-closed' or @$HTTP_SERVER_VARS['argv'][2] == '--separate-closed');
+                $separate_closed = (@$_SERVER['argv'][3] == '--separate-closed' or @$_SERVER['argv'][2] == '--separate-closed');
             }
-            Command_Line::getWeeklyReport($client, $auth, $HTTP_SERVER_VARS['argv'][2], '', '', $separate_closed);
+            Command_Line::getWeeklyReport($client, $auth, $_SERVER['argv'][2], '', '', $separate_closed);
         }
-    } elseif ($HTTP_SERVER_VARS['argv'][1] == 'clock') {
-        Command_Line::timeClock($client, $auth, @$HTTP_SERVER_VARS['argv'][2]);
+    } elseif ($_SERVER['argv'][1] == 'clock') {
+        Command_Line::timeClock($client, $auth, @$_SERVER['argv'][2]);
     }  else {
-        Command_Line::quit("Unknown parameter '" . $HTTP_SERVER_VARS['argv'][1] . "'");
+        Command_Line::quit("Unknown parameter '" . $_SERVER['argv'][1] . "'");
     }
 }
 

@@ -819,8 +819,6 @@ class Issue
      */
     function updateDuplicates($issue_id)
     {
-        global $HTTP_POST_VARS;
-
         $issue_id = Misc::escapeInteger($issue_id);
 
         $ids = Issue::getDuplicateList($issue_id);
@@ -834,14 +832,14 @@ class Issue
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_type='updated',
-                    iss_prc_id=" . Misc::escapeInteger($HTTP_POST_VARS["category"]) . ",";
-        if (@$HTTP_POST_VARS["keep"] == "no") {
-            $stmt .= "iss_pre_id=" . Misc::escapeInteger($HTTP_POST_VARS["release"]) . ",";
+                    iss_prc_id=" . Misc::escapeInteger($_POST["category"]) . ",";
+        if (@$_POST["keep"] == "no") {
+            $stmt .= "iss_pre_id=" . Misc::escapeInteger($_POST["release"]) . ",";
         }
         $stmt .= "
-                    iss_pri_id=" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . ",
-                    iss_sta_id=" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . ",
-                    iss_res_id=" . Misc::escapeInteger($HTTP_POST_VARS["resolution"]) . "
+                    iss_pri_id=" . Misc::escapeInteger($_POST["priority"]) . ",
+                    iss_sta_id=" . Misc::escapeInteger($_POST["status"]) . ",
+                    iss_res_id=" . Misc::escapeInteger($_POST["resolution"]) . "
                  WHERE
                     iss_id IN (" . implode(", ", $ids) . ")";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -960,8 +958,6 @@ class Issue
      */
     function markAsDuplicate($issue_id)
     {
-        global $HTTP_POST_VARS;
-
         $issue_id = Misc::escapeInteger($issue_id);
 
         $stmt = "UPDATE
@@ -970,7 +966,7 @@ class Issue
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_type='updated',
-                    iss_duplicated_iss_id=" . Misc::escapeInteger($HTTP_POST_VARS["duplicated_issue"]) . "
+                    iss_duplicated_iss_id=" . Misc::escapeInteger($_POST["duplicated_issue"]) . "
                  WHERE
                     iss_id=$issue_id";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -978,15 +974,15 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            if (!empty($HTTP_POST_VARS["comments"])) {
+            if (!empty($_POST["comments"])) {
                 // add note with the comments of marking an issue as a duplicate of another one
-                $HTTP_POST_VARS['title'] = 'Issue duplication comments';
-                $HTTP_POST_VARS["note"] = $HTTP_POST_VARS["comments"];
+                $_POST['title'] = 'Issue duplication comments';
+                $_POST["note"] = $_POST["comments"];
                 Note::insert(Auth::getUserID(), $issue_id);
             }
             // record the change
             History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'),
-                    "Issue marked as a duplicate of issue #" . $HTTP_POST_VARS["duplicated_issue"] . " by " . User::getFullName(Auth::getUserID()));
+                    "Issue marked as a duplicate of issue #" . $_POST["duplicated_issue"] . " by " . User::getFullName(Auth::getUserID()));
             return 1;
         }
     }
@@ -1083,10 +1079,8 @@ class Issue
      */
     function addAnonymousReport()
     {
-        global $HTTP_POST_VARS, $HTTP_POST_FILES;
-
-        $options = Project::getAnonymousPostOptions($HTTP_POST_VARS["project"]);
-        $initial_status = Project::getInitialStatus($HTTP_POST_VARS["project"]);
+        $options = Project::getAnonymousPostOptions($_POST["project"]);
+        $initial_status = Project::getInitialStatus($_POST["project"]);
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  (
@@ -1106,7 +1100,7 @@ class Issue
                     iss_description,
                     iss_root_message_id
                  ) VALUES (
-                    " . Misc::escapeInteger($HTTP_POST_VARS["project"]) . ",
+                    " . Misc::escapeInteger($_POST["project"]) . ",
                     " . $options["category"] . ",
                     0,
                     " . $options["priority"] . ",
@@ -1118,8 +1112,8 @@ class Issue
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Date_API::getCurrentDateGMT() . "',
                     'created',
-                    '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
+                    '" . Misc::escapeString($_POST["summary"]) . "',
+                    '" . Misc::escapeString($_POST["description"]) . "',
                     '" . Misc::escapeString(Mail_API::generateMessageID()) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -1133,28 +1127,28 @@ class Issue
 
             // now process any files being uploaded
             $found = 0;
-            for ($i = 0; $i < count(@$HTTP_POST_FILES["file"]["name"]); $i++) {
-                if (!@empty($HTTP_POST_FILES["file"]["name"][$i])) {
+            for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
+                if (!@empty($_FILES["file"]["name"][$i])) {
                     $found = 1;
                     break;
                 }
             }
             if ($found) {
                 $attachment_id = Attachment::add($new_issue_id, $options["reporter"], 'files uploaded anonymously');
-                for ($i = 0; $i < count(@$HTTP_POST_FILES["file"]["name"]); $i++) {
-                    $filename = @$HTTP_POST_FILES["file"]["name"][$i];
+                for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
+                    $filename = @$_FILES["file"]["name"][$i];
                     if (empty($filename)) {
                         continue;
                     }
-                    $blob = Misc::getFileContents($HTTP_POST_FILES["file"]["tmp_name"][$i]);
+                    $blob = Misc::getFileContents($_FILES["file"]["tmp_name"][$i]);
                     if (!empty($blob)) {
-                        Attachment::addFile($attachment_id, $new_issue_id, $filename, $HTTP_POST_FILES["file"]["type"][$i], $blob);
+                        Attachment::addFile($attachment_id, $new_issue_id, $filename, $_FILES["file"]["type"][$i], $blob);
                     }
                 }
             }
             // need to process any custom fields ?
-            if (@count($HTTP_POST_VARS["custom_fields"]) > 0) {
-                foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
+            if (@count($_POST["custom_fields"]) > 0) {
+                foreach ($_POST["custom_fields"] as $fld_id => $value) {
                     Custom_Field::associateIssue($new_issue_id, $fld_id, $value);
                 }
             }
@@ -1170,9 +1164,9 @@ class Issue
             }
 
             // also notify any users that want to receive emails anytime a new issue is created
-            Notification::notifyNewIssue($HTTP_POST_VARS['project'], $new_issue_id);
+            Notification::notifyNewIssue($_POST['project'], $new_issue_id);
 
-            Workflow::handleNewIssue(Misc::escapeInteger($HTTP_POST_VARS["project"]),  $new_issue_id, false, false);
+            Workflow::handleNewIssue(Misc::escapeInteger($_POST["project"]),  $new_issue_id, false, false);
 
             return $new_issue_id;
         }
@@ -1241,8 +1235,6 @@ class Issue
      */
     function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $send_notification_to = 'internal')
     {
-        global $HTTP_POST_VARS;
-
         $usr_id = Misc::escapeInteger($usr_id);
         $issue_id = Misc::escapeInteger($issue_id);
         $resolution_id = Misc::escapeInteger($resolution_id);
@@ -1296,8 +1288,8 @@ class Issue
                 $ids = $sup_id;
             } else {
                 // add note with the reason to close the issue
-                $HTTP_POST_VARS['title'] = 'Issue closed comments';
-                $HTTP_POST_VARS["note"] = $reason;
+                $_POST['title'] = 'Issue closed comments';
+                $_POST["note"] = $reason;
                 Note::insert($usr_id, $issue_id, false, true, true);
                 $ids = false;
             }
@@ -1334,8 +1326,6 @@ class Issue
      */
     function update($issue_id)
     {
-        global $HTTP_POST_VARS;
-
         $issue_id = Misc::escapeInteger($issue_id);
 
         $usr_id = Auth::getUserID();
@@ -1343,12 +1333,12 @@ class Issue
         // get all of the 'current' information of this issue
         $current = Issue::getDetails($issue_id);
         // update the issue associations
-        $association_diff = Misc::arrayDiff($current['associated_issues'], @$HTTP_POST_VARS['associated_issues']);
+        $association_diff = Misc::arrayDiff($current['associated_issues'], @$_POST['associated_issues']);
         if (count($association_diff) > 0) {
             // go through the new assocations, if association already exists, skip it
             $associations_to_remove = $current['associated_issues'];
-            if (count(@$HTTP_POST_VARS['associated_issues']) > 0) {
-                foreach ($HTTP_POST_VARS['associated_issues'] as $index => $associated_id) {
+            if (count(@$_POST['associated_issues']) > 0) {
+                foreach ($_POST['associated_issues'] as $index => $associated_id) {
                     if (!in_array($associated_id, $current['associated_issues'])) {
                         Issue::addAssociation($issue_id, $associated_id, $usr_id);
                     } else {
@@ -1363,21 +1353,21 @@ class Issue
                 }
             }
         }
-        if ((!empty($HTTP_POST_VARS['expected_resolution_date']['Year'])) &&
-             (!empty($HTTP_POST_VARS['expected_resolution_date']['Month'])) &&
-             (!empty($HTTP_POST_VARS['expected_resolution_date']['Day']))) {
-            $HTTP_POST_VARS['expected_resolution_date'] = sprintf('%s-%s-%s', $HTTP_POST_VARS['expected_resolution_date']['Year'],
-                                                $HTTP_POST_VARS['expected_resolution_date']['Month'],
-                                                $HTTP_POST_VARS['expected_resolution_date']['Day']);
+        if ((!empty($_POST['expected_resolution_date']['Year'])) &&
+             (!empty($_POST['expected_resolution_date']['Month'])) &&
+             (!empty($_POST['expected_resolution_date']['Day']))) {
+            $_POST['expected_resolution_date'] = sprintf('%s-%s-%s', $_POST['expected_resolution_date']['Year'],
+                                                $_POST['expected_resolution_date']['Month'],
+                                                $_POST['expected_resolution_date']['Day']);
         } else {
-            $HTTP_POST_VARS['expected_resolution_date'] = '';
+            $_POST['expected_resolution_date'] = '';
         }
         $assignments_changed = false;
-        if (@$HTTP_POST_VARS["keep_assignments"] == "no") {
+        if (@$_POST["keep_assignments"] == "no") {
             // only change the issue-user associations if there really were any changes
             $old_assignees = array_merge($current['assigned_users'], $current['assigned_inactive_users']);
-            if (!empty($HTTP_POST_VARS['assignments'])) {
-                $new_assignees = @$HTTP_POST_VARS['assignments'];
+            if (!empty($_POST['assignments'])) {
+                $new_assignees = @$_POST['assignments'];
             } else {
                 $new_assignees = array();
             }
@@ -1403,8 +1393,8 @@ class Issue
                 Notification::notifyNewAssignment($assignment_notifications, $issue_id);
             }
         }
-        if (empty($HTTP_POST_VARS["estimated_dev_time"])) {
-            $HTTP_POST_VARS["estimated_dev_time"] = 0;
+        if (empty($_POST["estimated_dev_time"])) {
+            $_POST["estimated_dev_time"] = 0;
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -1412,31 +1402,31 @@ class Issue
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_public_action_type='updated',";
-        if (!empty($HTTP_POST_VARS["category"])) {
-            $stmt .= "iss_prc_id=" . Misc::escapeInteger($HTTP_POST_VARS["category"]) . ",";
+        if (!empty($_POST["category"])) {
+            $stmt .= "iss_prc_id=" . Misc::escapeInteger($_POST["category"]) . ",";
         }
-        if (@$HTTP_POST_VARS["keep"] == "no") {
-            $stmt .= "iss_pre_id=" . Misc::escapeInteger($HTTP_POST_VARS["release"]) . ",";
+        if (@$_POST["keep"] == "no") {
+            $stmt .= "iss_pre_id=" . Misc::escapeInteger($_POST["release"]) . ",";
         }
-        if (!empty($HTTP_POST_VARS['expected_resolution_date'])) {
-            $stmt .= "iss_expected_resolution_date='" . Misc::escapeString($HTTP_POST_VARS['expected_resolution_date']) . "',";
+        if (!empty($_POST['expected_resolution_date'])) {
+            $stmt .= "iss_expected_resolution_date='" . Misc::escapeString($_POST['expected_resolution_date']) . "',";
         } else {
             $stmt .= "iss_expected_resolution_date=null,";
         }
         $stmt .= "
-                    iss_pre_id=" . Misc::escapeInteger($HTTP_POST_VARS["release"]) . ",
-                    iss_pri_id=" . Misc::escapeInteger($HTTP_POST_VARS["priority"]) . ",
-                    iss_sta_id=" . Misc::escapeInteger($HTTP_POST_VARS["status"]) . ",
-                    iss_res_id=" . Misc::escapeInteger($HTTP_POST_VARS["resolution"]) . ",
-                    iss_summary='" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
-                    iss_description='" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    iss_dev_time='" . Misc::escapeString($HTTP_POST_VARS["estimated_dev_time"]) . "',
-                    iss_percent_complete= '" . Misc::escapeString($HTTP_POST_VARS["percent_complete"]) . "',
-                    iss_trigger_reminders=" . Misc::escapeInteger($HTTP_POST_VARS["trigger_reminders"]) . ",
-                    iss_grp_id ='" . Misc::escapeInteger($HTTP_POST_VARS["group"]) . "'";
-        if (isset($HTTP_POST_VARS['private'])) {
+                    iss_pre_id=" . Misc::escapeInteger($_POST["release"]) . ",
+                    iss_pri_id=" . Misc::escapeInteger($_POST["priority"]) . ",
+                    iss_sta_id=" . Misc::escapeInteger($_POST["status"]) . ",
+                    iss_res_id=" . Misc::escapeInteger($_POST["resolution"]) . ",
+                    iss_summary='" . Misc::escapeString($_POST["summary"]) . "',
+                    iss_description='" . Misc::escapeString($_POST["description"]) . "',
+                    iss_dev_time='" . Misc::escapeString($_POST["estimated_dev_time"]) . "',
+                    iss_percent_complete= '" . Misc::escapeString($_POST["percent_complete"]) . "',
+                    iss_trigger_reminders=" . Misc::escapeInteger($_POST["trigger_reminders"]) . ",
+                    iss_grp_id ='" . Misc::escapeInteger($_POST["group"]) . "'";
+        if (isset($_POST['private'])) {
             $stmt .= ",
-                    iss_private = " . Misc::escapeInteger($HTTP_POST_VARS['private']);
+                    iss_private = " . Misc::escapeInteger($_POST['private']);
         }
         $stmt .= "
                  WHERE
@@ -1448,47 +1438,47 @@ class Issue
         } else {
             // add change to the history (only for changes on specific fields?)
             $updated_fields = array();
-            if ($current["iss_expected_resolution_date"] != $HTTP_POST_VARS['expected_resolution_date']) {
-                $updated_fields["Expected Resolution Date"] = History::formatChanges($current["iss_expected_resolution_date"], $HTTP_POST_VARS['expected_resolution_date']);
+            if ($current["iss_expected_resolution_date"] != $_POST['expected_resolution_date']) {
+                $updated_fields["Expected Resolution Date"] = History::formatChanges($current["iss_expected_resolution_date"], $_POST['expected_resolution_date']);
             }
-            if ($current["iss_prc_id"] != $HTTP_POST_VARS["category"]) {
-                $updated_fields["Category"] = History::formatChanges(Category::getTitle($current["iss_prc_id"]), Category::getTitle($HTTP_POST_VARS["category"]));
+            if ($current["iss_prc_id"] != $_POST["category"]) {
+                $updated_fields["Category"] = History::formatChanges(Category::getTitle($current["iss_prc_id"]), Category::getTitle($_POST["category"]));
             }
-            if ($current["iss_pre_id"] != $HTTP_POST_VARS["release"]) {
-                $updated_fields["Release"] = History::formatChanges(Release::getTitle($current["iss_pre_id"]), Release::getTitle($HTTP_POST_VARS["release"]));
+            if ($current["iss_pre_id"] != $_POST["release"]) {
+                $updated_fields["Release"] = History::formatChanges(Release::getTitle($current["iss_pre_id"]), Release::getTitle($_POST["release"]));
             }
-            if ($current["iss_pri_id"] != $HTTP_POST_VARS["priority"]) {
-                $updated_fields["Priority"] = History::formatChanges(Priority::getTitle($current["iss_pri_id"]), Priority::getTitle($HTTP_POST_VARS["priority"]));
-                Workflow::handlePriorityChange($prj_id, $issue_id, $usr_id, $current, $HTTP_POST_VARS);
+            if ($current["iss_pri_id"] != $_POST["priority"]) {
+                $updated_fields["Priority"] = History::formatChanges(Priority::getTitle($current["iss_pri_id"]), Priority::getTitle($_POST["priority"]));
+                Workflow::handlePriorityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
             }
-            if ($current["iss_sta_id"] != $HTTP_POST_VARS["status"]) {
+            if ($current["iss_sta_id"] != $_POST["status"]) {
                 // clear out the last-triggered-reminder flag when changing the status of an issue
                 Reminder_Action::clearLastTriggered($issue_id);
 
                 // if old status was closed and new status is not, clear closed data from issue.
                 $old_status_details = Status::getDetails($current['iss_sta_id']);
                 if ($old_status_details['sta_is_closed'] == 1) {
-                    $new_status_details = Status::getDetails($HTTP_POST_VARS["status"]);
+                    $new_status_details = Status::getDetails($_POST["status"]);
                     if ($new_status_details['sta_is_closed'] != 1) {
                         Issue::clearClosed($issue_id);
                     }
                 }
-                $updated_fields["Status"] = History::formatChanges(Status::getStatusTitle($current["iss_sta_id"]), Status::getStatusTitle($HTTP_POST_VARS["status"]));
+                $updated_fields["Status"] = History::formatChanges(Status::getStatusTitle($current["iss_sta_id"]), Status::getStatusTitle($_POST["status"]));
             }
-            if ($current["iss_res_id"] != $HTTP_POST_VARS["resolution"]) {
-                $updated_fields["Resolution"] = History::formatChanges(Resolution::getTitle($current["iss_res_id"]), Resolution::getTitle($HTTP_POST_VARS["resolution"]));
+            if ($current["iss_res_id"] != $_POST["resolution"]) {
+                $updated_fields["Resolution"] = History::formatChanges(Resolution::getTitle($current["iss_res_id"]), Resolution::getTitle($_POST["resolution"]));
             }
-            if ($current["iss_dev_time"] != $HTTP_POST_VARS["estimated_dev_time"]) {
-                $updated_fields["Estimated Dev. Time"] = History::formatChanges(Misc::getFormattedTime(($current["iss_dev_time"]*60)), Misc::getFormattedTime(($HTTP_POST_VARS["estimated_dev_time"]*60)));
+            if ($current["iss_dev_time"] != $_POST["estimated_dev_time"]) {
+                $updated_fields["Estimated Dev. Time"] = History::formatChanges(Misc::getFormattedTime(($current["iss_dev_time"]*60)), Misc::getFormattedTime(($_POST["estimated_dev_time"]*60)));
             }
-            if ($current["iss_summary"] != $HTTP_POST_VARS["summary"]) {
+            if ($current["iss_summary"] != $_POST["summary"]) {
                 $updated_fields["Summary"] = '';
             }
-            if ($current["iss_description"] != $HTTP_POST_VARS["description"]) {
+            if ($current["iss_description"] != $_POST["description"]) {
                 $updated_fields["Description"] = '';
             }
-            if ((isset($HTTP_POST_VARS['private'])) && ($HTTP_POST_VARS['private'] != $current['iss_private'])) {
-                $updated_fields["Private"] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($HTTP_POST_VARS['private']));
+            if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
+                $updated_fields["Private"] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
             }
             if (count($updated_fields) > 0) {
                 // log the changes
@@ -1507,13 +1497,13 @@ class Issue
                 }
                 History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated ($changes) by " . User::getFullName($usr_id));
                 // send notifications for the issue being updated
-                Notification::notifyIssueUpdated($issue_id, $current, $HTTP_POST_VARS);
+                Notification::notifyIssueUpdated($issue_id, $current, $_POST);
             }
 
             // record group change as a seperate change
-            if ($current["iss_grp_id"] != (int)$HTTP_POST_VARS["group"]) {
+            if ($current["iss_grp_id"] != (int)$_POST["group"]) {
                 History::add($issue_id, $usr_id, History::getTypeID('group_changed'),
-                    "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($HTTP_POST_VARS["group"])) . ") by " . User::getFullName($usr_id));
+                    "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($_POST["group"])) . ") by " . User::getFullName($usr_id));
             }
 
             // now update any duplicates, if any
@@ -1537,10 +1527,10 @@ class Issue
 
             if ($assignments_changed) {
                 // XXX: we may want to also send the email notification for those "new" assignees
-                Workflow::handleAssignmentChange(Issue::getProjectID($issue_id), $issue_id, $usr_id, Issue::getDetails($issue_id), @$HTTP_POST_VARS['assignments'], false);
+                Workflow::handleAssignmentChange(Issue::getProjectID($issue_id), $issue_id, $usr_id, Issue::getDetails($issue_id), @$_POST['assignments'], false);
             }
 
-            Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $HTTP_POST_VARS);
+            Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $_POST);
             return 1;
         }
     }
@@ -1918,7 +1908,7 @@ class Issue
      */
     function insert()
     {
-        global $HTTP_POST_VARS, $HTTP_POST_FILES, $insert_errors;
+        global $insert_errors;
 
         $usr_id = Auth::getUserID();
         $prj_id = Auth::getCurrentProject();
@@ -1927,15 +1917,15 @@ class Issue
         $insert_errors = array();
 
         $missing_fields = array();
-        if ($HTTP_POST_VARS["category"] == '-1') {
+        if ($_POST["category"] == '-1') {
             $missing_fields[] = "Category";
         }
-        if ($HTTP_POST_VARS["priority"] == '-1') {
+        if ($_POST["priority"] == '-1') {
             $missing_fields[] = "Priority";
         }
 
-        if ($HTTP_POST_VARS["estimated_dev_time"] == '') {
-            $HTTP_POST_VARS["estimated_dev_time"] = 0;
+        if ($_POST["estimated_dev_time"] == '') {
+            $_POST["estimated_dev_time"] = 0;
         }
 
         // add new issue
@@ -1943,16 +1933,16 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  (
                     iss_prj_id,\n";
-        if (!empty($HTTP_POST_VARS["group"])) {
+        if (!empty($_POST["group"])) {
             $stmt .= "iss_grp_id,\n";
         }
-        if (!empty($HTTP_POST_VARS["category"])) {
+        if (!empty($_POST["category"])) {
             $stmt .= "iss_prc_id,\n";
         }
-        if (!empty($HTTP_POST_VARS["release"])) {
+        if (!empty($_POST["release"])) {
             $stmt .= "iss_pre_id,\n";
         }
-        if (!empty($HTTP_POST_VARS["priority"])) {
+        if (!empty($_POST["priority"])) {
             $stmt .= "iss_pri_id,\n";
         }
         $stmt .= "iss_usr_id,";
@@ -1980,22 +1970,22 @@ class Issue
                     iss_root_message_id
                  ) VALUES (
                     " . $prj_id . ",\n";
-        if (!empty($HTTP_POST_VARS["group"])) {
-            $stmt .= Misc::escapeInteger($HTTP_POST_VARS["group"]) . ",\n";
+        if (!empty($_POST["group"])) {
+            $stmt .= Misc::escapeInteger($_POST["group"]) . ",\n";
         }
-        if (!empty($HTTP_POST_VARS["category"])) {
-            $stmt .= Misc::escapeInteger($HTTP_POST_VARS["category"]) . ",\n";
+        if (!empty($_POST["category"])) {
+            $stmt .= Misc::escapeInteger($_POST["category"]) . ",\n";
         }
-        if (!empty($HTTP_POST_VARS["release"])) {
-            $stmt .= Misc::escapeInteger($HTTP_POST_VARS["release"]) . ",\n";
+        if (!empty($_POST["release"])) {
+            $stmt .= Misc::escapeInteger($_POST["release"]) . ",\n";
         }
-        if (!empty($HTTP_POST_VARS["priority"])) {
-            $stmt .= Misc::escapeInteger($HTTP_POST_VARS["priority"]) . ",";
+        if (!empty($_POST["priority"])) {
+            $stmt .= Misc::escapeInteger($_POST["priority"]) . ",";
         }
         // if we are creating an issue for a customer, put the
         // main customer contact as the reporter for it
         if (Customer::hasCustomerIntegration($prj_id)) {
-            $contact_usr_id = User::getUserIDByContactID($HTTP_POST_VARS['contact']);
+            $contact_usr_id = User::getUserIDByContactID($_POST['contact']);
             if (empty($contact_usr_id)) {
                 $contact_usr_id = $usr_id;
             }
@@ -2008,22 +1998,22 @@ class Issue
         }
         if (Customer::hasCustomerIntegration($prj_id)) {
             $stmt .= "
-                    " . Misc::escapeInteger($HTTP_POST_VARS['customer']) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS['contact']) . ",
-                    '" . Misc::escapeString($HTTP_POST_VARS["contact_person_lname"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["contact_person_fname"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["contact_email"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["contact_phone"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["contact_timezone"]) . "',";
+                    " . Misc::escapeInteger($_POST['customer']) . ",
+                    " . Misc::escapeInteger($_POST['contact']) . ",
+                    '" . Misc::escapeString($_POST["contact_person_lname"]) . "',
+                    '" . Misc::escapeString($_POST["contact_person_fname"]) . "',
+                    '" . Misc::escapeString($_POST["contact_email"]) . "',
+                    '" . Misc::escapeString($_POST["contact_phone"]) . "',
+                    '" . Misc::escapeString($_POST["contact_timezone"]) . "',";
         }
         $stmt .= "
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Date_API::getCurrentDateGMT() . "',
                     'created',
-                    '" . Misc::escapeString($HTTP_POST_VARS["summary"]) . "',
-                    '" . Misc::escapeString($HTTP_POST_VARS["description"]) . "',
-                    " . Misc::escapeString($HTTP_POST_VARS["estimated_dev_time"]) . ",
-                    " . Misc::escapeInteger($HTTP_POST_VARS["private"]) . " ,
+                    '" . Misc::escapeString($_POST["summary"]) . "',
+                    '" . Misc::escapeString($_POST["description"]) . "',
+                    " . Misc::escapeString($_POST["estimated_dev_time"]) . ",
+                    " . Misc::escapeInteger($_POST["private"]) . " ,
                     '" . Misc::escapeString(Mail_API::generateMessageID()) . "'
                  )";
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -2040,18 +2030,18 @@ class Issue
 
             $emails = array();
             if (Customer::hasCustomerIntegration($prj_id)) {
-                if (@count($HTTP_POST_VARS['contact_extra_emails']) > 0) {
-                    $emails = $HTTP_POST_VARS['contact_extra_emails'];
+                if (@count($_POST['contact_extra_emails']) > 0) {
+                    $emails = $_POST['contact_extra_emails'];
                 }
                 // add the primary contact to the notification list
-                if ($HTTP_POST_VARS['add_primary_contact'] == 'yes') {
-                    $contact_email = User::getEmailByContactID($HTTP_POST_VARS['contact']);
+                if ($_POST['add_primary_contact'] == 'yes') {
+                    $contact_email = User::getEmailByContactID($_POST['contact']);
                     if (!empty($contact_email)) {
                         $emails[] = $contact_email;
                     }
                 }
                 // if there are any technical account managers associated with this customer, add these users to the notification list
-                $managers = Customer::getAccountManagers($prj_id, $HTTP_POST_VARS['customer']);
+                $managers = Customer::getAccountManagers($prj_id, $_POST['customer']);
                 $manager_usr_ids = array_keys($managers);
                 $manager_emails = array_values($managers);
                 $emails = array_merge($emails, $manager_emails);
@@ -2076,12 +2066,12 @@ class Issue
                 $has_TAM = true;
             }
             // now add the user/issue association (aka assignments)
-            if (@count($HTTP_POST_VARS["users"]) > 0) {
-                for ($i = 0; $i < count($HTTP_POST_VARS["users"]); $i++) {
-                    Notification::subscribeUser($usr_id, $new_issue_id, $HTTP_POST_VARS["users"][$i], $actions);
-                    Issue::addUserAssociation($usr_id, $new_issue_id, $HTTP_POST_VARS["users"][$i]);
-                    if ($HTTP_POST_VARS["users"][$i] != $usr_id) {
-                        $users[] = $HTTP_POST_VARS["users"][$i];
+            if (@count($_POST["users"]) > 0) {
+                for ($i = 0; $i < count($_POST["users"]); $i++) {
+                    Notification::subscribeUser($usr_id, $new_issue_id, $_POST["users"][$i], $actions);
+                    Issue::addUserAssociation($usr_id, $new_issue_id, $_POST["users"][$i]);
+                    if ($_POST["users"][$i] != $usr_id) {
+                        $users[] = $_POST["users"][$i];
                     }
                 }
             } else {
@@ -2101,20 +2091,20 @@ class Issue
 
             // now process any files being uploaded
             $found = 0;
-            for ($i = 0; $i < count(@$HTTP_POST_FILES["file"]["name"]); $i++) {
-                if (!@empty($HTTP_POST_FILES["file"]["name"][$i])) {
+            for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
+                if (!@empty($_FILES["file"]["name"][$i])) {
                     $found = 1;
                     break;
                 }
             }
             if ($found) {
                 $files = array();
-                for ($i = 0; $i < count($HTTP_POST_FILES["file"]["name"]); $i++) {
-                    $filename = @$HTTP_POST_FILES["file"]["name"][$i];
+                for ($i = 0; $i < count($_FILES["file"]["name"]); $i++) {
+                    $filename = @$_FILES["file"]["name"][$i];
                     if (empty($filename)) {
                         continue;
                     }
-                    $blob = Misc::getFileContents($HTTP_POST_FILES["file"]["tmp_name"][$i]);
+                    $blob = Misc::getFileContents($_FILES["file"]["tmp_name"][$i]);
                     if (empty($blob)) {
                         // error reading a file
                         $insert_errors["file[$i]"] = "There was an error uploading the file '$filename'.";
@@ -2122,7 +2112,7 @@ class Issue
                     }
                     $files[] = array(
                         "filename" => $filename,
-                        "type"     => $HTTP_POST_FILES['file']['type'][$i],
+                        "type"     => $_FILES['file']['type'][$i],
                         "blob"     => $blob
                     );
                 }
@@ -2134,29 +2124,29 @@ class Issue
                 }
             }
             // need to associate any emails ?
-            if (!empty($HTTP_POST_VARS["attached_emails"])) {
-                $items = explode(",", $HTTP_POST_VARS["attached_emails"]);
+            if (!empty($_POST["attached_emails"])) {
+                $items = explode(",", $_POST["attached_emails"]);
                 Support::associate($usr_id, $new_issue_id, $items);
             }
             // need to notify any emails being converted into issues ?
-            if (@count($HTTP_POST_VARS["notify_senders"]) > 0) {
-                $recipients = Notification::notifyEmailConvertedIntoIssue($prj_id, $new_issue_id, $HTTP_POST_VARS["notify_senders"], @$HTTP_POST_VARS['customer']);
+            if (@count($_POST["notify_senders"]) > 0) {
+                $recipients = Notification::notifyEmailConvertedIntoIssue($prj_id, $new_issue_id, $_POST["notify_senders"], @$_POST['customer']);
             } else {
                 $recipients = array();
             }
             // need to process any custom fields ?
-            if (@count($HTTP_POST_VARS["custom_fields"]) > 0) {
-                foreach ($HTTP_POST_VARS["custom_fields"] as $fld_id => $value) {
+            if (@count($_POST["custom_fields"]) > 0) {
+                foreach ($_POST["custom_fields"] as $fld_id => $value) {
                     Custom_Field::associateIssue($new_issue_id, $fld_id, $value);
                 }
             }
             // also send a special confirmation email to the customer contact
-            if ((@$HTTP_POST_VARS['notify_customer'] == 'yes') && (!empty($HTTP_POST_VARS['contact']))) {
+            if ((@$_POST['notify_customer'] == 'yes') && (!empty($_POST['contact']))) {
                 // also need to pass the list of sender emails already notified,
                 // so we can avoid notifying the same person again
-                $contact_email = User::getEmailByContactID($HTTP_POST_VARS['contact']);
+                $contact_email = User::getEmailByContactID($_POST['contact']);
                 if (@!in_array($contact_email, $recipients)) {
-                    Customer::notifyCustomerIssue($prj_id, $new_issue_id, $HTTP_POST_VARS['contact']);
+                    Customer::notifyCustomerIssue($prj_id, $new_issue_id, $_POST['contact']);
                 }
             }
 
@@ -2179,13 +2169,12 @@ class Issue
      */
     function getParam($name)
     {
-        global $HTTP_POST_VARS, $HTTP_GET_VARS;
         $profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'issue');
 
-        if (isset($HTTP_GET_VARS[$name])) {
-            return $HTTP_GET_VARS[$name];
-        } elseif (isset($HTTP_POST_VARS[$name])) {
-            return $HTTP_POST_VARS[$name];
+        if (isset($_GET[$name])) {
+            return $_GET[$name];
+        } elseif (isset($_POST[$name])) {
+            return $_POST[$name];
         } elseif (isset($profile[$name])) {
             return $profile[$name];
         } else {
@@ -2292,7 +2281,6 @@ class Issue
      */
     function getSortingInfo($options)
     {
-        global $HTTP_SERVER_VARS;
 
         $custom_fields = Custom_Field::getFieldsToBeListed(Auth::getCurrentProject());
 
@@ -2327,7 +2315,7 @@ class Issue
                     $sort_order = "asc";
                 }
             }
-            $items["links"][$field] = $HTTP_SERVER_VARS["PHP_SELF"] . "?sort_by=" . $field . "&sort_order=" . $sort_order;
+            $items["links"][$field] = $_SERVER["PHP_SELF"] . "?sort_by=" . $field . "&sort_order=" . $sort_order;
         }
         return $items;
     }
@@ -3174,7 +3162,6 @@ class Issue
      */
     function getDetails($issue_id, $force_refresh = false)
     {
-        global $HTTP_SERVER_VARS;
         static $returns;
 
         $issue_id = Misc::escapeInteger($issue_id);
@@ -3248,7 +3235,7 @@ class Issue
                     }
                 }
                 $res['iss_original_description'] = $res["iss_description"];
-                if (!strstr($HTTP_SERVER_VARS["PHP_SELF"], 'update.php')) {
+                if (!strstr($_SERVER["PHP_SELF"], 'update.php')) {
                     $res["iss_description"] = nl2br(htmlspecialchars($res["iss_description"]));
                     $res["iss_resolution"] = Resolution::getTitle($res["iss_res_id"]);
                 }
@@ -3348,14 +3335,12 @@ class Issue
      */
     function bulkUpdate()
     {
-        global $HTTP_POST_VARS;
-
         // check if user performing this chance has the proper role
         if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
             return -1;
         }
 
-        $items = Misc::escapeInteger($HTTP_POST_VARS['item']);
+        $items = Misc::escapeInteger($_POST['item']);
         $new_status_id = Misc::escapeInteger($_POST['status']);
         $new_release_id = Misc::escapeInteger($_POST['release']);
         $new_priority_id = Misc::escapeInteger($_POST['priority']);
@@ -3364,7 +3349,7 @@ class Issue
         for ($i = 0; $i < count($items); $i++) {
             if (!Issue::canAccess($items[$i], Auth::getUserID())) {
                 continue;
-            } elseif (Issue::getProjectID($HTTP_POST_VARS['item'][$i]) != Auth::getCurrentProject()) {
+            } elseif (Issue::getProjectID($_POST['item'][$i]) != Auth::getCurrentProject()) {
                 // make sure issue is not in another project
                 continue;
             }
@@ -3372,8 +3357,8 @@ class Issue
             $updated_fields = array();
 
             // update assignment
-            if (count(@$HTTP_POST_VARS['users']) > 0) {
-                $users = Misc::escapeInteger($HTTP_POST_VARS['users']);
+            if (count(@$_POST['users']) > 0) {
+                $users = Misc::escapeInteger($_POST['users']);
                 // get who this issue is currently assigned too
                 $stmt = "SELECT
                             isu_usr_id,
@@ -3485,16 +3470,14 @@ class Issue
      */
     function setImpactAnalysis($issue_id)
     {
-        global $HTTP_POST_VARS;
-
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
                     iss_last_internal_action_type='update',
-                    iss_developer_est_time=" . Misc::escapeInteger($HTTP_POST_VARS["dev_time"]) . ",
-                    iss_impact_analysis='" . Misc::escapeString($HTTP_POST_VARS["impact_analysis"]) . "'
+                    iss_developer_est_time=" . Misc::escapeInteger($_POST["dev_time"]) . ",
+                    iss_impact_analysis='" . Misc::escapeString($_POST["impact_analysis"]) . "'
                  WHERE
                     iss_id=" . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);

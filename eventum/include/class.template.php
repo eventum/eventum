@@ -151,10 +151,8 @@ class Template_API
      */
     function processTemplate()
     {
-        global $HTTP_SERVER_VARS;
-
         // determine the correct CSS file to use
-        if (ereg('MSIE ([0-9].[0-9]{1,2})', @$HTTP_SERVER_VARS["HTTP_USER_AGENT"], $log_version)) {
+        if (ereg('MSIE ([0-9].[0-9]{1,2})', @$_SERVER["HTTP_USER_AGENT"], $log_version)) {
             $user_agent = 'ie';
         } else {
             $user_agent = 'other';
@@ -205,7 +203,7 @@ class Template_API
         $this->assign("os", Net_UserAgent_Detect::_getStaticProperty('os'));
 
         // this is only used by the textarea resize script
-        $js_script_name = str_replace('/', '_', str_replace('.php', '', $HTTP_SERVER_VARS['PHP_SELF']));
+        $js_script_name = str_replace('/', '_', str_replace('.php', '', $_SERVER['PHP_SELF']));
         $this->assign("js_script_name", $js_script_name);
 
         $this->assign("total_queries", $GLOBALS['TOTAL_QUERIES']);
