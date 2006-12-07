@@ -6467,9 +6467,6 @@ ev_gettext("An error occurred while trying to run your query.");
 ev_gettext("Thank you, your account preferences were updated successfully.");
 
 /* templates//preferences.tpl.html */
-ev_gettext("Your language change will take affect next page load");
-
-/* templates//preferences.tpl.html */
 ev_gettext("Available Languages");
 
 /* templates//preferences.tpl.html */
@@ -7467,6 +7464,12 @@ ev_gettext("Upload File");
 
 /* templates//file_upload.tpl.html */
 ev_gettext("You do not have the correct role to access this page");
+
+/* templates//blah.tpl.html */
+ev_gettext("Go");
+
+/* templates//blah.tpl.html */
+ev_gettext("Return to Issue #%1 Details Page");
 
 /* templates//update.tpl.html */
 ev_gettext("Error: The issue could not be found.");

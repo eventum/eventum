@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-06 02:50-0600\n"
+"POT-Creation-Date: 2006-12-07 12:22-0600\n"
 "PO-Revision-Date: 2006-10-26 18:31+0200\n"
 "Last-Translator: Jostein Martinsen <jostein.martinsen@redpill.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -23,11 +23,11 @@ msgstr ""
 #: include/class.filter.php:590 misc/localization/eventum.c:434
 #: misc/localization/eventum.c:491 misc/localization/eventum.c:518
 #: misc/localization/eventum.c:581 misc/localization/eventum.c:1385
-#: misc/localization/eventum.c:1421 misc/localization/eventum.c:7535
-#: misc/localization/eventum.c:7607 misc/localization/eventum.c:7640
-#: misc/localization/eventum.c:7664 misc/localization/eventum.c:7733
-#: misc/localization/eventum.c:7781 misc/localization/eventum.c:7814
-#: misc/localization/eventum.c:7937
+#: misc/localization/eventum.c:1421 misc/localization/eventum.c:7538
+#: misc/localization/eventum.c:7610 misc/localization/eventum.c:7643
+#: misc/localization/eventum.c:7667 misc/localization/eventum.c:7736
+#: misc/localization/eventum.c:7784 misc/localization/eventum.c:7817
+#: misc/localization/eventum.c:7940
 msgid "Priority"
 msgstr "Prioritet"
 
@@ -40,15 +40,15 @@ msgstr "Prioritet"
 msgid "Issue ID"
 msgstr "Ärende ID"
 
-#: include/class.display_column.php:179 include/class.user.php:56
+#: include/class.display_column.php:179 include/class.user.php:1441
 #: include/class.filter.php:672 misc/localization/eventum.c:311
-#: misc/localization/eventum.c:1397 misc/localization/eventum.c:7970
+#: misc/localization/eventum.c:1397 misc/localization/eventum.c:7973
 msgid "Reporter"
 msgstr "Rapportör"
 
 #: include/class.display_column.php:182 include/class.project.php:1115
 #: list.php:88 misc/localization/eventum.c:527
-#: misc/localization/eventum.c:5213 misc/localization/eventum.c:7994
+#: misc/localization/eventum.c:5213 misc/localization/eventum.c:7997
 msgid "Group"
 msgstr "Grupp"
 
@@ -60,8 +60,8 @@ msgstr "Tilldelad"
 #: include/class.display_column.php:188 misc/localization/eventum.c:662
 #: misc/localization/eventum.c:728 misc/localization/eventum.c:1124
 #: misc/localization/eventum.c:1247 misc/localization/eventum.c:2741
-#: misc/localization/eventum.c:3029 misc/localization/eventum.c:6623
-#: misc/localization/eventum.c:7247
+#: misc/localization/eventum.c:3029 misc/localization/eventum.c:6620
+#: misc/localization/eventum.c:7244
 msgid "Time Spent"
 msgstr "Nedlagd tid"
 
@@ -82,7 +82,7 @@ msgstr "Beräknad utv. tid"
 #: misc/localization/eventum.c:584 misc/localization/eventum.c:1127
 #: misc/localization/eventum.c:1160 misc/localization/eventum.c:1379
 #: misc/localization/eventum.c:2744 misc/localization/eventum.c:3380
-#: misc/localization/eventum.c:6617 misc/localization/eventum.c:7916
+#: misc/localization/eventum.c:6614 misc/localization/eventum.c:7919
 msgid "Category"
 msgstr "Kategori"
 
@@ -92,7 +92,7 @@ msgstr "Kategori"
 msgid "Release"
 msgstr "Version"
 
-#: include/class.display_column.php:205 include/class.user.php:57
+#: include/class.display_column.php:205 include/class.user.php:1442
 #: include/class.customer_stats_report.php:668 misc/localization/eventum.c:317
 #: misc/localization/eventum.c:833 misc/localization/eventum.c:1013
 #: misc/localization/eventum.c:1040 misc/localization/eventum.c:1061
@@ -103,8 +103,8 @@ msgstr "Version"
 #: misc/localization/eventum.c:2825 misc/localization/eventum.c:2903
 #: misc/localization/eventum.c:3077 misc/localization/eventum.c:4748
 #: misc/localization/eventum.c:5171 misc/localization/eventum.c:5408
-#: misc/localization/eventum.c:5435 misc/localization/eventum.c:7016
-#: misc/localization/eventum.c:7046 misc/localization/eventum.c:7895
+#: misc/localization/eventum.c:5435 misc/localization/eventum.c:7013
+#: misc/localization/eventum.c:7043 misc/localization/eventum.c:7898
 msgid "Customer"
 msgstr "Kund"
 
@@ -119,11 +119,11 @@ msgstr "Kund"
 #: misc/localization/eventum.c:3920 misc/localization/eventum.c:4163
 #: misc/localization/eventum.c:5210 misc/localization/eventum.c:6002
 #: misc/localization/eventum.c:6041 misc/localization/eventum.c:6182
-#: misc/localization/eventum.c:6272 misc/localization/eventum.c:7442
-#: misc/localization/eventum.c:7598 misc/localization/eventum.c:7655
-#: misc/localization/eventum.c:7772 misc/localization/eventum.c:7919
-#: misc/localization/eventum.c:7931 misc/localization/eventum.c:8048
-#: misc/localization/eventum.c:8207
+#: misc/localization/eventum.c:6272 misc/localization/eventum.c:7439
+#: misc/localization/eventum.c:7601 misc/localization/eventum.c:7658
+#: misc/localization/eventum.c:7775 misc/localization/eventum.c:7922
+#: misc/localization/eventum.c:7934 misc/localization/eventum.c:8051
+#: misc/localization/eventum.c:8210
 msgid "Status"
 msgstr "Status"
 
@@ -136,7 +136,7 @@ msgid "Last Action Date"
 msgstr "Senaste uppdateringsdatum"
 
 #: include/class.display_column.php:217 misc/localization/eventum.c:701
-#: misc/localization/eventum.c:8096
+#: misc/localization/eventum.c:8099
 msgid "Custom Fields"
 msgstr "Anpassade fält"
 
@@ -147,18 +147,18 @@ msgstr "Anpassade fält"
 #: misc/localization/eventum.c:1241 misc/localization/eventum.c:1346
 #: misc/localization/eventum.c:1430 misc/localization/eventum.c:1706
 #: misc/localization/eventum.c:1838 misc/localization/eventum.c:2747
-#: misc/localization/eventum.c:6614 misc/localization/eventum.c:7010
-#: misc/localization/eventum.c:7040 misc/localization/eventum.c:7118
-#: misc/localization/eventum.c:7130 misc/localization/eventum.c:7526
-#: misc/localization/eventum.c:7595 misc/localization/eventum.c:7637
-#: misc/localization/eventum.c:7652 misc/localization/eventum.c:7721
-#: misc/localization/eventum.c:7769 misc/localization/eventum.c:7802
-#: misc/localization/eventum.c:7844 misc/localization/eventum.c:7997
+#: misc/localization/eventum.c:6611 misc/localization/eventum.c:7007
+#: misc/localization/eventum.c:7037 misc/localization/eventum.c:7115
+#: misc/localization/eventum.c:7127 misc/localization/eventum.c:7529
+#: misc/localization/eventum.c:7598 misc/localization/eventum.c:7640
+#: misc/localization/eventum.c:7655 misc/localization/eventum.c:7724
+#: misc/localization/eventum.c:7772 misc/localization/eventum.c:7805
+#: misc/localization/eventum.c:7847 misc/localization/eventum.c:8000
 msgid "Summary"
 msgstr "Sammanfattning"
 
 #: include/class.display_column.php:225 include/class.notification.php:624
-#: include/class.notification.php:625 misc/localization/eventum.c:7955
+#: include/class.notification.php:625 misc/localization/eventum.c:7958
 msgid "Expected Resolution Date"
 msgstr "Förväntat lösningsdatum"
 
@@ -168,14 +168,14 @@ msgid "Assignment List"
 msgstr "Tilldelning"
 
 #: include/class.notification.php:644 include/class.notification.php:645
-#: misc/localization/eventum.c:7952
+#: misc/localization/eventum.c:7955
 msgid "Resolution"
 msgstr "Lösning"
 
 #: include/class.notification.php:648 include/class.notification.php:649
 #: include/class.project.php:1114 misc/localization/eventum.c:542
-#: misc/localization/eventum.c:7505 misc/localization/eventum.c:7964
-#: misc/localization/eventum.c:8162
+#: misc/localization/eventum.c:7508 misc/localization/eventum.c:7967
+#: misc/localization/eventum.c:8165
 msgid "Estimated Dev. Time"
 msgstr "Beräknad utv. tid"
 
@@ -258,8 +258,8 @@ msgstr ""
 #: misc/localization/eventum.c:4856 misc/localization/eventum.c:4946
 #: misc/localization/eventum.c:5066 misc/localization/eventum.c:5585
 #: misc/localization/eventum.c:5798 misc/localization/eventum.c:6233
-#: misc/localization/eventum.c:6482 misc/localization/eventum.c:6491
-#: misc/localization/eventum.c:6500
+#: misc/localization/eventum.c:6479 misc/localization/eventum.c:6488
+#: misc/localization/eventum.c:6497
 msgid "Yes"
 msgstr "Ja"
 
@@ -270,8 +270,8 @@ msgstr "Ja"
 #: misc/localization/eventum.c:4232 misc/localization/eventum.c:4859
 #: misc/localization/eventum.c:4949 misc/localization/eventum.c:5069
 #: misc/localization/eventum.c:5588 misc/localization/eventum.c:5801
-#: misc/localization/eventum.c:6236 misc/localization/eventum.c:6485
-#: misc/localization/eventum.c:6494 misc/localization/eventum.c:6503
+#: misc/localization/eventum.c:6236 misc/localization/eventum.c:6482
+#: misc/localization/eventum.c:6491 misc/localization/eventum.c:6500
 msgid "No"
 msgstr "Nej"
 
@@ -388,40 +388,40 @@ msgstr ""
 msgid "Email from '%1$s' blocked"
 msgstr ""
 
-#: include/class.user.php:55 misc/localization/eventum.c:305
+#: include/class.user.php:1440 misc/localization/eventum.c:305
 msgid "Viewer"
 msgstr ""
 
-#: include/class.user.php:58 misc/localization/eventum.c:323
+#: include/class.user.php:1443 misc/localization/eventum.c:323
 msgid "Standard User"
 msgstr ""
 
-#: include/class.user.php:59 misc/localization/eventum.c:329
+#: include/class.user.php:1444 misc/localization/eventum.c:329
 #: misc/localization/eventum.c:989 misc/localization/eventum.c:1019
 #: misc/localization/eventum.c:1184 misc/localization/eventum.c:1295
 msgid "Developer"
 msgstr ""
 
-#: include/class.user.php:60 misc/localization/eventum.c:335
+#: include/class.user.php:1445 misc/localization/eventum.c:335
 #: misc/localization/eventum.c:4076
 msgid "Manager"
 msgstr ""
 
-#: include/class.user.php:61 misc/localization/eventum.c:341
+#: include/class.user.php:1446 misc/localization/eventum.c:341
 #, fuzzy
 msgid "Administrator"
 msgstr "Administration"
 
 #: include/class.project.php:1112 misc/localization/eventum.c:494
 #: misc/localization/eventum.c:524 misc/localization/eventum.c:572
-#: misc/localization/eventum.c:7013 misc/localization/eventum.c:7043
-#: misc/localization/eventum.c:7730 misc/localization/eventum.c:7811
-#: misc/localization/eventum.c:7982
+#: misc/localization/eventum.c:7010 misc/localization/eventum.c:7040
+#: misc/localization/eventum.c:7733 misc/localization/eventum.c:7814
+#: misc/localization/eventum.c:7985
 msgid "Assignment"
 msgstr "Tilldelning"
 
 #: include/class.project.php:1113 misc/localization/eventum.c:530
-#: misc/localization/eventum.c:7943
+#: misc/localization/eventum.c:7946
 msgid "Scheduled Release"
 msgstr "Planerad release"
 
@@ -430,7 +430,7 @@ msgid "File"
 msgstr "Fil"
 
 #: include/class.project.php:1117 misc/localization/eventum.c:545
-#: misc/localization/eventum.c:7451
+#: misc/localization/eventum.c:7448
 msgid "Private"
 msgstr "Privat"
 
@@ -456,8 +456,8 @@ msgstr "Skapad"
 
 #: include/class.customer_stats_report.php:670 misc/localization/eventum.c:932
 #: misc/localization/eventum.c:2906 misc/localization/eventum.c:2939
-#: misc/localization/eventum.c:7019 misc/localization/eventum.c:7049
-#: misc/localization/eventum.c:7904
+#: misc/localization/eventum.c:7016 misc/localization/eventum.c:7046
+#: misc/localization/eventum.c:7907
 msgid "Support Level"
 msgstr "Supportnivå"
 
@@ -603,7 +603,7 @@ msgstr ""
 
 #: include/class.help.php:91 misc/localization/eventum.c:71
 #: misc/localization/eventum.c:212 misc/localization/eventum.c:3041
-#: misc/localization/eventum.c:6809
+#: misc/localization/eventum.c:6806
 msgid "Associate Emails"
 msgstr "Associera E-post"
 
@@ -742,7 +742,7 @@ msgstr ""
 msgid "Previous"
 msgstr "Föregående ärende"
 
-#: include/class.pager.php:128 misc/localization/eventum.c:7115
+#: include/class.pager.php:128 misc/localization/eventum.c:7112
 msgid "Next"
 msgstr "Nästa"
 
@@ -851,7 +851,7 @@ msgstr "Fil"
 #: include/class.reminder_condition.php:229 misc/localization/eventum.c:1472
 #: misc/localization/eventum.c:1493 misc/localization/eventum.c:1520
 #: misc/localization/eventum.c:1547 misc/localization/eventum.c:1574
-#: misc/localization/eventum.c:7967 misc/localization/eventum.c:8135
+#: misc/localization/eventum.c:7970 misc/localization/eventum.c:8138
 msgid "hours"
 msgstr "timmar"
 
@@ -927,8 +927,8 @@ msgid ""
 "contact your local Eventum administrator."
 msgstr ""
 
-#: misc/localization/eventum.c:17 misc/localization/eventum.c:6683
-#: misc/localization/eventum.c:7823
+#: misc/localization/eventum.c:17 misc/localization/eventum.c:6680
+#: misc/localization/eventum.c:7826
 msgid "Attachments"
 msgstr "Bilagor"
 
@@ -1122,8 +1122,8 @@ msgid ""
 "to a date field coming from the database."
 msgstr ""
 
-#: misc/localization/eventum.c:128 misc/localization/eventum.c:8126
-#: misc/localization/eventum.c:8165
+#: misc/localization/eventum.c:128 misc/localization/eventum.c:8129
+#: misc/localization/eventum.c:8168
 msgid "Impact Analysis"
 msgstr "Påverkansananlys"
 
@@ -1161,7 +1161,7 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c:149 misc/localization/eventum.c:1748
-#: misc/localization/eventum.c:6761
+#: misc/localization/eventum.c:6758
 msgid "Close Window"
 msgstr "Stäng fönster"
 
@@ -1502,8 +1502,8 @@ msgstr "Sparat datum"
 #: misc/localization/eventum.c:395 misc/localization/eventum.c:1073
 #: misc/localization/eventum.c:1103 misc/localization/eventum.c:2060
 #: misc/localization/eventum.c:3101 misc/localization/eventum.c:6386
-#: misc/localization/eventum.c:6680 misc/localization/eventum.c:7235
-#: misc/localization/eventum.c:8060 misc/localization/eventum.c:8270
+#: misc/localization/eventum.c:6677 misc/localization/eventum.c:7232
+#: misc/localization/eventum.c:8063 misc/localization/eventum.c:8273
 msgid "Subject"
 msgstr "Ärende"
 
@@ -1538,7 +1538,7 @@ msgid "All Text (emails, notes, etc)"
 msgstr "All Text(e-post, noteringar, etc)"
 
 #: misc/localization/eventum.c:419 misc/localization/eventum.c:2471
-#: misc/localization/eventum.c:2558 misc/localization/eventum.c:6878
+#: misc/localization/eventum.c:2558 misc/localization/eventum.c:6875
 msgid "Search"
 msgstr "Sök"
 
@@ -1562,7 +1562,7 @@ msgid "quick search bar"
 msgstr "Snabbsökning"
 
 #: misc/localization/eventum.c:449 misc/localization/eventum.c:1352
-#: misc/localization/eventum.c:1364 misc/localization/eventum.c:6803
+#: misc/localization/eventum.c:1364 misc/localization/eventum.c:6800
 msgid "Advanced Search"
 msgstr "Avancerad sök"
 
@@ -1639,7 +1639,7 @@ msgstr ""
 "ärenden i karantän."
 
 #: misc/localization/eventum.c:500 misc/localization/eventum.c:539
-#: misc/localization/eventum.c:8000
+#: misc/localization/eventum.c:8003
 msgid "Initial Description"
 msgstr "Rubrik"
 
@@ -1662,7 +1662,7 @@ msgstr "Välj projekt"
 
 #: misc/localization/eventum.c:515 misc/localization/eventum.c:2279
 #: misc/localization/eventum.c:3716 misc/localization/eventum.c:3770
-#: misc/localization/eventum.c:6620
+#: misc/localization/eventum.c:6617
 msgid "Please choose a category"
 msgstr "Ange en kategori"
 
@@ -1681,8 +1681,8 @@ msgstr ""
 msgid "Add Files"
 msgstr "Lägg till nya filer"
 
-#: misc/localization/eventum.c:551 misc/localization/eventum.c:7757
-#: misc/localization/eventum.c:7826 misc/localization/eventum.c:8201
+#: misc/localization/eventum.c:551 misc/localization/eventum.c:7760
+#: misc/localization/eventum.c:7829 misc/localization/eventum.c:8204
 msgid "Files"
 msgstr "Filer"
 
@@ -1696,7 +1696,7 @@ msgid "Keep form open to report another issue"
 msgstr ""
 
 #: misc/localization/eventum.c:560 misc/localization/eventum.c:650
-#: misc/localization/eventum.c:7142
+#: misc/localization/eventum.c:7139
 msgid "Submit"
 msgstr "Skicka"
 
@@ -1717,15 +1717,15 @@ msgstr "Skicka"
 #: misc/localization/eventum.c:6023 misc/localization/eventum.c:6245
 #: misc/localization/eventum.c:6344 misc/localization/eventum.c:6419
 #: misc/localization/eventum.c:6437 misc/localization/eventum.c:6458
-#: misc/localization/eventum.c:6542 misc/localization/eventum.c:6731
-#: misc/localization/eventum.c:7145 misc/localization/eventum.c:7256
-#: misc/localization/eventum.c:7394
+#: misc/localization/eventum.c:6539 misc/localization/eventum.c:6728
+#: misc/localization/eventum.c:7142 misc/localization/eventum.c:7253
+#: misc/localization/eventum.c:7391
 msgid "Reset"
 msgstr "Återställ"
 
 #: misc/localization/eventum.c:566 misc/localization/eventum.c:2129
-#: misc/localization/eventum.c:2201 misc/localization/eventum.c:7148
-#: misc/localization/eventum.c:7274
+#: misc/localization/eventum.c:2201 misc/localization/eventum.c:7145
+#: misc/localization/eventum.c:7271
 msgid "Required fields"
 msgstr "Obligatoriska fält"
 
@@ -2015,9 +2015,9 @@ msgstr ""
 
 #: misc/localization/eventum.c:812 misc/localization/eventum.c:1064
 #: misc/localization/eventum.c:1094 misc/localization/eventum.c:2051
-#: misc/localization/eventum.c:3371 misc/localization/eventum.c:6668
-#: misc/localization/eventum.c:7214 misc/localization/eventum.c:8051
-#: misc/localization/eventum.c:8267
+#: misc/localization/eventum.c:3371 misc/localization/eventum.c:6665
+#: misc/localization/eventum.c:7211 misc/localization/eventum.c:8054
+#: misc/localization/eventum.c:8270
 msgid "From"
 msgstr "Från"
 
@@ -2032,8 +2032,8 @@ msgstr ""
 
 #: misc/localization/eventum.c:824 misc/localization/eventum.c:1067
 #: misc/localization/eventum.c:1097 misc/localization/eventum.c:3089
-#: misc/localization/eventum.c:3374 misc/localization/eventum.c:6671
-#: misc/localization/eventum.c:7217 misc/localization/eventum.c:8054
+#: misc/localization/eventum.c:3374 misc/localization/eventum.c:6668
+#: misc/localization/eventum.c:7214 misc/localization/eventum.c:8057
 msgid "To"
 msgstr "Till"
 
@@ -2071,9 +2071,9 @@ msgstr ""
 #: misc/localization/eventum.c:5864 misc/localization/eventum.c:5960
 #: misc/localization/eventum.c:6050 misc/localization/eventum.c:6263
 #: misc/localization/eventum.c:6302 misc/localization/eventum.c:6356
-#: misc/localization/eventum.c:6368 misc/localization/eventum.c:8153
-#: misc/localization/eventum.c:8174 misc/localization/eventum.c:8261
-#: misc/localization/eventum.c:8276
+#: misc/localization/eventum.c:6368 misc/localization/eventum.c:8156
+#: misc/localization/eventum.c:8177 misc/localization/eventum.c:8264
+#: misc/localization/eventum.c:8279
 msgid "All"
 msgstr "Alla"
 
@@ -2153,7 +2153,7 @@ msgstr ""
 msgid "Min"
 msgstr ""
 
-#: misc/localization/eventum.c:938 misc/localization/eventum.c:8084
+#: misc/localization/eventum.c:938 misc/localization/eventum.c:8087
 msgid "Total"
 msgstr "Total"
 
@@ -2231,8 +2231,8 @@ msgstr "Spara Telefonsamtal"
 #: misc/localization/eventum.c:1703 misc/localization/eventum.c:1718
 #: misc/localization/eventum.c:2057 misc/localization/eventum.c:3083
 #: misc/localization/eventum.c:5606 misc/localization/eventum.c:5705
-#: misc/localization/eventum.c:7754 misc/localization/eventum.c:8210
-#: misc/localization/eventum.c:8264
+#: misc/localization/eventum.c:7757 misc/localization/eventum.c:8213
+#: misc/localization/eventum.c:8267
 msgid "Date"
 msgstr "Datum"
 
@@ -2243,13 +2243,13 @@ msgstr "Logga in"
 
 #: misc/localization/eventum.c:1028 misc/localization/eventum.c:3035
 #: misc/localization/eventum.c:4073 misc/localization/eventum.c:5918
-#: misc/localization/eventum.c:5945 misc/localization/eventum.c:7121
-#: misc/localization/eventum.c:7133 misc/localization/eventum.c:7463
-#: misc/localization/eventum.c:7538 misc/localization/eventum.c:7610
-#: misc/localization/eventum.c:7667 misc/localization/eventum.c:7736
-#: misc/localization/eventum.c:7760 misc/localization/eventum.c:7784
-#: misc/localization/eventum.c:7817 misc/localization/eventum.c:7829
-#: misc/localization/eventum.c:8213
+#: misc/localization/eventum.c:5945 misc/localization/eventum.c:7118
+#: misc/localization/eventum.c:7130 misc/localization/eventum.c:7460
+#: misc/localization/eventum.c:7541 misc/localization/eventum.c:7613
+#: misc/localization/eventum.c:7670 misc/localization/eventum.c:7739
+#: misc/localization/eventum.c:7763 misc/localization/eventum.c:7787
+#: misc/localization/eventum.c:7820 misc/localization/eventum.c:7832
+#: misc/localization/eventum.c:8216
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -2263,13 +2263,13 @@ msgstr "Telefonsamtal"
 msgid "Recent Notes"
 msgstr "Interna noteringat"
 
-#: misc/localization/eventum.c:1043 misc/localization/eventum.c:6566
+#: misc/localization/eventum.c:1043 misc/localization/eventum.c:6563
 msgid "Posted Date"
 msgstr "Postat datum"
 
 #: misc/localization/eventum.c:1046 misc/localization/eventum.c:1121
 #: misc/localization/eventum.c:1670 misc/localization/eventum.c:2738
-#: misc/localization/eventum.c:6569
+#: misc/localization/eventum.c:6566
 msgid "User"
 msgstr "Användare"
 
@@ -2284,7 +2284,7 @@ msgstr "Användare"
 #: misc/localization/eventum.c:6011 misc/localization/eventum.c:6035
 #: misc/localization/eventum.c:6179 misc/localization/eventum.c:6266
 #: misc/localization/eventum.c:6335 misc/localization/eventum.c:6359
-#: misc/localization/eventum.c:6572 misc/localization/eventum.c:6767
+#: misc/localization/eventum.c:6569 misc/localization/eventum.c:6764
 msgid "Title"
 msgstr "Titel"
 
@@ -2298,7 +2298,7 @@ msgid "Recent Emails"
 msgstr "Återskapa e-postmeddelanden"
 
 #: misc/localization/eventum.c:1076 misc/localization/eventum.c:2066
-#: misc/localization/eventum.c:6674
+#: misc/localization/eventum.c:6671
 msgid "sent to notification list"
 msgstr "skickat till notifieringslistan"
 
@@ -2323,7 +2323,7 @@ msgid "Recent Time Entries"
 msgstr "Artikelinlägg"
 
 #: misc/localization/eventum.c:1118 misc/localization/eventum.c:2735
-#: misc/localization/eventum.c:6629
+#: misc/localization/eventum.c:6626
 msgid "Date of Work"
 msgstr "Datum för nedlagd tid"
 
@@ -2389,12 +2389,12 @@ msgid "(GMT)"
 msgstr ""
 
 #: misc/localization/eventum.c:1187 misc/localization/eventum.c:1196
-#: misc/localization/eventum.c:6929
+#: misc/localization/eventum.c:6926
 msgid "Emails"
 msgstr "Epostmeddelanden"
 
 #: misc/localization/eventum.c:1190 misc/localization/eventum.c:1199
-#: misc/localization/eventum.c:6275 misc/localization/eventum.c:7412
+#: misc/localization/eventum.c:6275 misc/localization/eventum.c:7409
 msgid "Actions"
 msgstr "Åtgärder"
 
@@ -2464,7 +2464,7 @@ msgid "Group By"
 msgstr "Grupp"
 
 #: misc/localization/eventum.c:1322 misc/localization/eventum.c:2948
-#: misc/localization/eventum.c:7220 misc/localization/eventum.c:7634
+#: misc/localization/eventum.c:7217 misc/localization/eventum.c:7637
 msgid "Issue"
 msgstr "Ärende"
 
@@ -2491,12 +2491,12 @@ msgid "Please enter the title for this saved search."
 msgstr "Vänligen ange en titel för den sparade sökningen."
 
 #: misc/localization/eventum.c:1358 misc/localization/eventum.c:1655
-#: misc/localization/eventum.c:6374 misc/localization/eventum.c:8144
+#: misc/localization/eventum.c:6374 misc/localization/eventum.c:8147
 msgid "Please choose which entries need to be removed."
 msgstr "Vänligen välj vilka poster som skall tas bort."
 
 #: misc/localization/eventum.c:1361 misc/localization/eventum.c:1658
-#: misc/localization/eventum.c:8147
+#: misc/localization/eventum.c:8150
 msgid "This action will permanently delete the selected entries."
 msgstr "Den här åtgärden kommer ta bort valda poster."
 
@@ -2650,9 +2650,9 @@ msgstr "Visa e-posten oformaterad"
 #: misc/localization/eventum.c:1631 misc/localization/eventum.c:1634
 #: misc/localization/eventum.c:1712 misc/localization/eventum.c:1727
 #: misc/localization/eventum.c:2663 misc/localization/eventum.c:2708
-#: misc/localization/eventum.c:6698 misc/localization/eventum.c:6752
-#: misc/localization/eventum.c:6995 misc/localization/eventum.c:7424
-#: misc/localization/eventum.c:8282
+#: misc/localization/eventum.c:6695 misc/localization/eventum.c:6749
+#: misc/localization/eventum.c:6992 misc/localization/eventum.c:7421
+#: misc/localization/eventum.c:8285
 msgid "Close"
 msgstr "Stäng"
 
@@ -2665,12 +2665,12 @@ msgstr "FEL: Ärendet hittades inte."
 #: misc/localization/eventum.c:2084 misc/localization/eventum.c:2207
 #: misc/localization/eventum.c:2585 misc/localization/eventum.c:3047
 #: misc/localization/eventum.c:3053 misc/localization/eventum.c:6059
-#: misc/localization/eventum.c:7475 misc/localization/eventum.c:7481
-#: misc/localization/eventum.c:7487
+#: misc/localization/eventum.c:7478 misc/localization/eventum.c:7484
+#: misc/localization/eventum.c:7490
 msgid "Go Back"
 msgstr "Tillbaka"
 
-#: misc/localization/eventum.c:1643 misc/localization/eventum.c:7478
+#: misc/localization/eventum.c:1643 misc/localization/eventum.c:7481
 msgid "Sorry, you do not have the required privileges to view this issue."
 msgstr "Du har inte behörighet att se ärendet."
 
@@ -2684,9 +2684,9 @@ msgstr "SCM Integration - Inchekningar"
 
 #: misc/localization/eventum.c:1664 misc/localization/eventum.c:2036
 #: misc/localization/eventum.c:2732 misc/localization/eventum.c:3362
-#: misc/localization/eventum.c:6560 misc/localization/eventum.c:6635
-#: misc/localization/eventum.c:8045 misc/localization/eventum.c:8099
-#: misc/localization/eventum.c:8198
+#: misc/localization/eventum.c:6557 misc/localization/eventum.c:6632
+#: misc/localization/eventum.c:8048 misc/localization/eventum.c:8102
+#: misc/localization/eventum.c:8201
 msgid "Back to Top"
 msgstr "Till början av sidan"
 
@@ -2715,8 +2715,8 @@ msgid "No checkins could be found."
 msgstr "Hittade inga inchekningar."
 
 #: misc/localization/eventum.c:1697 misc/localization/eventum.c:6389
-#: misc/localization/eventum.c:6749 misc/localization/eventum.c:7421
-#: misc/localization/eventum.c:8177
+#: misc/localization/eventum.c:6746 misc/localization/eventum.c:7418
+#: misc/localization/eventum.c:8180
 msgid "Remove Selected"
 msgstr "Ta bort markerade"
 
@@ -2754,12 +2754,12 @@ msgstr[1] "Tack så mycket, de valda e-postmeddelandena har associerats"
 #: misc/localization/eventum.c:1736 misc/localization/eventum.c:1784
 #: misc/localization/eventum.c:2138 misc/localization/eventum.c:2438
 #: misc/localization/eventum.c:2489 misc/localization/eventum.c:2522
-#: misc/localization/eventum.c:2960 misc/localization/eventum.c:6596
-#: misc/localization/eventum.c:6650 misc/localization/eventum.c:6980
-#: misc/localization/eventum.c:7073 misc/localization/eventum.c:7088
-#: misc/localization/eventum.c:7160 misc/localization/eventum.c:7169
-#: misc/localization/eventum.c:7436 misc/localization/eventum.c:8093
-#: misc/localization/eventum.c:8111 misc/localization/eventum.c:8243
+#: misc/localization/eventum.c:2960 misc/localization/eventum.c:6593
+#: misc/localization/eventum.c:6647 misc/localization/eventum.c:6977
+#: misc/localization/eventum.c:7070 misc/localization/eventum.c:7085
+#: misc/localization/eventum.c:7157 misc/localization/eventum.c:7166
+#: misc/localization/eventum.c:7433 misc/localization/eventum.c:8096
+#: misc/localization/eventum.c:8114 misc/localization/eventum.c:8246
 msgid "Continue"
 msgstr "Fortsätt"
 
@@ -2947,13 +2947,14 @@ msgstr ""
 msgid "Export to Excel"
 msgstr "Exportera till Excel"
 
-#: misc/localization/eventum.c:1865 misc/localization/eventum.c:6902
-#: misc/localization/eventum.c:6908 misc/localization/eventum.c:6914
-#: misc/localization/eventum.c:6920 misc/localization/eventum.c:6926
+#: misc/localization/eventum.c:1865 misc/localization/eventum.c:6899
+#: misc/localization/eventum.c:6905 misc/localization/eventum.c:6911
+#: misc/localization/eventum.c:6917 misc/localization/eventum.c:6923
 msgid "No issues could be found."
 msgstr "Inga ärenden kunde hittas."
 
-#: misc/localization/eventum.c:1871 misc/localization/eventum.c:6881
+#: misc/localization/eventum.c:1871 misc/localization/eventum.c:6878
+#: misc/localization/eventum.c:7469
 msgid "Go"
 msgstr "Gå"
 
@@ -2981,7 +2982,7 @@ msgid ""
 "well."
 msgstr "Alla ärenden som är märkta som kopia av ärendet har uppdaterats."
 
-#: misc/localization/eventum.c:1895
+#: misc/localization/eventum.c:1895 misc/localization/eventum.c:7472
 #, fuzzy
 msgid "Return to Issue #%1 Details Page"
 msgstr "Öppna detaljvyn för ärendet"
@@ -3020,15 +3021,15 @@ msgstr "Uppdatera ärendeöversikt"
 msgid "edit the authorized repliers list for this issue"
 msgstr "redigera listan med behöriga besvarareför ärendet"
 
-#: misc/localization/eventum.c:1922 misc/localization/eventum.c:7886
+#: misc/localization/eventum.c:1922 misc/localization/eventum.c:7889
 msgid "Edit Authorized Replier List"
 msgstr "Redigera listan med behöriga besvarare"
 
-#: misc/localization/eventum.c:1925 misc/localization/eventum.c:7889
+#: misc/localization/eventum.c:1925 misc/localization/eventum.c:7892
 msgid "Edit Notification List"
 msgstr "Redigera notifieringslistan"
 
-#: misc/localization/eventum.c:1928 misc/localization/eventum.c:7892
+#: misc/localization/eventum.c:1928 misc/localization/eventum.c:7895
 msgid "History of Changes"
 msgstr "Ärendehistorik"
 
@@ -3082,8 +3083,8 @@ msgstr "Procent färdigt:"
 msgid "Estimated Dev. Time:"
 msgstr "Uppskattad utvecklingstid:"
 
-#: misc/localization/eventum.c:1970 misc/localization/eventum.c:7508
-#: misc/localization/eventum.c:8132
+#: misc/localization/eventum.c:1970 misc/localization/eventum.c:7511
+#: misc/localization/eventum.c:8135
 msgid "in hours"
 msgstr "i timmar"
 
@@ -3145,8 +3146,8 @@ msgstr "Privat:"
 msgid "Trigger Reminders:"
 msgstr "Skapa påminnelse:"
 
-#: misc/localization/eventum.c:2015 misc/localization/eventum.c:8105
-#: misc/localization/eventum.c:8141
+#: misc/localization/eventum.c:2015 misc/localization/eventum.c:8108
+#: misc/localization/eventum.c:8144
 msgid "Update"
 msgstr "Updatera"
 
@@ -3155,7 +3156,7 @@ msgid "Cancel Update"
 msgstr "Avbryt uppdatering"
 
 #: misc/localization/eventum.c:2024 misc/localization/eventum.c:2240
-#: misc/localization/eventum.c:2285 misc/localization/eventum.c:8030
+#: misc/localization/eventum.c:2285 misc/localization/eventum.c:8033
 msgid "Close Issue"
 msgstr "Stäng Ärende"
 
@@ -3183,8 +3184,8 @@ msgid "Mail Queue Log"
 msgstr "Logg för e-postkö"
 
 #: misc/localization/eventum.c:2048 misc/localization/eventum.c:2705
-#: misc/localization/eventum.c:6563 misc/localization/eventum.c:6695
-#: misc/localization/eventum.c:8021
+#: misc/localization/eventum.c:6560 misc/localization/eventum.c:6692
+#: misc/localization/eventum.c:8024
 msgid "Reply"
 msgstr "Svara"
 
@@ -3205,8 +3206,8 @@ msgstr "Inga associerade e-postmeddelanden kunde hittas."
 msgid "Disassociate Selected"
 msgstr "Ta bort associering"
 
-#: misc/localization/eventum.c:2078 misc/localization/eventum.c:7202
-#: misc/localization/eventum.c:7253
+#: misc/localization/eventum.c:2078 misc/localization/eventum.c:7199
+#: misc/localization/eventum.c:7250
 msgid "Send Email"
 msgstr "Skicka e-post"
 
@@ -3262,11 +3263,11 @@ msgstr "Tillbaka"
 #: misc/localization/eventum.c:2390 misc/localization/eventum.c:2396
 #: misc/localization/eventum.c:2411 misc/localization/eventum.c:2417
 #: misc/localization/eventum.c:2432 misc/localization/eventum.c:2954
-#: misc/localization/eventum.c:6590 misc/localization/eventum.c:6644
-#: misc/localization/eventum.c:6974 misc/localization/eventum.c:7067
-#: misc/localization/eventum.c:7151 misc/localization/eventum.c:7163
-#: misc/localization/eventum.c:7205 misc/localization/eventum.c:7490
-#: misc/localization/eventum.c:8246
+#: misc/localization/eventum.c:6587 misc/localization/eventum.c:6641
+#: misc/localization/eventum.c:6971 misc/localization/eventum.c:7064
+#: misc/localization/eventum.c:7148 misc/localization/eventum.c:7160
+#: misc/localization/eventum.c:7202 misc/localization/eventum.c:7493
+#: misc/localization/eventum.c:8249
 msgid "An error occurred while trying to run your query"
 msgstr "Ett fel inträffade när databasfrågan kördes"
 
@@ -3294,8 +3295,8 @@ msgstr "Från:"
 msgid "Recipients:"
 msgstr "Mottagare:"
 
-#: misc/localization/eventum.c:2156 misc/localization/eventum.c:7223
-#: misc/localization/eventum.c:7922
+#: misc/localization/eventum.c:2156 misc/localization/eventum.c:7220
+#: misc/localization/eventum.c:7925
 msgid "Notification List"
 msgstr "Notifieringslista"
 
@@ -3319,7 +3320,7 @@ msgstr "Lägg till extra mottagare till notifieringslistan?"
 msgid "no"
 msgstr "nej"
 
-#: misc/localization/eventum.c:2183 misc/localization/eventum.c:7244
+#: misc/localization/eventum.c:2183 misc/localization/eventum.c:7241
 msgid "New Status for Issue"
 msgstr "Ny status för ärendet"
 
@@ -3327,16 +3328,16 @@ msgstr "Ny status för ärendet"
 msgid "Time Spent:"
 msgstr "Nedlagd tid:"
 
-#: misc/localization/eventum.c:2189 misc/localization/eventum.c:6587
+#: misc/localization/eventum.c:2189 misc/localization/eventum.c:6584
 msgid "Post Internal Note"
 msgstr "Posta intern notering"
 
 #: misc/localization/eventum.c:2192 misc/localization/eventum.c:2783
-#: misc/localization/eventum.c:7259
+#: misc/localization/eventum.c:7256
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: misc/localization/eventum.c:2198 misc/localization/eventum.c:7265
+#: misc/localization/eventum.c:2198 misc/localization/eventum.c:7262
 msgid "Add Email Signature"
 msgstr "Lägg till e-postsignatur"
 
@@ -3357,12 +3358,12 @@ msgid "Please enter the reason for closing this issue."
 msgstr "Vänligen ange orska till att äredet stängs."
 
 #: misc/localization/eventum.c:2231 misc/localization/eventum.c:2966
-#: misc/localization/eventum.c:6605
+#: misc/localization/eventum.c:6602
 msgid ""
 "Please enter integers (or floating point numbers) on the time spent field."
 msgstr "Ange heltal (eller decimaltal) i \"Tillbringad tid\" fältet."
 
-#: misc/localization/eventum.c:2234 misc/localization/eventum.c:6602
+#: misc/localization/eventum.c:2234 misc/localization/eventum.c:6599
 msgid "Please choose the time tracking category for this new entry."
 msgstr "Vänligen välj kategori för tidsnoteringen."
 
@@ -3678,8 +3679,8 @@ msgid "Please enter your email address."
 msgstr "Vänligen ange din e-postadress."
 
 #: misc/localization/eventum.c:2594 misc/localization/eventum.c:5126
-#: misc/localization/eventum.c:6395 misc/localization/eventum.c:6710
-#: misc/localization/eventum.c:7346
+#: misc/localization/eventum.c:6395 misc/localization/eventum.c:6707
+#: misc/localization/eventum.c:7343
 msgid "Please enter a valid email address."
 msgstr "Ange en giltig e-post adress."
 
@@ -3731,7 +3732,7 @@ msgid "Create Account"
 msgstr "Skapa konto"
 
 #: misc/localization/eventum.c:2624 misc/localization/eventum.c:2657
-#: misc/localization/eventum.c:6971
+#: misc/localization/eventum.c:6968
 msgid "Back to Login Form"
 msgstr "Tillbaka till inloggningsformuläret"
 
@@ -3765,7 +3766,7 @@ msgstr ""
 "vänlig \n"
 " följ instruktionerna i meddelandet och bekräfta begäran om lösenord."
 
-#: misc/localization/eventum.c:2642 misc/localization/eventum.c:7310
+#: misc/localization/eventum.c:2642 misc/localization/eventum.c:7307
 msgid ""
 "Error: Your user status is currently set as inactive. Please\n"
 "              contact your local system administrator for further "
@@ -3799,7 +3800,7 @@ msgstr ""
 msgid "View Note Details"
 msgstr "Visa detaljer för e-post"
 
-#: misc/localization/eventum.c:2669 misc/localization/eventum.c:6656
+#: misc/localization/eventum.c:2669 misc/localization/eventum.c:6653
 msgid "Associated with Issue"
 msgstr "Associerat med ärende"
 
@@ -3833,7 +3834,7 @@ msgstr "Ladda upp fil"
 msgid "Message:"
 msgstr "Meddelande"
 
-#: misc/localization/eventum.c:2699 misc/localization/eventum.c:6689
+#: misc/localization/eventum.c:2699 misc/localization/eventum.c:6686
 msgid "display in fixed width font"
 msgstr "visa i fixerad bredd"
 
@@ -3861,7 +3862,7 @@ msgstr "Åtgärden kommer ta bort den valda tidsnoteringen."
 msgid "No time tracking entries could be found."
 msgstr "Inga tidsnoteringar kunde hittas."
 
-#: misc/localization/eventum.c:2756 misc/localization/eventum.c:6632
+#: misc/localization/eventum.c:2756 misc/localization/eventum.c:6629
 msgid "Add Time Entry"
 msgstr "Lägg till tidsnotering"
 
@@ -3877,9 +3878,9 @@ msgstr ""
 
 #: misc/localization/eventum.c:2771 misc/localization/eventum.c:5156
 #: misc/localization/eventum.c:5207 misc/localization/eventum.c:6431
-#: misc/localization/eventum.c:7286 misc/localization/eventum.c:7325
-#: misc/localization/eventum.c:7553 misc/localization/eventum.c:7571
-#: misc/localization/eventum.c:7685 misc/localization/eventum.c:7700
+#: misc/localization/eventum.c:7283 misc/localization/eventum.c:7322
+#: misc/localization/eventum.c:7556 misc/localization/eventum.c:7574
+#: misc/localization/eventum.c:7688 misc/localization/eventum.c:7703
 msgid "Email Address"
 msgstr "E-postadress"
 
@@ -3961,9 +3962,9 @@ msgstr "efternamn"
 msgid "First Name"
 msgstr "förnamn"
 
-#: misc/localization/eventum.c:2858 misc/localization/eventum.c:6725
-#: misc/localization/eventum.c:6743 misc/localization/eventum.c:7370
-#: misc/localization/eventum.c:7406
+#: misc/localization/eventum.c:2858 misc/localization/eventum.c:6722
+#: misc/localization/eventum.c:6740 misc/localization/eventum.c:7367
+#: misc/localization/eventum.c:7403
 msgid "Email"
 msgstr "E-post"
 
@@ -3973,7 +3974,7 @@ msgid "Phone Number"
 msgstr "Telefonnummer"
 
 #: misc/localization/eventum.c:2864 misc/localization/eventum.c:2891
-#: misc/localization/eventum.c:6476
+#: misc/localization/eventum.c:6473
 msgid "Timezone"
 msgstr "Tidszon"
 
@@ -4132,14 +4133,14 @@ msgstr "Mobil"
 msgid "Temp Number"
 msgstr "Tillfälligt nummer"
 
-#: misc/localization/eventum.c:3026 misc/localization/eventum.c:7928
-#: misc/localization/eventum.c:7991
+#: misc/localization/eventum.c:3026 misc/localization/eventum.c:7931
+#: misc/localization/eventum.c:7994
 msgid "Other"
 msgstr "Annat"
 
-#: misc/localization/eventum.c:3032 misc/localization/eventum.c:6509
-#: misc/localization/eventum.c:6515 misc/localization/eventum.c:6626
-#: misc/localization/eventum.c:7250
+#: misc/localization/eventum.c:3032 misc/localization/eventum.c:6506
+#: misc/localization/eventum.c:6512 misc/localization/eventum.c:6623
+#: misc/localization/eventum.c:7247
 msgid "in minutes"
 msgstr "i minuter"
 
@@ -4216,7 +4217,7 @@ msgstr "Töm meddelandehuvud"
 msgid "view email details"
 msgstr "visa e-postdetaljer"
 
-#: misc/localization/eventum.c:3125 misc/localization/eventum.c:8273
+#: misc/localization/eventum.c:3125 misc/localization/eventum.c:8276
 msgid "No emails could be found."
 msgstr "Inga e-postmeddelanden hittades."
 
@@ -4506,7 +4507,7 @@ msgstr "Är större än %1-%2-%3"
 msgid "Is less than %1-%2-%3"
 msgstr "Är mindre än %1-%2-%3"
 
-#: misc/localization/eventum.c:3353 misc/localization/eventum.c:7913
+#: misc/localization/eventum.c:3353 misc/localization/eventum.c:7916
 msgid "None"
 msgstr "Inga"
 
@@ -4531,8 +4532,8 @@ msgid "Call Type"
 msgstr "Samtalstyp"
 
 #: misc/localization/eventum.c:3386 misc/localization/eventum.c:4088
-#: misc/localization/eventum.c:5666 misc/localization/eventum.c:6578
-#: misc/localization/eventum.c:8216 misc/localization/eventum.c:8219
+#: misc/localization/eventum.c:5666 misc/localization/eventum.c:6575
+#: misc/localization/eventum.c:8219 misc/localization/eventum.c:8222
 msgid "delete"
 msgstr "radera"
 
@@ -4610,7 +4611,7 @@ msgstr "Vänligen välj minst en av prenumeranterna."
 #: misc/localization/eventum.c:4382 misc/localization/eventum.c:4547
 #: misc/localization/eventum.c:5282 misc/localization/eventum.c:5354
 #: misc/localization/eventum.c:5822 misc/localization/eventum.c:6353
-#: misc/localization/eventum.c:6740 misc/localization/eventum.c:7403
+#: misc/localization/eventum.c:6737 misc/localization/eventum.c:7400
 msgid "This action will remove the selected entries."
 msgstr "Den här åtgärden kommer ta bort vald post."
 
@@ -4623,7 +4624,7 @@ msgstr "Den här åtgärden kommer ta bort vald post."
 #: misc/localization/eventum.c:5366 misc/localization/eventum.c:5693
 #: misc/localization/eventum.c:5846 misc/localization/eventum.c:5954
 #: misc/localization/eventum.c:6044 misc/localization/eventum.c:6362
-#: misc/localization/eventum.c:7415
+#: misc/localization/eventum.c:7412
 msgid "update this entry"
 msgstr "uppdatera posten"
 
@@ -4701,7 +4702,7 @@ msgstr "Projekt"
 #: misc/localization/eventum.c:4346 misc/localization/eventum.c:4352
 #: misc/localization/eventum.c:4631 misc/localization/eventum.c:4709
 #: misc/localization/eventum.c:5405 misc/localization/eventum.c:5768
-#: misc/localization/eventum.c:6986 misc/localization/eventum.c:7091
+#: misc/localization/eventum.c:6983 misc/localization/eventum.c:7088
 msgid "Please choose an option"
 msgstr "Vänligen välj ett alternativ"
 
@@ -4738,11 +4739,11 @@ msgstr "Den här åtgärden kommer ta bort valda poster."
 
 #: misc/localization/eventum.c:3521 misc/localization/eventum.c:3917
 #: misc/localization/eventum.c:5402 misc/localization/eventum.c:5834
-#: misc/localization/eventum.c:6842 misc/localization/eventum.c:7109
-#: misc/localization/eventum.c:7127 misc/localization/eventum.c:7529
-#: misc/localization/eventum.c:7601 misc/localization/eventum.c:7658
-#: misc/localization/eventum.c:7724 misc/localization/eventum.c:7775
-#: misc/localization/eventum.c:7805 misc/localization/eventum.c:8237
+#: misc/localization/eventum.c:6839 misc/localization/eventum.c:7106
+#: misc/localization/eventum.c:7124 misc/localization/eventum.c:7532
+#: misc/localization/eventum.c:7604 misc/localization/eventum.c:7661
+#: misc/localization/eventum.c:7727 misc/localization/eventum.c:7778
+#: misc/localization/eventum.c:7808 misc/localization/eventum.c:8240
 msgid "Project"
 msgstr "Projekt"
 
@@ -5582,8 +5583,8 @@ msgstr ""
 msgid "view reminder action details"
 msgstr "visa e-postdetaljer"
 
-#: misc/localization/eventum.c:4316 misc/localization/eventum.c:7028
-#: misc/localization/eventum.c:7058
+#: misc/localization/eventum.c:4316 misc/localization/eventum.c:7025
+#: misc/localization/eventum.c:7055
 #, fuzzy
 msgid "Action"
 msgstr "Åtgärder"
@@ -6357,7 +6358,7 @@ msgstr "Ärenden per kategori"
 msgid "Emails are Associated"
 msgstr "Associerade"
 
-#: misc/localization/eventum.c:5084 misc/localization/eventum.c:7385
+#: misc/localization/eventum.c:5084 misc/localization/eventum.c:7382
 msgid "Files are Attached"
 msgstr "Filer är bifogade"
 
@@ -6426,9 +6427,9 @@ msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
 msgid "Thank you, the user was updated successfully."
 msgstr "Tack så mycket, ärendet har uppdaterats."
 
-#: misc/localization/eventum.c:5159 misc/localization/eventum.c:7289
-#: misc/localization/eventum.c:7328 misc/localization/eventum.c:7556
-#: misc/localization/eventum.c:7574
+#: misc/localization/eventum.c:5159 misc/localization/eventum.c:7286
+#: misc/localization/eventum.c:7325 misc/localization/eventum.c:7559
+#: misc/localization/eventum.c:7577
 msgid "Password"
 msgstr "Lösenord"
 
@@ -6438,9 +6439,9 @@ msgid "leave empty to keep the current password"
 msgstr "Vänligen ange lösenord för SMTP-servern."
 
 #: misc/localization/eventum.c:5165 misc/localization/eventum.c:5201
-#: misc/localization/eventum.c:6413 misc/localization/eventum.c:7550
-#: misc/localization/eventum.c:7568 misc/localization/eventum.c:7682
-#: misc/localization/eventum.c:7697
+#: misc/localization/eventum.c:6413 misc/localization/eventum.c:7553
+#: misc/localization/eventum.c:7571 misc/localization/eventum.c:7685
+#: misc/localization/eventum.c:7700
 msgid "Full Name"
 msgstr "Fullständigt namn"
 
@@ -6854,8 +6855,8 @@ msgstr ""
 
 #: misc/localization/eventum.c:5564 misc/localization/eventum.c:5675
 #: misc/localization/eventum.c:5921 misc/localization/eventum.c:5999
-#: misc/localization/eventum.c:7559 misc/localization/eventum.c:7577
-#: misc/localization/eventum.c:7688 misc/localization/eventum.c:7703
+#: misc/localization/eventum.c:7562 misc/localization/eventum.c:7580
+#: misc/localization/eventum.c:7691 misc/localization/eventum.c:7706
 #, fuzzy
 msgid "Assigned Projects"
 msgstr "Tilldelade ärenden"
@@ -6974,7 +6975,7 @@ msgstr ""
 msgid "move field up"
 msgstr ""
 
-#: misc/localization/eventum.c:5711 misc/localization/eventum.c:8102
+#: misc/localization/eventum.c:5711 misc/localization/eventum.c:8105
 msgid "No custom fields could be found."
 msgstr "Inga anpassade fält hittades."
 
@@ -7114,10 +7115,10 @@ msgstr "Skapa påminnelse:"
 msgid "Please select at least one of the reminders."
 msgstr "Vänligen välj minst en av prenumeranterna."
 
-#: misc/localization/eventum.c:5825 misc/localization/eventum.c:7523
-#: misc/localization/eventum.c:7592 misc/localization/eventum.c:7649
-#: misc/localization/eventum.c:7718 misc/localization/eventum.c:7766
-#: misc/localization/eventum.c:7799
+#: misc/localization/eventum.c:5825 misc/localization/eventum.c:7526
+#: misc/localization/eventum.c:7595 misc/localization/eventum.c:7652
+#: misc/localization/eventum.c:7721 misc/localization/eventum.c:7769
+#: misc/localization/eventum.c:7802
 msgid "ID"
 msgstr ""
 
@@ -7269,7 +7270,7 @@ msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
 msgid "Thank you, the news entry was updated successfully."
 msgstr "Tack, telefonsamtalet är tillagt."
 
-#: misc/localization/eventum.c:6014 misc/localization/eventum.c:6686
+#: misc/localization/eventum.c:6014 misc/localization/eventum.c:6683
 msgid "Message"
 msgstr "Meddelande"
 
@@ -7303,7 +7304,7 @@ msgstr "Den här åtgärden kommer ta bort valda poster."
 msgid "No news entries could be found."
 msgstr "Inga noteringar hittades."
 
-#: misc/localization/eventum.c:6056 misc/localization/eventum.c:7484
+#: misc/localization/eventum.c:6056 misc/localization/eventum.c:7487
 msgid ""
 "Sorry, but you do not have the required permission level to access this "
 "screen."
@@ -7565,8 +7566,8 @@ msgstr "Updatera fullständigt namn"
 msgid "Thank you, your email address was updated successfully."
 msgstr "Tack så mycket, din e-postadress har uppdaterats."
 
-#: misc/localization/eventum.c:6428 misc/localization/eventum.c:7292
-#: misc/localization/eventum.c:7331
+#: misc/localization/eventum.c:6428 misc/localization/eventum.c:7289
+#: misc/localization/eventum.c:7328
 msgid "Login"
 msgstr "Logga in"
 
@@ -7599,79 +7600,75 @@ msgid "Thank you, your account preferences were updated successfully."
 msgstr "Tack så mycket, ditt konto har uppdaterats. "
 
 #: misc/localization/eventum.c:6470
-msgid "Your language change will take affect next page load"
-msgstr ""
-
-#: misc/localization/eventum.c:6473
 msgid "Available Languages"
 msgstr ""
 
-#: misc/localization/eventum.c:6479
+#: misc/localization/eventum.c:6476
 msgid "Automatically close confirmation popup windows ?"
 msgstr "Stäng popupfönster automatiskt ?"
 
-#: misc/localization/eventum.c:6488
+#: misc/localization/eventum.c:6485
 msgid "Receive emails when all issues are created ?"
 msgstr "Mottag e-postmeddelanden när alla ärenden skapas ?"
 
-#: misc/localization/eventum.c:6497
+#: misc/localization/eventum.c:6494
 msgid "Receive emails when new issues are assigned to you ?"
 msgstr "Mottag e-postmeddelande när nya ärenden tilldelas dig ?"
 
-#: misc/localization/eventum.c:6506
+#: misc/localization/eventum.c:6503
 msgid "Refresh Rate for Issue Listing Page"
 msgstr "Uppdateringsfrekvens för listvyn över ärenden"
 
-#: misc/localization/eventum.c:6512
+#: misc/localization/eventum.c:6509
 msgid "Refresh Rate for Email Listing Page"
 msgstr "Uppdateringsfrekvens för listvyn över e-post"
 
-#: misc/localization/eventum.c:6518
+#: misc/localization/eventum.c:6515
 msgid "Email Signature"
 msgstr "E-postsignatur"
 
-#: misc/localization/eventum.c:6521
+#: misc/localization/eventum.c:6518
 msgid "Edit Signature"
 msgstr "Redigera signatur"
 
-#: misc/localization/eventum.c:6524
+#: misc/localization/eventum.c:6521
 msgid "Upload New Signature"
 msgstr "Ladda upp ny signatur"
 
-#: misc/localization/eventum.c:6527
+#: misc/localization/eventum.c:6524
 msgid "Automatically append email signature when composing web based emails"
 msgstr "Lägg till signatur när ett e-postmeddelande skapas"
 
-#: misc/localization/eventum.c:6530
+#: misc/localization/eventum.c:6527
 msgid "Automatically append email signature when composing internal notes"
 msgstr "Lägg till signatur när en intern notering skapas"
 
-#: misc/localization/eventum.c:6533
+#: misc/localization/eventum.c:6530
 msgid "SMS Email Address"
 msgstr "SMS E-postadress"
 
-#: misc/localization/eventum.c:6536
+#: misc/localization/eventum.c:6533
 msgid "only used for automatic issue reminders"
 msgstr "används endast för automatisk påminnelse"
 
-#: misc/localization/eventum.c:6539
+#: misc/localization/eventum.c:6536
 #, fuzzy
 msgid "Update Preferences"
 msgstr "Inställningar"
 
-#: misc/localization/eventum.c:6545
+#: misc/localization/eventum.c:6542
 msgid "Widen the field"
 msgstr "Öka fältet"
 
-#: misc/localization/eventum.c:6548
+#: misc/localization/eventum.c:6545
 msgid "Shorten the field"
 msgstr "Minska fältet"
 
-#: misc/localization/eventum.c:6551
+#: misc/localization/eventum.c:6548
 msgid "This action will permanently delete the specified note."
 msgstr "Åtgärden kommer ta bort noteringen."
 
-#: misc/localization/eventum.c:6554
+#: misc/localization/eventum.c:6551
 msgid ""
 "This note will be deleted & converted to an email, one either sent "
 "immediately or saved as a draft."
@@ -7679,39 +7676,39 @@ msgstr ""
 "Noteringen kommer tas bort och konverteras till ett e-postmeddelande och "
 "skickas direkt eller sparas som ett utkast."
 
-#: misc/localization/eventum.c:6557
+#: misc/localization/eventum.c:6554
 msgid "Internal Notes"
 msgstr "Interna noteringat"
 
-#: misc/localization/eventum.c:6575
+#: misc/localization/eventum.c:6572
 msgid "reply to this note"
 msgstr "svara på noteringen"
 
-#: misc/localization/eventum.c:6581
+#: misc/localization/eventum.c:6578
 msgid "convert note"
 msgstr "Konvertera notering"
 
-#: misc/localization/eventum.c:6584
+#: misc/localization/eventum.c:6581
 msgid "No internal notes could be found."
 msgstr "Inga interna noteringar kunde hittas."
 
-#: misc/localization/eventum.c:6593
+#: misc/localization/eventum.c:6590
 msgid "Thank you, the time tracking entry was added successfully."
 msgstr "Tack så mycket, tidsnoteringen har sparats."
 
-#: misc/localization/eventum.c:6599
+#: misc/localization/eventum.c:6596
 msgid "Please enter the summary for this new time tracking entry."
 msgstr "Vänligen ange information för den nya tidsnoteringen."
 
-#: misc/localization/eventum.c:6608
+#: misc/localization/eventum.c:6605
 msgid "Please select a valid date of work."
 msgstr "Vänligen välj ett giltigt datum för nedlagd tid."
 
-#: misc/localization/eventum.c:6611
+#: misc/localization/eventum.c:6608
 msgid "Record Time Worked"
 msgstr "Spara nedlagd tid"
 
-#: misc/localization/eventum.c:6638
+#: misc/localization/eventum.c:6635
 msgid ""
 "Re-directing the parent window to the issue report page. This window will be "
 "closed automatically."
@@ -7719,51 +7716,51 @@ msgstr ""
 "Omdirrigerar huvudfönstret till ärenderapport sidan. Det här fönstret kommer "
 "att stängas automatiskt."
 
-#: misc/localization/eventum.c:6641
+#: misc/localization/eventum.c:6638
 msgid "This message already belongs to that account"
 msgstr "Meddelandet är redan kopplat till kontot"
 
-#: misc/localization/eventum.c:6647
+#: misc/localization/eventum.c:6644
 msgid "Thank you, the email was successfully moved."
 msgstr "Tack så mycket, e-postmeddelandet har flyttats."
 
-#: misc/localization/eventum.c:6653
+#: misc/localization/eventum.c:6650
 msgid "View Email Details"
 msgstr "Visa detaljer för e-post"
 
-#: misc/localization/eventum.c:6659 misc/localization/eventum.c:6701
+#: misc/localization/eventum.c:6656 misc/localization/eventum.c:6698
 msgid "Previous Message"
 msgstr "Föregående meddelande"
 
-#: misc/localization/eventum.c:6662 misc/localization/eventum.c:6704
+#: misc/localization/eventum.c:6659 misc/localization/eventum.c:6701
 msgid "Next Message"
 msgstr "Nästa meddelande"
 
-#: misc/localization/eventum.c:6665
+#: misc/localization/eventum.c:6662
 msgid "Received"
 msgstr "Mottagen"
 
-#: misc/localization/eventum.c:6677 misc/localization/eventum.c:7229
+#: misc/localization/eventum.c:6674 misc/localization/eventum.c:7226
 msgid "Cc"
 msgstr "Cc"
 
-#: misc/localization/eventum.c:6692
+#: misc/localization/eventum.c:6689
 msgid "Raw Headers"
 msgstr "Visa header"
 
-#: misc/localization/eventum.c:6707
+#: misc/localization/eventum.c:6704
 msgid "Move Message To"
 msgstr "Flytta meddelandet till"
 
-#: misc/localization/eventum.c:6713 misc/localization/eventum.c:7985
+#: misc/localization/eventum.c:6710 misc/localization/eventum.c:7988
 msgid "Authorized Repliers"
 msgstr "Behöriga besvarare"
 
-#: misc/localization/eventum.c:6716
+#: misc/localization/eventum.c:6713
 msgid "An error occurred while trying to insert the authorized replier."
 msgstr "Ett fel inträffade vid försök att spara den behöriga besvararen."
 
-#: misc/localization/eventum.c:6719
+#: misc/localization/eventum.c:6716
 msgid ""
 "Users with a role of \"customer\" or below are not allowed to be added to "
 "the authorized repliers list."
@@ -7771,244 +7768,244 @@ msgstr ""
 "Användare med en roll lägre än \"customer\" eller lägre har inte behörighet "
 "att läggas tll i listan över behöriga besvarare."
 
-#: misc/localization/eventum.c:6722
+#: misc/localization/eventum.c:6719
 msgid "Thank you, the authorized replier was inserted successfully."
 msgstr "Tack så mycket, behöriga besvarare har lagts till."
 
-#: misc/localization/eventum.c:6728
+#: misc/localization/eventum.c:6725
 msgid "Add Authorized Replier"
 msgstr "Lägg till behörig besvarare"
 
-#: misc/localization/eventum.c:6734
+#: misc/localization/eventum.c:6731
 msgid "Existing Authorized Repliers for this Issue"
 msgstr "Behöriga besvarare för det här ärendet"
 
-#: misc/localization/eventum.c:6737
+#: misc/localization/eventum.c:6734
 msgid "Please select at least one of the authorized repliers."
 msgstr "Vänligen, välj minst en av de behöriga besvararna."
 
-#: misc/localization/eventum.c:6746
+#: misc/localization/eventum.c:6743
 msgid "No authorized repliers could be found."
 msgstr "Inga behöriga besvarare kunde hittas."
 
-#: misc/localization/eventum.c:6755
+#: misc/localization/eventum.c:6752
 msgid "Error: You are not allowed to view the requested FAQ entry."
 msgstr "Fel: Du har inte tillåtelse att se den begärda FAQ-inlägget."
 
-#: misc/localization/eventum.c:6758
+#: misc/localization/eventum.c:6755
 msgid "Last updated"
 msgstr "Senast uppdaterad"
 
-#: misc/localization/eventum.c:6764
+#: misc/localization/eventum.c:6761
 msgid "Article Entries"
 msgstr "Artikelinlägg"
 
-#: misc/localization/eventum.c:6770 misc/localization/eventum.c:7940
-#: misc/localization/eventum.c:8057
+#: misc/localization/eventum.c:6767 misc/localization/eventum.c:7943
+#: misc/localization/eventum.c:8060
 msgid "Last Updated Date"
 msgstr "Senast uppdateringsdatum"
 
-#: misc/localization/eventum.c:6773
+#: misc/localization/eventum.c:6770
 msgid "read faq entry"
 msgstr "läs faq-inlägg"
 
-#: misc/localization/eventum.c:6776
+#: misc/localization/eventum.c:6773
 msgid "logout from"
 msgstr "logga ut från"
 
-#: misc/localization/eventum.c:6779
+#: misc/localization/eventum.c:6776
 msgid "Logout"
 msgstr "Logga ut"
 
-#: misc/localization/eventum.c:6782
+#: misc/localization/eventum.c:6779
 msgid "manage the application settings, users, projects, etc"
 msgstr "hantera applikationens inställningar, projekt, osv"
 
-#: misc/localization/eventum.c:6785
+#: misc/localization/eventum.c:6782
 msgid "Administration"
 msgstr "Administration"
 
-#: misc/localization/eventum.c:6788
+#: misc/localization/eventum.c:6785
 msgid "create a new issue"
 msgstr "Skapa ett nytt ärende"
 
-#: misc/localization/eventum.c:6791
+#: misc/localization/eventum.c:6788
 msgid "Create Issue"
 msgstr "Skapa ärende"
 
-#: misc/localization/eventum.c:6794
+#: misc/localization/eventum.c:6791
 msgid "list the issues stored in the system"
 msgstr "lista ärenden lagrade i systemet"
 
-#: misc/localization/eventum.c:6797
+#: misc/localization/eventum.c:6794
 msgid "List Issues"
 msgstr "Lista ärenden"
 
-#: misc/localization/eventum.c:6800
+#: misc/localization/eventum.c:6797
 msgid "get access to advanced search parameters"
 msgstr "få tillgång till avancerad sök"
 
-#: misc/localization/eventum.c:6806
+#: misc/localization/eventum.c:6803
 msgid "list available emails"
 msgstr "lista tillgängliga e-postmeddelanden"
 
-#: misc/localization/eventum.c:6812
+#: misc/localization/eventum.c:6809
 msgid "list all issues assigned to you"
 msgstr "lista alla ärenden tilldelade dig"
 
-#: misc/localization/eventum.c:6815
+#: misc/localization/eventum.c:6812
 msgid "My Assignments"
 msgstr "Mina tilldelade"
 
-#: misc/localization/eventum.c:6818
+#: misc/localization/eventum.c:6815
 msgid "general statistics"
 msgstr "generell statistik"
 
-#: misc/localization/eventum.c:6821
+#: misc/localization/eventum.c:6818
 msgid "Stats"
 msgstr "Statistik"
 
-#: misc/localization/eventum.c:6824
+#: misc/localization/eventum.c:6821
 msgid "reporting system"
 msgstr "raportsystem"
 
-#: misc/localization/eventum.c:6827
+#: misc/localization/eventum.c:6824
 msgid "Reports"
 msgstr "Rapporter"
 
-#: misc/localization/eventum.c:6830
+#: misc/localization/eventum.c:6827
 msgid "internal faq"
 msgstr "intern faq"
 
-#: misc/localization/eventum.c:6833
+#: misc/localization/eventum.c:6830
 msgid "Internal FAQ"
 msgstr "Intern FAQ"
 
-#: misc/localization/eventum.c:6836
+#: misc/localization/eventum.c:6833
 msgid "help documentation"
 msgstr "Hjälpdokumentation"
 
-#: misc/localization/eventum.c:6839
+#: misc/localization/eventum.c:6836
 msgid "Help"
 msgstr "Hjälp"
 
-#: misc/localization/eventum.c:6845
+#: misc/localization/eventum.c:6842
 msgid "Please enter a valid issue ID."
 msgstr "Vänligen ange ett giltigt ärende ID."
 
-#: misc/localization/eventum.c:6848
+#: misc/localization/eventum.c:6845
 msgid "Switch"
 msgstr "Byt"
 
-#: misc/localization/eventum.c:6851
+#: misc/localization/eventum.c:6848
 msgid "CLOCKED"
 msgstr "STÄMPLAD"
 
-#: misc/localization/eventum.c:6854
+#: misc/localization/eventum.c:6851
 msgid "IN"
 msgstr "IN"
 
-#: misc/localization/eventum.c:6857
+#: misc/localization/eventum.c:6854
 msgid "OUT"
 msgstr "UT"
 
-#: misc/localization/eventum.c:6860
+#: misc/localization/eventum.c:6857
 msgid "modify your account details and preferences"
 msgstr "ändra inställningar för ditt konto"
 
-#: misc/localization/eventum.c:6863
+#: misc/localization/eventum.c:6860
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: misc/localization/eventum.c:6866
+#: misc/localization/eventum.c:6863
 msgid "change your account clocked-in status"
 msgstr "ändra instämpling för ditt konto"
 
-#: misc/localization/eventum.c:6869
+#: misc/localization/eventum.c:6866
 msgid "Clock"
 msgstr "Klocka"
 
-#: misc/localization/eventum.c:6872
+#: misc/localization/eventum.c:6869
 msgid "Out"
 msgstr "Ut"
 
-#: misc/localization/eventum.c:6875
+#: misc/localization/eventum.c:6872
 msgid "In"
 msgstr "In"
 
-#: misc/localization/eventum.c:6884 misc/localization/eventum.c:6887
+#: misc/localization/eventum.c:6881 misc/localization/eventum.c:6884
 msgid "Expand all collapsed cells"
 msgstr ""
 
-#: misc/localization/eventum.c:6890
+#: misc/localization/eventum.c:6887
 msgid "Expand collapsed cell"
 msgstr ""
 
-#: misc/localization/eventum.c:6893
+#: misc/localization/eventum.c:6890
 msgid "Collapse expanded cell"
 msgstr ""
 
-#: misc/localization/eventum.c:6896
+#: misc/localization/eventum.c:6893
 msgid "Overall Stats"
 msgstr "Övergripande statistik"
 
-#: misc/localization/eventum.c:6899
+#: misc/localization/eventum.c:6896
 msgid "Issues by Status"
 msgstr "Ärenden per status"
 
-#: misc/localization/eventum.c:6905 stats_chart.php:63
+#: misc/localization/eventum.c:6902 stats_chart.php:63
 msgid "Issues by Release"
 msgstr "Ärenden per release"
 
-#: misc/localization/eventum.c:6911 stats_chart.php:66
+#: misc/localization/eventum.c:6908 stats_chart.php:66
 msgid "Issues by Priority"
 msgstr "Ärenden per prioritet"
 
-#: misc/localization/eventum.c:6917 stats_chart.php:72
+#: misc/localization/eventum.c:6914 stats_chart.php:72
 msgid "Issues by Category"
 msgstr "Ärenden per kategori"
 
-#: misc/localization/eventum.c:6923
+#: misc/localization/eventum.c:6920
 msgid "Assigned Issues"
 msgstr "Tilldelade ärenden"
 
-#: misc/localization/eventum.c:6932
+#: misc/localization/eventum.c:6929
 msgid "Associated"
 msgstr "Associerade"
 
-#: misc/localization/eventum.c:6935
+#: misc/localization/eventum.c:6932
 msgid "Pending"
 msgstr "Väntande"
 
-#: misc/localization/eventum.c:6938
+#: misc/localization/eventum.c:6935
 msgid "Removed"
 msgstr "Borttagen"
 
-#: misc/localization/eventum.c:6941
+#: misc/localization/eventum.c:6938
 msgid "Did you Know?"
 msgstr "Visste du att?"
 
-#: misc/localization/eventum.c:6944
+#: misc/localization/eventum.c:6941
 msgid "Graphical Stats (All Issues)"
 msgstr "Grafisk statistik (Alla ärenden)"
 
-#: misc/localization/eventum.c:6947
+#: misc/localization/eventum.c:6944
 msgid "Password Confirmation"
 msgstr "Lösenordsbekräftelse"
 
-#: misc/localization/eventum.c:6950
+#: misc/localization/eventum.c:6947
 msgid "Account Creation"
 msgstr "Skapa konto"
 
-#: misc/localization/eventum.c:6953
+#: misc/localization/eventum.c:6950
 msgid "Error"
 msgstr "Fel"
 
-#: misc/localization/eventum.c:6956
+#: misc/localization/eventum.c:6953
 msgid "Password Confirmation Success"
 msgstr "Lösenordsbekräftelse Lyckades"
 
-#: misc/localization/eventum.c:6959
+#: misc/localization/eventum.c:6956
 msgid ""
 "The provided trial account email address could not be\n"
 "confirmed. Please contact the local Technical Support staff for\n"
@@ -8017,7 +8014,7 @@ msgstr ""
 "Det tillhandahållna utvärderingskontots e-postadress kunde inte \n"
 "bekräftas. Vänligen kontakta supporten för ytterligare info. "
 
-#: misc/localization/eventum.c:6962
+#: misc/localization/eventum.c:6959
 msgid ""
 "The provided trial account email address could not be\n"
 "            found. Please contact the local Technical Support staff for\n"
@@ -8027,7 +8024,7 @@ msgstr ""
 "             kunde inte hittas. Vänligen kontakta support\n"
 "             för ytterligare info."
 
-#: misc/localization/eventum.c:6965
+#: misc/localization/eventum.c:6962
 msgid ""
 "The provided trial account encrypted hash could not be\n"
 "            authenticated. Please contact the local Technical\n"
@@ -8038,7 +8035,7 @@ msgstr ""
 "autoriseras. Vänligen \n"
 "           kontakta support för ytterligare info."
 
-#: misc/localization/eventum.c:6968
+#: misc/localization/eventum.c:6965
 msgid ""
 "Thank you, your request for a new password was confirmed successfully. You "
 "should receive an email with your new password shortly."
@@ -8046,97 +8043,97 @@ msgstr ""
 "Tck så mycket, din begäran om ett nytt lösenord har genomförts. Inom kort "
 "kommer du få ett e-postmeddelande med ditt nya lösenord. "
 
-#: misc/localization/eventum.c:6977
+#: misc/localization/eventum.c:6974
 msgid "Thank you, the custom field values were updated successfully."
 msgstr "Tack så mycket, det anpassade fältets värde har updaterats."
 
-#: misc/localization/eventum.c:6983
+#: misc/localization/eventum.c:6980
 msgid "Update Issue Details"
 msgstr "Updatera ärendedetaljer"
 
-#: misc/localization/eventum.c:6989
+#: misc/localization/eventum.c:6986
 msgid "No custom field could be found."
 msgstr "Inga anpassade fält hittades."
 
-#: misc/localization/eventum.c:6992
+#: misc/localization/eventum.c:6989
 msgid "Update Values"
 msgstr "Updatera värden"
 
-#: misc/localization/eventum.c:6998
+#: misc/localization/eventum.c:6995
 msgid ""
 "The following %1 reminder could not be sent out because no recipients could "
 "be found"
 msgstr ""
 
-#: misc/localization/eventum.c:7001
+#: misc/localization/eventum.c:6998
 #, fuzzy
 msgid "Automated Issue"
 msgstr "Associerat ärende"
 
-#: misc/localization/eventum.c:7004
+#: misc/localization/eventum.c:7001
 msgid "Reminder Alert"
 msgstr ""
 
-#: misc/localization/eventum.c:7007 misc/localization/eventum.c:7037
+#: misc/localization/eventum.c:7004 misc/localization/eventum.c:7034
 msgid "URL"
 msgstr ""
 
-#: misc/localization/eventum.c:7022 misc/localization/eventum.c:7052
+#: misc/localization/eventum.c:7019 misc/localization/eventum.c:7049
 #, fuzzy
 msgid "Alert Reason"
 msgstr "Anledning"
 
-#: misc/localization/eventum.c:7025 misc/localization/eventum.c:7055
+#: misc/localization/eventum.c:7022 misc/localization/eventum.c:7052
 #, fuzzy
 msgid "Triggered Reminder"
 msgstr "Skapa påminnelse:"
 
-#: misc/localization/eventum.c:7031 misc/localization/eventum.c:7061
+#: misc/localization/eventum.c:7028 misc/localization/eventum.c:7058
 msgid "Alert Query"
 msgstr ""
 
-#: misc/localization/eventum.c:7034
+#: misc/localization/eventum.c:7031
 msgid "Automated Issue # %1 Reminder Alert"
 msgstr ""
 
-#: misc/localization/eventum.c:7064
+#: misc/localization/eventum.c:7061
 msgid ""
 "This is a SMS reminder alert regarding issue # %1. Certain conditions "
 "triggered this action, and this issue may require immediate action in your "
 "part."
 msgstr ""
 
-#: misc/localization/eventum.c:7070
+#: misc/localization/eventum.c:7067
 msgid "Thank you, you are now assigned to the issue"
 msgstr "Tack så mycket, du är nu tilldelad till ärendet"
 
-#: misc/localization/eventum.c:7076
+#: misc/localization/eventum.c:7073
 msgid "WARNING"
 msgstr "VARNING"
 
-#: misc/localization/eventum.c:7079
+#: misc/localization/eventum.c:7076
 msgid "The following user is already assigned to this issue"
 msgid_plural "The following users are already assigned to this issue"
 msgstr[0] "Följande användare finns redan som tilldelade för ärendet"
 msgstr[1] "Följande användare finns redan som tilldelade för ärendet"
 
-#: misc/localization/eventum.c:7082
+#: misc/localization/eventum.c:7079
 msgid "Replace current assignee with Myself."
 msgid_plural "Replace current assignees with Myself."
 msgstr[0] "Ersätt nuvarande tilldelad med mig själv."
 msgstr[1] "Ersätt nuvarande tilldelade med mig själv."
 
-#: misc/localization/eventum.c:7085
+#: misc/localization/eventum.c:7082
 msgid "Add Myself to list of assignees."
 msgstr "Lägg till mig själv i listan med tilldelade."
 
-#: misc/localization/eventum.c:7094
+#: misc/localization/eventum.c:7091
 msgid ""
 "Sorry, but there are no projects currently setup as allowing anonymous "
 "posting."
 msgstr "Det finns för tillfället inget projekt som tillåter anonym postning."
 
-#: misc/localization/eventum.c:7097
+#: misc/localization/eventum.c:7094
 msgid ""
 "Thank you, the new issue was created successfully. For your records, the new "
 "issue ID is <font color=\"red\">%1</font>"
@@ -8144,31 +8141,31 @@ msgstr ""
 "Tack så mycket, det nya ärendet har skapats. Det nya ärendet har fått ID "
 "<font color=\"red\">%1</font>"
 
-#: misc/localization/eventum.c:7100
+#: misc/localization/eventum.c:7097
 msgid "You may <a class=\"link\" href=\"%1\">%2</a> if you so wish."
 msgstr "Du får <a class=\"link\" href=\"%1\">%2</a> om du så vill."
 
-#: misc/localization/eventum.c:7103
+#: misc/localization/eventum.c:7100
 msgid "Please choose the project that this new issue will apply to."
 msgstr "Vänligen välj det projekt som ärendet skall tillhöra."
 
-#: misc/localization/eventum.c:7106 misc/localization/eventum.c:7124
+#: misc/localization/eventum.c:7103 misc/localization/eventum.c:7121
 msgid "Report New Issue"
 msgstr "Rapportera nytt ärende"
 
-#: misc/localization/eventum.c:7112
+#: misc/localization/eventum.c:7109
 msgid "Please choose a project"
 msgstr "Vänligen välj ett projekt"
 
-#: misc/localization/eventum.c:7136
+#: misc/localization/eventum.c:7133
 msgid "Attach Files"
 msgstr "Bifoga filer"
 
-#: misc/localization/eventum.c:7139
+#: misc/localization/eventum.c:7136
 msgid "Keep Form Open"
 msgstr "Behåll formulär öppet"
 
-#: misc/localization/eventum.c:7154
+#: misc/localization/eventum.c:7151
 msgid ""
 "Sorry, but the email could not be queued. This might be related to problems "
 "with your SMTP account settings.\n"
@@ -8179,31 +8176,31 @@ msgstr ""
 "inställningar.\n"
 " Kontakta systemadministratören för ytterligare information."
 
-#: misc/localization/eventum.c:7157
+#: misc/localization/eventum.c:7154
 msgid "Thank you, the email was queued to be sent successfully."
 msgstr "Tack så mycket, e-postmeddelandet har laggts i kö för att skickas."
 
-#: misc/localization/eventum.c:7166
+#: misc/localization/eventum.c:7163
 msgid "Thank you, the email message was saved as a draft successfully."
 msgstr "Tack så mycket, e-postmeddelandet har sparats som utkast."
 
-#: misc/localization/eventum.c:7172
+#: misc/localization/eventum.c:7169
 msgid "If you close this window, you will lose your message"
 msgstr "Meddelandet kommer gå förlorat om du stänger fönstret"
 
-#: misc/localization/eventum.c:7175
+#: misc/localization/eventum.c:7172
 msgid "Please enter the recipient of this email."
 msgstr "Vänligen ange mottagare för e-postmeddelandet."
 
-#: misc/localization/eventum.c:7178
+#: misc/localization/eventum.c:7175
 msgid "Please enter the subject of this email."
 msgstr "Vänligen ange ämne för e-postmeddelandet"
 
-#: misc/localization/eventum.c:7181
+#: misc/localization/eventum.c:7178
 msgid "Please enter the message body of this email."
 msgstr "Vänligen skriv in text för e-postmeddelandet."
 
-#: misc/localization/eventum.c:7184
+#: misc/localization/eventum.c:7181
 msgid ""
 "WARNING: You are not assigned to this issue so your email will be blocked.\n"
 "Your blocked email will be converted to a note that can be recovered later.\n"
@@ -8215,7 +8212,7 @@ msgstr ""
 "återskapas senare. För ytterligare information, se under 'E-post blokering' "
 "i hjälp."
 
-#: misc/localization/eventum.c:7187
+#: misc/localization/eventum.c:7184
 msgid ""
 "WARNING: This email will be sent to all names on this issue's Notification "
 "List, including CUSTOMERS.\n"
@@ -8227,7 +8224,7 @@ msgstr ""
 "Om du vill att KUNDDERNA ska få ditt meddelande, klicka OK.\n"
 "Annars, för att återgå till editeravyn klicka på CANCEL."
 
-#: misc/localization/eventum.c:7190
+#: misc/localization/eventum.c:7187
 msgid ""
 "WARNING: This email will be sent to all names on this issue's Notification "
 "List.\n"
@@ -8238,21 +8235,21 @@ msgstr ""
 "Om du vill att alla användare ska få ditt meddelande, klicka OK.\n"
 "Annars, för att återgå till editeravyn klicka på CANCEL."
 
-#: misc/localization/eventum.c:7193
+#: misc/localization/eventum.c:7190
 msgid "Warning: This draft has already been sent. You cannot resend it."
 msgstr "Varning: Utkastet har redan skickats. Du kan inte skicka om det."
 
-#: misc/localization/eventum.c:7196
+#: misc/localization/eventum.c:7193
 msgid ""
 "Warning: This draft has already been edited. You cannot send or edit it."
 msgstr ""
 "Varning: Utkastet har redan redigerats. Du kan inte skicka eller editera det."
 
-#: misc/localization/eventum.c:7199 misc/localization/eventum.c:8066
+#: misc/localization/eventum.c:7196 misc/localization/eventum.c:8069
 msgid "Create Draft"
 msgstr "Skapa Utkast"
 
-#: misc/localization/eventum.c:7208
+#: misc/localization/eventum.c:7205
 msgid ""
 "Sorry, but the email could not be sent. This might be related to problems "
 "with your SMTP account settings.\n"
@@ -8263,74 +8260,74 @@ msgstr ""
 "konfiguration.\n"
 "Vänligen kontakta systemadministratören för ytterligare info."
 
-#: misc/localization/eventum.c:7211
+#: misc/localization/eventum.c:7208
 msgid "Thank you, the email was sent successfully."
 msgstr "Tack så mycket, e-postmeddelandet har skickats."
 
-#: misc/localization/eventum.c:7226
+#: misc/localization/eventum.c:7223
 msgid "Members"
 msgstr "Medlemmar"
 
-#: misc/localization/eventum.c:7232
+#: misc/localization/eventum.c:7229
 msgid "Add Unknown Recipients to Issue Notification List"
 msgstr "Lägg till anonym mottagare till ärendets notifieringslista"
 
-#: misc/localization/eventum.c:7238
+#: misc/localization/eventum.c:7235
 msgid "Canned Responses"
 msgstr "Standardsvar"
 
-#: misc/localization/eventum.c:7241
+#: misc/localization/eventum.c:7238
 msgid "Use Canned Response"
 msgstr "Använd standardsvar"
 
-#: misc/localization/eventum.c:7262
+#: misc/localization/eventum.c:7259
 msgid "Check Spelling"
 msgstr "Kontrollera stavning"
 
-#: misc/localization/eventum.c:7268
+#: misc/localization/eventum.c:7265
 msgid "Save Draft Changes"
 msgstr "Spara utkastets ändringar"
 
-#: misc/localization/eventum.c:7271
+#: misc/localization/eventum.c:7268
 msgid "Save as Draft"
 msgstr "Spara som utkast"
 
-#: misc/localization/eventum.c:7277
+#: misc/localization/eventum.c:7274
 msgid "Page generated in %1 seconds"
 msgstr "Sidan tog %1 sekunder att generera"
 
-#: misc/localization/eventum.c:7280
+#: misc/localization/eventum.c:7277
 msgid "queries"
 msgstr "frågor"
 
-#: misc/localization/eventum.c:7283
+#: misc/localization/eventum.c:7280
 msgid "Benchmark Statistics"
 msgstr "Prestandatest, statistik"
 
-#: misc/localization/eventum.c:7295
+#: misc/localization/eventum.c:7292
 msgid "Error: Please provide your email address."
 msgstr "Fel: Vänligen ange din e-postadress."
 
-#: misc/localization/eventum.c:7298
+#: misc/localization/eventum.c:7295
 msgid "Error: Please provide your password."
 msgstr "Fel: Vänligen ange ditt lösenord."
 
-#: misc/localization/eventum.c:7301
+#: misc/localization/eventum.c:7298
 msgid ""
 "Error: The email address / password combination could not be found in the "
 "system."
 msgstr ""
 "Fel. Den e-postadress / lösenordskombination kunde inte hittas i systemet."
 
-#: misc/localization/eventum.c:7304
+#: misc/localization/eventum.c:7301
 msgid "Your session has expired. Please login again to continue."
 msgstr "Din session har gått ut. Vänligen logga in igen för att fortsätta."
 
-#: misc/localization/eventum.c:7307
+#: misc/localization/eventum.c:7304
 msgid "Thank you, you are now logged out of %1"
 msgstr "Tack, du är nu utloggad från %1"
 
-#: misc/localization/eventum.c:7313
+#: misc/localization/eventum.c:7310
 msgid ""
 "Thank you, your account is now active and ready to be\n"
 "              used. Use the form below to login."
@@ -8338,7 +8335,7 @@ msgstr ""
 "Tack så mycket, ditt konto är nu aktiverat och kan användas. Använd "
 "formuläret nedanför för att logga in."
 
-#: misc/localization/eventum.c:7316
+#: misc/localization/eventum.c:7313
 msgid ""
 "Error: Your user status is currently set as pending. This\n"
 "              means that you still need to confirm your account\n"
@@ -8349,7 +8346,7 @@ msgstr ""
 "måste bekräfta att ditt konto skapas. Vänligen kontakta \n"
 "systemadministratören för ytterligare information."
 
-#: misc/localization/eventum.c:7319
+#: misc/localization/eventum.c:7316
 msgid ""
 "Error: Cookies support seem to be disabled in your browser. Please enable "
 "this feature and try again."
@@ -8357,7 +8354,7 @@ msgstr ""
 "Fe: Cookies verkar inte vara aktiverad i din webläsare. Vänligen aktivera "
 "cookie och försök igen."
 
-#: misc/localization/eventum.c:7322
+#: misc/localization/eventum.c:7319
 msgid ""
 "Error: In order for %1 to work properly, you must enable cookie support in "
 "your browser. Please login\n"
@@ -8366,19 +8363,19 @@ msgstr ""
 "Fel: för att %1 ska fungera ordentligt, måste du kontrollera att du har "
 "cookies aktiverat."
 
-#: misc/localization/eventum.c:7334
+#: misc/localization/eventum.c:7331
 msgid "I Forgot My Password"
 msgstr "Jag har glömt mitt lösenord"
 
-#: misc/localization/eventum.c:7337
+#: misc/localization/eventum.c:7334
 msgid "Signup for an Account"
 msgstr "Registrera konto"
 
-#: misc/localization/eventum.c:7340
+#: misc/localization/eventum.c:7337
 msgid "Requires support for cookies and javascript in your browser"
 msgstr "Kräver stöd för kakor och javascript i din webläsare"
 
-#: misc/localization/eventum.c:7343
+#: misc/localization/eventum.c:7340
 msgid ""
 "NOTE: You may report issues without the need to login by using the following "
 "URL"
@@ -8386,28 +8383,28 @@ msgstr ""
 "NOTERA: Du kan rapportera ärenden utan att vara inloggad genom att använda "
 "den här URL:en"
 
-#: misc/localization/eventum.c:7349
+#: misc/localization/eventum.c:7346
 msgid "The given email address"
 msgstr "Den angivna e-posstadresse"
 
-#: misc/localization/eventum.c:7352
+#: misc/localization/eventum.c:7349
 msgid "is neither a known staff member or customer technical contact."
 msgstr "är varken en personals eller kunds tekniska kontakt."
 
-#: misc/localization/eventum.c:7355
+#: misc/localization/eventum.c:7352
 msgid "Are you sure you want to add this address to the notification list?"
 msgstr ""
 "Är du säker på att du vill lägga till adressen till notifieringslistan?"
 
-#: misc/localization/eventum.c:7358
+#: misc/localization/eventum.c:7355
 msgid "Notification Options"
 msgstr "Notifieringsalternativ"
 
-#: misc/localization/eventum.c:7361
+#: misc/localization/eventum.c:7358
 msgid "An error occurred while trying to update the notification entry."
 msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
 
-#: misc/localization/eventum.c:7364
+#: misc/localization/eventum.c:7361
 msgid ""
 "Error: the given email address is not allowed to be added to the "
 "notification list."
@@ -8415,55 +8412,55 @@ msgstr ""
 "Fel: den angivna e-postadressen har inte tillåtelse att läggas till i "
 "notifieringslistan."
 
-#: misc/localization/eventum.c:7367
+#: misc/localization/eventum.c:7364
 msgid "Thank you, the notification entry was updated successfully."
 msgstr "Tack så mycket, notifierinsposten har uppdaterats."
 
-#: misc/localization/eventum.c:7373
+#: misc/localization/eventum.c:7370
 msgid "Get a Notification When"
 msgstr "Få en notifiering när"
 
-#: misc/localization/eventum.c:7376
+#: misc/localization/eventum.c:7373
 msgid "Emails are Received or Sent"
 msgstr "E.postmeddelanden är motagna eller skickade"
 
-#: misc/localization/eventum.c:7379
+#: misc/localization/eventum.c:7376
 msgid "Overview or Details are Changed"
 msgstr "Översikt eller detaljer är ändrade"
 
-#: misc/localization/eventum.c:7382
+#: misc/localization/eventum.c:7379
 msgid "Issue is Closed"
 msgstr "Ärendet är stängt"
 
-#: misc/localization/eventum.c:7388
+#: misc/localization/eventum.c:7385
 msgid "Update Subscription"
 msgstr "Uppdatera prenumerationer"
 
-#: misc/localization/eventum.c:7391
+#: misc/localization/eventum.c:7388
 msgid "Add Subscription"
 msgstr "Lägg till prenumerant"
 
-#: misc/localization/eventum.c:7397
+#: misc/localization/eventum.c:7394
 msgid "Existing Subscribers for this Issue"
 msgstr "Prenuumeranter för ärendet."
 
-#: misc/localization/eventum.c:7400
+#: misc/localization/eventum.c:7397
 msgid "Please select at least one of the subscribers."
 msgstr "Vänligen välj minst en av prenumeranterna."
 
-#: misc/localization/eventum.c:7409
+#: misc/localization/eventum.c:7406
 msgid "click to edit"
 msgstr "klicka för att redigera"
 
-#: misc/localization/eventum.c:7418
+#: misc/localization/eventum.c:7415
 msgid "No subscribers could be found."
 msgstr "Ing prenumeranter kunde hittas."
 
-#: misc/localization/eventum.c:7427
+#: misc/localization/eventum.c:7424
 msgid "An error occurred while trying to process the uploaded file."
 msgstr "Ett fel uppstod vid försök att ladda upp fil."
 
-#: misc/localization/eventum.c:7430
+#: misc/localization/eventum.c:7427
 msgid ""
 "The uploaded file is already attached to the current issue. Please rename "
 "the file and try again."
@@ -8472,140 +8469,140 @@ msgstr ""
 "vänlig \n"
 " byt namn på filen och försök igen."
 
-#: misc/localization/eventum.c:7433
+#: misc/localization/eventum.c:7430
 msgid "Thank you, the uploaded file was associated with the issue below."
 msgstr "Tack, den uppladdade filen har associerats med ärendet nedan."
 
-#: misc/localization/eventum.c:7439
+#: misc/localization/eventum.c:7436
 msgid "Add New Files"
 msgstr "Lägg till nya filer"
 
-#: misc/localization/eventum.c:7445
+#: misc/localization/eventum.c:7442
 msgid "Public"
 msgstr "Publik"
 
-#: misc/localization/eventum.c:7448
+#: misc/localization/eventum.c:7445
 msgid "visible to all"
 msgstr "Synlig för alla"
 
-#: misc/localization/eventum.c:7454
+#: misc/localization/eventum.c:7451
 msgid "standard user and above only"
 msgstr "enbart för standard user och högre"
 
-#: misc/localization/eventum.c:7457
+#: misc/localization/eventum.c:7454
 msgid "Filenames"
 msgstr "Filnamn"
 
-#: misc/localization/eventum.c:7460
+#: misc/localization/eventum.c:7457
 #, fuzzy
 msgid "ote: The current maximum allowed upload file size is"
 msgstr "Notera: den nuvarande tillåtna maxstorleken för uppladdade filer är"
 
-#: misc/localization/eventum.c:7466 misc/localization/eventum.c:8225
+#: misc/localization/eventum.c:7463 misc/localization/eventum.c:8228
 msgid "Upload File"
 msgstr "Ladda upp fil"
 
-#: misc/localization/eventum.c:7469
+#: misc/localization/eventum.c:7466
 msgid "You do not have the correct role to access this page"
 msgstr "Du har inte korrekt roll för att få åtkomst till den här sidan"
 
-#: misc/localization/eventum.c:7472
+#: misc/localization/eventum.c:7475
 msgid "Error: The issue could not be found."
 msgstr "FEL: Ärendet hittades inte."
 
-#: misc/localization/eventum.c:7493
+#: misc/localization/eventum.c:7496
 msgid "Thank you, the impact analysis was updated successfully."
 msgstr "Tack så mycket, förändringsanalys har uppdaterats."
 
-#: misc/localization/eventum.c:7496
+#: misc/localization/eventum.c:7499
 msgid ""
 "Please use only floating point numbers on the estimated development time "
 "field."
 msgstr "Vänligen välj endast decimaltal för beräknad utvecklingstid."
 
-#: misc/localization/eventum.c:7499
+#: misc/localization/eventum.c:7502
 msgid "Please enter the impact analysis for this new requirement."
 msgstr "Vänligen ange förändringsanalysen för det nya kravet."
 
-#: misc/localization/eventum.c:7502
+#: misc/localization/eventum.c:7505
 msgid "Enter Impact Analysis"
 msgstr "Ange förändringsanalys"
 
-#: misc/localization/eventum.c:7511
+#: misc/localization/eventum.c:7514
 msgid "Impact <br />Analysis"
 msgstr "Förändringsanalys"
 
-#: misc/localization/eventum.c:7514 misc/localization/eventum.c:7709
-#: misc/localization/eventum.c:7835
+#: misc/localization/eventum.c:7517 misc/localization/eventum.c:7712
+#: misc/localization/eventum.c:7838
 msgid "This is an automated message sent at your request from %1"
 msgstr ""
 
-#: misc/localization/eventum.c:7517
+#: misc/localization/eventum.c:7520
 #, fuzzy
 msgid "A new issue was just created and assigned to you."
 msgstr "lista alla ärenden tilldelade dig"
 
-#: misc/localization/eventum.c:7520 misc/localization/eventum.c:7589
-#: misc/localization/eventum.c:7670 misc/localization/eventum.c:7715
-#: misc/localization/eventum.c:7745 misc/localization/eventum.c:7796
-#: misc/localization/eventum.c:7838
+#: misc/localization/eventum.c:7523 misc/localization/eventum.c:7592
+#: misc/localization/eventum.c:7673 misc/localization/eventum.c:7718
+#: misc/localization/eventum.c:7748 misc/localization/eventum.c:7799
+#: misc/localization/eventum.c:7841
 msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
 msgstr ""
 
-#: misc/localization/eventum.c:7532 misc/localization/eventum.c:7604
-#: misc/localization/eventum.c:7661 misc/localization/eventum.c:7727
-#: misc/localization/eventum.c:7778
+#: misc/localization/eventum.c:7535 misc/localization/eventum.c:7607
+#: misc/localization/eventum.c:7664 misc/localization/eventum.c:7730
+#: misc/localization/eventum.c:7781
 #, fuzzy
 msgid "Reported By"
 msgstr "Rapportör"
 
-#: misc/localization/eventum.c:7541
+#: misc/localization/eventum.c:7544
 msgid ""
 "Please Note: If you do not wish to receive any future email\n"
 "notifications from %1, please change your account preferences by\n"
 "visiting the URL below"
 msgstr ""
 
-#: misc/localization/eventum.c:7544
+#: misc/localization/eventum.c:7547
 #, fuzzy
 msgid "A new user was just created for you in the system."
 msgstr "lista ärenden lagrade i systemet"
 
-#: misc/localization/eventum.c:7547
+#: misc/localization/eventum.c:7550
 msgid "To start using the system, please load the URL below"
 msgstr ""
 
-#: misc/localization/eventum.c:7562
+#: misc/localization/eventum.c:7565
 msgid "Your user account password has been updated in %1"
 msgstr ""
 
-#: misc/localization/eventum.c:7565 misc/localization/eventum.c:7694
+#: misc/localization/eventum.c:7568 misc/localization/eventum.c:7697
 msgid "Your account information as it now exists appears below."
 msgstr ""
 
-#: misc/localization/eventum.c:7580 misc/localization/eventum.c:7676
+#: misc/localization/eventum.c:7583 misc/localization/eventum.c:7679
 msgid "This is an automated message sent at your request from %1."
 msgstr ""
 
-#: misc/localization/eventum.c:7583
+#: misc/localization/eventum.c:7586
 msgid "This issue was just closed by"
 msgstr ""
 
-#: misc/localization/eventum.c:7586
+#: misc/localization/eventum.c:7589
 msgid " with the message"
 msgstr ""
 
-#: misc/localization/eventum.c:7613 misc/localization/eventum.c:7673
-#: misc/localization/eventum.c:7739 misc/localization/eventum.c:7787
-#: misc/localization/eventum.c:7832 misc/localization/eventum.c:7850
+#: misc/localization/eventum.c:7616 misc/localization/eventum.c:7676
+#: misc/localization/eventum.c:7742 misc/localization/eventum.c:7790
+#: misc/localization/eventum.c:7835 misc/localization/eventum.c:7853
 msgid ""
 "Please Note: If you do not wish to receive any future email notifications "
 "from %1, please change your account preferences by visiting the URL below"
 msgstr ""
 
-#: misc/localization/eventum.c:7616
+#: misc/localization/eventum.c:7619
 msgid ""
 "Hello,\n"
 "\n"
@@ -8619,49 +8616,49 @@ msgid ""
 "the new account, please do so by visiting the URL below:\n"
 msgstr ""
 
-#: misc/localization/eventum.c:7619
+#: misc/localization/eventum.c:7622
 #, fuzzy
 msgid "Dear"
 msgstr "Rensa"
 
-#: misc/localization/eventum.c:7622
+#: misc/localization/eventum.c:7625
 msgid "This is an automated message sent from %1"
 msgstr ""
 
-#: misc/localization/eventum.c:7625
+#: misc/localization/eventum.c:7628
 msgid ""
 "We received a message from you and for your convenience, we created an issue "
 "that will be used by our staff to handle your message."
 msgstr ""
 
-#: misc/localization/eventum.c:7628
+#: misc/localization/eventum.c:7631
 msgid ""
 "To view more details of this issue, or to update it, please visit the\n"
 "following URL"
 msgstr ""
 
-#: misc/localization/eventum.c:7631
+#: misc/localization/eventum.c:7634
 msgid "To add more information to this issue, simply reply to this email."
 msgstr ""
 
-#: misc/localization/eventum.c:7643
+#: misc/localization/eventum.c:7646
 #, fuzzy
 msgid "Submitted"
 msgstr "Skicka"
 
-#: misc/localization/eventum.c:7646 misc/localization/eventum.c:7763
+#: misc/localization/eventum.c:7649 misc/localization/eventum.c:7766
 msgid "These are the current issue details"
 msgstr ""
 
-#: misc/localization/eventum.c:7679
+#: misc/localization/eventum.c:7682
 msgid "Your full account information is available below."
 msgstr ""
 
-#: misc/localization/eventum.c:7691
+#: misc/localization/eventum.c:7694
 msgid "Your user account has been updated in %1"
 msgstr ""
 
-#: misc/localization/eventum.c:7706
+#: misc/localization/eventum.c:7709
 msgid ""
 "Hello,\n"
 "\n"
@@ -8676,54 +8673,54 @@ msgid ""
 "the URL below:\n"
 msgstr ""
 
-#: misc/localization/eventum.c:7712
+#: misc/localization/eventum.c:7715
 #, fuzzy
 msgid "An issue was assigned to you by %1"
 msgstr "lista alla ärenden tilldelade dig"
 
-#: misc/localization/eventum.c:7742 misc/localization/eventum.c:7790
+#: misc/localization/eventum.c:7745 misc/localization/eventum.c:7793
 msgid "This is an automated message sent at your request from"
 msgstr ""
 
-#: misc/localization/eventum.c:7748
+#: misc/localization/eventum.c:7751
 #, fuzzy
 msgid "New Attachment"
 msgstr "Bilagor"
 
-#: misc/localization/eventum.c:7751 misc/localization/eventum.c:8204
+#: misc/localization/eventum.c:7754 misc/localization/eventum.c:8207
 msgid "Owner"
 msgstr "Ägare"
 
-#: misc/localization/eventum.c:7793
+#: misc/localization/eventum.c:7796
 #, fuzzy
 msgid "A new issue was just created in the system."
 msgstr "lista ärenden lagrade i systemet"
 
-#: misc/localization/eventum.c:7808
+#: misc/localization/eventum.c:7811
 #, fuzzy
 msgid "Reported"
 msgstr "Rapportör"
 
-#: misc/localization/eventum.c:7820
+#: misc/localization/eventum.c:7823
 #, fuzzy
 msgid "Issue Details"
 msgstr "Användardealjer"
 
-#: misc/localization/eventum.c:7841
+#: misc/localization/eventum.c:7844
 #, fuzzy
 msgid "Issue #"
 msgstr "Ärende"
 
-#: misc/localization/eventum.c:7847
+#: misc/localization/eventum.c:7850
 #, fuzzy
 msgid "Changed Fields"
 msgstr "Obligatoriska fält"
 
-#: misc/localization/eventum.c:7853
+#: misc/localization/eventum.c:7856
 msgid "Please select the new status for this issue."
 msgstr "Vänligen ange ny status för ärendet."
 
-#: misc/localization/eventum.c:7856
+#: misc/localization/eventum.c:7859
 msgid ""
 "NOTE: If you need to send new information regarding this issue, please use "
 "the EMAIL related buttons available at the bottom of the screen."
@@ -8731,23 +8728,23 @@ msgstr ""
 "OBS: Om du behöver skicka ny information om ett ärende, vänligen använd e-"
 "postknappen som finns längst ned på sidan."
 
-#: misc/localization/eventum.c:7859
+#: misc/localization/eventum.c:7862
 msgid "Previous Issue"
 msgstr "Föregående ärende"
 
-#: misc/localization/eventum.c:7862
+#: misc/localization/eventum.c:7865
 msgid "Next Issue"
 msgstr "Nästa ärende"
 
-#: misc/localization/eventum.c:7865
+#: misc/localization/eventum.c:7868
 msgid "This Issue is Currently Quarantined"
 msgstr "Ärendet ligger i karantän"
 
-#: misc/localization/eventum.c:7868
+#: misc/localization/eventum.c:7871
 msgid "Quarantine expires in %1"
 msgstr "Karantänen upphör om %1"
 
-#: misc/localization/eventum.c:7871
+#: misc/localization/eventum.c:7874
 msgid ""
 "Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information "
 "regarding quarantined issues."
@@ -8755,15 +8752,15 @@ msgstr ""
 "Vänigen se i <a class=\"link\" href=\"faq.php\">FAQ:n</a> för information om "
 "ärenden i karantän."
 
-#: misc/localization/eventum.c:7874
+#: misc/localization/eventum.c:7877
 msgid "Remove Quarantine"
 msgstr "Ta bort karantän"
 
-#: misc/localization/eventum.c:7877
+#: misc/localization/eventum.c:7880
 msgid "Note: "
 msgstr "Notering:"
 
-#: misc/localization/eventum.c:7880
+#: misc/localization/eventum.c:7883
 msgid ""
 "This issue is marked private. Only Managers, the reporter and users assigned "
 "to the issue can view it."
@@ -8771,155 +8768,155 @@ msgstr ""
 "Det här ärendet är markerat som privat. Endast Managers, rapportören och "
 "tilldelade användare kan se ärendet."
 
-#: misc/localization/eventum.c:7883
+#: misc/localization/eventum.c:7886
 msgid "Issue Overview"
 msgstr "Ärendeöversikt"
 
-#: misc/localization/eventum.c:7898
+#: misc/localization/eventum.c:7901
 msgid "Complete Details"
 msgstr "Fullständiga detaljer"
 
-#: misc/localization/eventum.c:7901
+#: misc/localization/eventum.c:7904
 msgid "Customer Contract"
 msgstr "kund kontrakt"
 
-#: misc/localization/eventum.c:7907
+#: misc/localization/eventum.c:7910
 msgid "Support Options"
 msgstr "Supportalternativ"
 
-#: misc/localization/eventum.c:7910
+#: misc/localization/eventum.c:7913
 msgid "Redeemed Incident Types"
 msgstr "Återskapade ärendetyper"
 
-#: misc/localization/eventum.c:7925 misc/localization/eventum.c:7988
+#: misc/localization/eventum.c:7928 misc/localization/eventum.c:7991
 msgid "Staff"
 msgstr "Personal"
 
-#: misc/localization/eventum.c:7934
+#: misc/localization/eventum.c:7937
 msgid "Submitted Date"
 msgstr "Skapat datum"
 
-#: misc/localization/eventum.c:7946
+#: misc/localization/eventum.c:7949
 msgid "Associated Issues"
 msgstr "Associerat ärende"
 
-#: misc/localization/eventum.c:7949
+#: misc/localization/eventum.c:7952
 msgid "No issues associated"
 msgstr "Inget ärende associerat"
 
-#: misc/localization/eventum.c:7958
+#: misc/localization/eventum.c:7961
 msgid "No resolution date given"
 msgstr "Inget lösningsdatum angivet"
 
-#: misc/localization/eventum.c:7961
+#: misc/localization/eventum.c:7964
 msgid "Percentage Complete"
 msgstr "Procent färdigt"
 
-#: misc/localization/eventum.c:7973
+#: misc/localization/eventum.c:7976
 msgid "Duplicates"
 msgstr "Kopior"
 
-#: misc/localization/eventum.c:7976
+#: misc/localization/eventum.c:7979
 msgid "Duplicate of"
 msgstr "Kopia av"
 
-#: misc/localization/eventum.c:7979
+#: misc/localization/eventum.c:7982
 msgid "Duplicated by"
 msgstr "Kopia skapad av"
 
-#: misc/localization/eventum.c:8003
+#: misc/localization/eventum.c:8006
 msgid "fixed width font"
 msgstr "fixerad bredd"
 
-#: misc/localization/eventum.c:8006
+#: misc/localization/eventum.c:8009
 msgid "Description is currently collapsed"
 msgstr "Beskrivningen är ihopfälld"
 
-#: misc/localization/eventum.c:8009
+#: misc/localization/eventum.c:8012
 msgid "Click to expand."
 msgstr "Expandera."
 
-#: misc/localization/eventum.c:8012
+#: misc/localization/eventum.c:8015
 msgid "Unassign Issue"
 msgstr "Ej tilldelat ärende"
 
-#: misc/localization/eventum.c:8015
+#: misc/localization/eventum.c:8018
 msgid "Assign Issue To Myself"
 msgstr "Tilldela ärende till mig själv"
 
-#: misc/localization/eventum.c:8018
+#: misc/localization/eventum.c:8021
 msgid "Update Issue"
 msgstr "Uppdatera ärende"
 
-#: misc/localization/eventum.c:8024
+#: misc/localization/eventum.c:8027
 msgid "Clear Duplicate Status"
 msgstr "Ta bort kopiemarkering"
 
-#: misc/localization/eventum.c:8027
+#: misc/localization/eventum.c:8030
 msgid "Mark as Duplicate"
 msgstr "Markera som kopia"
 
-#: misc/localization/eventum.c:8033
+#: misc/localization/eventum.c:8036
 msgid "Signup as Authorized Replier"
 msgstr "Anmäl mig som behörig besvarare"
 
-#: misc/localization/eventum.c:8036
+#: misc/localization/eventum.c:8039
 msgid "Edit Incident Redemption"
 msgstr "Redigera återskapat ärende"
 
-#: misc/localization/eventum.c:8039
+#: misc/localization/eventum.c:8042
 msgid "Change Status To"
 msgstr "Ändra Status till"
 
-#: misc/localization/eventum.c:8042
+#: misc/localization/eventum.c:8045
 msgid "Drafts"
 msgstr "Utkast"
 
-#: misc/localization/eventum.c:8063
+#: misc/localization/eventum.c:8066
 msgid "No email drafts could be found."
 msgstr "Inga e-postutkast kunde hittas."
 
-#: misc/localization/eventum.c:8069
+#: misc/localization/eventum.c:8072
 msgid "Show All Drafts"
 msgstr "Visa Alla Utkast"
 
-#: misc/localization/eventum.c:8072
+#: misc/localization/eventum.c:8075
 msgid "There was an error marking this issue as redeemed"
 msgstr "Det uppstod ett fel när ärendet markerades som återskapat"
 
-#: misc/localization/eventum.c:8075
+#: misc/localization/eventum.c:8078
 msgid "This issue already has been marked as redeemed"
 msgstr "Ärendet har redan markerats som återskapat"
 
-#: misc/localization/eventum.c:8078
+#: misc/localization/eventum.c:8081
 msgid "Thank you, the issue was successfully marked."
 msgstr "Tack så mycket, ärendet har markerats."
 
-#: misc/localization/eventum.c:8081
+#: misc/localization/eventum.c:8084
 msgid "Please choose the incident types to redeem for this issue."
 msgstr "Vänligen välj ärendetyper som skall återskapas för ärendet."
 
-#: misc/localization/eventum.c:8087
+#: misc/localization/eventum.c:8090
 msgid "Left"
 msgstr "Kvar"
 
-#: misc/localization/eventum.c:8090
+#: misc/localization/eventum.c:8093
 msgid "Redeem Incidents"
 msgstr "Återskapa ärenden"
 
-#: misc/localization/eventum.c:8108
+#: misc/localization/eventum.c:8111
 msgid "Thank you, your current selected project was changed successfully."
 msgstr "Tack så mycket, projektet har ändrats."
 
-#: misc/localization/eventum.c:8114
+#: misc/localization/eventum.c:8117
 msgid "Important Notices"
 msgstr "Viktiga noteringar"
 
-#: misc/localization/eventum.c:8117
+#: misc/localization/eventum.c:8120
 msgid "Please enter the estimated development time for this task."
 msgstr "Var vänlig ange beräknad utvecklingstid för den här uppgiften."
 
-#: misc/localization/eventum.c:8120
+#: misc/localization/eventum.c:8123
 msgid ""
 "Please use only floating point numbers (or integers) on the estimated "
 "development time field."
@@ -8927,92 +8924,92 @@ msgstr ""
 "Var vänlig använd enbart floating point nummer (eller integer) på \n"
 " fältet för beräknad utvecklingstid."
 
-#: misc/localization/eventum.c:8123
+#: misc/localization/eventum.c:8126
 msgid "Please enter the analysis for the changes required by this issue."
 msgstr ""
 "Var vänlig ange analys för förändringar som behövs för det här ärendet."
 
-#: misc/localization/eventum.c:8129
+#: misc/localization/eventum.c:8132
 msgid "Total Estimated Dev. Time"
 msgstr "Total Beräknad utv. tid"
 
-#: misc/localization/eventum.c:8138
+#: misc/localization/eventum.c:8141
 msgid "Initial Impact Analysis"
 msgstr "Initial påverkansanalys"
 
-#: misc/localization/eventum.c:8150
+#: misc/localization/eventum.c:8153
 msgid "Further Requirements"
 msgstr "Vidare krav"
 
-#: misc/localization/eventum.c:8156
+#: misc/localization/eventum.c:8159
 msgid "Handler"
 msgstr "Ansvarig"
 
-#: misc/localization/eventum.c:8159
+#: misc/localization/eventum.c:8162
 msgid "Requirement"
 msgstr "Krav"
 
-#: misc/localization/eventum.c:8168 misc/localization/eventum.c:8171
+#: misc/localization/eventum.c:8171 misc/localization/eventum.c:8174
 msgid "update entry"
 msgstr "uppdatering notering"
 
-#: misc/localization/eventum.c:8180
+#: misc/localization/eventum.c:8183
 msgid "No entries could be found."
 msgstr "Inga noteringar hittades."
 
-#: misc/localization/eventum.c:8183
+#: misc/localization/eventum.c:8186
 msgid "Please enter the new requirement for this issue."
 msgstr "Var vänlig ange nytt krav för det här ärendet."
 
-#: misc/localization/eventum.c:8186
+#: misc/localization/eventum.c:8189
 msgid "Add New Requirement"
 msgstr "Lägg till Nytt Krav"
 
-#: misc/localization/eventum.c:8189
+#: misc/localization/eventum.c:8192
 msgid "This action will permanently delete the selected attachment."
 msgstr "Det här åtgärden kommer ta bort den valda bilagan."
 
-#: misc/localization/eventum.c:8192
+#: misc/localization/eventum.c:8195
 msgid "This action will permanently delete the selected file."
 msgstr "Det här åtgärden kommer ta bort den valda filen."
 
-#: misc/localization/eventum.c:8195
+#: misc/localization/eventum.c:8198
 msgid "Attached Files"
 msgstr "Bifogade filer"
 
-#: misc/localization/eventum.c:8222
+#: misc/localization/eventum.c:8225
 msgid "No attachments could be found."
 msgstr "Inga bilagor kunde hittas"
 
-#: misc/localization/eventum.c:8228
+#: misc/localization/eventum.c:8231
 msgid "Please choose the project."
 msgstr "Vänligen välj projektet."
 
-#: misc/localization/eventum.c:8231
+#: misc/localization/eventum.c:8234
 msgid "Select Project"
 msgstr "Välj projekt"
 
-#: misc/localization/eventum.c:8234
+#: misc/localization/eventum.c:8237
 msgid "You are not allowed to use the selected project."
 msgstr "Du har inte tillåtelse att använda det valda projektet."
 
-#: misc/localization/eventum.c:8240
+#: misc/localization/eventum.c:8243
 msgid "Remember Selection"
 msgstr "Kom ihåg val"
 
-#: misc/localization/eventum.c:8249
+#: misc/localization/eventum.c:8252
 msgid "Removed Emails"
 msgstr "Borttagna e-postmeddelanden"
 
-#: misc/localization/eventum.c:8252
+#: misc/localization/eventum.c:8255
 msgid "Please choose which emails need to be restored."
 msgstr "Vänligen välj vilka e-postmeddelanden som skall återskapas."
 
-#: misc/localization/eventum.c:8255
+#: misc/localization/eventum.c:8258
 msgid "Please choose which emails need to be permanently removed."
 msgstr "Vänligen välj vilka e-postmeddelanden som skall tas bort."
 
-#: misc/localization/eventum.c:8258
+#: misc/localization/eventum.c:8261
 msgid ""
 "WARNING: This action will permanently remove the selected emails from your "
 "email account."
@@ -9020,11 +9017,11 @@ msgstr ""
 "VARNING: Åtgärden kommer ta bort valda e-postmeddelanden från ditt e-"
 "postkonto."
 
-#: misc/localization/eventum.c:8279
+#: misc/localization/eventum.c:8282
 msgid "Restore Emails"
 msgstr "Återskapa e-postmeddelanden"
 
-#: misc/localization/eventum.c:8285
+#: misc/localization/eventum.c:8288
 msgid "Permanently Remove"
 msgstr "Radera"
 

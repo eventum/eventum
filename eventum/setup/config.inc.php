@@ -173,12 +173,12 @@ if (isset($_GET)) {
     }
     $HTTP_COOKIE_VARS = $_COOKIE;
 }
-// fix magic_quote_gpc'ed values (i wish i knew who is the person behind this)
+// fix magic_quote_gpc'ed values
 $HTTP_GET_VARS = Misc::dispelMagicQuotes($HTTP_GET_VARS);
 $HTTP_POST_VARS = Misc::dispelMagicQuotes($HTTP_POST_VARS);
 $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
 
-Language::setPreference();
+Language::setup();
 
 // set charset
 header("Content-Type: text/html; charset=" . APP_CHARSET);

@@ -51,15 +51,18 @@ if ((@$HTTP_GET_VARS["err"] == '') && (Auth::hasValidCookie(APP_COOKIE))) {
             Auth::redirect(APP_RELATIVE_URL . "main.php");
         }
     }
-    // check if the list of active projects consists of just 
-    // one project, and redirect the user to the main page of the 
+
+    Language::setPreference();
+
+    // check if the list of active projects consists of just
+    // one project, and redirect the user to the main page of the
     // application on that case
     $assigned_projects = Project::getAssocList(Auth::getUserID());
     if (count($assigned_projects) == 1) {
         list($prj_id,) = each($assigned_projects);
         Auth::setCurrentProject($prj_id, 0);
         handleExpiredCustomer($prj_id);
-        
+
         if (!empty($HTTP_GET_VARS["url"])) {
             Auth::redirect($HTTP_GET_VARS["url"]);
         } else {
@@ -101,7 +104,7 @@ if (@$HTTP_POST_VARS["cat"] == "select") {
         }
         Auth::setCurrentProject($HTTP_POST_VARS["project"], $HTTP_POST_VARS["remember"]);
         handleExpiredCustomer($HTTP_POST_VARS["project"]);
-        
+
         if (!empty($HTTP_POST_VARS["url"])) {
             Auth::redirect($HTTP_POST_VARS["url"]);
         } else {
@@ -115,7 +118,7 @@ $tpl->displayTemplate();
 function handleExpiredCustomer($prj_id)
 {
     GLOBAL $tpl;
-    
+
     if (Customer::hasCustomerIntegration($prj_id)) {
         // check if customer is expired
         $usr_id = Auth::getUserID();

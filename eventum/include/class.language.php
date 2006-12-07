@@ -39,6 +39,18 @@
 class Language
 {
 
+    function setup()
+    {
+        global $HTTP_GET_VARS, $HTTP_SESSION_VARS, $avail_langs;
+
+        // please add the following line to config.inc.php, changing to whatever language you prefer
+        // define('APP_DEFAULT_LOCALE', 'en_US');
+
+        ini_set('mbstring.internal_encoding', 'UTF8');
+
+        Language::set(APP_DEFAULT_LOCALE);
+    }
+
     /**
      * Method used to set the appropriate preference of the language
      * for the application.
@@ -49,10 +61,6 @@ class Language
     function setPreference()
     {
         global $HTTP_GET_VARS, $HTTP_SESSION_VARS, $avail_langs;
-
-        // please add the following line to config.inc.php, changing to whatever language you prefer
-        // define('APP_DEFAULT_LOCALE', 'en_US');
-
 
         $usr_id = Auth::getUserID();
         if (empty($usr_id)) {
@@ -66,8 +74,6 @@ class Language
         }
 
         Language::set(APP_CURRENT_LOCALE);
-
-        ini_set('mbstring.internal_encoding', 'UTF8');
     }
 
 
@@ -85,6 +91,8 @@ class Language
             _bind_textdomain_codeset("eventum", APP_CHARSET);
             _textdomain("eventum");
         }
+
+        User::setLocalizedRoles();
     }
 
 
