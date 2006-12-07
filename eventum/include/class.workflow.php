@@ -302,14 +302,15 @@ class Workflow
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The user ID of the person posting this new note
      * @param   boolean $closing If the issue is being closed
+     * @param   integer $note_id The ID of the new note
      */
-    function handleNewNote($prj_id, $issue_id, $usr_id, $closing = false)
+    function handleNewNote($prj_id, $issue_id, $usr_id, $closing = false, $note_id = false)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return;
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->handleNewNote($prj_id, $issue_id, $usr_id, $closing);
+        return $backend->handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id);
     }
 
 

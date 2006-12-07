@@ -106,8 +106,9 @@ class Abstract_Workflow_Backend
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The user ID of the person posting this new note
      * @param   boolean $closing If the issue is being closed
+     * @param   integer $note_id The ID of the new note
      */
-    function handleNewNote($prj_id, $issue_id, $usr_id, $closing)
+    function handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id)
     {
     }
 

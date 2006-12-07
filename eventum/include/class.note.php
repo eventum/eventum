@@ -359,7 +359,7 @@ class Note
                 } else {
                     Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
                 }
-                Workflow::handleNewNote(Issue::getProjectID($issue_id), $issue_id, $usr_id, $closing);
+                Workflow::handleNewNote(Issue::getProjectID($issue_id), $issue_id, $usr_id, $closing, $new_note_id);
             }
             // need to return the new note id here so it can
             // be re-used to associate internal-only attachments

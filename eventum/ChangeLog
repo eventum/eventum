@@ -62,6 +62,7 @@ Eventum Issue Tracking System
 - Change weekly report to be project specific (Bryan)
 - Added warning message when closing issue from update issue page (Bryan)
 - Added Ignore Issue Status Changes to weekly report window (Elan Ruusamäe)
+- Add $note_id to workflow handleNewNote method (Elan Ruusamäe)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
