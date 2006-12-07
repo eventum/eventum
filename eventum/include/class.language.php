@@ -79,14 +79,14 @@ class Language
 
     function set($locale)
     {
-        $new_locale = setlocale(LC_TIME, $locale . '.UTF8', $locale);
+        setlocale(LC_TIME, $locale . '.UTF8', $locale);
         if (APP_GETTEXT_MODE == 'native') {
-            $new_locale = setlocale(LC_MESSAGES, $locale . '.UTF8', $locale);
+            setlocale(LC_MESSAGES, $locale . '.UTF8', $locale);
             bindtextdomain("eventum", APP_PATH . "misc/localization/");
             bind_textdomain_codeset("eventum", APP_CHARSET);
             textdomain("eventum");
         } elseif (APP_GETTEXT_MODE == 'php') {
-            $new_locale = _setlocale(LC_MESSAGES, $locale);
+            _setlocale(LC_MESSAGES, $locale);
             _bindtextdomain("eventum", APP_PATH . "misc/localization/");
             _bind_textdomain_codeset("eventum", APP_CHARSET);
             _textdomain("eventum");
