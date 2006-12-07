@@ -160,7 +160,6 @@ include_once(APP_INC_PATH . "class.language.php");
 include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.misc.php");
-Language::setPreference();
 
 if (isset($_GET)) {
     $HTTP_POST_VARS = $_POST;
@@ -179,6 +178,7 @@ $HTTP_GET_VARS = Misc::dispelMagicQuotes($HTTP_GET_VARS);
 $HTTP_POST_VARS = Misc::dispelMagicQuotes($HTTP_POST_VARS);
 $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
 
+Language::setPreference();
+
 // set charset
-header("content-type: text/html;charset=" . APP_CHARSET);
-?>
+header("Content-Type: text/html; charset=" . APP_CHARSET);
