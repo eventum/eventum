@@ -27,12 +27,12 @@
 //
 // @(#) $Id$
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.faq.php");
-include_once(APP_INC_PATH . "class.customer.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.faq.php");
+require_once(APP_INC_PATH . "class.customer.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("faq.tpl.html");

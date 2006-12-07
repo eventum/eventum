@@ -28,7 +28,7 @@
 // @(#) $Id$
 //
 
-include_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.user.php");
 
 /**
  * Class to handle parsing content for links.
@@ -347,7 +347,7 @@ class Link_Filter
      */
     function callbackIssueLinks($matches)
     {
-        include_once(APP_INC_PATH . "class.issue.php");
+        require_once(APP_INC_PATH . "class.issue.php");
         // check if the issue is still open
         if (Issue::isClosed($matches[5])) {
             $class = 'closed_link';

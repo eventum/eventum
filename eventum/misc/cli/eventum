@@ -11,9 +11,9 @@
 //
 // @(#) $Id: s.eventum 1.3 03/12/13 00:03:39-00:00 jpradomaia $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.command_line.php");
-include_once(APP_PEAR_PATH . "XML_RPC/RPC.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.command_line.php");
+require_once(APP_PEAR_PATH . "XML_RPC/RPC.php");
 
 list($user_email, $user_password, $url, $port, $relative_url) = Command_Line::getEnvironmentSettings();
 if (empty($port)) {

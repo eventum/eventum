@@ -105,7 +105,7 @@ class Workflow
             $file_name_chunks = explode(".", $backend_class);
             $class_name = $file_name_chunks[1] . "_Workflow_Backend";
 
-            include_once(APP_INC_PATH . "workflow/$backend_class");
+            require_once(APP_INC_PATH . "workflow/$backend_class");
 
             $setup_backends[$prj_id] = new $class_name;
         }

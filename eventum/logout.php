@@ -27,8 +27,8 @@
 //
 // @(#) $Id: s.logout.php 1.6 03/01/20 05:09:53-00:00 jpm $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.auth.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.auth.php");
 
 Auth::removeCookie(APP_COOKIE);
 

@@ -27,19 +27,19 @@
 //
 // @(#) $Id: s.new.php 1.14 03/07/11 05:04:05-00:00 jpm $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.category.php");
-include_once(APP_INC_PATH . "class.priority.php");
-include_once(APP_INC_PATH . "class.release.php");
-include_once(APP_INC_PATH . "class.issue.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.group.php");
-include_once(APP_INC_PATH . "class.support.php");
-include_once(APP_INC_PATH . "class.custom_field.php");
-include_once(APP_INC_PATH . "class.setup.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.category.php");
+require_once(APP_INC_PATH . "class.priority.php");
+require_once(APP_INC_PATH . "class.release.php");
+require_once(APP_INC_PATH . "class.issue.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.group.php");
+require_once(APP_INC_PATH . "class.support.php");
+require_once(APP_INC_PATH . "class.custom_field.php");
+require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("new.tpl.html");

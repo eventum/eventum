@@ -28,15 +28,15 @@
 // @(#) $Id: s.class.report.php 1.10 04/01/26 20:37:04-06:00 joao@kickass. $
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "class.status.php");
-include_once(APP_INC_PATH . "class.history.php");
-include_once(APP_INC_PATH . "class.phone_support.php");
-include_once(APP_INC_PATH . "class.prefs.php");
-include_once(APP_PEAR_PATH . "Math/Stats.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.status.php");
+require_once(APP_INC_PATH . "class.history.php");
+require_once(APP_INC_PATH . "class.phone_support.php");
+require_once(APP_INC_PATH . "class.prefs.php");
+require_once(APP_PEAR_PATH . "Math/Stats.php");
 
 /**
  * Class to handle the business logic related to all aspects of the

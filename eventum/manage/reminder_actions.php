@@ -27,13 +27,13 @@
 //
 // @(#) $Id: s.reminder_actions.php 1.2 04/01/19 15:15:25-00:00 jpradomaia $
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.reminder.php");
-include_once(APP_INC_PATH . "class.reminder_action.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.reminder.php");
+require_once(APP_INC_PATH . "class.reminder_action.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("manage/index.tpl.html");

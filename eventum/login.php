@@ -27,11 +27,11 @@
 //
 // @(#) $Id: s.login.php 1.21 03/10/08 17:06:06-00:00 jpradomaia $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.validation.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.validation.php");
 
 if (Validation::isWhitespace($_POST["email"])) {
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=1");

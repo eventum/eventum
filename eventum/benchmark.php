@@ -27,12 +27,12 @@
 //
 // @(#) $Id: s.benchmark.php 1.2 03/03/24 00:33:26-00:00 jpm $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 error_reporting(E_ALL);
-include_once(APP_JPGRAPH_PATH . "jpgraph.php");
-include_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
+require_once(APP_JPGRAPH_PATH . "jpgraph.php");
+require_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
 
 $font = FF_FONT1;
 

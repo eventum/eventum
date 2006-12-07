@@ -28,8 +28,8 @@
 // @(#) $Id$
 //
 
-include_once(APP_INC_PATH . 'class.date.php');
-include_once(APP_INC_PATH . 'class.error_handler.php');
+require_once(APP_INC_PATH . 'class.date.php');
+require_once(APP_INC_PATH . 'class.error_handler.php');
 
 class Round_Robin
 {

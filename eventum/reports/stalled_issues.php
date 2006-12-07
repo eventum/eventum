@@ -27,12 +27,12 @@
 //
 // @(#) $Id$
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.report.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.report.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("reports/stalled_issues.tpl.html");

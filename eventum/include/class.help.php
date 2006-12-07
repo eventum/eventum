@@ -28,7 +28,7 @@
 // @(#) $Id: s.class.help.php 1.16 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
 
 $topics = array(
     "main" => array(

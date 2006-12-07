@@ -1,7 +1,7 @@
 <?php
-include_once("../../../config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.date.php");
+require_once("../../../config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.date.php");
 
 $stmt = "SELECT MAX(usr_id)+1 FROM eventum_user";
 $new_usr_id = $GLOBALS["db_api"]->dbh->getOne($stmt);

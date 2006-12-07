@@ -28,8 +28,8 @@
 // @(#) $Id$
 //
 
-include_once("DB.php");
-include_once(APP_INC_PATH . "class.misc.php");
+require_once("DB.php");
+require_once(APP_INC_PATH . "class.misc.php");
 
 class Monitor
 {

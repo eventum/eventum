@@ -27,10 +27,10 @@
 //
 // @(#) $Id: s.signup.php 1.2 03/05/27 13:34:33-00:00 jpm $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.setup.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("signup.tpl.html");

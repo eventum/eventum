@@ -1,7 +1,7 @@
 <?php
-include_once("../../../config.inc.php");
-include_once(APP_INC_PATH . "class.prefs.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../../../config.inc.php");
+require_once(APP_INC_PATH . "class.prefs.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $sql = "SELECT
             usr_id,

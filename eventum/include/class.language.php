@@ -138,7 +138,7 @@ function ev_ngettext($string, $plural, $number)
 
 // if there is no gettext support built into PHP, or we are running in language compatability mode include PHP-gettext
 if ((!function_exists('gettext')) || ((defined('APP_GETTEXT_MODE')) && (APP_GETTEXT_MODE == 'php'))) {
-    include_once(APP_INC_PATH . "php-gettext/gettext.inc");
+    require_once(APP_INC_PATH . "php-gettext/gettext.inc");
     @define('APP_GETTEXT_MODE', 'php');
 } else {
     @define('APP_GETTEXT_MODE', 'native');

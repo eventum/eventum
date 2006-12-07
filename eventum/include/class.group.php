@@ -28,12 +28,12 @@
 // @(#) $Id$
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.prefs.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.prefs.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.project.php");
 
 /**
  * Class to handle the business logic related to the administration

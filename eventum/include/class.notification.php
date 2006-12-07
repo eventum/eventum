@@ -35,20 +35,20 @@
  * @author João Prado Maia <jpm@mysql.com>
  */
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.setup.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.prefs.php");
-include_once(APP_INC_PATH . "class.custom_field.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.mail.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "class.project.php");
-include_once(APP_INC_PATH . "class.history.php");
-include_once(APP_INC_PATH . "class.issue.php");
-include_once(APP_INC_PATH . "class.priority.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.prefs.php");
+require_once(APP_INC_PATH . "class.custom_field.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.mail.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "class.history.php");
+require_once(APP_INC_PATH . "class.issue.php");
+require_once(APP_INC_PATH . "class.priority.php");
 
 class Notification
 {
@@ -348,7 +348,7 @@ class Notification
             }
         }
 
-        @include_once(APP_PEAR_PATH . 'Mail/mime.php');
+        @require_once(APP_PEAR_PATH . 'Mail/mime.php');
         foreach ($emails as $to) {
             $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($to));
             $to = MIME_Helper::encodeAddress($to);
@@ -654,9 +654,9 @@ class Notification
         }
         if ($old["iss_description"] != $new["description"]) {
             // need real diff engine here
-            include_once 'Text_Diff/Diff.php';
-            include_once 'Text_Diff/Diff/Renderer.php';
-            include_once 'Text_Diff/Diff/Renderer/unified.php';
+            require_once 'Text_Diff/Diff.php';
+            require_once 'Text_Diff/Diff/Renderer.php';
+            require_once 'Text_Diff/Diff/Renderer/unified.php';
             $old['iss_description'] = explode("\n", $old['iss_description']);
             $new['description'] = explode("\n", $new['description']);
             $diff = &new Text_Diff($old["iss_description"], $new["description"]);

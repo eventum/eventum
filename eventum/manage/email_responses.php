@@ -27,12 +27,12 @@
 //
 // @(#) $Id: s.email_responses.php 1.1 03/05/24 04:23:54-00:00 jpm $
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.email_response.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.email_response.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("manage/index.tpl.html");

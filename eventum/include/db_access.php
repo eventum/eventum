@@ -28,7 +28,7 @@
 // @(#) $Id: s.db_access.php 1.4 03/12/31 17:33:45-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.db_api.php");
+require_once(APP_INC_PATH . "class.db_api.php");
 $db_api =& new DB_API;
 
 // benchmarking the included file (aka setup time)

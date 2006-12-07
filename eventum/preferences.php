@@ -32,13 +32,13 @@
 if (@$_POST['language']) {
     define('SKIP_LANGUAGE_INIT', true);
 }
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.prefs.php");
-include_once(APP_INC_PATH . "class.setup.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.prefs.php");
+require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 // must do Language::setPreference before template is initialized
 if (@$_POST["cat"] == "update_account") {

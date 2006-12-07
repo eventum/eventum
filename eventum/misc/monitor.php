@@ -27,8 +27,8 @@
 //
 // @(#) $Id$
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.monitor.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.monitor.php");
 
 // the disk partition in which eventum is stored in
 $partition = '/';

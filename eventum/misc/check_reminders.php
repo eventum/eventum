@@ -28,12 +28,12 @@
 // @(#) $Id: s.check_reminders.php 1.1 04/01/07 15:50:18-00:00 jpradomaia $
 //
 
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.lock.php");
-include_once(APP_INC_PATH . "class.reminder.php");
-include_once(APP_INC_PATH . "class.reminder_action.php");
-include_once(APP_INC_PATH . "class.reminder_condition.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.lock.php");
+require_once(APP_INC_PATH . "class.reminder.php");
+require_once(APP_INC_PATH . "class.reminder_action.php");
+require_once(APP_INC_PATH . "class.reminder_condition.php");
 
 
 // if requested, clear the lock

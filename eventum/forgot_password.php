@@ -27,11 +27,11 @@
 //
 // @(#) $Id: s.forgot_password.php 1.8 03/12/12 19:09:43-00:00 jpradomaia $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.mail.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.mail.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("forgot_password.tpl.html");

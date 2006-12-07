@@ -27,12 +27,12 @@
 //
 // @(#) $Id: $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.note.php");
-include_once(APP_INC_PATH . "class.draft.php");
-include_once(APP_INC_PATH . "class.mail_queue.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.note.php");
+require_once(APP_INC_PATH . "class.draft.php");
+require_once(APP_INC_PATH . "class.mail_queue.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 

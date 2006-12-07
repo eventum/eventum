@@ -28,12 +28,12 @@
 // @(#) $Id: s.class.auth.php 1.37 04/01/16 23:25:25-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.project.php");
-include_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "class.user.php");
 require_once(APP_INC_PATH . "class.customer.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "private_key.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "private_key.php");
 
 /**
  * Class to handle authentication issues.
@@ -502,7 +502,7 @@ class Auth
      */
     function createFakeCookie($usr_id, $project = false)
     {
-        include_once(APP_INC_PATH . "private_key.php");
+        require_once(APP_INC_PATH . "private_key.php");
 
         $user_details = User::getDetails($usr_id);
 

@@ -28,8 +28,8 @@
 // @(#) $Id: s.class.reminder_condition.php 1.2 04/01/19 15:15:25-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.status.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.status.php");
 
 /**
  * Class to handle the business logic related to the reminder emails

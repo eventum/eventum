@@ -203,7 +203,7 @@ if (stristr(PHP_OS, 'darwin')) {
 } else {
     ini_set("include_path", ".:./../include/pear/");
 }
-include_once("File/Util.php");
+require_once("File/Util.php");
 
 $html = checkRequirements();
 if (!empty($html)) {
@@ -211,7 +211,7 @@ if (!empty($html)) {
     exit;
 }
 
-include_once("../include/Smarty/Smarty.class.php");
+require_once("../include/Smarty/Smarty.class.php");
 
 $tpl = new Smarty();
 $tpl->template_dir = '../templates/';
@@ -413,8 +413,8 @@ $private_key = "' . md5(microtime()) . '";
     fclose($fp);
 
     // write setup file
-    include_once("../config.inc.php");
-    include_once(APP_INC_PATH . "class.setup.php");
+    require_once("../config.inc.php");
+    require_once(APP_INC_PATH . "class.setup.php");
     $_REQUEST['setup']['update'] = 1;
     $_REQUEST['setup']['closed'] = 1;
     $_REQUEST['setup']['emails'] = 1;

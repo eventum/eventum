@@ -25,15 +25,15 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.report.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.customer.php");
-include_once(APP_INC_PATH . "class.customer_stats_report.php");
-include_once(APP_INC_PATH . "class.session.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.report.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.customer.php");
+require_once(APP_INC_PATH . "class.customer_stats_report.php");
+require_once(APP_INC_PATH . "class.session.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("reports/estimated_dev_time.tpl.html");

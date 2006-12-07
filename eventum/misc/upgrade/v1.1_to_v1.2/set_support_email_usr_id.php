@@ -2,8 +2,8 @@
 /*
  * Runonce script to set the sup_usr_id field in support_email
  */
-include_once("../../../config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../../../config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 
 $stmt = "SELECT

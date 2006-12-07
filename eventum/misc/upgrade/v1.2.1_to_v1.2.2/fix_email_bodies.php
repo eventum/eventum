@@ -1,7 +1,7 @@
 <?php
-include_once("../../../config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.mime_helper.php");
+require_once("../../../config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.mime_helper.php");
 
 ini_set("memory_limit", "512M");
 

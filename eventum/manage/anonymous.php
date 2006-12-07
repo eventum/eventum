@@ -27,16 +27,16 @@
 //
 // @(#) $Id: s.anonymous.php 1.4 03/03/01 23:27:37-00:00 jpm $
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.category.php");
-include_once(APP_INC_PATH . "class.priority.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.project.php");
-include_once(APP_INC_PATH . "class.setup.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.category.php");
+require_once(APP_INC_PATH . "class.priority.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("manage/index.tpl.html");

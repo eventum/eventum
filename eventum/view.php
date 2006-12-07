@@ -27,21 +27,21 @@
 //
 // @(#) $Id: s.view.php 1.27 04/01/23 03:42:02-00:00 jpradomaia $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.issue.php");
-include_once(APP_INC_PATH . "class.time_tracking.php");
-include_once(APP_INC_PATH . "class.note.php");
-include_once(APP_INC_PATH . "class.impact_analysis.php");
-include_once(APP_INC_PATH . "class.support.php");
-include_once(APP_INC_PATH . "class.notification.php");
-include_once(APP_INC_PATH . "class.attachment.php");
-include_once(APP_INC_PATH . "class.custom_field.php");
-include_once(APP_INC_PATH . "class.phone_support.php");
-include_once(APP_INC_PATH . "class.scm.php");
-include_once(APP_INC_PATH . "class.draft.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.issue.php");
+require_once(APP_INC_PATH . "class.time_tracking.php");
+require_once(APP_INC_PATH . "class.note.php");
+require_once(APP_INC_PATH . "class.impact_analysis.php");
+require_once(APP_INC_PATH . "class.support.php");
+require_once(APP_INC_PATH . "class.notification.php");
+require_once(APP_INC_PATH . "class.attachment.php");
+require_once(APP_INC_PATH . "class.custom_field.php");
+require_once(APP_INC_PATH . "class.phone_support.php");
+require_once(APP_INC_PATH . "class.scm.php");
+require_once(APP_INC_PATH . "class.draft.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("view.tpl.html");

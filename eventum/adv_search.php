@@ -27,18 +27,18 @@
 //
 // @(#) $Id: s.adv_search.php 1.10 03/10/27 18:47:52-00:00 jpradomaia $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.category.php");
-include_once(APP_INC_PATH . "class.priority.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.release.php");
-include_once(APP_INC_PATH . "class.project.php");
-include_once(APP_INC_PATH . "class.filter.php");
-include_once(APP_INC_PATH . "class.status.php");
-include_once(APP_INC_PATH . "class.user.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.category.php");
+require_once(APP_INC_PATH . "class.priority.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.release.php");
+require_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "class.filter.php");
+require_once(APP_INC_PATH . "class.status.php");
+require_once(APP_INC_PATH . "class.user.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("adv_search.tpl.html");

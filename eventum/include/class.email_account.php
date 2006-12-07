@@ -29,7 +29,7 @@
 //
 
 
-include_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
 
 class Email_Account
 {

@@ -27,10 +27,10 @@
 //
 // @(#) $Id: s.top.php 1.1 03/04/17 04:56:09-00:00 jpm $
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("reports/top.tpl.html");

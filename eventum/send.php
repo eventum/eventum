@@ -27,14 +27,14 @@
 //
 // @(#) $Id: s.send.php 1.23 03/12/05 18:32:39-00:00 jpradomaia $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.support.php");
-include_once(APP_INC_PATH . "class.email_response.php");
-include_once(APP_INC_PATH . "class.draft.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.support.php");
+require_once(APP_INC_PATH . "class.email_response.php");
+require_once(APP_INC_PATH . "class.draft.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("send.tpl.html");

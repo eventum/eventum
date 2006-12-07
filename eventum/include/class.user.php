@@ -28,17 +28,17 @@
 // @(#) $Id: s.class.user.php 1.55 04/01/26 20:37:04-06:00 joao@kickass. $
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.mail.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.prefs.php");
-include_once(APP_INC_PATH . "class.notification.php");
-include_once(APP_INC_PATH . "class.validation.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "class.project.php");
-include_once(APP_INC_PATH . "class.setup.php");
-include_once(APP_INC_PATH . "private_key.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.mail.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.prefs.php");
+require_once(APP_INC_PATH . "class.notification.php");
+require_once(APP_INC_PATH . "class.validation.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "private_key.php");
 
 // definition of roles
 $roles = array(

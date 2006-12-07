@@ -27,9 +27,9 @@
 //
 // @(#) $Id: s.route_emails.php 1.23 04/01/26 20:37:04-06:00 joao@kickass. $
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.routing.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.routing.php");
 
 $full_message = Misc::getInput();
 

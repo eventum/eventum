@@ -26,12 +26,12 @@
 // +----------------------------------------------------------------------+
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.setup.php");
-include_once(APP_INC_PATH . "class.mail_queue.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.mime_helper.php");
-include_once(APP_INC_PATH . "class.reminder.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "class.mail_queue.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.mime_helper.php");
+require_once(APP_INC_PATH . "class.reminder.php");
 
 /**
  * Class to handle the business logic related to sending email to
@@ -61,8 +61,8 @@ class Mail_API
      */
     function Mail_API()
     {
-        @include_once(APP_PEAR_PATH . 'Mail.php');
-        @include_once(APP_PEAR_PATH . 'Mail/mime.php');
+        @require_once(APP_PEAR_PATH . 'Mail.php');
+        @require_once(APP_PEAR_PATH . 'Mail/mime.php');
         $this->mime = new Mail_mime("\r\n");
     }
 
@@ -217,7 +217,7 @@ class Mail_API
     function getAddressInfo($address, $multiple = false)
     {
         $address = Mime_Helper::encodeValue($address);
-        include_once(APP_PEAR_PATH . "Mail/RFC822.php");
+        require_once(APP_PEAR_PATH . "Mail/RFC822.php");
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
         if (PEAR::isError($t)) {
             Error_Handler::logError(array($t->getMessage(), $t->getDebugInfo()), __FILE__, __LINE__);

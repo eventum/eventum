@@ -28,9 +28,9 @@
 // @(#) $Id$
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.time_tracking.php");
-include_once(APP_PEAR_PATH . "Math/Stats.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.time_tracking.php");
+require_once(APP_PEAR_PATH . "Math/Stats.php");
 
 /**
  * The Customer Stats report will be too complex to group with the rest of

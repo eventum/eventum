@@ -28,7 +28,7 @@
 // @(#) $Id: s.class.status.php 1.5 04/01/09 05:04:10-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . 'class.misc.php');
+require_once(APP_INC_PATH . 'class.misc.php');
 
 // Constants used by customer class.
 define("CUSTOMER_EXCLUDE_EXPIRED", 1);
@@ -116,7 +116,7 @@ class Customer
                 $file_name_chunks = explode(".", $backend_class);
                 $class_name = $file_name_chunks[1] . "_Customer_Backend";
 
-                include_once(APP_INC_PATH . "customer/$backend_class");
+                require_once(APP_INC_PATH . "customer/$backend_class");
 
                 $setup_backends[$prj_id] = new $class_name;
                 $setup_backends[$prj_id]->connect();

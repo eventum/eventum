@@ -27,21 +27,21 @@
 //
 // @(#) $Id: s.xmlrpc.php 1.10 03/11/17 16:04:48-00:00 jpradomaia $
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.issue.php");
-include_once(APP_INC_PATH . "class.note.php");
-include_once(APP_INC_PATH . "class.draft.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.project.php");
-include_once(APP_INC_PATH . "class.status.php");
-include_once(APP_INC_PATH . "class.authorized_replier.php");
-include_once(APP_INC_PATH . "class.report.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.customer.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.issue.php");
+require_once(APP_INC_PATH . "class.note.php");
+require_once(APP_INC_PATH . "class.draft.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "class.status.php");
+require_once(APP_INC_PATH . "class.authorized_replier.php");
+require_once(APP_INC_PATH . "class.report.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.customer.php");
 error_reporting(0);
-include_once(APP_PEAR_PATH . "XML_RPC/Server.php");
+require_once(APP_PEAR_PATH . "XML_RPC/Server.php");
 
 function authenticate($email, $password)
 {

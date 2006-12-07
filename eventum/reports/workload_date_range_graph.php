@@ -27,17 +27,17 @@
 //
 // @(#) $Id$
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.report.php");
-include_once(APP_INC_PATH . "class.custom_field.php");
-include_once(APP_INC_PATH . "class.session.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_JPGRAPH_PATH . "jpgraph.php");
-include_once(APP_JPGRAPH_PATH . "jpgraph_bar.php");
-include_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
-include_once(APP_JPGRAPH_PATH . "jpgraph_line.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.report.php");
+require_once(APP_INC_PATH . "class.custom_field.php");
+require_once(APP_INC_PATH . "class.session.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_JPGRAPH_PATH . "jpgraph.php");
+require_once(APP_JPGRAPH_PATH . "jpgraph_bar.php");
+require_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
+require_once(APP_JPGRAPH_PATH . "jpgraph_line.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 

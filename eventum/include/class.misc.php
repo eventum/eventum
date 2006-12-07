@@ -26,8 +26,8 @@
 // +----------------------------------------------------------------------+
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.setup.php");
 
 /**
  * Class to hold methods and algorythms that woudln't fit in other classes, such
@@ -613,7 +613,7 @@ class Misc
      */
     function highlightQuotedReply($text)
     {
-        include_once(APP_SMARTY_PATH . "plugins/modifier.highlight_quoted.php");
+        require_once(APP_SMARTY_PATH . "plugins/modifier.highlight_quoted.php");
         return smarty_modifier_highlight_quoted($text);
     }
 

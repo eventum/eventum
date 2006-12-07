@@ -27,15 +27,15 @@
 //
 
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.history.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "class.status.php");
-include_once(APP_INC_PATH . "class.issue.php");
-include_once(APP_INC_PATH . "class.workflow.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.history.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.status.php");
+require_once(APP_INC_PATH . "class.issue.php");
+require_once(APP_INC_PATH . "class.workflow.php");
 
 /**
  * Class designed to handle all business logic related to attachments being

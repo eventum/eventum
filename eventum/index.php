@@ -27,10 +27,10 @@
 //
 // @(#) $Id: s.index.php 1.11 03/09/06 00:54:04-00:00 jpradomaia $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 // check if templates_c is writable by the web server user
 if (!Misc::isWritableDirectory(APP_PATH . 'templates_c')) {

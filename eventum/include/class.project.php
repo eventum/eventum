@@ -28,18 +28,18 @@
 // @(#) $Id: s.class.project.php 1.36 04/01/07 20:59:37-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.group.php");
-include_once(APP_INC_PATH . "class.validation.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "class.category.php");
-include_once(APP_INC_PATH . "class.release.php");
-include_once(APP_INC_PATH . "class.filter.php");
-include_once(APP_INC_PATH . "class.support.php");
-include_once(APP_INC_PATH . "class.issue.php");
-include_once(APP_INC_PATH . "class.status.php");
-include_once(APP_INC_PATH . "class.display_column.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.group.php");
+require_once(APP_INC_PATH . "class.validation.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.category.php");
+require_once(APP_INC_PATH . "class.release.php");
+require_once(APP_INC_PATH . "class.filter.php");
+require_once(APP_INC_PATH . "class.support.php");
+require_once(APP_INC_PATH . "class.issue.php");
+require_once(APP_INC_PATH . "class.status.php");
+require_once(APP_INC_PATH . "class.display_column.php");
 
 /**
  * Class to handle the business logic related to the administration

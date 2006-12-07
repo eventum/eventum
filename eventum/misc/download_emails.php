@@ -29,11 +29,11 @@
 
 ini_set("memory_limit", "256M");
 
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.support.php");
-include_once(APP_INC_PATH . "class.lock.php");
-include_once(APP_INC_PATH . "class.project.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.support.php");
+require_once(APP_INC_PATH . "class.lock.php");
+require_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 // we need the IMAP extension for this to work
 if (!function_exists('imap_open')) {

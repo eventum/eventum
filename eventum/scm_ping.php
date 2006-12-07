@@ -34,11 +34,11 @@ if (empty($_GET['issue'])) {
     exit;
 }
 
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.scm.php");
-include_once(APP_INC_PATH . "class.workflow.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.scm.php");
+require_once(APP_INC_PATH . "class.workflow.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 foreach ($_GET['issue'] as $issue_id) {
     $files = array();

@@ -27,9 +27,9 @@
 //
 // @(#) $Id$
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.routing.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.routing.php");
 
 $full_message = Misc::getInput();
 $return = Routing::route_drafts($full_message);

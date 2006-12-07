@@ -27,16 +27,16 @@
 //
 // @(#) $Id: s.stats_chart.php 1.11 03/10/01 17:20:27-00:00 jpradomaia $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.stats.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.stats.php");
 
 ini_set('memory_limit', '64M');
 error_reporting(0);
 
-@include_once(APP_JPGRAPH_PATH . "jpgraph.php");
-@include_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
+@require_once(APP_JPGRAPH_PATH . "jpgraph.php");
+@require_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 

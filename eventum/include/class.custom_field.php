@@ -28,12 +28,12 @@
 // @(#) $Id: s.class.custom_field.php 1.28 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.issue.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.history.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.issue.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.history.php");
 
 /**
  * Class to handle the business logic related to the administration
@@ -1534,7 +1534,7 @@ class Custom_Field
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } elseif (!empty($res)) {
-            include_once(APP_INC_PATH . "custom_field/$res");
+            require_once(APP_INC_PATH . "custom_field/$res");
 
             $file_name_chunks = explode(".", $res);
             $class_name = $file_name_chunks[1] . "_Custom_Field_Backend";

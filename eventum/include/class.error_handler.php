@@ -28,9 +28,9 @@
 // @(#) $Id: s.class.error_handler.php 1.14 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.mail.php");
-include_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.mail.php");
+require_once(APP_INC_PATH . "class.setup.php");
 
 @define("REPORT_ERROR_FILE", true);
 

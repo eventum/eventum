@@ -28,11 +28,11 @@
 // @(#) $Id: s.class.impact_analysis.php 1.12 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.history.php");
-include_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.history.php");
+require_once(APP_INC_PATH . "class.date.php");
 
 /**
  * Class to handle the business logic related to the impact analysis section

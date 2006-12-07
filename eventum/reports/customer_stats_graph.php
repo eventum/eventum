@@ -27,15 +27,15 @@
 //
 // @(#) $Id$
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.customer_stats_report.php");
-include_once(APP_INC_PATH . "class.prefs.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "class.session.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_JPGRAPH_PATH . "jpgraph.php");
-include_once(APP_JPGRAPH_PATH . "jpgraph_bar.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.customer_stats_report.php");
+require_once(APP_INC_PATH . "class.prefs.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.session.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_JPGRAPH_PATH . "jpgraph.php");
+require_once(APP_JPGRAPH_PATH . "jpgraph_bar.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 

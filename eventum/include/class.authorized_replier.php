@@ -28,7 +28,7 @@
 // @(#) $Id$
 //
 
-include_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.user.php");
 
 /**
  * Class designed to handle adding, removing and viewing authorized repliers for an issue.

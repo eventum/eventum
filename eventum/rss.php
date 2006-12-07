@@ -27,14 +27,14 @@
 //
 // @(#) $Id: s.rss.php 1.14 03/11/12 16:56:44-00:00 jpradomaia $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.setup.php");
-include_once(APP_INC_PATH . "class.filter.php");
-include_once(APP_INC_PATH . "class.issue.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.validation.php");
-include_once(APP_INC_PATH . "class.project.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "class.filter.php");
+require_once(APP_INC_PATH . "class.issue.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.validation.php");
+require_once(APP_INC_PATH . "class.project.php");
 
 $setup = Setup::load();
 if (empty($setup['tool_caption'])) {

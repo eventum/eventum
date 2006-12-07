@@ -1,9 +1,9 @@
 <?php
 // changes the setup file from just containing the setup string, to be a php file with an array.
 
-include_once("../../../config.inc.php");
-include_once(APP_INC_PATH . "class.setup.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../../../config.inc.php");
+require_once(APP_INC_PATH . "class.setup.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $contents = file_get_contents(APP_SETUP_FILE);
 

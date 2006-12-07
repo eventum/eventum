@@ -26,33 +26,33 @@
 // +----------------------------------------------------------------------+
 //
 
-include_once(APP_INC_PATH . "class.validation.php");
-include_once(APP_INC_PATH . "class.time_tracking.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.attachment.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.user.php");
-include_once(APP_INC_PATH . "class.note.php");
-include_once(APP_INC_PATH . "class.history.php");
-include_once(APP_INC_PATH . "class.notification.php");
-include_once(APP_INC_PATH . "class.pager.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "class.category.php");
-include_once(APP_INC_PATH . "class.release.php");
-include_once(APP_INC_PATH . "class.resolution.php");
-include_once(APP_INC_PATH . "class.support.php");
-include_once(APP_INC_PATH . "class.scm.php");
-include_once(APP_INC_PATH . "class.impact_analysis.php");
-include_once(APP_INC_PATH . "class.custom_field.php");
-include_once(APP_INC_PATH . "class.phone_support.php");
-include_once(APP_INC_PATH . "class.status.php");
-include_once(APP_INC_PATH . "class.round_robin.php");
-include_once(APP_INC_PATH . "class.authorized_replier.php");
-include_once(APP_INC_PATH . "class.workflow.php");
-include_once(APP_INC_PATH . "class.priority.php");
-include_once(APP_INC_PATH . "class.reminder_action.php");
-include_once(APP_INC_PATH . "class.search_profile.php");
-include_once(APP_INC_PATH . "class.session.php");
+require_once(APP_INC_PATH . "class.validation.php");
+require_once(APP_INC_PATH . "class.time_tracking.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.attachment.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.user.php");
+require_once(APP_INC_PATH . "class.note.php");
+require_once(APP_INC_PATH . "class.history.php");
+require_once(APP_INC_PATH . "class.notification.php");
+require_once(APP_INC_PATH . "class.pager.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.category.php");
+require_once(APP_INC_PATH . "class.release.php");
+require_once(APP_INC_PATH . "class.resolution.php");
+require_once(APP_INC_PATH . "class.support.php");
+require_once(APP_INC_PATH . "class.scm.php");
+require_once(APP_INC_PATH . "class.impact_analysis.php");
+require_once(APP_INC_PATH . "class.custom_field.php");
+require_once(APP_INC_PATH . "class.phone_support.php");
+require_once(APP_INC_PATH . "class.status.php");
+require_once(APP_INC_PATH . "class.round_robin.php");
+require_once(APP_INC_PATH . "class.authorized_replier.php");
+require_once(APP_INC_PATH . "class.workflow.php");
+require_once(APP_INC_PATH . "class.priority.php");
+require_once(APP_INC_PATH . "class.reminder_action.php");
+require_once(APP_INC_PATH . "class.search_profile.php");
+require_once(APP_INC_PATH . "class.session.php");
 
 /**
  * Class designed to handle all business logic related to the issues in the

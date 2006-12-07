@@ -27,9 +27,9 @@
 //
 // @(#) $Id: s.index.php 1.1 03/09/16 23:01:42-00:00 jpradomaia $
 //
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {

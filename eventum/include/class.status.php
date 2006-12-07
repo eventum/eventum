@@ -28,7 +28,7 @@
 // @(#) $Id: s.class.status.php 1.5 04/01/09 05:04:10-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
 
 /**
  * Class to handle all business logic related to the way statuses

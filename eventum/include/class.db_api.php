@@ -30,8 +30,8 @@
 
 $TOTAL_QUERIES = 0;
 
-include_once("DB.php");
-include_once(APP_INC_PATH . "class.error_handler.php");
+require_once("DB.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
 
 /**
  * Class to manage all tasks related to the DB abstraction module. This is only
@@ -68,7 +68,7 @@ class DB_API
         if (PEAR::isError($this->dbh)) {
             Error_Handler::logError(array($this->dbh->getMessage(), $this->dbh->getDebugInfo()), __FILE__, __LINE__);
             $error_type = "db";
-            include_once(APP_PATH . "offline.php");
+            require_once(APP_PATH . "offline.php");
             exit;
         }
     }

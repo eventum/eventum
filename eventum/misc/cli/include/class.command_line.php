@@ -28,8 +28,8 @@
 // @(#) $Id: s.class.command_line.php 1.6 03/12/31 17:32:20-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_PEAR_PATH . "XML_RPC/RPC.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_PEAR_PATH . "XML_RPC/RPC.php");
 
 $_displayed_confirmation = false;
 

@@ -132,7 +132,7 @@ if (APP_CHARSET == 'UTF-8') {
 @define("APP_BENCHMARK", false);
 if (APP_BENCHMARK) {
     // always benchmark the scripts
-    include_once("Benchmark/Timer.php");
+    require_once("Benchmark/Timer.php");
     $bench = new Benchmark_Timer;
     $bench->start();
 }
@@ -156,10 +156,10 @@ define('APP_DEFAULT_LOCALE', 'en_US');
 // such as language switching randomly, try php
 define('APP_GETTEXT_MODE', 'native');
 
-include_once(APP_INC_PATH . "class.language.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.language.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.misc.php");
 
 // fix magic_quote_gpc'ed values
 $_GET = Misc::dispelMagicQuotes($_GET);

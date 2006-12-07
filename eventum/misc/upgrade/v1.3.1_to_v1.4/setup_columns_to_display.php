@@ -2,10 +2,10 @@
 // create database entries for all projects in the columns_to_display table
 // so all projects have fields that show up on the list issue page.
 
-include_once("../../../config.inc.php");
-include_once(APP_INC_PATH . "class.display_column.php");
-include_once(APP_INC_PATH . "class.project.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../../../config.inc.php");
+require_once(APP_INC_PATH . "class.display_column.php");
+require_once(APP_INC_PATH . "class.project.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $projects = Project::getAll();
 foreach ($projects as $prj_id => $prj_title) {

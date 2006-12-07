@@ -2,9 +2,9 @@
 /*
  * Runonce script to set the history type for previously entered events
  */
-include_once("../../../config.inc.php");
-include_once(APP_INC_PATH . "class.history.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../../../config.inc.php");
+require_once(APP_INC_PATH . "class.history.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 
 $patterns = array();

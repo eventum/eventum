@@ -1,8 +1,8 @@
 <?php
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "class.custom_field.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "class.custom_field.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 

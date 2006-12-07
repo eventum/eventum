@@ -28,8 +28,8 @@
 // @(#) $Id: s.class.email_response.php 1.6 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.misc.php");
 
 /**
  * Class to handle the business logic related to the administration

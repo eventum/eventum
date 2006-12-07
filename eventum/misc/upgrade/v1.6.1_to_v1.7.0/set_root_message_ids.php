@@ -2,9 +2,9 @@
 /*
  * Runonce script to set iss_root_message_id
  */
-include_once("../../../config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.issue.php");
+require_once("../../../config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.issue.php");
 
 $stmt = "SELECT
             iss_id

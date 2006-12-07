@@ -27,12 +27,12 @@
 //
 // @(#) $Id: s.news.php 1.1 04/01/13 20:02:51-00:00 jpradomaia $
 //
-include_once("config.inc.php");
-include_once(APP_INC_PATH . "class.template.php");
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.news.php");
-include_once(APP_INC_PATH . "class.date.php");
-include_once(APP_INC_PATH . "db_access.php");
+require_once("config.inc.php");
+require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.auth.php");
+require_once(APP_INC_PATH . "class.news.php");
+require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate('news.tpl.html');

@@ -28,10 +28,10 @@
 // @(#) $Id: s.class.history.php 1.15 03/12/31 17:29:00-00:00 jpradomaia $
 //
 
-include_once(APP_INC_PATH . "class.error_handler.php");
-include_once(APP_INC_PATH . "class.misc.php");
-include_once(APP_INC_PATH . "class.mime_helper.php");
-include_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.error_handler.php");
+require_once(APP_INC_PATH . "class.misc.php");
+require_once(APP_INC_PATH . "class.mime_helper.php");
+require_once(APP_INC_PATH . "class.date.php");
 
 /**
  * Class to handle the business logic related to the history information for

@@ -29,9 +29,9 @@
 
 ini_set("memory_limit", "256M");
 
-include_once("../config.inc.php");
-include_once(APP_INC_PATH . "db_access.php");
-include_once(APP_INC_PATH . "class.mail_queue.php");
+require_once("../config.inc.php");
+require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.mail_queue.php");
 
 // determine if this script is being called from the web or command line
 $fix_lock = false;
