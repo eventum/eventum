@@ -161,18 +161,6 @@ include_once(APP_INC_PATH . "db_access.php");
 include_once(APP_INC_PATH . "class.auth.php");
 include_once(APP_INC_PATH . "class.misc.php");
 
-if (isset($_GET)) {
-    $HTTP_POST_VARS = $_POST;
-    $HTTP_GET_VARS = $_GET;
-    $HTTP_SERVER_VARS = $_SERVER;
-    $HTTP_ENV_VARS = $_ENV;
-    $HTTP_POST_FILES = $_FILES;
-    // seems like PHP 4.1.0 didn't implement the $_SESSION auto-global...
-    if (isset($_SESSION)) {
-        $HTTP_SESSION_VARS = $_SESSION;
-    }
-    $HTTP_COOKIE_VARS = $_COOKIE;
-}
 // fix magic_quote_gpc'ed values
 $_GET = Misc::dispelMagicQuotes($_GET);
 $_POST = Misc::dispelMagicQuotes($_POST);
