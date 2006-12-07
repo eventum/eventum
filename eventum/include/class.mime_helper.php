@@ -713,7 +713,8 @@ class Mime_Helper
     {
         return array(
             'message/rfc822',
-            'application/pgp-signature'
+            'application/pgp-signature',
+            'application/ms-tnef',
         );
     }
 
