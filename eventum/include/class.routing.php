@@ -57,8 +57,32 @@ class Routing
     {
         GLOBAL $HTTP_POST_VARS;
 
+        // need some validation here
+        if (empty($full_message)) {
+            return array(66, ev_gettext("Error: The email message was empty") . ".\n");
+        }
+
         // save the full message for logging purposes
         Support::saveRoutedEmail($full_message);
+
+        // check if the email routing interface is even supposed to be enabled
+        $setup = Setup::load();
+        if ($setup['email_routing']['status'] != 'enabled') {
+            return array(78, ev_gettext("Error: The email routing interface is disabled.") . "\n");
+        }
+        if (empty($setup['email_routing']['address_prefix'])) {
+            return array(78, ev_gettext("Error: Please configure the email address prefix.") . "\n");
+        }
+        if (empty($setup['email_routing']['address_host'])) {
+            return array(78, ev_gettext("Error: Please configure the email address domain.") . "\n");
+        }
+
+        // associate routed emails to the internal system account
+        $sys_account = User::getNameEmail(APP_SYSTEM_USER_ID);
+        if (empty($sys_account['usr_email'])) {
+            return array(78, ev_gettext("Error: The associated user for the email routing interface needs to be set.") . "\n");
+        }
+        unset($sys_account);
 
         // join the Content-Type line (for easier parsing?)
         if (preg_match('/^boundary=/m', $full_message)) {
@@ -66,22 +90,6 @@ class Routing
             $replacement = '$1; $2';
             $full_message = preg_replace($pattern, $replacement, $full_message);
         }
-        // associate routed emails to the internal system account
-        $sys_account = User::getNameEmail(APP_SYSTEM_USER_ID);
-        $associated_user = $sys_account['usr_email'];
-
-        // need some validation here
-        if (empty($full_message)) {
-            return array(66, ev_gettext("Error: The email message was empty") . ".\n");
-        }
-        if (empty($associated_user)) {
-            return array(78, ev_gettext("Error: The associated user for the email routing interface needs to be set.") . "\n");
-        }
-
-
-        //
-        // DON'T EDIT ANYTHING BELOW THIS LINE
-        //
 
         // remove the reply-to: header
         if (preg_match('/^reply-to:.*/im', $full_message)) {
@@ -98,18 +106,6 @@ class Routing
         }
 
         Auth::createFakeCookie(APP_SYSTEM_USER_ID);
-
-        // check if the email routing interface is even supposed to be enabled
-        $setup = Setup::load();
-        if ($setup['email_routing']['status'] != 'enabled') {
-            return array(78, ev_gettext("Error: The email routing interface is disabled.") . "\n");
-        }
-        if (empty($setup['email_routing']['address_prefix'])) {
-            return array(78, ev_gettext("Error: Please configure the email address prefix.") . "\n");
-        }
-        if (empty($setup['email_routing']['address_host'])) {
-            return array(78, ev_gettext("Error: Please configure the email address domain.") . "\n");
-        }
 
         $structure = Mime_Helper::decode($full_message, true, true);
 
