@@ -71,7 +71,13 @@ class Mime_Helper
             return false;
         }
 
-        $content_type = @$structure->headers['content-type'];
+        if ($structure->ctype_primary == 'multipart' and $structure->ctype_secondary == 'mixed'
+            and count($structure->parts) >= 1 and $structure->parts[0]->ctype_primary == 'text') {
+            $content_type = $structure->parts[0]->headers['content-type'];
+        } else {
+            $content_type = @$structure->headers['content-type'];
+        }
+
         if (preg_match('/charset\s*=\s*(["\'])?([-\w\d]+)(\1)?;?/i', $content_type, $matches)) {
             return $matches[2];
         }
