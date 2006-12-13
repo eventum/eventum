@@ -51,7 +51,7 @@ class Setup
     {
         static $setup;
         if ((empty($setup)) || ($force == true)) {
-            include(APP_SETUP_FILE);
+            require(APP_SETUP_FILE);
             $setup = unserialize(base64_decode($eventum_setup_string));
         }
         return $setup;
