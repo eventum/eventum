@@ -1613,7 +1613,7 @@ msgstr "Öppna listvyn för ärenden"
 #: misc/localization/eventum.c:476 misc/localization/eventum.c:2099
 #: misc/localization/eventum.c:2222
 msgid "Open the Emails Listing Page"
-msgstr "Öppna listvun för e-post"
+msgstr "Öppna listvyn för e-post"
 
 #: misc/localization/eventum.c:479
 #, fuzzy
