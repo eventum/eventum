@@ -27,7 +27,7 @@
 //
 // @(#) $Id: s.route_notes.php 1.5 04/01/26 20:37:04-06:00 joao@kickass. $
 //
-require_once("../config.inc.php");
+include_once(dirname(__FILE__) . "/../config.inc.php");
 require_once(APP_INC_PATH . "db_access.php");
 require_once(APP_INC_PATH . "class.routing.php");
 

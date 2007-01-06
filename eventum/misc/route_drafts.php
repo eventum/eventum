@@ -27,7 +27,7 @@
 //
 // @(#) $Id$
 //
-require_once("../config.inc.php");
+include_once(dirname(__FILE__) . "/../config.inc.php");
 require_once(APP_INC_PATH . "db_access.php");
 require_once(APP_INC_PATH . "class.routing.php");
 
