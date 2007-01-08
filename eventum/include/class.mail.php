@@ -32,6 +32,7 @@ require_once(APP_INC_PATH . "class.mail_queue.php");
 require_once(APP_INC_PATH . "class.user.php");
 require_once(APP_INC_PATH . "class.mime_helper.php");
 require_once(APP_INC_PATH . "class.reminder.php");
+require_once(APP_PEAR_PATH . "Mail/RFC822.php");
 
 /**
  * Class to handle the business logic related to sending email to
@@ -137,7 +138,7 @@ class Mail_API
             $headers[strtolower($key)] = $value;
         }
 
-        if (@$headers['x-vacationmessage'] == 'Yes') {
+        if ((@$headers['x-vacationmessage'] == 'Yes') || (@$headers['auto-submitted'] == 'auto-replied (vacation)')) {
             return true;
         } else {
             return false;
@@ -178,30 +179,38 @@ class Mail_API
      */
     function fixAddressQuoting($address)
     {
-        // check if we have a <
-        if ((strstr($address, '<')) && (!Mime_Helper::isQuotedPrintable($address))) {
-            $address = stripslashes(trim($address));
-            // is the address in the format 'name' <address> ?
-            if ((strstr($address, "'")) || (strstr($address, "."))) {
-                $bracket_pos = strpos($address, '<');
-                if ($bracket_pos != 0) {
-                    $bracket_pos = $bracket_pos - 1;
+        // split multiple addresses if needed
+        $addresses = Mail_API::splitAddresses($address);
+
+        $return = array();
+        foreach ($addresses as $address) {
+            // check if we have a <
+            if ((strstr($address, '<')) && (!Mime_Helper::isQuotedPrintable($address))) {
+                $address = stripslashes(trim($address));
+                // is the address in the format 'name' <address> ?
+                if ((strstr($address, "'")) || (strstr($address, "."))) {
+                    $bracket_pos = strpos($address, '<');
+                    if ($bracket_pos != 0) {
+                        $bracket_pos = $bracket_pos - 1;
+                    }
+                    $first_part = substr($address, 0, $bracket_pos);
+                    if (!empty($first_part)) {
+                        $first_part = '"' . str_replace('"', '\"', preg_replace("/(^\")|(\"$)/", '', $first_part)) . '"';
+                    }
+                    $second_part = substr($address, strpos($address, '<'));
+                    $address = $first_part . ' ' . $second_part;
+                    // if the address was already in the format "'name'" <address>, then this code
+                    // will end up adding even more double quotes, so let's remove any excess
+                    $return[] = str_replace('""', '"', $address);
+                } else {
+                    $return[] = $address;
                 }
-                $first_part = substr($address, 0, $bracket_pos);
-                if (!empty($first_part)) {
-                    $first_part = '"' . str_replace('"', '\"', preg_replace("/(^\")|(\"$)/", '', $first_part)) . '"';
-                }
-                $second_part = substr($address, strpos($address, '<'));
-                $address = $first_part . ' ' . $second_part;
-                // if the address was already in the format "'name'" <address>, then this code
-                // will end up adding even more double quotes, so let's remove any excess
-                return str_replace('""', '"', $address);
             } else {
-                return $address;
+                $return[] = $address;
             }
-        } else {
-            return $address;
         }
+
+        return join(',', $return);
     }
 
 
@@ -216,8 +225,8 @@ class Mail_API
      */
     function getAddressInfo($address, $multiple = false)
     {
+        $address = Mail_API::fixAddressQuoting($address);
         $address = Mime_Helper::encodeValue($address);
-        require_once(APP_PEAR_PATH . "Mail/RFC822.php");
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
         if (PEAR::isError($t)) {
             Error_Handler::logError(array($t->getMessage(), $t->getDebugInfo()), __FILE__, __LINE__);
@@ -968,6 +977,22 @@ class Mail_API
             return "<eventum.md5." . $first . "." . $second . "@" . APP_HOSTNAME . ">";
         }
 
+    }
+
+
+    function splitAddresses($addresses)
+    {
+        $mail = new Mail_RFC822($addresses);
+
+        $mail->parseAddressList();
+
+        $return = array();
+        if (is_array($mail->addresses)) {
+            foreach ($mail->addresses as $address) {
+                $return[] = $address['address'];
+            }
+        }
+        return $return;
     }
 }
 
