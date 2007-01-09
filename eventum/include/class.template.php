@@ -195,7 +195,7 @@ class Template_API
         $this->assign("application_title", APP_NAME);
         $this->assign("app_base_url", APP_BASE_URL);
         $this->assign("rel_url", APP_RELATIVE_URL);
-        $this->assign("locale", APP_CURRENT_LOCALE);
+        $this->assign("locale", (defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE));
 
         // now for the browser detection stuff
         Net_UserAgent_Detect::detect();
