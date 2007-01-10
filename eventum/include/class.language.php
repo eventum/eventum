@@ -95,7 +95,7 @@ class Language
 
     function restore()
     {
-        Language::set(APP_CURRENT_LOCALE);
+        Language::set((defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE));
     }
 }
 
