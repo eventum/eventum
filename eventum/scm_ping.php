@@ -1,5 +1,5 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: scm_ping.php 3189 2007-01-11 21:57:57Z glen $
+// @(#) $Id: scm_ping.php 3192 2007-01-11 22:07:36Z glen $
 
 // shortcut to exit out when no issue id-s are passed in request
 // as this script is always called by CVS but we handle only ones which can be

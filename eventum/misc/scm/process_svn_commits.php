@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
+/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
@@ -29,7 +29,7 @@
 // |          Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: process_svn_commits.php 3190 2007-01-11 21:59:09Z glen $
+// @(#) $Id: process_svn_commits.php 3192 2007-01-11 22:07:36Z glen $
 //
 // See http://eventum.mysql.org/wiki/index.php/Subversion_integration about SVN integration.
 
