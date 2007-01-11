@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id$
+// @(#) $Id: route_drafts.php 3190 2007-01-11 21:59:09Z glen $
 //
 include_once(dirname(__FILE__) . "/../config.inc.php");
 require_once(APP_INC_PATH . "db_access.php");

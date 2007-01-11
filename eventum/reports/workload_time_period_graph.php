@@ -25,7 +25,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id$
+// @(#) $Id: workload_time_period_graph.php 3190 2007-01-11 21:59:09Z glen $
 //
 require_once("../config.inc.php");
 require_once(APP_INC_PATH . "class.auth.php");

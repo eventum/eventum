@@ -29,7 +29,7 @@
 // |          Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id$
+// @(#) $Id: process_svn_commits.php 3190 2007-01-11 21:59:09Z glen $
 //
 // See http://eventum.mysql.org/wiki/index.php/Subversion_integration about SVN integration.
 

@@ -25,7 +25,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id$
+// @(#) $Id: class.authorized_replier.php 3190 2007-01-11 21:59:09Z glen $
 //
 
 require_once(APP_INC_PATH . "class.user.php");

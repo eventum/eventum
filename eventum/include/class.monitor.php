@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id$
+// @(#) $Id: class.monitor.php 3190 2007-01-11 21:59:09Z glen $
 //
 
 require_once("DB.php");

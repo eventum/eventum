@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id$
+// @(#) $Id: class.round_robin.php 3190 2007-01-11 21:59:09Z glen $
 //
 
 require_once(APP_INC_PATH . 'class.date.php');

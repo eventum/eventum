@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id$
+// @(#) $Id: process_cvs_commits.php 3190 2007-01-11 21:59:09Z glen $
 //
 
 $eventum_domain = 'rabbit.impleo.net';

@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id$
+// @(#) $Id: process_mail_queue.php 3190 2007-01-11 21:59:09Z glen $
 
 ini_set("memory_limit", "256M");
 
