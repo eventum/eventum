@@ -22,13 +22,12 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: config.inc.php 3189 2007-01-11 21:57:57Z glen $
+// @(#) $Id: config.inc.php 3191 2007-01-11 22:00:50Z glen $
 //
 
 // automatically redirect to the setup screen
-header("Location: setup/");
+Header('Location: setup/');
 exit;
-
