@@ -84,4 +84,3 @@ $tpl->assign(array(
     "end_date"  =>  $end_date
 ));
 $tpl->displayTemplate();
-?>

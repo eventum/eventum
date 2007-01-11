@@ -2477,4 +2477,3 @@ class Support
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Support Class');
 }
-?>

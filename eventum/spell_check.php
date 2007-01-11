@@ -45,4 +45,3 @@ if (!empty($_GET['form_name'])) {
 }
 
 $tpl->displayTemplate();
-?>

@@ -50,4 +50,3 @@ if ($topic != "main") {
 }
 
 $tpl->displayTemplate();
-?>

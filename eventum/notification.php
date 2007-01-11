@@ -73,4 +73,3 @@ $tpl->assign("assoc_users", $t);
 $tpl->assign("allowed_emails", Project::getAddressBookEmails($prj_id, $issue_id));
 
 $tpl->displayTemplate();
-?>

@@ -57,4 +57,3 @@ if (stristr(PHP_OS, 'darwin')) {
 }
 
 @define("APP_BENCHMARK", false);
-?>

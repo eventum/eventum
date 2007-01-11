@@ -223,4 +223,3 @@ class Template_API
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Template Class');
 }
-?>

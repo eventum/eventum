@@ -45,4 +45,3 @@ $params = array(
 $msg = new XML_RPC_Message("addIssue", $params);
 $result = $client->send($msg);
 var_dump($result);
-?>

@@ -54,4 +54,3 @@ if ($_GET['cat'] == 'attachment') {
         Attachment::outputDownload($file['iaf_file'], $file["iaf_filename"], $file['iaf_filesize'], $file['iaf_filetype']);
     }
 }
-?>

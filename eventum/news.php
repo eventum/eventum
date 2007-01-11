@@ -49,4 +49,3 @@ if (!empty($_GET["id"])) {
 }
 
 $tpl->displayTemplate();
-?>

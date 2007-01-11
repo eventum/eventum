@@ -72,4 +72,3 @@ if (!empty($_POST["url"])) {
     $extra = '';
 }
 Auth::redirect(APP_RELATIVE_URL . "select_project.php" . $extra);
-?>

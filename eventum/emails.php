@@ -70,4 +70,3 @@ $tpl->assign("refresh_rate", $prefs['emails_refresh_rate'] * 60);
 $tpl->assign("refresh_page", "emails.php");
 
 $tpl->displayTemplate();
-?>

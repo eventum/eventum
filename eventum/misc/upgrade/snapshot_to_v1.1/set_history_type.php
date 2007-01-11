@@ -346,4 +346,3 @@ function update($his_id, $match)
         exit(1);
     }
 }
-?>

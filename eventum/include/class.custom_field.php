@@ -1598,4 +1598,3 @@ class Custom_Field
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Custom_Field Class');
 }
-?>

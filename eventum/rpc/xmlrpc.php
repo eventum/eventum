@@ -1107,4 +1107,3 @@ $services = array(
     )
 );
 $server = new XML_RPC_Server($services);
-?>

@@ -56,4 +56,3 @@ $options = Issue::saveSearchParams();
 $tpl->assign("options", $options);
 
 $tpl->displayTemplate();
-?>

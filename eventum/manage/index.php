@@ -29,4 +29,3 @@
 //
 
 header("Location: projects.php");
-?>

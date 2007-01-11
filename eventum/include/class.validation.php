@@ -140,4 +140,3 @@ class Validation
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Validation Class');
 }
-?>

@@ -147,4 +147,3 @@ if (User::getRole(Auth::getCurrentRole()) == "Customer") {
 }
 
 $tpl->displayTemplate();
-?>

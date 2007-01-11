@@ -53,4 +53,3 @@ $tpl->assign(array(
     'incident_details'  =>  $details['incident_details']
 )); 
 $tpl->displayTemplate();
-?>

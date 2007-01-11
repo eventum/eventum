@@ -57,4 +57,3 @@ if (@$_POST["cat"] == "update_values") {
 $tpl->assign("custom_fields", Custom_Field::getListByIssue($prj_id, $issue_id));
 
 $tpl->displayTemplate();
-?>

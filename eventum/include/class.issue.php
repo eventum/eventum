@@ -4109,4 +4109,3 @@ class Issue
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Issue Class');
 }
-?>

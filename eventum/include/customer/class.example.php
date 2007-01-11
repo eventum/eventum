@@ -950,4 +950,3 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     }
 
 }
-?>

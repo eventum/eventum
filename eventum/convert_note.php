@@ -59,4 +59,3 @@ if (@$_POST['cat'] == 'convert') {
 $tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
 
 $tpl->displayTemplate();
-?>

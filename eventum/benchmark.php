@@ -81,4 +81,3 @@ $graph->legend->Pos(0.06,0.10);
 
 $graph->Add($p1);
 $graph->Stroke();
-?>

@@ -547,4 +547,3 @@ class Time_Tracking
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Time_Tracking Class');
 }
-?>

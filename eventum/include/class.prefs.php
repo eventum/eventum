@@ -156,4 +156,3 @@ class Prefs
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Prefs Class');
 }
-?>

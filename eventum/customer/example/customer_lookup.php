@@ -49,4 +49,3 @@ if (@$_POST['cat'] == 'lookup') {
 }
 
 $tpl->displayTemplate();
-?>

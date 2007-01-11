@@ -269,4 +269,3 @@ class Category
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Category Class');
 }
-?>

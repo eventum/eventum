@@ -55,4 +55,3 @@ if (@$_GET['cat'] == 'newuser') {
 }
 
 $tpl->displayTemplate();
-?>

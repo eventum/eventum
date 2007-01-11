@@ -718,4 +718,3 @@ class Misc
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Misc Class');
 }
-?>

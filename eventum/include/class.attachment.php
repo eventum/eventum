@@ -629,4 +629,3 @@ class Attachment
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Attachment Class');
 }
-?>

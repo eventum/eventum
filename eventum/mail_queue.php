@@ -52,4 +52,3 @@ if ((Auth::getCurrentRole() < User::getRoleID('Developer')) ||
     ));
 }
 $tpl->displayTemplate();
-?>

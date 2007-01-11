@@ -129,4 +129,3 @@ for ($i = 0; $i < count($reminders); $i++) {
 
 // release the lock
 Lock::release('check_reminders');
-?>

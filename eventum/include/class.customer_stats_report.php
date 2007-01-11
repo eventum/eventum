@@ -753,4 +753,3 @@ class Customer_Stats_Report
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Customer_Stats_Report Class');
 }
-?>

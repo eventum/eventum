@@ -185,4 +185,3 @@ if ((@!empty($draft['emd_body'])) && ($user_prefs["auto_append_sig"] == 'yes') &
 }
 
 $tpl->displayTemplate();
-?>

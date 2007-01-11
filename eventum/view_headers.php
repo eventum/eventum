@@ -46,4 +46,3 @@ if (@$_GET['cat'] == 'note') {
 $tpl->assign("headers", $headers);
 
 $tpl->displayTemplate();
-?>

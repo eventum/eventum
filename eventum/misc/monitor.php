@@ -60,4 +60,3 @@ Monitor::checkConfiguration($required_files);
 Monitor::checkDatabase();
 Monitor::checkMailQueue();
 Monitor::checkIRCBot();
-?>

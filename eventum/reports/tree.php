@@ -36,4 +36,3 @@ $tpl = new Template_API();
 $tpl->setTemplate("reports/tree.tpl.html");
 
 $tpl->displayTemplate();
-?>

@@ -420,4 +420,3 @@ $irc->disconnect();
 
 // release the lock
 Lock::release('irc_bot');
-?>

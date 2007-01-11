@@ -477,4 +477,3 @@ class Stats
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Stats Class');
 }
-?>

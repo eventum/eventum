@@ -212,4 +212,3 @@ class SCM
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included SCM Class');
 }
-?>

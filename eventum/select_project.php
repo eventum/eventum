@@ -153,5 +153,3 @@ function handleExpiredCustomer($prj_id)
         }
     }
 }
-
-?>

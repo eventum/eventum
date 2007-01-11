@@ -877,4 +877,3 @@ class Report
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Report Class');
 }
-?>

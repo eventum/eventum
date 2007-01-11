@@ -919,4 +919,3 @@ class Reminder_Action
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Reminder_Action Class');
 }
-?>

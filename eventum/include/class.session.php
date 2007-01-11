@@ -138,4 +138,3 @@ class Session
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Session Class');
 }
-?>

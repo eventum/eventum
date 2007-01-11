@@ -327,4 +327,3 @@ class Release
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Release Class');
 }
-?>

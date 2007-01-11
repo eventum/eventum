@@ -358,4 +358,3 @@ class News
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included News Class');
 }
-?>

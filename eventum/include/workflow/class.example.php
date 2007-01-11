@@ -297,4 +297,3 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
         }
     }
 }
-?>

@@ -33,4 +33,3 @@ foreach ($res as $sup_id => $full_message) {
 }
 echo "complete";
 
-?>

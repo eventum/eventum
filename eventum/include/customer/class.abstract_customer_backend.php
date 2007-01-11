@@ -620,4 +620,3 @@ class Abstract_Customer_Backend
         return array();
     }
 }
-?>

@@ -82,4 +82,3 @@ $tpl->assign('avail_langs', $avail_langs);
 $tpl->assign('current_locale', User::getLang(Auth::getUserID(), true));
 
 $tpl->displayTemplate();
-?>

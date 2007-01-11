@@ -229,4 +229,3 @@ class Search_Profile
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Search_Profile Class');
 }
-?>

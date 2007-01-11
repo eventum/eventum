@@ -36,4 +36,3 @@ $tpl = new Template_API();
 $tpl->setTemplate("reports/top.tpl.html");
 
 $tpl->displayTemplate();
-?>

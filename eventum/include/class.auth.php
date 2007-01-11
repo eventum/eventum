@@ -545,4 +545,3 @@ class Auth
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Auth Class');
 }
-?>

@@ -469,4 +469,3 @@ class Draft
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Draft Class');
 }
-?>

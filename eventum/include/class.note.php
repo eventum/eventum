@@ -831,4 +831,3 @@ class Note
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Note Class');
 }
-?>

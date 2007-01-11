@@ -79,4 +79,3 @@ if (@$_POST["cat"] == "report") {
 }
 
 $tpl->displayTemplate();
-?>

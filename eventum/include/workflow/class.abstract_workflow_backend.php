@@ -316,4 +316,3 @@ class Abstract_Workflow_Backend
         return null;
     }
 }
-?>

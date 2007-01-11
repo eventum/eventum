@@ -49,4 +49,3 @@ if (@$_POST["cat"] == "restore") {
 $tpl->assign("list", Support::getRemovedList());
 
 $tpl->displayTemplate();
-?>

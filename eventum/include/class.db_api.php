@@ -154,4 +154,3 @@ class DB_API
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included DB_API Class');
 }
-?>

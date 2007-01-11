@@ -40,4 +40,3 @@ $tpl = new Template_API();
 $tpl->setTemplate("reports/index.tpl.html");
 
 $tpl->displayTemplate();
-?>

@@ -91,4 +91,3 @@ if (empty($_POST["developer"])) {
 }
 
 $tpl->displayTemplate();
-?>

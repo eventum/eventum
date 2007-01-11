@@ -94,4 +94,3 @@ if (!empty($_GET["custom_id"])) {
 }
 
 $tpl->displayTemplate();
-?>

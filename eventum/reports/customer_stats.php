@@ -189,4 +189,3 @@ function formatValue($value, $all_value, $round_places = false, $alternate_value
 
 $tpl->displayTemplate();
    // echo "<pre>";print_r(@$data);echo "</pre>";
-?>

@@ -1000,4 +1000,3 @@ class Mail_API
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Mail_API Class');
 }
-?>

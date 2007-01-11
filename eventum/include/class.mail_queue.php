@@ -448,4 +448,3 @@ class Mail_Queue
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Mail_Queue Class');
 }
-?>

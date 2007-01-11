@@ -38,4 +38,3 @@ if (is_array($return)) {
     echo $return[1];
     exit($return[0]);
 }
-?>

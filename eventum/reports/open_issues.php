@@ -61,4 +61,3 @@ $res = Report::getOpenIssuesByUser($prj_id, $cutoff_days, $group_by_reporter);
 $tpl->assign("users", $res);
 
 $tpl->displayTemplate();
-?>

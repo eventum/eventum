@@ -138,4 +138,3 @@ function getInput()
     fclose($stdin);
     return $input;
 }
-?>

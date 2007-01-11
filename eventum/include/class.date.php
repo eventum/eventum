@@ -403,4 +403,3 @@ class Date_API
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Date_API Class');
 }
-?>

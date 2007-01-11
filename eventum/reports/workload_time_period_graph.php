@@ -103,4 +103,3 @@ $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->legend->Pos(0.01,0.09,'left','bottom');
 $graph->legend->SetLayout(LEGEND_HOR); 
 $graph->Stroke();
-?>

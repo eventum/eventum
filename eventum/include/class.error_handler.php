@@ -172,4 +172,3 @@ class Error_Handler
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Error_Handler Class');
 }
-?>

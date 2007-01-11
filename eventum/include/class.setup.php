@@ -95,4 +95,3 @@ class Setup
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Setup Class');
 }
-?>

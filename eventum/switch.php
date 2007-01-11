@@ -44,4 +44,3 @@ Auth::setCurrentProject($_POST["current_project"], $cookie["remember"]);
 $tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
 
 $tpl->displayTemplate();
-?>

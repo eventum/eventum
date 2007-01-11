@@ -58,4 +58,3 @@ foreach ($_GET['issue'] as $issue_id) {
 
     Workflow::handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg);
 }
-?>

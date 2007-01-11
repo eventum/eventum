@@ -79,4 +79,3 @@ if (!empty($issue_id)) {
 }
 
 $tpl->displayTemplate();
-?>

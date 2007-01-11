@@ -55,4 +55,3 @@ if (@$_POST["cat"] == "reset_password") {
 }
 
 $tpl->displayTemplate();
-?>

@@ -312,4 +312,3 @@ function processResult($res, $date_field, $issue_field)
 }
 
 $tpl->displayTemplate();
-?>

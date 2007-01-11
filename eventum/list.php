@@ -130,4 +130,3 @@ $tpl->assign("refresh_rate", $prefs['list_refresh_rate'] * 60);
 $tpl->assign("refresh_page", "list.php");
 
 $tpl->displayTemplate();
-?>

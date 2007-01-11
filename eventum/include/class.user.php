@@ -1439,4 +1439,3 @@ User::setLocalizedRoles();
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included User Class');
 }
-?>

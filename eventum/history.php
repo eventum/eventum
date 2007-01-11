@@ -47,4 +47,3 @@ if ($role_id > User::getRoleID('Customer')) {
 }
 
 $tpl->displayTemplate();
-?>

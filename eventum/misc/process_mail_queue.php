@@ -70,4 +70,3 @@ $limit = 50;
 Mail_Queue::send('error', $limit);
 
 Mail_Queue::removeProcessFile();
-?>

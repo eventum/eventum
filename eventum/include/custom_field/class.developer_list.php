@@ -44,4 +44,3 @@ class Developer_List_Custom_Field_Backend
 }
 
 
-?>

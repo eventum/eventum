@@ -482,4 +482,3 @@ class Email_Account
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Email_Account Class');
 }
-?>

@@ -53,4 +53,3 @@ if ($_GET['cat'] == 'user') {
 
 
 $tpl->displayTemplate();
-?>

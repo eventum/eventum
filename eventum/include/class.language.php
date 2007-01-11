@@ -148,4 +148,3 @@ if ((!function_exists('gettext')) || ((defined('APP_GETTEXT_MODE')) && (APP_GETT
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Language Class');
 }
-?>

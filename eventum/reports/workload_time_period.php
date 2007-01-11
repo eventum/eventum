@@ -62,4 +62,3 @@ $tpl->assign(array(
     "user_tz" => Date_API::getTimezoneShortNameByUser($usr_id)
 ));
 $tpl->displayTemplate();
-?>

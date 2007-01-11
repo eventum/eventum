@@ -2187,4 +2187,3 @@ class Notification
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Notification Class');
 }
-?>

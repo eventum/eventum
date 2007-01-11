@@ -38,4 +38,3 @@ if (empty($project_cookie['remember'])) {
     Auth::removeCookie(APP_PROJECT_COOKIE);
 }
 Auth::redirect(APP_RELATIVE_URL . "index.php?err=6");
-?>

@@ -236,4 +236,3 @@ class Impact_Analysis
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Impact_Analysis Class');
 }
-?>

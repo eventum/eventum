@@ -242,4 +242,3 @@ class Resolution
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Resolution Class');
 }
-?>

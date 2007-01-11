@@ -71,5 +71,3 @@ if (PEAR::isError($res)) {
     var_dump($res);
     exit(1);
 }
-
-?>

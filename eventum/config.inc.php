@@ -32,4 +32,3 @@
 header("Location: setup/");
 exit;
 
-?>

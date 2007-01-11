@@ -36,4 +36,3 @@ $tpl->setTemplate("offline.tpl.html");
 $tpl->assign("error_type", $error_type);
 
 $tpl->smarty->display($tpl->tpl_name);
-?>

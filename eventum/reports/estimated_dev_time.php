@@ -77,4 +77,3 @@ $res[] = array(
 $tpl->assign("data", $res);
 
 $tpl->displayTemplate();
-?>

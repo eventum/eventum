@@ -44,4 +44,3 @@ if (@$_POST["cat"] == "set_analysis") {
 }
 
 $tpl->displayTemplate();
-?>

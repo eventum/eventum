@@ -48,4 +48,3 @@ if (@$_POST["cat"] == "mark") {
 }
 
 $tpl->displayTemplate();
-?>

@@ -426,4 +426,3 @@ class FAQ
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included FAQ Class');
 }
-?>

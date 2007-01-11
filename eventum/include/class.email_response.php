@@ -350,4 +350,3 @@ class Email_Response
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Email_Response Class');
 }
-?>

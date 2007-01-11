@@ -692,4 +692,3 @@ class Filter
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Filter Class');
 }
-?>

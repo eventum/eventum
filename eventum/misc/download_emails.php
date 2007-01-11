@@ -147,4 +147,3 @@ if ($mbox == false) {
 
 // clear the lock
 Lock::release('download_emails_' . $account_id);
-?>

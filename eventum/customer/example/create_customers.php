@@ -66,4 +66,3 @@ foreach ($customers as $customer_id => $customer_name) {
     }
     echo "<hr />";
 }
-?>

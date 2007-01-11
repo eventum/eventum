@@ -35,4 +35,3 @@ $db_api =& new DB_API;
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included db_access file');
 }
-?>

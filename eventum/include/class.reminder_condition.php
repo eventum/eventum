@@ -363,4 +363,3 @@ class Reminder_Condition
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Reminder_Condition Class');
 }
-?>

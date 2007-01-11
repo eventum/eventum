@@ -1889,4 +1889,3 @@ function XML_RPC_encode($php_val)
  * End:
  */
 
-?>

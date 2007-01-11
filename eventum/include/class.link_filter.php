@@ -374,4 +374,3 @@ class Link_Filter
         return $text;
     }
 }
-?>

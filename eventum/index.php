@@ -60,4 +60,3 @@ if (empty($projects)) {
 }
 
 $tpl->displayTemplate();
-?>

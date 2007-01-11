@@ -47,4 +47,3 @@ if (User::isClockedIn($usr_id)) {
 }
 
 $tpl->displayTemplate();
-?>

@@ -59,4 +59,3 @@ $tpl->assign(array(
 ));
 
 $tpl->displayTemplate();
-?>

@@ -546,4 +546,3 @@ class Round_Robin
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Round_Robin Class');
 }
-?>

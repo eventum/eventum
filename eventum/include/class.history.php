@@ -398,4 +398,3 @@ class History
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included History Class');
 }
-?>

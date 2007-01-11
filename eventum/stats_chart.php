@@ -120,4 +120,3 @@ $graph->legend->Pos(0.06,0.27);
 
 $graph->Add($p1);
 $graph->Stroke();
-?>

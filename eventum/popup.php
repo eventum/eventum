@@ -127,4 +127,3 @@ if (@$_GET["cat"] == "delete_note") {
 $tpl->assign("current_user_prefs", Prefs::get($usr_id));
 
 $tpl->displayTemplate();
-?>

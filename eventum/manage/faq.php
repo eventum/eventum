@@ -85,4 +85,3 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
 }
 
 $tpl->displayTemplate();
-?>

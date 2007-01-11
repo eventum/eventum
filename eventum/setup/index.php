@@ -454,4 +454,3 @@ if (@$_SERVER['HTTPS'] == 'on') {
 $tpl->assign('ssl_mode', $ssl_mode);
 
 $tpl->display('setup.tpl.html');
-?>

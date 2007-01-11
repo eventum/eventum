@@ -210,4 +210,3 @@ class Pager
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Pager Class');
 }
-?>

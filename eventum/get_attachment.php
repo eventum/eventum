@@ -46,4 +46,3 @@ if (!empty($_GET['cid'])) {
     list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET["filename"]);
 }
 Attachment::outputDownload($data, $_GET["filename"], strlen($data), $mimetype);
-?>

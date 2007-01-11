@@ -170,4 +170,3 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
 }
 
 $tpl->displayTemplate();
-?>

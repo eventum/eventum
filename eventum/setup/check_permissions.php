@@ -68,4 +68,3 @@ function check_file($title, $path, $comment, $desired_permission)
             <td style=\"border: 1px solid black;\"><span style=\"color: $color\">$comment</span></td>
           </tr>";
 }
-?>

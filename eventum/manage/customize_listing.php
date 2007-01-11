@@ -79,4 +79,3 @@ if ($role_id == User::getRoleID('administrator')) {
 }
 
 $tpl->displayTemplate();
-?>

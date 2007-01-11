@@ -63,4 +63,3 @@ if ($role_id == User::getRoleID('customer')) {
 $tpl->assign("news", News::getListByProject($prj_id));
 
 $tpl->displayTemplate();
-?>

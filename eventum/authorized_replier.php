@@ -59,4 +59,3 @@ $t = Project::getAddressBook($prj_id, $issue_id);
 $tpl->assign("assoc_users", $t);
 
 $tpl->displayTemplate();
-?>

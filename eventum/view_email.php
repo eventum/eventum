@@ -81,4 +81,3 @@ if (!empty($charset)) {
 }
 
 $tpl->displayTemplate();
-?>

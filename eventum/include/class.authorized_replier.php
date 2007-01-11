@@ -377,4 +377,3 @@ class Authorized_Replier
         return $res;
     }
 }
-?>

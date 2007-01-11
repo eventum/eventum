@@ -91,4 +91,3 @@ $user_prefs = Prefs::get($usr_id);
 $tpl->assign("current_user_prefs", $user_prefs);
 
 $tpl->displayTemplate();
-?>

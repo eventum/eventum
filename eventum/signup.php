@@ -42,4 +42,3 @@ if (@$_POST['cat'] == 'signup') {
 }
 
 $tpl->displayTemplate();
-?>

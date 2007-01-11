@@ -118,4 +118,3 @@ if (@$_POST['cat'] == 'associate') {
 $tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
 
 $tpl->displayTemplate();
-?>

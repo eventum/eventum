@@ -484,4 +484,3 @@ class Phone_Support
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Phone_Support Class');
 }
-?>

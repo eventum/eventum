@@ -252,4 +252,3 @@ class Help
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Help Class');
 }
-?>

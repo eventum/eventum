@@ -166,4 +166,3 @@ $graph->yaxis->title->Set($y_label);
 $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->legend->Pos(.015,.5,'right','center');
 $graph->Stroke();
-?>

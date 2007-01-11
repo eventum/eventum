@@ -138,4 +138,3 @@ function getMailQueue($id)
         return $res["maq_body"];
     }
 }
-?>

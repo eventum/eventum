@@ -1115,4 +1115,3 @@ class Project
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Project Class');
 }
-?>

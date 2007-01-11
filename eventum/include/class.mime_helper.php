@@ -756,4 +756,3 @@ class Mime_Helper
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Mime_Helper Class');
 }
-?>

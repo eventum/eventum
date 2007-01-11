@@ -318,4 +318,3 @@ class Monitor
         return substr(sprintf("%o", fileperms($file)), -3);
     }
 }
-?>

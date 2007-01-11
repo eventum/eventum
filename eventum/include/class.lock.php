@@ -113,4 +113,3 @@ class Lock
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Lock Class');
 }
-?>

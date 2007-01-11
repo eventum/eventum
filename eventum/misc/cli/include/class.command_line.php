@@ -1745,4 +1745,3 @@ $explanation";
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Command_Line Class');
 }
-?>

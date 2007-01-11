@@ -787,4 +787,3 @@ class Status
 if (APP_BENCHMARK) {
     $GLOBALS['bench']->setMarker('Included Status Class');
 }
-?>

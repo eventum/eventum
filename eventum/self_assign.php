@@ -67,4 +67,3 @@ if ((count($assigned_user_ids) > 0) && (empty($_REQUEST["target"]))) {
 $tpl->assign("current_user_prefs", Prefs::get($usr_id));
 
 $tpl->displayTemplate();
-?>
