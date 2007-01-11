@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.view.php 1.27 04/01/23 03:42:02-00:00 jpradomaia $
+// @(#) $Id: view.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("config.inc.php");
 require_once(APP_INC_PATH . "class.template.php");

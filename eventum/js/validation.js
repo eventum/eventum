@@ -1,5 +1,5 @@
 <!--
-// @(#) $Id: s.validation.js 1.13 03/10/20 21:24:54-00:00 jpradomaia $
+// @(#) $Id: validation.js 3189 2007-01-11 21:57:57Z glen $
 function isValidDate(f, field_prefix)
 {
     var selected_date = new Date();

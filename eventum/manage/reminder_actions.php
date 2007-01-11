@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.reminder_actions.php 1.2 04/01/19 15:15:25-00:00 jpradomaia $
+// @(#) $Id: reminder_actions.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("../config.inc.php");
 require_once(APP_INC_PATH . "db_access.php");

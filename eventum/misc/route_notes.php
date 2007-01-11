@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.route_notes.php 1.5 04/01/26 20:37:04-06:00 joao@kickass. $
+// @(#) $Id: route_notes.php 3189 2007-01-11 21:57:57Z glen $
 //
 include_once(dirname(__FILE__) . "/../config.inc.php");
 require_once(APP_INC_PATH . "db_access.php");

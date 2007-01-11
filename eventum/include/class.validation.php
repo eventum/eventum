@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.validation.php 1.7 03/12/31 17:29:01-00:00 jpradomaia $
+// @(#) $Id: class.validation.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 

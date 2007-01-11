@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.searchbar.php 1.3 03/09/26 02:06:54-00:00 jpradomaia $
+// @(#) $Id: searchbar.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("config.inc.php");
 require_once(APP_INC_PATH . "db_access.php");

@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.rss.php 1.14 03/11/12 16:56:44-00:00 jpradomaia $
+// @(#) $Id: rss.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("config.inc.php");
 require_once(APP_INC_PATH . "db_access.php");

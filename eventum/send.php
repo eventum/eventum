@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.send.php 1.23 03/12/05 18:32:39-00:00 jpradomaia $
+// @(#) $Id: send.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("config.inc.php");
 require_once(APP_INC_PATH . "class.template.php");

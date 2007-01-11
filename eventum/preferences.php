@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.preferences.php 1.9 04/01/07 15:50:18-00:00 jpradomaia $
+// @(#) $Id: preferences.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 // skip language init if we're saving language

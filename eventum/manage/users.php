@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.users.php 1.15 03/11/19 18:53:39-00:00 jpradomaia $
+// @(#) $Id: users.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("../config.inc.php");
 require_once(APP_INC_PATH . "class.template.php");

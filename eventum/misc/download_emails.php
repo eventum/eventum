@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.download_emails.php 1.4 03/04/15 14:50:39-00:00 jpm $
+// @(#) $Id: download_emails.php 3189 2007-01-11 21:57:57Z glen $
 
 ini_set("memory_limit", "256M");
 

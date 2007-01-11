@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.stats_chart.php 1.11 03/10/01 17:20:27-00:00 jpradomaia $
+// @(#) $Id: stats_chart.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("config.inc.php");
 require_once(APP_INC_PATH . "db_access.php");

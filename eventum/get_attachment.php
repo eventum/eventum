@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.get_attachment.php 1.5 03/09/30 18:07:03-00:00 jpradomaia $
+// @(#) $Id: get_attachment.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("config.inc.php");
 require_once(APP_INC_PATH . "class.auth.php");

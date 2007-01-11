@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.template.php 1.34 03/12/31 17:29:01-00:00 jpradomaia $
+// @(#) $Id: class.template.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");

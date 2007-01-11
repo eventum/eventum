@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.impact_analysis.php 1.12 03/12/31 17:29:00-00:00 jpradomaia $
+// @(#) $Id: class.impact_analysis.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");

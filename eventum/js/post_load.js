@@ -1,5 +1,5 @@
 <!--
-// @(#) $Id: s.post_load.js 1.3 03/05/07 13:14:26-00:00 jpm $
+// @(#) $Id: post_load.js 3189 2007-01-11 21:57:57Z glen $
 
 load_handlers = new Array();
 if (window.onload) {

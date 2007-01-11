@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.index.php 1.24 04/01/26 20:37:04-06:00 joao@kickass. $
+// @(#) $Id: index.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 // XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found

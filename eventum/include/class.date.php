@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.date.php 1.18 03/12/31 17:29:00-00:00 jpradomaia $
+// @(#) $Id: class.date.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).

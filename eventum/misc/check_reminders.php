@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.check_reminders.php 1.1 04/01/07 15:50:18-00:00 jpradomaia $
+// @(#) $Id: check_reminders.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 require_once("../config.inc.php");

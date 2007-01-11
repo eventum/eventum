@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.release.php 1.13 03/12/31 17:29:01-00:00 jpradomaia $
+// @(#) $Id: class.release.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");

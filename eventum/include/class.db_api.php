@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.db_api.php 1.19 04/01/19 15:19:26-00:00 jpradomaia $
+// @(#) $Id: class.db_api.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 $TOTAL_QUERIES = 0;

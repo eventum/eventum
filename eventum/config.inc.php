@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.config.inc.php 1.8 04/01/19 15:19:26-00:00 jpradomaia $
+// @(#) $Id: config.inc.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 // automatically redirect to the setup screen

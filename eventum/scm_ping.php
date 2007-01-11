@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.cvs_ping.php 1.4 03/01/16 01:47:31-00:00 jpm $
+// @(#) $Id: scm_ping.php 3189 2007-01-11 21:57:57Z glen $
 
 // shortcut to exit out when no issue id-s are passed in request
 // as this script is always called by CVS but we handle only ones which can be

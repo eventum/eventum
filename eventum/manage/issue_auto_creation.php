@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.anonymous.php 1.4 03/03/01 23:27:37-00:00 jpm $
+// @(#) $Id: issue_auto_creation.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("../config.inc.php");
 require_once(APP_INC_PATH . "class.template.php");

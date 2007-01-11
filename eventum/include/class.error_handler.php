@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.class.error_handler.php 1.14 03/12/31 17:29:00-00:00 jpradomaia $
+// @(#) $Id: class.error_handler.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");

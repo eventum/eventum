@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.db_access.php 1.4 03/12/31 17:33:45-00:00 jpradomaia $
+// @(#) $Id: db_access.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 require_once(APP_INC_PATH . "class.db_api.php");

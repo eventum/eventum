@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.xmlrpc_client.php 1.3 03/01/16 01:47:32-00:00 jpm $
+// @(#) $Id: xmlrpc_client.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("../config.inc.php");
 require_once(APP_INC_PATH . "class.auth.php");

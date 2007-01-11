@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.index.php 1.5 03/01/16 01:47:32-00:00 jpm $
+// @(#) $Id: index.php 3189 2007-01-11 21:57:57Z glen $
 //
 
 header("Location: projects.php");

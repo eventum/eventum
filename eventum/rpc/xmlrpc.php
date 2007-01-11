@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: s.xmlrpc.php 1.10 03/11/17 16:04:48-00:00 jpradomaia $
+// @(#) $Id: xmlrpc.php 3189 2007-01-11 21:57:57Z glen $
 //
 require_once("../config.inc.php");
 require_once(APP_INC_PATH . "db_access.php");
