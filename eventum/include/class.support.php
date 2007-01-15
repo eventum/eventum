@@ -1900,6 +1900,7 @@ class Support
      */
     function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $message_id, $sender_usr_id = false)
     {
+        $subject = Mail_API::formatSubject($issue_id, $subject);
         $recipients = Support::getRecipientsCC($cc);
         $recipients[] = $to;
         // send the emails now, one at a time
@@ -2440,10 +2441,12 @@ class Support
             // avoid having this type of message re-open the issue
             if (Mail_API::isVacationAutoResponder($email['headers'])) {
                 $closing = true;
+                $notify = false;
             } else {
                 $closing = false;
+                $notify = true;
             }
-            $res = Note::insert(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing);
+            $res = Note::insert(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing, $notify);
             // associate the email attachments as internal-only files on this issue
             if ($res != -1) {
                 Support::extractAttachments($issue_id, $email['full_email'], true, $res);
