@@ -1068,7 +1068,7 @@ class Support
             return $_GET[$name];
         } elseif (isset($_POST[$name])) {
             return $_POST[$name];
-        } elseif ($profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'email') && isset($profile[$name])) {
+        } elseif (($profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'email')) && (isset($profile[$name]))) {
             return $profile[$name];
         } else {
             return "";
