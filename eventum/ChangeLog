@@ -66,6 +66,7 @@ Eventum Issue Tracking System
 - Update Eventum core code to handle PHP configurations without old style of globals (Elan Ruusamäe)
 - Update JPGraph to handle PHP configurations without old style of globals (Bryan)
 - Fixed bug with not setting the issue ID in the subject of emails sent to users not on the notification list (Bryan)
+- Allow IRC bot to join server with username/password optionally. (Elan Ruusamäe)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
@@ -547,3 +548,5 @@ Eventum Issue Tracking System
 
 05 Jun 2004, Version 1.1
 - Initial release (João; Bryan)
+
+/* vim: set encoding=utf-8: */

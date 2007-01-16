@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: bot.php 3196 2007-01-16 19:06:36Z glen $
+// @(#) $Id: bot.php 3197 2007-01-16 19:09:44Z glen $
 //
 
 ini_set('memory_limit', '256M');
@@ -411,10 +411,12 @@ $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-clocked-in', $bot, 'li
 $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-quarantined', $bot, 'listQuarantinedIssues');
 
 $irc->connect($irc_server_hostname, $irc_server_port);
-if (!empty($username)) {
-    $irc->login($nickname, $realname, 0, $username, $password);
-} else {
+if (empty($username)) {
     $irc->login($nickname, $realname);
+} elseif (empty($password)) {
+    $irc->login($nickname, $realname, 0, $username);
+} else {
+    $irc->login($nickname, $realname, 0, $username, $password);
 }
 $irc->listen();
 $irc->disconnect();
