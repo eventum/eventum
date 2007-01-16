@@ -202,7 +202,7 @@ class Routing
         list($t['full_email'], $t['headers']) = Mail_API::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], "email");
         $res = Support::insertEmail($t, $structure, $sup_id);
         if ($res != -1) {
-            Support::extractAttachments($issue_id, $full_message);
+            Support::extractAttachments($issue_id, $structure);
 
             // notifications about new emails are always external
             $internal_only = false;
@@ -355,7 +355,7 @@ class Routing
         $res = Note::insert(Auth::getUserID(), $issue_id, false, false);
         // need to handle attachments coming from notes as well
         if ($res != -1) {
-            Support::extractAttachments($issue_id, $full_message, true, $res);
+            Support::extractAttachments($issue_id, $structure, true, $res);
         }
         // FIXME! $res == -2 is not handled
         History::add($issue_id, Auth::getUserID(), History::getTypeID('note_routed'), ev_gettext('Note routed from %1$s', $structure->headers['from']));

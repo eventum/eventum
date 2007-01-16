@@ -562,7 +562,7 @@ class Note
             }
             $res = Support::insertEmail($t, $structure, $sup_id);
             if ($res != -1) {
-                Support::extractAttachments($issue_id, $blocked_message);
+                Support::extractAttachments($issue_id, $structure);
                 // notifications about new emails are always external
                 $internal_only = false;
                 // special case when emails are bounced back, so we don't want to notify the customer about those

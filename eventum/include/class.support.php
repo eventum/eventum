@@ -656,7 +656,7 @@ class Support
                     if ($res != -1) {
                         // only extract the attachments from the email if we are associating the email to an issue
                         if (!empty($t['issue_id'])) {
-                            Support::extractAttachments($t['issue_id'], $t['full_email']);
+                            Support::extractAttachments($t['issue_id'], $structure);
 
                             // notifications about new emails are always external
                             $internal_only = false;
@@ -1333,16 +1333,19 @@ class Support
      *
      * @access  public
      * @param   integer $issue_id The issue ID
-     * @param   string $full_email The full contents of the email
+     * @param   mixed   $input The full body of the message or decoded email.
      * @param   boolean $internal_only Whether these files are supposed to be internal only or not
      * @param   integer $associated_note_id The note ID that these attachments should be associated with
      * @return  void
      */
-    function extractAttachments($issue_id, $full_email, $internal_only = false, $associated_note_id = false)
+    function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = false)
     {
+        if (!is_object($input)) {
+            $input = Mime_Helper::decode($input, false, false);
+        }
+
         // figure out who should be the 'owner' of this attachment
-        $structure = Mime_Helper::decode($full_email, false, false);
-        $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
+        $sender_email = strtolower(Mail_API::getEmailAddress($input->headers['from']));
         $usr_id = User::getUserIDByEmail($sender_email);
         $unknown_user = false;
         if (empty($usr_id)) {
@@ -1358,11 +1361,11 @@ class Support
                 // if we couldn't find a real customer by that email, set the usr_id to be the system user id,
                 // and store the actual email address in the unknown_user field.
                 $usr_id = APP_SYSTEM_USER_ID;
-                $unknown_user = $structure->headers['from'];
+                $unknown_user = $input->headers['from'];
             }
         }
         // now for the real thing
-        $attachments = Mime_Helper::getAttachments($full_email);
+        $attachments = Mime_Helper::getAttachments($input);
         if (count($attachments) > 0) {
             if (empty($associated_note_id)) {
                 $history_log = ev_gettext("Attachment originated from an email");
