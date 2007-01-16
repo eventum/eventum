@@ -25,18 +25,12 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: bot.php 3192 2007-01-11 22:07:36Z glen $
+// @(#) $Id: bot.php 3196 2007-01-16 19:06:36Z glen $
 //
 
-ini_set("memory_limit", "256M");
+ini_set('memory_limit', '256M');
 
-require_once("../../config.inc.php");
-require_once(APP_INC_PATH . "db_access.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.lock.php");
-require_once(APP_INC_PATH . "class.issue.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_PEAR_PATH . 'Net/SmartIRC.php');
+require_once('../../config.inc.php');
 
 // the following is the list of IRC channels that the bot should connect to,
 // and the associated project name
@@ -49,7 +43,7 @@ $irc_server_hostname = 'localhost';
 $irc_server_port = 6667;
 $nickname = 'EventumBOT';
 $realname = 'Eventum Issue Tracking System';
-// do you need a username/password to connect to this server? if 
+// do you need a username/password to connect to this server? if
 // so, fill in the next two variables
 $username = '';
 $password = '';
@@ -61,6 +55,13 @@ $password = '';
 // ============================================
 // ============================================
 
+require_once(APP_INC_PATH . 'db_access.php');
+require_once(APP_INC_PATH . 'class.auth.php');
+require_once(APP_INC_PATH . 'class.lock.php');
+require_once(APP_INC_PATH . 'class.issue.php');
+require_once(APP_INC_PATH . 'class.user.php');
+require_once(APP_PEAR_PATH . 'Net/SmartIRC.php');
+
 // if requested, clear the lock
 if (in_array('--fix-lock', @$_SERVER['argv'])) {
     Lock::release('irc_bot');
@@ -68,11 +69,11 @@ if (in_array('--fix-lock', @$_SERVER['argv'])) {
     exit;
 }
 
-// acquire a lock to prevent multiple scripts from 
+// acquire a lock to prevent multiple scripts from
 // running at the same time
 if (!Lock::acquire('irc_bot')) {
-    echo "Error: Another instance of the script is still running. " . 
-                "If this is not accurate, you may fix it by running this script with '--fix-lock' " . 
+    echo "Error: Another instance of the script is still running. " .
+                "If this is not accurate, you may fix it by running this script with '--fix-lock' " .
                 "as the only parameter.\n";
     exit;
 }
@@ -271,11 +272,11 @@ class Eventum_Bot
         global $channels;
         return $channels[$prj_id];
     }
-    
-    
+
+
     /**
      * Helper method to the projects a channel displays messages for.
-     * 
+     *
      * @access  private
      * @param   string $channel The name of the channel
      * @return  array The projects displayed in the channel
