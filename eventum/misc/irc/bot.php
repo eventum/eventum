@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: bot.php 3198 2007-01-16 19:15:44Z glen $
+// @(#) $Id: bot.php 3199 2007-01-16 19:16:36Z glen $
 //
 
 ini_set('memory_limit', '256M');
@@ -76,8 +76,8 @@ if (in_array('--fix-lock', @$_SERVER['argv'])) {
 // acquire a lock to prevent multiple scripts from
 // running at the same time
 if (!Lock::acquire('irc_bot')) {
-    echo "Error: Another instance of the script is still running. " .
-                "If this is not accurate, you may fix it by running this script with '--fix-lock' " .
+    echo 'Error: Another instance of the script is still running. ',
+                "If this is not accurate, you may fix it by running this script with '--fix-lock' ",
                 "as the only parameter.\n";
     exit;
 }
