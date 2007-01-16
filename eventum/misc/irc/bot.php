@@ -25,24 +25,28 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: bot.php 3197 2007-01-16 19:09:44Z glen $
+// @(#) $Id: bot.php 3198 2007-01-16 19:15:44Z glen $
 //
 
 ini_set('memory_limit', '256M');
 
 require_once('../../config.inc.php');
 
-// the following is the list of IRC channels that the bot should connect to,
-// and the associated project name
-$channels = array(
-    Project::getID('Default Project') => array(
-        '#issues',
-    )
-);
+// IRC server address
 $irc_server_hostname = 'localhost';
 $irc_server_port = 6667;
+
+// the following is the list of IRC channels that the bot should connect to,
+// and the associated project name
+$irc_channels = array(
+	# Project Name -> IRC Channel(s)
+	'Default Project' => '#issues',
+#	'Second Project' => array('#issues_2', '#byrocrate'),
+);
+
 $nickname = 'EventumBOT';
 $realname = 'Eventum Issue Tracking System';
+
 // do you need a username/password to connect to this server? if
 // so, fill in the next two variables
 $username = '';
@@ -79,6 +83,13 @@ if (!Lock::acquire('irc_bot')) {
 }
 
 $auth = array();
+
+// map project_id => channel(s)
+$channels = array();
+foreach ($irc_channels as $proj => $chan) {
+    $proj_id = Project::getID($proj);
+    $channels[$proj_id] = is_array($chan) ? $chan : array($chan);
+}
 
 class Eventum_Bot
 {
