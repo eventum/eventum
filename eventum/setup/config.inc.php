@@ -33,19 +33,6 @@ set_magic_quotes_runtime(0);
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
-// only needed for older PHP versions
-if (!function_exists('is_a')) {
-    function is_a($object, $class_name)
-    {
-        $class_name = strtolower($class_name);
-        if (get_class($object) == $class_name) {
-            return TRUE;
-        } else {
-            return is_subclass_of($object, $class_name);
-        }
-    }
-}
-
 // definitions of path related variables
 @define("APP_PATH", dirname(__FILE__) . '/');
 @define("APP_INC_PATH", APP_PATH . "include/");
