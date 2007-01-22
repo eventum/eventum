@@ -4,14 +4,12 @@
 
 function smarty_function_get_textarea_size($params, &$smarty)
 {
-    global $HTTP_COOKIE_VARS;
-
     $print_result = true;
     extract($params);
 
     $cookie_name = "textarea_" . $page . "_" . $field;
-    if (!empty($HTTP_COOKIE_VARS[$cookie_name])) {
-        $html_result = $HTTP_COOKIE_VARS[$cookie_name];
+    if (!empty($_COOKIE[$cookie_name])) {
+        $html_result = $_COOKIE[$cookie_name];
     } else {
         if (empty($default)) {
             $default = 60;
@@ -25,4 +23,3 @@ function smarty_function_get_textarea_size($params, &$smarty)
         return $html_result;
     }
 }
-?>
