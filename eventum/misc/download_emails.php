@@ -25,11 +25,11 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: download_emails.php 3192 2007-01-11 22:07:36Z glen $
+// @(#) $Id: download_emails.php 3206 2007-01-24 20:24:35Z glen $
 
 ini_set("memory_limit", "256M");
 
-require_once("../config.inc.php");
+require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.support.php");
 require_once(APP_INC_PATH . "class.lock.php");
 require_once(APP_INC_PATH . "class.project.php");

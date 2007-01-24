@@ -1,7 +1,7 @@
 <?php
 // changes the setup file from just containing the setup string, to be a php file with an array.
 
-require_once("../../../config.inc.php");
+require_once(dirname(__FILE__) . "/../../../init.php");
 require_once(APP_INC_PATH . "class.setup.php");
 require_once(APP_INC_PATH . "db_access.php");
 

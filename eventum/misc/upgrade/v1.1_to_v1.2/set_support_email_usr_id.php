@@ -2,7 +2,7 @@
 /*
  * Runonce script to set the sup_usr_id field in support_email
  */
-require_once("../../../config.inc.php");
+require_once(dirname(__FILE__) . "/../../../init.php");
 require_once(APP_INC_PATH . "db_access.php");
 
 

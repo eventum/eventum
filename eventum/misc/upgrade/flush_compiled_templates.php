@@ -1,5 +1,5 @@
 <?php
-require_once("../../config.inc.php");
+require_once(dirname(__FILE__) . "/../../init.php");
 require_once(APP_INC_PATH . "class.misc.php");
 
 $compile_dir = APP_PATH . "templates_c";

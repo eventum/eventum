@@ -24,34 +24,6 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-ini_set('allow_url_fopen', 0);
-ini_set("display_errors", 0);
-error_reporting(0);
-set_time_limit(0);
-set_magic_quotes_runtime(0);
-// prevent session from messing up the browser cache
-ini_set('session.cache_limiter', 'nocache');
-
-// definitions of path related variables
-define("APP_PATH", dirname(__FILE__) . '/');
-define("APP_INC_PATH", APP_PATH . "include/");
-define("APP_PEAR_PATH", APP_INC_PATH . "pear/");
-define("APP_TPL_PATH", APP_PATH . "templates/");
-define("APP_SMARTY_PATH", APP_INC_PATH . "Smarty/");
-define("APP_JPGRAPH_PATH", APP_INC_PATH . "jpgraph/");
-define("APP_LOG_PATH", APP_PATH . "logs/");
-define("APP_LOCKS_PATH", APP_PATH . "locks/");
-f (stristr(PHP_OS, 'darwin')) {
-    ini_set("include_path", ".:" . APP_PEAR_PATH);
-} elseif (stristr(PHP_OS, 'win')) {
-    ini_set("include_path", ".;" . APP_PEAR_PATH);
-} else {
-    ini_set("include_path", ".:" . APP_PEAR_PATH);
-}
-
-define("APP_SETUP_PATH", APP_PATH);
-define("APP_SETUP_FILE", APP_SETUP_PATH . "setup.conf.php");
 
 // definitions of SQL variables
 define("APP_SQL_DBTYPE", "mysql");
@@ -63,11 +35,6 @@ define("APP_SQL_DBPASS", "%{APP_SQL_DBPASS}%");
 
 define("APP_DEFAULT_DB", APP_SQL_DBNAME);
 define("APP_TABLE_PREFIX", "%{APP_TABLE_PREFIX}%");
-
-define("APP_ERROR_LOG", APP_LOG_PATH . "errors.log");
-define("APP_CLI_LOG", APP_LOG_PATH . "cli.log");
-define("APP_IRC_LOG", APP_LOG_PATH . "irc_bot.log");
-define("APP_LOGIN_LOG", APP_LOG_PATH . "login_attempts.log");
 
 define("APP_NAME", "Eventum");
 define("APP_SHORT_NAME", APP_NAME); // used in the subject of notification emails
@@ -116,44 +83,8 @@ define('APP_HASH_TYPE', 'MD5');
 // if full text searching is enabled
 define("APP_ENABLE_FULLTEXT", '%{APP_ENABLE_FULLTEXT}%');
 
-define("APP_BENCHMARK", false);
-if (APP_BENCHMARK) {
-    // always benchmark the scripts
-    require_once("Benchmark/Timer.php");
-    $bench = new Benchmark_Timer;
-    $bench->start();
-}
-
-
-// handle the language preferences now
-$avail_langs = array(
-    "en_US" =>  "English",
-//    "ru_RU" =>  "Russian",
-//    "de_DE" =>  "German",
-//    "fr_FR" =>  "French",
-    "it_IT" =>  "Italian",
-//    "fi_FI" =>  "Finish",
-//    "es_ES" =>  "Spanish",
-//    "nl_NL" =>  "Dutch",
-    "sv_SE" =>  "Swedish"
-);
 define('APP_DEFAULT_LOCALE', 'en_US');
 
 // 'native' or 'php'. Try native first, if you experience strange issues
 // such as language switching randomly, try php
 define('APP_GETTEXT_MODE', 'native');
-
-require_once(APP_INC_PATH . "class.language.php");
-require_once(APP_INC_PATH . "db_access.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.misc.php");
-
-// fix magic_quote_gpc'ed values
-$_GET = Misc::dispelMagicQuotes($_GET);
-$_POST = Misc::dispelMagicQuotes($_POST);
-$_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
-
-Language::setup();
-
-// set charset
-header("Content-Type: text/html; charset=" . APP_CHARSET);

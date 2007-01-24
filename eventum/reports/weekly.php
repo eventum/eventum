@@ -25,7 +25,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-require_once("../config.inc.php");
+require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.report.php");

@@ -3,7 +3,7 @@
  * Since priorities were change to be project specific, this script adds priorities to all
  * projects and updates existing issues.
  */
-require_once("../../../config.inc.php");
+require_once(dirname(__FILE__) . "/../../../init.php");
 require_once(APP_INC_PATH . "db_access.php");
 
 // get current priorities

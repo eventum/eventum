@@ -2,7 +2,7 @@
 // create database entries for all projects in the columns_to_display table
 // so all projects have fields that show up on the list issue page.
 
-require_once("../../../config.inc.php");
+require_once(dirname(__FILE__) . "/../../../init.php");
 require_once(APP_INC_PATH . "class.display_column.php");
 require_once(APP_INC_PATH . "class.project.php");
 require_once(APP_INC_PATH . "db_access.php");

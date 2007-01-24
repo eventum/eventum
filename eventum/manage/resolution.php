@@ -25,9 +25,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: resolution.php 3192 2007-01-11 22:07:36Z glen $
+// @(#) $Id: resolution.php 3206 2007-01-24 20:24:35Z glen $
 //
-require_once("../config.inc.php");
+require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.user.php");

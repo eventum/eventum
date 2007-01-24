@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: index.php 3192 2007-01-11 22:07:36Z glen $
+// @(#) $Id: index.php 3206 2007-01-24 20:24:35Z glen $
 //
 
 // XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found
@@ -130,7 +130,7 @@ function checkRequirements()
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions('../config.inc.php', "File 'config.inc.php'");
+    $error = checkPermissions('../config/config.inc.php', "File 'config/config.inc.php'");
     if (!empty($error)) {
         $errors[] = $error;
     }
@@ -280,8 +280,8 @@ function install()
 {
     clearstatcache();
     // check if config.inc.php in the root directory is writable
-    if (!is_writable('../config.inc.php')) {
-        return "The file 'config.inc.php' in Eventum's root directory needs to be writable by the web server user. Please correct this problem and try again.";
+    if (!is_writable('../config/config.inc.php')) {
+        return "The file 'config/config.inc.php' directory needs to be writable by the web server user. Please correct this problem and try again.";
     }
     // need to create a random private key variable
     $private_key = '<?php
@@ -402,18 +402,18 @@ $private_key = "' . md5(microtime()) . '";
         $config_contents = str_replace("'%{APP_ENABLE_FULLTEXT}%'", "false", $config_contents);
     }
 
-    $fp = @fopen('../config.inc.php', 'w');
+    $fp = @fopen('../config/config.inc.php', 'w');
     if ($fp === FALSE) {
-        return "Could not open the file 'config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
+        return "Could not open the file 'config/config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     }
     $res = fwrite($fp, $config_contents);
     if ($fp === FALSE) {
-        return "Could not write the configuration information to 'config.inc.php'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
+        return "Could not write the configuration information to 'config/config.inc.php'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
     }
     fclose($fp);
 
     // write setup file
-    require_once("../config.inc.php");
+    require_once(dirname(__FILE__) . "/../init.php");
     require_once(APP_INC_PATH . "class.setup.php");
     $_REQUEST['setup']['update'] = 1;
     $_REQUEST['setup']['closed'] = 1;

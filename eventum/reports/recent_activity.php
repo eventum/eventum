@@ -26,7 +26,7 @@
 // +----------------------------------------------------------------------+
 //
 // This report shows a list of activity performed in recent history.
-require_once("../config.inc.php");
+require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "db_access.php");

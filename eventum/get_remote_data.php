@@ -25,9 +25,9 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: get_remote_data.php 3192 2007-01-11 22:07:36Z glen $
+// @(#) $Id: get_remote_data.php 3206 2007-01-24 20:24:35Z glen $
 //
-require_once("config.inc.php");
+require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.note.php");

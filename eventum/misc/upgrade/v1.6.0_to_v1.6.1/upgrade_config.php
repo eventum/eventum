@@ -1,7 +1,7 @@
 <?php
 // upgrade the config.inc.php file
 
-require_once("../../../config.inc.php");
+require_once(dirname(__FILE__) . "/../../../init.php");
 
 // make backup copy
 $backup_file = APP_PATH . "config.inc.pre_1_6_1.php";
