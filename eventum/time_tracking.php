@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: time_tracking.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: time_tracking.php 3208 2007-01-29 08:48:00Z balsdorf $
 //
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -40,7 +40,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 
-if (!Issue::canAccess($issue_id, Auth::getUserID())) {
+if ((!Issue::canAccess($issue_id, Auth::getUserID())) || (Auth::getCurrentRole() <= User::getRoleID("Customer"))) {
     $tpl = new Template_API();
     $tpl->setTemplate("permission_denied.tpl.html");
     $tpl->displayTemplate();

@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.search_profile.php 3192 2007-01-11 22:07:36Z glen $
+// @(#) $Id: class.search_profile.php 3208 2007-01-29 08:48:00Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -35,7 +35,7 @@ require_once(APP_INC_PATH . "class.misc.php");
 class Search_Profile
 {
     /**
-     * Method used to remove the search profile record for this user, 
+     * Method used to remove the search profile record for this user,
      * for the specified project and profile type.
      *
      * @access  public
@@ -63,7 +63,7 @@ class Search_Profile
 
 
     /**
-     * Method used to retrieve a search profile record for this user, 
+     * Method used to retrieve a search profile record for this user,
      * for the specified project and profile type.
      *
      * @access  public
@@ -138,7 +138,7 @@ class Search_Profile
 
 
     /**
-     * Method used to save a search profile record for this user, for 
+     * Method used to save a search profile record for this user, for
      * the specified project, and profile type.
      *
      * @access  public
@@ -159,7 +159,7 @@ class Search_Profile
 
 
     /**
-     * Method used to create a new search profile record for this 
+     * Method used to create a new search profile record for this
      * user, for the specified project, and profile type.
      *
      * @access  private
@@ -195,7 +195,7 @@ class Search_Profile
 
 
     /**
-     * Method used to update an existing search profile record for 
+     * Method used to update an existing search profile record for
      * this user, for the specified project, and profile type.
      *
      * @access  private

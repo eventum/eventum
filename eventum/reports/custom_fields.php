@@ -25,7 +25,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: custom_fields.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: custom_fields.php 3208 2007-01-29 08:48:00Z balsdorf $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -47,7 +47,7 @@ if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
 $prj_id = Auth::getCurrentProject();
 
 // get list of fields and convert info useful arrays
-$fields = Custom_Field::getListByProject($prj_id, '', "combo");
+$fields = array_merge(Custom_Field::getListByProject($prj_id, '', "combo"), Custom_Field::getListByProject($prj_id, '', "multiple"));
 $custom_fields = array();
 $options = array();
 if (is_array($fields) && count($fields) > 0) {

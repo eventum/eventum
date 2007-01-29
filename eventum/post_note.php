@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: post_note.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: post_note.php 3208 2007-01-29 08:48:00Z balsdorf $
 //
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -47,7 +47,7 @@ $details = Issue::getDetails($issue_id);
 $tpl->assign("issue_id", $issue_id);
 $tpl->assign("issue", $details);
 
-if (!Issue::canAccess($issue_id, $usr_id)) {
+if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::getRoleID("Customer"))) {
     $tpl->setTemplate("permission_denied.tpl.html");
     $tpl->displayTemplate();
     exit;

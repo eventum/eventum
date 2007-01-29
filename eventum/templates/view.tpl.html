@@ -26,8 +26,10 @@
   </table>
 {else}
   {include file="view_form.tpl.html"}
+  {if $custom_fields|@count > 0}
   <div class="view_issue_seperator"></div>
   {include file="custom_fields.tpl.html"}
+  {/if}
   <div class="view_issue_seperator"></div>
   {if $has_customer_integration and $issue.iss_customer_id}
   {include file="customer/$customer_backend_name/customer_info.tpl.html"}
@@ -39,7 +41,7 @@
   {include file="checkins.tpl.html"}
   <div class="view_issue_seperator"></div>
   {/if}
-  {if $current_role >= $roles.reporter and $current_role != $roles.customer}
+  {if $current_role > $roles.customer}
   {include file="time_tracking.tpl.html"}
   <div class="view_issue_seperator"></div>
   {/if}

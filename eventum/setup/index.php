@@ -22,10 +22,9 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: index.php 3206 2007-01-24 20:24:35Z glen $
 //
 
 // XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found
@@ -34,18 +33,71 @@
 ini_set("memory_limit", "64M");
 set_magic_quotes_runtime(0);
 
-if (isset($_GET)) {
-    $_POST = $_POST;
-    $_GET = $_GET;
-    $_SERVER = $_SERVER;
-    $_ENV = $_ENV;
-    $_FILES = $_FILES;
-    // seems like PHP 4.1.0 didn't implement the $_SESSION auto-global...
-    if (isset($_SESSION)) {
-        $_SESSION = $_SESSION;
-    }
-    $_COOKIE = $_COOKIE;
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+set_time_limit(0);
+define("APP_CHARSET", "UTF-8");
+define('APP_DEFAULT_LOCALE', 'en_US');
+define("APP_PATH", realpath(dirname(__FILE__) . '/..') . '/');
+define("APP_INC_PATH", APP_PATH . "include/");
+define("APP_PEAR_PATH", APP_INC_PATH . "pear/");
+define("APP_SMARTY_PATH", APP_INC_PATH . "Smarty/");
+define("APP_CONFIG_PATH", APP_PATH . "config/");
+define('APP_SETUP_FILE', APP_CONFIG_PATH . 'setup.php');
+
+define("APP_BENCHMARK", false);
+set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
+
+header("content-type: text/html;charset=" . APP_CHARSET);
+
+
+set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
+require_once("File/Util.php");
+
+$html = checkRequirements();
+if (!empty($html)) {
+    echo $html;
+    exit;
 }
+
+require_once("../include/Smarty/Smarty.class.php");
+
+$tpl = new Smarty();
+$tpl->template_dir = '../templates/';
+$tpl->compile_dir = "../templates_c";
+$tpl->config_dir = '';
+
+if (@$_POST["cat"] == 'install') {
+    $res = install();
+    $tpl->assign("result", $res);
+    // check for the optional IMAP extension
+    $tpl->assign('is_imap_enabled', function_exists('imap_open'));
+}
+
+
+$full_url = dirname($_SERVER['PHP_SELF']);
+$pieces = explode("/", $full_url);
+$relative_url = array();
+$relative_url[] = '';
+foreach ($pieces as $piece) {
+    if ((!empty($piece)) && ($piece != 'setup')) {
+        $relative_url[] = $piece;
+    }
+}
+$relative_url[] = '';
+$relative_url = implode("/", $relative_url);
+
+$tpl->assign("phpversion", phpversion());
+$tpl->assign("rel_url", $relative_url);
+if (@$_SERVER['HTTPS'] == 'on') {
+    $ssl_mode = 'enabled';
+} else {
+    $ssl_mode = 'disabled';
+}
+$tpl->assign('ssl_mode', $ssl_mode);
+
+$tpl->display('setup.tpl.html');
+
 
 function checkPermissions($file, $desc, $is_directory = FALSE)
 {
@@ -55,12 +107,12 @@ function checkPermissions($file, $desc, $is_directory = FALSE)
             // try to create the file ourselves then
             $fp = @fopen($file, 'w');
             if (!$fp) {
-                return "File '" . File_Util::realpath($file) . "' does not exist. Please create it (as a blank file) and try again.";
+                return  getPermissionError($file, $desc, $is_directory, false);
             }
             @fclose($fp);
         } else {
             if (!@mkdir($file)) {
-                return "$desc does not exist. Please create it and try again.";
+                return  getPermissionError($file, $desc, $is_directory, false);
             }
         }
     }
@@ -71,10 +123,10 @@ function checkPermissions($file, $desc, $is_directory = FALSE)
             @chmod($file, 0777);
             clearstatcache();
             if (!is_writable($file)) {
-                return "$desc is not writable";
+                return getPermissionError($file, $desc, $is_directory, true);
             }
         } else {
-            return "$desc is not writable";
+            return getPermissionError($file, $desc, $is_directory, true);
         }
     }
     if (stristr(PHP_OS, "win")) {
@@ -92,6 +144,25 @@ function checkPermissions($file, $desc, $is_directory = FALSE)
         }
     }
     return "";
+}
+
+function getPermissionError($file, $desc, $is_directory, $exists)
+{
+    $error = '';
+    if ($is_directory) {
+        $title = 'Directory';
+    } else {
+        $title = 'File';
+    }
+    $error = "$title <b>'" . File_Util::realPath($file) . ($is_directory ? '/' : '') . "'</b> ";
+
+    if (!$exists) {
+        $error .= "does not exist. Please create the $title and reload this page.";
+    } else {
+        $error .= "is not writeable. Please change this $title to be writeable by the web server.";
+    }
+
+    return $error;
 }
 
 function checkRequirements()
@@ -118,6 +189,10 @@ function checkRequirements()
     if (ini_get('file_uploads') != "1") {
         $errors[] = "The 'file_uploads' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
     }
+    $error = checkPermissions('../config', "Directory 'config'", TRUE);
+    if (!empty($error)) {
+        $errors[] = $error;
+    }
     $error = checkPermissions('../locks', "Directory 'locks'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;
@@ -130,19 +205,7 @@ function checkRequirements()
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions('../config/config.inc.php', "File 'config/config.inc.php'");
-    if (!empty($error)) {
-        $errors[] = $error;
-    }
     $error = checkPermissions('../logs/errors.log', "File 'logs/errors.log'");
-    if (!empty($error)) {
-        $errors[] = $error;
-    }
-    $error = checkPermissions('../setup.conf.php', "File 'setup.conf.php'");
-    if (!empty($error)) {
-        $errors[] = $error;
-    }
-    $error = checkPermissions('../include/private_key.php', "File 'include/private_key.php'");
     if (!empty($error)) {
         $errors[] = $error;
     }
@@ -161,12 +224,13 @@ function checkRequirements()
 }
 -->
 </style>
+<title>Eventum Setup</title>
 </head>
 <body>
 
 <br /><br />
 
-<table width="500" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="600" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
@@ -179,7 +243,7 @@ function checkRequirements()
             <br />
             <b>The following problems regarding file and/or directory permissions were found:</b>
             <br /><br />
-            ' . implode("<br />", $errors) . '
+            ' . implode("\n<hr>\n", $errors) . '
             <br /><br />
             <b>Please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
             <br /><br />
@@ -196,27 +260,6 @@ function checkRequirements()
     return $html;
 }
 
-if (stristr(PHP_OS, 'darwin')) {
-    ini_set("include_path", ".:./../include/pear/");
-} elseif (stristr(PHP_OS, 'win')) {
-    ini_set("include_path", ".;./../include/pear/");
-} else {
-    ini_set("include_path", ".:./../include/pear/");
-}
-require_once("File/Util.php");
-
-$html = checkRequirements();
-if (!empty($html)) {
-    echo $html;
-    exit;
-}
-
-require_once("../include/Smarty/Smarty.class.php");
-
-$tpl = new Smarty();
-$tpl->template_dir = '../templates/';
-$tpl->compile_dir = "../templates_c";
-$tpl->config_dir = '';
 
 function replace_table_prefix($str)
 {
@@ -278,25 +321,26 @@ function getTableList($conn)
 
 function install()
 {
+    $private_key_path = '../config/private_key.php';
+    $config_file_path = '../config/config.php';
+    $setup_file_path = '../config/setup.php';
+
     clearstatcache();
-    // check if config.inc.php in the root directory is writable
-    if (!is_writable('../config/config.inc.php')) {
-        return "The file 'config/config.inc.php' directory needs to be writable by the web server user. Please correct this problem and try again.";
+    // check if config directory is writable
+    if (!is_writable('../config/')) {
+        return "The file 'config/' directory needs to be writable by the web server user. Please correct this problem and try again.";
     }
     // need to create a random private key variable
     $private_key = '<?php
 $private_key = "' . md5(microtime()) . '";
 ?>';
-    if (!is_writable('../include/private_key.php')) {
-        return "The file 'include/private_key.php' needs to be writable by the web server user. Please correct this problem and try again.";
-    }
-    $fp = @fopen('../include/private_key.php', 'w');
+    $fp = @fopen($private_key_path, 'w');
     if ($fp === FALSE) {
-        return "Could not open the file 'include/private_key.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
+        return "Could not open the file '$private_key_path' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     }
     $res = fwrite($fp, $private_key);
     if ($fp === FALSE) {
-        return "Could not write the configuration information to 'include/private_key.php'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
+        return "Could not write the configuration information to '$private_key_path'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
     }
     fclose($fp);
     // check if we can connect
@@ -371,12 +415,12 @@ $private_key = "' . md5(microtime()) . '";
             return getErrorMessage($type, mysql_error());
         }
     }
-    // substitute the appropriate values in config.inc.php!!!
+    // substitute the appropriate values in config.php!!!
     if (@$_POST['alternate_user'] == 'yes') {
         $_POST['db_username'] = $_POST['eventum_user'];
         $_POST['db_password'] = $_POST['eventum_password'];
     }
-    $config_contents = implode("", file("config.inc.php"));
+    $config_contents = file_get_contents('config.php');
     $config_contents = str_replace("%{APP_SQL_DBHOST}%", $_POST['db_hostname'], $config_contents);
     $config_contents = str_replace("%{APP_SQL_DBNAME}%", $_POST['db_name'], $config_contents);
     $config_contents = str_replace("%{APP_SQL_DBUSER}%", $_POST['db_username'], $config_contents);
@@ -402,55 +446,30 @@ $private_key = "' . md5(microtime()) . '";
         $config_contents = str_replace("'%{APP_ENABLE_FULLTEXT}%'", "false", $config_contents);
     }
 
-    $fp = @fopen('../config/config.inc.php', 'w');
+    $fp = @fopen($config_file_path, 'w');
     if ($fp === FALSE) {
-        return "Could not open the file 'config/config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
+        return "Could not open the file '$config_file_path' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     }
     $res = fwrite($fp, $config_contents);
     if ($fp === FALSE) {
-        return "Could not write the configuration information to 'config/config.inc.php'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
+        return "Could not write the configuration information to '$config_file_path'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
     }
     fclose($fp);
 
     // write setup file
-    require_once(dirname(__FILE__) . "/../init.php");
     require_once(APP_INC_PATH . "class.setup.php");
     $_REQUEST['setup']['update'] = 1;
     $_REQUEST['setup']['closed'] = 1;
     $_REQUEST['setup']['emails'] = 1;
     $_REQUEST['setup']['files'] = 1;
+    $_REQUEST['setup']['allow_unassigned_issues'] = 'yes';
     Setup::save($_REQUEST['setup']);
 
     return 'success';
 }
 
-if (@$_POST["cat"] == 'install') {
-    $res = install();
-    $tpl->assign("result", $res);
-    // check for the optional IMAP extension
-    $tpl->assign('is_imap_enabled', function_exists('imap_open'));
+
+function ev_gettext($str)
+{
+    return $str;
 }
-
-
-$full_url = dirname($_SERVER['PHP_SELF']);
-$pieces = explode("/", $full_url);
-$relative_url = array();
-$relative_url[] = '';
-foreach ($pieces as $piece) {
-    if ((!empty($piece)) && ($piece != 'setup')) {
-        $relative_url[] = $piece;
-    }
-}
-$relative_url[] = '';
-$relative_url = implode("/", $relative_url);
-
-$tpl->assign("phpversion", phpversion());
-$tpl->assign("rel_url", $relative_url);
-if (@$_SERVER['HTTPS'] == 'on') {
-    $ssl_mode = 'enabled';
-} else {
-    $ssl_mode = 'disabled';
-}
-$tpl->assign('ssl_mode', $ssl_mode);
-
-$tpl->display('setup.tpl.html');

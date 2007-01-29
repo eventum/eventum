@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3192 2007-01-11 22:07:36Z glen $
+// @(#) $Id: class.auth.php 3208 2007-01-29 08:48:00Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -33,7 +33,7 @@ require_once(APP_INC_PATH . "class.project.php");
 require_once(APP_INC_PATH . "class.user.php");
 require_once(APP_INC_PATH . "class.customer.php");
 require_once(APP_INC_PATH . "class.date.php");
-require_once(APP_INC_PATH . "private_key.php");
+require_once(APP_CONFIG_PATH . "private_key.php");
 
 /**
  * Class to handle authentication issues.

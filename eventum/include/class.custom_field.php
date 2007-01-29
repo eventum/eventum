@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3192 2007-01-11 22:07:36Z glen $
+// @(#) $Id: class.custom_field.php 3208 2007-01-29 08:48:00Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -396,10 +396,10 @@ class Custom_Field
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
+            return array();
         } else {
             if (count($res) == 0) {
-                return "";
+                return array();
             } else {
                 for ($i = 0; $i < count($res); $i++) {
                     // check if this has a dynamic field custom backend

@@ -1545,7 +1545,7 @@ msgstr "Sök"
 #: misc/localization/eventum.c:422
 #, fuzzy
 msgid "Clear Filters"
-msgstr "Nuvarande filter:"
+msgstr "Rensa filter"
 
 #: misc/localization/eventum.c:431 misc/localization/eventum.c:437
 #: misc/localization/eventum.c:443 misc/localization/eventum.c:1382

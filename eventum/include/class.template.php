@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.template.php 3192 2007-01-11 22:07:36Z glen $
+// @(#) $Id: class.template.php 3208 2007-01-29 08:48:00Z balsdorf $
 //
 
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
@@ -60,7 +60,7 @@ class Template_API
     {
         $this->smarty = new Smarty;
         $this->smarty->template_dir = APP_TPL_PATH;
-        $this->smarty->compile_dir = APP_PATH . "templates_c";
+        $this->smarty->compile_dir = APP_TPL_COMPILE_PATH;
         $this->smarty->config_dir = '';
         $this->smarty->register_modifier("activateLinks", array('Link_Filter', 'activateLinks'));
         $this->smarty->register_modifier("formatCustomValue", array('Custom_Field', 'formatValue'));
@@ -188,7 +188,7 @@ class Template_API
             $this->assign("roles", User::getAssocRoleIDs());
         }
         $this->assign("app_setup", Setup::load());
-        $this->assign("app_setup_path", APP_SETUP_PATH);
+        $this->assign("app_config_path", APP_CONFIG_PATH);
         $this->assign("app_setup_file", APP_SETUP_FILE);
 
         $this->assign("application_version", APP_VERSION);

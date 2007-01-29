@@ -26,50 +26,84 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-if (!file_exists('config/config.inc.php')) {
+if (!file_exists(dirname(__FILE__) . '/config/config.php')) {
     Header('Location: setup/');
     exit;
 }
 
+// setup change some PHP settings
 ini_set('allow_url_fopen', 0);
-ini_set('display_errors', 0);
-error_reporting(0);
 set_time_limit(0);
 set_magic_quotes_runtime(0);
+
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
-define('APP_VERSION', '1.7.1');
+define("APP_URL", "http://www.mysql.com/products/eventum/");
+define('APP_VERSION', '2.0-alpha');
 
-// definitions of path related variables
-define('APP_PATH', dirname(__FILE__) . '/');
-define('APP_INC_PATH', APP_PATH . 'include/');
-define('APP_PEAR_PATH', '/usr/share/pear/');
-define('APP_PEAR_PATH', APP_INC_PATH . 'pear/');
-define('APP_TPL_PATH', APP_PATH . 'templates/');
-define('APP_SMARTY_PATH', APP_INC_PATH . 'Smarty/');
-define('APP_JPGRAPH_PATH', APP_INC_PATH . 'jpgraph/');
-define('APP_LOG_PATH', APP_PATH . 'logs/');
-define('APP_LOCKS_PATH', APP_PATH . 'locks/');
+// define base path
+define('APP_PATH', realpath(dirname(__FILE__)) . '/');
+define('APP_CONFIG_PATH', APP_PATH . 'config/');
 
-define('APP_SETUP_PATH', APP_PATH . 'config/');
-define('APP_SETUP_FILE', APP_SETUP_PATH . 'setup.conf.php');
+// include local site config
+require_once APP_CONFIG_PATH . 'config.php';
 
-define('APP_ERROR_LOG', APP_LOG_PATH . 'errors.log');
-define('APP_CLI_LOG', APP_LOG_PATH . 'cli.log');
-define('APP_IRC_LOG', APP_LOG_PATH . 'irc_bot.log');
-define('APP_LOGIN_LOG', APP_LOG_PATH . 'login_attempts.log');
-
-f (stristr(PHP_OS, 'darwin')) {
-    ini_set('include_path', '.:' . APP_PEAR_PATH);
-} elseif (stristr(PHP_OS, 'win')) {
-    ini_set('include_path', '.;' . APP_PEAR_PATH);
-} else {
-    ini_set('include_path', '.:' . APP_PEAR_PATH);
+// define other paths
+if (!defined('APP_INC_PATH')) {
+    define('APP_INC_PATH', APP_PATH . 'include/');
 }
 
-# include site config
-require_once APP_PATH . 'config/config.php';
+if (!defined('APP_PEAR_PATH')) {
+    define('APP_PEAR_PATH', APP_INC_PATH . 'pear/');
+}
+
+if (!defined('APP_TPL_PATH')) {
+    define('APP_TPL_PATH', APP_PATH . 'templates/');
+}
+
+if (!defined('APP_TPL_COMPILE_PATH')) {
+    define('APP_TPL_COMPILE_PATH', APP_PATH . "templates_c");
+}
+
+if (!defined('APP_SMARTY_PATH')) {
+    define('APP_SMARTY_PATH', APP_INC_PATH . 'Smarty/');
+}
+
+if (!defined('APP_JPGRAPH_PATH')) {
+    define('APP_JPGRAPH_PATH', APP_INC_PATH . 'jpgraph/');
+}
+
+if (!defined('APP_LOCKS_PATH')) {
+    define('APP_LOCKS_PATH', APP_PATH . 'locks/');
+}
+
+if (!defined('APP_SETUP_FILE')) {
+    define('APP_SETUP_FILE', APP_CONFIG_PATH . 'setup.php');
+}
+
+if (!defined('APP_LOG_PATH')) {
+    define('APP_LOG_PATH', APP_PATH . 'logs/');
+}
+
+if (!defined('APP_ERROR_LOG')) {
+    define('APP_ERROR_LOG', APP_LOG_PATH . 'errors.log');
+}
+
+if (!defined('APP_CLI_LOG')) {
+    define('APP_CLI_LOG', APP_LOG_PATH . 'cli.log');
+}
+
+if (!defined('APP_IRC_LOG')) {
+    define('APP_IRC_LOG', APP_LOG_PATH . 'irc_bot.log');
+}
+
+if (!defined('APP_LOGIN_LOG')) {
+    define('APP_LOGIN_LOG', APP_LOG_PATH . 'login_attempts.log');
+}
+
+// add pear to the include path
+set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
 
 // define the user_id of system user
 if (!defined('APP_SYSTEM_USER_ID')) {

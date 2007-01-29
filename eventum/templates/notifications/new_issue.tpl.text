@@ -1,4 +1,4 @@
-{textformat style="email"}{t escape=no}This is an automated message sent at your request from{/t} {$app_title}.
+{textformat style="email"}{t escape=no 1=$app_title}This is an automated message sent at your request from %1{/t}.
 
 {t escape=no}A new issue was just created in the system.{/t}
 

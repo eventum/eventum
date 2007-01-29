@@ -652,8 +652,8 @@ ALTER TABLE eventum_issue_attachment ADD COLUMN iat_not_id int(11) unsigned DEFA
 ALTER TABLE eventum_note ADD COLUMN not_has_attachment tinyint(1) NOT NULL default 0;
 
 # May 12th
-ALTER TABLE eventum_support_email CHANGE COLUMN sup_to sup_to tinytext;
-ALTER TABLE eventum_support_email CHANGE COLUMN sup_cc sup_cc tinytext;
+ALTER TABLE eventum_support_email CHANGE COLUMN sup_to sup_to text;
+ALTER TABLE eventum_support_email CHANGE COLUMN sup_cc sup_cc text;
 
 # October 2nd
 ALTER TABLE eventum_user ADD COLUMN usr_lang varchar(5);

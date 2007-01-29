@@ -111,6 +111,11 @@ Eventum Issue Tracking System
 - Changed mail handling routines to be case insensitive (Elan Ruusamäe)
 - Changed link filters to match more links and email addresses (Elan Ruusamäe)
 - Fixed bug with associate emails page not remembering search parameters (Bryan)
+- Changed configuration structure to seperate directories / files (Bryan, Elan Ruusamäe)
+- Changed default to "Allow un-assigned issues" to "Yes" (Bryan)
+- Enabled email integration by default (Bryan)
+- Prevent users with a role of reporter from accessing time tracking information (Bryan)
+- Display multi-combo custom fields on custom fields report (Bryan)
 
 29 Dec 2005, Version 1.7.0
 - Added feature to support custom fields with dynamic option lists (Bryan)

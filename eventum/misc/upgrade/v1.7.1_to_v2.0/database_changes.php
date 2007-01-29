@@ -4,10 +4,11 @@ require_once(APP_INC_PATH . "db_access.php");
 
 $stmts = array();
 
-$stmts[] = "ALTER TABLE eventum_support_email CHANGE COLUMN sup_to sup_to tinytext;";
-$stmts[] = "ALTER TABLE eventum_support_email CHANGE COLUMN sup_cc sup_cc tinytext;";
+$stmts[] = "ALTER TABLE eventum_support_email CHANGE COLUMN sup_to sup_to text;";
+$stmts[] = "ALTER TABLE eventum_support_email CHANGE COLUMN sup_cc sup_cc text;";
 $stmts[] = "ALTER TABLE eventum_user ADD COLUMN usr_lang varchar(5);";
 $stmts[] = "ALTER TABLE eventum_custom_field_option CHANGE COLUMN cfo_value cfo_value varchar(128) NOT NULL;";
+$stmts[] = "ALTER TABLE eventum_issue_custom_field ADD INDEX iss_id_fld_id (icf_iss_id, icf_fld_id);";
 
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);

@@ -27,9 +27,6 @@
 //
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
-require_once(APP_INC_PATH . "class.misc.php");
-
 /**
  * Class to handle the business logic related to setting and updating
  * the setup information of the system.
@@ -69,7 +66,7 @@ class Setup
     {
         // this is needed to check if the file can be created or not
         if (!file_exists(APP_SETUP_FILE)) {
-            if (!@is_writable(APP_SETUP_PATH)) {
+            if (!@is_writable(APP_CONFIG_PATH)) {
                 clearstatcache();
                 return -1;
             }
