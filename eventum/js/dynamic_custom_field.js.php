@@ -11,7 +11,6 @@ if (!empty($_REQUEST['iss_id'])) {
 } else {
     $fields = Custom_Field::getListByProject(Auth::getCurrentProject(), $_REQUEST['form_type']);
 }
-var_dump($fields);;
 $data = array();
 foreach ($fields as $field) {
     $backend = Custom_Field::getBackend($field['fld_id']);
@@ -25,5 +24,3 @@ $tpl = new Template_API();
 $tpl->setTemplate("js/dynamic_custom_field.tpl.js");
 $tpl->assign("fields", $data);
 $tpl->displayTemplate();
-?>
-
