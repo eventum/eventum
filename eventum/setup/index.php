@@ -46,10 +46,8 @@ define("APP_CONFIG_PATH", APP_PATH . "config/");
 define('APP_SETUP_FILE', APP_CONFIG_PATH . 'setup.php');
 
 define("APP_BENCHMARK", false);
-set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
 
 header("content-type: text/html;charset=" . APP_CHARSET);
-
 
 set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
 require_once("File/Util.php");
