@@ -25,32 +25,17 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: bot.php 3199 2007-01-16 19:16:36Z glen $
+// @(#) $Id: bot.php 3210 2007-01-29 08:50:08Z balsdorf $
 //
 
 ini_set('memory_limit', '256M');
 
-require_once('../../config.inc.php');
+require_once('../../init.php');
 
-// IRC server address
-$irc_server_hostname = 'localhost';
-$irc_server_port = 6667;
-
-// the following is the list of IRC channels that the bot should connect to,
-// and the associated project name
-$irc_channels = array(
-	# Project Name -> IRC Channel(s)
-	'Default Project' => '#issues',
-#	'Second Project' => array('#issues_2', '#byrocrate'),
-);
-
-$nickname = 'EventumBOT';
-$realname = 'Eventum Issue Tracking System';
-
-// do you need a username/password to connect to this server? if
-// so, fill in the next two variables
-$username = '';
-$password = '';
+if (!file_exists(APP_CONFIG_PATH . 'irc_config.php')) {
+    echo "ERROR: No config specified. Please see setup/irc_config.php for config information.\n\n";
+    exit;
+}
 
 
 // ============================================
