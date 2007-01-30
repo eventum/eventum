@@ -123,7 +123,7 @@ function checkPermissions($file, $desc, $is_directory = FALSE)
     if (!is_writable($file)) {
         if (!stristr(PHP_OS, 'win')) {
             // let's try to change the permissions ourselves
-            @chmod($file, 0755);
+            @chmod($file, 0644);
             clearstatcache();
             if (!is_writable($file)) {
                 return getPermissionError($file, $desc, $is_directory, true);
