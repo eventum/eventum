@@ -264,7 +264,7 @@ class Support
         $fp = @fopen($file, 'w');
         @fwrite($fp, $message);
         @fclose($fp);
-        @chmod($file, 0777);
+        @chmod($file, 0644);
     }
 
 
