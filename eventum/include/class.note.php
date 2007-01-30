@@ -255,13 +255,13 @@ class Note
      */
     function saveRoutedNote($message)
     {
-        $path = APP_PATH . "misc/routed_notes/";
         list($usec,) = explode(" ", microtime());
         $filename = date('Y-m-d_H-i-s_') . $usec . '.note.txt';
-        $fp = @fopen($path . $filename, 'w');
+        $file = APP_ROUTED_MAILS_SAVEDIR . 'routed_notes/' . $filename;
+        $fp = @fopen($file, 'w');
         @fwrite($fp, $message);
         @fclose($fp);
-        @chmod($path . $filename, 0777);
+        @chmod($file, 0777);
     }
 
 

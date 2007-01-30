@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                              |
+// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                  |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -258,14 +258,13 @@ class Support
      */
     function saveRoutedEmail($message)
     {
-        $path = APP_PATH . "misc/routed_emails/";
         list($usec,) = explode(" ", microtime());
         $filename = date('Y-m-d_H-i-s_') . $usec . '.email.txt';
-        $fp = @fopen($path . $filename, 'w');
+        $path = APP_ROUTED_MAILS_SAVEDIR . 'routed_emails/' . $filename;
+        $fp = @fopen($file, 'w');
         @fwrite($fp, $message);
         @fclose($fp);
-        @chmod($path . $filename, 0777);
-        return $filename;
+        @chmod($file, 0777);
     }
 
 
