@@ -39,7 +39,7 @@ set_magic_quotes_runtime(0);
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
-define("APP_URL", "http://www.mysql.com/products/eventum/");
+define('APP_URL', 'http://www.mysql.com/products/eventum/');
 define('APP_VERSION', '2.0-alpha');
 
 // define base path
@@ -63,7 +63,7 @@ if (!defined('APP_TPL_PATH')) {
 }
 
 if (!defined('APP_TPL_COMPILE_PATH')) {
-    define('APP_TPL_COMPILE_PATH', APP_PATH . "templates_c");
+    define('APP_TPL_COMPILE_PATH', APP_PATH . 'templates_c');
 }
 
 if (!defined('APP_SMARTY_PATH')) {
