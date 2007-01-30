@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: index.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: index.php 3215 2007-01-30 17:10:12Z glen $
 //
 require_once(dirname(__FILE__) . '/init.php');
 require_once(APP_INC_PATH . "class.template.php");
@@ -33,8 +33,8 @@ require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "db_access.php");
 
 // check if templates_c is writable by the web server user
-if (!Misc::isWritableDirectory(APP_PATH . 'templates_c')) {
-    $errors = array("Directory 'templates_c' is not writable.");
+if (!Misc::isWritableDirectory(APP_TPL_COMPILE_PATH)) {
+    $errors = array("Directory '" . APP_TPL_COMPILE_PATH . "' is not writable.");
     Misc::displayRequirementErrors($errors);
     exit;
 }
