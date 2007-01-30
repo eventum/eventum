@@ -25,35 +25,16 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: config.inc.php 3192 2007-01-11 22:07:36Z glen $
-//
-ini_set("display_errors", 1);
-error_reporting(E_ALL);
-@set_time_limit(0);
+// @(#) $Id: config.inc.php 3226 2007-01-30 18:18:49Z glen $
 
-if (isset($_GET)) {
-    $_POST = $_POST;
-    $_GET = $_GET;
-    $_SERVER = $_SERVER;
-    $_ENV = $_ENV;
-    $_FILES = $_FILES;
-    // seems like PHP 4.1.0 didn't implement the $_SESSION auto-global...
-    if (isset($_SESSION)) {
-        $_SESSION = $_SESSION;
-    }
-    $_COOKIE = $_COOKIE;
-}
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+set_time_limit(0);
 
 // definitions of path related variables
-@define("APP_PATH", dirname(__FILE__) . '/');
-@define("APP_INC_PATH", APP_PATH . "include/");
-@define("APP_PEAR_PATH", APP_INC_PATH . "pear/");
-if (stristr(PHP_OS, 'darwin')) {
-    ini_set("include_path", ".:" . APP_PEAR_PATH);
-} elseif (stristr(PHP_OS, 'win')) {
-    ini_set("include_path", ".;" . APP_PEAR_PATH);
-} else {
-    ini_set("include_path", ".:" . APP_PEAR_PATH);
-}
+define('APP_PATH', dirname(__FILE__) . '/');
+define('APP_INC_PATH', APP_PATH . 'include/');
+define('APP_PEAR_PATH', APP_INC_PATH . 'pear/');
+define('APP_BENCHMARK', false);
 
-@define("APP_BENCHMARK", false);
+set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
