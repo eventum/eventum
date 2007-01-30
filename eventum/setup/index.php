@@ -426,7 +426,6 @@ $private_key = "' . md5(microtime()) . '";
     $config_contents = str_replace("%{APP_TABLE_PREFIX}%", $_POST['db_table_prefix'], $config_contents);
     $config_contents = str_replace("%{APP_HOSTNAME}%", $_POST['hostname'], $config_contents);
     $config_contents = str_replace("%{APP_RELATIVE_URL}%", $_POST['relative_url'], $config_contents);
-    $config_contents = str_replace("%{APP_VERSION}%", "1.7.1", $config_contents);
     if (@$_POST['is_ssl'] == 'yes') {
         $protocol_type = 'https://';
     } else {
