@@ -44,6 +44,11 @@ define('APP_PEAR_PATH', APP_INC_PATH . 'pear/');
 define('APP_SMARTY_PATH', APP_INC_PATH . 'Smarty/');
 define('APP_CONFIG_PATH', APP_PATH . 'config/');
 define('APP_SETUP_FILE', APP_CONFIG_PATH . 'setup.php');
+define('APP_TPL_PATH', APP_PATH . 'templates/');
+define('APP_TPL_COMPILE_PATH', APP_PATH . 'templates_c');
+define('APP_LOG_PATH', APP_PATH . 'logs/');
+define('APP_ERROR_LOG', APP_LOG_PATH . 'errors.log');
+define('APP_LOCKS_PATH', APP_PATH . 'locks/');
 
 define('APP_BENCHMARK', false);
 
@@ -58,11 +63,11 @@ if (!empty($html)) {
     exit;
 }
 
-require_once('../include/Smarty/Smarty.class.php');
+require_once(APP_SMARTY_PATH . 'Smarty.class.php');
 
 $tpl = new Smarty();
-$tpl->template_dir = '../templates/';
-$tpl->compile_dir = '../templates_c';
+$tpl->template_dir = APP_TPL_PATH;
+$tpl->compile_dir = APP_TPL_COMPILE_PATH;
 $tpl->config_dir = '';
 
 if (@$_POST['cat'] == 'install') {
@@ -187,23 +192,23 @@ function checkRequirements()
     if (ini_get('file_uploads') != "1") {
         $errors[] = "The 'file_uploads' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
     }
-    $error = checkPermissions('../config', "Directory 'config'", TRUE);
+    $error = checkPermissions(APP_CONFIG_PATH, "Directory '" . APP_CONFIG_PATH . "'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions('../locks', "Directory 'locks'", TRUE);
+    $error = checkPermissions(APP_LOCKS_PATH, "Directory '" . APP_LOCKS_PATH . "'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions('../logs', "Directory 'logs'", TRUE);
+    $error = checkPermissions(APP_LOG_PATH, "Directory '". APP_LOG_PATH . "'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions('../templates_c', "Directory 'templates_c'", TRUE);
+    $error = checkPermissions(APP_TPL_COMPILE_PATH, "Directory '" . APP_TPL_COMPILE_PATH . "'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions('../logs/errors.log', "File 'logs/errors.log'");
+    $error = checkPermissions(APP_ERROR_LOG, "File '" . APP_ERROR_LOG . "'");
     if (!empty($error)) {
         $errors[] = $error;
     }
@@ -319,14 +324,14 @@ function getTableList($conn)
 
 function install()
 {
-    $private_key_path = '../config/private_key.php';
-    $config_file_path = '../config/config.php';
-    $setup_file_path = '../config/setup.php';
+    $private_key_path = APP_CONFIG_PATH . 'private_key.php';
+    $config_file_path = APP_CONFIG_PATH . 'config.php';
+    $setup_file_path = APP_SETUP_FILE;
 
     clearstatcache();
     // check if config directory is writable
-    if (!is_writable('../config/')) {
-        return "The file 'config/' directory needs to be writable by the web server user. Please correct this problem and try again.";
+    if (!is_writable(APP_CONFIG_PATH)) {
+        return "The file '" . APP_CONFIG_PATH . "' directory needs to be writable by the web server user. Please correct this problem and try again.";
     }
     // need to create a random private key variable
     $private_key = '<?php
