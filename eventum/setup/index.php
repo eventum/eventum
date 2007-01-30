@@ -30,27 +30,27 @@
 // XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found
 // XXX: dynamically check the email blob and skips the email if it is bigger than 16mb on PHP4 versions
 
-ini_set("memory_limit", "64M");
+ini_set('memory_limit', '64M');
 set_magic_quotes_runtime(0);
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 set_time_limit(0);
-define("APP_CHARSET", "UTF-8");
+define('APP_CHARSET', 'UTF-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
-define("APP_PATH", realpath(dirname(__FILE__) . '/..') . '/');
-define("APP_INC_PATH", APP_PATH . "include/");
-define("APP_PEAR_PATH", APP_INC_PATH . "pear/");
-define("APP_SMARTY_PATH", APP_INC_PATH . "Smarty/");
-define("APP_CONFIG_PATH", APP_PATH . "config/");
+define('APP_PATH', realpath(dirname(__FILE__) . '/..') . '/');
+define('APP_INC_PATH', APP_PATH . 'include/');
+define('APP_PEAR_PATH', APP_INC_PATH . 'pear/');
+define('APP_SMARTY_PATH', APP_INC_PATH . 'Smarty/');
+define('APP_CONFIG_PATH', APP_PATH . 'config/');
 define('APP_SETUP_FILE', APP_CONFIG_PATH . 'setup.php');
 
-define("APP_BENCHMARK", false);
+define('APP_BENCHMARK', false);
 
-header("content-type: text/html;charset=" . APP_CHARSET);
+header('content-type: text/html;charset=' . APP_CHARSET);
 
 set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
-require_once("File/Util.php");
+require_once('File/Util.php');
 
 $html = checkRequirements();
 if (!empty($html)) {
@@ -58,23 +58,23 @@ if (!empty($html)) {
     exit;
 }
 
-require_once("../include/Smarty/Smarty.class.php");
+require_once('../include/Smarty/Smarty.class.php');
 
 $tpl = new Smarty();
 $tpl->template_dir = '../templates/';
-$tpl->compile_dir = "../templates_c";
+$tpl->compile_dir = '../templates_c';
 $tpl->config_dir = '';
 
-if (@$_POST["cat"] == 'install') {
+if (@$_POST['cat'] == 'install') {
     $res = install();
-    $tpl->assign("result", $res);
+    $tpl->assign('result', $res);
     // check for the optional IMAP extension
     $tpl->assign('is_imap_enabled', function_exists('imap_open'));
 }
 
 
 $full_url = dirname($_SERVER['PHP_SELF']);
-$pieces = explode("/", $full_url);
+$pieces = explode('/', $full_url);
 $relative_url = array();
 $relative_url[] = '';
 foreach ($pieces as $piece) {
@@ -83,10 +83,10 @@ foreach ($pieces as $piece) {
     }
 }
 $relative_url[] = '';
-$relative_url = implode("/", $relative_url);
+$relative_url = implode('/', $relative_url);
 
-$tpl->assign("phpversion", phpversion());
-$tpl->assign("rel_url", $relative_url);
+$tpl->assign('phpversion', phpversion());
+$tpl->assign('rel_url', $relative_url);
 if (@$_SERVER['HTTPS'] == 'on') {
     $ssl_mode = 'enabled';
 } else {
@@ -116,7 +116,7 @@ function checkPermissions($file, $desc, $is_directory = FALSE)
     }
     clearstatcache();
     if (!is_writable($file)) {
-        if (!stristr(PHP_OS, "win")) {
+        if (!stristr(PHP_OS, 'win')) {
             // let's try to change the permissions ourselves
             @chmod($file, 0777);
             clearstatcache();
@@ -127,7 +127,7 @@ function checkPermissions($file, $desc, $is_directory = FALSE)
             return getPermissionError($file, $desc, $is_directory, true);
         }
     }
-    if (stristr(PHP_OS, "win")) {
+    if (stristr(PHP_OS, 'win')) {
         // need to check whether we can really create files in this directory or not
         // since is_writable() is not trustworthy on windows platforms
         if (is_dir($file)) {
@@ -141,7 +141,7 @@ function checkPermissions($file, $desc, $is_directory = FALSE)
             @unlink($file . '/dummy.txt');
         }
     }
-    return "";
+    return '';
 }
 
 function getPermissionError($file, $desc, $is_directory, $exists)
@@ -172,16 +172,16 @@ function checkRequirements()
     phpinfo();
     $contents = ob_get_contents();
     ob_end_clean();
-    if (!preg_match("/GD Support.*<\/td><td.*>enabled/U", $contents)) {
-        $errors[] = "The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
+    if (!preg_match('/GD Support.*<\/td><td.*>enabled/U', $contents)) {
+        $errors[] = 'The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.';
     }
     // check for session support
     if (!function_exists('session_start')) {
-        $errors[] = "The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
+        $errors[] = 'The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.';
     }
     // check for MySQL support
     if (!function_exists('mysql_query')) {
-        $errors[] = "The MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
+        $errors[] = 'The MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.';
     }
     // check for the file_uploads php.ini directive
     if (ini_get('file_uploads') != "1") {
