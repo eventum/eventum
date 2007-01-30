@@ -4086,7 +4086,7 @@ class ImgStreamCache {
 	    $aFile = dirname($aFile);
 	}
 	for ($i = sizeof($dirs)-1; $i>=0; $i--) {
-	    if(! @mkdir($dirs[$i],0777) )
+	    if(! @mkdir($dirs[$i],0755) )
 		JpGraphError::Raise("<b>JpGraph Error:</b> Can't create directory in $aFile. Permission problems?");
 
 	    // We also specify mode here after we have changed group.
@@ -4096,7 +4096,7 @@ class ImgStreamCache {
 	    if( CACHE_FILE_GROUP != "" ) {
 		$res=true;
 		$res =@chgrp($dirs[$i],CACHE_FILE_GROUP);
-		$res &= @chmod($dirs[$i],0777);
+		$res &= @chmod($dirs[$i],0755);
 		if( !$res )
 		    JpGraphError::Raise("<b>JpGraph Error:</b> Can't set permissions for $aFile. Permission problems?");
 	    }
