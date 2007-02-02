@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3208 2007-01-29 08:48:00Z balsdorf $
+// @(#) $Id: class.auth.php 3229 2007-02-02 06:26:43Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -284,7 +284,7 @@ class Auth
             "hash"       => md5($GLOBALS["private_key"] . md5($time) . $email),
         );
         $cookie = base64_encode(serialize($cookie));
-        setcookie($cookie_name, $cookie, APP_COOKIE_EXPIRE, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
+        Auth::setCookie($cookie_name, $cookie, APP_COOKIE_EXPIRE);
     }
 
 
@@ -334,7 +334,7 @@ class Auth
      */
     function removeCookie($cookie_name)
     {
-        setcookie($cookie_name, "", time()-36000, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
+        Auth::setCookie($cookie_name, '', time()-36000);
     }
 
 
@@ -489,7 +489,7 @@ class Auth
             "remember" => $remember
         );
         $cookie = base64_encode(serialize($cookie));
-        setcookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
+        Auth::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
         Auth::createFakeCookie(Auth::getUserID(), $project);
     }
 
@@ -539,6 +539,24 @@ class Auth
             return md5($password);
         }
     }
+
+
+    /**
+     * Sets a cookie in the browser
+     *
+     * @param   string  $name The name of the cookie
+     * @param   string  $value The value of the cookie
+     * @param   string  $expiration The expiration data of the cookie
+     */
+    function setCookie($name, $value, $expiration)
+    {
+        if (is_null(APP_COOKIE_DOMAIN)) {
+            setcookie($cookie_name, $cookie, APP_COOKIE_EXPIRE, APP_COOKIE_URL);
+        } else {
+            setcookie($cookie_name, $cookie, APP_COOKIE_EXPIRE, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
+        }
+    }
+
 }
 
 // benchmarking the included file (aka setup time)

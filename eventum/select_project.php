@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: select_project.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: select_project.php 3229 2007-02-02 06:26:43Z balsdorf $
 //
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -42,7 +42,11 @@ if (!Auth::hasCookieSupport(APP_COOKIE)) {
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=11");
 }
 
-if ((@$_GET["err"] == '') && (Auth::hasValidCookie(APP_COOKIE))) {
+if (!Auth::hasValidCookie(APP_COOKIE)) {
+    Auth::redirect(APP_RELATIVE_URL . "index.php?err=5");
+}
+
+if (@$_GET["err"] == '') {
     $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
     if ($cookie["remember"]) {
         if (!empty($_GET["url"])) {
