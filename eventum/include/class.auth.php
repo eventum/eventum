@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3229 2007-02-02 06:26:43Z balsdorf $
+// @(#) $Id: class.auth.php 3230 2007-02-02 07:07:30Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -551,9 +551,10 @@ class Auth
     function setCookie($name, $value, $expiration)
     {
         if (is_null(APP_COOKIE_DOMAIN)) {
-            setcookie($cookie_name, $cookie, APP_COOKIE_EXPIRE, APP_COOKIE_URL);
+
+            setcookie($name, $value, $expiration, APP_COOKIE_URL);
         } else {
-            setcookie($cookie_name, $cookie, APP_COOKIE_EXPIRE, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
+            setcookie($name, $value, $expiration, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
         }
     }
 
