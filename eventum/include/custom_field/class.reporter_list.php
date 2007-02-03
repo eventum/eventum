@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                              |
+// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                  |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -42,5 +42,3 @@ class Reporter_List_Custom_Field_Backend
         return User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID("Viewer"));
     }
 }
-
-
