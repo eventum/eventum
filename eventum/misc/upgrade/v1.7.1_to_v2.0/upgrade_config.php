@@ -1,7 +1,15 @@
 <?php
 // upgrade the config.inc.php file
 
-require_once(dirname(__FILE__) . "/../../../init.php");
+define('APP_PATH', realpath(dirname(__FILE__) . '/../../../') . '/');
+    define('APP_CONFIG_PATH', APP_PATH . 'config/');
+
+
+if (!is_writable(APP_PATH . 'config/')) {
+    echo "Error: '" . APP_PATH . "config/' is not writeable. Please change
+            this directory to be writeable by the webserver.";
+    exit;
+}
 
 // make backup copy
 $backup_file = APP_PATH . "config/config.inc.pre_2_0.php";
@@ -10,41 +18,53 @@ if (copy(APP_PATH . "config.inc.php", $backup_file) == false) {
     exit(1);
 }
 
-$config_contents = implode("", file(APP_PATH . "setup/config.inc.php"));
-$config_backup = $config_contents;
-$config_contents = str_replace("%{APP_PATH}%", APP_PATH, $config_contents);
-$config_contents = str_replace("%{APP_SQL_DBHOST}%", APP_SQL_DBHOST, $config_contents);
-$config_contents = str_replace("%{APP_SQL_DBNAME}%", APP_SQL_DBNAME, $config_contents);
-$config_contents = str_replace("%{APP_SQL_DBUSER}%", APP_SQL_DBUSER, $config_contents);
-$config_contents = str_replace("%{APP_SQL_DBPASS}%", APP_SQL_DBPASS, $config_contents);
-$config_contents = str_replace("%{APP_TABLE_PREFIX}%", APP_TABLE_PREFIX, $config_contents);
-$config_contents = str_replace("%{APP_HOSTNAME}%", APP_HOSTNAME, $config_contents);
-$config_contents = str_replace("%{APP_RELATIVE_URL}%", APP_RELATIVE_URL, $config_contents);
-if (APP_ENABLE_FULLTEXT == true) {
-    $fulltext = 'true';
-} else {
-    $fulltext = 'false';
-}
-$config_contents = str_replace("'%{APP_ENABLE_FULLTEXT}%'", $fulltext, $config_contents);
-$config_contents = str_replace("%{APP_VERSION}%", "2.0", $config_contents);
-if (stristr(APP_BASE_URL, 'https://') !== false) {
+// read old file and parse out needed values
+$old_config = file_get_contents(APP_PATH . "config.inc.php");
+
+$config_contents = implode("", file(APP_PATH . "setup/config.php"));
+$config_contents = str_replace("%{APP_SQL_DBHOST}%", get_old_value('APP_SQL_DBHOST'), $config_contents);
+$config_contents = str_replace("%{APP_SQL_DBNAME}%", get_old_value('APP_SQL_DBNAME'), $config_contents);
+$config_contents = str_replace("%{APP_SQL_DBUSER}%", get_old_value('APP_SQL_DBUSER'), $config_contents);
+$config_contents = str_replace("%{APP_SQL_DBPASS}%", get_old_value('APP_SQL_DBPASS'), $config_contents);
+$config_contents = str_replace("%{APP_TABLE_PREFIX}%", get_old_value('APP_TABLE_PREFIX'), $config_contents);
+$config_contents = str_replace("%{APP_HOSTNAME}%", get_old_value('APP_HOSTNAME'), $config_contents);
+$config_contents = str_replace("%{APP_RELATIVE_URL}%", get_old_value('APP_RELATIVE_URL'), $config_contents);
+$config_contents = str_replace("'%{APP_ENABLE_FULLTEXT}%'", get_old_value('APP_ENABLE_FULLTEXT'), $config_contents);
+if (stristr(get_old_value('APP_BASE_URL'), 'https://') !== false) {
     $protocol_type = 'https://';
 } else {
     $protocol_type = 'http://';
 }
-
 $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_contents);
-$fp = fopen(APP_PATH . 'config/config.inc.php', 'w');
+
+$fp = fopen(APP_PATH . 'config/config.php', 'w');
 if ($fp === FALSE) {
-    echo "Could not open the file 'config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
+    echo "Could not open the file 'config/config.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     exit(1);
 }
 $res = fwrite($fp, $config_contents);
 if ($fp === FALSE) {
-    echo "Could not write the configuration information to 'config/config.inc.php'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
+    echo "Could not write the configuration information to 'config/config.php'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
     exit(1);
 }
 fclose($fp);
+
+if (copy(APP_PATH . "setup.conf.php", APP_CONFIG_PATH . "setup.php") == false) {
+    echo "Unable to copy '" . APP_PATH . "setup.conf.php' to '" .APP_CONFIG_PATH . "setup.php'";exit;
+}
+if (copy(APP_PATH . "include/private_key.php", APP_CONFIG_PATH . "private_key.php") == false) {
+    echo "Unable to copy '" . APP_PATH . "include/private_key.php' to '" .APP_CONFIG_PATH . "private_key.php'";exit;
+}
+
+
+function get_old_value($name)
+{
+    GLOBAL $old_config;
+
+    preg_match("/@define\(\"" . $name . "\", (.*)\);/", $old_config, $matches);
+    return trim($matches[1], "\"");
+}
+
 ?>
-Done. Your configuration file (config/config.inc.php) has been upgraded to version 2.0.<br />
+Done. Your configuration file (config/config.php) has been upgraded to version 2.0.<br />
 A backup copy has been made in the file <i>'<?php echo $backup_file; ?>'</i>.
