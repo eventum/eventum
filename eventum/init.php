@@ -133,7 +133,7 @@ if (!defined('APP_COOKIE_URL')) {
     define('APP_COOKIE_URL', APP_RELATIVE_URL);
 }
 if (!defined('APP_COOKIE_DOMAIN')) {
-    define('APP_COOKIE_DOMAIN', APP_HOSTNAME);
+    define('APP_COOKIE_DOMAIN', null);
 }
 if (!defined('APP_HASH_TYPE')) {
     define('APP_HASH_TYPE', 'MD5');
