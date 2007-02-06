@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3208 2007-01-29 08:48:00Z balsdorf $
+// @(#) $Id: class.custom_field.php 3237 2007-02-06 07:27:44Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -330,7 +330,7 @@ class Custom_Field
     {
         // check if this is a date field
         $fld_details = Custom_Field::getDetails($fld_id);
-        if ($fld_details['fld_type'] == 'date') {
+        if (($fld_details['fld_type'] == 'date') && (!empty($value))) {
             $value= $value['Year'] . "-" . $value['Month'] . "-" . $value['Day'];
         }
         if (!is_array($value)) {
@@ -1589,6 +1589,26 @@ class Custom_Field
             return $backend->formatValue($value, $fld_id, $issue_id);
         } else {
             return Link_Filter::processText(Auth::getCurrentProject(), htmlspecialchars($value));
+        }
+    }
+
+
+    /**
+     * This method inserts a blank value for all custom fields that do not already have a record.
+     * It currently is not called by the main code, but is included to be called from workflow classes.
+     *
+     * @access  public
+     * @param   integer $issue_id The Issue ID
+     */
+    function populateAllFields($issue_id)
+    {
+        $prj_id = Issue::getProjectID($issue_id);
+        $fields = Custom_Field::getListByIssue($prj_id, $issue_id, APP_SYSTEM_USER_ID);
+        foreach ($fields as $field) {
+            if (empty($field['icf_value'])) {
+                Custom_Field::removeIssueAssociation($field['fld_id'], $issue_id);
+                Custom_Field::associateIssue($issue_id, $field['fld_id'], '');
+            }
         }
     }
 
