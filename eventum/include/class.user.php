@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3192 2007-01-11 22:07:36Z glen $
+// @(#) $Id: class.user.php 3239 2007-02-06 09:13:48Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -38,7 +38,7 @@ require_once(APP_INC_PATH . "class.validation.php");
 require_once(APP_INC_PATH . "class.date.php");
 require_once(APP_INC_PATH . "class.project.php");
 require_once(APP_INC_PATH . "class.setup.php");
-require_once(APP_INC_PATH . "private_key.php");
+require_once(APP_CONFIG_PATH . "private_key.php");
 
 // definition of roles
 $roles = array(
@@ -613,6 +613,10 @@ class User
     function getRoleByUser($usr_id, $prj_id)
     {
         static $returns;
+
+        if ($usr_id == APP_SYSTEM_USER_ID) {
+            return User::getRoleID("Administrator");
+        }
 
         if (!empty($returns[$usr_id][$prj_id])) {
             return $returns[$usr_id][$prj_id];
