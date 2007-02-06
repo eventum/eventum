@@ -67,6 +67,7 @@ Eventum Issue Tracking System
 - Update JPGraph to handle PHP configurations without old style of globals (Bryan)
 - Fixed bug with not setting the issue ID in the subject of emails sent to users not on the notification list (Bryan)
 - Allow IRC bot to join server with username/password optionally. (Elan Ruusamäe)
+- Set system user to always have a role of administrator (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
