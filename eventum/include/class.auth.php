@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3230 2007-02-02 07:07:30Z balsdorf $
+// @(#) $Id: class.auth.php 3238 2007-02-06 09:07:12Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -502,7 +502,7 @@ class Auth
      */
     function createFakeCookie($usr_id, $project = false)
     {
-        require_once(APP_INC_PATH . "private_key.php");
+        require_once(APP_CONFIG_PATH . "private_key.php");
 
         $user_details = User::getDetails($usr_id);
 

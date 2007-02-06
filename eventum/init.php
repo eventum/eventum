@@ -107,7 +107,7 @@ if (!defined('APP_LOGIN_LOG')) {
 }
 
 // add pear to the include path
-set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
+set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
 
 // define the user_id of system user
 if (!defined('APP_SYSTEM_USER_ID')) {
