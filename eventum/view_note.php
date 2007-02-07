@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: view_note.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: view_note.php 3241 2007-02-07 22:42:34Z balsdorf $
 //
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -42,7 +42,8 @@ $tpl->setTemplate("view_note.tpl.html");
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
 
-$note = Note::getDetails($_GET["id"]);
+$note_id = $_GET["id"];
+$note = Note::getDetails($note_id);
 
 if ($note == '') {
     $tpl->assign("note", '');
@@ -50,7 +51,7 @@ if ($note == '') {
     exit;
 } else {
     $note["message"] = $note["not_note"];
-    $issue_id = Note::getIssueID($_GET["id"]);
+    $issue_id = Note::getIssueID($note_id);
     $usr_id = Auth::getUserID();
 }
 
@@ -67,7 +68,7 @@ $issue_id = Note::getIssueID($_GET["id"]);
 $tpl->bulkAssign(array(
     "note"        => $note,
     "issue_id"    => $issue_id,
-    'extra_title' => "Note #" . $_GET['num'] . ": " . $note['not_title']
+    'extra_title' => "Note #" . Note::getNoteSequenceNumber($issue_id, $note_id) . ": " . $page_title,
 ));
 
 if (!empty($issue_id)) {

@@ -139,6 +139,49 @@ class Note
 
 
     /**
+     * Returns the sequensial note identification number for the given issue.
+     * This is only for display purposes, but has become relied upon by users
+     * as a valid reference number.  It is simply a sequence, starting with the
+     * first note created as #1, and each increasing by 1 there after.
+     */
+    function getNoteSequenceNumber($issue_id, $note_id)
+    {
+        static $issue_note_numbers;
+
+        if (isset($issue_note_numbers[$issue_id][$note_id])) {
+            return $issue_note_numbers[$issue_id][$note_id];
+        }
+
+        $stmt = "SELECT
+                    not_id,
+                    not_iss_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
+                WHERE
+                    not_iss_id = " . Misc::escapeInteger($issue_id) . "
+                ORDER BY
+                    not_created_date ASC";
+        $res = $GLOBALS["db_api"]->dbh->getAll($stmt,  DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        }
+
+        $sequence_number = 1;
+        foreach ($res as $note_issue_ids) {
+            $issue_note_numbers[$note_issue_ids['not_iss_id']][$note_issue_ids['not_id']] = $sequence_number;
+            $sequence_number++;
+        }
+
+        if (isset($issue_note_numbers[$issue_id][$note_id])) {
+            return $issue_note_numbers[$issue_id][$note_id];
+        }
+
+        return '#';
+    }
+
+
+    /**
      * Returns the blocked email message body associated with the given note ID.
      *
      * @access  public
