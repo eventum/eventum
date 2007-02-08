@@ -25,12 +25,12 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: bot.php 3243 2007-02-08 22:46:32Z glen $
+// @(#) $Id: bot.php 3245 2007-02-08 22:54:12Z glen $
 //
 
 ini_set('memory_limit', '256M');
 
-require_once('../../init.php');
+require_once(dirname(__FILE__) . '/../../init.php');
 
 if (!file_exists(APP_CONFIG_PATH . 'irc_config.php')) {
     echo "ERROR: No config specified. Please see setup/irc_config.php for config information.\n\n";
