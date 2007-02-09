@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                              |
+// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                  |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.template.php 3208 2007-01-29 08:48:00Z balsdorf $
+// @(#) $Id: class.template.php 3246 2007-02-09 09:10:12Z glen $
 //
 
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");

@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                              |
+// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                  |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3237 2007-02-06 07:27:44Z balsdorf $
+// @(#) $Id: class.custom_field.php 3246 2007-02-09 09:10:12Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
