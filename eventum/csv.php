@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: csv.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: csv.php 3250 2007-02-12 16:49:28Z glen $
 //
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.auth.php");
@@ -38,11 +38,10 @@ $csv = base64_decode($_POST["csv_data"]);
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
 header("Pragma: no-cache");
-header("Content-Type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=".uniqid('').'.xls');
-header("Expires: 0");
 header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+
 header("Content-Type: application/vnd.ms-excel");
-header("Content-Disposition: \"inline\"");
+header("Content-Disposition: attachment; filename=". uniqid('') . '.xls');
 header("Content-Length: " . strlen($csv));
+
 echo $csv;
