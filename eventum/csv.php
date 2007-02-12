@@ -25,23 +25,23 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: csv.php 3250 2007-02-12 16:49:28Z glen $
-//
-require_once(dirname(__FILE__) . "/init.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "db_access.php");
+// @(#) $Id: csv.php 3251 2007-02-12 16:50:28Z glen $
+
+require_once(dirname(__FILE__) . '/init.php');
+require_once(APP_INC_PATH . 'class.auth.php');
+require_once(APP_INC_PATH . 'db_access.php');
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$csv = base64_decode($_POST["csv_data"]);
+$csv = base64_decode($_POST['csv_data']);
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
-header("Pragma: no-cache");
-header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+header('Pragma: no-cache');
+header('Cache-Control: must-revalidate, post-check=0,pre-check=0');
 
-header("Content-Type: application/vnd.ms-excel");
-header("Content-Disposition: attachment; filename=". uniqid('') . '.xls');
-header("Content-Length: " . strlen($csv));
+header('Content-Type: application/vnd.ms-excel');
+header('Content-Disposition: attachment; filename='. uniqid('') . '.xls');
+header('Content-Length: ' . strlen($csv));
 
 echo $csv;
