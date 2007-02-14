@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: process_cvs_commits.php 3257 2007-02-14 23:18:37Z glen $
+// @(#) $Id: process_cvs_commits.php 3259 2007-02-14 23:26:47Z glen $
 
 
 // URL to your Eventum installation.
@@ -51,10 +51,6 @@ if (isset($eventum_url)) {
 
 if (!isset($data['port'])) {
     $data['port'] = $data['scheme'] == 'https' ? 443 : 80;
-}
-
-if (isset($_SERVER)) {
-    $_SERVER = $_SERVER;
 }
 
 $input = getInput();
