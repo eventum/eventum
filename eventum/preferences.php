@@ -25,8 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: preferences.php 3206 2007-01-24 20:24:35Z glen $
-//
+// @(#) $Id: preferences.php 3258 2007-02-14 23:25:56Z glen $
 
 // skip language init if we're saving language
 if (@$_POST['language']) {

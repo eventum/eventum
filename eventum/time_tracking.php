@@ -25,8 +25,8 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: time_tracking.php 3208 2007-01-29 08:48:00Z balsdorf $
-//
+// @(#) $Id: time_tracking.php 3258 2007-02-14 23:25:56Z glen $
+
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.auth.php");

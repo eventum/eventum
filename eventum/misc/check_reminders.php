@@ -25,8 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: check_reminders.php 3206 2007-01-24 20:24:35Z glen $
-//
+// @(#) $Id: check_reminders.php 3258 2007-02-14 23:25:56Z glen $
 
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -34,7 +33,6 @@ require_once(APP_INC_PATH . "class.lock.php");
 require_once(APP_INC_PATH . "class.reminder.php");
 require_once(APP_INC_PATH . "class.reminder_action.php");
 require_once(APP_INC_PATH . "class.reminder_condition.php");
-
 
 // if requested, clear the lock
 if (in_array('--fix-lock', @$_SERVER['argv'])) {

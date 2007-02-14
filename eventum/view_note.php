@@ -25,8 +25,8 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: view_note.php 3242 2007-02-07 22:45:31Z balsdorf $
-//
+// @(#) $Id: view_note.php 3258 2007-02-14 23:25:56Z glen $
+
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.auth.php");

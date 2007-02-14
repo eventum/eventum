@@ -25,8 +25,8 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: authorized_replier.php 3206 2007-01-24 20:24:35Z glen $
-//
+// @(#) $Id: authorized_replier.php 3258 2007-02-14 23:25:56Z glen $
+
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.auth.php");

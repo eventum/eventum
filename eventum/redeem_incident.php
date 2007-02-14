@@ -24,9 +24,8 @@
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// This page handles marking an issue as 'redeeming' an incident.
 
+// This page handles marking an issue as 'redeeming' an incident.
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.customer.php");
