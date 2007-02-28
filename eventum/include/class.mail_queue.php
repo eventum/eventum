@@ -133,7 +133,7 @@ class Mail_Queue
         $stmt .= ") VALUES (
                     $save_email_copy,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . getenv("REMOTE_ADDR") . "',
+                    '" . $_SERVER['REMOTE_ADDR'] . "',
                     '" . Misc::escapeString($recipient) . "',
                     '" . Misc::escapeString($text_headers) . "',
                     '" . Misc::escapeString($body) . "',

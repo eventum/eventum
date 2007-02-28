@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.error_handler.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.error_handler.php 3260 2007-02-28 23:30:34Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
@@ -97,7 +97,7 @@ class Error_Handler
         } else {
             $msg .= "'$error_msg'\n\n";
         }
-        @$msg .= "That happened on page '" . $_SERVER["PHP_SELF"] . "' from IP Address '" . getenv("REMOTE_ADDR") . "' coming from the page (referrer) '" . getenv("HTTP_REFERER") . "'.\n\n";
+        @$msg .= "That happened on page '" . $_SERVER["PHP_SELF"] . "' from IP Address '" . $_SERVER['REMOTE_ADDR'] . "' coming from the page (referrer) '" . $_SERVER['HTTP_REFERER'] . "'.\n\n";
         @$msg .= "The user agent given was '" . $_SERVER['HTTP_USER_AGENT'] . "'.\n\n";
         $msg .= "-- \nSincerely yours,\nAutomated Error_Handler Class";
         // only try to include the backtrace if we are on PHP 4.3.0 or later
