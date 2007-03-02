@@ -110,7 +110,12 @@ class Mail_Queue
             $headers['To'] = Mail_API::fixAddressQuoting($headers['To']);
         }
 
-        list(,$text_headers) = Mail_API::prepareHeaders($headers);
+        $prepared_headers = Mail_API::prepareHeaders($headers);
+        if (PEAR::isError($prepared_headers)) {
+            print_r(debug_backtrace());
+            return;
+        }
+        list(,$text_headers) = $prepared_headers;
 
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
@@ -133,7 +138,7 @@ class Mail_Queue
         $stmt .= ") VALUES (
                     $save_email_copy,
                     '" . Date_API::getCurrentDateGMT() . "',
-                    '" . $_SERVER['REMOTE_ADDR'] . "',
+                    '" . @$_SERVER['REMOTE_ADDR'] . "',
                     '" . Misc::escapeString($recipient) . "',
                     '" . Misc::escapeString($text_headers) . "',
                     '" . Misc::escapeString($body) . "',
