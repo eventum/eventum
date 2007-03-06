@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: download_emails.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: download_emails.php 3265 2007-03-06 20:09:43Z glen $
 
 ini_set("memory_limit", "256M");
 
@@ -79,7 +79,7 @@ if (($fix_lock != true) && ((empty($username)) || (empty($hostname)))) {
         echo " 1 - username\n";
         echo " 2 - hostname\n";
         echo " 3 - mailbox (only required if IMAP account)\n";
-        echo "Example: php -q download_emails.php user example.com INBOX\n";
+        echo "Example: php download_emails.php user example.com INBOX\n";
     } else {
         echo "Error: Wrong number of parameters given. Expected parameters related to email account:<br />\n";
         echo "download_emails.php?username=<i>username</i>&hostname=<i>hostname</i>&mailbox=<i>mailbox</i><br />";

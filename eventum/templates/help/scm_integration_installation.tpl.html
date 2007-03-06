@@ -15,7 +15,7 @@ you will need to work with. Next, open the <b>loginfo</b> file and
 add the following line:{/t}
 <br /><br />
 {literal}
-<b>ALL /usr/local/bin/php -q %repository path%/CVSROOT/process_cvs_commits.php $USER %{sVv}</b>
+<b>ALL /usr/bin/php %repository path%/CVSROOT/process_cvs_commits.php $USER %{sVv}</b>
 {/literal}
 <br /><br />
 {t}Replace %repository path% by the appropriate absolute path in your
@@ -27,7 +27,7 @@ module by substituting the 'ALL' in the line above to the appropriate
 CVS module name, as in:{/t}
 <br /><br />
 {literal}
-<b>%cvs module name% /usr/local/bin/php -q %repository path%/CVSROOT/process_cvs_commits.php $USER %{sVv}</b>
+<b>%cvs module name% /usr/bin/php %repository path%/CVSROOT/process_cvs_commits.php $USER %{sVv}</b>
 {/literal}
 <br /><br />
 {t}The last step of this installation process is to login into the CVS

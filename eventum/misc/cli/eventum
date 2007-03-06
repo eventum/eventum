@@ -1,4 +1,4 @@
-#!/usr/local/bin/php -q
+#!/usr/bin/php
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
@@ -9,7 +9,7 @@
 // | Authors: João Prado Maia <jpm@impleo.net>                            |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: eventum 3227 2007-01-30 18:25:05Z glen $
+// @(#) $Id: eventum 3265 2007-03-06 20:09:43Z glen $
 //
 require_once(dirname(__FILE__) . '/config.inc.php');
 require_once(APP_INC_PATH . 'class.command_line.php');
