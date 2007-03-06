@@ -158,6 +158,7 @@ if (APP_BENCHMARK) {
 
 // handle the language preferences now
 $avail_langs = array(
+    'pl_PL' =>  'Polish',
     'en_US' =>  'English',
 #    'ru_RU' =>  'Russian',
 #    'de_DE' =>  'German',
