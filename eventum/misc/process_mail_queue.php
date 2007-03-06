@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: process_mail_queue.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: process_mail_queue.php 3266 2007-03-06 20:18:51Z glen $
 
 ini_set("memory_limit", "256M");
 
@@ -42,7 +42,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
     }
 } else {
     // command line
-    if (in_array('--fix-lock', $_SERVER['argv'])) {
+    if (in_array('--fix-lock', $argv)) {
         $fix_lock = true;
     }
 }

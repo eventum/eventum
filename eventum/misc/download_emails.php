@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: download_emails.php 3265 2007-03-06 20:09:43Z glen $
+// @(#) $Id: download_emails.php 3266 2007-03-06 20:18:51Z glen $
 
 ini_set("memory_limit", "256M");
 
@@ -63,12 +63,12 @@ if (isset($_SERVER['HTTP_HOST'])) {
     }
 
     $type = 'cli';
-    if (in_array('--fix-lock', $_SERVER['argv'])) {
+    if (in_array('--fix-lock', $argv)) {
         $fix_lock = true;
     }
-    $username = @$_SERVER['argv'][1];
-    $hostname = @$_SERVER['argv'][2];
-    $mailbox = @$_SERVER['argv'][3];
+    $username = @$argv[1];
+    $hostname = @$argv[2];
+    $mailbox = @$argv[3];
 }
 
 

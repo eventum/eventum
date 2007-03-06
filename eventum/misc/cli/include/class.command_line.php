@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.command_line.php 3228 2007-01-30 18:25:59Z glen $
+// @(#) $Id: class.command_line.php 3266 2007-03-06 20:18:51Z glen $
 //
 
 require_once(APP_INC_PATH . 'class.misc.php');
@@ -1575,8 +1575,9 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function isSafeExecution()
     {
-        if ($_SERVER['argv'][count($_SERVER['argv'])-1] == '--safe') {
-            unset($_SERVER['argv'][count($_SERVER['argv'])-1]);
+        global $argv, $argc;
+        if ($argv[count($argv) - 1] == '--safe') {
+            array_pop($argv);
             return true;
         } else {
             return false;

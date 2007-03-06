@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: bot.php 3245 2007-02-08 22:54:12Z glen $
+// @(#) $Id: bot.php 3266 2007-03-06 20:18:51Z glen $
 //
 
 ini_set('memory_limit', '256M');
@@ -46,7 +46,7 @@ require_once(APP_INC_PATH . 'class.user.php');
 require_once(APP_PEAR_PATH . 'Net/SmartIRC.php');
 
 // if requested, clear the lock
-if (in_array('--fix-lock', @$_SERVER['argv'])) {
+if (in_array('--fix-lock', $argv)) {
     Lock::release('irc_bot');
     echo "The lock file was removed successfully.\n";
     exit;

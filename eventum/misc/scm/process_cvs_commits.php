@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: process_cvs_commits.php 3259 2007-02-14 23:26:47Z glen $
+// @(#) $Id: process_cvs_commits.php 3266 2007-03-06 20:18:51Z glen $
 
 
 // URL to your Eventum installation.
@@ -56,12 +56,12 @@ if (!isset($data['port'])) {
 $input = getInput();
 
 // remove the first element which is the name of this script
-array_shift($_SERVER['argv']);
+array_shift($argv);
 
 // save who is committing these changes
-$username = array_shift($_SERVER['argv']);
+$username = array_shift($argv);
 // save what the name of the module is
-$cvs_arguments = array_shift($_SERVER['argv']);
+$cvs_arguments = array_shift($argv);
 $pieces = explode(' ', $cvs_arguments);
 $cvs_module = array_shift($pieces);
 
