@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: stats_chart.php 3258 2007-02-14 23:25:56Z glen $
+// @(#) $Id: stats_chart.php 3264 2007-03-06 15:11:18Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -52,7 +52,7 @@ if (!@file_exists($ttf_font)) {
 $colors = array();
 if ($_GET["plot"] == "status") {
     $data = Stats::getAssocStatus();
-    $graph_title = "Issues by Status";
+    $graph_title = ev_gettext("Issues by Status");
     foreach ($data as $sta_title => $trash) {
         $sta_id = Status::getStatusID($sta_title);
         $status_details = Status::getDetails($sta_id);
