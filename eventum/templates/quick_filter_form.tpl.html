@@ -56,7 +56,7 @@ function runCustomFilter(f)
 {
     var cst_id = getSelectedOption(f, 'custom_filter');
     if (isWhitespace(cst_id)) {
-        alert('{/literal}{t}Please select the custom filter to search against.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please select the custom filter to search against.{/t}{literal}');
         f.custom_filter.focus();
         return false;
     }

@@ -7,7 +7,7 @@ var url = '{$smarty.server.PHP_SELF}?cat=associate&';
 function removeEmails(f)
 {
     if (!hasOneChecked(f, 'emails[]')) {
-        alert('{/literal}{t}Please choose which entries need to be removed.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose which entries need to be removed.{/t}{literal}');
         return false;
     }
     // loop through all of the form elements and build a dynamic url

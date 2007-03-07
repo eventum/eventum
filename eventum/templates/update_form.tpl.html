@@ -53,17 +53,17 @@ function openAuthorizedReplier(issue_id)
 function validateForm(f)
 {
     if (isWhitespace(f.summary.value)) {
-        alert('{/literal}{t}Please enter the summary for this issue.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter the summary for this issue.{/t}{literal}');
         selectField(f, 'summary');
         return false;
     }
     if (isWhitespace(f.description.value)) {
-        alert('{/literal}{t}Please enter the description for this issue.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter the description for this issue.{/t}{literal}');
         selectField(f, 'description');
         return false;
     }
     if ((f.percent_complete.value != '') && ((f.percent_complete.value < 0) || (f.percent_complete.value > 100))) {
-        alert('{/literal}{t}Percentage complete should be between 0 and 100{/t}{literal}');
+        alert('{/literal}{t escape=js}Percentage complete should be between 0 and 100{/t}{literal}');
         selectField(f, 'percent_complete');
         return false;
     }
@@ -71,7 +71,7 @@ function validateForm(f)
     {if $allow_unassigned_issues != 'yes' && $current_role > $roles.customer}
     {literal}
     if (!hasOneSelected(f, 'assignments[]')) {
-        alert('{/literal}{t}Please select an assignment for this issue{/t}{literal}');
+        alert('{/literal}{t escape=js}Please select an assignment for this issue{/t}{literal}');
         selectField(f, 'assignments[]');
         return false;
     }
@@ -83,7 +83,7 @@ function validateForm(f)
 
 function closeIssue(issue_id)
 {
-    if (confirm('{/literal}{t}Warning: All changes to this issue will be lost if you continue and close this issue.{/t}{literal}')) {
+    if (confirm('{/literal}{t escape=js}Warning: All changes to this issue will be lost if you continue and close this issue.{/t}{literal}')) {
         window.location.href='close.php?id=' + issue_id;
     }
 }

@@ -96,7 +96,7 @@ function openRemovedList()
 function associateEmails(f)
 {
     if (!hasOneChecked(f, 'item[]')) {
-        alert('{/literal}{t}Please choose which emails need to be associated.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose which emails need to be associated.{/t}{literal}');
         return false;
     }
     if (f.issue.options[f.issue.selectedIndex].value == 'support') {
@@ -118,10 +118,10 @@ function associateEmails(f)
 function removeEmails(f)
 {
     if (!hasOneChecked(f, 'item[]')) {
-        alert('{/literal}{t}Please choose which emails need to be marked as deleted.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose which emails need to be marked as deleted.{/t}{literal}');
         return false;
     }
-    if (!confirm('{/literal}{t}This action will mark the selected email messages as deleted.{/t}{literal}')) {
+    if (!confirm('{/literal}{t escape=js}This action will mark the selected email messages as deleted.{/t}{literal}')) {
         return false;
     } else {
         var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';

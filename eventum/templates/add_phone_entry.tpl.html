@@ -32,22 +32,22 @@
 function validatePhoneSupportForm(f)
 {
     if (!isValidDate(f, 'date')) {
-        alert('{/literal}{t}Please select a valid date for when the phone call took place.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please select a valid date for when the phone call took place.{/t}{literal}');
         return false;
     }
     if ((isWhitespace(f.call_length.value)) || (!isNumberOnly(f.call_length.value))) {
         selectField(f, 'call_length');
-        alert('{/literal}{t}Please enter integers (or floating point numbers) on the time spent field.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter integers (or floating point numbers) on the time spent field.{/t}{literal}');
         return false;
     }
     if (isWhitespace(f.description.value)) {
         selectField(f, 'description');
-        alert('{/literal}{t}Please enter the description for this new phone support entry.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter the description for this new phone support entry.{/t}{literal}');
         return false;
     }
     if (getSelectedOption(f, 'phone_category') == -1) {
         selectField(f, 'phone_category');
-        alert('{/literal}{t}Please choose the category for this new phone support entry.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose the category for this new phone support entry.{/t}{literal}');
         return false;
     }
     return true;

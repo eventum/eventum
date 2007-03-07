@@ -8,10 +8,10 @@ function validateForm(f)
     var field1 = getFormElement(f, 'field', 0);
     var field2 = getFormElement(f, 'field', 1);
     if ((!field1.checked) && (!field2.checked)) {
-        errors[errors.length] = new Option('{/literal}{t}Field{/t}{literal}', 'field');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Field{/t}{literal}', 'field');
     }
     if (isWhitespace(f.value.value)) {
-        errors[errors.length] = new Option('{/literal}{t}Value{/t}{literal}', 'value');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Value{/t}{literal}', 'value');
     }
 }
 //-->

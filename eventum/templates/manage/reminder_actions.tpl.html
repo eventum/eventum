@@ -9,10 +9,10 @@
               function validateForm(f)
               {
                   if (hasSelected(f.type, -1)) {
-                      errors[errors.length] = new Option('{/literal}{t}Action Type{/t}{literal}', 'type');
+                      errors[errors.length] = new Option('{/literal}{t escape=js}Action Type{/t}{literal}', 'type');
                   }
                   if (isWhitespace(f.rank.value)) {
-                      errors[errors.length] = new Option('{/literal}{t}Rank{/t}{literal}', 'rank');
+                      errors[errors.length] = new Option('{/literal}{t escape=js}Rank{/t}{literal}', 'rank');
                   }
                   // hack to make the multiple select box actually submit something
                   selectAllOptions(f, 'user_list[]');
@@ -219,10 +219,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t}Please select at least one of the actions.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select at least one of the actions.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
+                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;

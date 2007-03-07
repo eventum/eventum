@@ -9,12 +9,12 @@
               function validateForm(f)
               {
                   if (isWhitespace(f.title.value)) {
-                      alert('{/literal}{t}Please enter the title of this news entry.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the title of this news entry.{/t}{literal}');
                       selectField(f, 'title');
                       return false;
                   }
                   if (!hasOneSelected(f, 'projects[]')) {
-                      alert('{/literal}{t}Please assign the appropriate projects for this news entry.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please assign the appropriate projects for this news entry.{/t}{literal}');
                       selectField(f, 'projects[]');
                       return false;
                   }
@@ -126,10 +126,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t}Please select at least one of the news entries.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select at least one of the news entries.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('{/literal}{t}This action will permanently remove the selected news entries.{/t}{literal}')) {
+                      if (!confirm('{/literal}{t escape=js}This action will permanently remove the selected news entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;

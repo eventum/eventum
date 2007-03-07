@@ -7,7 +7,7 @@ function validateForm(f)
 {
     if (getSelectedOption(f, 'custom_field') == -1) {
         selectField(f, 'custom_field');
-        alert('{/literal}{t}Please select the custom field that you would like to generate a report against.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please select the custom field that you would like to generate a report against.{/t}{literal}');
         return false;
     }
     return true;

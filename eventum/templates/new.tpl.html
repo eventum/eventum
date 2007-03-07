@@ -89,41 +89,41 @@ function validateForm(f)
     {if $cats|@count > 0 && $current_role >= $field_display_settings.category}
     {literal}
     if (hasSelected(f.category, -1)) {
-        errors[errors.length] = new Option('{/literal}{t}Category{/t}{literal}', 'category');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Category{/t}{literal}', 'category');
     }
     {/literal}
     {/if}
     {if $current_role >= $field_display_settings.priority}
     {literal}
     if (hasSelected(f.priority, -1)) {
-        errors[errors.length] = new Option('{/literal}{t}Priority{/t}{literal}', 'priority');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Priority{/t}{literal}', 'priority');
     }
     {/literal}
     {/if}
     {if $allow_unassigned_issues != 'yes' && $current_role >= $field_display_settings.assignment}
     {literal}
     if (!hasOneSelected(f, 'users[]')) {
-        errors[errors.length] = new Option('{/literal}{t}Assignment{/t}{literal}', 'users[]');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Assignment{/t}{literal}', 'users[]');
     }
     {/literal}
     {/if}
     {literal}
     if (isWhitespace(f.summary.value)) {
-        errors[errors.length] = new Option('{/literal}{t}Summary{/t}{literal}', 'summary');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Summary{/t}{literal}', 'summary');
     }
 
     // replace special characters in description
     replaceSpecialCharacters(f.description);
 
     if (isWhitespace(f.description.value)) {
-        errors[errors.length] = new Option('{/literal}{t}Initial Description{/t}{literal}', 'description');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Initial Description{/t}{literal}', 'description');
     }
     {/literal}
     {if $current_role >= $field_display_settings.estimated_dev_time}
     {literal}
     if (!isWhitespace(f.estimated_dev_time.value)) {
         if (!isFloat(f.estimated_dev_time.value)) {
-            errors[errors.length] = new Option('{/literal}{t}Estimated Dev. Time (only numbers){/t}{literal}', 'estimated_dev_time');
+            errors[errors.length] = new Option('{/literal}{t escape=js}Estimated Dev. Time (only numbers){/t}{literal}', 'estimated_dev_time');
         }
     }
     {/literal}

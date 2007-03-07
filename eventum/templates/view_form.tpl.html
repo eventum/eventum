@@ -56,7 +56,7 @@ function changeIssueStatus(f, issue_id, current_status_id)
     var new_status = getSelectedOption(f, 'new_status');
     if (new_status == current_status_id) {
         selectField(f, 'new_status');
-        alert('{/literal}{t}Please select the new status for this issue.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please select the new status for this issue.{/t}{literal}');
     } else {
         var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
         var popupWin = window.open('popup.php?cat=new_status&iss_id=' + issue_id + '&new_sta_id=' + new_status, '_newStatus', features);
@@ -79,7 +79,7 @@ function validateForm(f)
 {
     // if no emails accounts are setup, don't display confirmation message.
     if (({/literal}{$current_role} < {$roles.developer}{literal}) && (ema_id != '') &&
-            !confirm("{/literal}{t}NOTE: If you need to send new information regarding this issue, please use the EMAIL related buttons available at the bottom of the screen.{/t}{literal}")) {
+            !confirm("{/literal}{t escape=js}NOTE: If you need to send new information regarding this issue, please use the EMAIL related buttons available at the bottom of the screen.{/t}{literal}")) {
         return false;
     }
     return true;

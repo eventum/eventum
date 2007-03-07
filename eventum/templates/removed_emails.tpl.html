@@ -36,7 +36,7 @@ setTimeout('window.close()', 2000);
             function validateForm(f)
             {
                 if (!hasOneChecked(f, 'item[]')) {
-                    alert('{/literal}{t}Please choose which emails need to be restored.{/t}{literal}');
+                    alert('{/literal}{t escape=js}Please choose which emails need to be restored.{/t}{literal}');
                     return false;
                 }
                 f.submit();
@@ -44,10 +44,10 @@ setTimeout('window.close()', 2000);
             function removeEmails(f)
             {
                 if (!hasOneChecked(f, 'item[]')) {
-                    alert('{/literal}{t}Please choose which emails need to be permanently removed.{/t}{literal}');
+                    alert('{/literal}{t escape=js}Please choose which emails need to be permanently removed.{/t}{literal}');
                     return false;
                 }
-                if (!confirm('{/literal}{t}WARNING: This action will permanently remove the selected emails from your email account.{/t}{literal}')) {
+                if (!confirm('{/literal}{t escape=js}WARNING: This action will permanently remove the selected emails from your email account.{/t}{literal}')) {
                     return false;
                 } else {
                     f.cat.value = 'remove';

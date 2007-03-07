@@ -11,7 +11,7 @@
                   var field1 = getFormElement(f, 'issue_auto_creation', 0);
                   var field2 = getFormElement(f, 'issue_auto_creation', 1);
                   if ((!field1.checked) && (!field2.checked)) {
-                      alert('{/literal}{t}Please choose whether the issue auto creation feature should be allowed or not for this email account{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose whether the issue auto creation feature should be allowed or not for this email account{/t}{literal}');
                       return false;
                   }
                   if (field1.checked) {
@@ -21,7 +21,7 @@
                       var field = getFormElement(f, 'options[category]');
                       if (field.selectedIndex == 0) {
                           selectField(f, 'options[category]');
-                          alert('{/literal}{t}Please choose the default category.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please choose the default category.{/t}{literal}');
                           return false;
                       }
                       {/literal}
@@ -30,7 +30,7 @@
                       field = getFormElement(f, 'options[priority]');
                       if (field.selectedIndex == 0) {
                           selectField(f, 'options[priority]');
-                          alert('{/literal}{t}Please choose the default priority.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please choose the default priority.{/t}{literal}');
                           return false;
                       }
                   }

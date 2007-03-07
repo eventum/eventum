@@ -10,12 +10,12 @@
               function validateForm(f)
               {
                   if (isWhitespace(f.title.value)) {
-                      alert('{/literal}{t}Please enter the title of this custom field.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the title of this custom field.{/t}{literal}');
                       selectField(f, 'title');
                       return false;
                   }
                   if (!hasOneSelected(f, 'projects[]')) {
-                      alert('{/literal}{t}Please assign the appropriate projects for this custom field.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please assign the appropriate projects for this custom field.{/t}{literal}');
                       selectField(f, 'projects[]');
                       return false;
                   }
@@ -37,9 +37,9 @@
                       }
                   }
                   if (removed_projects.length > 0) {
-                      var answer = confirm('{/literal}{t}WARNING: You have removed project(s){/t}{literal} ' + removed_projects + ' {/literal}{t}from the list{/t}{literal} ' +
-                         '{/literal}{t}of associated projects. This will remove all data for this field from the selected project(s).{/t}{literal} ' +
-                         '{/literal}{t}Do you want to continue?{/t}{literal}');
+                      var answer = confirm('{/literal}{t escape=js}WARNING: You have removed project(s){/t}{literal} ' + removed_projects + ' {/literal}{t}from the list{/t}{literal} ' +
+                         '{/literal}{t escape=js}of associated projects. This will remove all data for this field from the selected project(s).{/t}{literal} ' +
+                         '{/literal}{t escape=js}Do you want to continue?{/t}{literal}');
                       if (answer == false) {
                           return false;
                       }
@@ -54,7 +54,7 @@
               {
                   var value = f.new_value.value;
                   if (isWhitespace(value)) {
-                      alert('{/literal}{t}Please enter the new value for the combo box.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the new value for the combo box.{/t}{literal}');
                       f.new_value.value = '';
                       f.new_value.focus();
                       return false;
@@ -69,7 +69,7 @@
                   // check for an existing option with the same value
                   for (var i = 0; i < field.options.length; i++) {
                       if (field.options[i].text == value) {
-                          alert('{/literal}{t}The specified value already exists in the list of options.{/t}{literal}');
+                          alert('{/literal}{t escape=js}The specified value already exists in the list of options.{/t}{literal}');
                           f.new_value.focus();
                           return false;
                       }
@@ -89,7 +89,7 @@
               function updateFieldOption(f)
               {
                   if (isWhitespace(f.new_value.value)) {
-                      alert('{/literal}{t}Please enter the updated value.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the updated value.{/t}{literal}');
                       f.new_value.value = '';
                       f.new_value.focus();
                       return false;
@@ -109,7 +109,7 @@
               {
                   var options = getSelectedItems(getFormElement(f, 'field_options[]'));
                   if (options.length == 0) {
-                      alert('{/literal}{t}Please select an option from the list.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please select an option from the list.{/t}{literal}');
                       return false;
                   }
                   editing_option_id = options[0].value;
@@ -124,7 +124,7 @@
                   } else {
                       var options = getSelectedItems(getFormElement(f, 'field_options[]'));
                       if (options.length == 0) {
-                          alert('{/literal}{t}Please select an option from the list.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select an option from the list.{/t}{literal}');
                           return false;
                       }
                       var remove = new Array();
@@ -137,7 +137,7 @@
                   }
                   var field = getFormElement(f, 'field_options[]');
                   if ((delete_first == null) && (field.options.length == 0)) {
-                      field.options[0] = new Option('{/literal}{t}enter a new option above{/t}{literal}', '-1');
+                      field.options[0] = new Option('{/literal}{t escape=js}enter a new option above{/t}{literal}', '-1');
                   }
               }
               function toggleCustomOptionsField(show_field)
@@ -367,10 +367,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t}Please select at least one of the custom fields.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select at least one of the custom fields.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('{/literal}{t}This action will permanently remove the selected custom fields.{/t}{literal}')) {
+                      if (!confirm('{/literal}{t escape=js}This action will permanently remove the selected custom fields.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;

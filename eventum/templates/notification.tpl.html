@@ -12,15 +12,15 @@ allowed_emails[allowed_emails.length] = '{$allowed_emails[i]}';
 function validate(f)
 {
     if (isWhitespace(f.email.value)) {
-        alert('{/literal}{t}Please enter a valid email address.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
         selectField(f, 'email');
         return false;
     }
     // extra check to see if the given email address is allowed in this issue or not
     var email = getEmailFromAddress(f.email.value);
     if (!inArray(email, allowed_emails)) {
-        var msg = "{/literal}{t}The given email address{/t}{literal} '" + f.email.value + "' {/literal}{t}is neither a known staff member or customer technical contact.{/t}{literal}";
-        msg += "\n{/literal}{t}Are you sure you want to add this address to the notification list?{/t}{literal}";
+        var msg = "{/literal}{t escape=js}The given email address{/t}{literal} '" + f.email.value + "' {/literal}{t}is neither a known staff member or customer technical contact.{/t}{literal}";
+        msg += "\n{/literal}{t escape=js}Are you sure you want to add this address to the notification list?{/t}{literal}";
         if (!confirm(msg)) {
             return false;
         } else {
@@ -129,10 +129,10 @@ function removeOption(f, field_name)
             function checkDelete(f)
             {
                 if (!hasOneChecked(f, 'items[]')) {
-                    alert('{/literal}{t}Please select at least one of the subscribers.{/t}{literal}');
+                    alert('{/literal}{t escape=js}Please select at least one of the subscribers.{/t}{literal}');
                     return false;
                 }
-                if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
+                if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
                     return false;
                 } else {
                     return true;

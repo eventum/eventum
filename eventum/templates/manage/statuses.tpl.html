@@ -9,27 +9,27 @@
               function validateForm(f)
               {
                   if (isWhitespace(f.title.value)) {
-                      alert('{/literal}{t}Please enter the title of this status.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the title of this status.{/t}{literal}');
                       selectField(f, 'title');
                       return false;
                   }
                   if (isWhitespace(f.abbreviation.value)) {
-                      alert('{/literal}{t}Please enter the abbreviation of this status.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the abbreviation of this status.{/t}{literal}');
                       selectField(f, 'abbreviation');
                       return false;
                   }
                   if (isWhitespace(f.rank.value)) {
-                      alert('{/literal}{t}Please enter the rank of this status.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the rank of this status.{/t}{literal}');
                       selectField(f, 'rank');
                       return false;
                   }
                   if (!hasOneSelected(f, 'projects[]')) {
-                      alert('{/literal}{t}Please assign the appropriate projects for this status.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please assign the appropriate projects for this status.{/t}{literal}');
                       selectField(f, 'projects[]');
                       return false;
                   }
                   if (isWhitespace(f.color.value)) {
-                      alert('{/literal}{t}Please enter the color of this status.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the color of this status.{/t}{literal}');
                       selectField(f, 'color');
                       return false;
                   }
@@ -155,10 +155,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t}Please select at least one of the statuses.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select at least one of the statuses.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('{/literal}{t}This action will remove the selected entries. This will also update any \nissues currently set to this status to a new status \'undefined\'.{/t}{literal}')) {
+                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries. This will also update any \nissues currently set to this status to a new status \'undefined\'.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;

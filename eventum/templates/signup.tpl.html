@@ -16,22 +16,22 @@
 function validateForm(f)
 {
     if (isWhitespace(f.full_name.value)) {
-        alert('{/literal}{t}Please enter your full name.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter your full name.{/t}{literal}');
         selectField(f, 'full_name');
         return false;
     }
     if (isWhitespace(f.email.value)) {
-        alert('{/literal}{t}Please enter your email address.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter your email address.{/t}{literal}');
         selectField(f, 'email');
         return false;
     }
     if (!isEmail(f.email.value)) {
-        alert('{/literal}{t}Please enter a valid email address.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
         selectField(f, 'email');
         return false;
     }
     if (isWhitespace(f.passwd.value)) {
-        alert('{/literal}{t}Please enter your password.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter your password.{/t}{literal}');
         selectField(f, 'passwd');
         return false;
     }

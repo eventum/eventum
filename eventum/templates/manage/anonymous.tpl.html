@@ -11,31 +11,31 @@
                   var field1 = getFormElement(f, 'anonymous_post', 0);
                   var field2 = getFormElement(f, 'anonymous_post', 1);
                   if ((!field1.checked) && (!field2.checked)) {
-                      alert('{/literal}{t}Please choose whether the anonymous posting feature should be allowed or not for this project{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose whether the anonymous posting feature should be allowed or not for this project{/t}{literal}');
                       return false;
                   }
                   if (field1.checked) {
                       var field = getFormElement(f, 'options[show_custom_fields]');
                       if (field.selectedIndex == 0) {
-                          alert('{/literal}{t}Please choose whether to show custom fields for remote invocations or not.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please choose whether to show custom fields for remote invocations or not.{/t}{literal}');
                           selectField(f, 'options[show_custom_fields]');
                           return false;
                       }
                       field = getFormElement(f, 'options[reporter]');
                       if (field.selectedIndex == 0) {
-                          alert('{/literal}{t}Please choose the reporter for remote invocations.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please choose the reporter for remote invocations.{/t}{literal}');
                           selectField(f, 'options[reporter]');
                           return false;
                       }
                       field = getFormElement(f, 'options[category]');
                       if (field.selectedIndex == 0) {
-                          alert('{/literal}{t}Please choose the default category for remote invocations.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please choose the default category for remote invocations.{/t}{literal}');
                           selectField(f, 'options[category]');
                           return false;
                       }
                       field = getFormElement(f, 'options[priority]');
                       if (field.selectedIndex == 0) {
-                          alert('{/literal}{t}Please choose the default priority for remote invocations.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please choose the default priority for remote invocations.{/t}{literal}');
                           selectField(f, 'options[priority]');
                           return false;
                       }
@@ -43,7 +43,7 @@
                     {if $allow_unassigned_issues != 'yes'}
              {literal}
                       if (!hasOneSelected(f, 'options[users][]')) {
-                          alert('{/literal}{t}Please choose at least one person to assign the new issues created remotely.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please choose at least one person to assign the new issues created remotely.{/t}{literal}');
                           selectField(f, 'options[users][]');
                           return false;
                       }

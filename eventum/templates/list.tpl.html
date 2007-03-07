@@ -42,7 +42,7 @@ function bulkUpdate()
 {
     var f = getForm('list_form');
     if (!hasOneChecked(f, 'item[]')) {
-        alert('{/literal}{t}Please choose which issues to update.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose which issues to update.{/t}{literal}');
         return false;
     }
 
@@ -64,10 +64,10 @@ function bulkUpdate()
         changed[changed.length] = 'Category';
     }
     if (changed.length < 1) {
-        alert('{/literal}{t}Please choose new values for the select issues{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose new values for the select issues{/t}{literal}');
         return false;
     }
-    var msg = '{/literal}{t}Warning: If you continue, you will change the {/t}{literal}';
+    var msg = '{/literal}{t escape=js}Warning: If you continue, you will change the {/t}{literal}';
     for (var i = 0; i < changed.length; i++) {
         msg += changed[i];
         if ((changed.length > 1) && (i == (changed.length-2))) {
@@ -78,7 +78,7 @@ function bulkUpdate()
             }
         }
     }
-    msg += ' {/literal}{t}for all selected issues. Are you sure you want to continue?{/t}{literal}';
+    msg += ' {/literal}{t escape=js}for all selected issues. Are you sure you want to continue?{/t}{literal}';
     if (!confirm(msg)) {
         return false;
     }

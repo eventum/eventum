@@ -51,7 +51,7 @@
 function validateDuplicate(f)
 {
     if (hasSelected(f.duplicated_issue, -1)) {
-        alert('{/literal}{t}Please choose the duplicated issue.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose the duplicated issue.{/t}{literal}');
         selectField(f, 'duplicated_issue');
         return false;
     }

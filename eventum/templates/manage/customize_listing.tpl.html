@@ -20,7 +20,7 @@
               function validateForm(f)
               {
                   if (getSelectedOption(f, 'project') == '-1') {
-                      alert('{/literal}{t}Please choose the project that you wish to customize.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose the project that you wish to customize.{/t}{literal}');
                       selectField(f, 'project');
                       return false;
                   }
@@ -128,10 +128,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t}Please select at least one of the customizations.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select at least one of the customizations.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
+                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;

@@ -31,12 +31,12 @@ setTimeout('closeAndRefresh()', 2000);
 function validate(f)
 {
     if (isWhitespace(f.title.value)) {
-        alert('{/literal}{t}Please enter the title of this note.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter the title of this note.{/t}{literal}');
         selectField(f, 'title');
         return false;
     }
     if (isWhitespace(f.note.value)) {
-        alert('{/literal}{t}Please enter the message body of this note.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter the message body of this note.{/t}{literal}');
         selectField(f, 'note');
         return false;
     }

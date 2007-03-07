@@ -8,7 +8,7 @@
 function validate(f)
 {
     if (isWhitespace(f.email.value)) {
-        alert('{/literal}{t}Please enter a valid email address.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
         selectField(f, 'email');
         return false;
     }
@@ -98,10 +98,10 @@ function removeOption(f, field_name)
             function checkDelete(f)
             {
                 if (!hasOneChecked(f, 'items[]')) {
-                    alert('{/literal}{t}Please select at least one of the authorized repliers.{/t}{literal}');
+                    alert('{/literal}{t escape=js}Please select at least one of the authorized repliers.{/t}{literal}');
                     return false;
                 }
-                if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
+                if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
                     return false;
                 } else {
                     return true;

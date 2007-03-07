@@ -40,7 +40,7 @@ function validateForm(f)
         return false;
     }
     var field = getFormElement(f, 'target', 0);
-    if ((field.checked) && (!confirm('{/literal}{t}WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.{/t}{literal}'))) {
+    if ((field.checked) && (!confirm('{/literal}{t escape=js}WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.{/t}{literal}'))) {
         return false;
     }
     return true;

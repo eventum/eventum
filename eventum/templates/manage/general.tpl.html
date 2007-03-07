@@ -10,38 +10,38 @@
               {
                   var field = getFormElement(f, 'smtp[from]');
                   if (isWhitespace(field.value)) {
-                      alert('{/literal}{t}Please enter the sender address that will be used for all outgoing notification emails.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the sender address that will be used for all outgoing notification emails.{/t}{literal}');
                       selectField(f, 'smtp[from]');
                       return false;
                   }
                   field = getFormElement(f, 'smtp[host]');
                   if (isWhitespace(field.value)) {
-                      alert('{/literal}{t}Please enter the SMTP server hostname.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the SMTP server hostname.{/t}{literal}');
                       selectField(f, 'smtp[host]');
                       return false;
                   }
                   field = getFormElement(f, 'smtp[port]');
                   if ((isWhitespace(field.value)) || (!isNumberOnly(field.value))) {
-                      alert('{/literal}{t}Please enter the SMTP server port number.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the SMTP server port number.{/t}{literal}');
                       selectField(f, 'smtp[port]');
                       return false;
                   }
                   var field1 = getFormElement(f, 'smtp[auth]', 0);
                   var field2 = getFormElement(f, 'smtp[auth]', 1);
                   if ((!field1.checked) && (!field2.checked)) {
-                      alert('{/literal}{t}Please indicate whether the SMTP server requires authentication or not.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please indicate whether the SMTP server requires authentication or not.{/t}{literal}');
                       return false;
                   }
                   if (field1.checked) {
                       field = getFormElement(f, 'smtp[username]');
                       if (isWhitespace(field.value)) {
-                          alert('{/literal}{t}Please enter the SMTP server username.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please enter the SMTP server username.{/t}{literal}');
                           selectField(f, 'smtp[username]');
                           return false;
                       }
                       field = getFormElement(f, 'smtp[password]');
                       if (isWhitespace(field.value)) {
-                          alert('{/literal}{t}Please enter the SMTP server password.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please enter the SMTP server password.{/t}{literal}');
                           selectField(f, 'smtp[password]');
                           return false;
                       }
@@ -49,18 +49,18 @@
                   var field1 = getFormElement(f, 'smtp[save_outgoing_email]', 0);
                   var field2 = getFormElement(f, 'smtp[save_address]');
                   if ((field1.checked) && (!isEmail(field2.value))) {
-                      alert('{/literal}{t}Please enter the email address of where copies of outgoing emails should be sent to.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the email address of where copies of outgoing emails should be sent to.{/t}{literal}');
                       selectField(f, 'smtp[save_address]');
                       return false;
                   }
                   if ((!f.open_signup[0].checked) && (!f.open_signup[1].checked))  {
-                      alert('{/literal}{t}Please choose whether the system should allow visitors to signup for new accounts or not.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose whether the system should allow visitors to signup for new accounts or not.{/t}{literal}');
                       return false;
                   }
                   if (f.open_signup[0].checked) {
                       field = getFormElement(f, 'accounts_projects[]');
                       if (!hasOneSelected(f, 'accounts_projects[]')) {
-                          alert('{/literal}{t}Please select the assigned projects for users that create their own accounts.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select the assigned projects for users that create their own accounts.{/t}{literal}');
                           selectField(f, 'accounts_projects[]');
                           return false;
                       }
@@ -69,41 +69,41 @@
                   if (field1.checked) {
                       field1 = getFormElement(f, 'email_routing[address_prefix]');
                       if (isWhitespace(field1.value)) {
-                          alert('{/literal}{t}Please enter the email address prefix for the email routing interface.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please enter the email address prefix for the email routing interface.{/t}{literal}');
                           selectField(f, 'email_routing[address_prefix]');
                           return false;
                       }
                       field1 = getFormElement(f, 'email_routing[address_host]');
                       if (isWhitespace(field1.value)) {
-                          alert('{/literal}{t}Please enter the email address hostname for the email routing interface.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please enter the email address hostname for the email routing interface.{/t}{literal}');
                           selectField(f, 'email_routing[address_host]');
                           return false;
                       }
                   }
                   if ((!f.scm_integration[0].checked) && (!f.scm_integration[1].checked))  {
-                      alert('{/literal}{t}Please choose whether the SCM integration feature should be enabled or not.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose whether the SCM integration feature should be enabled or not.{/t}{literal}');
                       return false;
                   }
                   if (f.scm_integration[0].checked) {
                       field = getFormElement(f, 'checkout_url');
                       if (isWhitespace(field.value)) {
-                          alert('{/literal}{t}Please enter the checkout page URL for your SCM integration tool.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please enter the checkout page URL for your SCM integration tool.{/t}{literal}');
                           selectField(f, 'checkout_url');
                           return false;
                       }
                       field = getFormElement(f, 'diff_url');
                       if (isWhitespace(field.value)) {
-                          alert('{/literal}{t}Please enter the diff page URL for your SCM integration tool.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please enter the diff page URL for your SCM integration tool.{/t}{literal}');
                           selectField(f, 'diff_url');
                           return false;
                       }
                   }
                   if ((!f.support_email[0].checked) && (!f.support_email[1].checked))  {
-                      alert('{/literal}{t}Please choose whether the email integration feature should be enabled or not.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose whether the email integration feature should be enabled or not.{/t}{literal}');
                       return false;
                   }
                   if ((!f.daily_tips[0].checked) && (!f.daily_tips[1].checked))  {
-                      alert('{/literal}{t}Please choose whether the daily tips feature should be enabled or not.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose whether the daily tips feature should be enabled or not.{/t}{literal}');
                       return false;
                   }
                   return true;

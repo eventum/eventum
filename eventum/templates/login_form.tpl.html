@@ -5,10 +5,10 @@
 function validateForm(f)
 {
     if (isWhitespace(f.email.value)) {
-        errors[errors.length] = new Option('{/literal}{t}Email Address{/t}{literal}', 'email');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Email Address{/t}{literal}', 'email');
     }
     if (isWhitespace(f.passwd.value)) {
-        errors[errors.length] = new Option('{/literal}{t}Password{/t}{literal}', 'passwd');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Password{/t}{literal}', 'passwd');
     }
     if (errors.length > 0) {
         return false;

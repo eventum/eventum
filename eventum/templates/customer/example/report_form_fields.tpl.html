@@ -27,23 +27,23 @@ function validateCustomer(f)
 {
     if (f.customer != null) {
         if (isWhitespace(f.customer.value)) {
-            errors[errors.length] = new Option('{/literal}{t}Customer{/t}{literal}', 'customer');
+            errors[errors.length] = new Option('{/literal}{t escape=js}Customer{/t}{literal}', 'customer');
         }
         if (isWhitespace(f.contact.value)) {
-            errors[errors.length] = new Option('{/literal}{t}Contact{/t}{literal}', 'contact');
+            errors[errors.length] = new Option('{/literal}{t escape=js}Contact{/t}{literal}', 'contact');
         }
     }
     if (isWhitespace(f.contact_person_lname.value)) {
-        errors[errors.length] = new Option('{/literal}{t}Contact Person Last Name{/t}{literal}', 'contact_person_lname');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Contact Person Last Name{/t}{literal}', 'contact_person_lname');
     }
     if (isWhitespace(f.contact_person_fname.value)) {
-        errors[errors.length] = new Option('{/literal}{t}Contact Person First Name{/t}{literal}', 'contact_person_fname');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Contact Person First Name{/t}{literal}', 'contact_person_fname');
     }
     if (isWhitespace(f.contact_email.value)) {
-        errors[errors.length] = new Option('{/literal}{t}Contact Email{/t}{literal}', 'contact_email');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Contact Email{/t}{literal}', 'contact_email');
     } else {
         if (!isEmail(f.contact_email.value)) {
-            errors[errors.length] = new Option('{/literal}{t}Contact Email{/t}{literal}', 'contact_email');
+            errors[errors.length] = new Option('{/literal}{t escape=js}Contact Email{/t}{literal}', 'contact_email');
         }
     }
 }

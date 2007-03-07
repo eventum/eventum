@@ -95,17 +95,17 @@
               function validateForm(f)
               {
                   if (hasSelected(f.project, -1)) {
-                      alert('{/literal}{t}Please choose a project that will be associated with this reminder.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose a project that will be associated with this reminder.{/t}{literal}');
                       return false;
                   }
                   if (isWhitespace(f.title.value)) {
                       selectField(f, 'title');
-                      alert('{/literal}{t}Please enter the title for this reminder.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the title for this reminder.{/t}{literal}');
                       return false;
                   }
                   if (isWhitespace(f.rank.value)) {
                       selectField(f, 'rank');
-                      alert('{/literal}{t}Please enter the rank for this reminder.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the rank for this reminder.{/t}{literal}');
                       return false;
                   }
                   var next_field = 0;
@@ -121,19 +121,19 @@
                   }
                   var by_issue = getFormElement(f, 'reminder_type', next_field);
                   if ((by_support_level.checked) && (!hasOneSelected(f, 'support_levels[]'))) {
-                      alert('{/literal}{t}Please choose the support levels that will be associated with this reminder.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose the support levels that will be associated with this reminder.{/t}{literal}');
                       return false;
                   }
                   if ((by_customer.checked) && (!hasOneSelected(f, 'customers[]'))) {
-                      alert('{/literal}{t}Please choose the customers that will be associated with this reminder.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose the customers that will be associated with this reminder.{/t}{literal}');
                       return false;
                   }
                   if ((by_issue.checked) && (!hasOneSelected(f, 'issues[]'))) {
-                      alert('{/literal}{t}Please enter the issue IDs that will be associated with this reminder.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the issue IDs that will be associated with this reminder.{/t}{literal}');
                       return false;
                   }
                   if ((f.check_priority.checked) && (!hasOneSelected(f, 'priorities[]'))) {
-                      alert('{/literal}{t}Please choose the priorities that will be associated with this reminder.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose the priorities that will be associated with this reminder.{/t}{literal}');
                       return false;
                   }
                   return true;
@@ -292,10 +292,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t}Please select at least one of the reminders.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select at least one of the reminders.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
+                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;

@@ -7,7 +7,7 @@
 function validateForm(f)
 {
     if (!hasOneSelected(f, 'project')) {
-        alert('{/literal}{t}Please choose the project.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose the project.{/t}{literal}');
         selectField(f, 'project');
         return false;
     }

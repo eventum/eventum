@@ -3,22 +3,22 @@
 function validateForm(f)
 {
     if (isWhitespace(f.pattern.value)) {
-        alert('{/literal}{t}Please enter a pattern.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter a pattern.{/t}{literal}');
         selectField(f, 'pattern');
         return false;
     }
     if (f.replacement.value == '') {
-        alert('{/literal}{t}Please enter a replacement value.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter a replacement value.{/t}{literal}');
         selectField(f, 'replacement');
         return false;
     }
     if (!hasOneSelected(f, 'projects[]')) {
-        alert('{/literal}{t}Please select projects this link filter should be active for.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please select projects this link filter should be active for.{/t}{literal}');
         selectField(f, 'projects[]');
         return false;
     }
     if (!hasOneSelected(f, 'usr_role')) {
-        alert('{/literal}{t}Please select the minimum user role that should be able to see this link filter.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please select the minimum user role that should be able to see this link filter.{/t}{literal}');
         selectField(f, 'usr_role');
         return false;
     }
@@ -28,10 +28,10 @@ function validateForm(f)
 function checkDelete(f)
 {
     if (!hasOneChecked(f, 'items[]')) {
-      alert('{/literal}{t}Please select at least one link filter.{/t}{literal}');
+      alert('{/literal}{t escape=js}Please select at least one link filter.{/t}{literal}');
       return false;
     }
-    if (!confirm('{/literal}{t}WARNING: This action will remove the selected link filters permanently.{/t}{literal}\n{/literal}{t}Please click OK to confirm.{/t}{literal}')) {
+    if (!confirm('{/literal}{t escape=js}WARNING: This action will remove the selected link filters permanently.{/t}{literal}\n{/literal}{t}Please click OK to confirm.{/t}{literal}')) {
       return false;
     } else {
       return true;

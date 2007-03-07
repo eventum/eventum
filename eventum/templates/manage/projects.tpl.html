@@ -11,17 +11,17 @@
                   checkLeadSelection(f);
                   if (isWhitespace(f.title.value)) {
                       selectField(f, 'title');
-                      alert('{/literal}{t}Please enter the title of this project.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the title of this project.{/t}{literal}');
                       return false;
                   }
                   if (!hasOneSelected(f, 'users[]')) {
                       selectField(f, 'users[]');
-                      alert('{/literal}{t}Please assign the users for this project.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please assign the users for this project.{/t}{literal}');
                       return false;
                   }
                   if (!hasOneSelected(f, 'statuses[]')) {
                       selectField(f, 'statuses[]');
-                      alert('{/literal}{t}Please assign the statuses for this project.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please assign the statuses for this project.{/t}{literal}');
                       return false;
                   }
                   // the selected initial status should be one of the selected assigned statuses
@@ -35,12 +35,12 @@
                   }
                   if (!found) {
                       selectField(f, 'initial_status');
-                      alert('{/literal}{t}Please choose the initial status from one of the assigned statuses of this project.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose the initial status from one of the assigned statuses of this project.{/t}{literal}');
                       return false;
                   }
                   if (!isEmail(f.outgoing_sender_email.value)) {
                       selectField(f, 'outgoing_sender_email');
-                      alert('{/literal}{t}Please enter a valid outgoing sender address for this project.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter a valid outgoing sender address for this project.{/t}{literal}');
                       return false;
                   }
                   return true;
@@ -238,14 +238,14 @@
                       var total_selected = getTotalCheckboxesChecked(f, 'items[]');
                       var total = getTotalCheckboxes(f, 'items[]');
                       if (total == total_selected) {
-                          alert('{/literal}{t}You cannot remove all of the projects in the system.{/t}{literal}');
+                          alert('{/literal}{t escape=js}You cannot remove all of the projects in the system.{/t}{literal}');
                           return false;
                       }
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t}Please select at least one of the projects.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select at least one of the projects.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('{/literal}{t}WARNING: This action will remove the selected projects permanently.{/t}{literal}\n{/literal}{t}It will remove all of its associated entries as well (issues, notes, attachments,\netc), so please click OK to confirm.{/t}{literal}')) {
+                      if (!confirm('{/literal}{t escape=js}WARNING: This action will remove the selected projects permanently.{/t}{literal}\n{/literal}{t}It will remove all of its associated entries as well (issues, notes, attachments,\netc), so please click OK to confirm.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;

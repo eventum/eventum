@@ -10,7 +10,7 @@ function saveCustomFilter(f)
 {
     if (isWhitespace(f.title.value)) {
         selectField(f, 'title');
-        alert('{/literal}{t}Please enter the title for this saved search.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter the title for this saved search.{/t}{literal}');
         return false;
     }
     var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -25,10 +25,10 @@ function saveCustomFilter(f)
 function validateRemove(f)
 {
     if (!hasOneChecked(f, 'item[]')) {
-        alert('{/literal}{t}Please choose which entries need to be removed.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose which entries need to be removed.{/t}{literal}');
         return false;
     }
-    if (!confirm('{/literal}{t}This action will permanently delete the selected entries.{/t}{literal}')) {
+    if (!confirm('{/literal}{t escape=js}This action will permanently delete the selected entries.{/t}{literal}')) {
         return false;
     } else {
         var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';

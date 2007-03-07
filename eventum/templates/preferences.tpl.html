@@ -7,7 +7,7 @@
 function validateName(f)
 {
     if (isWhitespace(f.full_name.value)) {
-        alert('{/literal}{t}Please enter your full name.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter your full name.{/t}{literal}');
         selectField(f, 'full_name');
         return false;
     }
@@ -16,7 +16,7 @@ function validateName(f)
 function validateEmail(f)
 {
     if (!isEmail(f.email.value)) {
-        alert('{/literal}{t}Please enter a valid email address.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
         selectField(f, 'email');
         return false;
     }
@@ -25,12 +25,12 @@ function validateEmail(f)
 function validatePassword(f)
 {
     if ((isWhitespace(f.new_password.value)) || (f.new_password.value.length < 6)) {
-        alert('{/literal}{t}Please enter your new password with at least 6 characters.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter your new password with at least 6 characters.{/t}{literal}');
         selectField(f, 'new_password');
         return false;
     }
     if (f.new_password.value != f.confirm_password.value) {
-        alert('{/literal}{t}The two passwords do not match. Please review your information and try again.{/t}{literal}');
+        alert('{/literal}{t escape=js}The two passwords do not match. Please review your information and try again.{/t}{literal}');
         selectField(f, 'confirm_password');
         return false;
     }

@@ -9,48 +9,48 @@
               function validateForm(f)
               {
                   if (f.project.selectedIndex == 0) {
-                      alert('{/literal}{t}Please choose the project to be associated with this email account.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose the project to be associated with this email account.{/t}{literal}');
                       selectField(f, 'project');
                       return false;
                   }
                   if (f.type.selectedIndex == 0) {
-                      alert('{/literal}{t}Please choose the type of email server to be associated with this email account.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please choose the type of email server to be associated with this email account.{/t}{literal}');
                       selectField(f, 'type');
                       return false;
                   }
                   if (isWhitespace(f.hostname.value)) {
-                      alert('{/literal}{t}Please enter the hostname for this email account.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the hostname for this email account.{/t}{literal}');
                       selectField(f, 'hostname');
                       return false;
                   }
                   if (isWhitespace(f.port.value)) {
-                      alert('{/literal}{t}Please enter the port number for this email account.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the port number for this email account.{/t}{literal}');
                       selectField(f, 'port');
                       return false;
                   }
                   if (!isNumberOnly(f.port.value)) {
-                      alert('{/literal}{t}Please enter a valid port number for this email account.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter a valid port number for this email account.{/t}{literal}');
                       selectField(f, 'port');
                       return false;
                   }
                   if (!isNumberOnly(f.port.value)) {
-                      alert('{/literal}{t}Please enter the port number for this email account.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the port number for this email account.{/t}{literal}');
                       selectField(f, 'port');
                       return false;
                   }
                   var server_type = getSelectedOption(f, 'type');
                   if ((server_type.indexOf('imap') != -1) && (isWhitespace(f.folder.value))) {
-                      alert('{/literal}{t}Please enter the IMAP folder for this email account.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the IMAP folder for this email account.{/t}{literal}');
                       selectField(f, 'folder');
                       return false;
                   }
                   if (isWhitespace(f.username.value)) {
-                      alert('{/literal}{t}Please enter the username for this email account.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the username for this email account.{/t}{literal}');
                       selectField(f, 'username');
                       return false;
                   }
                   if (isWhitespace(f.password.value)) {
-                      alert('{/literal}{t}Please enter the password for this email account.{/t}{literal}');
+                      alert('{/literal}{t escape=js}Please enter the password for this email account.{/t}{literal}');
                       selectField(f, 'password');
                       return false;
                   }
@@ -232,10 +232,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t}Please select at least one of the accounts.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select at least one of the accounts.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
+                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;

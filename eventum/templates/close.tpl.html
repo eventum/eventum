@@ -47,24 +47,24 @@ function validateClose(f)
 {
     if (getSelectedOption(f, 'status') == -1) {
         selectField(f, 'status');
-        alert('{/literal}{t}Please choose the new status for this issue.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose the new status for this issue.{/t}{literal}');
         return false;
     }
     if (isWhitespace(f.reason.value)) {
         selectField(f, 'reason');
-        alert('{/literal}{t}Please enter the reason for closing this issue.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please enter the reason for closing this issue.{/t}{literal}');
         return false;
     }
 
     if (!isWhitespace(f.time_spent.value)) {
         if (!isNumberOnly(f.time_spent.value)) {
             selectField(f, 'time_spent');
-            alert('{/literal}{t}Please enter integers (or floating point numbers) on the time spent field.{/t}{literal}');
+            alert('{/literal}{t escape=js}Please enter integers (or floating point numbers) on the time spent field.{/t}{literal}');
             return false;
         }
         if (f.category.options[f.category.selectedIndex].value == '') {
             selectField(f, 'category');
-            alert('{/literal}{t}Please choose the time tracking category for this new entry.{/t}{literal}');
+            alert('{/literal}{t escape=js}Please choose the time tracking category for this new entry.{/t}{literal}');
             return false;
         }
     }

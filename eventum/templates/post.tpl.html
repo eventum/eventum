@@ -41,7 +41,7 @@
 function validateForm(f)
 {
     if (hasSelected(f.project, -1)) {
-        alert('{/literal}{t}Please choose the project that this new issue will apply to.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose the project that this new issue will apply to.{/t}{literal}');
         selectField(f, 'project');
         return false;
     }
@@ -103,10 +103,10 @@ var custom_fields = new Array();
 function validateForm(f)
 {
     if (isWhitespace(f.summary.value)) {
-        errors[errors.length] = new Option('{/literal}{t}Summary{/t}{literal}', 'summary');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Summary{/t}{literal}', 'summary');
     }
     if (isWhitespace(f.description.value)) {
-        errors[errors.length] = new Option('{/literal}{t}Description{/t}{literal}', 'description');
+        errors[errors.length] = new Option('{/literal}{t escape=js}Description{/t}{literal}', 'description');
     }
     checkRequiredCustomFields(f, required_custom_fields);
 }

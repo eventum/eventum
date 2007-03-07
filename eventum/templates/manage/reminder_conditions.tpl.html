@@ -14,21 +14,21 @@
               function validateForm(f)
               {
                   if (hasSelected(f.field, -1)) {
-                      errors[errors.length] = new Option('{/literal}{t}Field{/t}{literal}', 'field');
+                      errors[errors.length] = new Option('{/literal}{t escape=js}Field{/t}{literal}', 'field');
                   }
                   if (hasSelected(f.operator, -1)) {
-                      errors[errors.length] = new Option('{/literal}{t}Operator{/t}{literal}', 'operator');
+                      errors[errors.length] = new Option('{/literal}{t escape=js}Operator{/t}{literal}', 'operator');
                   }
                   if (f.comparison_field != 'undefined' && f.comparison_field.selectedIndex > 0) {
                       
                   } else {
                       if (f.value.type == 'select-one') {
                           if (hasSelected(f.value, -1)) {
-                              errors[errors.length] = new Option('{/literal}{t}Value{/t}{literal}', 'value');
+                              errors[errors.length] = new Option('{/literal}{t escape=js}Value{/t}{literal}', 'value');
                           }
                       } else if (f.value.type == 'text') {
                           if (isWhitespace(f.value.value)) {
-                              errors[errors.length] = new Option('{/literal}{t}Value{/t}{literal}', 'value');
+                              errors[errors.length] = new Option('{/literal}{t escape=js}Value{/t}{literal}', 'value');
                           }
                       }
                   }
@@ -181,10 +181,10 @@
                   function checkDelete(f)
                   {
                       if (!hasOneChecked(f, 'items[]')) {
-                          alert('{/literal}{t}Please select at least one of the conditions.{/t}{literal}');
+                          alert('{/literal}{t escape=js}Please select at least one of the conditions.{/t}{literal}');
                           return false;
                       }
-                      if (!confirm('{/literal}{t}This action will remove the selected entries.{/t}{literal}')) {
+                      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
                           return false;
                       } else {
                           return true;
