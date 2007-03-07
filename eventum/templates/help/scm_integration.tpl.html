@@ -9,36 +9,32 @@ compatible with pretty much any SCM system, such as CVS. When entering
 the required information for the checkout page and diff page input
 fields, use the following placeholders:{/t}
 <br /><br />
-{literal}
 <table>
   <tr>
-    <td class="default" align="right"><b>{MODULE}</b></td>
-    <td class="default">- {/literal}{t}The CVS module name{/t}{literal}</td>
+    <td class="default" align="right"><b>{literal}{MODULE}{/literal}</b></td>
+    <td class="default">- {t}The CVS module name</td>
   </tr>
   <tr>
-    <td class="default" align="right"><b>{FILE}</b></td>
-    <td class="default">- {/literal}{t}The filename that was committed{/t}{literal}</td>
+    <td class="default" align="right"><b>{literal}{FILE}{/literal}</b></td>
+    <td class="default">- {t}The filename that was committed{/t}</td>
   </tr>
   <tr>
-    <td class="default" align="right"><b>{OLD_VERSION}</b></td>
-    <td class="default">- {/literal}{t}The old revision of the file{/t}{literal}</td>
+    <td class="default" align="right"><b>{literal}{OLD_VERSION}{/literal}</b></td>
+    <td class="default">- {t}The old revision of the file{/t}</td>
   </tr>
   <tr>
-    <td class="default" align="right"><b>{NEW_VERSION}</b></td>
-    <td class="default">- {/literal}{t}The new revision of the file{/t}{literal}</td>
+    <td class="default" align="right"><b>{literal}{NEW_VERSION}{/literal}</b></td>
+    <td class="default">- {t}The new revision of the file{/t}</td>
   </tr>
 </table>
 <br />
-{/literal}
 {t}As an example, using the <a href="http://www.horde.org/chora/" class="link" target="_chora">Chora CVS viewer</a> [highly recommended] from the Horde project you
 would usually have the following URL as the diff page:{/t}
 <br /><br />
-<b>{t}http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h{/t}</b>
+<b>{literal}http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h{/literal}</b>
 <br /><br />
 {t}With that information in mind, the appropriate value to be entered in
 the 'Checkout page' input field is:{/t}
 <br /><br />
-{literal}
-<b>http://example.com/chora/diff.php/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&ty=h</b>
-{/literal}
+<b>{literal}http://example.com/chora/diff.php/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&ty=h{/literal}</b>
 </span>
