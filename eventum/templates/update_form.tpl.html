@@ -6,7 +6,7 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td class="default">
+          <td class="default" align="center">
             {if $update_result == -1}
               <b>{t}Sorry, an error happened while trying to run your query.{/t}</b>
             {elseif $update_result == 1}
@@ -15,7 +15,10 @@
                 <br />{t}Also, all issues that are marked as duplicates from this one were updated as well.{/t}
               {/if}
               <br /><br />
-              <a href="view.php?id={$smarty.post.issue_id}" class="link">{t 1=$smarty.post.issue_id}Return to Issue #%1 Details Page{/t}</a>
+              <b>
+                <a href="update.php?id={$smarty.post.issue_id}" class="link">{t 1=$smarty.post.issue_id}Update Issue #%1{/t}</a><br />
+                <a href="view.php?id={$smarty.post.issue_id}" class="link">{t 1=$smarty.post.issue_id}Return to Issue #%1 Details Page{/t}</a>
+              </b>
             {/if}
           </td>
         </tr>
