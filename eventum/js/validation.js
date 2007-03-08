@@ -1,4 +1,10 @@
-// @(#) $Id: validation.js 3270 2007-03-08 17:31:49Z glen $
+/*
+ * @(#) $Id: validation.js 3271 2007-03-08 17:32:57Z glen $
+ */
+
+
+
+
 function isValidDate(f, field_prefix)
 {
     var selected_date = new Date();
