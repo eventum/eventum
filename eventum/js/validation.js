@@ -1,5 +1,4 @@
-<!--
-// @(#) $Id: validation.js 3189 2007-01-11 21:57:57Z glen $
+// @(#) $Id: validation.js 3270 2007-03-08 17:31:49Z glen $
 function isValidDate(f, field_prefix)
 {
     var selected_date = new Date();
@@ -350,4 +349,3 @@ function checkFormSubmission(f, callback_func)
         return true;
     }
 }
-//-->
