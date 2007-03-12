@@ -16,7 +16,8 @@
                   }
                   if (field1.checked) {
                       var field = getFormElement(f, 'options[show_custom_fields]');
-                      if (field.selectedIndex == 0) {
+                      var field1 = getFormElement(f, 'options[show_custom_fields]', 1);
+                      if (!field.checked && !field1.checked) {
                           alert('{/literal}{t escape=js}Please choose whether to show custom fields for remote invocations or not.{/t}{literal}');
                           selectField(f, 'options[show_custom_fields]');
                           return false;
@@ -61,7 +62,9 @@
                       var bgcolor = '#FFFFFF';
                   }
                   var field = getFormElement(f, 'options[show_custom_fields]');
+                  var field1 = getFormElement(f, 'options[show_custom_fields]', 1);
                   field.disabled = bool;
+                  field1.disabled = bool;
                   field = getFormElement(f, 'options[category]');
                   field.disabled = bool;
                   field.style.backgroundColor = bgcolor;
