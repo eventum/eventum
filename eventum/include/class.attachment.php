@@ -273,6 +273,7 @@ class Attachment
     /**
      * Method used to remove attachments from the database.
      *
+     * @param   integer $iat_id attachment_id.
      * @access  public
      * @return  integer Numeric code used to check for any errors
      */
@@ -298,12 +299,13 @@ class Attachment
             if (empty($res)) {
                 return -2;
             } else {
+                $issue_id = $res;
                 $files = Attachment::getFileList($iat_id);
                 $stmt = "DELETE FROM
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
                          WHERE
                             iat_id=$iat_id AND
-                            iat_iss_id=$res";
+                            iat_iss_id=$issue_id";
                 $res = $GLOBALS["db_api"]->dbh->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -312,9 +314,9 @@ class Attachment
                 for ($i = 0; $i < count($files); $i++) {
                     Attachment::removeFile($files[$i]['iaf_id']);
                 }
-                Issue::markAsUpdated($res);
+                Issue::markAsUpdated($issue_id);
                 // need to save a history entry for this
-                History::add($res, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
+                History::add($issue_id, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
                 return 1;
             }
         }
