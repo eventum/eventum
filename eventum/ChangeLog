@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version ???
+???, Version 2.0
 - Fixed bug with user recieving an update email when they updated the issue (Bryan)
 - Fixed bug with inserting attachment from email with an apostrophe in the email name (Bryan)
 - Changed support_email table to not truncate long to and cc lists (Bryan)
@@ -68,6 +68,7 @@ Eventum Issue Tracking System
 - Allow IRC bot to join server with username/password optionally. (Elan Ruusamäe)
 - Set system user to always have a role of administrator (Bryan)
 - Fixed bug with displaying note sequence (Bryan)
+- Fixed bug with extracting attachments (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

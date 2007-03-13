@@ -1340,7 +1340,7 @@ class Support
     function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = false)
     {
         if (!is_object($input)) {
-            $input = Mime_Helper::decode($input, false, false);
+            $input = Mime_Helper::decode($input, true, true);
         }
 
         // figure out who should be the 'owner' of this attachment
