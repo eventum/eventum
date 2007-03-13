@@ -1,0 +1,3 @@
+API cleanups:
+
+- Attachment::addFile() parameter $issue_id is never used
