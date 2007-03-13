@@ -1142,7 +1142,7 @@ class Issue
                     }
                     $blob = Misc::getFileContents($_FILES["file"]["tmp_name"][$i]);
                     if (!empty($blob)) {
-                        Attachment::addFile($attachment_id, $new_issue_id, $filename, $_FILES["file"]["type"][$i], $blob);
+                        Attachment::addFile($attachment_id, $filename, $_FILES["file"]["type"][$i], $blob);
                     }
                 }
             }
@@ -2119,7 +2119,7 @@ class Issue
                 if (count($files) > 0) {
                     $attachment_id = Attachment::add($new_issue_id, $usr_id, 'Files uploaded at issue creation time');
                     foreach ($files as $file) {
-                        Attachment::addFile($attachment_id, $new_issue_id, $file["filename"], $file["type"], $file["blob"]);
+                        Attachment::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
                     }
                 }
             }

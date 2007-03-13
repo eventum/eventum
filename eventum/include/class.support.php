@@ -1373,7 +1373,7 @@ class Support
             }
             $attachment_id = Attachment::add($issue_id, $usr_id, $history_log, $internal_only, $unknown_user, $associated_note_id);
             for ($i = 0; $i < count($attachments); $i++) {
-                Attachment::addFile($attachment_id, $issue_id, $attachments[$i]['filename'], $attachments[$i]['filetype'], $attachments[$i]['blob']);
+                Attachment::addFile($attachment_id, $attachments[$i]['filename'], $attachments[$i]['filetype'], $attachments[$i]['blob']);
             }
             // mark the note as having attachments (poor man's caching system)
             if ($associated_note_id != false) {

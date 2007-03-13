@@ -468,7 +468,7 @@ class Attachment
         }
         $attachment_id = Attachment::add($_POST["issue_id"], $usr_id, @$_POST["file_description"], $internal_only);
         foreach ($files as $file) {
-            Attachment::addFile($attachment_id, $_POST["issue_id"], $file["filename"], $file["type"], $file["blob"]);
+            Attachment::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
         }
 
         Issue::markAsUpdated($_POST["issue_id"], "file uploaded");
@@ -496,11 +496,10 @@ class Attachment
      *
      * @access  public
      * @param   integer $attachment_id The attachment ID
-     * @param   integer $issue_id The issue ID
      * @param   string $filename The filename to be added
      * @return  boolean
      */
-    function addFile($attachment_id, $issue_id, $filename, $filetype, &$blob)
+    function addFile($attachment_id, $filename, $filetype, &$blob)
     {
         $filesize = strlen($blob);
         $stmt = "INSERT INTO
