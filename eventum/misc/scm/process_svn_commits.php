@@ -29,7 +29,7 @@
 // |          Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: process_svn_commits.php 3282 2007-03-19 19:37:08Z glen $
+// @(#) $Id: process_svn_commits.php 3284 2007-03-19 23:54:48Z glen $
 
 // See http://eventum.mysql.org/wiki/index.php/Subversion_integration about SVN integration.
 
@@ -101,7 +101,7 @@ foreach ($files as $file_info) {
 $pattern = "/(?:issue|bug) ?:? ?#?(\d+)/i";
 preg_match_all($pattern, $commit_msg, $matches);
 
-if (count($matches[1]) > 1) {
+if (count($matches[1]) > 0) {
     // need to encode all of the url arguments
     $commit_msg = rawurlencode($commit_msg);
     $scm_module = rawurlencode($scm_module);
