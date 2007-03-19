@@ -70,6 +70,7 @@ Eventum Issue Tracking System
 - Fixed bug with displaying note sequence (Bryan)
 - Fixed bug with extracting attachments (Bryan)
 - Fixed bug attachment history entry not being added due variable overwrite (Elan Ruusamäe)
+- Fixed detection in process_{svn,cvs}_commits whether there was issue id specified in commit message (Elan Ruusamäe)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

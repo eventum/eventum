@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: process_cvs_commits.php 3266 2007-03-06 20:18:51Z glen $
+// @(#) $Id: process_cvs_commits.php 3282 2007-03-19 19:37:08Z glen $
 
 
 // URL to your Eventum installation.
@@ -83,7 +83,7 @@ $commit_msg = substr($input, strpos($input, 'Log Message:')+strlen('Log Message:
 $pattern = "/(?:issue|bug) ?:? ?#?(\d+)/i";
 preg_match_all($pattern, $commit_msg, $matches);
 
-if (count($matches) > 1) {
+if (count($matches[1]) > 1) {
     // need to encode all of the url arguments
     $commit_msg = rawurlencode($commit_msg);
     $cvs_module = rawurlencode($cvs_module);
