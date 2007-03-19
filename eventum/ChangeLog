@@ -69,6 +69,7 @@ Eventum Issue Tracking System
 - Set system user to always have a role of administrator (Bryan)
 - Fixed bug with displaying note sequence (Bryan)
 - Fixed bug with extracting attachments (Bryan)
+- Added Finnish translation (Jyrki Heinonen)
 - Fixed bug attachment history entry not being added due variable overwrite (Elan Ruusamäe)
 - Fixed detection in process_{svn,cvs}_commits whether there was issue id specified in commit message (Elan Ruusamäe)
 
