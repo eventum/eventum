@@ -498,7 +498,7 @@ class Mime_Helper
         if (!is_object($message)) {
             $message = Mime_Helper::decode($message, true);
         }
-        return Mime_Helper::_getAttachmentDetails($message, TRUE);
+        return Mime_Helper::_getAttachmentDetails($message, true);
     }
 
 
@@ -532,7 +532,7 @@ class Mime_Helper
             // if requested, return only the details of
             // a particular attachment CID. Only really needed
             // as hack for inline images
-            if (($return_cid != FALSE) && (@$mime_part->d_parameters['content-id'] != $return_cid)) {
+            if (($return_cid != FALSE) && (@$mime_part->headers['content-id'] != $return_cid)) {
                 return array();
             }
             $found = 1;
