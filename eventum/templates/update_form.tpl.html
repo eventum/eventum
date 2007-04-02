@@ -213,17 +213,17 @@ function closeIssue(issue_id)
             {* Convert expected resolution date to format usable by html_select_date *}
             {if $issue.iss_expected_resolution_date == ''}
                 {assign var="expected_resolution_date" value='0000-00-00'}
-                {assign var="expected_resolution_start_year" value=$smarty.now|date_format:"%Y"}
+                {assign var="expected_resolution_start_year" value=$current_year}
             {else}
                 {assign var="expected_resolution_date" value=$issue.iss_expected_resolution_date}
                 {* Set the start year to be whatever the current expected resolution date is *}
-                {if $expected_resolution_date|substr:"0":"4" < $smarty.now|date_format:"%Y"}
+                {if $expected_resolution_date|substr:"0":"4" < $current_year}
                     {assign var="expected_resolution_start_year" value=$expected_resolution_date|substr:"0":"4"}
                 {else}
-                    {assign var="expected_resolution_start_year" value=$smarty.now|date_format:"%Y"}
+                    {assign var="expected_resolution_start_year" value=$current_year}
                 {/if}
             {/if}
-            {html_select_date time=$expected_resolution_date field_array="expected_resolution_date" prefix="" start_year=$expected_resolution_start_year end_year="+1" all_extra='class="default"' year_empty="" day_empty="" month_empty="" day_value_format='%02d'}
+            {html_select_date time=$expected_resolution_date field_array="expected_resolution_date" prefix="" start_year=$expected_resolution_start_year end_year=`$expected_resolution_start_year+5` all_extra='class="default"' year_empty="" day_empty="" month_empty="" day_value_format='%02d'}
           </td>
           {if $releases|@count > 0}
           <td nowrap width="120" bgcolor="{$cell_color}" class="default_white">

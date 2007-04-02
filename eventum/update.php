@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: update.php 3258 2007-02-14 23:25:56Z glen $
+// @(#) $Id: update.php 3289 2007-04-02 20:52:59Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -121,7 +121,8 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         "assoc_issues" => array_map("htmlspecialchars", Issue::getAssocList()),
         "one_week_ts"  => time() + (7 * DAY),
         "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
-        "groups"       => Group::getAssocList($prj_id)
+        "groups"       => Group::getAssocList($prj_id),
+        'current_year' =>   date('Y'),
     ));
 
     $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
