@@ -459,11 +459,13 @@ class Support
      * Method used to get the information about a specific message
      * from a given mailbox.
      *
+     * XXX this function does more than that.
+     *
      * @access  public
      * @param   resource $mbox The mailbox
      * @param   array $info The support email account information
      * @param   integer $num The index of the message
-     * @return  array The message information
+     * @return  void
      */
     function getEmailInfo($mbox, $info, $num)
     {
@@ -473,7 +475,7 @@ class Support
         if ($info['ema_get_only_new']) {
             list($overview) = @imap_fetch_overview($mbox, $num);
             if (($overview->seen) || ($overview->deleted) || ($overview->answered)) {
-                return false;
+                return;
             }
         }
 
@@ -482,7 +484,8 @@ class Support
         $body = imap_body($mbox, $num);
         // check for mysterious blank messages
         if (empty($body) and empty($headers)) {
-            return '';
+            // XXX do some error reporting?
+            return;
         }
         $message_id = Mail_API::getMessageID($headers, $body);
         $message = $headers . $body;
@@ -504,7 +507,7 @@ class Support
             // pass in $email by reference so it can be modified
             $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $message, $email);
             if ($workflow === -1) {
-                return true;
+                return;
             }
 
             // route emails if neccassary
@@ -530,8 +533,9 @@ class Support
                         $return = Routing::route_emails($message);
                         if ($return == true) {
                             Support::deleteMessage($info, $mbox, $num);
+                            return;
                         }
-                        return $return;
+                        return;
                     }
                 }
                 if (@$setup['note_routing']['status'] == 'enabled') {
@@ -540,8 +544,9 @@ class Support
                         $return = Routing::route_notes($message);
                         if ($return == true) {
                             Support::deleteMessage($info, $mbox, $num);
+                            return;
                         }
-                        return $return;
+                        return;
                     }
                 }
                 if (@$setup['draft_routing']['status'] == 'enabled') {
@@ -550,11 +555,12 @@ class Support
                         $return = Routing::route_drafts($message);
                         if ($return == true) {
                             Support::deleteMessage($info, $mbox, $num);
+                            return;
                         }
-                        return $return;
+                        return;
                     }
                 }
-                return false;
+                return;
             }
 
             $sender_email = Mail_API::getEmailAddress($email->fromaddress);
@@ -704,9 +710,9 @@ class Support
                     @imap_setflag_full($mbox, $num, "\\Seen");
                 }
             }
-            return true;
+            return;
         } else {
-            return false;
+            return;
         }
     }
 
