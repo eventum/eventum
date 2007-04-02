@@ -72,6 +72,7 @@ Eventum Issue Tracking System
 - Added Finnish translation (Jyrki Heinonen)
 - Fixed bug attachment history entry not being added due variable overwrite (Elan Ruusamäe)
 - Fixed detection in process_{svn,cvs}_commits whether there was issue id specified in commit message (Elan Ruusamäe)
+- Order weekly report by Issue ID (Bryan)
 
 31 Mar 2006, Version 1.7.1
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)

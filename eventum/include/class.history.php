@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.history.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.history.php 3287 2007-04-02 05:26:57Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -253,7 +253,9 @@ class History
                     his_htt_id NOT IN(" . join(',', $htt_list) . ") AND
                     iss_prj_id = " . Auth::getCurrentProject() . "
                  GROUP BY
-                    iss_id";
+                    iss_id
+                 ORDER BY
+                    iss_id ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
