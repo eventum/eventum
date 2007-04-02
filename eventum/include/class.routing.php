@@ -52,11 +52,10 @@ class Routing
      * Routes an email to the correct issue.
      *
      * @param   string $full_message The full email message, including headers
+     * @return  mixed   true or array(ERROR_CODE, ERROR_STRING) in case of failure
      */
     function route_emails($full_message)
     {
-        GLOBAL $_POST;
-
         // need some validation here
         if (empty($full_message)) {
             return array(66, ev_gettext("Error: The email message was empty") . ".\n");
@@ -241,11 +240,10 @@ class Routing
      * Routes a note to the correct issue
      *
      * @param   string $full_message The full note
+     * @return  mixed   true or array(ERROR_CODE, ERROR_STRING) in case of failure
      */
     function route_notes($full_message)
     {
-        GLOBAL $_POST;
-
         // save the full message for logging purposes
         Note::saveRoutedNote($full_message);
 
@@ -262,11 +260,6 @@ class Routing
         if (empty($full_message)) {
             return array(66, ev_gettext("Error: The email message was empty.") . "\n");
         }
-
-
-        //
-        // DON'T EDIT ANYTHING BELOW THIS LINE
-        //
 
         // remove the reply-to: header
         if (preg_match('/^reply-to:.*/im', $full_message)) {
@@ -368,11 +361,10 @@ class Routing
      * Routes a draft to the correct issue.
      *
      * @param   string $full_message The complete draft.
+     * @return  mixed   true or array(ERROR_CODE, ERROR_STRING) in case of failure
      */
     function route_drafts($full_message)
     {
-        GLOBAL $_POST;
-
         // save the full message for logging purposes
         Draft::saveRoutedMessage($full_message);
 
@@ -386,11 +378,6 @@ class Routing
         if (empty($full_message)) {
             return array(66, ev_gettext("Error: The email message was empty.") . "\n");
         }
-
-
-        //
-        // DON'T EDIT ANYTHING BELOW THIS LINE
-        //
 
         // remove the reply-to: header
         if (preg_match("/^(reply-to:).*/im", $full_message)) {
