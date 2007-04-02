@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.auth.php 3291 2007-04-02 22:16:53Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -433,7 +433,7 @@ class Auth
         $usr_id = Auth::getUserID();
         $projects = Project::getAssocList($usr_id);
         if ($usr_id == APP_SYSTEM_USER_ID) {
-            return $cookie['prj_id'];
+            return isset($cookie['prj_id']) ? (int )$cookie['prj_id'] : null;
         }
         if (!in_array($cookie["prj_id"], array_keys($projects))) {
             Auth::redirect(APP_RELATIVE_URL . "select_project.php?err=1");
