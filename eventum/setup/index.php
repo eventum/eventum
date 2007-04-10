@@ -430,6 +430,7 @@ $private_key = "' . md5(microtime()) . '";
     $config_contents = str_replace("%{APP_SQL_DBPASS}%", $_POST['db_password'], $config_contents);
     $config_contents = str_replace("%{APP_TABLE_PREFIX}%", $_POST['db_table_prefix'], $config_contents);
     $config_contents = str_replace("%{APP_HOSTNAME}%", $_POST['hostname'], $config_contents);
+    $config_contents = str_replace("%{CHARSET}%", APP_CHARSET, $config_contents);
     $config_contents = str_replace("%{APP_RELATIVE_URL}%", $_POST['relative_url'], $config_contents);
     if (@$_POST['is_ssl'] == 'yes') {
         $protocol_type = 'https://';
@@ -465,6 +466,7 @@ $private_key = "' . md5(microtime()) . '";
     $_REQUEST['setup']['emails'] = 1;
     $_REQUEST['setup']['files'] = 1;
     $_REQUEST['setup']['allow_unassigned_issues'] = 'yes';
+    $_REQUEST['setup']['support_email'] = 'enabled';
     Setup::save($_REQUEST['setup']);
 
     return 'success';
