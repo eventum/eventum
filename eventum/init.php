@@ -35,12 +35,13 @@ if (!file_exists(dirname(__FILE__) . '/config/config.php')) {
 ini_set('allow_url_fopen', 0);
 set_time_limit(0);
 set_magic_quotes_runtime(0);
+ini_set('memory_limit', '128M');
 
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'http://www.mysql.com/products/eventum/');
-define('APP_VERSION', '2.0-beta1');
+define('APP_VERSION', '2.0');
 
 // define base path
 define('APP_PATH', realpath(dirname(__FILE__)) . '/');
