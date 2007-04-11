@@ -22,10 +22,10 @@ function convertNote(note_id)
         popupWin.focus();
     }
 }
-function viewNote(note_id, sequence)
+function viewNote(note_id)
 {
     var features = 'width=560,height=500,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var noteWin = window.open('view_note.php?id=' + note_id + '&num=' + sequence, '_note' + note_id, features);
+    var noteWin = window.open('view_note.php?id=' + note_id, '_note' + note_id, features);
     noteWin.focus();
 }
 function postInternalNote(issue_id)
@@ -84,7 +84,7 @@ function replyNote(note_id, issue_id)
                   {if $current_user_id == $notes[i].not_usr_id}[ <a class="link" href="javascript:void(null);" onClick="javascript:deleteNote({$notes[i].not_id});">{t}delete{/t}</a> ]{/if}
                 </td>
                 <td class="default">
-                  <a title="view note details" href="javascript:void(null);" onClick="javascript:viewNote({$notes[i].not_id}, {$smarty.section.i.iteration});" class="link">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
+                  <a title="view note details" href="javascript:void(null);" onClick="javascript:viewNote({$notes[i].not_id});" class="link">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
                   {if $notes[i].has_blocked_message} (<a href="javascript:void(null);" onClick="javascript:convertNote({$notes[i].not_id});" class="link">{t}convert note{/t}</a>){/if}
                 </td>
               </tr>
