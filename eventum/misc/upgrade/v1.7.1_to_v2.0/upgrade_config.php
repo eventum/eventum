@@ -28,6 +28,7 @@ $config_contents = str_replace("%{APP_SQL_DBPASS}%", get_old_value('APP_SQL_DBPA
 $config_contents = str_replace("%{APP_TABLE_PREFIX}%", get_old_value('APP_TABLE_PREFIX'), $config_contents);
 $config_contents = str_replace("%{APP_HOSTNAME}%", get_old_value('APP_HOSTNAME'), $config_contents);
 $config_contents = str_replace("%{APP_RELATIVE_URL}%", get_old_value('APP_RELATIVE_URL'), $config_contents);
+$config_contents = str_replace("%{CHARSET}%", get_old_value('APP_CHARSET'), $config_contents);
 $config_contents = str_replace("'%{APP_ENABLE_FULLTEXT}%'", get_old_value('APP_ENABLE_FULLTEXT'), $config_contents);
 if (stristr(get_old_value('APP_BASE_URL'), 'https://') !== false) {
     $protocol_type = 'https://';
@@ -61,10 +62,23 @@ function get_old_value($name)
 {
     GLOBAL $old_config;
 
-    preg_match("/@define\(\"" . $name . "\", (.*)\);/", $old_config, $matches);
+    preg_match("/@?define\(\"" . $name . "\", (.*)\);/", $old_config, $matches);
     return trim($matches[1], '"');
 }
 
 ?>
-Done. Your configuration file (config/config.php) has been upgraded to version 2.0.<br />
-A backup copy has been made in the file <i>'<?php echo $backup_file; ?>'</i>.
+<h1>Done</h1>
+
+<p>Eventum 2.0 stores configuration differently then previous versions. All configuration
+files are now located in the 'config/' sub directory. Once you have tested that Eventum is
+smoothly you may remove the following configuration files:
+<ul>
+    <li>config.inc.pnp</li>
+    <li>setup.conf.php</li>
+    <li>include/private_key.php</li>
+</ul>
+
+Your old configuration has been backup in the file <i>'<?php echo $backup_file; ?>'</i>.
+</p>
+
+<a href="database_changes.php">Perform database changes</a>.<br />
