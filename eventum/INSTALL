@@ -33,7 +33,8 @@ IMPORTANT: If you already have an installation of Eventum, please read the
 UPGRADE file.
 
 IMPORTANT: If you are having trouble getting Eventum to work, please read
-the trouble shooting section of the FAQ file.
+the trouble shooting section of the FAQ file and visit
+http://eventum.mysql.org
 
 
 
@@ -211,8 +212,9 @@ proper command:
 
 php bot.php &
 
-NOTE: You will need to manually edit the bot.php script to set your appropriate
-preferences, like IRC server and channel that the bot should join.
+NOTE: You will need to manually edit config/irc_config.php to set your appropriate
+preferences, like IRC server and channel that the bot should join. An example
+config file is located in setup/irc_config.php
 
 
 5)- Command-line Interface (misc/cli/eventum)

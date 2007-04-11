@@ -9,9 +9,9 @@ is used by MySQL AB for its support needs, and has allowed us to increase our
 response times by leaps and bounds.
 
 It is being released as a GPL project to gather community involvement in its
-development. The BitKeeper source tree is available from the following URL:
+development. More information can be found at the following URL:
 
-  http://mysql.bkbits.net/
+  http://eventum.mysql.org/
 
 We have also provided mailing lists related to Eventum, both for users and
 potential developers at http://lists.mysql.com/:

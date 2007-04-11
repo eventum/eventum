@@ -48,7 +48,7 @@ disable suPHP and see if the problem is fixed.
 
  Problem: None of the pages work.
 
-Solution: In the file /path-to-eventum/config.inc.php change the following lines
+Solution: In the file /path-to-eventum/config/config.php change the following lines
 
 ini_set("display_errors", 0);
 error_reporting(0);
@@ -76,6 +76,6 @@ Solution: Many things can cause this error. Here are a few to check.
  exhausted"
 
 Solution: Your PHP memory limit is too low. Try increasing it by adding the line
-ini_set('memory_limit', '256M'); to config.inc.php
+ini_set('memory_limit', '256M'); to /path-to-eventum/config/config.php
 
 ===============================================================================
