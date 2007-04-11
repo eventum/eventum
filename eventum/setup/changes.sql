@@ -660,3 +660,7 @@ ALTER TABLE eventum_user ADD COLUMN usr_lang varchar(5);
 
 
 ALTER TABLE eventum_custom_field_option CHANGE COLUMN cfo_value cfo_value varchar(128) NOT NULL;
+
+
+# March 16th (adding missing type)
+INSERT INTO eventum_history_type SET htt_name = 'draft_routed',  htt_role = 4;
