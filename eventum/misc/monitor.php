@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: monitor.php 3258 2007-02-14 23:25:56Z glen $
+// @(#) $Id: monitor.php 3298 2007-04-11 22:37:59Z glen $
 
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.monitor.php");
@@ -37,7 +37,7 @@ Monitor::checkDiskspace($partition);
 
 // the owner, group and filesize settings should be changed to match the correct permissions on your server.
 $required_files = array(
-    APP_PATH . 'config.inc.php' => array(
+    APP_PATH . 'config/config.php' => array(
         'check_owner'      => true,
         'owner'            => 'apache',
         'check_group'      => true,
@@ -45,7 +45,7 @@ $required_files = array(
         'check_permission' => true,
         'permission'       => 755,
     ),
-    APP_PATH . 'setup.conf.php' => array(
+    APP_PATH . 'config/setup.php' => array(
         'check_owner'      => true,
         'owner'            => 'apache',
         'check_group'      => true,

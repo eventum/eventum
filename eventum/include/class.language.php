@@ -26,7 +26,7 @@
 // +----------------------------------------------------------------------+
 //
 
-// the list of available languges is in config.inc.php
+// the list of available languges is in config/config.php
 
 /**
  * Class to handle the logic behind the internationalization issues
