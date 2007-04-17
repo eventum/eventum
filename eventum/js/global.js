@@ -1,5 +1,5 @@
 <!--
-// @(#) $Id: global.js 3189 2007-01-11 21:57:57Z glen $
+// @(#) $Id: global.js 3314 2007-04-17 10:24:42Z glen $
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));
 
@@ -143,15 +143,19 @@ function checkSpelling(form_name, field_name)
     popupWin.focus();
 }
 
-function updateTimeFields(form_name, year_field, month_field, day_field, hour_field, minute_field)
+function updateTimeFields(form_name, year_field, month_field, day_field, hour_field, minute_field, date)
 {
     var f = getForm(form_name);
-    var current_date = new Date();
-    selectOption(f, month_field, padDateValue(current_date.getMonth()+1));
-    selectOption(f, day_field, padDateValue(current_date.getDate()));
-    selectOption(f, year_field, current_date.getFullYear());
-    selectOption(f, hour_field, padDateValue(current_date.getHours()));
-    selectOption(f, minute_field, padDateValue(current_date.getMinutes()));
+	if (typeof date == 'undefined') {
+		date = new Date();
+	}
+    selectOption(f, month_field, padDateValue(date.getMonth()+1));
+    selectOption(f, day_field, padDateValue(date.getDate()));
+    selectOption(f, year_field, date.getFullYear());
+    selectOption(f, hour_field, padDateValue(date.getHours()));
+	// minutes need special case due the 5 minute granularity
+	var minutes = Math.floor(date.getMinutes() / 5) * 5;
+    selectOption(f, minute_field, padDateValue(minutes));
 }
 
 function padDateValue(str)
