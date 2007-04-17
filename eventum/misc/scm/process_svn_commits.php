@@ -23,13 +23,13 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Jo„o Prado Maia <jpm@mysql.com>                             |
+// | Authors: Jo√£o Prado Maia <jpm@mysql.com>                             |
 // |          Adam Ratcliffe <adam.ratcliffe@geosmart.co.nz>              |
 // |          Frederik M. Kraus <f.kraus@pangora.com>                     |
-// |          Elan Ruusam‰e <glen@delfi.ee>                               |
+// |          Elan Ruusam√§e <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: process_svn_commits.php 3284 2007-03-19 23:54:48Z glen $
+// @(#) $Id: process_svn_commits.php 3309 2007-04-17 10:17:38Z glen $
 
 // See http://eventum.mysql.org/wiki/index.php/Subversion_integration about SVN integration.
 
