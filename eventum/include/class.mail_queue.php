@@ -236,11 +236,9 @@ class Mail_Queue
         $res = $mail->send($recipient, $headers, $body);
         if (PEAR::isError($res)) {
             // special handling of errors when the mail server is down
-            if (($status == 'error') || (strstr($res->getMessage(), 'unable to connect to smtp server')) || (stristr($res->getMessage(), 'Failed to connect to') !== false)) {
-                Error_Handler::logToFile(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            } else {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            }
+            $msg = $res->getMessage();
+            $cant_notify = (($status == 'error') || (strstr($msg , 'unable to connect to smtp server')) || (stristr($msg, 'Failed to connect to') !== false));
+            Error_Handler::logError(array($msg, $res->getDebugInfo()), __FILE__, __LINE__, !$cant_notify);
             return $res;
         } else {
             return true;

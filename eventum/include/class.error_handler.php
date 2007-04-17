@@ -25,14 +25,12 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.error_handler.php 3260 2007-02-28 23:30:34Z glen $
+// @(#) $Id: class.error_handler.php 3310 2007-04-17 10:18:29Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
 require_once(APP_INC_PATH . "class.mail.php");
 require_once(APP_INC_PATH . "class.setup.php");
-
-@define("REPORT_ERROR_FILE", true);
 
 /**
  * Class to manage all tasks related to error conditions of the site, such as
@@ -45,126 +43,171 @@ require_once(APP_INC_PATH . "class.setup.php");
 class Error_Handler
 {
     /**
-     * Logs the specified error
+     * Logs the error condition to a specific file and if asked and possible
+     * queue error in mail queue for reporting.
      *
      * @access public
      * @param  mixed $error_msg The error message
      * @param  string $script The script name where the error happened
      * @param  integer $line The line number where the error happened
+     * @param  boolean $notify_error Whether error should be notified by email.
      */
-    function logError($error_msg = "", $script = "", $line = "")
+    function logError($error_msg = 'unknown', $script = 'unknown', $line = 'unknown', $notify_error = true)
     {
-        if (REPORT_ERROR_FILE) {
-            Error_Handler::logToFile($error_msg, $script, $line);
+        $msg =& Error_Handler::_createErrorReport($error_msg, $script, $line);
+        $fp = @fopen(APP_ERROR_LOG, 'a');
+        fwrite($fp, '[' . date('D M d H:i:s Y') . '] ');
+        fwrite($fp, $msg);
+        fclose($fp);
+
+        // if there's no db_api object, then we cannot
+        // possibly queue up the error emails
+        if ($notify_error === false || is_null(@$GLOBALS['db_api'])) {
+            return;
         }
+
         $setup = Setup::load();
         if (@$setup['email_error']['status'] == 'enabled') {
-            // if there's no db_api object, then we cannot
-            // possibly queue up the error emails
-            if (!is_null(@$GLOBALS["db_api"])) {
-                Error_Handler::_notify($error_msg, $script, $line);
+            $notify_list = trim($setup['email_error']['addresses']);
+            if (empty($notify_list)) {
+                return false;
             }
+            Error_Handler::_notify($msg, $setup['smtp']['from'], $notify_list, $script, $line);
         }
     }
 
-
     /**
      * Notifies site administrators of the error condition
+     *
+     * @access private
+     * @param  string $notify_msg The formatted error message
+     * @param  string $notify_from Sender of the email
+     * @param  string $notify_list Email addresses to whom send the error report.
+     */
+    function _notify(&$notify_msg, $notify_from, $notify_list, $script, $line)
+    {
+
+        $time = time();
+        $date = date('m/d/Y H:i:s', $time);
+        $msg = "Hello,\n\n";
+        $msg .= $notify_msg;
+
+        // this checks that we're not running from commandline (cron for example)
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $msg .= "That happened on page '" . $_SERVER['SCRIPT_NAME'] . "' from IP Address '" . $_SERVER['REMOTE_ADDR'] . "' coming from the page (referrer) '" . $_SERVER['HTTP_REFERER'] . "'.\n\n";
+            $msg .= "The user agent given was '" . $_SERVER['HTTP_USER_AGENT'] . "'.\n\n";
+        }
+        $msg .= "-- \nSincerely yours,\nAutomated Error_Handler Class";
+
+        // query database for 'max_allowed_packet'
+        $stmt = "show variables like 'max_allowed_packet'";
+        $res =& $GLOBALS['db_api']->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            // we failed, assume 8M
+            $max_allowed_packet = 8387584;
+        } else {
+            $arr = $res->fetchRow(DB_FETCHMODE_ORDERED);
+            $max_allowed_packet = $arr[1];
+            $res->free();
+        }
+
+        // skip error details of an email notification about a query that
+        // was bigger than max_allowed_packet + 1024
+        if (strlen($msg) > $max_allowed_packet + 1024) {
+            return false;
+        }
+
+        $notify_list = str_replace(';', ',', $notify_list);
+        $notify_list = explode(',', $notify_list);
+        $subject = APP_SITE_NAME . ' - Error found! - ' . $date;
+
+        foreach ($notify_list as $notify_email) {
+            $mail = new Mail_API;
+            $mail->setTextBody($msg);
+            $mail->send($notify_from, $notify_email, $subject, 0, false, 'error');
+        }
+    }
+
+    /**
+     * Creates error report.
      *
      * @access private
      * @param  mixed $error_msg The error message
      * @param  string $script The script name where the error happened
      * @param  integer $line The line number where the error happened
      */
-    function _notify($error_msg = "unknown", $script = "unknown", $line = "unknown")
+    function &_createErrorReport(&$error_msg = 'unknown', $script = 'unknown', $line = 'unknown')
     {
-        $setup = Setup::load();
-        $notify_list = trim($setup['email_error']['addresses']);
-        if (empty($notify_list)) {
-            return false;
-        }
-        $notify_list = str_replace(';', ',', $notify_list);
-        $notify_list = explode(',', $notify_list);
+        $msg = "An error was found on line '" . $line . "' of script " . "'$script'.\n\n";
 
-        $subject = APP_SITE_NAME . " - Error found! - " . date("m/d/Y H:i:s");
-        $msg = "Hello,\n\n";
-        $msg .= "An error was found at " . date("m/d/Y H:i:s") . " (" . time() . ") on line '" . $line . "' of script " . "'$script'.\n\n";
         $msg .= "The error message passed to us was:\n\n";
         if ((is_array($error_msg)) && (count($error_msg) > 1)) {
             $msg .= "'" . $error_msg[0] . "'\n\n";
             $msg .= "A more detailed error message follows:\n\n";
-            $msg .= "'" . $error_msg[1] . "'\n\n";
-        } else {
-            $msg .= "'$error_msg'\n\n";
+            $error_msg = $error_msg[1];
         }
-        @$msg .= "That happened on page '" . $_SERVER["PHP_SELF"] . "' from IP Address '" . $_SERVER['REMOTE_ADDR'] . "' coming from the page (referrer) '" . $_SERVER['HTTP_REFERER'] . "'.\n\n";
-        @$msg .= "The user agent given was '" . $_SERVER['HTTP_USER_AGENT'] . "'.\n\n";
-        $msg .= "-- \nSincerely yours,\nAutomated Error_Handler Class";
+
+        if (strlen($error_msg) > 1024) {
+            $msg .= "'" . substr($error_msg, 0, 1024) . "' ...";
+
+            // try to find native code from DB error
+            // [nativecode=1153 ** Got a packet bigger than 'max_allowed_packet' bytes]'
+            $nativecode = strstr($error_msg, '[nativecode=');
+            if ($nativecode) {
+                $msg .= ' ' . $nativecode;
+            }
+            $msg .= "\n";
+        } else {
+            $msg .= "'" . $error_msg . "'\n";
+        }
+
         // only try to include the backtrace if we are on PHP 4.3.0 or later
-        if (version_compare(phpversion(), "4.3.0", ">=")) {
-            $msg .= "\n\nA backtrace is available:\n\n";
-            ob_start();
+        if (function_exists('debug_backtrace')) {
+            $msg .= "\nA backtrace is available:\n\n";
             $backtrace = debug_backtrace();
             // remove the two entries related to the error handling stuff itself
-            array_shift($backtrace);
-            array_shift($backtrace);
-            // now we can print it out
-            print_r($backtrace);
-            $contents = ob_get_contents();
-            $msg .= $contents;
-            ob_end_clean();
-        }
-        // avoid triggering an email notification about a query that
-        // was bigger than max_allowed_packet (usually 16 megs on 3.23
-        // client libraries)
-        if (strlen($msg) > 16777216) {
-            return false;
-        }
-        foreach ($notify_list as $notify_email) {
-            $mail = new Mail_API;
-            $mail->setTextBody($msg);
-            $mail->send($setup['smtp']['from'], $notify_email, $subject, 0, false, 'error');
-        }
-    }
+            array_splice($backtrace, 0, 2);
 
+            // we process backtrace to truncate large blobs
+            $cutoff = 1024;
+            foreach ($backtrace as $e) {
+                // backtrace frame contains: [file] [line] [function] [class] [type] [args]
+                $f = $e['file'];
+                $f = str_replace(APP_INC_PATH, 'APP_INC_PATH/', $f);
+                $f = str_replace(APP_PATH, 'APP_PATH/', $f);
 
-    /**
-     * Logs the error condition to a specific file
-     *
-     * @access public
-     * @param  mixed $error_msg The error message
-     * @param  string $script The script name where the error happened
-     * @param  integer $line The line number where the error happened
-     */
-    function logToFile($error_msg = "unknown", $script = "unknown", $line = "unknown")
-    {
-        $msg = "[" . date("D M d H:i:s Y") . "] ";
-        $msg .= "An error was found on line '" . $line . "' of script " . "'$script'.\n\n";
-        $msg .= "The error message passed to us was:\n\n";
-        if ((is_array($error_msg)) && (count($error_msg) > 1)) {
-            $msg .= "'" . $error_msg[0] . "'\n\n";
-            $msg .= "A more detailed error message follows:\n\n";
-            $msg .= "'" . $error_msg[1] . "'\n\n";
-        } else {
-            $msg .= "'$error_msg'\n\n";
+                $fn = $e['function'];
+                if (isset($e['class'])) {
+                    $fn = $e['class']. $e['type']. $fn;
+                }
+                $a = '';
+                if ($e['args']) {
+                    $z = array();
+                    foreach ($e['args'] as $x) {
+                        if (is_string($x)) {
+                            if (strlen($x) > $cutoff) {
+                                $z[] = sprintf("(string )'%.{$cutoff}s'...", $x);
+                            } else {
+                                $z[] = sprintf("(string )'%s'", $x);
+                            }
+                        } elseif (is_object($x)) {
+                            $z[] = 'Object '. get_class($x);
+
+                        } elseif (is_bool($x)) {
+                            $z[] = '(bool ) '.$x ? 'true' : 'false';
+
+                        } else {
+                            $z[] = '(' . gettype($x). ' )' . $x;
+                        }
+                    }
+                    $a = join(', ', $z);
+                }
+                $msg .= sprintf("%s:%d\n  %s(%s)\n", $f, $e['line'], $fn, $a);
+            }
+
+            $msg .= "\n\n";
         }
-        // only try to include the backtrace if we are on PHP 4.3.0 or later
-        if (version_compare(phpversion(), "4.3.0", ">=")) {
-            $msg .= "\n\nA backtrace is available:\n\n";
-            ob_start();
-            $backtrace = debug_backtrace();
-            // remove the two entries related to the error handling stuff itself
-            array_shift($backtrace);
-            array_shift($backtrace);
-            // now we can print it out
-            print_r($backtrace);
-            $contents = ob_get_contents();
-            $msg .= $contents;
-            ob_end_clean();
-        }
-        $fp = @fopen(APP_ERROR_LOG, "a");
-        @fwrite($fp, $msg);
-        @fclose($fp);
+        return $msg;
     }
 }
 
