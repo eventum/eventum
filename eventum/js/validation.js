@@ -1,9 +1,34 @@
 /*
- * @(#) $Id: validation.js 3271 2007-03-08 17:32:57Z glen $
+ * @(#) $Id: validation.js 3311 2007-04-17 10:20:19Z glen $
  */
 
+last_issue_number_validation_value = '';
+function validateIssueNumberField(baseURL, form_name, field_name)
+{
+    form_value = getFormElement(getForm(form_name), field_name).value;
+    if (last_issue_number_validation_value == form_value) {
+        return;
+    } else {
+        last_issue_number_validation_value = form_value;
+    }
+    validate_issue_http_client = new HTTPClient();
+    validate_issue_http_client.loadRemoteContent(baseURL + '/validate.php?action=validateIssueNumbers&values=' + 
+        form_value + '&field_name=' + field_name + '&form_name=' + form_name, 'displayIssueFieldValidation');
+}
 
-
+function displayIssueFieldValidation(response)
+{
+    var chunks = response.responseText.split(':',3);
+    f = getForm(chunks[0]);
+    error_span = getPageElement(chunks[1] + '_error');
+    if (chunks[2] != 'ok') {
+        selectField(f, chunks[1]);
+        error_span.innerHTML = '<b>Error</b>: The following issues are invalid: ' + chunks[2];
+    } else {
+        errorDetails(f, chunks[0], false);
+        error_span.innerHTML = '';
+    }
+}
 
 function isValidDate(f, field_prefix)
 {

@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: update.php 3289 2007-04-02 20:52:59Z balsdorf $
+// @(#) $Id: update.php 3311 2007-04-17 10:20:19Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -83,6 +83,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
     if (@$_POST["cat"] == "update") {
         $res = Issue::update($_POST["issue_id"]);
         $tpl->assign("update_result", $res);
+        $tpl->assign("errors", $errors);
         if (Issue::hasDuplicates($_POST["issue_id"])) {
             $tpl->assign("has_duplicates", "yes");
         }
@@ -118,7 +119,6 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         "resolutions"  => Resolution::getAssocList(),
         "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
         "issues"       => Issue::getColList("iss_id <> $issue_id"),
-        "assoc_issues" => array_map("htmlspecialchars", Issue::getAssocList()),
         "one_week_ts"  => time() + (7 * DAY),
         "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
         "groups"       => Group::getAssocList($prj_id),

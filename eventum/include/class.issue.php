@@ -1326,6 +1326,10 @@ class Issue
      */
     function update($issue_id)
     {
+
+        global $errors;
+        $errors = array();
+
         $issue_id = Misc::escapeInteger($issue_id);
 
         $usr_id = Auth::getUserID();
@@ -1333,12 +1337,24 @@ class Issue
         // get all of the 'current' information of this issue
         $current = Issue::getDetails($issue_id);
         // update the issue associations
-        $association_diff = Misc::arrayDiff($current['associated_issues'], @$_POST['associated_issues']);
+        if (empty($_POST['associated_issues'])) {
+            $associated_issues = array();
+        } else {
+            $associated_issues = explode(',', @$_POST['associated_issues']);
+            // make sure all associated issues are valid (and in this project)
+            for ($i = 0; $i < count($associated_issues); $i++) {
+                if (!Issue::exists(trim($associated_issues[$i]))) {
+                    $errors['Associated Issues'][] = 'Issue #' . $associated_issues[$i] . ' does not exist and was removed from the list of associated issues.';
+                    unset($associated_issues[$i]);
+                }
+            }
+        }
+        $association_diff = Misc::arrayDiff($current['associated_issues'], $associated_issues);
         if (count($association_diff) > 0) {
             // go through the new assocations, if association already exists, skip it
             $associations_to_remove = $current['associated_issues'];
-            if (count(@$_POST['associated_issues']) > 0) {
-                foreach ($_POST['associated_issues'] as $index => $associated_id) {
+            if (count($associated_issues) > 0) {
+                foreach ($associated_issues as $index => $associated_id) {
                     if (!in_array($associated_id, $current['associated_issues'])) {
                         Issue::addAssociation($issue_id, $associated_id, $usr_id);
                     } else {

@@ -6,19 +6,40 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td class="default" align="center">
+          <td class="default">
             {if $update_result == -1}
-              <b>{t}Sorry, an error happened while trying to run your query.{/t}</b>
+              <div align="center">
+                <b>{t}Sorry, an error happened while trying to run your query.{/t}</b>
+              </div>
             {elseif $update_result == 1}
-              <b>{t 1=$smarty.post.issue_id}Thank you, issue #%1 was updated successfully.{/t}</b>
+              <div align="center">
+                <b>{t 1=$smarty.post.issue_id}Thank you, issue #%1 was updated successfully.{/t}</b>
+              </div>
               {if $has_duplicates == 'yes'}
                 <br />{t}Also, all issues that are marked as duplicates from this one were updated as well.{/t}
               {/if}
-              <br /><br />
-              <b>
-                <a href="view.php?id={$smarty.post.issue_id}" class="link">{t 1=$smarty.post.issue_id}Return to Issue #%1 Details Page{/t}</a><br />
-                <a href="update.php?id={$smarty.post.issue_id}" class="link">{t 1=$smarty.post.issue_id}Update Issue #%1{/t}</a>
-              </b>
+
+              {if $errors|@count > 0}
+              <br />However, there are some warnings you should be aware of:<br />
+              <ul>
+              {foreach from=$errors key=section item=sub_errors}
+                <li>{$section}<br />
+                  {foreach from=$sub_errors item=msg}
+                    &nbsp;&nbsp;&nbsp;&nbsp;{$msg}<br />
+                  {/foreach}
+                </li>
+              {/foreach}
+              </ul>
+              {else}
+                <br /><br />
+              {/if}
+
+              <div align="center">
+                <b>
+                  <a href="view.php?id={$smarty.post.issue_id}" class="link">{t 1=$smarty.post.issue_id}Return to Issue #%1 Details Page{/t}</a><br />
+                  <a href="update.php?id={$smarty.post.issue_id}" class="link">{t 1=$smarty.post.issue_id}Update Issue #%1{/t}</a>
+                </b>
+              </div>
             {/if}
           </td>
         </tr>
@@ -190,11 +211,9 @@ function closeIssue(issue_id)
             <nobr><b>{t}Associated Issues:{/t}</b></nobr>
           </td>
           <td bgcolor="{$light_color}">
-            <select size="4" multiple name="associated_issues[]" class="default" onChange="showSelections('update_form', 'associated_issues[]')">
-              {html_options values=$issues output=$issues selected=$issue.associated_issues}
-            </select>
-            {if not ($os.mac and $browser.ie)}<a title="lookup issues by their summaries" href="javascript:void(null);" onClick="return overlib(getOverlibContents('{include file="lookup_layer.tpl.html" list=$assoc_issues multiple=1}', 'update_form', 'associated_issues[]', true), STICKY, HEIGHT, 50, WIDTH, 250, BELOW, RIGHT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#000000', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
-            <div class="default" id="selection_associated_issues[]"></div>
+            <input type="text" name="associated_issues" value="{", "|join:$issue.associated_issues}" class="default" onBlur="validateIssueNumberField('{$rel_url}', 'update_form', 'associated_issues')">
+            {include file="error_icon.tpl.html" field="associated_issues"}
+            <span id="associated_issues_error" class="default"></span>
           </td>
           {/if}
           <td nowrap width="130" bgcolor="{$cell_color}" class="default_white">
