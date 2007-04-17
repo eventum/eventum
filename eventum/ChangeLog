@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 - Rewritten error handling to create less smaller error reports (Elan Ruusamäe)
 - Make issue associated list as text field (Bryan, Elan Ruusamäe)
 - Implementing per project "mail aliases" (Alessandro Ogier, Elan Ruusamäe)
+- Rollback file upload if there was an error instead of creating lingering attachments (Elan Ruusamäe)
 
 2007-04-12, Version 2.0
 - Fixed bug with user recieving an update email when they updated the issue (Bryan)

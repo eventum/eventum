@@ -274,10 +274,11 @@ class Attachment
      * Method used to remove attachments from the database.
      *
      * @param   integer $iat_id attachment_id.
+     * @param   boolean $add_history whether to add history entry.
      * @access  public
      * @return  integer Numeric code used to check for any errors
      */
-    function remove($iat_id)
+    function remove($iat_id, $add_history = true)
     {
         $iat_id = Misc::escapeInteger($iat_id);
         $usr_id = Auth::getUserID();
@@ -314,14 +315,15 @@ class Attachment
                 for ($i = 0; $i < count($files); $i++) {
                     Attachment::removeFile($files[$i]['iaf_id']);
                 }
-                Issue::markAsUpdated($issue_id);
-                // need to save a history entry for this
-                History::add($issue_id, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
+                if ($add_history) {
+                    Issue::markAsUpdated($usr_id);
+                    // need to save a history entry for this
+                    History::add($issue_id, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
+                }
                 return 1;
             }
         }
     }
-
 
     /**
      * Method used to remove a specific file from an attachment, since every
@@ -435,6 +437,11 @@ class Attachment
      * Method used to associate an attachment to an issue, and all of its
      * related files. It also notifies any subscribers of this new attachment.
      *
+     * Error codes:
+     * -1 - An error occurred while trying to process the uploaded file.
+     * -2 - The uploaded file is already attached to the current issue.
+     *  1 - The uploaded file was associated with the issue.
+     *
      * @access  public
      * @param   integer $usr_id The user ID
      * @param   string $status The attachment status
@@ -468,7 +475,12 @@ class Attachment
         }
         $attachment_id = Attachment::add($_POST["issue_id"], $usr_id, @$_POST["file_description"], $internal_only);
         foreach ($files as $file) {
-            Attachment::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
+            $res = Attachment::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
+            if ($res !== true) {
+                // we must rollback whole attachment (all files)
+                Attachment::remove($attachment_id, false);
+                return -1;
+            }
         }
 
         Issue::markAsUpdated($_POST["issue_id"], "file uploaded");
