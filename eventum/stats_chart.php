@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: stats_chart.php 3264 2007-03-06 15:11:18Z glen $
+// @(#) $Id: stats_chart.php 3316 2007-04-17 10:31:53Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -71,7 +71,7 @@ if ($_GET["plot"] == "status") {
     $data = Stats::getAssocCategory();
     $graph_title = ev_gettext("Issues by Category");
 }
-$labels = array_map('utf8_decode', array_keys($data));
+$labels = array_keys($data);
 $data = array_values($data);
 
 // check the values coming from the database and if they are all empty, then
