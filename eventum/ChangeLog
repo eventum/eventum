@@ -8,6 +8,7 @@ Eventum Issue Tracking System
 - Implementing per project "mail aliases" (Alessandro Ogier, Elan Ruusamäe)
 - Rollback file upload if there was an error instead of creating lingering attachments (Elan Ruusamäe)
 - Made timetracking window input more convenient (Elan Ruusamäe)
+- Display email addresses to whom email was sent when issue was updated (Elan Ruusamäe)
 
 2007-04-12, Version 2.0
 - Fixed bug with user recieving an update email when they updated the issue (Bryan)

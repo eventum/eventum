@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: close.php 3258 2007-02-14 23:25:56Z glen $
+// @(#) $Id: close.php 3315 2007-04-17 10:27:03Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -74,9 +74,12 @@ if (@$_POST["cat"] == "close") {
     $tpl->assign("close_result", $res);
 }
 
-$tpl->assign("statuses", Status::getClosedAssocList($prj_id));
-$tpl->assign("resolutions", Resolution::getAssocList());
-$tpl->assign("time_categories", Time_Tracking::getAssocCategories());
+$tpl->assign(array(
+    "statuses" => Status::getClosedAssocList($prj_id),
+    "resolutions" => Resolution::getAssocList(),
+    "time_categories" => Time_Tracking::getAssocCategories(),
+    "notify_list"  => Notification::getLastNotifiedAddresses($issue_id),
+));
 
 if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {
     $details = Issue::getDetails($issue_id);

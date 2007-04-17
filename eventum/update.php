@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: update.php 3311 2007-04-17 10:20:19Z glen $
+// @(#) $Id: update.php 3315 2007-04-17 10:27:03Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -112,6 +112,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
 
     $tpl->assign(array(
         "subscribers"  => Notification::getSubscribers($issue_id),
+        "notify_list"  => Notification::getLastNotifiedAddresses($issue_id),
         "categories"   => Category::getAssocList($prj_id),
         "priorities"   => Priority::getAssocList($prj_id),
         "status"       => $statuses,

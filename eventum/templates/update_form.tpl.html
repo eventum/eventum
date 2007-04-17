@@ -31,7 +31,17 @@
               {/foreach}
               </ul>
               {else}
-                <br /><br />
+                <br />
+              {/if}
+
+              {if $notify_list|@count > 0}
+                <div align="center">
+                <b>{t}E-mail about issue update was sent to:{/t}</b><br />
+                {foreach from=$notify_list item=email_address}
+                  &nbsp;&nbsp;{$email_address|escape:"html"}<br />
+                {/foreach}
+                </div>
+                <br />
               {/if}
 
               <div align="center">

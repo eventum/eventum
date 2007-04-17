@@ -853,6 +853,31 @@ class Notification
         }
     }
 
+    /**
+     * Method used to get list of addresses that were email sent to.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  array   list of addresse
+     */
+    function getLastNotifiedAddresses($issue_id = null)
+    {
+        global $_EVENTUM_LAST_NOTIFIED_LIST;
+
+        if (is_null($_EVENTUM_LAST_NOTIFIED_LIST)) {
+            return null;
+        }
+
+        if (is_null($issue_id)) {
+            // return all addresses in flat view
+            $ret = array_values($_EVENTUM_LAST_NOTIFIED_LIST);
+        } else {
+            // return address list for specific issue_id only.
+            $ret = $_EVENTUM_LAST_NOTIFIED_LIST[$issue_id];
+        }
+        return array_unique($ret);
+    }
+
 
     /**
      * Method used to format and send the email notifications.
@@ -869,6 +894,8 @@ class Notification
      */
     function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = false, $headers = false)
     {
+        global $_EVENTUM_LAST_NOTIFIED_LIST;
+
         // open text template
         $tpl = new Template_API;
         $tpl->setTemplate('notifications/' . $type . '.tpl.text');
@@ -961,6 +988,8 @@ class Notification
                 $full_subject = "[#$issue_id] $subject: $extra_subject";
             }
             $mail->send($from, $emails[$i], $full_subject, TRUE, $issue_id, $final_type, $sender_usr_id, $type_id);
+
+            $_EVENTUM_LAST_NOTIFIED_LIST[$issue_id][] = $emails[$i];
         }
 
         // restore correct language
