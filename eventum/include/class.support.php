@@ -1254,7 +1254,13 @@ class Support
                 if ((empty($res[$i]["sup_to"])) && (!empty($res[$i]["sup_iss_id"]))) {
                     $res[$i]["sup_to"] = "Notification List";
                 } else {
-                    $res[$i]["sup_to"] = Mime_Helper::fixEncoding(Mail_API::getName($res[$i]["sup_to"]));
+                    $to = Mail_API::getName($res[$i]["sup_to"]);
+                    # FIXME: just ignore the unformattable header?
+                    if (PEAR::isError($to)) {
+                        Error_Handler::logError(array($to->getMessage(), $to->getDebugInfo()), __FILE__, __LINE__);
+                    } else {
+                        $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
+                    }
                 }
                 if (Customer::hasCustomerIntegration($prj_id)) {
                     @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];

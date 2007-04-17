@@ -230,6 +230,7 @@ class Mail_API
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
         if (PEAR::isError($t)) {
             Error_Handler::logError(array($t->getMessage(), $t->getDebugInfo()), __FILE__, __LINE__);
+            return $t;
         }
         if ($multiple) {
             $returns = array();
@@ -279,6 +280,9 @@ class Mail_API
     function getName($address, $multiple = false)
     {
         $info = Mail_API::getAddressInfo($address, true);
+        if (PEAR::isError($info)) {
+            return $info;
+        }
         $returns = array();
         foreach ($info as $row) {
             if (!empty($row['sender_name'])) {
