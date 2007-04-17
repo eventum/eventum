@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.user.php 3308 2007-04-17 01:32:48Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -694,6 +694,14 @@ class User
         $key = md5(serialize($usr_id));
         if (!empty($returns[$key])) {
             return $returns[$key];
+        }
+
+        if (count($items) < 1) {
+            if (!is_array($usr_id)) {
+                return '';
+            } else {
+                return array();
+            }
         }
 
         $stmt = "SELECT
