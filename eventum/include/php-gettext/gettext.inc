@@ -31,6 +31,12 @@ LC_MESSAGES	5
 LC_ALL			6
 */
 
+// LC_MESSAGES is not available if php-gettext is not loaded
+// while the other constants are already available from session(!!!) extension
+if (!defined('LC_MESSAGES')) {
+	define('LC_MESSAGES',	5);
+}
+
 require('streams.php');
 require('gettext.php');
 
