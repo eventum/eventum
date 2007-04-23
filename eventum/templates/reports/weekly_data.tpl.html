@@ -3,7 +3,9 @@
 {$application_title} {t}issues worked on{/t}:
 
 {section name=issue loop=$data.issues.other}
-{$data.issues.other[issue].iss_id|str_pad:4:" ":"STR_PAD_LEFT"} {$data.issues.other[issue].iss_summary|htmlspecialchars}
+{$data.issues.other[issue].iss_id|str_pad:4:" ":"STR_PAD_LEFT"} {$data.issues.other[issue].iss_summary|htmlspecialchars} {if
+$smarty.post.show_per_issue == 1}({$data.issues.other[issue].time_spent}){/if}
+
 {sectionelse}
 {t}No issues touched this time period{/t}
 {/section}
@@ -12,7 +14,9 @@
 {t}Issues Closed{/t}:
 
 {section name=issue loop=$data.issues.closed}
-{$data.issues.closed[issue].iss_id|str_pad:4:" ":"STR_PAD_LEFT"} {$data.issues.closed[issue].iss_summary|htmlspecialchars}
+{$data.issues.closed[issue].iss_id|str_pad:4:" ":"STR_PAD_LEFT"} {$data.issues.closed[issue].iss_summary|htmlspecialchars} {if
+$smarty.post.show_per_issue == 1}({$data.issues.closed[issue].time_spent}){/if}
+
 {sectionelse}
 {t}No issues closed this time period{/t}
 {/section}

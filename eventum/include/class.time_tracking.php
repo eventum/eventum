@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.time_tracking.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.time_tracking.php 3320 2007-04-23 17:51:45Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -538,6 +538,36 @@ class Time_Tracking
                     $res[$index]["formatted_time"] = Misc::getFormattedTime($res[$index]["total_time"], true);
                 }
             }
+            return $res;
+        }
+    }
+
+    /**
+     * Method used to get the time spent for a specific issue
+     * at a specific time.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   string $usr_id The ID of the user this report is for.
+     * @param   integer The timestamp of the beginning of the report.
+     * @param   integer The timestamp of the end of this report.
+     * @return  integer The time spent
+     */
+    function getTimeSpentByIssueAndTime($issue_id, $usr_id, $start, $end)
+    {
+        $stmt = "SELECT
+                    SUM(ttr_time_spent)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                 WHERE
+                    ttr_usr_id = " . Misc::escapeInteger($usr_id) . " AND
+                    ttr_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
+                    ttr_iss_id=" . Misc::escapeInteger($issue_id);
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
             return $res;
         }
     }

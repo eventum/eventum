@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.history.php 3287 2007-04-02 05:26:57Z balsdorf $
+// @(#) $Id: class.history.php 3320 2007-04-23 17:51:45Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -271,6 +271,9 @@ class History
                         $details = Customer::getDetails($row["iss_prj_id"], $row["iss_customer_id"]);
                         $row["customer_name"] = $details["customer_name"];
                     }
+                    $timeForIssue = Time_Tracking::getTimeSpentByIssueAndTime($row['iss_id'], $usr_id, $start, $end);
+                    $row['time_spent'] = Misc::getFormattedTime($timeForIssue, false);
+
                     if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
                         $data['closed'][] = $row;
                     } else {

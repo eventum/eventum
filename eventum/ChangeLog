@@ -11,6 +11,7 @@ Eventum Issue Tracking System
 - Display email addresses to whom email was sent when issue was updated (Elan Ruusamäe)
 - Remove unnessesary array_map that breaks UTF-8 encoding in charts legend (Grzegorz 'Dzikus' Sterniczuk)
 - Propagate errors from invalid to header and ignore it in emails listing page (Elan Ruusamäe)
+- Add "Show Times spent on issue" to weekly report page (Elan Ruusamäe, Raul Raat)
 
 2007-04-12, Version 2.0
 - Fixed bug with user recieving an update email when they updated the issue (Bryan)
