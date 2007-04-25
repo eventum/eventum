@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.time_tracking.php 3320 2007-04-23 17:51:45Z glen $
+// @(#) $Id: class.time_tracking.php 3322 2007-04-25 13:08:08Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -569,6 +569,46 @@ class Time_Tracking
             return 0;
         } else {
             return $res;
+        }
+    }
+    /**
+     * Method used to add time spent on issue to a list of user issues.
+     *
+     * @access  private
+     * @param   array $res User issues
+     * @param   string $usr_id The ID of the user this report is for.
+     * @param   integer $start The timestamp of the beginning of the report.
+     * @param   integer $end The timestamp of the end of this report.
+     * @return  void
+     */
+    function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
+    {
+
+        $issue_ids = array();
+        for ($i = 0; $i < count($res); $i++) {
+            $issue_ids[] = Misc::escapeInteger($res[$i]["iss_id"]);
+        }
+        $ids = implode(", ", $issue_ids);
+
+        $stmt = "SELECT
+                    ttr_iss_id, sum(ttr_time_spent)
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking
+                 WHERE
+                    ttr_usr_id = " . Misc::escapeInteger($usr_id) . " AND
+                    ttr_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
+                    ttr_iss_id in ($ids)
+                 GROUP BY ttr_iss_id";
+        $result = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+
+        if (PEAR::isError($result)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            foreach($res as $key => $item) {
+                @$res[$key]['it_spent'] = $result[$item['iss_id']];
+                @$res[$key]['time_spent'] = Misc::getFormattedTime($result[$item['iss_id']], false);
+            }
         }
     }
 }

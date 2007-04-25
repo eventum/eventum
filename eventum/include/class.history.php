@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.history.php 3320 2007-04-23 17:51:45Z glen $
+// @(#) $Id: class.history.php 3322 2007-04-25 13:08:08Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -266,14 +266,14 @@ class History
                 "other"     =>  array()
             );
             if (count($res) > 0) {
+                if ($_POST['show_per_issue']) {
+                    Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
+                }
                 foreach ($res as $index => $row) {
                     if ((!empty($row["iss_customer_id"])) && (Customer::hasCustomerIntegration($row['iss_prj_id']))) {
                         $details = Customer::getDetails($row["iss_prj_id"], $row["iss_customer_id"]);
                         $row["customer_name"] = $details["customer_name"];
                     }
-                    $timeForIssue = Time_Tracking::getTimeSpentByIssueAndTime($row['iss_id'], $usr_id, $start, $end);
-                    $row['time_spent'] = Misc::getFormattedTime($timeForIssue, false);
-
                     if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
                         $data['closed'][] = $row;
                     } else {
