@@ -1,20 +1,20 @@
-# translation of eventum.po to US English
+# translation of messages.po to US English
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Bryan Alsdorf <bryan@mysql.com>, 2006, 2007.
+# Bryan Alsdorf <bryan@mysql.com>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: eventum\n"
+"Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-12-07 15:02-0600\n"
-"PO-Revision-Date: 2007-01-03 11:24-0600\n"
-"Last-Translator: Bryan Alsdorf <bryan@mysql.com>\n"
+"PO-Revision-Date: 2007-03-20 09:39+0100\n"
+"Last-Translator: \n"
 "Language-Team: US English\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.2\n"
 "X-Poedit-Bookmarks: 151,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
@@ -1228,7 +1228,7 @@ msgstr "Creatore segregato"
 
 #: misc/localization/eventum.c:92
 msgid "If this option is enabled, users with a role of Reporter will only be able to see issues they reported."
-msgstr "Se questa opzione è abilitata, solo gli utenti con il ruolo di Redattore potranno visualizzare le segnalazioni che avranno creato."
+msgstr "Se questa opzione è abilitata, gli utenti con il ruolo di Redattore potranno visualizzare solo le proprie segnalazioni."
 
 #: misc/localization/eventum.c:95
 msgid "Notes"
@@ -2820,6 +2820,7 @@ msgid "Issue"
 msgstr "Segnalazione"
 
 #: misc/localization/eventum.c:1331
+#, c-format
 msgid "Percentages may not add up to exactly 100% due to rounding"
 msgstr "La somma delle percentuali potrebbe non essere esattamente 100% a causa degli arrotondamenti"
 
@@ -4889,7 +4890,7 @@ msgstr "Inserisci il titolo di questa risoluzione."
 #: misc/localization/eventum.c:3398
 #: misc/localization/eventum.c:6134
 msgid "Manage Issue Resolutions"
-msgstr "Gestione risoluzioni segnlazioni"
+msgstr "Gestione risoluzioni segnalazioni"
 
 #: misc/localization/eventum.c:3401
 msgid "An error occurred while trying to add the new issue resolution."
@@ -8582,7 +8583,7 @@ msgstr "Questa segnalazione è stata appena chiusa da"
 
 #: misc/localization/eventum.c:7589
 msgid " with the message"
-msgstr "con il messaggio"
+msgstr " con il messaggio"
 
 #: misc/localization/eventum.c:7616
 #: misc/localization/eventum.c:7676
@@ -9003,4 +9004,45 @@ msgstr "Nessun campo personalizzato per questo progetto"
 #: stats_chart.php:69
 msgid "Issues by Assignment"
 msgstr "Segnalazioni per assegnazione"
+
+#~ msgid "Return to Issue"
+#~ msgstr "Torna alla segnalazione"
+#~ msgid "Details Page"
+#~ msgstr "Dettagli"
+#~ msgid "Remember Login"
+#~ msgstr "Ricorda Login"
+#~ msgid "Time Spent<"
+#~ msgstr "Tempo Impiegato<"
+#~ msgid ""
+#~ "Please enter the full path in the server of this installation of Eventum."
+#~ msgstr ""
+#~ "Inserisci il percorso completo nel server di questa installazione di "
+#~ "Eventum."
+#~ msgid "Warning!"
+#~ msgstr "Attenzione!"
+#~ msgid ""
+#~ "You are running PHP version %1.\n"
+#~ "While all effort has been made to ensure eventum works correctly with\n"
+#~ "PHP 5 and greater, it has not been thoroughly tested and may not work "
+#~ "properly."
+#~ msgstr ""
+#~ "La versione di PHP utilizzata è %1.\n"
+#~ "Nonstante sia stato fatto uno sforzo per assicurare che Eventum funzioni "
+#~ "correttamente con\n"
+#~ "PHP 5 e superiori, non è stato testato a fondo e potrebbe quindi non "
+#~ "funzionare correttamente."
+#~ msgid ""
+#~ "Please report any problems you find to eventum-users@lists.mysql.com."
+#~ msgstr ""
+#~ "Per qualunque problema puoi scrivere a eventum-users@lists.mysql.com."
+#~ msgid "Installation Path:"
+#~ msgstr "Percorso di installazione:"
+#~ msgid "Notify Sender?"
+#~ msgstr "Notificare mittente?"
+#~ msgid "Edit Fields to Display\" to access this page."
+#~ msgstr "Modifica i campi da visualizzare\" per accedere alla pagina."
+#~ msgid ");"
+#~ msgstr ");"
+#~ msgid "This is a SMS reminder alert regarding issue # %1. Certain"
+#~ msgstr "Questo è un memo  SMS riguardante la segnalazione # %1. Alcuni"
 
