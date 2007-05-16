@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.history.php 3322 2007-04-25 13:08:08Z glen $
+// @(#) $Id: class.history.php 3328 2007-05-16 16:21:23Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -238,6 +238,8 @@ class History
                     iss_prj_id,
                     iss_summary,
                     iss_customer_id,
+                    sta_title,
+                    pri_title,
                     sta_is_closed
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history,
@@ -246,6 +248,10 @@ class History
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                     ON
                         iss_sta_id = sta_id
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                 ON
+                    iss_pri_id = pri_id
                  WHERE
                     his_iss_id = iss_id AND
                     his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
@@ -269,6 +275,9 @@ class History
                 if ($_POST['show_per_issue']) {
                     Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
                 }
+                if (isset($_POST['separate_statchanged'])) {
+                    History::fillOnlyStatusChangeAtTimeByUser($res, $usr_id, $start, $end);
+                }
                 foreach ($res as $index => $row) {
                     if ((!empty($row["iss_customer_id"])) && (Customer::hasCustomerIntegration($row['iss_prj_id']))) {
                         $details = Customer::getDetails($row["iss_prj_id"], $row["iss_customer_id"]);
@@ -276,6 +285,8 @@ class History
                     }
                     if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
                         $data['closed'][] = $row;
+                    } elseif ((isset($_POST['separate_statchanged'])) && $row['only_stat_changed']) {
+                        $data['status_changed'][] = $row;
                     } else {
                         $data['other'][] = $row;
                     }
@@ -396,6 +407,48 @@ class History
             return 0;
         }
         return $res;
+    }
+
+		/**
+    * Method to get to know, has user only changed the status of the
+    * issue at a certain time period
+    *
+    * @access  public
+    * @param   array $res User issues
+    * @param   integer $usr_id The ID of the user this report is for.
+    * @param   integer $start The timestamp of the beginning of the report.
+    * @param   integer $end The timestamp of the end of this report.
+    * @return  boolean True if only status changed else false
+    */
+    function fillOnlyStatusChangeAtTimeByUser(&$res, $usr_id, $start, $end) {
+
+        $issue_ids = array();
+        for ($i = 0; $i < count($res); $i++) {
+            $issue_ids[] = Misc::escapeInteger($res[$i]["iss_id"]);
+        }
+        $ids = implode(", ", $issue_ids);
+
+        $sql = "SELECT
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_iss_id,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
+                 WHERE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id != " . History::getTypeID('status_changed') . " AND
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id != " . History::getTypeID('issue_updated') . " AND
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_iss_id IN (" . $ids . ") AND
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'
+                GROUP BY his_iss_id";
+
+        $result = $GLOBALS["db_api"]->dbh->getAssoc($sql);
+        if (PEAR::isError($result)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        } else {
+            foreach($res as $key => $item) {
+                @$res[$key]['only_stat_changed'] = (array_key_exists($item['iss_id'], $result) ? false : true);
+            }
+        }
     }
 }
 

@@ -142,6 +142,11 @@ function closeIssue(issue_id)
         <tr>
           <td colspan="2" class="default" nowrap>
             <b>{t}Update Issue Overview{/t}</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" class="link">{$issue.iss_id}</a>)
+            &nbsp;<b>Project:</b>
+            <select name="new_prj" class="shortcut" style="font-size: 90%">
+                {html_options options=$active_projects selected=$current_project}
+            </select>
+            <input type="submit" class="shortcut" name="move_issue" style="font-size: 90%" value="Move">
           </td>
           <td colspan="2" align="right" class="default">
             {if $current_role > $roles.customer}
@@ -427,4 +432,5 @@ function closeIssue(issue_id)
 </form>
 </table>
 {/if}
+
 
