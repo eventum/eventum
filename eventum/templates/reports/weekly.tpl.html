@@ -73,9 +73,9 @@
             <a id="link" class="link" href="javascript:void(null)"
                             onClick="javascript:toggleCheckbox('weekly_report', 'separate_closed', 0)">{t}Separate Closed Issues{/t}</a>&nbsp;
             <br />
-            <input type="checkbox" name="separate_statchanged" value="1" class="default" {if $smarty.post.separate_statchanged == 1}checked{/if}>
+            <input type="checkbox" name="separate_status_changed" value="1" class="default" {if $smarty.post.separate_status_changed == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"
-                            onClick="javascript:toggleCheckbox('weekly_report', 'separate_statchanged', 0)">{t}Separate Only Status Change{/t}</a>&nbsp;
+                            onClick="javascript:toggleCheckbox('weekly_report', 'separate_status_changed', 0)">{t}Separate Only Status Changes{/t}</a>&nbsp;
             <br />
             <input type="checkbox" name="ignore_statuses" value="1" class="default" {if $smarty.post.ignore_statuses == 1}checked{/if}>
             <a id="link" class="link" href="javascript:void(null)"

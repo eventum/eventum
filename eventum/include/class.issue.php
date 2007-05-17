@@ -1547,28 +1547,6 @@ class Issue
             }
 
             Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $_POST);
-
-            // Move issue to another project
-            if (isset($_POST['move_issue'])) {
-                $new_prj_id = (int)@$_POST['new_prj'];
-                if ($prj_id != $new_prj_id and array_key_exists($new_prj_id, Project::getAssocList($usr_id))) {
-
-                    $stmt = "UPDATE
-                                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                            SET
-                                iss_prj_id=" . Misc::escapeInteger($new_prj_id) . "
-                            WHERE
-                                iss_id=$issue_id";
-
-                    $res = $GLOBALS["db_api"]->dbh->query($stmt);
-                    if (PEAR::isError($res)) {
-                        Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                        return -1;
-                    } else {
-
-                    }
-                }
-            }
             return 1;
         }
     }

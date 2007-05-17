@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.history.php 3328 2007-05-16 16:21:23Z glen $
+// @(#) $Id: class.history.php 3329 2007-05-17 09:24:59Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -272,11 +272,11 @@ class History
                 "other"     =>  array()
             );
             if (count($res) > 0) {
-                if ($_POST['show_per_issue']) {
+                if (isset($_POST['show_per_issue'])) {
                     Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
                 }
-                if (isset($_POST['separate_statchanged'])) {
-                    History::fillOnlyStatusChangeAtTimeByUser($res, $usr_id, $start, $end);
+                if (isset($_POST['separate_status_changed'])) {
+                    History::fillStatusChangedOnlyIssues($res, $usr_id, $start, $end);
                 }
                 foreach ($res as $index => $row) {
                     if ((!empty($row["iss_customer_id"])) && (Customer::hasCustomerIntegration($row['iss_prj_id']))) {
@@ -285,7 +285,7 @@ class History
                     }
                     if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
                         $data['closed'][] = $row;
-                    } elseif ((isset($_POST['separate_statchanged'])) && $row['only_stat_changed']) {
+                    } elseif ((isset($_POST['separate_status_changed'])) && $row['only_stat_changed']) {
                         $data['status_changed'][] = $row;
                     } else {
                         $data['other'][] = $row;
@@ -409,18 +409,18 @@ class History
         return $res;
     }
 
-		/**
-    * Method to get to know, has user only changed the status of the
-    * issue at a certain time period
-    *
-    * @access  public
-    * @param   array $res User issues
-    * @param   integer $usr_id The ID of the user this report is for.
-    * @param   integer $start The timestamp of the beginning of the report.
-    * @param   integer $end The timestamp of the end of this report.
-    * @return  boolean True if only status changed else false
-    */
-    function fillOnlyStatusChangeAtTimeByUser(&$res, $usr_id, $start, $end) {
+    /**
+     * Fills a result set with a flag indicating if this issue only had it's status
+     * changed in the given time period.
+     *
+     * @access  public
+     * @param   array $res User issues
+     * @param   integer $usr_id The ID of the user this report is for.
+     * @param   integer $start The timestamp of the beginning of the report.
+     * @param   integer $end The timestamp of the end of this report.
+     * @return  boolean True if only status changed else false
+     */
+    function fillStatusChangedOnlyIssues(&$res, $usr_id, $start, $end) {
 
         $issue_ids = array();
         for ($i = 0; $i < count($res); $i++) {

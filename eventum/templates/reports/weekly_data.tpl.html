@@ -24,7 +24,7 @@ $smarty.post.show_per_issue == 1}({$data.issues.closed[issue].time_spent}){/if}{
 
 {/if}
 
-{if $smarty.post.separate_statchanged == 1}
+{if $smarty.post.separate_status_changed == 1}
 {t}Issues with only status changed{/t}:
 
 {section name=issue loop=$data.issues.status_changed}

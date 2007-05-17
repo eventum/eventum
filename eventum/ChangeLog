@@ -14,7 +14,6 @@ Eventum Issue Tracking System
 - Add "Show Times spent on issue" to weekly report page (Elan Ruusamäe, Raul Raat)
 - Fixed bug with viewers updating preferences (Bryan)
 - Improved Weekly Reports output possibilities (Raul Raat)
-- Make it possible to move issue between projects (Raul Raat)
 
 2007-04-17, Version 2.0.1
 - Fixed packaging bug that prevented setup from running (Bryan)
