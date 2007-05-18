@@ -419,7 +419,7 @@ class Workflow
      * @param   string $address The email address to check
      * @return  boolean
      */
-   function shouldEmailAddress($prj_id, $address)
+   function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
    {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return true;

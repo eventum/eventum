@@ -1138,7 +1138,7 @@ class Notification
             }
             $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient));
 
-            if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress($recipient))) {
+            if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress($recipient), $issue_id, 'auto_created')) {
                 return;
             }
             $data = Issue::getDetails($issue_id);
