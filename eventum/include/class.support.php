@@ -564,12 +564,15 @@ class Support
             }
 
             $sender_email = Mail_API::getEmailAddress($email->fromaddress);
+            if (PEAR::isError($sender_email)) {
+                $sender_email = 'Error Parsing Email <>';
+            }
 
             $t = array(
                 'ema_id'         => $info['ema_id'],
                 'message_id'     => $message_id,
                 'date'           => @Date_API::getDateGMTByTS($email->udate),
-                'from'           => @$email->fromaddress,
+                'from'           => $sender_email,
                 'to'             => @$email->toaddress,
                 'cc'             => @$email->ccaddress,
                 'subject'        => @$email->subject,
@@ -579,8 +582,8 @@ class Support
                 // the following items are not inserted, but useful in some methods
                 'headers'        => @$structure->headers
             );
-            $should_create_array = Support::createIssueFromEmail($info, $headers, $message_body, $t['date'], @$email->fromaddress,
-                                        Mime_Helper::fixEncoding( @$email->subject), $t['to'], $t['cc']);
+            $should_create_array = Support::createIssueFromEmail(
+                $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::fixEncoding( @$email->subject), $t['to'], $t['cc']);
             $should_create_issue = $should_create_array['should_create_issue'];
             $associate_email = $should_create_array['associate_email'];
             if (!empty($should_create_array['issue_id'])) {
@@ -806,6 +809,10 @@ class Support
         }
 
         $sender_email = Mail_API::getEmailAddress($from);
+        if (PEAR::isError($sender_email)) {
+            $sender_email = 'Error Parsing Email <>';
+        }
+
         // only create a new issue if this email is coming from a known customer
         if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
                 (Customer::hasCustomerIntegration($info['ema_prj_id']))) {
