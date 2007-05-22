@@ -1922,7 +1922,7 @@ class Support
             $mail = new Mail_API;
             if (!empty($issue_id)) {
                 // add the warning message to the current message' body, if needed
-                $fixed_body = Mail_API::addWarningMessage($issue_id, $recipient, $body);
+                $fixed_body = Mail_API::addWarningMessage($issue_id, $recipient, $body, array());
                 $mail->setHeaders(array(
                     "Message-Id" => $message_id
                 ));

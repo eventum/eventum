@@ -509,10 +509,10 @@
                         {t}Warn Users Whether They Can Send Emails to Issue:{/t}&nbsp;
                       </td>
                       <td width="80%" class="default">
-                        <input type="radio" name="email_routing[warning][status]" value="enabled" {if $setup.email_routing.warning.status == 'enabled'}checked{/if} onClick="javascript:disableWarningFields(this.form, false);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[warning][status]', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
-                        <input type="radio" name="email_routing[warning][status]" value="disabled" {if $setup.email_routing.warning.status != 'enabled'}checked{/if} onClick="javascript:disableWarningFields(this.form, true);">
-                        <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('general_setup_form', 'email_routing[warning][status]', 1);">{t}No{/t}</a>
+                        <label><input type="radio" name="email_routing[warning][status]" value="enabled" {if $setup.email_routing.warning.status == 'enabled'}checked{/if}>
+                        {t}Yes{/t}</label>&nbsp;&nbsp;
+                        <label><input type="radio" name="email_routing[warning][status]" value="disabled" {if $setup.email_routing.warning.status != 'enabled'}checked{/if}>
+                        {t}No{/t}</label>
                       </td>
                     </tr>
                   </table>

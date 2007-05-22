@@ -480,9 +480,10 @@ class Mail_API
      * @param   integer $issue_id The issue ID
      * @param   string $to The recipient of the message
      * @param   string $body The body of the message
+     * @param   headers $headers The headers of the message
      * @return  string The body of the message with the warning message, if appropriate
      */
-    function addWarningMessage($issue_id, $to, $body)
+    function addWarningMessage($issue_id, $to, $body, $headers)
     {
         $setup = Setup::load();
         if ((@$setup['email_routing']['status'] == 'enabled') &&
@@ -500,9 +501,14 @@ class Mail_API
                     return $body;
                 } else {
                     if (!Support::isAllowedToEmail($issue_id, $recipient_email)) {
-                        return Mail_API::getWarningMessage('blocked') . "\n\n" . $body;
+                        $warning = Mail_API::getWarningMessage('blocked');
                     } else {
-                        return Mail_API::getWarningMessage('allowed') . "\n\n" . $body;
+                        $warning = Mail_API::getWarningMessage('allowed');
+                    }
+                    if (@$headers['Content-Transfer-Encoding'] == 'base64') {
+                        return base64_encode($warning . "\n\n" . trim(base64_decode($body)));
+                    } else {
+                        return $warning . "\n\n" . $body;
                     }
                 }
             }

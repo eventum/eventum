@@ -353,7 +353,7 @@ class Notification
             $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($to));
             $to = MIME_Helper::encodeAddress($to);
             // add the warning message about replies being blocked or not
-            $fixed_body = Mail_API::addWarningMessage($issue_id, $to, $body);
+            $fixed_body = Mail_API::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = $to;
             $mime = new Mail_mime("\r\n");
             $hdrs = $mime->headers($headers);
