@@ -229,7 +229,6 @@ class Mail_API
         $address = Mime_Helper::encodeValue($address);
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
         if (PEAR::isError($t)) {
-            Error_Handler::logError(array($t->getMessage(), $t->getDebugInfo()), __FILE__, __LINE__);
             return $t;
         }
         if ($multiple) {
