@@ -265,6 +265,9 @@ class Mail_API
     function getEmailAddress($address)
     {
         $info = Mail_API::getAddressInfo($address);
+        if (PEAR::isError($info)) {
+            return $info;
+        }
         return $info['email'];
     }
 
