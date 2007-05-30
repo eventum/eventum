@@ -63,7 +63,7 @@ class Mime_Helper
     function getCharacterSet($input)
     {
         if (!is_object($input)) {
-            $input = Mime_Helper::decode($input, false, false);
+            $structure = Mime_Helper::decode($input, false, false);
         } else {
             $structure = $input;
         }
