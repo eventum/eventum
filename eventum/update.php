@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: update.php 3315 2007-04-17 10:27:03Z glen $
+// @(#) $Id: update.php 3337 2007-06-13 09:27:48Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -134,4 +134,5 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         ));
     }
 }
+$tpl->assign("usr_role_id", User::getRoleByUser($usr_id, $prj_id));
 $tpl->displayTemplate();

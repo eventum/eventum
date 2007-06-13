@@ -1547,6 +1547,92 @@ class Issue
             }
 
             Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $_POST);
+            // Move issue to another project
+            if (isset($_POST['move_issue']) and (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Manager"))) {
+                $new_prj_id = (int)@$_POST['new_prj'];
+                if ($prj_id != $new_prj_id and array_key_exists($new_prj_id, Project::getAssocList($usr_id))) {
+                    if(User::getRoleByUser($usr_id, $new_prj_id) >= User::getRoleID("Manager")) {
+                        $stmt = "UPDATE
+                              " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                          SET
+                              iss_prj_id=" . Misc::escapeInteger($new_prj_id) . "
+                          WHERE
+                              iss_id=$issue_id";
+
+                        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                        if (PEAR::isError($res)) {
+                            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                            return -1;
+                        } else {
+                            $currentDetails = Issue::getDetails($issue_id);
+
+                            // set new category
+                            $new_iss_prc_list = Category::getAssocList($new_prj_id);
+                            $iss_prc_title = Category::getTitle($currentDetails['iss_prc_id']);
+                            $new_prc_id = array_search($iss_prc_title, $new_iss_prc_list);
+                            if ($new_prc_id === false) {
+                              // use the first category listed in the new project
+                              $new_prc_id = key($new_iss_prc_list);
+                            }
+
+                            // set new priority
+                            $new_iss_pri_list = Priority::getAssocList($new_prj_id);
+                            $iss_pri_title = Priority::getTitle($currentDetails['iss_pri_id']);
+                            $new_pri_id = array_search($iss_pri_title, $new_iss_pri_list);
+                            if ($new_pri_id === false) {
+                              // use the first category listed in the new project
+                              $new_pri_id = key($new_iss_pri_list);
+                            }
+
+                            $stmt = "UPDATE
+                                  " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                              SET
+                                  iss_prc_id=" . Misc::escapeInteger($new_prc_id) . ",
+                                  iss_pri_id=" . $new_pri_id . "
+                              WHERE
+                                  iss_id=$issue_id";
+                            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                            if (PEAR::isError($res)) {
+                                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                            }
+
+                            // set new phone support category
+                            $new_iss_phone_support_list = Phone_Support::getCategoryAssocList($new_prj_id);
+                            $iss_phone_support_list = Phone_Support::getCategoryAssocList($prj_id);
+
+                            $new_phone_support_list = array();
+                            // use the first category listed in the new project
+                            $default_category = key($new_iss_phone_support_list);
+
+                            foreach ($iss_phone_support_list as $key => $item) {
+                              $newID = array_search($item, $new_iss_phone_support_list);
+                              if ($newID === false) {
+                                $newID = $default_category;
+                              }
+                              $new_phone_support_list[$key] = $newID;
+                            }
+                            // array... $key - old caregory ID ; $item - new category ID
+
+                            foreach ($new_phone_support_list as $key => $item) {
+                              $stmt = "UPDATE
+                                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
+                                SET
+                                    phs_phc_id=" . Misc::escapeInteger($item) . "
+                                WHERE
+                                    phs_phc_id=$key;
+                                    phs_iss_id=$issue_id";
+                              $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                              if (PEAR::isError($res)) {
+                                  Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                              }
+                            }
+                            header("Location: update.php?id=$issue_id");
+                        }
+                    } else {
+                        return -1;
+                    }
+                }
+            }
             return 1;
         }
     }
