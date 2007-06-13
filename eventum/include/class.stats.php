@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.stats.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.stats.php 3336 2007-06-13 09:26:06Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -48,7 +48,7 @@ require_once(APP_INC_PATH . "class.status.php");
 class Stats
 {
     /**
-     * Method used to check if the provided array has valid data (i.e. non-zero)
+     * Method used to check if the provided array has valid data (e.g. non-zero)
      *
      * @access  public
      * @param   array $data The data to check against

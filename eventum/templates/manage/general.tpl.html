@@ -310,7 +310,7 @@
                       <td width="80%">
                         <input type="text" class="default" name="smtp[from]" size="30" value="{$setup.smtp.from|escape:"html"}">
                         {include file="error_icon.tpl.html" field="smtp[from]"}
-                        <span class="small_default">{t}(This MUST contain a real email address, i.e. "eventum@example.com" or "Eventum <eventum@example.com>"){/t}</span>
+                        <span class="small_default">{t}(This MUST contain a real email address, e.g. "eventum@example.com" or "Eventum <eventum@example.com>"){/t}</span>
                       </td>
                     </tr>
                     <tr>
@@ -481,7 +481,7 @@
                       <td width="80%">
                         <input type="text" name="email_routing[address_prefix]" value="{if $setup.email_routing.address_prefix}{$setup.email_routing.address_prefix}{else}issue_{/if}" class="default">
                         {include file="error_icon.tpl.html" field="email_routing[address_prefix]"}
-                        <span class="small_default">{t escape="none"}(i.e. <b>issue_</b>51@example.com){/t}</span>
+                        <span class="small_default">{t escape="none"}(e.g. <b>issue_</b>51@example.com){/t}</span>
                       </td>
                     </tr>
                     <tr>
@@ -491,7 +491,7 @@
                       <td width="80%">
                         <input type="text" name="email_routing[address_host]" class="default" value="{$setup.email_routing.address_host}">
                         {include file="error_icon.tpl.html" field="email_routing[address_host]"}
-                        <span class="small_default">{t escape="none"}(i.e. issue_51@<b>example.com</b>){/t}</span>
+                        <span class="small_default">{t escape="none"}(e.g. issue_51@<b>example.com</b>){/t}</span>
                       </td>
                     </tr>
                     <tr>
@@ -563,7 +563,7 @@
                       <td width="80%">
                         <input type="text" name="note_routing[address_prefix]" value="{if $setup.note_routing.address_prefix}{$setup.note_routing.address_prefix}{else}note_{/if}" class="default">
                         {include file="error_icon.tpl.html" field="note_routing[address_prefix]"}
-                        <span class="small_default">{t escape="none"}(i.e. <b>note_</b>51@example.com){/t}</span>
+                        <span class="small_default">{t escape="none"}(e.g. <b>note_</b>51@example.com){/t}</span>
                       </td>
                     </tr>
                     <tr>
@@ -573,7 +573,7 @@
                       <td width="80%">
                         <input type="text" name="note_routing[address_host]" class="default" value="{$setup.note_routing.address_host}">
                         {include file="error_icon.tpl.html" field="note_routing[address_host]"}
-                        <span class="small_default">{t escape="none"}(i.e. note_51@<b>example.com</b>){/t}</span>
+                        <span class="small_default">{t escape="none"}(e.g. note_51@<b>example.com</b>){/t}</span>
                       </td>
                     </tr>
                   </table>
@@ -600,7 +600,7 @@
                       <td width="80%">
                         <input type="text" name="draft_routing[address_prefix]" value="{if $setup.draft_routing.address_prefix}{$setup.draft_routing.address_prefix}{else}draft_{/if}" class="default">
                         {include file="error_icon.tpl.html" field="draft_routing[address_prefix]"}
-                        <span class="small_default">{t escape="none"}(i.e. <b>draft_</b>51@example.com){/t}</span>
+                        <span class="small_default">{t escape="none"}(e.g. <b>draft_</b>51@example.com){/t}</span>
                       </td>
                     </tr>
                     <tr>
@@ -610,7 +610,7 @@
                       <td width="80%">
                         <input type="text" name="draft_routing[address_host]" class="default" value="{$setup.draft_routing.address_host}">
                         {include file="error_icon.tpl.html" field="draft_routing[address_host]"}
-                        <span class="small_default">{t escape="none"}(i.e. draft_51@<b>example.com</b>){/t}</span>
+                        <span class="small_default">{t escape="none"}(e.g. draft_51@<b>example.com</b>){/t}</span>
                       </td>
                     </tr>
                   </table>

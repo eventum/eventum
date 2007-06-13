@@ -30,7 +30,7 @@
 
 /**
  * Class to handle determining which columns should be displayed and in what order
- * on a page (i.e. Issue Listing page).
+ * on a page (e.g. Issue Listing page).
  *
  * @author Bryan Alsdorf <bryan@mysql.com>
  * @version 1.0

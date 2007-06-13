@@ -225,7 +225,7 @@ you will need PHP and if you use SSL, the curl and openssl PHP extensions.
 
 Assuming you have the requirements properly setup::
 
- - Just copy the path-to-eventum/misc/cli directory to another location (i.e.
+ - Just copy the path-to-eventum/misc/cli directory to another location (e.g.
    copy to ~/bin/)
  - Add that location to your PATH environment variable
  - Set the required permission in the script (chmod 700 ~/bin/cli/eventum)

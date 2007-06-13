@@ -1,5 +1,5 @@
 <!--
-// @(#) $Id: global.js 3314 2007-04-17 10:24:42Z glen $
+// @(#) $Id: global.js 3336 2007-06-13 09:26:06Z glen $
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));
 
@@ -358,7 +358,7 @@ function lookupField(f, search_field, field_name, callbacks)
             }
         } else {
             // normal drop-down boxes will search across the option value, and
-            // not just the beginning of it (i.e. '*hello*' instead of 'hello*')
+            // not just the beginning of it (e.g. '*hello*' instead of 'hello*')
             if (value.indexOf(search.toUpperCase()) != -1) {
                 target_field.options[i].selected = true;
                 // handle calling any callbacks

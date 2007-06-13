@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: associate.php 3258 2007-02-14 23:25:56Z glen $
+// @(#) $Id: associate.php 3336 2007-06-13 09:26:06Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -97,7 +97,7 @@ if (@$_POST['cat'] == 'associate') {
                         $unknown_contacts[] = $address;
                     } else {
                         // if we got a real user ID, check if the customer user is the correct one
-                        // (i.e. a contact from the customer associated with the selected issue)
+                        // (e.g. a contact from the customer associated with the selected issue)
                         if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
                             // also check if the associated customer ID, if any, matches the one in the issue
                             $user_customer_id = User::getCustomerID($usr_id);
