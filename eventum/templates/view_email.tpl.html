@@ -157,6 +157,21 @@ setTimeout('closeAndRefresh()', 2000);
             {/if}
           </td>
         </tr>
+        {if $role != $roles.customer && $recipients|@count > 0}
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>{t}Recipients{/t}:</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default">
+            {strip}
+            {section name="i" loop=$recipients}
+              {if not $smarty.section.i.first}, {/if}
+              {$recipients[i]|escape:"html"}
+            {/section}
+            {/strip}
+          </td>
+        </tr>
+        {/if}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Cc{/t}:</b>

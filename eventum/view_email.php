@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: view_email.php 3258 2007-02-14 23:25:56Z glen $
+// @(#) $Id: view_email.php 3338 2007-06-19 21:49:22Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -53,7 +53,8 @@ $tpl->bulkAssign(array(
     "email"           => $email,
     "issue_id"        => $issue_id,
     'extra_title'     => "Email #" . $_GET['id'] . ": " . $email['sup_subject'],
-    'email_accounts'  =>  Email_Account::getAssocList(array_keys(Project::getAssocList(Auth::getUserID())), true)
+    'email_accounts'  =>  Email_Account::getAssocList(array_keys(Project::getAssocList(Auth::getUserID())), true),
+    'recipients'      =>  Mail_Queue::getMessageRecipients(array('customer_email', 'other_email'), $_GET["id"]),
 ));
 
 if (@$_GET['cat'] == 'list_emails') {

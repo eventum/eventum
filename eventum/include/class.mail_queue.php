@@ -425,14 +425,18 @@ class Mail_Queue
     }
 
 
-    function getMessageRecipients($type, $type_id)
+    function getMessageRecipients($types, $type_id)
     {
+        if (!is_array($types)) {
+            $types = array($types);
+        }
+        $types = Misc::escapeString($types);
         $sql = "SELECT
                     maq_recipient
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
                 WHERE
-                    maq_type = '" . Misc::escapeString($type) . "' AND
+                    maq_type IN('" . join("', '", $types) . "') AND
                     maq_type_id = " . Misc::escapeInteger($type_id);
         $res = $GLOBALS["db_api"]->dbh->getCol($sql);
         if (PEAR::isError($res)) {

@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: view_note.php 3258 2007-02-14 23:25:56Z glen $
+// @(#) $Id: view_note.php 3338 2007-06-19 21:49:22Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -69,6 +69,7 @@ $tpl->bulkAssign(array(
     "note"        => $note,
     "issue_id"    => $issue_id,
     'extra_title' => "Note #" . Note::getNoteSequenceNumber($issue_id, $note_id) . ": " . $note['not_title'],
+    'recipients'  => Mail_Queue::getMessageRecipients('notes', $note_id),
 ));
 
 if (!empty($issue_id)) {
