@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.custom_field.php 3339 2007-06-21 20:07:58Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -207,12 +207,15 @@ class Custom_Field
                     if ($value == '--') {
                         $value = '';
                     }
+                } elseif ($field_types[$fld_id] == 'integer') {
+                    $value = Misc::escapeInteger($value);
                 }
+                $fld_db_name = Custom_Field::getDBValueFieldNameByType($field_types['fld_id']);
 
                 // first check if there is actually a record for this field for the issue
                 $stmt = "SELECT
                             icf_id,
-                            icf_value
+                            $fld_db_name as value
                          FROM
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                          WHERE
@@ -224,9 +227,9 @@ class Custom_Field
                     return -1;
                 }
                 $icf_id = $res['icf_id'];
-                $icf_value = $res['icf_value'];
+                $old_value = $res['value'];
 
-                if ($icf_value == $value) {
+                if ($old_value == $value) {
                     continue;
                 }
 
@@ -237,7 +240,7 @@ class Custom_Field
                              (
                                 icf_iss_id,
                                 icf_fld_id,
-                                icf_value
+                                $fld_db_name
                              ) VALUES (
                                 " . $issue_id . ",
                                 $fld_id,
@@ -253,7 +256,7 @@ class Custom_Field
                     $stmt = "UPDATE
                                 " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                              SET
-                                icf_value='" . Misc::escapeString($value) . "'
+                                $fld_db_name='" . Misc::escapeString($value) . "'
                              WHERE
                                 icf_id=$icf_id";
                     $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -265,7 +268,7 @@ class Custom_Field
                 if ($field_types[$fld_id] == 'textarea') {
                     $updated_fields[$field_titles[$fld_id]] = '';
                 } else {
-                    $updated_fields[$field_titles[$fld_id]] = History::formatChanges($icf_value, $value);
+                    $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_value, $value);
                 }
             } else {
                 $old_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id, true);
@@ -337,18 +340,27 @@ class Custom_Field
             $value = array($value);
         }
         foreach ($value as $item) {
+            if ($fld_details['fld_type'] == 'integer') {
+                $item = Misc::escapeInteger($item);
+            } else {
+                $item = "'" . Misc::escapeString($item) . "'";
+            }
             $stmt = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                      (
                         icf_iss_id,
                         icf_fld_id,
-                        icf_value
+                        " . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']) . "
                      ) VALUES (
                         " . Misc::escapeInteger($iss_id) . ",
                         " . Misc::escapeInteger($fld_id) . ",
-                        '" . Misc::escapeString($item) . "'
+                        $item
                      )";
-            $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return false;
+            }
         }
         return true;
     }
@@ -547,7 +559,7 @@ class Custom_Field
                     fld_type,
                     fld_report_form_required,
                     fld_anonymous_form_required,
-                    icf_value,
+                    " . Custom_Field::getDBValueFieldSQL() . " as value,
                     fld_min_role
                  FROM
                     (
@@ -575,11 +587,9 @@ class Custom_Field
             } else {
                 $fields = array();
                 for ($i = 0; $i < count($res); $i++) {
-                    if (($res[$i]['fld_type'] == 'text') || ($res[$i]['fld_type'] == 'textarea') || ($res[$i]['fld_type'] == 'date')) {
-                        $fields[] = $res[$i];
-                    } elseif ($res[$i]["fld_type"] == "combo") {
-                        $res[$i]["selected_cfo_id"] = $res[$i]["icf_value"];
-                        $res[$i]["icf_value"] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["icf_value"]);
+                    if ($res[$i]["fld_type"] == "combo") {
+                        $res[$i]["selected_cfo_id"] = $res[$i]["value"];
+                        $res[$i]["value"] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
                         $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
                         $fields[] = $res[$i];
                     } elseif ($res[$i]['fld_type'] == 'multiple') {
@@ -592,14 +602,16 @@ class Custom_Field
                             }
                         }
                         if (!$found) {
-                            $res[$i]["selected_cfo_id"] = array($res[$i]["icf_value"]);
-                            $res[$i]["icf_value"] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["icf_value"]);
+                            $res[$i]["selected_cfo_id"] = array($res[$i]["value"]);
+                            $res[$i]["value"] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
                             $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
                             $fields[] = $res[$i];
                         } else {
-                            $fields[$found_index]['icf_value'] .= ', ' . Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["icf_value"]);
-                            $fields[$found_index]['selected_cfo_id'][] = $res[$i]["icf_value"];
+                            $fields[$found_index]['value'] .= ', ' . Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
+                            $fields[$found_index]['selected_cfo_id'][] = $res[$i]["value"];
                         }
+                    } else {
+                        $fields[] = $res[$i];
                     }
                 }
                 foreach ($fields as $key => $field) {
@@ -630,17 +642,17 @@ class Custom_Field
         $values = array();
         $list = Custom_Field::getListByIssue($prj_id, $iss_id);
         foreach ($list as $field) {
-            if (in_array($field['fld_type'], array('text', 'textarea'))) {
-                $values[$field['fld_id']] = $field['icf_value'];
-            } elseif ($field['fld_type'] == 'combo') {
+            if ($field['fld_type'] == 'combo') {
                 $values[$field['fld_id']] = array(
-                    $field['selected_cfo_id'] => $field['icf_value']
+                    $field['selected_cfo_id'] => $field['value']
                 );
             } elseif ($field['fld_type'] == 'multiple') {
                 $selected = $field['selected_cfo_id'];
                 foreach ($selected as $cfo_id) {
                     $values[$field['fld_id']][$cfo_id] = @$field['field_options'][$cfo_id];
                 }
+            } else {
+                $values[$field['fld_id']] = $field['value'];
             }
         }
         return $values;
@@ -879,13 +891,14 @@ class Custom_Field
      *
      * @access  public
      * @param   integer $fld_id The custom field ID
+     * @param   boolean $force_refresh If the details must be loaded again from the database
      * @return  array The custom field details
      */
-    function getDetails($fld_id)
+    function getDetails($fld_id, $force_refresh = false)
     {
         static $returns;
 
-        if (isset($returns[$fld_id])) {
+        if ((isset($returns[$fld_id])) && ($force_refresh == false)) {
             return $returns[$fld_id];
         }
 
@@ -1059,11 +1072,16 @@ class Custom_Field
                             cfo_fld_id=" . Misc::escapeInteger($_POST["id"]);
                 $current_options = $GLOBALS["db_api"]->dbh->getCol($stmt);
             }
-            // gotta remove all custom field options if the field is being changed from a combo box to a text field
-            if (($old_details["fld_type"] != $_POST["field_type"]) &&
-                      (!in_array($old_details['fld_type'], array('text', 'textarea'))) &&
+            if ($old_details["fld_type"] != $_POST["field_type"]) {
+                // gotta remove all custom field options if the field is being changed from a combo box to a text field
+                if ((!in_array($old_details['fld_type'], array('text', 'textarea'))) &&
                       (!in_array($_POST["field_type"], array('combo', 'multiple')))) {
-                Custom_Field::removeOptionsByFields($_POST["id"]);
+                   Custom_Field::removeOptionsByFields($_POST["id"]);
+                }
+                if (in_array($_POST['field_type'], array('text', 'textarea', 'date', 'integer'))) {
+                    // update values for all other option types
+                    Custom_Field::updateValuesForNewType($_POST['id']);
+                }
             }
             // update the custom field options, if any
             if (($_POST["field_type"] == "combo") || ($_POST["field_type"] == "multiple")) {
@@ -1352,7 +1370,7 @@ class Custom_Field
         $sql = "SELECT
                     fld_id,
                     fld_type,
-                    icf_value
+                    " . Custom_Field::getDBValueFieldSQL() . " as value
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
@@ -1367,14 +1385,14 @@ class Custom_Field
         } else {
             $values = array();
             for ($i = 0; $i < count($res); $i++) {
-                if (($res[$i]['fld_type'] == 'text') || ($res[$i]['fld_type'] == 'textarea')) {
-                    $values[] = $res[$i]['icf_value'];
-                } elseif (($res[$i]["fld_type"] == "combo") || ($res[$i]['fld_type'] == 'multiple')) {
+                if (($res[$i]["fld_type"] == "combo") || ($res[$i]['fld_type'] == 'multiple')) {
                     if ($raw) {
-                        $values[] = $res[$i]['icf_value'];
+                        $values[] = $res[$i]['value'];
                     } else {
-                        $values[] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["icf_value"]);
+                        $values[] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
                     }
+                } else {
+                    $values[] = $res[$i]['value'];
                 }
             }
             if ($raw) {
@@ -1563,7 +1581,11 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                 WHERE
                     icf_fld_id = " . Misc::escapeInteger($fld_id) . " AND
-                    icf_value LIKE '%" . Misc::escapeString($search) . "%'";
+                    (
+                        icf_value LIKE '%" . Misc::escapeString($search) . "%' OR
+                        icf_value_integer LIKE '%" . Misc::escapeInteger($search) . "%' OR
+                        icf_value_date LIKE '%" . Misc::escapeString($search) . "%'
+                    )";
         $res = $GLOBALS["db_api"]->dbh->getCol($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -1605,13 +1627,79 @@ class Custom_Field
         $prj_id = Issue::getProjectID($issue_id);
         $fields = Custom_Field::getListByIssue($prj_id, $issue_id, APP_SYSTEM_USER_ID);
         foreach ($fields as $field) {
-            if (empty($field['icf_value'])) {
+            if (empty($field['value'])) {
                 Custom_Field::removeIssueAssociation($field['fld_id'], $issue_id);
                 Custom_Field::associateIssue($issue_id, $field['fld_id'], '');
             }
         }
     }
 
+
+    /**
+     * Returns the name of the db field this custom field uses based on the type.
+     *
+     * @param   string $type
+     * @return  string
+     */
+    function getDBValueFieldNameByType($type)
+    {
+        switch ($type) {
+            case 'date':
+                return 'icf_value_date';
+            case 'integer':
+                return 'icf_value_integer';
+            default:
+                return 'icf_value';
+        }
+    }
+
+
+    function getDBValueFieldSQL()
+    {
+        return "(IF(fld_type = 'date', icf_value_date, IF(fld_type = 'integer', icf_value_integer, icf_value)))";
+    }
+
+
+    /**
+     * Analyzes the contents of the issue_custom_field and updates
+     * contents based on the fld_type.
+     *
+     * @param   integer $fld_id
+     */
+    function updateValuesForNewType($fld_id)
+    {
+        $details = Custom_Field::getDetails($fld_id, true);
+        $db_field_name = Custom_Field::getDBValueFieldNameByType($details['fld_type']);
+
+
+        $sql = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                SET
+                    ";
+        if ($details['fld_type'] == 'integer') {
+            $sql .= "$db_field_name = IFNULL(icf_value, IFNULL(icf_value_date, NULL)),
+                    icf_value = NULL,
+                    icf_value_date = NULL";
+        } elseif ($details['fld_type'] == 'date') {
+            $sql .= "$db_field_name = IFNULL(icf_value, IFNULL(icf_value_date, NULL)),
+                    icf_value = NULL,
+                    icf_value_integer = NULL";
+        } else {
+            $sql .= "$db_field_name = IFNULL(icf_value_integer, IFNULL(icf_value_date, NULL)),
+                    icf_value_integer = NULL,
+                    icf_value_date = NULL";
+        }
+        $sql .= "
+                WHERE
+                    $db_field_name IS NULL AND
+                    icf_fld_id = " . Misc::escapeInteger($fld_id);
+        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return true;
+    }
 }
 
 // benchmarking the included file (aka setup time)

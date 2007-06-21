@@ -17,6 +17,7 @@ Eventum Issue Tracking System
 - Added more information to Workflow::shouldEmailAddress (Bryan)
 - Fixed bug with adding warning message to base64 encoded email (Bryan)
 - Added "Recipients" to view email and view note page (Bryan)
+- Added seperate columns for different custom field datatypes (Bryan)
 
 2007-04-17, Version 2.0.1
 - Fixed packaging bug that prevented setup from running (Bryan)

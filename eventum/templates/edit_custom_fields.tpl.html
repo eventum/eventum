@@ -23,6 +23,8 @@
   <td bgcolor="{$light_color}">
     {if $custom_fields[i].fld_type == 'text'}
     <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]}">
+    {elseif $custom_fields[i].fld_type == 'integer'}
+    <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="20" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]}">
     {elseif $custom_fields[i].fld_type == 'textarea'}
     <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$smarty.request.custom_fields[$fld_id]}</textarea>
     {elseif $custom_fields[i].fld_type == 'date'}

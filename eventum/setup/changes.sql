@@ -664,3 +664,11 @@ ALTER TABLE eventum_custom_field_option CHANGE COLUMN cfo_value cfo_value varcha
 
 # March 16th (adding missing type)
 INSERT INTO eventum_history_type SET htt_name = 'draft_routed',  htt_role = 4;
+
+
+# May 22nd
+ALTER TABLE eventum_irc_notice ADD INDEX ino_status (ino_status);
+
+# June 21st
+ALTER TABLE eventum_issue_custom_field ADD COLUMN icf_value_integer int(11) NULL DEFAULT NULL;
+ALTER TABLE eventum_issue_custom_field ADD COLUMN icf_value_date date NULL DEFAULT NULL;

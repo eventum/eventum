@@ -58,14 +58,16 @@ function validateForm(f)
           <td width="100%" bgcolor="{$row_color}">
             <input type="hidden" name="fld_id[]" value="{$custom_fields[i].fld_id}">
             {if $custom_fields[i].fld_type == 'text'}
-            <input id="custom_field_{$custom_fields[i].fld_id}"  class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" value="{$custom_fields[i].icf_value|escape:"html"}">
+            <input id="custom_field_{$custom_fields[i].fld_id}"  class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" value="{$custom_fields[i].value|escape:"html"}">
+            {elseif $custom_fields[i].fld_type == 'integer'}
+            <input id="custom_field_{$custom_fields[i].fld_id}"  class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" value="{$custom_fields[i].value|escape:"html"}">
             {elseif $custom_fields[i].fld_type == 'textarea'}
-            <textarea name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60">{$custom_fields[i].icf_value|escape:"html"}</textarea>
+            <textarea name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60">{$custom_fields[i].value|escape:"html"}</textarea>
             {elseif $custom_fields[i].fld_type == 'date'}
-            {if $custom_fields[i].icf_value == ''}
+            {if $custom_fields[i].value == ''}
             {assign var=date_value value='--'}
             {else}
-            {assign var=date_value value=$custom_fields[i].icf_value}
+            {assign var=date_value value=$custom_fields[i].value}
             {/if}
             {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" year_empty='' month_empty='' day_empty='' time=$date_value start_year=-1 end_year=+2 day_value_format=%02d}
             {else}

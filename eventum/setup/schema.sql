@@ -537,6 +537,8 @@ CREATE TABLE %TABLE_PREFIX%issue_custom_field (
   icf_iss_id int(10) unsigned NOT NULL default 0,
   icf_fld_id int(10) unsigned NOT NULL default 0,
   icf_value text default NULL,
+  icf_value_integer int(11) default NULL,
+  icf_value_date date default NULL,
   PRIMARY KEY  (icf_id),
   KEY icf_iss_id (icf_iss_id),
   KEY icf_fld_id (icf_fld_id)

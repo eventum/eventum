@@ -32,15 +32,15 @@ function updateCustomFields(issue_id)
             <table width="100%" cellpadding="2" cellspacing="1">
               {section name="i" loop=$custom_fields}
               {cycle values=$cycle assign="row_color"}
-              <tr id="custom_fields{$smarty.section.i.iteration}" {get_display_style element_name="custom_fields" total=$custom_fields|@count} {if $custom_fields[i].hide_when_no_options == 1 && $custom_fields[i].icf_value == ''}style="display: none"{/if}>
+              <tr id="custom_fields{$smarty.section.i.iteration}" {get_display_style element_name="custom_fields" total=$custom_fields|@count} {if $custom_fields[i].hide_when_no_options == 1 && $custom_fields[i].value == ''}style="display: none"{/if}>
                 <td bgcolor="{if $custom_fields[i].fld_min_role > $roles.customer}{$internal_color}{else}{$cell_color}{/if}" class="default_white">
                   <nobr><b>{$custom_fields[i].fld_title}:</b>&nbsp;</nobr>
                 </td>
                 <td class="default" width="100%" bgcolor="{$row_color}">
                   {if $custom_fields[i].fld_type == 'textarea'}
-                    {$custom_fields[i].icf_value|escape:"html"|activateLinks:"link"|nl2br}
+                    {$custom_fields[i].value|escape:"html"|activateLinks:"link"|nl2br}
                   {else}
-                    {$custom_fields[i].icf_value|formatCustomValue:$custom_fields[i].fld_id:$smarty.get.id}
+                    {$custom_fields[i].value|formatCustomValue:$custom_fields[i].fld_id:$smarty.get.id}
                   {/if}
                 </td>
               </tr>

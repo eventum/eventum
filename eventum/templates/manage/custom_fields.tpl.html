@@ -273,6 +273,9 @@
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 3);toggleCustomOptionsField(false);">{t}Multiple Combo Box{/t}</a>
                   <input type="radio" name="field_type" value="date" {if $info.fld_type == 'date'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
                   <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 4);toggleCustomOptionsField(true);">{t}Date{/t}</a>
+                  <input type="radio" name="field_type" value="integer" {if $info.fld_type == 'integer'}checked{/if} onClick="javascript:toggleCustomOptionsField(false);">
+                  <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('custom_field_form', 'field_type', 5);toggleCustomOptionsField(true);">{t}Integer{/t}</a><br /><br />
+                  <b>Warning: </b> Changing field types can result in loss of data.
                 </td>
               </tr>
               <tr>
@@ -447,13 +450,12 @@
       function setCustomOptionsField()
       {
           var f = getForm('custom_field_form');
-          var field1 = getFormElement(f, 'field_type', 0);
-          var field2 = getFormElement(f, 'field_type', 1);
-          var field3 = getFormElement(f, 'field_type', 4);
-          if (field1.checked || field2.checked || field3.checked) {
-              toggleCustomOptionsField(true);
-          } else {
+          var field1 = getFormElement(f, 'field_type', 2);
+          var field2 = getFormElement(f, 'field_type', 3);
+          if (field1.checked || field2.checked) {
               toggleCustomOptionsField(false);
+          } else {
+              toggleCustomOptionsField(true);
           }
           checkRequiredFields();
       }

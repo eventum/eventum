@@ -2586,7 +2586,8 @@ class Issue
         $stmt .= Issue::buildWhereClause($options);
 
         if (strstr($options["sort_by"], 'custom_field') !== false) {
-            $sort_by = 'cf_sort.icf_value';
+            $fld_details = Custom_Field::getDetails($fld_id);
+            $sort_by = 'cf_sort.' . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']);
         } else {
             $sort_by = Misc::escapeString($options["sort_by"]);
         }
@@ -2673,8 +2674,8 @@ class Issue
                     $custom_field_values = Custom_Field::getListByIssue($prj_id, $res[$i]['iss_id']);
                     foreach ($custom_field_values as $this_field) {
                         if (!empty($custom_fields[$this_field['fld_id']])) {
-                            $res[$i]['custom_field'][$this_field['fld_id']] = $this_field['icf_value'];
-                            $fields[] = $this_field['icf_value'];
+                            $res[$i]['custom_field'][$this_field['fld_id']] = $this_field['value'];
+                            $fields[] = $this_field['value'];
                         }
                     }
                 }
@@ -2894,6 +2895,7 @@ class Issue
                     continue;
                 }
                 $field = Custom_Field::getDetails($fld_id);
+                $fld_db_name = Custom_Field::getDBValueFieldNameByType($field['fld_type']);
                 if (($field['fld_type'] == 'date') &&
                         ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day'])))) {
                     continue;
@@ -2904,7 +2906,7 @@ class Issue
                     foreach ($search_value as $cfo_id) {
                         $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_iss_id = iss_id";
                         $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_fld_id = $fld_id";
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_value = $cfo_id";
+                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . "." . $fld_db_name . " = $cfo_id";
                     }
                 } elseif ($field['fld_type'] == 'date') {
                     if ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day']))) {
@@ -2912,14 +2914,14 @@ class Issue
                     }
                     $search_value = $search_value['Year'] . "-" . $search_value['Month'] . "-" . $search_value['Day'];
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id AND
-                        cf" . $fld_id . ".icf_value = '" . Misc::escapeString($search_value) . "')";
+                        cf" . $fld_id . "." . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
                 } else {
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
-                    if (in_array($field['fld_type'], array('text', 'textarea'))) {
-                        $stmt .= " AND cf" . $fld_id . ".icf_value LIKE '%" . Misc::escapeString($search_value) . "%'";
-                    } elseif ($field['fld_type'] == 'combo') {
-                        $stmt .= " AND cf" . $fld_id . ".icf_value IN(" . join(', ', Misc::escapeInteger($search_value)) . ")";
+                    if ($field['fld_type'] == 'combo') {
+                        $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . " IN(" . join(', ', Misc::escapeInteger($search_value)) . ")";
+                    } else {
+                        $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . " LIKE '%" . Misc::escapeString($search_value) . "%'";
                     }
                     $stmt .= ')';
                 }
@@ -3027,7 +3029,8 @@ class Issue
                     iss_prj_id=" . Auth::getCurrentProject();
         $stmt .= Issue::buildWhereClause($options);
         if (strstr($options["sort_by"], 'custom_field') !== false) {
-            $sort_by = 'cf_sort.icf_value';
+            $fld_details = Custom_Field::getDetails($fld_id);
+            $sort_by = 'cf_sort.' . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']);
         } else {
             $sort_by = Misc::escapeString($options["sort_by"]);
         }
