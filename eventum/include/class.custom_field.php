@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3339 2007-06-21 20:07:58Z balsdorf $
+// @(#) $Id: class.custom_field.php 3342 2007-06-21 21:08:06Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -210,7 +210,7 @@ class Custom_Field
                 } elseif ($field_types[$fld_id] == 'integer') {
                     $value = Misc::escapeInteger($value);
                 }
-                $fld_db_name = Custom_Field::getDBValueFieldNameByType($field_types['fld_id']);
+                $fld_db_name = Custom_Field::getDBValueFieldNameByType($field_types[$fld_id]);
 
                 // first check if there is actually a record for this field for the issue
                 $stmt = "SELECT
@@ -233,6 +233,12 @@ class Custom_Field
                     continue;
                 }
 
+                if (empty($value)) {
+                    $value = 'NULL';
+                } else {
+                    $value = "'" . Misc::escapeString($value) . "'";
+                }
+
                 if (empty($icf_id)) {
                     // record doesn't exist, insert new record
                     $stmt = "INSERT INTO
@@ -244,7 +250,7 @@ class Custom_Field
                              ) VALUES (
                                 " . $issue_id . ",
                                 $fld_id,
-                                '" . Misc::escapeString($value) . "'
+                                $value
                              )";
                     $res = $GLOBALS["db_api"]->dbh->query($stmt);
                     if (PEAR::isError($res)) {
@@ -256,7 +262,7 @@ class Custom_Field
                     $stmt = "UPDATE
                                 " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                              SET
-                                $fld_db_name='" . Misc::escapeString($value) . "'
+                                $fld_db_name=$value
                              WHERE
                                 icf_id=$icf_id";
                     $res = $GLOBALS["db_api"]->dbh->query($stmt);
@@ -265,6 +271,7 @@ class Custom_Field
                         return -1;
                     }
                 }
+                echo $stmt;
                 if ($field_types[$fld_id] == 'textarea') {
                     $updated_fields[$field_titles[$fld_id]] = '';
                 } else {
