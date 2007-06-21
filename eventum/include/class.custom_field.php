@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3342 2007-06-21 21:08:06Z balsdorf $
+// @(#) $Id: class.custom_field.php 3343 2007-06-21 21:12:26Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -271,7 +271,6 @@ class Custom_Field
                         return -1;
                     }
                 }
-                echo $stmt;
                 if ($field_types[$fld_id] == 'textarea') {
                     $updated_fields[$field_titles[$fld_id]] = '';
                 } else {
