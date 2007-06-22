@@ -78,8 +78,6 @@ function openDetailPage()
 {literal}
 <script language="JavaScript">
 <!--
-var required_custom_fields = new Array();
-var custom_fields = new Array();
 function validateForm(f)
 {
 {/literal}
@@ -129,13 +127,13 @@ function validateForm(f)
     {/literal}
     {/if}
     {literal}
-    checkRequiredCustomFields(f, required_custom_fields);
+    checkCustomFields(f);
 
     // check customer fields (if function exists
     if (window.validateCustomer) {
         validateCustomer(f);
     }
-    if (errors.length > 0) {
+    if (errors.length > 0 || errors_extra.length > 0) {
         f.main_submit_button.disabled = false;
     }
 }

@@ -1,5 +1,10 @@
 {* Should be included and past the variables 'custom_fields' (an array of custom fields) and
 'form_type' which should be either 'anonymous' or 'report' *}
+<script>
+{literal}
+var custom_fields_info = new Array();
+{/literal}
+</script>
 {section name="i" loop=$custom_fields}
 {assign var='fld_id' value=$custom_fields[i].fld_id}
 {assign var="custom_field_id" value=$custom_fields[i].fld_id}
@@ -11,20 +16,26 @@
 <tr>
   <td width="150" bgcolor="{$cell_color}" class="default_white">
     <b>{$custom_fields[i].fld_title}:{if $cf_required} *{/if}</b>
-    {if $cf_required}
     <script language="JavaScript">
     <!--
-    custom_fields[custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}', '{$custom_fields[i].fld_title}');
-    required_custom_fields[required_custom_fields.length] = new Option('custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}', {if $custom_fields[i].fld_type == 'multiple'}'multiple'{elseif $custom_fields[i].fld_type == 'combo'}'combo'{elseif $custom_fields[i].fld_type == 'date'}'date'{else}'whitespace'{/if});
+    fld_id = {$custom_fields[i].fld_id};
+    {literal}
+    custom_fields_info[custom_fields_info.length] = $H({
+        id: fld_id,
+        type: '{/literal}{$custom_fields[i].fld_type}{literal}',
+        title: '{/literal}{$custom_fields[i].fld_title}{literal}',
+        required: '{/literal}{$cf_required}{literal}',
+        })
+    {/literal}
     //-->
     </script>
-    {/if}
   </td>
   <td bgcolor="{$light_color}">
     {if $custom_fields[i].fld_type == 'text'}
     <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]}">
     {elseif $custom_fields[i].fld_type == 'integer'}
-    <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="20" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]}">
+    <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="10" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]}">
+    </script>
     {elseif $custom_fields[i].fld_type == 'textarea'}
     <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$smarty.request.custom_fields[$fld_id]}</textarea>
     {elseif $custom_fields[i].fld_type == 'date'}

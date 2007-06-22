@@ -1,5 +1,5 @@
 /*
- * @(#) $Id: validation.js 3311 2007-04-17 10:20:19Z glen $
+ * @(#) $Id: validation.js 3344 2007-06-22 20:04:35Z balsdorf $
  */
 
 last_issue_number_validation_value = '';
@@ -12,7 +12,7 @@ function validateIssueNumberField(baseURL, form_name, field_name)
         last_issue_number_validation_value = form_value;
     }
     validate_issue_http_client = new HTTPClient();
-    validate_issue_http_client.loadRemoteContent(baseURL + '/validate.php?action=validateIssueNumbers&values=' + 
+    validate_issue_http_client.loadRemoteContent(baseURL + '/validate.php?action=validateIssueNumbers&values=' +
         form_value + '&field_name=' + field_name + '&form_name=' + form_name, 'displayIssueFieldValidation');
 }
 
@@ -237,45 +237,45 @@ function errorDetails(f, field_name, show)
     }
 }
 
-function getCustomFieldTitle(field_name)
+function checkCustomFields(f)
 {
-    for (var i = 0; i < custom_fields.length; i++) {
-        if (custom_fields[i].text == field_name) {
-            return custom_fields[i].value;
-        }
-    }
-}
+    // requires the variable custom_fields_info to be set
+    for (var i = 0; i < custom_fields_info.length; i++) {
+        var info = custom_fields_info[i];
+        var field = $('custom_field_' + info.id);
 
-function checkRequiredCustomFields(f, required_fields)
-{
-    for (var i = 0; i < required_fields.length; i++) {
-        var field = getFormElement(f, required_fields[i].text);
-
-        if ((field != false) && (field.parentNode.parentNode.style.display == 'none')) {
+        if ((field != false) && (field != undefined) && (field.parentNode.parentNode.style.display == 'none')) {
             continue;
         }
 
-        if (required_fields[i].value == 'combo') {
-            if (getSelectedOption(f, field.name) == '-1') {
-                errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text), required_fields[i].text);
+        if (info.required == 1) {
+            if (info.type == 'combo') {
+                if (getSelectedOption(f, field.name) == '-1') {
+                    errors[errors.length] = new Option(info.title, field.name);
+                }
+            } else if (info.type == 'multiple') {
+                if (!hasOneSelected(f, field.name)) {
+                    errors[errors.length] = new Option(info.title, field.name);
+                }
+            } else if (info.type == 'date') {
+                if ($('custom_field_' + info.id + '_month').selectedIndex == 0) {
+                    errors[errors.length] = new Option(info.title + ' (Month)', 'custom_field_' + info.id + '[Month]');
+                }
+                if ($('custom_field_' + info.id + '_day').selectedIndex == 0) {
+                    errors[errors.length] = new Option(info.title + ' (Day)', 'custom_field_' + info.id + '[Day]');
+                }
+                if ($('custom_field_' + info.id + '_year').selectedIndex == 0) {
+                    errors[errors.length] = new Option(info.title + ' (Year)', 'custom_field_' + info.id + '[Year]');
+                }
+            } else {
+                if (isWhitespace(field.value)) {
+                    errors[errors.length] = new Option(info.title, field.name);
+                }
             }
-        } else if (required_fields[i].value == 'multiple') {
-            if (!hasOneSelected(f, field.name)) {
-                errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text), required_fields[i].text);
-            }
-        } else if (required_fields[i].value == 'whitespace') {
-            if (isWhitespace(field.value)) {
-                errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text), required_fields[i].text);
-            }
-        } else if (required_fields[i].value == 'date') {
-            if (getFormElement(f, required_fields[i].text + '[Month]').selectedIndex == 0) {
-                errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text) + ' (Month)', required_fields[i].text + '[Month]');
-            }
-            if (getFormElement(f, required_fields[i].text + '[Day]').selectedIndex == 0) {
-                errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text) + ' (Day)', required_fields[i].text + '[Day]');
-            }
-            if (getFormElement(f, required_fields[i].text + '[Year]').selectedIndex == 0) {
-                errors[errors.length] = new Option(getCustomFieldTitle(required_fields[i].text) + ' (Year)', required_fields[i].text + '[Year]');
+        }
+        if (info.type == 'integer') {
+            if ((!isWhitespace(field.value)) && (!isNumberOnly(field.value))) {
+                errors_extra[errors_extra.length] = new Option(info.title + ': This field can only contain numbers', field.name);
             }
         }
     }
@@ -357,9 +357,11 @@ function getSelectedOptionObject(f, field_name)
 }
 
 var errors = null;
+var errors_extra = null;
 function checkFormSubmission(f, callback_func)
 {
     errors = new Array();
+    errors_extra = new Array();
     eval(callback_func + '(f);');
     if (errors.length > 0) {
         // loop through all of the broken fields and select them
@@ -375,6 +377,21 @@ function checkFormSubmission(f, callback_func)
         }
         // show a big alert box with the missing information
         alert("The following required fields need to be filled out:\n\n" + fields + "\nPlease complete the form and try again.");
+        return false;
+    } else if (errors_extra.length > 0) {
+        // loop through all of the broken fields and select them
+        var fields = '';
+        for (var i = 0; i < errors_extra.length; i++) {
+            if (getFormElement(f, errors_extra[i].value).onchange != undefined) {
+                old_onchange = getFormElement(f, errors_extra[i].value).onchange;
+            } else {
+                old_onchange = false;
+            }
+            selectField(f, errors_extra[i].value, old_onchange);
+            fields += '- ' + errors_extra[i].text + "\n";
+        }
+        // show a big alert box with the missing information
+        alert("The following fields have errors that need to be resolved:\n\n" + fields + "\nPlease resolve these errors and try again.");
         return false;
     } else {
         return true;

@@ -28,10 +28,10 @@
 {literal}
 <script language="JavaScript">
 <!--
-var required_custom_fields = new Array();
+var custom_fields_info = new Array();
 function validateForm(f)
 {
-    checkRequiredCustomFields(f, required_custom_fields);
+    checkCustomFields(f);
 }
 //-->
 </script>
@@ -51,6 +51,20 @@ function validateForm(f)
         </tr>
         {section name="i" loop=$custom_fields}
         {cycle values=$cycle assign="row_color"}
+
+        <script language="JavaScript">
+        <!--
+        fld_id = {$custom_fields[i].fld_id};
+        {literal}
+        custom_fields_info[custom_fields_info.length] = $H({
+            id: fld_id,
+            type: '{/literal}{$custom_fields[i].fld_type}{literal}',
+            title: '{/literal}{$custom_fields[i].fld_title}{literal}',
+            required: '{/literal}{$cf_required}{literal}',
+            })
+        {/literal}
+        //-->
+        </script>
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <nobr><b>{$custom_fields[i].fld_title}:</b>&nbsp;</nobr>
