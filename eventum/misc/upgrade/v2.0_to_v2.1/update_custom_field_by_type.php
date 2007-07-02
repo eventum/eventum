@@ -13,7 +13,7 @@ $sql = "SELECT
 $res = $GLOBALS["db_api"]->dbh->getCol($sql);
 if (PEAR::isError($res)) {
     var_dump($res);
-    exit;
+    exit(1);
 }
 if (count($res) > 0) {
     foreach ($res as $fld_id) {
@@ -24,3 +24,4 @@ if (count($res) > 0) {
 } else {
     echo "No fields to update";
 }
+exit(0);
