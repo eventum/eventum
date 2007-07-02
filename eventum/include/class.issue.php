@@ -1343,7 +1343,7 @@ class Issue
             $associated_issues = explode(',', @$_POST['associated_issues']);
             // make sure all associated issues are valid (and in this project)
             for ($i = 0; $i < count($associated_issues); $i++) {
-                if (!Issue::exists(trim($associated_issues[$i]))) {
+                if (!Issue::exists(trim($associated_issues[$i]), false)) {
                     $errors['Associated Issues'][] = 'Issue #' . $associated_issues[$i] . ' does not exist and was removed from the list of associated issues.';
                     unset($associated_issues[$i]);
                 }
