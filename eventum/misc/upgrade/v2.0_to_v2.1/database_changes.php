@@ -5,6 +5,8 @@ require_once(APP_INC_PATH . "db_access.php");
 $stmts = array();
 
 $stmts[] = "ALTER TABLE eventum_irc_notice ADD INDEX ino_status (ino_status)";
+$stmts[] = "ALTER TABLE eventum_issue_custom_field ADD COLUMN icf_value_integer int(11) NULL DEFAULT NULL";
+$stmts[] = "ALTER TABLE eventum_issue_custom_field ADD COLUMN icf_value_date date NULL DEFAULT NULL";
 
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
