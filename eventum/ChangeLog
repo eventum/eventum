@@ -19,6 +19,7 @@ Eventum Issue Tracking System
 - Added "Recipients" to view email and view note page (Bryan)
 - Added seperate columns for different custom field datatypes (Bryan)
 - Display database error in text mode when invoked from cron (Elan Ruusamäe, Raul Raat)
+- Hide issue stats from reporters when "Segregate Reporters" is enabled (Bryan)
 
 2007-04-17, Version 2.0.1
 - Fixed packaging bug that prevented setup from running (Bryan)

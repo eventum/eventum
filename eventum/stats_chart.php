@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: stats_chart.php 3316 2007-04-17 10:31:53Z glen $
+// @(#) $Id: stats_chart.php 3353 2007-07-10 02:53:03Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -51,11 +51,16 @@ if (!@file_exists($ttf_font)) {
 // Some data
 $colors = array();
 if ($_GET["plot"] == "status") {
+    $rgb = new RGB();
     $data = Stats::getAssocStatus();
     $graph_title = ev_gettext("Issues by Status");
     foreach ($data as $sta_title => $trash) {
         $sta_id = Status::getStatusID($sta_title);
         $status_details = Status::getDetails($sta_id);
+        if (!isset($rgb->rgb_table[$status_details['sta_color']])) {
+            $colors = array();
+            break;
+        }
         $colors[] = $status_details['sta_color'];
     }
 } elseif ($_GET["plot"] == "release") {
@@ -76,7 +81,7 @@ $data = array_values($data);
 
 // check the values coming from the database and if they are all empty, then
 // output a pre-generated 'No Data Available' picture
-if (!Stats::hasData($data)) {
+if ((!Stats::hasData($data)) || ((Auth::getCurrentRole() <= User::getRoleID("Reporter")) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
     readfile(APP_PATH . "images/no_data.gif");
     exit;
 }

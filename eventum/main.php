@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: main.php 3258 2007-02-14 23:25:56Z glen $
+// @(#) $Id: main.php 3353 2007-07-10 02:53:03Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -50,13 +50,17 @@ if ($role_id == User::getRoleID('customer')) {
     $tpl->assign("customer_stats", Customer::getOverallStats($prj_id, $customer_id));
     $tpl->assign("profile", Customer::getProfile($prj_id, $usr_id));
 } else {
-    $tpl->assign("status", Stats::getStatus());
-    $tpl->assign("releases", Stats::getRelease());
-    $tpl->assign("categories", Stats::getCategory());
-    $tpl->assign("priorities", Stats::getPriority());
-    $tpl->assign("users", Stats::getUser());
-    $tpl->assign("emails", Stats::getEmailStatus());
-    $tpl->assign("pie_chart", Stats::getPieChart());
+    if ((Auth::getCurrentRole() <= User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
+        $tpl->assign('hide_stats', true);
+    } else {
+        $tpl->assign("status", Stats::getStatus());
+        $tpl->assign("releases", Stats::getRelease());
+        $tpl->assign("categories", Stats::getCategory());
+        $tpl->assign("priorities", Stats::getPriority());
+        $tpl->assign("users", Stats::getUser());
+        $tpl->assign("emails", Stats::getEmailStatus());
+        $tpl->assign("pie_chart", Stats::getPieChart());
+    }
     $tpl->assign("random_tip", Misc::getRandomTip($tpl));
 }
 
