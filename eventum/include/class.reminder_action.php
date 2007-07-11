@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.reminder_action.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.reminder_action.php 3355 2007-07-11 14:34:27Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -723,7 +723,7 @@ class Reminder_Action
             // a notice about this on reminder_sent@, if needed
             if (!$action['rma_alert_irc']) {
                 if (@$setup['email_reminder']['status'] == 'enabled') {
-                    Reminder_Action::_recordNoRecipientError($issue_id, $type, $reminder, $action);
+                    Reminder_Action::_recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions);
                 }
                 return false;
             }
@@ -778,7 +778,7 @@ class Reminder_Action
      * @param   array $action The action details
      * @return  void
      */
-    function _recordNoRecipientError($issue_id, $type, $reminder, $action)
+    function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions)
     {
         $to = Reminder::_getReminderAlertAddresses();
         if (count($to) > 0) {

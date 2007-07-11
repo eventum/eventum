@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.reminder.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.reminder.php 3355 2007-07-11 14:34:27Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -328,7 +328,7 @@ class Reminder
 
 
     /**
-     * Method used to associate a customer ID with a given reminder 
+     * Method used to associate a customer ID with a given reminder
      * entry ID.
      *
      * @access  public
@@ -629,7 +629,7 @@ class Reminder
 
 
     /**
-     * Method used to get the list of reminders to be displayed in the 
+     * Method used to get the list of reminders to be displayed in the
      * administration section.
      *
      * @access  public
@@ -804,7 +804,7 @@ class Reminder
                         }
                     }
                 }
-                
+
                 $stmt .= sprintf(" AND %s %s %s\n", $conditions[$i]['rmf_sql_representation'],
                                                   $conditions[$i]['rmo_sql_representation'],
                                                   $conditions[$i]['rlc_value']);
