@@ -674,7 +674,7 @@ class Support
                                 // broadcast this email only to the assignees for this issue
                                 $internal_only = true;
                                 $assignee_only = true;
-                            } elseif (!empty($should_create_array['issue_id'])) {
+                            } elseif ($should_create_issue == true) {
                                 // if a new issue was created, only send a copy of the email to the assignee (if any), don't resend to the original TO/CC list
                                 $assignee_only = true;
                                 $internal_only = true;
@@ -1264,7 +1264,7 @@ class Support
                     $to = Mail_API::getName($res[$i]["sup_to"]);
                     # FIXME: just ignore the unformattable header?
                     if (PEAR::isError($to)) {
-                        Error_Handler::logError(array($to->getMessage(), $to->getDebugInfo()), __FILE__, __LINE__);
+                        Error_Handler::logError(array($to->getMessage(), 'sup_id' . $res[$i]['sup_id'] . "\n" . $to . "\n" . $to->getDebugInfo()), __FILE__, __LINE__);
                     } else {
                         $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
                     }
