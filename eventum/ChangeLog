@@ -23,6 +23,7 @@ Eventum Issue Tracking System
 - Fixed bug with lookup layer on edit notification list (Bryan)
 - Fixed bug with reminders when no recipients are found (Bryan)
 - Fixed bug with emails downloaded from mail server only being sent to issue assignee (Bryan)
+- Update add time tracking window so that change of start time changes the end time (Elan Ruusamäe, Raul Raat)
 
 2007-04-17, Version 2.0.1
 - Fixed packaging bug that prevented setup from running (Bryan)
