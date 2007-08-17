@@ -1,16 +1,16 @@
 # translation of eventum.po to
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Grzegorz Sterniczuk <grzegorz.sterniczuk@helimed.pl>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: <grzegorz.sterniczuk@helimed.pl>\n"
 "POT-Creation-Date: 2006-12-07 15:02-0600\n"
 "PO-Revision-Date: 2007-02-12 17:57+0100\n"
-"Last-Translator: \n"
-"Language-Team:  <pl@li.org>\n"
+"Last-Translator: Grzegorz Sterniczuk\n"
+"Language-Team:  <plada@helimed.pl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -203,7 +203,7 @@ msgstr "Data  ostatniej akcji"
 #: misc/localization/eventum.c:701
 #: misc/localization/eventum.c:8099
 msgid "Custom Fields"
-msgstr "Bierzące pola"
+msgstr "Bieżące pola"
 
 #: include/class.display_column.php:220
 #: include/class.notification.php:652
@@ -300,7 +300,7 @@ msgstr "Detale konta twojego użytkownika"
 #: include/class.notification.php:1852
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
-msgstr "Wpis w liście powiadomień (%1$s) usuniety przez %2$s"
+msgstr "Wpis w liście powiadomień (%1$s) usunięty przez %2$s"
 
 #: include/class.notification.php:2003
 #, php-format
@@ -383,7 +383,7 @@ msgstr "Wiadomość email zapisana jako szkic przez %1$s"
 #: include/class.draft.php:160
 #, php-format
 msgid "Email message draft updated by %1$s"
-msgstr "Szkic wiadomości email aktualizowanyprzez %1$s"
+msgstr "Szkic wiadomości email aktualizowany przez %1$s"
 
 #: include/class.routing.php:62
 msgid "Error: The email message was empty"
@@ -642,7 +642,7 @@ msgstr "Otwieranie zgłoszenia"
 #: include/class.help.php:43
 #: misc/localization/eventum.c:143
 msgid "Category Field"
-msgstr "Pole Kategori"
+msgstr "Pole Kategorii"
 
 #: include/class.help.php:47
 #: misc/localization/eventum.c:8
@@ -717,7 +717,7 @@ msgstr "Przypisywanie emaili"
 #: misc/localization/eventum.c:215
 #: misc/localization/eventum.c:6461
 msgid "Account Preferences"
-msgstr "Preferencjie konta"
+msgstr "Preferencje konta"
 
 #: include/class.help.php:99
 #: misc/localization/eventum.c:98
@@ -894,7 +894,7 @@ msgstr "Wierszy na stronie"
 #: include/class.filter.php:644
 #: misc/localization/eventum.c:1418
 msgid "Sort By"
-msgstr "Rortuj po"
+msgstr "Sortuj po"
 
 #: include/class.filter.php:648
 #: misc/localization/eventum.c:995
@@ -906,7 +906,7 @@ msgstr "Porządek sortowania"
 #: misc/localization/eventum.c:1409
 #: misc/localization/eventum.c:1883
 msgid "Hide Closed Issues"
-msgstr "Ukryj zamkniete sprawy"
+msgstr "Ukryj zamknięte sprawy"
 
 #: include/class.filter.php:656
 #: misc/localization/eventum.c:1448
@@ -1085,7 +1085,7 @@ msgstr ""
 msgid ""
 "This page allows you to create and modify saved custom searches, which\n"
 "will save searches that can be executed from the Issue Listing screen."
-msgstr "Strona to pozwala stworzyć i modyfikować i zapamietać zapytania, które mogą być następnie użyte w sekcji Przeglądania Zgłoszeń"
+msgstr "Strona to pozwala stworzyć i modyfikować i zapamiętać zapytania, które mogą być następnie użyte w sekcji Przeglądania Zgłoszeń"
 
 #: misc/localization/eventum.c:47
 msgid ""
@@ -1128,7 +1128,7 @@ msgid ""
 "The quick search table in the top of the screen helps the users find\n"
 "the issues they want quickly. More advanced searches may be created\n"
 "using the Advanced Search tool."
-msgstr "Opcja szybkiego wyszukiwania na górze ekranu pozwala na proste wyszukanie zgłoszeń. Jeżeli istnieje potrzeba użycia dodatkowych kryteriów mozna użyć narzędzia Wyszukiwanie Zaawansowane."
+msgstr "Opcja szybkiego wyszukiwania na górze ekranu pozwala na proste wyszukanie zgłoszeń. Jeżeli istnieje potrzeba użycia dodatkowych kryteriów można użyć narzędzia Wyszukiwanie Zaawansowane."
 
 #: misc/localization/eventum.c:74
 msgid ""
@@ -1181,7 +1181,7 @@ msgid ""
 "This feature allows system users to subscribe to email notifications\n"
 "when changes are done to specific issues. The current actions that\n"
 "trigger email notifications are:"
-msgstr "Opca ta umożliwia użytkownikom zapisanie się do listy powiadomień email'owych informujących o zmianach w konkretnym zgłoszeniu. W chwili obecnej akcje, które wyzwalają powiadomienia to:"
+msgstr "Opcja ta umożliwia użytkownikom zapisanie się do listy powiadomień email'owych informujących o zmianach w konkretnym zgłoszeniu. W chwili obecnej akcje, które wyzwalają powiadomienia to:"
 
 #: misc/localization/eventum.c:104
 msgid "Issue details are updated"
@@ -1198,7 +1198,7 @@ msgstr "Notatki zostały dodane do istniejących zgłoszeń"
 
 #: misc/localization/eventum.c:113
 msgid "Emails are associated to existing issues"
-msgstr "Emaile zostałe przypisane do istniejących zgłoszeń"
+msgstr "Emaile zostały przypisane do istniejących zgłoszeń"
 
 #: misc/localization/eventum.c:116
 msgid "Files are attached to existing issues"
@@ -1724,7 +1724,7 @@ msgstr "Otwórz nowe Zgłoszenie"
 #: misc/localization/eventum.c:482
 #: misc/localization/eventum.c:2102
 msgid "Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds."
-msgstr "W przeciwnym wypadku zostaniesz przekirowany(-a) do strony Szczegóły Zgłoszenia w przeciągu 5 sekund."
+msgstr "W przeciwnym wypadku zostaniesz przekierowany(-a) do strony Szczegóły Zgłoszenia w przeciągu 5 sekund."
 
 #: misc/localization/eventum.c:485
 msgid ""
@@ -1885,7 +1885,7 @@ msgstr "Zgłoszenie zamknięte"
 
 #: misc/localization/eventum.c:608
 msgid "No issues closed this time period"
-msgstr "Brak zgłoszeń zamknietych w tym przedziale czasowym"
+msgstr "Brak zgłoszeń zamkniętych w tym przedziale czasowym"
 
 #: misc/localization/eventum.c:611
 msgid "New Issues Assigned"
@@ -1964,7 +1964,7 @@ msgstr "Ostatnia wysłana wiadomość"
 
 #: misc/localization/eventum.c:677
 msgid "Available Reports"
-msgstr "Dostepne raporty"
+msgstr "Dostępne raporty"
 
 #: misc/localization/eventum.c:680
 #: misc/localization/eventum.c:854
@@ -2007,7 +2007,7 @@ msgstr "Ostatnie działania"
 
 #: misc/localization/eventum.c:710
 msgid "Workload By Date Range"
-msgstr "Obciązenie wg dat"
+msgstr "Obciążenie wg dat"
 
 #: misc/localization/eventum.c:713
 msgid "Stalled Issues"
@@ -2019,7 +2019,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:734
 msgid "Workload by Date Range Report"
-msgstr "Raport Obciązenia wg dat"
+msgstr "Raport Obciążenia wg dat"
 
 #: misc/localization/eventum.c:737
 #: misc/localization/eventum.c:1022
@@ -2327,7 +2327,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:956
 msgid "Date issue was opened - Date issue was closed for all closed issues."
-msgstr "Data zgłoszenie zostało otwarta - data zgłoszenia została zamknieta dla wszystkich zamknietych zgłoszeń."
+msgstr "Data zgłoszenie zostało otwarta - data zgłoszenia została zamknięta dla wszystkich zamkniętych zgłoszeń."
 
 #: misc/localization/eventum.c:959
 msgid "All time tracking information for the given support level or customer. Issues without any time tracking data do not affect the average or median."
@@ -2527,7 +2527,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:1169
 msgid "Based on all issues recorded in Eventum since start to present."
-msgstr "Na podstawie wszystkich zgłoszeń zapisaych do teraz w Eventum."
+msgstr "Na podstawie wszystkich zgłoszeń zapisanych do teraz w Eventum."
 
 #: misc/localization/eventum.c:1172
 msgid "Workload by Time of day"
@@ -2535,7 +2535,7 @@ msgstr "Obciążenie wg pory dnia"
 
 #: misc/localization/eventum.c:1175
 msgid "Based on all issues recorded in Eventum since start to present.\n"
-msgstr "Na podstawie wszystkich zgłoszeń zapisaych do teraz w Eventum.\n"
+msgstr "Na podstawie wszystkich zgłoszeń zapisanych do teraz w Eventum.\n"
 
 #: misc/localization/eventum.c:1178
 #: misc/localization/eventum.c:1202
@@ -2594,7 +2594,7 @@ msgstr "Koniec:"
 
 #: misc/localization/eventum.c:1301
 msgid "Separate Closed Issues"
-msgstr "Oddzieł zgłoszenia zamkniete"
+msgstr "Oddziel zgłoszenia zamkniete"
 
 #: misc/localization/eventum.c:1304
 msgid "Ignore Issue Status Changes"
@@ -2602,7 +2602,7 @@ msgstr "Ignoruj zmiany statusu zgłoszenia"
 
 #: misc/localization/eventum.c:1307
 msgid "Please select the custom field that you would like to generate a report against."
-msgstr "Proszę wybrać kryterium, wg którego ma byc przygotowany raport."
+msgstr "Proszę wybrać kryterium, wg którego ma być przygotowany raport."
 
 #: misc/localization/eventum.c:1310
 msgid "Custom Fields Report"
@@ -2653,13 +2653,13 @@ msgstr "Proszę wprowadzić nazwę dla raportu."
 #: misc/localization/eventum.c:6374
 #: misc/localization/eventum.c:8147
 msgid "Please choose which entries need to be removed."
-msgstr "Ploszę wybrać które z wpisów mają być usunięte."
+msgstr "Proszę wybrać które z wpisów mają być usunięte."
 
 #: misc/localization/eventum.c:1361
 #: misc/localization/eventum.c:1658
 #: misc/localization/eventum.c:8150
 msgid "This action will permanently delete the selected entries."
-msgstr "Zaznaczone wpisy zostaną całkowicie usuniete."
+msgstr "Zaznaczone wpisy zostaną całkowicie usunięte."
 
 #: misc/localization/eventum.c:1412
 msgid "Rows Per Page:"
@@ -2729,7 +2729,7 @@ msgstr "W przeszłości"
 #: misc/localization/eventum.c:1475
 #: misc/localization/eventum.c:1496
 msgid "Last Updated"
-msgstr "Ostanio uaktualnione"
+msgstr "Ostatnio uaktualnione"
 
 #: misc/localization/eventum.c:1487
 #: misc/localization/eventum.c:1514
@@ -2762,7 +2762,7 @@ msgstr ""
 #: misc/localization/eventum.c:1556
 #: misc/localization/eventum.c:1577
 msgid "Status Closed"
-msgstr "Status Zamkniete"
+msgstr "Status Zamknięte"
 
 #: misc/localization/eventum.c:1583
 msgid "Show additional fields to search by"
@@ -2782,7 +2782,7 @@ msgstr "Wyszukiwanie globalne"
 
 #: misc/localization/eventum.c:1601
 msgid "edit this custom search"
-msgstr "edytu to zapytanie"
+msgstr "edytuj to zapytanie"
 
 #: misc/localization/eventum.c:1604
 msgid "global filter"
@@ -3071,7 +3071,7 @@ msgstr "szybkie wyszukiwanie"
 
 #: misc/localization/eventum.c:1817
 msgid "hide / show the advanced search form"
-msgstr "ukryj / pokaż formulasz wyszukiwania zaawansowanego"
+msgstr "ukryj / pokaż formularz wyszukiwania zaawansowanego"
 
 #: misc/localization/eventum.c:1820
 msgid "advanced search"
@@ -3079,7 +3079,7 @@ msgstr "wyszukiwanie zaawansowane"
 
 #: misc/localization/eventum.c:1823
 msgid "current filters"
-msgstr "altualne filtry"
+msgstr "aktualne filtry"
 
 #: misc/localization/eventum.c:1826
 msgid "bulk update tool"
@@ -3144,12 +3144,12 @@ msgstr "Dziękuję, zgłoszenie #%1 zostało zaktualizowane."
 
 #: misc/localization/eventum.c:1892
 msgid "Also, all issues that are marked as duplicates from this one were updated as well."
-msgstr "Róznież zgłoszenia oznaczone jako duplikaty zostały zaktualizowane."
+msgstr "Również zgłoszenia oznaczone jako duplikaty zostały zaktualizowane."
 
 #: misc/localization/eventum.c:1895
 #: misc/localization/eventum.c:7472
 msgid "Return to Issue #%1 Details Page"
-msgstr "Wróć do Szczegółó Zgłoszenia  #%1"
+msgstr "Wróć do Szczegółów Zgłoszenia  #%1"
 
 #: misc/localization/eventum.c:1898
 msgid "Please enter the summary for this issue."
@@ -3169,11 +3169,11 @@ msgstr "Przypisz kogoś do tego zgłoszenia"
 
 #: misc/localization/eventum.c:1910
 msgid "Warning: All changes to this issue will be lost if you continue and close this issue."
-msgstr "Uwaga: Wszystkie zmiany w tym zgłoszeniu będę utracoje jeśli zdecydujesz się kontynuować."
+msgstr "Uwaga: Wszystkie zmiany w tym zgłoszeniu będę utracone jeśli zdecydujesz się kontynuować."
 
 #: misc/localization/eventum.c:1913
 msgid "Note: Project automatically switched to '%1' from '%2'."
-msgstr "Uwaga: Automatycznie zmienino projekt z  '%1' na '%2'."
+msgstr "Uwaga: Automatycznie zmieniono projekt z  '%1' na '%2'."
 
 #: misc/localization/eventum.c:1916
 msgid "Update Issue Overview"
@@ -3373,7 +3373,7 @@ msgstr "Odbiorcy"
 
 #: misc/localization/eventum.c:2063
 msgid "reply to this email"
-msgstr "odpowiedz na tą wiadmość"
+msgstr "odpowiedz na tą wiadomość"
 
 #: misc/localization/eventum.c:2069
 msgid "No associated emails could be found."
@@ -3533,7 +3533,7 @@ msgstr "Poświęcony czas:"
 #: misc/localization/eventum.c:2189
 #: misc/localization/eventum.c:6584
 msgid "Post Internal Note"
-msgstr "Wyślij wewntrzną notatkę"
+msgstr "Wyślij wewnętrzną notatkę"
 
 #: misc/localization/eventum.c:2192
 #: misc/localization/eventum.c:2783
@@ -3615,11 +3615,11 @@ msgstr "Dziękuję, nowa notatka została utworzona i powiązana z poniższym zg
 
 #: misc/localization/eventum.c:2300
 msgid "You do not have permission to delete this note."
-msgstr "Nie masz uprawnień by skasować tą notatke."
+msgstr "Nie masz uprawnień by skasować tą notatkę."
 
 #: misc/localization/eventum.c:2303
 msgid "Thank you, the note was removed successfully."
-msgstr "Dziękuję, notatka została pomyslnie usunięta."
+msgstr "Dziękuję, notatka została pomyślnie usunięta."
 
 #: misc/localization/eventum.c:2309
 msgid "Thank you, the time tracking entry was removed successfully."
@@ -3651,7 +3651,7 @@ msgstr "Dziękuję, zapytanie zostało pomyślnie zapisane."
 
 #: misc/localization/eventum.c:2351
 msgid "Thank you, the selected custom filters were removed successfully."
-msgstr "Dziękuję, wybrany filotr został usunieęty."
+msgstr "Dziękuję, wybrany filtr został usunięty."
 
 #: misc/localization/eventum.c:2357
 msgid "Thank you, the association to the selected emails were removed successfully."
@@ -3671,7 +3671,7 @@ msgstr "Nie masz uprawnień by usunąć ten plik."
 
 #: misc/localization/eventum.c:2375
 msgid "Thank you, the file was removed successfully."
-msgstr "Dziekuję, plik został usuniety."
+msgstr "Dziękuję, plik został usunięty."
 
 #: misc/localization/eventum.c:2381
 msgid "Thank you, the selected checkin information entries were removed successfully."
@@ -3918,11 +3918,11 @@ msgstr "Proszę wprowadź swój adres email."
 
 #: misc/localization/eventum.c:2630
 msgid "<b>Note:</b> Please enter your email address below and a new random password will be created and assigned to your account. For security purposes a confirmation message will be sent to your email address and after confirming it the new password will be then activated and sent to you."
-msgstr "<b>Uwaga:</b> Proszę wpisać swój adres email a zostanie wygenerowane losowe hasło i przypisane do tego konta.Ze względów bezpieczeństwa email potwierdzający rejestrację został wysłany na podany adres, wraz z instrukcją dalszego postępowania."
+msgstr "<b>Uwaga:</b> Proszę wpisać swój adres email a zostanie wygenerowane losowe hasło i przypisane do tego konta. Ze względów bezpieczeństwa email potwierdzający rejestrację został wysłany na podany adres, wraz z instrukcją dalszego postępowania."
 
 #: misc/localization/eventum.c:2633
 msgid "Request a Password"
-msgstr "Zapomiałem hasła"
+msgstr "Zapomniałem hasła"
 
 #: misc/localization/eventum.c:2639
 msgid "Thank you, a confirmation message was just emailed to you. Please follow the instructions available in this message to confirm your password creation request."
@@ -3980,12 +3980,12 @@ msgstr "Data wysłania:"
 
 #: misc/localization/eventum.c:2687
 msgid "Attachments:"
-msgstr "Załaczniki:"
+msgstr "Załączniki:"
 
 #: misc/localization/eventum.c:2690
 #: misc/localization/eventum.c:2693
 msgid "download file"
-msgstr "pobież plik"
+msgstr "pobierz plik"
 
 #: misc/localization/eventum.c:2696
 #: misc/localization/eventum.c:4646
@@ -4652,7 +4652,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:3359
 msgid "Phone Calls"
-msgstr ""
+msgstr "Rozmowy telefoniczne"
 
 #: misc/localization/eventum.c:3365
 msgid "Recorded Date"
@@ -4698,7 +4698,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:3404
 msgid "Please enter the title for this new issue resolution."
-msgstr "Podaj nazę nowego rozwiązania."
+msgstr "Podaj nazwę nowego rozwiązania."
 
 #: misc/localization/eventum.c:3407
 msgid "Thank you, the issue resolution was added successfully."
@@ -7259,15 +7259,15 @@ msgstr ""
 #: misc/localization/eventum.c:6203
 #: misc/localization/eventum.c:6269
 msgid "Project Lead"
-msgstr ""
+msgstr "Lider Projektu"
 
 #: misc/localization/eventum.c:6206
 msgid "Users"
-msgstr ""
+msgstr "Użytkownicy"
 
 #: misc/localization/eventum.c:6209
 msgid "Statuses"
-msgstr ""
+msgstr "Statusy"
 
 #: misc/localization/eventum.c:6212
 msgid "Initial Status for New Issues"
@@ -8428,7 +8428,7 @@ msgstr ""
 #: misc/localization/eventum.c:7754
 #: misc/localization/eventum.c:8207
 msgid "Owner"
-msgstr ""
+msgstr "Właściciel"
 
 #: misc/localization/eventum.c:7796
 msgid "A new issue was just created in the system."
@@ -8746,5 +8746,4 @@ msgstr ""
 
 #: stats_chart.php:69
 msgid "Issues by Assignment"
-msgstr "Zgłoszenia według przypiasanych osób"
-
+msgstr "Zgłoszenia wg przypisanych osób"
