@@ -60,13 +60,13 @@ function addTimeEntry()
                   {if $current_user_id == $time_entries[i].ttr_usr_id}[ <a class="link" href="javascript:void(null);" onClick="javascript:deleteTimeEntry({$time_entries[i].ttr_id});">delete</a> ]{/if}
                 </td>
                 <td class="default">{$time_entries[i].formatted_time}</td>
-                <td class="default">{$time_entries[i].ttc_title}</td>
+                <td class="default" nowrap>{$time_entries[i].ttc_title}</td>
                 <td class="default">{$time_entries[i].ttr_summary}</td>
               </tr>
               {if $smarty.section.i.last}
-              <tr id="time_tracker{math equation="2 + x" x=$time_entries|@count}" {get_display_style element_name="time_tracker" total=$time_entries|@count}>
-                <td bgcolor="{$internal_color}" colspan="3" class="default_white" align="right">{t}Total Time Spent{/t}:</td>
-                <td bgcolor="{$dark_color}" colspan="3" class="default">{$total_time_spent}</td>
+              <tr>
+                <td bgcolor="{$internal_color}" colspan="3" class="default_white" align="right" width="30%">{t}Total Time Spent{/t}:</td>
+                <td bgcolor="{$dark_color}" colspan="3" class="default" width="70%">{$total_time_spent}</td>
               </tr>
               {/if}
               {sectionelse}
