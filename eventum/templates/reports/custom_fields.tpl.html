@@ -42,7 +42,7 @@ function validateForm(f)
             </select>
             {include file="error_icon.tpl.html" field="custom_field"}
           </td>
-          <td align="center" valign="top" rowspan="3">
+          <td align="center" valign="top" rowspan="5">
             <select name="custom_options[]" size="8" multiple class="default">
             </select>
           </td>
@@ -55,7 +55,7 @@ function validateForm(f)
           </td>
         </tr>
         <tr>
-          <td align="left" valign="top"class="default">
+          <td align="left" valign="top" class="default">
             {if $has_customer_integration}
             &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="group_by" value="issue" {if $group_by != 'customer'}CHECKED{/if}>
                 <a id="link" class="link" href="javascript:void(null)"
@@ -68,6 +68,56 @@ function validateForm(f)
             {/if}
           </td>
         </tr>
+    <tr>
+      <th align="center" height="10" class="default">
+          <b>Interval</b>
+      </th>
+    </tr>
+    <tr>
+      <td align="center" valign="top">
+        <select name="interval">
+            <option value=""></option>
+            <option value="day"{if $smarty.request.interval == 'day'} selected{/if}>Day</option>
+            <option value="week"{if $smarty.request.interval == 'week'} selected{/if}>Week</option>
+            <option value="month"{if $smarty.request.interval == 'month'} selected{/if}>Month</option>
+            <option value="year"{if $smarty.request.interval == 'year'} selected{/if}>Year</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2" class="default">
+        <b>{t}Issues Created Between{/t}</b>
+      </th>
+    </tr>
+    <tr id="start_row">
+      <td width="120" align="center" class="default">
+        <b>{t}Start{/t}</b>
+      </td>
+      <td width="200">
+        {html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" year_empty='YYYY' month_empty='MM' day_empty='DD' all_extra="class='default'"}
+      </td>
+    </tr>
+    <tr id="end_row">
+      <td width="120" align="center" class="default">
+        <b>{t}End{/t}</b>
+      </td>
+      <td width="200">
+        {html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" year_empty='YYYY' month_empty='MM' day_empty='DD' all_extra="class='default'"}
+      </td>
+    </tr>
+    <tr>
+      <th colspan="2" class="default">
+        <b>{t}Assignee{/t}</b>
+      </th>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <select name="assignee" class="default">
+                <option value="-1"></option>
+                {html_options options=$assignees selected=$assignee}
+            </select>
+      </td>
+    </tr>
         <tr>
           <td colspan="2" align="center">
             <input type="submit" name="cat" value="{t}Generate{/t}" class="shortcut">
@@ -153,6 +203,7 @@ setOptions('{$custom_field}', false);
           {else}
           <td bgcolor="{$cell_color}" class="default_white">{t}Issue ID{/t}</td>
           <td bgcolor="{$cell_color}" class="default_white">{t}Summary{/t}</td>
+          <td bgcolor="{$cell_color}" class="default_white">{$field_info.fld_title}</td>
           {/if}
         </tr>
         {foreach from=$data item=row}
@@ -168,6 +219,7 @@ setOptions('{$custom_field}', false);
             <a href="{$app_base_url}view.php?id={$row.iss_id}" class="link">{$row.iss_id}</a>
           </td>
           <td class="default" bgcolor="{$row_color}">{$row.iss_summary}</td>
+          <td class="default" bgcolor="{$row_color}">{$row.field_value}</td>
           {/if}
         </tr>
         {foreachelse}

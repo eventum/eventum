@@ -1,5 +1,5 @@
 /*
- * @(#) $Id: validation.js 3344 2007-06-22 20:04:35Z balsdorf $
+ * @(#) $Id: validation.js 3364 2007-08-27 09:58:52Z balsdorf $
  */
 
 last_issue_number_validation_value = '';
@@ -273,11 +273,19 @@ function checkCustomFields(f)
                 }
             }
         }
-        if (info.type == 'integer') {
-            if ((!isWhitespace(field.value)) && (!isNumberOnly(field.value))) {
-                errors_extra[errors_extra.length] = new Option(info.title + ': This field can only contain numbers', field.name);
+        if (info.validation_js != '') {
+            eval("validation_result = " + info.validation_js + '()');
+            if (validation_result != true) {
+                errors_extra[errors_extra.length] = new Option(info.title + ': ' + validation_result, field.name);
+            }
+        } else {
+            if (info.type == 'integer') {
+                if ((!isWhitespace(field.value)) && (!isNumberOnly(field.value))) {
+                    errors_extra[errors_extra.length] = new Option(info.title + ': This field can only contain numbers', field.name);
+                }
             }
         }
+
     }
 }
 

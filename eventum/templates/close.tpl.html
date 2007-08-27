@@ -54,33 +54,27 @@
 <!--
 var has_per_incident_contract = false;
 
-function validateClose(f)
+function validateForm(f)
 {
     if (getSelectedOption(f, 'status') == -1) {
-        selectField(f, 'status');
-        alert('{/literal}{t escape=js}Please choose the new status for this issue.{/t}{literal}');
-        return false;
+        errors[errors.length] = new Option('{/literal}{t escape=js}Status{/t}{literal}', 'status');
     }
     if (isWhitespace(f.reason.value)) {
-        selectField(f, 'reason');
-        alert('{/literal}{t escape=js}Please enter the reason for closing this issue.{/t}{literal}');
-        return false;
+        errors[errors.length] = new Option('{/literal}{t escape=js}Reason to close{/t}{literal}', 'reason');
     }
 
     if (!isWhitespace(f.time_spent.value)) {
         if (!isNumberOnly(f.time_spent.value)) {
-            selectField(f, 'time_spent');
-            alert('{/literal}{t escape=js}Please enter integers (or floating point numbers) on the time spent field.{/t}{literal}');
-            return false;
+            errors[errors.length] = new Option('{/literal}{t escape=js}Please enter integers (or floating point numbers) on the time spent field.{/t}{literal}', 'time_spent');
         }
         if (f.category.options[f.category.selectedIndex].value == '') {
-            selectField(f, 'category');
-            alert('{/literal}{t escape=js}Please choose the time tracking category for this new entry.{/t}{literal}');
-            return false;
+            errors[errors.length] = new Option('{/literal}{t escape=js}Time tracking category{/t}{literal}', 'category');
         }
     }
 
-    if (has_per_incident_contract) {
+    checkCustomFields(f);
+
+    if ((errors.length < 1) && (has_per_incident_contract)) {
         elements = getForm('close_form');
         has_checked_incident = false;
         for (i = 0; i < elements.length; i++) {
@@ -129,7 +123,7 @@ function setSignature(f)
 </script>
 {/literal}
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="close_form" onSubmit="javascript:return validateClose(this);" method="post" action="close.php">
+<form name="close_form" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');" method="post" action="close.php">
 <input type="hidden" name="cat" value="close">
 <input type="hidden" name="issue_id" value="{$smarty.get.id}">
   <tr>
@@ -167,6 +161,7 @@ function setSignature(f)
         {else}
             <input type="hidden" name="resolution" value="">
         {/if}
+        {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='close'}
         <tr>
           <td width="160" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Send Notification About Issue Being Closed?{/t}</b><br />

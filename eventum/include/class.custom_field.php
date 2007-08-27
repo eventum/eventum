@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3343 2007-06-21 21:12:26Z balsdorf $
+// @(#) $Id: class.custom_field.php 3364 2007-08-27 09:58:52Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -428,6 +428,19 @@ class Custom_Field
                         $res[$i]['controlling_field_name'] = $backend->getControllingCustomFieldName();
                         $res[$i]['hide_when_no_options'] = $backend->hideWhenNoOptions();
                     }
+                    // check if the backend implements "isRequired"
+                    if ((is_object($backend)) && (method_exists($backend, 'isRequired'))) {
+                        $res[$i]['fld_report_form_required'] = $backend->isRequired($res[$i]['fld_id'], 'report');
+                        $res[$i]['fld_anonymous_form_required'] = $backend->isRequired($res[$i]['fld_id'], 'anonymous');
+                        $res[$i]['fld_close_form_required'] = $backend->isRequired($res[$i]['fld_id'], 'close');
+                    }
+                    if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
+                        $res[$i]['validation_js'] = $backend->getValidationJS();
+                    } else {
+                        $res[$i]['validation_js'] = '';
+                    }
+
+
                     $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
                 }
                 return $res;
@@ -548,7 +561,7 @@ class Custom_Field
      * @param   integer $usr_id The ID of the user who is going to be viewing this list.
      * @return  array The list of custom fields
      */
-    function getListByIssue($prj_id, $iss_id, $usr_id = false)
+    function getListByIssue($prj_id, $iss_id, $usr_id = false, $form_type = false)
     {
         if ($usr_id == false) {
             $usr_id = Auth::getUserID();
@@ -565,6 +578,7 @@ class Custom_Field
                     fld_type,
                     fld_report_form_required,
                     fld_anonymous_form_required,
+                    fld_close_form_required,
                     " . Custom_Field::getDBValueFieldSQL() . " as value,
                     fld_min_role
                  FROM
@@ -580,7 +594,11 @@ class Custom_Field
                  WHERE
                     pcf_fld_id=fld_id AND
                     pcf_prj_id=" .  Misc::escapeInteger($prj_id) . " AND
-                    fld_min_role <= " . $usr_role . "
+                    fld_min_role <= " . $usr_role;
+        if ($form_type != '') {
+            $stmt .= " AND\nfld_" .  Misc::escapeString($form_type) . "=1";
+        }
+        $stmt .= "
                  ORDER BY
                     fld_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
@@ -627,6 +645,18 @@ class Custom_Field
                         $fields[$key]['controlling_field_id'] = $backend->getControllingCustomFieldID();
                         $fields[$key]['controlling_field_name'] = $backend->getControllingCustomFieldName();
                         $fields[$key]['hide_when_no_options'] = $backend->hideWhenNoOptions();
+                    }
+
+                    // check if the backend implements "isRequired"
+                    if ((is_object($backend)) && (method_exists($backend, 'isRequired'))) {
+                        $fields[$key]['fld_report_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'report', $iss_id);
+                        $fields[$key]['fld_anonymous_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'anonymous', $iss_id);
+                        $fields[$key]['fld_close_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'close', $iss_id);
+                    }
+                    if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
+                        $fields[$key]['validation_js'] = $backend->getValidationJS();
+                    } else {
+                        $fields[$key]['validation_js'] = '';
                     }
                 }
                 return $fields;
@@ -738,6 +768,12 @@ class Custom_Field
         if (empty($_POST["anon_form_required"])) {
             $_POST["anon_form_required"] = 0;
         }
+        if (empty($_POST["close_form"])) {
+            $_POST["close_form"] = 0;
+        }
+        if (empty($_POST["close_form_required"])) {
+            $_POST["close_form_required"] = 0;
+        }
         if (empty($_POST["list_display"])) {
             $_POST["list_display"] = 0;
         }
@@ -757,6 +793,8 @@ class Custom_Field
                     fld_report_form_required,
                     fld_anonymous_form,
                     fld_anonymous_form_required,
+                    fld_close_form,
+                    fld_close_form_required,
                     fld_list_display,
                     fld_min_role,
                     fld_rank,
@@ -769,6 +807,8 @@ class Custom_Field
                     " . Misc::escapeInteger($_POST["report_form_required"]) . ",
                     " . Misc::escapeInteger($_POST["anon_form"]) . ",
                     " . Misc::escapeInteger($_POST["anon_form_required"]) . ",
+                    " . Misc::escapeInteger($_POST["close_form"]) . ",
+                    " . Misc::escapeInteger($_POST["close_form_required"]) . ",
                     " . Misc::escapeInteger($_POST["list_display"]) . ",
                     " . Misc::escapeInteger($_POST["min_role"]) . ",
                     " . Misc::escapeInteger($_POST['rank']) . ",
@@ -1040,6 +1080,12 @@ class Custom_Field
         if (empty($_POST["list_display"])) {
             $_POST["list_display"] = 0;
         }
+        if (empty($_POST["close_form"])) {
+            $_POST["close_form"] = 0;
+        }
+        if (empty($_POST["close_form_required"])) {
+            $_POST["close_form_required"] = 0;
+        }
         if (empty($_POST["min_role"])) {
             $_POST["min_role"] = 1;
         }
@@ -1057,6 +1103,8 @@ class Custom_Field
                     fld_report_form_required=" . Misc::escapeInteger($_POST["report_form_required"]) . ",
                     fld_anonymous_form=" . Misc::escapeInteger($_POST["anon_form"]) . ",
                     fld_anonymous_form_required=" . Misc::escapeInteger($_POST["anon_form_required"]) . ",
+                    fld_close_form=" . Misc::escapeInteger($_POST["close_form"]) . ",
+                    fld_close_form_required=" . Misc::escapeInteger($_POST["close_form_required"]) . ",
                     fld_list_display=" . Misc::escapeInteger($_POST["list_display"]) . ",
                     fld_min_role=" . Misc::escapeInteger($_POST['min_role']) . ",
                     fld_rank = " . Misc::escapeInteger($_POST['rank']) . ",

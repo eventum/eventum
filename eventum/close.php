@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: close.php 3315 2007-04-17 10:27:03Z glen $
+// @(#) $Id: close.php 3364 2007-08-27 09:58:52Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -43,6 +43,7 @@ $tpl->setTemplate("close.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+$usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : @$_GET["id"];
 $tpl->assign("extra_title", "Close Issue #$issue_id");
@@ -60,6 +61,7 @@ $notification_list_internal = Notification::getSubscribers($issue_id, 'closed', 
 $tpl->assign("notification_list_internal", $notification_list_internal['all']);
 
 if (@$_POST["cat"] == "close") {
+    Custom_Field::updateValues();
     $res = Issue::close(Auth::getUserID(), $_POST["issue_id"], $_POST["send_notification"], $_POST["resolution"], $_POST["status"], $_POST["reason"], @$_REQUEST['notification_list']);
 
     if (!empty($_POST['time_spent'])) {
@@ -75,10 +77,11 @@ if (@$_POST["cat"] == "close") {
 }
 
 $tpl->assign(array(
-    "statuses" => Status::getClosedAssocList($prj_id),
-    "resolutions" => Resolution::getAssocList(),
-    "time_categories" => Time_Tracking::getAssocCategories(),
-    "notify_list"  => Notification::getLastNotifiedAddresses($issue_id),
+    "statuses"      => Status::getClosedAssocList($prj_id),
+    "resolutions"   => Resolution::getAssocList(),
+    "time_categories"   => Time_Tracking::getAssocCategories(),
+    "notify_list"       => Notification::getLastNotifiedAddresses($issue_id),
+    "custom_fields"     => Custom_Field::getListByIssue($prj_id, $issue_id, $usr_id, 'close_form'),
 ));
 
 if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {

@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.report.php 3364 2007-08-27 09:58:52Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -595,47 +595,51 @@ class Report
      * @param   integer $fld_id The id of the custom field.
      * @param   array $cfo_ids An array of option ids.
      * @param   string $group_by How the data should be grouped.
+     * @param   string $start_date
+     * @param   string $end_date
      * @param   boolean $list If the values should be listed out instead of just counted.
+     * @param   string $interval The interval values should be grouped over time, empty (none) by default.
+     * @param   integer $assignee The assignee the issue should belong to.
      * @return  array An array of data.
      */
-    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $list = false)
+    function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date, $end_date, $list = false, $interval = '', $assignee = false)
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
-        $cfo_ids = array_map(array('Misc', 'escapeString'), $cfo_ids);
+        $cfo_ids = Misc::escapeInteger($cfo_ids);
 
-        $backend = Custom_Field::getBackend($fld_id);
-
-        if (is_object($backend)) {
-            $options = array();
-            foreach ($cfo_ids as $cfo_id) {
-                $options[$cfo_id] = Custom_Field::getOptionValue($fld_id, $cfo_id);
-            }
-            $in_field = 'icf_value';
-        } else {
-            // get field values
-            $stmt = "SELECT
-                        cfo_id,
-                        cfo_value
-                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
-                     WHERE
-                        cfo_fld_id = $fld_id AND
-                        cfo_id IN('" . join("','", $cfo_ids) . "')
-                     ORDER BY
-                        cfo_id";
-            $options = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-            if (PEAR::isError($options)) {
-                Error_Handler::logError(array($options->getMessage(), $options->getDebugInfo()), __FILE__, __LINE__);
-                return array();
-            }
-            $in_field = 'cfo_id';
-        }
+        // get field values
+        $options = Custom_Field::getOptions($fld_id, $cfo_ids);
 
         if ($group_by == "customer") {
             $group_by_field = "iss_customer_id";
         } else {
             $group_by_field = "iss_id";
+        }
+
+        if ($assignee == -1) {
+            $assignee = false;
+        }
+
+        $label_field = '';
+        $interval_group_by_field = '';
+        switch ($interval) {
+            case "day":
+                $label_field = "CONCAT(YEAR(iss_created_date), '-', MONTH(iss_created_date), '-', DAY(iss_created_date))";
+                $interval_group_by_field = "CONCAT(YEAR(iss_created_date), MONTH(iss_created_date), DAY(iss_created_date))";
+                break;
+            case "week":
+                $label_field = "CONCAT(YEAR(iss_created_date), '/', WEEK(iss_created_date))";
+                $interval_group_by_field = "WEEK(iss_created_date)";
+                break;
+            case "month":
+                $label_field = "CONCAT(YEAR(iss_created_date), '/', MONTH(iss_created_date))";
+                $interval_group_by_field = "MONTH(iss_created_date)";
+                break;
+            case "year":
+                $label_field = "YEAR(iss_created_date)";
+                $interval_group_by_field = "YEAR(iss_created_date)";
+                break;
         }
 
         if ($list == true) {
@@ -644,29 +648,63 @@ class Report
                         iss_id,
                         iss_summary,
                         iss_customer_id,
-                        count(DISTINCT(iss_id)) as row_count
-                    FROM\n";
-            if (!is_object($backend)) {
-                $sql .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,\n";
+                        count(DISTINCT(iss_id)) as row_count,
+                        iss_private,
+                        " . Custom_Field::getDBValueFieldSQL() . " as field_value";
+            if ($label_field != '') {
+                $sql .= ",
+                        $label_field as interval_label";
             }
-            $sql .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+            $sql .= "
+                    FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,";
+            if (count($options) > 0) {
+                $sql .= "
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,";
+            }
+            $sql .= "
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
                     WHERE
-                        iss_prj_id = $prj_id AND\n";
-            if (!is_object($backend)) {
-                $sql .= "cfo_id = icf_value AND";
+                        fld_id = icf_fld_id AND";
+            if (count($options) > 0) {
+                $sql .=
+                        "cfo_id = icf_value AND";
             }
-            $sql .= "\nicf_iss_id = iss_id AND
-                        icf_fld_id = $fld_id AND
-                        $in_field IN('" . join("','", array_keys($options)) . "')
+            $sql .= "
+                        icf_iss_id = iss_id AND
+                        isu_iss_id = iss_id AND
+                        icf_fld_id = $fld_id";
+            if (count($options) > 0) {
+                $sql .= " AND
+                        cfo_id IN('" . join("','", Misc::escapeString(array_keys($options))) . "')";
+            }
+            if (($start_date != false) && ($end_date != false)) {
+                $sql .= " AND\niss_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "'";
+            }
+            if ($assignee != false) {
+                $sql .= " AND\nisu_usr_id = " . Misc::escapeInteger($assignee);
+            }
+            $sql .= "
                     GROUP BY
                         $group_by_field
-                    ORDER BY
+                    ORDER BY";
+            if ($label_field != '') {
+                $sql .= "
+                        $label_field DESC,";
+            }
+            $sql .= "
                         row_count DESC";
             $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return array();
+            }
+            for ($i = 0; $i < count($res); $i++) {
+                if ($res[$i]['iss_private'] == 1) {
+                    $res[$i]['iss_summary'] = Access::getMaskedSummary($res[$i]['iss_id']);
+                }
             }
             if (Customer::hasCustomerIntegration($prj_id)) {
                 Customer::getCustomerTitlesByIssues($prj_id, $res);
@@ -685,47 +723,57 @@ class Report
 
         $data = array();
         foreach ($options as $cfo_id => $value) {
-            $stmt = "SELECT
+            $stmt = "SELECT";
+            if ($label_field != '') {
+                $stmt .= "
+                        $label_field as label,";
+            }
+            $stmt .= "
                         COUNT(DISTINCT $group_by_field)
-                    FROM\n";
-            if (!is_object($backend)) {
-                $stmt .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,\n";
-            }
-            $stmt .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
                     WHERE
-                        iss_prj_id = $prj_id AND\n";
-            if (!is_object($backend)) {
-                $stmt .= "cfo_id = icf_value AND";
-            }
-            $stmt .= "\nicf_iss_id = iss_id AND
+                        icf_iss_id = iss_id AND
+                        isu_iss_id = iss_id AND
                         icf_fld_id = $fld_id AND
-                        $in_field = '" . Misc::escapeString($cfo_id) . "'";
-            $count = $GLOBALS["db_api"]->dbh->getOne($stmt);
-            if (PEAR::isError($count)) {
-                Error_Handler::logError(array($count->getMessage(), $count->getDebugInfo()), __FILE__, __LINE__);
+                        icf_value = '$cfo_id'";
+            if (($start_date != false) && ($end_date != false)) {
+                $stmt .= " AND\niss_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "'";
+            }
+            if ($assignee != false) {
+                $sql .= " AND\nisu_usr_id = " . Misc::escapeInteger($assignee);
+            }
+            if ($interval_group_by_field != '') {
+                $stmt .= "
+                    GROUP BY
+                        $interval_group_by_field
+                    ORDER BY
+                        $label_field ASC";
+                $res = $GLOBALS['db_api']->dbh->getAssoc($stmt);
+            } else {
+                $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            }
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return array();
             }
-            $data[$value] = $count;
+            $data[$value] = $res;
         }
-
 
         // include count of all other values (used in pie chart)
         $stmt = "SELECT
                     COUNT(DISTINCT $group_by_field)
-                FROM\n";
-        if (!is_object($backend)) {
-            $stmt .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,\n";
-        }
-        $stmt .= APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                WHERE\n";
-        if (!is_object($backend)) {
-            $stmt .= "cfo_id = icf_value AND";
-        }
-        $stmt .= "\nicf_iss_id = iss_id AND
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option,
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    cfo_id = icf_value AND
+                    icf_iss_id = iss_id AND
                     icf_fld_id = $fld_id AND
-                    $in_field NOT IN('" . join("','", $cfo_ids) . "')";
+                    cfo_id NOT IN(" . join(",", $cfo_ids) . ")";
         $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

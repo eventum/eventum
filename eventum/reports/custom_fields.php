@@ -25,7 +25,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: custom_fields.php 3208 2007-01-29 08:48:00Z balsdorf $
+// @(#) $Id: custom_fields.php 3364 2007-08-27 09:58:52Z balsdorf $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -47,7 +47,7 @@ if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
 $prj_id = Auth::getCurrentProject();
 
 // get list of fields and convert info useful arrays
-$fields = array_merge(Custom_Field::getListByProject($prj_id, '', "combo"), Custom_Field::getListByProject($prj_id, '', "multiple"));
+$fields = Custom_Field::getListByProject($prj_id, '');
 $custom_fields = array();
 $options = array();
 if (is_array($fields) && count($fields) > 0) {
@@ -60,8 +60,25 @@ if (is_array($fields) && count($fields) > 0) {
     exit;
 }
 
+if ((!empty($_REQUEST['start']['Year'])) && (!empty($_REQUEST['start']['Month'])) &&(!empty($_REQUEST['start']['Day']))) {
+    $start = join('-', $_REQUEST['start']);
+} else {
+    $start = false;
+}
+if ((!empty($_REQUEST['end']['Year'])) && (!empty($_REQUEST['end']['Month'])) &&(!empty($_REQUEST['end']['Day']))) {
+    $end = join('-', $_REQUEST['end']);
+} else {
+    $end = false;
+}
+
 if (count(@$_GET['custom_field']) > 0) {
-    $data = Report::getCustomFieldReport(@$_GET["custom_field"], @$_GET["custom_options"], @$_GET["group_by"], true);
+    $data = Report::getCustomFieldReport(@$_GET["custom_field"], @$_GET["custom_options"], @$_GET["group_by"], $start, $end, true, @$_REQUEST['interval'],
+                        @$_REQUEST['assignee']);
+}
+
+if (($start == false) || ($end = false)) {
+    $start = '--';
+    $end = '--';
 }
 
 $tpl->assign(array(
@@ -71,7 +88,17 @@ $tpl->assign(array(
     "custom_options"    =>  @$_GET["custom_options"],
     "group_by"      =>  @$_GET["group_by"],
     "selected_options"  => @$_REQUEST['custom_options'],
-    "data"  =>  @$data
+    "data"  =>  @$data,
+    "start_date"=>  $start,
+    "end_date"  =>  $end,
+    "assignees" =>  Project::getUserAssocList($prj_id, 'active', User::getRoleID("Customer")),
+    "assignee"  =>  @$_REQUEST['assignee'],
 ));
+
+if (isset($_GET["custom_field"])) {
+    $tpl->assign(array(
+        "field_info"  =>  Custom_Field::getDetails($_GET['custom_field'])
+    ));
+}
 
 $tpl->displayTemplate();

@@ -164,6 +164,10 @@
                   if (f.anon_form_required.disabled) {
                       f.anon_form_required.checked = false;
                   }
+                  f.close_form_required.disabled = !(f.close_form.checked);
+                  if (f.close_form_required.disabled) {
+                      f.close_form_required.checked = false;
+                  }
               }
               {/literal}
               var selected_projects = new Array();
@@ -241,7 +245,9 @@
                   <input type="checkbox" name="report_form" value="1" {if $info.fld_report_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form', 0);checkRequiredFields();">{t}Report Form{/t}</a><br />
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="report_form_required" value="1" {if $info.fld_report_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'report_form_required', 0);">{t}Required Field{/t}</a><br />
                   <input type="checkbox" name="anon_form" value="1" {if $info.fld_anonymous_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form', 0);checkRequiredFields();">{t}Anonymous Form{/t}</a><br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="anon_form_required" value="1" {if $info.fld_anonymous_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form_required', 0);">{t}Required Field{/t}</a>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="anon_form_required" value="1" {if $info.fld_anonymous_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form_required', 0);">{t}Required Field{/t}</a><br />
+                  <input type="checkbox" name="close_form" value="1" {if $info.fld_close_form == 1}checked{/if} onclick="checkRequiredFields();"> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'close_form', 0);checkRequiredFields();">{t}Close Form{/t}</a><br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="close_form_required" value="1" {if $info.fld_close_form_required == 1}checked{/if}> <a id="link" class="link" href="javascript:void(null);" onClick="javascript:toggleCheckbox('custom_field_form', 'anon_form_required', 0);">{t}Required Field{/t}</a>
                   </span>
                 </td>
               </tr>
