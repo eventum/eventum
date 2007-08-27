@@ -9,7 +9,7 @@ Eventum Issue Tracking System
 - Rollback file upload if there was an error instead of creating lingering attachments (Elan Ruusamäe)
 - Made timetracking window input more convenient (Elan Ruusamäe)
 - Display email addresses to whom email was sent when issue was updated (Elan Ruusamäe)
-- Remove unnessesary array_map that breaks UTF-8 encoding in charts legend (Grzegorz 'Dzikus' Sterniczuk)
+- Remove unnecessary array_map that breaks UTF-8 encoding in charts legend (Grzegorz 'Dzikus' Sterniczuk)
 - Propagate errors from invalid to header and ignore it in emails listing page (Elan Ruusamäe)
 - Add "Show Times spent on issue" to weekly report page (Elan Ruusamäe, Raul Raat)
 - Fixed bug with viewers updating preferences (Bryan)
@@ -23,6 +23,8 @@ Eventum Issue Tracking System
 - Fixed bug with lookup layer on edit notification list (Bryan)
 - Fixed bug with reminders when no recipients are found (Bryan)
 - Fixed bug with emails downloaded from mail server only being sent to issue assignee (Bryan)
+- Added support level to list issues page (Bryan)
+- Fixed conditional statements involving roles and localization (Bryan)
 - Update add time tracking window so that change of start time changes the end time (Raul Raat)
 - Don't hide Total Time Spent: when hiding time tracking block in issue details page (Raul Raat)
 

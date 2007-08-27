@@ -1305,7 +1305,7 @@ class Issue
                                 iss_id=$issue_id";
                     $customer_contact_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
                     if (!empty($customer_contact_id)) {
-                        Customer::notifyIssueClosed($prj_id, $issue_id, $customer_contact_id);
+                        Customer::notifyIssueClosed($prj_id, $issue_id, $customer_contact_id, $send_notification, $resolution_id, $status_id, $reason);
                     }
                 }
                 // send notifications for the issue being closed
@@ -1550,7 +1550,7 @@ class Issue
             // Move issue to another project
             if (isset($_POST['move_issue']) and (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Manager"))) {
                 $new_prj_id = (int)@$_POST['new_prj'];
-                if ($prj_id != $new_prj_id and array_key_exists($new_prj_id, Project::getAssocList($usr_id))) {
+                if (($prj_id != $new_prj_id) && (array_key_exists($new_prj_id, Project::getAssocList($usr_id)))) {
                     if(User::getRoleByUser($usr_id, $new_prj_id) >= User::getRoleID("Manager")) {
                         $stmt = "UPDATE
                               " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -1558,7 +1558,6 @@ class Issue
                               iss_prj_id=" . Misc::escapeInteger($new_prj_id) . "
                           WHERE
                               iss_id=$issue_id";
-
                         $res = $GLOBALS["db_api"]->dbh->query($stmt);
                         if (PEAR::isError($res)) {
                             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -2619,6 +2618,7 @@ class Issue
                 // need to get the customer titles for all of these issues...
                 if (Customer::hasCustomerIntegration($prj_id)) {
                     Customer::getCustomerTitlesByIssues($prj_id, $res);
+                    Customer::getSupportLevelsByIssues($prj_id, $res);
                 }
                 Issue::formatLastActionDates($res);
                 Issue::getLastStatusChangeDates($prj_id, $res);
@@ -2783,7 +2783,7 @@ class Issue
         $role_id = User::getRoleByUser($usr_id, $prj_id);
 
         $stmt = ' AND iss_usr_id = usr_id';
-        if (User::getRole($role_id) == "Customer") {
+        if ($role_id == User::getRoleID('Customer')) {
             $stmt .= " AND iss_customer_id=" . User::getCustomerID($usr_id);
         } elseif (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (

@@ -60,7 +60,7 @@ class Display_Column
         $current_role = Auth::getCurrentRole();
         $data = Display_Column::getSelectedColumns($prj_id, $page);
         $has_customer_integration = Customer::hasCustomerIntegration($prj_id);
-        $only_with_customers = array('iss_customer_id');
+        $only_with_customers = array('iss_customer_id', 'support_level');
 
         // remove groups if there are no groups in the system.
         if (count(Group::getAssocList($prj_id)) < 1) {
@@ -203,6 +203,9 @@ class Display_Column
                 ),
                 "iss_customer_id"   =>  array(
                     "title" =>  ev_gettext("Customer")
+                ),
+                "support_level" =>  array(
+                    "title" =>  ev_gettext("Support Level")
                 ),
                 "sta_rank"    =>  array(
                     "title" =>  ev_gettext("Status")
