@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.customer.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.customer.php 3367 2007-08-28 04:13:33Z balsdorf $
 //
 
 require_once(APP_INC_PATH . 'class.misc.php');
@@ -203,6 +203,22 @@ class Customer
     {
         $backend =& Customer::_getBackend($prj_id);
         $backend->getCustomerTitlesByIssues($result);
+    }
+
+
+
+    /**
+     * Retrieves the support levels associated with the given list of issues.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   array $result The list of issues
+     * @see     Issue::getListing()
+     */
+    function getSupportLevelsByIssues($prj_id, &$result)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        $backend->getSupportLevelsByIssues($result);
     }
 
 
@@ -587,12 +603,16 @@ class Customer
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   integer $contact_id The customer contact ID
+     * @param   boolean $send_notification Whether to send a notification about this action or not
+     * @param   integer $resolution_id The resolution ID
+     * @param   integer $status_id The status ID
+     * @param   string $reason The reason for closing this issue
      * @return  void
      */
-    function notifyIssueClosed($prj_id, $issue_id, $contact_id)
+    function notifyIssueClosed($prj_id, $issue_id, $contact_id, $send_notification, $resolution_id, $status_id, $reason)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->notifyIssueClosed($issue_id, $contact_id);
+        return $backend->notifyIssueClosed($issue_id, $contact_id, $send_notification, $resolution_id, $status_id, $reason);
     }
 
 
