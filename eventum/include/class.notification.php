@@ -609,6 +609,7 @@ class Notification
      */
     function notifyIssueUpdated($issue_id, $old, $new)
     {
+        $prj_id = Issue::getProjectID($issue_id);
         $diffs = array();
         if (@$new["keep_assignments"] == "no") {
             if (empty($new['assignments'])) {
@@ -687,6 +688,9 @@ class Notification
                 $emails[] = $email;
             }
         }
+        // get additional email addresses to notify
+        $emails = array_merge($emails, Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'issue_updated', array('old' => $old, 'new' => $new)));
+
         $data = Notification::getIssueDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());

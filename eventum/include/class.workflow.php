@@ -432,18 +432,19 @@ class Workflow
     /**
      * Returns additional email addresses that should be notified for a specific event..
      *
-     * @param    integer $prj_id The project ID.
-     * @param    integer $issue_id The ID of the issue.
-     * @param    string  $event The event to return additional email addresses for. Currently only "new_issue" is supported.
-     * @return   array   An array of email addresses to be notified.
+     * @param   integer $prj_id The project ID.
+     * @param   integer $issue_id The ID of the issue.
+     * @param   string  $event The event to return additional email addresses for. Currently only "new_issue" is supported.
+     * @param   array   $extra Extra information, contains diffeent info depending on where it is called from
+     * @return  array   An array of email addresses to be notified.
      */
-    function getAdditionalEmailAddresses($prj_id, $issue_id, $event)
+    function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra = false)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return array();
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->getAdditionalEmailAddresses($prj_id, $issue_id, $event);
+        return $backend->getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra);
     }
 
 
