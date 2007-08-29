@@ -89,7 +89,7 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
     controller_id = chunks[2];
 
     // get current value of controller field
-    value = controller.options[controller.selectedIndex].value;
+    value = $F(controller);
 
     // find the object
     if (target_fld_id != undefined) {
@@ -127,7 +127,7 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
             var show = false;
             for (var j = 0; j < details[i].groups.length; j++) {
                 for (var k = 0; k < details[i].groups[j].keys.length; k++) {
-                    if (details[i].groups[j].keys[k] == value) {
+                    if (((typeof value == 'object') && (value.indexOf(details[i].groups[j].keys[k]) > -1)) || (details[i].groups[j].keys[k] == value)) {
                         show = true;
                         for (var l = 0; l < details[i].groups[j].options.length; l++) {
                             target.options[target.options.length] = details[i].groups[j].options[l];
