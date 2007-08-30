@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3364 2007-08-27 09:58:52Z balsdorf $
+// @(#) $Id: class.custom_field.php 3371 2007-08-30 07:22:42Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -159,167 +159,170 @@ class Custom_Field
 
         $old_values = Custom_Field::getValuesByIssue($prj_id, $issue_id);
 
-        // get the types for all of the custom fields being submitted
-        $stmt = "SELECT
-                    fld_id,
-                    fld_type
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
-                 WHERE
-                    fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
-        $field_types = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 
-        // get the titles for all of the custom fields being submitted
-        $stmt = "SELECT
-                    fld_id,
-                    fld_title
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
-                 WHERE
-                    fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
-        $field_titles = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-
-        $updated_fields = array();
-        foreach ($_POST["custom_fields"] as $fld_id => $value) {
-
-            $fld_id = Misc::escapeInteger($fld_id);
-
-            // security check
-            $sql = "SELECT
-                        fld_min_role
-                    FROM
+        if ((isset($_POST['custom_fields'])) && (count($_POST['custom_fields']) > 0)) {
+            // get the types for all of the custom fields being submitted
+            $stmt = "SELECT
+                        fld_id,
+                        fld_type
+                     FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
-                    WHERE
-                        fld_id = $fld_id";
-            $min_role = $GLOBALS["db_api"]->dbh->getOne($sql);
-            if ($min_role > Auth::getCurrentRole()) {
-                continue;
-            }
+                     WHERE
+                        fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
+            $field_types = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 
-            $option_types = array(
-                'multiple',
-                'combo'
-            );
-            if (!in_array($field_types[$fld_id], $option_types)) {
-                // check if this is a date field
-                if ($field_types[$fld_id] == 'date') {
-                    $value = $value['Year'] . "-" . $value['Month'] . "-" . $value['Day'];
-                    if ($value == '--') {
-                        $value = '';
-                    }
-                } elseif ($field_types[$fld_id] == 'integer') {
-                    $value = Misc::escapeInteger($value);
-                }
-                $fld_db_name = Custom_Field::getDBValueFieldNameByType($field_types[$fld_id]);
+            // get the titles for all of the custom fields being submitted
+            $stmt = "SELECT
+                        fld_id,
+                        fld_title
+                     FROM
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
+                     WHERE
+                        fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
+            $field_titles = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
 
-                // first check if there is actually a record for this field for the issue
-                $stmt = "SELECT
-                            icf_id,
-                            $fld_db_name as value
-                         FROM
-                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
-                         WHERE
-                            icf_iss_id=" . $issue_id . " AND
-                            icf_fld_id=$fld_id";
-                $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
-                if (PEAR::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                    return -1;
-                }
-                $icf_id = $res['icf_id'];
-                $old_value = $res['value'];
+            $updated_fields = array();
+            foreach ($_POST["custom_fields"] as $fld_id => $value) {
 
-                if ($old_value == $value) {
+                $fld_id = Misc::escapeInteger($fld_id);
+
+                // security check
+                $sql = "SELECT
+                            fld_min_role
+                        FROM
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
+                        WHERE
+                            fld_id = $fld_id";
+                $min_role = $GLOBALS["db_api"]->dbh->getOne($sql);
+                if ($min_role > Auth::getCurrentRole()) {
                     continue;
                 }
 
-                if (empty($value)) {
-                    $value = 'NULL';
-                } else {
-                    $value = "'" . Misc::escapeString($value) . "'";
-                }
-
-                if (empty($icf_id)) {
-                    // record doesn't exist, insert new record
-                    $stmt = "INSERT INTO
-                                " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
-                             (
-                                icf_iss_id,
-                                icf_fld_id,
-                                $fld_db_name
-                             ) VALUES (
-                                " . $issue_id . ",
-                                $fld_id,
-                                $value
-                             )";
-                    $res = $GLOBALS["db_api"]->dbh->query($stmt);
-                    if (PEAR::isError($res)) {
-                        Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                        return -1;
+                $option_types = array(
+                    'multiple',
+                    'combo'
+                );
+                if (!in_array($field_types[$fld_id], $option_types)) {
+                    // check if this is a date field
+                    if ($field_types[$fld_id] == 'date') {
+                        $value = $value['Year'] . "-" . $value['Month'] . "-" . $value['Day'];
+                        if ($value == '--') {
+                            $value = '';
+                        }
+                    } elseif ($field_types[$fld_id] == 'integer') {
+                        $value = Misc::escapeInteger($value);
                     }
-                } else {
-                    // record exists, update it
-                    $stmt = "UPDATE
+                    $fld_db_name = Custom_Field::getDBValueFieldNameByType($field_types[$fld_id]);
+
+                    // first check if there is actually a record for this field for the issue
+                    $stmt = "SELECT
+                                icf_id,
+                                $fld_db_name as value
+                             FROM
                                 " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
-                             SET
-                                $fld_db_name=$value
                              WHERE
-                                icf_id=$icf_id";
-                    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                                icf_iss_id=" . $issue_id . " AND
+                                icf_fld_id=$fld_id";
+                    $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
                     if (PEAR::isError($res)) {
                         Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                         return -1;
                     }
-                }
-                if ($field_types[$fld_id] == 'textarea') {
-                    $updated_fields[$field_titles[$fld_id]] = '';
-                } else {
-                    $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_value, $value);
-                }
-            } else {
-                $old_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id, true);
+                    $icf_id = $res['icf_id'];
+                    $old_value = $res['value'];
 
-                if (!is_array($old_value)) {
-                    $old_value = array($old_value);
-                }
-                if (!is_array($value)) {
-                    $value = array($value);
-                }
-                if ((count(array_diff($old_value, $value)) > 0) || (count(array_diff($value, $old_value)) > 0)) {
-
-                    $old_display_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id);
-                    // need to remove all associated options from issue_custom_field and then
-                    // add the selected options coming from the form
-                    Custom_Field::removeIssueAssociation($fld_id, $_POST["issue_id"]);
-                    if (@count($value) > 0) {
-                        Custom_Field::associateIssue($_POST["issue_id"], $fld_id, $value);
+                    if ($old_value == $value) {
+                        continue;
                     }
-                    $new_display_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id);
-                    $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_display_value, $new_display_value);
-                }
-            }
-        }
 
-        Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, Custom_Field::getValuesByIssue($prj_id, $issue_id));
-        Issue::markAsUpdated($_POST["issue_id"]);
-        // need to save a history entry for this
+                    if (empty($value)) {
+                        $value = 'NULL';
+                    } else {
+                        $value = "'" . Misc::escapeString($value) . "'";
+                    }
 
-        if (count($updated_fields) > 0) {
-            // log the changes
-            $changes = '';
-            $i = 0;
-            foreach ($updated_fields as $key => $value) {
-                if ($i > 0) {
-                    $changes .= "; ";
-                }
-                if (!empty($value)) {
-                    $changes .= "$key: $value";
+                    if (empty($icf_id)) {
+                        // record doesn't exist, insert new record
+                        $stmt = "INSERT INTO
+                                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                                 (
+                                    icf_iss_id,
+                                    icf_fld_id,
+                                    $fld_db_name
+                                 ) VALUES (
+                                    " . $issue_id . ",
+                                    $fld_id,
+                                    $value
+                                 )";
+                        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                        if (PEAR::isError($res)) {
+                            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                            return -1;
+                        }
+                    } else {
+                        // record exists, update it
+                        $stmt = "UPDATE
+                                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
+                                 SET
+                                    $fld_db_name=$value
+                                 WHERE
+                                    icf_id=$icf_id";
+                        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                        if (PEAR::isError($res)) {
+                            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                            return -1;
+                        }
+                    }
+                    if ($field_types[$fld_id] == 'textarea') {
+                        $updated_fields[$field_titles[$fld_id]] = '';
+                    } else {
+                        $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_value, $value);
+                    }
                 } else {
-                    $changes .= "$key";
+                    $old_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id, true);
+
+                    if (!is_array($old_value)) {
+                        $old_value = array($old_value);
+                    }
+                    if (!is_array($value)) {
+                        $value = array($value);
+                    }
+                    if ((count(array_diff($old_value, $value)) > 0) || (count(array_diff($value, $old_value)) > 0)) {
+
+                        $old_display_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id);
+                        // need to remove all associated options from issue_custom_field and then
+                        // add the selected options coming from the form
+                        Custom_Field::removeIssueAssociation($fld_id, $_POST["issue_id"]);
+                        if (@count($value) > 0) {
+                            Custom_Field::associateIssue($_POST["issue_id"], $fld_id, $value);
+                        }
+                        $new_display_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id);
+                        $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_display_value, $new_display_value);
+                    }
                 }
-                $i++;
             }
-            History::add($_POST["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID())));
+
+            Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, Custom_Field::getValuesByIssue($prj_id, $issue_id));
+            Issue::markAsUpdated($_POST["issue_id"]);
+            // need to save a history entry for this
+
+            if (count($updated_fields) > 0) {
+                // log the changes
+                $changes = '';
+                $i = 0;
+                foreach ($updated_fields as $key => $value) {
+                    if ($i > 0) {
+                        $changes .= "; ";
+                    }
+                    if (!empty($value)) {
+                        $changes .= "$key: $value";
+                    } else {
+                        $changes .= "$key";
+                    }
+                    $i++;
+                }
+                History::add($_POST["issue_id"], Auth::getUserID(), History::getTypeID('custom_field_updated'), ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID())));
+            }
         }
         return 1;
     }
@@ -599,6 +602,8 @@ class Custom_Field
             $stmt .= " AND\nfld_" .  Misc::escapeString($form_type) . "=1";
         }
         $stmt .= "
+                 GROUP BY
+                    fld_id
                  ORDER BY
                     fld_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
