@@ -41,7 +41,7 @@ var custom_fields_info = new Array();
     <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="10" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value}">
     </script>
     {elseif $custom_fields[i].fld_type == 'textarea'}
-    <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$smarty.request.custom_fields[$fld_id]}</textarea>
+    <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value}</textarea>
     {elseif $custom_fields[i].fld_type == 'date'}
     {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" month_empty='' time=$custom_fields[i].value display_years=false display_days=false month_extra="id=\"custom_field_`$custom_field_id`_month\" tabindex=\"`$tabindex++`\""}
     {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Month]"}
