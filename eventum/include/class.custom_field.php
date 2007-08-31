@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3371 2007-08-30 07:22:42Z balsdorf $
+// @(#) $Id: class.custom_field.php 3374 2007-08-31 21:00:48Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -602,8 +602,6 @@ class Custom_Field
             $stmt .= " AND\nfld_" .  Misc::escapeString($form_type) . "=1";
         }
         $stmt .= "
-                 GROUP BY
-                    fld_id
                  ORDER BY
                     fld_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
