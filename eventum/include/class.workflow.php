@@ -435,7 +435,7 @@ class Workflow
      * @param   integer $prj_id The project ID.
      * @param   integer $issue_id The ID of the issue.
      * @param   string  $event The event to return additional email addresses for. Currently only "new_issue" is supported.
-     * @param   array   $extra Extra information, contains diffeent info depending on where it is called from
+     * @param   array   $extra Extra information, contains diffent info depending on where it is called from
      * @return  array   An array of email addresses to be notified.
      */
     function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra = false)
