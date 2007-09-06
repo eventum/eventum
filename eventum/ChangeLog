@@ -27,7 +27,7 @@ Eventum Issue Tracking System
 - Fixed conditional statements involving roles and localization (Bryan)
 - Update add time tracking window so that change of start time changes the end time (Raul Raat)
 - Don't hide Total Time Spent: when hiding time tracking block in issue details page (Raul Raat)
-- Added ability to control if a custom fields is required and validation options from backend (Bryan)
+- Added ability to control if a custom fields are required and validation options from backend (Bryan)
 - Added option to include custom fields on close issue page (Bryan)
 - Added more parameters to Customer::notifyIssueClosed() (Bryan)
 
