@@ -90,8 +90,9 @@ function validateTimeForm(f)
  *							2 = End time was updated.
  *							11 = Start time refresh icon was clicked.
  *							12 = End time refresh icon was clicked.
+ * @param String element Name of the element changed
  */
-function calcDateDiff(f, type)
+function calcDateDiff(f, type, element)
 {
 	var duration = f.elements['time_spent'].value;
 	// enforce 5 minute granuality.
@@ -111,7 +112,11 @@ function calcDateDiff(f, type)
 	if (type == 0) { // duration
 		d1.setTime(d2.getTime() - duration * minute);
 	} else if (type == 1) { // start time
-		d2.setTime(d1.getTime() + duration * minute);
+		if (element == 'date[Year]' || element == 'date[Month]' || element == 'date[Day]') {
+			d2.setTime(d1.getTime() + duration * minute);
+		} else {
+			duration = (d2.getTime() - d1.getTime()) / minute;
+		}
 	} else if (type == 2) { // end time
 		duration = (d2.getTime() - d1.getTime()) / minute;
 	} else if (type == 11) { // refresh start time
@@ -170,7 +175,7 @@ function calcDateDiff(f, type)
               <tr>
                 <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Work started{/t}:</b></td>
                 <td bgcolor="{$light_color}" width="100%">
-                  {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 1)"'}&nbsp;
+                  {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 1, this.name)"'}&nbsp;
                   {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 1)"' display_seconds=false}
                   <a href="javascript:void(null);" onClick="javascript:updateTimeFields('add_time_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');calcDateDiff(getForm('add_time_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
                 </td>
