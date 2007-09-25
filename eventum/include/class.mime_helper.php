@@ -216,7 +216,7 @@ class Mime_Helper
             // split into name and address section
             preg_match("/(.*)<(.*)>/", $address, $matches);
            $address = "=?" . APP_CHARSET . "?Q?" .
-                str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . "?= <" . $matches[2] . ">";
+                str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . "?= <" . $matches[2] . ">";
            return $address;
         } else {
             return MIME_Helper::quoteSender($address);
