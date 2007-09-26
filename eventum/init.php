@@ -150,6 +150,8 @@ if (!defined('APP_EMAIL_ENCODING')) {
     }
 }
 
+define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
+
 if (APP_BENCHMARK) {
     // always benchmark the scripts
     require_once 'Benchmark/Timer.php';

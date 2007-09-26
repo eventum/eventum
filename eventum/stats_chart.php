@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: stats_chart.php 3353 2007-07-10 02:53:03Z balsdorf $
+// @(#) $Id: stats_chart.php 3380 2007-09-26 04:30:54Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -48,11 +48,17 @@ if (!@file_exists($ttf_font)) {
     $font = FF_VERDANA;
 }
 
+if (isset($_REQUEST['hide_closed'])) {
+    $hide_closed = $_REQUEST['hide_closed'];
+} else {
+    $hide_closed = false;
+}
+
 // Some data
 $colors = array();
 if ($_GET["plot"] == "status") {
     $rgb = new RGB();
-    $data = Stats::getAssocStatus();
+    $data = Stats::getAssocStatus($hide_closed);
     $graph_title = ev_gettext("Issues by Status");
     foreach ($data as $sta_title => $trash) {
         $sta_id = Status::getStatusID($sta_title);
@@ -64,19 +70,22 @@ if ($_GET["plot"] == "status") {
         $colors[] = $status_details['sta_color'];
     }
 } elseif ($_GET["plot"] == "release") {
-    $data = Stats::getAssocRelease();
+    $data = Stats::getAssocRelease($hide_closed);
     $graph_title = ev_gettext("Issues by Release");
 } elseif ($_GET["plot"] == "priority") {
-    $data = Stats::getAssocPriority();
+    $data = Stats::getAssocPriority($hide_closed);
     $graph_title = ev_gettext("Issues by Priority");
 } elseif ($_GET["plot"] == "user") {
-    $data = Stats::getAssocUser();
+    $data = Stats::getAssocUser($hide_closed);
     $graph_title = ev_gettext("Issues by Assignment");
 } elseif ($_GET["plot"] == "category") {
-    $data = Stats::getAssocCategory();
+    $data = Stats::getAssocCategory($hide_closed);
     $graph_title = ev_gettext("Issues by Category");
 }
-$labels = array_keys($data);
+$labels = array();
+foreach ($data as $label => $count) {
+    $labels[] = $label . ' (' . $count . ')';
+}
 $data = array_values($data);
 
 // check the values coming from the database and if they are all empty, then

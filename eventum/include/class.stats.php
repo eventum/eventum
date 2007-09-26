@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.stats.php 3336 2007-06-13 09:26:06Z glen $
+// @(#) $Id: class.stats.php 3380 2007-09-26 04:30:54Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -87,9 +87,10 @@ class Stats
      * total number of issues associated with each of them.
      *
      * @access  public
+     * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of categories
      */
-    function getAssocCategory()
+    function getAssocCategory($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Category::getAssocList($prj_id);
@@ -98,10 +99,16 @@ class Stats
             $stmt = "SELECT
                         COUNT(*) AS total_items
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                      WHERE
+                        iss_sta_id = sta_id AND
                         iss_prj_id=$prj_id AND
                         iss_prc_id=" . $prc_id;
+            if ($hide_closed) {
+                $stmt .= " AND
+                        sta_is_closed = 0";
+            }
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
             if ($res > 0) {
                 $stats[$prc_title] = $res;
@@ -117,9 +124,10 @@ class Stats
      * total number of issues associated with each of them.
      *
      * @access  public
+     * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of releases
      */
-    function getAssocRelease()
+    function getAssocRelease($hide_closed = true)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Release::getAssocList($prj_id);
@@ -128,10 +136,16 @@ class Stats
             $stmt = "SELECT
                         COUNT(*) AS total_items
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                      WHERE
+                        iss_sta_id = sta_id AND
                         iss_prj_id=$prj_id AND
                         iss_pre_id=" . $pre_id;
+            if ($hide_closed) {
+                $stmt .= " AND
+                        sta_is_closed = 0";
+            }
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
             if ($res > 0) {
                 $stats[$pre_title] = $res;
@@ -147,9 +161,10 @@ class Stats
      * total number of issues associated with each of them.
      *
      * @access  public
+     * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
-    function getAssocStatus()
+    function getAssocStatus($hide_closed = true)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Status::getAssocStatusList($prj_id);
@@ -158,10 +173,16 @@ class Stats
             $stmt = "SELECT
                         COUNT(*) AS total_items
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                      WHERE
+                        iss_sta_id = sta_id AND
                         iss_prj_id=$prj_id AND
                         iss_sta_id=" . $sta_id;
+            if ($hide_closed) {
+                $stmt .= " AND
+                        sta_is_closed = 0";
+            }
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
             if ($res > 0) {
                 $stats[$sta_title] = $res;
@@ -177,9 +198,10 @@ class Stats
      * associated with each of them.
      *
      * @access  public
+     * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
-    function getStatus()
+    function getStatus($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -191,7 +213,12 @@ class Stats
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
                     iss_sta_id=sta_id AND
-                    iss_prj_id=$prj_id
+                    iss_prj_id=$prj_id";
+            if ($hide_closed) {
+                $stmt .= " AND
+                        sta_is_closed = 0";
+            }
+            $stmt .= "
                  GROUP BY
                     iss_sta_id
                  ORDER BY
@@ -211,9 +238,10 @@ class Stats
      * associated with each of them.
      *
      * @access  public
+     * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of categories
      */
-    function getCategory()
+    function getCategory($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -228,7 +256,12 @@ class Stats
                  WHERE
                     iss_prj_id=$prj_id AND
                     iss_prc_id=prc_id AND
-                    iss_sta_id=sta_id
+                    iss_sta_id=sta_id";
+        if ($hide_closed) {
+            $stmt .= " AND
+                    sta_is_closed = 0";
+        }
+        $stmt .= "
                  GROUP BY
                     iss_prc_id
                  ORDER BY
@@ -248,9 +281,10 @@ class Stats
      * associated with each of them.
      *
      * @access  public
+     * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of releases
      */
-    function getRelease()
+    function getRelease($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -265,7 +299,12 @@ class Stats
                  WHERE
                     iss_prj_id=$prj_id AND
                     iss_pre_id=pre_id AND
-                    iss_sta_id=sta_id
+                    iss_sta_id=sta_id";
+        if ($hide_closed) {
+            $stmt .= " AND
+                    sta_is_closed = 0";
+        }
+        $stmt .= "
                  GROUP BY
                     iss_pre_id
                  ORDER BY
@@ -285,9 +324,10 @@ class Stats
      * total number of issues associated with each of them.
      *
      * @access  public
+     * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of priorities
      */
-    function getAssocPriority()
+    function getAssocPriority($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Priority::getAssocList($prj_id);
@@ -296,10 +336,16 @@ class Stats
             $stmt = "SELECT
                         COUNT(*) AS total_items
                      FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                      WHERE
+                        iss_sta_id = sta_id AND
                         iss_prj_id=$prj_id AND
                         iss_pri_id=" . $pri_id;
+            if ($hide_closed) {
+                $stmt .= " AND
+                        sta_is_closed = 0";
+            }
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
             if ($res > 0) {
                 $stats[$pri_title] = $res;
@@ -315,9 +361,10 @@ class Stats
      * associated with each of them.
      *
      * @access  public
+     * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of statuses
      */
-    function getPriority()
+    function getPriority($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -332,7 +379,12 @@ class Stats
                  WHERE
                     iss_pri_id=pri_id AND
                     iss_sta_id=sta_id AND
-                    iss_prj_id=$prj_id
+                    iss_prj_id=$prj_id";
+        if ($hide_closed) {
+            $stmt .= " AND
+                    sta_is_closed = 0";
+        }
+        $stmt .= "
                  GROUP BY
                     iss_pri_id
                  ORDER BY
@@ -352,9 +404,10 @@ class Stats
      * total number of issues associated with each of them.
      *
      * @access  public
+     * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of users
      */
-    function getAssocUser()
+    function getAssocUser($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $list = Project::getUserAssocList($prj_id, 'stats', User::getRoleID('Customer'));
@@ -364,11 +417,17 @@ class Stats
                         COUNT(*) AS total_items
                      FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user,
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                      WHERE
+                        iss_sta_id = sta_id AND
                         isu_iss_id=iss_id AND
                         iss_prj_id=$prj_id AND
                         isu_usr_id=" . $usr_id;
+            if ($hide_closed) {
+                $stmt .= " AND
+                        sta_is_closed = 0";
+            }
             $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
             if ($res > 0) {
                 $stats[$usr_full_name] = $res;
@@ -384,9 +443,10 @@ class Stats
      * associated with each of them.
      *
      * @access  public
+     * @param   boolean $hide_closed If closed issues should be hidden.
      * @return  array List of users
      */
-    function getUser()
+    function getUser($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
         $stmt = "SELECT
@@ -403,7 +463,12 @@ class Stats
                     isu_usr_id=usr_id AND
                     isu_iss_id=iss_id AND
                     iss_prj_id=$prj_id AND
-                    iss_sta_id=sta_id
+                    iss_sta_id=sta_id";
+        if ($hide_closed) {
+            $stmt .= " AND
+                    sta_is_closed = 0";
+        }
+        $stmt .= "
                  GROUP BY
                     isu_usr_id
                  ORDER BY

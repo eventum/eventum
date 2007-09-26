@@ -1,5 +1,22 @@
 {include file="header.tpl.html" extra_title="Stats"}
 {include file="navigation.tpl.html"}
+<script type="text/javascript">
+<!--
+var page_url = '{$smarty.server.PHP_SELF}';
+var current_page = '{$list_info.current_page}';
+var last_page = '{$list_info.last_page}';
+{literal}
+function hideClosed(hide_closed)
+{
+    if (hide_closed.checked) {
+        window.location.href = page_url + "?" + replaceParam(window.location.href, 'hide_closed', '1');
+    } else {
+        window.location.href = page_url + "?" + replaceParam(window.location.href, 'hide_closed', '0');
+    }
+}
+//-->
+</script>
+{/literal}
 
 {if $current_role == $roles.customer}
   {include file="customer/$customer_backend_name/customer_report.tpl.html"}
@@ -14,7 +31,10 @@
             <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
                 <td>
-                  <span class="default"><b>{t}Overall Stats{/t}</b></span>
+                  <span class="default"><b>{t}Overall Stats{/t}</b></span><br />
+                  <span class="default">
+                  <input type="checkbox" id="hide_closed" name="hide_closed" {if $hide_closed}checked{/if} onClick="javascript:hideClosed(this);"> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>
+                  </span>
                   <hr size="1" noshade color="{$cell_color}">
                 </td>
               </tr>
@@ -41,7 +61,7 @@
                     {section name="i" loop=$releases}
                     <tr>
                       <td class="default"><a class="link" href="list.php?keywords=&users=&category=&status=&priority=&release={$releases[i].iss_pre_id}">{$releases[i].pre_title|escape:"html"}</a></td>
-                      <td align="right" class="default">{$releases[i].total_open_items} / {$releases[i].total_closed_items}</td>
+                      <td align="right" class="default">{$releases[i].total_open_items}{if !$hide_closed} / {$releases[i].total_closed_items}{/if}</td>
                     </tr>
                     {sectionelse}
                     <tr>
@@ -56,7 +76,7 @@
                     {section name="i" loop=$priorities}
                     <tr>
                       <td class="default"><a class="link" href="list.php?keywords=&users=&category=&release=&status=&priority={$priorities[i].iss_pri_id}">{$priorities[i].pri_title|escape:"html"}</a></td>
-                      <td align="right" class="default">{$priorities[i].total_open_items} / {$priorities[i].total_closed_items}</td>
+                      <td align="right" class="default">{$priorities[i].total_open_items}{if !$hide_closed} / {$priorities[i].total_closed_items}{/if}</td>
                     </tr>
                     {sectionelse}
                     <tr>
@@ -71,7 +91,7 @@
                     {section name="i" loop=$categories}
                     <tr>
                       <td class="default"><a class="link" href="list.php?keywords=&users=&category={$categories[i].iss_prc_id}&status=&priority=&release=">{$categories[i].prc_title|escape:"html"}</a></td>
-                      <td align="right" class="default">{$categories[i].total_open_items} / {$categories[i].total_closed_items}</td>
+                      <td align="right" class="default">{$categories[i].total_open_items}{if !$hide_closed} / {$categories[i].total_closed_items}{/if}</td>
                     </tr>
                     {sectionelse}
                     <tr>
@@ -86,7 +106,7 @@
                     {section name="i" loop=$users}
                     <tr>
                       <td class="default"><a class="link" href="list.php?keywords=&category=&release=&status=&priority=&users={$users[i].isu_usr_id}">{$users[i].usr_full_name}</a></td>
-                      <td align="right" class="default">{$users[i].total_open_items} / {$users[i].total_closed_items}</td>
+                      <td align="right" class="default">{$users[i].total_open_items}{if !$hide_closed} / {$users[i].total_closed_items}{/if}</td>
                     </tr>
                     {sectionelse}
                     <tr>
@@ -155,16 +175,22 @@
             <table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
                 <td>
-                  <span class="default"><b>{t}Graphical Stats (All Issues){/t}</b></span>
+                  <span class="default"><b>{t}Graphical Stats{/t}
+                  {if $hide_closed}
+                    {t}(Open Issues){/t}
+                  {else}
+                    {t}(All Issues){/t}
+                  {/if}
+                  </b> </span>
                 </td>
               </tr>
               <tr>
                 <td bgcolor="{$light_color}" class="default">
-                  <img border="0" src="{$rel_url}stats_chart.php?plot=status">
-                  <img border="0" src="{$rel_url}stats_chart.php?plot=priority">
-                  <img border="0" src="{$rel_url}stats_chart.php?plot=user">
-                  <img border="0" src="{$rel_url}stats_chart.php?plot=release">
-                  <img border="0" src="{$rel_url}stats_chart.php?plot=category">
+                  <img border="0" src="{$rel_url}stats_chart.php?plot=status&hide_closed={$hide_closed}">
+                  <img border="0" src="{$rel_url}stats_chart.php?plot=priority&hide_closed={$hide_closed}">
+                  <img border="0" src="{$rel_url}stats_chart.php?plot=user&hide_closed={$hide_closed}">
+                  <img border="0" src="{$rel_url}stats_chart.php?plot=release&hide_closed={$hide_closed}">
+                  <img border="0" src="{$rel_url}stats_chart.php?plot=category&hide_closed={$hide_closed}">
                 </td>
               </tr>
             </table>
