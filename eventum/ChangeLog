@@ -34,6 +34,7 @@ Eventum Issue Tracking System
 - Add extra parameter to Workflow::getAdditionalEmailAddresses() to allow issue diffs to be passed (Bryan)
 - Fixed bug with not encoding [ and ] in address strings (Bryan)
 - Changed roles needed to move issues between projects (Bryan)
+- Added option to hide closed issues on stats page (CmputrAce)
 
 2007-04-17, Version 2.0.1
 - Fixed packaging bug that prevented setup from running (Bryan)
