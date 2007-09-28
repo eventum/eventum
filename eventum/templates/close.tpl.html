@@ -35,7 +35,7 @@
 
             <b>{t}Please choose from one of the options below:{/t}</b>
             <ul>
-              <li><a href="view.php?id={$smarty.post.issue_id}" class="link">{t}Open the Issue Details Page{/t}</a></li>
+              <li><a href="view.php?id={$issue_id}" class="link">{t}Open the Issue Details Page{/t}</a></li>
               <li><a href="list.php" class="link">{t}Open the Issue Listing Page{/t}</a></li>
               {if $app_setup.support_email == 'enabled' and $current_role > $roles.viewer}
               <li><a href="emails.php" class="link">{t}Open the Emails Listing Page{/t}</a></li>
@@ -125,13 +125,13 @@ function setSignature(f)
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="close_form" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');" method="post" action="close.php">
 <input type="hidden" name="cat" value="close">
-<input type="hidden" name="issue_id" value="{$smarty.get.id}">
+<input type="hidden" name="issue_id" value="{$issue_id}">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default" nowrap>
-            <b>{t}Close Issue{/t}</b> ({t}Issue ID:{/t} {$smarty.get.id})
+            <b>{t}Close Issue{/t}</b> ({t}Issue ID:{/t} {$issue_id})
           </td>
         </tr>
         <tr>

@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: close.php 3364 2007-08-27 09:58:52Z balsdorf $
+// @(#) $Id: close.php 3383 2007-09-28 07:50:51Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -60,9 +60,9 @@ $tpl->assign("notification_list_all", $notification_list['all']);
 $notification_list_internal = Notification::getSubscribers($issue_id, 'closed', User::getRoleID("Standard User"));
 $tpl->assign("notification_list_internal", $notification_list_internal['all']);
 
-if (@$_POST["cat"] == "close") {
+if (@$_REQUEST["cat"] == "close") {
     Custom_Field::updateValues();
-    $res = Issue::close(Auth::getUserID(), $_POST["issue_id"], $_POST["send_notification"], $_POST["resolution"], $_POST["status"], $_POST["reason"], @$_REQUEST['notification_list']);
+    $res = Issue::close(Auth::getUserID(), $issue_id, $_REQUEST["send_notification"], $_REQUEST["resolution"], $_REQUEST["status"], $_REQUEST["reason"], @$_REQUEST['notification_list']);
 
     if (!empty($_POST['time_spent'])) {
         $_POST['summary'] = 'Time entry inserted when closing issue.';
@@ -82,6 +82,7 @@ $tpl->assign(array(
     "time_categories"   => Time_Tracking::getAssocCategories(),
     "notify_list"       => Notification::getLastNotifiedAddresses($issue_id),
     "custom_fields"     => Custom_Field::getListByIssue($prj_id, $issue_id, $usr_id, 'close_form'),
+    "issue_id"          => $issue_id,
 ));
 
 if ((Customer::hasCustomerIntegration($prj_id)) && (Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($issue_id)))) {

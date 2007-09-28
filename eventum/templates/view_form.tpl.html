@@ -171,7 +171,7 @@ function collapseDescription()
 {/if}
 
 <table width="100%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="0" align="center" style="padding-left: 1;padding-right: 1;padding-top: 1;padding-bottom: 0">
-<form method="get" action="update.php" onSubmit="javascript:return validateForm(this);">
+<form method="get" action="update.php" name="view_form" onSubmit="javascript:return validateForm(this);">
 <input type="hidden" name="id" value="{$issue.iss_id}">
   <tr>
     <td>
