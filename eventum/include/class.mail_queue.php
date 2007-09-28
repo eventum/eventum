@@ -110,12 +110,12 @@ class Mail_Queue
             $headers['To'] = Mail_API::fixAddressQuoting($headers['To']);
         }
 
-        $prepared_headers = Mail_API::prepareHeaders($headers);
-        if (PEAR::isError($prepared_headers)) {
-            print_r(debug_backtrace());
-            return;
+        $res = Mail_API::prepareHeaders($headers);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return $res;
         }
-        list(,$text_headers) = $prepared_headers;
+        list(,$text_headers) = $res;
 
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
