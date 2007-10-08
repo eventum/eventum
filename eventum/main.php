@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: main.php 3353 2007-07-10 02:53:03Z balsdorf $
+// @(#) $Id: main.php 3384 2007-10-08 17:58:38Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -35,6 +35,7 @@ require_once(APP_INC_PATH . "class.stats.php");
 require_once(APP_INC_PATH . "class.misc.php");
 require_once(APP_INC_PATH . "class.news.php");
 require_once(APP_INC_PATH . "db_access.php");
+require_once(APP_INC_PATH . "class.search_profile.php");
 
 $tpl = new Template_API();
 $tpl->setTemplate("main.tpl.html");
@@ -43,9 +44,10 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $prj_id = Auth::getCurrentProject();
 $role_id = Auth::getCurrentRole();
+$usr_id = Auth::getUserID();
+
 if ($role_id == User::getRoleID('customer')) {
     // need the activity dashboard here
-    $usr_id = Auth::getUserID();
     $customer_id = User::getCustomerID($usr_id);
     $tpl->assign("customer_stats", Customer::getOverallStats($prj_id, $customer_id));
     $tpl->assign("profile", Customer::getProfile($prj_id, $usr_id));
@@ -62,6 +64,17 @@ if ($role_id == User::getRoleID('customer')) {
         $tpl->assign("pie_chart", Stats::getPieChart());
     }
     $tpl->assign("random_tip", Misc::getRandomTip($tpl));
+}
+
+if  (@$_REQUEST['hide_closed'] == '') {
+    $Stats_Search_Profile = Search_Profile::getProfile($usr_id, $prj_id, "stats");
+
+    if (!empty($Stats_Search_Profile)) {
+        $tpl->assign("hide_closed", $Stats_Search_Profile['hide_closed']);
+    }
+} else {
+    $tpl->assign("hide_closed", @$_REQUEST['hide_closed']);
+    Search_Profile::save($usr_id, $prj_id, "stats", array('hide_closed' => @$_REQUEST['hide_closed']));
 }
 
 $tpl->assign("news", News::getListByProject($prj_id));
