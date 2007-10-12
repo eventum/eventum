@@ -492,231 +492,232 @@ class Support
         // we don't need $body anymore -- free memory
         unset($body);
 
+        // if message_id already exists, return immediately -- nothing to do
         if (Support::exists($message_id) || Note::exists($message_id)) {
             return;
+        }
+
+        $structure = Mime_Helper::decode($message, true, true);
+        $message_body = Mime_Helper::getMessageBody($structure);
+        if (Mime_Helper::hasAttachments($structure)) {
+            $has_attachments = 1;
         } else {
-            $structure = Mime_Helper::decode($message, true, true);
-            $message_body = Mime_Helper::getMessageBody($structure);
-            if (Mime_Helper::hasAttachments($structure)) {
-                $has_attachments = 1;
-            } else {
-                $has_attachments = 0;
-            }
-            // we can't trust the in-reply-to from the imap c-client, so let's
-            // try to manually parse that value from the full headers
-            $reference_msg_id = Mail_API::getReferenceMessageID($headers);
+            $has_attachments = 0;
+        }
+        // we can't trust the in-reply-to from the imap c-client, so let's
+        // try to manually parse that value from the full headers
+        $reference_msg_id = Mail_API::getReferenceMessageID($headers);
 
-            // pass in $email by reference so it can be modified
-            $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $message, $email);
-            if ($workflow === -1) {
-                return;
-            }
+        // pass in $email by reference so it can be modified
+        $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $message, $email);
+        if ($workflow === -1) {
+            return;
+        }
 
-            // route emails if neccassary
-            if ($info['ema_use_routing'] == 1) {
-                $setup = Setup::load();
+        // route emails if neccassary
+        if ($info['ema_use_routing'] == 1) {
+            $setup = Setup::load();
 
-                // we create addresses array so it can be reused
-                $addresses = array();
-                if (isset($email->to)) {
-                    foreach ($email->to as $address) {
-                        $addresses[] = $address->mailbox . '@' . $address->host;
-                    }
+            // we create addresses array so it can be reused
+            $addresses = array();
+            if (isset($email->to)) {
+                foreach ($email->to as $address) {
+                    $addresses[] = $address->mailbox . '@' . $address->host;
                 }
-                if (isset($email->cc)) {
-                    foreach ($email->cc as $address) {
-                        $addresses[] = $address->mailbox . '@' . $address->host;
-                    }
+            }
+            if (isset($email->cc)) {
+                foreach ($email->cc as $address) {
+                    $addresses[] = $address->mailbox . '@' . $address->host;
                 }
+            }
 
-                if (@$setup['email_routing']['status'] == 'enabled') {
-                    $res = Routing::getMatchingIssueIDs($addresses, 'email');
-                    if ($res != false) {
-                        $return = Routing::route_emails($message);
-                        if ($return == true) {
-                            Support::deleteMessage($info, $mbox, $num);
-                            return;
-                        }
+            if (@$setup['email_routing']['status'] == 'enabled') {
+                $res = Routing::getMatchingIssueIDs($addresses, 'email');
+                if ($res != false) {
+                    $return = Routing::route_emails($message);
+                    if ($return == true) {
+                        Support::deleteMessage($info, $mbox, $num);
                         return;
                     }
+                    return;
                 }
-                if (@$setup['note_routing']['status'] == 'enabled') {
-                    $res = Routing::getMatchingIssueIDs($addresses, 'note');
-                    if ($res != false) {
-                        $return = Routing::route_notes($message);
-                        if ($return == true) {
-                            Support::deleteMessage($info, $mbox, $num);
-                            return;
-                        }
+            }
+            if (@$setup['note_routing']['status'] == 'enabled') {
+                $res = Routing::getMatchingIssueIDs($addresses, 'note');
+                if ($res != false) {
+                    $return = Routing::route_notes($message);
+                    if ($return == true) {
+                        Support::deleteMessage($info, $mbox, $num);
                         return;
                     }
+                    return;
                 }
-                if (@$setup['draft_routing']['status'] == 'enabled') {
-                    $res = Routing::getMatchingIssueIDs($addresses, 'draft');
-                    if ($res != false) {
-                        $return = Routing::route_drafts($message);
-                        if ($return == true) {
-                            Support::deleteMessage($info, $mbox, $num);
-                            return;
-                        }
+            }
+            if (@$setup['draft_routing']['status'] == 'enabled') {
+                $res = Routing::getMatchingIssueIDs($addresses, 'draft');
+                if ($res != false) {
+                    $return = Routing::route_drafts($message);
+                    if ($return == true) {
+                        Support::deleteMessage($info, $mbox, $num);
                         return;
                     }
-                }
-                return;
-            }
-
-            $sender_email = Mail_API::getEmailAddress($email->fromaddress);
-            if (PEAR::isError($sender_email)) {
-                $sender_email = 'Error Parsing Email <>';
-            }
-
-            $t = array(
-                'ema_id'         => $info['ema_id'],
-                'message_id'     => $message_id,
-                'date'           => @Date_API::getDateGMTByTS($email->udate),
-                'from'           => $sender_email,
-                'to'             => @$email->toaddress,
-                'cc'             => @$email->ccaddress,
-                'subject'        => @$email->subject,
-                'body'           => @$message_body,
-                'full_email'     => @$message,
-                'has_attachment' => $has_attachments,
-                // the following items are not inserted, but useful in some methods
-                'headers'        => @$structure->headers
-            );
-            $should_create_array = Support::createIssueFromEmail(
-                $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::fixEncoding( @$email->subject), $t['to'], $t['cc']);
-            $should_create_issue = $should_create_array['should_create_issue'];
-            $associate_email = $should_create_array['associate_email'];
-            if (!empty($should_create_array['issue_id'])) {
-                $t['issue_id'] = $should_create_array['issue_id'];
-
-                // figure out if we should change to a different email account
-                $iss_prj_id = Issue::getProjectID($t['issue_id']);
-                if ($info['ema_prj_id'] != $iss_prj_id) {
-                    $new_ema_id = Email_Account::getEmailAccount($iss_prj_id);
-                    if (!empty($new_ema_id)) {
-                        $t['ema_id'] = $new_ema_id;
-                    }
-                }
-            }
-            if (!empty($should_create_array['customer_id'])) {
-                $t['customer_id'] = $should_create_array['customer_id'];
-            }
-            if (empty($t['issue_id'])) {
-                $t['issue_id'] = 0;
-            } else {
-                $prj_id = Issue::getProjectID($t['issue_id']);
-                Auth::createFakeCookie(APP_SYSTEM_USER_ID, $prj_id);
-            }
-            if ($should_create_array['type'] == 'note') {
-                // assume that this is not a valid note
-                $res = -1;
-
-                if ($t['issue_id'] != 0) {
-                    // check if this is valid user
-                    $usr_id = User::getUserIDByEmail($sender_email);
-                    if (!empty($usr_id)) {
-                        $role_id = User::getRoleByUser($usr_id, $prj_id);
-                        if ($role_id > User::getRoleID("Customer")) {
-                            // actually a valid user so insert the note
-
-                            Auth::createFakeCookie($usr_id, $prj_id);
-
-                            $users = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
-                            $user_emails = array_map('strtolower', array_values($users));
-                            $users = array_flip($users);
-
-                            $addresses = array();
-                            $to_addresses = Mail_API::getEmailAddresses(@$structure->headers['to']);
-                            if (count($to_addresses)) {
-                                $addresses = $to_addresses;
-                            }
-                            $cc_addresses = Mail_API::getEmailAddresses(@$structure->headers['cc']);
-                            if (count($cc_addresses)) {
-                                $addresses = array_merge($addresses, $cc_addresses);
-                            }
-                            $cc_users = array();
-                            foreach ($addresses as $email) {
-                                if (in_array(strtolower($email), $user_emails)) {
-                                    $cc_users[] = $users[$email];
-                                }
-                            }
-
-                            // XXX FIXME, this is not nice thing to do
-                            $_POST = array(
-                                'title'                => Mail_API::removeExcessRe($t['subject']),
-                                'note'                 => $t['body'],
-                                'note_cc'              => $cc_users,
-                                'add_extra_recipients' => 'yes',
-                                'message_id'           => $t['message_id'],
-                                'parent_id'            => $should_create_array['parent_id'],
-                            );
-                            $res = Note::insert($usr_id, $t['issue_id']);
-                        }
-                    }
-                }
-            } else {
-                // check if we need to block this email
-                if (($should_create_issue == true) || (!Support::blockEmailIfNeeded($t))) {
-                    if (!empty($t['issue_id'])) {
-                        list($t['full_email'], $t['headers']) = Mail_API::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
-                    }
-                    $res = Support::insertEmail($t, $structure, $sup_id);
-                    if ($res != -1) {
-                        // only extract the attachments from the email if we are associating the email to an issue
-                        if (!empty($t['issue_id'])) {
-                            Support::extractAttachments($t['issue_id'], $structure);
-
-                            // notifications about new emails are always external
-                            $internal_only = false;
-                            $assignee_only = false;
-                            // special case when emails are bounced back, so we don't want a notification to customers about those
-                            if (Notification::isBounceMessage($sender_email)) {
-                                // broadcast this email only to the assignees for this issue
-                                $internal_only = true;
-                                $assignee_only = true;
-                            } elseif ($should_create_issue == true) {
-                                // if a new issue was created, only send a copy of the email to the assignee (if any), don't resend to the original TO/CC list
-                                $assignee_only = true;
-                                $internal_only = true;
-                            }
-                            Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
-                            // try to get usr_id of sender, if not, use system account
-                            $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
-                            if (!$usr_id) {
-                                $usr_id = APP_SYSTEM_USER_ID;
-                            }
-                            // mark this issue as updated
-                            if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
-                                Issue::markAsUpdated($t['issue_id'], 'customer action');
-                            } else {
-                                if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer'))) {
-                                    Issue::markAsUpdated($t['issue_id'], 'staff response');
-                                } else {
-                                    Issue::markAsUpdated($t['issue_id'], 'user response');
-                                }
-                            }
-                            // log routed email
-                            History::add($t['issue_id'], $usr_id, History::getTypeID('email_routed'), ev_gettext('Email routed from %1$s', $structure->headers['from']));
-                        }
-                    }
-                } else {
-                    $res = 1;
-                }
-            }
-
-            if ($res > 0) {
-                // need to delete the message from the server?
-                if (!$info['ema_leave_copy']) {
-                    @imap_delete($mbox, $num);
-                } else {
-                    // mark the message as already read
-                    @imap_setflag_full($mbox, $num, "\\Seen");
+                    return;
                 }
             }
             return;
         }
+
+        $sender_email = Mail_API::getEmailAddress($email->fromaddress);
+        if (PEAR::isError($sender_email)) {
+            $sender_email = 'Error Parsing Email <>';
+        }
+
+        $t = array(
+            'ema_id'         => $info['ema_id'],
+            'message_id'     => $message_id,
+            'date'           => @Date_API::getDateGMTByTS($email->udate),
+            'from'           => $sender_email,
+            'to'             => @$email->toaddress,
+            'cc'             => @$email->ccaddress,
+            'subject'        => @$email->subject,
+            'body'           => @$message_body,
+            'full_email'     => @$message,
+            'has_attachment' => $has_attachments,
+            // the following items are not inserted, but useful in some methods
+            'headers'        => @$structure->headers
+        );
+        $should_create_array = Support::createIssueFromEmail(
+            $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::fixEncoding( @$email->subject), $t['to'], $t['cc']);
+        $should_create_issue = $should_create_array['should_create_issue'];
+        $associate_email = $should_create_array['associate_email'];
+        if (!empty($should_create_array['issue_id'])) {
+            $t['issue_id'] = $should_create_array['issue_id'];
+
+            // figure out if we should change to a different email account
+            $iss_prj_id = Issue::getProjectID($t['issue_id']);
+            if ($info['ema_prj_id'] != $iss_prj_id) {
+                $new_ema_id = Email_Account::getEmailAccount($iss_prj_id);
+                if (!empty($new_ema_id)) {
+                    $t['ema_id'] = $new_ema_id;
+                }
+            }
+        }
+        if (!empty($should_create_array['customer_id'])) {
+            $t['customer_id'] = $should_create_array['customer_id'];
+        }
+        if (empty($t['issue_id'])) {
+            $t['issue_id'] = 0;
+        } else {
+            $prj_id = Issue::getProjectID($t['issue_id']);
+            Auth::createFakeCookie(APP_SYSTEM_USER_ID, $prj_id);
+        }
+        if ($should_create_array['type'] == 'note') {
+            // assume that this is not a valid note
+            $res = -1;
+
+            if ($t['issue_id'] != 0) {
+                // check if this is valid user
+                $usr_id = User::getUserIDByEmail($sender_email);
+                if (!empty($usr_id)) {
+                    $role_id = User::getRoleByUser($usr_id, $prj_id);
+                    if ($role_id > User::getRoleID("Customer")) {
+                        // actually a valid user so insert the note
+
+                        Auth::createFakeCookie($usr_id, $prj_id);
+
+                        $users = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
+                        $user_emails = array_map('strtolower', array_values($users));
+                        $users = array_flip($users);
+
+                        $addresses = array();
+                        $to_addresses = Mail_API::getEmailAddresses(@$structure->headers['to']);
+                        if (count($to_addresses)) {
+                            $addresses = $to_addresses;
+                        }
+                        $cc_addresses = Mail_API::getEmailAddresses(@$structure->headers['cc']);
+                        if (count($cc_addresses)) {
+                            $addresses = array_merge($addresses, $cc_addresses);
+                        }
+                        $cc_users = array();
+                        foreach ($addresses as $email) {
+                            if (in_array(strtolower($email), $user_emails)) {
+                                $cc_users[] = $users[$email];
+                            }
+                        }
+
+                        // XXX FIXME, this is not nice thing to do
+                        $_POST = array(
+                            'title'                => Mail_API::removeExcessRe($t['subject']),
+                            'note'                 => $t['body'],
+                            'note_cc'              => $cc_users,
+                            'add_extra_recipients' => 'yes',
+                            'message_id'           => $t['message_id'],
+                            'parent_id'            => $should_create_array['parent_id'],
+                        );
+                        $res = Note::insert($usr_id, $t['issue_id']);
+                    }
+                }
+            }
+        } else {
+            // check if we need to block this email
+            if (($should_create_issue == true) || (!Support::blockEmailIfNeeded($t))) {
+                if (!empty($t['issue_id'])) {
+                    list($t['full_email'], $t['headers']) = Mail_API::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
+                }
+                $res = Support::insertEmail($t, $structure, $sup_id);
+                if ($res != -1) {
+                    // only extract the attachments from the email if we are associating the email to an issue
+                    if (!empty($t['issue_id'])) {
+                        Support::extractAttachments($t['issue_id'], $structure);
+
+                        // notifications about new emails are always external
+                        $internal_only = false;
+                        $assignee_only = false;
+                        // special case when emails are bounced back, so we don't want a notification to customers about those
+                        if (Notification::isBounceMessage($sender_email)) {
+                            // broadcast this email only to the assignees for this issue
+                            $internal_only = true;
+                            $assignee_only = true;
+                        } elseif ($should_create_issue == true) {
+                            // if a new issue was created, only send a copy of the email to the assignee (if any), don't resend to the original TO/CC list
+                            $assignee_only = true;
+                            $internal_only = true;
+                        }
+                        Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
+                        // try to get usr_id of sender, if not, use system account
+                        $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
+                        if (!$usr_id) {
+                            $usr_id = APP_SYSTEM_USER_ID;
+                        }
+                        // mark this issue as updated
+                        if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
+                            Issue::markAsUpdated($t['issue_id'], 'customer action');
+                        } else {
+                            if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer'))) {
+                                Issue::markAsUpdated($t['issue_id'], 'staff response');
+                            } else {
+                                Issue::markAsUpdated($t['issue_id'], 'user response');
+                            }
+                        }
+                        // log routed email
+                        History::add($t['issue_id'], $usr_id, History::getTypeID('email_routed'), ev_gettext('Email routed from %1$s', $structure->headers['from']));
+                    }
+                }
+            } else {
+                $res = 1;
+            }
+        }
+
+        if ($res > 0) {
+            // need to delete the message from the server?
+            if (!$info['ema_leave_copy']) {
+                @imap_delete($mbox, $num);
+            } else {
+                // mark the message as already read
+                @imap_setflag_full($mbox, $num, "\\Seen");
+            }
+        }
+        return;
     }
 
 
