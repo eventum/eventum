@@ -492,7 +492,9 @@ class Support
         // we don't need $body anymore -- free memory
         unset($body);
 
-        if ((!Support::exists($message_id)) && (!Note::exists($message_id))) {
+        if (Support::exists($message_id) || Note::exists($message_id)) {
+            return;
+        } else {
             $structure = Mime_Helper::decode($message, true, true);
             $message_body = Mime_Helper::getMessageBody($structure);
             if (Mime_Helper::hasAttachments($structure)) {
@@ -713,8 +715,6 @@ class Support
                     @imap_setflag_full($mbox, $num, "\\Seen");
                 }
             }
-            return;
-        } else {
             return;
         }
     }
