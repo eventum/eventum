@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.priority.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.priority.php 3387 2007-10-15 10:09:10Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -110,7 +110,7 @@ class Priority
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  WHERE
-                    pri_prj_id=" . Misc::escapeInteger($prj_id) . " 
+                    pri_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     pri_rank ASC";
         $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
@@ -174,7 +174,7 @@ class Priority
 
 
     /**
-     * Method used to remove user-selected priorities from the 
+     * Method used to remove user-selected priorities from the
      * database.
      *
      * @access  public
@@ -198,8 +198,8 @@ class Priority
 
 
     /**
-     * Method used to update the values stored in the database. 
-     * Typically the user would modify the title of the priority in 
+     * Method used to update the values stored in the database.
+     * Typically the user would modify the title of the priority in
      * the application and this method would be called.
      *
      * @access  public
@@ -346,6 +346,34 @@ class Priority
             return "";
         } else {
             $list[$prj_id] = $res;
+            return $res;
+        }
+    }
+
+    /**
+     * Method used to get the pri_id of a project by priority title.
+     *
+     * @access  public
+     * @param   integer $prj_id The project ID
+     * @param   integer $pri_id The priority ID
+     * @param   string $pri_title The priority title
+     * @return  integer $pri_id The priority ID
+     */
+    function getPriorityID($prj_id, $pri_title)
+    {
+        $stmt = "SELECT
+                    pri_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
+                 WHERE
+                    pri_prj_id=" . Misc::escapeInteger($prj_id) . "
+					AND pri_title = '" . Misc::escapeString($pri_title) . "'";
+
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return null;
+        } else {
             return $res;
         }
     }
