@@ -664,6 +664,10 @@ class Support
                 if (!empty($t['issue_id'])) {
                     list($t['full_email'], $t['headers']) = Mail_API::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
                 }
+
+                // make variable available for workflow to be able to detect whether this email created new issue
+                $t['should_create_issue'] = $should_create_array['should_create_issue'];
+
                 $res = Support::insertEmail($t, $structure, $sup_id);
                 if ($res != -1) {
                     // only extract the attachments from the email if we are associating the email to an issue

@@ -35,6 +35,7 @@ Eventum Issue Tracking System
 - Fixed bug with not encoding [ and ] in address strings (Bryan)
 - Changed roles needed to move issues between projects (Bryan)
 - Added option to hide closed issues on stats page (CmputrAce)
+- Make variable available for workflow to be able to detect whether the email created new issue (Elan Ruusamäe)
 
 2007-04-17, Version 2.0.1
 - Fixed packaging bug that prevented setup from running (Bryan)
