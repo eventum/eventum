@@ -23,7 +23,7 @@
 
 ----------------------------------------------------------------------
 {section name="i" loop=$data.custom_fields}
-{$data.custom_fields[i].fld_title}: {$data.custom_fields[i].icf_value}
+{$data.custom_fields[i].fld_title}: {$data.custom_fields[i].value}
 {/section}
 ----------------------------------------------------------------------
 {/if}

@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3374 2007-08-31 21:00:48Z balsdorf $
+// @(#) $Id: class.custom_field.php 3389 2007-10-21 01:33:24Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -438,7 +438,7 @@ class Custom_Field
                         $res[$i]['fld_close_form_required'] = $backend->isRequired($res[$i]['fld_id'], 'close');
                     }
                     if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
-                        $res[$i]['validation_js'] = $backend->getValidationJS();
+                        $res[$i]['validation_js'] = $backend->getValidationJS($res[$i]['fld_id'], $form_type);
                     } else {
                         $res[$i]['validation_js'] = '';
                     }
@@ -474,7 +474,7 @@ class Custom_Field
 
         $backend = Custom_Field::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
-            $values = $backend->getList($fld_id);
+            $values = $backend->getList($fld_id, false);
             $returns[$fld_id . $value] = @$values[$value];
             return @$values[$value];
         } else {
@@ -524,7 +524,7 @@ class Custom_Field
 
         $backend = Custom_Field::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
-            $values = $backend->getList($fld_id);
+            $values = $backend->getList($fld_id, false);
             $key = array_search($value, $values);
             $returns[$fld_id . $value] = $key;
             return $key;
@@ -616,9 +616,17 @@ class Custom_Field
                 for ($i = 0; $i < count($res); $i++) {
                     if ($res[$i]["fld_type"] == "combo") {
                         $res[$i]["selected_cfo_id"] = $res[$i]["value"];
+                        $res[$i]["original_value"] = $res[$i]["value"];
                         $res[$i]["value"] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
                         $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
+
+                        // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
+                        if (!in_array($res[$i]['value'], $res[$i]['field_options'])) {
+                            $res[$i]['field_options'][$res[$i]['original_value']] = Custom_Field::getOptionValue($res[$i]['fld_id'], $res[$i]['original_value']);
+                        }
+
                         $fields[] = $res[$i];
+
                     } elseif ($res[$i]['fld_type'] == 'multiple') {
                         // check whether this field is already in the array
                         $found = 0;
@@ -628,14 +636,21 @@ class Custom_Field
                                 $found_index = $y;
                             }
                         }
+                        $original_value = $res[$i]['value'];
                         if (!$found) {
                             $res[$i]["selected_cfo_id"] = array($res[$i]["value"]);
                             $res[$i]["value"] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
                             $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
                             $fields[] = $res[$i];
+                            $found_index = count($fields) - 1;
                         } else {
                             $fields[$found_index]['value'] .= ', ' . Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
                             $fields[$found_index]['selected_cfo_id'][] = $res[$i]["value"];
+                        }
+
+                        // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
+                        if (!in_array($original_value, $fields[$found_index]['field_options'])) {
+                            $fields[$found_index]['field_options'][$original_value] = Custom_Field::getOptionValue($res[$i]['fld_id'], $original_value);
                         }
                     } else {
                         $fields[] = $res[$i];
@@ -657,7 +672,7 @@ class Custom_Field
                         $fields[$key]['fld_close_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'close', $iss_id);
                     }
                     if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
-                        $fields[$key]['validation_js'] = $backend->getValidationJS();
+                        $fields[$key]['validation_js'] = $backend->getValidationJS($fields[$key]['fld_id'], $form_type, $iss_id);
                     } else {
                         $fields[$key]['validation_js'] = '';
                     }
