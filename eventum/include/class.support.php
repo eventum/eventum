@@ -260,7 +260,7 @@ class Support
     {
         list($usec,) = explode(" ", microtime());
         $filename = date('Y-m-d_H-i-s_') . $usec . '.email.txt';
-        $path = APP_ROUTED_MAILS_SAVEDIR . 'routed_emails/' . $filename;
+        $file = APP_ROUTED_MAILS_SAVEDIR . 'routed_emails/' . $filename;
         $fp = @fopen($file, 'w');
         @fwrite($fp, $message);
         @fclose($fp);
