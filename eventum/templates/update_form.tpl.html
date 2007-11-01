@@ -143,7 +143,7 @@ function closeIssue(issue_id)
           <td colspan="2" class="default" nowrap>
             <b>{t}Update Issue Overview{/t}</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" class="link">{$issue.iss_id}</a>)
 
-            {if $usr_role_id >= $roles.manager}
+            {if $usr_role_id >= $roles.developer}
             &nbsp;<b>Project:</b>
             <select name="new_prj" class="shortcut" style="font-size: 90%">
                 {html_options options=$active_projects selected=$current_project}
@@ -229,7 +229,7 @@ function closeIssue(issue_id)
             <nobr><b>{t}Associated Issues:{/t}</b></nobr>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="associated_issues" value="{", "|join:$issue.associated_issues}" class="default" onBlur="validateIssueNumberField('{$rel_url}', 'update_form', 'associated_issues')">
+            <input type="text" name="associated_issues" value="{", "|join:$issue.associated_issues}" class="default" onBlur="validateIssueNumberField('{$base_url}', 'update_form', 'associated_issues')">
             {include file="error_icon.tpl.html" field="associated_issues"}
             <span id="associated_issues_error" class="default"></span>
           </td>
