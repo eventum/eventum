@@ -252,6 +252,8 @@ class Notification
      */
     function notifyNewEmail($usr_id, $issue_id, $message, $internal_only = FALSE, $assignee_only = FALSE, $type = '', $sup_id = false)
     {
+        $prj_id = Issue::getProjectID($issue_id);
+
         $full_message = $message['full_email'];
         $sender = $message['from'];
         $sender_email = strtolower(Mail_API::getEmailAddress($sender));
@@ -266,8 +268,9 @@ class Notification
         $subscribed_emails = Notification::getSubscribedEmails($issue_id, 'emails');
         $subscribed_emails = array_map('strtolower', $subscribed_emails);
         if ((!Notification::isIssueRoutingSender($issue_id, $sender)) &&
-        (!Notification::isBounceMessage($sender_email)) &&
-        (!in_array($sender_email, $subscribed_emails))) {
+                (!Notification::isBounceMessage($sender_email)) &&
+                (!in_array($sender_email, $subscribed_emails)) &&
+                (Workflow::shouldAutoAddToNotificationList($prj_id))) {
             $actions = array('emails');
             Notification::subscribeEmail($usr_id, $issue_id, $sender_email, $actions);
         }

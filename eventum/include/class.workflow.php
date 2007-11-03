@@ -419,14 +419,14 @@ class Workflow
      * @param   string $address The email address to check
      * @return  boolean
      */
-   function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
-   {
+    function shouldEmailAddress($prj_id, $address, $issue_id = false, $type = false)
+    {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return true;
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->shouldEmailAddress($prj_id, $address);
-   }
+        return $backend->shouldEmailAddress($prj_id, $address, $issue_id, $type);
+    }
 
 
     /**
@@ -435,7 +435,7 @@ class Workflow
      * @param   integer $prj_id The project ID.
      * @param   integer $issue_id The ID of the issue.
      * @param   string  $event The event to return additional email addresses for. Currently only "new_issue" is supported.
-     * @param   array   $extra Extra information, contains diffent info depending on where it is called from
+     * @param   array   $extra Extra information, contains different info depending on where it is called from
      * @return  array   An array of email addresses to be notified.
      */
     function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra = false)
@@ -506,6 +506,20 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->preEmailDownload($prj_id, $info, $mbox, $num, $message, $email);
     }
+
+
+    /**
+     * Indicates if the email addresses should automatically be added to the NL from notes and emails.
+     *
+     * @param   integer $prj_id The project ID.
+     * @return  boolean
+     */
+    function shouldAutoAddToNotificationList($prj_id)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return true;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->shouldAutoAddToNotificationList($prj_id);
+    }
 }
-
-

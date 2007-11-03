@@ -854,7 +854,8 @@ class Support
             if (!empty($to)) {
                 $to_addresses = Mail_API::getAddressInfo($to, true);
                 foreach ($to_addresses as $address) {
-                    if ((in_array($address['email'], $addresses_not_too_add)) || (!Workflow::shouldEmailAddress($prj_id, $address['email']))) {
+                    if ((in_array($address['email'], $addresses_not_too_add)) || (!Workflow::shouldEmailAddress($prj_id, $address['email']) ||
+                            (!Workflow::shouldAutoAddToNotificationList($prj_id)))) {
                         continue;
                     }
                     if (empty($address['sender_name'])) {
@@ -869,7 +870,8 @@ class Support
             if (!empty($cc)) {
                 $cc_addresses = Mail_API::getAddressInfo($cc, true);
                 foreach ($cc_addresses as $address) {
-                    if ((in_array($address['email'], $addresses_not_too_add)) || (!Workflow::shouldEmailAddress($prj_id, $address['email']))) {
+                    if ((in_array($address['email'], $addresses_not_too_add)) || (!Workflow::shouldEmailAddress($prj_id, $address['email']) ||
+                            (!Workflow::shouldAutoAddToNotificationList($prj_id)))) {
                         continue;
                     }
                     if (empty($address['sender_name'])) {

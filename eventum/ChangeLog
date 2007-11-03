@@ -38,6 +38,8 @@ Eventum Issue Tracking System
 - Make variable available for workflow to be able to detect whether the email created new issue (Elan Ruusamäe)
 - Added support for inactive options to Custom field backends (Bryan)
 - Fixed bug with saving routed email (Bryan)
+- Added workflow method to control if email addresses are automatically added to the notification list (Bryan)
+- Fixed bug with blocked emails adding sender to the notification list (Bryan)
 
 2007-04-17, Version 2.0.1
 - Fixed packaging bug that prevented setup from running (Bryan)

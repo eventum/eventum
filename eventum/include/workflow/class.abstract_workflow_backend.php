@@ -315,4 +315,16 @@ class Abstract_Workflow_Backend
     {
         return null;
     }
+
+
+    /**
+     * Indicates if the email addresses should automatically be added to the NL from notes and emails.
+     *
+     * @param   integer $prj_id The project ID.
+     * @return  boolean
+     */
+    function shouldAutoAddToNotificationList($prj_id)
+    {
+        return false;
+    }
 }
