@@ -331,9 +331,9 @@ class Note
             $note_cc = $_POST['note_cc'];
         }
         // add the poster to the list of people to be subscribed to the notification list
-        // only if there is no 'unknown user'.
+        // only if there is no 'unknown user' and the note is not blocked
         $note_cc[] = $usr_id;
-        if ($unknown_user == false) {
+        if (($unknown_user == false) && (@empty($_POST['blocked_msg']))) {
             for ($i = 0; $i < count($note_cc); $i++) {
                 Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getDefaultActions());
             }
