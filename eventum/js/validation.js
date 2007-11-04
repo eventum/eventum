@@ -1,5 +1,5 @@
 /*
- * @(#) $Id: validation.js 3391 2007-11-01 21:18:31Z balsdorf $
+ * @(#) $Id: validation.js 3399 2007-11-04 15:30:05Z glen $
  */
 
 last_issue_number_validation_value = '';
@@ -12,7 +12,7 @@ function validateIssueNumberField(baseURL, form_name, field_name)
         last_issue_number_validation_value = form_value;
     }
     validate_issue_http_client = new HTTPClient();
-    validate_issue_http_client.loadRemoteContent(baseURL + 'misc/validate.php?action=validateIssueNumbers&values=' +
+    validate_issue_http_client.loadRemoteContent(baseURL + '/validate.php?action=validateIssueNumbers&values=' +
         form_value + '&field_name=' + field_name + '&form_name=' + form_name + '&check_project=0', 'displayIssueFieldValidation');
 }
 
