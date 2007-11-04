@@ -50,7 +50,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                 "customer_id"     => 1,
                 "customer_name"   => "Bryan's widget factory",
                 "start_date"      => '2004-03-10',
-                "expiration_date" => '2007-03-10',
+                "expiration_date" => '2010-03-10',
                 "contacts" => array(
                     array(
                         'contact_id' => 87,
@@ -185,13 +185,35 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
 
 
     /**
+     * Retrieves the support levels associated with the given list of issues.
+     *
+     * @access  public
+     * @param   array $result The list of issues
+     * @see     Issue::getListing()
+     */
+    function getSupportLevelsByIssues(&$result)
+    {
+        if (count($result) > 0) {
+            $support_levels = $this->getSupportLevelAssocList();
+            for ($i = 0; $i < count($result); $i++) {
+                if (!empty($result[$i]["iss_customer_id"])) {
+                    $result[$i]["support_level"] = @$support_levels[$this->getSupportLevelID($result[$i]['iss_customer_id'])];
+                }
+            }
+        }
+    }
+
+
+    /**
      * Method used to get the details of the given customer.
      *
      * @access  public
      * @param   integer $customer_id The customer ID
+     * @param   boolean $force_refresh If the cache should not be used.
+     * @param   integer $contract_id The contract ID
      * @return  array The customer details
      */
-    function getDetails($customer_id)
+    function getDetails($customer_id, $force_refresh = false, $contract_id = false)
     {
         $support_levels = $this->getSupportLevelAssocList();
         $details = $this->data[$customer_id];

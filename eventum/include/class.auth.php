@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3291 2007-04-02 22:16:53Z glen $
+// @(#) $Id: class.auth.php 3394 2007-11-04 08:33:06Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -132,13 +132,12 @@ class Auth
             Auth::redirect(APP_RELATIVE_URL . "select_project.php?url=" . Auth::getRequestedURL(), $is_popup);
         }
         // check the expiration date for a 'Customer' type user
-        $customer_id = User::getCustomerID(Auth::getUserID());
-        if ((!empty($customer_id)) && ($customer_id != -1)) {
-            $status = Customer::getContractStatus($prj_id, $customer_id);
-            if ($status == 'expired') {
-                Auth::removeCookie($cookie_name);
-                Auth::redirect(APP_RELATIVE_URL . "index.php?err=10&email=" . $cookie["email"], $is_popup);
-            }
+        $customer_id = User::getCustomerID($usr_id);
+        $contact_id = User::getCustomerContactID($usr_id);
+        if ((!empty($customer_id)) && ($customer_id != -1) &&
+                (!empty($contact_id)) && (Customer::hasCustomerIntegration($prj_id))) {
+
+            Customer::authenticateCustomer($prj_id, $customer_id, $contact_id);
         }
 
         // auto switch project

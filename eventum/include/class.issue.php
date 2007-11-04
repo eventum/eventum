@@ -110,7 +110,8 @@ class Issue
     {
         $headings = array(
             'Priority',
-            'Issue ID'
+            'Issue ID',
+            'Reporter',
         );
         // hide the group column from the output if no
         // groups are available in the database
@@ -134,6 +135,7 @@ class Issue
         $headings[] = 'Last Action Date';
         $headings[] = 'Est. Dev. TIme';
         $headings[] = 'Summary';
+        $headings[] = 'Expected Resolution Date';
         return $headings;
     }
 
@@ -283,6 +285,72 @@ class Issue
         } else {
             $returns[$issue_id] = $res;
             return $res;
+        }
+    }
+
+
+    /**
+     * Returns the contract ID associated with the given issue ID.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @return  integer The customer ID associated with the issue
+     */
+    function getContractID($issue_id)
+    {
+        static $returns;
+
+        $issue_id = Misc::escapeInteger($issue_id);
+
+        if (!empty($returns[$issue_id])) {
+            return $returns[$issue_id];
+        }
+
+        $stmt = "SELECT
+                    iss_customer_contract_id
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                 WHERE
+                    iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        } else {
+            $returns[$issue_id] = $res;
+            return $res;
+        }
+    }
+
+
+    /**
+     * Sets the contract ID for a specific issue.
+     *
+     * @access  public
+     * @param   integer $issue_id The issue ID
+     * @param   integer The contract ID
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    function setContractID($issue_id, $contract_id)
+    {
+        $issue_id = Misc::escapeInteger($issue_id);
+
+        $old_contract_id = Issue::getContractID($issue_id);
+
+        $stmt = "UPDATE
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                SET
+                    iss_customer_contract_id = " . Misc::escapeInteger($contract_id) . "
+                 WHERE
+                    iss_id=$issue_id";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        } else {
+            // log this
+            History::add($issue_id, Auth::getUserID(), History::getTypeID("contract_changed"), "Contract changed from $old_contract_id to $contract_id by " . User::getFullName(Auth::getUserID()));
+            return 1;
         }
     }
 
@@ -2025,6 +2093,7 @@ class Issue
         if (Customer::hasCustomerIntegration($prj_id)) {
             $stmt .= "
                     iss_customer_id,
+                    iss_customer_contract_id,
                     iss_customer_contact_id,
                     iss_contact_person_lname,
                     iss_contact_person_fname,
@@ -2072,6 +2141,7 @@ class Issue
         if (Customer::hasCustomerIntegration($prj_id)) {
             $stmt .= "
                     " . Misc::escapeInteger($_POST['customer']) . ",
+                    '" . Misc::escapeString($_POST['contract']) . "',
                     " . Misc::escapeInteger($_POST['contact']) . ",
                     '" . Misc::escapeString($_POST["contact_person_lname"]) . "',
                     '" . Misc::escapeString($_POST["contact_person_fname"]) . "',
@@ -2427,7 +2497,7 @@ class Issue
      * @param   integer $max The maximum number of rows per page
      * @return  array The list of issues to be displayed
      */
-    function getListing($prj_id, $options, $current_row = 0, $max = 5, $get_reporter = FALSE)
+    function getListing($prj_id, $options, $current_row = 0, $max = 5)
     {
         if (strtoupper($max) == "ALL") {
             $max = 9999999;
@@ -2446,6 +2516,7 @@ class Issue
                     iss_prj_id,
                     iss_sta_id,
                     iss_customer_id,
+                    iss_customer_contract_id,
                     iss_created_date,
                     iss_updated_date,
                     iss_last_response_date,
@@ -2582,9 +2653,6 @@ class Issue
             );
         } else {
             if (count($res) > 0) {
-                if ($get_reporter) {
-                    Issue::getReportersByIssues($res);
-                }
                 Issue::getAssignedUsersByIssues($res);
                 Time_Tracking::getTimeSpentByIssues($res);
                 // need to get the customer titles for all of these issues...
@@ -2610,7 +2678,8 @@ class Issue
                 $res[$i]["iss_expected_resolution_date"] = Date_API::getSimpleDate($res[$i]["iss_expected_resolution_date"], false);
                 $fields = array(
                     $res[$i]['pri_title'],
-                    $res[$i]['iss_id']
+                    $res[$i]['iss_id'],
+                    $res[$i]['usr_full_name'],
                 );
                 // hide the group column from the output if no
                 // groups are available in the database
@@ -2640,6 +2709,7 @@ class Issue
                 $fields[] = $res[$i]["last_action_date"];
                 $fields[] = $res[$i]['iss_dev_time'];
                 $fields[] = $res[$i]['iss_summary'];
+                $fields[] = $res[$i]['iss_expected_resolution_date'];
 
                 if (count($custom_fields) > 0) {
                     $res[$i]['custom_field'] = array();
@@ -3298,9 +3368,9 @@ class Issue
                 if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['iss_prj_id']))) {
                     $res['customer_business_hours'] = Customer::getBusinessHours($res['iss_prj_id'], $res['iss_customer_id']);
                     $res['contact_local_time'] = Date_API::getFormattedDate(Date_API::getCurrentDateGMT(), $res['iss_contact_timezone']);
-                    $res['customer_info'] = Customer::getDetails($res['iss_prj_id'], $res['iss_customer_id']);
+                    $res['customer_info'] = Customer::getDetails($res['iss_prj_id'], $res['iss_customer_id'], false, $res['iss_customer_contract_id']);
                     $res['redeemed_incidents'] = Customer::getRedeemedIncidentDetails($res['iss_prj_id'], $res['iss_id']);
-                    $max_first_response_time = Customer::getMaximumFirstResponseTime($res['iss_prj_id'], $res['iss_customer_id']);
+                    $max_first_response_time = Customer::getMaximumFirstResponseTime($res['iss_prj_id'], $res['iss_customer_id'], $res['iss_customer_contract_id']);
                     $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
                     if (empty($res['iss_first_response_date'])) {
                         $first_response_deadline = $created_date_ts + $max_first_response_time;

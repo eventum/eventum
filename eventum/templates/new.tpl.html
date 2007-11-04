@@ -160,7 +160,7 @@ function validateForm(f)
 
 <form name="report_form" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="report">
-<input type="hidden" name="customer" value="{$customer_id}">
+<input type="hidden" name="customer" value="{$customer_id}" id="customer_id">
 <input type="hidden" name="contact" value="{$contact_id}">
 <input type="hidden" name="attached_emails" value="{$attached_emails}">
 {if $current_role < $field_display_settings.assignment}

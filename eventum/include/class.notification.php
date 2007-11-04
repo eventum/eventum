@@ -378,6 +378,7 @@ class Notification
         $stmt = "SELECT
                     iss_id,
                     iss_customer_id,
+                    iss_customer_contract_id,
                     iss_summary,
                     iss_description,
                     iss_duplicated_iss_id,
@@ -424,7 +425,7 @@ class Notification
             $res['assigned_users'] = implode(", ", Issue::getAssignedUsers($issue_id));
             // get customer information, if any
             if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['prj_id']))) {
-                $res['customer_info'] = Customer::getDetails($res['prj_id'], $res['iss_customer_id']);
+                $res['customer_info'] = Customer::getDetails($res['prj_id'], $res['iss_customer_id'], false, $res['iss_customer_contract_id']);
             }
             return $res;
         }

@@ -742,12 +742,13 @@ class Mail_API
                     $support_levels = Customer::getSupportLevelAssocList($prj_id);
                 }
                 $customer_id = Issue::getCustomerID($issue_id);
+                $contract_id = Issue::getContractID($issue_id);
                 if (!empty($customer_id)) {
-                    $customer_details = Customer::getDetails($prj_id, $customer_id);
+                    $customer_details = Customer::getDetails($prj_id, $customer_id, false, $contract_id);
                     $new_headers['X-Eventum-Customer'] = $customer_details['customer_name'];
                 }
                 if (count($support_levels) > 0) {
-                    $new_headers['X-Eventum-Level'] = $support_levels[Customer::getSupportLevelID($prj_id, $customer_id)];
+                    $new_headers['X-Eventum-Level'] = $support_levels[Customer::getSupportLevelID($prj_id, $customer_id, $contract_id)];
                 }
             }
             // add assignee header

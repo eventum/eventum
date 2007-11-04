@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.customer.php 3367 2007-08-28 04:13:33Z balsdorf $
+// @(#) $Id: class.customer.php 3394 2007-11-04 08:33:06Z balsdorf $
 //
 
 require_once(APP_INC_PATH . 'class.misc.php');
@@ -181,12 +181,13 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  string The contract status
      */
-    function getContractStatus($prj_id, $customer_id)
+    function getContractStatus($prj_id, $customer_id, $contract_id = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getContractStatus($customer_id);
+        return $backend->getContractStatus($customer_id, $contract_id);
     }
 
 
@@ -229,12 +230,13 @@ class Customer
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
      * @param   boolean $force_refresh If the cache should not be used.
+     * @param   integer $contract_id The contract ID
      * @return  array The customer details
      */
-    function getDetails($prj_id, $customer_id, $force_refresh = false)
+    function getDetails($prj_id, $customer_id, $force_refresh = false, $contract_id = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getDetails($customer_id, $force_refresh);
+        return $backend->getDetails($customer_id, $force_refresh, $contract_id);
     }
 
 
@@ -290,7 +292,7 @@ class Customer
      */
     function updateRedeemedIncidents($prj_id, $issue_id, $data)
     {
-        $details = Customer::getDetails($prj_id, Issue::getCustomerID($issue_id));
+        $details = Customer::getDetails($prj_id, Issue::getCustomerID($issue_id), Issue::getContractID($issue_id));
         foreach ($details['incident_details'] as $type_id => $type_details) {
             $is_redeemed = Customer::isRedeemedIncident($prj_id, $issue_id, $type_id);
             if (($is_redeemed) && (@$data[$type_id] != 1)) {
@@ -671,12 +673,13 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  string The support contract level
      */
-    function getSupportLevelID($prj_id, $customer_id)
+    function getSupportLevelID($prj_id, $customer_id, $contract_id = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getSupportLevelID($customer_id);
+        return $backend->getSupportLevelID($customer_id, $contract_id);
     }
 
 
@@ -717,12 +720,13 @@ class Customer
      * @param   integer $prj_id The project ID
      * @param   integer $contact_id The customer contact ID
      * @param   boolean $is_expired Whether this customer is expired or not
+     * @param   string  $contract_id The contract ID
      * @return  void
      */
-    function sendExpirationNotice($prj_id, $contact_id, $is_expired = FALSE)
+    function sendExpirationNotice($prj_id, $contact_id, $is_expired = FALSE, $contract_id = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->sendExpirationNotice($contact_id, $is_expired);
+        return $backend->sendExpirationNotice($contact_id, $is_expired, $contract_id);
     }
 
 
@@ -834,12 +838,13 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  string The support contract end date
      */
-    function getContractEndDate($prj_id, $customer_id)
+    function getContractEndDate($prj_id, $customer_id, $contract_id = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getContractEndDate($customer_id);
+        return $backend->getContractEndDate($customer_id, $contract_id);
     }
 
 
@@ -865,12 +870,13 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  string The support contract start date
      */
-    function getContractStartDate($prj_id, $customer_id)
+    function getContractStartDate($prj_id, $customer_id, $contract_id = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getContractStartDate($customer_id);
+        return $backend->getContractStartDate($customer_id, $contract_id);
     }
 
 
@@ -910,12 +916,13 @@ class Customer
      * @access  public
      * @param   integer $prj_id The project ID
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  boolean
      */
-    function hasMinimumResponseTime($prj_id, $customer_id)
+    function hasMinimumResponseTime($prj_id, $customer_id, $contract_id = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->hasMinimumResponseTime($customer_id);
+        return $backend->hasMinimumResponseTime($customer_id, $contract_id);
     }
 
 
@@ -925,12 +932,13 @@ class Customer
      *
      * @access  public
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  integer The minimum first response time
      */
-    function getMinimumResponseTime($prj_id, $customer_id)
+    function getMinimumResponseTime($prj_id, $customer_id, $contract_id = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getMinimumResponseTime($customer_id);
+        return $backend->getMinimumResponseTime($customer_id, $contract_id);
     }
 
 
@@ -940,14 +948,63 @@ class Customer
      *
      * @access  public
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  integer The maximum first response time, in seconds
      */
-    function getMaximumFirstResponseTime($prj_id, $customer_id)
+    function getMaximumFirstResponseTime($prj_id, $customer_id, $contract_id = false)
     {
         $backend =& Customer::_getBackend($prj_id);
-        return $backend->getMaximumFirstResponseTime($customer_id);
+        return $backend->getMaximumFirstResponseTime($customer_id, $contract_id);
     }
 
+
+    /**
+     * Performs needed checks to see if a contact can login. Performs some default
+     * checks if the backend does not implement checks
+     *
+     * @param   integer $prj_id
+     * @param   integer $customer_id
+     * @param   integer $contact_id
+     */
+    function authenticateCustomer($prj_id, $customer_id, $contact_id)
+    {
+        $backend =& Customer::_getBackend($prj_id);
+        if (method_exists($backend, 'authenticateCustomer')) {
+            $backend->authenticateCustomer($customer_id, $contact_id);
+        } else {
+            // check if customer is expired
+            $usr_id = Auth::getUserID();
+            $contact_id = User::getCustomerContactID($usr_id);
+            if ((!empty($contact_id)) && ($contact_id != -1)) {
+                $status = Customer::getContractStatus($prj_id, User::getCustomerID($usr_id));
+                $email = User::getEmailByContactID($contact_id);
+                if ($status == 'expired') {
+                    Customer::sendExpirationNotice($prj_id, $contact_id, true);
+                    Auth::saveLoginAttempt($email, 'failure', 'expired contract');
+
+                    Auth::removeCookie(APP_PROJECT_COOKIE);
+
+                    $contact_id = User::getCustomerContactID($usr_id);
+                    $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/customer_expired.tpl.html");
+                    $tpl->assign('customer', Customer::getContractDetails($prj_id, $contact_id, false));
+                    $tpl->displayTemplate();
+                    exit;
+                } elseif ($status == 'in_grace_period') {
+                    Customer::sendExpirationNotice($prj_id, $contact_id);
+                    $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/grace_period.tpl.html");
+                    $tpl->assign('customer', Customer::getContractDetails($prj_id, $contact_id, false));
+                    $tpl->assign('expiration_offset', Customer::getExpirationOffset($prj_id));
+                    $tpl->displayTemplate();
+                    exit;
+                }
+                // check with cnt_support to see if this contact is allowed in this support contract
+                if (!Customer::isAllowedSupportContact($prj_id, $contact_id)) {
+                    Auth::saveLoginAttempt($email, 'failure', 'not allowed as technical contact');
+                    Auth::redirect(APP_RELATIVE_URL . "index.php?err=4&email=" . $email);
+                }
+            }
+        }
+    }
 
     /**
      * Method used to get the list of technical account managers

@@ -259,6 +259,8 @@ function disableFields()
               {$list[i].pre_title|escape:"html"}
             {elseif $field_name == 'iss_customer_id'}
               {$list[i].customer_title|escape:"html"}
+            {elseif $field_name == 'support_level'}
+              {$list[i].support_level|escape:"html"}
             {elseif $field_name == 'sta_rank'}
               {$list[i].sta_title|escape:"html"}
             {elseif $field_name == 'iss_dev_time'}

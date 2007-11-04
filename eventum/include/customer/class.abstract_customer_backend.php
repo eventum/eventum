@@ -29,10 +29,101 @@
 /**
  * Abstract class that all customer backends should extend. This is so any new
  * customer methods added in future releases won't break existing backends.
- * 
+ *
  * @author Bryan Alsdorf <bryan@mysql.com>
  */
 class Abstract_Customer_Backend
+{
+
+    /**
+     * Return what business hours a customer falls into. Mainly used for international
+     * customers.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @return  string The business hours
+     */
+    function getBusinessHours($customer_id)
+    {
+    }
+
+
+    /**
+     * Returns a message to be displayed to a customer on the top of the issue creation page.
+     *
+     * @param   array $customer_id Customer ID.
+     */
+    function getNewIssueMessage($customer_id)
+    {
+    }
+
+
+    /**
+     * Checks whether the given customer has a support contract that
+     * enforces limits for the minimum first response time or not.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
+     * @return  boolean
+     */
+    function hasMinimumResponseTime($customer_id, $contract_id = false)
+    {
+    }
+
+
+    /**
+     * Returns the minimum first response time in seconds for the
+     * support level associated with the given customer.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
+     * @return  integer The minimum first response time
+     */
+    function getMinimumResponseTime($customer_id, $contract_id = false)
+    {
+    }
+
+
+    /**
+     * Returns the maximum first response time associated with the
+     * support contract of the given customer.
+     *
+     * @access  public
+     * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
+     * @return  integer The maximum first response time, in seconds
+     */
+    function getMaximumFirstResponseTime($customer_id, $contract_id = false)
+    {
+    }
+
+
+    /**
+     * Returns an array of incident types
+     *
+     * @return  array An array of incident types.
+     */
+    function getIncidentTypes()
+    {
+        return array();
+    }
+
+
+    /**
+     * Returns true if the backend uses support levels, false otherwise
+     *
+     * @access  public
+     * @return  boolean True if the project uses support levels.
+     */
+    function usesSupportLevels()
+    {
+        return false;
+    }
+}
+
+Class blah
 {
     /**
      * Connect to the customer database
@@ -45,27 +136,15 @@ class Abstract_Customer_Backend
 
 
     /**
-     * Returns true if the backend uses support levels, false otherwise
-     * 
-     * @access  public
-     * @param   integer $prj_id The project ID
-     * @return  boolean True if the project uses support levels.
-     */
-    function usesSupportLevels($prj_id)
-    {
-        return false;
-    }
-
-
-    /**
-     * Returns the contract status associated with the given customer ID. 
+     * Returns the contract status associated with the given customer ID.
      * Possible return values are 'active', 'in_grace_period' and 'expired'.
      *
      * @access  public
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  string The contract status
      */
-    function getContractStatus($customer_id)
+    function getContractStatus($customer_id, $contract_id = false)
     {
     }
 
@@ -109,7 +188,7 @@ class Abstract_Customer_Backend
 
     /**
      * Marks an issue as a redeemed incident.
-     * 
+     *
      * @see /docs/Customer_API.html
      * @access  public
      * @param   integer $issue_id The ID of the issue
@@ -121,7 +200,7 @@ class Abstract_Customer_Backend
 
     /**
      * Marks an issue as not a redeemed incident.
-     * 
+     *
      * @see /docs/Customer_API.html
      * @access  public
      * @param   integer $issue_id The ID of the issue
@@ -201,7 +280,7 @@ class Abstract_Customer_Backend
 
     /**
      * Returns a list of customers (companies) in the customer database.
-     * 
+     *
      * @access  public
      * @return  array An associated array of customers.
      */
@@ -236,7 +315,7 @@ class Abstract_Customer_Backend
 
 
     /**
-     * Method used to get the list of email addresses associated with the 
+     * Method used to get the list of email addresses associated with the
      * contacts of a given customer.
      *
      * @access  public
@@ -339,8 +418,8 @@ class Abstract_Customer_Backend
 
 
     /**
-     * Performs a customer lookup and returns the matches, if 
-     * appropriate. 
+     * Performs a customer lookup and returns the matches, if
+     * appropriate.
      *
      * @access  public
      * @param   string $field The field that we are trying to search against
@@ -378,14 +457,15 @@ class Abstract_Customer_Backend
 
 
     /**
-     * Returns the support level of the current support contract for a given 
+     * Returns the support level of the current support contract for a given
      * customer ID.
      *
      * @access  public
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  string The support contract level
      */
-    function getSupportLevelID($customer_id)
+    function getSupportLevelID($customer_id, $contract_id = false)
     {
     }
 
@@ -405,7 +485,7 @@ class Abstract_Customer_Backend
 
     /**
      * Returns an array of support levels grouped together.
-     * 
+     *
      * @access  public
      * @return  array an array of support levels.
      */
@@ -457,7 +537,7 @@ class Abstract_Customer_Backend
 
     /**
      * Method used to send an email notification to the sender of a
-     * set of email messages that were manually converted into an 
+     * set of email messages that were manually converted into an
      * issue.
      *
      * @access  public
@@ -511,14 +591,15 @@ class Abstract_Customer_Backend
 
 
     /**
-     * Returns the end date of the current support contract for a given 
+     * Returns the end date of the current support contract for a given
      * customer ID.
      *
      * @access  public
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  string The support contract end date
      */
-    function getContractEndDate($customer_id)
+    function getContractEndDate($customer_id, $contract_id = false)
     {
     }
 
@@ -536,87 +617,15 @@ class Abstract_Customer_Backend
 
 
     /**
-     * Returns the start date of the current support contract for a given 
+     * Returns the start date of the current support contract for a given
      * customer ID.
      *
      * @access  public
      * @param   integer $customer_id The customer ID
+     * @param   integer $contract_id The contract ID
      * @return  string The support contract start date
      */
-    function getContractStartDate($customer_id)
+    function getContractStartDate($customer_id, $contract_id = false)
     {
-    }
-
-
-    /**
-     * Returns a message to be displayed to a customer on the top of the issue creation page.
-     *
-     * @param   array $customer_id Customer ID.
-     */
-    function getNewIssueMessage($customer_id)
-    {
-    }
-
-
-    /**
-     * Return what business hours a customer falls into. Mainly used for international
-     * customers.
-     *
-     * @access  public
-     * @param   integer $customer_id The customer ID
-     * @return  string The business hours
-     */
-    function getBusinessHours($customer_id)
-    {
-    }
-
-
-    /**
-     * Checks whether the given customer has a support contract that
-     * enforces limits for the minimum first response time or not.
-     *
-     * @access  public
-     * @param   integer $customer_id The customer ID
-     * @return  boolean
-     */
-    function hasMinimumResponseTime($customer_id)
-    {
-    }
-
-
-    /**
-     * Returns the minimum first response time in seconds for the
-     * support level associated with the given customer.
-     *
-     * @access  public
-     * @param   integer $customer_id The customer ID
-     * @return  integer The minimum first response time
-     */
-    function getMinimumResponseTime($customer_id)
-    {
-    }
-
-
-    /**
-     * Returns the maximum first response time associated with the
-     * support contract of the given customer.
-     *
-     * @access  public
-     * @param   integer $customer_id The customer ID
-     * @return  integer The maximum first response time, in seconds
-     */
-    function getMaximumFirstResponseTime($customer_id)
-    {
-    }
-    
-    
-    /**
-     * Returns an array of incident types
-     * 
-     * @return  array An array of incident types.
-     */
-    function getIncidentTypes()
-    {
-        return array();
     }
 }

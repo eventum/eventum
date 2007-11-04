@@ -139,6 +139,7 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_id int(11) unsigned NOT NULL auto_increment,
   iss_customer_id int(11) unsigned NULL,
   iss_customer_contact_id int(11) unsigned NULL,
+  iss_customer_contract_id varchar(50) unsigned NULL,
   iss_usr_id int(10) unsigned NOT NULL default 0,
   iss_grp_id int(11) unsigned NULL default NULL,
   iss_prj_id int(11) unsigned NOT NULL default 0,

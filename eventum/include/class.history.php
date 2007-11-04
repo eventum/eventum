@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.history.php 3329 2007-05-17 09:24:59Z balsdorf $
+// @(#) $Id: class.history.php 3394 2007-11-04 08:33:06Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -238,6 +238,7 @@ class History
                     iss_prj_id,
                     iss_summary,
                     iss_customer_id,
+                    iss_customer_contract_id,
                     sta_title,
                     pri_title,
                     sta_is_closed
@@ -280,7 +281,7 @@ class History
                 }
                 foreach ($res as $index => $row) {
                     if ((!empty($row["iss_customer_id"])) && (Customer::hasCustomerIntegration($row['iss_prj_id']))) {
-                        $details = Customer::getDetails($row["iss_prj_id"], $row["iss_customer_id"]);
+                        $details = Customer::getDetails($row["iss_prj_id"], $row["iss_customer_id"], $res['iss_customer_contract_id']);
                         $row["customer_name"] = $details["customer_name"];
                     }
                     if (($separate_closed) && ($row['sta_is_closed'] == 1)) {

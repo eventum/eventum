@@ -672,3 +672,6 @@ ALTER TABLE eventum_irc_notice ADD INDEX ino_status (ino_status);
 # June 21st
 ALTER TABLE eventum_issue_custom_field ADD COLUMN icf_value_integer int(11) NULL DEFAULT NULL;
 ALTER TABLE eventum_issue_custom_field ADD COLUMN icf_value_date date NULL DEFAULT NULL;
+
+# October 6th
+ALTER TABLE eventum_issue ADD COLUMN iss_customer_contract_id int(11) unsigned AFTER iss_customer_id;

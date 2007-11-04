@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: select_project.php 3258 2007-02-14 23:25:56Z glen $
+// @(#) $Id: select_project.php 3394 2007-11-04 08:33:06Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -127,33 +127,9 @@ function handleExpiredCustomer($prj_id)
         // check if customer is expired
         $usr_id = Auth::getUserID();
         $contact_id = User::getCustomerContactID($usr_id);
+        $customer_id = User::getCustomerID($usr_id);
         if ((!empty($contact_id)) && ($contact_id != -1)) {
-            $status = Customer::getContractStatus($prj_id, User::getCustomerID($usr_id));
-            $email = User::getEmailByContactID($contact_id);
-            if ($status == 'expired') {
-                Customer::sendExpirationNotice($prj_id, $contact_id, true);
-                Auth::saveLoginAttempt($email, 'failure', 'expired contract');
-
-                Auth::removeCookie(APP_PROJECT_COOKIE);
-
-                $contact_id = User::getCustomerContactID($usr_id);
-                $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/customer_expired.tpl.html");
-                $tpl->assign('customer', Customer::getContractDetails($prj_id, $contact_id, false));
-                $tpl->displayTemplate();
-                exit;
-            } elseif ($status == 'in_grace_period') {
-                Customer::sendExpirationNotice($prj_id, $contact_id);
-                $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/grace_period.tpl.html");
-                $tpl->assign('customer', Customer::getContractDetails($prj_id, $contact_id, false));
-                $tpl->assign('expiration_offset', Customer::getExpirationOffset($prj_id));
-                $tpl->displayTemplate();
-                exit;
-            }
-            // check with cnt_support to see if this contact is allowed in this support contract
-            if (!Customer::isAllowedSupportContact($prj_id, $contact_id)) {
-                Auth::saveLoginAttempt($email, 'failure', 'not allowed as technical contact');
-                Auth::redirect(APP_RELATIVE_URL . "index.php?err=4&email=" . $email);
-            }
+            Customer::authenticateCustomer($prj_id, $customer_id, $contact_id);
         }
     }
 }
