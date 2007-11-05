@@ -41,6 +41,7 @@ Eventum Issue Tracking System
 - Added workflow method to control if email addresses are automatically added to the notification list (Bryan)
 - Fixed bug with blocked emails adding sender to the notification list (Bryan)
 - Changed customer API to support multiple contracts (Bryan)
+- Fixed bug with closed issue notification going out even when it shouldn't have (Bryan)
 
 2007-04-17, Version 2.0.1
 - Fixed packaging bug that prevented setup from running (Bryan)
