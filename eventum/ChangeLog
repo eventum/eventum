@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 2.1
+2007-11-??, Version 2.1
 - Fixed error with DB error when removing assignnees from issue assignment list (Bryan)
 - Rewritten error handling to create less smaller error reports (Elan Ruusamäe)
 - Make issue associated list as text field (Bryan, Elan Ruusamäe)
