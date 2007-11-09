@@ -1,26 +1,61 @@
 <?php
-// vim: set expandtab tabstop=4 softtabstop=4 shiftwidth=4:
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.02 of the PHP license,      |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author: Leandro Lucarella <llucax@php.net>                           |
-// +----------------------------------------------------------------------+
-//
-// $Id: Span.php,v 1.4 2003/04/30 03:56:26 llucax Exp $
-//
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=marker: */
 
+// {{{ Header
+
+/**
+ * Generic time span handling class for PEAR
+ *
+ * PHP versions 4 and 5
+ *
+ * LICENSE:
+ *
+ * Copyright (c) 1997-2005 Leandro Lucarella, Pierre-Alain Joye
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted under the terms of the BSD License.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category   Date and Time
+ * @package    Date
+ * @author     Leandro Lucarella <llucax@php.net>
+ * @author     Pierre-Alain Joye <pajoye@php.net>
+ * @copyright  1997-2006 Leandro Lucarella, Pierre-Alain Joye
+ * @license    http://www.opensource.org/licenses/bsd-license.php
+ *             BSD License
+ * @version    CVS: $Id: Span.php,v 1.9 2006/11/21 17:38:15 firman Exp $
+ * @link       http://pear.php.net/package/Date
+ * @since      File available since Release 1.4
+ */
+
+// }}}
+// {{{ Includes
+
+/**
+ * Get the Date class
+ */
 require_once 'Date.php';
+
+/**
+ * Get the Date_Calc class
+ */
 require_once 'Date/Calc.php';
+
+// }}}
+// {{{ Constants
 
 /**
  * Non Numeric Separated Values (NNSV) Input Format.
@@ -44,31 +79,41 @@ require_once 'Date/Calc.php';
  */
 define('DATE_SPAN_INPUT_FORMAT_NNSV', 1);
 
+// }}}
+// {{{ Global Variables
+
 /**
  * Default time format when converting to a string.
  *
  * @global string
  */
-$_DATE_SPAN_FORMAT  = '%C';
+$GLOBALS['_DATE_SPAN_FORMAT']  = '%C';
 
 /**
  * Default time format when converting from a string.
  *
  * @global mixed
  */
-$_DATE_SPAN_INPUT_FORMAT = DATE_SPAN_INPUT_FORMAT_NNSV;
+$GLOBALS['_DATE_SPAN_INPUT_FORMAT'] = DATE_SPAN_INPUT_FORMAT_NNSV;
+
+// }}}
+// {{{ Class: Date_Span
 
 /**
- * Generic time span handling class for PEAR.
+ * Generic time span handling class for PEAR
  *
- * @package Date
- * @author  Leandro Lucarella <llucax@php.net>
- * @version $Revision: 1.4 $
- * @since   1.4
- * @todo    Get and set default local input and output formats?
- * @access  public
+ * @author     Leandro Lucarella <llucax@php.net>
+ * @author     Pierre-Alain Joye <pajoye@php.net>
+ * @copyright  1997-2006 Leandro Lucarella, Pierre-Alain Joye
+ * @license    http://www.opensource.org/licenses/bsd-license.php
+ *             BSD License
+ * @version    Release: 1.4.7
+ * @link       http://pear.php.net/package/Date
+ * @since      Class available since Release 1.4
  */
-class Date_Span {
+class Date_Span
+{
+    // {{{ Properties
 
     /**
      * @var int
@@ -90,6 +135,9 @@ class Date_Span {
      */
     var $second;
 
+    // }}}
+    // {{{ Constructor
+
     /**
      * Constructor.
      *
@@ -106,6 +154,9 @@ class Date_Span {
     {
         $this->set($time, $format);
     }
+
+    // }}}
+    // {{{ set()
 
     /**
      * Set the time span to a new value in a 'smart' way.
@@ -142,6 +193,9 @@ class Date_Span {
             return $this->setFromSeconds(0);
         }
     }
+
+    // }}}
+    // {{{ setFromArray()
 
     /**
      * Set the time span from an array.
@@ -184,6 +238,9 @@ class Date_Span {
         $tmp1->add($tmp2);
         return $this->copy($tmp1);
     }
+
+    // }}}
+    // {{{ setFromString()
 
     /**
      * Set the time span from a string based on an input format.
@@ -379,6 +436,9 @@ class Date_Span {
         return false;
     }
 
+    // }}}
+    // {{{ setFromSeconds()
+
     /**
      * Set the time span from a total number of seconds.
      *
@@ -404,6 +464,9 @@ class Date_Span {
         return true;
     }
 
+    // }}}
+    // {{{ setFromMinutes()
+
     /**
      * Set the time span from a total number of minutes.
      *
@@ -417,6 +480,9 @@ class Date_Span {
     {
         return $this->setFromSeconds(round($minutes * 60));
     }
+
+    // }}}
+    // {{{ setFromHours()
 
     /**
      * Set the time span from a total number of hours.
@@ -432,6 +498,9 @@ class Date_Span {
         return $this->setFromSeconds(round($hours * 3600));
     }
 
+    // }}}
+    // {{{ setFromDays()
+
     /**
      * Set the time span from a total number of days.
      *
@@ -446,12 +515,15 @@ class Date_Span {
         return $this->setFromSeconds(round($days * 86400));
     }
 
+    // }}}
+    // {{{ setFromDateDiff()
+
     /**
      * Set the span from the elapsed time between two dates.
      *
      * Set the span from the elapsed time between two dates. The time span
      * is allways positive, so the date's order is not important.
-     * 
+     *
      * @param  object Date $date1 First Date.
      * @param  object Date $date2 Second Date.
      *
@@ -482,6 +554,9 @@ class Date_Span {
         return true;
     }
 
+    // }}}
+    // {{{ copy()
+
     /**
      * Set the time span from another time object.
      *
@@ -503,6 +578,9 @@ class Date_Span {
             return false;
         }
     }
+
+    // }}}
+    // {{{ format()
 
     /**
      * Time span pretty printing (similar to Date::format()).
@@ -672,6 +750,9 @@ class Date_Span {
         return $output;
     }
 
+    // }}}
+    // {{{ toSeconds()
+
     /**
      * Convert time span to seconds.
      *
@@ -684,6 +765,9 @@ class Date_Span {
         return $this->day * 86400 + $this->hour * 3600 +
             $this->minute * 60 + $this->second;
     }
+
+    // }}}
+    // {{{ toMinutes()
 
     /**
      * Convert time span to minutes.
@@ -698,6 +782,9 @@ class Date_Span {
             $this->second / 60;
     }
 
+    // }}}
+    // {{{ toHours()
+
     /**
      * Convert time span to hours.
      *
@@ -710,6 +797,9 @@ class Date_Span {
         return $this->day * 24 + $this->hour + $this->minute / 60 +
             $this->second / 3600;
     }
+
+    // }}}
+    // {{{ toDays()
 
     /**
      * Convert time span to days.
@@ -724,6 +814,9 @@ class Date_Span {
             $this->second / 86400;
     }
 
+    // }}}
+    // {{{ add()
+
     /**
      * Adds a time span.
      *
@@ -737,6 +830,9 @@ class Date_Span {
             $this->toSeconds() + $time->toSeconds()
         );
     }
+
+    // }}}
+    // {{{ substract()
 
     /**
      * Subtracts a time span.
@@ -759,6 +855,9 @@ class Date_Span {
         }
     }
 
+    // }}}
+    // {{{ equal()
+
     /**
      * Tells if time span is equal to $time.
      *
@@ -772,6 +871,9 @@ class Date_Span {
     {
         return $this->toSeconds() == $time->toSeconds();
     }
+
+    // }}}
+    // {{{ greaterEqual()
 
     /**
      * Tells if this time span is greater or equal than $time.
@@ -787,6 +889,9 @@ class Date_Span {
         return $this->toSeconds() >= $time->toSeconds();
     }
 
+    // }}}
+    // {{{ lowerEqual()
+
     /**
      * Tells if this time span is lower or equal than $time.
      *
@@ -800,6 +905,9 @@ class Date_Span {
     {
         return $this->toSeconds() <= $time->toSeconds();
     }
+
+    // }}}
+    // {{{ greater()
 
     /**
      * Tells if this time span is greater than $time.
@@ -815,6 +923,9 @@ class Date_Span {
         return $this->toSeconds() > $time->toSeconds();
     }
 
+    // }}}
+    // {{{ lower()
+
     /**
      * Tells if this time span is lower than $time.
      *
@@ -828,6 +939,9 @@ class Date_Span {
     {
         return $this->toSeconds() < $time->toSeconds();
     }
+
+    // }}}
+    // {{{ compare()
 
     /**
      * Compares two time spans.
@@ -854,6 +968,9 @@ class Date_Span {
         }
     }
 
+    // }}}
+    // {{{ isEmpty()
+
     /**
      * Tells if the time span is empty (zero length).
      *
@@ -863,6 +980,9 @@ class Date_Span {
     {
         return !$this->day && !$this->hour && !$this->minute && !$this->second;
     }
+
+    // }}}
+    // {{{ setDefaultInputFormat()
 
     /**
      * Set the default input format.
@@ -880,6 +1000,9 @@ class Date_Span {
         return $old;
     }
 
+    // }}}
+    // {{{ getDefaultInputFormat()
+
     /**
      * Get the default input format.
      *
@@ -891,6 +1014,9 @@ class Date_Span {
     {
         return $GLOBALS['_DATE_SPAN_INPUT_FORMAT'];
     }
+
+    // }}}
+    // {{{ setDefaultFormat()
 
     /**
      * Set the default format.
@@ -908,6 +1034,9 @@ class Date_Span {
         return $old;
     }
 
+    // }}}
+    // {{{ getDefaultFormat()
+
     /**
      * Get the default format.
      *
@@ -919,6 +1048,9 @@ class Date_Span {
     {
         return $GLOBALS['_DATE_SPAN_FORMAT'];
     }
+
+    // }}}
+    // {{{ __clone()
 
     /**
      * Returns a copy of the object (workarround for PHP5 forward compatibility).
@@ -934,6 +1066,18 @@ class Date_Span {
         $s->second = $this->second;
         return $s;
     }
+
+    // }}}
 }
 
+// }}}
+
+/*
+ * Local variables:
+ * mode: php
+ * tab-width: 4
+ * c-basic-offset: 4
+ * c-hanging-comment-ender-p: nil
+ * End:
+ */
 ?>

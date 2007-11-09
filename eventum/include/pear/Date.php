@@ -1,106 +1,186 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2003 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.02 of the PHP license,      |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Baba Buehler <baba@babaz.com>                               |
-// |                                                                      |
-// +----------------------------------------------------------------------+
-//
-// $Id: Date.php,v 1.22 2003/12/21 14:21:46 pajoye Exp $
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=marker: */
 
-/**@#+
- * Include supporting classes
- */
-require_once 'Date/TimeZone.php';
-require_once 'Date/Calc.php';
-require_once 'Date/Span.php';
-/**@#-*/
-
-/**@#+
- * Output formats.  Pass this to getDate().
- */
-/**
- * "YYYY-MM-DD HH:MM:SS"
- */
-define('DATE_FORMAT_ISO', 1);
-/**
- * "YYYYMMSSTHHMMSS(Z|(+/-)HHMM)?"
- */
-define('DATE_FORMAT_ISO_BASIC', 2);
-/**
- * "YYYY-MM-SSTHH:MM:SS(Z|(+/-)HH:MM)?"
- */
-define('DATE_FORMAT_ISO_EXTENDED', 3);
-/**
- * "YYYYMMDDHHMMSS"
- */
-define('DATE_FORMAT_TIMESTAMP', 4);
-/**
- * long int, seconds since the unix epoch
- */
-define('DATE_FORMAT_UNIXTIME', 5);
-/**@#-*/
+// {{{ Header
 
 /**
- * Generic date handling class for PEAR.
+ * Generic date handling class for PEAR
  *
  * Generic date handling class for PEAR.  Attempts to be time zone aware
  * through the Date::TimeZone class.  Supports several operations from
  * Date::Calc on Date objects.
  *
- * @author Baba Buehler <baba@babaz.com>
- * @package Date
- * @access public
+ * PHP versions 4 and 5
+ *
+ * LICENSE:
+ *
+ * Copyright (c) 1997-2006 Baba Buehler, Pierre-Alain Joye
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted under the terms of the BSD License.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category   Date and Time
+ * @package    Date
+ * @author     Baba Buehler <baba@babaz.com>
+ * @author     Pierre-Alain Joye <pajoye@php.net>
+ * @author     Firman Wandayandi <firman@php.net>
+ * @copyright  1997-2006 Baba Buehler, Pierre-Alain Joye
+ * @license    http://www.opensource.org/licenses/bsd-license.php
+ *             BSD License
+ * @version    CVS: $Id: Date.php,v 1.41 2006/11/22 00:28:03 firman Exp $
+ * @link       http://pear.php.net/package/Date
+ */
+
+// }}}
+
+// {{{ Includes
+
+/**
+ * Load Date_TimeZone.
+ */
+require_once 'Date/TimeZone.php';
+
+/**
+ * Load Date_Calc.
+ */
+require_once 'Date/Calc.php';
+
+/**
+ * Load Date_Span.
+ */
+require_once 'Date/Span.php';
+
+// }}}
+// {{{ Constants
+
+// {{{ Output formats Pass this to getDate().
+
+/**
+ * "YYYY-MM-DD HH:MM:SS"
+ */
+define('DATE_FORMAT_ISO', 1);
+
+/**
+ * "YYYYMMSSTHHMMSS(Z|(+/-)HHMM)?"
+ */
+define('DATE_FORMAT_ISO_BASIC', 2);
+
+/**
+ * "YYYY-MM-SSTHH:MM:SS(Z|(+/-)HH:MM)?"
+ */
+define('DATE_FORMAT_ISO_EXTENDED', 3);
+
+/**
+ * "YYYY-MM-SSTHH:MM:SS(.S*)?(Z|(+/-)HH:MM)?"
+ */
+define('DATE_FORMAT_ISO_EXTENDED_MICROTIME', 6);
+
+/**
+ * "YYYYMMDDHHMMSS"
+ */
+define('DATE_FORMAT_TIMESTAMP', 4);
+
+/**
+ * long int, seconds since the unix epoch
+ */
+define('DATE_FORMAT_UNIXTIME', 5);
+
+// }}}
+
+// }}}
+// {{{ Class: Date
+
+/**
+ * Generic date handling class for PEAR
+ *
+ * Generic date handling class for PEAR.  Attempts to be time zone aware
+ * through the Date::TimeZone class.  Supports several operations from
+ * Date::Calc on Date objects.
+ *
+ * @author     Baba Buehler <baba@babaz.com>
+ * @author     Pierre-Alain Joye <pajoye@php.net>
+ * @author     Firman Wandayandi <firman@php.net>
+ * @copyright  1997-2006 Baba Buehler, Pierre-Alain Joye
+ * @license    http://www.opensource.org/licenses/bsd-license.php
+ *             BSD License
+ * @version    Release: 1.4.7
+ * @link       http://pear.php.net/package/Date
  */
 class Date
 {
+    // {{{ Properties
+
     /**
      * the year
      * @var int
      */
     var $year;
+
     /**
      * the month
      * @var int
      */
     var $month;
+
     /**
      * the day
      * @var int
      */
     var $day;
+
     /**
      * the hour
      * @var int
      */
     var $hour;
+
     /**
      * the minute
      * @var int
      */
     var $minute;
+
     /**
      * the second
      * @var int
      */
     var $second;
+
+    /**
+     * the parts of a second
+     * @var float
+     */
+    var $partsecond;
+
     /**
      * timezone for this date
      * @var object Date_TimeZone
      */
     var $tz;
 
+    /**
+     * define the default weekday abbreviation length
+     * used by ::format()
+     * @var int
+     */
+    var $getWeekdayAbbrnameLength = 3;
+
+    // }}}
+    // {{{ Constructor
 
     /**
      * Constructor
@@ -121,15 +201,15 @@ class Date
         $this->tz = Date_TimeZone::getDefault();
         if (is_null($date)) {
             $this->setDate(date("Y-m-d H:i:s"));
-        } elseif (is_object($date) &&
-            ((get_class($date) == 'date') ||
-            (is_subclass_of($date,'date')))
-        ) {
+        } elseif (is_a($date, 'Date')) {
             $this->copy($date);
         } else {
             $this->setDate($date);
         }
     }
+
+    // }}}
+    // {{{ setDate()
 
     /**
      * Set the fields of a Date object based on the input date and format
@@ -145,9 +225,8 @@ class Date
      */
     function setDate($date, $format = DATE_FORMAT_ISO)
     {
-
         if (
-            preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(Z|[\+\-]\d{2}:?\d{2})?)?$/i', $date, $regs)
+            preg_match('/^(\d{4})-?(\d{2})-?(\d{2})([T\s]?(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?(Z|[\+\-]\d{2}:?\d{2})?)?$/i', $date, $regs)
             && $format != DATE_FORMAT_UNIXTIME) {
             // DATE_FORMAT_ISO, ISO_BASIC, ISO_EXTENDED, and TIMESTAMP
             // These formats are extremely close to each other.  This regex
@@ -155,32 +234,37 @@ class Date
             // throw at it.  e.g. 2003-10-07 19:45:15 and 2003-10071945:15
             // are the same thing in the eyes of this regex, even though the
             // latter is not a valid ISO 8601 date.
-            $this->year   = $regs[1];
-            $this->month  = $regs[2];
-            $this->day    = $regs[3];
-            $this->hour   = isset($regs[5])?$regs[5]:0;
-            $this->minute = isset($regs[6])?$regs[6]:0;
-            $this->second = isset($regs[7])?$regs[7]:0;
+            $this->year       = $regs[1];
+            $this->month      = $regs[2];
+            $this->day        = $regs[3];
+            $this->hour       = isset($regs[5])?$regs[5]:0;
+            $this->minute     = isset($regs[6])?$regs[6]:0;
+            $this->second     = isset($regs[7])?$regs[7]:0;
+            $this->partsecond = isset($regs[8])?(float)$regs[8]:(float)0;
 
             // if an offset is defined, convert time to UTC
             // Date currently can't set a timezone only by offset,
             // so it has to store it as UTC
-            if (isset($regs[8])) {
-                $this->toUTCbyOffset($regs[8]);
+            if (isset($regs[9])) {
+                $this->toUTCbyOffset($regs[9]);
             }
         } elseif (is_numeric($date)) {
             // UNIXTIME
             $this->setDate(date("Y-m-d H:i:s", $date));
         } else {
             // unknown format
-            $this->year   = 0;
-            $this->month  = 1;
-            $this->day    = 1;
-            $this->hour   = 0;
-            $this->minute = 0;
-            $this->second = 0;
+            $this->year       = 0;
+            $this->month      = 1;
+            $this->day        = 1;
+            $this->hour       = 0;
+            $this->minute     = 0;
+            $this->second     = 0;
+            $this->partsecond = (float)0;
         }
     }
+
+    // }}}
+    // {{{ getDate()
 
     /**
      * Get a string (or other) representation of this date
@@ -212,6 +296,13 @@ class Date
             }
             return $this->format($format);
             break;
+        case DATE_FORMAT_ISO_EXTENDED_MICROTIME:
+            $format = "%Y-%m-%dT%H:%M:%s";
+            if ($this->tz->getID() == 'UTC') {
+                $format .= "Z";
+            }
+            return $this->format($format);
+            break;
         case DATE_FORMAT_TIMESTAMP:
             return $this->format("%Y%m%d%H%M%S");
             break;
@@ -220,6 +311,9 @@ class Date
             break;
         }
     }
+
+    // }}}
+    // {{{ copy()
 
     /**
      * Copy values from another Date object
@@ -239,6 +333,9 @@ class Date
         $this->second = $date->second;
         $this->tz = $date->tz;
     }
+
+    // }}}
+    // {{{ format()
 
     /**
      *  Date pretty printing, similar to strftime()
@@ -269,6 +366,7 @@ class Date
      *  <code>%P  </code>  either 'AM' or 'PM' depending on the time <br>
      *  <code>%r  </code>  time in am/pm notation, same as "%I:%M:%S %p" <br>
      *  <code>%R  </code>  time in 24-hour notation, same as "%H:%M" <br>
+     *  <code>%s  </code>  seconds including the decimal representation smaller than one second <br>
      *  <code>%S  </code>  seconds as a decimal number (00 to 59) <br>
      *  <code>%t  </code>  tab character (\t) <br>
      *  <code>%T  </code>  current time, same as "%H:%M:%S" <br>
@@ -293,7 +391,7 @@ class Date
                 $nextchar = substr($format,$strpos + 1,1);
                 switch ($nextchar) {
                 case "a":
-                    $output .= Date_Calc::getWeekdayAbbrname($this->day,$this->month,$this->year);
+                    $output .= Date_Calc::getWeekdayAbbrname($this->day,$this->month,$this->year, $this->getWeekdayAbbrnameLength);
                     break;
                 case "A":
                     $output .= Date_Calc::getWeekdayFullname($this->day,$this->month,$this->year);
@@ -322,9 +420,16 @@ class Date
                 case "H":
                     $output .= sprintf("%02d", $this->hour);
                     break;
+                case 'h':
+                    $output .= sprintf("%d", $this->hour);
+                    break;
                 case "I":
                     $hour = ($this->hour + 1) > 12 ? $this->hour - 12 : $this->hour;
                     $output .= sprintf("%02d", $hour==0 ? 12 : $hour);
+                    break;
+                case "i":
+                    $hour = ($this->hour + 1) > 12 ? $this->hour - 12 : $this->hour;
+                    $output .= sprintf("%d", $hour==0 ? 12 : $hour);
                     break;
                 case "j":
                     $output .= Date_Calc::julianDate($this->day,$this->month,$this->year);
@@ -367,6 +472,9 @@ class Date
                 case "R":
                     $output .= sprintf("%02d:%02d", $this->hour, $this->minute);
                     break;
+                case "s":
+                    $output .= str_replace(',', '.', sprintf("%09f", (float)((float)$this->second + $this->partsecond)));
+                    break;
                 case "S":
                     $output .= sprintf("%02d", $this->second);
                     break;
@@ -406,6 +514,9 @@ class Date
 
     }
 
+    // }}}
+    // {{{ getTime()
+
     /**
      * Get this date/time in Unix time() format
      *
@@ -419,6 +530,9 @@ class Date
     {
         return $this->getDate(DATE_FORMAT_UNIXTIME);
     }
+
+    // }}}
+    // {{{ setTZ()
 
     /**
      * Sets the time zone of this Date
@@ -435,12 +549,15 @@ class Date
      */
     function setTZ($tz)
     {
-    	if(is_a($tz, 'date_timezone')) {
-        	$this->tz = $tz;
-    	} else {
-    		$this->setTZbyID($tz);
-    	}
+        if(is_a($tz, 'Date_Timezone')) {
+            $this->tz = $tz;
+        } else {
+            $this->setTZbyID($tz);
+        }
     }
+
+    // }}}
+    // {{{ setTZbyID()
 
     /**
      * Sets the time zone of this date with the given time zone id
@@ -463,6 +580,9 @@ class Date
         }
     }
 
+    // }}}
+    // {{{ inDaylightTime()
+
     /**
      * Tests if this date/time is in DST
      *
@@ -477,6 +597,9 @@ class Date
     {
         return $this->tz->inDaylightTime($this);
     }
+
+    // }}}
+    // {{{ toUTC()
 
     /**
      * Converts this date to UTC and sets this date's timezone to UTC
@@ -494,6 +617,9 @@ class Date
         }
         $this->tz = new Date_TimeZone('UTC');
     }
+
+    // }}}
+    // {{{ convertTZ()
 
     /**
      * Converts this date to a new time zone
@@ -523,6 +649,9 @@ class Date
         $this->tz = $tz;
     }
 
+    // }}}
+    // {{{ convertTZbyID()
+
     /**
      * Converts this date to a new time zone, given a valid time zone ID
      *
@@ -543,6 +672,9 @@ class Date
        }
        $this->convertTZ($tz);
     }
+
+    // }}}
+    // {{{ toUTCbyOffset()
 
     function toUTCbyOffset($offset)
     {
@@ -574,6 +706,9 @@ class Date
         return false;
     }
 
+    // }}}
+    // {{{ addSeconds()
+
     /**
      * Adds a given number of seconds to the date
      *
@@ -584,8 +719,19 @@ class Date
      */
     function addSeconds($sec)
     {
-        $this->addSpan(new Date_Span((integer)$sec));
+        settype($sec, 'int');
+
+        // Negative value given.
+        if ($sec < 0) {
+            $this->subtractSeconds(abs($sec));
+            return;
+        }
+
+        $this->addSpan(new Date_Span($sec));
     }
+
+    // }}}
+    // {{{ addSpan()
 
     /**
      * Adds a time span to the date
@@ -597,6 +743,10 @@ class Date
      */
     function addSpan($span)
     {
+        if (!is_a($span, 'Date_Span')) {
+            return;
+        }
+
         $this->second += $span->second;
         if ($this->second >= 60) {
             $this->minute++;
@@ -631,6 +781,9 @@ class Date
         $this->day   = intval($this->day);
     }
 
+    // }}}
+    // {{{ subtractSeconds()
+
     /**
      * Subtracts a given number of seconds from the date
      *
@@ -641,8 +794,19 @@ class Date
      */
     function subtractSeconds($sec)
     {
+        settype($sec, 'int');
+
+        // Negative value given.
+        if ($sec < 0) {
+            $this->addSeconds(abs($sec));
+            return;
+        }
+
         $this->subtractSpan(new Date_Span($sec));
     }
+
+    // }}}
+    // {{{ subtractSpan()
 
     /**
      * Subtracts a time span to the date
@@ -654,6 +818,13 @@ class Date
      */
     function subtractSpan($span)
     {
+        if (!is_a($span, 'Date_Span')) {
+            return;
+        }
+        if ($span->isEmpty()) {
+            return;
+        }
+
         $this->second -= $span->second;
         if ($this->second < 0) {
             $this->minute--;
@@ -688,6 +859,9 @@ class Date
         $this->day   = intval($this->day);
     }
 
+    // }}}
+    // {{{ compare()
+
     /**
      * Compares two dates
      *
@@ -716,6 +890,9 @@ class Date
         return 0;
     }
 
+    // }}}
+    // {{{ before()
+
     /**
      * Test if this date/time is before a certain date/time
      *
@@ -733,6 +910,9 @@ class Date
             return false;
         }
     }
+
+    // }}}
+    // {{{ after()
 
     /**
      * Test if this date/time is after a certian date/time
@@ -752,6 +932,9 @@ class Date
         }
     }
 
+    // }}}
+    // {{{ equals()
+
     /**
      * Test if this date/time is exactly equal to a certian date/time
      *
@@ -769,6 +952,9 @@ class Date
             return false;
         }
     }
+
+    // }}}
+    // {{{ isFuture()
 
     /**
      * Determine if this date is in the future
@@ -788,6 +974,9 @@ class Date
         }
     }
 
+    // }}}
+    // {{{ isPast()
+
     /**
      * Determine if this date is in the past
      *
@@ -806,6 +995,9 @@ class Date
         }
     }
 
+    // }}}
+    // {{{ isLeapYear()
+
     /**
      * Determine if the year in this date is a leap year
      *
@@ -818,6 +1010,9 @@ class Date
     {
         return Date_Calc::isLeapYear($this->year);
     }
+
+    // }}}
+    // {{{ getJulianDate()
 
     /**
      * Get the Julian date for this date
@@ -832,6 +1027,9 @@ class Date
         return Date_Calc::julianDate($this->day, $this->month, $this->year);
     }
 
+    // }}}
+    // {{{ getDayOfWeek()
+
     /**
      * Gets the day of the week for this date
      *
@@ -844,6 +1042,9 @@ class Date
     {
         return Date_Calc::dayOfWeek($this->day, $this->month, $this->year);
     }
+
+    // }}}
+    // {{{ getWeekOfYear()
 
     /**
      * Gets the week of the year for this date
@@ -858,6 +1059,9 @@ class Date
         return Date_Calc::weekOfYear($this->day, $this->month, $this->year);
     }
 
+    // }}}
+    // {{{ getQuarterOfYear()
+
     /**
      * Gets the quarter of the year for this date
      *
@@ -870,6 +1074,9 @@ class Date
     {
         return Date_Calc::quarterOfYear($this->day, $this->month, $this->year);
     }
+
+    // }}}
+    // {{{ getDaysInMonth()
 
     /**
      * Gets number of days in the month for this date
@@ -884,6 +1091,9 @@ class Date
         return Date_Calc::daysInMonth($this->month, $this->year);
     }
 
+    // }}}
+    // {{{ getWeeksInMonth()
+
     /**
      * Gets the number of weeks in the month for this date
      *
@@ -897,6 +1107,9 @@ class Date
         return Date_Calc::weeksInMonth($this->month, $this->year);
     }
 
+    // }}}
+    // {{{ getDayName()
+
     /**
      * Gets the full name or abbriviated name of this weekday
      *
@@ -906,14 +1119,17 @@ class Date
      * @param boolean $abbr abbrivate the name
      * @return string name of this day
      */
-    function getDayName($abbr = false)
+    function getDayName($abbr = false, $length = 3)
     {
         if ($abbr) {
-            return Date_Calc::getWeekdayAbbrname($this->day, $this->month, $this->year);
+            return Date_Calc::getWeekdayAbbrname($this->day, $this->month, $this->year, $length);
         } else {
             return Date_Calc::getWeekdayFullname($this->day, $this->month, $this->year);
         }
     }
+
+    // }}}
+    // {{{ getMonthName()
 
     /**
      * Gets the full name or abbriviated name of this month
@@ -933,6 +1149,9 @@ class Date
         }
     }
 
+    // }}}
+    // {{{ getNextDay()
+
     /**
      * Get a Date object for the day after this one
      *
@@ -950,6 +1169,9 @@ class Date
         $newDate->setDate($date);
         return $newDate;
     }
+
+    // }}}
+    // {{{ getPrevDay()
 
     /**
      * Get a Date object for the day before this one
@@ -969,6 +1191,9 @@ class Date
         return $newDate;
     }
 
+    // }}}
+    // {{{ getNextWeekday()
+
     /**
      * Get a Date object for the weekday after this one
      *
@@ -986,6 +1211,9 @@ class Date
         $newDate->setDate($date);
         return $newDate;
     }
+
+    // }}}
+    // {{{ getPrevWeekday()
 
     /**
      * Get a Date object for the weekday before this one
@@ -1005,6 +1233,8 @@ class Date
         return $newDate;
     }
 
+    // }}}
+    // {{{ getYear()
 
     /**
      * Returns the year field of the date object
@@ -1016,8 +1246,11 @@ class Date
      */
     function getYear()
     {
-        return $this->year;
+        return (int)$this->year;
     }
+
+    // }}}
+    // {{{ getMonth()
 
     /**
      * Returns the month field of the date object
@@ -1029,8 +1262,11 @@ class Date
      */
     function getMonth()
     {
-        return $this->month;
+        return (int)$this->month;
     }
+
+    // }}}
+    // {{{ getDay()
 
     /**
      * Returns the day field of the date object
@@ -1042,8 +1278,11 @@ class Date
      */
     function getDay()
     {
-        return $this->day;
+        return (int)$this->day;
     }
+
+    // }}}
+    // {{{ getHour()
 
     /**
      * Returns the hour field of the date object
@@ -1058,6 +1297,9 @@ class Date
         return $this->hour;
     }
 
+    // }}}
+    // {{{ getMinute()
+
     /**
      * Returns the minute field of the date object
      *
@@ -1071,6 +1313,9 @@ class Date
         return $this->minute;
     }
 
+    // }}}
+    // {{{ getSecond()
+
     /**
      * Returns the second field of the date object
      *
@@ -1083,6 +1328,9 @@ class Date
     {
          return $this->second;
     }
+
+    // }}}
+    // {{{ setYear()
 
     /**
      * Set the year field of the date object
@@ -1101,6 +1349,9 @@ class Date
         }
     }
 
+    // }}}
+    // {{{ setMonth()
+
     /**
      * Set the month field of the date object
      *
@@ -1118,6 +1369,9 @@ class Date
         }
     }
 
+    // }}}
+    // {{{ setDay()
+
     /**
      * Set the day field of the date object
      *
@@ -1134,6 +1388,9 @@ class Date
             $this->day = $d;
         }
     }
+
+    // }}}
+    // {{{ setHour()
 
     /**
      * Set the hour field of the date object
@@ -1153,6 +1410,9 @@ class Date
         }
     }
 
+    // }}}
+    // {{{ setMinute()
+
     /**
      * Set the minute field of the date object
      *
@@ -1170,6 +1430,9 @@ class Date
         }
     }
 
+    // }}}
+    // {{{ setSecond()
+
     /**
      * Set the second field of the date object
      *
@@ -1186,9 +1449,17 @@ class Date
         }
     }
 
-} // Date
+    // }}}
+}
 
+// }}}
 
-//
-// END
+/*
+ * Local variables:
+ * mode: php
+ * tab-width: 4
+ * c-basic-offset: 4
+ * c-hanging-comment-ender-p: nil
+ * End:
+ */
 ?>
