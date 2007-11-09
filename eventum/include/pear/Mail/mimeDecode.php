@@ -1,147 +1,151 @@
-<?Php
-// +-----------------------------------------------------------------------+
-// | Copyright (c) 2002-2003  Richard Heyes                                |
-// | All rights reserved.                                                  |
-// |                                                                       |
-// | Redistribution and use in source and binary forms, with or without    |
-// | modification, are permitted provided that the following conditions    |
-// | are met:                                                              |
-// |                                                                       |
-// | o Redistributions of source code must retain the above copyright      |
-// |   notice, this list of conditions and the following disclaimer.       |
-// | o Redistributions in binary form must reproduce the above copyright   |
-// |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.|
-// | o The names of the authors may not be used to endorse or promote      |
-// |   products derived from this software without specific prior written  |
-// |   permission.                                                         |
-// |                                                                       |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
-// |                                                                       |
-// +-----------------------------------------------------------------------+
-// | Author: Richard Heyes <richard@phpguru.org>                           |
-// +-----------------------------------------------------------------------+
+<?php
+/**
+ * The Mail_mimeDecode class is used to decode mail/mime messages
+ *
+ * This class will parse a raw mime email and return
+ * the structure. Returned structure is similar to
+ * that returned by imap_fetchstructure().
+ *
+ *  +----------------------------- IMPORTANT ------------------------------+
+ *  | Usage of this class compared to native php extensions such as        |
+ *  | mailparse or imap, is slow and may be feature deficient. If available|
+ *  | you are STRONGLY recommended to use the php extensions.              |
+ *  +----------------------------------------------------------------------+
+ *
+ * Compatible with PHP versions 4 and 5
+ *
+ * LICENSE: This LICENSE is in the BSD license style.
+ * Copyright (c) 2002-2003, Richard Heyes <richard@phpguru.org>
+ * Copyright (c) 2003-2006, PEAR <pear-group@php.net>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ * - Neither the name of the authors, nor the names of its contributors 
+ *   may be used to endorse or promote products derived from this 
+ *   software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category   Mail
+ * @package    Mail_Mime
+ * @author     Richard Heyes  <richard@phpguru.org>
+ * @author     George Schlossnagle <george@omniti.com>
+ * @author     Cipriano Groenendal <cipri@php.net>
+ * @author     Sean Coates <sean@php.net>
+ * @copyright  2003-2006 PEAR <pear-group@php.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @version    CVS: $Id: mimeDecode.php,v 1.48 2006/12/03 13:43:33 cipri Exp $
+ * @link       http://pear.php.net/package/Mail_mime
+ */
 
-require_once 'PEAR.php';
 
 /**
-*  +----------------------------- IMPORTANT ------------------------------+
-*  | Usage of this class compared to native php extensions such as        |
-*  | mailparse or imap, is slow and may be feature deficient. If available|
-*  | you are STRONGLY recommended to use the php extensions.              |
-*  +----------------------------------------------------------------------+
-*
-* Mime Decoding class
-*
-* This class will parse a raw mime email and return
-* the structure. Returned structure is similar to
-* that returned by imap_fetchstructure().
-*
-* USAGE: (assume $input is your raw email)
-*
-* $decode = new Mail_mimeDecode($input, "\r\n");
-* $structure = $decode->decode();
-* print_r($structure);
-*
-* Or statically:
-*
-* $params['input'] = $input;
-* $structure = Mail_mimeDecode::decode($params);
-* print_r($structure);
-*
-* TODO:
-*  o Implement multipart/appledouble
-*  o UTF8: ???
+ * require PEAR
+ *
+ * This package depends on PEAR to raise errors.
+ */
+require_once 'PEAR.php';
 
-		> 4. We have also found a solution for decoding the UTF-8
-		> headers. Therefore I made the following function:
-		>
-		> function decode_utf8($txt) {
-		> $trans=array("�&#8216;"=>"õ","ű"=>"û","Ő"=>"�&#8226;","Ű"
-		=>"�&#8250;");
-		> $txt=strtr($txt,$trans);
-		> return(utf8_decode($txt));
-		> }
-		>
-		> And I have inserted the following line to the class:
-		>
-		> if (strtolower($charset)=="utf-8") $text=decode_utf8($text);
-		>
-		> ... before the following one in the "_decodeHeader" function:
-		>
-		> $input = str_replace($encoded, $text, $input);
-		>
-		> This way from now on it can easily decode the UTF-8 headers too.
 
-*
-* @author  Richard Heyes <richard@phpguru.org>
-* @version $Revision: 1.40 $
-* @package Mail
-*/
-
+/**
+ * The Mail_mimeDecode class is used to decode mail/mime messages
+ *
+ * This class will parse a raw mime email and return the structure.
+ * Returned structure is similar to that returned by imap_fetchstructure().
+ *
+ *  +----------------------------- IMPORTANT ------------------------------+
+ *  | Usage of this class compared to native php extensions such as        |
+ *  | mailparse or imap, is slow and may be feature deficient. If available|
+ *  | you are STRONGLY recommended to use the php extensions.              |
+ *  +----------------------------------------------------------------------+
+ *
+ * @category   Mail
+ * @package    Mail_Mime
+ * @author     Richard Heyes  <richard@phpguru.org>
+ * @author     George Schlossnagle <george@omniti.com>
+ * @author     Cipriano Groenendal <cipri@php.net>
+ * @author     Sean Coates <sean@php.net>
+ * @copyright  2003-2006 PEAR <pear-group@php.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/Mail_mime
+ */
 class Mail_mimeDecode extends PEAR
 {
-
     /**
      * The raw email to decode
+     *
      * @var    string
+     * @access private
      */
     var $_input;
 
     /**
      * The header part of the input
+     *
      * @var    string
+     * @access private
      */
     var $_header;
 
     /**
      * The body part of the input
+     *
      * @var    string
+     * @access private
      */
     var $_body;
 
     /**
      * If an error occurs, this is used to store the message
+     *
      * @var    string
+     * @access private
      */
     var $_error;
 
     /**
      * Flag to determine whether to include bodies in the
      * returned object.
+     *
      * @var    boolean
+     * @access private
      */
     var $_include_bodies;
 
     /**
      * Flag to determine whether to decode bodies
+     *
      * @var    boolean
+     * @access private
      */
     var $_decode_bodies;
 
     /**
      * Flag to determine whether to decode headers
+     *
      * @var    boolean
+     * @access private
      */
     var $_decode_headers;
-
-    /**
-    * If invoked from a class, $this will be set. This has problematic
-    * connotations for calling decode() statically. Hence this variable
-    * is used to determine if we are indeed being called statically or
-    * via an object.
-    */
-    var $mailMimeDecode;
 
     /**
      * Constructor.
@@ -161,8 +165,6 @@ class Mail_mimeDecode extends PEAR
         $this->_body           = $body;
         $this->_decode_bodies  = false;
         $this->_include_bodies = true;
-
-        $this->mailMimeDecode  = true;
     }
 
     /**
@@ -184,22 +186,28 @@ class Mail_mimeDecode extends PEAR
      */
     function decode($params = null)
     {
+        // determine if this method has been called statically
+        $isStatic = !(isset($this) && get_class($this) == __CLASS__);
 
-        // Have we been called statically? If so, create an object and pass details to that.
-        if (!isset($this->mailMimeDecode) AND isset($params['input'])) {
+        // Have we been called statically?
+	// If so, create an object and pass details to that.
+        if ($isStatic AND isset($params['input'])) {
 
             $obj = new Mail_mimeDecode($params['input']);
             $structure = $obj->decode($params);
 
         // Called statically but no input
-        } elseif (!isset($this->mailMimeDecode)) {
+        } elseif ($isStatic) {
             return PEAR::raiseError('Called statically and no input given');
 
         // Called via an object
         } else {
-            $this->_include_bodies = isset($params['include_bodies'])  ? $params['include_bodies']  : false;
-            $this->_decode_bodies  = isset($params['decode_bodies'])   ? $params['decode_bodies']   : false;
-            $this->_decode_headers = isset($params['decode_headers'])  ? $params['decode_headers']  : false;
+            $this->_include_bodies = isset($params['include_bodies']) ?
+	                             $params['include_bodies'] : false;
+            $this->_decode_bodies  = isset($params['decode_bodies']) ?
+	                             $params['decode_bodies']  : false;
+            $this->_decode_headers = isset($params['decode_headers']) ?
+	                             $params['decode_headers'] : false;
 
             $structure = $this->_decode($this->_header, $this->_body);
             if ($structure === false) {
@@ -259,7 +267,7 @@ class Mail_mimeDecode extends PEAR
                     }
                     break;
 
-                case 'content-disposition';
+                case 'content-disposition':
                     $content_disposition = $this->_parseHeaderValue($headers[$key]['value']);
                     $return->disposition   = $content_disposition['value'];
                     if (isset($content_disposition['other'])) {
@@ -288,6 +296,7 @@ class Mail_mimeDecode extends PEAR
                     break;
 
                 case 'multipart/parallel':
+                case 'multipart/appledouble': // Appledouble mail
                 case 'multipart/report': // RFC1892
                 case 'multipart/signed': // PGP
                 case 'multipart/digest':
@@ -354,7 +363,7 @@ class Mail_mimeDecode extends PEAR
             }
             for ($i = 0; $i < count($structure->parts); $i++) {
 
-
+            
                 if (!empty($structure->headers['content-type']) AND substr(strtolower($structure->headers['content-type']), 0, 8) == 'message/') {
                     $prepend      = $prepend . $mime_number . '.';
                     $_mime_number = '';
@@ -374,7 +383,7 @@ class Mail_mimeDecode extends PEAR
             $structure->mime_id = $prepend . $mime_number;
             $no_refs ? $return[$prepend . $mime_number] = '' : $return[$prepend . $mime_number] = &$structure;
         }
-
+        
         return $return;
     }
 
@@ -453,13 +462,22 @@ class Mail_mimeDecode extends PEAR
             if (strlen($input) > 0) {
 
                 // This splits on a semi-colon, if there's no preceeding backslash
-                // Can't handle if it's in double quotes however. (Of course anyone
-                // sending that needs a good slap).
-                $parameters = preg_split('/\s*(?<!\\\\);\s*/i', $input);
+                // Now works with quoted values; had to glue the \; breaks in PHP
+                // the regex is already bordering on incomprehensible
+                $splitRegex = '/([^;\'"]*[\'"]([^\'"]*([^\'"]*)*)[\'"][^;\'"]*|([^;]+))(;|$)/';
+                preg_match_all($splitRegex, $input, $matches);
+                $parameters = array();
+                for ($i=0; $i<count($matches[0]); $i++) {
+                    $param = $matches[0][$i];
+                    while (substr($param, -2) == '\;') {
+                        $param .= $matches[0][++$i];
+                    }
+                    $parameters[] = $param;
+                }
 
                 for ($i = 0; $i < count($parameters); $i++) {
-                    $param_name  = substr($parameters[$i], 0, $pos = strpos($parameters[$i], '='));
-                    $param_value = substr($parameters[$i], $pos + 1);
+                    $param_name  = trim(substr($parameters[$i], 0, $pos = strpos($parameters[$i], '=')), "'\";\t\\ ");
+                    $param_value = trim(str_replace('\;', ';', substr($parameters[$i], $pos + 1)), "'\";\t\\ ");
                     if ($param_value[0] == '"') {
                         $param_value = substr($param_value, 1, -1);
                     }
@@ -669,7 +687,7 @@ class Mail_mimeDecode extends PEAR
 
     /**
      * getSendArray() returns the arguments required for Mail::send()
-     * used to build the arguments for a mail::send() call
+     * used to build the arguments for a mail::send() call 
      *
      * Usage:
      * $mailtext = Full email (for example generated by a template)
@@ -711,7 +729,7 @@ class Mail_mimeDecode extends PEAR
         }
         $to = substr($to,1);
         return array($to,$header,$this->_body);
-    }
+    } 
 
     /**
      * Returns a xml copy of the output of
@@ -829,4 +847,3 @@ class Mail_mimeDecode extends PEAR
     }
 
 } // End of class
-?>
