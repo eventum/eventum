@@ -32,7 +32,7 @@
 // | Author: Richard Heyes <richard@php.net>                               | 
 // +-----------------------------------------------------------------------+ 
 // 
-// $Id: SASL.php,v 1.4 2003/02/21 16:07:17 mj Exp $
+// $Id: SASL.php,v 1.5 2006/03/22 05:20:11 amistry Exp $
 
 /**
 * Client implementation of various SASL mechanisms 
@@ -91,7 +91,8 @@ class Auth_SASL
         }
 
         require_once($filename);
-        return new $classname();
+        $obj = new $classname();
+        return $obj;
     }
 }
 
