@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: xmlrpc.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: xmlrpc.php 3425 2007-11-09 21:11:50Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -41,7 +41,7 @@ require_once(APP_INC_PATH . "class.report.php");
 require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.customer.php");
 error_reporting(0);
-require_once(APP_PEAR_PATH . "XML_RPC/Server.php");
+require_once(APP_PEAR_PATH . "XML/RPC/Server.php");
 
 function authenticate($email, $password)
 {

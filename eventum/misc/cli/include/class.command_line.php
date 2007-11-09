@@ -25,12 +25,12 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.command_line.php 3266 2007-03-06 20:18:51Z glen $
+// @(#) $Id: class.command_line.php 3425 2007-11-09 21:11:50Z glen $
 //
 
 require_once(APP_INC_PATH . 'class.misc.php');
 require_once(APP_PEAR_PATH . 'PEAR.php');
-require_once(APP_PEAR_PATH . 'XML_RPC/RPC.php');
+require_once(APP_PEAR_PATH . 'XML/RPC.php');
 
 $_displayed_confirmation = false;
 
