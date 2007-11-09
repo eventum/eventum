@@ -1,8289 +1,8196 @@
-/* templates//help/report_description.tpl.html */
-ev_gettext("Description Field");
+/* templates/add_phone_entry.tpl.html */
+gettext("Issue");
 
-/* templates//help/report_description.tpl.html */
-ev_gettext("The description field should be used to describe the new issue. Good\npractices dictate that this field should have a description of what\nhappened, steps to reproduce the problem/issue and what you expected \nto happen instead.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Add Phone Entry");
 
-/* templates//help/report_priority.tpl.html */
-ev_gettext("Priority Field");
+/* templates/add_phone_entry.tpl.html */
+gettext("An error occurred while trying to run your query");
 
-/* templates//help/report_priority.tpl.html */
-ev_gettext("This field is used to prioritize issues, as to make project management\na little easier. If you are not sure, or don't know what the appropriate\npriority should be for new issues, choose 'not prioritized' as the \noption and leave the issue to be prioritized by a project manager.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Thank you, the phone entry was added successfully.");
 
-/* templates//help/report_priority.tpl.html */
-ev_gettext("Note: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Continue");
 
-/* templates//help/view_attachment.tpl.html */
-ev_gettext("Attachments");
+/* templates/add_phone_entry.tpl.html */
+gettext("Please select a valid date for when the phone call took place.");
 
-/* templates//help/view_time.tpl.html */
-ev_gettext("Time Tracking");
+/* templates/add_phone_entry.tpl.html */
+gettext("Please enter integers (or floating point numbers) on the time spent field.");
 
-/* templates//help/scm_integration_usage.tpl.html */
-ev_gettext("Usage Examples");
+/* templates/add_phone_entry.tpl.html */
+gettext("Please enter the description for this new phone support entry.");
 
-/* templates//help/scm_integration_usage.tpl.html */
-ev_gettext("An integration script will need to be installed in your CVS root \nrepository in order to send a message to Eventum whenever changes are\ncommitted to the repository. This message will then be processed by\nEventum and the changes to the appropriate files will be associated\nwith existing issue mentioned in your commit message.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Please choose the category for this new phone support entry.");
 
-/* templates//help/scm_integration_usage.tpl.html */
-ev_gettext("So to examplify its use, whenever the users are ready to commit the\nchanges to the CVS repository, they will add a special string to\nspecify which issue this is related to. The following would be a\ngood example of its use:");
+/* templates/add_phone_entry.tpl.html */
+gettext("Record Phone Call");
 
-/* templates//help/scm_integration_usage.tpl.html */
-ev_gettext("[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)\" form.php");
+/* templates/add_phone_entry.tpl.html */
+gettext("Date of Call");
 
-/* templates//help/scm_integration_usage.tpl.html */
-ev_gettext("You may also use 'bug' to specify the issue ID - whichever you are more\ncomfortable with.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Reason");
 
-/* templates//help/scm_integration_usage.tpl.html */
-ev_gettext("This command will be parsed by the CVS integration script (provided to\nyou and available in %eventum_path%/misc/scm/process_cvs_commits.php) and it\nwill notify Eventum that these changes are to be associated with issue\n#13.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Call From");
 
-/* templates//help/adv_search.tpl.html */
-ev_gettext("Advanced Search / Creating Custom Queries");
+/* templates/add_phone_entry.tpl.html */
+gettext("last name");
 
-/* templates//help/adv_search.tpl.html */
-ev_gettext("This page allows you to create and modify saved custom searches, which\nwill save searches that can be executed from the Issue Listing screen.");
+/* templates/add_phone_entry.tpl.html */
+gettext("first name");
 
-/* templates//help/adv_search.tpl.html */
-ev_gettext("Most of the time users will want to run common used queries against\nthe issue database, and this is a feature perfect for such situations,\njust create a custom query in this screen and run it from the Issue\nListing page.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Call To");
 
-/* templates//help/view.tpl.html */
-ev_gettext("Viewing Issues");
+/* templates/add_phone_entry.tpl.html */
+gettext("last name");
 
-/* templates//help/view.tpl.html */
-ev_gettext("The issue details screen can be accessed quickly by using the 'Go'\ninput field in the top of your browser window. Just enter the issue \nnumber and it will take you to the appropriate screen.");
+/* templates/add_phone_entry.tpl.html */
+gettext("first name");
 
-/* templates//help/view.tpl.html */
-ev_gettext("The Issue Details page will also show '<< Previous Issue' and 'Next\nIssue >>' links that are related to the previous and next issues for\nthe current active filter, if appropriate.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Type");
 
-/* templates//help/view.tpl.html */
-ev_gettext("The full history of changes related to the current issue is available\nby clickin on the 'History of Changes' link.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Incoming");
 
-/* templates//help/list.tpl.html */
-ev_gettext("Listing / Searching for Issues");
+/* templates/add_phone_entry.tpl.html */
+gettext("Outgoing");
 
-/* templates//help/list.tpl.html */
-ev_gettext("The Issue Listing page uses a grid layout to simplify the manual\nsearch for issues in a project. You may sort for (almost) any column\nin this grid form, and users with the appropriate permissions may also\nassign selected issues to another user.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Customer Phone Number");
 
-/* templates//help/list.tpl.html */
-ev_gettext("The quick search table in the top of the screen helps the users find\nthe issues they want quickly. More advanced searches may be created\nusing the Advanced Search tool.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Office");
 
-/* templates//help/support_emails.tpl.html */
-ev_gettext("Associate Emails");
+/* templates/add_phone_entry.tpl.html */
+gettext("Home");
 
-/* templates//help/support_emails.tpl.html */
-ev_gettext("This screen allows users with the appropriate permissions to associate\nemails with existing issues, or create new issues and \nassociate emails with them.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Mobile");
 
-/* templates//help/support_emails.tpl.html */
-ev_gettext("In order to do that, however, the administrator of the system needs\nto configure email accounts to make the software download\nthe email messages from the appropriate POP3/IMAP server.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Temp Number");
 
-/* templates//help/support_emails.tpl.html */
-ev_gettext("One of the optimal uses of this feature is to create a separate \n'issues' or 'support' POP3/IMAP account and ask your customers or \nend-users to send support questions, issues or suggestions to that \nmailbox. Eventum will then download the emails and provide \nthem to the users of the system.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Other");
 
-/* templates//help/report.tpl.html */
-ev_gettext("Reporting New Issues");
+/* templates/add_phone_entry.tpl.html */
+gettext("Time Spent");
 
-/* templates//help/report.tpl.html */
-ev_gettext("To report new issues, click in the 'Create Issue' link in the top of \nyour browser window.");
+/* templates/add_phone_entry.tpl.html */
+gettext("in minutes");
 
-/* templates//help/segregate_reporter.tpl.html */
-ev_gettext("Segregate Reporter");
+/* templates/add_phone_entry.tpl.html */
+gettext("Description");
 
-/* templates//help/segregate_reporter.tpl.html */
-ev_gettext("If this option is enabled, users with a role of Reporter will only be able to see issues they reported.");
+/* templates/add_phone_entry.tpl.html */
+gettext("Save Phone Call");
 
-/* templates//help/view_note.tpl.html */
-ev_gettext("Notes");
+/* templates/add_time_tracking.tpl.html */
+gettext("An error occurred while trying to run your query");
 
-/* templates//help/notifications.tpl.html */
-ev_gettext("Email Notifications");
+/* templates/add_time_tracking.tpl.html */
+gettext("Thank you, the time tracking entry was added successfully.");
 
-/* templates//help/notifications.tpl.html */
-ev_gettext("This feature allows system users to subscribe to email notifications\nwhen changes are done to specific issues. The current actions that\ntrigger email notifications are:");
+/* templates/add_time_tracking.tpl.html */
+gettext("Continue");
 
-/* templates//help/notifications.tpl.html */
-ev_gettext("Issue details are updated");
+/* templates/add_time_tracking.tpl.html */
+gettext("Please enter the summary for this new time tracking entry.");
 
-/* templates//help/notifications.tpl.html */
-ev_gettext("Issues are Closed");
+/* templates/add_time_tracking.tpl.html */
+gettext("Please choose the time tracking category for this new entry.");
 
-/* templates//help/notifications.tpl.html */
-ev_gettext("Notes are added to existing issues");
+/* templates/add_time_tracking.tpl.html */
+gettext("Please enter integers (or floating point numbers) on the time spent field.");
 
-/* templates//help/notifications.tpl.html */
-ev_gettext("Emails are associated to existing issues");
+/* templates/add_time_tracking.tpl.html */
+gettext("Please select a valid date of work.");
 
-/* templates//help/notifications.tpl.html */
-ev_gettext("Files are attached to existing issues");
+/* templates/add_time_tracking.tpl.html */
+gettext("Start time in the future.");
 
-/* templates//help/notifications.tpl.html */
-ev_gettext("System users may subscribe to the actions above for specific issues\nwhen they report new issues or by visiting the issue details screen \nand subscribing manually by using the 'Edit Notification List' link.");
+/* templates/add_time_tracking.tpl.html */
+gettext("End time in the future.");
 
-/* templates//help/customize_listing.tpl.html */
-ev_gettext("Customize Issue Listing Screen");
+/* templates/add_time_tracking.tpl.html */
+gettext("Record Time Worked");
 
-/* templates//help/customize_listing.tpl.html */
-ev_gettext("This page allows you to dynamically configure the values displayed in the \n\"Status Change Date\" column in the issue listing screen, for a particular\nproject.\n<br /><br />\nThis column is useful to display the amount of time since the last change\nin status for each issue. For example, if issue #1234 is set to status\n'Closed', you could configure Eventum to display the difference\nin time between \"now\" and the date value stored in the closed date\nfield.\n<br /><br />\nSince the list of statuses available per project is dynamic and \ndatabase driven, this manual process is needed to associate a status\nto a date field coming from the database.");
+/* templates/add_time_tracking.tpl.html */
+gettext("Summary");
 
-/* templates//help/view_impact.tpl.html */
-ev_gettext("Impact Analysis");
+/* templates/add_time_tracking.tpl.html */
+gettext("Category");
 
-/* templates//help/email_blocking.tpl.html */
-ev_gettext("Email Blocking");
+/* templates/add_time_tracking.tpl.html */
+gettext("Please choose a category");
 
-/* templates//help/email_blocking.tpl.html */
-ev_gettext("To prevent inappropriate emails reaching the notification list, only users that are assigned\nto the issue are allowed to email through Eventum. If an un-authorized\nuser sends an email to <i>issue-XXXX@example.com</i> it is converted into a note and\nstored for later use. This note can be converted into an email at a later date.");
+/* templates/add_time_tracking.tpl.html */
+gettext("Time Spent");
 
-/* templates//help/report_assignment.tpl.html */
-ev_gettext("Assignment Field");
+/* templates/add_time_tracking.tpl.html */
+gettext("in minutes");
 
-/* templates//help/report_assignment.tpl.html */
-ev_gettext("This field is used to determine who should be assigned to this new \nissue. You are be able to assign a new issue to several persons at the\nsame time.\n<br /><br />\nIf you don't know who should be the assigned person for this new issue,\nassign it to your Project Lead.");
+/* templates/add_time_tracking.tpl.html */
+gettext("Work started");
 
-/* templates//help/report_category.tpl.html */
-ev_gettext("Category Field");
+/* templates/add_time_tracking.tpl.html */
+gettext("Add Time Entry");
 
-/* templates//help/report_category.tpl.html */
-ev_gettext("This field is used to categorize issues by a common denominator, such\nas 'Feature Request', 'Bug' or 'Support Inquiry'.\n<br /><br />\nNote: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
+/* templates/adv_search.tpl.html */
+gettext("Advanced Search");
 
-/* templates//help/banner.tpl.html */
-ev_gettext("Close Window");
+/* templates/adv_search.tpl.html */
+gettext("Please enter the title for this saved search.");
 
-/* templates//help/preferences.tpl.html */
-ev_gettext("Account Preferences");
+/* templates/adv_search.tpl.html */
+gettext("Please choose which entries need to be removed.");
 
-/* templates//help/preferences.tpl.html */
-ev_gettext("This screen allows users to change their appropriate full name, account\npassword and email address. This address will be used by the system to\nsend email notifications whenever details about issues you are \nsubscribed to changes.");
+/* templates/adv_search.tpl.html */
+gettext("This action will permanently delete the selected entries.");
 
-/* templates//help/preferences.tpl.html */
-ev_gettext("You may also set the appropriate timezone where you live in this \nscreen, and all of the software will adjust the dates displayed in\nthe system accordingly.");
+/* templates/adv_search.tpl.html */
+gettext("Advanced Search");
 
-/* templates//help/preferences.tpl.html */
-ev_gettext("The default options for email notifications are used to pre-select\nthe notification related fields when you report a new issue, or \nsubscribe manually for changes in the issue details page.");
+/* templates/adv_search.tpl.html */
+gettext("Keyword(s)");
 
-/* templates//help/scm_integration.tpl.html */
-ev_gettext("SCM Integration");
+/* templates/adv_search.tpl.html */
+gettext("Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)");
 
-/* templates//help/scm_integration.tpl.html */
-ev_gettext("This feature allows your software development teams to integrate your\nSource Control Management system with your Issue Tracking System.");
+/* templates/adv_search.tpl.html */
+gettext("All Text (emails, notes, etc)");
 
-/* templates//help/scm_integration.tpl.html */
-ev_gettext("The integration is implemented in such a way that it will be forward\ncompatible with pretty much any SCM system, such as CVS. When entering\nthe required information for the checkout page and diff page input\nfields, use the following placeholders:");
+/* templates/adv_search.tpl.html */
+gettext("Assigned");
 
-/* templates//help/scm_integration.tpl.html */
-ev_gettext("The CVS module name");
+/* templates/adv_search.tpl.html */
+gettext("Category");
 
-/* templates//help/scm_integration.tpl.html */
-ev_gettext("The filename that was committed");
+/* templates/adv_search.tpl.html */
+gettext("any");
 
-/* templates//help/scm_integration.tpl.html */
-ev_gettext("The old revision of the file");
+/* templates/adv_search.tpl.html */
+gettext("Priority");
 
-/* templates//help/scm_integration.tpl.html */
-ev_gettext("The new revision of the file");
+/* templates/adv_search.tpl.html */
+gettext("any");
 
-/* templates//help/scm_integration.tpl.html */
-ev_gettext("As an example, using the <a href=\"http://www.horde.org/chora/\" class=\"link\" target=\"_chora\">Chora CVS viewer</a> [highly recommended] from the Horde project you\nwould usually have the following URL as the diff page:");
+/* templates/adv_search.tpl.html */
+gettext("Status");
 
-/* templates//help/scm_integration.tpl.html */
-ev_gettext("http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h");
+/* templates/adv_search.tpl.html */
+gettext("any");
 
-/* templates//help/scm_integration.tpl.html */
-ev_gettext("With that information in mind, the appropriate value to be entered in\nthe 'Checkout page' input field is:");
+/* templates/adv_search.tpl.html */
+gettext("Reporter");
 
-/* templates//help/index.tpl.html */
-ev_gettext("Available Related Topics:");
+/* templates/adv_search.tpl.html */
+gettext("Any");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Available Help Topics");
+/* templates/adv_search.tpl.html */
+gettext("Release");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Please refer to the following help sections for more information on \nspecific parts of the application:");
+/* templates/adv_search.tpl.html */
+gettext("any");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Listing / Searching for Issues");
+/* templates/adv_search.tpl.html */
+gettext("Hide Closed Issues");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Reporting New Issues");
+/* templates/adv_search.tpl.html */
+gettext("Rows Per Page:");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Advanced Search / Creating Custom Queries");
+/* templates/adv_search.tpl.html */
+gettext("ALL");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Associate Emails");
+/* templates/adv_search.tpl.html */
+gettext("Sort By");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Account Preferences");
+/* templates/adv_search.tpl.html */
+gettext("Priority");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Viewing Issues");
+/* templates/adv_search.tpl.html */
+gettext("Issue ID");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Email Notifications");
+/* templates/adv_search.tpl.html */
+gettext("Status");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Email Blocking");
+/* templates/adv_search.tpl.html */
+gettext("Summary");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Configuration Parameters");
+/* templates/adv_search.tpl.html */
+gettext("Last Action Date");
 
-/* templates//help/main.tpl.html */
-ev_gettext("SCM Integration");
+/* templates/adv_search.tpl.html */
+gettext("Sort Order:");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Usage Examples");
+/* templates/adv_search.tpl.html */
+gettext("ascending");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Installation Instructions");
+/* templates/adv_search.tpl.html */
+gettext("descending");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Customize Issue Listing Screen");
+/* templates/adv_search.tpl.html */
+gettext("Show Issues in Which I Am:");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Link Filters");
+/* templates/adv_search.tpl.html */
+gettext("Authorized to Send Emails");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Edit Fields to Display");
+/* templates/adv_search.tpl.html */
+gettext("In Notification List");
 
-/* templates//help/main.tpl.html */
-ev_gettext("Segregate Reporters");
+/* templates/adv_search.tpl.html */
+gettext("Show date fields to search by");
 
-/* templates//help/main.tpl.html */
-ev_gettext("User Permission Levels");
+/* templates/adv_search.tpl.html */
+gettext("Created");
 
-/* templates//help/scm_integration_installation.tpl.html */
-ev_gettext("Installation Instructions");
+/* templates/adv_search.tpl.html */
+gettext("Greater Than");
 
-/* templates//help/scm_integration_installation.tpl.html */
-ev_gettext("The process_commits.pl script, which is available in the misc \nsub-directory in your Eventum installation directory, will need to be \ninstalled in your CVSROOT CVS module by following the procedure below:");
+/* templates/adv_search.tpl.html */
+gettext("Less Than");
 
-/* templates//help/scm_integration_installation.tpl.html */
-ev_gettext("The first thing to do is to checkout the CVSROOT module from your CVS\nrepository:");
+/* templates/adv_search.tpl.html */
+gettext("Between");
 
-/* templates//help/scm_integration_installation.tpl.html */
-ev_gettext("The command above will checkout and create the CVSROOT directory that\nyou will need to work with. Next, open the <b>loginfo</b> file and\nadd the following line:");
+/* templates/adv_search.tpl.html */
+gettext("In Past");
 
-/* templates//help/scm_integration_installation.tpl.html */
-ev_gettext("Replace %repository path% by the appropriate absolute path in your\nCVS server, such as /home/username/repository for instance. Also make\nsure to put the appropriate path to your Perl binary.");
+/* templates/adv_search.tpl.html */
+gettext("hours");
 
-/* templates//help/scm_integration_installation.tpl.html */
-ev_gettext("You may also turn the parsing of commit messages for just a single CVS\nmodule by substituting the 'ALL' in the line above to the appropriate\nCVS module name, as in:");
+/* templates/adv_search.tpl.html */
+gettext("Last Updated");
 
-/* templates//help/scm_integration_installation.tpl.html */
-ev_gettext("The last step of this installation process is to login into the CVS\nserver and copy the process_cvs_commits.php script into the CVSROOT \ndirectory. Make sure you give the appropriate permissions to the \nscript.");
+/* templates/adv_search.tpl.html */
+gettext("Greater Than");
 
-/* templates//help/report_release.tpl.html */
-ev_gettext("Scheduled Release Field");
+/* templates/adv_search.tpl.html */
+gettext("Less Than");
 
-/* templates//help/report_release.tpl.html */
-ev_gettext("This field is used to determine what the deadline should be for when\nthis new issue should be completed and resolved. If you don't know \nwhat the deadline should be for this new issue, leave the field as\n'un-scheduled', and a project manager will set it appropriately.");
+/* templates/adv_search.tpl.html */
+gettext("Between");
 
-/* templates//help/report_release.tpl.html */
-ev_gettext("Note: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
+/* templates/adv_search.tpl.html */
+gettext("Is Null");
 
-/* templates//help/report_estimated_dev_time.tpl.html */
-ev_gettext("Estimated Development Time Field");
+/* templates/adv_search.tpl.html */
+gettext("In Past");
 
-/* templates//help/report_estimated_dev_time.tpl.html */
-ev_gettext("This field is used by the reporters of new issues to estimate the \ntotal development time for the issue. It is especially important as a \nmetrics tool to get a simple estimate of how much time each issue will\ntake from discovery, going through implementation and testing up until\nrelease time.");
+/* templates/adv_search.tpl.html */
+gettext("hours");
 
-/* templates//help/report_estimated_dev_time.tpl.html */
-ev_gettext("This field can also be used as a way to check the estimation abilities\nof project managers against the impact analysis given by the \ndevelopers themselves. That is, the value entered by a project manager\nhere can be compared against the impact analysis / estimated \ndevelopment time entered by the developers, and this way get more \nexperience estimating the required time for new projects.");
+/* templates/adv_search.tpl.html */
+gettext("Last Updated");
 
-/* templates//help/field_display.tpl.html */
-ev_gettext("Edit Fields to Display");
+/* templates/adv_search.tpl.html */
+gettext("End date");
 
-/* templates//help/field_display.tpl.html */
-ev_gettext("This page allows you to dynamically control which fields are displayed \nto users of a certain minimum role.\nFor example, you could use this page so that only users of the role \"<i>standard user</i>\" \n(and higher ranking roles) are able to set the category or \nrelease fields when reporting a new issue.");
+/* templates/adv_search.tpl.html */
+gettext("First Response by Staff");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("User Permission Levels");
+/* templates/adv_search.tpl.html */
+gettext("Greater Than");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("The following is a brief overview of the available user permission levels \nin Eventum:");
+/* templates/adv_search.tpl.html */
+gettext("Less Than");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Viewer");
+/* templates/adv_search.tpl.html */
+gettext("Between");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Allowed to view all issues on the projects associated to \nthis user; cannot create new issues or edit existing issues.");
+/* templates/adv_search.tpl.html */
+gettext("Is Null");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Reporter");
+/* templates/adv_search.tpl.html */
+gettext("In Past");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Allowed to view all issues on the projects associated to \nthis user; Allowed to create new issues and to send emails on existing\nissues.");
+/* templates/adv_search.tpl.html */
+gettext("hours");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Customer");
+/* templates/adv_search.tpl.html */
+gettext("First Response By Staff");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("This is a special permission level reserved for the Customer\nIntegration API, which allows you to integrate Eventum with your CRM database. \nWhen this feature is enabled, this type of user can only access issues associated\nwith their own customer. Allowed to create new issues, update and send emails\nto existing issues.");
+/* templates/adv_search.tpl.html */
+gettext("End date");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Standard User");
+/* templates/adv_search.tpl.html */
+gettext("Last Response by Staff");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Allowed to view all issues on the projects associated to\nthis user; Allowed to create new issues, update existing issues, and to send\nemails and notes to existing issues.");
+/* templates/adv_search.tpl.html */
+gettext("Greater Than");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Developer");
+/* templates/adv_search.tpl.html */
+gettext("Less Than");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Similar in every way to the above permission level, but \nthis extra level allows you to segregate users who will deal with issues, and\noverall normal staff users who do not handle issues themselves.");
+/* templates/adv_search.tpl.html */
+gettext("Between");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Manager");
+/* templates/adv_search.tpl.html */
+gettext("Is Null");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Allowed to view all issues on the projects associated to\nthis user; Allowed to create new issues, update existing issues, and to send\nemails and notes to existing issues. Also, this type of user is also allowed on\nthe special administration section of Eventum to tweak most project-level \nfeatures and options.");
+/* templates/adv_search.tpl.html */
+gettext("In Past");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("Administrator");
+/* templates/adv_search.tpl.html */
+gettext("hours");
 
-/* templates//help/permission_levels.tpl.html */
-ev_gettext("This type of user has full access to Eventum, including\nthe low level configuration parameters available through the administration\ninterface.");
+/* templates/adv_search.tpl.html */
+gettext("Last Response by Staff");
 
-/* templates//help/column_display.tpl.html */
-ev_gettext("Edit Columns to Display");
+/* templates/adv_search.tpl.html */
+gettext("End date");
 
-/* templates//help/column_display.tpl.html */
-ev_gettext("This page allows you to dynamically control which columns are displayed on the list issues page.");
+/* templates/adv_search.tpl.html */
+gettext("Status Closed");
 
-/* templates//help/column_display.tpl.html */
-ev_gettext("You can set the minimum role required to view a column. For example, if you set the mimimum role for 'Category'\nto be 'Manager' anyone with a role lower then 'Manager' will not be able to see that column. To hide a column\nfrom all users, select 'Never Display'.");
+/* templates/adv_search.tpl.html */
+gettext("Greater Than");
 
-/* templates//help/column_display.tpl.html */
-ev_gettext("Please note that some columns may be hidden even if you specify they should be shown. For example, if no releases\nare defined in the system the 'Release' column will be hidden.");
+/* templates/adv_search.tpl.html */
+gettext("Less Than");
 
-/* templates//help/link_filters.tpl.html */
-ev_gettext("Link Filters");
+/* templates/adv_search.tpl.html */
+gettext("Between");
 
-/* templates//help/link_filters.tpl.html */
-ev_gettext("Link filters are used to replace text such as 'Bug #42' with an automatic\nlink to some external resource. It uses regular expressions to replace the text.\nSpecify the search pattern in the pattern field without delimiters. Specify the entire\nstring you would like to use as a replacement with $x to insert the matched text. For example:\n<br /><br />\nPattern: \"bug #(d+)\"<br />\nReplacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug #$1&lt;/a&gt;\"");
+/* templates/adv_search.tpl.html */
+gettext("Is Null");
 
-/* templates//help/report_summary.tpl.html */
-ev_gettext("Summary Field");
+/* templates/adv_search.tpl.html */
+gettext("In Past");
 
-/* templates//help/report_summary.tpl.html */
-ev_gettext("This field is used as a simple and descriptive title to this new\nissue. As a suggestion, it should be descriptive and short enough to\nbe used by other users to remember quickly what the issue was all\nabout.");
+/* templates/adv_search.tpl.html */
+gettext("hours");
 
-/* templates//tips/keyboard_shortcuts.tpl.html */
-ev_gettext("You can switch to the 'Search' or 'Go' boxes quickly by using a\nspecial shortcut keystroke in your keyboard.<br />\n<br />\nUse the following shortcuts:<br />\n<br />\n<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the 'Search' box<br />\n<br />\n<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box");
+/* templates/adv_search.tpl.html */
+gettext("Status Closed");
 
-/* templates//tips/custom_queries.tpl.html */
-ev_gettext("You can create as many custom queries as you want through the\n<a class=\"link\" href=\"adv_search.php\">Advanced Search</a> interface.\nThere is also the ability to save and modify custom queries and load\nthem quickly from the Issue Listing screen.");
+/* templates/adv_search.tpl.html */
+gettext("End date");
 
-/* templates//tips/canned_responses.tpl.html */
-ev_gettext("You can create canned email responses and use them when sending emails from the\nsystem. That is an useful feature when dealing with lots of issues that relate\nto the same problem.\n<br /><br />\nIf no canned email responses are available through the Email window, please\ncontact an user with the appropriate permissions (administrator or manager) to\nadd some for you.");
+/* templates/adv_search.tpl.html */
+gettext("Show additional fields to search by");
 
-/* templates//mail_queue.tpl.html */
-ev_gettext("Sorry, you do not have permission to view this page");
+/* templates/adv_search.tpl.html */
+gettext("Run Search");
 
-/* templates//mail_queue.tpl.html */
-ev_gettext("Mail Queue for Issue #%1");
+/* templates/adv_search.tpl.html */
+gettext("Reset");
 
-/* templates//mail_queue.tpl.html */
-ev_gettext("Recipient");
+/* templates/adv_search.tpl.html */
+gettext("Search Title");
 
-/* templates//mail_queue.tpl.html */
-ev_gettext("Queued Date");
+/* templates/adv_search.tpl.html */
+gettext("Global Search");
 
-/* templates//mail_queue.tpl.html */
-ev_gettext("Status");
+/* templates/adv_search.tpl.html */
+gettext("Saved Searches");
 
-/* templates//mail_queue.tpl.html */
-ev_gettext("Subject");
+/* templates/adv_search.tpl.html */
+gettext("edit this custom search");
 
-/* templates//mail_queue.tpl.html */
-ev_gettext("No mail queue could be found.");
+/* templates/adv_search.tpl.html */
+gettext("global filter");
 
-/* templates//clock_status.tpl.html */
-ev_gettext("Thank you, your account clocked-in status was changed successfully.");
+/* templates/adv_search.tpl.html */
+gettext("RSS feed for this custom search");
 
-/* templates//clock_status.tpl.html */
-ev_gettext("An error was found while trying to change your account clocked-in status.");
+/* templates/adv_search.tpl.html */
+gettext("All");
 
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Please select the custom filter to search against.");
+/* templates/adv_search.tpl.html */
+gettext("No custom searches could be found.");
 
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Keyword(s)");
+/* templates/app_info.tpl.html */
+gettext("Page generated in %1 seconds");
 
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Customer Identity (i.e. \"Example Inc.\", \"johndoe@example.com\", 12345)");
+/* templates/app_info.tpl.html */
+gettext("queries");
 
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("All Text (emails, notes, etc)");
+/* templates/app_info.tpl.html */
+gettext("Benchmark Statistics");
 
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Search");
+/* templates/associate.tpl.html */
+gettext("An error occurred while trying to associate the selected email message");
 
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Clear Filters");
-
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Assigned");
-
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Category");
-
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("any");
-
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Priority");
-
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("any");
-
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Status");
-
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("any");
-
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("quick search bar");
-
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Advanced Search");
-
-/* templates//quick_filter_form.tpl.html */
-ev_gettext("Saved Searches");
-
-/* templates//new.tpl.html */
-ev_gettext("There was an error creating your issue.");
-
-/* templates//new.tpl.html */
-ev_gettext("Thank you, the new issue was created successfully. Please choose from one of the options below");
-
-/* templates//new.tpl.html */
-ev_gettext("Thank you, the new issue was created successfully.");
-
-/* templates//new.tpl.html */
-ev_gettext("However, the following errors were encountered:");
-
-/* templates//new.tpl.html */
-ev_gettext("Please choose from one of the options below:");
-
-/* templates//new.tpl.html */
-ev_gettext("Open the Issue Details Page");
-
-/* templates//new.tpl.html */
-ev_gettext("Open the Issue Listing Page");
-
-/* templates//new.tpl.html */
-ev_gettext("Open the Emails Listing Page");
-
-/* templates//new.tpl.html */
-ev_gettext("Report a New Issue");
-
-/* templates//new.tpl.html */
-ev_gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
-
-/* templates//new.tpl.html */
-ev_gettext("Warning: your issue is currently quarantined.\n                Please see the <a href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
-
-/* templates//new.tpl.html */
-ev_gettext("Category");
-
-/* templates//new.tpl.html */
-ev_gettext("Priority");
-
-/* templates//new.tpl.html */
-ev_gettext("Assignment");
-
-/* templates//new.tpl.html */
-ev_gettext("Summary");
-
-/* templates//new.tpl.html */
-ev_gettext("Initial Description");
-
-/* templates//new.tpl.html */
-ev_gettext("Estimated Dev. Time (only numbers)");
-
-/* templates//new.tpl.html */
-ev_gettext("Create New Issue");
-
-/* templates//new.tpl.html */
-ev_gettext("Current Project");
-
-/* templates//new.tpl.html */
-ev_gettext("Category");
-
-/* templates//new.tpl.html */
-ev_gettext("Please choose a category");
-
-/* templates//new.tpl.html */
-ev_gettext("Priority");
-
-/* templates//new.tpl.html */
-ev_gettext("Please choose a priority");
-
-/* templates//new.tpl.html */
-ev_gettext("Assignment");
-
-/* templates//new.tpl.html */
-ev_gettext("Group");
-
-/* templates//new.tpl.html */
-ev_gettext("Scheduled Release");
-
-/* templates//new.tpl.html */
-ev_gettext("un-scheduled");
-
-/* templates//new.tpl.html */
-ev_gettext("Summary");
-
-/* templates//new.tpl.html */
-ev_gettext("Initial Description");
-
-/* templates//new.tpl.html */
-ev_gettext("Estimated Dev. Time");
-
-/* templates//new.tpl.html */
-ev_gettext("Private");
-
-/* templates//new.tpl.html */
-ev_gettext("Add Files");
-
-/* templates//new.tpl.html */
-ev_gettext("Files");
-
-/* templates//new.tpl.html */
-ev_gettext("Note: The current maximum allowed upload file size is %1");
-
-/* templates//new.tpl.html */
-ev_gettext("Keep form open to report another issue");
-
-/* templates//new.tpl.html */
-ev_gettext("Submit");
-
-/* templates//new.tpl.html */
-ev_gettext("Reset");
-
-/* templates//new.tpl.html */
-ev_gettext("Required fields");
-
-/* templates//bulk_update.tpl.html */
-ev_gettext("Bulk Update Tool");
-
-/* templates//bulk_update.tpl.html */
-ev_gettext("Assignment");
-
-/* templates//bulk_update.tpl.html */
-ev_gettext("Status");
-
-/* templates//bulk_update.tpl.html */
-ev_gettext("Release");
-
-/* templates//bulk_update.tpl.html */
-ev_gettext("Priority");
-
-/* templates//bulk_update.tpl.html */
-ev_gettext("Category");
-
-/* templates//bulk_update.tpl.html */
-ev_gettext("Bulk Update");
-
-/* templates//bulk_update.tpl.html */
-ev_gettext("Reset");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Weekly");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Report");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("issues worked on");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("No issues touched this time period");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Issues Closed");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("No issues closed this time period");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("New Issues Assigned");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Total Issues");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Eventum Emails");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Other Emails");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Total Phone Calls");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Total Notes");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Phone Time Spent");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Email Time Spent");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Login Time Spent");
-
-/* templates//reports/weekly_data.tpl.html */
-ev_gettext("Total Time Spent");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Showing all open issues older than ");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("days");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Number of Days");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Submit");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Summary");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Status");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Time Spent");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Created");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Days and Hours Since");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Last Update");
-
-/* templates//reports/open_issues.tpl.html */
-ev_gettext("Last Outgoing Msg");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Available Reports");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Issues");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Issues by User");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Open Issues By Assignee");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Open Issues By Reporter");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Weekly Report");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Workload by time period");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Email by time period");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Custom Fields");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Customer Profile Stats");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Recent Activity");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Workload By Date Range");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Stalled Issues");
-
-/* templates//reports/tree.tpl.html */
-ev_gettext("Estimated Development Time");
-
-/* templates//reports/issue_user.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//reports/issue_user.tpl.html */
-ev_gettext("Summary");
-
-/* templates//reports/issue_user.tpl.html */
-ev_gettext("Status");
-
-/* templates//reports/issue_user.tpl.html */
-ev_gettext("Time Spent");
-
-/* templates//reports/issue_user.tpl.html */
-ev_gettext("Created");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Workload by Date Range Report");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Type");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Interval");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Start");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("End");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Generate");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext(" Warning: Some type and interval options, combined with large <br />\n    date ranges can produce extremely large graphs.");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Day");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("day");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Week");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("week");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Month");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("month");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Day of Week");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("dow");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Week");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("week");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Day of Month");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("dom");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Month");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("month");
-
-/* templates//reports/workload_date_range.tpl.html */
-ev_gettext("Avg/Med/Max Issues/Emails");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("The current project does not have customer integration so this report can not be viewed.");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Customer Stats Report");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Date Range");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Sections to Display");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("From");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("year");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("mon");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("day");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("To");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Options");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Include expired contracts");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Customer");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("All");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Generate");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Feedback");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Red values indicate value is higher than the aggregate one.");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Blue values indicate value is lower than the aggregate one.");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Customers");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Issues");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Emails by Customers");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Emails by Staff");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Count");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Using CSC");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Issues in CSC");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Tot");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Avg");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Med");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Max");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Tot");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Avg");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Med");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Tot");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Avg");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Med");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Time To First Response");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Time To Close");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Min");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Avg");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Med");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Max");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Min");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Avg");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Med");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Max");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Support Level");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Time Tracking");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Total");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Avg");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Med");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Refers to the number of issues in eventum for the given support level or customer.\n    Average and median counts do not include customers who have never opened an issue.");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Refers to the number of emails sent by customers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Refers to the number of emails sent by developers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("Date issue was opened - Date issue was closed for all closed issues.");
-
-/* templates//reports/customer_stats.tpl.html */
-ev_gettext("All time tracking information for the given support level or customer. Issues without any time tracking data do not affect the average or median.");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Recent Activity");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Recent Activity Report");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Report Type");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Recent");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Date Range");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Activity Type");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Activity in Past");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Start");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("End");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Developer");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("All");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Sort Order");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Ascending");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Descending");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Generate");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Recent Phone Calls");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Customer");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Date");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Developer");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Type");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Line");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Description");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("No Phone Calls Found");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Recent Notes");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Customer");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Posted Date");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("User");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Title");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("No Notes Found");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Recent Emails");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Customer");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("From");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("To");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Date");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Subject");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("sent to notification list");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("No Emails Found");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Recent Drafts");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Customer");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Status");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("From");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("To");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Date");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Subject");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("No Drafts Found");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Recent Time Entries");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Customer");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Date of Work");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("User");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Time Spent");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Category");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Summary");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("No Time Entries Found");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Recent Reminder Actions");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Customer");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Date Triggered");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("Title");
-
-/* templates//reports/recent_activity.tpl.html */
-ev_gettext("No Reminder Entries Found");
-
-/* templates//reports/estimated_dev_time.tpl.html */
-ev_gettext("Estimated Development Time by Category");
-
-/* templates//reports/estimated_dev_time.tpl.html */
-ev_gettext("Based on all open issue in Eventum for <b>%1</b>.");
-
-/* templates//reports/estimated_dev_time.tpl.html */
-ev_gettext("Category");
-
-/* templates//reports/estimated_dev_time.tpl.html */
-ev_gettext("Estimated time (Hours)");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Email Workload by Time of day");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Based on all issues recorded in Eventum since start to present.");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Workload by Time of day");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Based on all issues recorded in Eventum since start to present.\n        Actions are any event that shows up in the history of an issue, such as a user or a developer updating an issue, uploading a file, sending an email, etc.");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Time Period");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("(GMT)");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Developer");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Emails");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Actions");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Customer");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Emails");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Actions");
-
-/* templates//reports/workload_time_period.tpl.html */
-ev_gettext("Time Period");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Stalled Issues Report");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Stalled Issues Report");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Show Issues with no Response Between");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Developers");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Status");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Sort Order");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Ascending");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Ascending");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Descending");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Descending");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Generate");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Summary");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Status");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Time Spent");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Created");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Last Response");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Days and Hours Since");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Last Update");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("Last Outgoing Msg");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("view issue details");
-
-/* templates//reports/stalled_issues.tpl.html */
-ev_gettext("view issue details");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Weekly Report");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Report Type:");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Weekly");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Date Range");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Generate");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Week");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Start");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("End:");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Developer");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Options");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Separate Closed Issues");
-
-/* templates//reports/weekly.tpl.html */
-ev_gettext("Ignore Issue Status Changes");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Please select the custom field that you would like to generate a report against.");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Custom Fields Report");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Field to Graph");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Options to Graph");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Group By");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Issue");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Customer");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Generate");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Percentages may not add up to exactly 100% due to rounding");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Issues/Customers matching criteria");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Customer");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Issue Count");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("Summary");
-
-/* templates//reports/custom_fields.tpl.html */
-ev_gettext("No data found");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Advanced Search");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Please enter the title for this saved search.");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Please choose which entries need to be removed.");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("This action will permanently delete the selected entries.");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Advanced Search");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Keyword(s)");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Customer Identity (i.e. \"Example Inc.\", \"johndoe@example.com\", 12345)");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("All Text (emails, notes, etc)");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Assigned");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Category");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("any");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Priority");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("any");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Status");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("any");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Reporter");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Any");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Release");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("any");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Hide Closed Issues");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Rows Per Page:");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("ALL");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Sort By");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Priority");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Issue ID");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Status");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Summary");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Last Action Date");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Sort Order:");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("ascending");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("descending");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Show Issues in Which I Am:");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Authorized to Send Emails");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("In Notification List");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Show date fields to search by");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Created");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Greater Than");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Less Than");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Between");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("In Past");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("hours");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Last Updated");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Greater Than");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Less Than");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Between");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Is Null");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("In Past");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("hours");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Last Updated");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("End date");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("First Response by Staff");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Greater Than");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Less Than");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Between");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Is Null");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("In Past");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("hours");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("First Response By Staff");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("End date");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Last Response by Staff");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Greater Than");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Less Than");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Between");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Is Null");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("In Past");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("hours");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Last Response by Staff");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("End date");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Status Closed");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Greater Than");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Less Than");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Between");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Is Null");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("In Past");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("hours");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Status Closed");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("End date");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Show additional fields to search by");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Run Search");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Reset");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Search Title");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Global Search");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("Saved Searches");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("edit this custom search");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("global filter");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("RSS feed for this custom search");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("All");
-
-/* templates//adv_search.tpl.html */
-ev_gettext("No custom searches could be found.");
-
-/* templates//help_link.tpl.html */
-ev_gettext("get context sensitive help");
-
-/* templates//offline.tpl.html */
-ev_gettext("Database Error");
-
-/* templates//offline.tpl.html */
-ev_gettext("There seems to be a problem connecting to the database server specified in your configuration file. Please contact your local system administrator for further assistance.");
-
-/* templates//offline.tpl.html */
-ev_gettext("There seems to be a problem finding the required database tables in the database server specified in your configuration file. Please contact your local system administrator for further assistance.");
-
-/* templates//view_headers.tpl.html */
-ev_gettext("View Email Raw Headers");
-
-/* templates//view_headers.tpl.html */
-ev_gettext("Close");
-
-/* templates//view_headers.tpl.html */
-ev_gettext("Close");
-
-/* templates//view.tpl.html */
-ev_gettext("Error: The issue #%1 could not be found.");
-
-/* templates//view.tpl.html */
-ev_gettext("Go Back");
-
-/* templates//view.tpl.html */
-ev_gettext("Sorry, you do not have the required privileges to view this issue.");
-
-/* templates//view.tpl.html */
-ev_gettext("Go Back");
-
-/* templates//error_icon.tpl.html */
-ev_gettext("error condition detected");
-
-/* templates//error_icon.tpl.html */
-ev_gettext("error condition detected");
-
-/* templates//checkins.tpl.html */
-ev_gettext("Please choose which entries need to be removed.");
-
-/* templates//checkins.tpl.html */
-ev_gettext("This action will permanently delete the selected entries.");
-
-/* templates//checkins.tpl.html */
-ev_gettext("SCM Integration - Checkins");
-
-/* templates//checkins.tpl.html */
-ev_gettext("Back to Top");
-
-/* templates//checkins.tpl.html */
-ev_gettext("Date");
-
-/* templates//checkins.tpl.html */
-ev_gettext("User");
-
-/* templates//checkins.tpl.html */
-ev_gettext("Module / Directory");
-
-/* templates//checkins.tpl.html */
-ev_gettext("File");
-
-/* templates//checkins.tpl.html */
-ev_gettext("Commit Message");
-
-/* templates//checkins.tpl.html */
-ev_gettext("see the source of revision %1 of %2");
-
-/* templates//checkins.tpl.html */
-ev_gettext("see the diff to revision %1");
-
-/* templates//checkins.tpl.html */
-ev_gettext("diff to %1");
-
-/* templates//checkins.tpl.html */
-ev_gettext("No checkins could be found.");
-
-/* templates//checkins.tpl.html */
-ev_gettext("All");
-
-/* templates//checkins.tpl.html */
-ev_gettext("Remove Selected");
-
-/* templates//history.tpl.html */
-ev_gettext("History of Changes to Issue");
-
-/* templates//history.tpl.html */
-ev_gettext("Date");
-
-/* templates//history.tpl.html */
-ev_gettext("Summary");
-
-/* templates//history.tpl.html */
-ev_gettext("No changes could be found.");
-
-/* templates//history.tpl.html */
-ev_gettext("Close");
-
-/* templates//history.tpl.html */
-ev_gettext("History of Reminders Triggered for Issue");
-
-/* templates//history.tpl.html */
-ev_gettext("Date");
-
-/* templates//history.tpl.html */
-ev_gettext("Triggered Action");
-
-/* templates//history.tpl.html */
-ev_gettext("No reminders could be found.");
-
-/* templates//history.tpl.html */
-ev_gettext("Close");
-
-/* templates//associate.tpl.html */
-ev_gettext("An error occurred while trying to associate the selected email message");
-
-/* templates//associate.tpl.html */
+/* templates/associate.tpl.html */
 ngettext("Thank you, the selected email message was associated successfully.","Thank you, the selected email messages were associated successfully.",x);
 
-/* templates//associate.tpl.html */
-ev_gettext("Continue");
+/* templates/associate.tpl.html */
+gettext("Continue");
 
-/* templates//associate.tpl.html */
-ev_gettext("Warning: Unknown Contacts Found");
+/* templates/associate.tpl.html */
+gettext("Warning: Unknown Contacts Found");
 
-/* templates//associate.tpl.html */
-ev_gettext("The following addresses could not be matched against the system user records:");
+/* templates/associate.tpl.html */
+gettext("The following addresses could not be matched against the system user records:");
 
-/* templates//associate.tpl.html */
-ev_gettext("Please make sure you have selected the correct email messages to associate.");
+/* templates/associate.tpl.html */
+gettext("Please make sure you have selected the correct email messages to associate.");
 
-/* templates//associate.tpl.html */
-ev_gettext("Close Window");
+/* templates/associate.tpl.html */
+gettext("Close Window");
 
-/* templates//associate.tpl.html */
-ev_gettext("Warning: Unknown contacts were found in the selected email messages. Please make sure you have selected the correct email messages to associate.");
+/* templates/associate.tpl.html */
+gettext("Warning: Unknown contacts were found in the selected email messages. Please make sure you have selected the correct email messages to associate.");
 
-/* templates//associate.tpl.html */
+/* templates/associate.tpl.html */
 ngettext("Associate Email Message to Issue #%1","Associate Email Messages to Issue #%1",x);
 
-/* templates//associate.tpl.html */
+/* templates/associate.tpl.html */
 ngettext("Please choose one of the following actions to take in regards to the selected email message","Please choose one of the following actions to take in regards to the selected email messages",x);
 
-/* templates//associate.tpl.html */
-ev_gettext("Save Message");
+/* templates/associate.tpl.html */
+gettext("Save Message");
 
-/* templates//associate.tpl.html */
-ev_gettext("as");
+/* templates/associate.tpl.html */
+gettext("as");
 
-/* templates//associate.tpl.html */
-ev_gettext("an");
+/* templates/associate.tpl.html */
+gettext("an");
 
-/* templates//associate.tpl.html */
+/* templates/associate.tpl.html */
 ngettext("<b>NOTE:</b> Email will be broadcasted to the full notification list, including any customers, if this option is chosen.","<b>NOTE:</b> Emails will be broadcasted to the full notification list, including any customers, if this option is chosen.",x);
 
-/* templates//associate.tpl.html */
+/* templates/associate.tpl.html */
 ngettext("Save Message as Reference Email","Save Message as Reference Emails",x);
 
-/* templates//associate.tpl.html */
+/* templates/associate.tpl.html */
 ngettext("<b>NOTE:</b> Email will <b>NOT</b> be sent to the notification list, if this option if chosen. This is useful as way to backload a set of emails into an existing issue.","<b>NOTE:</b> Emails will <b>NOT</b> be sent to the notification list, if this option if chosen. This is useful as way to backload a set of emails into an existing issue.",x);
 
-/* templates//associate.tpl.html */
+/* templates/associate.tpl.html */
 ngettext("Save Message as an Internal Note","Save Messages as an Internal Notes",x);
 
-/* templates//associate.tpl.html */
+/* templates/associate.tpl.html */
 ngettext("<b>NOTE:</b> Email will be saved as a note and broadcasted only to staff users.","<b>NOTE:</b> Emails will be saved as notes and broadcasted only to staff users.",x);
 
-/* templates//associate.tpl.html */
-ev_gettext("Continue");
+/* templates/associate.tpl.html */
+gettext("Continue");
 
-/* templates//list.tpl.html */
-ev_gettext("Please choose which issues to update.");
+/* templates/attached_emails.tpl.html */
+gettext("Please choose which entries need to be removed.");
 
-/* templates//list.tpl.html */
-ev_gettext("Please choose new values for the select issues");
+/* templates/attached_emails.tpl.html */
+gettext("Attached Emails");
 
-/* templates//list.tpl.html */
-ev_gettext("Warning: If you continue, you will change the ");
+/* templates/attached_emails.tpl.html */
+gettext("Remove?");
 
-/* templates//list.tpl.html */
-ev_gettext("for all selected issues. Are you sure you want to continue?");
+/* templates/attached_emails.tpl.html */
+gettext("Sender");
 
-/* templates//list.tpl.html */
-ev_gettext("Search Results");
+/* templates/attached_emails.tpl.html */
+gettext("Subject");
 
-/* templates//list.tpl.html */
-ev_gettext("issues found");
+/* templates/attached_emails.tpl.html */
+gettext("Notify Sender?");
 
-/* templates//list.tpl.html */
-ev_gettext("shown");
+/* templates/attached_emails.tpl.html */
+gettext("Remove Selected");
 
-/* templates//list.tpl.html */
-ev_gettext("hide/show");
+/* templates/attachments.tpl.html */
+gettext("This action will permanently delete the selected attachment.");
 
-/* templates//list.tpl.html */
-ev_gettext("hide / show the quick search form");
+/* templates/attachments.tpl.html */
+gettext("This action will permanently delete the selected file.");
 
-/* templates//list.tpl.html */
-ev_gettext("quick search");
+/* templates/attachments.tpl.html */
+gettext("Attached Files");
 
-/* templates//list.tpl.html */
-ev_gettext("hide / show the advanced search form");
+/* templates/attachments.tpl.html */
+gettext("Back to Top");
 
-/* templates//list.tpl.html */
-ev_gettext("advanced search");
+/* templates/attachments.tpl.html */
+gettext("Files");
 
-/* templates//list.tpl.html */
-ev_gettext("current filters");
+/* templates/attachments.tpl.html */
+gettext("Owner");
 
-/* templates//list.tpl.html */
-ev_gettext("bulk update tool");
+/* templates/attachments.tpl.html */
+gettext("Status");
 
-/* templates//list.tpl.html */
-ev_gettext("All");
+/* templates/attachments.tpl.html */
+gettext("Date");
 
-/* templates//list.tpl.html */
-ev_gettext("sort by");
+/* templates/attachments.tpl.html */
+gettext("Description");
 
-/* templates//list.tpl.html */
-ev_gettext("sort by");
+/* templates/attachments.tpl.html */
+gettext("delete");
 
-/* templates//list.tpl.html */
-ev_gettext("Summary");
+/* templates/attachments.tpl.html */
+gettext("delete");
 
-/* templates//list.tpl.html */
-ev_gettext("sort by summary");
+/* templates/attachments.tpl.html */
+gettext("No attachments could be found.");
 
-/* templates//list.tpl.html */
-ev_gettext("Export Data:");
+/* templates/attachments.tpl.html */
+gettext("Upload File");
 
-/* templates//list.tpl.html */
-ev_gettext("generate excel-friendly report");
+/* templates/authorized_replier.tpl.html */
+gettext("Please enter a valid email address.");
 
-/* templates//list.tpl.html */
-ev_gettext("Export to Excel");
+/* templates/authorized_replier.tpl.html */
+gettext("Authorized Repliers");
 
-/* templates//list.tpl.html */
-ev_gettext("sort by");
+/* templates/authorized_replier.tpl.html */
+gettext("An error occurred while trying to insert the authorized replier.");
 
-/* templates//list.tpl.html */
-ev_gettext("sort by");
+/* templates/authorized_replier.tpl.html */
+gettext("Users with a role of \"customer\" or below are not allowed to be added to the authorized repliers list.");
 
-/* templates//list.tpl.html */
-ev_gettext("view issue details");
+/* templates/authorized_replier.tpl.html */
+gettext("Thank you, the authorized replier was inserted successfully.");
 
-/* templates//list.tpl.html */
-ev_gettext("view issue details");
+/* templates/authorized_replier.tpl.html */
+gettext("Email");
 
-/* templates//list.tpl.html */
-ev_gettext("No issues could be found.");
+/* templates/authorized_replier.tpl.html */
+gettext("Add Authorized Replier");
 
-/* templates//list.tpl.html */
-ev_gettext("All");
+/* templates/authorized_replier.tpl.html */
+gettext("Reset");
 
-/* templates//list.tpl.html */
-ev_gettext("Go");
+/* templates/authorized_replier.tpl.html */
+gettext("Existing Authorized Repliers for this Issue");
 
-/* templates//list.tpl.html */
-ev_gettext("Rows per Page:");
+/* templates/authorized_replier.tpl.html */
+gettext("Please select at least one of the authorized repliers.");
 
-/* templates//list.tpl.html */
-ev_gettext("ALL");
+/* templates/authorized_replier.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//list.tpl.html */
-ev_gettext("Set");
+/* templates/authorized_replier.tpl.html */
+gettext("Email");
 
-/* templates//list.tpl.html */
-ev_gettext("Hide Closed Issues");
+/* templates/authorized_replier.tpl.html */
+gettext("No authorized repliers could be found.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Sorry, an error happened while trying to run your query.");
+/* templates/authorized_replier.tpl.html */
+gettext("Remove Selected");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Thank you, issue #%1 was updated successfully.");
+/* templates/authorized_replier.tpl.html */
+gettext("Close");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Also, all issues that are marked as duplicates from this one were updated as well.");
+/* templates/bulk_update.tpl.html */
+gettext("Bulk Update Tool");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Return to Issue #%1 Details Page");
+/* templates/bulk_update.tpl.html */
+gettext("Assignment");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Please enter the summary for this issue.");
+/* templates/bulk_update.tpl.html */
+gettext("Status");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Please enter the description for this issue.");
+/* templates/bulk_update.tpl.html */
+gettext("Release");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Percentage complete should be between 0 and 100");
+/* templates/bulk_update.tpl.html */
+gettext("Priority");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Please select an assignment for this issue");
+/* templates/bulk_update.tpl.html */
+gettext("Category");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Warning: All changes to this issue will be lost if you continue and close this issue.");
+/* templates/bulk_update.tpl.html */
+gettext("Bulk Update");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Note: Project automatically switched to '%1' from '%2'.");
+/* templates/bulk_update.tpl.html */
+gettext("Reset");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Update Issue Overview");
+/* templates/checkins.tpl.html */
+gettext("Please choose which entries need to be removed.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("edit the authorized repliers list for this issue");
+/* templates/checkins.tpl.html */
+gettext("This action will permanently delete the selected entries.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Edit Authorized Replier List");
+/* templates/checkins.tpl.html */
+gettext("SCM Integration - Checkins");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Edit Notification List");
+/* templates/checkins.tpl.html */
+gettext("Back to Top");
 
-/* templates//update_form.tpl.html */
-ev_gettext("History of Changes");
+/* templates/checkins.tpl.html */
+gettext("Date");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Category:");
+/* templates/checkins.tpl.html */
+gettext("User");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Status:");
+/* templates/checkins.tpl.html */
+gettext("Module / Directory");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Notification List:");
+/* templates/checkins.tpl.html */
+gettext("File");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Status:");
+/* templates/checkins.tpl.html */
+gettext("Commit Message");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Submitted Date:");
+/* templates/checkins.tpl.html */
+gettext("see the source of revision %1 of %2");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Priority:");
+/* templates/checkins.tpl.html */
+gettext("see the diff to revision %1");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Update Date:");
+/* templates/checkins.tpl.html */
+gettext("diff to %1");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Associated Issues:");
+/* templates/checkins.tpl.html */
+gettext("No checkins could be found.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Reporter:");
+/* templates/checkins.tpl.html */
+gettext("All");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Expected Resolution Date:");
+/* templates/checkins.tpl.html */
+gettext("Remove Selected");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Scheduled Release:");
+/* templates/clock_status.tpl.html */
+gettext("Thank you, your account clocked-in status was changed successfully.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Percentage Complete:");
+/* templates/clock_status.tpl.html */
+gettext("An error was found while trying to change your account clocked-in status.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Estimated Dev. Time:");
+/* templates/close.tpl.html */
+gettext("Error: The issue #%1 could not be found.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("in hours");
+/* templates/close.tpl.html */
+gettext("Go Back");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Assignment:");
+/* templates/close.tpl.html */
+gettext("Sorry, an error happened while trying to run your query.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Keep Current Assignments:");
+/* templates/close.tpl.html */
+gettext("Thank you, the issue was closed successfully.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Change Assignments:");
+/* templates/close.tpl.html */
+gettext("E-mail about issue update was sent to:");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Clear Selections");
+/* templates/close.tpl.html */
+gettext("Please choose from one of the options below:");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Current Selections:");
+/* templates/close.tpl.html */
+gettext("Open the Issue Details Page");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Authorized Repliers:");
+/* templates/close.tpl.html */
+gettext("Open the Issue Listing Page");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Staff:");
+/* templates/close.tpl.html */
+gettext("Open the Emails Listing Page");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Other:");
+/* templates/close.tpl.html */
+gettext("Status");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Group:");
+/* templates/close.tpl.html */
+gettext("Reason to close");
 
-/* templates//update_form.tpl.html */
-ev_gettext("yes");
+/* templates/close.tpl.html */
+gettext("Please enter integers (or floating point numbers) on the time spent field.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Summary:");
+/* templates/close.tpl.html */
+gettext("Time tracking category");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Description:");
+/* templates/close.tpl.html */
+gettext("This customer has a per incident contract. You have chosen not to redeem any incidents. Press 'OK' to confirm or 'Cancel' to revise.");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Private:");
+/* templates/close.tpl.html */
+gettext("Close Issue");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Trigger Reminders:");
+/* templates/close.tpl.html */
+gettext("Issue ID:");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Update");
+/* templates/close.tpl.html */
+gettext("Status:");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Cancel Update");
+/* templates/close.tpl.html */
+gettext("Please choose a status");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Reset");
+/* templates/close.tpl.html */
+gettext("Resolution:");
 
-/* templates//update_form.tpl.html */
-ev_gettext("Close Issue");
+/* templates/close.tpl.html */
+gettext("Send Notification About Issue Being Closed?");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("Please choose which entries need to be disassociated with the current issue.");
+/* templates/close.tpl.html */
+gettext("Send Notification To:");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("This action will remove the association of the selected entries to the current issue.");
+/* templates/close.tpl.html */
+gettext("Internal Users");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("Associated Emails");
+/* templates/close.tpl.html */
+gettext("All");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("Back to Top");
+/* templates/close.tpl.html */
+gettext("Reason for closing issue:");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("view the history of sent emails");
+/* templates/close.tpl.html */
+gettext("Incident Types to Redeem:");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("Mail Queue Log");
+/* templates/close.tpl.html */
+gettext("Time Spent:");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("All");
+/* templates/close.tpl.html */
+gettext("Time Category:");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("Reply");
+/* templates/close.tpl.html */
+gettext("Please choose a category");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("From");
+/* templates/close.tpl.html */
+gettext("Back");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("Recipients");
+/* templates/close.tpl.html */
+gettext("Close Issue");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("Date");
+/* templates/confirm.tpl.html */
+gettext("Password Confirmation");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("Subject");
+/* templates/confirm.tpl.html */
+gettext("Account Creation");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("reply to this email");
+/* templates/confirm.tpl.html */
+gettext("Error");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("sent to notification list");
+/* templates/confirm.tpl.html */
+gettext("Password Confirmation Success");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("No associated emails could be found.");
+/* templates/confirm.tpl.html */
+gettext("The provided trial account email address could not be\nconfirmed. Please contact the local Technical Support staff for\nfurther assistance.");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("All");
+/* templates/confirm.tpl.html */
+gettext("The provided trial account email address could not be\n            found. Please contact the local Technical Support staff for\n            further assistance.");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("Disassociate Selected");
+/* templates/confirm.tpl.html */
+gettext("The provided trial account encrypted hash could not be\n            authenticated. Please contact the local Technical\n            Support staff for further assistance.");
 
-/* templates//support_emails.tpl.html */
-ev_gettext("Send Email");
+/* templates/confirm.tpl.html */
+gettext("Thank you, your request for a new password was confirmed successfully. You should receive an email with your new password shortly.");
 
-/* templates//permission_denied.tpl.html */
-ev_gettext("Sorry, you do not have permission to access this page.");
+/* templates/confirm.tpl.html */
+gettext("Back to Login Form");
 
-/* templates//permission_denied.tpl.html */
-ev_gettext("Go Back");
+/* templates/convert_note.tpl.html */
+gettext("An error occurred while trying to convert the selected note.");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Sorry, an error happened while trying to run your query.");
+/* templates/convert_note.tpl.html */
+gettext("Thank you, the note was converted successfully.");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Thank you, the issue was marked as a duplicate successfully. Please choose \n            from one of the options below:");
+/* templates/convert_note.tpl.html */
+gettext("Continue");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Open the Issue Details Page");
+/* templates/convert_note.tpl.html */
+gettext("WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue's notification list.");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Open the Issue Listing Page");
+/* templates/convert_note.tpl.html */
+gettext("WARNING: Converting this note to an email will send the email to all users listed in this issue's notification list.");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Open the Emails Listing Page");
+/* templates/convert_note.tpl.html */
+gettext("WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
+/* templates/convert_note.tpl.html */
+gettext("Convert Note To Email");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Please choose the duplicated issue.");
+/* templates/convert_note.tpl.html */
+gettext("Convert to Draft and Save For Later Editing");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Mark Issue as Duplicate");
+/* templates/convert_note.tpl.html */
+gettext("<b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, and without any attachments.");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Issue ID:");
+/* templates/convert_note.tpl.html */
+gettext("Convert to Email and Send Now");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Duplicated Issue:");
+/* templates/convert_note.tpl.html */
+gettext("ALERT:");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Please select an issue");
+/* templates/convert_note.tpl.html */
+gettext("Email will be re-sent from original sender, including any attachments.");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Comments:");
+/* templates/convert_note.tpl.html */
+gettext("Add sender to authorized repliers list?");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Back");
+/* templates/convert_note.tpl.html */
+gettext("Continue");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Mark Issue as Duplicate");
+/* templates/current_filters.tpl.html */
+gettext("Current filters:");
 
-/* templates//duplicate.tpl.html */
-ev_gettext("Required fields");
+/* templates/current_filters.tpl.html */
+gettext("Fulltext");
 
-/* templates//post_note.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/current_filters.tpl.html */
+gettext("In Past %1 hours");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Thank you, the internal note was posted successfully.");
+/* templates/current_filters.tpl.html */
+gettext("Is NULL");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Continue");
+/* templates/current_filters.tpl.html */
+gettext("Is between %1-%2-%3 AND %4-%5-%6");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Please enter the title of this note.");
+/* templates/current_filters.tpl.html */
+gettext("Is greater than %1-%2-%3");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Please enter the message body of this note.");
+/* templates/current_filters.tpl.html */
+gettext("Is less than %1-%2-%3");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Post New Internal Note");
+/* templates/current_filters.tpl.html */
+gettext("un-assigned");
 
-/* templates//post_note.tpl.html */
-ev_gettext("From:");
+/* templates/current_filters.tpl.html */
+gettext("myself and un-assigned");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Recipients:");
+/* templates/current_filters.tpl.html */
+gettext("myself and my group");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Notification List");
+/* templates/current_filters.tpl.html */
+gettext("myself, un-assigned and my group");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Title:");
+/* templates/current_filters.tpl.html */
+gettext("Yes");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Extra Note Recipients:");
+/* templates/current_filters.tpl.html */
+gettext("None");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Clear Selections");
+/* templates/custom_fields.tpl.html */
+gettext("Custom Fields");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Add Extra Recipients To Notification List?");
+/* templates/custom_fields.tpl.html */
+gettext("Back to Top");
 
-/* templates//post_note.tpl.html */
-ev_gettext("yes");
+/* templates/custom_fields.tpl.html */
+gettext("No custom fields could be found.");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Yes");
+/* templates/custom_fields.tpl.html */
+gettext("Update");
 
-/* templates//post_note.tpl.html */
-ev_gettext("no");
+/* templates/custom_fields_form.tpl.html */
+gettext("An error occurred while trying to run your query");
 
-/* templates//post_note.tpl.html */
-ev_gettext("No");
+/* templates/custom_fields_form.tpl.html */
+gettext("Thank you, the custom field values were updated successfully.");
 
-/* templates//post_note.tpl.html */
-ev_gettext("New Status for Issue");
+/* templates/custom_fields_form.tpl.html */
+gettext("Continue");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Time Spent:");
+/* templates/custom_fields_form.tpl.html */
+gettext("Update Issue Details");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Post Internal Note");
+/* templates/custom_fields_form.tpl.html */
+gettext("Update Values");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Cancel");
+/* templates/custom_fields_form.tpl.html */
+gettext("Close");
 
-/* templates//post_note.tpl.html */
-ev_gettext("yes");
+/* templates/customer/example/customer_expired.tpl.html */
+gettext("Expired Customer");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Add Email Signature");
+/* templates/customer/example/customer_expired.tpl.html */
+gettext("Contact");
 
-/* templates//post_note.tpl.html */
-ev_gettext("Required fields");
+/* templates/customer/example/customer_expired.tpl.html */
+gettext("Company Name");
 
-/* templates//close.tpl.html */
-ev_gettext("Error: The issue #%1 could not be found.");
+/* templates/customer/example/customer_expired.tpl.html */
+gettext("Contract #");
 
-/* templates//close.tpl.html */
-ev_gettext("Go Back");
+/* templates/customer/example/customer_expired.tpl.html */
+gettext("Support Level");
 
-/* templates//close.tpl.html */
-ev_gettext("Sorry, an error happened while trying to run your query.");
+/* templates/customer/example/customer_expired.tpl.html */
+gettext("Expired");
 
-/* templates//close.tpl.html */
-ev_gettext("Thank you, the issue was closed successfully. Please choose from one of the options below:");
+/* templates/customer/example/customer_expired.tpl.html */
+gettext("Back");
 
-/* templates//close.tpl.html */
-ev_gettext("Open the Issue Details Page");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Customer Details");
 
-/* templates//close.tpl.html */
-ev_gettext("Open the Issue Listing Page");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Contact Person");
 
-/* templates//close.tpl.html */
-ev_gettext("Open the Emails Listing Page");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Contact Email");
 
-/* templates//close.tpl.html */
-ev_gettext("Please choose the new status for this issue.");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Phone Number");
 
-/* templates//close.tpl.html */
-ev_gettext("Please enter the reason for closing this issue.");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Timezone");
 
-/* templates//close.tpl.html */
-ev_gettext("Please enter integers (or floating point numbers) on the time spent field.");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Contact's Local Time");
 
-/* templates//close.tpl.html */
-ev_gettext("Please choose the time tracking category for this new entry.");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Maximum First Response Time");
 
-/* templates//close.tpl.html */
-ev_gettext("This customer has a per incident contract. You have chosen not to redeem any incidents. Press 'OK' to confirm or 'Cancel' to revise.");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Time Until First Response Deadline");
 
-/* templates//close.tpl.html */
-ev_gettext("Close Issue");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Customer");
 
-/* templates//close.tpl.html */
-ev_gettext("Issue ID:");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Support Level");
 
-/* templates//close.tpl.html */
-ev_gettext("Status:");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Support Expiration Date");
 
-/* templates//close.tpl.html */
-ev_gettext("Please choose a status");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Sales Account Manager");
 
-/* templates//close.tpl.html */
-ev_gettext("Resolution:");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Notes About Customer");
 
-/* templates//close.tpl.html */
-ev_gettext("Send Notification About Issue Being Closed?");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Add");
 
-/* templates//close.tpl.html */
-ev_gettext("Send Notification To:");
+/* templates/customer/example/customer_info.tpl.html */
+gettext("Edit");
 
-/* templates//close.tpl.html */
-ev_gettext("Internal Users");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Field");
 
-/* templates//close.tpl.html */
-ev_gettext("All");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Value");
 
-/* templates//close.tpl.html */
-ev_gettext("Reason for closing issue:");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Customer Lookup Tool");
 
-/* templates//close.tpl.html */
-ev_gettext("Incident Types to Redeem:");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Field");
 
-/* templates//close.tpl.html */
-ev_gettext("Time Spent:");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Email Address");
 
-/* templates//close.tpl.html */
-ev_gettext("Time Category:");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Customer ID");
 
-/* templates//close.tpl.html */
-ev_gettext("Please choose a category");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Value");
 
-/* templates//close.tpl.html */
-ev_gettext("Back");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Lookup");
 
-/* templates//close.tpl.html */
-ev_gettext("Close Issue");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Cancel");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Results");
 
-/* templates//popup.tpl.html */
-ev_gettext("Please enter the note text on the input box below.");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Customer");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the new note was created and associated with the issue below.");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Support Type");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Expiration Date");
 
-/* templates//popup.tpl.html */
-ev_gettext("You do not have permission to delete this note.");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("Status");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the note was removed successfully.");
+/* templates/customer/example/customer_lookup.tpl.html */
+gettext("No results could be found");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/customer_report.tpl.html */
+gettext("Example customer API front page");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the time tracking entry was removed successfully.");
+/* templates/customer/example/quarantine.tpl.html */
+gettext("Quarantine explanation goes here...");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the selected issues were updated successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Customer");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Contact");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Contact Person Last Name");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the inital impact analysis was set successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Contact Person First Name");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Contact Email");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the new requirement was added successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Contact Email");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Customer Details");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the impact analysis was set successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Customer");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Lookup Customer");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the selected requirements were removed successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Contact");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Add Primary Contact to Notification List? *");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the custom filter was saved successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Yes");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("No");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the selected custom filters were removed successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Notify Customer About New Issue? *");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Yes");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the association to the selected emails were removed successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("No");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Last Name");
 
-/* templates//popup.tpl.html */
-ev_gettext("You do not have the permission to remove this attachment.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("First Name");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the attachment was removed successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Email");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Phone Number");
 
-/* templates//popup.tpl.html */
-ev_gettext("You do not have the permission to remove this file.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Timezone");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the file was removed successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("Additional Contact Emails");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("(hold ctrl to select multiple options)");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the selected checkin information entries were removed successfully.");
+/* templates/customer/example/report_form_fields.tpl.html */
+gettext("(only technical contacts listed on your contract)");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/duplicate.tpl.html */
+gettext("Sorry, an error happened while trying to run your query.");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the emails were marked as removed successfully.");
+/* templates/duplicate.tpl.html */
+gettext("Thank you, the issue was marked as a duplicate successfully. Please choose \n            from one of the options below:");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/duplicate.tpl.html */
+gettext("Open the Issue Details Page");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the current issue is no longer marked as a duplicate.");
+/* templates/duplicate.tpl.html */
+gettext("Open the Issue Listing Page");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/duplicate.tpl.html */
+gettext("Open the Emails Listing Page");
 
-/* templates//popup.tpl.html */
-ev_gettext("You do not have permission to remove this phone support entry.");
+/* templates/duplicate.tpl.html */
+gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the phone support entry was removed successfully.");
+/* templates/duplicate.tpl.html */
+gettext("Please choose the duplicated issue.");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the phone support entry was removed successfully.");
+/* templates/duplicate.tpl.html */
+gettext("Mark Issue as Duplicate");
 
-/* templates//popup.tpl.html */
-ev_gettext("The associated time tracking entry was also deleted.");
+/* templates/duplicate.tpl.html */
+gettext("Issue ID:");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/duplicate.tpl.html */
+gettext("Duplicated Issue:");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the issue was updated successfully.");
+/* templates/duplicate.tpl.html */
+gettext("Please select an issue");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/duplicate.tpl.html */
+gettext("Comments:");
 
-/* templates//popup.tpl.html */
-ev_gettext("Error: the issue is already unassigned.");
+/* templates/duplicate.tpl.html */
+gettext("Back");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, the issue was unassigned successfully.");
+/* templates/duplicate.tpl.html */
+gettext("Mark Issue as Duplicate");
 
-/* templates//popup.tpl.html */
-ev_gettext("Error: you are already authorized to send emails in this issue.");
+/* templates/duplicate.tpl.html */
+gettext("Required fields");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, you are now authorized to send emails in this issue.");
+/* templates/edit_custom_fields.tpl.html */
+gettext("Please choose an option");
 
-/* templates//popup.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/email_drafts.tpl.html */
+gettext("Drafts");
 
-/* templates//popup.tpl.html */
-ev_gettext("Thank you, this issue was removed from quarantine.");
+/* templates/email_drafts.tpl.html */
+gettext("Back to Top");
 
-/* templates//popup.tpl.html */
-ev_gettext("Continue");
+/* templates/email_drafts.tpl.html */
+gettext("Status");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("Quick Search");
+/* templates/email_drafts.tpl.html */
+gettext("From");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("Keyword(s):");
+/* templates/email_drafts.tpl.html */
+gettext("To");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("Assigned:");
+/* templates/email_drafts.tpl.html */
+gettext("Last Updated Date");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("any");
+/* templates/email_drafts.tpl.html */
+gettext("Subject");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("Status:");
+/* templates/email_drafts.tpl.html */
+gettext("No email drafts could be found.");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("any");
+/* templates/email_drafts.tpl.html */
+gettext("Create Draft");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("Category:");
+/* templates/email_drafts.tpl.html */
+gettext("Show All Drafts");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("any");
+/* templates/email_filter_form.tpl.html */
+gettext("Subject/Body:");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("Priority:");
+/* templates/email_filter_form.tpl.html */
+gettext("Sender:");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("any");
+/* templates/email_filter_form.tpl.html */
+gettext("To:");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("Search");
+/* templates/email_filter_form.tpl.html */
+gettext("Email Account:");
 
-/* templates//searchbar.tpl.html */
-ev_gettext("Clear");
+/* templates/email_filter_form.tpl.html */
+gettext("any");
 
-/* templates//lookup_field.tpl.html */
-ev_gettext("paste or start typing here");
+/* templates/email_filter_form.tpl.html */
+gettext("Search");
 
-/* templates//lookup_field.tpl.html */
-ev_gettext("paste or start typing here");
+/* templates/email_filter_form.tpl.html */
+gettext("Clear");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("An error occurred while trying to convert the selected note.");
+/* templates/email_filter_form.tpl.html */
+gettext("Filter by Arrival Date:");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("Thank you, the note was converted successfully.");
+/* templates/email_filter_form.tpl.html */
+gettext("Greater Than");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("Continue");
+/* templates/email_filter_form.tpl.html */
+gettext("Less Than");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue's notification list.");
+/* templates/email_filter_form.tpl.html */
+gettext("Between");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("WARNING: Converting this note to an email will send the email to all users listed in this issue's notification list.");
+/* templates/email_filter_form.tpl.html */
+gettext("Arrival Date:");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.");
+/* templates/email_filter_form.tpl.html */
+gettext("End date");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("Convert Note To Email");
+/* templates/emails.tpl.html */
+gettext("Associate Emails");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("Convert to Draft and Save For Later Editing");
+/* templates/emails.tpl.html */
+gettext("Sorry, but this feature has been disabled by the administrator.");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("<b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, and without any attachments.");
+/* templates/emails.tpl.html */
+gettext("Go Back");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("Convert to Email and Send Now");
+/* templates/emails.tpl.html */
+gettext("Sorry, but you do not have access to this page.");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("ALERT:");
+/* templates/emails.tpl.html */
+gettext("Go Back");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("Email will be re-sent from original sender, including any attachments.");
+/* templates/emails.tpl.html */
+gettext("Please choose which emails need to be associated.");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("Add sender to authorized repliers list?");
+/* templates/emails.tpl.html */
+gettext("Please choose which emails need to be marked as deleted.");
 
-/* templates//convert_note.tpl.html */
-ev_gettext("Continue");
+/* templates/emails.tpl.html */
+gettext("This action will mark the selected email messages as deleted.");
 
-/* templates//spell_check.tpl.html */
-ev_gettext("Spell Check");
-
-/* templates//spell_check.tpl.html */
-ev_gettext("No spelling mistakes could be found.");
-
-/* templates//spell_check.tpl.html */
-ev_gettext("Misspelled Words:");
-
-/* templates//spell_check.tpl.html */
-ev_gettext("Suggestions:");
-
-/* templates//spell_check.tpl.html */
-ev_gettext("Choose a misspelled word");
-
-/* templates//spell_check.tpl.html */
-ev_gettext("Fix Spelling");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("Subject/Body:");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("Sender:");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("To:");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("Email Account:");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("any");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("Search");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("Clear");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("Filter by Arrival Date:");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("Greater Than");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("Less Than");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("Between");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("Arrival Date:");
-
-/* templates//email_filter_form.tpl.html */
-ev_gettext("End date");
-
-/* templates//signup.tpl.html */
-ev_gettext("Sorry, but this feature has been disabled by the administrator.");
-
-/* templates//signup.tpl.html */
-ev_gettext("Go Back");
-
-/* templates//signup.tpl.html */
-ev_gettext("Please enter your full name.");
-
-/* templates//signup.tpl.html */
-ev_gettext("Please enter your email address.");
-
-/* templates//signup.tpl.html */
-ev_gettext("Please enter a valid email address.");
-
-/* templates//signup.tpl.html */
-ev_gettext("Please enter your password.");
-
-/* templates//signup.tpl.html */
-ev_gettext("Account Signup");
-
-/* templates//signup.tpl.html */
-ev_gettext("Error: An error occurred while trying to run your query.");
-
-/* templates//signup.tpl.html */
-ev_gettext("Error: The email address specified is already associated with an user in the system.");
-
-/* templates//signup.tpl.html */
-ev_gettext("Thank you, your account creation request was processed successfully. For security reasons a confirmation email was sent to the provided email address with instructions on how to confirm your request and activate your account.");
-
-/* templates//signup.tpl.html */
-ev_gettext("Full Name:");
-
-/* templates//signup.tpl.html */
-ev_gettext("Email Address:");
-
-/* templates//signup.tpl.html */
-ev_gettext("Password:");
-
-/* templates//signup.tpl.html */
-ev_gettext("Create Account");
-
-/* templates//signup.tpl.html */
-ev_gettext("Back to Login Form");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext("Please enter your account email address.");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext("<b>Note:</b> Please enter your email address below and a new random password will be created and assigned to your account. For security purposes a confirmation message will be sent to your email address and after confirming it the new password will be then activated and sent to you.");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext("Request a Password");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext("Error: An error occurred while trying to run your query.");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext("Thank you, a confirmation message was just emailed to you. Please follow the instructions available in this message to confirm your password creation request.");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext("Error: Your user status is currently set as inactive. Please\n              contact your local system administrator for further information.");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext(" Error: Please provide your email address.");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext("Error: No user account was found matching the entered email address.");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext("Email Address:");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext("Send New Password");
-
-/* templates//forgot_password.tpl.html */
-ev_gettext("Back to Login Form");
-
-/* templates//view_note.tpl.html */
-ev_gettext("The specified note does not exist. <br />\n      It could have been converted to an email.");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Close");
-
-/* templates//view_note.tpl.html */
-ev_gettext("View Note Details");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Associated with Issue");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Previous Note");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Next Note");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Posted Date:");
-
-/* templates//view_note.tpl.html */
-ev_gettext("From:");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Title:");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Attachments:");
-
-/* templates//view_note.tpl.html */
-ev_gettext("download file");
-
-/* templates//view_note.tpl.html */
-ev_gettext("download file");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Message:");
-
-/* templates//view_note.tpl.html */
-ev_gettext("display in fixed width font");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Blocked Message Raw Headers");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Reply");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Close");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Previous Note");
-
-/* templates//view_note.tpl.html */
-ev_gettext("Next Note");
-
-/* templates//latest_news.tpl.html */
-ev_gettext("News and Announcements");
-
-/* templates//latest_news.tpl.html */
-ev_gettext("full news entry");
-
-/* templates//latest_news.tpl.html */
-ev_gettext("Read All Notices");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("This action will permanently delete the specified time tracking entry.");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("Time Tracking");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("Back to Top");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("Date of Work");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("User");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("Time Spent");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("Category");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("Summary");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("Total Time Spent");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("No time tracking entries could be found.");
-
-/* templates//time_tracking.tpl.html */
-ev_gettext("Add Time Entry");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Field");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Value");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Customer Lookup Tool");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Field");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Email Address");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Customer ID");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Value");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Lookup");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Cancel");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Results");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Customer");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Support Type");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Expiration Date");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("Status");
-
-/* templates//customer/example/customer_lookup.tpl.html */
-ev_gettext("No results could be found");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Customer");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Contact");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Contact Person Last Name");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Contact Person First Name");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Contact Email");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Contact Email");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Customer Details");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Customer");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Lookup Customer");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Contact");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Add Primary Contact to Notification List? *");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Yes");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("No");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Notify Customer About New Issue? *");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Yes");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("No");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Last Name");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("First Name");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Email");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Phone Number");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Timezone");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("Additional Contact Emails");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("(hold ctrl to select multiple options)");
-
-/* templates//customer/example/report_form_fields.tpl.html */
-ev_gettext("(only technical contacts listed on your contract)");
-
-/* templates//customer/example/customer_report.tpl.html */
-ev_gettext("Example customer API front page");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Customer Details");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Contact Person");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Contact Email");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Phone Number");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Timezone");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Contact's Local Time");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Maximum First Response Time");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Time Until First Response Deadline");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Customer");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Support Level");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Support Expiration Date");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Sales Account Manager");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Notes About Customer");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Add");
-
-/* templates//customer/example/customer_info.tpl.html */
-ev_gettext("Edit");
-
-/* templates//customer/example/quarantine.tpl.html */
-ev_gettext("Quarantine explanation goes here...");
-
-/* templates//customer/example/customer_expired.tpl.html */
-ev_gettext("Expired Customer");
-
-/* templates//customer/example/customer_expired.tpl.html */
-ev_gettext("Contact");
-
-/* templates//customer/example/customer_expired.tpl.html */
-ev_gettext("Company Name");
-
-/* templates//customer/example/customer_expired.tpl.html */
-ev_gettext("Contract #");
-
-/* templates//customer/example/customer_expired.tpl.html */
-ev_gettext("Support Level");
-
-/* templates//customer/example/customer_expired.tpl.html */
-ev_gettext("Expired");
-
-/* templates//customer/example/customer_expired.tpl.html */
-ev_gettext("Back");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Issue");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Add Phone Entry");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Thank you, the phone entry was added successfully.");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Continue");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Please select a valid date for when the phone call took place.");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Please enter integers (or floating point numbers) on the time spent field.");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Please enter the description for this new phone support entry.");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Please choose the category for this new phone support entry.");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Record Phone Call");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Date of Call");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Reason");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Call From");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("last name");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("first name");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Call To");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("last name");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("first name");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Type");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Incoming");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Outgoing");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Customer Phone Number");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Office");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Home");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Mobile");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Temp Number");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Other");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Time Spent");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("in minutes");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Description");
-
-/* templates//add_phone_entry.tpl.html */
-ev_gettext("Save Phone Call");
-
-/* templates//emails.tpl.html */
-ev_gettext("Associate Emails");
-
-/* templates//emails.tpl.html */
-ev_gettext("Sorry, but this feature has been disabled by the administrator.");
-
-/* templates//emails.tpl.html */
-ev_gettext("Go Back");
-
-/* templates//emails.tpl.html */
-ev_gettext("Sorry, but you do not have access to this page.");
-
-/* templates//emails.tpl.html */
-ev_gettext("Go Back");
-
-/* templates//emails.tpl.html */
-ev_gettext("Please choose which emails need to be associated.");
-
-/* templates//emails.tpl.html */
-ev_gettext("Please choose which emails need to be marked as deleted.");
-
-/* templates//emails.tpl.html */
-ev_gettext("This action will mark the selected email messages as deleted.");
-
-/* templates//emails.tpl.html */
+/* templates/emails.tpl.html */
 ngettext("Viewing Emails (%1 emails found)","Viewing Emails (%1 emails found, %2 - %3 shown)",x);
 
-/* templates//emails.tpl.html */
-ev_gettext("All");
+/* templates/emails.tpl.html */
+gettext("All");
 
-/* templates//emails.tpl.html */
-ev_gettext("Sender");
+/* templates/emails.tpl.html */
+gettext("Sender");
 
-/* templates//emails.tpl.html */
-ev_gettext("sort by sender");
+/* templates/emails.tpl.html */
+gettext("sort by sender");
 
-/* templates//emails.tpl.html */
-ev_gettext("Customer");
+/* templates/emails.tpl.html */
+gettext("Customer");
 
-/* templates//emails.tpl.html */
-ev_gettext("sort by customer");
+/* templates/emails.tpl.html */
+gettext("sort by customer");
 
-/* templates//emails.tpl.html */
-ev_gettext("Date");
+/* templates/emails.tpl.html */
+gettext("Date");
 
-/* templates//emails.tpl.html */
-ev_gettext("sort by date");
+/* templates/emails.tpl.html */
+gettext("sort by date");
 
-/* templates//emails.tpl.html */
-ev_gettext("To");
+/* templates/emails.tpl.html */
+gettext("To");
 
-/* templates//emails.tpl.html */
-ev_gettext("sort by recipient");
+/* templates/emails.tpl.html */
+gettext("sort by recipient");
 
-/* templates//emails.tpl.html */
-ev_gettext("Status");
+/* templates/emails.tpl.html */
+gettext("Status");
 
-/* templates//emails.tpl.html */
-ev_gettext("sort by status");
+/* templates/emails.tpl.html */
+gettext("sort by status");
 
-/* templates//emails.tpl.html */
-ev_gettext("Subject");
+/* templates/emails.tpl.html */
+gettext("Subject");
 
-/* templates//emails.tpl.html */
-ev_gettext("sort by subject");
+/* templates/emails.tpl.html */
+gettext("sort by subject");
 
-/* templates//emails.tpl.html */
-ev_gettext("associated");
+/* templates/emails.tpl.html */
+gettext("associated");
 
-/* templates//emails.tpl.html */
-ev_gettext("view issue details");
+/* templates/emails.tpl.html */
+gettext("view issue details");
 
-/* templates//emails.tpl.html */
-ev_gettext("pending");
+/* templates/emails.tpl.html */
+gettext("pending");
 
-/* templates//emails.tpl.html */
-ev_gettext("Empty Subject Header");
+/* templates/emails.tpl.html */
+gettext("Empty Subject Header");
 
-/* templates//emails.tpl.html */
-ev_gettext("view email details");
+/* templates/emails.tpl.html */
+gettext("view email details");
 
-/* templates//emails.tpl.html */
-ev_gettext("view email details");
+/* templates/emails.tpl.html */
+gettext("view email details");
 
-/* templates//emails.tpl.html */
-ev_gettext("No emails could be found.");
+/* templates/emails.tpl.html */
+gettext("No emails could be found.");
 
-/* templates//emails.tpl.html */
-ev_gettext("All");
+/* templates/emails.tpl.html */
+gettext("All");
 
-/* templates//emails.tpl.html */
-ev_gettext("Associate");
+/* templates/emails.tpl.html */
+gettext("Associate");
 
-/* templates//emails.tpl.html */
-ev_gettext("New Issue");
+/* templates/emails.tpl.html */
+gettext("New Issue");
 
-/* templates//emails.tpl.html */
-ev_gettext("lookup issues by their summaries");
+/* templates/emails.tpl.html */
+gettext("lookup issues by their summaries");
 
-/* templates//emails.tpl.html */
-ev_gettext("ALL");
+/* templates/emails.tpl.html */
+gettext("ALL");
 
-/* templates//emails.tpl.html */
-ev_gettext("Set");
+/* templates/emails.tpl.html */
+gettext("Set");
 
-/* templates//emails.tpl.html */
-ev_gettext("Hide Associated Emails");
+/* templates/emails.tpl.html */
+gettext("Hide Associated Emails");
 
-/* templates//emails.tpl.html */
-ev_gettext("Remove Selected Emails");
+/* templates/emails.tpl.html */
+gettext("Remove Selected Emails");
 
-/* templates//emails.tpl.html */
-ev_gettext("list all removed emails");
+/* templates/emails.tpl.html */
+gettext("list all removed emails");
 
-/* templates//emails.tpl.html */
-ev_gettext("List Removed Emails");
+/* templates/emails.tpl.html */
+gettext("List Removed Emails");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the hostname for the server of this installation of Eventum.");
+/* templates/error_icon.tpl.html */
+gettext("error condition detected");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the relative URL of this installation of Eventum.");
+/* templates/error_icon.tpl.html */
+gettext("error condition detected");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the database hostname for this installation of Eventum.");
+/* templates/expandable_cell/buttons.tpl.html */
+gettext("Expand all collapsed cells");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the database name for this installation of Eventum.");
+/* templates/expandable_cell/buttons.tpl.html */
+gettext("Expand all collapsed cells");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the database username for this installation of Eventum.");
+/* templates/expandable_cell/buttons.tpl.html */
+gettext("Expand collapsed cell");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the alternate username for this installation of Eventum.");
+/* templates/expandable_cell/buttons.tpl.html */
+gettext("Collapse expanded cell");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the sender address that will be used for all outgoing notification emails.");
+/* templates/faq.tpl.html */
+gettext("Error: You are not allowed to view the requested FAQ entry.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter a valid email address for the sender address.");
+/* templates/faq.tpl.html */
+gettext("Last updated");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the SMTP server hostname.");
+/* templates/faq.tpl.html */
+gettext("Close Window");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the SMTP server port number.");
+/* templates/faq.tpl.html */
+gettext("Article Entries");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please indicate whether the SMTP server requires authentication or not.");
+/* templates/faq.tpl.html */
+gettext("Title");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the SMTP server username.");
+/* templates/faq.tpl.html */
+gettext("Last Updated Date");
 
-/* templates//setup.tpl.html */
-ev_gettext("Please enter the SMTP server password.");
+/* templates/faq.tpl.html */
+gettext("read faq entry");
 
-/* templates//setup.tpl.html */
-ev_gettext("An Error Was Found");
+/* templates/file_upload.tpl.html */
+gettext("An error occurred while trying to process the uploaded file.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Details:");
+/* templates/file_upload.tpl.html */
+gettext("The uploaded file is already attached to the current issue. Please rename the file and try again.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Success!");
+/* templates/file_upload.tpl.html */
+gettext("Thank you, the uploaded file was associated with the issue below.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Thank You, Eventum is now properly setup and ready to be used. Open the following URL to login on it for the first time:");
+/* templates/file_upload.tpl.html */
+gettext("Continue");
 
-/* templates//setup.tpl.html */
-ev_gettext("Email Address: admin@example.com (literally)");
+/* templates/file_upload.tpl.html */
+gettext("Add New Files");
 
-/* templates//setup.tpl.html */
-ev_gettext("Password: admin");
+/* templates/file_upload.tpl.html */
+gettext("Status");
 
-/* templates//setup.tpl.html */
-ev_gettext("NOTE: For security reasons it is highly recommended that the default password be changed as soon as possible.");
+/* templates/file_upload.tpl.html */
+gettext("Public");
 
-/* templates//setup.tpl.html */
-ev_gettext("Remember to protect your 'setup' directory (like changing its permissions) to prevent anyone else\n            from changing your existing Eventum configuration.");
+/* templates/file_upload.tpl.html */
+gettext("visible to all");
 
-/* templates//setup.tpl.html */
-ev_gettext("In order to check if your permissions are setup correctly visit the <a class=\"link\" href=\"check_permissions.php\">Check Permissions</a> page.");
+/* templates/file_upload.tpl.html */
+gettext("Private");
 
-/* templates//setup.tpl.html */
-ev_gettext("WARNING: If you want to use the email integration features to download messages saved on a IMAP/POP3 server, you will need to\n            enable the IMAP extension in your PHP.INI configuration file. See the PHP manual for more details.");
+/* templates/file_upload.tpl.html */
+gettext("standard user and above only");
 
-/* templates//setup.tpl.html */
-ev_gettext("Eventum Installation");
+/* templates/file_upload.tpl.html */
+gettext("Filenames");
 
-/* templates//setup.tpl.html */
-ev_gettext("Server Hostname:");
+/* templates/file_upload.tpl.html */
+gettext("ote: The current maximum allowed upload file size is");
 
-/* templates//setup.tpl.html */
-ev_gettext("SSL Server");
+/* templates/file_upload.tpl.html */
+gettext("Description");
 
-/* templates//setup.tpl.html */
-ev_gettext("Eventum Relative URL:");
+/* templates/file_upload.tpl.html */
+gettext("Upload File");
 
-/* templates//setup.tpl.html */
-ev_gettext("MySQL Server Hostname:");
+/* templates/file_upload.tpl.html */
+gettext("You do not have the correct role to access this page");
 
-/* templates//setup.tpl.html */
-ev_gettext("MySQL Database:");
+/* templates/forgot_password.tpl.html */
+gettext("Please enter your account email address.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Create Database");
+/* templates/forgot_password.tpl.html */
+gettext("Note: Please enter your email address below and a new random password will be created and assigned to your account. For security purposes a confirmation message will be sent to your email address and after confirming it the new password will be then activated and sent to you.");
 
-/* templates//setup.tpl.html */
-ev_gettext("MySQL Table Prefix:");
+/* templates/forgot_password.tpl.html */
+gettext("Request a Password");
 
-/* templates//setup.tpl.html */
-ev_gettext("Drop Tables If They Already Exist");
+/* templates/forgot_password.tpl.html */
+gettext("Error: An error occurred while trying to run your query.");
 
-/* templates//setup.tpl.html */
-ev_gettext("MySQL Username:");
+/* templates/forgot_password.tpl.html */
+gettext("Thank you, a confirmation message was just emailed to you. Please follow the instructions available in this message to confirm your password creation request.");
 
-/* templates//setup.tpl.html */
-ev_gettext("<b>Note:</b> This user requires permission to create and drop tables in the specified database.<br />This value is used only for these installation procedures, and is not saved if you provide a separate user below.");
+/* templates/forgot_password.tpl.html */
+gettext("Error: Your user status is currently set as inactive. Please\n              contact your local system administrator for further information.");
 
-/* templates//setup.tpl.html */
-ev_gettext("MySQL Password:");
+/* templates/forgot_password.tpl.html */
+gettext(" Error: Please provide your email address.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Use a Separate MySQL User for Normal Eventum Use");
+/* templates/forgot_password.tpl.html */
+gettext("Error: No user account was found matching the entered email address.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Enter the details below:");
+/* templates/forgot_password.tpl.html */
+gettext("Email Address:");
 
-/* templates//setup.tpl.html */
-ev_gettext("Username:");
+/* templates/forgot_password.tpl.html */
+gettext("Send New Password");
 
-/* templates//setup.tpl.html */
-ev_gettext("Password:");
+/* templates/forgot_password.tpl.html */
+gettext("Back to Login Form");
 
-/* templates//setup.tpl.html */
-ev_gettext("Create User and Permissions");
+/* templates/help/adv_search.tpl.html */
+gettext("Advanced Search / Creating Custom Queries");
 
-/* templates//setup.tpl.html */
-ev_gettext("SMTP Configuration");
+/* templates/help/adv_search.tpl.html */
+gettext("This page allows you to create and modify saved custom searches, which\nwill save searches that can be executed from the Issue Listing screen.");
 
-/* templates//setup.tpl.html */
-ev_gettext("<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.");
+/* templates/help/adv_search.tpl.html */
+gettext("Most of the time users will want to run common used queries against\nthe issue database, and this is a feature perfect for such situations,\njust create a custom query in this screen and run it from the Issue\nListing page.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Sender:");
+/* templates/help/banner.tpl.html */
+gettext("Close Window");
 
-/* templates//setup.tpl.html */
-ev_gettext("must be a valid email address");
+/* templates/help/column_display.tpl.html */
+gettext("Edit Columns to Display");
 
-/* templates//setup.tpl.html */
-ev_gettext("Hostname:");
+/* templates/help/column_display.tpl.html */
+gettext("This page allows you to dynamically control which columns are displayed on the list issues page.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Port:");
+/* templates/help/column_display.tpl.html */
+gettext("You can set the minimum role required to view a column. For example, if you set the mimimum role for 'Category'\nto be 'Manager' anyone with a role lower then 'Manager' will not be able to see that column. To hide a column\nfrom all users, select 'Never Display'.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Requires Authentication?");
+/* templates/help/column_display.tpl.html */
+gettext("Please note that some columns may be hidden even if you specify they should be shown. For example, if no releases\nare defined in the system the 'Release' column will be hidden.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Yes");
+/* templates/help/customize_listing.tpl.html */
+gettext("Customize Issue Listing Screen");
 
-/* templates//setup.tpl.html */
-ev_gettext("No");
+/* templates/help/customize_listing.tpl.html */
+gettext("This page allows you to dynamically configure the values displayed in the \n\"Status Change Date\" column in the issue listing screen, for a particular\nproject.\n<br /><br />\nThis column is useful to display the amount of time since the last change\nin status for each issue. For example, if issue #1234 is set to status\n'Closed', you could configure Eventum to display the difference\nin time between \"now\" and the date value stored in the closed date\nfield.\n<br /><br />\nSince the list of statuses available per project is dynamic and \ndatabase driven, this manual process is needed to associate a status\nto a date field coming from the database.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Username:");
+/* templates/help/email_blocking.tpl.html */
+gettext("Email Blocking");
 
-/* templates//setup.tpl.html */
-ev_gettext("Password:");
+/* templates/help/email_blocking.tpl.html */
+gettext("To prevent inappropriate emails reaching the notification list, only users that are assigned\nto the issue are allowed to email through Eventum. If an un-authorized\nuser sends an email to <i>issue-XXXX@example.com</i> it is converted into a note and\nstored for later use. This note can be converted into an email at a later date.");
 
-/* templates//setup.tpl.html */
-ev_gettext("Start Installation");
+/* templates/help/field_display.tpl.html */
+gettext("Edit Fields to Display");
 
-/* templates//setup.tpl.html */
-ev_gettext("Required Fields");
+/* templates/help/field_display.tpl.html */
+gettext("This page allows you to dynamically control which fields are displayed \nto users of a certain minimum role.\nFor example, you could use this page so that only users of the role \"<i>standard user</i>\" \n(and higher ranking roles) are able to set the category or \nrelease fields when reporting a new issue.");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("Current filters:");
+/* templates/help/index.tpl.html */
+gettext("Available Related Topics:");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("Fulltext");
+/* templates/help/link_filters.tpl.html */
+gettext("Link Filters");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("In Past %1 hours");
+/* templates/help/link_filters.tpl.html */
+gettext("Link filters are used to replace text such as 'Bug #42' with an automatic\nlink to some external resource. It uses regular expressions to replace the text.\nSpecify the search pattern in the pattern field without delimiters. Specify the entire\nstring you would like to use as a replacement with $x to insert the matched text. For example:\n<br /><br />\nPattern: \"bug #(d+)\"<br />\nReplacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug #$1&lt;/a&gt;\"");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("Is NULL");
+/* templates/help/list.tpl.html */
+gettext("Listing / Searching for Issues");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("Is between %1-%2-%3 AND %4-%5-%6");
+/* templates/help/list.tpl.html */
+gettext("The Issue Listing page uses a grid layout to simplify the manual\nsearch for issues in a project. You may sort for (almost) any column\nin this grid form, and users with the appropriate permissions may also\nassign selected issues to another user.");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("Is greater than %1-%2-%3");
+/* templates/help/list.tpl.html */
+gettext("The quick search table in the top of the screen helps the users find\nthe issues they want quickly. More advanced searches may be created\nusing the Advanced Search tool.");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("Is less than %1-%2-%3");
+/* templates/help/main.tpl.html */
+gettext("Available Help Topics");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("un-assigned");
+/* templates/help/main.tpl.html */
+gettext("Please refer to the following help sections for more information on \nspecific parts of the application:");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("myself and un-assigned");
+/* templates/help/main.tpl.html */
+gettext("Listing / Searching for Issues");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("myself and my group");
+/* templates/help/main.tpl.html */
+gettext("Reporting New Issues");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("myself, un-assigned and my group");
+/* templates/help/main.tpl.html */
+gettext("Advanced Search / Creating Custom Queries");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("Yes");
+/* templates/help/main.tpl.html */
+gettext("Associate Emails");
 
-/* templates//current_filters.tpl.html */
-ev_gettext("None");
+/* templates/help/main.tpl.html */
+gettext("Account Preferences");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("This action will permanently delete the specified phone support entry.");
+/* templates/help/main.tpl.html */
+gettext("Viewing Issues");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("Phone Calls");
+/* templates/help/main.tpl.html */
+gettext("Email Notifications");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("Back to Top");
+/* templates/help/main.tpl.html */
+gettext("Email Blocking");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("Recorded Date");
+/* templates/help/main.tpl.html */
+gettext("Configuration Parameters");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("Entered By");
+/* templates/help/main.tpl.html */
+gettext("SCM Integration");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("From");
+/* templates/help/main.tpl.html */
+gettext("Usage Examples");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("To");
+/* templates/help/main.tpl.html */
+gettext("Installation Instructions");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("Call Type");
+/* templates/help/main.tpl.html */
+gettext("Customize Issue Listing Screen");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("Category");
+/* templates/help/main.tpl.html */
+gettext("Link Filters");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("Phone Number");
+/* templates/help/main.tpl.html */
+gettext("Edit Fields to Display");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("delete");
+/* templates/help/main.tpl.html */
+gettext("Segregate Reporters");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("No phone calls recorded yet.");
+/* templates/help/main.tpl.html */
+gettext("User Permission Levels");
 
-/* templates//phone_support.tpl.html */
-ev_gettext("Add Phone Call");
+/* templates/help/notifications.tpl.html */
+gettext("Email Notifications");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Please enter the title of this resolution.");
+/* templates/help/notifications.tpl.html */
+gettext("This feature allows system users to subscribe to email notifications\nwhen changes are done to specific issues. The current actions that\ntrigger email notifications are:");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Manage Issue Resolutions");
+/* templates/help/notifications.tpl.html */
+gettext("Issue details are updated");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("An error occurred while trying to add the new issue resolution.");
+/* templates/help/notifications.tpl.html */
+gettext("Issues are Closed");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Please enter the title for this new issue resolution.");
+/* templates/help/notifications.tpl.html */
+gettext("Notes are added to existing issues");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Thank you, the issue resolution was added successfully.");
+/* templates/help/notifications.tpl.html */
+gettext("Emails are associated to existing issues");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("An error occurred while trying to update the issue resolution information.");
+/* templates/help/notifications.tpl.html */
+gettext("Files are attached to existing issues");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Please enter the title for this issue resolution.");
+/* templates/help/notifications.tpl.html */
+gettext("System users may subscribe to the actions above for specific issues\nwhen they report new issues or by visiting the issue details screen \nand subscribing manually by using the 'Edit Notification List' link.");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Thank you, the issue resolution was updated successfully.");
+/* templates/help/permission_levels.tpl.html */
+gettext("User Permission Levels");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Title:");
+/* templates/help/permission_levels.tpl.html */
+gettext("The following is a brief overview of the available user permission levels \nin Eventum:");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Update Resolution");
+/* templates/help/permission_levels.tpl.html */
+gettext("Viewer");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Create Resolution");
+/* templates/help/permission_levels.tpl.html */
+gettext("Allowed to view all issues on the projects associated to \nthis user; cannot create new issues or edit existing issues.");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Reset");
+/* templates/help/permission_levels.tpl.html */
+gettext("Reporter");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Existing Resolutions:");
+/* templates/help/permission_levels.tpl.html */
+gettext("Allowed to view all issues on the projects associated to \nthis user; Allowed to create new issues and to send emails on existing\nissues.");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Please select at least one of the resolutions.");
+/* templates/help/permission_levels.tpl.html */
+gettext("Customer");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/help/permission_levels.tpl.html */
+gettext("This is a special permission level reserved for the Customer\nIntegration API, which allows you to integrate Eventum with your CRM database. \nWhen this feature is enabled, this type of user can only access issues associated\nwith their own customer. Allowed to create new issues, update and send emails\nto existing issues.");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("All");
+/* templates/help/permission_levels.tpl.html */
+gettext("Standard User");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Title");
+/* templates/help/permission_levels.tpl.html */
+gettext("Allowed to view all issues on the projects associated to\nthis user; Allowed to create new issues, update existing issues, and to send\nemails and notes to existing issues.");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("update this entry");
+/* templates/help/permission_levels.tpl.html */
+gettext("Developer");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("No resolutions could be found.");
+/* templates/help/permission_levels.tpl.html */
+gettext("Similar in every way to the above permission level, but \nthis extra level allows you to segregate users who will deal with issues, and\noverall normal staff users who do not handle issues themselves.");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("All");
+/* templates/help/permission_levels.tpl.html */
+gettext("Manager");
 
-/* templates//manage/resolution.tpl.html */
-ev_gettext("Delete");
+/* templates/help/permission_levels.tpl.html */
+gettext("Allowed to view all issues on the projects associated to\nthis user; Allowed to create new issues, update existing issues, and to send\nemails and notes to existing issues. Also, this type of user is also allowed on\nthe special administration section of Eventum to tweak most project-level \nfeatures and options.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Please assign the appropriate users for this round robin entry.");
+/* templates/help/permission_levels.tpl.html */
+gettext("Administrator");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Manage Round Robin Assignments");
+/* templates/help/permission_levels.tpl.html */
+gettext("This type of user has full access to Eventum, including\nthe low level configuration parameters available through the administration\ninterface.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("An error occurred while trying to add the round robin entry.");
+/* templates/help/preferences.tpl.html */
+gettext("Account Preferences");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Please enter the title for this round robin entry.");
+/* templates/help/preferences.tpl.html */
+gettext("This screen allows users to change their appropriate full name, account\npassword and email address. This address will be used by the system to\nsend email notifications whenever details about issues you are \nsubscribed to changes.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Please enter the message for this round robin entry.");
+/* templates/help/preferences.tpl.html */
+gettext("You may also set the appropriate timezone where you live in this \nscreen, and all of the software will adjust the dates displayed in\nthe system accordingly.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Thank you, the round robin entry was added successfully.");
+/* templates/help/preferences.tpl.html */
+gettext("The default options for email notifications are used to pre-select\nthe notification related fields when you report a new issue, or \nsubscribe manually for changes in the issue details page.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("An error occurred while trying to update the round robin entry information.");
+/* templates/help/report.tpl.html */
+gettext("Reporting New Issues");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Please enter the title for this round robin entry.");
+/* templates/help/report.tpl.html */
+gettext("To report new issues, click in the 'Create Issue' link in the top of \nyour browser window.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Please enter the message for this round robin entry.");
+/* templates/help/report_assignment.tpl.html */
+gettext("Assignment Field");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Thank you, the round robin entry was updated successfully.");
+/* templates/help/report_assignment.tpl.html */
+gettext("This field is used to determine who should be assigned to this new \nissue. You are be able to assign a new issue to several persons at the\nsame time.\n<br /><br />\nIf you don't know who should be the assigned person for this new issue,\nassign it to your Project Lead.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Project:");
+/* templates/help/report_category.tpl.html */
+gettext("Category Field");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/help/report_category.tpl.html */
+gettext("This field is used to categorize issues by a common denominator, such\nas 'Feature Request', 'Bug' or 'Support Inquiry'.\n<br /><br />\nNote: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Assignable Users:");
+/* templates/help/report_description.tpl.html */
+gettext("Description Field");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Blackout Time Range:");
+/* templates/help/report_description.tpl.html */
+gettext("The description field should be used to describe the new issue. Good\npractices dictate that this field should have a description of what\nhappened, steps to reproduce the problem/issue and what you expected \nto happen instead.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Update Round Robin Entry");
+/* templates/help/report_estimated_dev_time.tpl.html */
+gettext("Estimated Development Time Field");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Create Round Robin Entry");
+/* templates/help/report_estimated_dev_time.tpl.html */
+gettext("This field is used by the reporters of new issues to estimate the \ntotal development time for the issue. It is especially important as a \nmetrics tool to get a simple estimate of how much time each issue will\ntake from discovery, going through implementation and testing up until\nrelease time.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Reset");
+/* templates/help/report_estimated_dev_time.tpl.html */
+gettext("This field can also be used as a way to check the estimation abilities\nof project managers against the impact analysis given by the \ndevelopers themselves. That is, the value entered by a project manager\nhere can be compared against the impact analysis / estimated \ndevelopment time entered by the developers, and this way get more \nexperience estimating the required time for new projects.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Existing Round Robin Entries:");
+/* templates/help/report_priority.tpl.html */
+gettext("Priority Field");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Please select at least one of the round robin entries.");
+/* templates/help/report_priority.tpl.html */
+gettext("This field is used to prioritize issues, as to make project management\na little easier. If you are not sure, or don't know what the appropriate\npriority should be for new issues, choose 'not prioritized' as the \noption and leave the issue to be prioritized by a project manager.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("This action will permanently remove the selected round robin entries.");
+/* templates/help/report_priority.tpl.html */
+gettext("Note: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("All");
+/* templates/help/report_release.tpl.html */
+gettext("Scheduled Release Field");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Project");
+/* templates/help/report_release.tpl.html */
+gettext("This field is used to determine what the deadline should be for when\nthis new issue should be completed and resolved. If you don't know \nwhat the deadline should be for this new issue, leave the field as\n'un-scheduled', and a project manager will set it appropriately.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Assignable Users");
+/* templates/help/report_release.tpl.html */
+gettext("Note: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("update this entry");
+/* templates/help/report_summary.tpl.html */
+gettext("Summary Field");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("No round robin entries could be found.");
+/* templates/help/report_summary.tpl.html */
+gettext("This field is used as a simple and descriptive title to this new\nissue. As a suggestion, it should be descriptive and short enough to\nbe used by other users to remember quickly what the issue was all\nabout.");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("All");
+/* templates/help/scm_integration.tpl.html */
+gettext("SCM Integration");
 
-/* templates//manage/round_robin.tpl.html */
-ev_gettext("Delete");
+/* templates/help/scm_integration.tpl.html */
+gettext("This feature allows your software development teams to integrate your\nSource Control Management system with your Issue Tracking System.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Action Type");
+/* templates/help/scm_integration.tpl.html */
+gettext("The integration is implemented in such a way that it will be forward\ncompatible with pretty much any SCM system, such as CVS. When entering\nthe required information for the checkout page and diff page input\nfields, use the following placeholders:");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Rank");
+/* templates/help/scm_integration.tpl.html */
+gettext("The filename that was committed");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Manage Reminder Actions");
+/* templates/help/scm_integration.tpl.html */
+gettext("The old revision of the file");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("view reminder details");
+/* templates/help/scm_integration.tpl.html */
+gettext("The new revision of the file");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("An error occurred while trying to add the new action.");
+/* templates/help/scm_integration.tpl.html */
+gettext("As an example, using the <a href=\"http://www.horde.org/chora/\" class=\"link\" target=\"_chora\">Chora CVS viewer</a> [highly recommended] from the Horde project you\nwould usually have the following URL as the diff page:");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Please enter the title for this new action.");
+/* templates/help/scm_integration.tpl.html */
+gettext("With that information in mind, the appropriate value to be entered in\nthe 'Checkout page' input field is:");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Thank you, the action was added successfully.");
+/* templates/help/scm_integration_installation.tpl.html */
+gettext("Installation Instructions");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("An error occurred while trying to update the action information.");
+/* templates/help/scm_integration_installation.tpl.html */
+gettext("The process_commits.pl script, which is available in the misc \nsub-directory in your Eventum installation directory, will need to be \ninstalled in your CVSROOT CVS module by following the procedure below:");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Please enter the title for this action.");
+/* templates/help/scm_integration_installation.tpl.html */
+gettext("The first thing to do is to checkout the CVSROOT module from your CVS\nrepository:");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Thank you, the action was updated successfully.");
+/* templates/help/scm_integration_installation.tpl.html */
+gettext("The command above will checkout and create the CVSROOT directory that\nyou will need to work with. Next, open the <b>loginfo</b> file and\nadd the following line:");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Title:");
+/* templates/help/scm_integration_installation.tpl.html */
+gettext("Replace %repository path% by the appropriate absolute path in your\nCVS server, such as /home/username/repository for instance. Also make\nsure to put the appropriate path to your Perl binary.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Action Type:");
+/* templates/help/scm_integration_installation.tpl.html */
+gettext("You may also turn the parsing of commit messages for just a single CVS\nmodule by substituting the 'ALL' in the line above to the appropriate\nCVS module name, as in:");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/help/scm_integration_installation.tpl.html */
+gettext("The last step of this installation process is to login into the CVS\nserver and copy the process_cvs_commits.php script into the CVSROOT \ndirectory. Make sure you give the appropriate permissions to the \nscript.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Email List:");
+/* templates/help/scm_integration_usage.tpl.html */
+gettext("Usage Examples");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Add");
+/* templates/help/scm_integration_usage.tpl.html */
+gettext("An integration script will need to be installed in your CVS root \nrepository in order to send a message to Eventum whenever changes are\ncommitted to the repository. This message will then be processed by\nEventum and the changes to the appropriate files will be associated\nwith existing issue mentioned in your commit message.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Remove");
+/* templates/help/scm_integration_usage.tpl.html */
+gettext("So to examplify its use, whenever the users are ready to commit the\nchanges to the CVS repository, they will add a special string to\nspecify which issue this is related to. The following would be a\ngood example of its use:");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Rank:");
+/* templates/help/scm_integration_usage.tpl.html */
+gettext("[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)\" form.php");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("this will determine the order in which actions are triggered");
+/* templates/help/scm_integration_usage.tpl.html */
+gettext("You may also use 'bug' to specify the issue ID - whichever you are more\ncomfortable with.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Alert Group Leader:");
+/* templates/help/scm_integration_usage.tpl.html */
+gettext("This command will be parsed by the CVS integration script (provided to\nyou and available in %eventum_path%/misc/scm/process_cvs_commits.php) and it\nwill notify Eventum that these changes are to be associated with issue\n#13.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Yes");
+/* templates/help/segregate_reporter.tpl.html */
+gettext("Segregate Reporter");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("No");
+/* templates/help/segregate_reporter.tpl.html */
+gettext("If this option is enabled, users with a role of Reporter will only be able to see issues they reported.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Alert IRC:");
+/* templates/help/support_emails.tpl.html */
+gettext("Associate Emails");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Yes");
+/* templates/help/support_emails.tpl.html */
+gettext("This screen allows users with the appropriate permissions to associate\nemails with existing issues, or create new issues and \nassociate emails with them.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("No");
+/* templates/help/support_emails.tpl.html */
+gettext("In order to do that, however, the administrator of the system needs\nto configure email accounts to make the software download\nthe email messages from the appropriate POP3/IMAP server.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Boilerplate:");
+/* templates/help/support_emails.tpl.html */
+gettext("One of the optimal uses of this feature is to create a separate \n'issues' or 'support' POP3/IMAP account and ask your customers or \nend-users to send support questions, issues or suggestions to that \nmailbox. Eventum will then download the emails and provide \nthem to the users of the system.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("this will show up on the bottom of the reminder messages");
+/* templates/help/view.tpl.html */
+gettext("Viewing Issues");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Update Action");
+/* templates/help/view.tpl.html */
+gettext("The issue details screen can be accessed quickly by using the 'Go'\ninput field in the top of your browser window. Just enter the issue \nnumber and it will take you to the appropriate screen.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Add Action");
+/* templates/help/view.tpl.html */
+gettext("The Issue Details page will also show '<< Previous Issue' and 'Next\nIssue >>' links that are related to the previous and next issues for\nthe current active filter, if appropriate.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Reset");
+/* templates/help/view.tpl.html */
+gettext("The full history of changes related to the current issue is available\nby clickin on the 'History of Changes' link.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Existing Actions:");
+/* templates/help/view_attachment.tpl.html */
+gettext("Attachments");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Back to Reminder List");
+/* templates/help/view_impact.tpl.html */
+gettext("Impact Analysis");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Please select at least one of the actions.");
+/* templates/help/view_note.tpl.html */
+gettext("Notes");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/help/view_time.tpl.html */
+gettext("Time Tracking");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Rank");
+/* templates/help_link.tpl.html */
+gettext("get context sensitive help");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Title");
+/* templates/history.tpl.html */
+gettext("History of Changes to Issue");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Type");
+/* templates/history.tpl.html */
+gettext("Date");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Details");
+/* templates/history.tpl.html */
+gettext("Summary");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("No actions could be found.");
+/* templates/history.tpl.html */
+gettext("No changes could be found.");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("All");
+/* templates/history.tpl.html */
+gettext("Close");
 
-/* templates//manage/reminder_actions.tpl.html */
-ev_gettext("Delete");
+/* templates/history.tpl.html */
+gettext("History of Reminders Triggered for Issue");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Please choose whether the anonymous posting feature should be allowed or not for this project");
+/* templates/history.tpl.html */
+gettext("Date");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Please choose whether to show custom fields for remote invocations or not.");
+/* templates/history.tpl.html */
+gettext("Triggered Action");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Please choose the reporter for remote invocations.");
+/* templates/history.tpl.html */
+gettext("No reminders could be found.");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Please choose the default category for remote invocations.");
+/* templates/history.tpl.html */
+gettext("Close");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Please choose the default priority for remote invocations.");
+/* templates/impact_analysis.tpl.html */
+gettext("Please enter the estimated development time for this task.");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Please choose at least one person to assign the new issues created remotely.");
+/* templates/impact_analysis.tpl.html */
+gettext("Please use only floating point numbers (or integers) on the estimated development time field.");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Anonymous Reporting of New Issues");
+/* templates/impact_analysis.tpl.html */
+gettext("Please enter the analysis for the changes required by this issue.");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Current Project:");
+/* templates/impact_analysis.tpl.html */
+gettext("Impact Analysis");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("An error occurred while trying to update the information.");
+/* templates/impact_analysis.tpl.html */
+gettext("Total Estimated Dev. Time");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Thank you, the information was updated successfully.");
+/* templates/impact_analysis.tpl.html */
+gettext("in hours");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Anonymous Reporting:");
+/* templates/impact_analysis.tpl.html */
+gettext("hours");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Enabled");
+/* templates/impact_analysis.tpl.html */
+gettext("Initial Impact Analysis");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Disabled");
+/* templates/impact_analysis.tpl.html */
+gettext("Update");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Show Custom Fields ?");
+/* templates/impact_analysis.tpl.html */
+gettext("Please choose which entries need to be removed.");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Enabled");
+/* templates/impact_analysis.tpl.html */
+gettext("This action will permanently delete the selected entries.");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Disabled");
+/* templates/impact_analysis.tpl.html */
+gettext("Further Requirements");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Reporter:");
+/* templates/impact_analysis.tpl.html */
+gettext("All");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Please choose an user");
+/* templates/impact_analysis.tpl.html */
+gettext("Handler");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Default Category:");
+/* templates/impact_analysis.tpl.html */
+gettext("Requirement");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Please choose a category");
+/* templates/impact_analysis.tpl.html */
+gettext("Estimated Dev. Time");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Default Priority:");
+/* templates/impact_analysis.tpl.html */
+gettext("Impact Analysis");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Please choose a priority");
+/* templates/impact_analysis.tpl.html */
+gettext("update entry");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Assignment:");
+/* templates/impact_analysis.tpl.html */
+gettext("update entry");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Update Setup");
+/* templates/impact_analysis.tpl.html */
+gettext("All");
 
-/* templates//manage/anonymous.tpl.html */
-ev_gettext("Reset");
+/* templates/impact_analysis.tpl.html */
+gettext("Remove Selected");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Please choose whether the issue auto creation feature should be allowed or not for this email account");
+/* templates/impact_analysis.tpl.html */
+gettext("No entries could be found.");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Please choose the default category.");
+/* templates/impact_analysis.tpl.html */
+gettext("Please enter the new requirement for this issue.");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Please choose the default priority.");
+/* templates/impact_analysis.tpl.html */
+gettext("Add New Requirement");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Auto-Creation of Issues");
+/* templates/latest_news.tpl.html */
+gettext("News and Announcements");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Associated Project:");
+/* templates/latest_news.tpl.html */
+gettext("full news entry");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Auto-Creation of Issues:");
+/* templates/latest_news.tpl.html */
+gettext("Read All Notices");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Enabled");
+/* templates/list.tpl.html */
+gettext("Please choose which issues to update.");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Disabled");
+/* templates/list.tpl.html */
+gettext("Please choose new values for the select issues");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Only for Known Customers?");
+/* templates/list.tpl.html */
+gettext("Warning: If you continue, you will change the ");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Yes");
+/* templates/list.tpl.html */
+gettext("for all selected issues. Are you sure you want to continue?");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("No");
+/* templates/list.tpl.html */
+gettext("Search Results");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Default Category:");
+/* templates/list.tpl.html */
+gettext("issues found");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Please choose a category");
+/* templates/list.tpl.html */
+gettext("shown");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Default Priority:");
+/* templates/list.tpl.html */
+gettext("hide/show");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Please choose a priority");
+/* templates/list.tpl.html */
+gettext("hide / show the quick search form");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Assignment:");
+/* templates/list.tpl.html */
+gettext("quick search");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Update Setup");
+/* templates/list.tpl.html */
+gettext("hide / show the advanced search form");
 
-/* templates//manage/issue_auto_creation.tpl.html */
-ev_gettext("Reset");
+/* templates/list.tpl.html */
+gettext("advanced search");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Please enter the title of this email response.");
+/* templates/list.tpl.html */
+gettext("current filters");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Manage Canned Email Responses");
+/* templates/list.tpl.html */
+gettext("bulk update tool");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("An error occurred while trying to add the new email response.");
+/* templates/list.tpl.html */
+gettext("All");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Please enter the title for this new email response.");
+/* templates/list.tpl.html */
+gettext("sort by");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Thank you, the email response was added successfully.");
+/* templates/list.tpl.html */
+gettext("sort by");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("An error occurred while trying to update the email response information.");
+/* templates/list.tpl.html */
+gettext("Summary");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Please enter the title for this email response.");
+/* templates/list.tpl.html */
+gettext("sort by summary");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Thank you, the email response was updated successfully.");
+/* templates/list.tpl.html */
+gettext("Export Data:");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Projects:");
+/* templates/list.tpl.html */
+gettext("generate excel-friendly report");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Title:");
+/* templates/list.tpl.html */
+gettext("Export to Excel");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Response Body:");
+/* templates/list.tpl.html */
+gettext("sort by");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Update Email Response");
+/* templates/list.tpl.html */
+gettext("sort by");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Create Email Response");
+/* templates/list.tpl.html */
+gettext("view issue details");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Reset");
+/* templates/list.tpl.html */
+gettext("view issue details");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Existing Canned Email Responses:");
+/* templates/list.tpl.html */
+gettext("No issues could be found.");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Please select at least one of the email responses.");
+/* templates/list.tpl.html */
+gettext("All");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/list.tpl.html */
+gettext("Go");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Title");
+/* templates/list.tpl.html */
+gettext("Rows per Page:");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Projects");
+/* templates/list.tpl.html */
+gettext("ALL");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("update this entry");
+/* templates/list.tpl.html */
+gettext("Set");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("No canned email responses could be found.");
+/* templates/list.tpl.html */
+gettext("Hide Closed Issues");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("All");
+/* templates/login_form.tpl.html */
+gettext("Email Address");
 
-/* templates//manage/email_responses.tpl.html */
-ev_gettext("Delete");
+/* templates/login_form.tpl.html */
+gettext("Password");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Please choose the project that you wish to customize.");
+/* templates/login_form.tpl.html */
+gettext("Login");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Customize Issue Listing Screen");
+/* templates/login_form.tpl.html */
+gettext("Error: Please provide your email address.");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("An error occurred while trying to add the new customization.");
+/* templates/login_form.tpl.html */
+gettext("Error: Please provide your password.");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Please enter the title for this new customization.");
+/* templates/login_form.tpl.html */
+gettext("Error: The email address / password combination could not be found in the system.");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Thank you, the customization was added successfully.");
+/* templates/login_form.tpl.html */
+gettext("Your session has expired. Please login again to continue.");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("An error occurred while trying to update the customization information.");
+/* templates/login_form.tpl.html */
+gettext("Thank you, you are now logged out of %1");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Please enter the title for this customization.");
+/* templates/login_form.tpl.html */
+gettext("Error: Your user status is currently set as inactive. Please\n              contact your local system administrator for further information.");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Thank you, the customization was updated successfully.");
+/* templates/login_form.tpl.html */
+gettext("Thank you, your account is now active and ready to be\n              used. Use the form below to login.");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Project:");
+/* templates/login_form.tpl.html */
+gettext("Error: Your user status is currently set as pending. This\n              means that you still need to confirm your account\n              creation request. Please contact your local system\n              administrator for further information.");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/login_form.tpl.html */
+gettext("Error: Cookies support seem to be disabled in your browser. Please enable this feature and try again.");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Status:");
+/* templates/login_form.tpl.html */
+gettext("Error: In order for %1 to work properly, you must enable cookie support in your browser. Please login\n              again and accept all cookies coming from it.");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Date Field:");
+/* templates/login_form.tpl.html */
+gettext("Email Address");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Label:");
+/* templates/login_form.tpl.html */
+gettext("Password");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Update Customization");
+/* templates/login_form.tpl.html */
+gettext("Login");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Create Customization");
+/* templates/login_form.tpl.html */
+gettext("I Forgot My Password");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Reset");
+/* templates/login_form.tpl.html */
+gettext("Signup for an Account");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Existing Customizations:");
+/* templates/login_form.tpl.html */
+gettext("Requires support for cookies and javascript in your browser");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Please select at least one of the customizations.");
+/* templates/login_form.tpl.html */
+gettext("NOTE: You may report issues without the need to login by using the following URL");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/lookup_field.tpl.html */
+gettext("paste or start typing here");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("All");
+/* templates/lookup_field.tpl.html */
+gettext("paste or start typing here");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Project");
+/* templates/mail_queue.tpl.html */
+gettext("Sorry, you do not have permission to view this page");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Status");
+/* templates/mail_queue.tpl.html */
+gettext("Mail Queue for Issue #%1");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Label");
+/* templates/mail_queue.tpl.html */
+gettext("Recipient");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Date Field");
+/* templates/mail_queue.tpl.html */
+gettext("Queued Date");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("No customizations could be found.");
+/* templates/mail_queue.tpl.html */
+gettext("Status");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("All");
+/* templates/mail_queue.tpl.html */
+gettext("Subject");
 
-/* templates//manage/customize_listing.tpl.html */
-ev_gettext("Delete");
+/* templates/mail_queue.tpl.html */
+gettext("No mail queue could be found.");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Please enter the title of this time tracking category");
+/* templates/main.tpl.html */
+gettext("Overall Stats");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Manage Time Tracking Categories");
+/* templates/main.tpl.html */
+gettext("Hide Closed Issues");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("An error occurred while trying to add the new time tracking category.");
+/* templates/main.tpl.html */
+gettext("Issues by Status");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Please enter the title for this new time tracking category.");
+/* templates/main.tpl.html */
+gettext("No issues could be found.");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Thank you, the time tracking category was added successfully.");
+/* templates/main.tpl.html */
+gettext("Issues by Release");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("An error occurred while trying to update the time tracking category information.");
+/* templates/main.tpl.html */
+gettext("No issues could be found.");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Please enter the title for this time tracking category.");
+/* templates/main.tpl.html */
+gettext("Issues by Priority");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Thank you, the time tracking category was updated successfully.");
+/* templates/main.tpl.html */
+gettext("No issues could be found.");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Title:");
+/* templates/main.tpl.html */
+gettext("Issues by Category");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Update Category");
+/* templates/main.tpl.html */
+gettext("No issues could be found.");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Create Category");
+/* templates/main.tpl.html */
+gettext("Assigned Issues");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Reset");
+/* templates/main.tpl.html */
+gettext("No issues could be found.");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Existing Categories:");
+/* templates/main.tpl.html */
+gettext("Emails");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Please select at least one of the time tracking categories.");
+/* templates/main.tpl.html */
+gettext("Associated");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/main.tpl.html */
+gettext("Pending");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("All");
+/* templates/main.tpl.html */
+gettext("Removed");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Title");
+/* templates/main.tpl.html */
+gettext("Did you Know?");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("update this entry");
+/* templates/main.tpl.html */
+gettext("Graphical Stats");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("No time tracking categories could be found.");
+/* templates/main.tpl.html */
+gettext("(Open Issues)");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("All");
+/* templates/main.tpl.html */
+gettext("(All Issues)");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/account_managers.tpl.html */
+gettext("Manage Customer Account Managers");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("Note:");
+/* templates/manage/account_managers.tpl.html */
+gettext("An error occurred while trying to add the new account manager.");
 
-/* templates//manage/time_tracking.tpl.html */
-ev_gettext("'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories are\n                    required by Eventum and cannot be deleted.");
+/* templates/manage/account_managers.tpl.html */
+gettext("Thank you, the account manager was added successfully.");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Please enter the name of this group.");
+/* templates/manage/account_managers.tpl.html */
+gettext("An error occurred while trying to update the account manager information.");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Please assign the appropriate projects for this group.");
+/* templates/manage/account_managers.tpl.html */
+gettext("Thank you, the account manager was updated successfully.");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Please assign the appropriate users for this group.");
+/* templates/manage/account_managers.tpl.html */
+gettext("Project:");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Please assign the manager of this group.");
+/* templates/manage/account_managers.tpl.html */
+gettext("Please choose an option");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Please select at least one of the groups.");
+/* templates/manage/account_managers.tpl.html */
+gettext("Customer:");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("WARNING: This action will remove the selected groups permanently.nPlease click OK to confirm.");
+/* templates/manage/account_managers.tpl.html */
+gettext("Account Manager:");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Manage Groups");
+/* templates/manage/account_managers.tpl.html */
+gettext("Type:");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("An error occurred while trying to add the new group.");
+/* templates/manage/account_managers.tpl.html */
+gettext("Primary Technical Account Manager");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Thank you, the group was added successfully.");
+/* templates/manage/account_managers.tpl.html */
+gettext("Backup Technical Account Manager");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("An error occurred while trying to update the group information.");
+/* templates/manage/account_managers.tpl.html */
+gettext("Update Account Manager");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Thank you, the group was updated successfully.");
+/* templates/manage/account_managers.tpl.html */
+gettext("Create Account Manager");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Name: *");
+/* templates/manage/account_managers.tpl.html */
+gettext("Reset");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Description:");
+/* templates/manage/account_managers.tpl.html */
+gettext("Existing Customer Account Managers:");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Assigned Projects: *");
+/* templates/manage/account_managers.tpl.html */
+gettext("Please select at least one of the account managers.");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Users: *");
+/* templates/manage/account_managers.tpl.html */
+gettext("This action will remove the selected account managers.");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Manager: *");
+/* templates/manage/account_managers.tpl.html */
+gettext("All");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("-- Select One --");
+/* templates/manage/account_managers.tpl.html */
+gettext("Customer");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Update Group");
+/* templates/manage/account_managers.tpl.html */
+gettext("Account Manager");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Create Group");
+/* templates/manage/account_managers.tpl.html */
+gettext("Type");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/account_managers.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Existing Groups");
+/* templates/manage/account_managers.tpl.html */
+gettext("No account managers could be found.");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Name");
+/* templates/manage/account_managers.tpl.html */
+gettext("All");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Description");
+/* templates/manage/account_managers.tpl.html */
+gettext("Delete");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Manager");
+/* templates/manage/anonymous.tpl.html */
+gettext("Please choose whether the anonymous posting feature should be allowed or not for this project");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Projects");
+/* templates/manage/anonymous.tpl.html */
+gettext("Please choose whether to show custom fields for remote invocations or not.");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("No groups could be found.");
+/* templates/manage/anonymous.tpl.html */
+gettext("Please choose the reporter for remote invocations.");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("All");
+/* templates/manage/anonymous.tpl.html */
+gettext("Please choose the default category for remote invocations.");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("delete");
+/* templates/manage/anonymous.tpl.html */
+gettext("Please choose the default priority for remote invocations.");
 
-/* templates//manage/groups.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/anonymous.tpl.html */
+gettext("Please choose at least one person to assign the new issues created remotely.");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Please enter the title of this release.");
+/* templates/manage/anonymous.tpl.html */
+gettext("Anonymous Reporting of New Issues");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Manage Releases");
+/* templates/manage/anonymous.tpl.html */
+gettext("Current Project:");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Current Project:");
+/* templates/manage/anonymous.tpl.html */
+gettext("An error occurred while trying to update the information.");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("An error occurred while trying to add the new release.");
+/* templates/manage/anonymous.tpl.html */
+gettext("Thank you, the information was updated successfully.");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Please enter the title for this new release.");
+/* templates/manage/anonymous.tpl.html */
+gettext("Anonymous Reporting:");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Thank you, the release was added successfully.");
+/* templates/manage/anonymous.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("An error occurred while trying to update the release information.");
+/* templates/manage/anonymous.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Please enter the title for this release.");
+/* templates/manage/anonymous.tpl.html */
+gettext("Show Custom Fields ?");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Thank you, the release was updated successfully.");
+/* templates/manage/anonymous.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Title:");
+/* templates/manage/anonymous.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Tentative Date:");
+/* templates/manage/anonymous.tpl.html */
+gettext("Reporter:");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Status:");
+/* templates/manage/anonymous.tpl.html */
+gettext("Please choose an user");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Available - Users may use this release");
+/* templates/manage/anonymous.tpl.html */
+gettext("Default Category:");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Unavailable - Users may NOT use this release");
+/* templates/manage/anonymous.tpl.html */
+gettext("Please choose a category");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Update Release");
+/* templates/manage/anonymous.tpl.html */
+gettext("Default Priority:");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Create Release");
+/* templates/manage/anonymous.tpl.html */
+gettext("Please choose a priority");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/anonymous.tpl.html */
+gettext("Assignment:");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Existing Releases:");
+/* templates/manage/anonymous.tpl.html */
+gettext("Update Setup");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Please select at least one of the releases.");
+/* templates/manage/anonymous.tpl.html */
+gettext("Reset");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/manage/categories.tpl.html */
+gettext("Please enter the title of this category");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("All");
+/* templates/manage/categories.tpl.html */
+gettext("Manage Categories");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Title");
+/* templates/manage/categories.tpl.html */
+gettext("Current Project");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Tentative Date");
+/* templates/manage/categories.tpl.html */
+gettext("An error occurred while trying to add the new category.");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Status");
+/* templates/manage/categories.tpl.html */
+gettext("Please enter the title for this new category.");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/categories.tpl.html */
+gettext("Thank you, the category was added successfully.");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("No releases could be found.");
+/* templates/manage/categories.tpl.html */
+gettext("An error occurred while trying to update the category information.");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("All");
+/* templates/manage/categories.tpl.html */
+gettext("Please enter the title for this category.");
 
-/* templates//manage/releases.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/categories.tpl.html */
+gettext("Thank you, the category was updated successfully.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Please enter the title of this status.");
+/* templates/manage/categories.tpl.html */
+gettext("Update Category");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Please enter the abbreviation of this status.");
+/* templates/manage/categories.tpl.html */
+gettext("Create Category");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Please enter the rank of this status.");
+/* templates/manage/categories.tpl.html */
+gettext("Reset");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Please assign the appropriate projects for this status.");
+/* templates/manage/categories.tpl.html */
+gettext("Existing Categories:");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Please enter the color of this status.");
+/* templates/manage/categories.tpl.html */
+gettext("Please select at least one of the categories.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Manage Statuses");
+/* templates/manage/categories.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("An error occurred while trying to add the new status.");
+/* templates/manage/categories.tpl.html */
+gettext("All");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Please enter the title for this new status.");
+/* templates/manage/categories.tpl.html */
+gettext("Title");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Thank you, the status was added successfully.");
+/* templates/manage/categories.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("An error occurred while trying to update the status information.");
+/* templates/manage/categories.tpl.html */
+gettext("No categories could be found.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Please enter the title for this status.");
+/* templates/manage/categories.tpl.html */
+gettext("All");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Thank you, the status was updated successfully.");
+/* templates/manage/categories.tpl.html */
+gettext("Delete");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Title:");
+/* templates/manage/column_display.tpl.html */
+gettext("This page can only be accessed in relation to a project. Please go to the project page and choose\n\"Edit Fields to Display\" to access this page.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Abbreviation:");
+/* templates/manage/column_display.tpl.html */
+gettext("Manage Projects");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("(three letter abbreviation)");
+/* templates/manage/column_display.tpl.html */
+gettext("Manage Columns to Display");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Rank:");
+/* templates/manage/column_display.tpl.html */
+gettext("Current Project");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Closed Context ?");
+/* templates/manage/column_display.tpl.html */
+gettext("An error occurred while trying to save columns to display.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Yes");
+/* templates/manage/column_display.tpl.html */
+gettext("Thank you, columns to display was saved successfully.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("No");
+/* templates/manage/column_display.tpl.html */
+gettext("Column Name");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Assigned Projects:");
+/* templates/manage/column_display.tpl.html */
+gettext("Minimum Role");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Color:");
+/* templates/manage/column_display.tpl.html */
+gettext("Order");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("(this color will be used in the issue listing page)");
+/* templates/manage/column_display.tpl.html */
+gettext("Save");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Update Status");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Please enter the title of this custom field.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Create Status");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Please assign the appropriate projects for this custom field.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/custom_fields.tpl.html */
+gettext("WARNING: You have removed project(s)");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Existing Statuses:");
+/* templates/manage/custom_fields.tpl.html */
+gettext("from the list");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Please select at least one of the statuses.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("of associated projects. This will remove all data for this field from the selected project(s).");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("This action will remove the selected entries. This will also update any nissues currently set to this status to a new status 'undefined'.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Do you want to continue?");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("All");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Please enter the new value for the combo box.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Rank");
+/* templates/manage/custom_fields.tpl.html */
+gettext("The specified value already exists in the list of options.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Abbreviation");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Please enter the updated value.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Title");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Please select an option from the list.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Projects");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Please select an option from the list.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Color");
+/* templates/manage/custom_fields.tpl.html */
+gettext("enter a new option above");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Manage Custom Fields");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("No statuses could be found.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("An error occurred while trying to add the new custom field.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("All");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Thank you, the custom field was added successfully.");
 
-/* templates//manage/statuses.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/custom_fields.tpl.html */
+gettext("An error occurred while trying to update the custom field information.");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Field");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Thank you, the custom field was updated successfully.");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Operator");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Title");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Value");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Short Description");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Value");
+/* templates/manage/custom_fields.tpl.html */
+gettext("it will show up by the side of the field");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Manage Reminder Conditions");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Assigned Projects");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("view reminder details");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Target Forms");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Reminder");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Report Form");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("view reminder action details");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Required Field");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Action");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Anonymous Form");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("An error occurred while trying to add the new condition.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Required Field");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Please enter the title for this new condition.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Close Form");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Thank you, the condition was added successfully.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Required Field");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("An error occurred while trying to update the condition information.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Display on List Issues Page");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Please enter the title for this condition.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Yes");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Thank you, the condition was updated successfully.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("No");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Field:");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Field Type");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Text Input");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Operator:");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Textarea");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Combo Box");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Value:");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Multiple Combo Box");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Date");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Please choose a field");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Integer");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("or");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Field Options");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("(in hours please)");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Set available options");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Update Condition");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Add");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Add Condition");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Update Value");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/custom_fields.tpl.html */
+gettext("OR");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Existing Conditions:");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Choose Custom Field Backend");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Back to Reminder Action List");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Please select a backend");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Please select at least one of the conditions.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Please select a backend");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("enter a new option above");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("All");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Edit Option");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Field");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Remove");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Operator");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Minimum Role");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Value");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Rank");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Update Custom Field");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("No conditions could be found.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Create Custom Field");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("All");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Reset");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Existing Custom Fields");
 
-/* templates//manage/reminder_conditions.tpl.html */
-ev_gettext("Review SQL Query");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Please select at least one of the custom fields.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Please choose the project to be associated with this email account.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("This action will permanently remove the selected custom fields.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Please choose the type of email server to be associated with this email account.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("delete");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Please enter the hostname for this email account.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Rank");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Please enter the port number for this email account.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Title");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Please enter a valid port number for this email account.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Assigned Projects");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Please enter the port number for this email account.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Min. Role");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Please enter the IMAP folder for this email account.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Type");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Please enter the username for this email account.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Options");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Please enter the password for this email account.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("move field down");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Manage Email Accounts");
+/* templates/manage/custom_fields.tpl.html */
+gettext("move field up");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("An error occurred while trying to add the new account.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Thank you, the email account was added successfully.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Combo Box");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("An error occurred while trying to update the account information.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Multiple Combo Box");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Thank you, the account was updated successfully.");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Textarea");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Associated Project:");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Date");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Type:");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Integer");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("IMAP");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Text Input");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("IMAP over SSL");
+/* templates/manage/custom_fields.tpl.html */
+gettext("No custom fields could be found.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("IMAP over SSL (self-signed)");
+/* templates/manage/custom_fields.tpl.html */
+gettext("All");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("IMAP, no TLS");
+/* templates/manage/custom_fields.tpl.html */
+gettext("Delete");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("IMAP, with TLS");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Please choose the customer for this new note.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("IMAP, with TLS (self-signed)");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Manage Customer Quick Notes");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("POP3");
+/* templates/manage/customer_notes.tpl.html */
+gettext("An error occurred while trying to add the new note.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("POP3 over SSL");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Thank you, the note was added successfully.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("POP3 over SSL (self-signed)");
+/* templates/manage/customer_notes.tpl.html */
+gettext("An error occurred while trying to update the note.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("POP3, no TLS");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Thank you, the note was updated successfully.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("POP3, with TLS");
+/* templates/manage/customer_notes.tpl.html */
+gettext("An error occurred while trying to delete the note.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("POP3, with TLS (self-signed)");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Thank you, the note was deleted successfully.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Hostname:");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Project");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Port:");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Please choose an option");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Customer");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("IMAP Folder:");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Please choose a customer");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("(default folder is INBOX)");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Note");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Username:");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Update Note");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Password:");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Create Note");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Advanced Options:");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Reset");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Only Download Unread Messages");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Existing Customer Quick Notes");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Leave Copy of Messages On Server");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Please select at least one of the notes.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Use account for non-subject based email/note/draft routing.\n                    <b> Note: </b>If you check this, you cannot leave a copy of messages on the server.</a>");
+/* templates/manage/customer_notes.tpl.html */
+gettext("This action will permanently remove the selected entries.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Test Settings");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Customer");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Update Account");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Note");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Create Account");
+/* templates/manage/customer_notes.tpl.html */
+gettext("No notes could be found.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/customer_notes.tpl.html */
+gettext("All");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Existing Accounts:");
+/* templates/manage/customer_notes.tpl.html */
+gettext("Delete");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Please select at least one of the accounts.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Please choose the project that you wish to customize.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Customize Issue Listing Screen");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("All");
+/* templates/manage/customize_listing.tpl.html */
+gettext("An error occurred while trying to add the new customization.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Associated Project");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Please enter the title for this new customization.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Hostname");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Thank you, the customization was added successfully.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Type");
+/* templates/manage/customize_listing.tpl.html */
+gettext("An error occurred while trying to update the customization information.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Port");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Please enter the title for this customization.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Username");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Thank you, the customization was updated successfully.");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Mailbox");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Project:");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Auto-Creation of Issues");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Please choose an option");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Status:");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("No email accounts could be found.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Date Field:");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("All");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Label:");
 
-/* templates//manage/email_accounts.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Update Customization");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please choose the project for this FAQ entry.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Create Customization");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please assign the appropriate support levels for this FAQ entry.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Reset");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please enter the rank of this FAQ entry.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Existing Customizations:");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please enter a number for the rank of this FAQ entry.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Please select at least one of the customizations.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please enter the title of this FAQ entry.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Manage Internal FAQ");
+/* templates/manage/customize_listing.tpl.html */
+gettext("All");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("An error occurred while trying to add the FAQ entry.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Project");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please enter the title for this FAQ entry.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Status");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please enter the message for this FAQ entry.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Label");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Thank you, the FAQ entry was added successfully.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Date Field");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("An error occurred while trying to update the FAQ entry information.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("No customizations could be found.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please enter the title for this FAQ entry.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("All");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please enter the message for this FAQ entry.");
+/* templates/manage/customize_listing.tpl.html */
+gettext("Delete");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Thank you, the FAQ entry was updated successfully.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Please choose the project to be associated with this email account.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Project:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Please choose the type of email server to be associated with this email account.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Please enter the hostname for this email account.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Assigned Support");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Please enter the port number for this email account.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Levels:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Please enter a valid port number for this email account.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Rank:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Please enter the port number for this email account.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Title:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Please enter the IMAP folder for this email account.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Message:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Please enter the username for this email account.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Update FAQ Entry");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Please enter the password for this email account.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Create FAQ Entry");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Manage Email Accounts");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/email_accounts.tpl.html */
+gettext("An error occurred while trying to add the new account.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Existing Internal FAQ Entries:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Thank you, the email account was added successfully.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Please select at least one of the FAQ entries.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("An error occurred while trying to update the account information.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("This action will permanently remove the selected FAQ entries.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Thank you, the account was updated successfully.");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("All");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Associated Project:");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Rank");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Type:");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Title");
+/* templates/manage/email_accounts.tpl.html */
+gettext("IMAP");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Support Levels");
+/* templates/manage/email_accounts.tpl.html */
+gettext("IMAP over SSL");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/email_accounts.tpl.html */
+gettext("IMAP over SSL (self-signed)");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("No FAQ entries could be found.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("IMAP, no TLS");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("All");
+/* templates/manage/email_accounts.tpl.html */
+gettext("IMAP, with TLS");
 
-/* templates//manage/faq.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/email_accounts.tpl.html */
+gettext("IMAP, with TLS (self-signed)");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Manage Customer Account Managers");
+/* templates/manage/email_accounts.tpl.html */
+gettext("POP3");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("An error occurred while trying to add the new account manager.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("POP3 over SSL");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Thank you, the account manager was added successfully.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("POP3 over SSL (self-signed)");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("An error occurred while trying to update the account manager information.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("POP3, no TLS");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Thank you, the account manager was updated successfully.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("POP3, with TLS");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Project:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("POP3, with TLS (self-signed)");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Hostname:");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Customer:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Port:");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Account Manager:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Type:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("IMAP Folder:");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Primary Technical Account Manager");
+/* templates/manage/email_accounts.tpl.html */
+gettext("(default folder is INBOX)");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Backup Technical Account Manager");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Username:");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Update Account Manager");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Password:");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Create Account Manager");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Advanced Options:");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Only Download Unread Messages");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Existing Customer Account Managers:");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Leave Copy of Messages On Server");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Please select at least one of the account managers.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Use account for non-subject based email/note/draft routing.\n                    <b> Note: </b>If you check this, you cannot leave a copy of messages on the server.</a>");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("This action will remove the selected account managers.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Test Settings");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("All");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Update Account");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Customer");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Create Account");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Account Manager");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Reset");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Type");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Existing Accounts:");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Please select at least one of the accounts.");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("No account managers could be found.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("All");
+/* templates/manage/email_accounts.tpl.html */
+gettext("All");
 
-/* templates//manage/account_managers.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Associated Project");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please enter the sender address that will be used for all outgoing notification emails.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Hostname");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please enter the SMTP server hostname.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Type");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please enter the SMTP server port number.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Port");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please indicate whether the SMTP server requires authentication or not.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Username");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please enter the SMTP server username.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Mailbox");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please enter the SMTP server password.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Auto-Creation of Issues");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please enter the email address of where copies of outgoing emails should be sent to.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please choose whether the system should allow visitors to signup for new accounts or not.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("No email accounts could be found.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please select the assigned projects for users that create their own accounts.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("All");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please enter the email address prefix for the email routing interface.");
+/* templates/manage/email_accounts.tpl.html */
+gettext("Delete");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please enter the email address hostname for the email routing interface.");
+/* templates/manage/email_responses.tpl.html */
+gettext("Please enter the title of this email response.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please choose whether the SCM integration feature should be enabled or not.");
+/* templates/manage/email_responses.tpl.html */
+gettext("Manage Canned Email Responses");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please enter the checkout page URL for your SCM integration tool.");
+/* templates/manage/email_responses.tpl.html */
+gettext("An error occurred while trying to add the new email response.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please enter the diff page URL for your SCM integration tool.");
+/* templates/manage/email_responses.tpl.html */
+gettext("Please enter the title for this new email response.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please choose whether the email integration feature should be enabled or not.");
+/* templates/manage/email_responses.tpl.html */
+gettext("Thank you, the email response was added successfully.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please choose whether the daily tips feature should be enabled or not.");
+/* templates/manage/email_responses.tpl.html */
+gettext("An error occurred while trying to update the email response information.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("General Setup");
+/* templates/manage/email_responses.tpl.html */
+gettext("Please enter the title for this email response.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("ERROR: The system doesn't have the appropriate permissions to\n                    create the configuration file in the setup directory");
+/* templates/manage/email_responses.tpl.html */
+gettext("Thank you, the email response was updated successfully.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please contact your local system\n                    administrator and ask for write privileges on the provided path.");
+/* templates/manage/email_responses.tpl.html */
+gettext("Projects:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("ERROR: The system doesn't have the appropriate permissions to\n                    update the configuration file in the setup directory");
+/* templates/manage/email_responses.tpl.html */
+gettext("Title:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Please contact your local system\n                    administrator and ask for write privileges on the provided filename.");
+/* templates/manage/email_responses.tpl.html */
+gettext("Response Body:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Thank you, the setup information was saved successfully.");
+/* templates/manage/email_responses.tpl.html */
+gettext("Update Email Response");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Tool Caption:");
+/* templates/manage/email_responses.tpl.html */
+gettext("Create Email Response");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("SMTP (Outgoing Email) Settings:");
+/* templates/manage/email_responses.tpl.html */
+gettext("Reset");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Sender Email");
+/* templates/manage/email_responses.tpl.html */
+gettext("Existing Canned Email Responses:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(This MUST contain a real email address, i.e. \"eventum@example.com\" or \"Eventum <eventum@example.com>\")");
+/* templates/manage/email_responses.tpl.html */
+gettext("Please select at least one of the email responses.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Hostname:");
+/* templates/manage/email_responses.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Port:");
+/* templates/manage/email_responses.tpl.html */
+gettext("Title");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Requires Authentication?");
+/* templates/manage/email_responses.tpl.html */
+gettext("Projects");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Yes");
+/* templates/manage/email_responses.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("No");
+/* templates/manage/email_responses.tpl.html */
+gettext("No canned email responses could be found.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Username:");
+/* templates/manage/email_responses.tpl.html */
+gettext("All");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Password:");
+/* templates/manage/email_responses.tpl.html */
+gettext("Delete");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Save a Copy of Every Outgoing Issue Notification Email");
+/* templates/manage/faq.tpl.html */
+gettext("Please choose the project for this FAQ entry.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Address to Send Saved Messages:");
+/* templates/manage/faq.tpl.html */
+gettext("Please assign the appropriate support levels for this FAQ entry.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Open Account Signup:");
+/* templates/manage/faq.tpl.html */
+gettext("Please enter the rank of this FAQ entry.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/faq.tpl.html */
+gettext("Please enter a number for the rank of this FAQ entry.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/faq.tpl.html */
+gettext("Please enter the title of this FAQ entry.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Assigned Projects:");
+/* templates/manage/faq.tpl.html */
+gettext("Manage Internal FAQ");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Assigned Role:");
+/* templates/manage/faq.tpl.html */
+gettext("An error occurred while trying to add the FAQ entry.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Subject Based Routing:");
+/* templates/manage/faq.tpl.html */
+gettext("Please enter the title for this FAQ entry.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/faq.tpl.html */
+gettext("Please enter the message for this FAQ entry.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/faq.tpl.html */
+gettext("Thank you, the FAQ entry was added successfully.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("If enabled, Eventum will look in the subject line of incoming notes/emails to determine which issue they should be associated with.");
+/* templates/manage/faq.tpl.html */
+gettext("An error occurred while trying to update the FAQ entry information.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Recipient Type Flag:");
+/* templates/manage/faq.tpl.html */
+gettext("Please enter the title for this FAQ entry.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Recipient Type Flag:");
+/* templates/manage/faq.tpl.html */
+gettext("Please enter the message for this FAQ entry.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(This will be included in the From address of all emails sent by Eventum)");
+/* templates/manage/faq.tpl.html */
+gettext("Thank you, the FAQ entry was updated successfully.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Before Sender Name");
+/* templates/manage/faq.tpl.html */
+gettext("Project:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("After Sender Name");
+/* templates/manage/faq.tpl.html */
+gettext("Please choose an option");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Routing Interface:");
+/* templates/manage/faq.tpl.html */
+gettext("Assigned Support");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/faq.tpl.html */
+gettext("Levels:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/faq.tpl.html */
+gettext("Rank:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Address Prefix:");
+/* templates/manage/faq.tpl.html */
+gettext("Title:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(i.e. <b>issue_</b>51@example.com)");
+/* templates/manage/faq.tpl.html */
+gettext("Message:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Address Hostname:");
+/* templates/manage/faq.tpl.html */
+gettext("Update FAQ Entry");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(i.e. issue_51@<b>example.com</b>)");
+/* templates/manage/faq.tpl.html */
+gettext("Create FAQ Entry");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Host Alias:");
+/* templates/manage/faq.tpl.html */
+gettext("Reset");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(Alternate domains that point to 'Address Hostname')");
+/* templates/manage/faq.tpl.html */
+gettext("Existing Internal FAQ Entries:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Warn Users Whether They Can Send Emails to Issue:");
+/* templates/manage/faq.tpl.html */
+gettext("Please select at least one of the FAQ entries.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Yes");
+/* templates/manage/faq.tpl.html */
+gettext("This action will permanently remove the selected FAQ entries.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("No");
+/* templates/manage/faq.tpl.html */
+gettext("All");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Note Recipient Type Flag:");
+/* templates/manage/faq.tpl.html */
+gettext("Rank");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Recipient Type Flag:");
+/* templates/manage/faq.tpl.html */
+gettext("Title");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(This will be included in the From address of all notes sent by Eventum)");
+/* templates/manage/faq.tpl.html */
+gettext("Support Levels");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Before Sender Name");
+/* templates/manage/faq.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("After Sender Name");
+/* templates/manage/faq.tpl.html */
+gettext("No FAQ entries could be found.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Internal Note Routing Interface:");
+/* templates/manage/faq.tpl.html */
+gettext("All");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/faq.tpl.html */
+gettext("Delete");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/field_display.tpl.html */
+gettext("This page can only be accessed in relation to a project. Please go to the project page and choose\n\"Edit Fields to Display\" to access this page.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Note Address Prefix:");
+/* templates/manage/field_display.tpl.html */
+gettext("Manage Projects");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(i.e. <b>note_</b>51@example.com)");
+/* templates/manage/field_display.tpl.html */
+gettext("Edit Fields to Display");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Address Hostname:");
+/* templates/manage/field_display.tpl.html */
+gettext("An error occurred while trying to update field display settings.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(i.e. note_51@<b>example.com</b>)");
+/* templates/manage/field_display.tpl.html */
+gettext("Thank you, field display settings were updated successfully.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Draft Interface:");
+/* templates/manage/field_display.tpl.html */
+gettext("Field");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/field_display.tpl.html */
+gettext("Set Display Preferences");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/field_display.tpl.html */
+gettext("Reset");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Draft Address Prefix:");
+/* templates/manage/general.tpl.html */
+gettext("Please enter the sender address that will be used for all outgoing notification emails.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(i.e. <b>draft_</b>51@example.com)");
+/* templates/manage/general.tpl.html */
+gettext("Please enter the SMTP server hostname.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Address Hostname:");
+/* templates/manage/general.tpl.html */
+gettext("Please enter the SMTP server port number.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(i.e. draft_51@<b>example.com</b>)");
+/* templates/manage/general.tpl.html */
+gettext("Please indicate whether the SMTP server requires authentication or not.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("SCM <br />Integration:");
+/* templates/manage/general.tpl.html */
+gettext("Please enter the SMTP server username.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/general.tpl.html */
+gettext("Please enter the SMTP server password.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/general.tpl.html */
+gettext("Please enter the email address of where copies of outgoing emails should be sent to.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Checkout Page:");
+/* templates/manage/general.tpl.html */
+gettext("Please choose whether the system should allow visitors to signup for new accounts or not.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Diff Page:");
+/* templates/manage/general.tpl.html */
+gettext("Please select the assigned projects for users that create their own accounts.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Integration Feature:");
+/* templates/manage/general.tpl.html */
+gettext("Please enter the email address prefix for the email routing interface.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/general.tpl.html */
+gettext("Please enter the email address hostname for the email routing interface.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/general.tpl.html */
+gettext("Please choose whether the SCM integration feature should be enabled or not.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Daily Tips:");
+/* templates/manage/general.tpl.html */
+gettext("Please enter the checkout page URL for your SCM integration tool.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/general.tpl.html */
+gettext("Please enter the diff page URL for your SCM integration tool.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/general.tpl.html */
+gettext("Please choose whether the email integration feature should be enabled or not.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Spell Checker:");
+/* templates/manage/general.tpl.html */
+gettext("Please choose whether the daily tips feature should be enabled or not.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/general.tpl.html */
+gettext("General Setup");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/general.tpl.html */
+gettext("ERROR: The system doesn't have the appropriate permissions to\n                    create the configuration file in the setup directory");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell.sourceforge.net/\">aspell</a> installed in your server)");
+/* templates/manage/general.tpl.html */
+gettext("Please contact your local system\n                    administrator and ask for write privileges on the provided path.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("IRC Notifications:");
+/* templates/manage/general.tpl.html */
+gettext("ERROR: The system doesn't have the appropriate permissions to\n                    update the configuration file in the setup directory");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/general.tpl.html */
+gettext("Please contact your local system\n                    administrator and ask for write privileges on the provided filename.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/general.tpl.html */
+gettext("Thank you, the setup information was saved successfully.");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Allow Un-Assigned Issues?");
+/* templates/manage/general.tpl.html */
+gettext("Tool Caption:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Yes");
+/* templates/manage/general.tpl.html */
+gettext("SMTP (Outgoing Email) Settings:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("No");
+/* templates/manage/general.tpl.html */
+gettext("Sender Email");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Default Options for Notifications:");
+/* templates/manage/general.tpl.html */
+gettext("(This MUST contain a real email address, e.g. \"eventum@example.com\" or \"Eventum <eventum@example.com>\")");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Issues are Updated");
+/* templates/manage/general.tpl.html */
+gettext("Hostname:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Issues are Closed");
+/* templates/manage/general.tpl.html */
+gettext("Port:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Emails are Associated");
+/* templates/manage/general.tpl.html */
+gettext("Requires Authentication?");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Files are Attached");
+/* templates/manage/general.tpl.html */
+gettext("Yes");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Reminder System Status Information:");
+/* templates/manage/general.tpl.html */
+gettext("No");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/general.tpl.html */
+gettext("Username:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/general.tpl.html */
+gettext("Password:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Addresses To Send Information To:");
+/* templates/manage/general.tpl.html */
+gettext("Save a Copy of Every Outgoing Issue Notification Email");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(separate multiple addresses with commas)");
+/* templates/manage/general.tpl.html */
+gettext("Email Address to Send Saved Messages:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Error Logging System:");
+/* templates/manage/general.tpl.html */
+gettext("Open Account Signup:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Email Addresses To Send Errors To:");
+/* templates/manage/general.tpl.html */
+gettext("Assigned Projects:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("(separate multiple addresses with commas)");
+/* templates/manage/general.tpl.html */
+gettext("Assigned Role:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Update Setup");
+/* templates/manage/general.tpl.html */
+gettext("Subject Based Routing:");
 
-/* templates//manage/general.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Please enter the email of this user.");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Please enter a valid email address.");
+/* templates/manage/general.tpl.html */
+gettext("If enabled, Eventum will look in the subject line of incoming notes/emails to determine which issue they should be associated with.");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Please enter a password of at least 6 characters.");
+/* templates/manage/general.tpl.html */
+gettext("Email Recipient Type Flag:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Please enter a password of at least 6 characters.");
+/* templates/manage/general.tpl.html */
+gettext("Recipient Type Flag:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Please enter the full name of this user.");
+/* templates/manage/general.tpl.html */
+gettext("(This will be included in the From address of all emails sent by Eventum)");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Please assign the appropriate projects for this user.");
+/* templates/manage/general.tpl.html */
+gettext("Before Sender Name");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Manage Users");
+/* templates/manage/general.tpl.html */
+gettext("After Sender Name");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("An error occurred while trying to add the new user.");
+/* templates/manage/general.tpl.html */
+gettext("Email Routing Interface:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Thank you, the user was added successfully.");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("An error occurred while trying to update the user information.");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Thank you, the user was updated successfully.");
+/* templates/manage/general.tpl.html */
+gettext("Email Address Prefix:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Email Address");
+/* templates/manage/general.tpl.html */
+gettext("(e.g. <b>issue_</b>51@example.com)");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Password");
+/* templates/manage/general.tpl.html */
+gettext("Address Hostname:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("leave empty to keep the current password");
+/* templates/manage/general.tpl.html */
+gettext("(e.g. issue_51@<b>example.com</b>)");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Full Name");
+/* templates/manage/general.tpl.html */
+gettext("Host Alias:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Assigned Projects and Roles");
+/* templates/manage/general.tpl.html */
+gettext("(Alternate domains that point to 'Address Hostname')");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Customer");
+/* templates/manage/general.tpl.html */
+gettext("Warn Users Whether They Can Send Emails to Issue:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Update User");
+/* templates/manage/general.tpl.html */
+gettext("Yes");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Create User");
+/* templates/manage/general.tpl.html */
+gettext("No");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/general.tpl.html */
+gettext("Note Recipient Type Flag:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Existing Users");
+/* templates/manage/general.tpl.html */
+gettext("Recipient Type Flag:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("You cannot change the status of the only active user left in the system.");
+/* templates/manage/general.tpl.html */
+gettext("(This will be included in the From address of all notes sent by Eventum)");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("You cannot inactivate all of the users in the system.");
+/* templates/manage/general.tpl.html */
+gettext("Before Sender Name");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Please select at least one of the users.");
+/* templates/manage/general.tpl.html */
+gettext("After Sender Name");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("This action will change the status of the selected users.");
+/* templates/manage/general.tpl.html */
+gettext("Internal Note Routing Interface:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("All");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Full Name");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Role");
+/* templates/manage/general.tpl.html */
+gettext("Note Address Prefix:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Email Address");
+/* templates/manage/general.tpl.html */
+gettext("(e.g. <b>note_</b>51@example.com)");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Status");
+/* templates/manage/general.tpl.html */
+gettext("Address Hostname:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Group");
+/* templates/manage/general.tpl.html */
+gettext("(e.g. note_51@<b>example.com</b>)");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/general.tpl.html */
+gettext("Email Draft Interface:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("send email to");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("No users could be found.");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("All");
+/* templates/manage/general.tpl.html */
+gettext("Draft Address Prefix:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Update Status");
+/* templates/manage/general.tpl.html */
+gettext("(e.g. <b>draft_</b>51@example.com)");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Active");
+/* templates/manage/general.tpl.html */
+gettext("Address Hostname:");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Inactive");
+/* templates/manage/general.tpl.html */
+gettext("(e.g. draft_51@<b>example.com</b>)");
 
-/* templates//manage/users.tpl.html */
-ev_gettext("Show Customers");
+/* templates/manage/general.tpl.html */
+gettext("SCM <br />Integration:");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Please enter the title of this category");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Manage Categories");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Current Project");
+/* templates/manage/general.tpl.html */
+gettext("Checkout Page:");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("An error occurred while trying to add the new category.");
+/* templates/manage/general.tpl.html */
+gettext("Diff Page:");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Please enter the title for this new category.");
+/* templates/manage/general.tpl.html */
+gettext("Email Integration Feature:");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Thank you, the category was added successfully.");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("An error occurred while trying to update the category information.");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Please enter the title for this category.");
+/* templates/manage/general.tpl.html */
+gettext("Daily Tips:");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Thank you, the category was updated successfully.");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Update Category");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Create Category");
+/* templates/manage/general.tpl.html */
+gettext("Email Spell Checker:");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Existing Categories:");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Please select at least one of the categories.");
+/* templates/manage/general.tpl.html */
+gettext("(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell.sourceforge.net/\">aspell</a> installed in your server)");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/manage/general.tpl.html */
+gettext("IRC Notifications:");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("All");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Title");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/general.tpl.html */
+gettext("Allow Un-Assigned Issues?");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("No categories could be found.");
+/* templates/manage/general.tpl.html */
+gettext("Yes");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("All");
+/* templates/manage/general.tpl.html */
+gettext("No");
 
-/* templates//manage/categories.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/general.tpl.html */
+gettext("Default Options for Notifications:");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Please enter the title of this priority");
+/* templates/manage/general.tpl.html */
+gettext("Issues are Updated");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Please enter the rank of this priority");
+/* templates/manage/general.tpl.html */
+gettext("Issues are Closed");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Manage Priorities");
+/* templates/manage/general.tpl.html */
+gettext("Emails are Associated");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Current Project");
+/* templates/manage/general.tpl.html */
+gettext("Files are Attached");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("An error occurred while trying to add the new priority.");
+/* templates/manage/general.tpl.html */
+gettext("Email Reminder System Status Information:");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Please enter the title for this new priority.");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Thank you, the priority was added successfully.");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("An error occurred while trying to update the priority information.");
+/* templates/manage/general.tpl.html */
+gettext("Email Addresses To Send Information To:");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Please enter the title for this priority.");
+/* templates/manage/general.tpl.html */
+gettext("(separate multiple addresses with commas)");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Thank you, the priority was updated successfully.");
+/* templates/manage/general.tpl.html */
+gettext("Email Error Logging System:");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Title");
+/* templates/manage/general.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Rank");
+/* templates/manage/general.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Update Priority");
+/* templates/manage/general.tpl.html */
+gettext("Email Addresses To Send Errors To:");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Create Priority");
+/* templates/manage/general.tpl.html */
+gettext("(separate multiple addresses with commas)");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/general.tpl.html */
+gettext("Update Setup");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Existing Priorities");
+/* templates/manage/general.tpl.html */
+gettext("Reset");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Please select at least one of the priorities.");
+/* templates/manage/groups.tpl.html */
+gettext("Please enter the name of this group.");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/manage/groups.tpl.html */
+gettext("Please assign the appropriate projects for this group.");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("All");
+/* templates/manage/groups.tpl.html */
+gettext("Please assign the appropriate users for this group.");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Rank");
+/* templates/manage/groups.tpl.html */
+gettext("Please assign the manager of this group.");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Title");
+/* templates/manage/groups.tpl.html */
+gettext("Please select at least one of the groups.");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/groups.tpl.html */
+gettext("WARNING: This action will remove the selected groups permanently.nPlease click OK to confirm.");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("No priorities could be found.");
+/* templates/manage/groups.tpl.html */
+gettext("Manage Groups");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("All");
+/* templates/manage/groups.tpl.html */
+gettext("An error occurred while trying to add the new group.");
 
-/* templates//manage/priorities.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/groups.tpl.html */
+gettext("Thank you, the group was added successfully.");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Please choose the customer for this new note.");
+/* templates/manage/groups.tpl.html */
+gettext("An error occurred while trying to update the group information.");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Manage Customer Quick Notes");
+/* templates/manage/groups.tpl.html */
+gettext("Thank you, the group was updated successfully.");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("An error occurred while trying to add the new note.");
+/* templates/manage/groups.tpl.html */
+gettext("Name: *");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Thank you, the note was added successfully.");
+/* templates/manage/groups.tpl.html */
+gettext("Description:");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("An error occurred while trying to update the note.");
+/* templates/manage/groups.tpl.html */
+gettext("Assigned Projects: *");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Thank you, the note was updated successfully.");
+/* templates/manage/groups.tpl.html */
+gettext("Users: *");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("An error occurred while trying to delete the note.");
+/* templates/manage/groups.tpl.html */
+gettext("Manager: *");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Thank you, the note was deleted successfully.");
+/* templates/manage/groups.tpl.html */
+gettext("-- Select One --");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Project");
+/* templates/manage/groups.tpl.html */
+gettext("Update Group");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/manage/groups.tpl.html */
+gettext("Create Group");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Customer");
+/* templates/manage/groups.tpl.html */
+gettext("Reset");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Please choose a customer");
+/* templates/manage/groups.tpl.html */
+gettext("Existing Groups");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Note");
+/* templates/manage/groups.tpl.html */
+gettext("Name");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Update Note");
+/* templates/manage/groups.tpl.html */
+gettext("Description");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Create Note");
+/* templates/manage/groups.tpl.html */
+gettext("Manager");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/groups.tpl.html */
+gettext("Projects");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Existing Customer Quick Notes");
+/* templates/manage/groups.tpl.html */
+gettext("No groups could be found.");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Please select at least one of the notes.");
+/* templates/manage/groups.tpl.html */
+gettext("All");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("This action will permanently remove the selected entries.");
+/* templates/manage/groups.tpl.html */
+gettext("Delete");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Customer");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Please choose whether the issue auto creation feature should be allowed or not for this email account");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Note");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Please choose the default category.");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("No notes could be found.");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Please choose the default priority.");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("All");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Auto-Creation of Issues");
 
-/* templates//manage/customer_notes.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Associated Project:");
 
-/* templates//manage/field_display.tpl.html */
-ev_gettext("This page can only be accessed in relation to a project. Please go to the project page and choose\n\"Edit Fields to Display\" to access this page.");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Auto-Creation of Issues:");
 
-/* templates//manage/field_display.tpl.html */
-ev_gettext("Manage Projects");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/field_display.tpl.html */
-ev_gettext("Edit Fields to Display");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/field_display.tpl.html */
-ev_gettext("An error occurred while trying to update field display settings.");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Only for Known Customers?");
 
-/* templates//manage/field_display.tpl.html */
-ev_gettext("Thank you, field display settings were updated successfully.");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Yes");
 
-/* templates//manage/field_display.tpl.html */
-ev_gettext("Field");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("No");
 
-/* templates//manage/field_display.tpl.html */
-ev_gettext("Set Display Preferences");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Default Category:");
 
-/* templates//manage/field_display.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Please choose a category");
 
-/* templates//manage/column_display.tpl.html */
-ev_gettext("This page can only be accessed in relation to a project. Please go to the project page and choose\n\"Edit Fields to Display\" to access this page.");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Default Priority:");
 
-/* templates//manage/column_display.tpl.html */
-ev_gettext("Manage Projects");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Please choose a priority");
 
-/* templates//manage/column_display.tpl.html */
-ev_gettext("Manage Columns to Display");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Assignment:");
 
-/* templates//manage/column_display.tpl.html */
-ev_gettext("Current Project");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Update Setup");
 
-/* templates//manage/column_display.tpl.html */
-ev_gettext("An error occurred while trying to save columns to display.");
+/* templates/manage/issue_auto_creation.tpl.html */
+gettext("Reset");
 
-/* templates//manage/column_display.tpl.html */
-ev_gettext("Thank you, columns to display was saved successfully.");
+/* templates/manage/link_filters.tpl.html */
+gettext("Please enter a pattern.");
 
-/* templates//manage/column_display.tpl.html */
-ev_gettext("Column Name");
+/* templates/manage/link_filters.tpl.html */
+gettext("Please enter a replacement value.");
 
-/* templates//manage/column_display.tpl.html */
-ev_gettext("Minimum Role");
+/* templates/manage/link_filters.tpl.html */
+gettext("Please select projects this link filter should be active for.");
 
-/* templates//manage/column_display.tpl.html */
-ev_gettext("Order");
+/* templates/manage/link_filters.tpl.html */
+gettext("Please select the minimum user role that should be able to see this link filter.");
 
-/* templates//manage/column_display.tpl.html */
-ev_gettext("Save");
+/* templates/manage/link_filters.tpl.html */
+gettext("Please select at least one link filter.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Please enter the title of this custom field.");
+/* templates/manage/link_filters.tpl.html */
+gettext("WARNING: This action will remove the selected link filters permanently.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Please assign the appropriate projects for this custom field.");
+/* templates/manage/link_filters.tpl.html */
+gettext("Please click OK to confirm.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("WARNING: You have removed project(s)");
+/* templates/manage/link_filters.tpl.html */
+gettext("Manage Link Filters");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("from the list");
+/* templates/manage/link_filters.tpl.html */
+gettext("An error occurred while trying to add the new link filter.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("of associated projects. This will remove all data for this field from the selected project(s).");
+/* templates/manage/link_filters.tpl.html */
+gettext("Thank you, the link filter was added successfully.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Do you want to continue?");
+/* templates/manage/link_filters.tpl.html */
+gettext("An error occurred while trying to update the link filter.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Please enter the new value for the combo box.");
+/* templates/manage/link_filters.tpl.html */
+gettext("Thank you, the link filter was updated successfully.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("The specified value already exists in the list of options.");
+/* templates/manage/link_filters.tpl.html */
+gettext("An error occurred while trying to delete the link filter.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Please enter the updated value.");
+/* templates/manage/link_filters.tpl.html */
+gettext("Thank you, the link filter was deleted successfully.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Please select an option from the list.");
+/* templates/manage/link_filters.tpl.html */
+gettext("Pattern");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Please select an option from the list.");
+/* templates/manage/link_filters.tpl.html */
+gettext("Replacement");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("enter a new option above");
+/* templates/manage/link_filters.tpl.html */
+gettext("Description");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Manage Custom Fields");
+/* templates/manage/link_filters.tpl.html */
+gettext("Assigned Projects");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("An error occurred while trying to add the new custom field.");
+/* templates/manage/link_filters.tpl.html */
+gettext("Minimum User Role");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Thank you, the custom field was added successfully.");
+/* templates/manage/link_filters.tpl.html */
+gettext("Update Link Filter");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("An error occurred while trying to update the custom field information.");
+/* templates/manage/link_filters.tpl.html */
+gettext("Create Link Filter");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Thank you, the custom field was updated successfully.");
+/* templates/manage/link_filters.tpl.html */
+gettext("Reset");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Title");
+/* templates/manage/link_filters.tpl.html */
+gettext("Existing Link Filters");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Short Description");
+/* templates/manage/link_filters.tpl.html */
+gettext("Pattern");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("it will show up by the side of the field");
+/* templates/manage/link_filters.tpl.html */
+gettext("Replacement");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Assigned Projects");
+/* templates/manage/link_filters.tpl.html */
+gettext("Description");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Target Forms");
+/* templates/manage/link_filters.tpl.html */
+gettext("Minimum Role");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Report Form");
+/* templates/manage/link_filters.tpl.html */
+gettext("Projects");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Required Field");
+/* templates/manage/link_filters.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Anonymous Form");
+/* templates/manage/link_filters.tpl.html */
+gettext("No link filters could be found.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Required Field");
+/* templates/manage/link_filters.tpl.html */
+gettext("All");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Display on List Issues Page");
+/* templates/manage/link_filters.tpl.html */
+gettext("Delete");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Yes");
+/* templates/manage/manage.tpl.html */
+gettext("Sorry, but you do not have the required permission level to access this screen.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("No");
+/* templates/manage/manage.tpl.html */
+gettext("Go Back");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Field Type");
+/* templates/manage/manage.tpl.html */
+gettext("Configuration");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Text Input");
+/* templates/manage/manage.tpl.html */
+gettext("General Setup");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Textarea");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Email Accounts");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Combo Box");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Custom Fields");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Multiple Combo Box");
+/* templates/manage/manage.tpl.html */
+gettext("Customize Issue Listing Screen");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Date");
+/* templates/manage/manage.tpl.html */
+gettext("Areas");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Field Options");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Internal FAQ");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Set available options");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Round Robin Assignments");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Add");
+/* templates/manage/manage.tpl.html */
+gettext("Manage News");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Update Value");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Issue Reminders");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("OR");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Customer Account Managers");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Choose Custom Field Backend");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Customer Quick Notes");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Please select a backend");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Statuses");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Please select a backend");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Projects");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("enter a new option above");
+/* templates/manage/manage.tpl.html */
+gettext("Add / Edit Releases");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Edit Option");
+/* templates/manage/manage.tpl.html */
+gettext("Add / Edit Categories");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Remove");
+/* templates/manage/manage.tpl.html */
+gettext("Add / Edit Priorities");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Minimum Role");
+/* templates/manage/manage.tpl.html */
+gettext("Add / Edit Phone Support Categories");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Rank");
+/* templates/manage/manage.tpl.html */
+gettext("Anonymous Reporting Options");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Update Custom Field");
+/* templates/manage/manage.tpl.html */
+gettext("Edit Fields to Display");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Create Custom Field");
+/* templates/manage/manage.tpl.html */
+gettext("Edit Columns to Display");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Users");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Existing Custom Fields");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Groups");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Please select at least one of the custom fields.");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Time Tracking Categories");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("This action will permanently remove the selected custom fields.");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Issue Resolutions");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("delete");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Canned Email Responses");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Rank");
+/* templates/manage/manage.tpl.html */
+gettext("Manage Link Filters");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Title");
+/* templates/manage/news.tpl.html */
+gettext("Please enter the title of this news entry.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Assigned Projects");
+/* templates/manage/news.tpl.html */
+gettext("Please assign the appropriate projects for this news entry.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Min. Role");
+/* templates/manage/news.tpl.html */
+gettext("Manage News");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Type");
+/* templates/manage/news.tpl.html */
+gettext("An error occurred while trying to add the news entry.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Options");
+/* templates/manage/news.tpl.html */
+gettext("Please enter the title for this news entry.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("move field down");
+/* templates/manage/news.tpl.html */
+gettext("Please enter the message for this news entry.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("move field up");
+/* templates/manage/news.tpl.html */
+gettext("Thank you, the news entry was added successfully.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/news.tpl.html */
+gettext("An error occurred while trying to update the news entry information.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Combo Box");
+/* templates/manage/news.tpl.html */
+gettext("Please enter the title for this news entry.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Multiple Combo Box");
+/* templates/manage/news.tpl.html */
+gettext("Please enter the message for this news entry.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Textarea");
+/* templates/manage/news.tpl.html */
+gettext("Thank you, the news entry was updated successfully.");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Date");
+/* templates/manage/news.tpl.html */
+gettext("Assigned Projects");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Text Input");
+/* templates/manage/news.tpl.html */
+gettext("Status");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("No custom fields could be found.");
+/* templates/manage/news.tpl.html */
+gettext("Active");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("All");
+/* templates/manage/news.tpl.html */
+gettext("Inactive");
 
-/* templates//manage/custom_fields.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/news.tpl.html */
+gettext("Title");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Manage Issue Reminders");
+/* templates/manage/news.tpl.html */
+gettext("Message");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Updating Reminder");
+/* templates/manage/news.tpl.html */
+gettext("Update News Entry");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Creating New Reminder");
+/* templates/manage/news.tpl.html */
+gettext("Create News Entry");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("An error occurred while trying to add the new reminder.");
+/* templates/manage/news.tpl.html */
+gettext("Reset");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please enter the title for this new reminder.");
+/* templates/manage/news.tpl.html */
+gettext("Existing News Entries");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Thank you, the reminder was added successfully.");
+/* templates/manage/news.tpl.html */
+gettext("Please select at least one of the news entries.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("An error occurred while trying to update the reminder information.");
+/* templates/manage/news.tpl.html */
+gettext("This action will permanently remove the selected news entries.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please enter the title for this reminder.");
+/* templates/manage/news.tpl.html */
+gettext("Title");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Thank you, the reminder was updated successfully.");
+/* templates/manage/news.tpl.html */
+gettext("Projects");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please choose a project that will be associated with this reminder.");
+/* templates/manage/news.tpl.html */
+gettext("Status");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please enter the title for this reminder.");
+/* templates/manage/news.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please enter the rank for this reminder.");
+/* templates/manage/news.tpl.html */
+gettext("No news entries could be found.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please choose the support levels that will be associated with this reminder.");
+/* templates/manage/news.tpl.html */
+gettext("All");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please choose the customers that will be associated with this reminder.");
+/* templates/manage/news.tpl.html */
+gettext("Delete");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please enter the issue IDs that will be associated with this reminder.");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Please enter the title of this category");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please choose the priorities that will be associated with this reminder.");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Manage Phone Support Categories");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Current Project");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Title");
+/* templates/manage/phone_categories.tpl.html */
+gettext("An error occurred while trying to add the new category.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Rank");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Please enter the title for this new category.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Reminder Type");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Thank you, the category was added successfully.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("By Support Level");
+/* templates/manage/phone_categories.tpl.html */
+gettext("An error occurred while trying to update the category information.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("By Customer");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Please enter the title for this category.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("By Issue ID");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Thank you, the category was updated successfully.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("All Issues");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Title");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Also Filter By Issue Priorities");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Update Category");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Skip Weekends");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Create Category");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Yes");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Reset");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("No");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Existing Phone Support Categories");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("If yes, this reminder will not activate on weekends and time will not accumulate on the weekends.");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Please select at least one of the categories.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Update Reminder");
+/* templates/manage/phone_categories.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Create Reminder");
+/* templates/manage/phone_categories.tpl.html */
+gettext("All");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Title");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Existing Issue Reminders");
+/* templates/manage/phone_categories.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Please select at least one of the reminders.");
+/* templates/manage/phone_categories.tpl.html */
+gettext("No phone support categories could be found.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/manage/phone_categories.tpl.html */
+gettext("All");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("ID");
+/* templates/manage/phone_categories.tpl.html */
+gettext("Delete");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Rank");
+/* templates/manage/priorities.tpl.html */
+gettext("Please enter the title of this priority");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Title");
+/* templates/manage/priorities.tpl.html */
+gettext("Please enter the rank of this priority");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Project");
+/* templates/manage/priorities.tpl.html */
+gettext("Manage Priorities");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Type");
+/* templates/manage/priorities.tpl.html */
+gettext("Current Project");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Issue Priorities");
+/* templates/manage/priorities.tpl.html */
+gettext("An error occurred while trying to add the new priority.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Details");
+/* templates/manage/priorities.tpl.html */
+gettext("Please enter the title for this new priority.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/priorities.tpl.html */
+gettext("Thank you, the priority was added successfully.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("All Issues");
+/* templates/manage/priorities.tpl.html */
+gettext("An error occurred while trying to update the priority information.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("By Support Level");
+/* templates/manage/priorities.tpl.html */
+gettext("Please enter the title for this priority.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("By Customer");
+/* templates/manage/priorities.tpl.html */
+gettext("Thank you, the priority was updated successfully.");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("By Issue ID");
+/* templates/manage/priorities.tpl.html */
+gettext("Title");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("No reminders could be found.");
+/* templates/manage/priorities.tpl.html */
+gettext("Rank");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("All");
+/* templates/manage/priorities.tpl.html */
+gettext("Update Priority");
 
-/* templates//manage/reminders.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/priorities.tpl.html */
+gettext("Create Priority");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Please enter a pattern.");
+/* templates/manage/priorities.tpl.html */
+gettext("Reset");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Please enter a replacement value.");
+/* templates/manage/priorities.tpl.html */
+gettext("Existing Priorities");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Please select projects this link filter should be active for.");
+/* templates/manage/priorities.tpl.html */
+gettext("Please select at least one of the priorities.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Please select the minimum user role that should be able to see this link filter.");
+/* templates/manage/priorities.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Please select at least one link filter.");
+/* templates/manage/priorities.tpl.html */
+gettext("All");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("WARNING: This action will remove the selected link filters permanently.");
+/* templates/manage/priorities.tpl.html */
+gettext("Rank");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Please click OK to confirm.");
+/* templates/manage/priorities.tpl.html */
+gettext("Title");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Manage Link Filters");
+/* templates/manage/priorities.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("An error occurred while trying to add the new link filter.");
+/* templates/manage/priorities.tpl.html */
+gettext("No priorities could be found.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Thank you, the link filter was added successfully.");
+/* templates/manage/priorities.tpl.html */
+gettext("All");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("An error occurred while trying to update the link filter.");
+/* templates/manage/priorities.tpl.html */
+gettext("Delete");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Thank you, the link filter was updated successfully.");
+/* templates/manage/projects.tpl.html */
+gettext("Please enter the title of this project.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("An error occurred while trying to delete the link filter.");
+/* templates/manage/projects.tpl.html */
+gettext("Please assign the users for this project.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Thank you, the link filter was deleted successfully.");
+/* templates/manage/projects.tpl.html */
+gettext("Please assign the statuses for this project.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Pattern");
+/* templates/manage/projects.tpl.html */
+gettext("Please choose the initial status from one of the assigned statuses of this project.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Replacement");
+/* templates/manage/projects.tpl.html */
+gettext("Please enter a valid outgoing sender address for this project.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Description");
+/* templates/manage/projects.tpl.html */
+gettext("Manage Projects");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Assigned Projects");
+/* templates/manage/projects.tpl.html */
+gettext("An error occurred while trying to add the new project.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Minimum User Role");
+/* templates/manage/projects.tpl.html */
+gettext("Please enter the title for this new project.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Update Link Filter");
+/* templates/manage/projects.tpl.html */
+gettext("Thank you, the project was added successfully.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Create Link Filter");
+/* templates/manage/projects.tpl.html */
+gettext("An error occurred while trying to update the project information.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/projects.tpl.html */
+gettext("Please enter the title for this project.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Existing Link Filters");
+/* templates/manage/projects.tpl.html */
+gettext("Thank you, the project was updated successfully.");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Pattern");
+/* templates/manage/projects.tpl.html */
+gettext("Title");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Replacement");
+/* templates/manage/projects.tpl.html */
+gettext("Status");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Description");
+/* templates/manage/projects.tpl.html */
+gettext("Active");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Minimum Role");
+/* templates/manage/projects.tpl.html */
+gettext("Archived");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Projects");
+/* templates/manage/projects.tpl.html */
+gettext("Customer Integration Backend");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/projects.tpl.html */
+gettext("No Customer Integration");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("No link filters could be found.");
+/* templates/manage/projects.tpl.html */
+gettext("Workflow Backend");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("All");
+/* templates/manage/projects.tpl.html */
+gettext("No Workflow Management");
 
-/* templates//manage/link_filters.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/projects.tpl.html */
+gettext("Project Lead");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Please enter the title of this news entry.");
+/* templates/manage/projects.tpl.html */
+gettext("Users");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Please assign the appropriate projects for this news entry.");
+/* templates/manage/projects.tpl.html */
+gettext("Statuses");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Manage News");
+/* templates/manage/projects.tpl.html */
+gettext("Initial Status for New Issues");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("An error occurred while trying to add the news entry.");
+/* templates/manage/projects.tpl.html */
+gettext("Outgoing Email Sender Name");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Please enter the title for this news entry.");
+/* templates/manage/projects.tpl.html */
+gettext("Outgoing Email Sender Address");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Please enter the message for this news entry.");
+/* templates/manage/projects.tpl.html */
+gettext("Remote Invocation");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Thank you, the news entry was added successfully.");
+/* templates/manage/projects.tpl.html */
+gettext("Enabled");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("An error occurred while trying to update the news entry information.");
+/* templates/manage/projects.tpl.html */
+gettext("Disabled");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Please enter the title for this news entry.");
+/* templates/manage/projects.tpl.html */
+gettext("Segregate Reporters");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Please enter the message for this news entry.");
+/* templates/manage/projects.tpl.html */
+gettext("Yes");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Thank you, the news entry was updated successfully.");
+/* templates/manage/projects.tpl.html */
+gettext("No");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Assigned Projects");
+/* templates/manage/projects.tpl.html */
+gettext("Update Project");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Status");
+/* templates/manage/projects.tpl.html */
+gettext("Create Project");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Active");
+/* templates/manage/projects.tpl.html */
+gettext("Reset");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Inactive");
+/* templates/manage/projects.tpl.html */
+gettext("Existing Projects");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Title");
+/* templates/manage/projects.tpl.html */
+gettext("You cannot remove all of the projects in the system.");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Message");
+/* templates/manage/projects.tpl.html */
+gettext("Please select at least one of the projects.");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Update News Entry");
+/* templates/manage/projects.tpl.html */
+gettext("WARNING: This action will remove the selected projects permanently.");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Create News Entry");
+/* templates/manage/projects.tpl.html */
+gettext("It will remove all of its associated entries as well (issues, notes, attachments,netc), so please click OK to confirm.");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/projects.tpl.html */
+gettext("All");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Existing News Entries");
+/* templates/manage/projects.tpl.html */
+gettext("Title");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Please select at least one of the news entries.");
+/* templates/manage/projects.tpl.html */
+gettext("Project Lead");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("This action will permanently remove the selected news entries.");
+/* templates/manage/projects.tpl.html */
+gettext("Status");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Title");
+/* templates/manage/projects.tpl.html */
+gettext("Actions");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Projects");
+/* templates/manage/projects.tpl.html */
+gettext("Edit Releases");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Status");
+/* templates/manage/projects.tpl.html */
+gettext("Edit Categories");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/projects.tpl.html */
+gettext("Edit Priorities");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("No news entries could be found.");
+/* templates/manage/projects.tpl.html */
+gettext("Edit Phone Support Categories");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("All");
+/* templates/manage/projects.tpl.html */
+gettext("Anonymous Reporting");
 
-/* templates//manage/news.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/projects.tpl.html */
+gettext("Edit Fields to Display");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Sorry, but you do not have the required permission level to access this screen.");
+/* templates/manage/projects.tpl.html */
+gettext("Edit Columns to Display");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Go Back");
+/* templates/manage/projects.tpl.html */
+gettext("No projects could be found.");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Configuration");
+/* templates/manage/projects.tpl.html */
+gettext("All");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("General Setup");
+/* templates/manage/projects.tpl.html */
+gettext("Delete");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Email Accounts");
+/* templates/manage/releases.tpl.html */
+gettext("Please enter the title of this release.");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Custom Fields");
+/* templates/manage/releases.tpl.html */
+gettext("Manage Releases");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Customize Issue Listing Screen");
+/* templates/manage/releases.tpl.html */
+gettext("Current Project:");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Areas");
+/* templates/manage/releases.tpl.html */
+gettext("An error occurred while trying to add the new release.");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Internal FAQ");
+/* templates/manage/releases.tpl.html */
+gettext("Please enter the title for this new release.");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Round Robin Assignments");
+/* templates/manage/releases.tpl.html */
+gettext("Thank you, the release was added successfully.");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage News");
+/* templates/manage/releases.tpl.html */
+gettext("An error occurred while trying to update the release information.");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Issue Reminders");
+/* templates/manage/releases.tpl.html */
+gettext("Please enter the title for this release.");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Customer Account Managers");
+/* templates/manage/releases.tpl.html */
+gettext("Thank you, the release was updated successfully.");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Customer Quick Notes");
+/* templates/manage/releases.tpl.html */
+gettext("Title:");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Statuses");
+/* templates/manage/releases.tpl.html */
+gettext("Tentative Date:");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Projects");
+/* templates/manage/releases.tpl.html */
+gettext("Status:");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Add / Edit Releases");
+/* templates/manage/releases.tpl.html */
+gettext("Available - Users may use this release");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Add / Edit Categories");
+/* templates/manage/releases.tpl.html */
+gettext("Unavailable - Users may NOT use this release");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Add / Edit Priorities");
+/* templates/manage/releases.tpl.html */
+gettext("Update Release");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Add / Edit Phone Support Categories");
+/* templates/manage/releases.tpl.html */
+gettext("Create Release");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Anonymous Reporting Options");
+/* templates/manage/releases.tpl.html */
+gettext("Reset");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Edit Fields to Display");
+/* templates/manage/releases.tpl.html */
+gettext("Existing Releases:");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Edit Columns to Display");
+/* templates/manage/releases.tpl.html */
+gettext("Please select at least one of the releases.");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Users");
+/* templates/manage/releases.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Groups");
+/* templates/manage/releases.tpl.html */
+gettext("All");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Time Tracking Categories");
+/* templates/manage/releases.tpl.html */
+gettext("Title");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Issue Resolutions");
+/* templates/manage/releases.tpl.html */
+gettext("Tentative Date");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Canned Email Responses");
+/* templates/manage/releases.tpl.html */
+gettext("Status");
 
-/* templates//manage/manage.tpl.html */
-ev_gettext("Manage Link Filters");
+/* templates/manage/releases.tpl.html */
+gettext("update this entry");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Please enter the title of this project.");
+/* templates/manage/releases.tpl.html */
+gettext("No releases could be found.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Please assign the users for this project.");
+/* templates/manage/releases.tpl.html */
+gettext("All");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Please assign the statuses for this project.");
+/* templates/manage/releases.tpl.html */
+gettext("Delete");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Please choose the initial status from one of the assigned statuses of this project.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Action Type");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Please enter a valid outgoing sender address for this project.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Rank");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Manage Projects");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Manage Reminder Actions");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("An error occurred while trying to add the new project.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("view reminder details");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Please enter the title for this new project.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("An error occurred while trying to add the new action.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Thank you, the project was added successfully.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Please enter the title for this new action.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("An error occurred while trying to update the project information.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Thank you, the action was added successfully.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Please enter the title for this project.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("An error occurred while trying to update the action information.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Thank you, the project was updated successfully.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Please enter the title for this action.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Title");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Thank you, the action was updated successfully.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Status");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Title:");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Active");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Action Type:");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Archived");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Please choose an option");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Customer Integration Backend");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Email List:");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("No Customer Integration");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Add");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Workflow Backend");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Remove");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("No Workflow Management");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Rank:");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Project Lead");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("this will determine the order in which actions are triggered");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Users");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Alert Group Leader:");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Statuses");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Yes");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Initial Status for New Issues");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("No");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Outgoing Email Sender Name");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Alert IRC:");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Outgoing Email Sender Address");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Yes");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Remote Invocation");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("No");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Enabled");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Boilerplate:");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Disabled");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("this will show up on the bottom of the reminder messages");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Segregate Reporters");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Update Action");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Yes");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Add Action");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("No");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Reset");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Update Project");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Existing Actions:");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Create Project");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Back to Reminder List");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Please select at least one of the actions.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Existing Projects");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("You cannot remove all of the projects in the system.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Rank");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Please select at least one of the projects.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Title");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("WARNING: This action will remove the selected projects permanently.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Type");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("It will remove all of its associated entries as well (issues, notes, attachments,netc), so please click OK to confirm.");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Details");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("All");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("No actions could be found.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Title");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("All");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Project Lead");
+/* templates/manage/reminder_actions.tpl.html */
+gettext("Delete");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Status");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Field");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Actions");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Operator");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Edit Releases");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Value");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Edit Categories");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Value");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Edit Priorities");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Manage Reminder Conditions");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Edit Phone Support Categories");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("view reminder details");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Anonymous Reporting");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Reminder");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Edit Fields to Display");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("view reminder action details");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Edit Columns to Display");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Action");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("No projects could be found.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("An error occurred while trying to add the new condition.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("All");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Please enter the title for this new condition.");
 
-/* templates//manage/projects.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Thank you, the condition was added successfully.");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Please enter the title of this category");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("An error occurred while trying to update the condition information.");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Manage Phone Support Categories");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Please enter the title for this condition.");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Current Project");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Thank you, the condition was updated successfully.");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("An error occurred while trying to add the new category.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Field:");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Please enter the title for this new category.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Please choose an option");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Thank you, the category was added successfully.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Operator:");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("An error occurred while trying to update the category information.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Please choose an option");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Please enter the title for this category.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Value:");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Thank you, the category was updated successfully.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Please choose an option");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Title");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Please choose a field");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Update Category");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("or");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Create Category");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("(in hours please)");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Update Condition");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Existing Phone Support Categories");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Add Condition");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Please select at least one of the categories.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Reset");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Existing Conditions:");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("All");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Back to Reminder Action List");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Title");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Please select at least one of the conditions.");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("update this entry");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("No phone support categories could be found.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("All");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("All");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Field");
 
-/* templates//manage/phone_categories.tpl.html */
-ev_gettext("Delete");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Operator");
 
-/* templates//attached_emails.tpl.html */
-ev_gettext("Please choose which entries need to be removed.");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Value");
 
-/* templates//attached_emails.tpl.html */
-ev_gettext("Attached Emails");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("update this entry");
 
-/* templates//attached_emails.tpl.html */
-ev_gettext("Remove?");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("No conditions could be found.");
 
-/* templates//attached_emails.tpl.html */
-ev_gettext("Sender");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("All");
 
-/* templates//attached_emails.tpl.html */
-ev_gettext("Subject");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Delete");
 
-/* templates//attached_emails.tpl.html */
-ev_gettext("Remove Selected");
+/* templates/manage/reminder_conditions.tpl.html */
+gettext("Review SQL Query");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Please enter your full name.");
+/* templates/manage/reminders.tpl.html */
+gettext("Manage Issue Reminders");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Please enter a valid email address.");
+/* templates/manage/reminders.tpl.html */
+gettext("Updating Reminder");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Please enter your new password with at least 6 characters.");
+/* templates/manage/reminders.tpl.html */
+gettext("Creating New Reminder");
 
-/* templates//preferences.tpl.html */
-ev_gettext("The two passwords do not match. Please review your information and try again.");
+/* templates/manage/reminders.tpl.html */
+gettext("An error occurred while trying to add the new reminder.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("User Details");
+/* templates/manage/reminders.tpl.html */
+gettext("Please enter the title for this new reminder.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("An error occurred while trying to run your query.");
+/* templates/manage/reminders.tpl.html */
+gettext("Thank you, the reminder was added successfully.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Thank you, your full name was updated successfully.");
+/* templates/manage/reminders.tpl.html */
+gettext("An error occurred while trying to update the reminder information.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Full Name");
+/* templates/manage/reminders.tpl.html */
+gettext("Please enter the title for this reminder.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Update Full Name");
+/* templates/manage/reminders.tpl.html */
+gettext("Thank you, the reminder was updated successfully.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/reminders.tpl.html */
+gettext("Please choose a project that will be associated with this reminder.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("An error occurred while trying to run your query.");
+/* templates/manage/reminders.tpl.html */
+gettext("Please enter the title for this reminder.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Thank you, your email address was updated successfully.");
+/* templates/manage/reminders.tpl.html */
+gettext("Please enter the rank for this reminder.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Login");
+/* templates/manage/reminders.tpl.html */
+gettext("Please choose the support levels that will be associated with this reminder.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Email Address");
+/* templates/manage/reminders.tpl.html */
+gettext("Please choose the customers that will be associated with this reminder.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Update Email Address");
+/* templates/manage/reminders.tpl.html */
+gettext("Please enter the issue IDs that will be associated with this reminder.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/reminders.tpl.html */
+gettext("Please choose the priorities that will be associated with this reminder.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("An error occurred while trying to run your query.");
+/* templates/manage/reminders.tpl.html */
+gettext("Please choose an option");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Thank you, your password was updated successfully.");
+/* templates/manage/reminders.tpl.html */
+gettext("Title");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Change Password");
+/* templates/manage/reminders.tpl.html */
+gettext("Rank");
 
-/* templates//preferences.tpl.html */
-ev_gettext("New Password");
+/* templates/manage/reminders.tpl.html */
+gettext("Reminder Type");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Confirm New Password");
+/* templates/manage/reminders.tpl.html */
+gettext("By Support Level");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Update Password");
+/* templates/manage/reminders.tpl.html */
+gettext("By Customer");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/reminders.tpl.html */
+gettext("By Issue ID");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Account Preferences");
+/* templates/manage/reminders.tpl.html */
+gettext("All Issues");
 
-/* templates//preferences.tpl.html */
-ev_gettext("An error occurred while trying to run your query.");
+/* templates/manage/reminders.tpl.html */
+gettext("Also Filter By Issue Priorities");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Thank you, your account preferences were updated successfully.");
+/* templates/manage/reminders.tpl.html */
+gettext("Skip Weekends");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Available Languages");
+/* templates/manage/reminders.tpl.html */
+gettext("Yes");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Timezone");
+/* templates/manage/reminders.tpl.html */
+gettext("No");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Automatically close confirmation popup windows ?");
+/* templates/manage/reminders.tpl.html */
+gettext("If yes, this reminder will not activate on weekends and time will not accumulate on the weekends.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Yes");
+/* templates/manage/reminders.tpl.html */
+gettext("Update Reminder");
 
-/* templates//preferences.tpl.html */
-ev_gettext("No");
+/* templates/manage/reminders.tpl.html */
+gettext("Create Reminder");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Receive emails when all issues are created ?");
+/* templates/manage/reminders.tpl.html */
+gettext("Reset");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Yes");
+/* templates/manage/reminders.tpl.html */
+gettext("Existing Issue Reminders");
 
-/* templates//preferences.tpl.html */
-ev_gettext("No");
+/* templates/manage/reminders.tpl.html */
+gettext("Please select at least one of the reminders.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Receive emails when new issues are assigned to you ?");
+/* templates/manage/reminders.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Yes");
+/* templates/manage/reminders.tpl.html */
+gettext("ID");
 
-/* templates//preferences.tpl.html */
-ev_gettext("No");
+/* templates/manage/reminders.tpl.html */
+gettext("Rank");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Refresh Rate for Issue Listing Page");
+/* templates/manage/reminders.tpl.html */
+gettext("Title");
 
-/* templates//preferences.tpl.html */
-ev_gettext("in minutes");
+/* templates/manage/reminders.tpl.html */
+gettext("Project");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Refresh Rate for Email Listing Page");
+/* templates/manage/reminders.tpl.html */
+gettext("Type");
 
-/* templates//preferences.tpl.html */
-ev_gettext("in minutes");
+/* templates/manage/reminders.tpl.html */
+gettext("Issue Priorities");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Email Signature");
+/* templates/manage/reminders.tpl.html */
+gettext("Details");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Edit Signature");
+/* templates/manage/reminders.tpl.html */
+gettext("update this entry");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Upload New Signature");
+/* templates/manage/reminders.tpl.html */
+gettext("All Issues");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Automatically append email signature when composing web based emails");
+/* templates/manage/reminders.tpl.html */
+gettext("By Support Level");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Automatically append email signature when composing internal notes");
+/* templates/manage/reminders.tpl.html */
+gettext("By Customer");
 
-/* templates//preferences.tpl.html */
-ev_gettext("SMS Email Address");
+/* templates/manage/reminders.tpl.html */
+gettext("By Issue ID");
 
-/* templates//preferences.tpl.html */
-ev_gettext("only used for automatic issue reminders");
+/* templates/manage/reminders.tpl.html */
+gettext("No reminders could be found.");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Update Preferences");
+/* templates/manage/reminders.tpl.html */
+gettext("All");
 
-/* templates//preferences.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/reminders.tpl.html */
+gettext("Delete");
 
-/* templates//resize_textarea.tpl.html */
-ev_gettext("Widen the field");
+/* templates/manage/resolution.tpl.html */
+gettext("Please enter the title of this resolution.");
 
-/* templates//resize_textarea.tpl.html */
-ev_gettext("Shorten the field");
+/* templates/manage/resolution.tpl.html */
+gettext("Manage Issue Resolutions");
 
-/* templates//notes.tpl.html */
-ev_gettext("This action will permanently delete the specified note.");
+/* templates/manage/resolution.tpl.html */
+gettext("An error occurred while trying to add the new issue resolution.");
 
-/* templates//notes.tpl.html */
-ev_gettext("This note will be deleted & converted to an email, one either sent immediately or saved as a draft.");
+/* templates/manage/resolution.tpl.html */
+gettext("Please enter the title for this new issue resolution.");
 
-/* templates//notes.tpl.html */
-ev_gettext("Internal Notes");
+/* templates/manage/resolution.tpl.html */
+gettext("Thank you, the issue resolution was added successfully.");
 
-/* templates//notes.tpl.html */
-ev_gettext("Back to Top");
+/* templates/manage/resolution.tpl.html */
+gettext("An error occurred while trying to update the issue resolution information.");
 
-/* templates//notes.tpl.html */
-ev_gettext("Reply");
+/* templates/manage/resolution.tpl.html */
+gettext("Please enter the title for this issue resolution.");
 
-/* templates//notes.tpl.html */
-ev_gettext("Posted Date");
+/* templates/manage/resolution.tpl.html */
+gettext("Thank you, the issue resolution was updated successfully.");
 
-/* templates//notes.tpl.html */
-ev_gettext("User");
+/* templates/manage/resolution.tpl.html */
+gettext("Title:");
 
-/* templates//notes.tpl.html */
-ev_gettext("Title");
+/* templates/manage/resolution.tpl.html */
+gettext("Update Resolution");
 
-/* templates//notes.tpl.html */
-ev_gettext("reply to this note");
+/* templates/manage/resolution.tpl.html */
+gettext("Create Resolution");
 
-/* templates//notes.tpl.html */
-ev_gettext("delete");
+/* templates/manage/resolution.tpl.html */
+gettext("Reset");
 
-/* templates//notes.tpl.html */
-ev_gettext("convert note");
+/* templates/manage/resolution.tpl.html */
+gettext("Existing Resolutions:");
 
-/* templates//notes.tpl.html */
-ev_gettext("No internal notes could be found.");
+/* templates/manage/resolution.tpl.html */
+gettext("Please select at least one of the resolutions.");
 
-/* templates//notes.tpl.html */
-ev_gettext("Post Internal Note");
+/* templates/manage/resolution.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/manage/resolution.tpl.html */
+gettext("All");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Thank you, the time tracking entry was added successfully.");
+/* templates/manage/resolution.tpl.html */
+gettext("Title");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Continue");
+/* templates/manage/resolution.tpl.html */
+gettext("update this entry");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Please enter the summary for this new time tracking entry.");
+/* templates/manage/resolution.tpl.html */
+gettext("No resolutions could be found.");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Please choose the time tracking category for this new entry.");
+/* templates/manage/resolution.tpl.html */
+gettext("All");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Please enter integers (or floating point numbers) on the time spent field.");
+/* templates/manage/resolution.tpl.html */
+gettext("Delete");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Please select a valid date of work.");
+/* templates/manage/round_robin.tpl.html */
+gettext("Please assign the appropriate users for this round robin entry.");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Record Time Worked");
+/* templates/manage/round_robin.tpl.html */
+gettext("Manage Round Robin Assignments");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Summary");
+/* templates/manage/round_robin.tpl.html */
+gettext("An error occurred while trying to add the round robin entry.");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Category");
+/* templates/manage/round_robin.tpl.html */
+gettext("Please enter the title for this round robin entry.");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Please choose a category");
+/* templates/manage/round_robin.tpl.html */
+gettext("Please enter the message for this round robin entry.");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Time Spent");
+/* templates/manage/round_robin.tpl.html */
+gettext("Thank you, the round robin entry was added successfully.");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("in minutes");
+/* templates/manage/round_robin.tpl.html */
+gettext("An error occurred while trying to update the round robin entry information.");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Date of Work");
+/* templates/manage/round_robin.tpl.html */
+gettext("Please enter the title for this round robin entry.");
 
-/* templates//add_time_tracking.tpl.html */
-ev_gettext("Add Time Entry");
+/* templates/manage/round_robin.tpl.html */
+gettext("Please enter the message for this round robin entry.");
 
-/* templates//top_link.tpl.html */
-ev_gettext("Back to Top");
+/* templates/manage/round_robin.tpl.html */
+gettext("Thank you, the round robin entry was updated successfully.");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Re-directing the parent window to the issue report page. This window will be closed automatically.");
+/* templates/manage/round_robin.tpl.html */
+gettext("Project:");
 
-/* templates//view_email.tpl.html */
-ev_gettext("This message already belongs to that account");
+/* templates/manage/round_robin.tpl.html */
+gettext("Please choose an option");
 
-/* templates//view_email.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/manage/round_robin.tpl.html */
+gettext("Assignable Users:");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Thank you, the email was successfully moved.");
+/* templates/manage/round_robin.tpl.html */
+gettext("Blackout Time Range:");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Continue");
+/* templates/manage/round_robin.tpl.html */
+gettext("Update Round Robin Entry");
 
-/* templates//view_email.tpl.html */
-ev_gettext("View Email Details");
+/* templates/manage/round_robin.tpl.html */
+gettext("Create Round Robin Entry");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Associated with Issue");
+/* templates/manage/round_robin.tpl.html */
+gettext("Reset");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Previous Message");
+/* templates/manage/round_robin.tpl.html */
+gettext("Existing Round Robin Entries:");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Next Message");
+/* templates/manage/round_robin.tpl.html */
+gettext("Please select at least one of the round robin entries.");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Received");
+/* templates/manage/round_robin.tpl.html */
+gettext("This action will permanently remove the selected round robin entries.");
 
-/* templates//view_email.tpl.html */
-ev_gettext("From");
+/* templates/manage/round_robin.tpl.html */
+gettext("All");
 
-/* templates//view_email.tpl.html */
-ev_gettext("To");
+/* templates/manage/round_robin.tpl.html */
+gettext("Project");
 
-/* templates//view_email.tpl.html */
-ev_gettext("sent to notification list");
+/* templates/manage/round_robin.tpl.html */
+gettext("Assignable Users");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Cc");
+/* templates/manage/round_robin.tpl.html */
+gettext("update this entry");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Subject");
+/* templates/manage/round_robin.tpl.html */
+gettext("No round robin entries could be found.");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Attachments");
+/* templates/manage/round_robin.tpl.html */
+gettext("All");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Message");
+/* templates/manage/round_robin.tpl.html */
+gettext("Delete");
 
-/* templates//view_email.tpl.html */
-ev_gettext("display in fixed width font");
+/* templates/manage/statuses.tpl.html */
+gettext("Please enter the title of this status.");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Raw Headers");
+/* templates/manage/statuses.tpl.html */
+gettext("Please enter the abbreviation of this status.");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Reply");
+/* templates/manage/statuses.tpl.html */
+gettext("Please enter the rank of this status.");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Close");
+/* templates/manage/statuses.tpl.html */
+gettext("Please assign the appropriate projects for this status.");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Previous Message");
+/* templates/manage/statuses.tpl.html */
+gettext("Please enter the color of this status.");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Next Message");
+/* templates/manage/statuses.tpl.html */
+gettext("Manage Statuses");
 
-/* templates//view_email.tpl.html */
-ev_gettext("Move Message To");
+/* templates/manage/statuses.tpl.html */
+gettext("An error occurred while trying to add the new status.");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Please enter a valid email address.");
+/* templates/manage/statuses.tpl.html */
+gettext("Please enter the title for this new status.");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Authorized Repliers");
+/* templates/manage/statuses.tpl.html */
+gettext("Thank you, the status was added successfully.");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("An error occurred while trying to insert the authorized replier.");
+/* templates/manage/statuses.tpl.html */
+gettext("An error occurred while trying to update the status information.");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Users with a role of \"customer\" or below are not allowed to be added to the authorized repliers list.");
+/* templates/manage/statuses.tpl.html */
+gettext("Please enter the title for this status.");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Thank you, the authorized replier was inserted successfully.");
+/* templates/manage/statuses.tpl.html */
+gettext("Thank you, the status was updated successfully.");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Email");
+/* templates/manage/statuses.tpl.html */
+gettext("Title:");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Add Authorized Replier");
+/* templates/manage/statuses.tpl.html */
+gettext("Abbreviation:");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Reset");
+/* templates/manage/statuses.tpl.html */
+gettext("(three letter abbreviation)");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Existing Authorized Repliers for this Issue");
+/* templates/manage/statuses.tpl.html */
+gettext("Rank:");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Please select at least one of the authorized repliers.");
+/* templates/manage/statuses.tpl.html */
+gettext("Closed Context ?");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/manage/statuses.tpl.html */
+gettext("Yes");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Email");
+/* templates/manage/statuses.tpl.html */
+gettext("No");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("No authorized repliers could be found.");
+/* templates/manage/statuses.tpl.html */
+gettext("Assigned Projects:");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Remove Selected");
+/* templates/manage/statuses.tpl.html */
+gettext("Color:");
 
-/* templates//authorized_replier.tpl.html */
-ev_gettext("Close");
+/* templates/manage/statuses.tpl.html */
+gettext("(this color will be used in the issue listing page)");
 
-/* templates//faq.tpl.html */
-ev_gettext("Error: You are not allowed to view the requested FAQ entry.");
+/* templates/manage/statuses.tpl.html */
+gettext("Update Status");
 
-/* templates//faq.tpl.html */
-ev_gettext("Last updated");
+/* templates/manage/statuses.tpl.html */
+gettext("Create Status");
 
-/* templates//faq.tpl.html */
-ev_gettext("Close Window");
+/* templates/manage/statuses.tpl.html */
+gettext("Reset");
 
-/* templates//faq.tpl.html */
-ev_gettext("Article Entries");
+/* templates/manage/statuses.tpl.html */
+gettext("Existing Statuses:");
 
-/* templates//faq.tpl.html */
-ev_gettext("Title");
+/* templates/manage/statuses.tpl.html */
+gettext("Please select at least one of the statuses.");
 
-/* templates//faq.tpl.html */
-ev_gettext("Last Updated Date");
+/* templates/manage/statuses.tpl.html */
+gettext("This action will remove the selected entries. This will also update any nissues currently set to this status to a new status 'undefined'.");
 
-/* templates//faq.tpl.html */
-ev_gettext("read faq entry");
+/* templates/manage/statuses.tpl.html */
+gettext("All");
 
-/* templates//navigation.tpl.html */
-ev_gettext("logout from");
+/* templates/manage/statuses.tpl.html */
+gettext("Rank");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Logout");
+/* templates/manage/statuses.tpl.html */
+gettext("Abbreviation");
 
-/* templates//navigation.tpl.html */
-ev_gettext("manage the application settings, users, projects, etc");
+/* templates/manage/statuses.tpl.html */
+gettext("Title");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Administration");
+/* templates/manage/statuses.tpl.html */
+gettext("Projects");
 
-/* templates//navigation.tpl.html */
-ev_gettext("create a new issue");
+/* templates/manage/statuses.tpl.html */
+gettext("Color");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Create Issue");
+/* templates/manage/statuses.tpl.html */
+gettext("update this entry");
 
-/* templates//navigation.tpl.html */
-ev_gettext("list the issues stored in the system");
+/* templates/manage/statuses.tpl.html */
+gettext("No statuses could be found.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("List Issues");
+/* templates/manage/statuses.tpl.html */
+gettext("All");
 
-/* templates//navigation.tpl.html */
-ev_gettext("get access to advanced search parameters");
+/* templates/manage/statuses.tpl.html */
+gettext("Delete");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Advanced Search");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Please enter the title of this time tracking category");
 
-/* templates//navigation.tpl.html */
-ev_gettext("list available emails");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Manage Time Tracking Categories");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Associate Emails");
+/* templates/manage/time_tracking.tpl.html */
+gettext("An error occurred while trying to add the new time tracking category.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("list all issues assigned to you");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Please enter the title for this new time tracking category.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("My Assignments");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Thank you, the time tracking category was added successfully.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("general statistics");
+/* templates/manage/time_tracking.tpl.html */
+gettext("An error occurred while trying to update the time tracking category information.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Stats");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Please enter the title for this time tracking category.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("reporting system");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Thank you, the time tracking category was updated successfully.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Reports");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Title:");
 
-/* templates//navigation.tpl.html */
-ev_gettext("internal faq");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Update Category");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Internal FAQ");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Create Category");
 
-/* templates//navigation.tpl.html */
-ev_gettext("help documentation");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Reset");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Help");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Existing Categories:");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Project");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Please select at least one of the time tracking categories.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Please enter a valid issue ID.");
+/* templates/manage/time_tracking.tpl.html */
+gettext("This action will remove the selected entries.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Switch");
+/* templates/manage/time_tracking.tpl.html */
+gettext("All");
 
-/* templates//navigation.tpl.html */
-ev_gettext("CLOCKED");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Title");
 
-/* templates//navigation.tpl.html */
-ev_gettext("IN");
+/* templates/manage/time_tracking.tpl.html */
+gettext("update this entry");
 
-/* templates//navigation.tpl.html */
-ev_gettext("OUT");
+/* templates/manage/time_tracking.tpl.html */
+gettext("No time tracking categories could be found.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("modify your account details and preferences");
+/* templates/manage/time_tracking.tpl.html */
+gettext("All");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Preferences");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Delete");
 
-/* templates//navigation.tpl.html */
-ev_gettext("change your account clocked-in status");
+/* templates/manage/time_tracking.tpl.html */
+gettext("Note:");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Clock");
+/* templates/manage/time_tracking.tpl.html */
+gettext("'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories are\n                    required by Eventum and cannot be deleted.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Out");
+/* templates/manage/users.tpl.html */
+gettext("Please enter the email of this user.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("In");
+/* templates/manage/users.tpl.html */
+gettext("Please enter a valid email address.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Search");
+/* templates/manage/users.tpl.html */
+gettext("Please enter a password of at least 6 characters.");
 
-/* templates//navigation.tpl.html */
-ev_gettext("Go");
+/* templates/manage/users.tpl.html */
+gettext("Please enter a password of at least 6 characters.");
 
-/* templates//expandable_cell/buttons.tpl.html */
-ev_gettext("Expand all collapsed cells");
+/* templates/manage/users.tpl.html */
+gettext("Please enter the full name of this user.");
 
-/* templates//expandable_cell/buttons.tpl.html */
-ev_gettext("Expand all collapsed cells");
+/* templates/manage/users.tpl.html */
+gettext("Please assign the appropriate projects for this user.");
 
-/* templates//expandable_cell/buttons.tpl.html */
-ev_gettext("Expand collapsed cell");
+/* templates/manage/users.tpl.html */
+gettext("Manage Users");
 
-/* templates//expandable_cell/buttons.tpl.html */
-ev_gettext("Collapse expanded cell");
+/* templates/manage/users.tpl.html */
+gettext("An error occurred while trying to add the new user.");
 
-/* templates//main.tpl.html */
-ev_gettext("Overall Stats");
+/* templates/manage/users.tpl.html */
+gettext("Thank you, the user was added successfully.");
 
-/* templates//main.tpl.html */
-ev_gettext("Issues by Status");
+/* templates/manage/users.tpl.html */
+gettext("An error occurred while trying to update the user information.");
 
-/* templates//main.tpl.html */
-ev_gettext("No issues could be found.");
+/* templates/manage/users.tpl.html */
+gettext("Thank you, the user was updated successfully.");
 
-/* templates//main.tpl.html */
-ev_gettext("Issues by Release");
+/* templates/manage/users.tpl.html */
+gettext("Email Address");
 
-/* templates//main.tpl.html */
-ev_gettext("No issues could be found.");
+/* templates/manage/users.tpl.html */
+gettext("Password");
 
-/* templates//main.tpl.html */
-ev_gettext("Issues by Priority");
+/* templates/manage/users.tpl.html */
+gettext("leave empty to keep the current password");
 
-/* templates//main.tpl.html */
-ev_gettext("No issues could be found.");
+/* templates/manage/users.tpl.html */
+gettext("Full Name");
 
-/* templates//main.tpl.html */
-ev_gettext("Issues by Category");
+/* templates/manage/users.tpl.html */
+gettext("Assigned Projects and Roles");
 
-/* templates//main.tpl.html */
-ev_gettext("No issues could be found.");
+/* templates/manage/users.tpl.html */
+gettext("Customer");
 
-/* templates//main.tpl.html */
-ev_gettext("Assigned Issues");
+/* templates/manage/users.tpl.html */
+gettext("Update User");
 
-/* templates//main.tpl.html */
-ev_gettext("No issues could be found.");
+/* templates/manage/users.tpl.html */
+gettext("Create User");
 
-/* templates//main.tpl.html */
-ev_gettext("Emails");
+/* templates/manage/users.tpl.html */
+gettext("Reset");
 
-/* templates//main.tpl.html */
-ev_gettext("Associated");
+/* templates/manage/users.tpl.html */
+gettext("Existing Users");
 
-/* templates//main.tpl.html */
-ev_gettext("Pending");
+/* templates/manage/users.tpl.html */
+gettext("You cannot change the status of the only active user left in the system.");
 
-/* templates//main.tpl.html */
-ev_gettext("Removed");
+/* templates/manage/users.tpl.html */
+gettext("You cannot inactivate all of the users in the system.");
 
-/* templates//main.tpl.html */
-ev_gettext("Did you Know?");
+/* templates/manage/users.tpl.html */
+gettext("Please select at least one of the users.");
 
-/* templates//main.tpl.html */
-ev_gettext("Graphical Stats (All Issues)");
+/* templates/manage/users.tpl.html */
+gettext("This action will change the status of the selected users.");
 
-/* templates//confirm.tpl.html */
-ev_gettext("Password Confirmation");
+/* templates/manage/users.tpl.html */
+gettext("All");
 
-/* templates//confirm.tpl.html */
-ev_gettext("Account Creation");
+/* templates/manage/users.tpl.html */
+gettext("Full Name");
 
-/* templates//confirm.tpl.html */
-ev_gettext("Error");
+/* templates/manage/users.tpl.html */
+gettext("Role");
 
-/* templates//confirm.tpl.html */
-ev_gettext("Password Confirmation Success");
+/* templates/manage/users.tpl.html */
+gettext("Email Address");
 
-/* templates//confirm.tpl.html */
-ev_gettext("The provided trial account email address could not be\nconfirmed. Please contact the local Technical Support staff for\nfurther assistance.");
+/* templates/manage/users.tpl.html */
+gettext("Status");
 
-/* templates//confirm.tpl.html */
-ev_gettext("The provided trial account email address could not be\n            found. Please contact the local Technical Support staff for\n            further assistance.");
+/* templates/manage/users.tpl.html */
+gettext("Group");
 
-/* templates//confirm.tpl.html */
-ev_gettext("The provided trial account encrypted hash could not be\n            authenticated. Please contact the local Technical\n            Support staff for further assistance.");
+/* templates/manage/users.tpl.html */
+gettext("update this entry");
 
-/* templates//confirm.tpl.html */
-ev_gettext("Thank you, your request for a new password was confirmed successfully. You should receive an email with your new password shortly.");
+/* templates/manage/users.tpl.html */
+gettext("send email to");
 
-/* templates//confirm.tpl.html */
-ev_gettext("Back to Login Form");
+/* templates/manage/users.tpl.html */
+gettext("No users could be found.");
 
-/* templates//custom_fields_form.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/manage/users.tpl.html */
+gettext("All");
 
-/* templates//custom_fields_form.tpl.html */
-ev_gettext("Thank you, the custom field values were updated successfully.");
+/* templates/manage/users.tpl.html */
+gettext("Update Status");
 
-/* templates//custom_fields_form.tpl.html */
-ev_gettext("Continue");
+/* templates/manage/users.tpl.html */
+gettext("Active");
 
-/* templates//custom_fields_form.tpl.html */
-ev_gettext("Update Issue Details");
+/* templates/manage/users.tpl.html */
+gettext("Inactive");
 
-/* templates//custom_fields_form.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/manage/users.tpl.html */
+gettext("Show Customers");
 
-/* templates//custom_fields_form.tpl.html */
-ev_gettext("No custom field could be found.");
+/* templates/navigation.tpl.html */
+gettext("logout from");
 
-/* templates//custom_fields_form.tpl.html */
-ev_gettext("Update Values");
+/* templates/navigation.tpl.html */
+gettext("Logout");
 
-/* templates//custom_fields_form.tpl.html */
-ev_gettext("Close");
+/* templates/navigation.tpl.html */
+gettext("manage the application settings, users, projects, etc");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("The following %1 reminder could not be sent out because no recipients could be found");
+/* templates/navigation.tpl.html */
+gettext("Administration");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("Automated Issue");
+/* templates/navigation.tpl.html */
+gettext("create a new issue");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("Reminder Alert");
+/* templates/navigation.tpl.html */
+gettext("Create Issue");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("URL");
+/* templates/navigation.tpl.html */
+gettext("list the issues stored in the system");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("Summary");
+/* templates/navigation.tpl.html */
+gettext("List Issues");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("Assignment");
+/* templates/navigation.tpl.html */
+gettext("get access to advanced search parameters");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("Customer");
+/* templates/navigation.tpl.html */
+gettext("Advanced Search");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("Support Level");
+/* templates/navigation.tpl.html */
+gettext("list available emails");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("Alert Reason");
+/* templates/navigation.tpl.html */
+gettext("Associate Emails");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("Triggered Reminder");
+/* templates/navigation.tpl.html */
+gettext("list all issues assigned to you");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("Action");
+/* templates/navigation.tpl.html */
+gettext("My Assignments");
 
-/* templates//reminders/alert_no_recipients.tpl.text */
-ev_gettext("Alert Query");
+/* templates/navigation.tpl.html */
+gettext("general statistics");
 
-/* templates//reminders/email_alert.tpl.text */
-ev_gettext("Automated Issue # %1 Reminder Alert");
+/* templates/navigation.tpl.html */
+gettext("Stats");
 
-/* templates//reminders/email_alert.tpl.text */
-ev_gettext("URL");
+/* templates/navigation.tpl.html */
+gettext("reporting system");
 
-/* templates//reminders/email_alert.tpl.text */
-ev_gettext("Summary");
+/* templates/navigation.tpl.html */
+gettext("Reports");
 
-/* templates//reminders/email_alert.tpl.text */
-ev_gettext("Assignment");
+/* templates/navigation.tpl.html */
+gettext("internal faq");
 
-/* templates//reminders/email_alert.tpl.text */
-ev_gettext("Customer");
+/* templates/navigation.tpl.html */
+gettext("Internal FAQ");
 
-/* templates//reminders/email_alert.tpl.text */
-ev_gettext("Support Level");
+/* templates/navigation.tpl.html */
+gettext("help documentation");
 
-/* templates//reminders/email_alert.tpl.text */
-ev_gettext("Alert Reason");
+/* templates/navigation.tpl.html */
+gettext("Help");
 
-/* templates//reminders/email_alert.tpl.text */
-ev_gettext("Triggered Reminder");
+/* templates/navigation.tpl.html */
+gettext("Project");
 
-/* templates//reminders/email_alert.tpl.text */
-ev_gettext("Action");
+/* templates/navigation.tpl.html */
+gettext("Please enter a valid issue ID.");
 
-/* templates//reminders/email_alert.tpl.text */
-ev_gettext("Alert Query");
+/* templates/navigation.tpl.html */
+gettext("Switch");
 
-/* templates//reminders/sms_alert.tpl.text */
-ev_gettext("This is a SMS reminder alert regarding issue # %1. Certain conditions triggered this action, and this issue may require immediate action in your part.");
+/* templates/navigation.tpl.html */
+gettext("CLOCKED");
 
-/* templates//self_assign.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/navigation.tpl.html */
+gettext("IN");
 
-/* templates//self_assign.tpl.html */
-ev_gettext("Thank you, you are now assigned to the issue");
+/* templates/navigation.tpl.html */
+gettext("OUT");
 
-/* templates//self_assign.tpl.html */
-ev_gettext("Continue");
+/* templates/navigation.tpl.html */
+gettext("modify your account details and preferences");
 
-/* templates//self_assign.tpl.html */
-ev_gettext("WARNING");
+/* templates/navigation.tpl.html */
+gettext("Preferences");
 
-/* templates//self_assign.tpl.html */
+/* templates/navigation.tpl.html */
+gettext("change your account clocked-in status");
+
+/* templates/navigation.tpl.html */
+gettext("Clock");
+
+/* templates/navigation.tpl.html */
+gettext("Out");
+
+/* templates/navigation.tpl.html */
+gettext("In");
+
+/* templates/navigation.tpl.html */
+gettext("Search");
+
+/* templates/navigation.tpl.html */
+gettext("Go");
+
+/* templates/new.tpl.html */
+gettext("There was an error creating your issue.");
+
+/* templates/new.tpl.html */
+gettext("Thank you, the new issue was created successfully. Please choose from one of the options below");
+
+/* templates/new.tpl.html */
+gettext("Thank you, the new issue was created successfully.");
+
+/* templates/new.tpl.html */
+gettext("However, the following errors were encountered:");
+
+/* templates/new.tpl.html */
+gettext("Please choose from one of the options below:");
+
+/* templates/new.tpl.html */
+gettext("Open the Issue Details Page");
+
+/* templates/new.tpl.html */
+gettext("Open the Issue Listing Page");
+
+/* templates/new.tpl.html */
+gettext("Open the Emails Listing Page");
+
+/* templates/new.tpl.html */
+gettext("Report a New Issue");
+
+/* templates/new.tpl.html */
+gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
+
+/* templates/new.tpl.html */
+gettext("Warning: your issue is currently quarantined.\n                Please see the <a href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
+
+/* templates/new.tpl.html */
+gettext("Category");
+
+/* templates/new.tpl.html */
+gettext("Priority");
+
+/* templates/new.tpl.html */
+gettext("Assignment");
+
+/* templates/new.tpl.html */
+gettext("Summary");
+
+/* templates/new.tpl.html */
+gettext("Initial Description");
+
+/* templates/new.tpl.html */
+gettext("Estimated Dev. Time (only numbers)");
+
+/* templates/new.tpl.html */
+gettext("Create New Issue");
+
+/* templates/new.tpl.html */
+gettext("Current Project");
+
+/* templates/new.tpl.html */
+gettext("Category");
+
+/* templates/new.tpl.html */
+gettext("Please choose a category");
+
+/* templates/new.tpl.html */
+gettext("Priority");
+
+/* templates/new.tpl.html */
+gettext("Please choose a priority");
+
+/* templates/new.tpl.html */
+gettext("Assignment");
+
+/* templates/new.tpl.html */
+gettext("Group");
+
+/* templates/new.tpl.html */
+gettext("Scheduled Release");
+
+/* templates/new.tpl.html */
+gettext("un-scheduled");
+
+/* templates/new.tpl.html */
+gettext("Summary");
+
+/* templates/new.tpl.html */
+gettext("Initial Description");
+
+/* templates/new.tpl.html */
+gettext("Estimated Dev. Time");
+
+/* templates/new.tpl.html */
+gettext("Private");
+
+/* templates/new.tpl.html */
+gettext("Add Files");
+
+/* templates/new.tpl.html */
+gettext("Files");
+
+/* templates/new.tpl.html */
+gettext("Note: The current maximum allowed upload file size is %1");
+
+/* templates/new.tpl.html */
+gettext("Keep form open to report another issue");
+
+/* templates/new.tpl.html */
+gettext("Submit");
+
+/* templates/new.tpl.html */
+gettext("Reset");
+
+/* templates/new.tpl.html */
+gettext("Required fields");
+
+/* templates/news.tpl.html */
+gettext("Important Notices");
+
+/* templates/notes.tpl.html */
+gettext("This action will permanently delete the specified note.");
+
+/* templates/notes.tpl.html */
+gettext("This note will be deleted & converted to an email, one either sent immediately or saved as a draft.");
+
+/* templates/notes.tpl.html */
+gettext("Internal Notes");
+
+/* templates/notes.tpl.html */
+gettext("Back to Top");
+
+/* templates/notes.tpl.html */
+gettext("Reply");
+
+/* templates/notes.tpl.html */
+gettext("Posted Date");
+
+/* templates/notes.tpl.html */
+gettext("User");
+
+/* templates/notes.tpl.html */
+gettext("Title");
+
+/* templates/notes.tpl.html */
+gettext("reply to this note");
+
+/* templates/notes.tpl.html */
+gettext("delete");
+
+/* templates/notes.tpl.html */
+gettext("convert note");
+
+/* templates/notes.tpl.html */
+gettext("No internal notes could be found.");
+
+/* templates/notes.tpl.html */
+gettext("Post Internal Note");
+
+/* templates/notification.tpl.html */
+gettext("Please enter a valid email address.");
+
+/* templates/notification.tpl.html */
+gettext("The given email address");
+
+/* templates/notification.tpl.html */
+gettext("is neither a known staff member or customer technical contact.");
+
+/* templates/notification.tpl.html */
+gettext("Are you sure you want to add this address to the notification list?");
+
+/* templates/notification.tpl.html */
+gettext("Notification Options");
+
+/* templates/notification.tpl.html */
+gettext("An error occurred while trying to update the notification entry.");
+
+/* templates/notification.tpl.html */
+gettext("Error: the given email address is not allowed to be added to the notification list.");
+
+/* templates/notification.tpl.html */
+gettext("Thank you, the notification entry was updated successfully.");
+
+/* templates/notification.tpl.html */
+gettext("Email");
+
+/* templates/notification.tpl.html */
+gettext("Get a Notification When");
+
+/* templates/notification.tpl.html */
+gettext("Emails are Received or Sent");
+
+/* templates/notification.tpl.html */
+gettext("Overview or Details are Changed");
+
+/* templates/notification.tpl.html */
+gettext("Issue is Closed");
+
+/* templates/notification.tpl.html */
+gettext("Files are Attached");
+
+/* templates/notification.tpl.html */
+gettext("Update Subscription");
+
+/* templates/notification.tpl.html */
+gettext("Add Subscription");
+
+/* templates/notification.tpl.html */
+gettext("Reset");
+
+/* templates/notification.tpl.html */
+gettext("Existing Subscribers for this Issue");
+
+/* templates/notification.tpl.html */
+gettext("Please select at least one of the subscribers.");
+
+/* templates/notification.tpl.html */
+gettext("This action will remove the selected entries.");
+
+/* templates/notification.tpl.html */
+gettext("Email");
+
+/* templates/notification.tpl.html */
+gettext("click to edit");
+
+/* templates/notification.tpl.html */
+gettext("Actions");
+
+/* templates/notification.tpl.html */
+gettext("update this entry");
+
+/* templates/notification.tpl.html */
+gettext("No subscribers could be found.");
+
+/* templates/notification.tpl.html */
+gettext("Remove Selected");
+
+/* templates/notification.tpl.html */
+gettext("Close");
+
+/* templates/notifications/account_details.tpl.text */
+gettext("This is an automated message sent at your request from %1.");
+
+/* templates/notifications/account_details.tpl.text */
+gettext("Your full account information is available below.");
+
+/* templates/notifications/account_details.tpl.text */
+gettext("Full Name");
+
+/* templates/notifications/account_details.tpl.text */
+gettext("Email Address");
+
+/* templates/notifications/account_details.tpl.text */
+gettext("Assigned Projects");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("This is an automated message sent at your request from %1");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("An issue was assigned to you by %1");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("To view more details of this issue, or to update it, please visit the following URL");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("ID");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("Summary");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("Project");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("Reported By");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("Assignment");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("Priority");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("Description");
+
+/* templates/notifications/assigned.tpl.text */
+gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+
+/* templates/notifications/closed.tpl.text */
+gettext("This is an automated message sent at your request from %1.");
+
+/* templates/notifications/closed.tpl.text */
+gettext("This issue was just closed by");
+
+/* templates/notifications/closed.tpl.text */
+gettext(" with the message");
+
+/* templates/notifications/closed.tpl.text */
+gettext("To view more details of this issue, or to update it, please visit the following URL");
+
+/* templates/notifications/closed.tpl.text */
+gettext("ID");
+
+/* templates/notifications/closed.tpl.text */
+gettext("Summary");
+
+/* templates/notifications/closed.tpl.text */
+gettext("Status");
+
+/* templates/notifications/closed.tpl.text */
+gettext("Project");
+
+/* templates/notifications/closed.tpl.text */
+gettext("Reported By");
+
+/* templates/notifications/closed.tpl.text */
+gettext("Priority");
+
+/* templates/notifications/closed.tpl.text */
+gettext("Description");
+
+/* templates/notifications/closed.tpl.text */
+gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+
+/* templates/notifications/files.tpl.text */
+gettext("This is an automated message sent at your request from");
+
+/* templates/notifications/files.tpl.text */
+gettext("To view more details of this issue, or to update it, please visit the following URL");
+
+/* templates/notifications/files.tpl.text */
+gettext("New Attachment");
+
+/* templates/notifications/files.tpl.text */
+gettext("Owner");
+
+/* templates/notifications/files.tpl.text */
+gettext("Date");
+
+/* templates/notifications/files.tpl.text */
+gettext("Files");
+
+/* templates/notifications/files.tpl.text */
+gettext("Description");
+
+/* templates/notifications/files.tpl.text */
+gettext("These are the current issue details");
+
+/* templates/notifications/files.tpl.text */
+gettext("ID");
+
+/* templates/notifications/files.tpl.text */
+gettext("Summary");
+
+/* templates/notifications/files.tpl.text */
+gettext("Status");
+
+/* templates/notifications/files.tpl.text */
+gettext("Project");
+
+/* templates/notifications/files.tpl.text */
+gettext("Reported By");
+
+/* templates/notifications/files.tpl.text */
+gettext("Priority");
+
+/* templates/notifications/files.tpl.text */
+gettext("Description");
+
+/* templates/notifications/files.tpl.text */
+gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+
+/* templates/notifications/new.tpl.text */
+gettext("This is an automated message sent at your request from %1");
+
+/* templates/notifications/new.tpl.text */
+gettext("A new issue was just created and assigned to you.");
+
+/* templates/notifications/new.tpl.text */
+gettext("To view more details of this issue, or to update it, please visit the following URL");
+
+/* templates/notifications/new.tpl.text */
+gettext("ID");
+
+/* templates/notifications/new.tpl.text */
+gettext("Summary");
+
+/* templates/notifications/new.tpl.text */
+gettext("Project");
+
+/* templates/notifications/new.tpl.text */
+gettext("Reported By");
+
+/* templates/notifications/new.tpl.text */
+gettext("Priority");
+
+/* templates/notifications/new.tpl.text */
+gettext("Description");
+
+/* templates/notifications/new.tpl.text */
+gettext("Please Note: If you do not wish to receive any future email\nnotifications from %1, please change your account preferences by\nvisiting the URL below");
+
+/* templates/notifications/new_auto_created_issue.tpl.text */
+gettext("Dear");
+
+/* templates/notifications/new_auto_created_issue.tpl.text */
+gettext("This is an automated message sent from %1");
+
+/* templates/notifications/new_auto_created_issue.tpl.text */
+gettext("We received a message from you and for your convenience, we created an issue that will be used by our staff to handle your message.");
+
+/* templates/notifications/new_auto_created_issue.tpl.text */
+gettext("\nTo view more details of this issue, or to update it, please visit the following URL");
+
+/* templates/notifications/new_auto_created_issue.tpl.text */
+gettext("\nTo add more information to this issue, simply reply to this email.");
+
+/* templates/notifications/new_auto_created_issue.tpl.text */
+gettext("Issue");
+
+/* templates/notifications/new_auto_created_issue.tpl.text */
+gettext("Summary");
+
+/* templates/notifications/new_auto_created_issue.tpl.text */
+gettext("Priority");
+
+/* templates/notifications/new_auto_created_issue.tpl.text */
+gettext("Submitted");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("This is an automated message sent at your request from %1");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("A new issue was just created in the system.");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("To view more details of this issue, or to update it, please visit the following URL");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("ID");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Summary");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Project");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Reported");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Assignment");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Priority");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Description");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Issue Details");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Attachments");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Files");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Description");
+
+/* templates/notifications/new_issue.tpl.text */
+gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+
+/* templates/notifications/new_user.tpl.text */
+gettext("A new user was just created for you in the system.");
+
+/* templates/notifications/new_user.tpl.text */
+gettext("To start using the system, please load the URL below");
+
+/* templates/notifications/new_user.tpl.text */
+gettext("Full Name");
+
+/* templates/notifications/new_user.tpl.text */
+gettext("Email Address");
+
+/* templates/notifications/new_user.tpl.text */
+gettext("Password");
+
+/* templates/notifications/new_user.tpl.text */
+gettext("Assigned Projects");
+
+/* templates/notifications/notes.tpl.text */
+gettext("These are the current issue details");
+
+/* templates/notifications/notes.tpl.text */
+gettext("ID");
+
+/* templates/notifications/notes.tpl.text */
+gettext("Summary");
+
+/* templates/notifications/notes.tpl.text */
+gettext("Status");
+
+/* templates/notifications/notes.tpl.text */
+gettext("Project");
+
+/* templates/notifications/notes.tpl.text */
+gettext("Reported By");
+
+/* templates/notifications/notes.tpl.text */
+gettext("Priority");
+
+/* templates/notifications/notes.tpl.text */
+gettext("Description");
+
+/* templates/notifications/notes.tpl.text */
+gettext("To view more details of this issue, or to update it, please visit the following URL");
+
+/* templates/notifications/notes.tpl.text */
+gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+
+/* templates/notifications/password_confirmation.tpl.text */
+gettext("Hello,\n\nWe just received a request to create a new random password for your account in %1. For security reasons we need you to confirm this request so we can finish the password creation process.\n\nIf this is not a real request from you, or if you don't need a new password anymore, please disregard this email.\n\nHowever, if you would like to confirm this request, please do so by visiting the URL below:\n");
+
+/* templates/notifications/updated.tpl.text */
+gettext("This is an automated message sent at your request from %1");
+
+/* templates/notifications/updated.tpl.text */
+gettext("To view more details of this issue, or to update it, please visit the following URL");
+
+/* templates/notifications/updated.tpl.text */
+gettext("Issue #");
+
+/* templates/notifications/updated.tpl.text */
+gettext("Summary");
+
+/* templates/notifications/updated.tpl.text */
+gettext("Changed Fields");
+
+/* templates/notifications/updated.tpl.text */
+gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+
+/* templates/notifications/updated_account.tpl.text */
+gettext("Your user account has been updated in %1");
+
+/* templates/notifications/updated_account.tpl.text */
+gettext("Your account information as it now exists appears below.");
+
+/* templates/notifications/updated_account.tpl.text */
+gettext("Full Name");
+
+/* templates/notifications/updated_account.tpl.text */
+gettext("Email Address");
+
+/* templates/notifications/updated_account.tpl.text */
+gettext("Group");
+
+/* templates/notifications/updated_account.tpl.text */
+gettext("Assigned Projects");
+
+/* templates/notifications/updated_password.tpl.text */
+gettext("Your user account password has been updated in %1");
+
+/* templates/notifications/updated_password.tpl.text */
+gettext("Your account information as it now exists appears below.");
+
+/* templates/notifications/updated_password.tpl.text */
+gettext("Full Name");
+
+/* templates/notifications/updated_password.tpl.text */
+gettext("Email Address");
+
+/* templates/notifications/updated_password.tpl.text */
+gettext("Password");
+
+/* templates/notifications/updated_password.tpl.text */
+gettext("Assigned Projects");
+
+/* templates/notifications/visitor_account.tpl.text */
+gettext("Hello,\n\nWe just received a request to create a new account in %1\nFor security reasons we need you to confirm this request so we can finish the account creation process.\n\nIf this is not a real request from you, or you are not interested in creating a new account anymore, please disregard this email. In a week the request will be erased automatically. However, if you would like to confirm the new account, please do so by visiting the URL below:\n");
+
+/* templates/offline.tpl.html */
+gettext("Database Error");
+
+/* templates/offline.tpl.html */
+gettext("There seems to be a problem connecting to the database server specified in your configuration file. Please contact your local system administrator for further assistance.");
+
+/* templates/offline.tpl.html */
+gettext("There seems to be a problem finding the required database tables in the database server specified in your configuration file. Please contact your local system administrator for further assistance.");
+
+/* templates/offline.tpl.text */
+gettext("Database Error");
+
+/* templates/offline.tpl.text */
+gettext("There seems to be a problem connecting to the database server specified in your configuration file. Please contact your local system administrator for further assistance.");
+
+/* templates/offline.tpl.text */
+gettext("There seems to be a problem finding the required database tables in the database server specified in your configuration file. Please contact your local system administrator for further assistance.");
+
+/* templates/permission_denied.tpl.html */
+gettext("Sorry, you do not have permission to access this page.");
+
+/* templates/permission_denied.tpl.html */
+gettext("Go Back");
+
+/* templates/phone_support.tpl.html */
+gettext("This action will permanently delete the specified phone support entry.");
+
+/* templates/phone_support.tpl.html */
+gettext("Phone Calls");
+
+/* templates/phone_support.tpl.html */
+gettext("Back to Top");
+
+/* templates/phone_support.tpl.html */
+gettext("Recorded Date");
+
+/* templates/phone_support.tpl.html */
+gettext("Entered By");
+
+/* templates/phone_support.tpl.html */
+gettext("From");
+
+/* templates/phone_support.tpl.html */
+gettext("To");
+
+/* templates/phone_support.tpl.html */
+gettext("Call Type");
+
+/* templates/phone_support.tpl.html */
+gettext("Category");
+
+/* templates/phone_support.tpl.html */
+gettext("Phone Number");
+
+/* templates/phone_support.tpl.html */
+gettext("delete");
+
+/* templates/phone_support.tpl.html */
+gettext("No phone calls recorded yet.");
+
+/* templates/phone_support.tpl.html */
+gettext("Add Phone Call");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Please enter the note text on the input box below.");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the new note was created and associated with the issue below.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("You do not have permission to delete this note.");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the note was removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the time tracking entry was removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the selected issues were updated successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the inital impact analysis was set successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the new requirement was added successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the impact analysis was set successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the selected requirements were removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the custom filter was saved successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the selected custom filters were removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the association to the selected emails were removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("You do not have the permission to remove this attachment.");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the attachment was removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("You do not have the permission to remove this file.");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the file was removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the selected checkin information entries were removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the emails were marked as removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the current issue is no longer marked as a duplicate.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("You do not have permission to remove this phone support entry.");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the phone support entry was removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the phone support entry was removed successfully.");
+
+/* templates/popup.tpl.html */
+gettext("The associated time tracking entry was also deleted.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the issue was updated successfully.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Error: the issue is already unassigned.");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, the issue was unassigned successfully.");
+
+/* templates/popup.tpl.html */
+gettext("Error: you are already authorized to send emails in this issue.");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, you are now authorized to send emails in this issue.");
+
+/* templates/popup.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/popup.tpl.html */
+gettext("Thank you, this issue was removed from quarantine.");
+
+/* templates/popup.tpl.html */
+gettext("Continue");
+
+/* templates/post.tpl.html */
+gettext("Sorry, but there are no projects currently setup as allowing anonymous posting.");
+
+/* templates/post.tpl.html */
+gettext("Thank you, the new issue was created successfully. For your records, the new issue ID is <font color=\"red\">%1</font>");
+
+/* templates/post.tpl.html */
+gettext("You may <a class=\"link\" href=\"%1\">%2</a> if you so wish.");
+
+/* templates/post.tpl.html */
+gettext("Please choose the project that this new issue will apply to.");
+
+/* templates/post.tpl.html */
+gettext("Report New Issue");
+
+/* templates/post.tpl.html */
+gettext("Project");
+
+/* templates/post.tpl.html */
+gettext("Please choose a project");
+
+/* templates/post.tpl.html */
+gettext("Next");
+
+/* templates/post.tpl.html */
+gettext("Summary");
+
+/* templates/post.tpl.html */
+gettext("Description");
+
+/* templates/post.tpl.html */
+gettext("Report New Issue");
+
+/* templates/post.tpl.html */
+gettext("Project");
+
+/* templates/post.tpl.html */
+gettext("Summary");
+
+/* templates/post.tpl.html */
+gettext("Description");
+
+/* templates/post.tpl.html */
+gettext("Attach Files");
+
+/* templates/post.tpl.html */
+gettext("Keep Form Open");
+
+/* templates/post.tpl.html */
+gettext("Submit");
+
+/* templates/post.tpl.html */
+gettext("Reset");
+
+/* templates/post.tpl.html */
+gettext("Required fields");
+
+/* templates/post_note.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/post_note.tpl.html */
+gettext("Thank you, the internal note was posted successfully.");
+
+/* templates/post_note.tpl.html */
+gettext("Continue");
+
+/* templates/post_note.tpl.html */
+gettext("Please enter the title of this note.");
+
+/* templates/post_note.tpl.html */
+gettext("Please enter the message body of this note.");
+
+/* templates/post_note.tpl.html */
+gettext("Post New Internal Note");
+
+/* templates/post_note.tpl.html */
+gettext("From:");
+
+/* templates/post_note.tpl.html */
+gettext("Recipients:");
+
+/* templates/post_note.tpl.html */
+gettext("Notification List");
+
+/* templates/post_note.tpl.html */
+gettext("Title:");
+
+/* templates/post_note.tpl.html */
+gettext("Extra Note Recipients:");
+
+/* templates/post_note.tpl.html */
+gettext("Clear Selections");
+
+/* templates/post_note.tpl.html */
+gettext("Add Extra Recipients To Notification List?");
+
+/* templates/post_note.tpl.html */
+gettext("yes");
+
+/* templates/post_note.tpl.html */
+gettext("Yes");
+
+/* templates/post_note.tpl.html */
+gettext("no");
+
+/* templates/post_note.tpl.html */
+gettext("No");
+
+/* templates/post_note.tpl.html */
+gettext("New Status for Issue");
+
+/* templates/post_note.tpl.html */
+gettext("Time Spent:");
+
+/* templates/post_note.tpl.html */
+gettext("Post Internal Note");
+
+/* templates/post_note.tpl.html */
+gettext("Cancel");
+
+/* templates/post_note.tpl.html */
+gettext("yes");
+
+/* templates/post_note.tpl.html */
+gettext("Add Email Signature");
+
+/* templates/post_note.tpl.html */
+gettext("Required fields");
+
+/* templates/preferences.tpl.html */
+gettext("Please enter your full name.");
+
+/* templates/preferences.tpl.html */
+gettext("Please enter a valid email address.");
+
+/* templates/preferences.tpl.html */
+gettext("Please enter your new password with at least 6 characters.");
+
+/* templates/preferences.tpl.html */
+gettext("The two passwords do not match. Please review your information and try again.");
+
+/* templates/preferences.tpl.html */
+gettext("User Details");
+
+/* templates/preferences.tpl.html */
+gettext("An error occurred while trying to run your query.");
+
+/* templates/preferences.tpl.html */
+gettext("Thank you, your full name was updated successfully.");
+
+/* templates/preferences.tpl.html */
+gettext("Full Name");
+
+/* templates/preferences.tpl.html */
+gettext("Update Full Name");
+
+/* templates/preferences.tpl.html */
+gettext("Reset");
+
+/* templates/preferences.tpl.html */
+gettext("An error occurred while trying to run your query.");
+
+/* templates/preferences.tpl.html */
+gettext("Thank you, your email address was updated successfully.");
+
+/* templates/preferences.tpl.html */
+gettext("Login");
+
+/* templates/preferences.tpl.html */
+gettext("Email Address");
+
+/* templates/preferences.tpl.html */
+gettext("Update Email Address");
+
+/* templates/preferences.tpl.html */
+gettext("Reset");
+
+/* templates/preferences.tpl.html */
+gettext("An error occurred while trying to run your query.");
+
+/* templates/preferences.tpl.html */
+gettext("Thank you, your password was updated successfully.");
+
+/* templates/preferences.tpl.html */
+gettext("Change Password");
+
+/* templates/preferences.tpl.html */
+gettext("New Password");
+
+/* templates/preferences.tpl.html */
+gettext("Confirm New Password");
+
+/* templates/preferences.tpl.html */
+gettext("Update Password");
+
+/* templates/preferences.tpl.html */
+gettext("Reset");
+
+/* templates/preferences.tpl.html */
+gettext("Account Preferences");
+
+/* templates/preferences.tpl.html */
+gettext("An error occurred while trying to run your query.");
+
+/* templates/preferences.tpl.html */
+gettext("Thank you, your account preferences were updated successfully.");
+
+/* templates/preferences.tpl.html */
+gettext("Available Languages");
+
+/* templates/preferences.tpl.html */
+gettext("Timezone");
+
+/* templates/preferences.tpl.html */
+gettext("Automatically close confirmation popup windows ?");
+
+/* templates/preferences.tpl.html */
+gettext("Yes");
+
+/* templates/preferences.tpl.html */
+gettext("No");
+
+/* templates/preferences.tpl.html */
+gettext("Receive emails when all issues are created ?");
+
+/* templates/preferences.tpl.html */
+gettext("Yes");
+
+/* templates/preferences.tpl.html */
+gettext("No");
+
+/* templates/preferences.tpl.html */
+gettext("Receive emails when new issues are assigned to you ?");
+
+/* templates/preferences.tpl.html */
+gettext("Yes");
+
+/* templates/preferences.tpl.html */
+gettext("No");
+
+/* templates/preferences.tpl.html */
+gettext("Refresh Rate for Issue Listing Page");
+
+/* templates/preferences.tpl.html */
+gettext("in minutes");
+
+/* templates/preferences.tpl.html */
+gettext("Refresh Rate for Email Listing Page");
+
+/* templates/preferences.tpl.html */
+gettext("in minutes");
+
+/* templates/preferences.tpl.html */
+gettext("Email Signature");
+
+/* templates/preferences.tpl.html */
+gettext("Edit Signature");
+
+/* templates/preferences.tpl.html */
+gettext("Upload New Signature");
+
+/* templates/preferences.tpl.html */
+gettext("Automatically append email signature when composing web based emails");
+
+/* templates/preferences.tpl.html */
+gettext("Automatically append email signature when composing internal notes");
+
+/* templates/preferences.tpl.html */
+gettext("SMS Email Address");
+
+/* templates/preferences.tpl.html */
+gettext("only used for automatic issue reminders");
+
+/* templates/preferences.tpl.html */
+gettext("Update Preferences");
+
+/* templates/preferences.tpl.html */
+gettext("Reset");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Please select the custom filter to search against.");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Keyword(s)");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("All Text (emails, notes, etc)");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Search");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Clear Filters");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Assigned");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Category");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("any");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Priority");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("any");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Status");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("any");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("quick search bar");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Advanced Search");
+
+/* templates/quick_filter_form.tpl.html */
+gettext("Saved Searches");
+
+/* templates/redeem_incident.tpl.html */
+gettext("There was an error marking this issue as redeemed");
+
+/* templates/redeem_incident.tpl.html */
+gettext("This issue already has been marked as redeemed");
+
+/* templates/redeem_incident.tpl.html */
+gettext("Thank you, the issue was successfully marked.");
+
+/* templates/redeem_incident.tpl.html */
+gettext("Please choose the incident types to redeem for this issue.");
+
+/* templates/redeem_incident.tpl.html */
+gettext("Total");
+
+/* templates/redeem_incident.tpl.html */
+gettext("Left");
+
+/* templates/redeem_incident.tpl.html */
+gettext("Redeem Incidents");
+
+/* templates/redeem_incident.tpl.html */
+gettext("Continue");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("The following %1 reminder could not be sent out because no recipients could be found");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("Automated Issue");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("Reminder Alert");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("URL");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("Summary");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("Assignment");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("Customer");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("Support Level");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("Alert Reason");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("Triggered Reminder");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("Action");
+
+/* templates/reminders/alert_no_recipients.tpl.text */
+gettext("Alert Query");
+
+/* templates/reminders/email_alert.tpl.text */
+gettext("Automated Issue # %1 Reminder Alert");
+
+/* templates/reminders/email_alert.tpl.text */
+gettext("URL");
+
+/* templates/reminders/email_alert.tpl.text */
+gettext("Summary");
+
+/* templates/reminders/email_alert.tpl.text */
+gettext("Assignment");
+
+/* templates/reminders/email_alert.tpl.text */
+gettext("Customer");
+
+/* templates/reminders/email_alert.tpl.text */
+gettext("Support Level");
+
+/* templates/reminders/email_alert.tpl.text */
+gettext("Alert Reason");
+
+/* templates/reminders/email_alert.tpl.text */
+gettext("Triggered Reminder");
+
+/* templates/reminders/email_alert.tpl.text */
+gettext("Action");
+
+/* templates/reminders/email_alert.tpl.text */
+gettext("Alert Query");
+
+/* templates/reminders/sms_alert.tpl.text */
+gettext("This is a SMS reminder alert regarding issue # %1. Certain conditions triggered this action, and this issue may require immediate action in your part.");
+
+/* templates/removed_emails.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/removed_emails.tpl.html */
+gettext("Removed Emails");
+
+/* templates/removed_emails.tpl.html */
+gettext("Please choose which emails need to be restored.");
+
+/* templates/removed_emails.tpl.html */
+gettext("Please choose which emails need to be permanently removed.");
+
+/* templates/removed_emails.tpl.html */
+gettext("WARNING: This action will permanently remove the selected emails from your email account.");
+
+/* templates/removed_emails.tpl.html */
+gettext("All");
+
+/* templates/removed_emails.tpl.html */
+gettext("Date");
+
+/* templates/removed_emails.tpl.html */
+gettext("From");
+
+/* templates/removed_emails.tpl.html */
+gettext("Subject");
+
+/* templates/removed_emails.tpl.html */
+gettext("No emails could be found.");
+
+/* templates/removed_emails.tpl.html */
+gettext("All");
+
+/* templates/removed_emails.tpl.html */
+gettext("Restore Emails");
+
+/* templates/removed_emails.tpl.html */
+gettext("Close");
+
+/* templates/removed_emails.tpl.html */
+gettext("Permanently Remove");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Please select the custom field that you would like to generate a report against.");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Custom Fields Report");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Field to Graph");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Options to Graph");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Group By");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Issue");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Customer");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Issues Created Between");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Start");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("End");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Assignee");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Generate");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Percentages may not add up to exactly 100% due to rounding");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Issues/Customers matching criteria");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Customer");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Issue Count");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Issue ID");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("Summary");
+
+/* templates/reports/custom_fields.tpl.html */
+gettext("No data found");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("The current project does not have customer integration so this report can not be viewed.");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Customer Stats Report");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Date Range");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Sections to Display");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("From");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("year");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("mon");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("day");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("To");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Options");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Include expired contracts");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Customer");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("All");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Generate");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Red values indicate value is higher than the aggregate one.");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Blue values indicate value is lower than the aggregate one.");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Customers");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Issues");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Emails by Customers");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Emails by Staff");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Count");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Using CSC");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Issues in CSC");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Tot");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Max");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Tot");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Tot");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Time To First Response");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Time To Close");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Min");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Max");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Min");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Max");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Support Level");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Time Tracking");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Total");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Avg");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Med");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Refers to the number of issues in eventum for the given support level or customer.\n    Average and median counts do not include customers who have never opened an issue.");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Refers to the number of emails sent by customers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Refers to the number of emails sent by developers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Date issue was opened - Date issue was closed for all closed issues.");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("All time tracking information for the given support level or customer. Issues without any time tracking data do not affect the average or median.");
+
+/* templates/reports/estimated_dev_time.tpl.html */
+gettext("Estimated Development Time by Category");
+
+/* templates/reports/estimated_dev_time.tpl.html */
+gettext("Based on all open issue in Eventum for <b>%1</b>.");
+
+/* templates/reports/estimated_dev_time.tpl.html */
+gettext("Category");
+
+/* templates/reports/estimated_dev_time.tpl.html */
+gettext("Estimated time (Hours)");
+
+/* templates/reports/issue_user.tpl.html */
+gettext("Issue ID");
+
+/* templates/reports/issue_user.tpl.html */
+gettext("Summary");
+
+/* templates/reports/issue_user.tpl.html */
+gettext("Status");
+
+/* templates/reports/issue_user.tpl.html */
+gettext("Time Spent");
+
+/* templates/reports/issue_user.tpl.html */
+gettext("Created");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Showing all open issues older than ");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("days");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Number of Days");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Submit");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Issue ID");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Summary");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Status");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Time Spent");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Created");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Days and Hours Since");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Last Update");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("Last Outgoing Msg");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Recent Activity");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Recent Activity Report");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Report Type");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Recent");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Date Range");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Activity Type");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Activity in Past");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Start");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("End");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Developer");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("All");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Sort Order");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Ascending");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Descending");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Generate");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Recent Phone Calls");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Issue ID");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Customer");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Date");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Developer");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Type");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Line");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Description");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("No Phone Calls Found");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Recent Notes");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Issue ID");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Customer");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Posted Date");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("User");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Title");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("No Notes Found");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Recent Emails");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Issue ID");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Customer");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("From");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("To");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Date");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Subject");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("sent to notification list");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("No Emails Found");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Recent Drafts");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Issue ID");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Customer");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Status");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("From");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("To");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Date");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Subject");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("No Drafts Found");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Recent Time Entries");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Issue ID");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Customer");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Date of Work");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("User");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Time Spent");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Category");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Summary");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("No Time Entries Found");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Recent Reminder Actions");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Issue ID");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Customer");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Date Triggered");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("Title");
+
+/* templates/reports/recent_activity.tpl.html */
+gettext("No Reminder Entries Found");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Stalled Issues Report");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Stalled Issues Report");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Show Issues with no Response Between");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Developers");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Status");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Sort Order");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Ascending");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Ascending");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Descending");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Descending");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Generate");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Issue ID");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Summary");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Status");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Time Spent");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Created");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Last Response");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Days and Hours Since");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Last Update");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("Last Outgoing Msg");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("view issue details");
+
+/* templates/reports/stalled_issues.tpl.html */
+gettext("view issue details");
+
+/* templates/reports/tree.tpl.html */
+gettext("Available Reports");
+
+/* templates/reports/tree.tpl.html */
+gettext("Issues");
+
+/* templates/reports/tree.tpl.html */
+gettext("Issues by User");
+
+/* templates/reports/tree.tpl.html */
+gettext("Open Issues By Assignee");
+
+/* templates/reports/tree.tpl.html */
+gettext("Open Issues By Reporter");
+
+/* templates/reports/tree.tpl.html */
+gettext("Weekly Report");
+
+/* templates/reports/tree.tpl.html */
+gettext("Workload by time period");
+
+/* templates/reports/tree.tpl.html */
+gettext("Email by time period");
+
+/* templates/reports/tree.tpl.html */
+gettext("Custom Fields");
+
+/* templates/reports/tree.tpl.html */
+gettext("Customer Profile Stats");
+
+/* templates/reports/tree.tpl.html */
+gettext("Recent Activity");
+
+/* templates/reports/tree.tpl.html */
+gettext("Workload By Date Range");
+
+/* templates/reports/tree.tpl.html */
+gettext("Stalled Issues");
+
+/* templates/reports/tree.tpl.html */
+gettext("Estimated Development Time");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Weekly Report");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Report Type:");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Weekly");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Date Range");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Generate");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Week");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Start");
+
+/* templates/reports/weekly.tpl.html */
+gettext("End:");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Developer");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Options");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Separate Closed Issues");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Separate Only Status Changes");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Ignore Issue Status Changes");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Show Times spent on issue");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Show Status");
+
+/* templates/reports/weekly.tpl.html */
+gettext("Show Priority");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Weekly");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Report");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("issues worked on");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("No issues touched this time period");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Issues Closed");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("No issues closed this time period");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Issues with only status changed");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("No issues with only status changed this time period");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("New Issues Assigned");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Total Issues");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Eventum Emails");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Other Emails");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Total Phone Calls");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Total Notes");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Phone Time Spent");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Email Time Spent");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Login Time Spent");
+
+/* templates/reports/weekly_data.tpl.html */
+gettext("Total Time Spent");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Workload by Date Range Report");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Type");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Interval");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Start");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("End");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Generate");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext(" Warning: Some type and interval options, combined with large <br />\n    date ranges can produce extremely large graphs.");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Day");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("day");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Week");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("week");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Month");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("month");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Day of Week");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("dow");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Week");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("week");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Day of Month");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("dom");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Month");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("month");
+
+/* templates/reports/workload_date_range.tpl.html */
+gettext("Avg/Med/Max Issues/Emails");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Email Workload by Time of day");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Based on all issues recorded in Eventum since start to present.");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Workload by Time of day");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Based on all issues recorded in Eventum since start to present.\n        Actions are any event that shows up in the history of an issue, such as a user or a developer updating an issue, uploading a file, sending an email, etc.");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Time Period");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("(GMT)");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Developer");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Emails");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Actions");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Customer");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Emails");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Actions");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Time Period");
+
+/* templates/requirement.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/requirement.tpl.html */
+gettext("Thank you, the impact analysis was updated successfully.");
+
+/* templates/requirement.tpl.html */
+gettext("Please use only floating point numbers on the estimated development time field.");
+
+/* templates/requirement.tpl.html */
+gettext("Please enter the impact analysis for this new requirement.");
+
+/* templates/requirement.tpl.html */
+gettext("Enter Impact Analysis");
+
+/* templates/requirement.tpl.html */
+gettext("Estimated Dev. Time");
+
+/* templates/requirement.tpl.html */
+gettext("in hours");
+
+/* templates/requirement.tpl.html */
+gettext("Impact <br />Analysis");
+
+/* templates/resize_textarea.tpl.html */
+gettext("Widen the field");
+
+/* templates/resize_textarea.tpl.html */
+gettext("Shorten the field");
+
+/* templates/searchbar.tpl.html */
+gettext("Quick Search");
+
+/* templates/searchbar.tpl.html */
+gettext("Keyword(s):");
+
+/* templates/searchbar.tpl.html */
+gettext("Assigned:");
+
+/* templates/searchbar.tpl.html */
+gettext("any");
+
+/* templates/searchbar.tpl.html */
+gettext("Status:");
+
+/* templates/searchbar.tpl.html */
+gettext("any");
+
+/* templates/searchbar.tpl.html */
+gettext("Category:");
+
+/* templates/searchbar.tpl.html */
+gettext("any");
+
+/* templates/searchbar.tpl.html */
+gettext("Priority:");
+
+/* templates/searchbar.tpl.html */
+gettext("any");
+
+/* templates/searchbar.tpl.html */
+gettext("Search");
+
+/* templates/searchbar.tpl.html */
+gettext("Clear");
+
+/* templates/select_project.tpl.html */
+gettext("Please choose the project.");
+
+/* templates/select_project.tpl.html */
+gettext("Select Project");
+
+/* templates/select_project.tpl.html */
+gettext("You are not allowed to use the selected project.");
+
+/* templates/select_project.tpl.html */
+gettext("Project");
+
+/* templates/select_project.tpl.html */
+gettext("Remember Selection");
+
+/* templates/select_project.tpl.html */
+gettext("Continue");
+
+/* templates/self_assign.tpl.html */
+gettext("An error occurred while trying to run your query");
+
+/* templates/self_assign.tpl.html */
+gettext("Thank you, you are now assigned to the issue");
+
+/* templates/self_assign.tpl.html */
+gettext("Continue");
+
+/* templates/self_assign.tpl.html */
+gettext("WARNING");
+
+/* templates/self_assign.tpl.html */
 ngettext("The following user is already assigned to this issue","The following users are already assigned to this issue",x);
 
-/* templates//self_assign.tpl.html */
+/* templates/self_assign.tpl.html */
 ngettext("Replace current assignee with Myself.","Replace current assignees with Myself.",x);
 
-/* templates//self_assign.tpl.html */
-ev_gettext("Add Myself to list of assignees.");
+/* templates/self_assign.tpl.html */
+gettext("Add Myself to list of assignees.");
 
-/* templates//self_assign.tpl.html */
-ev_gettext("Continue");
+/* templates/self_assign.tpl.html */
+gettext("Continue");
 
-/* templates//edit_custom_fields.tpl.html */
-ev_gettext("Please choose an option");
+/* templates/send.tpl.html */
+gettext("An error occurred while trying to run your query");
 
-/* templates//post.tpl.html */
-ev_gettext("Sorry, but there are no projects currently setup as allowing anonymous posting.");
+/* templates/send.tpl.html */
+gettext("Sorry, but the email could not be queued. This might be related to problems with your SMTP account settings.\n  Please contact the administrator of this application for further assistance.");
 
-/* templates//post.tpl.html */
-ev_gettext("Thank you, the new issue was created successfully. For your records, the new issue ID is <font color=\"red\">%1</font>");
+/* templates/send.tpl.html */
+gettext("Thank you, the email was queued to be sent successfully.");
 
-/* templates//post.tpl.html */
-ev_gettext("You may <a class=\"link\" href=\"%1\">%2</a> if you so wish.");
+/* templates/send.tpl.html */
+gettext("Continue");
 
-/* templates//post.tpl.html */
-ev_gettext("Please choose the project that this new issue will apply to.");
+/* templates/send.tpl.html */
+gettext("An error occurred while trying to run your query");
 
-/* templates//post.tpl.html */
-ev_gettext("Report New Issue");
+/* templates/send.tpl.html */
+gettext("Thank you, the email message was saved as a draft successfully.");
 
-/* templates//post.tpl.html */
-ev_gettext("Project");
+/* templates/send.tpl.html */
+gettext("Continue");
 
-/* templates//post.tpl.html */
-ev_gettext("Please choose a project");
+/* templates/send.tpl.html */
+gettext("If you close this window, you will lose your message");
 
-/* templates//post.tpl.html */
-ev_gettext("Next");
+/* templates/send.tpl.html */
+gettext("Please enter the recipient of this email.");
 
-/* templates//post.tpl.html */
-ev_gettext("Summary");
+/* templates/send.tpl.html */
+gettext("Please enter the subject of this email.");
 
-/* templates//post.tpl.html */
-ev_gettext("Description");
+/* templates/send.tpl.html */
+gettext("Please enter the message body of this email.");
 
-/* templates//post.tpl.html */
-ev_gettext("Report New Issue");
+/* templates/send.tpl.html */
+gettext("WARNING: You are not assigned to this issue so your email will be blocked.\nYour blocked email will be converted to a note that can be recovered later.\nFor more information, please see the topic 'email blocking' in help.");
 
-/* templates//post.tpl.html */
-ev_gettext("Project");
+/* templates/send.tpl.html */
+gettext("WARNING: This email will be sent to all names on this issue's Notification List, including CUSTOMERS.\nIf you want the CUSTOMER to receive your message now, press OK.\nOtherwise, to return to your editing window, press CANCEL.");
 
-/* templates//post.tpl.html */
-ev_gettext("Summary");
+/* templates/send.tpl.html */
+gettext("WARNING: This email will be sent to all names on this issue's Notification List.\nIf you want all users to receive your message now, press OK.\nOtherwise, to return to your editing window, press CANCEL.");
 
-/* templates//post.tpl.html */
-ev_gettext("Description");
+/* templates/send.tpl.html */
+gettext("Warning: This draft has already been sent. You cannot resend it.");
 
-/* templates//post.tpl.html */
-ev_gettext("Attach Files");
+/* templates/send.tpl.html */
+gettext("Warning: This draft has already been edited. You cannot send or edit it.");
 
-/* templates//post.tpl.html */
-ev_gettext("Keep Form Open");
+/* templates/send.tpl.html */
+gettext("Create Draft");
 
-/* templates//post.tpl.html */
-ev_gettext("Submit");
+/* templates/send.tpl.html */
+gettext("Send Email");
 
-/* templates//post.tpl.html */
-ev_gettext("Reset");
+/* templates/send.tpl.html */
+gettext("An error occurred while trying to run your query");
 
-/* templates//post.tpl.html */
-ev_gettext("Required fields");
+/* templates/send.tpl.html */
+gettext("Sorry, but the email could not be sent. This might be related to problems with your SMTP account settings.\n              Please contact the administrator of this application for assistance.");
 
-/* templates//send.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/send.tpl.html */
+gettext("Thank you, the email was sent successfully.");
 
-/* templates//send.tpl.html */
-ev_gettext("Sorry, but the email could not be queued. This might be related to problems with your SMTP account settings.\n  Please contact the administrator of this application for further assistance.");
+/* templates/send.tpl.html */
+gettext("From");
 
-/* templates//send.tpl.html */
-ev_gettext("Thank you, the email was queued to be sent successfully.");
+/* templates/send.tpl.html */
+gettext("To");
 
-/* templates//send.tpl.html */
-ev_gettext("Continue");
+/* templates/send.tpl.html */
+gettext("Issue");
 
-/* templates//send.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/send.tpl.html */
+gettext("Notification List");
 
-/* templates//send.tpl.html */
-ev_gettext("Thank you, the email message was saved as a draft successfully.");
+/* templates/send.tpl.html */
+gettext("Members");
 
-/* templates//send.tpl.html */
-ev_gettext("Continue");
+/* templates/send.tpl.html */
+gettext("Cc");
 
-/* templates//send.tpl.html */
-ev_gettext("If you close this window, you will lose your message");
+/* templates/send.tpl.html */
+gettext("Add Unknown Recipients to Issue Notification List");
 
-/* templates//send.tpl.html */
-ev_gettext("Please enter the recipient of this email.");
+/* templates/send.tpl.html */
+gettext("Subject");
 
-/* templates//send.tpl.html */
-ev_gettext("Please enter the subject of this email.");
+/* templates/send.tpl.html */
+gettext("Canned Responses");
 
-/* templates//send.tpl.html */
-ev_gettext("Please enter the message body of this email.");
+/* templates/send.tpl.html */
+gettext("Use Canned Response");
 
-/* templates//send.tpl.html */
-ev_gettext("WARNING: You are not assigned to this issue so your email will be blocked.\nYour blocked email will be converted to a note that can be recovered later.\nFor more information, please see the topic 'email blocking' in help.");
+/* templates/send.tpl.html */
+gettext("New Status for Issue");
 
-/* templates//send.tpl.html */
-ev_gettext("WARNING: This email will be sent to all names on this issue's Notification List, including CUSTOMERS.\nIf you want the CUSTOMER to receive your message now, press OK.\nOtherwise, to return to your editing window, press CANCEL.");
+/* templates/send.tpl.html */
+gettext("Time Spent");
 
-/* templates//send.tpl.html */
-ev_gettext("WARNING: This email will be sent to all names on this issue's Notification List.\nIf you want all users to receive your message now, press OK.\nOtherwise, to return to your editing window, press CANCEL.");
+/* templates/send.tpl.html */
+gettext("in minutes");
 
-/* templates//send.tpl.html */
-ev_gettext("Warning: This draft has already been sent. You cannot resend it.");
+/* templates/send.tpl.html */
+gettext("Send Email");
 
-/* templates//send.tpl.html */
-ev_gettext("Warning: This draft has already been edited. You cannot send or edit it.");
+/* templates/send.tpl.html */
+gettext("Reset");
 
-/* templates//send.tpl.html */
-ev_gettext("Create Draft");
+/* templates/send.tpl.html */
+gettext("Cancel");
 
-/* templates//send.tpl.html */
-ev_gettext("Send Email");
+/* templates/send.tpl.html */
+gettext("Check Spelling");
 
-/* templates//send.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/send.tpl.html */
+gettext("Add Email Signature");
 
-/* templates//send.tpl.html */
-ev_gettext("Sorry, but the email could not be sent. This might be related to problems with your SMTP account settings.\n              Please contact the administrator of this application for assistance.");
+/* templates/send.tpl.html */
+gettext("Save Draft Changes");
 
-/* templates//send.tpl.html */
-ev_gettext("Thank you, the email was sent successfully.");
+/* templates/send.tpl.html */
+gettext("Save as Draft");
 
-/* templates//send.tpl.html */
-ev_gettext("From");
+/* templates/send.tpl.html */
+gettext("Required fields");
 
-/* templates//send.tpl.html */
-ev_gettext("To");
+/* templates/signup.tpl.html */
+gettext("Sorry, but this feature has been disabled by the administrator.");
 
-/* templates//send.tpl.html */
-ev_gettext("Issue");
+/* templates/signup.tpl.html */
+gettext("Go Back");
 
-/* templates//send.tpl.html */
-ev_gettext("Notification List");
+/* templates/signup.tpl.html */
+gettext("Please enter your full name.");
 
-/* templates//send.tpl.html */
-ev_gettext("Members");
+/* templates/signup.tpl.html */
+gettext("Please enter your email address.");
 
-/* templates//send.tpl.html */
-ev_gettext("Cc");
+/* templates/signup.tpl.html */
+gettext("Please enter a valid email address.");
 
-/* templates//send.tpl.html */
-ev_gettext("Add Unknown Recipients to Issue Notification List");
+/* templates/signup.tpl.html */
+gettext("Please enter your password.");
 
-/* templates//send.tpl.html */
-ev_gettext("Subject");
+/* templates/signup.tpl.html */
+gettext("Account Signup");
 
-/* templates//send.tpl.html */
-ev_gettext("Canned Responses");
+/* templates/signup.tpl.html */
+gettext("Error: An error occurred while trying to run your query.");
 
-/* templates//send.tpl.html */
-ev_gettext("Use Canned Response");
+/* templates/signup.tpl.html */
+gettext("Error: The email address specified is already associated with an user in the system.");
 
-/* templates//send.tpl.html */
-ev_gettext("New Status for Issue");
+/* templates/signup.tpl.html */
+gettext("Thank you, your account creation request was processed successfully. For security reasons a confirmation email was sent to the provided email address with instructions on how to confirm your request and activate your account.");
 
-/* templates//send.tpl.html */
-ev_gettext("Time Spent");
+/* templates/signup.tpl.html */
+gettext("Full Name:");
 
-/* templates//send.tpl.html */
-ev_gettext("in minutes");
+/* templates/signup.tpl.html */
+gettext("Email Address:");
 
-/* templates//send.tpl.html */
-ev_gettext("Send Email");
+/* templates/signup.tpl.html */
+gettext("Password:");
 
-/* templates//send.tpl.html */
-ev_gettext("Reset");
+/* templates/signup.tpl.html */
+gettext("Create Account");
 
-/* templates//send.tpl.html */
-ev_gettext("Cancel");
+/* templates/signup.tpl.html */
+gettext("Back to Login Form");
 
-/* templates//send.tpl.html */
-ev_gettext("Check Spelling");
+/* templates/spell_check.tpl.html */
+gettext("Spell Check");
 
-/* templates//send.tpl.html */
-ev_gettext("Add Email Signature");
+/* templates/spell_check.tpl.html */
+gettext("No spelling mistakes could be found.");
 
-/* templates//send.tpl.html */
-ev_gettext("Save Draft Changes");
+/* templates/spell_check.tpl.html */
+gettext("Misspelled Words:");
 
-/* templates//send.tpl.html */
-ev_gettext("Save as Draft");
+/* templates/spell_check.tpl.html */
+gettext("Suggestions:");
 
-/* templates//send.tpl.html */
-ev_gettext("Required fields");
+/* templates/spell_check.tpl.html */
+gettext("Choose a misspelled word");
 
-/* templates//app_info.tpl.html */
-ev_gettext("Page generated in %1 seconds");
+/* templates/spell_check.tpl.html */
+gettext("Fix Spelling");
 
-/* templates//app_info.tpl.html */
-ev_gettext("queries");
+/* templates/support_emails.tpl.html */
+gettext("Please choose which entries need to be disassociated with the current issue.");
 
-/* templates//app_info.tpl.html */
-ev_gettext("Benchmark Statistics");
+/* templates/support_emails.tpl.html */
+gettext("This action will remove the association of the selected entries to the current issue.");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Email Address");
+/* templates/support_emails.tpl.html */
+gettext("Associated Emails");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Password");
+/* templates/support_emails.tpl.html */
+gettext("Back to Top");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Login");
+/* templates/support_emails.tpl.html */
+gettext("view the history of sent emails");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Error: Please provide your email address.");
+/* templates/support_emails.tpl.html */
+gettext("Mail Queue Log");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Error: Please provide your password.");
+/* templates/support_emails.tpl.html */
+gettext("All");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Error: The email address / password combination could not be found in the system.");
+/* templates/support_emails.tpl.html */
+gettext("Reply");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Your session has expired. Please login again to continue.");
+/* templates/support_emails.tpl.html */
+gettext("From");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Thank you, you are now logged out of %1");
+/* templates/support_emails.tpl.html */
+gettext("Recipients");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Error: Your user status is currently set as inactive. Please\n              contact your local system administrator for further information.");
+/* templates/support_emails.tpl.html */
+gettext("Received");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Thank you, your account is now active and ready to be\n              used. Use the form below to login.");
+/* templates/support_emails.tpl.html */
+gettext("Subject");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Error: Your user status is currently set as pending. This\n              means that you still need to confirm your account\n              creation request. Please contact your local system\n              administrator for further information.");
+/* templates/support_emails.tpl.html */
+gettext("reply to this email");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Error: Cookies support seem to be disabled in your browser. Please enable this feature and try again.");
+/* templates/support_emails.tpl.html */
+gettext("sent to notification list");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Error: In order for %1 to work properly, you must enable cookie support in your browser. Please login\n              again and accept all cookies coming from it.");
+/* templates/support_emails.tpl.html */
+gettext("No associated emails could be found.");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Email Address");
+/* templates/support_emails.tpl.html */
+gettext("All");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Password");
+/* templates/support_emails.tpl.html */
+gettext("Disassociate Selected");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Login");
+/* templates/support_emails.tpl.html */
+gettext("Send Email");
 
-/* templates//login_form.tpl.html */
-ev_gettext("I Forgot My Password");
+/* templates/switch.tpl.html */
+gettext("Thank you, your current selected project was changed successfully.");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Signup for an Account");
+/* templates/switch.tpl.html */
+gettext("Continue");
 
-/* templates//login_form.tpl.html */
-ev_gettext("Requires support for cookies and javascript in your browser");
+/* templates/time_tracking.tpl.html */
+gettext("This action will permanently delete the specified time tracking entry.");
 
-/* templates//login_form.tpl.html */
-ev_gettext("NOTE: You may report issues without the need to login by using the following URL");
+/* templates/time_tracking.tpl.html */
+gettext("Time Tracking");
 
-/* templates//notification.tpl.html */
-ev_gettext("Please enter a valid email address.");
+/* templates/time_tracking.tpl.html */
+gettext("Back to Top");
 
-/* templates//notification.tpl.html */
-ev_gettext("The given email address");
+/* templates/time_tracking.tpl.html */
+gettext("Date of Work");
 
-/* templates//notification.tpl.html */
-ev_gettext("is neither a known staff member or customer technical contact.");
+/* templates/time_tracking.tpl.html */
+gettext("User");
 
-/* templates//notification.tpl.html */
-ev_gettext("Are you sure you want to add this address to the notification list?");
+/* templates/time_tracking.tpl.html */
+gettext("Time Spent");
 
-/* templates//notification.tpl.html */
-ev_gettext("Notification Options");
+/* templates/time_tracking.tpl.html */
+gettext("Category");
 
-/* templates//notification.tpl.html */
-ev_gettext("An error occurred while trying to update the notification entry.");
+/* templates/time_tracking.tpl.html */
+gettext("Summary");
 
-/* templates//notification.tpl.html */
-ev_gettext("Error: the given email address is not allowed to be added to the notification list.");
+/* templates/time_tracking.tpl.html */
+gettext("Total Time Spent");
 
-/* templates//notification.tpl.html */
-ev_gettext("Thank you, the notification entry was updated successfully.");
+/* templates/time_tracking.tpl.html */
+gettext("No time tracking entries could be found.");
 
-/* templates//notification.tpl.html */
-ev_gettext("Email");
+/* templates/time_tracking.tpl.html */
+gettext("Add Time Entry");
 
-/* templates//notification.tpl.html */
-ev_gettext("Get a Notification When");
+/* templates/tips/canned_responses.tpl.html */
+gettext("You can create canned email responses and use them when sending emails from the\nsystem. That is an useful feature when dealing with lots of issues that relate\nto the same problem.\n<br /><br />\nIf no canned email responses are available through the Email window, please\ncontact an user with the appropriate permissions (administrator or manager) to\nadd some for you.");
 
-/* templates//notification.tpl.html */
-ev_gettext("Emails are Received or Sent");
+/* templates/tips/custom_queries.tpl.html */
+gettext("You can create as many custom queries as you want through the\n<a class=\"link\" href=\"adv_search.php\">Advanced Search</a> interface.\nThere is also the ability to save and modify custom queries and load\nthem quickly from the Issue Listing screen.");
 
-/* templates//notification.tpl.html */
-ev_gettext("Overview or Details are Changed");
+/* templates/tips/keyboard_shortcuts.tpl.html */
+gettext("You can switch to the 'Search' or 'Go' boxes quickly by using a\nspecial shortcut keystroke in your keyboard.<br />\n<br />\nUse the following shortcuts:<br />\n<br />\n<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the 'Search' box<br />\n<br />\n<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box");
 
-/* templates//notification.tpl.html */
-ev_gettext("Issue is Closed");
+/* templates/top_link.tpl.html */
+gettext("Back to Top");
 
-/* templates//notification.tpl.html */
-ev_gettext("Files are Attached");
+/* templates/update.tpl.html */
+gettext("Error: The issue could not be found.");
 
-/* templates//notification.tpl.html */
-ev_gettext("Update Subscription");
+/* templates/update.tpl.html */
+gettext("Go Back");
 
-/* templates//notification.tpl.html */
-ev_gettext("Add Subscription");
+/* templates/update.tpl.html */
+gettext("Sorry, you do not have the required privileges to view this issue.");
 
-/* templates//notification.tpl.html */
-ev_gettext("Reset");
+/* templates/update.tpl.html */
+gettext("Go Back");
 
-/* templates//notification.tpl.html */
-ev_gettext("Existing Subscribers for this Issue");
+/* templates/update.tpl.html */
+gettext("Sorry, but you do not have the required permission level to access this screen.");
 
-/* templates//notification.tpl.html */
-ev_gettext("Please select at least one of the subscribers.");
+/* templates/update.tpl.html */
+gettext("Go Back");
 
-/* templates//notification.tpl.html */
-ev_gettext("This action will remove the selected entries.");
+/* templates/update_form.tpl.html */
+gettext("Sorry, an error happened while trying to run your query.");
 
-/* templates//notification.tpl.html */
-ev_gettext("Email");
+/* templates/update_form.tpl.html */
+gettext("Thank you, issue #%1 was updated successfully.");
 
-/* templates//notification.tpl.html */
-ev_gettext("click to edit");
+/* templates/update_form.tpl.html */
+gettext("Also, all issues that are marked as duplicates from this one were updated as well.");
 
-/* templates//notification.tpl.html */
-ev_gettext("Actions");
+/* templates/update_form.tpl.html */
+gettext("E-mail about issue update was sent to:");
 
-/* templates//notification.tpl.html */
-ev_gettext("update this entry");
+/* templates/update_form.tpl.html */
+gettext("Return to Issue #%1 Details Page");
 
-/* templates//notification.tpl.html */
-ev_gettext("No subscribers could be found.");
+/* templates/update_form.tpl.html */
+gettext("Update Issue #%1");
 
-/* templates//notification.tpl.html */
-ev_gettext("Remove Selected");
+/* templates/update_form.tpl.html */
+gettext("Please enter the summary for this issue.");
 
-/* templates//notification.tpl.html */
-ev_gettext("Close");
+/* templates/update_form.tpl.html */
+gettext("Please enter the description for this issue.");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("An error occurred while trying to process the uploaded file.");
+/* templates/update_form.tpl.html */
+gettext("Percentage complete should be between 0 and 100");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("The uploaded file is already attached to the current issue. Please rename the file and try again.");
+/* templates/update_form.tpl.html */
+gettext("Please select an assignment for this issue");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("Thank you, the uploaded file was associated with the issue below.");
+/* templates/update_form.tpl.html */
+gettext("Warning: All changes to this issue will be lost if you continue and close this issue.");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("Continue");
+/* templates/update_form.tpl.html */
+gettext("Note: Project automatically switched to '%1' from '%2'.");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("Add New Files");
+/* templates/update_form.tpl.html */
+gettext("Update Issue Overview");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("Status");
+/* templates/update_form.tpl.html */
+gettext("edit the authorized repliers list for this issue");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("Public");
+/* templates/update_form.tpl.html */
+gettext("Edit Authorized Replier List");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("visible to all");
+/* templates/update_form.tpl.html */
+gettext("Edit Notification List");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("Private");
+/* templates/update_form.tpl.html */
+gettext("History of Changes");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("standard user and above only");
+/* templates/update_form.tpl.html */
+gettext("Category:");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("Filenames");
+/* templates/update_form.tpl.html */
+gettext("Status:");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("ote: The current maximum allowed upload file size is");
+/* templates/update_form.tpl.html */
+gettext("Notification List:");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("Description");
+/* templates/update_form.tpl.html */
+gettext("Status:");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("Upload File");
+/* templates/update_form.tpl.html */
+gettext("Submitted Date:");
 
-/* templates//file_upload.tpl.html */
-ev_gettext("You do not have the correct role to access this page");
+/* templates/update_form.tpl.html */
+gettext("Priority:");
 
-/* templates//blah.tpl.html */
-ev_gettext("Go");
+/* templates/update_form.tpl.html */
+gettext("Update Date:");
 
-/* templates//blah.tpl.html */
-ev_gettext("Return to Issue #%1 Details Page");
+/* templates/update_form.tpl.html */
+gettext("Associated Issues:");
 
-/* templates//update.tpl.html */
-ev_gettext("Error: The issue could not be found.");
+/* templates/update_form.tpl.html */
+gettext("Reporter:");
 
-/* templates//update.tpl.html */
-ev_gettext("Go Back");
+/* templates/update_form.tpl.html */
+gettext("Expected Resolution Date:");
 
-/* templates//update.tpl.html */
-ev_gettext("Sorry, you do not have the required privileges to view this issue.");
+/* templates/update_form.tpl.html */
+gettext("Scheduled Release:");
 
-/* templates//update.tpl.html */
-ev_gettext("Go Back");
+/* templates/update_form.tpl.html */
+gettext("Percentage Complete:");
 
-/* templates//update.tpl.html */
-ev_gettext("Sorry, but you do not have the required permission level to access this screen.");
+/* templates/update_form.tpl.html */
+gettext("Estimated Dev. Time:");
 
-/* templates//update.tpl.html */
-ev_gettext("Go Back");
+/* templates/update_form.tpl.html */
+gettext("in hours");
 
-/* templates//requirement.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
+/* templates/update_form.tpl.html */
+gettext("Assignment:");
 
-/* templates//requirement.tpl.html */
-ev_gettext("Thank you, the impact analysis was updated successfully.");
+/* templates/update_form.tpl.html */
+gettext("Keep Current Assignments:");
 
-/* templates//requirement.tpl.html */
-ev_gettext("Please use only floating point numbers on the estimated development time field.");
+/* templates/update_form.tpl.html */
+gettext("Change Assignments:");
 
-/* templates//requirement.tpl.html */
-ev_gettext("Please enter the impact analysis for this new requirement.");
+/* templates/update_form.tpl.html */
+gettext("Clear Selections");
 
-/* templates//requirement.tpl.html */
-ev_gettext("Enter Impact Analysis");
+/* templates/update_form.tpl.html */
+gettext("Current Selections:");
 
-/* templates//requirement.tpl.html */
-ev_gettext("Estimated Dev. Time");
+/* templates/update_form.tpl.html */
+gettext("Authorized Repliers:");
 
-/* templates//requirement.tpl.html */
-ev_gettext("in hours");
+/* templates/update_form.tpl.html */
+gettext("Staff:");
 
-/* templates//requirement.tpl.html */
-ev_gettext("Impact <br />Analysis");
+/* templates/update_form.tpl.html */
+gettext("Other:");
 
-/* templates//notifications/new.tpl.text */
-ev_gettext("This is an automated message sent at your request from %1");
+/* templates/update_form.tpl.html */
+gettext("Group:");
 
-/* templates//notifications/new.tpl.text */
-ev_gettext("A new issue was just created and assigned to you.");
+/* templates/update_form.tpl.html */
+gettext("yes");
 
-/* templates//notifications/new.tpl.text */
-ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates/update_form.tpl.html */
+gettext("Summary:");
 
-/* templates//notifications/new.tpl.text */
-ev_gettext("ID");
+/* templates/update_form.tpl.html */
+gettext("Description:");
 
-/* templates//notifications/new.tpl.text */
-ev_gettext("Summary");
+/* templates/update_form.tpl.html */
+gettext("Private:");
 
-/* templates//notifications/new.tpl.text */
-ev_gettext("Project");
+/* templates/update_form.tpl.html */
+gettext("Trigger Reminders:");
 
-/* templates//notifications/new.tpl.text */
-ev_gettext("Reported By");
+/* templates/update_form.tpl.html */
+gettext("Update");
 
-/* templates//notifications/new.tpl.text */
-ev_gettext("Priority");
+/* templates/update_form.tpl.html */
+gettext("Cancel Update");
 
-/* templates//notifications/new.tpl.text */
-ev_gettext("Description");
+/* templates/update_form.tpl.html */
+gettext("Reset");
 
-/* templates//notifications/new.tpl.text */
-ev_gettext("Please Note: If you do not wish to receive any future email\nnotifications from %1, please change your account preferences by\nvisiting the URL below");
+/* templates/update_form.tpl.html */
+gettext("Close Issue");
 
-/* templates//notifications/new_user.tpl.text */
-ev_gettext("A new user was just created for you in the system.");
+/* templates/view.tpl.html */
+gettext("Error: The issue #%1 could not be found.");
 
-/* templates//notifications/new_user.tpl.text */
-ev_gettext("To start using the system, please load the URL below");
+/* templates/view.tpl.html */
+gettext("Go Back");
 
-/* templates//notifications/new_user.tpl.text */
-ev_gettext("Full Name");
+/* templates/view.tpl.html */
+gettext("Sorry, you do not have the required privileges to view this issue.");
 
-/* templates//notifications/new_user.tpl.text */
-ev_gettext("Email Address");
+/* templates/view.tpl.html */
+gettext("Go Back");
 
-/* templates//notifications/new_user.tpl.text */
-ev_gettext("Password");
+/* templates/view_email.tpl.html */
+gettext("Re-directing the parent window to the issue report page. This window will be closed automatically.");
 
-/* templates//notifications/new_user.tpl.text */
-ev_gettext("Assigned Projects");
+/* templates/view_email.tpl.html */
+gettext("This message already belongs to that account");
 
-/* templates//notifications/updated_password.tpl.text */
-ev_gettext("Your user account password has been updated in %1");
+/* templates/view_email.tpl.html */
+gettext("An error occurred while trying to run your query");
 
-/* templates//notifications/updated_password.tpl.text */
-ev_gettext("Your account information as it now exists appears below.");
+/* templates/view_email.tpl.html */
+gettext("Thank you, the email was successfully moved.");
 
-/* templates//notifications/updated_password.tpl.text */
-ev_gettext("Full Name");
+/* templates/view_email.tpl.html */
+gettext("Continue");
 
-/* templates//notifications/updated_password.tpl.text */
-ev_gettext("Email Address");
+/* templates/view_email.tpl.html */
+gettext("View Email Details");
 
-/* templates//notifications/updated_password.tpl.text */
-ev_gettext("Password");
+/* templates/view_email.tpl.html */
+gettext("Associated with Issue");
 
-/* templates//notifications/updated_password.tpl.text */
-ev_gettext("Assigned Projects");
+/* templates/view_email.tpl.html */
+gettext("Previous Message");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("This is an automated message sent at your request from %1.");
+/* templates/view_email.tpl.html */
+gettext("Next Message");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("This issue was just closed by");
+/* templates/view_email.tpl.html */
+gettext("Received");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext(" with the message");
+/* templates/view_email.tpl.html */
+gettext("From");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates/view_email.tpl.html */
+gettext("To");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("ID");
+/* templates/view_email.tpl.html */
+gettext("sent to notification list");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("Summary");
+/* templates/view_email.tpl.html */
+gettext("Recipients");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("Status");
+/* templates/view_email.tpl.html */
+gettext("Cc");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("Project");
+/* templates/view_email.tpl.html */
+gettext("Subject");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("Reported By");
+/* templates/view_email.tpl.html */
+gettext("Attachments");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("Priority");
+/* templates/view_email.tpl.html */
+gettext("Message");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("Description");
+/* templates/view_email.tpl.html */
+gettext("display in fixed width font");
 
-/* templates//notifications/closed.tpl.text */
-ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates/view_email.tpl.html */
+gettext("Raw Headers");
 
-/* templates//notifications/visitor_account.tpl.text */
-ev_gettext("Hello,\n\nWe just received a request to create a new account in %1\nFor security reasons we need you to confirm this request so we can finish the account creation process.\n\nIf this is not a real request from you, or you are not interested in creating a new account anymore, please disregard this email. In a week the request will be erased automatically. However, if you would like to confirm the new account, please do so by visiting the URL below:\n");
+/* templates/view_email.tpl.html */
+gettext("Reply");
 
-/* templates//notifications/new_auto_created_issue.tpl.text */
-ev_gettext("Dear");
+/* templates/view_email.tpl.html */
+gettext("Close");
 
-/* templates//notifications/new_auto_created_issue.tpl.text */
-ev_gettext("This is an automated message sent from %1");
+/* templates/view_email.tpl.html */
+gettext("Previous Message");
 
-/* templates//notifications/new_auto_created_issue.tpl.text */
-ev_gettext("We received a message from you and for your convenience, we created an issue that will be used by our staff to handle your message.");
+/* templates/view_email.tpl.html */
+gettext("Next Message");
 
-/* templates//notifications/new_auto_created_issue.tpl.text */
-ev_gettext("To view more details of this issue, or to update it, please visit the\nfollowing URL");
+/* templates/view_email.tpl.html */
+gettext("Move Message To");
 
-/* templates//notifications/new_auto_created_issue.tpl.text */
-ev_gettext("To add more information to this issue, simply reply to this email.");
+/* templates/view_form.tpl.html */
+gettext("Please select the new status for this issue.");
 
-/* templates//notifications/new_auto_created_issue.tpl.text */
-ev_gettext("Issue");
+/* templates/view_form.tpl.html */
+gettext("NOTE: If you need to send new information regarding this issue, please use the EMAIL related buttons available at the bottom of the screen.");
 
-/* templates//notifications/new_auto_created_issue.tpl.text */
-ev_gettext("Summary");
+/* templates/view_form.tpl.html */
+gettext("Previous Issue");
 
-/* templates//notifications/new_auto_created_issue.tpl.text */
-ev_gettext("Priority");
+/* templates/view_form.tpl.html */
+gettext("Next Issue");
 
-/* templates//notifications/new_auto_created_issue.tpl.text */
-ev_gettext("Submitted");
+/* templates/view_form.tpl.html */
+gettext("This Issue is Currently Quarantined");
 
-/* templates//notifications/notes.tpl.text */
-ev_gettext("These are the current issue details");
+/* templates/view_form.tpl.html */
+gettext("Quarantine expires in %1");
 
-/* templates//notifications/notes.tpl.text */
-ev_gettext("ID");
+/* templates/view_form.tpl.html */
+gettext("Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
 
-/* templates//notifications/notes.tpl.text */
-ev_gettext("Summary");
+/* templates/view_form.tpl.html */
+gettext("Remove Quarantine");
 
-/* templates//notifications/notes.tpl.text */
-ev_gettext("Status");
+/* templates/view_form.tpl.html */
+gettext("Note: ");
 
-/* templates//notifications/notes.tpl.text */
-ev_gettext("Project");
+/* templates/view_form.tpl.html */
+gettext("This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.");
 
-/* templates//notifications/notes.tpl.text */
-ev_gettext("Reported By");
+/* templates/view_form.tpl.html */
+gettext("Issue Overview");
 
-/* templates//notifications/notes.tpl.text */
-ev_gettext("Priority");
+/* templates/view_form.tpl.html */
+gettext("Edit Authorized Replier List");
 
-/* templates//notifications/notes.tpl.text */
-ev_gettext("Description");
+/* templates/view_form.tpl.html */
+gettext("Edit Notification List");
 
-/* templates//notifications/notes.tpl.text */
-ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates/view_form.tpl.html */
+gettext("History of Changes");
 
-/* templates//notifications/notes.tpl.text */
-ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates/view_form.tpl.html */
+gettext("Customer");
 
-/* templates//notifications/account_details.tpl.text */
-ev_gettext("This is an automated message sent at your request from %1.");
+/* templates/view_form.tpl.html */
+gettext("Complete Details");
 
-/* templates//notifications/account_details.tpl.text */
-ev_gettext("Your full account information is available below.");
+/* templates/view_form.tpl.html */
+gettext("Customer Contract");
 
-/* templates//notifications/account_details.tpl.text */
-ev_gettext("Full Name");
+/* templates/view_form.tpl.html */
+gettext("Support Level");
 
-/* templates//notifications/account_details.tpl.text */
-ev_gettext("Email Address");
+/* templates/view_form.tpl.html */
+gettext("Support Options");
 
-/* templates//notifications/account_details.tpl.text */
-ev_gettext("Assigned Projects");
+/* templates/view_form.tpl.html */
+gettext("Redeemed Incident Types");
 
-/* templates//notifications/updated_account.tpl.text */
-ev_gettext("Your user account has been updated in %1");
+/* templates/view_form.tpl.html */
+gettext("None");
 
-/* templates//notifications/updated_account.tpl.text */
-ev_gettext("Your account information as it now exists appears below.");
+/* templates/view_form.tpl.html */
+gettext("Category");
 
-/* templates//notifications/updated_account.tpl.text */
-ev_gettext("Full Name");
+/* templates/view_form.tpl.html */
+gettext("Status");
 
-/* templates//notifications/updated_account.tpl.text */
-ev_gettext("Email Address");
+/* templates/view_form.tpl.html */
+gettext("Notification List");
 
-/* templates//notifications/updated_account.tpl.text */
-ev_gettext("Assigned Projects");
+/* templates/view_form.tpl.html */
+gettext("Staff");
 
-/* templates//notifications/password_confirmation.tpl.text */
-ev_gettext("Hello,\n\nWe just received a request to create a new random password for your account in %1. For security reasons we need you to confirm this request so we can finish the password creation process.\n\nIf this is not a real request from you, or if you don't need a new password anymore, please disregard this email.\n\nHowever, if you would like to confirm this request, please do so by visiting the URL below:\n");
+/* templates/view_form.tpl.html */
+gettext("Other");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("This is an automated message sent at your request from %1");
+/* templates/view_form.tpl.html */
+gettext("Status");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("An issue was assigned to you by %1");
+/* templates/view_form.tpl.html */
+gettext("Submitted Date");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates/view_form.tpl.html */
+gettext("Priority");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("ID");
+/* templates/view_form.tpl.html */
+gettext("Last Updated Date");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("Summary");
+/* templates/view_form.tpl.html */
+gettext("Scheduled Release");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("Project");
+/* templates/view_form.tpl.html */
+gettext("Associated Issues");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("Reported By");
+/* templates/view_form.tpl.html */
+gettext("No issues associated");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("Assignment");
+/* templates/view_form.tpl.html */
+gettext("Resolution");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("Priority");
+/* templates/view_form.tpl.html */
+gettext("Expected Resolution Date");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("Description");
+/* templates/view_form.tpl.html */
+gettext("No resolution date given");
 
-/* templates//notifications/assigned.tpl.text */
-ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates/view_form.tpl.html */
+gettext("Percentage Complete");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("This is an automated message sent at your request from");
+/* templates/view_form.tpl.html */
+gettext("Estimated Dev. Time");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates/view_form.tpl.html */
+gettext("hours");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("New Attachment");
+/* templates/view_form.tpl.html */
+gettext("Reporter");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Owner");
+/* templates/view_form.tpl.html */
+gettext("Duplicates");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Date");
+/* templates/view_form.tpl.html */
+gettext("Duplicate of");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Files");
+/* templates/view_form.tpl.html */
+gettext("Duplicated by");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Description");
+/* templates/view_form.tpl.html */
+gettext("Assignment");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("These are the current issue details");
+/* templates/view_form.tpl.html */
+gettext("Authorized Repliers");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("ID");
+/* templates/view_form.tpl.html */
+gettext("Staff");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Summary");
+/* templates/view_form.tpl.html */
+gettext("Other");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Status");
+/* templates/view_form.tpl.html */
+gettext("Group");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Project");
+/* templates/view_form.tpl.html */
+gettext("Summary");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Reported By");
+/* templates/view_form.tpl.html */
+gettext("Initial Description");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Priority");
+/* templates/view_form.tpl.html */
+gettext("fixed width font");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Description");
+/* templates/view_form.tpl.html */
+gettext("Description is currently collapsed");
 
-/* templates//notifications/files.tpl.text */
-ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates/view_form.tpl.html */
+gettext("Click to expand.");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("This is an automated message sent at your request from");
+/* templates/view_form.tpl.html */
+gettext("Unassign Issue");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("A new issue was just created in the system.");
+/* templates/view_form.tpl.html */
+gettext("Assign Issue To Myself");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates/view_form.tpl.html */
+gettext("Update Issue");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("ID");
+/* templates/view_form.tpl.html */
+gettext("Reply");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Summary");
+/* templates/view_form.tpl.html */
+gettext("Clear Duplicate Status");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Project");
+/* templates/view_form.tpl.html */
+gettext("Mark as Duplicate");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Reported");
+/* templates/view_form.tpl.html */
+gettext("Close Issue");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Assignment");
+/* templates/view_form.tpl.html */
+gettext("Signup as Authorized Replier");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Priority");
+/* templates/view_form.tpl.html */
+gettext("Edit Incident Redemption");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Description");
+/* templates/view_form.tpl.html */
+gettext("Change Status To");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Issue Details");
+/* templates/view_headers.tpl.html */
+gettext("View Email Raw Headers");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Attachments");
+/* templates/view_headers.tpl.html */
+gettext("Close");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Files");
+/* templates/view_headers.tpl.html */
+gettext("Close");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Description");
+/* templates/view_note.tpl.html */
+gettext("The specified note does not exist. <br />\n      It could have been converted to an email.");
 
-/* templates//notifications/new_issue.tpl.text */
-ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates/view_note.tpl.html */
+gettext("Close");
 
-/* templates//notifications/updated.tpl.text */
-ev_gettext("This is an automated message sent at your request from %1");
+/* templates/view_note.tpl.html */
+gettext("View Note Details");
 
-/* templates//notifications/updated.tpl.text */
-ev_gettext("To view more details of this issue, or to update it, please visit the following URL");
+/* templates/view_note.tpl.html */
+gettext("Associated with Issue");
 
-/* templates//notifications/updated.tpl.text */
-ev_gettext("Issue #");
+/* templates/view_note.tpl.html */
+gettext("Previous Note");
 
-/* templates//notifications/updated.tpl.text */
-ev_gettext("Summary");
+/* templates/view_note.tpl.html */
+gettext("Next Note");
 
-/* templates//notifications/updated.tpl.text */
-ev_gettext("Changed Fields");
+/* templates/view_note.tpl.html */
+gettext("Posted Date:");
 
-/* templates//notifications/updated.tpl.text */
-ev_gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
+/* templates/view_note.tpl.html */
+gettext("From:");
 
-/* templates//view_form.tpl.html */
-ev_gettext("Please select the new status for this issue.");
+/* templates/view_note.tpl.html */
+gettext("Recipients");
 
-/* templates//view_form.tpl.html */
-ev_gettext("NOTE: If you need to send new information regarding this issue, please use the EMAIL related buttons available at the bottom of the screen.");
+/* templates/view_note.tpl.html */
+gettext("Title:");
 
-/* templates//view_form.tpl.html */
-ev_gettext("Previous Issue");
+/* templates/view_note.tpl.html */
+gettext("Attachments:");
 
-/* templates//view_form.tpl.html */
-ev_gettext("Next Issue");
+/* templates/view_note.tpl.html */
+gettext("download file");
 
-/* templates//view_form.tpl.html */
-ev_gettext("This Issue is Currently Quarantined");
+/* templates/view_note.tpl.html */
+gettext("download file");
 
-/* templates//view_form.tpl.html */
-ev_gettext("Quarantine expires in %1");
+/* templates/view_note.tpl.html */
+gettext("Message:");
 
-/* templates//view_form.tpl.html */
-ev_gettext("Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
+/* templates/view_note.tpl.html */
+gettext("display in fixed width font");
 
-/* templates//view_form.tpl.html */
-ev_gettext("Remove Quarantine");
+/* templates/view_note.tpl.html */
+gettext("Blocked Message Raw Headers");
 
-/* templates//view_form.tpl.html */
-ev_gettext("Note: ");
+/* templates/view_note.tpl.html */
+gettext("Reply");
 
-/* templates//view_form.tpl.html */
-ev_gettext("This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.");
+/* templates/view_note.tpl.html */
+gettext("Close");
 
-/* templates//view_form.tpl.html */
-ev_gettext("Issue Overview");
+/* templates/view_note.tpl.html */
+gettext("Previous Note");
 
-/* templates//view_form.tpl.html */
-ev_gettext("Edit Authorized Replier List");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Edit Notification List");
-
-/* templates//view_form.tpl.html */
-ev_gettext("History of Changes");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Customer");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Complete Details");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Customer Contract");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Support Level");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Support Options");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Redeemed Incident Types");
-
-/* templates//view_form.tpl.html */
-ev_gettext("None");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Category");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Status");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Notification List");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Staff");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Other");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Status");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Submitted Date");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Priority");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Last Updated Date");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Scheduled Release");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Associated Issues");
-
-/* templates//view_form.tpl.html */
-ev_gettext("No issues associated");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Resolution");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Expected Resolution Date");
-
-/* templates//view_form.tpl.html */
-ev_gettext("No resolution date given");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Percentage Complete");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Estimated Dev. Time");
-
-/* templates//view_form.tpl.html */
-ev_gettext("hours");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Reporter");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Duplicates");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Duplicate of");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Duplicated by");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Assignment");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Authorized Repliers");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Staff");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Other");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Group");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Summary");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Initial Description");
-
-/* templates//view_form.tpl.html */
-ev_gettext("fixed width font");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Description is currently collapsed");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Click to expand.");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Unassign Issue");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Assign Issue To Myself");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Update Issue");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Reply");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Clear Duplicate Status");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Mark as Duplicate");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Close Issue");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Signup as Authorized Replier");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Edit Incident Redemption");
-
-/* templates//view_form.tpl.html */
-ev_gettext("Change Status To");
-
-/* templates//email_drafts.tpl.html */
-ev_gettext("Drafts");
-
-/* templates//email_drafts.tpl.html */
-ev_gettext("Back to Top");
-
-/* templates//email_drafts.tpl.html */
-ev_gettext("Status");
-
-/* templates//email_drafts.tpl.html */
-ev_gettext("From");
-
-/* templates//email_drafts.tpl.html */
-ev_gettext("To");
-
-/* templates//email_drafts.tpl.html */
-ev_gettext("Last Updated Date");
-
-/* templates//email_drafts.tpl.html */
-ev_gettext("Subject");
-
-/* templates//email_drafts.tpl.html */
-ev_gettext("No email drafts could be found.");
-
-/* templates//email_drafts.tpl.html */
-ev_gettext("Create Draft");
-
-/* templates//email_drafts.tpl.html */
-ev_gettext("Show All Drafts");
-
-/* templates//redeem_incident.tpl.html */
-ev_gettext("There was an error marking this issue as redeemed");
-
-/* templates//redeem_incident.tpl.html */
-ev_gettext("This issue already has been marked as redeemed");
-
-/* templates//redeem_incident.tpl.html */
-ev_gettext("Thank you, the issue was successfully marked.");
-
-/* templates//redeem_incident.tpl.html */
-ev_gettext("Please choose the incident types to redeem for this issue.");
-
-/* templates//redeem_incident.tpl.html */
-ev_gettext("Total");
-
-/* templates//redeem_incident.tpl.html */
-ev_gettext("Left");
-
-/* templates//redeem_incident.tpl.html */
-ev_gettext("Redeem Incidents");
-
-/* templates//redeem_incident.tpl.html */
-ev_gettext("Continue");
-
-/* templates//custom_fields.tpl.html */
-ev_gettext("Custom Fields");
-
-/* templates//custom_fields.tpl.html */
-ev_gettext("Back to Top");
-
-/* templates//custom_fields.tpl.html */
-ev_gettext("No custom fields could be found.");
-
-/* templates//custom_fields.tpl.html */
-ev_gettext("Update");
-
-/* templates//switch.tpl.html */
-ev_gettext("Thank you, your current selected project was changed successfully.");
-
-/* templates//switch.tpl.html */
-ev_gettext("Continue");
-
-/* templates//news.tpl.html */
-ev_gettext("Important Notices");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Please enter the estimated development time for this task.");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Please use only floating point numbers (or integers) on the estimated development time field.");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Please enter the analysis for the changes required by this issue.");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Impact Analysis");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Total Estimated Dev. Time");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("in hours");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("hours");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Initial Impact Analysis");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Update");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Please choose which entries need to be removed.");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("This action will permanently delete the selected entries.");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Further Requirements");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("All");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Handler");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Requirement");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Estimated Dev. Time");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Impact Analysis");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("update entry");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("update entry");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("All");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Remove Selected");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("No entries could be found.");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Please enter the new requirement for this issue.");
-
-/* templates//impact_analysis.tpl.html */
-ev_gettext("Add New Requirement");
-
-/* templates//attachments.tpl.html */
-ev_gettext("This action will permanently delete the selected attachment.");
-
-/* templates//attachments.tpl.html */
-ev_gettext("This action will permanently delete the selected file.");
-
-/* templates//attachments.tpl.html */
-ev_gettext("Attached Files");
-
-/* templates//attachments.tpl.html */
-ev_gettext("Back to Top");
-
-/* templates//attachments.tpl.html */
-ev_gettext("Files");
-
-/* templates//attachments.tpl.html */
-ev_gettext("Owner");
-
-/* templates//attachments.tpl.html */
-ev_gettext("Status");
-
-/* templates//attachments.tpl.html */
-ev_gettext("Date");
-
-/* templates//attachments.tpl.html */
-ev_gettext("Description");
-
-/* templates//attachments.tpl.html */
-ev_gettext("delete");
-
-/* templates//attachments.tpl.html */
-ev_gettext("delete");
-
-/* templates//attachments.tpl.html */
-ev_gettext("No attachments could be found.");
-
-/* templates//attachments.tpl.html */
-ev_gettext("Upload File");
-
-/* templates//select_project.tpl.html */
-ev_gettext("Please choose the project.");
-
-/* templates//select_project.tpl.html */
-ev_gettext("Select Project");
-
-/* templates//select_project.tpl.html */
-ev_gettext("You are not allowed to use the selected project.");
-
-/* templates//select_project.tpl.html */
-ev_gettext("Project");
-
-/* templates//select_project.tpl.html */
-ev_gettext("Remember Selection");
-
-/* templates//select_project.tpl.html */
-ev_gettext("Continue");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("An error occurred while trying to run your query");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("Removed Emails");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("Please choose which emails need to be restored.");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("Please choose which emails need to be permanently removed.");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("WARNING: This action will permanently remove the selected emails from your email account.");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("All");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("Date");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("From");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("Subject");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("No emails could be found.");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("All");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("Restore Emails");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("Close");
-
-/* templates//removed_emails.tpl.html */
-ev_gettext("Permanently Remove");
+/* templates/view_note.tpl.html */
+gettext("Next Note");
 
