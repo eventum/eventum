@@ -1,9 +1,9 @@
 <?php
 /**
- * $Id: irccommands.php,v 1.4 2003/10/10 20:13:19 meebey Exp $
- * $Revision: 1.4 $
+ * $Id: irccommands.php,v 1.1.2.1 2003/10/10 20:20:58 meebey Exp $
+ * $Revision: 1.1.2.1 $
  * $Author: meebey $
- * $Date: 2003/10/10 20:13:19 $
+ * $Date: 2003/10/10 20:20:58 $
  *
  * Copyright (c) 2002-2003 Mirco "MEEBEY" Bauer <mail@meebey.net> <http://www.meebey.net>
  * 
@@ -34,48 +34,34 @@ class Net_SmartIRC_irccommands extends Net_SmartIRC_base
      * @see DOCUMENTATION
      * @param integer $type specifies the type, like QUERY/ACTION or CTCP see 'Message Types'
      * @param string $destination can be a user or channel
-     * @param mixed $message the message
+     * @param string $message the message
      * @return boolean
      * @access public
      */
-    function message($type, $destination, $messagearray, $priority = SMARTIRC_MEDIUM)
+    function message($type, $destination, $message, $priority = SMARTIRC_MEDIUM)
     {
-        if (!is_array($messagearray)) {
-            $messagearray = array($messagearray);
-        }
-        
         switch ($type) {
             case SMARTIRC_TYPE_CHANNEL:
             case SMARTIRC_TYPE_QUERY:
-                foreach ($messagearray as $message) {
-                    $this->_send('PRIVMSG '.$destination.' :'.$message, $priority);
-                }
+                $this->_send('PRIVMSG '.$destination.' :'.$message, $priority);
             break;
             case SMARTIRC_TYPE_ACTION:
-                foreach ($messagearray as $message) {
-                    $this->_send('PRIVMSG '.$destination.' :'.chr(1).'ACTION '.$message.chr(1), $priority);
-                }
+                $this->_send('PRIVMSG '.$destination.' :'.chr(1).'ACTION '.$message.chr(1), $priority);
             break;
             case SMARTIRC_TYPE_NOTICE:
-                foreach ($messagearray as $message) {
-                    $this->_send('NOTICE '.$destination.' :'.$message, $priority);
-                }
+                $this->_send('NOTICE '.$destination.' :'.$message, $priority);
             break;
             case SMARTIRC_TYPE_CTCP: // backwards compatibilty
             case SMARTIRC_TYPE_CTCP_REPLY:
-                foreach ($messagearray as $message) {
-                    $this->_send('NOTICE '.$destination.' :'.chr(1).$message.chr(1), $priority);
-                }
+                $this->_send('NOTICE '.$destination.' :'.chr(1).$message.chr(1), $priority);
             break;
             case SMARTIRC_TYPE_CTCP_REQUEST:
-                foreach ($messagearray as $message) {
-                    $this->_send('PRIVMSG '.$destination.' :'.chr(1).$message.chr(1), $priority);
-                }
+                $this->_send('PRIVMSG '.$destination.' :'.chr(1).$message.chr(1), $priority);
             break;
             default:
                 return false;
         }
-        
+            
         return true;
     }
     

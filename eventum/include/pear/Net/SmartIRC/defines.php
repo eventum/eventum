@@ -1,9 +1,9 @@
 <?php
 /**
- * $Id: defines.php,v 1.12 2004/02/18 12:46:10 meebey Exp $
- * $Revision: 1.12 $
+ * $Id: defines.php,v 1.9.2.1 2003/07/22 15:32:18 meebey Exp $
+ * $Revision: 1.9.2.1 $
  * $Author: meebey $
- * $Date: 2004/02/18 12:46:10 $
+ * $Date: 2003/07/22 15:32:18 $
  *
  * Copyright (c) 2002-2003 Mirco "MEEBEY" Bauer <mail@meebey.net> <http://www.meebey.net>
  * 
@@ -28,7 +28,7 @@
 define('SMARTIRC_CRLF',      "\r\n");
 define('SMARTIRC_UNUSED',    '*');
 define('SMARTIRC_STDOUT',        0);
-define('SMARTIRC_FILE',          1);
+define('SMARTIRC_FILE',	         1);
 define('SMARTIRC_SYSLOG',        2);
 define('SMARTIRC_BROWSEROUT',    3);
 define('SMARTIRC_NONE',          4);
@@ -52,8 +52,7 @@ define('SMARTIRC_DEBUG_CHANNELSYNCING',   256);
 define('SMARTIRC_DEBUG_MODULES',          512);
 define('SMARTIRC_DEBUG_USERSYNCING',      1024);
 define('SMARTIRC_DEBUG_MESSAGEPARSER',    2048);
-define('SMARTIRC_DEBUG_DCC',              4096);
-define('SMARTIRC_DEBUG_ALL',              8191);
+define('SMARTIRC_DEBUG_ALL',              4095);
 define('SMARTIRC_TYPE_UNKNOWN',        1);
 define('SMARTIRC_TYPE_CHANNEL',        2);
 define('SMARTIRC_TYPE_QUERY',          4);
@@ -84,7 +83,6 @@ define('SMARTIRC_TYPE_USERMODE',       67108864);
 define('SMARTIRC_TYPE_CHANNELMODE',    134217728);
 define('SMARTIRC_TYPE_CTCP_REQUEST',   268435456);
 define('SMARTIRC_TYPE_CTCP_REPLY',     536870912);
-//define('SMARTIRC_TYPE_DCC',            536870912);
 define('SMARTIRC_TYPE_ALL',            1073741823);
 
 $SMARTIRC_replycodes = array(
