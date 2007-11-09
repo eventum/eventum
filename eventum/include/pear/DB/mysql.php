@@ -1,7 +1,5 @@
 <?php
 
-
-
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
@@ -20,9 +18,9 @@
  * @package    DB
  * @author     Stig Bakken <ssb@php.net>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: mysql.php,v 1.117 2005/03/29 15:03:26 danielc Exp $
+ * @version    CVS: $Id: mysql.php,v 1.126 2007/09/21 13:32:52 aharvey Exp $
  * @link       http://pear.php.net/package/DB
  */
 
@@ -41,9 +39,9 @@ require_once 'DB/common.php';
  * @package    DB
  * @author     Stig Bakken <ssb@php.net>
  * @author     Daniel Convissor <danielc@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2007 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: @package_version@
+ * @version    Release: 1.7.13
  * @link       http://pear.php.net/package/DB
  */
 class DB_mysql extends DB_common
@@ -113,6 +111,9 @@ class DB_mysql extends DB_common
         1146 => DB_ERROR_NOSUCHTABLE,
         1216 => DB_ERROR_CONSTRAINT,
         1217 => DB_ERROR_CONSTRAINT,
+        1356 => DB_ERROR_DIVZERO,
+        1451 => DB_ERROR_CONSTRAINT,
+        1452 => DB_ERROR_CONSTRAINT,
     );
 
     /**
@@ -238,16 +239,16 @@ class DB_mysql extends DB_common
             $this->connection = @call_user_func_array($connect_function,
                                                       $params);
         } else {
-            ini_set('track_errors', 1);
+            @ini_set('track_errors', 1);
             $this->connection = @call_user_func_array($connect_function,
                                                       $params);
-            ini_set('track_errors', $ini);
+            @ini_set('track_errors', $ini);
         }
 
         if (!$this->connection) {
             if (($err = @mysql_error()) != '') {
                 return $this->raiseError(DB_ERROR_CONNECT_FAILED,
-                                         null, null, null,
+                                         null, null, null, 
                                          $err);
             } else {
                 return $this->raiseError(DB_ERROR_CONNECT_FAILED,
@@ -299,13 +300,7 @@ class DB_mysql extends DB_common
      */
     function simpleQuery($query)
     {
-        // increments the total number of queries
-        global $TOTAL_QUERIES;
-        $TOTAL_QUERIES++;
-        if ((defined('APP_BENCHMARK')) && (APP_BENCHMARK == true)) {
-            $GLOBALS['bench']->setMarker('BEFORE ' . $query);
-        }
-        $ismanip = DB::isManip($query);
+        $ismanip = $this->_checkManip($query);
         $this->last_query = $query;
         $query = $this->modifyQuery($query);
         if ($this->_db) {
@@ -322,9 +317,6 @@ class DB_mysql extends DB_common
                 }
             }
             $this->transaction_opcount++;
-        }
-        if ((defined('APP_BENCHMARK')) && (APP_BENCHMARK == true)) {
-            $GLOBALS['bench']->setMarker('AFTER ' . $query);
         }
         if (!$this->options['result_buffering']) {
             $result = @mysql_unbuffered_query($query, $this->connection);
@@ -430,7 +422,7 @@ class DB_mysql extends DB_common
      */
     function freeResult($result)
     {
-        return @mysql_free_result($result);
+        return is_resource($result) ? mysql_free_result($result) : false;
     }
 
     // }}}
@@ -566,7 +558,7 @@ class DB_mysql extends DB_common
      */
     function affectedRows()
     {
-        if (DB::isManip($this->last_query)) {
+        if ($this->_last_query_manip) {
             return @mysql_affected_rows($this->connection);
         } else {
             return 0;
@@ -763,9 +755,10 @@ class DB_mysql extends DB_common
 
     /**
      * Quotes a string so it can be safely used as a table or column name
+     * (WARNING: using names that require this is a REALLY BAD IDEA)
      *
-     * MySQL can't handle the backtick character (<kbd>`</kbd>) in
-     * table or column names.
+     * WARNING:  Older versions of MySQL can't handle the backtick
+     * character (<kbd>`</kbd>) in table or column names.
      *
      * @param string $str  identifier name to be quoted
      *
@@ -776,7 +769,7 @@ class DB_mysql extends DB_common
      */
     function quoteIdentifier($str)
     {
-        return '`' . $str . '`';
+        return '`' . str_replace('`', '``', $str) . '`';
     }
 
     // }}}
@@ -863,7 +856,7 @@ class DB_mysql extends DB_common
      */
     function modifyLimitQuery($query, $from, $count, $params = array())
     {
-        if (DB::isManip($query)) {
+        if (DB::isManip($query) || $this->_next_query_manip) {
             return $query . " LIMIT $count";
         } else {
             return $query . " LIMIT $from, $count";
@@ -939,12 +932,19 @@ class DB_mysql extends DB_common
     function tableInfo($result, $mode = null)
     {
         if (is_string($result)) {
+            // Fix for bug #11580.
+            if ($this->_db) {
+                if (!@mysql_select_db($this->_db, $this->connection)) {
+                    return $this->mysqlRaiseError(DB_ERROR_NODBSELECTED);
+                }
+            }
+            
             /*
              * Probably received a table name.
              * Create a result resource identifier.
              */
-            $id = @mysql_list_fields($this->dsn['database'],
-                                     $result, $this->connection);
+            $id = @mysql_query("SELECT * FROM $result LIMIT 0",
+                               $this->connection);
             $got_string = true;
         } elseif (isset($result->result)) {
             /*
