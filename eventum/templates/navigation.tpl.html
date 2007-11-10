@@ -94,7 +94,7 @@
           <td width="5%" nowrap bgcolor="{$light_color}">
             {if $current_role != $roles.customer}
             <label for="search" accesskey="3"></label>
-            <input type="text" id="search" name="keywords" value="keywords" size="15"
+            <input type="text" id="search" name="keywords" value="{t}keywords{/t}" size="15"
               onBlur="javascript:if (this.value == '') this.value = 'keywords';" onFocus="javascript:if (this.value == 'keywords') this.value='';" class="shortcut">
             <input type="submit" value="{t}Search{/t}" class="shortcut">
             {/if}
