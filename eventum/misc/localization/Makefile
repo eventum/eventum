@@ -2,8 +2,7 @@
 # (c) 2007 Elan Ruusam√e <glen@delfi.ee>
 
 SVN_URL := svn://eventum.mysql.org/eventum-gpl/trunk/eventum
-ALL_LINGUAS := de_DE en_US es_ES fi_FI fr_FR it_IT nl_NL pl ru_RU sv_SE
-#ALL_LINGUAS := ru_RU
+ALL_LINGUAS := de en es fi fr it nl pl ru sv
 DOMAIN := eventum
 
 all:
