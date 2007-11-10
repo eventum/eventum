@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-10 02:54+0200\n"
-"PO-Revision-Date: 2007-11-10 11:28+0200\n"
+"PO-Revision-Date: 2007-11-10 17:22+0200\n"
 "Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
@@ -358,7 +358,7 @@ msgstr "Avainsana(t)"
 #: misc/localization/eventum.c:164
 #: misc/localization/eventum.c:6359
 msgid "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
-msgstr "Asiakkaan henkilöllisyys (esim. \"Esimerkki Oy.\",\"matti.meikalainen@firma.fi\", 12345)"
+msgstr "Asiakkaan henkilöllisyys (esim. \"Esimerkki Oy.\",\"matti.meikalainen@example.com\", 12345)"
 
 #: misc/localization/eventum.c:167
 #: misc/localization/eventum.c:6362
@@ -2258,7 +2258,7 @@ msgid ""
 msgstr ""
 "Jotta asiattomat sähköpostiviestit eivät pääsisi tiedostuslistalle, ainoastaan käyttäjille,\n"
 "jotka on liitetty vikailmoitukseen on sallittu viestien lähettäminen Eventumin kautta. Jos\n"
-"sallimaton käyttäjä lähettää sähköpostia osoitteeseen <i>issue-XXXX@firma.fi</i>, \n"
+"sallimaton käyttäjä lähettää sähköpostia osoitteeseen <i>issue-XXXX@example.com</i>, \n"
 "sähköposti muutetaan viestiksi ja tallennetaan myöhempää käyttöä varten. Tämä viesti\n"
 "voidaan muuntaa takaisin sähköpostiksi myöhemmin."
 
@@ -4625,7 +4625,7 @@ msgstr "Lähettäjän sähköpostiosoite"
 
 #: misc/localization/eventum.c:3236
 msgid "(This MUST contain a real email address, e.g. \"eventum@example.com\" or \"Eventum <eventum@example.com>\")"
-msgstr "(Tämän TÄYTYY sisältää oikea sähköpostiosoite, esim. \"eventum@firma.fi\" tai \"Eventum <eventum@firma.fi>\")"
+msgstr "(Tämän TÄYTYY sisältää oikea sähköpostiosoite, esim. \"eventum@example.com\" tai \"Eventum <eventum@example.comi>\")"
 
 #: misc/localization/eventum.c:3245
 msgid "Requires Authentication?"
@@ -4693,7 +4693,7 @@ msgstr "Sähköpostiosoitteen alkuosa:"
 
 #: misc/localization/eventum.c:3320
 msgid "(e.g. <b>issue_</b>51@example.com)"
-msgstr "(esim. <b>vikailmoitus_</b>51@firma.fi)"
+msgstr "(esim. <b>vikailmoitus_</b>51@example.com)"
 
 #: misc/localization/eventum.c:3323
 #: misc/localization/eventum.c:3374
@@ -4703,7 +4703,7 @@ msgstr "Koneen nimi:"
 
 #: misc/localization/eventum.c:3326
 msgid "(e.g. issue_51@<b>example.com</b>)"
-msgstr "(esim. vikailmoitus_51@<b>firma.fi</b>)"
+msgstr "(esim. vikailmoitus_51@<b>example.com</b>)"
 
 #: misc/localization/eventum.c:3329
 msgid "Host Alias:"
@@ -4735,11 +4735,11 @@ msgstr "Viestin osoitteen etuliite:"
 
 #: misc/localization/eventum.c:3371
 msgid "(e.g. <b>note_</b>51@example.com)"
-msgstr "(esim. <b>viesti_</b>51@firma.fi)"
+msgstr "(esim. <b>viesti_</b>51@example.com)"
 
 #: misc/localization/eventum.c:3377
 msgid "(e.g. note_51@<b>example.com</b>)"
-msgstr "(esim. viesti_51@<b>firma.fi</b>)"
+msgstr "(esim. viesti_51@<b>example.com</b>)"
 
 #: misc/localization/eventum.c:3380
 msgid "Email Draft Interface:"
@@ -4751,11 +4751,11 @@ msgstr "Luonnoksen osoitteen etuliite:"
 
 #: misc/localization/eventum.c:3392
 msgid "(e.g. <b>draft_</b>51@example.com)"
-msgstr "(esim. <b>luonnos_</b>51@firma.fi)"
+msgstr "(esim. <b>luonnos_</b>51@example.com)"
 
 #: misc/localization/eventum.c:3398
 msgid "(e.g. draft_51@<b>example.com</b>)"
-msgstr "(esim. luonnos_51@<b>firma.fi</b>)"
+msgstr "(esim. luonnos_51@<b>example.com</b>)"
 
 #: misc/localization/eventum.c:3401
 msgid "SCM <br />Integration:"
