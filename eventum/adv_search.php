@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: adv_search.php 3258 2007-02-14 23:25:56Z glen $
+// @(#) $Id: adv_search.php 3437 2007-11-10 00:52:16Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -57,13 +57,13 @@ $prj_id = Auth::getCurrentProject();
 $groups = Group::getAssocList($prj_id);
 $users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
 $assign_options = array(
-    ""      =>  "Any",
-    "-1"    =>  "un-assigned",
-    "-2"    =>  "myself and un-assigned"
+    ""      =>  ev_gettext("Any"),
+    "-1"    =>  ev_gettext("un-assigned"),
+    "-2"    =>  ev_gettext("myself and un-assigned"),
 );
 if (User::getGroupID(Auth::getUserID()) != '') {
-    $assign_options['-3'] = 'myself and my group';
-    $assign_options['-4'] = 'myself, un-assigned and my group';
+    $assign_options['-3'] = ev_gettext('myself and my group');
+    $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
 }
 if ((count($groups) > 0) && ( $role_id > User::getRoleID("Customer"))) {
     foreach ($groups as $grp_id => $grp_name) {

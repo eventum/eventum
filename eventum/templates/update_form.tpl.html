@@ -36,7 +36,7 @@
 
               {if $notify_list|@count > 0}
                 <div align="center">
-                <b>{t}E-mail about issue update was sent to:{/t}</b><br />
+                <b>{t}E-mail about issue update was sent to{/t}:</b><br />
                 {foreach from=$notify_list item=email_address}
                   &nbsp;&nbsp;{$email_address|escape:"html"}<br />
                 {/foreach}
@@ -184,9 +184,9 @@ function closeIssue(issue_id)
             <b>{t}Notification List:{/t}</b>
           </td>
           <td width="50%" bgcolor="{$light_color}" valign="top" class="default">
-            {if $subscribers.staff != ''}Staff: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
+            {if $subscribers.staff != ''}{t}Staff{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
             {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
-            {if $subscribers.customers != ''}Other: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
+            {if $subscribers.customers != ''}{t}Other{/t}: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
           </td>
         </tr>
         <tr>
@@ -390,9 +390,9 @@ function closeIssue(issue_id)
           </td>
           <td colspan="3" bgcolor="{$dark_color}" class="default">
             <input type="radio" name="private" value="1" {if $issue.iss_private}checked{/if}>
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'private', 0);">Yes</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'private', 0);">{t}Yes{/t}</a>
             <input type="radio" name="private" value="0" {if not $issue.iss_private}checked{/if}>
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'private', 1);">No</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'private', 1);">{t}No{/t}</a>
           </td>
         </tr>
         {else}
@@ -405,9 +405,9 @@ function closeIssue(issue_id)
           </td>
           <td colspan="3" bgcolor="{$dark_color}" class="default">
             <input type="radio" name="trigger_reminders" value="1" {if $issue.iss_trigger_reminders}checked{/if}>
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'trigger_reminders', 0);">Yes</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'trigger_reminders', 0);">{t}Yes{/t}</a>
             <input type="radio" name="trigger_reminders" value="0" {if not $issue.iss_trigger_reminders}checked{/if}>
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'trigger_reminders', 1);">No</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('update_form', 'trigger_reminders', 1);">{t}No{/t}</a>
           </td>
         </tr>
         {else}

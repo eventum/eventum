@@ -52,7 +52,7 @@
                   {t}myself, un-assigned and my group{/t}
                 {elseif $filter_details|substr:"0":"3" == 'grp'}
                   {assign var=grp_id value=$filter_details|substr:"4"}
-                  {$groups[$grp_id]} Group
+                  {$groups[$grp_id]} {t}Group{/t}
                 {else}
                   {$users[$filter_details]}
                 {/if}

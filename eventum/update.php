@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: update.php 3337 2007-06-13 09:27:48Z glen $
+// @(#) $Id: update.php 3437 2007-11-10 00:52:16Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -72,7 +72,7 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
 
 $details = Issue::getDetails($issue_id);
 $tpl->assign("issue", $details);
-$tpl->assign("extra_title", "Update Issue #$issue_id");
+$tpl->assign("extra_title", ev_gettext('Update Issue #%1$s', $issue_id));
 
 if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) != $details['iss_customer_id'])) {
     $tpl->assign("auth_customer", 'denied');

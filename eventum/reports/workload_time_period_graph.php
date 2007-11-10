@@ -25,7 +25,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: workload_time_period_graph.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: workload_time_period_graph.php 3437 2007-11-10 00:52:16Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.auth.php");
@@ -53,12 +53,12 @@ $user_prefs = Prefs::get($usr_id);
 
 if (@$_GET["type"] == "email") {
     $data = Report::getEmailWorkloadByTimePeriod(@$user_prefs["timezone"], true);
-    $graph_title = "Email by Time Period";
-    $event_type = "emails";
+    $graph_title = ev_gettext("Email by Time Period");
+    $event_type = ev_gettext("emails");
 } else {
     $data = Report::getWorkloadByTimePeriod(@$user_prefs["timezone"], true);
-    $graph_title = "Workload by Time Period";
-    $event_type = "actions";
+    $graph_title = ev_gettext("Workload by Time Period");
+    $event_type = ev_gettext("actions");
 }
 
 $plots = array();

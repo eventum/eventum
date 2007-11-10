@@ -317,7 +317,7 @@ function validateForm(f)
                 {assign var='estimated_dev_time' value=$smarty.post.estimated_dev_time}
             {/if}
             <input type="text" name="estimated_dev_time" class="default" size="10" tabindex="{$tabindex++}" value="{$estimated_dev_time}">
-            {include file="error_icon.tpl.html" field="estimated_dev_time"} <span class="default">(in hours)</span>
+            {include file="error_icon.tpl.html" field="estimated_dev_time"} <span class="default">({t}in hours{/t})</span>
           </td>
         </tr>
         {/if}
@@ -328,9 +328,9 @@ function validateForm(f)
           </td>
           <td bgcolor="{$light_color}" class="default">
             <input type="radio" name="private" value="1" {if $smarty.post.private}checked{/if} tabindex="{$tabindex++}">
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'private', 0);">Yes</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'private', 0);">{t}Yes{/t}</a>
             <input type="radio" name="private" value="0" {if not $smarty.post.private}checked{/if} tabindex="{$tabindex++}">
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'private', 1);">No</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('report_form', 'private', 1);">{t}No{/t}</a>
             {include file="error_icon.tpl.html" field="private"}
           </td>
         </tr>
