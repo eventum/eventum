@@ -1,22 +1,24 @@
+# Translation of eventum.po to Swedish
 # translation of eventum.po to Swedish
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
 # Bryan Alsdorf <bryan@mysql.com>, 2006.
 # Jostein Martinsen <jostein.martinsen@redpill.se>, 2006.
+# Elan Ruusamäe <glen@delfi.ee>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-10 02:54+0200\n"
-"PO-Revision-Date: 2006-10-26 18:31+0200\n"
-"Last-Translator: Jostein Martinsen <jostein.martinsen@redpill.se>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"PO-Revision-Date: 2007-11-10 03:02+0200\n"
+"Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
+"Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: misc/localization/eventum.c:2 misc/localization/eventum.c:5693
 #: misc/localization/eventum.c:6551 misc/localization/eventum.c:7499
@@ -68,8 +70,7 @@ msgstr "Välj ett giltigt datum för när telefonsamtalet ägde rum"
 
 #: misc/localization/eventum.c:20 misc/localization/eventum.c:110
 #: misc/localization/eventum.c:695
-msgid ""
-"Please enter integers (or floating point numbers) on the time spent field."
+msgid "Please enter integers (or floating point numbers) on the time spent field."
 msgstr "Ange heltal (eller decimaltal) i \"Tillbringad tid\" fältet."
 
 #: misc/localization/eventum.c:23
@@ -274,8 +275,7 @@ msgstr "Nyckelord"
 
 #: misc/localization/eventum.c:164 misc/localization/eventum.c:6359
 #, fuzzy
-msgid ""
-"Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
+msgid "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
 msgstr "KundID (t.ex \"Example Inc.\", \"johndoe@example.com\", 12345)"
 
 #: misc/localization/eventum.c:167 misc/localization/eventum.c:6362
@@ -588,8 +588,7 @@ msgstr "Ett fel uppstod vid försök att associera det valda e-postmeddelandet"
 
 #: misc/localization/eventum.c:428
 msgid "Thank you, the selected email message was associated successfully."
-msgid_plural ""
-"Thank you, the selected email messages were associated successfully."
+msgid_plural "Thank you, the selected email messages were associated successfully."
 msgstr[0] "Tack så mycket, det valda e-postmeddelandet har associerats."
 msgstr[1] "Tack så mycket, de valda e-postmeddelandena har associerats"
 
@@ -598,15 +597,12 @@ msgid "Warning: Unknown Contacts Found"
 msgstr "Varning: Okänd kontakt hittad"
 
 #: misc/localization/eventum.c:437
-msgid ""
-"The following addresses could not be matched against the system user records:"
+msgid "The following addresses could not be matched against the system user records:"
 msgstr "Följande adresser kunde inte matchas mot systemanvändarens poster:"
 
 #: misc/localization/eventum.c:440
-msgid ""
-"Please make sure you have selected the correct email messages to associate."
-msgstr ""
-"Vänligen kontrollera att du har valt korrekta e-postmeddelande att associera."
+msgid "Please make sure you have selected the correct email messages to associate."
+msgstr "Vänligen kontrollera att du har valt korrekta e-postmeddelande att associera."
 
 #: misc/localization/eventum.c:443 misc/localization/eventum.c:1340
 #: misc/localization/eventum.c:1442
@@ -909,8 +905,7 @@ msgstr "Tack så mycket, projektet har ändrats."
 
 #: misc/localization/eventum.c:659
 #, fuzzy
-msgid ""
-"An error was found while trying to change your account clocked-in status."
+msgid "An error was found while trying to change your account clocked-in status."
 msgstr "ändra instämpling för ditt konto"
 
 #: misc/localization/eventum.c:662
@@ -1156,8 +1151,7 @@ msgstr "OBS:"
 
 #: misc/localization/eventum.c:812
 msgid "Email will be re-sent from original sender, including any attachments."
-msgstr ""
-"E-post kommer skickad om från originalavsändare med eventuella bilagor."
+msgstr "E-post kommer skickad om från originalavsändare med eventuella bilagor."
 
 #: misc/localization/eventum.c:815
 msgid "Add sender to authorized repliers list?"
@@ -1637,8 +1631,7 @@ msgstr "Var vänlig välj vilka e-postmeddelanden som skall associeras."
 
 #: misc/localization/eventum.c:1217
 msgid "Please choose which emails need to be marked as deleted."
-msgstr ""
-"Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna."
+msgstr "Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna."
 
 #: misc/localization/eventum.c:1220
 msgid "This action will mark the selected email messages as deleted."
@@ -1884,8 +1877,7 @@ msgstr "Fel: var vänlig ange din e-postadress."
 
 #: misc/localization/eventum.c:1421
 msgid "Error: No user account was found matching the entered email address."
-msgstr ""
-"Fel: inget användarkonto hittades som matchar den angivna e-postadressen."
+msgstr "Fel: inget användarkonto hittades som matchar den angivna e-postadressen."
 
 #: misc/localization/eventum.c:1424 misc/localization/eventum.c:7589
 msgid "Email Address:"
@@ -2611,8 +2603,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:1835
 msgid "Please enter the analysis for the changes required by this issue."
-msgstr ""
-"Var vänlig ange analys för förändringar som behövs för det här ärendet."
+msgstr "Var vänlig ange analys för förändringar som behövs för det här ärendet."
 
 #: misc/localization/eventum.c:1841
 msgid "Total Estimated Dev. Time"
@@ -2788,8 +2779,7 @@ msgstr "Fel: Vänligen ange ditt lösenord."
 msgid ""
 "Error: The email address / password combination could not be found in the "
 "system."
-msgstr ""
-"Fel. Den e-postadress / lösenordskombination kunde inte hittas i systemet."
+msgstr "Fel. Den e-postadress / lösenordskombination kunde inte hittas i systemet."
 
 #: misc/localization/eventum.c:2030
 msgid "Your session has expired. Please login again to continue."
@@ -2960,8 +2950,7 @@ msgstr "Tack, telefonsamtalet är tillagt."
 
 #: misc/localization/eventum.c:2168
 #, fuzzy
-msgid ""
-"An error occurred while trying to update the account manager information."
+msgid "An error occurred while trying to update the account manager information."
 msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
 
 #: misc/localization/eventum.c:2171
@@ -3068,8 +3057,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:2240
 #, fuzzy
-msgid ""
-"Please choose whether to show custom fields for remote invocations or not."
+msgid "Please choose whether to show custom fields for remote invocations or not."
 msgstr "Vänligen kontrollera om SMTP-severn kräver autentisering eller inte."
 
 #: misc/localization/eventum.c:2243
@@ -3089,8 +3077,7 @@ msgstr "Vänligen välj ärendetyper som skall återskapas för ärendet."
 
 #: misc/localization/eventum.c:2252
 #, fuzzy
-msgid ""
-"Please choose at least one person to assign the new issues created remotely."
+msgid "Please choose at least one person to assign the new issues created remotely."
 msgstr "Vänligen välj minst en av prenumeranterna."
 
 #: misc/localization/eventum.c:2255
@@ -3952,8 +3939,7 @@ msgstr "Tack, telefonsamtalet är tillagt."
 
 #: misc/localization/eventum.c:2978
 #, fuzzy
-msgid ""
-"An error occurred while trying to update the email response information."
+msgid "An error occurred while trying to update the email response information."
 msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
 
 #: misc/localization/eventum.c:2981
@@ -4181,8 +4167,7 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c:3185
-msgid ""
-"Please select the assigned projects for users that create their own accounts."
+msgid "Please select the assigned projects for users that create their own accounts."
 msgstr ""
 
 #: misc/localization/eventum.c:3188
@@ -4192,40 +4177,33 @@ msgstr "Ange en giltig avsändaradress"
 
 #: misc/localization/eventum.c:3191
 #, fuzzy
-msgid ""
-"Please enter the email address hostname for the email routing interface."
+msgid "Please enter the email address hostname for the email routing interface."
 msgstr "Ange en giltig avsändaradress"
 
 #: misc/localization/eventum.c:3194
 #, fuzzy
-msgid ""
-"Please choose whether the SCM integration feature should be enabled or not."
+msgid "Please choose whether the SCM integration feature should be enabled or not."
 msgstr "Vänligen kontrollera om SMTP-severn kräver autentisering eller inte."
 
 #: misc/localization/eventum.c:3197
 #, fuzzy
 msgid "Please enter the checkout page URL for your SCM integration tool."
-msgstr ""
-"Vänligen ange den relativa adressen för den här installationen av Eventum."
+msgstr "Vänligen ange den relativa adressen för den här installationen av Eventum."
 
 #: misc/localization/eventum.c:3200
 #, fuzzy
 msgid "Please enter the diff page URL for your SCM integration tool."
-msgstr ""
-"Vänligen ange den relativa adressen för den här installationen av Eventum."
+msgstr "Vänligen ange den relativa adressen för den här installationen av Eventum."
 
 #: misc/localization/eventum.c:3203
 #, fuzzy
-msgid ""
-"Please choose whether the email integration feature should be enabled or not."
-msgstr ""
-"Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna."
+msgid "Please choose whether the email integration feature should be enabled or not."
+msgstr "Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna."
 
 #: misc/localization/eventum.c:3206
 #, fuzzy
 msgid "Please choose whether the daily tips feature should be enabled or not."
-msgstr ""
-"Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna."
+msgstr "Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna."
 
 #: misc/localization/eventum.c:3209 misc/localization/eventum.c:3758
 msgid "General Setup"
@@ -4328,8 +4306,7 @@ msgid "Recipient Type Flag:"
 msgstr "Mottagare:"
 
 #: misc/localization/eventum.c:3299
-msgid ""
-"(This will be included in the From address of all emails sent by Eventum)"
+msgid "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
 
 #: misc/localization/eventum.c:3302 misc/localization/eventum.c:3353
@@ -4383,8 +4360,7 @@ msgid "Note Recipient Type Flag:"
 msgstr "Extra noteringsmottagare:"
 
 #: misc/localization/eventum.c:3350
-msgid ""
-"(This will be included in the From address of all notes sent by Eventum)"
+msgid "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
 
 #: misc/localization/eventum.c:3359
@@ -5503,8 +5479,7 @@ msgstr "Vänligen ange rubrik för ärendet."
 
 #: misc/localization/eventum.c:4592
 #, fuzzy
-msgid ""
-"Please choose the support levels that will be associated with this reminder."
+msgid "Please choose the support levels that will be associated with this reminder."
 msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet."
 
 #: misc/localization/eventum.c:4595
@@ -5519,8 +5494,7 @@ msgstr "Vänligen ange ämne för e-postmeddelandet"
 
 #: misc/localization/eventum.c:4601
 #, fuzzy
-msgid ""
-"Please choose the priorities that will be associated with this reminder."
+msgid "Please choose the priorities that will be associated with this reminder."
 msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet."
 
 #: misc/localization/eventum.c:4616
@@ -5616,8 +5590,7 @@ msgstr "Tack så mycket, de nya kraven har lagts till."
 
 #: misc/localization/eventum.c:4724
 #, fuzzy
-msgid ""
-"An error occurred while trying to update the issue resolution information."
+msgid "An error occurred while trying to update the issue resolution information."
 msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
 
 #: misc/localization/eventum.c:4727
@@ -5684,8 +5657,7 @@ msgstr "Tack, telefonsamtalet är tillagt."
 
 #: misc/localization/eventum.c:4790
 #, fuzzy
-msgid ""
-"An error occurred while trying to update the round robin entry information."
+msgid "An error occurred while trying to update the round robin entry information."
 msgstr "Ett fel uppstod när försök gjordes att uppdatera notifieringsposten."
 
 #: misc/localization/eventum.c:4799
@@ -5990,8 +5962,7 @@ msgid "Existing Users"
 msgstr ""
 
 #: misc/localization/eventum.c:5105
-msgid ""
-"You cannot change the status of the only active user left in the system."
+msgid "You cannot change the status of the only active user left in the system."
 msgstr ""
 
 #: misc/localization/eventum.c:5108
@@ -6301,8 +6272,7 @@ msgstr "är varken en personals eller kunds tekniska kontakt."
 
 #: misc/localization/eventum.c:5444
 msgid "Are you sure you want to add this address to the notification list?"
-msgstr ""
-"Är du säker på att du vill lägga till adressen till notifieringslistan?"
+msgstr "Är du säker på att du vill lägga till adressen till notifieringslistan?"
 
 #: misc/localization/eventum.c:5447
 msgid "Notification Options"
@@ -6606,8 +6576,7 @@ msgid "Please enter the note text on the input box below."
 msgstr "Vänligen ange noteringtext i fältet nedanför."
 
 #: misc/localization/eventum.c:5927
-msgid ""
-"Thank you, the new note was created and associated with the issue below."
+msgid "Thank you, the new note was created and associated with the issue below."
 msgstr ""
 "Tack så mycket, den nya noteringen har skapats och associerats med ärendet "
 "nedanför."
@@ -6653,10 +6622,8 @@ msgid "Thank you, the selected custom filters were removed successfully."
 msgstr "Tack så mycket, de valda anpassade filtren har tagits bor."
 
 #: misc/localization/eventum.c:5990
-msgid ""
-"Thank you, the association to the selected emails were removed successfully."
-msgstr ""
-"Tack så mycket, associationen till valda e-postmeddelanden har tagits bort."
+msgid "Thank you, the association to the selected emails were removed successfully."
+msgstr "Tack så mycket, associationen till valda e-postmeddelanden har tagits bort."
 
 #: misc/localization/eventum.c:5996
 msgid "You do not have the permission to remove this attachment."
@@ -6718,8 +6685,7 @@ msgstr "Fel: du har redan behörighet att skicka e-postmeddelanden i ärendet."
 
 #: misc/localization/eventum.c:6062
 msgid "Thank you, you are now authorized to send emails in this issue."
-msgstr ""
-"Tack så mycket, du har nu behörighet att skicka e-postmeddelanden i ärendet."
+msgstr "Tack så mycket, du har nu behörighet att skicka e-postmeddelanden i ärendet."
 
 #: misc/localization/eventum.c:6068
 msgid "Thank you, this issue was removed from quarantine."
@@ -6834,8 +6800,7 @@ msgid "Please enter your new password with at least 6 characters."
 msgstr "Vänligen ange ditt nya lösenord med minst 6 tecken."
 
 #: misc/localization/eventum.c:6212
-msgid ""
-"The two passwords do not match. Please review your information and try again."
+msgid "The two passwords do not match. Please review your information and try again."
 msgstr "De två lösenorden matchar inte. Vänligen försök igen."
 
 #: misc/localization/eventum.c:6215
@@ -7867,10 +7832,8 @@ msgid "Warning: This draft has already been sent. You cannot resend it."
 msgstr "Varning: Utkastet har redan skickats. Du kan inte skicka om det."
 
 #: misc/localization/eventum.c:7475
-msgid ""
-"Warning: This draft has already been edited. You cannot send or edit it."
-msgstr ""
-"Varning: Utkastet har redan redigerats. Du kan inte skicka eller editera det."
+msgid "Warning: This draft has already been edited. You cannot send or edit it."
+msgstr "Varning: Utkastet har redan redigerats. Du kan inte skicka eller editera det."
 
 #: misc/localization/eventum.c:7481 misc/localization/eventum.c:7532
 #: misc/localization/eventum.c:7670
@@ -7940,8 +7903,7 @@ msgstr "Skaffa konto"
 msgid ""
 "Error: The email address specified is already associated with an user in the "
 "system."
-msgstr ""
-"Fel: Den angivna adresssen är upptagen av en annan användare i systemet."
+msgstr "Fel: Den angivna adresssen är upptagen av en annan användare i systemet."
 
 #: misc/localization/eventum.c:7583
 msgid ""
@@ -7982,8 +7944,7 @@ msgid "Fix Spelling"
 msgstr "Kontrollera stavningen"
 
 #: misc/localization/eventum.c:7619
-msgid ""
-"Please choose which entries need to be disassociated with the current issue."
+msgid "Please choose which entries need to be disassociated with the current issue."
 msgstr "Vänligen välj vilka poster som ska avassocieras från ärendet."
 
 #: misc/localization/eventum.c:7622
@@ -8670,8 +8631,7 @@ msgstr ""
 #: include/class.mail.php:469
 #, fuzzy
 msgid "ADVISORY: Your reply will be sent to the notification list."
-msgstr ""
-"Är du säker på att du vill lägga till adressen till notifieringslistan?"
+msgstr "Är du säker på att du vill lägga till adressen till notifieringslistan?"
 
 #: include/class.mail.php:471
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
@@ -8851,8 +8811,7 @@ msgid "Error: Please configure the email address domain."
 msgstr "Fel: Vänligen ange din e-postadress."
 
 #: include/class.routing.php:82
-msgid ""
-"Error: The associated user for the email routing interface needs to be set."
+msgid "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
 
 #: include/class.routing.php:112 include/class.routing.php:117
@@ -9194,3 +9153,4 @@ msgstr "Uppdatera ärende"
 
 #~ msgid "Return to Issue"
 #~ msgstr "Återgå till ärendet"
+
