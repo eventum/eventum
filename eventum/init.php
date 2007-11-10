@@ -163,7 +163,7 @@ if (APP_BENCHMARK) {
 $avail_langs = array(
     'pl' =>  'Polish',
     'en' =>  'English',
-#    'ru' =>  'Russian',
+    'ru' =>  'Russian',
 #    'de' =>  'German',
 #    'fr' =>  'French',
     'it' =>  'Italian',
