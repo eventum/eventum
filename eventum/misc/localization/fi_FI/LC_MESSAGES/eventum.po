@@ -1,21 +1,24 @@
+# Translation of eventum.po to Finnish
 # translation of messages.po to US English
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Bryan Alsdorf <bryan@mysql.com>, 2006.
+# Jyrki Heinonen <jyrki.heinonen@gmail.com>, 2007
+# Elan Ruusamäe <glen@delfi.ee>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: Eventum messages\n"
+"Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-10 02:54+0200\n"
-"PO-Revision-Date: 2007-03-17 11:20+0200\n"
-"Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
-"Language-Team: FI Finnish\n"
+"PO-Revision-Date: 2007-11-10 03:21+0200\n"
+"Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
+"Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 0.10\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
 "X-Poedit-Language: Finnish\n"
 "X-Poedit-Country: FINLAND\n"
 
@@ -69,8 +72,7 @@ msgstr "Valitse oikea päivämäärä, milloin puhelinkeskustelu käytiin."
 
 #: misc/localization/eventum.c:20 misc/localization/eventum.c:110
 #: misc/localization/eventum.c:695
-msgid ""
-"Please enter integers (or floating point numbers) on the time spent field."
+msgid "Please enter integers (or floating point numbers) on the time spent field."
 msgstr "Syötä kokonaislukuja (tai liukulukuja) \"käytetty aika\"-kenttään."
 
 #: misc/localization/eventum.c:23
@@ -275,8 +277,7 @@ msgstr "Avainsana(t)"
 
 #: misc/localization/eventum.c:164 misc/localization/eventum.c:6359
 #, fuzzy
-msgid ""
-"Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
+msgid "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
 msgstr ""
 "Asiakkaan henkilöllisyys (esim. \"Esimerkki Oy.\",\"matti.meikalainen@firma."
 "fi\", 12345)"
@@ -591,8 +592,7 @@ msgstr "Virhe tapahtui liittäessä valittua sähköpostiviestiä."
 
 #: misc/localization/eventum.c:428
 msgid "Thank you, the selected email message was associated successfully."
-msgid_plural ""
-"Thank you, the selected email messages were associated successfully."
+msgid_plural "Thank you, the selected email messages were associated successfully."
 msgstr[0] "Kiitos, valittu sähköpostiosoite liitettiin onnistuneesti."
 msgstr[1] "Kiitos, valitut sähköpostiosoitteet liitettiin onnistuneesti."
 
@@ -601,13 +601,11 @@ msgid "Warning: Unknown Contacts Found"
 msgstr "Varoitus: Tuntemattomia yhteystietoja löytynyt"
 
 #: misc/localization/eventum.c:437
-msgid ""
-"The following addresses could not be matched against the system user records:"
+msgid "The following addresses could not be matched against the system user records:"
 msgstr "Seuraavia osoitteita ei löydetty järjestelmän käyttäjätiedoista:"
 
 #: misc/localization/eventum.c:440
-msgid ""
-"Please make sure you have selected the correct email messages to associate."
+msgid "Please make sure you have selected the correct email messages to associate."
 msgstr "Varmista, että olet valinnut oikeat sähköpostiviestit liitettäväksi"
 
 #: misc/localization/eventum.c:443 misc/localization/eventum.c:1340
@@ -912,8 +910,7 @@ msgid "Thank you, your account clocked-in status was changed successfully."
 msgstr "Kiitos, tilisi kellokorttitila muutettiin onnistuneesti."
 
 #: misc/localization/eventum.c:659
-msgid ""
-"An error was found while trying to change your account clocked-in status."
+msgid "An error was found while trying to change your account clocked-in status."
 msgstr "Virhe tapahtui muuttaessa tilisi kellokorttitilaa."
 
 #: misc/localization/eventum.c:662
@@ -1626,8 +1623,7 @@ msgstr "Toiminto merkitsee valitut sähköpostiviestit poistetuiksi."
 msgid "Viewing Emails (%1 emails found)"
 msgid_plural "Viewing Emails (%1 emails found, %2 - %3 shown)"
 msgstr[0] "Näytetään sähköpostiviestejä (%1 viestiä löytynyt)"
-msgstr[1] ""
-"Näytetään sähköpostiviestejä (%1 viestiä löytynyt, näytetään %2 - %3)"
+msgstr[1] "Näytetään sähköpostiviestejä (%1 viestiä löytynyt, näytetään %2 - %3)"
 
 #: misc/localization/eventum.c:1232
 msgid "sort by sender"
@@ -1857,8 +1853,7 @@ msgstr "Virhe: Anna sähköpostiosoitteesi."
 
 #: misc/localization/eventum.c:1421
 msgid "Error: No user account was found matching the entered email address."
-msgstr ""
-"Virhe: Yksikään käyttäjätili ei vastannut antamaasi sähköpostiosoitetta."
+msgstr "Virhe: Yksikään käyttäjätili ei vastannut antamaasi sähköpostiosoitetta."
 
 #: misc/localization/eventum.c:1424 misc/localization/eventum.c:7589
 msgid "Email Address:"
@@ -2089,8 +2084,7 @@ msgstr "Mahdolliset ohjeet"
 msgid ""
 "Please refer to the following help sections for more information on \n"
 "specific parts of the application:"
-msgstr ""
-"Katso seuraavista ohjeen aiheista lisätietoja tietyistä ohjelman osista:"
+msgstr "Katso seuraavista ohjeen aiheista lisätietoja tietyistä ohjelman osista:"
 
 #: misc/localization/eventum.c:1502 misc/localization/eventum.c:1634
 msgid "Reporting New Issues"
@@ -2881,8 +2875,7 @@ msgstr "Varoitus: Jos jatkat, muutat asetuksia "
 
 #: misc/localization/eventum.c:1919
 msgid "for all selected issues. Are you sure you want to continue?"
-msgstr ""
-"kaikille valituille vikailmoituksille. Oletko varma, että haluat jatkaa?"
+msgstr "kaikille valituille vikailmoituksille. Oletko varma, että haluat jatkaa?"
 
 #: misc/localization/eventum.c:1922
 msgid "Search Results"
@@ -2982,8 +2975,7 @@ msgstr "Virhe: Syötä salasanasi."
 msgid ""
 "Error: The email address / password combination could not be found in the "
 "system."
-msgstr ""
-"Virhe: Kyseistä sähköposti / salasana yhdistelmää ei löytynyt järjestelmästä."
+msgstr "Virhe: Kyseistä sähköposti / salasana yhdistelmää ei löytynyt järjestelmästä."
 
 #: misc/localization/eventum.c:2030
 msgid "Your session has expired. Please login again to continue."
@@ -3147,8 +3139,7 @@ msgid "Thank you, the account manager was added successfully."
 msgstr "Kiitos, asiakaspäällikkö lisättiin onnistuneesti."
 
 #: misc/localization/eventum.c:2168
-msgid ""
-"An error occurred while trying to update the account manager information."
+msgid "An error occurred while trying to update the account manager information."
 msgstr "Virhe tapahtui päivittäessä asiakaspäällikön tietoja."
 
 #: misc/localization/eventum.c:2171
@@ -3244,8 +3235,7 @@ msgstr ""
 "vai ei"
 
 #: misc/localization/eventum.c:2240
-msgid ""
-"Please choose whether to show custom fields for remote invocations or not."
+msgid "Please choose whether to show custom fields for remote invocations or not."
 msgstr "Valitse näytetäänkö etätukipyynnöille lisäkentät vai ei."
 
 #: misc/localization/eventum.c:2243
@@ -3261,10 +3251,8 @@ msgid "Please choose the default priority for remote invocations."
 msgstr "Valitse oletusprioriteetti etätukipyynnöille."
 
 #: misc/localization/eventum.c:2252
-msgid ""
-"Please choose at least one person to assign the new issues created remotely."
-msgstr ""
-"Valitse vähintään yksi ihminen, jolle määrätään etänä luodut vikailmoitukset."
+msgid "Please choose at least one person to assign the new issues created remotely."
+msgstr "Valitse vähintään yksi ihminen, jolle määrätään etänä luodut vikailmoitukset."
 
 #: misc/localization/eventum.c:2255
 msgid "Anonymous Reporting of New Issues"
@@ -4025,8 +4013,7 @@ msgid "Thank you, the email response was added successfully."
 msgstr "Kiitos, sähköpostivastaus lisättiin onnistuneesti."
 
 #: misc/localization/eventum.c:2978
-msgid ""
-"An error occurred while trying to update the email response information."
+msgid "An error occurred while trying to update the email response information."
 msgstr "Virhe tapahtui päivittäessä sähköpostivastauksen tietoja."
 
 #: misc/localization/eventum.c:2981
@@ -4216,19 +4203,16 @@ msgstr "Syötä SMTP-palvelimen salasana"
 msgid ""
 "Please enter the email address of where copies of outgoing emails should be "
 "sent to."
-msgstr ""
-"Syötä sähköpostiosoite, johon kopiot lähtevistä sähköposteista lähetetään."
+msgstr "Syötä sähköpostiosoite, johon kopiot lähtevistä sähköposteista lähetetään."
 
 #: misc/localization/eventum.c:3182
 msgid ""
 "Please choose whether the system should allow visitors to signup for new "
 "accounts or not."
-msgstr ""
-"Valitse salliiko järjestelmä vierailijoiden luoda tunnuksia itselleen vai ei."
+msgstr "Valitse salliiko järjestelmä vierailijoiden luoda tunnuksia itselleen vai ei."
 
 #: misc/localization/eventum.c:3185
-msgid ""
-"Please select the assigned projects for users that create their own accounts."
+msgid "Please select the assigned projects for users that create their own accounts."
 msgstr ""
 "Valitse määrätyt projektit niille käyttäjille, jotka luovat omat "
 "käyttäjätilinsä."
@@ -4238,13 +4222,11 @@ msgid "Please enter the email address prefix for the email routing interface."
 msgstr "Syötä sähköpostiosoitteen alkuosa sähköpostivälitysrajapinnalle."
 
 #: misc/localization/eventum.c:3191
-msgid ""
-"Please enter the email address hostname for the email routing interface."
+msgid "Please enter the email address hostname for the email routing interface."
 msgstr "Syötä sähköpostin isäntänimi sähköpostinvälitysrajapinnalle."
 
 #: misc/localization/eventum.c:3194
-msgid ""
-"Please choose whether the SCM integration feature should be enabled or not."
+msgid "Please choose whether the SCM integration feature should be enabled or not."
 msgstr "Valitse on SCM-integraatio päällä vai pois."
 
 #: misc/localization/eventum.c:3197
@@ -4256,8 +4238,7 @@ msgid "Please enter the diff page URL for your SCM integration tool."
 msgstr "Syötä diff-sivun URL omaan SCM-integraatiotyökaluusi."
 
 #: misc/localization/eventum.c:3203
-msgid ""
-"Please choose whether the email integration feature should be enabled or not."
+msgid "Please choose whether the email integration feature should be enabled or not."
 msgstr "Valitse onko sähköpostin integrointi päällä vai pois."
 
 #: misc/localization/eventum.c:3206
@@ -4333,8 +4314,7 @@ msgstr "Vaatii tunnistusta?"
 
 #: misc/localization/eventum.c:3260
 msgid "Save a Copy of Every Outgoing Issue Notification Email"
-msgstr ""
-"Tallenna kopio kaikista lähtevistä vikailmoituksien tiedotussähköposteista"
+msgstr "Tallenna kopio kaikista lähtevistä vikailmoituksien tiedotussähköposteista"
 
 #: misc/localization/eventum.c:3263
 msgid "Email Address to Send Saved Messages:"
@@ -4373,10 +4353,8 @@ msgid "Recipient Type Flag:"
 msgstr "Vastaanottajien tyyppilippu:"
 
 #: misc/localization/eventum.c:3299
-msgid ""
-"(This will be included in the From address of all emails sent by Eventum)"
-msgstr ""
-"(Tämä sisältyy kaikkien Eventumista lähetettyjen viestien lähettäjä-kenttään)"
+msgid "(This will be included in the From address of all emails sent by Eventum)"
+msgstr "(Tämä sisältyy kaikkien Eventumista lähetettyjen viestien lähettäjä-kenttään)"
 
 #: misc/localization/eventum.c:3302 misc/localization/eventum.c:3353
 msgid "Before Sender Name"
@@ -4415,8 +4393,7 @@ msgstr "Nimen alias:"
 
 #: misc/localization/eventum.c:3332
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr ""
-"(Vaihtoehtoiset toimialueet, jotka viittaavat osoitteeseen 'osoitteen nimi')"
+msgstr "(Vaihtoehtoiset toimialueet, jotka viittaavat osoitteeseen 'osoitteen nimi')"
 
 #: misc/localization/eventum.c:3335
 msgid "Warn Users Whether They Can Send Emails to Issue:"
@@ -4429,10 +4406,8 @@ msgid "Note Recipient Type Flag:"
 msgstr "Viestin vastaanottajien tyyppilippu:"
 
 #: misc/localization/eventum.c:3350
-msgid ""
-"(This will be included in the From address of all notes sent by Eventum)"
-msgstr ""
-"(Tämä sisältyy kaikkien Eventumista lähetettyjen viestien lähettäjä-kenttään)"
+msgid "(This will be included in the From address of all notes sent by Eventum)"
+msgstr "(Tämä sisältyy kaikkien Eventumista lähetettyjen viestien lähettäjä-kenttään)"
 
 #: misc/localization/eventum.c:3359
 msgid "Internal Note Routing Interface:"
@@ -4678,8 +4653,7 @@ msgstr "Valitse projektit joissa tämä linkkisuodatin on aktiivinen."
 msgid ""
 "Please select the minimum user role that should be able to see this link "
 "filter."
-msgstr ""
-"Valitse alhaisin käyttäjärooli jonka pitäisi nähdä tämä linkkisuodatin."
+msgstr "Valitse alhaisin käyttäjärooli jonka pitäisi nähdä tämä linkkisuodatin."
 
 #: misc/localization/eventum.c:3665
 msgid "Please select at least one link filter."
@@ -5401,8 +5375,7 @@ msgid "Please enter the rank for this reminder."
 msgstr "Syötä muistutuksen sijoitus."
 
 #: misc/localization/eventum.c:4592
-msgid ""
-"Please choose the support levels that will be associated with this reminder."
+msgid "Please choose the support levels that will be associated with this reminder."
 msgstr "Valitse tukitasot, joihin muistutus liitetään."
 
 #: misc/localization/eventum.c:4595
@@ -5414,8 +5387,7 @@ msgid "Please enter the issue IDs that will be associated with this reminder."
 msgstr "Valitse vikailmoitus ID:eet, joihin muistutus liitetään."
 
 #: misc/localization/eventum.c:4601
-msgid ""
-"Please choose the priorities that will be associated with this reminder."
+msgid "Please choose the priorities that will be associated with this reminder."
 msgstr "Valitse prioriteetit, joihin muistutus liitetään."
 
 #: misc/localization/eventum.c:4616
@@ -5450,8 +5422,7 @@ msgstr "Ohita viikonloput"
 msgid ""
 "If yes, this reminder will not activate on weekends and time will not "
 "accumulate on the weekends."
-msgstr ""
-"Jos kyllä, niin tämä muistutus ei aktivoidu ja aika ei kasva viikonloppuisin."
+msgstr "Jos kyllä, niin tämä muistutus ei aktivoidu ja aika ei kasva viikonloppuisin."
 
 #: misc/localization/eventum.c:4646
 msgid "Update Reminder"
@@ -5497,8 +5468,7 @@ msgid "Thank you, the issue resolution was added successfully."
 msgstr "Kiitos, uusi vikailmoituksen ratkaisu lisättiin onnistuneesti."
 
 #: misc/localization/eventum.c:4724
-msgid ""
-"An error occurred while trying to update the issue resolution information."
+msgid "An error occurred while trying to update the issue resolution information."
 msgstr "Virhe tapahtui päivittäessä vikailmoituksen ratkaisua."
 
 #: misc/localization/eventum.c:4727
@@ -5550,8 +5520,7 @@ msgid "Thank you, the round robin entry was added successfully."
 msgstr "Kiitos, kiertovuorottelu lisättiin onnistuneesti."
 
 #: misc/localization/eventum.c:4790
-msgid ""
-"An error occurred while trying to update the round robin entry information."
+msgid "An error occurred while trying to update the round robin entry information."
 msgstr "Virhe tapahtui päivittäessä kiertovuorottelun tietoja."
 
 #: misc/localization/eventum.c:4799
@@ -5818,8 +5787,7 @@ msgid "Existing Users"
 msgstr "Olemassa oleva käyttäjä"
 
 #: misc/localization/eventum.c:5105
-msgid ""
-"You cannot change the status of the only active user left in the system."
+msgid "You cannot change the status of the only active user left in the system."
 msgstr "Et voi muuttaa järjestelmän ainoan käyttäjätilin tilaa."
 
 #: misc/localization/eventum.c:5108
@@ -5987,8 +5955,7 @@ msgstr "Virhe tapahtui vikailmoituksen luonnissa."
 msgid ""
 "Thank you, the new issue was created successfully. Please choose from one of "
 "the options below"
-msgstr ""
-"Kiitos, vikailmoitus luotiin onnistuneesti. Valitse toiminto alapuolelta"
+msgstr "Kiitos, vikailmoitus luotiin onnistuneesti. Valitse toiminto alapuolelta"
 
 #: misc/localization/eventum.c:5276
 msgid "Thank you, the new issue was created successfully."
@@ -6197,8 +6164,7 @@ msgstr "Vikailmoituksen sinulle määräsi %1"
 msgid ""
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
-msgstr ""
-"Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava URL"
+msgstr "Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava URL"
 
 #: misc/localization/eventum.c:5549 misc/localization/eventum.c:5588
 #: misc/localization/eventum.c:5636 misc/localization/eventum.c:5666
@@ -6272,16 +6238,14 @@ msgid ""
 "\n"
 "To view more details of this issue, or to update it, please visit the "
 "following URL"
-msgstr ""
-"Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava URL"
+msgstr "Katsoaksesi lisää yksityiskohtia tai päivittääksesi niitä, katso seuraava URL"
 
 #: misc/localization/eventum.c:5690
 #, fuzzy
 msgid ""
 "\n"
 "To add more information to this issue, simply reply to this email."
-msgstr ""
-"Lisätäksesi lisää tietoa tähän vikailmoitukseen, vastaa tähän sähköpostiin"
+msgstr "Lisätäksesi lisää tietoa tähän vikailmoitukseen, vastaa tähän sähköpostiin"
 
 #: misc/localization/eventum.c:5702
 msgid "Submitted"
@@ -6437,10 +6401,8 @@ msgid "Please enter the note text on the input box below."
 msgstr "Syötä viesti allaolevaan tekstikenttään."
 
 #: misc/localization/eventum.c:5927
-msgid ""
-"Thank you, the new note was created and associated with the issue below."
-msgstr ""
-"Kiitos, uusi viesti luotiin ja liitettiin vikailmoitukseen onnistuneesti."
+msgid "Thank you, the new note was created and associated with the issue below."
+msgstr "Kiitos, uusi viesti luotiin ja liitettiin vikailmoitukseen onnistuneesti."
 
 #: misc/localization/eventum.c:5933
 msgid "You do not have permission to delete this note."
@@ -6483,10 +6445,8 @@ msgid "Thank you, the selected custom filters were removed successfully."
 msgstr "Kiitos, valitut muokatut suotimet poistettiin onnistuneesti."
 
 #: misc/localization/eventum.c:5990
-msgid ""
-"Thank you, the association to the selected emails were removed successfully."
-msgstr ""
-"Kiitos, valittujen sähköpostiviestien liitäntä poistettiin onnistuneesti."
+msgid "Thank you, the association to the selected emails were removed successfully."
+msgstr "Kiitos, valittujen sähköpostiviestien liitäntä poistettiin onnistuneesti."
 
 #: misc/localization/eventum.c:5996
 msgid "You do not have the permission to remove this attachment."
@@ -6550,8 +6510,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:6062
 msgid "Thank you, you are now authorized to send emails in this issue."
-msgstr ""
-"Kiitos, olet nyt oikeutettu lähettämään sähköposteja tässä vikailmoituksessa."
+msgstr "Kiitos, olet nyt oikeutettu lähettämään sähköposteja tässä vikailmoituksessa."
 
 #: misc/localization/eventum.c:6068
 msgid "Thank you, this issue was removed from quarantine."
@@ -6668,8 +6627,7 @@ msgid "Please enter your new password with at least 6 characters."
 msgstr "Uudessa salasanassasi pitää olla vähintään 6 merkkiä."
 
 #: misc/localization/eventum.c:6212
-msgid ""
-"The two passwords do not match. Please review your information and try again."
+msgid "The two passwords do not match. Please review your information and try again."
 msgstr "Antamasi salasanat eivät täsmää. Tarkista ne ja yritä uudelleen."
 
 #: misc/localization/eventum.c:6215
@@ -7105,8 +7063,7 @@ msgstr "Arvioitu kehitysaika kategorioittain"
 
 #: misc/localization/eventum.c:6755
 msgid "Based on all open issue in Eventum for <b>%1</b>."
-msgstr ""
-"Perustuu kaikkii avoimiin vikailmoituksiin Eventumin projektissa <b>%1</b>"
+msgstr "Perustuu kaikkii avoimiin vikailmoituksiin Eventumin projektissa <b>%1</b>"
 
 #: misc/localization/eventum.c:6761
 msgid "Estimated time (Hours)"
@@ -7663,12 +7620,10 @@ msgstr ""
 
 #: misc/localization/eventum.c:7472
 msgid "Warning: This draft has already been sent. You cannot resend it."
-msgstr ""
-"Varoitus: Tämä luonnos on jo lähetetty. Et voi uudelleen lähettää sitä."
+msgstr "Varoitus: Tämä luonnos on jo lähetetty. Et voi uudelleen lähettää sitä."
 
 #: misc/localization/eventum.c:7475
-msgid ""
-"Warning: This draft has already been edited. You cannot send or edit it."
+msgid "Warning: This draft has already been edited. You cannot send or edit it."
 msgstr "Varoitus: Luonnosta on jo muokattu. Et voi lähettää tai muokata sitä."
 
 #: misc/localization/eventum.c:7481 misc/localization/eventum.c:7532
@@ -7739,8 +7694,7 @@ msgstr "Luo tili"
 msgid ""
 "Error: The email address specified is already associated with an user in the "
 "system."
-msgstr ""
-"Virhe: Sähköpostiosoite on jo liitetty käyttäjään tässä järjestelmässä."
+msgstr "Virhe: Sähköpostiosoite on jo liitetty käyttäjään tässä järjestelmässä."
 
 #: misc/localization/eventum.c:7583
 msgid ""
@@ -7781,8 +7735,7 @@ msgid "Fix Spelling"
 msgstr "Korjaa kirjoitusvirhe"
 
 #: misc/localization/eventum.c:7619
-msgid ""
-"Please choose which entries need to be disassociated with the current issue."
+msgid "Please choose which entries need to be disassociated with the current issue."
 msgstr "Valitse merkinnät, joiden liitäntä vikailmoitukseen poistetaan."
 
 #: misc/localization/eventum.c:7622
@@ -8484,8 +8437,7 @@ msgstr "TIEDOTUS: Vastauksesi lähetetään muistutuslistalle."
 
 #: include/class.mail.php:471
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
-msgstr ""
-"VAROITUS: Jos vastaat, lisää itsesi oikeutettujen vastaajien listaan ensin."
+msgstr "VAROITUS: Jos vastaat, lisää itsesi oikeutettujen vastaajien listaan ensin."
 
 #: include/class.monitor.php:85
 msgid "ERROR: Almost no free disk space left (percentage left"
@@ -8529,8 +8481,7 @@ msgstr ""
 #: include/class.monitor.php:124
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
-msgstr ""
-"VIRHE: Tiedoston kokoristiriita (Polku: %1$s; Nykyinen tiedostokoko: %2$s)"
+msgstr "VIRHE: Tiedoston kokoristiriita (Polku: %1$s; Nykyinen tiedostokoko: %2$s)"
 
 #: include/class.monitor.php:144
 #, php-format
@@ -8548,8 +8499,7 @@ msgstr ""
 
 #: include/class.monitor.php:173
 msgid "ERROR: Could not connect to the mysql database. Detailed error message:"
-msgstr ""
-"VIRHE: Ei pystynyt yhdistämään mysql-tietokantaan. Tarkempi virheilmoitus:"
+msgstr "VIRHE: Ei pystynyt yhdistämään mysql-tietokantaan. Tarkempi virheilmoitus:"
 
 #: include/class.monitor.php:271
 msgid "ERROR: Could not find IRC bot pid from process list."
@@ -8662,8 +8612,7 @@ msgid "Error: Please configure the email address domain."
 msgstr "Virhe: Aseta sähköpostiosoitteen toimialue."
 
 #: include/class.routing.php:82
-msgid ""
-"Error: The associated user for the email routing interface needs to be set."
+msgid "Error: The associated user for the email routing interface needs to be set."
 msgstr "Virhe: Sähköpostin välitysrajapintaan liittyvä käyttäjä pitää asettaa."
 
 #: include/class.routing.php:112 include/class.routing.php:117
@@ -8990,3 +8939,4 @@ msgstr "Päivitä vikailmoitus"
 #~ msgstr ""
 #~ "Nähdäksesi enemmän yksityiskohtia tai päivittääksesi tätä vikailmoitusta, "
 #~ "seuraa tätä URL:ia"
+
