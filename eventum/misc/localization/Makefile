@@ -8,7 +8,7 @@ DOMAIN := eventum
 all:
 	@set -x -e; \
 	for lang in $(ALL_LINGUAS); do \
-		msgfmt --output=t.mo $$lang.po && mv t.mo $$lang/LC_MESSAGES/$(DOMAIN).mo; \
+		msgfmt --statistics --output=t.mo $$lang.po && mv t.mo $$lang/LC_MESSAGES/$(DOMAIN).mo; \
 	done
 
 # generate .pot file from Eventum svn trunk
