@@ -336,6 +336,7 @@ function validateForm(f)
         </tr>
         {/if}
         {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='report'}
+        {assign var=tabindex value=$tabindex+50}
         {if $has_customer_integration}
         {include file="customer/$customer_backend_name/report_form_fields.tpl.html"}
 

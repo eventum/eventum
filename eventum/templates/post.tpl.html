@@ -151,6 +151,7 @@ function validateForm(f)
           </td>
         </tr>
         {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='anonymous'}
+        {assign var=tabindex value=$tabindex+50}
         <tr>
           <td width="150" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Attach Files{/t}:</b>
