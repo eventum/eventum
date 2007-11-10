@@ -8,6 +8,7 @@ DOMAIN := eventum
 all:
 	@set -x -e; \
 	for lang in $(ALL_LINGUAS); do \
+		[ -f $$lang.po ] || continue; \
 		msgfmt --statistics --output=t.mo $$lang.po && mv t.mo $$lang/LC_MESSAGES/$(DOMAIN).mo; \
 	done
 
