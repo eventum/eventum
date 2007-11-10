@@ -389,6 +389,9 @@ gettext("Search Title");
 gettext("Global Search");
 
 /* templates/adv_search.tpl.html */
+gettext("Save Search");
+
+/* templates/adv_search.tpl.html */
 gettext("Saved Searches");
 
 /* templates/adv_search.tpl.html */
@@ -402,6 +405,9 @@ gettext("RSS feed for this custom search");
 
 /* templates/adv_search.tpl.html */
 gettext("All");
+
+/* templates/adv_search.tpl.html */
+gettext("Remove Selected");
 
 /* templates/adv_search.tpl.html */
 gettext("No custom searches could be found.");
@@ -653,22 +659,22 @@ gettext("Thank you, your account clocked-in status was changed successfully.");
 gettext("An error was found while trying to change your account clocked-in status.");
 
 /* templates/close.tpl.html */
-gettext("Error: The issue #%1 could not be found.");
+gettext("Error: The issue #%1 could not be found");
 
 /* templates/close.tpl.html */
 gettext("Go Back");
 
 /* templates/close.tpl.html */
-gettext("Sorry, an error happened while trying to run your query.");
+gettext("Sorry, an error happened while trying to run your query");
 
 /* templates/close.tpl.html */
-gettext("Thank you, the issue was closed successfully.");
+gettext("Thank you, the issue was closed successfully");
 
 /* templates/close.tpl.html */
-gettext("E-mail about issue update was sent to:");
+gettext("E-mail about issue update was sent to");
 
 /* templates/close.tpl.html */
-gettext("Please choose from one of the options below:");
+gettext("Please choose from one of the options below");
 
 /* templates/close.tpl.html */
 gettext("Open the Issue Details Page");
@@ -843,6 +849,9 @@ gettext("myself and my group");
 
 /* templates/current_filters.tpl.html */
 gettext("myself, un-assigned and my group");
+
+/* templates/current_filters.tpl.html */
+gettext("Group");
 
 /* templates/current_filters.tpl.html */
 gettext("Yes");
@@ -1949,6 +1958,9 @@ gettext("sort by");
 gettext("sort by");
 
 /* templates/list.tpl.html */
+gettext("sort by summary");
+
+/* templates/list.tpl.html */
 gettext("Summary");
 
 /* templates/list.tpl.html */
@@ -2322,6 +2334,9 @@ gettext("Please enter the title for this category.");
 
 /* templates/manage/categories.tpl.html */
 gettext("Thank you, the category was updated successfully.");
+
+/* templates/manage/categories.tpl.html */
+gettext("Title");
 
 /* templates/manage/categories.tpl.html */
 gettext("Update Category");
@@ -4586,6 +4601,9 @@ gettext("Please enter the issue IDs that will be associated with this reminder."
 gettext("Please choose the priorities that will be associated with this reminder.");
 
 /* templates/manage/reminders.tpl.html */
+gettext("Project");
+
+/* templates/manage/reminders.tpl.html */
 gettext("Please choose an option");
 
 /* templates/manage/reminders.tpl.html */
@@ -4791,6 +4809,12 @@ gettext("Assignable Users:");
 
 /* templates/manage/round_robin.tpl.html */
 gettext("Blackout Time Range:");
+
+/* templates/manage/round_robin.tpl.html */
+gettext("Start");
+
+/* templates/manage/round_robin.tpl.html */
+gettext("End");
 
 /* templates/manage/round_robin.tpl.html */
 gettext("Update Round Robin Entry");
@@ -5234,6 +5258,9 @@ gettext("Out");
 gettext("In");
 
 /* templates/navigation.tpl.html */
+gettext("keywords");
+
+/* templates/navigation.tpl.html */
 gettext("Search");
 
 /* templates/navigation.tpl.html */
@@ -5330,7 +5357,16 @@ gettext("Initial Description");
 gettext("Estimated Dev. Time");
 
 /* templates/new.tpl.html */
+gettext("in hours");
+
+/* templates/new.tpl.html */
 gettext("Private");
+
+/* templates/new.tpl.html */
+gettext("Yes");
+
+/* templates/new.tpl.html */
+gettext("No");
 
 /* templates/new.tpl.html */
 gettext("Add Files");
@@ -7712,7 +7748,7 @@ gettext("Thank you, issue #%1 was updated successfully.");
 gettext("Also, all issues that are marked as duplicates from this one were updated as well.");
 
 /* templates/update_form.tpl.html */
-gettext("E-mail about issue update was sent to:");
+gettext("E-mail about issue update was sent to");
 
 /* templates/update_form.tpl.html */
 gettext("Return to Issue #%1 Details Page");
@@ -7761,6 +7797,12 @@ gettext("Status:");
 
 /* templates/update_form.tpl.html */
 gettext("Notification List:");
+
+/* templates/update_form.tpl.html */
+gettext("Staff");
+
+/* templates/update_form.tpl.html */
+gettext("Other");
 
 /* templates/update_form.tpl.html */
 gettext("Status:");
@@ -7835,7 +7877,19 @@ gettext("Description:");
 gettext("Private:");
 
 /* templates/update_form.tpl.html */
+gettext("Yes");
+
+/* templates/update_form.tpl.html */
+gettext("No");
+
+/* templates/update_form.tpl.html */
 gettext("Trigger Reminders:");
+
+/* templates/update_form.tpl.html */
+gettext("Yes");
+
+/* templates/update_form.tpl.html */
+gettext("No");
 
 /* templates/update_form.tpl.html */
 gettext("Update");
@@ -7943,7 +7997,13 @@ gettext("Please select the new status for this issue.");
 gettext("NOTE: If you need to send new information regarding this issue, please use the EMAIL related buttons available at the bottom of the screen.");
 
 /* templates/view_form.tpl.html */
+gettext("previous issue on your current active filter");
+
+/* templates/view_form.tpl.html */
 gettext("Previous Issue");
+
+/* templates/view_form.tpl.html */
+gettext("next issue on your current active filter");
 
 /* templates/view_form.tpl.html */
 gettext("Next Issue");
@@ -7970,10 +8030,19 @@ gettext("This issue is marked private. Only Managers, the reporter and users ass
 gettext("Issue Overview");
 
 /* templates/view_form.tpl.html */
+gettext("edit the authorized repliers list for this issue");
+
+/* templates/view_form.tpl.html */
 gettext("Edit Authorized Replier List");
 
 /* templates/view_form.tpl.html */
+gettext("edit the notification list for this issue");
+
+/* templates/view_form.tpl.html */
 gettext("Edit Notification List");
+
+/* templates/view_form.tpl.html */
+gettext("view the full history of changes on this issue");
 
 /* templates/view_form.tpl.html */
 gettext("History of Changes");
