@@ -22,8 +22,8 @@ pot:
 update-po:
 	@set -x -e; \
 	for lang in $(ALL_LINGUAS); do \
-		if msgmerge $$lang/LC_MESSAGES/$(DOMAIN).po $(DOMAIN).pot -o new.po; then \
-			if cmp -s $$lang/LC_MESSAGES/$(DOMAIN).po new.po; then \
+		if msgmerge $$lang.po $(DOMAIN).pot -o new.po; then \
+			if cmp -s $$lang.po new.po; then \
 				rm -f new.po; \
 			else \
 				mv -f new.po $$lang/LC_MESSAGES/$(DOMAIN).po; \
