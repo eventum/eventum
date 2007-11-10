@@ -1,15 +1,18 @@
-# Makefile for Eventum
+# Makefile for Eventum po files.
 # (c) 2007 Elan Ruusam√e <glen@delfi.ee>
 
-all:
+SVN_URL := svn://eventum.mysql.org/eventum-gpl/trunk/eventum
+ALL_LINGUAS := de_DE en_US es_ES fi_FI fr_FR it_IT nl_NL pl ru_RU sv_SE
+#ALL_LINGUAS := ru_RU
+DOMAIN := eventum
 
-dist:
+all:
 
 # generate .pot file from Eventum svn trunk
 pot:
 	@set -x -e; \
 	rm -rf export; \
-	svn export svn://eventum.mysql.org/eventum-gpl/trunk/eventum export; \
+	svn export $(SVN_URL) export; \
 	cd export; \
 		find templates -name '*.tpl.html' -o -name '*.tpl.text' | LC_ALL=C sort | xargs tsmarty2c > misc/localization/eventum.c; \
 		(echo misc/localization/eventum.c; find -name '*.php' | LC_ALL=C sort) | xgettext --files-from=- --keyword=gettext --keyword=ev_gettext --output=misc/localization/eventum.pot; \
@@ -18,3 +21,13 @@ pot:
 	rm -rf export
 
 update-po:
+	@set -x -e; \
+	for lang in $(ALL_LINGUAS); do \
+		if msgmerge $$lang/LC_MESSAGES/$(DOMAIN).po $(DOMAIN).pot -o new.po; then \
+			if cmp -s $$lang/LC_MESSAGES/$(DOMAIN).po new.po; then \
+				rm -f new.po; \
+			else \
+				mv -f new.po $$lang/LC_MESSAGES/$(DOMAIN).po; \
+			fi \
+		fi \
+	done
