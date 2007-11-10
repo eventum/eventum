@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-10 02:54+0200\n"
-"PO-Revision-Date: 2007-11-10 03:03+0200\n"
+"PO-Revision-Date: 2007-11-10 03:13+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Polish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
@@ -8272,20 +8272,15 @@ msgstr "Email wysłany przez %1$s"
 msgid "Email from '%1$s' blocked"
 msgstr "Email od '%1$s' został zablokowany"
 
-#~#: include/class.time_tracking.php:405
+#~#: include/class.time_tracking.php:455
 #~#, php-format
-#~msgid "Time tracking entry removed by %1$s"
-#~msgstr "Wpis w liście powiadomień (%1$s) dodany przez %2$s"
+#~msgid "Time tracking entry submitted by %1$s"
+#~msgstr "Wpis w liście powiadomień (%1$s) przetworzony przez %2$s"
 
-#: include/class.time_tracking.php:455
-#, php-format
-msgid "Time tracking entry submitted by %1$s"
-msgstr "Wpis w liście powiadomień (%1$s) przetworzony przez %2$s"
-
-#: include/class.time_tracking.php:498
-#, php-format
-msgid "Time tracking entry submitted remotely by %1$s"
-msgstr "Wpis w liście powiadomień (%1$s) przetworzony zdalnie przez %2$s"
+#~#: include/class.time_tracking.php:498
+#~#, php-format
+#~msgid "Time tracking entry submitted remotely by %1$s"
+#~msgstr "Wpis w liście powiadomień (%1$s) przetworzony zdalnie przez %2$s"
 
 #: reports/custom_fields.php:59
 msgid "No custom fields for this project"
@@ -8319,6 +8314,11 @@ msgstr "Zgłoszenia wg przypisanych osób"
 #, fuzzy, php-format
 msgid "Update Issue #%1$s"
 msgstr "Aktualizuj zgłoszenie"
+
+#~#: include/class.time_tracking.php:405
+#~#, php-format
+#~msgid "Time tracking entry removed by %1$s"
+#~msgstr "Wpis w liście powiadomień (%1$s) dodany przez %2$s"
 
 #~ msgid "Feedback"
 #~ msgstr "Odpowiedź"
