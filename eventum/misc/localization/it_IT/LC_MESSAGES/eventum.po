@@ -1,21 +1,23 @@
+# Translation of eventum.po to Italian
 # translation of messages.po to US English
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Bryan Alsdorf <bryan@mysql.com>, 2006.
+# Elan Ruusamäe <glen@delfi.ee>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: messages\n"
+"Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-10 02:54+0200\n"
-"PO-Revision-Date: 2007-03-20 09:39+0100\n"
-"Last-Translator: \n"
-"Language-Team: US English\n"
+"PO-Revision-Date: 2007-11-10 03:19+0200\n"
+"Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
+"Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.2\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
 "X-Poedit-Bookmarks: 151,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 
 #: misc/localization/eventum.c:2 misc/localization/eventum.c:5693
@@ -64,15 +66,12 @@ msgstr "Continua"
 
 #: misc/localization/eventum.c:17
 msgid "Please select a valid date for when the phone call took place."
-msgstr ""
-"Inserisci una data valida per quando la chiamata telefonica ha avuto luogo"
+msgstr "Inserisci una data valida per quando la chiamata telefonica ha avuto luogo"
 
 #: misc/localization/eventum.c:20 misc/localization/eventum.c:110
 #: misc/localization/eventum.c:695
-msgid ""
-"Please enter integers (or floating point numbers) on the time spent field."
-msgstr ""
-"Inserisci valori interi (o numeri decimali) per il campo del tempo impiegato"
+msgid "Please enter integers (or floating point numbers) on the time spent field."
+msgstr "Inserisci valori interi (o numeri decimali) per il campo del tempo impiegato"
 
 #: misc/localization/eventum.c:23
 msgid "Please enter the description for this new phone support entry."
@@ -190,8 +189,7 @@ msgstr "Inserisci il riepilogo per la nuova voce di tracciamento temporale."
 
 #: misc/localization/eventum.c:107
 msgid "Please choose the time tracking category for this new entry."
-msgstr ""
-"Seleziona la categoria di tracciamento temporale per questa nuova voce."
+msgstr "Seleziona la categoria di tracciamento temporale per questa nuova voce."
 
 #: misc/localization/eventum.c:113
 msgid "Please select a valid date of work."
@@ -277,10 +275,8 @@ msgstr "Parola/e chiave"
 
 #: misc/localization/eventum.c:164 misc/localization/eventum.c:6359
 #, fuzzy
-msgid ""
-"Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
-msgstr ""
-"Identità Cliente (es. \"Example Inc.\", \"johndoe@example.com\", 12345)"
+msgid "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
+msgstr "Identità Cliente (es. \"Example Inc.\", \"johndoe@example.com\", 12345)"
 
 #: misc/localization/eventum.c:167 misc/localization/eventum.c:6362
 msgid "All Text (emails, notes, etc)"
@@ -594,8 +590,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:428
 msgid "Thank you, the selected email message was associated successfully."
-msgid_plural ""
-"Thank you, the selected email messages were associated successfully."
+msgid_plural "Thank you, the selected email messages were associated successfully."
 msgstr[0] "La email selezionata è stata associata correttamente"
 msgstr[1] "Leemail selezionate sono state associate correttamente"
 
@@ -604,17 +599,14 @@ msgid "Warning: Unknown Contacts Found"
 msgstr "Attenzione: trovati contatti sconosciuti"
 
 #: misc/localization/eventum.c:437
-msgid ""
-"The following addresses could not be matched against the system user records:"
+msgid "The following addresses could not be matched against the system user records:"
 msgstr ""
 "I seguenti indirizzi non hanno corrispondenti nei record degli utenti di "
 "sistema:"
 
 #: misc/localization/eventum.c:440
-msgid ""
-"Please make sure you have selected the correct email messages to associate."
-msgstr ""
-"Assicurati di avere selezionato i messaggi email da associare corretti."
+msgid "Please make sure you have selected the correct email messages to associate."
+msgstr "Assicurati di avere selezionato i messaggi email da associare corretti."
 
 #: misc/localization/eventum.c:443 misc/localization/eventum.c:1340
 #: misc/localization/eventum.c:1442
@@ -807,8 +799,7 @@ msgstr "Collaboratori autorizzati"
 
 #: misc/localization/eventum.c:548
 msgid "An error occurred while trying to insert the authorized replier."
-msgstr ""
-"Si è verificato un errore nell'inserimento del collaboratore autorizzato."
+msgstr "Si è verificato un errore nell'inserimento del collaboratore autorizzato."
 
 #: misc/localization/eventum.c:551
 msgid ""
@@ -922,10 +913,8 @@ msgid "Thank you, your account clocked-in status was changed successfully."
 msgstr "Lo stato di 'cronometrato' è stato modificato correttamente."
 
 #: misc/localization/eventum.c:659
-msgid ""
-"An error was found while trying to change your account clocked-in status."
-msgstr ""
-"Si è verificato un errore nella modifica dello stato di 'cronometrato'."
+msgid "An error was found while trying to change your account clocked-in status."
+msgstr "Si è verificato un errore nella modifica dello stato di 'cronometrato'."
 
 #: misc/localization/eventum.c:662
 #, fuzzy
@@ -1167,8 +1156,7 @@ msgstr "AVVISO:"
 
 #: misc/localization/eventum.c:812
 msgid "Email will be re-sent from original sender, including any attachments."
-msgstr ""
-"L'email sarà re-inviata dal mittente originale, inclusi eventuali allegati."
+msgstr "L'email sarà re-inviata dal mittente originale, inclusi eventuali allegati."
 
 #: misc/localization/eventum.c:815
 msgid "Add sender to authorized repliers list?"
@@ -1617,8 +1605,7 @@ msgstr "Associa Email"
 
 #: misc/localization/eventum.c:1202 misc/localization/eventum.c:7556
 msgid "Sorry, but this feature has been disabled by the administrator."
-msgstr ""
-"Spiacente, questa funzionalità è stata disabilitata dall'amministratore."
+msgstr "Spiacente, questa funzionalità è stata disabilitata dall'amministratore."
 
 #: misc/localization/eventum.c:1208
 msgid "Sorry, but you do not have access to this page."
@@ -2845,8 +2832,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:1835
 msgid "Please enter the analysis for the changes required by this issue."
-msgstr ""
-"Inserisci l'analisi per le modifiche richieste per questa segnalazione."
+msgstr "Inserisci l'analisi per le modifiche richieste per questa segnalazione."
 
 #: misc/localization/eventum.c:1841
 msgid "Total Estimated Dev. Time"
@@ -3028,8 +3014,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:2030
 msgid "Your session has expired. Please login again to continue."
-msgstr ""
-"La tua sessione è scaduta. Effettua nuovamente il login per continuare."
+msgstr "La tua sessione è scaduta. Effettua nuovamente il login per continuare."
 
 #: misc/localization/eventum.c:2033
 msgid "Thank you, you are now logged out of %1"
@@ -3190,8 +3175,7 @@ msgid "Thank you, the account manager was added successfully."
 msgstr "Il manager di account è stato aggiunto correttamente."
 
 #: misc/localization/eventum.c:2168
-msgid ""
-"An error occurred while trying to update the account manager information."
+msgid "An error occurred while trying to update the account manager information."
 msgstr ""
 "Si è verificato un errore nell'aggiornamento delle informazioni sul manager "
 "di account."
@@ -3284,12 +3268,10 @@ msgstr "Elimina"
 msgid ""
 "Please choose whether the anonymous posting feature should be allowed or not "
 "for this project"
-msgstr ""
-"Seleziona se l'invio anonimo debba essere consentito o no per questo progetto"
+msgstr "Seleziona se l'invio anonimo debba essere consentito o no per questo progetto"
 
 #: misc/localization/eventum.c:2240
-msgid ""
-"Please choose whether to show custom fields for remote invocations or not."
+msgid "Please choose whether to show custom fields for remote invocations or not."
 msgstr ""
 "Seleziona se visualizzare i campi personalizzati per le invocazioni remote o "
 "no."
@@ -3307,8 +3289,7 @@ msgid "Please choose the default priority for remote invocations."
 msgstr "Seleziona la priorità predefinita per le invocazioni remote."
 
 #: misc/localization/eventum.c:2252
-msgid ""
-"Please choose at least one person to assign the new issues created remotely."
+msgid "Please choose at least one person to assign the new issues created remotely."
 msgstr ""
 "Seleziona almeno una persona cui assegnare le nuove segnalazioni create in "
 "remoto."
@@ -3473,8 +3454,7 @@ msgstr "Gestione colonne da visualizzare"
 
 #: misc/localization/eventum.c:2390
 msgid "An error occurred while trying to save columns to display."
-msgstr ""
-"Si è verificato un errore nel salvataggio delle colonne da visualizzare."
+msgstr "Si è verificato un errore nel salvataggio delle colonne da visualizzare."
 
 #: misc/localization/eventum.c:2393
 msgid "Thank you, columns to display was saved successfully."
@@ -3503,8 +3483,7 @@ msgstr "Inserisci il titolo di questo campo personalizzato."
 
 #: misc/localization/eventum.c:2411
 msgid "Please assign the appropriate projects for this custom field."
-msgstr ""
-"Occorre assegnare i progetti appropriati per questo campo personalizzato."
+msgstr "Occorre assegnare i progetti appropriati per questo campo personalizzato."
 
 #: misc/localization/eventum.c:2414
 msgid "WARNING: You have removed project(s)"
@@ -3552,8 +3531,7 @@ msgstr "Gestione campi personalizzati"
 
 #: misc/localization/eventum.c:2447
 msgid "An error occurred while trying to add the new custom field."
-msgstr ""
-"Si è verificato un errore nell'aggiunta del nuovo campo personalizzato."
+msgstr "Si è verificato un errore nell'aggiunta del nuovo campo personalizzato."
 
 #: misc/localization/eventum.c:2450
 msgid "Thank you, the custom field was added successfully."
@@ -3693,8 +3671,7 @@ msgstr "Seleziona almeno un campo personalizzato."
 
 #: misc/localization/eventum.c:2576
 msgid "This action will permanently remove the selected custom fields."
-msgstr ""
-"Questa azione eliminerà definitivamente i campi personalizzati selezionati."
+msgstr "Questa azione eliminerà definitivamente i campi personalizzati selezionati."
 
 #: misc/localization/eventum.c:2591
 msgid "Min. Role"
@@ -3862,8 +3839,7 @@ msgstr "Seleziona il progetto da associare a questo account email."
 msgid ""
 "Please choose the type of email server to be associated with this email "
 "account."
-msgstr ""
-"Seleziona il tipo di server email da associare con questo account email."
+msgstr "Seleziona il tipo di server email da associare con questo account email."
 
 #: misc/localization/eventum.c:2795
 msgid "Please enter the hostname for this email account."
@@ -3903,8 +3879,7 @@ msgstr "L'account è stato aggiunto correttamente."
 
 #: misc/localization/eventum.c:2825
 msgid "An error occurred while trying to update the account information."
-msgstr ""
-"Si è verificato un errore nell'aggiornamento delle informazioni sull'account."
+msgstr "Si è verificato un errore nell'aggiornamento delle informazioni sull'account."
 
 #: misc/localization/eventum.c:2828
 msgid "Thank you, the account was updated successfully."
@@ -3972,8 +3947,7 @@ msgstr "Porta:"
 
 #: misc/localization/eventum.c:2879
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
-msgstr ""
-"(Nota: le porte di default sono 110 per server POP3 e 143 per server IMAP)"
+msgstr "(Nota: le porte di default sono 110 per server POP3 e 143 per server IMAP)"
 
 #: misc/localization/eventum.c:2882
 msgid "IMAP Folder:"
@@ -4083,8 +4057,7 @@ msgid "Thank you, the email response was added successfully."
 msgstr "La risposta email è stata aggiunta correttamente."
 
 #: misc/localization/eventum.c:2978
-msgid ""
-"An error occurred while trying to update the email response information."
+msgid "An error occurred while trying to update the email response information."
 msgstr ""
 "Si è verificato un errore nell'aggiornamento delle informazioni sulla "
 "risposta email."
@@ -4145,8 +4118,7 @@ msgstr "Seleziona il progetto per questa voce di FAQ."
 
 #: misc/localization/eventum.c:3035
 msgid "Please assign the appropriate support levels for this FAQ entry."
-msgstr ""
-"Occorre assegnale i livelli di supporto appropriati per questa voce di FAQ."
+msgstr "Occorre assegnale i livelli di supporto appropriati per questa voce di FAQ."
 
 #: misc/localization/eventum.c:3038
 msgid "Please enter the rank of this FAQ entry."
@@ -4281,8 +4253,7 @@ msgstr "Inserisci la password per il server SMTP"
 msgid ""
 "Please enter the email address of where copies of outgoing emails should be "
 "sent to."
-msgstr ""
-"Inserisci l'indirizzo email a cui vanno inviate copie delle email in uscita."
+msgstr "Inserisci l'indirizzo email a cui vanno inviate copie delle email in uscita."
 
 #: misc/localization/eventum.c:3182
 msgid ""
@@ -4293,8 +4264,7 @@ msgstr ""
 "accounts o no."
 
 #: misc/localization/eventum.c:3185
-msgid ""
-"Please select the assigned projects for users that create their own accounts."
+msgid "Please select the assigned projects for users that create their own accounts."
 msgstr "Seleziona i progetti assegnati per utenti che creano i propri account."
 
 #: misc/localization/eventum.c:3188
@@ -4302,14 +4272,11 @@ msgid "Please enter the email address prefix for the email routing interface."
 msgstr "Inserisci il prefisso dell'email per l'interfaccia di routing email."
 
 #: misc/localization/eventum.c:3191
-msgid ""
-"Please enter the email address hostname for the email routing interface."
-msgstr ""
-"Inserisci l'hostname dell'indirizzo email per l'interfaccia di routing email."
+msgid "Please enter the email address hostname for the email routing interface."
+msgstr "Inserisci l'hostname dell'indirizzo email per l'interfaccia di routing email."
 
 #: misc/localization/eventum.c:3194
-msgid ""
-"Please choose whether the SCM integration feature should be enabled or not."
+msgid "Please choose whether the SCM integration feature should be enabled or not."
 msgstr "Seleziona se l'integrazione SCM va abilitata o no."
 
 #: misc/localization/eventum.c:3197
@@ -4320,12 +4287,10 @@ msgstr ""
 
 #: misc/localization/eventum.c:3200
 msgid "Please enter the diff page URL for your SCM integration tool."
-msgstr ""
-"Inserisci l'URL per la pagina di diff dello strumento di integrazione SCM."
+msgstr "Inserisci l'URL per la pagina di diff dello strumento di integrazione SCM."
 
 #: misc/localization/eventum.c:3203
-msgid ""
-"Please choose whether the email integration feature should be enabled or not."
+msgid "Please choose whether the email integration feature should be enabled or not."
 msgstr "Seleziona se va abilitata la funzione di integrazione email o no."
 
 #: misc/localization/eventum.c:3206
@@ -4442,10 +4407,8 @@ msgid "Recipient Type Flag:"
 msgstr "Flag tipo destinatario:"
 
 #: misc/localization/eventum.c:3299
-msgid ""
-"(This will be included in the From address of all emails sent by Eventum)"
-msgstr ""
-"(Questo sarà incluso nell'indirizzo Da di tutte le email inviate da Eventum)"
+msgid "(This will be included in the From address of all emails sent by Eventum)"
+msgstr "(Questo sarà incluso nell'indirizzo Da di tutte le email inviate da Eventum)"
 
 #: misc/localization/eventum.c:3302 misc/localization/eventum.c:3353
 msgid "Before Sender Name"
@@ -4495,10 +4458,8 @@ msgid "Note Recipient Type Flag:"
 msgstr "Flag tipo destinatario nota"
 
 #: misc/localization/eventum.c:3350
-msgid ""
-"(This will be included in the From address of all notes sent by Eventum)"
-msgstr ""
-"(Questo sarà incluso nell'indirizzo Da di tutte le note inviate da Eventum)"
+msgid "(This will be included in the From address of all notes sent by Eventum)"
+msgstr "(Questo sarà incluso nell'indirizzo Da di tutte le note inviate da Eventum)"
 
 #: misc/localization/eventum.c:3359
 msgid "Internal Note Routing Interface:"
@@ -4654,8 +4615,7 @@ msgstr "Il gruppo è stato aggiunto correttamente."
 
 #: misc/localization/eventum.c:3542
 msgid "An error occurred while trying to update the group information."
-msgstr ""
-"Si è verificato un errore nell'aggiornamento delle informazioni sul gruppo."
+msgstr "Si è verificato un errore nell'aggiornamento delle informazioni sul gruppo."
 
 #: misc/localization/eventum.c:3545
 msgid "Thank you, the group was updated successfully."
@@ -4745,8 +4705,7 @@ msgstr "Seleziona i progetti per cui questo filtro link deve risultare attivo."
 msgid ""
 "Please select the minimum user role that should be able to see this link "
 "filter."
-msgstr ""
-"Seleziona il ruolo utente minimo che può visualizzare questo filtro link."
+msgstr "Seleziona il ruolo utente minimo che può visualizzare questo filtro link."
 
 #: misc/localization/eventum.c:3665
 msgid "Please select at least one link filter."
@@ -5055,8 +5014,7 @@ msgstr "Il progetto è stato aggiunto correttamente."
 
 #: misc/localization/eventum.c:4094
 msgid "An error occurred while trying to update the project information."
-msgstr ""
-"Si è verificato un errore nell'aggiornamento delle informazioni sul progetto."
+msgstr "Si è verificato un errore nell'aggiornamento delle informazioni sul progetto."
 
 #: misc/localization/eventum.c:4097
 msgid "Please enter the title for this project."
@@ -5136,8 +5094,7 @@ msgstr "Seleziona almeno un progetto."
 
 #: misc/localization/eventum.c:4181
 msgid "WARNING: This action will remove the selected projects permanently."
-msgstr ""
-"ATTENZIONE: Questa azione rimuoverà i progetti selezionati permanentemente."
+msgstr "ATTENZIONE: Questa azione rimuoverà i progetti selezionati permanentemente."
 
 #: misc/localization/eventum.c:4184
 msgid ""
@@ -5270,8 +5227,7 @@ msgstr "L'azione è stata aggiunta correttamente."
 
 #: misc/localization/eventum.c:4337
 msgid "An error occurred while trying to update the action information."
-msgstr ""
-"Si è verificato un errore nell'aggiornamento delle informazioni sull'azione"
+msgstr "Si è verificato un errore nell'aggiornamento delle informazioni sull'azione"
 
 #: misc/localization/eventum.c:4340
 msgid "Please enter the title for this action."
@@ -5458,8 +5414,7 @@ msgstr "Il memo è stato aggiunto correttamente."
 
 #: misc/localization/eventum.c:4574
 msgid "An error occurred while trying to update the reminder information."
-msgstr ""
-"Si è verificato un errore nell'aggiornamento delle informazioni sul memo."
+msgstr "Si è verificato un errore nell'aggiornamento delle informazioni sul memo."
 
 #: misc/localization/eventum.c:4577 misc/localization/eventum.c:4586
 msgid "Please enter the title for this reminder."
@@ -5478,8 +5433,7 @@ msgid "Please enter the rank for this reminder."
 msgstr "Inserisci il grado di questo memo."
 
 #: misc/localization/eventum.c:4592
-msgid ""
-"Please choose the support levels that will be associated with this reminder."
+msgid "Please choose the support levels that will be associated with this reminder."
 msgstr "Seleziona i livelli di supporto che saranno associati a questo memo."
 
 #: misc/localization/eventum.c:4595
@@ -5491,8 +5445,7 @@ msgid "Please enter the issue IDs that will be associated with this reminder."
 msgstr "Seleziona l'ID segnalazione che sarà associato a questo memo."
 
 #: misc/localization/eventum.c:4601
-msgid ""
-"Please choose the priorities that will be associated with this reminder."
+msgid "Please choose the priorities that will be associated with this reminder."
 msgstr "Seleziona le priorità da associare a questo memo."
 
 #: misc/localization/eventum.c:4616
@@ -5575,8 +5528,7 @@ msgid "Thank you, the issue resolution was added successfully."
 msgstr "La risoluzione è stata aggiunta correttamente."
 
 #: misc/localization/eventum.c:4724
-msgid ""
-"An error occurred while trying to update the issue resolution information."
+msgid "An error occurred while trying to update the issue resolution information."
 msgstr ""
 "Si è verificato un errore nell'aggiornamento delle informazioni sulla "
 "risoluzione."
@@ -5630,8 +5582,7 @@ msgid "Thank you, the round robin entry was added successfully."
 msgstr "La voce round robin è stata aggiunta correttamente."
 
 #: misc/localization/eventum.c:4790
-msgid ""
-"An error occurred while trying to update the round robin entry information."
+msgid "An error occurred while trying to update the round robin entry information."
 msgstr ""
 "Si è verificato un errore nell'aggiornamento delle informazioni sulla voce "
 "round robin."
@@ -5677,8 +5628,7 @@ msgstr "Seleziona almeno una voce round robin."
 
 #: misc/localization/eventum.c:4835
 msgid "This action will permanently remove the selected round robin entries."
-msgstr ""
-"Questa azione eliminerà permanentemente le voci round robin selezionate."
+msgstr "Questa azione eliminerà permanentemente le voci round robin selezionate."
 
 #: misc/localization/eventum.c:4844
 msgid "Assignable Users"
@@ -5820,8 +5770,7 @@ msgstr "Inserisci il titolo per la categoria di tracciamento temporale."
 
 #: misc/localization/eventum.c:4994
 msgid "Thank you, the time tracking category was updated successfully."
-msgstr ""
-"La categoria di tracciamento temporale è stata aggiornata correttamente."
+msgstr "La categoria di tracciamento temporale è stata aggiornata correttamente."
 
 #: misc/localization/eventum.c:5012
 msgid "Please select at least one of the time tracking categories."
@@ -5871,8 +5820,7 @@ msgstr "L'utente è stato aggiunto correttamente."
 
 #: misc/localization/eventum.c:5069
 msgid "An error occurred while trying to update the user information."
-msgstr ""
-"Si è verificato un errore nell'aggiornamento delle informazioni utente."
+msgstr "Si è verificato un errore nell'aggiornamento delle informazioni utente."
 
 #: misc/localization/eventum.c:5072
 msgid "Thank you, the user was updated successfully."
@@ -5906,10 +5854,8 @@ msgid "Existing Users"
 msgstr "Utenti esistenti"
 
 #: misc/localization/eventum.c:5105
-msgid ""
-"You cannot change the status of the only active user left in the system."
-msgstr ""
-"Non è possibile modificare lo stato dell'unico utente attivo del sistema."
+msgid "You cannot change the status of the only active user left in the system."
+msgstr "Non è possibile modificare lo stato dell'unico utente attivo del sistema."
 
 #: misc/localization/eventum.c:5108
 msgid "You cannot inactivate all of the users in the system."
@@ -6536,8 +6482,7 @@ msgid "Please enter the note text on the input box below."
 msgstr "Inserisci il testo della nota nel campo di testo seguente."
 
 #: misc/localization/eventum.c:5927
-msgid ""
-"Thank you, the new note was created and associated with the issue below."
+msgid "Thank you, the new note was created and associated with the issue below."
 msgstr "La nuova nota è stata creata e associata con la segnalazione seguente."
 
 #: misc/localization/eventum.c:5933
@@ -6578,14 +6523,11 @@ msgstr "Il filtro personalizzato è stato salvato correttamente."
 
 #: misc/localization/eventum.c:5984
 msgid "Thank you, the selected custom filters were removed successfully."
-msgstr ""
-"I filtri personalizzati selezionati sono stati eliminati correttamente."
+msgstr "I filtri personalizzati selezionati sono stati eliminati correttamente."
 
 #: misc/localization/eventum.c:5990
-msgid ""
-"Thank you, the association to the selected emails were removed successfully."
-msgstr ""
-"L'associazione alle email selezionate sono state eliminate correttamente."
+msgid "Thank you, the association to the selected emails were removed successfully."
+msgstr "L'associazione alle email selezionate sono state eliminate correttamente."
 
 #: misc/localization/eventum.c:5996
 msgid "You do not have the permission to remove this attachment."
@@ -6621,8 +6563,7 @@ msgstr "La segnalazione non è più marchiata come duplicato."
 
 #: misc/localization/eventum.c:6032
 msgid "You do not have permission to remove this phone support entry."
-msgstr ""
-"Non possiedi i permessi per rimuovere questa voce di supporto telefonico."
+msgstr "Non possiedi i permessi per rimuovere questa voce di supporto telefonico."
 
 #: misc/localization/eventum.c:6035 misc/localization/eventum.c:6038
 msgid "Thank you, the phone support entry was removed successfully."
@@ -6767,8 +6708,7 @@ msgid "Please enter your new password with at least 6 characters."
 msgstr "Inserisci la nuova password di almeno 6 caratteri."
 
 #: misc/localization/eventum.c:6212
-msgid ""
-"The two passwords do not match. Please review your information and try again."
+msgid "The two passwords do not match. Please review your information and try again."
 msgstr "Le due password non coincidono. Controlla le informazioni e riprova."
 
 #: misc/localization/eventum.c:6215
@@ -6858,13 +6798,11 @@ msgstr "Upload Nuova Firma"
 
 #: misc/localization/eventum.c:6335
 msgid "Automatically append email signature when composing web based emails"
-msgstr ""
-"Aggiungi automaticamente la firma email quando si compone una email web based"
+msgstr "Aggiungi automaticamente la firma email quando si compone una email web based"
 
 #: misc/localization/eventum.c:6338
 msgid "Automatically append email signature when composing internal notes"
-msgstr ""
-"Aggiungi automaticamente la firma email quando si compongono note interne"
+msgstr "Aggiungi automaticamente la firma email quando si compongono note interne"
 
 #: misc/localization/eventum.c:6341
 msgid "SMS Email Address"
@@ -6892,8 +6830,7 @@ msgstr "barra ricerca rapida"
 
 #: misc/localization/eventum.c:6401
 msgid "There was an error marking this issue as redeemed"
-msgstr ""
-"Si è verificato un errore nell'impostare questa segnalazione come detratta"
+msgstr "Si è verificato un errore nell'impostare questa segnalazione come detratta"
 
 #: misc/localization/eventum.c:6404
 msgid "This issue already has been marked as redeemed"
@@ -7033,9 +6970,9 @@ msgstr "Genera"
 
 #: misc/localization/eventum.c:6572
 #, c-format
-msgid "Percentages may not add up to exactly 100% due to rounding"
+msgid "Percentages may not add up to exactly 100%% due to rounding"
 msgstr ""
-"La somma delle percentuali potrebbe non essere esattamente 100% a causa "
+"La somma delle percentuali potrebbe non essere esattamente 100%% a causa "
 "degli arrotondamenti"
 
 #: misc/localization/eventum.c:6575
@@ -7089,13 +7026,11 @@ msgstr "Includi contratti scaduti"
 
 #: misc/localization/eventum.c:6635
 msgid "Red values indicate value is higher than the aggregate one."
-msgstr ""
-"Valori rossi indicano che il valore è più alto di quello dell'aggregato."
+msgstr "Valori rossi indicano che il valore è più alto di quello dell'aggregato."
 
 #: misc/localization/eventum.c:6638
 msgid "Blue values indicate value is lower than the aggregate one."
-msgstr ""
-"I valori blu indicano che il valore è inferiore a quello dell'aggregato."
+msgstr "I valori blu indicano che il valore è inferiore a quello dell'aggregato."
 
 #: misc/localization/eventum.c:6641
 msgid "Customers"
@@ -7576,8 +7511,7 @@ msgstr "Carico di lavoro email per ora del giorno"
 
 #: misc/localization/eventum.c:7286
 msgid "Based on all issues recorded in Eventum since start to present."
-msgstr ""
-"Basato su tutte le segnalazioni registrate in Eventum dall'inizio a ora."
+msgstr "Basato su tutte le segnalazioni registrate in Eventum dall'inizio a ora."
 
 #: misc/localization/eventum.c:7289
 msgid "Workload by Time of day"
@@ -7769,12 +7703,10 @@ msgstr ""
 
 #: misc/localization/eventum.c:7472
 msgid "Warning: This draft has already been sent. You cannot resend it."
-msgstr ""
-"Attenzione: Questa bozza è già stata inviata. Non è possibile reinviarla."
+msgstr "Attenzione: Questa bozza è già stata inviata. Non è possibile reinviarla."
 
 #: misc/localization/eventum.c:7475
-msgid ""
-"Warning: This draft has already been edited. You cannot send or edit it."
+msgid "Warning: This draft has already been edited. You cannot send or edit it."
 msgstr ""
 "Attenzione: questa bozza è già stata modificata. Non è possibile inviarla né "
 "modificarla."
@@ -7891,10 +7823,8 @@ msgid "Fix Spelling"
 msgstr "Correggi errori di ortografia"
 
 #: misc/localization/eventum.c:7619
-msgid ""
-"Please choose which entries need to be disassociated with the current issue."
-msgstr ""
-"Seleziona le voci a cui togliere l'associazione con la segnalazione corrente."
+msgid "Please choose which entries need to be disassociated with the current issue."
+msgstr "Seleziona le voci a cui togliere l'associazione con la segnalazione corrente."
 
 #: misc/localization/eventum.c:7622
 msgid ""
@@ -8079,8 +8009,7 @@ msgstr "Aggiorna panoramica segnalazione"
 
 #: misc/localization/eventum.c:7781 misc/localization/eventum.c:8033
 msgid "edit the authorized repliers list for this issue"
-msgstr ""
-"modifica l'elenco dei collaboratori autorizzati per questa segnalazione"
+msgstr "modifica l'elenco dei collaboratori autorizzati per questa segnalazione"
 
 #: misc/localization/eventum.c:7784 misc/localization/eventum.c:8036
 msgid "Edit Authorized Replier List"
@@ -8290,8 +8219,7 @@ msgstr "Panoramica Segnalazione"
 #: misc/localization/eventum.c:8039
 #, fuzzy
 msgid "edit the notification list for this issue"
-msgstr ""
-"modifica l'elenco dei collaboratori autorizzati per questa segnalazione"
+msgstr "modifica l'elenco dei collaboratori autorizzati per questa segnalazione"
 
 #: misc/localization/eventum.c:8045
 #, fuzzy
@@ -8788,8 +8716,7 @@ msgid "Error: Please configure the email address domain."
 msgstr "Errore: configura il dominio dell'indirizzo email."
 
 #: include/class.routing.php:82
-msgid ""
-"Error: The associated user for the email routing interface needs to be set."
+msgid "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
 "Errore: l'utente associato per questa interfaccia di routing email deve "
 "essere impostato."
@@ -9173,3 +9100,4 @@ msgstr "Aggiorna Segnalazione"
 
 #~ msgid "This is a SMS reminder alert regarding issue # %1. Certain"
 #~ msgstr "Questo è un memo  SMS riguardante la segnalazione # %1. Alcuni"
+
