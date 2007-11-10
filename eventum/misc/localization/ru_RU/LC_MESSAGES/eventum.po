@@ -3,22 +3,23 @@
 # This file is distributed under the same license as the Eventum package.
 #
 # Eugene Volik <evolik@gmail.com>, 2007.
+# Elan Ruusamäe <glen@delfi.ee>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: Russian translation for Eventum\n"
+"Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-10 01:47+0200\n"
-"PO-Revision-Date: 2007-11-09 23:51+0200\n"
-"Last-Translator: Eugene Volik <evolik@gmail.com>\n"
-"Language-Team: UCS <evolik@gmail.com>\n"
+"PO-Revision-Date: 2007-11-10 02:19+0200\n"
+"Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
+"Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"Plural-Forms: nplurals=3;  plural=n%10==1 && n%100!=11 ? 0 :  (n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: misc/localization/eventum.c:2 misc/localization/eventum.c:5657
 #: misc/localization/eventum.c:6515 misc/localization/eventum.c:7463
@@ -70,10 +71,8 @@ msgstr "Пожалуйста, выберите корректную дату т�
 
 #: misc/localization/eventum.c:20 misc/localization/eventum.c:110
 #: misc/localization/eventum.c:689
-msgid ""
-"Please enter integers (or floating point numbers) on the time spent field."
-msgstr ""
-"Пожалуйста, вводите целые (или дробные) числа в поле затраченного времени."
+msgid "Please enter integers (or floating point numbers) on the time spent field."
+msgstr "Пожалуйста, вводите целые (или дробные) числа в поле затраченного времени."
 
 #: misc/localization/eventum.c:23
 msgid "Please enter the description for this new phone support entry."
@@ -277,8 +276,7 @@ msgstr "Ключевое слово(а)"
 
 #: misc/localization/eventum.c:164 misc/localization/eventum.c:6323
 #, fuzzy
-msgid ""
-"Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
+msgid "Customer Identity (e.g. \"Example Inc.\", \"johndoe@example.com\", 12345)"
 msgstr ""
 "Отличительная черта клиента (например,  \"Датакрат\", \"mail@example.com\", "
 "12345)"
@@ -582,8 +580,7 @@ msgstr "Возникла ошибка при попытке связать вы�
 
 #: misc/localization/eventum.c:422
 msgid "Thank you, the selected email message was associated successfully."
-msgid_plural ""
-"Thank you, the selected email messages were associated successfully."
+msgid_plural "Thank you, the selected email messages were associated successfully."
 msgstr[0] "Спасибо, выбранное сообщение эл.почты связанно успешно."
 msgstr[1] "Спасибо, выбранные сообщения эл.почты связанны успешно."
 msgstr[2] "Спасибо, выбранные сообщения эл.почты связанны успешно."
@@ -593,14 +590,11 @@ msgid "Warning: Unknown Contacts Found"
 msgstr "Предупреждение: Найдены неизвестные контакты"
 
 #: misc/localization/eventum.c:431
-msgid ""
-"The following addresses could not be matched against the system user records:"
-msgstr ""
-"Следующие адреса не могут быть сопоставлены записям пользователей системы:"
+msgid "The following addresses could not be matched against the system user records:"
+msgstr "Следующие адреса не могут быть сопоставлены записям пользователей системы:"
 
 #: misc/localization/eventum.c:434
-msgid ""
-"Please make sure you have selected the correct email messages to associate."
+msgid "Please make sure you have selected the correct email messages to associate."
 msgstr ""
 "Пожалуйста убедитесь, что вы выбрали для связывания соответствующие "
 "сообщения эл.почты."
@@ -934,10 +928,8 @@ msgid "Thank you, your account clocked-in status was changed successfully."
 msgstr "Спасибо, рабочий статус вашей учетной записи успешно изменен. "
 
 #: misc/localization/eventum.c:653
-msgid ""
-"An error was found while trying to change your account clocked-in status."
-msgstr ""
-"Возникла ошибка при попытке изменить рабочий статус вашей учетной записи. "
+msgid "An error was found while trying to change your account clocked-in status."
+msgstr "Возникла ошибка при попытке изменить рабочий статус вашей учетной записи. "
 
 #: misc/localization/eventum.c:656 misc/localization/eventum.c:7853
 msgid "Error: The issue #%1 could not be found."
@@ -1813,8 +1805,7 @@ msgstr "Файлы"
 
 #: misc/localization/eventum.c:1379
 msgid "ote: The current maximum allowed upload file size is"
-msgstr ""
-"Примечание: Максимальный разрешенный размер загружаемого файла составляет"
+msgstr "Примечание: Максимальный разрешенный размер загружаемого файла составляет"
 
 #: misc/localization/eventum.c:1388
 msgid "You do not have the correct role to access this page"
@@ -2583,8 +2574,7 @@ msgstr ""
 msgid ""
 "The first thing to do is to checkout the CVSROOT module from your CVS\n"
 "repository:"
-msgstr ""
-"В первую очередь, вы должны извлечь модуль CVSROOT из репозитария CVS: "
+msgstr "В первую очередь, вы должны извлечь модуль CVSROOT из репозитария CVS: "
 
 #: misc/localization/eventum.c:1715
 msgid ""
@@ -3002,8 +2992,7 @@ msgstr "Ошибка: Комбинация адрес эл.почты / паро
 
 #: misc/localization/eventum.c:2018
 msgid "Your session has expired. Please login again to continue."
-msgstr ""
-"Ваша сессия истекла. Пожалуйста, войдите в систему снова для продолжения."
+msgstr "Ваша сессия истекла. Пожалуйста, войдите в систему снова для продолжения."
 
 #: misc/localization/eventum.c:2021
 msgid "Thank you, you are now logged out of %1"
@@ -3166,10 +3155,8 @@ msgid "Thank you, the account manager was added successfully."
 msgstr "Спасибо, менеджер учетных записей добавлен успешно."
 
 #: misc/localization/eventum.c:2156
-msgid ""
-"An error occurred while trying to update the account manager information."
-msgstr ""
-"Возникла ошибка при попытке обновить информацию менеджера учетной записи."
+msgid "An error occurred while trying to update the account manager information."
+msgstr "Возникла ошибка при попытке обновить информацию менеджера учетной записи."
 
 #: misc/localization/eventum.c:2159
 msgid "Thank you, the account manager was updated successfully."
@@ -3214,8 +3201,7 @@ msgstr "Существующие менеджеры учетной записи 
 
 #: misc/localization/eventum.c:2195
 msgid "Please select at least one of the account managers."
-msgstr ""
-"Пожалуйста, выберите по крайней мере одного из менеджеров учетной записи."
+msgstr "Пожалуйста, выберите по крайней мере одного из менеджеров учетной записи."
 
 #: misc/localization/eventum.c:2198
 msgid "This action will remove the selected account managers."
@@ -3265,8 +3251,7 @@ msgstr ""
 "для данного проекта"
 
 #: misc/localization/eventum.c:2228
-msgid ""
-"Please choose whether to show custom fields for remote invocations or not."
+msgid "Please choose whether to show custom fields for remote invocations or not."
 msgstr ""
 "Пожалуйста укажите, отображать дополнительные поля при удаленных вызовах или "
 "нет."
@@ -3284,8 +3269,7 @@ msgid "Please choose the default priority for remote invocations."
 msgstr "Пожалуйста, выберите приоритет по умолчанию для удаленных вызовов."
 
 #: misc/localization/eventum.c:2240
-msgid ""
-"Please choose at least one person to assign the new issues created remotely."
+msgid "Please choose at least one person to assign the new issues created remotely."
 msgstr ""
 "Пожалуйста, выберите по крайней мере одного пользователя для назначения "
 "нового запроса, созданного удаленно."
@@ -3477,8 +3461,7 @@ msgstr "Пожалуйста, укажите название дополните
 
 #: misc/localization/eventum.c:2396
 msgid "Please assign the appropriate projects for this custom field."
-msgstr ""
-"Пожалуйста, назначьте соответствующие проекты для этого дополнительного поля."
+msgstr "Пожалуйста, назначьте соответствующие проекты для этого дополнительного поля."
 
 #: misc/localization/eventum.c:2399
 msgid "WARNING: You have removed project(s)"
@@ -3847,8 +3830,7 @@ msgstr "Пожалуйста, введите номер порта для уче
 
 #: misc/localization/eventum.c:2786
 msgid "Please enter a valid port number for this email account."
-msgstr ""
-"Пожалуйста, введите корректный номер порта для учетной записи эл.почты."
+msgstr "Пожалуйста, введите корректный номер порта для учетной записи эл.почты."
 
 #: misc/localization/eventum.c:2792
 msgid "Please enter the IMAP folder for this email account."
@@ -4055,8 +4037,7 @@ msgid "Thank you, the email response was added successfully."
 msgstr "Спасибо, ответ на эл.почту добавлен успешно."
 
 #: misc/localization/eventum.c:2963
-msgid ""
-"An error occurred while trying to update the email response information."
+msgid "An error occurred while trying to update the email response information."
 msgstr "Возникла ошибка при попытке обновить информацию ответа по эл.почте."
 
 #: misc/localization/eventum.c:2966
@@ -4192,8 +4173,7 @@ msgstr "Пожалуйста, выберите по крайней мере од
 
 #: misc/localization/eventum.c:3095
 msgid "This action will permanently remove the selected FAQ entries."
-msgstr ""
-"Это действие удалит выбранные записи FAQ без возможности восстановления."
+msgstr "Это действие удалит выбранные записи FAQ без возможности восстановления."
 
 #: misc/localization/eventum.c:3107
 msgid "Support Levels"
@@ -4260,8 +4240,7 @@ msgstr ""
 "записей посетителями."
 
 #: misc/localization/eventum.c:3170
-msgid ""
-"Please select the assigned projects for users that create their own accounts."
+msgid "Please select the assigned projects for users that create their own accounts."
 msgstr ""
 "Пожалуйста, выберите проекты, которые будут назначены пользователям, которые "
 "создают самостоятельно свои учетные записи."
@@ -4273,15 +4252,13 @@ msgstr ""
 "почты."
 
 #: misc/localization/eventum.c:3176
-msgid ""
-"Please enter the email address hostname for the email routing interface."
+msgid "Please enter the email address hostname for the email routing interface."
 msgstr ""
 "Пожалуйста, введите имя хоста адреса почты для интерфейса маршрутизации эл."
 "почты."
 
 #: misc/localization/eventum.c:3179
-msgid ""
-"Please choose whether the SCM integration feature should be enabled or not."
+msgid "Please choose whether the SCM integration feature should be enabled or not."
 msgstr ""
 "Пожалуйста укажите, должна быть включена или нет функция интеграции с "
 "системой SCM."
@@ -4299,16 +4276,14 @@ msgstr ""
 "с SCM."
 
 #: misc/localization/eventum.c:3188
-msgid ""
-"Please choose whether the email integration feature should be enabled or not."
+msgid "Please choose whether the email integration feature should be enabled or not."
 msgstr ""
 "Пожалуйста укажите, должна ли быть влючена или нет функция интеграции с эл."
 "почтой."
 
 #: misc/localization/eventum.c:3191
 msgid "Please choose whether the daily tips feature should be enabled or not."
-msgstr ""
-"Пожалуйста укажите, должна ли быть влючена или нет функция подсказок дня."
+msgstr "Пожалуйста укажите, должна ли быть влючена или нет функция подсказок дня."
 
 #: misc/localization/eventum.c:3194 misc/localization/eventum.c:3743
 msgid "General Setup"
@@ -4418,8 +4393,7 @@ msgid "Recipient Type Flag:"
 msgstr "Отличительный флаг получателя:"
 
 #: misc/localization/eventum.c:3284
-msgid ""
-"(This will be included in the From address of all emails sent by Eventum)"
+msgid "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
 "(Будет включено в поле От: адреса всех эл.писем, отправляемых системой "
 "Eventum)"
@@ -4465,16 +4439,14 @@ msgstr "(Дополнительный домен, который ссылает�
 
 #: misc/localization/eventum.c:3320
 msgid "Warn Users Whether They Can Send Emails to Issue:"
-msgstr ""
-"Предупреждать пользователей, что они могут отправлять эл.письма в запрос:"
+msgstr "Предупреждать пользователей, что они могут отправлять эл.письма в запрос:"
 
 #: misc/localization/eventum.c:3329
 msgid "Note Recipient Type Flag:"
 msgstr "Отличительный флаг получателя примечания:"
 
 #: misc/localization/eventum.c:3335
-msgid ""
-"(This will be included in the From address of all notes sent by Eventum)"
+msgid "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
 "(Будет включено в поле От: адреса всех примечаний, отправляемых системой "
 "Eventum)"
@@ -4717,8 +4689,7 @@ msgstr "Пожалуйста, введите значение для подст�
 
 #: misc/localization/eventum.c:3644
 msgid "Please select projects this link filter should be active for."
-msgstr ""
-"Пожалуйста, выберите проекты, для которых этот фильтр ссылки  будет активным."
+msgstr "Пожалуйста, выберите проекты, для которых этот фильтр ссылки  будет активным."
 
 #: misc/localization/eventum.c:3647
 msgid ""
@@ -5456,27 +5427,22 @@ msgid "Please enter the rank for this reminder."
 msgstr "Пожалуйста, укажите ранг для напоминания."
 
 #: misc/localization/eventum.c:4577
-msgid ""
-"Please choose the support levels that will be associated with this reminder."
+msgid "Please choose the support levels that will be associated with this reminder."
 msgstr ""
 "Пожалуйста, выберите уровень аоддержки, который будет связан с этим "
 "напоминанием."
 
 #: misc/localization/eventum.c:4580
 msgid "Please choose the customers that will be associated with this reminder."
-msgstr ""
-"Пожалуйста, выберите клиентов, которые будут связаны с этим напоминанием."
+msgstr "Пожалуйста, выберите клиентов, которые будут связаны с этим напоминанием."
 
 #: misc/localization/eventum.c:4583
 msgid "Please enter the issue IDs that will be associated with this reminder."
-msgstr ""
-"Пожалуйста, выберите ID запросов, которые будут связаны с этим напоминанием."
+msgstr "Пожалуйста, выберите ID запросов, которые будут связаны с этим напоминанием."
 
 #: misc/localization/eventum.c:4586
-msgid ""
-"Please choose the priorities that will be associated with this reminder."
-msgstr ""
-"Пожалуйста, выберите приоритеты, которые будут связаны с этим напоминанием."
+msgid "Please choose the priorities that will be associated with this reminder."
+msgstr "Пожалуйста, выберите приоритеты, которые будут связаны с этим напоминанием."
 
 #: misc/localization/eventum.c:4598
 msgid "Reminder Type"
@@ -5558,8 +5524,7 @@ msgid "Thank you, the issue resolution was added successfully."
 msgstr "Спасибо, решение запроса добавлено успешно."
 
 #: misc/localization/eventum.c:4706
-msgid ""
-"An error occurred while trying to update the issue resolution information."
+msgid "An error occurred while trying to update the issue resolution information."
 msgstr "Возникла ошибка при попытке обновить информацию по решению запроса."
 
 #: misc/localization/eventum.c:4709
@@ -5613,10 +5578,8 @@ msgid "Thank you, the round robin entry was added successfully."
 msgstr "Спасибо, запись круговой системы успешно добавлена."
 
 #: misc/localization/eventum.c:4772
-msgid ""
-"An error occurred while trying to update the round robin entry information."
-msgstr ""
-"Возникла ошибка при попытке обновить информацию записи круговой системы."
+msgid "An error occurred while trying to update the round robin entry information."
+msgstr "Возникла ошибка при попытке обновить информацию записи круговой системы."
 
 #: misc/localization/eventum.c:4781
 msgid "Thank you, the round robin entry was updated successfully."
@@ -5780,8 +5743,7 @@ msgstr "Спасибо, категория учета времени добав�
 msgid ""
 "An error occurred while trying to update the time tracking category "
 "information."
-msgstr ""
-"Возникла ошибка при попытке обновить информацию о категории учета времени."
+msgstr "Возникла ошибка при попытке обновить информацию о категории учета времени."
 
 #: misc/localization/eventum.c:4967
 msgid "Please enter the title for this time tracking category."
@@ -5872,10 +5834,8 @@ msgid "Existing Users"
 msgstr "Существующие пользователи"
 
 #: misc/localization/eventum.c:5081
-msgid ""
-"You cannot change the status of the only active user left in the system."
-msgstr ""
-"Вы не можете изменить статус единственного активного пользователя в системе."
+msgid "You cannot change the status of the only active user left in the system."
+msgstr "Вы не можете изменить статус единственного активного пользователя в системе."
 
 #: misc/localization/eventum.c:5084
 msgid "You cannot inactivate all of the users in the system."
@@ -6115,8 +6075,7 @@ msgstr "Важные замечания"
 
 #: misc/localization/eventum.c:5360
 msgid "This action will permanently delete the specified note."
-msgstr ""
-"Это действие удалит выбранное примечание без возможности восстановления."
+msgstr "Это действие удалит выбранное примечание без возможности восстановления."
 
 #: misc/localization/eventum.c:5363
 msgid ""
@@ -6162,8 +6121,7 @@ msgstr "Данный адрес эл.почты"
 
 #: misc/localization/eventum.c:5405
 msgid "is neither a known staff member or customer technical contact."
-msgstr ""
-"нет ни одиного из известных сотрудников или технических контактов клиента."
+msgstr "нет ни одиного из известных сотрудников или технических контактов клиента."
 
 #: misc/localization/eventum.c:5408
 msgid "Are you sure you want to add this address to the notification list?"
@@ -6231,8 +6189,7 @@ msgstr "Подписчики не найдены"
 
 #: misc/localization/eventum.c:5480 misc/localization/eventum.c:5528
 msgid "This is an automated message sent at your request from %1."
-msgstr ""
-"Это автоматическое сообщение, отправленное по вашему запросу с сайта %1."
+msgstr "Это автоматическое сообщение, отправленное по вашему запросу с сайта %1."
 
 #: misc/localization/eventum.c:5483
 msgid "Your full account information is available below."
@@ -6241,8 +6198,7 @@ msgstr "Полная информация по вашей учетной зап�
 #: misc/localization/eventum.c:5495 misc/localization/eventum.c:5612
 #: misc/localization/eventum.c:5669 misc/localization/eventum.c:5765
 msgid "This is an automated message sent at your request from %1"
-msgstr ""
-"Это автоматическое сообщение, отправленное по вашему запросу с сайта %1"
+msgstr "Это автоматическое сообщение, отправленное по вашему запросу с сайта %1"
 
 #: misc/localization/eventum.c:5498
 msgid "An issue was assigned to you by %1"
@@ -6507,8 +6463,7 @@ msgid "Please enter the note text on the input box below."
 msgstr "Пожалуйста, введите текст примечания в поле ввода ниже."
 
 #: misc/localization/eventum.c:5891
-msgid ""
-"Thank you, the new note was created and associated with the issue below."
+msgid "Thank you, the new note was created and associated with the issue below."
 msgstr "Спасибо, новое примечание было создано и связано с запросом ниже."
 
 #: misc/localization/eventum.c:5897
@@ -6552,8 +6507,7 @@ msgid "Thank you, the selected custom filters were removed successfully."
 msgstr "Спасибо, выбранные пользовательские фильтры удалены успешно."
 
 #: misc/localization/eventum.c:5954
-msgid ""
-"Thank you, the association to the selected emails were removed successfully."
+msgid "Thank you, the association to the selected emails were removed successfully."
 msgstr "Спасибо, связь с выбранными эл.письмами удалена успешно."
 
 #: misc/localization/eventum.c:5960
@@ -6590,8 +6544,7 @@ msgstr "Спасибо, текущий запрос больше не отмеч
 
 #: misc/localization/eventum.c:5996
 msgid "You do not have permission to remove this phone support entry."
-msgstr ""
-"Вы не имеете разрешения для удаления этой записи поддержки по телефону."
+msgstr "Вы не имеете разрешения для удаления этой записи поддержки по телефону."
 
 #: misc/localization/eventum.c:5999 misc/localization/eventum.c:6002
 msgid "Thank you, the phone support entry was removed successfully."
@@ -6736,10 +6689,8 @@ msgid "Please enter your new password with at least 6 characters."
 msgstr "Пожалуйста, введите новый пароль по крайней мере из 6 символов."
 
 #: misc/localization/eventum.c:6176
-msgid ""
-"The two passwords do not match. Please review your information and try again."
-msgstr ""
-"Пароли не совпадают. Пожалуйста, проверьте ваши данные и попробуйте еще раз."
+msgid "The two passwords do not match. Please review your information and try again."
+msgstr "Пароли не совпадают. Пожалуйста, проверьте ваши данные и попробуйте еще раз."
 
 #: misc/localization/eventum.c:6179
 msgid "User Details"
@@ -6834,8 +6785,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:6302
 msgid "Automatically append email signature when composing internal notes"
-msgstr ""
-"Автоматически добавлять подпись эл. почты при создании внутренних примечаний"
+msgstr "Автоматически добавлять подпись эл. почты при создании внутренних примечаний"
 
 #: misc/localization/eventum.c:6305
 msgid "SMS Email Address"
@@ -6945,8 +6895,7 @@ msgstr "Пожалуйста, выберите эл. письма, которы�
 
 #: misc/localization/eventum.c:6467
 msgid "Please choose which emails need to be permanently removed."
-msgstr ""
-"Пожалуйста, выберите эл. письма, которые необходимо удалить перманентно."
+msgstr "Пожалуйста, выберите эл. письма, которые необходимо удалить перманентно."
 
 #: misc/localization/eventum.c:6470
 msgid ""
@@ -7168,8 +7117,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:6710
 msgid "Date issue was opened - Date issue was closed for all closed issues."
-msgstr ""
-"(Дата открытия запроса - Дата закрытия запроса) для всех закрытых запросов."
+msgstr "(Дата открытия запроса - Дата закрытия запроса) для всех закрытых запросов."
 
 #: misc/localization/eventum.c:6713
 msgid ""
@@ -7185,8 +7133,7 @@ msgstr "Ожидаемое время решения по категории"
 
 #: misc/localization/eventum.c:6719
 msgid "Based on all open issue in Eventum for <b>%1</b>."
-msgstr ""
-" Основан на всех открытых запросах в системе Eventum для проекта <b>%1</b>."
+msgstr " Основан на всех открытых запросах в системе Eventum для проекта <b>%1</b>."
 
 #: misc/localization/eventum.c:6725
 msgid "Estimated time (Hours)"
@@ -7748,12 +7695,10 @@ msgstr ""
 
 #: misc/localization/eventum.c:7436
 msgid "Warning: This draft has already been sent. You cannot resend it."
-msgstr ""
-"Предупреждение: черновик уже отправлен. Вы не можете повторно отправить его."
+msgstr "Предупреждение: черновик уже отправлен. Вы не можете повторно отправить его."
 
 #: misc/localization/eventum.c:7439
-msgid ""
-"Warning: This draft has already been edited. You cannot send or edit it."
+msgid "Warning: This draft has already been edited. You cannot send or edit it."
 msgstr ""
 "Предупреждение: черновик уже был отредактирован. Вы не можете отправить или "
 "редактировать его."
@@ -7827,8 +7772,7 @@ msgstr "Запрос на создание учетной записи"
 msgid ""
 "Error: The email address specified is already associated with an user in the "
 "system."
-msgstr ""
-"Ошибка: Указанный адрес эл.почты уже используется пользователем системы."
+msgstr "Ошибка: Указанный адрес эл.почты уже используется пользователем системы."
 
 #: misc/localization/eventum.c:7547
 msgid ""
@@ -7869,10 +7813,8 @@ msgid "Fix Spelling"
 msgstr "Исправить орфографические ошибки"
 
 #: misc/localization/eventum.c:7583
-msgid ""
-"Please choose which entries need to be disassociated with the current issue."
-msgstr ""
-"Пожалуйста выберите, какие записи требуется разъединить с текущим запросом."
+msgid "Please choose which entries need to be disassociated with the current issue."
+msgstr "Пожалуйста выберите, какие записи требуется разъединить с текущим запросом."
 
 #: misc/localization/eventum.c:7586
 msgid ""
@@ -8557,8 +8499,7 @@ msgstr "ОШИБКА: Свободного дискового пространс
 
 #: include/class.monitor.php:89
 msgid "ERROR: Free disk space left is getting very low (percentage left"
-msgstr ""
-"ОШИБКА: Свободного дискового пространство остается очень мало (осталось %"
+msgstr "ОШИБКА: Свободного дискового пространство остается очень мало (осталось %"
 
 #: include/class.monitor.php:106
 msgid "ERROR: File could not be found (path"
@@ -8594,8 +8535,7 @@ msgstr ""
 #: include/class.monitor.php:124
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
-msgstr ""
-"ОШИБКА: Несоответствие размера файла (путь: %1$s; текущий размер файла: %2$s)"
+msgstr "ОШИБКА: Несоответствие размера файла (путь: %1$s; текущий размер файла: %2$s)"
 
 #: include/class.monitor.php:144
 #, php-format
@@ -8728,8 +8668,7 @@ msgid "Error: Please configure the email address domain."
 msgstr "Ошибка: Пожалуйста, сконфигурируйте домен адреса эл. почты."
 
 #: include/class.routing.php:82
-msgid ""
-"Error: The associated user for the email routing interface needs to be set."
+msgid "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
 "Ошибка: должен быть установлен связанный пользователь для интерфейса "
 "маршрутизации эл. почты."
@@ -9042,3 +8981,4 @@ msgstr "Запросы по назначениям"
 #~ msgstr ""
 #~ "Для просмотра детальной информации по запросу или для его \n"
 #~ "обновления, пожалуйста, перейдите по след. ссылке"
+
