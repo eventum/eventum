@@ -42,6 +42,7 @@ Eventum Issue Tracking System
 - Fixed bug with blocked emails adding sender to the notification list (Bryan)
 - Changed customer API to support multiple contracts (Bryan)
 - Fixed bug with closed issue notification going out even when it shouldn't have (Bryan)
+- Prevent users of being notified if they assign an issue to themselves (Bryan)
 - Updated Smarty and PEAR packages to latest versions (Elan Ruusamäe)
 
 2007-04-17, Version 2.0.1
