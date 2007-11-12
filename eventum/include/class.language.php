@@ -150,11 +150,14 @@ class Language
 			return false;
 		}
 
-		// get translator info
-		$res = ev_gettext("");
-		// if empty gettext is returned then the mo catalog is not installed.
-		if (empty($res)) {
-			return false;
+		// XXX do not require translations for en_US locale
+		if ($locale != 'en_US') {
+			// get translator info
+			$res = ev_gettext('');
+			// if empty gettext is returned then the mo catalog is not installed.
+			if (empty($res)) {
+				return false;
+			}
 		}
         User::setLocalizedRoles();
 
