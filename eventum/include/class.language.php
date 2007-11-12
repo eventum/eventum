@@ -36,9 +36,35 @@
  * @author Bryan Alsdorf <bryan@mysql.com>
  */
 
+/**
+ * List of available locales present in Eventum.
+ *
+ * Note that the locales are first tested before they are listed as choices in
+ * Preferences page.
+ */
+
+$avail_langs = array(
+    'pl_PL' =>  'Polish',
+#    'en_US' =>  'English',
+    'ru_RU' =>  'Russian',
+#    'de_DE' =>  'German',
+#    'fr_FR' =>  'French',
+    'it_IT' =>  'Italian',
+    'fi_FI' =>  'Finnish',
+#    'es_ES' =>  'Spanish',
+#    'nl_NL' =>  'Dutch',
+    'sv_SE' =>  'Swedish',
+);
+
 class Language
 {
 
+    /**
+     * Method used to set application default locale.
+     *
+     * @access  public
+     * @return  void
+     */
     function setup()
     {
         // please add the following line to config.inc.php, changing to whatever language you prefer
@@ -50,98 +76,160 @@ class Language
     }
 
     /**
+     * Method used to get available languages.
+	 * Uses $avail_langs array and verifies that the language can be used.
+     *
+     * @access  public
+     * @return  array
+     */
+    function getAvailableLanguages()
+    {
+        global $avail_langs;
+
+		$languages = array();
+		foreach ($avail_langs as $code => $language) {
+			$res = Language::set($code);
+			if ($res) {
+				$languages[$code] = $language;
+			}
+		}
+
+		Language::restore();
+		return $languages;
+    }
+
+    /**
      * Method used to set the appropriate preference of the language
-     * for the application.
+     * for the application based on user preference.
      *
      * @access  public
      * @return  void
      */
     function setPreference()
     {
-        global $avail_langs;
-
         $usr_id = Auth::getUserID();
-        if (empty($usr_id)) {
-            define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
-        } else {
+		$lang = null;
+        if (!empty($usr_id)) {
+			// try user preference
             $usr_lang = User::getLang($usr_id);
-            if (!in_array($usr_lang, array_keys($avail_langs))) {
-                $usr_lang = APP_DEFAULT_LOCALE;
-            }
-            define('APP_CURRENT_LOCALE', $usr_lang);
+			if (Language::set($usr_lang)) {
+				$lang = $usr_lang;
+			}
         }
-        Language::set(APP_CURRENT_LOCALE);
+
+		if ($lang == null) {
+			// fall back to system default
+			define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
+			// we don't need to set language again as APP_DEFAULT_LOCALE was set by Language::setup()
+			// Language::set(APP_CURRENT_LOCALE);
+		} else {
+			define('APP_CURRENT_LOCALE', $lang);
+		}
     }
 
-
-    function set($locale)
+    /**
+     * Sets active language for for the application.
+	 * Returns false if locale is invalid or cannot be used.
+     *
+     * @access  public
+     * @return  boolean
+     */
+	function set($locale)
     {
-        setlocale(LC_TIME, $locale . '.UTF8', $locale);
-        if (APP_GETTEXT_MODE == 'native') {
-            setlocale(LC_MESSAGES, $locale . '.UTF8', $locale);
-            bindtextdomain("eventum", APP_PATH . "misc/localization/");
-            bind_textdomain_codeset("eventum", APP_CHARSET);
-            textdomain("eventum");
-        } elseif (APP_GETTEXT_MODE == 'php') {
-            _setlocale(LC_MESSAGES, $locale);
-            _bindtextdomain("eventum", APP_PATH . "misc/localization/");
-            _bind_textdomain_codeset("eventum", APP_CHARSET);
-            _textdomain("eventum");
-        }
+		// XXX do not append charset to en_US locale
+		if ($locale != 'en_US') {
+			$locale = $locale . '.' . APP_CHARSET;
+		}
+		$res = _setlocale(LC_TIME, $locale);
+		if ($res === false) {
+			return false;
+		}
 
+		$res = _setlocale(LC_MESSAGES, $locale);
+		if ($res === false) {
+			return false;
+		}
+
+		_bind_textdomain_codeset('eventum', APP_CHARSET);
+		_textdomain('eventum');
+		// get translator info
+		$res = ev_gettext("");
+		// if empty gettext is returned then the mo catalog is not installed.
+		if (empty($res)) {
+			return false;
+		}
         User::setLocalizedRoles();
+
+		return true;
     }
 
 
     function restore()
     {
-        Language::set((defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE));
+		$locale = defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE;
+		Language::set($locale);
     }
 }
 
-
-// helper function to help with translating strings with variables in them
-function ev_gettext($string)
-{
-    if (func_num_args() > 1) {
-        $arg = array();
-        for($i = 1 ; $i < func_num_args(); $i++) {
-            $arg[] = func_get_arg($i);
-        }
-
-        if (APP_GETTEXT_MODE == 'php') {
-            $string = _gettext($string);
-        } else {
-            $string = gettext($string);
-        }
-
-        return vsprintf($string, $arg);
-    } else {
-        if (APP_GETTEXT_MODE == 'php') {
-            return _gettext($string);
-        } else {
-            return gettext($string);
-        }
-    }
-}
-
-
-function ev_ngettext($string, $plural, $number)
-{
-    if (APP_GETTEXT_MODE == 'php') {
-        return _ngettext($string, $plural, $number);
-    } else {
-        return ngettext($string, $plural, $number);
-    }
-}
 
 
 // if there is no gettext support built into PHP, or we are running in language compatability mode include PHP-gettext
 if ((!function_exists('gettext')) || ((defined('APP_GETTEXT_MODE')) && (APP_GETTEXT_MODE == 'php'))) {
     require_once(APP_INC_PATH . "php-gettext/gettext.inc");
-    @define('APP_GETTEXT_MODE', 'php');
+    define('APP_GETTEXT_MODE', 'php');
+
+	function ev_gettext($string)
+	{
+		if (func_num_args() > 1) {
+			$arg = array();
+			for($i = 1 ; $i < func_num_args(); $i++) {
+				$arg[] = func_get_arg($i);
+			}
+			$string = _gettext($string);
+			return vsprintf($string, $arg);
+		} else {
+			return _gettext($string);
+		}
+	}
+	function ev_ngettext($string, $plural, $number)
+	{
+		return _ngettext($string, $plural, $number);
+	}
+
 } else {
-    @define('APP_GETTEXT_MODE', 'native');
+    define('APP_GETTEXT_MODE', 'native');
+
+	function ev_gettext($string)
+	{
+		if (func_num_args() > 1) {
+			$arg = array();
+			for($i = 1 ; $i < func_num_args(); $i++) {
+				$arg[] = func_get_arg($i);
+			}
+
+			$string = gettext($string);
+			return vsprintf($string, $arg);
+		} else {
+			return gettext($string);
+		}
+	}
+
+	function ev_ngettext($string, $plural, $number)
+	{
+		return ngettext($string, $plural, $number);
+	}
+	function _bind_textdomain_codeset($domain, $codeset) {
+		return bind_textdomain_codeset($domain, $codeset);
+	}
+	function _textdomain($domain) {
+		return textdomain($domain);
+	}
+	function _gettext($msgid) {
+		return gettext($msgid);
+	}
+	function _setlocale($category, $locale) {
+		return setlocale($category, $locale);
+	}
 }
 
 // benchmarking the included file (aka setup time)

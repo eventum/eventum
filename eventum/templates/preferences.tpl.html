@@ -189,6 +189,7 @@ function validateAccount(f)
           </td>
           <td bgcolor="{$light_color}" colspan="{$assigned_projects|@count}">
             <select class="default" name="language">
+			  <option value="en_US">English</option>
               {html_options options=$avail_langs selected=$current_locale}
             </select>
           </td>

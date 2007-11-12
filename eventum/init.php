@@ -159,20 +159,6 @@ if (APP_BENCHMARK) {
     $bench->start();
 }
 
-// handle the language preferences now
-$avail_langs = array(
-    'pl' =>  'Polish',
-    'en' =>  'English',
-    'ru' =>  'Russian',
-#    'de' =>  'German',
-#    'fr' =>  'French',
-    'it' =>  'Italian',
-    'fi' =>  'Finnish',
-#    'es' =>  'Spanish',
-#    'nl' =>  'Dutch',
-    'sv' =>  'Swedish',
-);
-
 include_once(APP_INC_PATH . 'class.language.php');
 include_once(APP_INC_PATH . 'db_access.php');
 include_once(APP_INC_PATH . 'class.auth.php');
