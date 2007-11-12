@@ -150,8 +150,6 @@ class Language
 			return false;
 		}
 
-		_bind_textdomain_codeset('eventum', APP_CHARSET);
-		_textdomain('eventum');
 		// get translator info
 		$res = ev_gettext("");
 		// if empty gettext is returned then the mo catalog is not installed.
@@ -231,6 +229,11 @@ if ((!function_exists('gettext')) || ((defined('APP_GETTEXT_MODE')) && (APP_GETT
 		return setlocale($category, $locale);
 	}
 }
+
+// this won't change over the request. so set it once and permanently
+_bindtextdomain('eventum', APP_PATH . 'misc/localization/');
+_bind_textdomain_codeset('eventum', APP_CHARSET);
+_textdomain('eventum');
 
 // benchmarking the included file (aka setup time)
 if (APP_BENCHMARK) {
