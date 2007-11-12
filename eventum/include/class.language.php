@@ -219,6 +219,9 @@ if ((!function_exists('gettext')) || ((defined('APP_GETTEXT_MODE')) && (APP_GETT
 	function _bind_textdomain_codeset($domain, $codeset) {
 		return bind_textdomain_codeset($domain, $codeset);
 	}
+	function _bindtextdomain($domain, $path) {
+		return bindtextdomain($domain, $path);
+	}
 	function _textdomain($domain) {
 		return textdomain($domain);
 	}
