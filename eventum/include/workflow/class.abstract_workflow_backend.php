@@ -325,6 +325,6 @@ class Abstract_Workflow_Backend
      */
     function shouldAutoAddToNotificationList($prj_id)
     {
-        return false;
+        return true;
     }
 }
