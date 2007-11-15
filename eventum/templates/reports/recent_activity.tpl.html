@@ -1,8 +1,8 @@
 {capture assign="extra_title"}{t}Recent Activity{/t}{/capture}
 {include file="header.tpl.html" extra_title=$extra_title}
 <script language="javascript">
-{include file="../js/httpclient.js"}
-{include file="../js/expandable_cell.js"}
+{include file="$app_path/js/httpclient.js"}
+{include file="$app_path/js/expandable_cell.js"}
 </script>
 <br />
 <form method="post" action="{$smarty.server.PHP_SELF}" name="recent_activity">

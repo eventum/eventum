@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.template.php 3468 2007-11-12 20:55:27Z glen $
+// @(#) $Id: class.template.php 3474 2007-11-15 07:38:43Z balsdorf $
 //
 
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
@@ -187,6 +187,7 @@ class Template_API
             $this->assign("is_current_user_clocked_in", User::isClockedIn($usr_id));
             $this->assign("roles", User::getAssocRoleIDs());
         }
+        $this->assign('app_path', APP_PATH);
         $this->assign("app_setup", Setup::load());
         $this->assign("app_config_path", APP_CONFIG_PATH);
         $this->assign("app_setup_file", APP_SETUP_FILE);

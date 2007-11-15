@@ -45,6 +45,7 @@ Eventum Issue Tracking System
 - Prevent users of being notified if they assign an issue to themselves (Bryan)
 - Updated Smarty and PEAR packages to latest versions (Elan Ruusamäe)
 - Fixed tab order of custom fields (Bryan)
+- Fixed bug with expandable tables (Bryan)
 
 2007-04-17, Version 2.0.1
 - Fixed packaging bug that prevented setup from running (Bryan)
