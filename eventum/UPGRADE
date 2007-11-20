@@ -25,6 +25,8 @@ to run. For convenience, an index file is provided to list the scripts.
 Open /path-to-eventum/misc/upgrade/v2.0_to_v2.1/ in a web browser
 and run the scripts in the order provided.
 
+You need config/* files from older version before you can run the update.
+
 - Upgrading from version 2.0-beta to 2.0:
 ----------------------------------------
 
