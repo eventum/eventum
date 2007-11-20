@@ -2,6 +2,7 @@
 set -e
 set -x
 app=eventum
+rc=RC4
 svn=svn://eventum.mysql.org/eventum-gpl/trunk/eventum
 dir=$app
 
@@ -20,6 +21,6 @@ cd -
 # make tarball and md5 checksum
 rm -rf $app-$version
 mv $dir $app-$version
-tar -czf $app-$version.tar.gz $app-$version
+tar -czf $app-$version$rc.tar.gz $app-$version
 rm -rf $app-$version
-md5sum -b $app-$version.tar.gz > $app-$version.tar.gz.md5
+md5sum -b $app-$version$rc.tar.gz > $app-$version$rc.tar.gz.md5
