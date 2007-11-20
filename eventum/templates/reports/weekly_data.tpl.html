@@ -3,8 +3,8 @@
 {$application_title} {t}issues worked on{/t}:
 
 {section name=issue loop=$data.issues.other}
-<a href="{$rel_url}view.php?id={$data.issues.other[issue].iss_id}" style="text-decoration: none" target="_top">{$data.issues.other[issue].iss_id|str_pad:5:" ":"STR_PAD_LEFT"}</a> {$data.issues.other[issue].iss_summary|htmlspecialchars} {if
-$smarty.post.show_per_issue == 1}({$data.issues.other[issue].time_spent}){/if}{if $smarty.post.show_status == 1} ({$data.issues.other[issue].sta_title}){/if}{if $smarty.post.show_priority == 1} ({$data.issues.other[issue].pri_title}){/if}
+<a href="{$rel_url}view.php?id={$data.issues.other[issue].iss_id}" style="text-decoration: none" target="_blank">{$data.issues.other[issue].iss_id|str_pad:5:" ":"STR_PAD_LEFT"}</a> {$data.issues.other[issue].iss_summary|htmlspecialchars} {if
+$smarty.post.show_status == 1} ({$data.issues.other[issue].sta_title}){/if}{if $smarty.post.show_priority == 1} ({$data.issues.other[issue].pri_title}){/if} {if $smarty.post.show_per_issue == 1}({$data.issues.other[issue].time_spent}){/if}
 
 {sectionelse}
 {t}No issues touched this time period{/t}
@@ -15,8 +15,8 @@ $smarty.post.show_per_issue == 1}({$data.issues.other[issue].time_spent}){/if}{i
 {t}Issues Closed{/t}:
 
 {section name=issue loop=$data.issues.closed}
-<a href="{$rel_url}view.php?id={$data.issues.closed[issue].iss_id}" style="text-decoration: none" target="_top">{$data.issues.closed[issue].iss_id|str_pad:5:" ":"STR_PAD_LEFT"}</a> {$data.issues.closed[issue].iss_summary|htmlspecialchars} {if
-$smarty.post.show_per_issue == 1}({$data.issues.closed[issue].time_spent}){/if}{if $smarty.post.show_status == 1} ({$data.issues.closed[issue].sta_title}){/if}{if $smarty.post.show_priority == 1} ({$data.issues.closed[issue].pri_title}){/if}
+<a href="{$rel_url}view.php?id={$data.issues.closed[issue].iss_id}" style="text-decoration: none" target="_blank">{$data.issues.closed[issue].iss_id|str_pad:5:" ":"STR_PAD_LEFT"}</a> {$data.issues.closed[issue].iss_summary|htmlspecialchars} {if
+$smarty.post.show_status == 1} ({$data.issues.closed[issue].sta_title}){/if}{if $smarty.post.show_priority == 1} ({$data.issues.closed[issue].pri_title}){/if} {if $smarty.post.show_per_issue == 1}({$data.issues.closed[issue].time_spent}){/if}
 
 {sectionelse}
 {t}No issues closed this time period{/t}
@@ -28,8 +28,8 @@ $smarty.post.show_per_issue == 1}({$data.issues.closed[issue].time_spent}){/if}{
 {t}Issues with only status changed{/t}:
 
 {section name=issue loop=$data.issues.status_changed}
-<a href="{$rel_url}view.php?id={$data.issues.status_changed[issue].iss_id}" style="text-decoration: none" target="_top">{$data.issues.status_changed[issue].iss_id|str_pad:5:" ":"STR_PAD_LEFT"}</a> {$data.issues.status_changed[issue].iss_summary|htmlspecialchars} {if
-$smarty.post.show_per_issue == 1}({$data.issues.status_changed[issue].time_spent}){/if}{if $smarty.post.show_status == 1} ({$data.issues.status_changed[issue].sta_title}){/if}{if $smarty.post.show_priority == 1} ({$data.issues.status_changed[issue].pri_title}){/if}
+<a href="{$rel_url}view.php?id={$data.issues.status_changed[issue].iss_id}" style="text-decoration: none" target="_blank">{$data.issues.status_changed[issue].iss_id|str_pad:5:" ":"STR_PAD_LEFT"}</a> {$data.issues.status_changed[issue].iss_summary|htmlspecialchars} {if
+$smarty.post.show_status == 1} ({$data.issues.status_changed[issue].sta_title}){/if}{if $smarty.post.show_priority == 1} ({$data.issues.status_changed[issue].pri_title}){/if} {if $smarty.post.show_per_issue == 1}({$data.issues.status_changed[issue].time_spent}){/if}
 
 {sectionelse}
 {t}No issues with only status changed this time period{/t}
