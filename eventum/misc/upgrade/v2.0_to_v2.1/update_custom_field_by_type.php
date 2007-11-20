@@ -1,7 +1,13 @@
 <?php
-require_once(dirname(__FILE__) . "/../../../init.php");
-include_once(APP_INC_PATH . "class.custom_field.php");
-include_once(APP_INC_PATH . "db_access.php");
+define('APP_PATH', realpath(dirname(__FILE__) . '/../../..'));
+
+if (!file_exists(APP_PATH . '/config/config.php')) {
+	die("Can't find config.php from ". APP_PATH . "/config. Did you forgot to copy config from old install?");
+}
+
+require_once APP_PATH . '/init.php';
+include_once APP_INC_PATH . 'class.custom_field.php';
+include_once APP_INC_PATH . 'db_access.php';
 
 // get all custom fields with type of date or integer
 $sql = "SELECT
