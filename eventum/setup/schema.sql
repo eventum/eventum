@@ -506,7 +506,7 @@ CREATE TABLE %TABLE_PREFIX%user (
 INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_status, usr_password, usr_full_name, usr_email, usr_preferences) VALUES (1, NOW(), 'inactive', '14589714398751513457adf349173434', 'system', 'system-account@example.com', '');
 INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@example.com', '');
 
-DROP TABLE IF EXISTS %TABLE_PREFIX%custom_field;
+    DROP TABLE IF EXISTS %TABLE_PREFIX%custom_field;
 CREATE TABLE %TABLE_PREFIX%custom_field (
   fld_id int(10) unsigned NOT NULL auto_increment,
   fld_title varchar(32) NOT NULL default '',
@@ -516,6 +516,8 @@ CREATE TABLE %TABLE_PREFIX%custom_field (
   fld_report_form_required int(1) NOT NULL default 0,
   fld_anonymous_form int(1) NOT NULL default 1,
   fld_anonymous_form_required int(1) NOT NULL default 0,
+  fld_close_form tinyint(1) NOT NULL DEFAULT 0,
+  fld_close_form_required tinyint(1) NOT NULL DEFAULT 0,
   fld_list_display tinyint(1) NOT NULL default 0,
   fld_min_role tinyint(1) NOT NULL default 0,
   fld_rank smallint(2) NOT NULL default 0,
