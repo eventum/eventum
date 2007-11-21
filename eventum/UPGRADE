@@ -17,7 +17,7 @@ instructions:
 3) Run the upgrade scripts described in each section below by opening
    these scripts in your web browser
 
-- Upgrading from version 2.0 and 2.0.1 to 2.0:
+- Upgrading from version 2.0 and 2.0.1 to 2.1:
 ----------------------------------------
 
 For the upgrade from release 2.0 and 2.0.1, there are 2 scripts you need
