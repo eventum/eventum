@@ -1157,10 +1157,6 @@ class GanttPlotObject {
 	$this->iCaptionMargin=$aMarg;
     }
 
-    function GetLineNbr() {
-	return 0;
-    }
-
     function GetAbsHeight($aImg) {
 	return 0;
     }
