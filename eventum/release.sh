@@ -2,7 +2,7 @@
 set -e
 set -x
 app=eventum
-rc=RC4
+rc=RC1
 svn=svn://eventum.mysql.org/eventum-gpl/trunk/eventum
 dir=$app
 
@@ -16,6 +16,10 @@ version=$(awk -F"'" '/APP_VERSION/{print $4}' init.php)
 make -C misc/localization
 chmod -R a+rwX templates_c locks logs config
 rm -f release.sh
+
+# sanity check
+find -name '*.php' | xargs -l1 php4 -l
+find -name '*.php' | xargs -l1 php -l
 cd -
 
 # make tarball and md5 checksum
