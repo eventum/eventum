@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.error_handler.php 3310 2007-04-17 10:18:29Z glen $
+// @(#) $Id: class.error_handler.php 3488 2007-11-22 08:25:13Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
@@ -136,7 +136,7 @@ class Error_Handler
      * @param  string $script The script name where the error happened
      * @param  integer $line The line number where the error happened
      */
-    function &_createErrorReport(&$error_msg = 'unknown', $script = 'unknown', $line = 'unknown')
+    function &_createErrorReport(&$error_msg, $script, $line)
     {
         $msg = "An error was found on line '" . $line . "' of script " . "'$script'.\n\n";
 
