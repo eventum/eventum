@@ -1,5 +1,3 @@
-{literal}
-
 var expanding = false;
 
 // expands the cell specified by ecID and msgID. This will initiate the call to the remote script to get the
@@ -97,4 +95,3 @@ function getAllCells(ecID)
     }
     return newCells;
 }
-{/literal}

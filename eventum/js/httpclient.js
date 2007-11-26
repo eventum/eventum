@@ -1,5 +1,3 @@
-{literal}
-
 function HTTPClient() {};
 
 HTTPClient.prototype = {
@@ -49,4 +47,3 @@ HTTPClient.prototype = {
         }
     }
 }
-{/literal}
