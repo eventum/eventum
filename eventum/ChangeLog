@@ -5,6 +5,7 @@ Eventum Issue Tracking System
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
 - Fix unwanted breakage of PHP 4.x compatability (Elan Ruusamäe)
 - Include JavaScript files client side, not from Smarty. Fixes #32619 (Elan Ruusamäe)
+- Avoid redefine error of APP_GETTEXT_MODE constant in language class (Elan Ruusamäe)
 
 2007-11-20, Version 2.1
 - Fixed error with DB error when removing assignnees from issue assignment list (Bryan)
