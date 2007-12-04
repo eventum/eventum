@@ -1271,7 +1271,7 @@ class Support
                     $to = Mail_API::getName($res[$i]["sup_to"]);
                     # FIXME: just ignore the unformattable header?
                     if (PEAR::isError($to)) {
-                        Error_Handler::logError(array($to->getMessage(), 'sup_id' . $res[$i]['sup_id'] . "\n" . $to . "\n" . $to->getDebugInfo()), __FILE__, __LINE__);
+                        Error_Handler::logError(array($to->getMessage(), 'sup_id' . $res[$i]['sup_id'] . "\n" . $res[$i]["sup_to"] . "\n" . $to->getDebugInfo()), __FILE__, __LINE__);
                     } else {
                         $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
                     }
