@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3364 2007-08-27 09:58:52Z balsdorf $
+// @(#) $Id: class.report.php 3500 2007-12-05 07:27:52Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -793,13 +793,15 @@ class Report
      * @param   string $type If this report is aggregate or individual
      * @param   string $start The start date of this report.
      * @param   string $end The end date of this report.
+     * @param   integer $category The category to restrict this report to
      * @return  array An array containing workload data.
      */
-    function getWorkloadByDateRange($interval, $type, $start, $end)
+    function getWorkloadByDateRange($interval, $type, $start, $end, $category)
     {
         $data = array();
         $start = Misc::escapeString($start);
         $end = Misc::escapeString($end);
+        $category = Misc::escapeInteger($category);
 
         // figure out the correct format code
         switch ($interval) {
@@ -841,7 +843,12 @@ class Report
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_prj_id=" . Auth::getCurrentProject() . " AND
-                    iss_created_date BETWEEN '$start' AND '$end'
+                    iss_created_date BETWEEN '$start' AND '$end'";
+        if (!empty($category)) {
+            $stmt .= " AND
+                    iss_prc_id = $category";
+        }
+        $stmt .= "
                  GROUP BY
                     DATE_FORMAT(iss_created_date, '$format')";
         if (!empty($order_by)) {
@@ -880,11 +887,22 @@ class Report
                     count(*)
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account";
+        if (!empty($category)) {
+            $stmt .= ",
+                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
+        }
+        $stmt .= "
                  WHERE
                     sup_ema_id=ema_id AND
                     ema_prj_id=" . Auth::getCurrentProject() . " AND
-                    sup_date BETWEEN '$start' AND '$end'
+                    sup_date BETWEEN '$start' AND '$end'";
+        if (!empty($category)) {
+            $stmt .= " AND
+                    sup_iss_id = iss_id AND
+                    iss_prc_id = $category";
+        }
+        $stmt .= "
                  GROUP BY
                     DATE_FORMAT(sup_date, '$format')";
         if (!empty($order_by)) {
