@@ -7217,6 +7217,9 @@ gettext("Total Time Spent");
 gettext("Workload by Date Range Report");
 
 /* templates/reports/workload_date_range.tpl.html */
+gettext("Category");
+
+/* templates/reports/workload_date_range.tpl.html */
 gettext("Type");
 
 /* templates/reports/workload_date_range.tpl.html */

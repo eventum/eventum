@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: include/class.language.php:156
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-10 02:54+0200\n"
+"POT-Creation-Date: 2007-12-06 01:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: misc/localization/eventum.c:2 misc/localization/eventum.c:5693
-#: misc/localization/eventum.c:6551 misc/localization/eventum.c:7499
+#: misc/localization/eventum.c:6551 misc/localization/eventum.c:7502
 msgid "Issue"
 msgstr ""
 
@@ -38,10 +39,10 @@ msgstr ""
 #: misc/localization/eventum.c:6023 misc/localization/eventum.c:6029
 #: misc/localization/eventum.c:6044 misc/localization/eventum.c:6050
 #: misc/localization/eventum.c:6065 misc/localization/eventum.c:6131
-#: misc/localization/eventum.c:6494 misc/localization/eventum.c:7322
-#: misc/localization/eventum.c:7406 misc/localization/eventum.c:7430
-#: misc/localization/eventum.c:7442 misc/localization/eventum.c:7484
-#: misc/localization/eventum.c:7925
+#: misc/localization/eventum.c:6494 misc/localization/eventum.c:7325
+#: misc/localization/eventum.c:7409 misc/localization/eventum.c:7433
+#: misc/localization/eventum.c:7445 misc/localization/eventum.c:7487
+#: misc/localization/eventum.c:7928
 msgid "An error occurred while trying to run your query"
 msgstr ""
 
@@ -54,10 +55,10 @@ msgstr ""
 #: misc/localization/eventum.c:785 misc/localization/eventum.c:818
 #: misc/localization/eventum.c:881 misc/localization/eventum.c:1364
 #: misc/localization/eventum.c:6071 misc/localization/eventum.c:6137
-#: misc/localization/eventum.c:6422 misc/localization/eventum.c:7403
-#: misc/localization/eventum.c:7412 misc/localization/eventum.c:7427
-#: misc/localization/eventum.c:7439 misc/localization/eventum.c:7448
-#: misc/localization/eventum.c:7676 misc/localization/eventum.c:7931
+#: misc/localization/eventum.c:6422 misc/localization/eventum.c:7406
+#: misc/localization/eventum.c:7415 misc/localization/eventum.c:7430
+#: misc/localization/eventum.c:7442 misc/localization/eventum.c:7451
+#: misc/localization/eventum.c:7679 misc/localization/eventum.c:7934
 msgid "Continue"
 msgstr ""
 
@@ -110,7 +111,7 @@ msgstr ""
 #: misc/localization/eventum.c:56 misc/localization/eventum.c:2222
 #: misc/localization/eventum.c:2594 misc/localization/eventum.c:2936
 #: misc/localization/eventum.c:4421 misc/localization/eventum.c:4676
-#: misc/localization/eventum.c:6875 misc/localization/eventum.c:7220
+#: misc/localization/eventum.c:6875 misc/localization/eventum.c:7223
 msgid "Type"
 msgstr ""
 
@@ -142,22 +143,22 @@ msgstr ""
 msgid "Temp Number"
 msgstr ""
 
-#: misc/localization/eventum.c:80 misc/localization/eventum.c:7805
-#: misc/localization/eventum.c:8084 misc/localization/eventum.c:8147
+#: misc/localization/eventum.c:80 misc/localization/eventum.c:7808
+#: misc/localization/eventum.c:8087 misc/localization/eventum.c:8150
 msgid "Other"
 msgstr ""
 
 #: misc/localization/eventum.c:83 misc/localization/eventum.c:134
 #: misc/localization/eventum.c:6773 misc/localization/eventum.c:6800
 #: misc/localization/eventum.c:6977 misc/localization/eventum.c:7049
-#: misc/localization/eventum.c:7526 misc/localization/eventum.c:7694
+#: misc/localization/eventum.c:7529 misc/localization/eventum.c:7697
 #: include/class.display_column.php:188
 msgid "Time Spent"
 msgstr ""
 
 #: misc/localization/eventum.c:86 misc/localization/eventum.c:137
 #: misc/localization/eventum.c:6317 misc/localization/eventum.c:6323
-#: misc/localization/eventum.c:7529
+#: misc/localization/eventum.c:7532
 msgid "in minutes"
 msgstr ""
 
@@ -216,8 +217,8 @@ msgstr ""
 #: misc/localization/eventum.c:6437 misc/localization/eventum.c:6467
 #: misc/localization/eventum.c:6587 misc/localization/eventum.c:6767
 #: misc/localization/eventum.c:6794 misc/localization/eventum.c:6983
-#: misc/localization/eventum.c:7043 misc/localization/eventum.c:7700
-#: misc/localization/eventum.c:8153 include/class.display_column.php:223
+#: misc/localization/eventum.c:7043 misc/localization/eventum.c:7703
+#: misc/localization/eventum.c:8156 include/class.display_column.php:223
 #: include/class.notification.php:657 include/class.notification.php:658
 msgid "Summary"
 msgstr ""
@@ -226,10 +227,11 @@ msgstr ""
 #: misc/localization/eventum.c:602 misc/localization/eventum.c:5303
 #: misc/localization/eventum.c:5327 misc/localization/eventum.c:5906
 #: misc/localization/eventum.c:6374 misc/localization/eventum.c:6758
-#: misc/localization/eventum.c:6980 misc/localization/eventum.c:7697
-#: misc/localization/eventum.c:8072 include/class.display_column.php:199
-#: include/class.filter.php:601 include/class.notification.php:633
-#: include/class.notification.php:634 include/class.project.php:1102
+#: misc/localization/eventum.c:6980 misc/localization/eventum.c:7220
+#: misc/localization/eventum.c:7700 misc/localization/eventum.c:8075
+#: include/class.display_column.php:199 include/class.filter.php:601
+#: include/class.notification.php:633 include/class.notification.php:634
+#: include/class.project.php:1102
 msgid "Category"
 msgstr ""
 
@@ -243,7 +245,7 @@ msgstr ""
 msgid "Work started"
 msgstr ""
 
-#: misc/localization/eventum.c:143 misc/localization/eventum.c:7709
+#: misc/localization/eventum.c:143 misc/localization/eventum.c:7712
 msgid "Add Time Entry"
 msgstr ""
 
@@ -289,8 +291,8 @@ msgstr ""
 #: misc/localization/eventum.c:188 misc/localization/eventum.c:200
 #: misc/localization/eventum.c:1172 misc/localization/eventum.c:6377
 #: misc/localization/eventum.c:6383 misc/localization/eventum.c:6389
-#: misc/localization/eventum.c:7361 misc/localization/eventum.c:7367
-#: misc/localization/eventum.c:7373 misc/localization/eventum.c:7379
+#: misc/localization/eventum.c:7364 misc/localization/eventum.c:7370
+#: misc/localization/eventum.c:7376 misc/localization/eventum.c:7382
 msgid "any"
 msgstr ""
 
@@ -300,7 +302,7 @@ msgstr ""
 #: misc/localization/eventum.c:5591 misc/localization/eventum.c:5639
 #: misc/localization/eventum.c:5669 misc/localization/eventum.c:5699
 #: misc/localization/eventum.c:5729 misc/localization/eventum.c:5786
-#: misc/localization/eventum.c:6380 misc/localization/eventum.c:8093
+#: misc/localization/eventum.c:6380 misc/localization/eventum.c:8096
 #: include/class.display_column.php:173 include/class.filter.php:586
 #: include/class.notification.php:641 include/class.notification.php:642
 #: include/class.project.php:1103
@@ -320,14 +322,14 @@ msgstr ""
 #: misc/localization/eventum.c:6386 misc/localization/eventum.c:6770
 #: misc/localization/eventum.c:6797 misc/localization/eventum.c:6944
 #: misc/localization/eventum.c:7019 misc/localization/eventum.c:7046
-#: misc/localization/eventum.c:8075 misc/localization/eventum.c:8087
+#: misc/localization/eventum.c:8078 misc/localization/eventum.c:8090
 #: include/class.display_column.php:211 include/class.filter.php:606
 #: include/class.notification.php:645 include/class.notification.php:646
 msgid "Status"
 msgstr ""
 
 #: misc/localization/eventum.c:191 misc/localization/eventum.c:1586
-#: misc/localization/eventum.c:8126 include/class.display_column.php:179
+#: misc/localization/eventum.c:8129 include/class.display_column.php:179
 #: include/class.filter.php:668 include/class.user.php:1437
 msgid "Reporter"
 msgstr ""
@@ -433,7 +435,7 @@ msgstr ""
 #: misc/localization/eventum.c:266 misc/localization/eventum.c:287
 #: misc/localization/eventum.c:314 misc/localization/eventum.c:341
 #: misc/localization/eventum.c:368 misc/localization/eventum.c:1847
-#: misc/localization/eventum.c:8123 include/class.reminder_condition.php:223
+#: misc/localization/eventum.c:8126 include/class.reminder_condition.php:223
 msgid "hours"
 msgstr ""
 
@@ -494,8 +496,8 @@ msgstr ""
 #: misc/localization/eventum.c:5387 misc/localization/eventum.c:5483
 #: misc/localization/eventum.c:6125 misc/localization/eventum.c:6230
 #: misc/localization/eventum.c:6248 misc/localization/eventum.c:6269
-#: misc/localization/eventum.c:6350 misc/localization/eventum.c:7535
-#: misc/localization/eventum.c:7901
+#: misc/localization/eventum.c:6350 misc/localization/eventum.c:7538
+#: misc/localization/eventum.c:7904
 msgid "Reset"
 msgstr ""
 
@@ -552,8 +554,8 @@ msgstr ""
 #: misc/localization/eventum.c:5030 misc/localization/eventum.c:5117
 #: misc/localization/eventum.c:5144 misc/localization/eventum.c:6509
 #: misc/localization/eventum.c:6524 misc/localization/eventum.c:6629
-#: misc/localization/eventum.c:6845 misc/localization/eventum.c:7637
-#: misc/localization/eventum.c:7664
+#: misc/localization/eventum.c:6845 misc/localization/eventum.c:7640
+#: misc/localization/eventum.c:7667
 msgid "All"
 msgstr ""
 
@@ -702,8 +704,8 @@ msgstr ""
 #: misc/localization/eventum.c:494 misc/localization/eventum.c:1148
 #: misc/localization/eventum.c:1259 misc/localization/eventum.c:2093
 #: misc/localization/eventum.c:6518 misc/localization/eventum.c:6926
-#: misc/localization/eventum.c:6956 misc/localization/eventum.c:7514
-#: misc/localization/eventum.c:7652 misc/localization/eventum.c:7964
+#: misc/localization/eventum.c:6956 misc/localization/eventum.c:7517
+#: misc/localization/eventum.c:7655 misc/localization/eventum.c:7967
 msgid "Subject"
 msgstr ""
 
@@ -726,8 +728,8 @@ msgstr ""
 #: misc/localization/eventum.c:512 misc/localization/eventum.c:620
 #: misc/localization/eventum.c:866 misc/localization/eventum.c:1133
 #: misc/localization/eventum.c:5405 misc/localization/eventum.c:5888
-#: misc/localization/eventum.c:7628 misc/localization/eventum.c:7685
-#: misc/localization/eventum.c:7721
+#: misc/localization/eventum.c:7631 misc/localization/eventum.c:7688
+#: misc/localization/eventum.c:7724
 msgid "Back to Top"
 msgstr ""
 
@@ -765,11 +767,11 @@ msgstr ""
 
 #: misc/localization/eventum.c:542 misc/localization/eventum.c:5045
 #: misc/localization/eventum.c:5435 misc/localization/eventum.c:6206
-#: misc/localization/eventum.c:7568
+#: misc/localization/eventum.c:7571
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: misc/localization/eventum.c:545 misc/localization/eventum.c:8141
+#: misc/localization/eventum.c:545 misc/localization/eventum.c:8144
 msgid "Authorized Repliers"
 msgstr ""
 
@@ -822,9 +824,9 @@ msgstr ""
 #: misc/localization/eventum.c:584 misc/localization/eventum.c:890
 #: misc/localization/eventum.c:1811 misc/localization/eventum.c:1826
 #: misc/localization/eventum.c:5513 misc/localization/eventum.c:6530
-#: misc/localization/eventum.c:7982 misc/localization/eventum.c:8201
-#: misc/localization/eventum.c:8204 misc/localization/eventum.c:8210
-#: misc/localization/eventum.c:8258
+#: misc/localization/eventum.c:7985 misc/localization/eventum.c:8204
+#: misc/localization/eventum.c:8207 misc/localization/eventum.c:8213
+#: misc/localization/eventum.c:8261
 msgid "Close"
 msgstr ""
 
@@ -835,7 +837,7 @@ msgstr ""
 #: misc/localization/eventum.c:590 misc/localization/eventum.c:5309
 #: misc/localization/eventum.c:5339 misc/localization/eventum.c:5552
 #: misc/localization/eventum.c:5726 misc/localization/eventum.c:6440
-#: misc/localization/eventum.c:6470 misc/localization/eventum.c:8138
+#: misc/localization/eventum.c:6470 misc/localization/eventum.c:8141
 #: include/class.project.php:1104
 msgid "Assignment"
 msgstr ""
@@ -850,7 +852,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:626 misc/localization/eventum.c:5414
 #: misc/localization/eventum.c:6899 misc/localization/eventum.c:6974
-#: misc/localization/eventum.c:7691
+#: misc/localization/eventum.c:7694
 msgid "User"
 msgstr ""
 
@@ -897,10 +899,10 @@ msgstr ""
 
 #: misc/localization/eventum.c:665 misc/localization/eventum.c:1205
 #: misc/localization/eventum.c:1211 misc/localization/eventum.c:3752
-#: misc/localization/eventum.c:5879 misc/localization/eventum.c:7559
-#: misc/localization/eventum.c:7727 misc/localization/eventum.c:7733
-#: misc/localization/eventum.c:7739 misc/localization/eventum.c:7910
-#: misc/localization/eventum.c:7916
+#: misc/localization/eventum.c:5879 misc/localization/eventum.c:7562
+#: misc/localization/eventum.c:7730 misc/localization/eventum.c:7736
+#: misc/localization/eventum.c:7742 misc/localization/eventum.c:7913
+#: misc/localization/eventum.c:7919
 msgid "Go Back"
 msgstr ""
 
@@ -912,7 +914,7 @@ msgstr ""
 msgid "Thank you, the issue was closed successfully"
 msgstr ""
 
-#: misc/localization/eventum.c:674 misc/localization/eventum.c:7751
+#: misc/localization/eventum.c:674 misc/localization/eventum.c:7754
 msgid "E-mail about issue update was sent to"
 msgstr ""
 
@@ -950,7 +952,7 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c:704 misc/localization/eventum.c:749
-#: misc/localization/eventum.c:7904 misc/localization/eventum.c:8186
+#: misc/localization/eventum.c:7907 misc/localization/eventum.c:8189
 msgid "Close Issue"
 msgstr ""
 
@@ -959,8 +961,8 @@ msgid "Issue ID:"
 msgstr ""
 
 #: misc/localization/eventum.c:710 misc/localization/eventum.c:2738
-#: misc/localization/eventum.c:4265 misc/localization/eventum.c:7364
-#: misc/localization/eventum.c:7796 misc/localization/eventum.c:7808
+#: misc/localization/eventum.c:4265 misc/localization/eventum.c:7367
+#: misc/localization/eventum.c:7799 misc/localization/eventum.c:7811
 msgid "Status:"
 msgstr ""
 
@@ -1049,7 +1051,7 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c:776 misc/localization/eventum.c:1430
-#: misc/localization/eventum.c:7598
+#: misc/localization/eventum.c:7601
 msgid "Back to Login Form"
 msgstr ""
 
@@ -1155,7 +1157,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:854 misc/localization/eventum.c:5132
 #: misc/localization/eventum.c:5342 misc/localization/eventum.c:5831
-#: misc/localization/eventum.c:8150 include/class.display_column.php:182
+#: misc/localization/eventum.c:8153 include/class.display_column.php:182
 #: include/class.project.php:1107 list.php:88
 msgid "Group"
 msgstr ""
@@ -1169,12 +1171,12 @@ msgstr ""
 #: misc/localization/eventum.c:4910 misc/localization/eventum.c:5366
 #: misc/localization/eventum.c:6173 misc/localization/eventum.c:6290
 #: misc/localization/eventum.c:6299 misc/localization/eventum.c:6308
-#: misc/localization/eventum.c:7880 misc/localization/eventum.c:7889
+#: misc/localization/eventum.c:7883 misc/localization/eventum.c:7892
 #: include/class.misc.php:710
 msgid "Yes"
 msgstr ""
 
-#: misc/localization/eventum.c:860 misc/localization/eventum.c:8069
+#: misc/localization/eventum.c:860 misc/localization/eventum.c:8072
 msgid "None"
 msgstr ""
 
@@ -1188,7 +1190,7 @@ msgid "No custom fields could be found."
 msgstr ""
 
 #: misc/localization/eventum.c:872 misc/localization/eventum.c:1853
-#: misc/localization/eventum.c:7895
+#: misc/localization/eventum.c:7898
 msgid "Update"
 msgstr ""
 
@@ -1223,7 +1225,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:905 misc/localization/eventum.c:941
 #: misc/localization/eventum.c:6446 misc/localization/eventum.c:6476
-#: misc/localization/eventum.c:6722 misc/localization/eventum.c:8060
+#: misc/localization/eventum.c:6722 misc/localization/eventum.c:8063
 #: include/class.customer_stats_report.php:670
 #: include/class.display_column.php:208
 msgid "Support Level"
@@ -1278,8 +1280,8 @@ msgstr ""
 #: misc/localization/eventum.c:6626 misc/localization/eventum.c:6866
 #: misc/localization/eventum.c:6893 misc/localization/eventum.c:6914
 #: misc/localization/eventum.c:6941 misc/localization/eventum.c:6968
-#: misc/localization/eventum.c:6995 misc/localization/eventum.c:7310
-#: misc/localization/eventum.c:8051
+#: misc/localization/eventum.c:6995 misc/localization/eventum.c:7313
+#: misc/localization/eventum.c:8054
 #: include/class.customer_stats_report.php:668
 #: include/class.display_column.php:205 include/class.user.php:1438
 msgid "Customer"
@@ -1339,7 +1341,7 @@ msgid "Lookup"
 msgstr ""
 
 #: misc/localization/eventum.c:983 misc/localization/eventum.c:6191
-#: misc/localization/eventum.c:7538
+#: misc/localization/eventum.c:7541
 msgid "Cancel"
 msgstr ""
 
@@ -1391,8 +1393,8 @@ msgstr ""
 #: misc/localization/eventum.c:4640 misc/localization/eventum.c:4913
 #: misc/localization/eventum.c:5369 misc/localization/eventum.c:6179
 #: misc/localization/eventum.c:6293 misc/localization/eventum.c:6302
-#: misc/localization/eventum.c:6311 misc/localization/eventum.c:7883
-#: misc/localization/eventum.c:7892 include/class.misc.php:712
+#: misc/localization/eventum.c:6311 misc/localization/eventum.c:7886
+#: misc/localization/eventum.c:7895 include/class.misc.php:712
 msgid "No"
 msgstr ""
 
@@ -1420,7 +1422,7 @@ msgstr ""
 msgid "(only technical contacts listed on your contract)"
 msgstr ""
 
-#: misc/localization/eventum.c:1082 misc/localization/eventum.c:7742
+#: misc/localization/eventum.c:1082 misc/localization/eventum.c:7745
 msgid "Sorry, an error happened while trying to run your query."
 msgstr ""
 
@@ -1458,7 +1460,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:1124 misc/localization/eventum.c:5390
 #: misc/localization/eventum.c:6128 misc/localization/eventum.c:6200
-#: misc/localization/eventum.c:7553
+#: misc/localization/eventum.c:7556
 msgid "Required fields"
 msgstr ""
 
@@ -1478,20 +1480,20 @@ msgstr ""
 #: misc/localization/eventum.c:1139 misc/localization/eventum.c:5897
 #: misc/localization/eventum.c:6515 misc/localization/eventum.c:6605
 #: misc/localization/eventum.c:6917 misc/localization/eventum.c:6947
-#: misc/localization/eventum.c:7493 misc/localization/eventum.c:7643
-#: misc/localization/eventum.c:7949
+#: misc/localization/eventum.c:7496 misc/localization/eventum.c:7646
+#: misc/localization/eventum.c:7952
 msgid "From"
 msgstr ""
 
 #: misc/localization/eventum.c:1142 misc/localization/eventum.c:1247
 #: misc/localization/eventum.c:5900 misc/localization/eventum.c:6617
 #: misc/localization/eventum.c:6920 misc/localization/eventum.c:6950
-#: misc/localization/eventum.c:7496 misc/localization/eventum.c:7952
+#: misc/localization/eventum.c:7499 misc/localization/eventum.c:7955
 msgid "To"
 msgstr ""
 
 #: misc/localization/eventum.c:1145 misc/localization/eventum.c:1349
-#: misc/localization/eventum.c:8096
+#: misc/localization/eventum.c:8099
 msgid "Last Updated Date"
 msgstr ""
 
@@ -1499,7 +1501,7 @@ msgstr ""
 msgid "No email drafts could be found."
 msgstr ""
 
-#: misc/localization/eventum.c:1154 misc/localization/eventum.c:7478
+#: misc/localization/eventum.c:1154 misc/localization/eventum.c:7481
 msgid "Create Draft"
 msgstr ""
 
@@ -1524,11 +1526,11 @@ msgid "Email Account:"
 msgstr ""
 
 #: misc/localization/eventum.c:1175 misc/localization/eventum.c:5264
-#: misc/localization/eventum.c:6365 misc/localization/eventum.c:7382
+#: misc/localization/eventum.c:6365 misc/localization/eventum.c:7385
 msgid "Search"
 msgstr ""
 
-#: misc/localization/eventum.c:1178 misc/localization/eventum.c:7385
+#: misc/localization/eventum.c:1178 misc/localization/eventum.c:7388
 msgid "Clear"
 msgstr ""
 
@@ -1546,7 +1548,7 @@ msgstr ""
 msgid "Associate Emails"
 msgstr ""
 
-#: misc/localization/eventum.c:1202 misc/localization/eventum.c:7556
+#: misc/localization/eventum.c:1202 misc/localization/eventum.c:7559
 msgid "Sorry, but this feature has been disabled by the administrator."
 msgstr ""
 
@@ -1765,7 +1767,7 @@ msgstr ""
 msgid "Request a Password"
 msgstr ""
 
-#: misc/localization/eventum.c:1409 misc/localization/eventum.c:7577
+#: misc/localization/eventum.c:1409 misc/localization/eventum.c:7580
 msgid "Error: An error occurred while trying to run your query."
 msgstr ""
 
@@ -1791,7 +1793,7 @@ msgstr ""
 msgid "Error: No user account was found matching the entered email address."
 msgstr ""
 
-#: misc/localization/eventum.c:1424 misc/localization/eventum.c:7589
+#: misc/localization/eventum.c:1424 misc/localization/eventum.c:7592
 msgid "Email Address:"
 msgstr ""
 
@@ -2085,7 +2087,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:1604 misc/localization/eventum.c:6842
 #: misc/localization/eventum.c:6872 misc/localization/eventum.c:7139
-#: misc/localization/eventum.c:7301 include/class.user.php:1440
+#: misc/localization/eventum.c:7304 include/class.user.php:1440
 msgid "Developer"
 msgstr ""
 
@@ -2436,7 +2438,7 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c:1784 misc/localization/eventum.c:5738
-#: misc/localization/eventum.c:7967
+#: misc/localization/eventum.c:7970
 msgid "Attachments"
 msgstr ""
 
@@ -2450,7 +2452,7 @@ msgid "Notes"
 msgstr ""
 
 #: misc/localization/eventum.c:1793 misc/localization/eventum.c:6725
-#: misc/localization/eventum.c:7682
+#: misc/localization/eventum.c:7685
 #: include/class.customer_stats_report.php:736
 msgid "Time Tracking"
 msgstr ""
@@ -2498,7 +2500,7 @@ msgid "Total Estimated Dev. Time"
 msgstr ""
 
 #: misc/localization/eventum.c:1844 misc/localization/eventum.c:5360
-#: misc/localization/eventum.c:7340 misc/localization/eventum.c:7838
+#: misc/localization/eventum.c:7343 misc/localization/eventum.c:7841
 msgid "in hours"
 msgstr ""
 
@@ -2519,7 +2521,7 @@ msgid "Requirement"
 msgstr ""
 
 #: misc/localization/eventum.c:1874 misc/localization/eventum.c:5357
-#: misc/localization/eventum.c:7337 misc/localization/eventum.c:8120
+#: misc/localization/eventum.c:7340 misc/localization/eventum.c:8123
 #: include/class.notification.php:653 include/class.notification.php:654
 #: include/class.project.php:1106
 msgid "Estimated Dev. Time"
@@ -2770,8 +2772,8 @@ msgstr ""
 msgid "Assigned Issues"
 msgstr ""
 
-#: misc/localization/eventum.c:2135 misc/localization/eventum.c:7304
-#: misc/localization/eventum.c:7313
+#: misc/localization/eventum.c:2135 misc/localization/eventum.c:7307
+#: misc/localization/eventum.c:7316
 msgid "Emails"
 msgstr ""
 
@@ -2978,7 +2980,7 @@ msgstr ""
 msgid "Show Custom Fields ?"
 msgstr ""
 
-#: misc/localization/eventum.c:2285 misc/localization/eventum.c:7823
+#: misc/localization/eventum.c:2285 misc/localization/eventum.c:7826
 msgid "Reporter:"
 msgstr ""
 
@@ -3000,7 +3002,7 @@ msgid "Please choose a priority"
 msgstr ""
 
 #: misc/localization/eventum.c:2303 misc/localization/eventum.c:3644
-#: misc/localization/eventum.c:7841
+#: misc/localization/eventum.c:7844
 msgid "Assignment:"
 msgstr ""
 
@@ -3356,7 +3358,7 @@ msgstr ""
 #: misc/localization/eventum.c:5633 misc/localization/eventum.c:5663
 #: misc/localization/eventum.c:5720 misc/localization/eventum.c:5780
 #: misc/localization/eventum.c:6089 misc/localization/eventum.c:6107
-#: misc/localization/eventum.c:7397
+#: misc/localization/eventum.c:7400
 msgid "Project"
 msgstr ""
 
@@ -3587,7 +3589,7 @@ msgid "Username:"
 msgstr ""
 
 #: misc/localization/eventum.c:2891 misc/localization/eventum.c:3257
-#: misc/localization/eventum.c:7592
+#: misc/localization/eventum.c:7595
 msgid "Password:"
 msgstr ""
 
@@ -3618,7 +3620,7 @@ msgstr ""
 msgid "Update Account"
 msgstr ""
 
-#: misc/localization/eventum.c:2912 misc/localization/eventum.c:7595
+#: misc/localization/eventum.c:2912 misc/localization/eventum.c:7598
 msgid "Create Account"
 msgstr ""
 
@@ -3699,7 +3701,7 @@ msgstr ""
 #: misc/localization/eventum.c:4259 misc/localization/eventum.c:4346
 #: misc/localization/eventum.c:4733 misc/localization/eventum.c:4895
 #: misc/localization/eventum.c:4997 misc/localization/eventum.c:6158
-#: misc/localization/eventum.c:8234
+#: misc/localization/eventum.c:8237
 msgid "Title:"
 msgstr ""
 
@@ -3794,7 +3796,7 @@ msgstr ""
 msgid "Rank:"
 msgstr ""
 
-#: misc/localization/eventum.c:3092 misc/localization/eventum.c:8246
+#: misc/localization/eventum.c:3092 misc/localization/eventum.c:8249
 msgid "Message:"
 msgstr ""
 
@@ -4217,7 +4219,7 @@ msgstr ""
 msgid "Name: *"
 msgstr ""
 
-#: misc/localization/eventum.c:3551 misc/localization/eventum.c:7874
+#: misc/localization/eventum.c:3551 misc/localization/eventum.c:7877
 msgid "Description:"
 msgstr ""
 
@@ -4365,7 +4367,7 @@ msgstr ""
 msgid "No link filters could be found."
 msgstr ""
 
-#: misc/localization/eventum.c:3749 misc/localization/eventum.c:7736
+#: misc/localization/eventum.c:3749 misc/localization/eventum.c:7739
 msgid ""
 "Sorry, but you do not have the required permission level to access this "
 "screen."
@@ -4468,7 +4470,7 @@ msgstr ""
 msgid "Inactive"
 msgstr ""
 
-#: misc/localization/eventum.c:3884 misc/localization/eventum.c:7970
+#: misc/localization/eventum.c:3884 misc/localization/eventum.c:7973
 msgid "Message"
 msgstr ""
 
@@ -4689,7 +4691,7 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c:4199 misc/localization/eventum.c:5501
-#: misc/localization/eventum.c:7307 misc/localization/eventum.c:7316
+#: misc/localization/eventum.c:7310 misc/localization/eventum.c:7319
 msgid "Actions"
 msgstr ""
 
@@ -5181,12 +5183,12 @@ msgstr ""
 
 #: misc/localization/eventum.c:4814 misc/localization/eventum.c:6560
 #: misc/localization/eventum.c:6836 misc/localization/eventum.c:7133
-#: misc/localization/eventum.c:7226
+#: misc/localization/eventum.c:7229
 msgid "Start"
 msgstr ""
 
 #: misc/localization/eventum.c:4817 misc/localization/eventum.c:6563
-#: misc/localization/eventum.c:6839 misc/localization/eventum.c:7229
+#: misc/localization/eventum.c:6839 misc/localization/eventum.c:7232
 msgid "End"
 msgstr ""
 
@@ -5619,7 +5621,7 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c:5315 misc/localization/eventum.c:5354
-#: misc/localization/eventum.c:8156
+#: misc/localization/eventum.c:8159
 msgid "Initial Description"
 msgstr ""
 
@@ -5631,7 +5633,7 @@ msgstr ""
 msgid "Create New Issue"
 msgstr ""
 
-#: misc/localization/eventum.c:5345 misc/localization/eventum.c:8099
+#: misc/localization/eventum.c:5345 misc/localization/eventum.c:8102
 #: include/class.project.php:1105
 msgid "Scheduled Release"
 msgstr ""
@@ -5675,9 +5677,9 @@ msgstr ""
 msgid "Internal Notes"
 msgstr ""
 
-#: misc/localization/eventum.c:5408 misc/localization/eventum.c:7640
-#: misc/localization/eventum.c:7979 misc/localization/eventum.c:8177
-#: misc/localization/eventum.c:8255
+#: misc/localization/eventum.c:5408 misc/localization/eventum.c:7643
+#: misc/localization/eventum.c:7982 misc/localization/eventum.c:8180
+#: misc/localization/eventum.c:8258
 msgid "Reply"
 msgstr ""
 
@@ -6168,7 +6170,7 @@ msgstr ""
 msgid "Post New Internal Note"
 msgstr ""
 
-#: misc/localization/eventum.c:6149 misc/localization/eventum.c:8228
+#: misc/localization/eventum.c:6149 misc/localization/eventum.c:8231
 msgid "From:"
 msgstr ""
 
@@ -6176,8 +6178,8 @@ msgstr ""
 msgid "Recipients:"
 msgstr ""
 
-#: misc/localization/eventum.c:6155 misc/localization/eventum.c:7502
-#: misc/localization/eventum.c:8078
+#: misc/localization/eventum.c:6155 misc/localization/eventum.c:7505
+#: misc/localization/eventum.c:8081
 msgid "Notification List"
 msgstr ""
 
@@ -6185,7 +6187,7 @@ msgstr ""
 msgid "Extra Note Recipients:"
 msgstr ""
 
-#: misc/localization/eventum.c:6164 misc/localization/eventum.c:7850
+#: misc/localization/eventum.c:6164 misc/localization/eventum.c:7853
 msgid "Clear Selections"
 msgstr ""
 
@@ -6194,7 +6196,7 @@ msgid "Add Extra Recipients To Notification List?"
 msgstr ""
 
 #: misc/localization/eventum.c:6170 misc/localization/eventum.c:6194
-#: misc/localization/eventum.c:7868
+#: misc/localization/eventum.c:7871
 msgid "yes"
 msgstr ""
 
@@ -6202,15 +6204,15 @@ msgstr ""
 msgid "no"
 msgstr ""
 
-#: misc/localization/eventum.c:6182 misc/localization/eventum.c:7523
+#: misc/localization/eventum.c:6182 misc/localization/eventum.c:7526
 msgid "New Status for Issue"
 msgstr ""
 
-#: misc/localization/eventum.c:6197 misc/localization/eventum.c:7544
+#: misc/localization/eventum.c:6197 misc/localization/eventum.c:7547
 msgid "Add Email Signature"
 msgstr ""
 
-#: misc/localization/eventum.c:6203 misc/localization/eventum.c:7562
+#: misc/localization/eventum.c:6203 misc/localization/eventum.c:7565
 msgid "Please enter your full name."
 msgstr ""
 
@@ -6467,7 +6469,7 @@ msgstr ""
 
 #: misc/localization/eventum.c:6569 misc/localization/eventum.c:6632
 #: misc/localization/eventum.c:6857 misc/localization/eventum.c:7037
-#: misc/localization/eventum.c:7127 misc/localization/eventum.c:7232
+#: misc/localization/eventum.c:7127 misc/localization/eventum.c:7235
 msgid "Generate"
 msgstr ""
 
@@ -6515,7 +6517,7 @@ msgstr ""
 msgid "mon"
 msgstr ""
 
-#: misc/localization/eventum.c:6614 misc/localization/eventum.c:7241
+#: misc/localization/eventum.c:6614 misc/localization/eventum.c:7244
 msgid "day"
 msgstr ""
 
@@ -6722,8 +6724,8 @@ msgstr ""
 msgid "Recent Emails"
 msgstr ""
 
-#: misc/localization/eventum.c:6929 misc/localization/eventum.c:7658
-#: misc/localization/eventum.c:7955
+#: misc/localization/eventum.c:6929 misc/localization/eventum.c:7661
+#: misc/localization/eventum.c:7958
 msgid "sent to notification list"
 msgstr ""
 
@@ -6743,7 +6745,7 @@ msgstr ""
 msgid "Recent Time Entries"
 msgstr ""
 
-#: misc/localization/eventum.c:6971 misc/localization/eventum.c:7688
+#: misc/localization/eventum.c:6971 misc/localization/eventum.c:7691
 msgid "Date of Work"
 msgstr ""
 
@@ -6831,8 +6833,8 @@ msgstr ""
 msgid "Weekly"
 msgstr ""
 
-#: misc/localization/eventum.c:7130 misc/localization/eventum.c:7244
-#: misc/localization/eventum.c:7262
+#: misc/localization/eventum.c:7130 misc/localization/eventum.c:7247
+#: misc/localization/eventum.c:7265
 msgid "Week"
 msgstr ""
 
@@ -6928,7 +6930,7 @@ msgstr ""
 msgid "Login Time Spent"
 msgstr ""
 
-#: misc/localization/eventum.c:7214 misc/localization/eventum.c:7703
+#: misc/localization/eventum.c:7214 misc/localization/eventum.c:7706
 msgid "Total Time Spent"
 msgstr ""
 
@@ -6936,65 +6938,65 @@ msgstr ""
 msgid "Workload by Date Range Report"
 msgstr ""
 
-#: misc/localization/eventum.c:7223
+#: misc/localization/eventum.c:7226
 msgid "Interval"
 msgstr ""
 
-#: misc/localization/eventum.c:7235
+#: misc/localization/eventum.c:7238
 msgid ""
 " Warning: Some type and interval options, combined with large <br />\n"
 "    date ranges can produce extremely large graphs."
 msgstr ""
 
-#: misc/localization/eventum.c:7238
+#: misc/localization/eventum.c:7241
 msgid "Day"
 msgstr ""
 
-#: misc/localization/eventum.c:7247 misc/localization/eventum.c:7265
+#: misc/localization/eventum.c:7250 misc/localization/eventum.c:7268
 msgid "week"
 msgstr ""
 
-#: misc/localization/eventum.c:7250 misc/localization/eventum.c:7274
+#: misc/localization/eventum.c:7253 misc/localization/eventum.c:7277
 msgid "Month"
 msgstr ""
 
-#: misc/localization/eventum.c:7253 misc/localization/eventum.c:7277
+#: misc/localization/eventum.c:7256 misc/localization/eventum.c:7280
 msgid "month"
 msgstr ""
 
-#: misc/localization/eventum.c:7256
+#: misc/localization/eventum.c:7259
 msgid "Day of Week"
 msgstr ""
 
-#: misc/localization/eventum.c:7259
+#: misc/localization/eventum.c:7262
 msgid "dow"
 msgstr ""
 
-#: misc/localization/eventum.c:7268
+#: misc/localization/eventum.c:7271
 msgid "Day of Month"
 msgstr ""
 
-#: misc/localization/eventum.c:7271
+#: misc/localization/eventum.c:7274
 msgid "dom"
 msgstr ""
 
-#: misc/localization/eventum.c:7280
+#: misc/localization/eventum.c:7283
 msgid "Avg/Med/Max Issues/Emails"
 msgstr ""
 
-#: misc/localization/eventum.c:7283
+#: misc/localization/eventum.c:7286
 msgid "Email Workload by Time of day"
 msgstr ""
 
-#: misc/localization/eventum.c:7286
+#: misc/localization/eventum.c:7289
 msgid "Based on all issues recorded in Eventum since start to present."
 msgstr ""
 
-#: misc/localization/eventum.c:7289
+#: misc/localization/eventum.c:7292
 msgid "Workload by Time of day"
 msgstr ""
 
-#: misc/localization/eventum.c:7292
+#: misc/localization/eventum.c:7295
 msgid ""
 "Based on all issues recorded in Eventum since start to present.\n"
 "        Actions are any event that shows up in the history of an issue, such "
@@ -7002,105 +7004,105 @@ msgid ""
 "email, etc."
 msgstr ""
 
-#: misc/localization/eventum.c:7295 misc/localization/eventum.c:7319
+#: misc/localization/eventum.c:7298 misc/localization/eventum.c:7322
 msgid "Time Period"
 msgstr ""
 
-#: misc/localization/eventum.c:7298
+#: misc/localization/eventum.c:7301
 msgid "(GMT)"
 msgstr ""
 
-#: misc/localization/eventum.c:7325
+#: misc/localization/eventum.c:7328
 msgid "Thank you, the impact analysis was updated successfully."
 msgstr ""
 
-#: misc/localization/eventum.c:7328
+#: misc/localization/eventum.c:7331
 msgid ""
 "Please use only floating point numbers on the estimated development time "
 "field."
 msgstr ""
 
-#: misc/localization/eventum.c:7331
+#: misc/localization/eventum.c:7334
 msgid "Please enter the impact analysis for this new requirement."
 msgstr ""
 
-#: misc/localization/eventum.c:7334
+#: misc/localization/eventum.c:7337
 msgid "Enter Impact Analysis"
 msgstr ""
 
-#: misc/localization/eventum.c:7343
+#: misc/localization/eventum.c:7346
 msgid "Impact <br />Analysis"
 msgstr ""
 
-#: misc/localization/eventum.c:7346
+#: misc/localization/eventum.c:7349
 msgid "Widen the field"
 msgstr ""
 
-#: misc/localization/eventum.c:7349
+#: misc/localization/eventum.c:7352
 msgid "Shorten the field"
 msgstr ""
 
-#: misc/localization/eventum.c:7352
+#: misc/localization/eventum.c:7355
 msgid "Quick Search"
 msgstr ""
 
-#: misc/localization/eventum.c:7355
+#: misc/localization/eventum.c:7358
 msgid "Keyword(s):"
 msgstr ""
 
-#: misc/localization/eventum.c:7358
+#: misc/localization/eventum.c:7361
 msgid "Assigned:"
 msgstr ""
 
-#: misc/localization/eventum.c:7370 misc/localization/eventum.c:7793
+#: misc/localization/eventum.c:7373 misc/localization/eventum.c:7796
 msgid "Category:"
 msgstr ""
 
-#: misc/localization/eventum.c:7376 misc/localization/eventum.c:7814
+#: misc/localization/eventum.c:7379 misc/localization/eventum.c:7817
 msgid "Priority:"
 msgstr ""
 
-#: misc/localization/eventum.c:7388
+#: misc/localization/eventum.c:7391
 msgid "Please choose the project."
 msgstr ""
 
-#: misc/localization/eventum.c:7391
+#: misc/localization/eventum.c:7394
 msgid "Select Project"
 msgstr ""
 
-#: misc/localization/eventum.c:7394
+#: misc/localization/eventum.c:7397
 msgid "You are not allowed to use the selected project."
 msgstr ""
 
-#: misc/localization/eventum.c:7400
+#: misc/localization/eventum.c:7403
 msgid "Remember Selection"
 msgstr ""
 
-#: misc/localization/eventum.c:7409
+#: misc/localization/eventum.c:7412
 msgid "Thank you, you are now assigned to the issue"
 msgstr ""
 
-#: misc/localization/eventum.c:7415
+#: misc/localization/eventum.c:7418
 msgid "WARNING"
 msgstr ""
 
-#: misc/localization/eventum.c:7418
+#: misc/localization/eventum.c:7421
 msgid "The following user is already assigned to this issue"
 msgid_plural "The following users are already assigned to this issue"
 msgstr[0] ""
 msgstr[1] ""
 
-#: misc/localization/eventum.c:7421
+#: misc/localization/eventum.c:7424
 msgid "Replace current assignee with Myself."
 msgid_plural "Replace current assignees with Myself."
 msgstr[0] ""
 msgstr[1] ""
 
-#: misc/localization/eventum.c:7424
+#: misc/localization/eventum.c:7427
 msgid "Add Myself to list of assignees."
 msgstr ""
 
-#: misc/localization/eventum.c:7433
+#: misc/localization/eventum.c:7436
 msgid ""
 "Sorry, but the email could not be queued. This might be related to problems "
 "with your SMTP account settings.\n"
@@ -7108,38 +7110,38 @@ msgid ""
 "assistance."
 msgstr ""
 
-#: misc/localization/eventum.c:7436
+#: misc/localization/eventum.c:7439
 msgid "Thank you, the email was queued to be sent successfully."
 msgstr ""
 
-#: misc/localization/eventum.c:7445
+#: misc/localization/eventum.c:7448
 msgid "Thank you, the email message was saved as a draft successfully."
 msgstr ""
 
-#: misc/localization/eventum.c:7451
+#: misc/localization/eventum.c:7454
 msgid "If you close this window, you will lose your message"
 msgstr ""
 
-#: misc/localization/eventum.c:7454
+#: misc/localization/eventum.c:7457
 msgid "Please enter the recipient of this email."
 msgstr ""
 
-#: misc/localization/eventum.c:7457
+#: misc/localization/eventum.c:7460
 msgid "Please enter the subject of this email."
 msgstr ""
 
-#: misc/localization/eventum.c:7460
+#: misc/localization/eventum.c:7463
 msgid "Please enter the message body of this email."
 msgstr ""
 
-#: misc/localization/eventum.c:7463
+#: misc/localization/eventum.c:7466
 msgid ""
 "WARNING: You are not assigned to this issue so your email will be blocked.\n"
 "Your blocked email will be converted to a note that can be recovered later.\n"
 "For more information, please see the topic 'email blocking' in help."
 msgstr ""
 
-#: misc/localization/eventum.c:7466
+#: misc/localization/eventum.c:7469
 msgid ""
 "WARNING: This email will be sent to all names on this issue's Notification "
 "List, including CUSTOMERS.\n"
@@ -7147,7 +7149,7 @@ msgid ""
 "Otherwise, to return to your editing window, press CANCEL."
 msgstr ""
 
-#: misc/localization/eventum.c:7469
+#: misc/localization/eventum.c:7472
 msgid ""
 "WARNING: This email will be sent to all names on this issue's Notification "
 "List.\n"
@@ -7155,21 +7157,21 @@ msgid ""
 "Otherwise, to return to your editing window, press CANCEL."
 msgstr ""
 
-#: misc/localization/eventum.c:7472
+#: misc/localization/eventum.c:7475
 msgid "Warning: This draft has already been sent. You cannot resend it."
 msgstr ""
 
-#: misc/localization/eventum.c:7475
+#: misc/localization/eventum.c:7478
 msgid ""
 "Warning: This draft has already been edited. You cannot send or edit it."
 msgstr ""
 
-#: misc/localization/eventum.c:7481 misc/localization/eventum.c:7532
-#: misc/localization/eventum.c:7670
+#: misc/localization/eventum.c:7484 misc/localization/eventum.c:7535
+#: misc/localization/eventum.c:7673
 msgid "Send Email"
 msgstr ""
 
-#: misc/localization/eventum.c:7487
+#: misc/localization/eventum.c:7490
 msgid ""
 "Sorry, but the email could not be sent. This might be related to problems "
 "with your SMTP account settings.\n"
@@ -7177,152 +7179,152 @@ msgid ""
 "assistance."
 msgstr ""
 
-#: misc/localization/eventum.c:7490
+#: misc/localization/eventum.c:7493
 msgid "Thank you, the email was sent successfully."
 msgstr ""
 
-#: misc/localization/eventum.c:7505
+#: misc/localization/eventum.c:7508
 msgid "Members"
 msgstr ""
 
-#: misc/localization/eventum.c:7508 misc/localization/eventum.c:7961
+#: misc/localization/eventum.c:7511 misc/localization/eventum.c:7964
 msgid "Cc"
 msgstr ""
 
-#: misc/localization/eventum.c:7511
+#: misc/localization/eventum.c:7514
 msgid "Add Unknown Recipients to Issue Notification List"
 msgstr ""
 
-#: misc/localization/eventum.c:7517
+#: misc/localization/eventum.c:7520
 msgid "Canned Responses"
 msgstr ""
 
-#: misc/localization/eventum.c:7520
+#: misc/localization/eventum.c:7523
 msgid "Use Canned Response"
 msgstr ""
 
-#: misc/localization/eventum.c:7541
+#: misc/localization/eventum.c:7544
 msgid "Check Spelling"
 msgstr ""
 
-#: misc/localization/eventum.c:7547
+#: misc/localization/eventum.c:7550
 msgid "Save Draft Changes"
 msgstr ""
 
-#: misc/localization/eventum.c:7550
+#: misc/localization/eventum.c:7553
 msgid "Save as Draft"
 msgstr ""
 
-#: misc/localization/eventum.c:7565
+#: misc/localization/eventum.c:7568
 msgid "Please enter your email address."
 msgstr ""
 
-#: misc/localization/eventum.c:7571
+#: misc/localization/eventum.c:7574
 msgid "Please enter your password."
 msgstr ""
 
-#: misc/localization/eventum.c:7574
+#: misc/localization/eventum.c:7577
 msgid "Account Signup"
 msgstr ""
 
-#: misc/localization/eventum.c:7580
+#: misc/localization/eventum.c:7583
 msgid ""
 "Error: The email address specified is already associated with an user in the "
 "system."
 msgstr ""
 
-#: misc/localization/eventum.c:7583
+#: misc/localization/eventum.c:7586
 msgid ""
 "Thank you, your account creation request was processed successfully. For "
 "security reasons a confirmation email was sent to the provided email address "
 "with instructions on how to confirm your request and activate your account."
 msgstr ""
 
-#: misc/localization/eventum.c:7586
+#: misc/localization/eventum.c:7589
 msgid "Full Name:"
 msgstr ""
 
-#: misc/localization/eventum.c:7601
+#: misc/localization/eventum.c:7604
 msgid "Spell Check"
 msgstr ""
 
-#: misc/localization/eventum.c:7604
+#: misc/localization/eventum.c:7607
 msgid "No spelling mistakes could be found."
 msgstr ""
 
-#: misc/localization/eventum.c:7607
+#: misc/localization/eventum.c:7610
 msgid "Misspelled Words:"
 msgstr ""
 
-#: misc/localization/eventum.c:7610
+#: misc/localization/eventum.c:7613
 msgid "Suggestions:"
 msgstr ""
 
-#: misc/localization/eventum.c:7613
+#: misc/localization/eventum.c:7616
 msgid "Choose a misspelled word"
 msgstr ""
 
-#: misc/localization/eventum.c:7616
+#: misc/localization/eventum.c:7619
 msgid "Fix Spelling"
 msgstr ""
 
-#: misc/localization/eventum.c:7619
+#: misc/localization/eventum.c:7622
 msgid ""
 "Please choose which entries need to be disassociated with the current issue."
 msgstr ""
 
-#: misc/localization/eventum.c:7622
+#: misc/localization/eventum.c:7625
 msgid ""
 "This action will remove the association of the selected entries to the "
 "current issue."
 msgstr ""
 
-#: misc/localization/eventum.c:7625
+#: misc/localization/eventum.c:7628
 msgid "Associated Emails"
 msgstr ""
 
-#: misc/localization/eventum.c:7631
+#: misc/localization/eventum.c:7634
 msgid "view the history of sent emails"
 msgstr ""
 
-#: misc/localization/eventum.c:7634
+#: misc/localization/eventum.c:7637
 msgid "Mail Queue Log"
 msgstr ""
 
-#: misc/localization/eventum.c:7646 misc/localization/eventum.c:7958
-#: misc/localization/eventum.c:8231
+#: misc/localization/eventum.c:7649 misc/localization/eventum.c:7961
+#: misc/localization/eventum.c:8234
 msgid "Recipients"
 msgstr ""
 
-#: misc/localization/eventum.c:7649 misc/localization/eventum.c:7946
+#: misc/localization/eventum.c:7652 misc/localization/eventum.c:7949
 msgid "Received"
 msgstr ""
 
-#: misc/localization/eventum.c:7655
+#: misc/localization/eventum.c:7658
 msgid "reply to this email"
 msgstr ""
 
-#: misc/localization/eventum.c:7661
+#: misc/localization/eventum.c:7664
 msgid "No associated emails could be found."
 msgstr ""
 
-#: misc/localization/eventum.c:7667
+#: misc/localization/eventum.c:7670
 msgid "Disassociate Selected"
 msgstr ""
 
-#: misc/localization/eventum.c:7673
+#: misc/localization/eventum.c:7676
 msgid "Thank you, your current selected project was changed successfully."
 msgstr ""
 
-#: misc/localization/eventum.c:7679
+#: misc/localization/eventum.c:7682
 msgid "This action will permanently delete the specified time tracking entry."
 msgstr ""
 
-#: misc/localization/eventum.c:7706
+#: misc/localization/eventum.c:7709
 msgid "No time tracking entries could be found."
 msgstr ""
 
-#: misc/localization/eventum.c:7712
+#: misc/localization/eventum.c:7715
 msgid ""
 "You can create canned email responses and use them when sending emails from "
 "the\n"
@@ -7336,7 +7338,7 @@ msgid ""
 "add some for you."
 msgstr ""
 
-#: misc/localization/eventum.c:7715
+#: misc/localization/eventum.c:7718
 msgid ""
 "You can create as many custom queries as you want through the\n"
 "<a class=\"link\" href=\"adv_search.php\">Advanced Search</a> interface.\n"
@@ -7344,7 +7346,7 @@ msgid ""
 "them quickly from the Issue Listing screen."
 msgstr ""
 
-#: misc/localization/eventum.c:7718
+#: misc/localization/eventum.c:7721
 msgid ""
 "You can switch to the 'Search' or 'Go' boxes quickly by using a\n"
 "special shortcut keystroke in your keyboard.<br />\n"
@@ -7357,408 +7359,408 @@ msgid ""
 "<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
 
-#: misc/localization/eventum.c:7724
+#: misc/localization/eventum.c:7727
 msgid "Error: The issue could not be found."
 msgstr ""
 
-#: misc/localization/eventum.c:7730 misc/localization/eventum.c:7913
+#: misc/localization/eventum.c:7733 misc/localization/eventum.c:7916
 msgid "Sorry, you do not have the required privileges to view this issue."
 msgstr ""
 
-#: misc/localization/eventum.c:7745
+#: misc/localization/eventum.c:7748
 msgid "Thank you, issue #%1 was updated successfully."
 msgstr ""
 
-#: misc/localization/eventum.c:7748
+#: misc/localization/eventum.c:7751
 msgid ""
 "Also, all issues that are marked as duplicates from this one were updated as "
 "well."
 msgstr ""
 
-#: misc/localization/eventum.c:7754
+#: misc/localization/eventum.c:7757
 msgid "Return to Issue #%1 Details Page"
 msgstr ""
 
-#: misc/localization/eventum.c:7757
+#: misc/localization/eventum.c:7760
 msgid "Update Issue #%1"
 msgstr ""
 
-#: misc/localization/eventum.c:7760
+#: misc/localization/eventum.c:7763
 msgid "Please enter the summary for this issue."
 msgstr ""
 
-#: misc/localization/eventum.c:7763
+#: misc/localization/eventum.c:7766
 msgid "Please enter the description for this issue."
 msgstr ""
 
-#: misc/localization/eventum.c:7766
+#: misc/localization/eventum.c:7769
 msgid "Percentage complete should be between 0 and 100"
 msgstr ""
 
-#: misc/localization/eventum.c:7769
+#: misc/localization/eventum.c:7772
 msgid "Please select an assignment for this issue"
 msgstr ""
 
-#: misc/localization/eventum.c:7772
+#: misc/localization/eventum.c:7775
 msgid ""
 "Warning: All changes to this issue will be lost if you continue and close "
 "this issue."
 msgstr ""
 
-#: misc/localization/eventum.c:7775
+#: misc/localization/eventum.c:7778
 msgid "Note: Project automatically switched to '%1' from '%2'."
 msgstr ""
 
-#: misc/localization/eventum.c:7778
+#: misc/localization/eventum.c:7781
 msgid "Update Issue Overview"
 msgstr ""
 
-#: misc/localization/eventum.c:7781 misc/localization/eventum.c:8033
+#: misc/localization/eventum.c:7784 misc/localization/eventum.c:8036
 msgid "edit the authorized repliers list for this issue"
 msgstr ""
 
-#: misc/localization/eventum.c:7784 misc/localization/eventum.c:8036
+#: misc/localization/eventum.c:7787 misc/localization/eventum.c:8039
 msgid "Edit Authorized Replier List"
 msgstr ""
 
-#: misc/localization/eventum.c:7787 misc/localization/eventum.c:8042
+#: misc/localization/eventum.c:7790 misc/localization/eventum.c:8045
 msgid "Edit Notification List"
 msgstr ""
 
-#: misc/localization/eventum.c:7790 misc/localization/eventum.c:8048
+#: misc/localization/eventum.c:7793 misc/localization/eventum.c:8051
 msgid "History of Changes"
 msgstr ""
 
-#: misc/localization/eventum.c:7799
+#: misc/localization/eventum.c:7802
 msgid "Notification List:"
 msgstr ""
 
-#: misc/localization/eventum.c:7802 misc/localization/eventum.c:8081
-#: misc/localization/eventum.c:8144
+#: misc/localization/eventum.c:7805 misc/localization/eventum.c:8084
+#: misc/localization/eventum.c:8147
 msgid "Staff"
 msgstr ""
 
-#: misc/localization/eventum.c:7811
+#: misc/localization/eventum.c:7814
 msgid "Submitted Date:"
 msgstr ""
 
-#: misc/localization/eventum.c:7817
+#: misc/localization/eventum.c:7820
 msgid "Update Date:"
 msgstr ""
 
-#: misc/localization/eventum.c:7820
+#: misc/localization/eventum.c:7823
 msgid "Associated Issues:"
 msgstr ""
 
-#: misc/localization/eventum.c:7826
+#: misc/localization/eventum.c:7829
 msgid "Expected Resolution Date:"
 msgstr ""
 
-#: misc/localization/eventum.c:7829
+#: misc/localization/eventum.c:7832
 msgid "Scheduled Release:"
 msgstr ""
 
-#: misc/localization/eventum.c:7832
+#: misc/localization/eventum.c:7835
 msgid "Percentage Complete:"
 msgstr ""
 
-#: misc/localization/eventum.c:7835
+#: misc/localization/eventum.c:7838
 msgid "Estimated Dev. Time:"
 msgstr ""
 
-#: misc/localization/eventum.c:7844
+#: misc/localization/eventum.c:7847
 msgid "Keep Current Assignments:"
 msgstr ""
 
-#: misc/localization/eventum.c:7847
+#: misc/localization/eventum.c:7850
 msgid "Change Assignments:"
 msgstr ""
 
-#: misc/localization/eventum.c:7853
+#: misc/localization/eventum.c:7856
 msgid "Current Selections:"
 msgstr ""
 
-#: misc/localization/eventum.c:7856
+#: misc/localization/eventum.c:7859
 msgid "Authorized Repliers:"
 msgstr ""
 
-#: misc/localization/eventum.c:7859
+#: misc/localization/eventum.c:7862
 msgid "Staff:"
 msgstr ""
 
-#: misc/localization/eventum.c:7862
+#: misc/localization/eventum.c:7865
 msgid "Other:"
 msgstr ""
 
-#: misc/localization/eventum.c:7865
+#: misc/localization/eventum.c:7868
 msgid "Group:"
 msgstr ""
 
-#: misc/localization/eventum.c:7871
+#: misc/localization/eventum.c:7874
 msgid "Summary:"
 msgstr ""
 
-#: misc/localization/eventum.c:7877
+#: misc/localization/eventum.c:7880
 msgid "Private:"
 msgstr ""
 
-#: misc/localization/eventum.c:7886
+#: misc/localization/eventum.c:7889
 msgid "Trigger Reminders:"
 msgstr ""
 
-#: misc/localization/eventum.c:7898
+#: misc/localization/eventum.c:7901
 msgid "Cancel Update"
 msgstr ""
 
-#: misc/localization/eventum.c:7907
+#: misc/localization/eventum.c:7910
 msgid "Error: The issue #%1 could not be found."
 msgstr ""
 
-#: misc/localization/eventum.c:7919
+#: misc/localization/eventum.c:7922
 msgid ""
 "Re-directing the parent window to the issue report page. This window will be "
 "closed automatically."
 msgstr ""
 
-#: misc/localization/eventum.c:7922
+#: misc/localization/eventum.c:7925
 msgid "This message already belongs to that account"
 msgstr ""
 
-#: misc/localization/eventum.c:7928
+#: misc/localization/eventum.c:7931
 msgid "Thank you, the email was successfully moved."
 msgstr ""
 
-#: misc/localization/eventum.c:7934
+#: misc/localization/eventum.c:7937
 msgid "View Email Details"
 msgstr ""
 
-#: misc/localization/eventum.c:7937 misc/localization/eventum.c:8216
+#: misc/localization/eventum.c:7940 misc/localization/eventum.c:8219
 msgid "Associated with Issue"
 msgstr ""
 
-#: misc/localization/eventum.c:7940 misc/localization/eventum.c:7985
+#: misc/localization/eventum.c:7943 misc/localization/eventum.c:7988
 msgid "Previous Message"
 msgstr ""
 
-#: misc/localization/eventum.c:7943 misc/localization/eventum.c:7988
+#: misc/localization/eventum.c:7946 misc/localization/eventum.c:7991
 msgid "Next Message"
 msgstr ""
 
-#: misc/localization/eventum.c:7973 misc/localization/eventum.c:8249
+#: misc/localization/eventum.c:7976 misc/localization/eventum.c:8252
 msgid "display in fixed width font"
 msgstr ""
 
-#: misc/localization/eventum.c:7976
+#: misc/localization/eventum.c:7979
 msgid "Raw Headers"
 msgstr ""
 
-#: misc/localization/eventum.c:7991
+#: misc/localization/eventum.c:7994
 msgid "Move Message To"
 msgstr ""
 
-#: misc/localization/eventum.c:7994
+#: misc/localization/eventum.c:7997
 msgid "Please select the new status for this issue."
 msgstr ""
 
-#: misc/localization/eventum.c:7997
+#: misc/localization/eventum.c:8000
 msgid ""
 "NOTE: If you need to send new information regarding this issue, please use "
 "the EMAIL related buttons available at the bottom of the screen."
 msgstr ""
 
-#: misc/localization/eventum.c:8000
+#: misc/localization/eventum.c:8003
 msgid "previous issue on your current active filter"
 msgstr ""
 
-#: misc/localization/eventum.c:8003
+#: misc/localization/eventum.c:8006
 msgid "Previous Issue"
 msgstr ""
 
-#: misc/localization/eventum.c:8006
+#: misc/localization/eventum.c:8009
 msgid "next issue on your current active filter"
 msgstr ""
 
-#: misc/localization/eventum.c:8009
+#: misc/localization/eventum.c:8012
 msgid "Next Issue"
 msgstr ""
 
-#: misc/localization/eventum.c:8012
+#: misc/localization/eventum.c:8015
 msgid "This Issue is Currently Quarantined"
 msgstr ""
 
-#: misc/localization/eventum.c:8015
+#: misc/localization/eventum.c:8018
 msgid "Quarantine expires in %1"
 msgstr ""
 
-#: misc/localization/eventum.c:8018
+#: misc/localization/eventum.c:8021
 msgid ""
 "Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information "
 "regarding quarantined issues."
 msgstr ""
 
-#: misc/localization/eventum.c:8021
+#: misc/localization/eventum.c:8024
 msgid "Remove Quarantine"
 msgstr ""
 
-#: misc/localization/eventum.c:8024
+#: misc/localization/eventum.c:8027
 msgid "Note: "
 msgstr ""
 
-#: misc/localization/eventum.c:8027
+#: misc/localization/eventum.c:8030
 msgid ""
 "This issue is marked private. Only Managers, the reporter and users assigned "
 "to the issue can view it."
 msgstr ""
 
-#: misc/localization/eventum.c:8030
+#: misc/localization/eventum.c:8033
 msgid "Issue Overview"
 msgstr ""
 
-#: misc/localization/eventum.c:8039
+#: misc/localization/eventum.c:8042
 msgid "edit the notification list for this issue"
 msgstr ""
 
-#: misc/localization/eventum.c:8045
+#: misc/localization/eventum.c:8048
 msgid "view the full history of changes on this issue"
 msgstr ""
 
-#: misc/localization/eventum.c:8054
+#: misc/localization/eventum.c:8057
 msgid "Complete Details"
 msgstr ""
 
-#: misc/localization/eventum.c:8057
+#: misc/localization/eventum.c:8060
 msgid "Customer Contract"
 msgstr ""
 
-#: misc/localization/eventum.c:8063
+#: misc/localization/eventum.c:8066
 msgid "Support Options"
 msgstr ""
 
-#: misc/localization/eventum.c:8066
+#: misc/localization/eventum.c:8069
 msgid "Redeemed Incident Types"
 msgstr ""
 
-#: misc/localization/eventum.c:8090
+#: misc/localization/eventum.c:8093
 msgid "Submitted Date"
 msgstr ""
 
-#: misc/localization/eventum.c:8102
+#: misc/localization/eventum.c:8105
 msgid "Associated Issues"
 msgstr ""
 
-#: misc/localization/eventum.c:8105
+#: misc/localization/eventum.c:8108
 msgid "No issues associated"
 msgstr ""
 
-#: misc/localization/eventum.c:8108 include/class.notification.php:649
+#: misc/localization/eventum.c:8111 include/class.notification.php:649
 #: include/class.notification.php:650
 msgid "Resolution"
 msgstr ""
 
-#: misc/localization/eventum.c:8111 include/class.display_column.php:228
+#: misc/localization/eventum.c:8114 include/class.display_column.php:228
 #: include/class.notification.php:629 include/class.notification.php:630
 msgid "Expected Resolution Date"
 msgstr ""
 
-#: misc/localization/eventum.c:8114
+#: misc/localization/eventum.c:8117
 msgid "No resolution date given"
 msgstr ""
 
-#: misc/localization/eventum.c:8117
+#: misc/localization/eventum.c:8120
 msgid "Percentage Complete"
 msgstr ""
 
-#: misc/localization/eventum.c:8129
+#: misc/localization/eventum.c:8132
 msgid "Duplicates"
 msgstr ""
 
-#: misc/localization/eventum.c:8132
+#: misc/localization/eventum.c:8135
 msgid "Duplicate of"
 msgstr ""
 
-#: misc/localization/eventum.c:8135
+#: misc/localization/eventum.c:8138
 msgid "Duplicated by"
 msgstr ""
 
-#: misc/localization/eventum.c:8159
+#: misc/localization/eventum.c:8162
 msgid "fixed width font"
 msgstr ""
 
-#: misc/localization/eventum.c:8162
+#: misc/localization/eventum.c:8165
 msgid "Description is currently collapsed"
 msgstr ""
 
-#: misc/localization/eventum.c:8165
+#: misc/localization/eventum.c:8168
 msgid "Click to expand."
 msgstr ""
 
-#: misc/localization/eventum.c:8168
+#: misc/localization/eventum.c:8171
 msgid "Unassign Issue"
 msgstr ""
 
-#: misc/localization/eventum.c:8171
+#: misc/localization/eventum.c:8174
 msgid "Assign Issue To Myself"
 msgstr ""
 
-#: misc/localization/eventum.c:8174
+#: misc/localization/eventum.c:8177
 msgid "Update Issue"
 msgstr ""
 
-#: misc/localization/eventum.c:8180
+#: misc/localization/eventum.c:8183
 msgid "Clear Duplicate Status"
 msgstr ""
 
-#: misc/localization/eventum.c:8183
+#: misc/localization/eventum.c:8186
 msgid "Mark as Duplicate"
 msgstr ""
 
-#: misc/localization/eventum.c:8189
+#: misc/localization/eventum.c:8192
 msgid "Signup as Authorized Replier"
 msgstr ""
 
-#: misc/localization/eventum.c:8192
+#: misc/localization/eventum.c:8195
 msgid "Edit Incident Redemption"
 msgstr ""
 
-#: misc/localization/eventum.c:8195
+#: misc/localization/eventum.c:8198
 msgid "Change Status To"
 msgstr ""
 
-#: misc/localization/eventum.c:8198
+#: misc/localization/eventum.c:8201
 msgid "View Email Raw Headers"
 msgstr ""
 
-#: misc/localization/eventum.c:8207
+#: misc/localization/eventum.c:8210
 msgid ""
 "The specified note does not exist. <br />\n"
 "      It could have been converted to an email."
 msgstr ""
 
-#: misc/localization/eventum.c:8213
+#: misc/localization/eventum.c:8216
 msgid "View Note Details"
 msgstr ""
 
-#: misc/localization/eventum.c:8219 misc/localization/eventum.c:8261
+#: misc/localization/eventum.c:8222 misc/localization/eventum.c:8264
 msgid "Previous Note"
 msgstr ""
 
-#: misc/localization/eventum.c:8222 misc/localization/eventum.c:8264
+#: misc/localization/eventum.c:8225 misc/localization/eventum.c:8267
 msgid "Next Note"
 msgstr ""
 
-#: misc/localization/eventum.c:8225
+#: misc/localization/eventum.c:8228
 msgid "Posted Date:"
 msgstr ""
 
-#: misc/localization/eventum.c:8237
+#: misc/localization/eventum.c:8240
 msgid "Attachments:"
 msgstr ""
 
-#: misc/localization/eventum.c:8240 misc/localization/eventum.c:8243
+#: misc/localization/eventum.c:8243 misc/localization/eventum.c:8246
 msgid "download file"
 msgstr ""
 
-#: misc/localization/eventum.c:8252
+#: misc/localization/eventum.c:8255
 msgid "Blocked Message Raw Headers"
 msgstr ""
 
