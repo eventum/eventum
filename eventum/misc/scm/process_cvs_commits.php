@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: process_cvs_commits.php 3284 2007-03-19 23:54:48Z glen $
+// @(#) $Id: process_cvs_commits.php 3502 2007-12-05 10:34:30Z glen $
 
 
 // URL to your Eventum installation.
@@ -77,7 +77,7 @@ foreach ($pieces as $file_info) {
 }
 
 // get the full commit message
-$commit_msg = substr($input, strpos($input, 'Log Message:')+strlen('Log Message:')+1);
+$commit_msg = substr($input, strpos($input, 'Log Message:') + strlen('Log Message:') + 1);
 
 // parse the commit message and get the first issue number we can find
 $pattern = "/(?:issue|bug) ?:? ?#?(\d+)/i";
@@ -110,14 +110,18 @@ if (count($matches[1]) > 0) {
         die("Error: Could not ping the Eventum SCM handler script.\n");
     } else {
         $msg = "GET $ping_url HTTP/1.1\r\n";
-        $msg .= "Host: $data[host]\r\n";
+        $msg .= "Host: {$data['host']}\r\n";
         $msg .= "Connection: Close\r\n\r\n";
         fwrite($fp, $msg);
         $buf = fgets($fp, 4096);
-        list($proto, $status, $msg) = explode(' ', trim($buf), 3);
-        if ($status != '200') {
-            echo "Error: Could not ping the Eventum SCM handler script: HTTP status code: $status $msg\n";
-        }
+		if (!$buf) {
+            echo "Error: Couldn't read response from $ping_url\n";
+		} else {
+			list($proto, $status, $msg) = explode(' ', trim($buf), 3);
+			if ($status != '200') {
+				echo "Error: Could not ping the Eventum SCM handler script: HTTP status code: $status $msg\n";
+			}
+		}
         fclose($fp);
     }
 }
