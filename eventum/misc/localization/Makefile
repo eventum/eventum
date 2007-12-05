@@ -21,6 +21,7 @@ pot:
 	cd export; \
 		find templates -name '*.tpl.html' -o -name '*.tpl.text' | LC_ALL=C sort | xargs tsmarty2c > misc/localization/eventum.c; \
 		(echo misc/localization/eventum.c; find -name '*.php' | LC_ALL=C sort) | xgettext --files-from=- --keyword=gettext --keyword=ev_gettext --output=misc/localization/eventum.pot; \
+		sed -i -e 's,misc/localization/eventum.c:[0-9]\+,misc/localization/eventum.c,g' misc/localization/eventum.pot; \
 		mv misc/localization/eventum.{c,pot} ..; \
 	cd -; \
 	rm -rf export
