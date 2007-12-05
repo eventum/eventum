@@ -12,6 +12,20 @@
         </tr>
         <tr>
         </tr>
+        {if $categories|@count > 0}
+        <tr>
+          <td class="default" align="right">
+            <b>{t}Category{/t}:</b>
+          </td>
+          <td align="left">
+            &nbsp;&nbsp;
+            <select name="category" class="default">
+                <option value=""></option>
+                {html_options options=$categories selected=$category}
+            </select>
+          </td>
+        </tr>
+        {/if}
         <tr>
           <td class="default" align="right">
             <b>{t}Type{/t}:</b>
@@ -147,10 +161,10 @@ for {$start_date} through {$end_date}.
 </div>
 <br />
 <div align="center">
-    <img src="workload_date_range_graph.php?graph=issue&interval={$interval}&start_date={$start_date}&end_date={$end_date}"><br /><br />
-    <img src="workload_date_range_graph.php?graph=issue&type=pie&interval={$interval}&start_date={$start_date}&end_date={$end_date}"><br /><br />
-    <img src="workload_date_range_graph.php?graph=email&interval={$interval}&start_date={$start_date}&end_date={$end_date}"><br /><br />
-    <img src="workload_date_range_graph.php?graph=email&type=pie&interval={$interval}&start_date={$start_date}&end_date={$end_date}">
+    <img src="workload_date_range_graph.php?graph=issue&interval={$interval}&start_date={$start_date}&end_date={$end_date}&category={$category}"><br /><br />
+    <img src="workload_date_range_graph.php?graph=issue&type=pie&interval={$interval}&start_date={$start_date}&end_date={$end_date}&category={$category}"><br /><br />
+    <img src="workload_date_range_graph.php?graph=email&interval={$interval}&start_date={$start_date}&end_date={$end_date}&category={$category}"><br /><br />
+    <img src="workload_date_range_graph.php?graph=email&type=pie&interval={$interval}&start_date={$start_date}&end_date={$end_date}&category={$category}">
 </div>
 {/if}
 {include file="footer.tpl.html"}

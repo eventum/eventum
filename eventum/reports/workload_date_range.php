@@ -25,13 +25,14 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: workload_date_range.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: workload_date_range.php 3499 2007-12-05 07:00:18Z balsdorf $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.report.php");
 require_once(APP_INC_PATH . "class.session.php");
+require_once(APP_INC_PATH . "class.category.php");
 require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -43,6 +44,8 @@ if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
     echo "Invalid role";
     exit;
 }
+
+$prj_id = Auth::getCurrentProject();
 
 $types = array(
     "individual"    =>  "Individual",
@@ -70,7 +73,7 @@ if (count(@$_REQUEST["end"]) > 0 &&
 
 
 if (!empty($_REQUEST["interval"])) {
-    $data = Report::getWorkloadByDateRange($_REQUEST["interval"], $_REQUEST["type"], $start_date, date('Y-m-d', (strtotime($end_date) + DAY)));
+    $data = Report::getWorkloadByDateRange($_REQUEST["interval"], $_REQUEST["type"], $start_date, date('Y-m-d', (strtotime($end_date) + DAY)), @$_REQUEST['category']);
     Session::set("workload_date_range_data", $data);
     $tpl->assign("data", $data);
   //  echo "<pre>";print_r($data);echo "</pre>";
@@ -81,6 +84,8 @@ $tpl->assign(array(
     "types" =>  $types,
     "type"  =>  @$_REQUEST["type"],
     "start_date"    =>  $start_date,
-    "end_date"  =>  $end_date
+    "end_date"  =>  $end_date,
+    'categories'    =>  Category::getAssocList($prj_id),
+    'category'  =>  @$_REQUEST['category'],
 ));
 $tpl->displayTemplate();
