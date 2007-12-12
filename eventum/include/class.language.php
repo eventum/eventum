@@ -22,11 +22,11 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors:                                                             |
+// |  Bryan Alsdorf <bryan@mysql.com>                                     |
+// |  Elan Ruusamäe <glen@delfi.ee>                                       |
 // +----------------------------------------------------------------------+
 //
-
-// the list of available languges is in config/config.php
 
 /**
  * Class to handle the logic behind the internationalization issues
