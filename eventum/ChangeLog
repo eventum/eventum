@@ -7,6 +7,8 @@ Eventum Issue Tracking System
 - Include JavaScript files client side, not from Smarty. Fixes #32619 (Elan Ruusamäe)
 - Avoid redefine error of APP_GETTEXT_MODE constant in language class (Elan Ruusamäe)
 - Added 'Category' to workload by date range report (Bryan)
+- Update php-gettext wrapper to support switching locales on same page (Elan Ruusamäe)
+- Update php-gettext to find LC_MESSAGES from various dirs like glibc function does (Elan Ruusamäe)
 
 2007-11-20, Version 2.1
 - Fixed error with DB error when removing assignnees from issue assignment list (Bryan)
