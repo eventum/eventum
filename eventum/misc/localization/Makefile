@@ -4,7 +4,7 @@
 SVN_URL := svn://eventum.mysql.org/eventum-gpl/trunk/eventum
 ALL_LINGUAS := de en es fi fr it nl pl ru sv
 DOMAIN := eventum
-POFILES := $(shell echo $(ALL_LINGUAS) | sed -e 's, ,.po ,g;s,$$,.po,')
+POFILES := $(patsubst %,%.po,$(ALL_LINGUAS))
 
 all:
 	@set -x -e; \
