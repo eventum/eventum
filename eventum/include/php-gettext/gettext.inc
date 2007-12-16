@@ -63,12 +63,19 @@ function _get_reader($domain=null, $category=5, $enable_cache=true) {
 		// get the current locale
 		$locale = _setlocale(LC_MESSAGES, 0);
 		$p = isset($text_domains[$domain]->path) ? $text_domains[$domain]->path : './';
-		$path = $p . "$locale/". $LC_CATEGORIES[$category] ."/$domain.mo";
+		$s = $LC_CATEGORIES[$category] ."/$domain.mo";
+		list($l,) = explode('.', $locale); // skip charset
+		$path = "$p$l/$s";
 		if (file_exists($path)) {
 			$input = new FileReader($path);
-		}
-		else {
-			$input = null;
+		} else {
+			list($l,) = explode('_', $l); // skip locality
+			$path = "$p$l/$s";
+			if (file_exists($path)) {
+				$input = new FileReader($path);
+			} else {
+				$input = null;
+			}
 		}
 		$text_domains[$domain]->l10n = new gettext_reader($input, $enable_cache);
 	}
@@ -148,6 +155,11 @@ function _setlocale($category, $locale) {
 	        $CURRENTLOCALE = $locale;
             $EMULATEGETTEXT = 1;
         }
+
+		// this will allow switching locales for same domain
+		global $text_domains, $default_domain;
+		unset($text_domains[$default_domain]->l10n);
+
         return $CURRENTLOCALE;
     }
 }
