@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3500 2007-12-05 07:27:52Z balsdorf $
+// @(#) $Id: class.report.php 3510 2007-12-17 19:56:20Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -700,11 +700,6 @@ class Report
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return array();
-            }
-            for ($i = 0; $i < count($res); $i++) {
-                if ($res[$i]['iss_private'] == 1) {
-                    $res[$i]['iss_summary'] = Access::getMaskedSummary($res[$i]['iss_id']);
-                }
             }
             if (Customer::hasCustomerIntegration($prj_id)) {
                 Customer::getCustomerTitlesByIssues($prj_id, $res);
