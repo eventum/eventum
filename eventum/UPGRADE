@@ -17,6 +17,16 @@ instructions:
 3) Run the upgrade scripts described in each section below by opening
    these scripts in your web browser
 
+- Upgrading from version 2.1 to 2.1.1:
+----------------------------------------
+
+For the upgrade from release 2.1, there is one script you need
+to run. For convenience, an index file is provided to list the scripts.
+Open /path-to-eventum/misc/upgrade/v2.1_to_v2.1.1/ in a web browser
+and run the scripts in the order provided.
+
+You need config/* files from older version before you can run the update.
+
 - Upgrading from version 2.0 and 2.0.1 to 2.1:
 ----------------------------------------
 
