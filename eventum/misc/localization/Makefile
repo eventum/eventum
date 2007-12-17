@@ -34,7 +34,7 @@ update-po:
 			if cmp -s $$lang.po new.po; then \
 				rm -f new.po; \
 			else \
-				mv -f new.po $$lang/LC_MESSAGES/$(DOMAIN).po; \
+				mv -f new.po $$lang.po; \
 			fi \
 		fi \
 	done
