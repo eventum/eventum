@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2007-12-17, Version 2.1.1
+2008-01-03, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
 - Fix unwanted breakage of PHP 4.x compatability (Elan Ruusamäe)
 - Include JavaScript files client side, not from Smarty. Fixes #32619 (Elan Ruusamäe)
