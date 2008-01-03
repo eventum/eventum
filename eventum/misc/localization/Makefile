@@ -8,6 +8,7 @@ POFILES := $(patsubst %,%.po,$(ALL_LINGUAS))
 
 all:
 	@set -x -e; \
+	umask 002; \
 	for lang in $(ALL_LINGUAS); do \
 		[ -f $$lang.po ] || continue; \
 		msgfmt --statistics --output=t.mo $$lang.po && mv t.mo $$lang/LC_MESSAGES/$(DOMAIN).mo; \
@@ -16,6 +17,7 @@ all:
 # generate .pot file from Eventum svn trunk
 pot:
 	@set -x -e; \
+	umask 002; \
 	rm -rf export; \
 	svn export $(SVN_URL) export; \
 	cd export; \
@@ -28,6 +30,7 @@ pot:
 
 update-po:
 	@set -x -e; \
+	umask 002; \
 	for lang in $(ALL_LINGUAS); do \
 		[ -f $$lang.po ] || continue; \
 		if msgmerge $$lang.po $(DOMAIN).pot -o new.po; then \
