@@ -2,7 +2,7 @@
 set -e
 set -x
 app=eventum
-rc=RC6
+rc=RC9
 svn=svn://eventum.mysql.org/eventum-gpl/trunk/eventum
 dir=$app
 
