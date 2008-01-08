@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-17 22:54+0200\n"
+"POT-Creation-Date: 2008-01-08 17:31+0200\n"
 "PO-Revision-Date: 2007-11-10 03:02+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
@@ -5437,7 +5437,7 @@ msgstr "Vänligen välj minst en av prenumeranterna."
 #: misc/localization/eventum.c
 msgid ""
 "This action will remove the selected entries. This will also update any "
-"nissues currently set to this status to a new status 'undefined'."
+"issues currently set to this status to a new status 'undefined'."
 msgstr ""
 
 #: misc/localization/eventum.c

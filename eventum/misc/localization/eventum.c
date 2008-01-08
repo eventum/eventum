@@ -4937,7 +4937,7 @@ gettext("Existing Statuses:");
 gettext("Please select at least one of the statuses.");
 
 /* templates/manage/statuses.tpl.html */
-gettext("This action will remove the selected entries. This will also update any nissues currently set to this status to a new status 'undefined'.");
+gettext("This action will remove the selected entries. This will also update any issues currently set to this status to a new status 'undefined'.");
 
 /* templates/manage/statuses.tpl.html */
 gettext("All");
