@@ -5720,7 +5720,7 @@ gettext("Summary");
 gettext("Project");
 
 /* templates/notifications/new_issue.tpl.text */
-gettext("Reported");
+gettext("Reported By");
 
 /* templates/notifications/new_issue.tpl.text */
 gettext("Assignment");

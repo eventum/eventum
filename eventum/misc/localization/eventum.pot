@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-08 17:31+0200\n"
+"POT-Creation-Date: 2008-01-29 18:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5800,7 +5800,7 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
 msgid "Reported By"
 msgstr ""
 
@@ -5876,10 +5876,6 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid "A new issue was just created in the system."
-msgstr ""
-
-#: misc/localization/eventum.c
-msgid "Reported"
 msgstr ""
 
 #: misc/localization/eventum.c
