@@ -354,7 +354,7 @@ function closeIssue(issue_id)
             <input type="hidden" name="group" value="{$issue.iss_grp_id}">
         {/if}
         {else}
-        <input type="hidden" name="keep_assignments" value="{t}yes{/t}">
+        <input type="hidden" name="keep_assignments" value="yes">
         {foreach key=_issue_id item=_issue_summary from=$issue.associated_issues}
         <input type="hidden" name="associated_issues[]" value="{$_issue_id}">
         {/foreach}
