@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+???, Version 2.?
+- Fixed few errors with template localization (Alessandro Ogier)
+
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
 - Fix unwanted breakage of PHP 4.x compatability (Elan Ruusamäe)
