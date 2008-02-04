@@ -2576,9 +2576,6 @@ gettext("Please select at least one of the custom fields.");
 gettext("This action will permanently remove the selected custom fields.");
 
 /* templates/manage/custom_fields.tpl.html */
-gettext("delete");
-
-/* templates/manage/custom_fields.tpl.html */
 gettext("Rank");
 
 /* templates/manage/custom_fields.tpl.html */
@@ -7866,9 +7863,6 @@ gettext("Other:");
 
 /* templates/update_form.tpl.html */
 gettext("Group:");
-
-/* templates/update_form.tpl.html */
-gettext("yes");
 
 /* templates/update_form.tpl.html */
 gettext("Summary:");
