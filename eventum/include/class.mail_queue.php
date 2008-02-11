@@ -98,6 +98,8 @@ class Mail_Queue
                 (@in_array(Mail_API::getEmailAddress($to), $reminder_addresses))) {
             $headers += Mail_API::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
         }
+        $headers['precedence'] = 'bulk';
+
 
         if (empty($issue_id)) {
             $issue_id = 'null';
