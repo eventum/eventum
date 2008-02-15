@@ -43,12 +43,8 @@ var custom_fields_info = new Array();
     {elseif $custom_fields[i].fld_type == 'textarea'}
     <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value}</textarea>
     {elseif $custom_fields[i].fld_type == 'date'}
-    {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" month_empty='' time=$custom_fields[i].value|default:"0000-00-00" display_years=false display_days=false month_extra="id=\"custom_field_`$custom_field_id`_month\" tabindex=\"`$tabindex++`\""}
-    {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Month]"}
-    {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" day_empty='' time=$custom_fields[i].value|default:"0000-00-00" display_months=false display_years=false day_value_format=%02d day_extra="id=\"custom_field_`$custom_field_id`_day\" tabindex=\"`$tabindex++`\""}
-    {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Day]"}
-    {html_select_date field_array="custom_fields[`$custom_fields[i].fld_id`]" prefix='' all_extra="class=\"default\"" year_empty='' time=$custom_fields[i].value|default:"0000-00-00" display_months=false display_days=false start_year=-1 end_year=+2 year_extra="id=\"custom_field_`$custom_field_id`_year\" tabindex=\"`$tabindex++`\""}
-    {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id][Year]"}
+    <input type="text" id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_field_id}]" size="10" class="date_picker" value="{$custom_fields[i].value}">
+    {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]"}
     {else}
     <select id="custom_field_{$custom_fields[i].fld_id}" {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if} class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" tabindex="{$tabindex++}">
       {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">{t}Please choose an option{/t}</option>{/if}
