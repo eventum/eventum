@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3389 2007-10-21 01:33:24Z balsdorf $
+// @(#) $Id: class.custom_field.php 3543 2008-02-15 20:27:42Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -204,12 +204,7 @@ class Custom_Field
                 );
                 if (!in_array($field_types[$fld_id], $option_types)) {
                     // check if this is a date field
-                    if ($field_types[$fld_id] == 'date') {
-                        $value = $value['Year'] . "-" . $value['Month'] . "-" . $value['Day'];
-                        if ($value == '--') {
-                            $value = '';
-                        }
-                    } elseif ($field_types[$fld_id] == 'integer') {
+                    if ($field_types[$fld_id] == 'integer') {
                         $value = Misc::escapeInteger($value);
                     }
                     $fld_db_name = Custom_Field::getDBValueFieldNameByType($field_types[$fld_id]);
@@ -342,9 +337,6 @@ class Custom_Field
     {
         // check if this is a date field
         $fld_details = Custom_Field::getDetails($fld_id);
-        if (($fld_details['fld_type'] == 'date') && (!empty($value))) {
-            $value= $value['Year'] . "-" . $value['Month'] . "-" . $value['Day'];
-        }
         if (!is_array($value)) {
             $value = array($value);
         }
@@ -473,10 +465,14 @@ class Custom_Field
         }
 
         $backend = Custom_Field::getBackend($fld_id);
-        if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
-            $values = $backend->getList($fld_id, false);
-            $returns[$fld_id . $value] = @$values[$value];
-            return @$values[$value];
+        if ((is_object($backend)) && ((method_exists($backend, 'getList')) || (method_exists($backend, 'getOptionValue')))) {
+            if (method_exists($backend, 'getOptionValue')) {
+                return $backend->getOptionValue($fld_id, $value);
+            } else {
+                $values = $backend->getList($fld_id, false);
+                $returns[$fld_id . $value] = @$values[$value];
+                return @$values[$value];
+            }
         } else {
             $stmt = "SELECT
                         cfo_value
@@ -621,7 +617,7 @@ class Custom_Field
                         $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
 
                         // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
-                        if (!in_array($res[$i]['value'], $res[$i]['field_options'])) {
+                        if (!isset($res[$i]['field_options'][$res[$i]['original_value']])) {
                             $res[$i]['field_options'][$res[$i]['original_value']] = Custom_Field::getOptionValue($res[$i]['fld_id'], $res[$i]['original_value']);
                         }
 
