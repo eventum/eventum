@@ -1,5 +1,5 @@
 <!--
-// @(#) $Id: global.js 3336 2007-06-13 09:26:06Z glen $
+// @(#) $Id: global.js 3541 2008-02-15 20:16:28Z balsdorf $
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));
 
@@ -146,15 +146,15 @@ function checkSpelling(form_name, field_name)
 function updateTimeFields(form_name, year_field, month_field, day_field, hour_field, minute_field, date)
 {
     var f = getForm(form_name);
-	if (typeof date == 'undefined') {
-		date = new Date();
-	}
+    if (typeof date == 'undefined') {
+        date = new Date();
+    }
     selectOption(f, month_field, padDateValue(date.getMonth()+1));
     selectOption(f, day_field, padDateValue(date.getDate()));
     selectOption(f, year_field, date.getFullYear());
     selectOption(f, hour_field, padDateValue(date.getHours()));
-	// minutes need special case due the 5 minute granularity
-	var minutes = Math.floor(date.getMinutes() / 5) * 5;
+    // minutes need special case due the 5 minute granularity
+    var minutes = Math.floor(date.getMinutes() / 5) * 5;
     selectOption(f, minute_field, padDateValue(minutes));
 }
 
@@ -212,10 +212,10 @@ function hideComboBoxes(except_field)
     for (var i = 0; i < document.forms.length; i++) {
         for (var y = 0; y < document.forms[i].elements.length; y++) {
             if (((document.forms[i].elements[y].type == 'select-one') ||
-                 (document.forms[i].elements[y].type == 'select-multiple')) &&
-                    (document.forms[i].elements[y].name != except_field) &&
-                    (document.forms[i].elements[y].name != 'lookup') &&
-                    (document.forms[i].elements[y].name != 'lookup[]')) {
+            (document.forms[i].elements[y].type == 'select-multiple')) &&
+            (document.forms[i].elements[y].name != except_field) &&
+            (document.forms[i].elements[y].name != 'lookup') &&
+            (document.forms[i].elements[y].name != 'lookup[]')) {
                 document.forms[i].elements[y].style.visibility = 'hidden';
             }
         }
@@ -227,9 +227,9 @@ function showComboBoxes()
     for (var i = 0; i < document.forms.length; i++) {
         for (var y = 0; y < document.forms[i].elements.length; y++) {
             if (((document.forms[i].elements[y].type == 'select-one') ||
-                 (document.forms[i].elements[y].type == 'select-multiple')) &&
-                    (document.forms[i].elements[y].name != 'lookup') &&
-                    (document.forms[i].elements[y].name != 'lookup[]')) {
+            (document.forms[i].elements[y].type == 'select-multiple')) &&
+            (document.forms[i].elements[y].name != 'lookup') &&
+            (document.forms[i].elements[y].name != 'lookup[]')) {
                 document.forms[i].elements[y].style.visibility = 'visible';
             }
         }
@@ -244,8 +244,8 @@ function getOverlibContents(options, target_form, target_field, is_multiple)
         html += '[]';
     }
     html += '\');"><input class="button_overlib" type="submit" value="Lookup"><br />'
-        + '<input type="text" name="id_number" size="24" class="lookup_field_overlib" value="id #" onFocus="javascript:this.value=\'\';">'
-        + '<input type="button" class="button_overlib" value="Add By ID" onClick="lookupByID(document.forms[\'overlib_form\'].id_number, \'' + target_form + '\', \'' + target_field + '\')"></form>';
+    + '<input type="text" name="id_number" size="24" class="lookup_field_overlib" value="id #" onFocus="javascript:this.value=\'\';">'
+    + '<input type="button" class="button_overlib" value="Add By ID" onClick="lookupByID(document.forms[\'overlib_form\'].id_number, \'' + target_form + '\', \'' + target_field + '\')"></form>';
     return html;
 }
 
@@ -695,10 +695,10 @@ function getCookie(name)
 function setCookie(name, value, expires, path, domain, secure)
 {
     document.cookie = name + "=" +escape(value) +
-        ( (expires) ? ";expires=" + expires.toGMTString() : "") +
-        ( (path) ? ";path=" + path : "") +
-        ( (domain) ? ";domain=" + domain : "") +
-        ( (secure) ? ";secure" : "");
+    ( (expires) ? ";expires=" + expires.toGMTString() : "") +
+    ( (path) ? ";path=" + path : "") +
+    ( (domain) ? ";domain=" + domain : "") +
+    ( (secure) ? ";secure" : "");
 }
 
 function openHelp(rel_url, topic)
@@ -782,12 +782,19 @@ function replaceSpecialCharacters(e)
 function getEventTarget(e)
 {
     var targ;
-	if (!e) var e = window.event;
-	if (e.target) targ = e.target;
-	else if (e.srcElement) targ = e.srcElement;
-	if (targ.nodeType == 3) // defeat Safari bug
-		targ = targ.parentNode;
+    if (!e) var e = window.event;
+    if (e.target) targ = e.target;
+    else if (e.srcElement) targ = e.srcElement;
+    if (targ.nodeType == 3) // defeat Safari bug
+    targ = targ.parentNode;
 
     return targ;
 }
+
+// call when document ready
+$(function() {
+    $(".date_picker").each(function() {
+        $(this).attachDatepicker({dateFormat: 'yy-mm-dd'});
+    });
+});
 //-->

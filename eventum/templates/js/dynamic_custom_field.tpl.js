@@ -48,26 +48,11 @@ function custom_field_init_dynamic_options(fld_id)
 {
     for (var i = 0; i < dynamic_options.length; i++) {
         if (dynamic_options[i].target_field_id == fld_id) {
-            if (dynamic_options[i].fld_type == 'date') {
-                // date fields need special care
-                // set alert on target field prompting them to choose controlling field first
-                target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id + '_month');
-                target_field.onmousedown = custom_field_prompt_choose_controller;
-                target_field.onkeypress = custom_field_prompt_choose_controller;
+            // set alert on target field prompting them to choose controlling field first
+            target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id);
+            target_field.onmousedown = custom_field_prompt_choose_controller;
+            target_field.onkeypress = custom_field_prompt_choose_controller;
 
-                target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id + '_day');
-                target_field.onmousedown = custom_field_prompt_choose_controller;
-                target_field.onkeypress = custom_field_prompt_choose_controller;
-
-                target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id + '_year');
-                target_field.onmousedown = custom_field_prompt_choose_controller;
-                target_field.onkeypress = custom_field_prompt_choose_controller;
-            } else {
-                // set alert on target field prompting them to choose controlling field first
-                target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id);
-                target_field.onmousedown = custom_field_prompt_choose_controller;
-                target_field.onkeypress = custom_field_prompt_choose_controller;
-            }
             // set event handler for controlling field
             controlling_field = getPageElement('custom_field_' + dynamic_options[i].controlling_field_id);
             controlling_field.onchange = custom_field_handle_controller_change;
@@ -89,7 +74,7 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
     controller_id = chunks[2];
 
     // get current value of controller field
-    value = $F(controller);
+    value = $(controller).val();
 
     // find the object
     if (target_fld_id != undefined) {
@@ -102,13 +87,7 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
     for (var i = 0; i < details.length; i++) {
         // get the target/targets
         var targets = new Array();
-        if (details[i].fld_type == 'date') {
-            targets[0] = getPageElement('custom_field_' + details[i].target_field_id + '_month');
-            targets[1] = getPageElement('custom_field_' + details[i].target_field_id + '_day');
-            targets[2] = getPageElement('custom_field_' + details[i].target_field_id + '_year');
-        } else {
-            targets[0] = target = getPageElement('custom_field_' + details[i].target_field_id);
-        }
+        targets[0] = target = getPageElement('custom_field_' + details[i].target_field_id);
 
         for (var targ_num = 0; targ_num < targets.length; targ_num++) {
             target = targets[targ_num];

@@ -1,5 +1,5 @@
 /*
- * @(#) $Id: validation.js 3399 2007-11-04 15:30:05Z glen $
+ * @(#) $Id: validation.js 3541 2008-02-15 20:16:28Z balsdorf $
  */
 
 last_issue_number_validation_value = '';
@@ -242,46 +242,36 @@ function checkCustomFields(f)
     // requires the variable custom_fields_info to be set
     for (var i = 0; i < custom_fields_info.length; i++) {
         var info = custom_fields_info[i];
-        var field = $('custom_field_' + info.id);
+        var field = $('#custom_field_' + info.id);
 
-        if ((field != false) && (field != undefined) && (field.parentNode.parentNode.style.display == 'none')) {
+        if ((field.length < 1) && (field.parent().parent().css('display') == 'none')) {
             continue;
         }
 
         if (info.required == 1) {
             if (info.type == 'combo') {
-                if (getSelectedOption(f, field.name) == '-1') {
-                    errors[errors.length] = new Option(info.title, field.name);
+                if (getSelectedOption(f, field.attr('name')) == '-1') {
+                    errors[errors.length] = new Option(info.title, field.val());
                 }
             } else if (info.type == 'multiple') {
-                if (!hasOneSelected(f, field.name)) {
-                    errors[errors.length] = new Option(info.title, field.name);
-                }
-            } else if (info.type == 'date') {
-                if ($('custom_field_' + info.id + '_month').selectedIndex == 0) {
-                    errors[errors.length] = new Option(info.title + ' (Month)', 'custom_field_' + info.id + '[Month]');
-                }
-                if ($('custom_field_' + info.id + '_day').selectedIndex == 0) {
-                    errors[errors.length] = new Option(info.title + ' (Day)', 'custom_field_' + info.id + '[Day]');
-                }
-                if ($('custom_field_' + info.id + '_year').selectedIndex == 0) {
-                    errors[errors.length] = new Option(info.title + ' (Year)', 'custom_field_' + info.id + '[Year]');
+                if (!hasOneSelected(f, field.attr('name'))) {
+                    errors[errors.length] = new Option(info.title, field.val());
                 }
             } else {
-                if (isWhitespace(field.value)) {
-                    errors[errors.length] = new Option(info.title, field.name);
+                if (isWhitespace(field.val())) {
+                    errors[errors.length] = new Option(info.title, field.val());
                 }
             }
         }
         if (info.validation_js != '') {
             eval("validation_result = " + info.validation_js + '()');
             if (validation_result != true) {
-                errors_extra[errors_extra.length] = new Option(info.title + ': ' + validation_result, field.name);
+                errors_extra[errors_extra.length] = new Option(info.title + ': ' + validation_result, field.attr('name'));
             }
         } else {
             if (info.type == 'integer') {
-                if ((!isWhitespace(field.value)) && (!isNumberOnly(field.value))) {
-                    errors_extra[errors_extra.length] = new Option(info.title + ': This field can only contain numbers', field.name);
+                if ((!isWhitespace(field.val())) && (!isNumberOnly(field.val()))) {
+                    errors_extra[errors_extra.length] = new Option(info.title + ': This field can only contain numbers', field.attr('name'));
                 }
             }
         }

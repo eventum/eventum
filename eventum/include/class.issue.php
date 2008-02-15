@@ -1437,15 +1437,6 @@ class Issue
                 }
             }
         }
-        if ((!empty($_POST['expected_resolution_date']['Year'])) &&
-             (!empty($_POST['expected_resolution_date']['Month'])) &&
-             (!empty($_POST['expected_resolution_date']['Day']))) {
-            $_POST['expected_resolution_date'] = sprintf('%s-%s-%s', $_POST['expected_resolution_date']['Year'],
-                                                $_POST['expected_resolution_date']['Month'],
-                                                $_POST['expected_resolution_date']['Day']);
-        } else {
-            $_POST['expected_resolution_date'] = '';
-        }
         $assignments_changed = false;
         if (@$_POST["keep_assignments"] == "no") {
             // only change the issue-user associations if there really were any changes
@@ -1890,8 +1881,6 @@ class Issue
         if (!empty($sender_usr_id)) {
             $reporter = $sender_usr_id;
             $exclude_list[] = $sender_usr_id;
-        } else {
-            $reporter = APP_SYSTEM_USER_ID;
         }
         if (Customer::hasCustomerIntegration($prj_id)) {
             list($customer_id, $customer_contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
@@ -1903,6 +1892,9 @@ class Issue
             }
         } else {
             $customer_id = FALSE;
+        }
+        if (empty($reporter)) {
+            $reporter = APP_SYSTEM_USER_ID;
         }
 
         $initial_status = Project::getInitialStatus($prj_id);
