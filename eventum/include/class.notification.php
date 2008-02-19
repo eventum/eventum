@@ -985,7 +985,6 @@ class Notification
                 // don't add the "[#3333] Note: " prefix to messages that already have that in the subject line
                 if (strstr($extra_subject, "[#$issue_id] $subject: ")) {
                     $pos = strpos($extra_subject, "[#$issue_id] $subject: ");
-                    var_dump($pos);echo "monkey";
                     $full_subject = substr($extra_subject, $pos);
                 } else {
                     $full_subject = "[#$issue_id] $subject: $extra_subject";
