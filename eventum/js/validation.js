@@ -1,5 +1,5 @@
 /*
- * @(#) $Id: validation.js 3541 2008-02-15 20:16:28Z balsdorf $
+ * @(#) $Id: validation.js 3550 2008-02-20 17:06:14Z balsdorf $
  */
 
 last_issue_number_validation_value = '';
@@ -244,7 +244,7 @@ function checkCustomFields(f)
         var info = custom_fields_info[i];
         var field = $('#custom_field_' + info.id);
 
-        if ((field.length < 1) && (field.parent().parent().css('display') == 'none')) {
+        if (((field.val().length < 1) || (field.val() == -1)) && (field.parent().parent().css('display') == 'none')) {
             continue;
         }
 
