@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3510 2007-12-17 19:56:20Z balsdorf $
+// @(#) $Id: class.report.php 3551 2008-02-25 21:51:24Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -670,7 +670,7 @@ class Report
                         fld_id = icf_fld_id AND";
             if (count($options) > 0) {
                 $sql .=
-                        "cfo_id = icf_value AND";
+                        " cfo_id = icf_value AND";
             }
             $sql .= "
                         icf_iss_id = iss_id AND
