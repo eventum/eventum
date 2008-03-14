@@ -1875,9 +1875,10 @@ class Support
      * @param   string $cc The extra recipients of this message
      * @param   string $body The message body
      * @param   string $in_reply_to The message-id that we are replying to
+     * @param   array $attachment Array with attachment information
      * @return  string The full email
      */
-    function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to)
+    function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $attachment)
     {
         // hack needed to get the full headers of this web-based email
         $mail = new Mail_API;
@@ -1895,6 +1896,11 @@ class Support
 
         if ($in_reply_to) {
             $mail->setHeaders(array("In-Reply-To" => $in_reply_to));
+        }
+        if ($attachment && !empty($attachment["name"])) {
+            $mail->addAttachment($attachment["name"],
+                                 Misc::getFileContents($attachment["tmp_name"]),
+                                 $attachment["type"]);
         }
         $cc = trim($cc);
         if (!empty($cc)) {
@@ -1924,9 +1930,10 @@ class Support
      * @param   string $body The message body
      * @param   string $message_id The message-id
      * @param   integer $sender_usr_id The ID of the user sending this message.
+     * @param   array $attachment An array with attachment information.
      * @return  void
      */
-    function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $message_id, $sender_usr_id = false)
+    function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $attachment, $message_id, $sender_usr_id = false)
     {
         $subject = Mail_API::formatSubject($issue_id, $subject);
         $recipients = Support::getRecipientsCC($cc);
@@ -1953,6 +1960,11 @@ class Support
                 $type = 'customer_email';
             } else {
                 $type = 'other_email';
+            }
+            if ($attachment && !empty($attachment["name"])) {
+                $mail->addAttachment($attachment["name"],
+                                     Misc::getFileContents($attachment["tmp_name"]),
+                                     $attachment["type"]);
             }
             $mail->setTextBody($fixed_body);
             $mail->send($from, $recipient, $subject, TRUE, $issue_id, $type, $sender_usr_id);
@@ -2015,7 +2027,7 @@ class Support
         $message_id = Mail_API::generateMessageID();
         // hack needed to get the full headers of this web-based email
         $full_email = Support::buildFullHeaders($_POST["issue_id"], $message_id, $_POST["from"],
-                $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $in_reply_to);
+                $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $in_reply_to, $_FILES["attachment"]);
 
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($_POST['issue_id'])) {
@@ -2074,7 +2086,7 @@ class Support
                     $cc = implode('; ', $unknowns);
                     // send direct emails
                     Support::sendDirectEmail($_POST['issue_id'], $from, $to, $cc,
-                            $_POST['subject'], $_POST['message'], $message_id, $sender_usr_id);
+                        $_POST['subject'], $_POST['message'], $_FILES['attachment'], $message_id, $sender_usr_id);
                 }
             } else {
                 // send direct emails to all recipients, since we don't have an associated issue
@@ -2088,7 +2100,7 @@ class Support
                 }
                 // send direct emails
                 Support::sendDirectEmail($_POST['issue_id'], $from, $_POST['to'], $_POST['cc'],
-                        $_POST['subject'], $_POST['message'], $message_id);
+                        $_POST['subject'], $_POST['message'], $_FILES['attachment'], $message_id);
             }
         }
 
@@ -2104,7 +2116,7 @@ class Support
             'subject'        => @$_POST['subject'],
             'body'           => $_POST['message'],
             'full_email'     => $full_email,
-            'has_attachment' => 0
+            'has_attachment' => $_FILES['attachment'] && !empty($_FILES['attachment']['name']) ? 1 : 0
         );
         // associate this new email with a customer, if appropriate
         if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
@@ -2112,6 +2124,13 @@ class Support
             if ((!empty($customer_id)) && ($customer_id != -1)) {
                 $t['customer_id'] = $customer_id;
             }
+        }
+        if ($t['has_attachment'] == 1) {
+            $attachment_id = Attachment::attach($t['issue_id'], Auth::getUserID(    ), "Attached File");
+            Attachment::addFile($attachment_id, $t['issue_id'],
+                                $_FILES["attachment"]["name"],
+                                $_FILES["attachment"]["type"],
+                                Misc::getFileContents($_FILES["attachment"]["tmp_name"]));
         }
         $structure = Mime_Helper::decode($full_email, true, false);
         $t['headers'] = $structure->headers;

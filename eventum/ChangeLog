@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 - Replaced prototype JS library with jQuery JS library (Bryan)
 - Added datepicker UI to date fields (Bryan)
 - Added compatability for MySQL 6 (Bryan)
+- Adding attachments to outgoing messages support (Harri Porten)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

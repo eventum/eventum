@@ -147,7 +147,7 @@ function setSignature(f)
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 <script language="JavaScript" src="js/overlib_mini.js"></script>
 <script language="JavaScript" src="js/autocomplete.js"></script>
-<form onSubmit="javascript:return validate(this);" name="send_email_form" method="post" action="{$smarty.server.PHP_SELF}">
+<form onSubmit="javascript:return validate(this);" name="send_email_form" method="post" action="{$smarty.server.PHP_SELF}" enctype="multipart/form-data">
 <input type="hidden" name="cat" value="send_email">
 <input type="hidden" name="parent_id" value="{$parent_email_id}">
 <input type="hidden" name="ema_id" value="{$ema_id}">
@@ -256,6 +256,14 @@ function setSignature(f)
             {include file="error_icon.tpl.html" field="message"}
           </td>
         </tr>
+        <tr>
+          <td width="120" bgcolor="{$cell_color}" class="default_white">
+            <b>Attachment:</b>
+          </td>
+          <td bgcolor="{$light_color}" >
+            <input type="file" name="attachment" size="30"></input>
+          </td>
+        </tr>
         {if $issue_id and $current_role > $roles.customer and $read_only != 1}
             {if $hide_email_buttons != 'yes'}
         <tr>
@@ -268,7 +276,7 @@ function setSignature(f)
             </select>
           </td>
         </tr>
-            {/if}
+        {/if}
         <tr>
           <td width="120" bgcolor="{$cell_color}" class="default_white">
             <b>{t}Time Spent{/t}:</b>
