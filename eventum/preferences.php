@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                  |
+// | Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008 MySQL AB            |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: preferences.php 3468 2007-11-12 20:55:27Z glen $
+// @(#) $Id: preferences.php 3555 2008-03-15 16:45:34Z glen $
 
 // skip language init if we're saving language
 if (@$_POST['language']) {

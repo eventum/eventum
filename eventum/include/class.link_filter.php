@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                  |
+// | Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008 MySQL AB            |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,7 +25,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.link_filter.php 3246 2007-02-09 09:10:12Z glen $
+// @(#) $Id: class.link_filter.php 3555 2008-03-15 16:45:34Z glen $
 //
 
 require_once(APP_INC_PATH . "class.user.php");

@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006, 2007 MySQL AB                  |
+// | Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008 MySQL AB            |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: scm_ping.php 3206 2007-01-24 20:24:35Z glen $
+// @(#) $Id: scm_ping.php 3555 2008-03-15 16:45:34Z glen $
 
 // shortcut to exit out when no issue id-s are passed in request
 // as this script is always called by CVS but we handle only ones which can be
