@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: bot.php 3266 2007-03-06 20:18:51Z glen $
+// @(#) $Id: bot.php 3554 2008-03-15 16:37:11Z glen $
 //
 
 ini_set('memory_limit', '256M');
@@ -376,7 +376,6 @@ class Eventum_Bot
 
 $bot = &new Eventum_Bot();
 $irc = &new Net_SmartIRC();
-$irc->setDebug(SMARTIRC_DEBUG_ALL);
 $irc->setLogdestination(SMARTIRC_FILE);
 $irc->setLogfile(APP_IRC_LOG);
 $irc->setUseSockets(TRUE);
