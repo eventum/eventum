@@ -1878,7 +1878,7 @@ class Support
      * @param   array $attachment Array with attachment information
      * @return  string The full email
      */
-    function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $attachment)
+    function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $attachment = null)
     {
         // hack needed to get the full headers of this web-based email
         $mail = new Mail_API;
