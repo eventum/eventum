@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: select_project.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: select_project.php 3557 2008-03-25 11:12:48Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -95,10 +95,12 @@ if (@$_GET["err"] != '') {
     $tpl->assign("err", $_GET["err"]);
 }
 
-if (@$_POST["cat"] == "select") {
+$select_prj = (isset($_POST['cat']) && $_POST['cat'] == 'select') || (isset($_GET['project']) && $_GET['project']);
+if ($select_prj) {
+    $prj_id = (int )(@$_POST['cat'] == 'select') ? (int )@$_POST['project'] : (int )@$_GET['project'];
     $usr_id = Auth::getUserID();
     $projects = Project::getAssocList($usr_id);
-    if (!in_array($_POST["project"], array_keys($projects))) {
+    if (!in_array($prj_id, array_keys($projects))) {
         // show error message
         $tpl->assign("err", 1);
     } else {
@@ -106,13 +108,13 @@ if (@$_POST["cat"] == "select") {
         if (empty($_POST["remember"])) {
             $_POST["remember"] = 0;
         }
-        Auth::setCurrentProject($_POST["project"], $_POST["remember"]);
-        handleExpiredCustomer($_POST["project"]);
+        Auth::setCurrentProject($prj_id, $_POST["remember"]);
+        handleExpiredCustomer($prj_id);
 
         if (!empty($_POST["url"])) {
             Auth::redirect($_POST["url"]);
         } else {
-            Auth::redirect(APP_RELATIVE_URL . "main.php");
+            Auth::redirect(APP_RELATIVE_URL . "list.php");
         }
     }
 }
