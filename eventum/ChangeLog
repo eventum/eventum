@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 - Replaced prototype JS library with jQuery JS library (Bryan)
 - Added datepicker UI to date fields (Bryan)
 - Added compatability for MySQL 6 (Bryan)
+- Added workflow method to determine what issue an email or note should be associated with (Bryan)
 - Adding attachments to outgoing messages support (Harri Porten)
 - Allow selecting initial project with /select_project.php?project=PROJECT_ID query parameter (Elan Ruusamäe)
 

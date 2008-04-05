@@ -487,7 +487,7 @@ class Workflow
 
 
     /**
-     * Called at the begining of the email download process. If it returns true, the
+     * Called at the begining of the email download process. If it returns -1, the
      * rest of the email code will not be executed.
      *
      * @param   integer $prj_id The project ID
@@ -521,5 +521,29 @@ class Workflow
         }
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->shouldAutoAddToNotificationList($prj_id);
+    }
+
+
+    /**
+     * Returns the issue ID to associate a new email with, null to use the default logic and "new" to create
+     * a new issue.
+     *
+     * @param   integer $prj_id The ID of the project
+     * @param   array   $info An array of info about the email account.
+     * @param   string  $headers The headers of the email.
+     * @param   string  $message_body The body of the message.
+     * @param   string  $date The date this message was sent
+     * @param   string  $from The name and email address of the sender.
+     * @param   string  $subject The subject of this message.
+     * @param   array   $to An array of to addresses
+     * @param   array   $cc An array of cc addresses
+     */
+    function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return true;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
     }
 }

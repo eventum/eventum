@@ -327,4 +327,24 @@ class Abstract_Workflow_Backend
     {
         return true;
     }
+
+
+    /**
+     * Returns the issue ID to associate a new email with, null to use the default logic and "new" to create
+     * a new issue.
+     *
+     * @param   integer $prj_id The ID of the project
+     * @param   array   $info An array of info about the email account.
+     * @param   string  $headers The headers of the email.
+     * @param   string  $message_body The body of the message.
+     * @param   string  $date The date this message was sent
+     * @param   string  $from The name and email address of the sender.
+     * @param   string  $subject The subject of this message.
+     * @param   array   $to An array of to addresses
+     * @param   array   $cc An array of cc addresses
+     */
+    function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    {
+        return null;
+    }
 }

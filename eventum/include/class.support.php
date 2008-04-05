@@ -754,62 +754,69 @@ class Support
 
         $message_id = Mail_API::getMessageID($headers, $message_body);
 
-        $setup = Setup::load();
-        if (@$setup['subject_based_routing']['status'] == 'enabled') {
-            // Look for issue ID in the subject line
-
-            // look for [#XXXX] in the subject line
-            if (preg_match("/\[#(\d+)\]( Note| BLOCKED)*/", $subject, $matches)) {
-                $should_create_issue = false;
-                $issue_id = $matches[1];
-                if (!Issue::exists($issue_id, false)) {
-                    $issue_id = '';
-                } elseif (!empty($matches[2])) {
-                    $type = 'note';
-                }
-            } else {
-                $should_create_issue = true;
-            }
+        $workflow = Workflow::getIssueIDforNewEmail($info['ema_prj_id'], $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
+        if ($workflow == 'new') {
+            $should_create_issue = true;
+        } elseif (is_numeric($workflow)) {
+            $issue_id = $workflow;
         } else {
-            // - if this email is a reply:
-            if (count($references) > 0) {
-                foreach ($references as $reference_msg_id) {
-                    //  -> check if the replied email exists in the database:
-                    if (Note::exists($reference_msg_id)) {
-                        // note exists
-                        // get what issue it belongs too.
-                        $issue_id = Note::getIssueByMessageID($reference_msg_id);
-                        $should_create_issue = false;
+            $setup = Setup::load();
+            if (@$setup['subject_based_routing']['status'] == 'enabled') {
+                // Look for issue ID in the subject line
+
+                // look for [#XXXX] in the subject line
+                if (preg_match("/\[#(\d+)\]( Note| BLOCKED)*/", $subject, $matches)) {
+                    $should_create_issue = false;
+                    $issue_id = $matches[1];
+                    if (!Issue::exists($issue_id, false)) {
+                        $issue_id = '';
+                    } elseif (!empty($matches[2])) {
                         $type = 'note';
-                        $parent_id = Note::getIDByMessageID($reference_msg_id);
-                        break;
-                    } elseif ((Support::exists($reference_msg_id)) || (Issue::getIssueByRootMessageID($reference_msg_id) != false)) {
-                        // email or issue exists
-                        $issue_id = Support::getIssueByMessageID($reference_msg_id);
-                        if (empty($issue_id)) {
-                            $issue_id = Issue::getIssueByRootMessageID($reference_msg_id);
-                        }
-                        if (empty($issue_id)) {
-                            // parent email isn't associated with issue.
-                            //      --> create new issue, associate current email and replied email to this issue
-                            $should_create_issue = true;
-                            $associate_email = $reference_msg_id;
-                        } else {
-                            // parent email is associated with issue:
-                            //      --> associate current email with existing issue
-                            $should_create_issue = false;
-                        }
-                        break;
-                    } else {
-                        //  no matching note, email or issue:
-                        //    => create new issue and associate current email with it
-                        $should_create_issue = true;
                     }
+                } else {
+                    $should_create_issue = true;
                 }
             } else {
-                // - if this email is not a reply:
-                //  -> create new issue and associate current email with it
-                $should_create_issue = true;
+                // - if this email is a reply:
+                if (count($references) > 0) {
+                    foreach ($references as $reference_msg_id) {
+                        //  -> check if the replied email exists in the database:
+                        if (Note::exists($reference_msg_id)) {
+                            // note exists
+                            // get what issue it belongs too.
+                            $issue_id = Note::getIssueByMessageID($reference_msg_id);
+                            $should_create_issue = false;
+                            $type = 'note';
+                            $parent_id = Note::getIDByMessageID($reference_msg_id);
+                            break;
+                        } elseif ((Support::exists($reference_msg_id)) || (Issue::getIssueByRootMessageID($reference_msg_id) != false)) {
+                            // email or issue exists
+                            $issue_id = Support::getIssueByMessageID($reference_msg_id);
+                            if (empty($issue_id)) {
+                                $issue_id = Issue::getIssueByRootMessageID($reference_msg_id);
+                            }
+                            if (empty($issue_id)) {
+                                // parent email isn't associated with issue.
+                                //      --> create new issue, associate current email and replied email to this issue
+                                $should_create_issue = true;
+                                $associate_email = $reference_msg_id;
+                            } else {
+                                // parent email is associated with issue:
+                                //      --> associate current email with existing issue
+                                $should_create_issue = false;
+                            }
+                            break;
+                        } else {
+                            //  no matching note, email or issue:
+                            //    => create new issue and associate current email with it
+                            $should_create_issue = true;
+                        }
+                    }
+                } else {
+                    // - if this email is not a reply:
+                    //  -> create new issue and associate current email with it
+                    $should_create_issue = true;
+                }
             }
         }
 
