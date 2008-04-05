@@ -694,7 +694,7 @@ class Support
                             $usr_id = APP_SYSTEM_USER_ID;
                         }
                         // mark this issue as updated
-                        if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
+                        if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')))) {
                             Issue::markAsUpdated($t['issue_id'], 'customer action');
                         } else {
                             if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer'))) {
@@ -2146,7 +2146,7 @@ class Support
             // need to send a notification
             Notification::notifyNewEmail(Auth::getUserID(), $_POST["issue_id"], $t, $internal_only, false, $type, $sup_id);
             // mark this issue as updated
-            if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
+            if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')))) {
                 Issue::markAsUpdated($_POST["issue_id"], 'customer action');
             } else {
                 if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($_POST['issue_id'])) > User::getRoleID('Customer'))) {
