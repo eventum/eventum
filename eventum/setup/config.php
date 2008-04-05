@@ -29,7 +29,6 @@
 // This file will not be overwritten when upgrading Eventum
 
 ini_set('display_errors', 0);
-error_reporting(0);
 
 // definitions of SQL variables
 define('APP_SQL_DBTYPE', 'mysql');
