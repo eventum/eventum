@@ -488,7 +488,6 @@ class Support
             return;
         }
         $message_id = Mail_API::getMessageID($headers, $body);
-        echo $message_id . "\n";
         $message = $headers . $body;
         // we don't need $body anymore -- free memory
         unset($body);
