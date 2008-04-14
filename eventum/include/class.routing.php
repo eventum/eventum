@@ -343,7 +343,7 @@ class Routing
         // add the full email to the note if there are any attachments
         // this is needed because the front end code will display attachment links
         if (Mime_Helper::hasAttachments($structure)) {
-            $_POST['blocked_msg'] = $full_message;
+            $_POST['full_message'] = $full_message;
         }
         $res = Note::insert(Auth::getUserID(), $issue_id, false, false);
         // need to handle attachments coming from notes as well

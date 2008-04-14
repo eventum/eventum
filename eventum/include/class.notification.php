@@ -449,9 +449,10 @@ class Notification
                     not_note,
                     not_title,
                     not_unknown_user,
-                    not_blocked_message,
+                    not_full_message,
                     not_message_id,
                     not_parent_id,
+                    not_is_blocked,
                     usr_full_name
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
@@ -961,7 +962,7 @@ class Notification
 
             if ($type == 'notes') {
                 // special handling of blocked messages
-                if (!empty($data['note']['not_blocked_message'])) {
+                if ($data['note']['not_is_blocked'] == 1) {
                     $subject = ev_gettext('BLOCKED');
                     $final_type = 'blocked_email';
                 }

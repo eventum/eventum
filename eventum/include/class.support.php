@@ -488,6 +488,7 @@ class Support
             return;
         }
         $message_id = Mail_API::getMessageID($headers, $body);
+        echo $message_id . "\n";
         $message = $headers . $body;
         // we don't need $body anymore -- free memory
         unset($body);
@@ -1056,6 +1057,7 @@ class Support
         } else {
             $new_sup_id = $GLOBALS["db_api"]->get_last_insert_id();
             $sup_id = $new_sup_id;
+            $row['sup_id'] = $sup_id;
             // now add the body and full email to the separate table
             $stmt = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
@@ -2042,10 +2044,10 @@ class Support
             // check whether the current user is allowed to send this email to customers or not
             if (!Support::isAllowedToEmail($_POST["issue_id"], $user_info['usr_email'])) {
                 // add the message body as a note
-                $_POST['blocked_msg'] = $full_email;
+                $_POST['full_message'] = $full_email;
                 $_POST['title'] = $_POST["subject"];
                 $_POST['note'] = Mail_API::getCannedBlockedMsgExplanation() . $_POST["message"];
-                Note::insert(Auth::getUserID(), $_POST["issue_id"]);
+                Note::insert(Auth::getUserID(), $_POST["issue_id"], false, true, false, true, true);
                 Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'web');
                 return 1;
             }
@@ -2487,7 +2489,7 @@ class Support
                 (!Support::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
             $_POST = array(
-                'blocked_msg' => $email['full_email'],
+                'full_message'=> $email['full_email'],
                 'title'       => @$email['headers']['subject'],
                 'note'        => Mail_API::getCannedBlockedMsgExplanation($issue_id) . $email['body'],
                 'message_id'  => Mail_API::getMessageID($text_headers, $body),
@@ -2500,7 +2502,7 @@ class Support
                 $closing = false;
                 $notify = true;
             }
-            $res = Note::insert(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing, $notify);
+            $res = Note::insert(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing, $notify, true);
             // associate the email attachments as internal-only files on this issue
             if ($res != -1) {
                 Support::extractAttachments($issue_id, $email['full_email'], true, $res);

@@ -102,8 +102,7 @@ class Note
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
                     " . APP_TABLE_PREFIX . "note.*,
-                    not_created_date,
-                    not_blocked_message,
+                    not_full_message,
                     usr_full_name
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,
@@ -119,9 +118,8 @@ class Note
             if (count($res) > 0) {
                 $res['timestamp'] = Date_API::getUnixTimestamp($res['not_created_date'], 'GMT');
                 $res['not_created_date'] = Date_API::getFormattedDate($res['not_created_date']);
-                if (!empty($res['not_blocked_message'])) {
+                if ($res['not_is_blocked'] == 1) {
                     $res['has_blocked_message'] = true;
-                    $res["attachments"] = Mime_Helper::getAttachmentCIDs($res['not_blocked_message']);
                 } else {
                     $res['has_blocked_message'] = false;
                 }
@@ -129,6 +127,9 @@ class Note
                     $res["not_from"] = $res["not_unknown_user"];
                 } else {
                     $res["not_from"] = User::getFullName($res['not_usr_id']);
+                }
+                if ($res['not_has_attachment']) {
+                    $res["attachments"] = Mime_Helper::getAttachmentCIDs($res['not_full_message']);
                 }
                 return $res;
             } else {
@@ -192,7 +193,7 @@ class Note
     {
         $note_id = Misc::escapeInteger($note_id);
         $stmt = "SELECT
-                    not_blocked_message
+                    not_full_message
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
@@ -321,7 +322,7 @@ class Note
      * @access  public
      * @return  integer the new note id if the insert worked, -1 or -2 otherwise
      */
-    function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true, $closing = false, $send_notification = true)
+    function insert($usr_id, $issue_id, $unknown_user = FALSE, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
     {
         $issue_id = Misc::escapeInteger($issue_id);
 
@@ -333,7 +334,7 @@ class Note
         // add the poster to the list of people to be subscribed to the notification list
         // only if there is no 'unknown user' and the note is not blocked
         $note_cc[] = $usr_id;
-        if (($unknown_user == false) && (@empty($_POST['blocked_msg']))) {
+        if (($unknown_user == false) && ($is_blocked == false)) {
             for ($i = 0; $i < count($note_cc); $i++) {
                 Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getDefaultActions());
             }
@@ -352,10 +353,16 @@ class Note
                     not_created_date,
                     not_note,
                     not_title";
-        if (!@empty($_POST['blocked_msg'])) {
-            $stmt .= ", not_blocked_message";
+        if (!@empty($_POST['full_message'])) {
+            $stmt .= ",
+                    not_full_message";
         }
-        $stmt .= ", not_message_id";
+        if ($is_blocked) {
+            $stmt .= ",
+                    not_is_blocked";
+        }
+        $stmt .= ",
+                    not_message_id";
         if (!@empty($_POST['parent_id'])) {
             $stmt .= ", not_parent_id";
         }
@@ -369,10 +376,16 @@ class Note
                     '" . Date_API::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($_POST["note"]) . "',
                     '" . Misc::escapeString($_POST["title"]) . "'";
-        if (!@empty($_POST['blocked_msg'])) {
-            $stmt .= ", '" . Misc::escapeString($_POST['blocked_msg']) . "'";
+        if (!@empty($_POST['full_message'])) {
+            $stmt .= ",
+                    '" . Misc::escapeString($_POST['full_message']) . "'";
         }
-        $stmt .= ", '" . Misc::escapeString($_POST['message_id']) . "'";
+        if ($is_blocked) {
+            $stmt .= ",
+                    1";
+        }
+        $stmt .= ",
+                    '" . Misc::escapeString($_POST['message_id']) . "'";
         if (!@empty($_POST['parent_id'])) {
             $stmt .= ", " . Misc::escapeInteger($_POST['parent_id']) . "";
         }
@@ -448,7 +461,7 @@ class Note
         $stmt = "SELECT
                     not_iss_id,
                     not_usr_id,
-                    IF(LENGTH(not_blocked_message) > 0, 1, 0) AS has_blocked_message
+                    not_is_blocked AS has_blocked_message
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
@@ -508,7 +521,7 @@ class Note
                     not_usr_id,
                     not_unknown_user,
                     not_has_attachment,
-                    IF(LENGTH(not_blocked_message) > 0, 1, 0) AS has_blocked_message,
+                    not_is_blocked AS has_blocked_message,
                     usr_full_name
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note,

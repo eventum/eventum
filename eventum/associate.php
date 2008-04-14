@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: associate.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: associate.php 3565 2008-04-14 16:53:06Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -58,12 +58,12 @@ if (@$_POST['cat'] == 'associate') {
         for ($i = 0; $i < count($_POST['item']); $i++) {
             $email = Support::getEmailDetails(Email_Account::getAccountByEmail($_POST['item'][$i]), $_POST['item'][$i]);
             // add the message body as a note
-            $_POST['blocked_msg'] = $email['seb_full_email'];
+            $_POST['full_message'] = $email['seb_full_email'];
             $_POST['title'] = $email['sup_subject'];
             $_POST['note'] = $email['seb_body'];
-            // XXX: probably broken to use the current logged in user as the 'owner' of 
+            // XXX: probably broken to use the current logged in user as the 'owner' of
             // XXX: this new note, but that's how it was already
-            $res = Note::insert(Auth::getUserID(), $_POST['issue']);
+            $res = Note::insert(Auth::getUserID(), $_POST['issue'], false, true, false, true, true);
             // remove the associated email
             if ($res) {
                 list($_POST["from"]) = Support::getSender(array($_POST['item'][$i]));
