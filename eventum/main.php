@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: main.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: main.php 3564 2008-04-14 16:50:01Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -46,6 +46,17 @@ $prj_id = Auth::getCurrentProject();
 $role_id = Auth::getCurrentRole();
 $usr_id = Auth::getUserID();
 
+if (isset($_REQUEST['hide_closed'])) {
+    Auth::setCookie(APP_HIDE_CLOSED_STATS_COOKIE, $_REQUEST['hide_closed'], Date_API::getCurrentUnixTimestampGMT()+YEAR);
+    $_COOKIE[APP_HIDE_CLOSED_STATS_COOKIE] = $_REQUEST['hide_closed'];
+}
+if (isset($_COOKIE[APP_HIDE_CLOSED_STATS_COOKIE])) {
+    $hide_closed = $_COOKIE[APP_HIDE_CLOSED_STATS_COOKIE];
+} else {
+    $hide_closed = 0;
+}
+$tpl->assign('hide_closed', $hide_closed);
+
 if ($role_id == User::getRoleID('customer')) {
     // need the activity dashboard here
     $customer_id = User::getCustomerID($usr_id);
@@ -56,12 +67,12 @@ if ($role_id == User::getRoleID('customer')) {
         $tpl->assign('hide_stats', true);
     } else {
         $tpl->assign("status", Stats::getStatus());
-        $tpl->assign("releases", Stats::getRelease());
-        $tpl->assign("categories", Stats::getCategory());
-        $tpl->assign("priorities", Stats::getPriority());
-        $tpl->assign("users", Stats::getUser());
-        $tpl->assign("emails", Stats::getEmailStatus());
-        $tpl->assign("pie_chart", Stats::getPieChart());
+        $tpl->assign("releases", Stats::getRelease($hide_closed));
+        $tpl->assign("categories", Stats::getCategory($hide_closed));
+        $tpl->assign("priorities", Stats::getPriority($hide_closed));
+        $tpl->assign("users", Stats::getUser($hide_closed));
+        $tpl->assign("emails", Stats::getEmailStatus($hide_closed));
+        $tpl->assign("pie_chart", Stats::getPieChart($hide_closed));
     }
     $tpl->assign("random_tip", Misc::getRandomTip($tpl));
 }
