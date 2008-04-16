@@ -12,6 +12,7 @@ Eventum Issue Tracking System
 - Allow selecting initial project with /select_project.php?project=PROJECT_ID query parameter (Elan Ruusamäe)
 - Fixed problem with last action date title not being set correctly (Bryan)
 - Fixed problem where notes with attachments showed as "blocked" even though they were not (Bryan)
+- Ignore wrongly formatted To headers instead of throwing an error (Bryan)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
