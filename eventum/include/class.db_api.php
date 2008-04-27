@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.db_api.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.db_api.php 3568 2008-04-27 07:30:49Z balsdorf $
 //
 
 $TOTAL_QUERIES = 0;
@@ -71,6 +71,7 @@ class DB_API
             require_once(APP_PATH . "offline.php");
             exit;
         }
+        $this->dbh->query("SET SQL_MODE = ''");
     }
 
 
