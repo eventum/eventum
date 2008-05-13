@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Fixed problem where notes with attachments showed as "blocked" even though they were not (Bryan)
 - Ignore wrongly formatted To headers instead of throwing an error (Bryan)
 - Set SQLMODE to to blank (Bryan)
+- Display link to attached file download in File Attached email notify (Elan Ruusamäe)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

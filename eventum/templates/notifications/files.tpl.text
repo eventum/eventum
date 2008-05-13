@@ -11,6 +11,7 @@
       {t escape=no}Files{/t}:
 {section name="i" loop=$data.attachment.files}
              {$data.attachment.files[i].iaf_filename} ({$data.attachment.files[i].iaf_filesize})
+             {$app_base_url}download.php?cat=attachment&id={$data.attachment.files[i].iaf_id}
 {/section}
 {t escape=no}Description{/t}:
 ----------------------------------------------------------------------
