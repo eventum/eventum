@@ -1,8 +1,10 @@
 <?php
 // avoid setup redirecting us
 define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../../..'));
-if (!file_exists(INSTALL_PATH . '/config/config.php')) {
-	die("Can't find config.php from ". INSTALL_PATH . "/config. Did you forgot to copy config from old install?");
+define('CONFIG_PATH', INSTALL_PATH.'/config');
+
+if (!file_exists(CONFIG_PATH. '/config.php')) {
+	die("Can't find config.php from ". CONFIG_PATH . ". Did you forgot to copy config from old install?");
 }
 
 require_once INSTALL_PATH . '/init.php';
