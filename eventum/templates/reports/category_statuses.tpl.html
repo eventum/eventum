@@ -13,7 +13,7 @@
         {foreach from=$data item=row}
         {cycle values=$cycle assign="row_color"}
           <tr bgcolor="{$row_color}">
-            <td>{$row.title}</td>
+            <td class="default">{$row.title}</td>
             {foreach from=$row.statuses item=col}
             <td class="default" align="right">{$col.count}</td>
             {/foreach}
