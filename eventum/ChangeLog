@@ -15,6 +15,7 @@ Eventum Issue Tracking System
 - Ignore wrongly formatted To headers instead of throwing an error (Bryan)
 - Set SQLMODE to to blank (Bryan)
 - Display link to attached file download in File Attached email notify (Elan Ruusamäe)
+- Added new report to show a breakdown of issues by category and status (Bryan)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
