@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: stats_chart.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: stats_chart.php 3574 2008-05-20 19:37:57Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -57,7 +57,8 @@ if (isset($_REQUEST['hide_closed'])) {
 // Some data
 $colors = array();
 if ($_GET["plot"] == "status") {
-    $rgb = new RGB();
+    $fake = false;
+    $rgb = new RGB($fake);
     $data = Stats::getAssocStatus($hide_closed);
     $graph_title = ev_gettext("Issues by Status");
     foreach ($data as $sta_title => $trash) {
