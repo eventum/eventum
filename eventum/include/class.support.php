@@ -509,7 +509,7 @@ class Support
         $reference_msg_id = Mail_API::getReferenceMessageID($headers);
 
         // pass in $email by reference so it can be modified
-        $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $message, $email);
+        $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $message, $email, $structure);
         if ($workflow === -1) {
             return;
         }
@@ -579,7 +579,7 @@ class Support
             'from'           => $sender_email,
             'to'             => @$email->toaddress,
             'cc'             => @$email->ccaddress,
-            'subject'        => @$email->subject,
+            'subject'        => @$structure->headers['subject'],
             'body'           => @$message_body,
             'full_email'     => @$message,
             'has_attachment' => $has_attachments,
@@ -587,7 +587,7 @@ class Support
             'headers'        => @$structure->headers
         );
         $should_create_array = Support::createIssueFromEmail(
-            $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::fixEncoding( @$email->subject), $t['to'], $t['cc']);
+            $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::fixEncoding( @$structure->headers['subject']), $t['to'], $t['cc']);
         $should_create_issue = $should_create_array['should_create_issue'];
         $associate_email = $should_create_array['associate_email'];
         if (!empty($should_create_array['issue_id'])) {
@@ -1833,7 +1833,7 @@ class Support
         }
 
         $is_allowed = true;
-        $sender_usr_id = User::getUserIDByEmail($sender_email);
+        $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (empty($sender_usr_id)) {
             if (Customer::hasCustomerIntegration($prj_id)) {
                 // check for a customer contact with several email addresses
@@ -2518,7 +2518,7 @@ class Support
             Workflow::handleBlockedEmail($prj_id, $issue_id, $_POST, $email_type);
 
             // try to get usr_id of sender, if not, use system account
-            $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($email['from']));
+            $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($email['from']), true);
             if (!$usr_id) {
                 $usr_id = APP_SYSTEM_USER_ID;
             }

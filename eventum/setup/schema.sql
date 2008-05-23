@@ -147,7 +147,7 @@ CREATE TABLE %TABLE_PREFIX%issue (
   iss_pre_id int(10) unsigned NOT NULL default 0,
   iss_pri_id smallint(3) NOT NULL default 0,
   iss_sta_id tinyint(1) NOT NULL default 0,
-  iss_res_id int(10) unsigned NOT NULL default 0,
+  iss_res_id int(10) unsigned NULL default NULL,
   iss_duplicated_iss_id int(11) unsigned NULL default NULL,
   iss_created_date datetime NOT NULL default '0000-00-00 00:00:00',
   iss_updated_date datetime default NULL,
@@ -507,7 +507,15 @@ CREATE TABLE %TABLE_PREFIX%user (
 INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_status, usr_password, usr_full_name, usr_email, usr_preferences) VALUES (1, NOW(), 'inactive', '14589714398751513457adf349173434', 'system', 'system-account@example.com', '');
 INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@example.com', '');
 
-    DROP TABLE IF EXISTS %TABLE_PREFIX%custom_field;
+DROP TABLE IF EXISTS %TABLE_PREFIX%user_alias;
+CREATE TABLE eventum_user_alias (
+    ual_usr_id int(11) unsigned not null,
+    ual_email varchar(255),
+    KEY(ual_usr_id, ual_email),
+    UNIQUE(ual_email)
+);
+
+DROP TABLE IF EXISTS %TABLE_PREFIX%custom_field;
 CREATE TABLE %TABLE_PREFIX%custom_field (
   fld_id int(10) unsigned NOT NULL auto_increment,
   fld_title varchar(32) NOT NULL default '',

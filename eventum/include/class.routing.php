@@ -295,17 +295,14 @@ class Routing
 
         $prj_id = Issue::getProjectID($issue_id);
         // check if the sender is allowed in this issue' project and if it is an internal user
-        $users = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
-        $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
-        $user_emails = array_map('strtolower', array_values($users));
-        if (!in_array($sender_email, $user_emails)) {
+        $sender_usr_id = User::getUserIDByEmail(strtolower(Mail_API::getEmailAddress($structure->headers['from'])), true);
+        if ((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::getRoleID('Standard User'))) {
             return array(77, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
         }
 
-        Auth::createFakeCookie(User::getUserIDByEmail($sender_email), $prj_id);
+        Auth::createFakeCookie($sender_usr_id, $prj_id);
 
         // parse the Cc: list, if any, and add these internal users to the issue notification list
-        $users = array_flip($users);
         $addresses = array();
         $to_addresses = Mail_API::getEmailAddresses(@$structure->headers['to']);
         if (count($to_addresses)) {
@@ -317,8 +314,9 @@ class Routing
         }
         $cc_users = array();
         foreach ($addresses as $email) {
-            if (in_array(strtolower($email), $user_emails)) {
-                $cc_users[] = $users[strtolower($email)];
+            $cc_usr_id = User::getUserIDByEmail(strtolower($email), true);
+            if ((!empty($cc_usr_id)) && (User::getRoleByUser($cc_usr_id, $prj_id) >= User::getRoleID("Standard User"))) {
+                $cc_users[] = $cc_usr_id;
             }
         }
 
@@ -414,11 +412,12 @@ class Routing
 
         $prj_id = Issue::getProjectID($issue_id);
         // check if the sender is allowed in this issue' project and if it is an internal user
-        $users = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
-        $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
-        $user_emails = array_map('strtolower', array_values($users));
-        if (!in_array($sender_email, $user_emails)) {
-            return array(77, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #") . "$issue_id.\n");
+        $sender_usr_id = User::getUserIDByEmail(strtolower(Mail_API::getEmailAddress($structure->headers['from'])), true);
+        if (!empty($sender_usr_id)) {
+            $sender_role = User::getRoleByUser($sender_usr_id, $prj_id);
+            if ($sender_role < User::getRoleID('Standard User')) {
+                return array(77, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
+            }
         }
 
         Auth::createFakeCookie(User::getUserIDByEmail($sender_email), $prj_id);

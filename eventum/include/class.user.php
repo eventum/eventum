@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.user.php 3575 2008-05-23 19:02:28Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -406,9 +406,10 @@ class User
      *
      * @access  public
      * @param   string $email The email address associated with the user account
+     * @param   boolean $check_aliases If user aliases should be checked as well.
      * @return  integer The user ID
      */
-    function getUserIDByEmail($email)
+    function getUserIDByEmail($email, $check_aliases = false)
     {
         static $returns;
 
@@ -427,8 +428,12 @@ class User
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            $returns[$email] = $res;
-            return $res;
+            if ((empty($res)) && ($check_aliases)) {
+                $returns[$email] = User::getUserIDByAlias($email);
+            } else {
+                $returns[$email] = $res;
+            }
+            return $returns[$email];
         }
     }
 
@@ -668,6 +673,7 @@ class User
             $roles =  Project::getAssocList($usr_id, false, true);
             $res["projects"] = @array_keys($roles);
             $res["roles"] = $roles;
+            $res['group'] = Group::getName($res['usr_grp_id']);
             $returns[$usr_id] = $res;
             return $res;
         }
@@ -994,7 +1000,8 @@ class User
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
                     usr_full_name='" . Misc::escapeString($_POST["full_name"]) . "',
-                    usr_email='" . Misc::escapeString($_POST["email"]) . "'";
+                    usr_email='" . Misc::escapeString($_POST["email"]) . "',
+                    usr_grp_id=" . Misc::escapeInteger($_POST["grp_id"]);;
         if (!empty($_POST["password"])) {
             $stmt .= ",
                     usr_password='" . Auth::hashPassword($_POST["password"]) . "'";
@@ -1427,6 +1434,77 @@ class User
             return false;
         }
         return true;
+    }
+
+
+    function getAliases($usr_id)
+    {
+        $sql = "SELECT
+                    ual_email
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_alias
+                WHERE
+                    ual_usr_id = " . Misc::escapeInteger($usr_id);
+        $res = $GLOBALS["db_api"]->dbh->getCol($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return array();
+        }
+        return $res;
+    }
+
+    function addAlias($usr_id, $email)
+    {
+        // see if alias belongs to a user right now
+        $email_usr_id = User::getUserIDByEmail($email);
+        if (!empty($email_usr_id)) {
+            return false;
+        }
+
+        $sql = "INSERT INTO
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_alias
+                SET
+                    ual_usr_id = " . Misc::escapeInteger($usr_id) . ",
+                    ual_email = '" . Misc::escapeString($email) . "'";
+        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return true;
+    }
+
+
+    function removeAlias($usr_id, $email)
+    {
+        $sql = "DELETE FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_alias
+                WHERE
+                    ual_usr_id = " . Misc::escapeInteger($usr_id) . " AND
+                    ual_email = '" . Misc::escapeString($email) . "'";
+        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        return true;
+    }
+
+
+    function getUserIDByAlias($email)
+    {
+        $sql = "SELECT
+                    ual_usr_id
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user_alias
+                WHERE
+                    ual_email = '" . Misc::escapeString($email) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return '';
+        }
+        return $res;
     }
 
 
