@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3575 2008-05-23 19:02:28Z balsdorf $
+// @(#) $Id: class.user.php 3576 2008-05-23 19:36:25Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -1458,6 +1458,11 @@ class User
         // see if alias belongs to a user right now
         $email_usr_id = User::getUserIDByEmail($email);
         if (!empty($email_usr_id)) {
+            return false;
+        }
+
+        $existing_alias_usr_id = User::getUserIDByAlias($email);
+        if (!empty($existing_alias_usr_id)) {
             return false;
         }
 
