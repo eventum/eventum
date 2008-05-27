@@ -257,6 +257,7 @@ class Notification
         $full_message = $message['full_email'];
         $sender = $message['from'];
         $sender_email = strtolower(Mail_API::getEmailAddress($sender));
+        $structure = Mime_Helper::decode($full_message, true);
 
         // get ID of whoever is sending this.
         $sender_usr_id = User::getUserIDByEmail($sender_email);
@@ -315,23 +316,13 @@ class Notification
         $from = Notification::getFixedFromHeader($issue_id, $sender, 'issue');
 
         list($_headers, $body) = Mime_Helper::splitBodyHeader($full_message);
-        // strip any 'Received:' headers
-        $_headers = Mail_API::stripHeaders($_headers);
         $header_names = Mime_Helper::getHeaderNames($_headers);
-        // we don't want to keep the (B)Cc list for an eventum-based email
-        $ignore_headers = array(
-            'to',
-            'cc',
-            'bcc'
-        );
+
+        $current_headers = Mail_API::stripHeaders($message['headers']);
         $headers = array();
         // build the headers array required by the smtp library
-        foreach ($message['headers'] as $header_name => $value) {
-            if ((in_array(strtolower($header_name), $ignore_headers)) ||
-                    (!in_array($header_name, array_keys($header_names))) ||
-                    (strstr($header_name, ' '))) {
-                continue;
-            } elseif ($header_name == 'from') {
+        foreach ($current_headers as $header_name => $value) {
+            if ($header_name == 'from') {
                 $headers['From'] = $from;
             } else {
                 if (is_array($value)) {
@@ -354,14 +345,11 @@ class Notification
         @require_once(APP_PEAR_PATH . 'Mail/mime.php');
         foreach ($emails as $to) {
             $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($to));
-            $to = MIME_Helper::encodeAddress($to);
             // add the warning message about replies being blocked or not
             $fixed_body = Mail_API::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = $to;
-            $mime = new Mail_mime("\r\n");
-            $hdrs = $mime->headers($headers);
 
-            Mail_Queue::add($to, $hdrs, $fixed_body, 1, $issue_id, $type, $sender_usr_id, $sup_id);
+            Mail_Queue::add($to, $headers, $fixed_body, 1, $issue_id, $type, $sender_usr_id, $sup_id);
         }
     }
 

@@ -275,6 +275,16 @@ class Mime_Helper
     }
 
 
+    function encodeHeaders($headers)
+    {
+        // encodes emails headers
+        foreach ($headers as $name => $value) {
+            $headers[$name] = Mime_Helper::encode($value);
+        }
+        return $headers;
+    }
+
+
     /**
      * Encode a string containing non-ASCII characters according to RFC 2047.
      *
@@ -601,26 +611,54 @@ class Mime_Helper
      * @param   boolean $include_bodies Whether to include the bodies in the return value or not
      * @return  mixed The decoded content of the message
      */
-    function decode($message, $include_bodies = FALSE, $decode_bodies = TRUE)
+    function decode(&$message, $include_bodies = FALSE, $decode_bodies = TRUE)
     {
         // need to fix a pretty annoying bug where if the 'boundary' part of a
         // content-type header is split into another line, the PEAR library would
         // not work correctly. this fix will make the boundary part go to the
         // same line as the content-type one
-        if (preg_match('/^boundary=/m', $message)) {
-            $pattern = "#(Content-Type: multipart/.+); ?\r?\n(boundary=)$#im";
-            $replacement = '$1; $2';
+        if (preg_match("/^(boundary=).*/m", $message)) {
+            $pattern = "/(Content-Type: multipart\/)(.+); ?\r?\n(boundary=)(.*)$/im";
+            $replacement = '$1$2; $3$4';
             $message = preg_replace($pattern, $replacement, $message);
         }
 
         $params = array(
             'crlf'           => "\r\n",
             'include_bodies' => $include_bodies,
-            'decode_headers' => TRUE,
+            'decode_headers' => false,
             'decode_bodies'  => $decode_bodies
         );
         $decode = new Mail_mimeDecode($message);
-        return $decode->decode($params);
+        $email = $decode->decode($params);
+
+        foreach ($email->headers as $name => $value) {
+            if (is_string($value)) {
+                $email->headers[$name] = mb_decode_mimeheader($value);
+            }
+        }
+        if ($include_bodies) {
+            $email->body = Mime_Helper::getMessageBody($email);
+        }
+
+        return $email;
+    }
+
+
+    /**
+     * Converts a string from a specified charset to the application charset
+     *
+     * @param   string $string
+     * @param   string $source_charset
+     * @return  string The converted string
+     */
+    function convertString($string, $source_charset)
+    {
+        if (($source_charset == false) || ($source_charset == APP_CHARSET)) {
+            return $string;
+        } else {
+            return mb_convert_encoding($string, APP_CHARSET, $source_charset);
+        }
     }
 
 
@@ -646,14 +684,18 @@ class Mime_Helper
                     if (((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) || (!empty($obj->d_parameters['filename']))) {
                         @$parts['attachments'][] = $obj->body;
                     } else {
-                        @$parts['text'][] = $obj->body;
+                        $text = Mime_Helper::convertString($obj->body, @$obj->ctype_parameters['charset']);
+                        if (@$obj->ctype_parameters['format'] == 'flowed') {
+                            $text = Mime_Helper::decodeFlowedBodies($text, @$obj->ctype_parameters['delsp']);
+                        }
+                        @$parts['text'][] = $text;
                     }
                     break;
                 case 'text/html':
                     if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
                         @$parts['attachments'][] = $obj->body;
                     } else {
-                        @$parts['html'][] = $obj->body;
+                        @$parts['html'][] = Mime_Helper::convertString($obj->body, @$obj->ctype_parameters['charset']);
                     }
                     break;
                 // special case for Apple Mail
@@ -661,7 +703,7 @@ class Mime_Helper
                     if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
                         @$parts['attachments'][] = $obj->body;
                     } else {
-                        @$parts['html'][] = $obj->body;
+                        @$parts['html'][] = Mime_Helper::convertString($obj->body, @$obj->ctype_parameters['charset']);
                     }
                     break;
                 default:
@@ -749,6 +791,42 @@ class Mime_Helper
             return array(($unfold) ? Mail_API::unfold($match[1]) : $match[1], $match[2]);
         }
         return array();
+    }
+
+
+
+    /**
+     * Initial implementation of flowed body handling per RFC 3676. This is probably
+     * not complete but is a start.
+     *
+     * @see     http://www.faqs.org/rfcs/rfc3676.html
+     * @param   text $body The text to "unflow"
+     * @param   string $delsp If spaces should be deleted
+     * @return  string The decoded body
+     */
+    function decodeFlowedBodies($body, $delsp)
+    {
+        if ($delsp == 'yes') {
+            $delsp = true;
+        } else {
+            $delsp = false;
+        }
+
+        $lines = explode("\n", $body);
+
+        $text = '';
+        foreach ($lines as $line) {
+            if (($line != '-- ') && (substr(Misc::removeNewLines($line, true), -1) == ' ')) {
+                if ($delsp) {
+                    $text .= substr(Misc::removeNewLines($line, true), 0, -1);
+                } else {
+                    $text .= Misc::removeNewLines($line, true);
+                }
+            } else {
+                $text .= $line . "\n";
+            }
+        }
+        return $text;
     }
 }
 

@@ -575,7 +575,7 @@ class Note
         $blocked_message = Note::getBlockedMessage($note_id);
         $unknown_user = Note::getUnknownUser($note_id);
         $structure = Mime_Helper::decode($blocked_message, true, true);
-        $body = Mime_Helper::getMessageBody($structure);
+        $body = $structure->body;
         $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
         if ($target == 'email') {
             if (Mime_Helper::hasAttachments($structure)) {

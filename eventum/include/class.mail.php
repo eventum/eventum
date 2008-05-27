@@ -157,7 +157,7 @@ class Mail_API
     function getEmailAddresses($str)
     {
         $str = Mail_API::fixAddressQuoting($str);
-        $str = Mime_Helper::encodeValue($str);
+        $str = Mime_Helper::encode($str);
         $structs = Mail_RFC822::parseAddressList($str);
         $addresses = array();
         foreach ($structs as $structure) {
@@ -226,7 +226,7 @@ class Mail_API
     function getAddressInfo($address, $multiple = false)
     {
         $address = Mail_API::fixAddressQuoting($address);
-        $address = Mime_Helper::encodeValue($address);
+        $address = Mime_Helper::encodeAddress($address);
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
         if (PEAR::isError($t)) {
             return $t;
@@ -263,6 +263,7 @@ class Mail_API
      */
     function getEmailAddress($address)
     {
+        $address = Mime_Helper::encodeAddress($address);
         $info = Mail_API::getAddressInfo($address);
         if (PEAR::isError($info)) {
             return $info;
@@ -389,10 +390,10 @@ class Mail_API
     {
         if (is_array($header)) {
             foreach ($header as $key => $value) {
-                $this->headers[$key] = Mime_Helper::encodeValue($value);
+                $this->headers[$key] = Mime_Helper::encode($value);
             }
         } else {
-            $this->headers[$header] = Mime_Helper::encodeValue($value);
+            $this->headers[$header] = Mime_Helper::encode($value);
         }
     }
 
@@ -527,15 +528,26 @@ class Mail_API
      * not being delivered correctly.
      *
      * @access  public
-     * @param   string $headers The full headers of the email
-     * @return  string The headers of the email, without the stripped ones
+     * @param   array $headers An array of headers for this email
+     * @return  array The headers of the email, without the stripped ones
      */
     function stripHeaders($headers)
     {
-        $headers = preg_replace('/\r?\n([ \t])/', '$1', $headers);
-        $headers = preg_replace('/^(Received: .*\r?\n)/m', '', $headers);
-        // also remove the read-receipt header
-        $headers = preg_replace('/^(Disposition-Notification-To: .*\r?\n)/m', '', $headers);
+        $ignore_headers = array(
+            'to',
+            'cc',
+            'bcc',
+            'return-path',
+            'received',
+            'Disposition-Notification-To',
+        );
+        $ignore_pattern = '/^resent.*/';
+        foreach ($headers as $name => $value) {
+            $lower_name = strtolower($name);
+            if ((in_array($lower_name, $ignore_headers)) || (preg_match($ignore_pattern, $lower_name))) {
+                unset($headers[$name]);
+            }
+        }
         return $headers;
     }
 
@@ -649,6 +661,17 @@ class Mail_API
         $header_names = Mime_Helper::getHeaderNames($hdrs);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {
+            // need to remove the quotes to avoid a parsing problem
+            // on senders that have extended characters in the first
+            // or last words in their sender name
+            if ($lowercase_name == 'from') {
+                $value = Mime_Helper::removeQuotes($value);
+            }
+            $value = Mime_Helper::encode($value);
+            // add the quotes back
+            if ($lowercase_name == 'from') {
+                $value = Mime_Helper::quoteSender($value);
+            }
             $headers[$header_names[$lowercase_name]] = $value;
         }
         // remove any Reply-To:/Return-Path: values from outgoing messages

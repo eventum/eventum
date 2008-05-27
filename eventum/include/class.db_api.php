@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.db_api.php 3568 2008-04-27 07:30:49Z balsdorf $
+// @(#) $Id: class.db_api.php 3583 2008-05-27 21:22:11Z balsdorf $
 //
 
 $TOTAL_QUERIES = 0;
@@ -72,6 +72,9 @@ class DB_API
             exit;
         }
         $this->dbh->query("SET SQL_MODE = ''");
+        if (APP_CHARSET == 'UTF-8') {
+            $this->dbh->query("SET NAMES utf8");
+        }
     }
 
 

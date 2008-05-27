@@ -18,6 +18,7 @@ Eventum Issue Tracking System
 - Added new report to show a breakdown of issues by category and status (Bryan)
 - Added support for user's having multiple email aliases. This is just a backend code, no UI to manage aliases (Bryan)
 - Added new workflow method to modify messages being added to the mail queue (Bryan)
+- [MAJOR] Changed email system to convert all incoming emails and notes to default charset before storing (Bryan)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

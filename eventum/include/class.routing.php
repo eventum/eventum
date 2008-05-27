@@ -122,7 +122,7 @@ class Routing
             return array(78, ev_gettext("Error: Please provide the email account ID.") . "\n");
         }
 
-        $body = Mime_Helper::getMessageBody($structure);
+        $body = $structure->body;
 
         // hack for clients that set more then one from header
         if (is_array($structure->headers['from'])) {
@@ -320,7 +320,7 @@ class Routing
             }
         }
 
-        $body = Mime_Helper::getMessageBody($structure);
+        $body = $structure->body;
         $reference_msg_id = Mail_API::getReferenceMessageID($headers);
         if (!empty($reference_msg_id)) {
             $parent_id = Note::getIDByMessageID($reference_msg_id);
@@ -422,7 +422,7 @@ class Routing
 
         Auth::createFakeCookie(User::getUserIDByEmail($sender_email), $prj_id);
 
-        $body = Mime_Helper::getMessageBody($structure);
+        $body = $structure->body;
 
         Draft::saveEmail($issue_id, @$structure->headers['to'], @$structure->headers['cc'], @$structure->headers['subject'], $body, false, false, false);
         // XXX: need to handle attachments coming from drafts as well?

@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: view_email.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: view_email.php 3583 2008-05-27 21:22:11Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -73,12 +73,6 @@ if (@$_GET['cat'] == 'list_emails') {
         'previous' => $sides['previous'],
         'next'     => $sides['next']
     ));
-}
-
-// set the page charset to whatever is set on this email
-$charset = Mime_Helper::getCharacterSet($email['seb_full_email']);
-if (!empty($charset)) {
-    header("Content-Type: text/html; charset=" . $charset);
 }
 
 $tpl->displayTemplate();

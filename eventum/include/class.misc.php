@@ -712,6 +712,23 @@ class Misc
             return ev_gettext('No');
         }
     }
+
+
+    function removeNewLines($str, $no_space = false)
+    {
+        if ($no_space) {
+            $replacement = '';
+        } else {
+            $replacement = ' ';
+        }
+        return str_replace(array("\n", "\r"), $replacement, $str);
+    }
+
+
+    function htmlentities($var)
+    {
+        return htmlentities($var, ENT_QUOTES, APP_CHARSET);
+    }
 }
 
 // benchmarking the included file (aka setup time)

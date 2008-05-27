@@ -1544,6 +1544,7 @@ class Support
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
+            $res['message'] = $res['seb_body'];
             $res["attachments"] = Mime_Helper::getAttachmentCIDs($res["seb_full_email"]);
             $res["timestamp"] = Date_API::getUnixTimestamp($res['sup_date'], 'GMT');
             $res["sup_date"] = Date_API::getFormattedDate($res["sup_date"]);
@@ -1890,6 +1891,9 @@ class Support
         // hack needed to get the full headers of this web-based email
         $mail = new Mail_API;
         $mail->setTextBody($body);
+
+        $body = $mail->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
+
         if (!empty($issue_id)) {
             $mail->setHeaders(array("Message-Id" => $message_id));
         } else {

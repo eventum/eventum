@@ -113,12 +113,16 @@ class Mail_Queue
         if (!empty($headers['To'])) {
             $headers['To'] = Mail_API::fixAddressQuoting($headers['To']);
         }
+        // encode headers and add special mime headers
+        $headers = Mime_Helper::encodeHeaders($headers);
 
         $res = Mail_API::prepareHeaders($headers);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return $res;
         }
+
+        // convert array of headers into text headers
         list(,$text_headers) = $res;
 
         $stmt = "INSERT INTO
