@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.error_handler.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.error_handler.php 3578 2008-05-27 18:06:33Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
@@ -86,6 +86,13 @@ class Error_Handler
      */
     function _notify(&$notify_msg, $notify_from, $notify_list, $script, $line)
     {
+        $backtrace = debug_backtrace();
+        array_splice($backtrace, 0, 2);
+        for ($i = 0; $i < count($backtrace); $i++) {
+            if ($backtrace[$i]['class'] == 'Error_Handler') {
+                return;
+            }
+        }
 
         $time = time();
         $date = date('m/d/Y H:i:s', $time);
