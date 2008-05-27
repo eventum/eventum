@@ -496,15 +496,16 @@ class Workflow
      * @param   integer $num The sequential email number
      * @param   string $message The complete email message
      * @param   object $email An object containing the decoded email
+     * @param   object $structure An object containing the decoded email
      * @return  mixed null by default, -1 if the rest of the email script should not be processed.
      */
-    function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email)
+    function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email, &$structure)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return null;
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->preEmailDownload($prj_id, $info, $mbox, $num, $message, $email);
+        return $backend->preEmailDownload($prj_id, $info, $mbox, $num, $message, $email, $structure);
     }
 
 
@@ -545,5 +546,27 @@ class Workflow
         }
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
+    }
+
+
+    /**
+     * Modifies the content of the message being added to the mail queue.
+     *
+     * @param   integer $prj_id
+     * @param   string $recipient
+     * @param   array $headers
+     * @param   string $body
+     * @param   integer $issue_id
+     * @param   string $type The type of message this is.
+     * @param   integer $sender_usr_id The id of the user sending this email.
+     * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     */
+    function modifyMailQueue($prj_id, &$recipient, &$headers, &$body, $issue_id, $type, $sender_usr_id, $type_id)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return true;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->modifyMailQueue($prj_id, $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
     }
 }

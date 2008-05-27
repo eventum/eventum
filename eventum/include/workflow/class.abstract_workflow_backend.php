@@ -347,4 +347,21 @@ class Abstract_Workflow_Backend
     {
         return null;
     }
+
+
+    /**
+     * Modifies the content of the message being added to the mail queue.
+     *
+     * @param   integer $prj_id
+     * @param   string $recipient
+     * @param   array $headers
+     * @param   string $body
+     * @param   integer $issue_id
+     * @param   string $type The type of message this is.
+     * @param   integer $sender_usr_id The id of the user sending this email.
+     * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     */
+    function modifyMailQueue($prj_id, &$recipient, &$headers, &$body, $issue_id, $type, $sender_usr_id, $type_id)
+    {
+    }
 }

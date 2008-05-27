@@ -77,6 +77,8 @@ class Mail_Queue
      */
     function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
+        Workflow::modifyMailQueue(Auth::getCurrentProject(), $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
+
         // avoid sending emails out to users with inactive status
         $recipient_email = Mail_API::getEmailAddress($recipient);
         $usr_id = User::getUserIDByEmail($recipient_email);
