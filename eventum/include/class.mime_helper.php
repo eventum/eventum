@@ -654,10 +654,24 @@ class Mime_Helper
      */
     function convertString($string, $source_charset)
     {
-        if (($source_charset == false) || ($source_charset == APP_CHARSET)) {
+        if (($source_charset == false) || ($source_charset == APP_CHARSET) || (!Mime_Helper::isSupportedEncoding($source_charset))) {
             return $string;
         } else {
             return mb_convert_encoding($string, APP_CHARSET, $source_charset);
+        }
+    }
+
+
+    function isSupportedEncoding($charset)
+    {
+        if (!function_exists('mb_list_encodings')) {
+            return false;
+        }
+        $encodings = array_map("strtolower", mb_list_encodings());
+        if (in_array(strtolower($charset), $encodings)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
