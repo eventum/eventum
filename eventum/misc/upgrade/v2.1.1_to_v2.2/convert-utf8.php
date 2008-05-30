@@ -1,13 +1,14 @@
 #!/usr/bin/php
 <?php
 // avoid setup redirecting us
-define('CONFIG_PATH', '/etc/webapps/eventum');
+define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../../..'));
+define('CONFIG_PATH', INSTALL_PATH.'/config');
 
 if (!file_exists(CONFIG_PATH. '/config.php')) {
 	die("Can't find config.php from ". CONFIG_PATH . ". Did you forgot to copy config from old install?");
 }
 
-require_once '/usr/share/eventum/htdocs/init.php';
+require_once INSTALL_PATH . '/init.php';
 require_once APP_INC_PATH . 'db_access.php';
 
 function apply_db_changes($stmts) {
