@@ -1545,7 +1545,8 @@ class Notification
         $emails = array();
         for ($i = 0; $i < count($users); $i++) {
             $prefs = Prefs::get($users[$i]);
-            if ((!empty($prefs)) && (@$prefs["receive_assigned_emails"][$prj_id]) && ($users[$i] != Auth::getUserID())) {
+            if ((!empty($prefs)) && (isset($prefs["receive_assigned_emails"][$prj_id])) &&
+                    ($prefs["receive_assigned_emails"][$prj_id]) && ($users[$i] != Auth::getUserID())) {
                 $emails[] = User::getFromHeader($users[$i]);
             }
         }
