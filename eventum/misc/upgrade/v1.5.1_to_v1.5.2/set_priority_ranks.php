@@ -13,8 +13,8 @@ $sql = "SELECT
             pri_prj_id,
             pri_title";
 $res = $GLOBALS["db_api"]->dbh->getAssoc($sql);
-if (PEAR::isError($sql)) {
-    echo "<pre>";var_dump($res);echo "</pre>";
+if (PEAR::isError($res)) {
+	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
     
@@ -33,7 +33,7 @@ foreach ($res as $id => $prj_id) {
                 pri_id = $id";
     $res = $GLOBALS["db_api"]->dbh->query($sql);
     if (PEAR::isError($res)) {
-        echo "<pre>";var_dump($res);echo "</pre>";
+		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
     $rank++;

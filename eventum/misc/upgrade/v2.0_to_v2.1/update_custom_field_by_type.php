@@ -18,7 +18,7 @@ $sql = "SELECT
             fld_type IN ('date', 'integer')";
 $res = $GLOBALS["db_api"]->dbh->getCol($sql);
 if (PEAR::isError($res)) {
-    var_dump($res);
+	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 if (count($res) > 0) {

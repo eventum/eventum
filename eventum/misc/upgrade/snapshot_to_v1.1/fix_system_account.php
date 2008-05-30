@@ -4,18 +4,17 @@ require_once(APP_INC_PATH . "db_access.php");
 require_once(APP_INC_PATH . "class.date.php");
 
 $stmt = "SELECT MAX(usr_id)+1 FROM eventum_user";
-$new_usr_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
-if (PEAR::isError($new_usr_id)) {
-    echo "ERROR:<br /><br />";
-    var_dump($new_usr_iod);
+$res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+if (PEAR::isError($res)) {
+	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
+$new_usr_id = $res;
 
 $stmt = "UPDATE eventum_user SET usr_id = $new_usr_id WHERE usr_id = 1";
 $res = $GLOBALS["db_api"]->dbh->query($stmt);
 if (PEAR::isError($res)) {
-    echo "ERROR:<br /><br />";
-    var_dump($res);
+	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 
@@ -39,8 +38,7 @@ $fixes = array(
 foreach ($fixes as $stmt) {
     $res = $GLOBALS["db_api"]->dbh->query($stmt);
     if (PEAR::isError($res)) {
-        echo "ERROR:<br /><br />";
-        var_dump($res);
+		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
 }
@@ -67,7 +65,6 @@ $stmt = "INSERT INTO
          )";
 $res = $GLOBALS["db_api"]->dbh->query($stmt);
 if (PEAR::isError($res)) {
-    echo "ERROR:<br /><br />";
-    var_dump($res);
+	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }

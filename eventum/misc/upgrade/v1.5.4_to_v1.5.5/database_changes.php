@@ -12,7 +12,7 @@ if (in_array('cst_use_fulltext', $res)) {
         $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
         $res = $GLOBALS["db_api"]->dbh->query($stmt);
         if (PEAR::isError($res)) {
-            echo "<pre>";var_dump($res);echo "</pre>";
+			echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
             exit(1);
         }
     }

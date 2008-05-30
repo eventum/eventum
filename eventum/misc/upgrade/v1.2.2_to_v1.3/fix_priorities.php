@@ -12,21 +12,31 @@ $stmt = "SELECT
             pri_title
          FROM
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority";
-$priorities = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-if (PEAR::isError($priorities) || count($priorities) < 1) {
-    echo "Error getting priorities or no priorities defined.<pre>";
-    print_r($priorities);
+$res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+if (PEAR::isError($res)) {
+	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 
+$priorities = $res;
+if (count($priorities) < 1) {
+    echo "Error getting priorities or no priorities defined.\n";
+    print_r($priorities);
+    exit(1);
+}
 
 $stmt = "SELECT
             prj_id,
             prj_title
          FROM
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project";
-$projects = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
-if (PEAR::isError($projects) || count($projects) < 1) {
+$res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+if (PEAR::isError($res)) {
+	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+    exit(1);
+}
+$projects = $res;
+if (count($projects) < 1) {
     echo "Error getting projects or no projects defined.<pre>";
     print_r($priorities);
     exit(1);
@@ -42,7 +52,8 @@ foreach ($projects as $project_id => $project_name) {
                     pri_prj_id = $project_id";
         $res = $GLOBALS['db_api']->dbh->query($stmt);
         if (DB::isError($res)) {
-            echo "<pre>";var_dump($res);exit(1);
+			echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+			exit(1);
         }
         echo $GLOBALS['db_api']->dbh->affectedRows() . " priorities updated<br />";
     } else {
@@ -55,7 +66,8 @@ foreach ($projects as $project_id => $project_name) {
                         pri_prj_id = $project_id";
             $res = $GLOBALS['db_api']->dbh->query($stmt);
             if (DB::isError($res)) {
-                echo "<pre>";var_dump($res);exit(1);
+				echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+				exit(1);
             }
             $new_pri_id = $GLOBALS["db_api"]->get_last_insert_id();
             $stmt = "UPDATE
@@ -67,7 +79,8 @@ foreach ($projects as $project_id => $project_name) {
                         iss_prj_id = $project_id";
             $res = $GLOBALS['db_api']->dbh->query($stmt);
             if (DB::isError($res)) {
-                echo "<pre>";var_dump($res);exit(1);
+				echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+				exit(1);
             }
             echo $GLOBALS['db_api']->dbh->affectedRows() . " issues updated to correct priority for project.<br />";
         }

@@ -11,7 +11,7 @@ $sql = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter";
 $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 if (PEAR::isError($res)) {
-    echo "<pre>";var_dump($res);echo "</pre>";
+	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 foreach ($res as $row) {
@@ -31,7 +31,7 @@ foreach ($res as $row) {
                 cst_id = " . $row['cst_id'];
     $res = $GLOBALS["db_api"]->dbh->query($sql);
     if (PEAR::isError($res)) {
-        echo "<pre>";var_dump($res);echo "</pre>";
+		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     } else {
         echo "Setting saved search #" . $row['cst_id'] . " to type $search_type<br />\n";

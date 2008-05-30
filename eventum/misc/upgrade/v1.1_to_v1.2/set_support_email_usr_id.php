@@ -24,12 +24,11 @@ foreach ($res as $sup_id => $email) {
                     sup_usr_id = $usr_id
                  WHERE
                     sup_id = $sup_id";
-        $update = $GLOBALS["db_api"]->dbh->query($stmt);
-        if (PEAR::isError($update)) {
-            echo "<pre>";var_dump($update);echo "</pre>";
+        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        if (PEAR::isError($res)) {
+			echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
             exit(1);
         }
     }
 }
-echo "complete";
-
+echo "complete\n";

@@ -141,9 +141,9 @@ $changes[] = "CREATE TABLE eventum_reminder_triggered_action (
 
 foreach ($changes as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
-    $update = $GLOBALS["db_api"]->dbh->query($stmt);
-    if (PEAR::isError($update)) {
-        echo "<pre>";var_dump($update);echo "</pre>";
+    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+    if (PEAR::isError($res)) {
+		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
 }

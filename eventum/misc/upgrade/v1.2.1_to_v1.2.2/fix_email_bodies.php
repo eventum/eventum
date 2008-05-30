@@ -23,9 +23,9 @@ foreach ($res as $sup_id => $full_message) {
                 seb_body='" . Misc::escapeString($body) . "'
              WHERE
                 seb_sup_id=$sup_id";
-    $update = $GLOBALS["db_api"]->dbh->query($stmt);
-    if (PEAR::isError($update)) {
-        echo "<pre>";var_dump($update);echo "</pre>";
+    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+    if (PEAR::isError($res)) {
+		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
     echo "fixed email #$sup_id<br />";

@@ -12,7 +12,7 @@ $sql = "SELECT
             usr_role != ''";
 $res = $GLOBALS["db_api"]->dbh->getAssoc($sql);
 if (PEAR::isError($res)) {
-    echo "<pre>";var_dump($res);echo "</pre>";
+	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
 }
 
@@ -25,7 +25,7 @@ foreach ($res as $usr_id => $role) {
                 pru_usr_id = $usr_id";
     $res = $GLOBALS["db_api"]->dbh->query($sql);
     if (PEAR::isError($res)) {
-        echo "<pre>";var_dump($res);echo "</pre>";
+		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
     }
     
@@ -55,7 +55,8 @@ foreach ($res as $usr_id => $role) {
                 usr_id=$usr_id";
     $res = $GLOBALS["db_api"]->dbh->query($sql);
     if (PEAR::isError($res)) {
-        echo "<pre>";print_r($res);exit(1);
+		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+		exit(1);
     }
 }
 
