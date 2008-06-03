@@ -52,6 +52,7 @@ $db_charset = 'latin1';
 
 $changes = array();
 
+// convert textual columns to proper encoding and store as utf8
 $res = db_getAll(
 	"SELECT TABLE_NAME,COLUMN_NAME,COLUMN_TYPE,COLUMN_KEY FROM INFORMATION_SCHEMA.COLUMNS ".
 	"WHERE TABLE_SCHEMA='%DBNAME%' AND CHARACTER_SET_NAME='$db_charset'"
@@ -69,7 +70,15 @@ foreach ($tables as $table => $column) {
 	$changes[] = "UPDATE $table SET ". join(", ", $column);
 }
 
-$changes = array();
+// convert tables to utf8 that didn't had any text columns
+$res = db_getAll(
+	"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES ".
+	"WHERE TABLE_SCHEMA='%DBNAME%' AND TABLE_COLLATION NOT LIKE 'utf8\_%'"
+);
+foreach ($res as $idx => $row) {
+	$changes[] = "ALTER TABLE {$row['TABLE_NAME']} CONVERT TO CHARACTER SET utf8";
+}
+
 // Alter database:
 $changes[] = 'ALTER DATABASE `%DBNAME%` DEFAULT CHARACTER SET utf8';
 
