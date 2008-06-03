@@ -71,7 +71,7 @@ foreach ($tables as $table => $column) {
 
 $changes = array();
 // Alter database:
-$changes[] = 'ALTER DATABASE `'.APP_SQL_DBNAME.'` DEFAULT CHARACTER SET utf8';
+$changes[] = 'ALTER DATABASE `%DBNAME%` DEFAULT CHARACTER SET utf8';
 
 echo "Performing database changes (", count($changes), ") queries\n";
 apply_db_changes($changes);
