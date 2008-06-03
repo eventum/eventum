@@ -226,7 +226,6 @@ class Mail_API
     function getAddressInfo($address, $multiple = false)
     {
         $address = Mail_API::fixAddressQuoting($address);
-        $address = Mime_Helper::encodeAddress($address);
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
         if (PEAR::isError($t)) {
             return $t;
