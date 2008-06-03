@@ -665,7 +665,7 @@ class Mime_Helper
     function isSupportedEncoding($charset)
     {
         if (!function_exists('mb_list_encodings')) {
-            return false;
+            return true; // return true so we try to change encoding even though we are running on and older version of PHP.
         }
         $encodings = array_map("strtolower", mb_list_encodings());
         if (in_array(strtolower($charset), $encodings)) {
