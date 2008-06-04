@@ -19,7 +19,9 @@ Eventum Issue Tracking System
 - Added support for user's having multiple email aliases. This is just a backend code, no UI to manage aliases (Bryan)
 - Added new workflow method to modify messages being added to the mail queue (Bryan)
 - [MAJOR] Changed email system to convert all incoming emails and notes to default charset before storing (Bryan)
-- [MAJOR] Added system to manage database upgrades automatcially as SQL patch sets Elan Ruusamäe)
+- [MAJOR] Added system to manage database upgrades automatcially as SQL patch sets (Elan Ruusamäe)
+- added convert-utf8.php script to update database to utf8 if the former encoding was proper (Bryan)
+- added fix-charset.php script to update database to utf8 if the former encoding was improper (Elan Ruusamäe)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

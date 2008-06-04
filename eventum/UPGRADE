@@ -25,6 +25,9 @@ convenience, an index file is provided to list the scripts. Open
 /path-to-eventum/misc/upgrade/v2.1.1_to_v2.2/index.html in a web browser and
 run the scripts in the order provided.
 
+Additionally if you want to convert your existing database to UTF-8 you should
+look at convert-utf8.php and fix-charset.php scripts in misc/upgrade/v2.1.1_to_v2.2 directory
+
 You need config/* files from older version before you can run the update.
 
 - Upgrading from version 2.1 to 2.1.1:
