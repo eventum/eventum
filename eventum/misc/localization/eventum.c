@@ -7108,6 +7108,9 @@ gettext("Stalled Issues");
 /* templates/reports/tree.tpl.html */
 gettext("Estimated Development Time");
 
+/* templates/reports/tree.tpl.html */
+gettext("Categories and Statuses");
+
 /* templates/reports/weekly.tpl.html */
 gettext("Weekly Report");
 
