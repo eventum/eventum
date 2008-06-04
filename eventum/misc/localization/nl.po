@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-03 03:07-0300\n"
+"POT-Creation-Date: 2008-06-04 02:25-0300\n"
 "PO-Revision-Date: 2008-01-23 13:08+0100\n"
 "Last-Translator: Milo van der Linden <mlinden@zeelandnet.nl>\n"
 "Language-Team: \n"
@@ -213,7 +213,7 @@ msgstr "Registratie toevoegen"
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c include/class.display_column.php:223
-#: include/class.notification.php:657 include/class.notification.php:658
+#: include/class.notification.php:646 include/class.notification.php:647
 msgid "Summary"
 msgstr "Titel"
 
@@ -224,7 +224,7 @@ msgstr "Titel"
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: include/class.display_column.php:199 include/class.filter.php:601
-#: include/class.notification.php:633 include/class.notification.php:634
+#: include/class.notification.php:622 include/class.notification.php:623
 #: include/class.project.php:1102
 msgid "Category"
 msgstr "Categorie"
@@ -298,7 +298,7 @@ msgstr "--"
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: include/class.display_column.php:173 include/class.filter.php:586
-#: include/class.notification.php:641 include/class.notification.php:642
+#: include/class.notification.php:630 include/class.notification.php:631
 #: include/class.project.php:1103
 msgid "Priority"
 msgstr "Prioriteit"
@@ -318,13 +318,13 @@ msgstr "Prioriteit"
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: include/class.display_column.php:211 include/class.filter.php:606
-#: include/class.notification.php:645 include/class.notification.php:646
+#: include/class.notification.php:634 include/class.notification.php:635
 msgid "Status"
 msgstr "Status"
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c include/class.display_column.php:179
-#: include/class.filter.php:668 include/class.user.php:1437
+#: include/class.filter.php:668 include/class.user.php:1520
 msgid "Reporter"
 msgstr "Afkomstig van"
 
@@ -334,7 +334,7 @@ msgstr "--"
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: include/class.display_column.php:202 include/class.filter.php:611
-#: include/class.notification.php:637 include/class.notification.php:638
+#: include/class.notification.php:626 include/class.notification.php:627
 msgid "Release"
 msgstr "Fase"
 
@@ -1328,7 +1328,7 @@ msgstr "Tijd tot eerste behandeltermijn"
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c
 #: include/class.customer_stats_report.php:668
-#: include/class.display_column.php:205 include/class.user.php:1438
+#: include/class.display_column.php:205 include/class.user.php:1521
 msgid "Customer"
 msgstr "Relatie "
 
@@ -1675,7 +1675,7 @@ msgstr "Geen berichten gevonden."
 msgid "Associate"
 msgstr "Koppelen"
 
-#: misc/localization/eventum.c include/class.notification.php:1114
+#: misc/localization/eventum.c include/class.notification.php:1103
 msgid "New Issue"
 msgstr "Nieuwe melding"
 
@@ -2141,7 +2141,7 @@ msgstr ""
 "Onderstaand is een kort overzicht van de mogelijke gebruikersniveau's\n"
 "aanwezig in het systeem:"
 
-#: misc/localization/eventum.c include/class.user.php:1436
+#: misc/localization/eventum.c include/class.user.php:1519
 msgid "Viewer"
 msgstr "Raadplegen"
 
@@ -2185,7 +2185,7 @@ msgstr ""
 "bijbehorende relatie. Gemachtigd om meldingen te doen, te wijzigen en\n"
 "berichten te versturen over bestaande meldingen."
 
-#: misc/localization/eventum.c include/class.user.php:1439
+#: misc/localization/eventum.c include/class.user.php:1522
 msgid "Standard User"
 msgstr "Standaard gebruiker"
 
@@ -2204,7 +2204,7 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.user.php:1440
+#: misc/localization/eventum.c include/class.user.php:1523
 msgid "Developer"
 msgstr "Medewerker"
 
@@ -2220,7 +2220,7 @@ msgstr ""
 "toegewezen aan meldingen."
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.user.php:1441
+#: include/class.user.php:1524
 msgid "Manager"
 msgstr "Projectmanager"
 
@@ -2242,7 +2242,7 @@ msgstr ""
 "van dit niveau zijn ook gemachtigd om instellingen\n"
 "op projectniveau aan te passen."
 
-#: misc/localization/eventum.c include/class.user.php:1442
+#: misc/localization/eventum.c include/class.user.php:1525
 msgid "Administrator"
 msgstr "Systeembeheerder"
 
@@ -2668,7 +2668,7 @@ msgstr "Vereiste"
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.notification.php:653 include/class.notification.php:654
+#: include/class.notification.php:642 include/class.notification.php:643
 #: include/class.project.php:1106
 msgid "Estimated Dev. Time"
 msgstr "Geschatte verwerkingstijd"
@@ -2900,19 +2900,19 @@ msgstr "Geen berichten in de wachtrij."
 msgid "Overall Stats"
 msgstr "Overzicht"
 
-#: misc/localization/eventum.c stats_chart.php:62
+#: misc/localization/eventum.c stats_chart.php:63
 msgid "Issues by Status"
 msgstr "Status"
 
-#: misc/localization/eventum.c stats_chart.php:74
+#: misc/localization/eventum.c stats_chart.php:75
 msgid "Issues by Release"
 msgstr "Fase"
 
-#: misc/localization/eventum.c stats_chart.php:77
+#: misc/localization/eventum.c stats_chart.php:78
 msgid "Issues by Priority"
 msgstr "Prioriteit"
 
-#: misc/localization/eventum.c stats_chart.php:83
+#: misc/localization/eventum.c stats_chart.php:84
 msgid "Issues by Category"
 msgstr "Categorie"
 
@@ -5448,8 +5448,11 @@ msgid "No resolutions could be found."
 msgstr "Geen afhandelmethoden gevonden."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid "Please assign the appropriate users for this round robin entry."
 msgstr ""
+"Wijs het extra veld toe aan de projecten waarin dit veld beschikbaar dient "
+"te zijn."
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -6758,8 +6761,9 @@ msgid "This issue already has been marked as redeemed"
 msgstr ""
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid "Thank you, the issue was successfully marked."
-msgstr ""
+msgstr "Fase toegevoegd."
 
 #: misc/localization/eventum.c
 msgid "Please choose the incident types to redeem for this issue."
@@ -7237,6 +7241,10 @@ msgstr "Escallatie"
 #: misc/localization/eventum.c
 msgid "Estimated Development Time"
 msgstr "Geschatte verwerkingstijd"
+
+#: misc/localization/eventum.c
+msgid "Categories and Statuses"
+msgstr ""
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -8114,13 +8122,13 @@ msgstr "Gerelateerde meldingen"
 msgid "No issues associated"
 msgstr "Geen gerelateerde meldingen"
 
-#: misc/localization/eventum.c include/class.notification.php:649
-#: include/class.notification.php:650
+#: misc/localization/eventum.c include/class.notification.php:638
+#: include/class.notification.php:639
 msgid "Resolution"
 msgstr "Afhandeling"
 
 #: misc/localization/eventum.c include/class.display_column.php:228
-#: include/class.notification.php:629 include/class.notification.php:630
+#: include/class.notification.php:618 include/class.notification.php:619
 msgid "Expected Resolution Date"
 msgstr "Verwachte afhandeldatum"
 
@@ -8452,58 +8460,58 @@ msgstr ""
 msgid "ERROR: Could not find IRC bot pid from process list."
 msgstr ""
 
-#: include/class.notification.php:624 include/class.notification.php:625
+#: include/class.notification.php:613 include/class.notification.php:614
 #, fuzzy
 msgid "Assignment List"
 msgstr "Toewijzing"
 
-#: include/class.notification.php:701
+#: include/class.notification.php:690
 #, fuzzy
 msgid "Updated"
 msgstr "Bijwerken"
 
-#: include/class.notification.php:828
+#: include/class.notification.php:817
 #, fuzzy
 msgid "Closed"
 msgstr "Sluiten"
 
-#: include/class.notification.php:965
+#: include/class.notification.php:954
 #, fuzzy
 msgid "BLOCKED"
 msgstr "Prikklok"
 
-#: include/class.notification.php:1418
+#: include/class.notification.php:1407
 msgid "User account information updated"
 msgstr ""
 
-#: include/class.notification.php:1455
+#: include/class.notification.php:1444
 msgid "User account password changed"
 msgstr ""
 
-#: include/class.notification.php:1492
+#: include/class.notification.php:1481
 msgid "New User information"
 msgstr ""
 
-#: include/class.notification.php:1617
+#: include/class.notification.php:1607
 msgid "Your User Account Details"
 msgstr ""
 
-#: include/class.notification.php:1889
+#: include/class.notification.php:1879
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2040
+#: include/class.notification.php:2030
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2121
+#: include/class.notification.php:2111
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2217
+#: include/class.notification.php:2207
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -8555,12 +8563,12 @@ msgid "Error: The email routing interface is disabled."
 msgstr "Fout: De Conceptberichten functie is inactief"
 
 #: include/class.routing.php:73 include/class.routing.php:275
-#: include/class.routing.php:393
+#: include/class.routing.php:391
 msgid "Error: Please configure the email address prefix."
 msgstr ""
 
 #: include/class.routing.php:76 include/class.routing.php:278
-#: include/class.routing.php:396
+#: include/class.routing.php:394
 msgid "Error: Please configure the email address domain."
 msgstr ""
 
@@ -8572,7 +8580,7 @@ msgstr ""
 "ingesteld."
 
 #: include/class.routing.php:112 include/class.routing.php:117
-#: include/class.routing.php:412
+#: include/class.routing.php:410
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -8589,7 +8597,7 @@ msgstr "Fout: Geef een geldig e-mail account."
 msgid "Email routed from %1$s"
 msgstr "Bericht afkomstig van %1$s"
 
-#: include/class.routing.php:261 include/class.routing.php:379
+#: include/class.routing.php:261 include/class.routing.php:377
 msgid "Error: The email message was empty."
 msgstr "Fout: Het bericht bevatte geen inhoud"
 
@@ -8606,24 +8614,16 @@ msgstr ""
 "Fout: Het bericht kan niet worden gekoppeld aan een melding of is gezonden "
 "aan een ongeldige geadresseerde."
 
-#: include/class.routing.php:354
+#: include/class.routing.php:352
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Notitie afkomstig van %1$s"
 
-#: include/class.routing.php:390
+#: include/class.routing.php:388
 msgid "Error: The email draft interface is disabled."
 msgstr "Fout: De Conceptberichten functie is inactief"
 
-#: include/class.routing.php:421
-msgid ""
-"Error: The sender of this email is not allowed in the project associated "
-"with issue #"
-msgstr ""
-"Fout: De afzender van dit bericht heeft geen rechten op de projectomgeving "
-"van melding"
-
-#: include/class.routing.php:430
+#: include/class.routing.php:429
 msgid "Draft routed from"
 msgstr "Concept afkomstig van"
 
@@ -8636,30 +8636,30 @@ msgstr ""
 msgid "SCM Checkins associated by SCM user '"
 msgstr ""
 
-#: include/class.support.php:1396
+#: include/class.support.php:1403
 msgid "Attachment originated from an email"
 msgstr "Bijlage van bericht"
 
-#: include/class.support.php:1398
+#: include/class.support.php:1405
 msgid "Attachment originated from a note"
 msgstr "Bijlage van notitie"
 
-#: include/class.support.php:1450
+#: include/class.support.php:1457
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Bericht (Onderwerp: '%1$s') gekoppeld door %2$s"
 
-#: include/class.support.php:1802
+#: include/class.support.php:1810
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Bericht (Onderwerp: '%1$s') ontkoppeld door %2$s"
 
-#: include/class.support.php:2153
+#: include/class.support.php:2164
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Uitgaande berichten verzonden door %1$s"
 
-#: include/class.support.php:2519
+#: include/class.support.php:2530
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Berichten van '%1$s' geblokkeerd"
@@ -8699,7 +8699,7 @@ msgstr "werkzaamheden per uur van de dag"
 msgid "actions"
 msgstr "acties"
 
-#: stats_chart.php:80
+#: stats_chart.php:81
 msgid "Issues by Assignment"
 msgstr "Toewijzing"
 
@@ -8707,6 +8707,13 @@ msgstr "Toewijzing"
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr "Bewerken melding %1$s"
+
+#~ msgid ""
+#~ "Error: The sender of this email is not allowed in the project associated "
+#~ "with issue #"
+#~ msgstr ""
+#~ "Fout: De afzender van dit bericht heeft geen rechten op de projectomgeving "
+#~ "van melding"
 
 #~ msgid "Reported"
 #~ msgstr "Gemeld"
