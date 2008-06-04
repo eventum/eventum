@@ -11,6 +11,8 @@ if (!file_exists(CONFIG_PATH. '/config.php')) {
 require_once INSTALL_PATH . '/init.php';
 require_once APP_INC_PATH . 'db_access.php';
 
+define('SQL_PATCHES_PATH', APP_PATH . 'misc/upgrade/patches');
+
 function db_getAll($query) {
 	$query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
 	$query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
@@ -54,7 +56,8 @@ function apply_db_changes($stmts) {
  * database versions. each version script can create it's dynamic queries
  */
 $versions = array(
-	1 => 'select @@version',
+	1 => '01_notes.inc',
+	2 => '02_usr_alias.inc',
 );
 
 // sanity check. check that the version table exists.
@@ -69,4 +72,34 @@ if ($target == $version) {
 	echo "Database already at version $version. Nothing to upgrade.\n";
 	exit(0);
 }
+
 echo "Upgrading database to version $target\n";
+$changes = array();
+for ($i = $version; $i <= $target; $i++) {
+	if (empty($versions[$i])) {
+		echo "ERROR: patch $i is not recorded in upgrade script.\n";
+		exit(1);
+	}
+	$patch = SQL_PATCHES_PATH . '/' . $versions[$i];
+	echo "Checking patch $patch\n";
+	if (!file_exists($patch)) {
+		echo "ERROR: Patch file doesn't exist\n";
+		exit(1);
+	}
+	require $patch;
+	$func = "db_patch_$i";
+	if (!function_exists($func)) {
+		echo "ERROR: Patch did not define '$func' function\n";
+		exit(1);
+	}
+	$patchset = $func();
+	echo "Adding ", count($patchset), " queries\n";
+	$changes = array_merge($changes, $patchset);
+}
+
+if (count($changes) == 0) {
+	echo "No database changes\n";
+	exit(0);
+}
+
+echo "Performing ", count($changes), " database changes\n";
