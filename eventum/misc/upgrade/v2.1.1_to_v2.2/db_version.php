@@ -24,9 +24,10 @@ function db_query($query) {
 
 $stmts = array();
 
-$stmts[] = "CREATE TABLE eventum_version (
+$stmts[] = "CREATE TABLE %TABLE_PREFIX%version (
     ver_version int(11) unsigned not null default 1
 )";
+$stmts[] = "INSERT into %TABLE_PREFIX%version SET ver_version=1";
 
 foreach ($stmts as $stmt) {
 	db_query($stmt);
