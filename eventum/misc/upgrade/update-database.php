@@ -11,8 +11,6 @@ if (!file_exists(CONFIG_PATH. '/config.php')) {
 require_once INSTALL_PATH . '/init.php';
 require_once APP_INC_PATH . 'db_access.php';
 
-define('SQL_PATCHES_PATH', APP_PATH . 'misc/upgrade/patches');
-
 function db_getAll($query) {
 	$query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
 	$query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
@@ -89,7 +87,7 @@ for ($i = $version + 1; $i <= $target; $i++) {
 		echo "ERROR: patch $i is not recorded in upgrade script.\n";
 		exit(1);
 	}
-	$patch = SQL_PATCHES_PATH . '/' . $versions[$i];
+	$patch = APP_SQL_PATCHES_PATH . '/' . $versions[$i];
 	echo "Checking patch $patch\n";
 	if (!file_exists($patch)) {
 		echo "ERROR: Patch file doesn't exist\n";

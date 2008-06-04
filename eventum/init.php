@@ -83,6 +83,10 @@ if (!defined('APP_SETUP_FILE')) {
     define('APP_SETUP_FILE', APP_CONFIG_PATH . 'setup.php');
 }
 
+if (!defined('APP_SQL_PATCHES_PATH')) {
+    define('APP_SQL_PATCHES_PATH', APP_PATH . 'misc/upgrade/patches');
+}
+
 if (!defined('APP_LOG_PATH')) {
     define('APP_LOG_PATH', APP_PATH . 'logs/');
 }
