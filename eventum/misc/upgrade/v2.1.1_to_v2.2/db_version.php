@@ -26,7 +26,7 @@ $stmts = array();
 
 $stmts[] = "CREATE TABLE %TABLE_PREFIX%version (
     ver_version int(11) unsigned not null default 1
-)";
+) ENGINE = MYISAM DEFAULT CHARSET=utf8";
 $stmts[] = "INSERT into %TABLE_PREFIX%version SET ver_version=1";
 
 foreach ($stmts as $stmt) {
