@@ -56,16 +56,21 @@ function apply_db_changes($stmts) {
  * database versions. each version script can create it's dynamic queries
  */
 $versions = array(
-	1 => '01_notes.inc',
-	2 => '02_usr_alias.inc',
+	1 => '01_notes.php',
+	2 => '02_usr_alias.php',
 );
 
 // sanity check. check that the version table exists.
 $version = db_getOne("SELECT ver_version FROM %TABLE_PREFIX%version");
+if (!isset($version)) {
+	# insert initial value
+	db_query("INSERT INTO %TABLE_PREFIX%version SET ver_version=0");
+	$version = 0;
+}
 $target = max(array_keys($versions));
 echo "Current database version: $version; Versions available: $target\n";
 if ($target < $version) {
-	echo "Your database version is greater ($version) than this upgrade supports ($target)!\n";
+	echo "ERROR: Your database version is greater ($version) than this upgrade supports ($target)!\n";
 	exit(1);
 }
 if ($target == $version) {
@@ -75,7 +80,7 @@ if ($target == $version) {
 
 echo "Upgrading database to version $target\n";
 $changes = array();
-for ($i = $version; $i <= $target; $i++) {
+for ($i = $version + 1; $i <= $target; $i++) {
 	if (empty($versions[$i])) {
 		echo "ERROR: patch $i is not recorded in upgrade script.\n";
 		exit(1);
@@ -94,7 +99,7 @@ for ($i = $version; $i <= $target; $i++) {
 	}
 	$patchset = $func();
 	echo "Adding ", count($patchset), " queries\n";
-	$changes = array_merge($changes, $patchset);
+	$changes[$i] = $patchset;
 }
 
 if (count($changes) == 0) {
@@ -102,4 +107,8 @@ if (count($changes) == 0) {
 	exit(0);
 }
 
-echo "Performing ", count($changes), " database changes\n";
+for ($i = $version + 1; $i <= $target; $i++) {
+	echo "Applying patch ", $i, "\n";
+	apply_db_changes($changes[$i]);
+	db_query("UPDATE %TABLE_PREFIX%version SET ver_version=$i");
+}
