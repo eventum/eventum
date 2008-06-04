@@ -60,6 +60,10 @@ $versions = array(
 	2 => '02_usr_alias.php',
 );
 
+if (php_sapi_name() != 'cli') {
+	echo "<pre>\n";
+}
+
 // sanity check. check that the version table exists.
 $version = db_getOne("SELECT ver_version FROM %TABLE_PREFIX%version");
 if (!isset($version)) {
@@ -111,4 +115,8 @@ for ($i = $version + 1; $i <= $target; $i++) {
 	echo "Applying patch ", $i, "\n";
 	apply_db_changes($changes[$i]);
 	db_query("UPDATE %TABLE_PREFIX%version SET ver_version=$i");
+}
+
+if (php_sapi_name() != 'cli') {
+	echo "</pre>\n";
 }
