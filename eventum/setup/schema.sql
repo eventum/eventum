@@ -1037,3 +1037,8 @@ CREATE TABLE %TABLE_PREFIX%search_profile (
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE %TABLE_PREFIX%version (
+    ver_version int(11) unsigned not null default 1
+) ENGINE = MYISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO %TABLE_PREFIX%version SET ver_version=2;
