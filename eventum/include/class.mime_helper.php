@@ -634,7 +634,8 @@ class Mime_Helper
 
         foreach ($email->headers as $name => $value) {
             if (is_string($value)) {
-                $email->headers[$name] = mb_decode_mimeheader($value);
+                var_dump($value);
+                $email->headers[$name] = iconv_mime_decode(trim($value), null, APP_CHARSET);
             }
         }
         if ($include_bodies) {
