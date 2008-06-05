@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.error_handler.php 3578 2008-05-27 18:06:33Z balsdorf $
+// @(#) $Id: class.error_handler.php 3620 2008-06-05 17:40:10Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
@@ -136,6 +136,60 @@ class Error_Handler
     }
 
     /**
+     * Formats backtrace
+     *
+     * @access public
+     * @param  array    $backtrace The backtrace to format
+     * @return string   A nicely formatted backtrace.
+     */
+    function format_backtrace($backtrace = null)
+    {
+        if ($backtrace == null) {
+            $backtrace = debug_backtrace();
+        }
+
+        // we process backtrace to truncate large blobs
+        $cutoff = 1024;
+
+        $msg = '';
+        foreach ($backtrace as $e) {
+            // backtrace frame contains: [file] [line] [function] [class] [type] [args]
+            $f = $e['file'];
+            $f = str_replace(APP_INC_PATH, 'APP_INC_PATH/', $f);
+            $f = str_replace(APP_PATH, 'APP_PATH/', $f);
+
+            $fn = $e['function'];
+            if (isset($e['class'])) {
+                $fn = $e['class']. $e['type']. $fn;
+            }
+            $a = '';
+            if ($e['args']) {
+                $z = array();
+                foreach ($e['args'] as $x) {
+                    if (is_string($x)) {
+                        if (strlen($x) > $cutoff) {
+                            $z[] = sprintf("(string )'%.{$cutoff}s'...", $x);
+                        } else {
+                            $z[] = sprintf("(string )'%s'", $x);
+                        }
+                    } elseif (is_object($x)) {
+                        $z[] = 'Object '. get_class($x);
+
+                    } elseif (is_bool($x)) {
+                        $z[] = '(bool ) '.$x ? 'true' : 'false';
+
+                    } else {
+                        $z[] = '(' . gettype($x). ' )' . $x;
+                    }
+                }
+                $a = join(', ', $z);
+            }
+            $msg .= sprintf("%s:%d\n  %s(%s)\n", $f, $e['line'], $fn, $a);
+        }
+        return $msg;
+    }
+
+    /**
      * Creates error report.
      *
      * @access private
@@ -168,52 +222,15 @@ class Error_Handler
             $msg .= "'" . $error_msg . "'\n";
         }
 
-        // only try to include the backtrace if we are on PHP 4.3.0 or later
-        if (function_exists('debug_backtrace')) {
-            $msg .= "\nA backtrace is available:\n\n";
-            $backtrace = debug_backtrace();
-            // remove the two entries related to the error handling stuff itself
-            array_splice($backtrace, 0, 2);
+        $msg .= "\nA backtrace is available:\n\n";
+        $backtrace = debug_backtrace();
 
-            // we process backtrace to truncate large blobs
-            $cutoff = 1024;
-            foreach ($backtrace as $e) {
-                // backtrace frame contains: [file] [line] [function] [class] [type] [args]
-                $f = $e['file'];
-                $f = str_replace(APP_INC_PATH, 'APP_INC_PATH/', $f);
-                $f = str_replace(APP_PATH, 'APP_PATH/', $f);
+        // remove the two entries related to the error handling stuff itself
+        array_splice($backtrace, 0, 2);
 
-                $fn = $e['function'];
-                if (isset($e['class'])) {
-                    $fn = $e['class']. $e['type']. $fn;
-                }
-                $a = '';
-                if ($e['args']) {
-                    $z = array();
-                    foreach ($e['args'] as $x) {
-                        if (is_string($x)) {
-                            if (strlen($x) > $cutoff) {
-                                $z[] = sprintf("(string )'%.{$cutoff}s'...", $x);
-                            } else {
-                                $z[] = sprintf("(string )'%s'", $x);
-                            }
-                        } elseif (is_object($x)) {
-                            $z[] = 'Object '. get_class($x);
+        $msg .= Error_Handler::format_backtrace($backtrace);
+        $msg .= "\n\n";
 
-                        } elseif (is_bool($x)) {
-                            $z[] = '(bool ) '.$x ? 'true' : 'false';
-
-                        } else {
-                            $z[] = '(' . gettype($x). ' )' . $x;
-                        }
-                    }
-                    $a = join(', ', $z);
-                }
-                $msg .= sprintf("%s:%d\n  %s(%s)\n", $f, $e['line'], $fn, $a);
-            }
-
-            $msg .= "\n\n";
-        }
         return $msg;
     }
 }
