@@ -456,6 +456,50 @@ class Support
 
 
     /**
+     * Bounce message to sender.
+     *
+     * @access  public
+     * @param   object  $message parsed message structure.
+     * @param   array   array(ERROR_CODE, ERROR_STRING) of error to bounce
+     * @return  void
+     */
+    function bounceMessage($message, $error)
+    {
+        // open text template
+        $tpl = new Template_API;
+        $tpl->setTemplate('notifications/bounced_email.tpl.text');
+        $tpl->bulkAssign(array(
+            'error_code'        => $error[0],
+            'error_message'     => $error[1],
+            'date'              => $message->date,
+            'subject'           => Mime_Helper::fixEncoding($message->subject),
+            'from'              => Mime_Helper::fixEncoding($message->fromaddress),
+            'to'                => Mime_Helper::fixEncoding($message->toaddress),
+            'cc'                => Mime_Helper::fixEncoding(@$message->ccaddress),
+        ));
+
+        $sender_email = Mail_API::getEmailAddress($message->fromaddress);
+        $usr_id = User::getUserIDByEmail($sender_email);
+        // change the current locale
+        if ($usr_id) {
+            Language::set(User::getLang($usr_id));
+        }
+
+        $text_message = $tpl->getTemplateContents();
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_API;
+        $mail->setTextBody($text_message);
+        $setup = $mail->getSMTPSettings();
+        $mail->send($setup['from'], $sender_email,
+            APP_SHORT_NAME . ': ' . ev_gettext('Postmaster notify: see transcript for details'));
+
+        if ($usr_id) {
+            Language::restore();
+        }
+    }
+
+    /**
      * Method used to get the information about a specific message
      * from a given mailbox.
      *
