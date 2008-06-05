@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: preferences.php 3562 2008-04-05 07:34:02Z balsdorf $
+// @(#) $Id: preferences.php 3619 2008-06-05 17:24:38Z glen $
 
 // skip language init if we're saving language
 if (@$_POST['language']) {
@@ -41,8 +41,10 @@ require_once(APP_INC_PATH . "db_access.php");
 
 // must do Language::setPreference before template is initialized
 if (@$_POST["cat"] == "update_account") {
-    $res = User::setLang(Auth::getUserID(), $_POST['language']);
-    Language::setPreference();
+    if (isset($_POST['language'])) {
+        $res = User::setLang(Auth::getUserID(), $_POST['language']);
+        Language::setPreference();
+    }
 }
 
 $tpl = new Template_API();
