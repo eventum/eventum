@@ -591,9 +591,24 @@ class Support
                 $res = Routing::getMatchingIssueIDs($addresses, 'note');
                 if ($res != false) {
                     $return = Routing::route_notes($message);
-                    if ($return === true) {
+
+                    // if leave copy of emails on IMAP server is off we can
+                    // bounce on note that user had no permission to write
+                    // here.
+                    // otherwise proper would be to create table -
+                    // eventum_bounce: bon_id, bon_message_id, bon_error
+
+                    if ($info['ema_leave_copy']) {
+                        if ($return === true) {
+                            Support::deleteMessage($info, $mbox, $num);
+                        }
+                    } else {
+                        if ($return !== true) {
+                            // in case of error, create bounce, but still
+                            // delete email not to send bounce in next process :)
+                            Support::bounceMessage($email, $return);
+                        }
                         Support::deleteMessage($info, $mbox, $num);
-                        return;
                     }
                     return;
                 }
@@ -602,11 +617,25 @@ class Support
                 $res = Routing::getMatchingIssueIDs($addresses, 'draft');
                 if ($res != false) {
                     $return = Routing::route_drafts($message);
-                    if ($return === true) {
+
+                    // if leave copy of emails on IMAP server is off we can
+                    // bounce on note that user had no permission to write
+                    // here.
+                    // otherwise proper would be to create table -
+                    // eventum_bounce: bon_id, bon_message_id, bon_error
+
+                    if ($info['ema_leave_copy']) {
+                        if ($return === true) {
+                            Support::deleteMessage($info, $mbox, $num);
+                        }
+                    } else {
+                        if ($return !== true) {
+                            // in case of error, create bounce, but still
+                            // delete email not to send bounce in next process :)
+                            Support::bounceMessage($email, $return);
+                        }
                         Support::deleteMessage($info, $mbox, $num);
-                        return;
                     }
-                    // TODO: handle errors?
                     return;
                 }
             }

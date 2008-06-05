@@ -22,6 +22,7 @@ Eventum Issue Tracking System
 - [MAJOR] Added system to manage database upgrades automatcially as SQL patch sets (Elan Ruusamäe)
 - added convert-utf8.php script to update database to utf8 if the former encoding was proper (Bryan)
 - added fix-charset.php script to update database to utf8 if the former encoding was improper (Elan Ruusamäe)
+- bounce emails back to user if download_emails.php method is used to handle routing and user has no permission to email to note or draft (needs "Leave Copy of Messages On Server" to be off) (Elan Ruusamäe)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
