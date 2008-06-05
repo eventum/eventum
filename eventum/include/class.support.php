@@ -591,7 +591,7 @@ class Support
                 $res = Routing::getMatchingIssueIDs($addresses, 'note');
                 if ($res != false) {
                     $return = Routing::route_notes($message);
-                    if ($return !== true) {
+                    if ($return === true) {
                         Support::deleteMessage($info, $mbox, $num);
                         return;
                     }
