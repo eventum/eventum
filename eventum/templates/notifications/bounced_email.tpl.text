@@ -1,0 +1,12 @@
+----- {t escape=no}Eventum was unable to route your email{/t} -----
+{$error_message}
+
+----- {t escape=no}The original message headers follow{/t} -----
+{$original_message}
+Date: {$date}
+Subject: {$subject}
+From: {$from}
+To: {$to}
+{if $cc!=''}
+Cc: {$cc}
+{/if}
