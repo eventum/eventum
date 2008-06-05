@@ -498,7 +498,7 @@ class Support
         }
 
         $structure = Mime_Helper::decode($message, true, true);
-        $message_body = Mime_Helper::getMessageBody($structure);
+        $message_body = $structure->body;
         if (Mime_Helper::hasAttachments($structure)) {
             $has_attachments = 1;
         } else {
