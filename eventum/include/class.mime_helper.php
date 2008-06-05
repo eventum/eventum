@@ -654,27 +654,13 @@ class Mime_Helper
      */
     function convertString($string, $source_charset)
     {
-        if (($source_charset == false) || ($source_charset == APP_CHARSET) || (!Mime_Helper::isSupportedEncoding($source_charset))) {
+        if (($source_charset == false) || ($source_charset == APP_CHARSET)) {
             return $string;
         } else {
-            return mb_convert_encoding($string, APP_CHARSET, $source_charset);
+            $res = iconv($source_charset, APP_CHARSET, $string);
+            return $res === false ? $string : $res;
         }
     }
-
-
-    function isSupportedEncoding($charset)
-    {
-        if (!function_exists('mb_list_encodings')) {
-            return true; // return true so we try to change encoding even though we are running on and older version of PHP.
-        }
-        $encodings = array_map("strtolower", mb_list_encodings());
-        if (in_array(strtolower($charset), $encodings)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 
     /**
      * Method used to parse the decoded object structure of a MIME
