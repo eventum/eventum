@@ -2667,6 +2667,7 @@ class Issue
             $csv[] = @implode("\t", $column_headings);
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
+                $res[$i]["iss_created_date"] = Date_API::getFormattedDate($res[$i]["iss_created_date"]);
                 $res[$i]["iss_expected_resolution_date"] = Date_API::getSimpleDate($res[$i]["iss_expected_resolution_date"], false);
                 $fields = array(
                     $res[$i]['pri_title'],

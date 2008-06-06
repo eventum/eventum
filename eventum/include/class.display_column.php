@@ -178,6 +178,9 @@ class Display_Column
                 "usr_full_name" =>  array(
                     "title" =>  ev_gettext("Reporter")
                 ),
+                "iss_created_date"    =>  array(
+                    "title" =>  ev_gettext("Created Date")
+                ),
                 "iss_grp_id"    =>  array(
                     "title" =>  ev_gettext("Group")
                 ),
