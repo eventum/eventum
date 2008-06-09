@@ -24,6 +24,7 @@ Eventum Issue Tracking System
 - added fix-charset.php script to update database to utf8 if the former encoding was improper (Elan Ruusamäe)
 - Merged change to display issue created date on list issues page (Bryan)
 - bounce emails back to user if download_emails.php method is used to handle routing and user has no permission to email to note or draft (needs "Leave Copy of Messages On Server" to be off) (Elan Ruusamäe)
+- Display in issue updated notifications name who made the change (Elan Ruusamäe)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

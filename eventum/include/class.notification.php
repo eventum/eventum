@@ -898,7 +898,8 @@ class Notification
         $tpl->setTemplate('notifications/' . $type . '.tpl.text');
         $tpl->bulkAssign(array(
             "app_title"    => Misc::getToolCaption(),
-            "data"         => $data
+            "data"         => $data,
+            "current_user" => User::getFullName(Auth::getUserID()),
         ));
 
         $setup = Setup::load();

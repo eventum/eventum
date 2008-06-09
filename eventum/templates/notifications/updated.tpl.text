@@ -1,5 +1,8 @@
 {textformat style="email"}{t escape=no 1=$app_title}This is an automated message sent at your request from %1{/t}.
 
+{t escape=no 1=$current_user}The issue was updated by %1{/t}
+
+
 {t escape=no}To view more details of this issue, or to update it, please visit the following URL{/t}:
 {$app_base_url}view.php?id={$data.iss_id}
 {/textformat}

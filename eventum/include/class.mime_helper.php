@@ -469,7 +469,7 @@ class Mime_Helper
         if (!is_object($message)) {
             $message = Mime_Helper::decode($message, true);
         }
-        $attachments = Mime_Helper::_getAttachmentDetails($message, TRUE);
+        $attachments = Mime_Helper::_getAttachmentDetails($message, true);
         if (count($attachments) > 0) {
             return true;
         } else {
@@ -491,7 +491,7 @@ class Mime_Helper
         if (!is_object($message)) {
             $message = Mime_Helper::decode($message, true);
         }
-        return Mime_Helper::_getAttachmentDetails($message, TRUE);
+        return Mime_Helper::_getAttachmentDetails($message, true);
     }
 
 
@@ -512,7 +512,7 @@ class Mime_Helper
     }
 
 
-    function _getAttachmentDetails(&$mime_part, $return_body = FALSE, $return_filename = FALSE, $return_cid = FALSE)
+    function _getAttachmentDetails(&$mime_part, $return_body = false, $return_filename = false, $return_cid = false)
     {
         $attachments = array();
         if (isset($mime_part->parts)) {
@@ -536,13 +536,13 @@ class Mime_Helper
         // (since Eventum does not display those embedded within the message)
         if (@$mime_part->ctype_primary == 'image') {
             // if requested, return only the details of a particular filename
-            if (($return_filename != FALSE) && ($mime_part_filename != $return_filename)) {
+            if (($return_filename != false) && ($mime_part_filename != $return_filename)) {
                 return array();
             }
             // if requested, return only the details of
             // a particular attachment CID. Only really needed
             // as hack for inline images
-            if (($return_cid != FALSE) && (@$mime_part->headers['content-id'] != $return_cid)) {
+            if (($return_cid != false) && (@$mime_part->headers['content-id'] != $return_cid)) {
                 return array();
             }
             $found = 1;
@@ -551,7 +551,7 @@ class Mime_Helper
                     (in_array(@strtolower($mime_part->disposition), Mime_Helper::_getValidDispositions())) &&
                     (!empty($mime_part_filename))) {
                 // if requested, return only the details of a particular filename
-                if (($return_filename != FALSE) && ($mime_part_filename != $return_filename)) {
+                if (($return_filename != false) && ($mime_part_filename != $return_filename)) {
                     return array();
                 }
                 $found = 1;
@@ -565,7 +565,7 @@ class Mime_Helper
             );
             // only include the body of the attachment when
             // requested to save some memory
-            if ($return_body == TRUE) {
+            if ($return_body == true) {
                 $t['blob'] = &$mime_part->body;
             }
             $attachments[] = $t;
@@ -585,13 +585,13 @@ class Mime_Helper
      * @param   string $cid The content-id to look for, if any
      * @return  string The full encoded content of the attachment
      */
-    function getAttachment($message, $filename, $cid = FALSE)
+    function getAttachment($message, $filename, $cid = false)
     {
         $parts = array();
         if (!is_object($message)) {
             $message = Mime_Helper::decode($message, true);
         }
-        $details = Mime_Helper::_getAttachmentDetails($message, TRUE, $filename, $cid);
+        $details = Mime_Helper::_getAttachmentDetails($message, true, $filename, $cid);
         if (count($details) == 1) {
             return array(
                 $details[0]['filetype'],
@@ -611,7 +611,7 @@ class Mime_Helper
      * @param   boolean $include_bodies Whether to include the bodies in the return value or not
      * @return  mixed The decoded content of the message
      */
-    function decode(&$message, $include_bodies = FALSE, $decode_bodies = TRUE)
+    function decode(&$message, $include_bodies = false, $decode_bodies = true)
     {
         // need to fix a pretty annoying bug where if the 'boundary' part of a
         // content-type header is split into another line, the PEAR library would
@@ -634,7 +634,7 @@ class Mime_Helper
 
         foreach ($email->headers as $name => $value) {
             if (is_string($value)) {
-                $email->headers[$name] = iconv_mime_decode(trim($value), null, APP_CHARSET);
+                $email->headers[$name] = iconv_mime_decode(trim($value), ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
             }
         }
         if ($include_bodies) {
