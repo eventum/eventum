@@ -4097,15 +4097,19 @@ class Issue
         $usr_role = User::getRoleByUser($usr_id, $details['iss_prj_id']);
         $prj_id = Issue::getProjectID($issue_id);
 
-        // check customer permissions
-        if ((Customer::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID("Customer")) &&
+
+        if (empty($usr_role)) {
+            // check if they are even allowed to access the project
+            $return = false;
+        } elseif ((Customer::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID("Customer")) &&
                 ($details['iss_customer_id'] != $usr_details['usr_customer_id'])) {
+            // check customer permissions
             $return = false;
         } elseif ($details['iss_private'] == 1) {
             // check if the issue is even private
 
             // check role, reporter, assigment and group
-            if (User::getRoleByUser($usr_id, $details['iss_prj_id']) > User::getRoleID("Developer")) {
+            if ($usr_role > User::getRoleID("Developer")) {
                 $return = true;
             } elseif ($details['iss_usr_id'] == $usr_id) {
                 $return = true;

@@ -24,6 +24,7 @@ Eventum Issue Tracking System
 - added fix-charset.php script to update database to utf8 if the former encoding was improper (Elan Ruusamäe)
 - Merged change to display issue created date on list issues page (Bryan)
 - bounce emails back to user if download_emails.php method is used to handle routing and user has no permission to email to note or draft (needs "Leave Copy of Messages On Server" to be off) (Elan Ruusamäe)
+- Fixed bug with user being able to update issues in projects he did not have access to (Bryan, #37320)
 - Display in issue updated notifications name who made the change (Elan Ruusamäe)
 
 2008-01-09, Version 2.1.1
