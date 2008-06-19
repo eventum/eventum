@@ -164,3 +164,12 @@ h4 {
 div.view_issue_seperator {
   padding-top: 10px;
 }
+
+div.app_messages {
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    font-size: 70%;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 10px;
+}

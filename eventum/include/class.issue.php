@@ -464,6 +464,11 @@ class Issue
         $issue_id = Misc::escapeInteger($issue_id);
         $status_id = Misc::escapeInteger($status_id);
 
+        $workflow = Workflow::preStatusChange(Issue::getProjectID($issue_id), $issue_id, $status_id, $notify);
+        if ($workflow !== true) {
+            return $workflow;
+        }
+
         // check if the status is already set to the 'new' one
         if (Issue::getStatusID($issue_id) == $status_id) {
             return -1;
@@ -1394,7 +1399,6 @@ class Issue
      */
     function update($issue_id)
     {
-
         global $errors;
         $errors = array();
 
@@ -1402,6 +1406,12 @@ class Issue
 
         $usr_id = Auth::getUserID();
         $prj_id = Issue::getProjectID($issue_id);
+
+        $workflow = Workflow::preIssueUpdated($prj_id, $issue_id, $usr_id, $_POST);
+        if ($workflow !== true) {
+            return $workflow;
+        }
+
         // get all of the 'current' information of this issue
         $current = Issue::getDetails($issue_id);
         // update the issue associations

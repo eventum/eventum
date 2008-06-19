@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: post_note.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: post_note.php 3632 2008-06-19 05:30:31Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -52,6 +52,8 @@ if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::
     $tpl->displayTemplate();
     exit;
 }
+
+Workflow::prePage($prj_id, 'post_note');
 
 if (@$_POST["cat"] == "post_note") {
     // change status

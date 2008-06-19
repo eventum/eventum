@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.template.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.template.php 3632 2008-06-19 05:30:31Z balsdorf $
 //
 
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
@@ -216,6 +216,8 @@ class Template_API
             "cycle"          => APP_CYCLE_COLORS,
             "internal_color" => APP_INTERNAL_COLOR
         ));
+
+        $this->assign('app_messages', Misc::getMessages());
     }
 }
 

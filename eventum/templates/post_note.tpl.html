@@ -3,13 +3,16 @@
 {if $post_result != ''}
 <br />
 <center>
-  <span class="default">
 {if $post_result == -1}
+  <span class="default">
   <b>{t}An error occurred while trying to run your query{/t}</b>
-{else}
-  <b>{t}Thank you, the internal note was posted successfully.{/t}</b>
-{/if}
   </span>
+{else}
+  <span class="default">
+  <b>{t}Thank you, the internal note was posted successfully.{/t}</b>
+  </span>
+  {include file="app_messages.tpl.html"}
+{/if}
 </center>
 <script language="JavaScript">
 <!--
@@ -61,7 +64,7 @@ function setSignature(f)
     } else {
         f.note.value = old_message;
     }
-} 
+}
 //-->
 </script>
 {/literal}

@@ -1,0 +1,7 @@
+{if $app_messages|@count > 0}
+<div class="app_messages" align="center">
+{foreach from=$app_messages item=app_message}
+{$app_message}<br />
+{/foreach}
+</div>
+{/if}

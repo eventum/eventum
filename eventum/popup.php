@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: popup.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: popup.php 3632 2008-06-19 05:30:31Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -107,10 +107,9 @@ if (@$_GET["cat"] == "delete_note") {
     $res = Phone_Support::remove($_GET["id"]);
     $tpl->assign("delete_phone_result", $res);
 } elseif (@$_GET["cat"] == "new_status") {
-    // XXX: need to call the workflow api in the following function?
     $res = Issue::setStatus($_GET["iss_id"], $_GET["new_sta_id"], true);
     if ($res == 1) {
-        History::add($_GET["iss_id"], $usr_id, History::getTypeID('status_changed'), 
+        History::add($_GET["iss_id"], $usr_id, History::getTypeID('status_changed'),
                 "Issue manually set to status '" . Status::getStatusTitle($_GET["new_sta_id"]) . "' by " . User::getFullName($usr_id));
     }
     $tpl->assign("new_status_result", $res);

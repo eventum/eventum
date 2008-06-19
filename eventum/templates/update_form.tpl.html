@@ -6,12 +6,13 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td class="default">
+          <td>
             {if $update_result == -1}
               <div align="center">
                 <b>{t}Sorry, an error happened while trying to run your query.{/t}</b>
               </div>
             {elseif $update_result == 1}
+              <span class="default">
               <div align="center">
                 <b>{t 1=$smarty.post.issue_id}Thank you, issue #%1 was updated successfully.{/t}</b>
               </div>
@@ -33,7 +34,11 @@
               {else}
                 <br />
               {/if}
+              </span>
 
+              {include file="app_messages.tpl.html"}
+
+              <span class="default">
               {if $notify_list|@count > 0}
                 <div align="center">
                 <b>{t}E-mail about issue update was sent to{/t}:</b><br />
@@ -50,6 +55,7 @@
                   <a href="update.php?id={$smarty.post.issue_id}" class="link">{t 1=$smarty.post.issue_id}Update Issue #%1{/t}</a>
                 </b>
               </div>
+              </span>
             {/if}
           </td>
         </tr>

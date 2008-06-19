@@ -17,8 +17,10 @@
               {assign var=filter_details value=$options.$filter_param}
             {/if}
             {if $filter_param != 'sort_order' && $filter_param != 'sort_by' && $filter_param != 'rows' && $filter_param != 'search_type' &&
-                $filter_details != '' && $filter_details != '0' && ($filter_details.Year != '' OR $filter_details.time_period != ''
-                OR ($filter.is_custom == 1 && ($filter.fld_type != 'date' OR $filter.Year != '')))}
+                (($filter_details != '' && $filter_details != '0') OR $filter_details|is_array) &&
+                (!isset($filter_details.Year) OR $filter_details.Year != '' OR $filter_details.time_period != '' OR
+                    ($filter.is_custom == 1 && ($filter.fld_type != 'date' OR $filter.Year != '')))
+            }
               {if $displayed_count != 0}, {/if}
               <b>{if $filter_param == 'keywords' && $options.use_fulltext == 1}{t}Fulltext{/t}&nbsp;{/if}{$filter.title}</b>:&nbsp;
               {if $filter.is_date == true}
@@ -38,7 +40,13 @@
               {elseif $filter_param == 'status'}
                 {$status[$filter_details]}
               {elseif $filter_param == 'category'}
+                {if $filter_details|is_array}
+                {foreach name=category from=$filter_details item=category}
+                  {$categories[$category]}{if !$smarty.foreach.category.last}, {/if}
+                {/foreach}
+                {else}
                 {$categories[$filter_details]}
+                {/if}
               {elseif $filter_param == 'priority'}
                 {$priorities[$filter_details]}
               {elseif $filter_param == 'users'}

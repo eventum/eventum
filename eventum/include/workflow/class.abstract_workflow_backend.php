@@ -49,6 +49,25 @@ class Abstract_Workflow_Backend
 
 
     /**
+     * Called before an issue is updated.
+     *
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue
+     * @param   integer $usr_id The ID of the user changing the issue.
+     * @param   array   $changes
+     * @return  mixed. True to continue, anything else to cancel the change and return the value
+     */
+    function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return true;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes);
+    }
+
+
+    /**
      * Called when an issue is assigned.
      *
      * @param   integer $prj_id The projectID
@@ -363,5 +382,34 @@ class Abstract_Workflow_Backend
      */
     function modifyMailQueue($prj_id, &$recipient, &$headers, &$body, $issue_id, $type, $sender_usr_id, $type_id)
     {
+    }
+
+
+    /**
+     * Called before the status changes. Parameters are passed by reference so the values can be changed.
+     *
+     * @param   integer $prj_id
+     * @param   integer $issue_id
+     * @param   integer $status_id
+     * @param   boolean $notify
+     * @return  boolean true to continue normal processing, anything else to cancel and return value.
+     */
+    function preStatusChange($prj_id, &$issue_id, &$status_id, &$notify)
+    {
+        return null;
+    }
+
+
+    /**
+     * Called at the start of many pages. After the includes and maybe some other code this
+     * method is called to do whatever you want. Eventually this will be called on many pages.
+     *
+     * @param   integer $prj_id The project ID
+     * @param   string $page_name The name of the page
+     * @return  null
+     */
+    function prePage($prj_id, $page_name)
+    {
+        return null;
     }
 }

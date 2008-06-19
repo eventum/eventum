@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: list.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: list.php 3632 2008-06-19 05:30:31Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -69,6 +69,7 @@ if (@$_REQUEST['view'] == 'my_assignments') {
 
 $options = Issue::saveSearchParams();
 $tpl->assign("options", $options);
+//echo "<pre>";print_r($options);echo "</pre>";
 $tpl->assign("sorting", Issue::getSortingInfo($options));
 
 // generate options for assign list. If there are groups and user is above a customer, include groups

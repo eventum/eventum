@@ -47,7 +47,7 @@ var custom_fields_info = new Array();
     {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]"}
     {else}
     <select id="custom_field_{$custom_fields[i].fld_id}" {if $custom_fields[i].fld_type == 'multiple'}multiple size="3"{/if} class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" tabindex="{$tabindex++}">
-      {if $custom_fields[i].fld_type != 'multiple'}<option value="-1">{t}Please choose an option{/t}</option>{/if}
+      {if $custom_fields[i].fld_type != 'multiple'}<option value="">{t}Please choose an option{/t}</option>{/if}
       {html_options options=$custom_fields[i].field_options selected=$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].selected_cfo_id}
     </select>
     {/if}
