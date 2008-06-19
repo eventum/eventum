@@ -40,6 +40,9 @@ require_once(APP_INC_PATH . "class.setup.php");
 
 class Misc
 {
+
+    static private $messages = array();
+
     /**
      * Method used to simulate the correct behavior of array_diff().
      *
@@ -728,6 +731,18 @@ class Misc
     function htmlentities($var)
     {
         return htmlentities($var, ENT_QUOTES, APP_CHARSET);
+    }
+
+
+    function setMessage($msg, $is_error = false)
+    {
+        self::$messages[] = $msg;
+    }
+
+
+    function getMessages()
+    {
+        return self::$messages;
     }
 }
 
