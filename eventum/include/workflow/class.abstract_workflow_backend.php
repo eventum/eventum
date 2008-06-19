@@ -59,6 +59,7 @@ class Abstract_Workflow_Backend
      */
     function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
     {
+        return true;
     }
 
 
