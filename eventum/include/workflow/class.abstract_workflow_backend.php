@@ -59,11 +59,6 @@ class Abstract_Workflow_Backend
      */
     function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
     {
-        if (!Workflow::hasWorkflowIntegration($prj_id)) {
-            return true;
-        }
-        $backend =& Workflow::_getBackend($prj_id);
-        return $backend->preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes);
     }
 
 
