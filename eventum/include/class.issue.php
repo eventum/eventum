@@ -2892,7 +2892,10 @@ class Issue
             $stmt .= " AND iss_sta_id=" . Misc::escapeInteger($options["status"]);
         }
         if (!empty($options["category"])) {
-            $stmt .= " AND iss_prc_id=" . Misc::escapeInteger($options["category"]);
+            if (!is_array($options['category'])) {
+                $options['category'] = array($options['category']);
+            }
+            $stmt .= " AND iss_prc_id IN(" . join(', ', Misc::escapeInteger($options["category"])) . ")";
         }
         if (!empty($options["hide_closed"])) {
             $stmt .= " AND sta_is_closed=0";
