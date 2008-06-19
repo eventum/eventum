@@ -396,7 +396,7 @@ class Abstract_Workflow_Backend
      */
     function preStatusChange($prj_id, &$issue_id, &$status_id, &$notify)
     {
-        return null;
+        return true;
     }
 
 
