@@ -1,4 +1,15 @@
 <?php
+/**
+ * LGPL Disclaimer
+ *
+ * For the avoidance of doubt, except that if any license choice other
+ * than GPL or LGPL is available it will apply instead, Sun elects to
+ * use only the Lesser General Public License version 2.1 (LGPLv2) at
+ * this time for any software where a choice of LGPL license versions
+ * is made available with the language indicating that LGPLv2.1 or any
+ * later version may be used, or where a choice of which version of the
+ * LGPL is applied is otherwise unspecified.
+ */
 
 /**
  * Project:     Smarty: the PHP compiling template engine
@@ -1060,7 +1071,7 @@ class Smarty
         } else {
             // var non-existant, return valid reference
             $_tmp = null;
-            return $_tmp;   
+            return $_tmp;
         }
     }
 
@@ -1119,7 +1130,7 @@ class Smarty
     function fetch($resource_name, $cache_id = null, $compile_id = null, $display = false)
     {
         static $_cache_info = array();
-        
+
         $_smarty_old_error_level = $this->debugging ? error_reporting() : error_reporting(isset($this->error_reporting)
                ? $this->error_reporting : error_reporting() & ~E_NOTICE);
 
