@@ -57,7 +57,7 @@ function sendEmail(account_id, issue_id)
           </td>
           <td align="right" class="default">
             [ <a class="link" href="#top">{t}Back to Top{/t}</a> ]
-            {if $current_role >= $roles.standard_user}
+            {if $current_role > $roles.standard_user}
             [ <a href="mail_queue.php?iss_id={$smarty.get.id}" class="link" title="{t}view the history of sent emails{/t}">{t}Mail Queue Log{/t}</a> ]
             {/if}
             {if $browser.ie5up or $browser.ns6up or $browser.gecko or $browser.safari or $browser.opera5up or $browser.safari or $browser.opera5up}

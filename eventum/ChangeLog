@@ -28,6 +28,7 @@ Eventum Issue Tracking System
 - Display in issue updated notifications name who made the change (Elan Ruusamäe)
 - Added mechinism for workflow to set custom messages to be displayed in the UI (Bryan)
 - Added new workflow methods preStatusChange, prePage (Bryan)
+- Removed "View Mail Queue" link for Standard Users (Bryan, #37324)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
