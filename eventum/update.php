@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: update.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: update.php 3640 2008-07-07 05:06:58Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -58,6 +58,8 @@ if (empty($issue_id)) {
     $tpl->displayTemplate();
     exit;
 }
+
+Workflow::prePage($prj_id, 'update');
 
 // check if the requested issue is a part of the 'current' project. If it doesn't
 // check if issue exists in another project and if it does, switch projects

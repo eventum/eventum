@@ -406,6 +406,11 @@ function closeIssue(issue_id)
         {else}
         <input type="hidden" name="trigger_reminders" value="{$issue.iss_trigger_reminders}">
         {/if}
+
+        {if $has_customer_integration}
+          {include file="customer/$customer_backend_name/update_report_form_fields.tpl.html"}
+        {/if}
+
         <tr bgcolor="{$cell_color}">
           <td colspan="4">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
