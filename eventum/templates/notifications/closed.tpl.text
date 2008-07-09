@@ -6,6 +6,7 @@
 {$data.reason}
 {/if}
 
+
 {t escape=no}To view more details of this issue, or to update it, please visit the following URL{/t}:
 {$app_base_url}view.php?id={$data.iss_id}
 {/textformat}
