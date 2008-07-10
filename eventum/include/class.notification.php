@@ -1265,7 +1265,7 @@ class Notification
                 $setup = $mail->getSMTPSettings();
                 $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
                 $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
-                $mail->send($from, $recipient, 'New Issue Created', 1, $issue_id, 'email_converted_to_issue');
+                $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 1, $issue_id, 'email_converted_to_issue');
             }
             Language::restore();
             return $recipient_emails;
