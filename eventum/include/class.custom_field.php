@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.custom_field.php 3645 2008-07-10 08:16:42Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -1678,7 +1678,7 @@ class Custom_Field
         if ((is_object($backend)) && (method_exists($backend, 'formatValue'))) {
             return $backend->formatValue($value, $fld_id, $issue_id);
         } else {
-            return Link_Filter::processText(Auth::getCurrentProject(), htmlspecialchars($value));
+            return Link_Filter::processText(Auth::getCurrentProject(), Misc::htmlentities($value));
         }
     }
 
