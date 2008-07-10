@@ -750,6 +750,7 @@ class Notification
      */
     function notify($issue_id, $type, $ids = FALSE, $internal_only = FALSE, $extra_recipients = FALSE)
     {
+        $prj_id = Issue::getProjectID($issue_id);
         if ($extra_recipients) {
             $extra = array();
             for ($i = 0; $i < count($extra_recipients); $i++) {
@@ -789,21 +790,23 @@ class Notification
         }
         // prevent the primary customer contact from receiving two emails about the issue being closed
         if ($type == 'closed') {
-            $stmt = "SELECT
-                        iss_customer_contact_id
-                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                     WHERE
-                        iss_id=" . Misc::escapeInteger($issue_id);
-            $customer_contact_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
-            if (!empty($customer_contact_id)) {
-                list($contact_email,,) = Customer::getContactLoginDetails(Issue::getProjectID($issue_id), $customer_contact_id);
-                for ($i = 0; $i < count($emails); $i++) {
-                    $email = Mail_API::getEmailAddress($emails[$i]);
-                    if ($email == $contact_email) {
-                        unset($emails[$i]);
-                        $emails = array_values($emails);
-                        break;
+            if (Customer::hasCustomerIntegration($prj_id)) {
+                $stmt = "SELECT
+                            iss_customer_contact_id
+                         FROM
+                            " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                         WHERE
+                            iss_id=" . Misc::escapeInteger($issue_id);
+                $customer_contact_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                if (!empty($customer_contact_id)) {
+                    list($contact_email,,) = Customer::getContactLoginDetails($prj_id, $customer_contact_id);
+                    for ($i = 0; $i < count($emails); $i++) {
+                        $email = Mail_API::getEmailAddress($emails[$i]);
+                        if ($email == $contact_email) {
+                            unset($emails[$i]);
+                            $emails = array_values($emails);
+                            break;
+                        }
                     }
                 }
             }
@@ -1234,7 +1237,9 @@ class Notification
                 $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
                 $tpl->bulkAssign(array(
                     "data"        => $data,
-                    "sender_name" => Mail_API::getName($recipient)
+                    "sender_name" => Mail_API::getName($recipient),
+                    "app_title"   => Misc::getToolCaption(),
+                    'recipient_name'    => Mail_API::getName($recipient),
                 ));
                 $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($sup_id), $sup_id);
                 $tpl->assign(array(
@@ -1264,47 +1269,6 @@ class Notification
             }
             Language::restore();
             return $recipient_emails;
-        }
-    }
-
-
-    /**
-     * Method used to send an IRC notification about changes in the assignment
-     * list of an issue.
-     *
-     * @access  public
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The person who is performing this change
-     * @param   array $old The old issue assignment list
-     * @param   array $new The new issue assignment list
-     * @param   boolean $is_remote Whether this change was made remotely or not
-     */
-    function notifyIRCAssignmentChange($issue_id, $usr_id, $old, $new, $is_remote = FALSE)
-    {
-        // do not notify about clearing the assignment of an issue
-        if (count($new) == 0) {
-            return false;
-        }
-        // only notify on irc if the assignment is being done to more than one person,
-        // or in the case of a one-person-assignment-change, if the person doing it
-        // is different than the actual assignee
-        if ((count($new) == 1) && ($new[0] == $usr_id)) {
-            return false;
-        }
-        $assign_diff = Misc::arrayDiff($old, $new);
-        if ((count($new) != count($old)) || (count($assign_diff) > 0)) {
-            $notice = "Issue #$issue_id ";
-            if ($is_remote) {
-                $notice .= "remotely ";
-            }
-            if (count($old) == 0) {
-                $old_assignees = '[empty]';
-            } else {
-                $old_assignees = implode(', ', User::getFullName($old));
-            }
-            $notice .= "updated (Old Assignment: " . $old_assignees .
-                    "; New Assignment: " . implode(', ', User::getFullName($new)) . ")";
-            Notification::notifyIRC(Issue::getProjectID($issue_id), $notice, $issue_id);
         }
     }
 
