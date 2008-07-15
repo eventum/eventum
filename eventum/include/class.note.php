@@ -467,7 +467,7 @@ class Note
                  WHERE
                     not_id=$note_id";
         $details = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
-        if (($details['not_usr_id'] != Auth::getUserID()) && ($details['has_blocked_message'] != 1)) {
+        if (($details['not_usr_id'] != Auth::getUserID()) && ($details['has_blocked_message'] != 1) && (Auth::getCurrentRole() < User::getRoleID("Manager"))) {
             return -2;
         }
 

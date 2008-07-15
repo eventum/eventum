@@ -81,7 +81,7 @@ function replyNote(note_id, issue_id)
                 <td class="default">{$notes[i].not_created_date}</td>
                 <td class="default">
                   {$notes[i].usr_full_name|escape:"html"}
-                  {if $current_user_id == $notes[i].not_usr_id}[ <a class="link" href="javascript:void(null);" onClick="javascript:deleteNote({$notes[i].not_id});">{t}delete{/t}</a> ]{/if}
+                  {if $current_user_id == $notes[i].not_usr_id OR $current_role >= $roles.manager}[ <a class="link" href="javascript:void(null);" onClick="javascript:deleteNote({$notes[i].not_id});">{t}delete{/t}</a> ]{/if}
                 </td>
                 <td class="default">
                   <a title="view note details" href="javascript:void(null);" onClick="javascript:viewNote({$notes[i].not_id});" class="link">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
