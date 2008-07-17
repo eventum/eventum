@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3645 2008-07-10 08:16:42Z balsdorf $
+// @(#) $Id: class.custom_field.php 3648 2008-07-17 08:04:57Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -617,7 +617,7 @@ class Custom_Field
                         $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
 
                         // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
-                        if (!isset($res[$i]['field_options'][$res[$i]['original_value']])) {
+                        if ((!empty($res[$i]['original_value'])) && (!isset($res[$i]['field_options'][$res[$i]['original_value']]))) {
                             $res[$i]['field_options'][$res[$i]['original_value']] = Custom_Field::getOptionValue($res[$i]['fld_id'], $res[$i]['original_value']);
                         }
 
