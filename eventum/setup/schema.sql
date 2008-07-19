@@ -554,7 +554,7 @@ CREATE TABLE %TABLE_PREFIX%issue_custom_field (
   PRIMARY KEY  (icf_id),
   KEY icf_iss_id (icf_iss_id),
   KEY icf_fld_id (icf_fld_id),
-  FULLTEXT KEY `ft_icf_value` (`icf_value`),
+  FULLTEXT KEY `ft_icf_value` (`icf_value`)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%project_custom_field;
