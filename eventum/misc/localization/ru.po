@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-19 21:05+0300\n"
+"POT-Creation-Date: 2008-07-19 21:27+0300\n"
 "PO-Revision-Date: 2007-11-10 02:59+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -1759,18 +1759,15 @@ msgid "Link Filters"
 msgstr "Фильтры ссылок"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Link filters are used to replace text such as 'Bug #42' with an automatic\n"
+"Link filters are used to replace text such as '%1' with an automatic\n"
 "link to some external resource. It uses regular expressions to replace the "
 "text.\n"
 "Specify the search pattern in the pattern field without delimiters. Specify "
 "the entire\n"
 "string you would like to use as a replacement with $x to insert the matched "
-"text. For example:\n"
-"<br /><br />\n"
-"Pattern: \"bug #(d+)\"<br />\n"
-"Replacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug #$1&lt;/"
-"a&gt;\""
+"text."
 msgstr ""
 "Фильтры ссылки используются для замены текста, такого как 'Bug #42'\n"
 "автоматической ссылкой на внешний ресурс. Для замены текста используются\n"
@@ -1783,6 +1780,16 @@ msgstr ""
 "Шаблон:  \"bug #(d+)\"<br />\n"
 "Подстановка:  \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug #$1&lt;/"
 "a&gt;\""
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Pattern: \"%1\""
+msgstr "Шаблон"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Replacement: \"%1\""
+msgstr "Подстановка"
 
 #: misc/localization/eventum.c include/class.help.php:83
 msgid "Listing / Searching for Issues"

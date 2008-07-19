@@ -1478,7 +1478,13 @@ gettext("Available Related Topics:");
 gettext("Link Filters");
 
 /* templates/help/link_filters.tpl.html */
-gettext("Link filters are used to replace text such as 'Bug #42' with an automatic\nlink to some external resource. It uses regular expressions to replace the text.\nSpecify the search pattern in the pattern field without delimiters. Specify the entire\nstring you would like to use as a replacement with $x to insert the matched text. For example:\n<br /><br />\nPattern: \"bug #(d+)\"<br />\nReplacement: \"&lt;a href=http://example.com/bug.php?id=$1&gt;Bug #$1&lt;/a&gt;\"");
+gettext("Link filters are used to replace text such as '%1' with an automatic\nlink to some external resource. It uses regular expressions to replace the text.\nSpecify the search pattern in the pattern field without delimiters. Specify the entire\nstring you would like to use as a replacement with $x to insert the matched text.");
+
+/* templates/help/link_filters.tpl.html */
+gettext("Pattern: \"%1\"");
+
+/* templates/help/link_filters.tpl.html */
+gettext("Replacement: \"%1\"");
 
 /* templates/help/list.tpl.html */
 gettext("Listing / Searching for Issues");
