@@ -81,7 +81,6 @@ if ($target == $version) {
 }
 
 echo "Upgrading database to version $target\n";
-$changes = array();
 for ($i = $version + 1; $i <= $target; $i++) {
 	if (empty($versions[$i])) {
 		echo "ERROR: patch $i is not recorded in upgrade script.\n";
@@ -100,18 +99,8 @@ for ($i = $version + 1; $i <= $target; $i++) {
 		exit(1);
 	}
 	$patchset = $func();
-	echo "Adding ", count($patchset), " queries\n";
-	$changes[$i] = $patchset;
-}
-
-if (count($changes) == 0) {
-	echo "No database changes\n";
-	exit(0);
-}
-
-for ($i = $version + 1; $i <= $target; $i++) {
-	echo "Applying patch ", $i, "\n";
-	apply_db_changes($changes[$i]);
+	echo "Applying patch ", $i, ": ", count($patchset), " queries\n";
+	apply_db_changes($patchset);
 	db_query("UPDATE %TABLE_PREFIX%version SET ver_version=$i");
 }
 
