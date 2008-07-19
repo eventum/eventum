@@ -403,7 +403,7 @@ msgstr "Geen opgeslagen zoekopdrachten gevonden"
 
 #: misc/localization/eventum.c
 msgid "Page generated in %1 seconds"
-msgstr "Pagina gegenereerd in%1 seconden"
+msgstr "Pagina gegenereerd in %1 seconden"
 
 #: misc/localization/eventum.c
 msgid "queries"
@@ -1662,6 +1662,7 @@ msgid "Email Blocking"
 msgstr "Berichten blokkeren"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "To prevent inappropriate emails reaching the notification list, only users "
 "that are assigned\n"
@@ -1670,6 +1671,14 @@ msgid ""
 "stored for later use. This note can be converted into an email at a later "
 "date."
 msgstr ""
+"Om te voorkomen dat ongepaste e-mail bereiken van de kennisgeving lijst, "
+"alleen gebruikers die zijn toegewezen\n"
+" aan de kwestie zijn toegestaan om een e-mail via Eventum. Als een VN-"
+"geautoriseerde\n"
+" gebruiker stuurt een e-mail naar <i>issue-XXXX@example.com</i> is omgezet "
+"in een notitie en \n"
+"opgeslagen voor later gebruik. Deze nota kan worden omgezet in een e-mail op "
+"een later tijdstip."
 
 #: misc/localization/eventum.c include/class.help.php:115
 msgid "Edit Fields to Display"
@@ -1684,6 +1693,12 @@ msgid ""
 "(and higher ranking roles) are able to set the category or \n"
 "release fields when reporting a new issue."
 msgstr ""
+"Op deze pagina kunt u dynamisch te bepalen welke velden worden weergegeven \n"
+"aan de gebruikers van een bepaalde minimale rol.\n"
+"U kunt bijvoorbeeld gebruik maken van deze pagina, zodat alleen de "
+"gebruikers van de rol \"<i>standaard gebruiker</i>\"\n"
+" (en een hogere ranking rollen) in staat zijn om de categorie of\n"
+" release velden bij het rapporteren van een nieuwe uitgifte."
 
 #: misc/localization/eventum.c
 msgid "Available Related Topics:"
@@ -1691,9 +1706,10 @@ msgstr "Gerelateerde onderwerpen:"
 
 #: misc/localization/eventum.c include/class.help.php:111
 msgid "Link Filters"
-msgstr ""
+msgstr "Link Filters"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "Link filters are used to replace text such as '%1' with an automatic\n"
 "link to some external resource. It uses regular expressions to replace the "
@@ -1703,18 +1719,28 @@ msgid ""
 "string you would like to use as a replacement with $x to insert the matched "
 "text."
 msgstr ""
+"Link filters worden gebruikt ter vervanging van tekst, zoals '%1' met een "
+"automatische\n"
+" link naar een externe bron. Het maakt gebruik van reguliere expressies in "
+"de plaats van de tekst.\n"
+" Geef het zoekpatroon in het patroon gebied zonder scheidingstekens. Geef de "
+"hele\n"
+" string die u wilt gebruiken als een vervanging met $x voor het invoegen van "
+"de gevonden tekst."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid "Pattern: \"%1\""
-msgstr ""
+msgstr "Patroon: \"%1\""
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid "Replacement: \"%1\""
-msgstr ""
+msgstr "Vervanging: \"%1\""
 
 #: misc/localization/eventum.c include/class.help.php:83
 msgid "Listing / Searching for Issues"
-msgstr ""
+msgstr "Deze aanbieding / Zoeken naar onderwerpen"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -1723,6 +1749,12 @@ msgid ""
 "in this grid form, and users with the appropriate permissions may also\n"
 "assign selected issues to another user."
 msgstr ""
+"De Kwestie aanbieding pagina maakt gebruik van een raster lay-out voor de "
+"vereenvoudiging van de handleiding\n"
+" zoeken voor problemen in een project. U kunt sorteren voor (bijna) elke "
+"kolom\n"
+" In dit rooster vorm, en gebruikers met de juiste machtigingen kunnen ook\n"
+" toewijzen geselecteerde onderwerpen aan een andere gebruiker."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -1730,6 +1762,10 @@ msgid ""
 "the issues they want quickly. More advanced searches may be created\n"
 "using the Advanced Search tool."
 msgstr ""
+"Het snel zoeken in de bovenkant van het scherm helpt de gebruikers vinden \n"
+" de problemen die zij willen snel. Meer geavanceerde zoekopdrachten kan "
+"worden gemaakt\n"
+" Uitgebreid zoeken met behulp van de tool."
 
 #: misc/localization/eventum.c
 msgid "Available Help Topics"
@@ -1740,6 +1776,8 @@ msgid ""
 "Please refer to the following help sections for more information on \n"
 "specific parts of the application:"
 msgstr ""
+"Raadpleeg het volgende helpen gedeelten voor meer informatie over\n"
+" specifieke delen van de aanvraag:"
 
 #: misc/localization/eventum.c
 msgid "Reporting New Issues"
@@ -2013,6 +2051,15 @@ msgid ""
 "a project. If you do not have the needed permissions to do so, please\n"
 "contact your local Eventum administrator."
 msgstr ""
+"Dit veld wordt gebruikt voor het categoriseren problemen door een "
+"gemeenschappelijke noemer, bijvoorbeeld\n"
+" 'functieverzoeken', 'Bug' of 'Support enquêtecommissie'.\n"
+" <br /> <br />\n"
+"Opmerking: De waarden op dit gebied kan worden gewijzigd door zich in de "
+"administratie\n"
+" gedeelte van deze toepassing en het bewerken van de juiste kenmerken van\n"
+" een project. Als u niet over de benodigde rechten om dit te doen, kunt u\n"
+" Neem contact op met uw lokale Eventum beheerder."
 
 #: misc/localization/eventum.c include/class.help.php:63
 msgid "Description Field"
@@ -2025,6 +2072,10 @@ msgid ""
 "happened, steps to reproduce the problem/issue and what you expected \n"
 "to happen instead."
 msgstr ""
+"De beschrijving gebied moet worden gebruikt voor het nieuwe nummer. Goed\n"
+" praktijken dicteren dat dit veld moet een beschrijving van wat\n"
+" er gebeurd is, stappen om het probleem / thema en wat je verwacht\n"
+" te gebeuren."
 
 #: misc/localization/eventum.c include/class.help.php:67
 msgid "Estimated Development Time Field"
@@ -2038,6 +2089,14 @@ msgid ""
 "take from discovery, going through implementation and testing up until\n"
 "release time."
 msgstr ""
+"Dit veld wordt gebruikt door de verslaggevers van nieuwe emissies in te "
+"schatten de\n"
+" de totale ontwikkeling tijd voor de kwestie. Het is vooral belangrijk als "
+"een\n"
+" statistieken hulpmiddel om een eenvoudige schatting van hoeveel tijd elke "
+"kwestie zal\n"
+" nemen van ontdekking door via de implementatie en het testen tot\n"
+" vrijgave."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2048,10 +2107,17 @@ msgid ""
 "development time entered by the developers, and this way get more \n"
 "experience estimating the required time for new projects."
 msgstr ""
+"Dit veld kan ook gebruikt worden als een manier om na te gaan of de "
+"schatting vermogen\n"
+" van project managers tegen de analyse van de gevolgen van de\n"
+" ontwikkelaars zelf. Dat is de waarde die door een projectmanager\n"
+" hier kan worden vergeleken met de analyse van de gevolgen / geschatte\n"
+" ontwikkeling tijd door de ontwikkelaars, en op deze manier meer\n"
+" ervaring ramen van de benodigde tijd voor nieuwe projecten."
 
 #: misc/localization/eventum.c include/class.help.php:47
 msgid "Priority Field"
-msgstr ""
+msgstr "Prioriteit Veld"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2060,6 +2126,12 @@ msgid ""
 "priority should be for new issues, choose 'not prioritized' as the \n"
 "option and leave the issue to be prioritized by a project manager."
 msgstr ""
+"Dit veld wordt gebruikt om te bepalen onderwerpen, zoals te doen project "
+"management\n"
+" wat makkelijker. Als u niet zeker weet of niet weet wat de juiste\n"
+" prioriteit moet worden voor nieuwe thema's, kiest u 'niet prioritair' als "
+"de\n"
+" optie en laat het probleem dat aan de voorrang van een project manager."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2069,10 +2141,15 @@ msgid ""
 "a project. If you do not have the needed permissions to do so, please\n"
 "contact your local Eventum administrator."
 msgstr ""
+"Opmerking: De waarden op dit gebied kan worden gewijzigd door zich in de "
+"administratie\n"
+" gedeelte van deze toepassing en het bewerken van de juiste kenmerken van\n"
+" een project. Als u niet over de benodigde rechten om dit te doen, kunt u\n"
+" Neem contact op met uw lokale Eventum beheerder."
 
 #: misc/localization/eventum.c include/class.help.php:55
 msgid "Scheduled Release Field"
-msgstr ""
+msgstr "Geplande release veld"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2081,10 +2158,15 @@ msgid ""
 "what the deadline should be for this new issue, leave the field as\n"
 "'un-scheduled', and a project manager will set it appropriately."
 msgstr ""
+"Dit veld wordt gebruikt om te bepalen wat de termijn moet worden voor het "
+"toen\n"
+" dit nieuwe vraagstuk moet worden ingevuld en opgelost. Als je niet weet\n"
+" wat de termijn moet worden voor dit nieuwe probleem, laat het veld als\n"
+" 'un-geregistreerde', en een projectmanager zal op gepaste wijze."
 
 #: misc/localization/eventum.c include/class.help.php:59
 msgid "Summary Field"
-msgstr ""
+msgstr "Samenvatting Veld"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2093,12 +2175,21 @@ msgid ""
 "be used by other users to remember quickly what the issue was all\n"
 "about."
 msgstr ""
+"Dit veld wordt gebruikt als een eenvoudige en beschrijvende titel voor deze "
+"nieuwe\n"
+" kwestie. Als een suggestie, moet het beschrijvend en kort genoeg om\n"
+" worden gebruikt door andere gebruikers te onthouden snel wat het probleem "
+"was alle\n"
+" over."
 
 #: misc/localization/eventum.c
 msgid ""
 "This feature allows your software development teams to integrate your\n"
 "Source Control Management system with your Issue Tracking System."
 msgstr ""
+"Met deze functie kunt u de ontwikkeling van software teams voor de "
+"integratie van uw\n"
+" Bron Control Management-systeem met uw Issue Tracking System."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2107,6 +2198,11 @@ msgid ""
 "the required information for the checkout page and diff page input\n"
 "fields, use the following placeholders:"
 msgstr ""
+"De integratie wordt uitgevoerd op een zodanige wijze dat ze zullen doen "
+"toekomen\n"
+" verenigbaar is met vrijwel elke SCM-systeem, zoals CVS. Bij het invoeren\n"
+" de vereiste informatie voor de kassa pagina en diff pagina input\n"
+" velden, gebruikt u de volgende plaatshouders:"
 
 #: misc/localization/eventum.c
 msgid "The CVS module name"
@@ -2114,15 +2210,15 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid "The filename that was committed"
-msgstr ""
+msgstr "De bestandsnaam die is gepleegd"
 
 #: misc/localization/eventum.c
 msgid "The old revision of the file"
-msgstr ""
+msgstr "De oude herziening van het dossier"
 
 #: misc/localization/eventum.c
 msgid "The new revision of the file"
-msgstr ""
+msgstr "De nieuwe herziening van het dossier"
 
 #: misc/localization/eventum.c
 msgid "As an example, using the"
@@ -2133,29 +2229,44 @@ msgid "Chora CVS viewer"
 msgstr ""
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "[highly recommended] from the Horde project you\n"
 "would usually have the following URL as the diff page:"
 msgstr ""
+"Als voorbeeld, met behulp van de <a href=\"http://www.horde.org/chora/\" "
+"class=\"link\" target=\"_chora\"> Chora CVS kijker </a> [sterk aanbevolen] "
+"van de Horde project jij\n"
+" zou hebben meestal de volgende URL als de diff pagina:"
 
 #: misc/localization/eventum.c
 msgid ""
 "With that information in mind, the appropriate value to be entered in\n"
 "the 'Checkout page' input field is:"
 msgstr ""
+"Met die informatie in het achterhoofd, de juiste waarde te worden opgenomen "
+"in\n"
+" de 'Kassa pagina' input veld is:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "The %1 script, which is available in the %2\n"
 "sub-directory in your Eventum installation directory, will need to be\n"
 "installed in your CVSROOT CVS module by following the procedure below:"
 msgstr ""
+"De process_commits.pl script, die beschikbaar is in de misc\n"
+" sub-directory in uw Eventum installatie map, zal moeten worden\n"
+" geïnstalleerd in uw CVSROOT CVS module door onderstaande procedure:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "The first thing to do is to checkout the %1 module from your CVS\n"
 "repository:"
 msgstr ""
+"Het eerste wat je moet doen is de kassa van de CVSROOT module van uw CVS\n"
+"archief:"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2163,13 +2274,21 @@ msgid ""
 "you will need to work with. Next, open the <b>loginfo</b> file and\n"
 "add the following line:"
 msgstr ""
+"Het commando hierboven zal de kassa en maak de map die CVSROOT\n"
+" je zal moeten werken. Vervolgens opent u het <b> loginfo </b>-bestand en\n"
+" Voeg de volgende regel:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "Replace %1 by the appropriate absolute path in your\n"
 "CVS server, such as /home/username/repository for instance. Also make\n"
 "sure to put the appropriate path to your PHP binary."
 msgstr ""
+"Vervang% repository pad% van het passende absoluut pad in uw\n"
+" CVS-server, zoals / home / gebruikersnaam / repository bijvoorbeeld. Ook "
+"maken\n"
+" ervoor om het juiste pad naar uw Perl binary."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2177,14 +2296,22 @@ msgid ""
 "module by substituting the 'ALL' in the line above to the appropriate\n"
 "CVS module name, as in:"
 msgstr ""
+"U kunt ook weer de parsing van commit berichten voor slechts een enkele CVS\n"
+" module door de vervanging van de 'Alles' in de lijn boven aan de juiste\n"
+" CVS module naam, zoals in:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "The last step of this installation process is to login into the CVS\n"
 "server and copy the %1 script into the %2\n"
 "directory. Make sure you give the appropriate permissions to the\n"
 "script."
 msgstr ""
+"De laatste stap van dit proces is de installatie aan te melden in de CVS\n"
+" server en kopieer de process_cvs_commits.php script in de CVSROOT\n"
+" directory. Zorg ervoor dat u de juiste machtigingen aan de\n"
+" script."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2194,6 +2321,11 @@ msgid ""
 "Eventum and the changes to the appropriate files will be associated\n"
 "with existing issue mentioned in your commit message."
 msgstr ""
+"Een integratie script zal moeten worden geïnstalleerd in uw CVS root\n"
+" repository om een bericht naar Eventum wanneer veranderingen zijn\n"
+" inzetten voor de repository. Dit bericht wordt vervolgens verwerkt door\n"
+" Eventum en de wijzigingen in de juiste bestanden worden gekoppeld\n"
+" met de bestaande probleem in uw bericht verbinden."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2202,18 +2334,26 @@ msgid ""
 "specify which issue this is related to. The following would be a\n"
 "good example of its use:"
 msgstr ""
+"Dus om examplify het gebruik ervan, wanneer de gebruikers bereid zijn om de\n"
+"wijzigingen in de CVS repository, zullen zij u een speciaal string aan\n"
+"specificeren welke kwestie dit is gerelateerd aan. De volgende zou een\n"
+"goed voorbeeld van het gebruik ervan:"
 
 #: misc/localization/eventum.c
 msgid ""
 "[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)"
 "\" form.php"
 msgstr ""
+"[prompt] $ cvs-q commit-m \"toevoegen vorm validatie zoals gevraagd (nummer: "
+"13)\" form.php"
 
 #: misc/localization/eventum.c
 msgid ""
 "You may also use 'bug' to specify the issue ID - whichever you are more\n"
 "comfortable with."
 msgstr ""
+"U kunt ook gebruik maken van 'bug' om de kwestie ID - indien u meer\n"
+"comfortabel."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2223,9 +2363,13 @@ msgid ""
 "will notify Eventum that these changes are to be associated with issue\n"
 "#13."
 msgstr ""
+"Dit commando zal worden verwerkt door het CVS integratie script (voor\n"
+" u en beschikbaar in% eventum_path% / misc / SCM / process_cvs_commits.php) "
+"en het\n"
+" Eventum zal melden dat deze veranderingen worden betrokken bij afgifte\n"
+" # 13."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Segregate Reporter"
 msgstr "Melders isoleren"
 
@@ -2234,6 +2378,8 @@ msgid ""
 "If this option is enabled, users with a role of Reporter will only be able "
 "to see issues they reported."
 msgstr ""
+"Als deze optie is ingeschakeld, gebruikers met een rol van Reporter zal "
+"alleen kunnen zien kwesties zij gemeld."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2241,6 +2387,9 @@ msgid ""
 "emails with existing issues, or create new issues and \n"
 "associate emails with them."
 msgstr ""
+"In dit scherm kunnen gebruikers met de juiste machtigingen te associëren\n"
+"e-mails met de bestaande zaken, of het scheppen van nieuwe kwesties en\n"
+"associëren e-mails met hen."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2248,6 +2397,10 @@ msgid ""
 "to configure email accounts to make the software download\n"
 "the email messages from the appropriate POP3/IMAP server."
 msgstr ""
+"Om dat te bewerkstelligen, maar de beheerder van het systeem moet\n"
+" voor het configureren van e-mailaccounts te maken van de software te "
+"downloaden\n"
+" de e-mail berichten van de juiste POP3/IMAP server."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2257,6 +2410,13 @@ msgid ""
 "mailbox. Eventum will then download the emails and provide \n"
 "them to the users of the system."
 msgstr ""
+"Een van de meest optimale gebruik van deze functie is het creëren van een "
+"aparte\n"
+" 'problemen' of 'support' POP3/IMAP account en vraag uw klanten of\n"
+" eindgebruikers te sturen ondersteuning vragen, problemen of suggesties in "
+"die\n"
+" mailbox. Eventum zal dan het downloaden van de e-mails en\n"
+" deze aan de gebruikers van het systeem."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2264,6 +2424,9 @@ msgid ""
 "input field in the top of your browser window. Just enter the issue \n"
 "number and it will take you to the appropriate screen."
 msgstr ""
+"De kwestie details scherm zijn snel met behulp van de 'Go'\n"
+" invoerveld in de top van uw browser. U hoeft alleen maar de kwestie\n"
+" aantal en het zal u meenemen naar de betreffende scherm."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2271,12 +2434,20 @@ msgid ""
 "Issue >>' links that are related to the previous and next issues for\n"
 "the current active filter, if appropriate."
 msgstr ""
+"De Kwestie pagina met informatie zal ook laten zien '<<Vorige Issue' en "
+"'Volgende\n"
+" Kwestie>> 'links die gerelateerd zijn aan de vorige en volgende onderwerpen "
+"voor\n"
+" de huidige actieve filter, indien van toepassing."
 
 #: misc/localization/eventum.c
 msgid ""
 "The full history of changes related to the current issue is available\n"
 "by clickin on the 'History of Changes' link."
 msgstr ""
+"De volledige geschiedenis van de veranderingen in verband met het huidige "
+"onderwerp is beschikbaar\n"
+" door te klikken op de 'Geschiedenis van de wijzigingen' link."
 
 #: misc/localization/eventum.c
 msgid "Attachments"
@@ -2523,12 +2694,18 @@ msgid ""
 "              creation request. Please contact your local system\n"
 "              administrator for further information."
 msgstr ""
+"Fout: Uw gebruikersnaam status is momenteel ingesteld als hangende. Dit\n"
+"               betekent dat je nog moet bevestigen van je account\n"
+"               oprichting verzoek. Neem contact op met uw lokale systeem\n"
+"               voor meer informatie."
 
 #: misc/localization/eventum.c
 msgid ""
 "Error: Cookies support seem to be disabled in your browser. Please enable "
 "this feature and try again."
 msgstr ""
+"Fout: Cookies steun lijken te worden uitgeschakeld in uw browser. Schakel "
+"deze functie in en probeer het opnieuw."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -2536,6 +2713,9 @@ msgid ""
 "your browser. Please login\n"
 "              again and accept all cookies coming from it."
 msgstr ""
+"Fout: Om voor de %1 te laten werken, moet u cookies in uw browser. Gelieve "
+"in te loggen\n"
+"               weer en accepteer alle cookies uit."
 
 #: misc/localization/eventum.c
 msgid "I Forgot My Password"
@@ -2621,7 +2801,7 @@ msgstr "Verwijderd"
 
 #: misc/localization/eventum.c
 msgid "Did you Know?"
-msgstr ""
+msgstr "Wist u dat?"
 
 #: misc/localization/eventum.c
 msgid "Graphical Stats"
@@ -2721,50 +2901,51 @@ msgid ""
 "Please choose whether the anonymous posting feature should be allowed or not "
 "for this project"
 msgstr ""
+"Gelieve te kiezen of de anonieme functie moet worden toegestaan of niet voor "
+"dit project"
 
 #: misc/localization/eventum.c
 msgid ""
 "Please choose whether to show custom fields for remote invocations or not."
 msgstr ""
+"Gelieve te kiezen of om aan te tonen aangepaste velden om op afstand "
+"aanroepingen of niet."
 
 #: misc/localization/eventum.c
 msgid "Please choose the reporter for remote invocations."
-msgstr ""
+msgstr "Kies de verslaggever voor afgelegen aanroepingen."
 
 #: misc/localization/eventum.c
 msgid "Please choose the default category for remote invocations."
-msgstr ""
+msgstr "Kies de standaard categorie voor afgelegen aanroepingen."
 
 #: misc/localization/eventum.c
 msgid "Please choose the default priority for remote invocations."
-msgstr ""
+msgstr "Kies de standaard prioriteit voor remote aanroepingen."
 
 #: misc/localization/eventum.c
 msgid ""
 "Please choose at least one person to assign the new issues created remotely."
 msgstr ""
+"Kies ten minste een persoon om de nieuwe problemen ontstaan op afstand."
 
 #: misc/localization/eventum.c
 msgid "Anonymous Reporting of New Issues"
-msgstr ""
+msgstr "Anoniem melding van nieuwe onderwerpen"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Current Project:"
 msgstr "Actief project"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the information was updated successfully."
 msgstr "Actie bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Anonymous Reporting:"
 msgstr "Annoniem meldingen invoeren"
 
@@ -2956,157 +3137,148 @@ msgstr "Selecteer een optie uit de lijst."
 
 #: misc/localization/eventum.c
 msgid "enter a new option above"
-msgstr ""
+msgstr "geef een nieuwe optie boven"
 
 #: misc/localization/eventum.c
 msgid "Manage Custom Fields"
-msgstr ""
+msgstr "Beheer aangepaste velden"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new custom field."
 msgstr "Er is een fout opgetreden bij het toevoegen van een actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the custom field was added successfully."
 msgstr "Actie toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the custom field information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the custom field was updated successfully."
 msgstr "Extra velden bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Short Description"
-msgstr ""
+msgstr "Korte beschrijving"
 
 #: misc/localization/eventum.c
 msgid "it will show up by the side of the field"
-msgstr ""
+msgstr "het zal laten zien van de kant van het veld"
 
 #: misc/localization/eventum.c
 msgid "Assigned Projects"
-msgstr ""
+msgstr "Toegewezen projecten"
 
 #: misc/localization/eventum.c
 msgid "Target Forms"
-msgstr ""
+msgstr "Target Formulieren"
 
 #: misc/localization/eventum.c
 msgid "Report Form"
-msgstr ""
+msgstr "Verslag Vorm"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Required Field"
 msgstr "Verplichte velden"
 
 #: misc/localization/eventum.c
 msgid "Anonymous Form"
-msgstr ""
+msgstr "Anoniem Vorm"
 
 #: misc/localization/eventum.c
 msgid "Close Form"
-msgstr ""
+msgstr "Sluit Vorm"
 
 #: misc/localization/eventum.c
 msgid "Display on List Issues Page"
-msgstr ""
+msgstr "Display op lijst kwesties pagina"
 
 #: misc/localization/eventum.c
 msgid "Field Type"
-msgstr ""
+msgstr "Veld Type"
 
 #: misc/localization/eventum.c
 msgid "Text Input"
-msgstr ""
+msgstr "Text Input"
 
 #: misc/localization/eventum.c
 msgid "Textarea"
-msgstr ""
+msgstr "Textarea"
 
 #: misc/localization/eventum.c
 msgid "Combo Box"
-msgstr ""
+msgstr "Combo Box"
 
 #: misc/localization/eventum.c
 msgid "Multiple Combo Box"
-msgstr ""
+msgstr "Meerdere combo box"
 
 #: misc/localization/eventum.c
 msgid "Integer"
-msgstr ""
+msgstr "Integer"
 
 #: misc/localization/eventum.c
 msgid "Field Options"
-msgstr ""
+msgstr "Veld Opties"
 
 #: misc/localization/eventum.c
 msgid "Set available options"
-msgstr ""
+msgstr "Stel beschikbare opties"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Update Value"
 msgstr "Waarden bijwerken"
 
 #: misc/localization/eventum.c
 msgid "OR"
-msgstr ""
+msgstr "OF"
 
 #: misc/localization/eventum.c
 msgid "Choose Custom Field Backend"
-msgstr ""
+msgstr "Kies een aangepast veld backend"
 
 #: misc/localization/eventum.c
 msgid "Please select a backend"
-msgstr ""
+msgstr "Selecteer een backend"
 
 #: misc/localization/eventum.c
 msgid "Edit Option"
-msgstr ""
+msgstr "Edit Option"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Remove"
 msgstr "Verwijderen?"
 
 #: misc/localization/eventum.c
 msgid "Rank"
-msgstr ""
+msgstr "Rank"
 
 #: misc/localization/eventum.c
 msgid "Update Custom Field"
-msgstr ""
+msgstr "Update aangepast veld"
 
 #: misc/localization/eventum.c
 msgid "Create Custom Field"
-msgstr ""
+msgstr "Aangepast veld"
 
 #: misc/localization/eventum.c
 msgid "Existing Custom Fields"
-msgstr ""
+msgstr "Bestaande aangepaste velden"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the custom fields."
 msgstr "Selecteer tenminste een van de categorieën."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "This action will permanently remove the selected custom fields."
 msgstr ""
 "Met deze actie worden de geselecteerde nieuwsitems permanent verwijderd."
 
 #: misc/localization/eventum.c
 msgid "Min. Role"
-msgstr ""
+msgstr "Min. Rol"
 
 #: misc/localization/eventum.c
 msgid "Options"
@@ -3114,314 +3286,291 @@ msgstr "Meldingen weergeven die zijn"
 
 #: misc/localization/eventum.c
 msgid "move field down"
-msgstr ""
+msgstr "verplaatsen gebied vaststelling"
 
 #: misc/localization/eventum.c
 msgid "move field up"
-msgstr ""
+msgstr "verplaatsen gebied up"
 
 #: misc/localization/eventum.c
 msgid "Please choose the customer for this new note."
-msgstr ""
+msgstr "Kies de klant voor deze nieuwe nota."
 
 #: misc/localization/eventum.c
 msgid "Manage Customer Quick Notes"
-msgstr ""
+msgstr "Beheer van de klant snel merkt"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new note."
 msgstr "Er is een fout opgetreden bij het toevoegen van een actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the note was added successfully."
 msgstr "Actie toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the note."
 msgstr "Er is een fout opgetreden bij het bewerken van de notificatie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the note was updated successfully."
 msgstr "Actie bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to delete the note."
 msgstr "Er is een fout opgetreden bij het toevoegen van een actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the note was deleted successfully."
 msgstr "De notitie is omgezet."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Project"
 msgstr "Project:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please choose a customer"
 msgstr "Selecteer een gebruiker"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Note"
 msgstr "Notities"
 
 #: misc/localization/eventum.c
 msgid "Update Note"
-msgstr ""
+msgstr "Update Opmerking"
 
 #: misc/localization/eventum.c
 msgid "Create Note"
-msgstr ""
+msgstr "Maak Opmerking"
 
 #: misc/localization/eventum.c
 msgid "Existing Customer Quick Notes"
-msgstr ""
+msgstr "Bestaande klant snel merkt"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the notes."
 msgstr "Selecteer tenminste een van de projecten."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "This action will permanently remove the selected entries."
 msgstr "De items zullen permanent worden verwijderd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "No notes could be found."
 msgstr "Niets gevonden."
 
 #: misc/localization/eventum.c
 msgid "Please choose the project that you wish to customize."
-msgstr ""
+msgstr "Kies het project dat u wilt aanpassen."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new customization."
 msgstr "Er is een fout opgetreden bij het toevoegen van een actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this new customization."
 msgstr "Geef de actie een naam."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the customization was added successfully."
 msgstr "Actie toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the customization information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this customization."
 msgstr "Geef de actie een naam."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the customization was updated successfully."
 msgstr "Actie bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Date Field:"
-msgstr ""
+msgstr "Datum Veld:"
 
 #: misc/localization/eventum.c
 msgid "Label:"
-msgstr ""
+msgstr "Label:"
 
 #: misc/localization/eventum.c
 msgid "Update Customization"
-msgstr ""
+msgstr "Update aanpassen"
 
 #: misc/localization/eventum.c
 msgid "Create Customization"
-msgstr ""
+msgstr "Maak aanpassen"
 
 #: misc/localization/eventum.c
 msgid "Existing Customizations:"
-msgstr ""
+msgstr "Bestaande aanpassingen:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the customizations."
 msgstr "Selecteer tenminste een afhandelmethode."
 
 #: misc/localization/eventum.c
 msgid "Label"
-msgstr ""
+msgstr "Label"
 
 #: misc/localization/eventum.c
 msgid "Date Field"
-msgstr ""
+msgstr "Datum Veld"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "No customizations could be found."
 msgstr "Geen opgeslagen zoekopdrachten gevonden"
 
 #: misc/localization/eventum.c
 msgid "Please choose the project to be associated with this email account."
-msgstr ""
+msgstr "Kies het project betrokken te worden bij deze e-mail account."
 
 #: misc/localization/eventum.c
 msgid ""
 "Please choose the type of email server to be associated with this email "
 "account."
 msgstr ""
+"Kies het type e-mail server kunnen worden betrokken bij deze e-mail account."
 
 #: misc/localization/eventum.c
 msgid "Please enter the hostname for this email account."
-msgstr ""
+msgstr "Geef de hostnaam voor deze e-mail account."
 
 #: misc/localization/eventum.c
 msgid "Please enter the port number for this email account."
-msgstr ""
+msgstr "Geef het nummer van de poort voor deze e-mail account."
 
 #: misc/localization/eventum.c
 msgid "Please enter a valid port number for this email account."
-msgstr ""
+msgstr "Geef een geldig poortnummer voor deze e-mail account."
 
 #: misc/localization/eventum.c
 msgid "Please enter the IMAP folder for this email account."
-msgstr ""
+msgstr "Geef de IMAP-map voor deze e-mail account."
 
 #: misc/localization/eventum.c
 msgid "Please enter the username for this email account."
-msgstr ""
+msgstr "Geef de gebruikersnaam voor deze e-mail account."
 
 #: misc/localization/eventum.c
 msgid "Please enter the password for this email account."
-msgstr ""
+msgstr "Geef het wachtwoord voor deze e-mail account."
 
 #: misc/localization/eventum.c
 msgid "Manage Email Accounts"
-msgstr ""
+msgstr "E-mail-accounts beheren"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new account."
 msgstr "Er is een fout opgetreden bij het toevoegen van een actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the email account was added successfully."
 msgstr "Actie toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the account information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the account was updated successfully."
 msgstr "Actie bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Associated Project:"
-msgstr ""
+msgstr "Associated Project:"
 
 #: misc/localization/eventum.c
 msgid "IMAP"
-msgstr ""
+msgstr "IMAP"
 
 #: misc/localization/eventum.c
 msgid "IMAP over SSL"
-msgstr ""
+msgstr "IMAP over SSL"
 
 #: misc/localization/eventum.c
 msgid "IMAP over SSL (self-signed)"
-msgstr ""
+msgstr "IMAP over SSL (zelf-ondertekend)"
 
 #: misc/localization/eventum.c
 msgid "IMAP, no TLS"
-msgstr ""
+msgstr "IMAP, geen TLS"
 
 #: misc/localization/eventum.c
 msgid "IMAP, with TLS"
-msgstr ""
+msgstr "IMAP, met TLS"
 
 #: misc/localization/eventum.c
 msgid "IMAP, with TLS (self-signed)"
-msgstr ""
+msgstr "IMAP, met TLS (zelf-ondertekend)"
 
 #: misc/localization/eventum.c
 msgid "POP3"
-msgstr ""
+msgstr "POP3"
 
 #: misc/localization/eventum.c
 msgid "POP3 over SSL"
-msgstr ""
+msgstr "POP3 via SSL"
 
 #: misc/localization/eventum.c
 msgid "POP3 over SSL (self-signed)"
-msgstr ""
+msgstr "POP3 via SSL (zelf-ondertekend)"
 
 #: misc/localization/eventum.c
 msgid "POP3, no TLS"
-msgstr ""
+msgstr "POP3, geen TLS"
 
 #: misc/localization/eventum.c
 msgid "POP3, with TLS"
-msgstr ""
+msgstr "POP3, met TLS"
 
 #: misc/localization/eventum.c
 msgid "POP3, with TLS (self-signed)"
-msgstr ""
+msgstr "POP3, met TLS (zelf-ondertekend)"
 
 #: misc/localization/eventum.c
 msgid "Hostname:"
-msgstr ""
+msgstr "Hostname:"
 
 #: misc/localization/eventum.c
 msgid "Port:"
-msgstr ""
+msgstr "Poort:"
 
 #: misc/localization/eventum.c
 msgid "(Tip: port defaults are 110 for POP3 servers and 143 for IMAP ones)"
 msgstr ""
+"(Tip: port defaults zijn 110 voor POP3-servers en 143 voor IMAP vinden)"
 
 #: misc/localization/eventum.c
 msgid "IMAP Folder:"
-msgstr ""
+msgstr "IMAP-map:"
 
 #: misc/localization/eventum.c
 msgid "(default folder is INBOX)"
-msgstr ""
+msgstr "(standaard map Inbox)"
 
 #: misc/localization/eventum.c
 msgid "Username:"
-msgstr ""
+msgstr "Gebruikersnaam:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Password:"
 msgstr "Wachtwoord"
 
 #: misc/localization/eventum.c
 msgid "Advanced Options:"
-msgstr ""
+msgstr "Geavanceerde opties:"
 
 #: misc/localization/eventum.c
 msgid "Only Download Unread Messages"
-msgstr ""
+msgstr "Alleen downloaden ongelezen berichten"
 
 #: misc/localization/eventum.c
 msgid "Leave Copy of Messages On Server"
-msgstr ""
+msgstr "Laat kopie van berichten op de server"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -3429,60 +3578,59 @@ msgid ""
 "                    <b> Note: </b>If you check this, you cannot leave a copy "
 "of messages on the server.</a>"
 msgstr ""
+"Gebruik voor niet-onderworpen op basis van e-mail / nota / ontwerp-routing.\n"
+"                     <b> Opmerking: </b> Als je dit controleren, kunt u niet "
+"een kopie van berichten op de server. </a>"
 
 #: misc/localization/eventum.c
 msgid "Test Settings"
-msgstr ""
+msgstr "Test Instellingen"
 
 #: misc/localization/eventum.c
 msgid "Update Account"
-msgstr ""
+msgstr "Update Account"
 
 #: misc/localization/eventum.c
 msgid "Create Account"
-msgstr ""
+msgstr "Account maken"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Existing Accounts:"
 msgstr "Bestaande acties:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the accounts."
 msgstr "Selecteer tenminste een actie."
 
 #: misc/localization/eventum.c
 msgid "Associated Project"
-msgstr ""
+msgstr "Associated Project"
 
 #: misc/localization/eventum.c
 msgid "Hostname"
-msgstr ""
+msgstr "Hostnaam"
 
 #: misc/localization/eventum.c
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: misc/localization/eventum.c
 msgid "Username"
-msgstr ""
+msgstr "Gebruikersnaam"
 
 #: misc/localization/eventum.c
 msgid "Mailbox"
-msgstr ""
+msgstr "Mailbox"
 
 #: misc/localization/eventum.c
 msgid "Auto-Creation of Issues"
-msgstr ""
+msgstr "Auto-Oprichting van Kwesties"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "No email accounts could be found."
 msgstr "Geen berichtconcepten gevonden."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title of this email response."
 msgstr "Geef een naam voor deze fase."
 
@@ -3491,38 +3639,31 @@ msgid "Manage Canned Email Responses"
 msgstr "Standaard antwoorden beheren"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new email response."
 msgstr "Er is een fout opgetreden bij het toevoegen van een fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this new email response."
 msgstr "Geef een naam voor deze fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the email response was added successfully."
 msgstr "Fase toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the email response information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this email response."
 msgstr "Geef een naam voor deze fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the email response was updated successfully."
 msgstr "Fase bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Projects:"
 msgstr "Project:"
 
@@ -3532,27 +3673,25 @@ msgstr "Titel:"
 
 #: misc/localization/eventum.c
 msgid "Response Body:"
-msgstr ""
+msgstr "Response Body:"
 
 #: misc/localization/eventum.c
 msgid "Update Email Response"
-msgstr ""
+msgstr "Update reactie via e-mail"
 
 #: misc/localization/eventum.c
 msgid "Create Email Response"
-msgstr ""
+msgstr "Maak reactie via e-mail"
 
 #: misc/localization/eventum.c
 msgid "Existing Canned Email Responses:"
 msgstr "Bestaande standaard antwoorden:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the email responses."
 msgstr "Selecteer tenminste een fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Projects"
 msgstr "Project:"
 
@@ -3562,211 +3701,211 @@ msgstr "Er zijn geen standaard antwoorden beschikbaar."
 
 #: misc/localization/eventum.c
 msgid "Please choose the project for this FAQ entry."
-msgstr ""
+msgstr "Kies het project voor deze FAQ entry."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please assign the appropriate support levels for this FAQ entry."
 msgstr ""
 "Wijs het extra veld toe aan de projecten waarin dit veld beschikbaar dient "
 "te zijn."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the rank of this FAQ entry."
 msgstr "Geef de rangorde voor deze prioriteit"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter a number for the rank of this FAQ entry."
 msgstr "Geef de rangorde voor deze prioriteit"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title of this FAQ entry."
 msgstr "Geef een naam aan dit nieuwsitem."
 
 #: misc/localization/eventum.c
 msgid "Manage Internal FAQ"
-msgstr ""
+msgstr "Beheer interne FAQ"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the FAQ entry."
 msgstr "Er is een fout opgetreden bij het toevoegen van een categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this FAQ entry."
 msgstr "Geef een titel voor de categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the message for this FAQ entry."
 msgstr "Geef een naam aan dit nieuwsitem."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the FAQ entry was added successfully."
 msgstr "Telefoongesprek opgeslagen"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the FAQ entry information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the FAQ entry was updated successfully."
 msgstr "Categorie bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Assigned Support"
-msgstr ""
+msgstr "Assigned Support"
 
 #: misc/localization/eventum.c
 msgid "Levels:"
-msgstr ""
+msgstr "Niveaus:"
 
 #: misc/localization/eventum.c
 msgid "Rank:"
-msgstr ""
+msgstr "Plaats:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Message:"
 msgstr "Bericht"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Update FAQ Entry"
 msgstr "Nieuws bijwerken"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Create FAQ Entry"
 msgstr "Nieuws toevoegen"
 
 #: misc/localization/eventum.c
 msgid "Existing Internal FAQ Entries:"
-msgstr ""
+msgstr "Bestaande interne FAQ items:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the FAQ entries."
 msgstr "Selecteer tenminste een nieuwsitem."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "This action will permanently remove the selected FAQ entries."
 msgstr ""
 "Met deze actie worden de geselecteerde nieuwsitems permanent verwijderd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Support Levels"
 msgstr "Support Level"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "No FAQ entries could be found."
 msgstr "Geen nieuwsitems gevonden."
 
 #: misc/localization/eventum.c
 msgid "An error occurred while trying to update field display settings."
-msgstr ""
+msgstr "Is een fout opgetreden bij te werken gebied weergave-instellingen."
 
 #: misc/localization/eventum.c
 msgid "Thank you, field display settings were updated successfully."
-msgstr ""
+msgstr "Dank u, vlak weergave-instellingen zijn bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Set Display Preferences"
-msgstr ""
+msgstr "Stel elkaar voorkeuren"
 
 #: misc/localization/eventum.c
 msgid ""
 "Please enter the sender address that will be used for all outgoing "
 "notification emails."
 msgstr ""
+"Geef het adres van de zender, dat zal worden gebruikt voor alle uitgaande e-"
+"mails kennisgeving."
 
 #: misc/localization/eventum.c
 msgid "Please enter the SMTP server hostname."
-msgstr ""
+msgstr "Geef de SMTP-server hostnaam."
 
 #: misc/localization/eventum.c
 msgid "Please enter the SMTP server port number."
-msgstr ""
+msgstr "Geef de SMTP-server poort nummer."
 
 #: misc/localization/eventum.c
 msgid "Please indicate whether the SMTP server requires authentication or not."
-msgstr ""
+msgstr "Geef aan of de SMTP-server is verificatie vereist of niet."
 
 #: misc/localization/eventum.c
 msgid "Please enter the SMTP server username."
-msgstr ""
+msgstr "Geef de SMTP-server gebruikersnaam."
 
 #: misc/localization/eventum.c
 msgid "Please enter the SMTP server password."
-msgstr ""
+msgstr "Geef de SMTP-server het wachtwoord."
 
 #: misc/localization/eventum.c
 msgid ""
 "Please enter the email address of where copies of outgoing emails should be "
 "sent to."
 msgstr ""
+"Geef het e-mailadres van de plaats waar kopieën van uitgaande e-mails "
+"verstuurd zouden moeten worden."
 
 #: misc/localization/eventum.c
 msgid ""
 "Please choose whether the system should allow visitors to signup for new "
 "accounts or not."
 msgstr ""
+"Gelieve te kiezen of het systeem moet het mogelijk maken de bezoekers van "
+"aanmeldingsformulier voor nieuwe accounts of niet."
 
 #: misc/localization/eventum.c
 msgid ""
 "Please select the assigned projects for users that create their own accounts."
 msgstr ""
+"Selecteer een van de toegewezen projecten voor gebruikers die hun eigen "
+"accounts."
 
 #: misc/localization/eventum.c
 msgid "Please enter the email address prefix for the email routing interface."
-msgstr ""
+msgstr "Geef het e-mailadres prefix voor de e-mail routing interface."
 
 #: misc/localization/eventum.c
 msgid ""
 "Please enter the email address hostname for the email routing interface."
-msgstr ""
+msgstr "Geef het e-mailadres hostnaam voor de e-mail routing interface."
 
 #: misc/localization/eventum.c
 msgid ""
 "Please choose whether the SCM integration feature should be enabled or not."
 msgstr ""
+"Gelieve te kiezen of de SCM-integratie-functie moet worden ingeschakeld of "
+"niet."
 
 #: misc/localization/eventum.c
 msgid "Please enter the checkout page URL for your SCM integration tool."
-msgstr ""
+msgstr "Geef de kassa pagina-URL voor uw SCM-integratie-instrument."
 
 #: misc/localization/eventum.c
 msgid "Please enter the diff page URL for your SCM integration tool."
-msgstr ""
+msgstr "Geef de URL van de pagina met diff voor uw SCM-integratie-instrument."
 
 #: misc/localization/eventum.c
 msgid ""
 "Please choose whether the email integration feature should be enabled or not."
 msgstr ""
+"Gelieve te kiezen of de e-mail integratie functie moet worden ingeschakeld "
+"of niet."
 
 #: misc/localization/eventum.c
 msgid "Please choose whether the daily tips feature should be enabled or not."
 msgstr ""
+"Gelieve te kiezen of de dagelijkse tips functie moet worden ingeschakeld of "
+"niet."
 
 #: misc/localization/eventum.c
 msgid "General Setup"
-msgstr ""
+msgstr "Algemene instellingen"
 
 #: misc/localization/eventum.c
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to\n"
 "                    create the configuration file in the setup directory"
 msgstr ""
+"FOUT: Het systeem beschikt niet over de nodige vergunningen om\n"
+"                     maken van de configuratie-bestand in de installatie "
+"directory"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -3774,12 +3913,18 @@ msgid ""
 "                    administrator and ask for write privileges on the "
 "provided path."
 msgstr ""
+"Neem contact op met uw lokale systeem\n"
+"                     beheerder en vraag naar schrijfrechten op de weg "
+"bedoeld."
 
 #: misc/localization/eventum.c
 msgid ""
 "ERROR: The system doesn't have the appropriate permissions to\n"
 "                    update the configuration file in the setup directory"
 msgstr ""
+"FOUT: Het systeem beschikt niet over de nodige vergunningen om\n"
+"                     actualisering van de configuratie-bestand in de "
+"installatie directory"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -3787,90 +3932,100 @@ msgid ""
 "                    administrator and ask for write privileges on the "
 "provided filename."
 msgstr ""
+"Neem contact op met uw lokale systeem\n"
+"                     beheerder en vraag naar schrijfrechten op de voorwaarde "
+"bestandsnaam."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the setup information was saved successfully."
 msgstr "Methode van afhandeling toegevoegd."
 
 #: misc/localization/eventum.c
 msgid "Tool Caption:"
-msgstr ""
+msgstr "Tool Bijschrift:"
 
 #: misc/localization/eventum.c
 msgid "SMTP (Outgoing Email) Settings:"
-msgstr ""
+msgstr "SMTP (uitgaande e-mail) instellingen:"
 
 #: misc/localization/eventum.c
 msgid "Sender Email"
-msgstr ""
+msgstr "Sender Email"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
+"(Dit moet een echte e-mailadres, bijvoorbeeld \"eventum@example.com\" of "
+"\"Eventum <eventum@example.com>\")"
 
 #: misc/localization/eventum.c
 msgid "Requires Authentication?"
-msgstr ""
+msgstr "Verificatie vereist?"
 
 #: misc/localization/eventum.c
 msgid "Save a Copy of Every Outgoing Issue Notification Email"
-msgstr ""
+msgstr "Bewaar een kopie van elk uitgaand bericht kwestie"
 
 #: misc/localization/eventum.c
 msgid "Email Address to Send Saved Messages:"
-msgstr ""
+msgstr "E-mailadres te sturen Opgeslagen berichten:"
 
 #: misc/localization/eventum.c
 msgid "Open Account Signup:"
-msgstr ""
+msgstr "Open account aanmelden:"
 
 #: misc/localization/eventum.c
 msgid "Assigned Projects:"
-msgstr ""
+msgstr "Toegewezen projecten:"
 
 #: misc/localization/eventum.c
 msgid "Assigned Role:"
-msgstr ""
+msgstr "Assigned Rol:"
 
 #: misc/localization/eventum.c
 msgid "Subject Based Routing:"
-msgstr ""
+msgstr "Betreft gebaseerde routing:"
 
 #: misc/localization/eventum.c
 msgid ""
 "If enabled, Eventum will look in the subject line of incoming notes/emails "
 "to determine which issue they should be associated with."
 msgstr ""
+"Als deze optie is ingeschakeld, Eventum er uit zal zien in de onderwerpregel "
+"van de inkomende noten / e-mails om te bepalen welk onderwerp zij moet "
+"worden gekoppeld."
 
 #: misc/localization/eventum.c
 msgid "Email Recipient Type Flag:"
-msgstr ""
+msgstr "E-mail ontvanger type vlag:"
 
 #: misc/localization/eventum.c
 msgid "Recipient Type Flag:"
-msgstr ""
+msgstr "Ontvanger type vlag:"
 
 #: misc/localization/eventum.c
 msgid ""
 "(This will be included in the From address of all emails sent by Eventum)"
 msgstr ""
+"(Dit zal worden opgenomen in de Van-adres van alle e-mails verstuurd door "
+"Eventum)"
 
 #: misc/localization/eventum.c
 msgid "Before Sender Name"
-msgstr ""
+msgstr "Voordat Sender Name"
 
 #: misc/localization/eventum.c
 msgid "After Sender Name"
-msgstr ""
+msgstr "Na Sender Name"
 
 #: misc/localization/eventum.c
 msgid "Email Routing Interface:"
-msgstr ""
+msgstr "E-mail routing interface:"
 
 #: misc/localization/eventum.c
 msgid "Email Address Prefix:"
-msgstr ""
+msgstr "E-mailadres prefix:"
 
 #: misc/localization/eventum.c
 msgid "(e.g. %1)"
@@ -3878,68 +4033,70 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Address Hostname:"
-msgstr ""
+msgstr "Adres Hostnaam:"
 
 #: misc/localization/eventum.c
 msgid "Host Alias:"
-msgstr ""
+msgstr "Host Alias:"
 
 #: misc/localization/eventum.c
 msgid "(Alternate domains that point to 'Address Hostname')"
-msgstr ""
+msgstr "(Alternate domeinen die verwijzen naar 'Adres Hostname')"
 
 #: misc/localization/eventum.c
 msgid "Warn Users Whether They Can Send Emails to Issue:"
-msgstr ""
+msgstr "Waarschuw de gebruikers of zij kan versturen e-mails uit te geven:"
 
 #: misc/localization/eventum.c
 msgid "Note Recipient Type Flag:"
-msgstr ""
+msgstr "Opmerking ontvanger type vlag:"
 
 #: misc/localization/eventum.c
 msgid ""
 "(This will be included in the From address of all notes sent by Eventum)"
 msgstr ""
+"(Dit zal worden opgenomen in de Van-adres van alle nota's verstuurd door "
+"Eventum)"
 
 #: misc/localization/eventum.c
 msgid "Internal Note Routing Interface:"
-msgstr ""
+msgstr "Interne nota routing interface:"
 
 #: misc/localization/eventum.c
 msgid "Note Address Prefix:"
-msgstr ""
+msgstr "Opmerking adres prefix:"
 
 #: misc/localization/eventum.c
 msgid "Email Draft Interface:"
-msgstr ""
+msgstr "E-mail interface ontwerp:"
 
 #: misc/localization/eventum.c
 msgid "Draft Address Prefix:"
-msgstr ""
+msgstr "Ontwerp-adres prefix:"
 
 #: misc/localization/eventum.c
 msgid "SCM <br />Integration:"
-msgstr ""
+msgstr "SCM <br /> Integratie:"
 
 #: misc/localization/eventum.c
 msgid "Checkout Page:"
-msgstr ""
+msgstr "Afrekenen Pagina:"
 
 #: misc/localization/eventum.c
 msgid "Diff Page:"
-msgstr ""
+msgstr "GK Page:"
 
 #: misc/localization/eventum.c
 msgid "Email Integration Feature:"
-msgstr ""
+msgstr "E-mail integratie functie:"
 
 #: misc/localization/eventum.c
 msgid "Daily Tips:"
-msgstr ""
+msgstr "Dagelijks Tips:"
 
 #: misc/localization/eventum.c
 msgid "Email Spell Checker:"
-msgstr ""
+msgstr "E-mail spellingcontrole:"
 
 #: misc/localization/eventum.c
 msgid "(requires %1 installed in your server)"
@@ -3947,23 +4104,23 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid "IRC Notifications:"
-msgstr ""
+msgstr "IRC Aanmeldingen:"
 
 #: misc/localization/eventum.c
 msgid "Allow Un-Assigned Issues?"
-msgstr ""
+msgstr "Laat Un-Assigned Problemen?"
 
 #: misc/localization/eventum.c
 msgid "Default Options for Notifications:"
-msgstr ""
+msgstr "Standaard Opties voor Aanmeldingen:"
 
 #: misc/localization/eventum.c
 msgid "Issues are Updated"
-msgstr ""
+msgstr "Problemen zijn Updated"
 
 #: misc/localization/eventum.c
 msgid "Emails are Associated"
-msgstr ""
+msgstr "E-mails worden in verband gebracht"
 
 #: misc/localization/eventum.c
 msgid "Files are Attached"
@@ -3971,50 +4128,45 @@ msgstr "Bestanden worden toegevoegd"
 
 #: misc/localization/eventum.c
 msgid "Email Reminder System Status Information:"
-msgstr ""
+msgstr "E-mail reminder systeem status informatie:"
 
 #: misc/localization/eventum.c
 msgid "Email Addresses To Send Information To:"
-msgstr ""
+msgstr "E-mailadressen voor het verzenden van informatie naar:"
 
 #: misc/localization/eventum.c
 msgid "(separate multiple addresses with commas)"
-msgstr ""
+msgstr "(meerdere adressen van elkaar scheiden met een komma)"
 
 #: misc/localization/eventum.c
 msgid "Email Error Logging System:"
-msgstr ""
+msgstr "E-mailadres fout bij het aanmelden systeem:"
 
 #: misc/localization/eventum.c
 msgid "Email Addresses To Send Errors To:"
-msgstr ""
+msgstr "E-mailadressen voor het verzenden van fouten naar:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the name of this group."
 msgstr "Geef een naam voor dit project."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please assign the appropriate projects for this group."
 msgstr ""
 "Wijs het extra veld toe aan de projecten waarin dit veld beschikbaar dient "
 "te zijn."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please assign the appropriate users for this group."
 msgstr ""
 "Wijs het extra veld toe aan de projecten waarin dit veld beschikbaar dient "
 "te zijn."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please assign the manager of this group."
 msgstr "Geef een naam voor dit project."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the groups."
 msgstr "Selecteer tenminste een van de projecten."
 
@@ -4023,76 +4175,70 @@ msgid ""
 "WARNING: This action will remove the selected groups permanently.nPlease "
 "click OK to confirm."
 msgstr ""
+"WAARSCHUWING: Deze actie zal verwijderen van de geselecteerde groepen "
+"permanently.nPlease klik op OK om te bevestigen."
 
 #: misc/localization/eventum.c
 msgid "Manage Groups"
-msgstr ""
+msgstr "Beheer groepen"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new group."
 msgstr "Er is een fout opgetreden bij het toevoegen van een actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the group was added successfully."
 msgstr "Actie toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the group information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the group was updated successfully."
 msgstr "Prioriteit bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Name: *"
-msgstr ""
+msgstr "Naam: *"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Description:"
 msgstr "Omschrijving"
 
 #: misc/localization/eventum.c
 msgid "Assigned Projects: *"
-msgstr ""
+msgstr "Toegewezen projecten: *"
 
 #: misc/localization/eventum.c
 msgid "Users: *"
-msgstr ""
+msgstr "Gebruikers: *"
 
 #: misc/localization/eventum.c
 msgid "Manager: *"
-msgstr ""
+msgstr "Manager: *"
 
 #: misc/localization/eventum.c
 msgid "-- Select One --"
-msgstr ""
+msgstr "-- Select One --"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Update Group"
 msgstr "Setup bijwerken"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Create Group"
 msgstr "Setup bijwerken"
 
 #: misc/localization/eventum.c
 msgid "Existing Groups"
-msgstr ""
+msgstr "Bestaande groepen"
 
 #: misc/localization/eventum.c
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "No groups could be found."
 msgstr "Geen meldingen gevonden."
 
@@ -4101,168 +4247,164 @@ msgid ""
 "Please choose whether the issue auto creation feature should be allowed or "
 "not for this email account"
 msgstr ""
+"Gelieve te kiezen of de kwestie auto oprichting functie moet worden "
+"toegestaan of niet voor deze e-mail account"
 
 #: misc/localization/eventum.c
 msgid "Please choose the default category."
-msgstr ""
+msgstr "Kies de standaard categorie."
 
 #: misc/localization/eventum.c
 msgid "Please choose the default priority."
-msgstr ""
+msgstr "Kies de standaard prioriteit."
 
 #: misc/localization/eventum.c
 msgid "Auto-Creation of Issues:"
-msgstr ""
+msgstr "Auto-Oprichting van Problemen:"
 
 #: misc/localization/eventum.c
 msgid "Only for Known Customers?"
-msgstr ""
+msgstr "Alleen voor bekende klanten?"
 
 #: misc/localization/eventum.c
 msgid "Please enter a pattern."
-msgstr ""
+msgstr "Geef een patroon."
 
 #: misc/localization/eventum.c
 msgid "Please enter a replacement value."
-msgstr ""
+msgstr "Geef een vervangingswaarde."
 
 #: misc/localization/eventum.c
 msgid "Please select projects this link filter should be active for."
-msgstr ""
+msgstr "Selecteer projecten deze link filter actief moet zijn."
 
 #: misc/localization/eventum.c
 msgid ""
 "Please select the minimum user role that should be able to see this link "
 "filter."
 msgstr ""
+"Selecteer de minimale rol die de gebruiker in staat moeten zijn om te zien "
+"deze link filter."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one link filter."
 msgstr "Selecteer tenminste een van de projecten."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "WARNING: This action will remove the selected link filters permanently."
 msgstr "Waarschuwing: Met deze actie worden de projecten permanent verwijderd."
 
 #: misc/localization/eventum.c
 msgid "Please click OK to confirm."
-msgstr ""
+msgstr "Klik op OK om te bevestigen."
 
 #: misc/localization/eventum.c
 msgid "Manage Link Filters"
-msgstr ""
+msgstr "Beheer link filters"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new link filter."
 msgstr "Er is een fout opgetreden bij het toevoegen van een actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the link filter was added successfully."
 msgstr "Telefoongesprek opgeslagen"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the link filter."
 msgstr "Er is een fout opgetreden bij het bijwerken van de actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the link filter was updated successfully."
 msgstr "Prioriteit bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to delete the link filter."
 msgstr "Er is een fout opgetreden tijdens het uploaden van het bestand."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the link filter was deleted successfully."
 msgstr "De notitie is omgezet."
 
 #: misc/localization/eventum.c
 msgid "Pattern"
-msgstr ""
+msgstr "Patroon"
 
 #: misc/localization/eventum.c
 msgid "Replacement"
-msgstr ""
+msgstr "Vervanging"
 
 #: misc/localization/eventum.c
 msgid "Minimum User Role"
-msgstr ""
+msgstr "Minimale gebruiker rol"
 
 #: misc/localization/eventum.c
 msgid "Update Link Filter"
-msgstr ""
+msgstr "Update link filter"
 
 #: misc/localization/eventum.c
 msgid "Create Link Filter"
-msgstr ""
+msgstr "Maak koppeling Filter"
 
 #: misc/localization/eventum.c
 msgid "Existing Link Filters"
-msgstr ""
+msgstr "Link bestaande filters"
 
 #: misc/localization/eventum.c
 msgid "No link filters could be found."
-msgstr ""
+msgstr "Geen link filters kunnen worden gevonden."
 
 #: misc/localization/eventum.c
 msgid ""
 "Sorry, but you do not have the required permission level to access this "
 "screen."
 msgstr ""
+"Sorry, maar u beschikt niet over de vereiste toestemming niveau om toegang "
+"te krijgen tot dit scherm."
 
 #: misc/localization/eventum.c
 msgid "Configuration"
-msgstr ""
+msgstr "Configuratie"
 
 #: misc/localization/eventum.c
 msgid "Areas"
-msgstr ""
+msgstr "Gebieden"
 
 #: misc/localization/eventum.c
 msgid "Manage Round Robin Assignments"
-msgstr ""
+msgstr "Beheer Round Robin opdrachten"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Manage News"
 msgstr "Gebruikersbeheer"
 
 #: misc/localization/eventum.c
 msgid "Manage Issue Reminders"
-msgstr ""
+msgstr "Beheer kwestie herinneringen"
 
 #: misc/localization/eventum.c
 msgid "Manage Statuses"
-msgstr ""
+msgstr "Beheer statussen"
 
 #: misc/localization/eventum.c
 msgid "Add / Edit Releases"
-msgstr ""
+msgstr "Toevoegen / bewerken releases"
 
 #: misc/localization/eventum.c
 msgid "Add / Edit Categories"
-msgstr ""
+msgstr "Toevoegen / bewerken categorieën"
 
 #: misc/localization/eventum.c
 msgid "Add / Edit Priorities"
-msgstr ""
+msgstr "Toevoegen / bewerken prioriteiten"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Add / Edit Phone Support Categories"
 msgstr "Telefooncontact categorieën bewerken"
 
 #: misc/localization/eventum.c
 msgid "Anonymous Reporting Options"
-msgstr ""
+msgstr "Anoniem rapportage opties"
 
 #: misc/localization/eventum.c
 msgid "Manage Users"
@@ -4281,39 +4423,32 @@ msgid "Please enter the title of this news entry."
 msgstr "Geef een naam aan dit nieuwsitem."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please assign the appropriate projects for this news entry."
 msgstr ""
 "Wijs het extra veld toe aan de projecten waarin dit veld beschikbaar dient "
 "te zijn."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the news entry."
 msgstr "Er is een fout opgetreden bij het toevoegen van een categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this news entry."
 msgstr "Geef een naam aan dit nieuwsitem."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the message for this news entry."
 msgstr "Geef een naam aan dit nieuwsitem."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the news entry was added successfully."
 msgstr "Telefoongesprek opgeslagen"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the news entry information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the news entry was updated successfully."
 msgstr "Categorie bijgewerkt."
 
@@ -4379,27 +4514,22 @@ msgid "Manage Priorities"
 msgstr "Prioriteiten beheren"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new priority."
 msgstr "Er is een fout opgetreden bij het toevoegen van een actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this new priority."
 msgstr "Geef een naam aan deze prioriteit"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the priority was added successfully."
 msgstr "Prioriteit bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the priority information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this priority."
 msgstr "Geef een naam aan deze prioriteit"
 
@@ -4444,64 +4574,60 @@ msgid ""
 "Please choose the initial status from one of the assigned statuses of this "
 "project."
 msgstr ""
+"Kies de oorspronkelijke toestand van een van de toegewezen statussen van dit "
+"project."
 
 #: misc/localization/eventum.c
 msgid "Please enter a valid outgoing sender address for this project."
-msgstr ""
+msgstr "Geef een geldig uitgaande afzender adres voor dit project."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new project."
 msgstr "Er is een fout opgetreden bij het toevoegen van een fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this new project."
 msgstr "Geef een naam voor dit project."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the project was added successfully."
 msgstr "Fase toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the project information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this project."
 msgstr "Geef een naam voor dit project."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the project was updated successfully."
 msgstr "Prioriteit bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Archived"
-msgstr ""
+msgstr "Gearchiveerd"
 
 #: misc/localization/eventum.c
 msgid "Customer Integration Backend"
-msgstr ""
+msgstr "Klant integratie backend"
 
 #: misc/localization/eventum.c
 msgid "No Customer Integration"
-msgstr ""
+msgstr "Geen klant integratie"
 
 #: misc/localization/eventum.c
 msgid "Workflow Backend"
-msgstr ""
+msgstr "Workflow Backend"
 
 #: misc/localization/eventum.c
 msgid "No Workflow Management"
-msgstr ""
+msgstr "Geen Workflow management"
 
 #: misc/localization/eventum.c
 msgid "Project Lead"
-msgstr ""
+msgstr "Project Lead"
 
 #: misc/localization/eventum.c
 msgid "Users"
@@ -4525,7 +4651,7 @@ msgstr "Afzender e-mail adres"
 
 #: misc/localization/eventum.c
 msgid "Remote Invocation"
-msgstr ""
+msgstr "Remote Invocation"
 
 #: misc/localization/eventum.c
 msgid "Update Project"
@@ -4621,7 +4747,7 @@ msgstr "Fase bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Tentative Date:"
-msgstr ""
+msgstr "Voorlopige datum:"
 
 #: misc/localization/eventum.c
 msgid "Available - Users may use this release"
@@ -4650,7 +4776,7 @@ msgstr "Selecteer tenminste een fase."
 
 #: misc/localization/eventum.c
 msgid "Tentative Date"
-msgstr ""
+msgstr "Voorlopige datum"
 
 #: misc/localization/eventum.c
 msgid "No releases could be found."
@@ -4706,19 +4832,19 @@ msgstr "Hiermee wordt de volgorde waarin acties worden gestart bepaald"
 
 #: misc/localization/eventum.c
 msgid "Alert Group Leader:"
-msgstr ""
+msgstr "Alert begeleider:"
 
 #: misc/localization/eventum.c
 msgid "Alert IRC:"
-msgstr ""
+msgstr "Alert IRC:"
 
 #: misc/localization/eventum.c
 msgid "Boilerplate:"
-msgstr ""
+msgstr "Bewaarplaats:"
 
 #: misc/localization/eventum.c
 msgid "this will show up on the bottom of the reminder messages"
-msgstr ""
+msgstr "dit wordt weergegeven aan de onderkant van de herinnering berichten"
 
 #: misc/localization/eventum.c
 msgid "Update Action"
@@ -4750,54 +4876,45 @@ msgstr "Geen acties gevonden."
 
 #: misc/localization/eventum.c
 msgid "Operator"
-msgstr ""
+msgstr "Operator"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Manage Reminder Conditions"
 msgstr "Herinneringen beheren"
 
 #: misc/localization/eventum.c include/class.reminder_action.php:761
 msgid "Reminder"
-msgstr ""
+msgstr "Herinnering"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "view reminder action details"
 msgstr "Herinnering weergeven"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Action"
 msgstr "Acties"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new condition."
 msgstr "Er is een fout opgetreden bij het toevoegen van een actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this new condition."
 msgstr "Geef de actie een naam."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the condition was added successfully."
 msgstr "Actie toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the condition information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this condition."
 msgstr "Geef de actie een naam."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the condition was updated successfully."
 msgstr "Actie bijgewerkt."
 
@@ -4807,7 +4924,7 @@ msgstr "Veld:"
 
 #: misc/localization/eventum.c
 msgid "Operator:"
-msgstr ""
+msgstr "Operator:"
 
 #: misc/localization/eventum.c
 msgid "Value:"
@@ -4838,149 +4955,139 @@ msgid "Existing Conditions:"
 msgstr "Bestaande voorwaarden:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Back to Reminder Action List"
 msgstr "Terug naar de herinneringenlijst"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the conditions."
 msgstr "Selecteer tenminste een actie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "No conditions could be found."
 msgstr "Geen acties gevonden."
 
 #: misc/localization/eventum.c
 msgid "Review SQL Query"
-msgstr ""
+msgstr "Review SQL-query"
 
 #: misc/localization/eventum.c
 msgid "Updating Reminder"
-msgstr ""
+msgstr "Actualisering Herinnering"
 
 #: misc/localization/eventum.c
 msgid "Creating New Reminder"
-msgstr ""
+msgstr "Het creëren van nieuwe herinnering"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new reminder."
 msgstr "Er is een fout opgetreden bij het toevoegen van een fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this new reminder."
 msgstr "Geef een naam voor deze fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the reminder was added successfully."
 msgstr "Fase toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the reminder information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this reminder."
 msgstr "Geef een naam op voor deze fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the reminder was updated successfully."
 msgstr "Fase bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Please choose a project that will be associated with this reminder."
-msgstr ""
+msgstr "Kies een project dat zal worden gekoppeld aan deze herinnering."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the rank for this reminder."
 msgstr "Geef de rangorde voor deze prioriteit"
 
 #: misc/localization/eventum.c
 msgid ""
 "Please choose the support levels that will be associated with this reminder."
-msgstr ""
+msgstr "Kies de steun niveaus die worden geassocieerd met deze herinnering."
 
 #: misc/localization/eventum.c
 msgid "Please choose the customers that will be associated with this reminder."
-msgstr ""
+msgstr "Kies de klanten die worden geassocieerd met deze herinnering."
 
 #: misc/localization/eventum.c
 msgid "Please enter the issue IDs that will be associated with this reminder."
-msgstr ""
+msgstr "Geef de kwestie-id's die worden geassocieerd met deze herinnering."
 
 #: misc/localization/eventum.c
 msgid ""
 "Please choose the priorities that will be associated with this reminder."
 msgstr ""
+"Kies de prioriteiten die in verband worden gebracht met deze herinnering."
 
 #: misc/localization/eventum.c
 msgid "Reminder Type"
-msgstr ""
+msgstr "Herinnering Type"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "By Support Level"
 msgstr "Support Level"
 
 #: misc/localization/eventum.c
 msgid "By Customer"
-msgstr ""
+msgstr "Door de Klant"
 
 #: misc/localization/eventum.c
 msgid "By Issue ID"
-msgstr ""
+msgstr "Bij afgifte ID"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "All Issues"
 msgstr "(Alle meldingen)"
 
 #: misc/localization/eventum.c
 msgid "Also Filter By Issue Priorities"
-msgstr ""
+msgstr "Ook filteren op een kwestie prioriteiten"
 
 #: misc/localization/eventum.c
 msgid "Skip Weekends"
-msgstr ""
+msgstr "Skip Weekends"
 
 #: misc/localization/eventum.c
 msgid ""
 "If yes, this reminder will not activate on weekends and time will not "
 "accumulate on the weekends."
 msgstr ""
+"Zo ja, deze herinnering wordt niet geactiveerd in het weekend en de tijd zal "
+"niet ophopen in het weekend."
 
 #: misc/localization/eventum.c
 msgid "Update Reminder"
-msgstr ""
+msgstr "Update Herinnering"
 
 #: misc/localization/eventum.c
 msgid "Create Reminder"
-msgstr ""
+msgstr "Maak Herinnering"
 
 #: misc/localization/eventum.c
 msgid "Existing Issue Reminders"
-msgstr ""
+msgstr "Bestaande kwestie herinneringen"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the reminders."
 msgstr "Selecteer tenminste een fase."
 
 #: misc/localization/eventum.c
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: misc/localization/eventum.c
 msgid "Issue Priorities"
-msgstr ""
+msgstr "Kwestie Prioriteiten"
 
 #: misc/localization/eventum.c
 msgid "Please enter the title of this resolution."
@@ -5032,50 +5139,43 @@ msgid "No resolutions could be found."
 msgstr "Geen afhandelmethoden gevonden."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please assign the appropriate users for this round robin entry."
 msgstr ""
 "Wijs het extra veld toe aan de projecten waarin dit veld beschikbaar dient "
 "te zijn."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the round robin entry."
 msgstr "Er is een fout opgetreden bij het toevoegen van een categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this round robin entry."
 msgstr "Geef een naam aan dit nieuwsitem."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the message for this round robin entry."
 msgstr "Geef een naam aan dit nieuwsitem."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the round robin entry was added successfully."
 msgstr "Tijd opgeslagen."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the round robin entry information."
 msgstr "Er is een fout opgetreden bij het bewerken van de relatiebeheerder."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the round robin entry was updated successfully."
 msgstr "Notificatie opgeslagen."
 
 #: misc/localization/eventum.c
 msgid "Assignable Users:"
-msgstr ""
+msgstr "Toewijsbaar Gebruikers:"
 
 #: misc/localization/eventum.c
 msgid "Blackout Time Range:"
-msgstr ""
+msgstr "Black-out tijd Range:"
 
 #: misc/localization/eventum.c
 msgid "Start"
@@ -5087,128 +5187,112 @@ msgstr "Einde"
 
 #: misc/localization/eventum.c
 msgid "Update Round Robin Entry"
-msgstr ""
+msgstr "Update Round Robin Entry"
 
 #: misc/localization/eventum.c
 msgid "Create Round Robin Entry"
-msgstr ""
+msgstr "Maak Round Robin Entry"
 
 #: misc/localization/eventum.c
 msgid "Existing Round Robin Entries:"
-msgstr ""
+msgstr "Bestaande Round Robin items:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the round robin entries."
 msgstr "Selecteer tenminste een nieuwsitem."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "This action will permanently remove the selected round robin entries."
 msgstr ""
 "Met deze actie worden de geselecteerde nieuwsitems permanent verwijderd."
 
 #: misc/localization/eventum.c
 msgid "Assignable Users"
-msgstr ""
+msgstr "Toewijsbaar Gebruikers"
 
 #: misc/localization/eventum.c
 msgid "No round robin entries could be found."
-msgstr ""
+msgstr "Geen round robin vermeldingen gevonden kan worden."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title of this status."
 msgstr "Geef een naam voor deze fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the abbreviation of this status."
 msgstr "Geef de rangorde voor deze prioriteit"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the rank of this status."
 msgstr "Geef de rangorde voor deze prioriteit"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please assign the appropriate projects for this status."
 msgstr ""
 "Wijs het extra veld toe aan de projecten waarin dit veld beschikbaar dient "
 "te zijn."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the color of this status."
 msgstr "Geef de rangorde voor deze prioriteit"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new status."
 msgstr "Er is een fout opgetreden bij het toevoegen van een fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this new status."
 msgstr "Geef een naam voor deze fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the status was added successfully."
 msgstr "Fase toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the status information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this status."
 msgstr "Geef een naam op voor deze fase."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the status was updated successfully."
 msgstr "Fase bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Abbreviation:"
-msgstr ""
+msgstr "Afkorting:"
 
 #: misc/localization/eventum.c
 msgid "(three letter abbreviation)"
-msgstr ""
+msgstr "(drie letters)"
 
 #: misc/localization/eventum.c
 msgid "Closed Context ?"
-msgstr ""
+msgstr "Gesloten Context?"
 
 #: misc/localization/eventum.c
 msgid "Color:"
-msgstr ""
+msgstr "Kleur:"
 
 #: misc/localization/eventum.c
 msgid "(this color will be used in the issue listing page)"
-msgstr ""
+msgstr "(deze kleur zal worden gebruikt in de kwestie aanbieding page)"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Update Status"
 msgstr "Setup bijwerken"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Create Status"
 msgstr "Setup bijwerken"
 
 #: misc/localization/eventum.c
 msgid "Existing Statuses:"
-msgstr ""
+msgstr "Bestaande Statussen:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the statuses."
 msgstr "Selecteer tenminste een fase."
 
@@ -5217,68 +5301,61 @@ msgid ""
 "This action will remove the selected entries. This will also update any "
 "issues currently set to this status to a new status 'undefined'."
 msgstr ""
+"Deze actie zal verwijderen van de geselecteerde items. Dit zal ook update "
+"eventuele problemen op dat moment is ingesteld om deze status aan een nieuwe "
+"status' undefined '."
 
 #: misc/localization/eventum.c
 msgid "Abbreviation"
-msgstr ""
+msgstr "Afkorting"
 
 #: misc/localization/eventum.c
 msgid "Color"
-msgstr ""
+msgstr "Kleur"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "No statuses could be found."
 msgstr "Geen gebruikers gevonden."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title of this time tracking category"
 msgstr "Geef een titel voor de nieuwe categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new time tracking category."
 msgstr "Er is een fout opgetreden bij het toevoegen van een categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this new time tracking category."
 msgstr "Geef een korte omschrijving voor de tijdregistratie"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the time tracking category was added successfully."
 msgstr "Tijd opgeslagen."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid ""
 "An error occurred while trying to update the time tracking category "
 "information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title for this time tracking category."
 msgstr "Geef een titel voor de nieuwe categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the time tracking category was updated successfully."
 msgstr "Tijd opgeslagen."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the time tracking categories."
 msgstr "Selecteer tenminste een van de categorieën."
 
 #: misc/localization/eventum.c
 msgid "No time tracking categories could be found."
-msgstr ""
+msgstr "Geen tijd bijhouden van de categorieën kon worden gevonden."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Note:"
 msgstr "Notities"
 
@@ -5288,89 +5365,85 @@ msgid ""
 "are\n"
 "                    required by Eventum and cannot be deleted."
 msgstr ""
+"'Nota Overleg', 'E-mail Discussie' en 'Telefoon Discussie' categorieën zijn\n"
+"                     vereist door Eventum en kan niet worden verwijderd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the email of this user."
 msgstr "Geef een naam voor dit project."
 
 #: misc/localization/eventum.c
 msgid "Please enter a password of at least 6 characters."
-msgstr ""
+msgstr "Geef een wachtwoord van minstens 6 tekens."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the full name of this user."
 msgstr "Geef een naam voor dit project."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please assign the appropriate projects for this user."
 msgstr ""
 "Wijs het extra veld toe aan de projecten waarin dit veld beschikbaar dient "
 "te zijn."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to add the new user."
 msgstr "Er is een fout opgetreden bij het toevoegen van een categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the user was added successfully."
 msgstr "Categorie toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to update the user information."
 msgstr "Er is een fout opgetreden bij het bijwerken van de categorie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the user was updated successfully."
 msgstr "Categorie bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "leave empty to keep the current password"
-msgstr ""
+msgstr "leeg laten om het huidige wachtwoord"
 
 #: misc/localization/eventum.c
 msgid "Full Name"
-msgstr ""
+msgstr "Volledige naam"
 
 #: misc/localization/eventum.c
 msgid "Assigned Projects and Roles"
-msgstr ""
+msgstr "Toegewezen projecten en rollen"
 
 #: misc/localization/eventum.c
 msgid "Update User"
-msgstr ""
+msgstr "Update User"
 
 #: misc/localization/eventum.c
 msgid "Create User"
-msgstr ""
+msgstr "Gebruiker maken"
 
 #: misc/localization/eventum.c
 msgid "Existing Users"
-msgstr ""
+msgstr "Bestaande gebruikers"
 
 #: misc/localization/eventum.c
 msgid ""
 "You cannot change the status of the only active user left in the system."
 msgstr ""
+"Je kunt niet veranderen van de status van de enige actieve gebruiker links "
+"in het systeem."
 
 #: misc/localization/eventum.c
 msgid "You cannot inactivate all of the users in the system."
-msgstr ""
+msgstr "U kunt niet alle inactiveren van de gebruikers in het systeem."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please select at least one of the users."
 msgstr "Selecteer tenminste een van de abonnees."
 
 #: misc/localization/eventum.c
 msgid "This action will change the status of the selected users."
-msgstr ""
+msgstr "Deze actie zal de status van de geselecteerde gebruikers."
 
 #: misc/localization/eventum.c
 msgid "Role"
@@ -5611,7 +5684,7 @@ msgstr "Interne notitie"
 
 #: misc/localization/eventum.c
 msgid "Reply"
-msgstr ""
+msgstr "Antwoorden"
 
 #: misc/localization/eventum.c
 msgid "Posted Date"
@@ -5775,7 +5848,7 @@ msgstr "Details"
 
 #: misc/localization/eventum.c
 msgid "A new issue was just created and assigned to you."
-msgstr ""
+msgstr "Een nieuw nummer is zojuist heeft gemaakt en die aan u zijn."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -5884,15 +5957,15 @@ msgstr "Gewijzigde velden"
 
 #: misc/localization/eventum.c
 msgid "Your user account has been updated in %1"
-msgstr ""
+msgstr "Uw account is bijgewerkt met 1%"
 
 #: misc/localization/eventum.c
 msgid "Your account information as it now exists appears below."
-msgstr ""
+msgstr "Uw account informatie zoals het nu bestaat, vindt u hieronder."
 
 #: misc/localization/eventum.c
 msgid "Your user account password has been updated in %1"
-msgstr ""
+msgstr "Uw account wachtwoord is bijgewerkt op %1"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -5907,10 +5980,20 @@ msgid ""
 "request will be erased automatically. However, if you would like to confirm "
 "the new account, please do so by visiting the URL below:\n"
 msgstr ""
+"Hallo,\n"
+"\n"
+"We hebben zojuist een verzoek ontvangen om een nieuwe account maken met %1\n"
+"Om veiligheidsredenen moeten wij u ter bevestiging van dit verzoek, zodat we "
+"deze kunnen afsluiten van uw account.\n"
+"Is dit niet een echte verzoek van u, of bent u niet geïnteresseerd in het "
+"maken van een nieuwe account meer, gelieve geen rekening te houden met dit e-"
+"mailbericht. In een week het verzoek zal automatisch worden gewist. Echter, "
+"als u zou willen bevestigen dat de nieuwe account, kunt u dit doen door naar "
+"de onderstaande URL:\n"
 
 #: misc/localization/eventum.c
 msgid "Database Error"
-msgstr ""
+msgstr "Database Error"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -5918,6 +6001,9 @@ msgid ""
 "your configuration file. Please contact your local system administrator for "
 "further assistance."
 msgstr ""
+"Er lijkt een probleem met de verbinding met de database-server in uw "
+"configuratiebestand. Neem contact op met uw lokale systeembeheerder voor "
+"verdere hulp."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -5925,14 +6011,15 @@ msgid ""
 "database server specified in your configuration file. Please contact your "
 "local system administrator for further assistance."
 msgstr ""
+"Er lijkt een probleem te vinden van de benodigde database tabellen in de "
+"database-server in uw configuratiebestand. Neem contact op met uw lokale "
+"systeembeheerder voor verdere hulp."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Sorry, you do not have permission to access this page."
 msgstr "U bent niet gemachtigd deze pagina te bekijken"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "This action will permanently delete the specified phone support entry."
 msgstr "Door deze actie wordt de notitie verwijderd."
 
@@ -5942,15 +6029,15 @@ msgstr "Telefoongesprekken"
 
 #: misc/localization/eventum.c
 msgid "Recorded Date"
-msgstr ""
+msgstr "Geboekt Datum"
 
 #: misc/localization/eventum.c
 msgid "Entered By"
-msgstr ""
+msgstr "Ingevuld door"
 
 #: misc/localization/eventum.c
 msgid "Call Type"
-msgstr ""
+msgstr "Bel Soort"
 
 #: misc/localization/eventum.c
 msgid "No phone calls recorded yet."
@@ -5962,59 +6049,50 @@ msgstr "Telefoongesprek toevoegen"
 
 #: misc/localization/eventum.c
 msgid "Please enter the note text on the input box below."
-msgstr ""
+msgstr "Geef de tekst op het tekstvak hieronder."
 
 #: misc/localization/eventum.c
 msgid ""
 "Thank you, the new note was created and associated with the issue below."
-msgstr ""
+msgstr "Dank u wel, de nieuwe nota is gemaakt en in verband met de kwestie."
 
 #: misc/localization/eventum.c
 msgid "You do not have permission to delete this note."
-msgstr ""
+msgstr "U heeft geen toestemming om deze nota."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the note was removed successfully."
 msgstr "De notitie is omgezet."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the time tracking entry was removed successfully."
 msgstr "Tijd opgeslagen."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the selected issues were updated successfully."
 msgstr "Extra velden bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the inital impact analysis was set successfully."
 msgstr "Actie bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the new requirement was added successfully."
 msgstr "Fase toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the impact analysis was set successfully."
 msgstr "Actie bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the selected requirements were removed successfully."
 msgstr "Extra velden bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the custom filter was saved successfully."
 msgstr "Relatiebeheerder toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the selected custom filters were removed successfully."
 msgstr "Extra velden bijgewerkt."
 
@@ -6022,22 +6100,22 @@ msgstr "Extra velden bijgewerkt."
 msgid ""
 "Thank you, the association to the selected emails were removed successfully."
 msgstr ""
+"Dank u, de vereniging voor de geselecteerde e-mails werden met succes "
+"verwijderd."
 
 #: misc/localization/eventum.c
 msgid "You do not have the permission to remove this attachment."
-msgstr ""
+msgstr "U hebt geen toestemming om deze bijlage."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the attachment was removed successfully."
 msgstr "Actie toegevoegd."
 
 #: misc/localization/eventum.c
 msgid "You do not have the permission to remove this file."
-msgstr ""
+msgstr "U hebt geen toestemming om dit bestand."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the file was removed successfully."
 msgstr "Melding gesloten"
 
@@ -6046,53 +6124,57 @@ msgid ""
 "Thank you, the selected checkin information entries were removed "
 "successfully."
 msgstr ""
+"Dank u, de gekozen checkin informatie inzendingen werden met succes "
+"verwijderd."
 
 #: misc/localization/eventum.c
 msgid "Thank you, the emails were marked as removed successfully."
-msgstr ""
+msgstr "Dank u wel, de e-mailberichten die zijn gemarkeerd als verwijderd."
 
 #: misc/localization/eventum.c
 msgid "Thank you, the current issue is no longer marked as a duplicate."
 msgstr ""
+"Dank u wel, het huidige probleem is niet meer gemarkeerd als een duplicaat."
 
 #: misc/localization/eventum.c
 msgid "You do not have permission to remove this phone support entry."
 msgstr ""
+"U heeft geen toestemming om deze telefonische ondersteuning binnenkomst."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the phone support entry was removed successfully."
 msgstr "Telefoongesprek opgeslagen"
 
 #: misc/localization/eventum.c
 msgid "The associated time tracking entry was also deleted."
-msgstr ""
+msgstr "De bijbehorende tijd bijhouden van binnenkomst werd ook geschrapt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the issue was updated successfully."
 msgstr "Fase bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Error: the issue is already unassigned."
-msgstr ""
+msgstr "Fout: het is de vraag al niet toegewezen."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the issue was unassigned successfully."
 msgstr "Melding gesloten"
 
 #: misc/localization/eventum.c
 msgid "Error: you are already authorized to send emails in this issue."
 msgstr ""
+"Fout: u bent reeds een vergunning voor het verzenden van e-mails in deze "
+"kwestie."
 
 #: misc/localization/eventum.c
 msgid "Thank you, you are now authorized to send emails in this issue."
 msgstr ""
+"Dank u, u bent nu toestemming voor het verzenden van e-mails in deze kwestie."
 
 #: misc/localization/eventum.c
 msgid "Thank you, this issue was removed from quarantine."
-msgstr ""
+msgstr "Dank u wel, dit onderwerp werd verwijderd uit quarantaine."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -6105,12 +6187,15 @@ msgid ""
 "Thank you, the new issue was created successfully. For your records, the new "
 "issue ID is <font color=\"red\">%1</font>"
 msgstr ""
+"Dank u, het nieuwe nummer werd gemaakt. Voor uw administratie, het nieuwe "
+"nummer ID is <font color=\"red\">%1</font>"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "You may <a class=\"link\" href=\"%1\">submit another issue</a> if you so "
 "wish."
-msgstr ""
+msgstr "U kunt <a class=\"link\" href=\"%1\">%2</a> indien u dit wenst."
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -6127,7 +6212,7 @@ msgstr "Selecteer..."
 
 #: misc/localization/eventum.c include/class.pager.php:124
 msgid "Next"
-msgstr ""
+msgstr "Volgende"
 
 #: misc/localization/eventum.c
 msgid "Attach Files"
@@ -6138,18 +6223,16 @@ msgid "Keep Form Open"
 msgstr "Hierna nog een melding opgeven"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the internal note was posted successfully."
 msgstr "Fase bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the title of this note."
 msgstr "Geef een naam voor dit project."
 
 #: misc/localization/eventum.c
 msgid "Please enter the message body of this note."
-msgstr ""
+msgstr "Geef het bericht van deze nota."
 
 #: misc/localization/eventum.c
 msgid "Post New Internal Note"
@@ -6193,159 +6276,157 @@ msgstr "Melding status"
 
 #: misc/localization/eventum.c
 msgid "Add Email Signature"
-msgstr ""
+msgstr "Voeg een e-mail handtekening"
 
 #: misc/localization/eventum.c
 msgid "Please enter your full name."
-msgstr ""
+msgstr "Geef uw volledige naam."
 
 #: misc/localization/eventum.c
 msgid "Please enter your new password with at least 6 characters."
-msgstr ""
+msgstr "Geef uw nieuwe wachtwoord met minimaal 6 tekens."
 
 #: misc/localization/eventum.c
 msgid ""
 "The two passwords do not match. Please review your information and try again."
 msgstr ""
+"De twee wachtwoorden komen niet overeen. Controleer uw gegevens en probeer "
+"het opnieuw."
 
 #: misc/localization/eventum.c
 msgid "User Details"
-msgstr ""
+msgstr "User Details"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "An error occurred while trying to run your query."
 msgstr "Er is een fout opgetreden bij het uitvoeren van de zoekopdracht"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, your full name was updated successfully."
 msgstr "Fase bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Update Full Name"
-msgstr ""
+msgstr "Update Volledige naam"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, your email address was updated successfully."
 msgstr "Fase bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Update Email Address"
-msgstr ""
+msgstr "Update e-mailadres"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, your password was updated successfully."
 msgstr "Categorie bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Change Password"
-msgstr ""
+msgstr "Wachtwoord wijzigen"
 
 #: misc/localization/eventum.c
 msgid "New Password"
-msgstr ""
+msgstr "Nieuw wachtwoord"
 
 #: misc/localization/eventum.c
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Bevestig nieuw wachtwoord"
 
 #: misc/localization/eventum.c
 msgid "Update Password"
-msgstr ""
+msgstr "Update Password"
 
 #: misc/localization/eventum.c
 msgid "Thank you, your account preferences were updated successfully."
-msgstr ""
+msgstr "Dank u, met uw voorkeuren zijn bijgewerkt."
 
 #: misc/localization/eventum.c
 msgid "Available Languages"
-msgstr ""
+msgstr "Beschikbare talen"
 
 #: misc/localization/eventum.c
 msgid "Automatically close confirmation popup windows ?"
-msgstr ""
+msgstr "Automatisch sluiten bevestiging pop-up vensters?"
 
 #: misc/localization/eventum.c
 msgid "Receive emails when all issues are created ?"
-msgstr ""
+msgstr "Ontvang e-mailberichten als alle problemen zijn ontstaan?"
 
 #: misc/localization/eventum.c
 msgid "Receive emails when new issues are assigned to you ?"
-msgstr ""
+msgstr "Ontvang e-mail wanneer er nieuwe kwesties zijn die aan u zijn?"
 
 #: misc/localization/eventum.c
 msgid "Refresh Rate for Issue Listing Page"
-msgstr ""
+msgstr "Refresh rate probleem voor het aanbieden van pagina"
 
 #: misc/localization/eventum.c
 msgid "Refresh Rate for Email Listing Page"
-msgstr ""
+msgstr "Vernieuwingsfrequentie voor het aanbieden van e-mail pagina"
 
 #: misc/localization/eventum.c
 msgid "Email Signature"
-msgstr ""
+msgstr "E-mail Handtekening"
 
 #: misc/localization/eventum.c
 msgid "Edit Signature"
-msgstr ""
+msgstr "Handtekening bewerken"
 
 #: misc/localization/eventum.c
 msgid "Upload New Signature"
-msgstr ""
+msgstr "Upload nieuwe handtekening"
 
 #: misc/localization/eventum.c
 msgid "Automatically append email signature when composing web based emails"
 msgstr ""
+"Automatisch een e-mail handtekening bij het samenstellen van web-gebaseerde "
+"e-mails"
 
 #: misc/localization/eventum.c
 msgid "Automatically append email signature when composing internal notes"
 msgstr ""
+"Automatisch een e-mail handtekening bij het samenstellen van interne notities"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "SMS Email Address"
 msgstr "E-mail adres"
 
 #: misc/localization/eventum.c
 msgid "only used for automatic issue reminders"
-msgstr ""
+msgstr "alleen gebruikt voor de automatische afgifte herinneringen"
 
 #: misc/localization/eventum.c
 msgid "Update Preferences"
-msgstr ""
+msgstr "Update Voorkeuren"
 
 #: misc/localization/eventum.c
 msgid "Please select the custom filter to search against."
-msgstr ""
+msgstr "Selecteer het aangepast filter te zoeken tegen."
 
 #: misc/localization/eventum.c
 msgid "Clear Filters"
 msgstr "Filter wissen"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "quick search bar"
 msgstr "snelzoeken"
 
 #: misc/localization/eventum.c
 msgid "There was an error marking this issue as redeemed"
-msgstr ""
+msgstr "Er is een fout opgetreden markering deze kwestie zo ingewisseld"
 
 #: misc/localization/eventum.c
 msgid "This issue already has been marked as redeemed"
-msgstr ""
+msgstr "Deze kwestie al is gemarkeerd als ingewisseld"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the issue was successfully marked."
 msgstr "Fase toegevoegd."
 
 #: misc/localization/eventum.c
 msgid "Please choose the incident types to redeem for this issue."
-msgstr ""
+msgstr "Kies het incident soorten voor de aflossing voor dit probleem."
 
 #: misc/localization/eventum.c
 msgid "Total"
@@ -6353,45 +6434,48 @@ msgstr "Totaal"
 
 #: misc/localization/eventum.c
 msgid "Left"
-msgstr ""
+msgstr "Links"
 
 #: misc/localization/eventum.c
 msgid "Redeem Incidents"
-msgstr ""
+msgstr "Inwisselen Incidenten"
 
 #: misc/localization/eventum.c
 msgid ""
 "The following %1 reminder could not be sent out because no recipients could "
 "be found"
 msgstr ""
+"De volgende %1 herinnering kon niet worden verzonden omdat er geen "
+"ontvangers kon worden gevonden"
 
 #: misc/localization/eventum.c
 msgid "Automated Issue"
-msgstr ""
+msgstr "Geautomatiseerde Issue"
 
 #: misc/localization/eventum.c
 msgid "Reminder Alert"
-msgstr ""
+msgstr "Herinnering Alert"
 
 #: misc/localization/eventum.c
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: misc/localization/eventum.c
 msgid "Alert Reason"
-msgstr ""
+msgstr "Reden Alert"
 
 #: misc/localization/eventum.c
 msgid "Triggered Reminder"
-msgstr ""
+msgstr "Gegenereerd Herinnering"
 
 #: misc/localization/eventum.c
 msgid "Alert Query"
-msgstr ""
+msgstr "Alert Query"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid "Automated Issue #%1 Reminder Alert"
-msgstr ""
+msgstr "Geautomatiseerde Issue #%1 Herinnering Alert"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -6399,18 +6483,19 @@ msgid ""
 "triggered this action, and this issue may require immediate action in your "
 "part."
 msgstr ""
+"Dit is een SMS herinnering signalering met betrekking tot afgifte #%1. "
+"Bepaalde voorwaarden aanleiding van deze actie, en kan dit punt een "
+"onmiddellijk ingrijpen vereisen in uw kant."
 
 #: misc/localization/eventum.c
 msgid "Removed Emails"
-msgstr ""
+msgstr "E-mails verwijderd"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please choose which emails need to be restored."
 msgstr "Selecteer de berichten die dienen te worden gekoppeld."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please choose which emails need to be permanently removed."
 msgstr "Seleceer de berichten die als verwijderd dienen te worden gemarkeerd."
 
@@ -6419,43 +6504,45 @@ msgid ""
 "WARNING: This action will permanently remove the selected emails from your "
 "email account."
 msgstr ""
+"WAARSCHUWING: Deze actie zal permanent verwijderen van de geselecteerde e-"
+"mailberichten van uw e-mailaccount."
 
 #: misc/localization/eventum.c
 msgid "Restore Emails"
-msgstr ""
+msgstr "Restore E-mails"
 
 #: misc/localization/eventum.c
 msgid "Permanently Remove"
-msgstr ""
+msgstr "Definitief verwijderen"
 
 #: misc/localization/eventum.c
 msgid ""
 "Please select the custom field that you would like to generate a report "
 "against."
 msgstr ""
+"Selecteer het aangepaste veld dat u wilt genereren van een rapport tegen."
 
 #: misc/localization/eventum.c
 msgid "Custom Fields Report"
-msgstr ""
+msgstr "Aangepaste velden verslag"
 
 #: misc/localization/eventum.c
 msgid "Field to Graph"
-msgstr ""
+msgstr "Veld te Grafiek"
 
 #: misc/localization/eventum.c
 msgid "Options to Graph"
-msgstr ""
+msgstr "Opties voor Grafiek"
 
 #: misc/localization/eventum.c
 msgid "Group By"
-msgstr ""
+msgstr "Per groep"
 
 #: misc/localization/eventum.c
 msgid "Issues Created Between"
-msgstr ""
+msgstr "Problemen ontstaan tussen"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Assignee"
 msgstr "Toegewezen"
 
@@ -6466,19 +6553,19 @@ msgstr "Genereren"
 #: misc/localization/eventum.c
 #, c-format
 msgid "Percentages may not add up to exactly 100% due to rounding"
-msgstr ""
+msgstr "Percentages niet op tot precies 100% door afronding"
 
 #: misc/localization/eventum.c
 msgid "Issues/Customers matching criteria"
-msgstr ""
+msgstr "Kwesties / Klanten die overeenkomen met de criteria"
 
 #: misc/localization/eventum.c
 msgid "Issue Count"
-msgstr ""
+msgstr "Kwestie Graaf"
 
 #: misc/localization/eventum.c
 msgid "No data found"
-msgstr ""
+msgstr "Geen gegevens gevonden"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -6488,7 +6575,7 @@ msgstr "Relatiebeheer is niet actief in dit project."
 
 #: misc/localization/eventum.c
 msgid "Customer Stats Report"
-msgstr ""
+msgstr "Klant Stats verslag"
 
 #: misc/localization/eventum.c
 msgid "Date Range"
@@ -6496,16 +6583,15 @@ msgstr "Periode"
 
 #: misc/localization/eventum.c
 msgid "Sections to Display"
-msgstr ""
+msgstr "De afdelingen te Display"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "year"
 msgstr "Aan:"
 
 #: misc/localization/eventum.c
 msgid "mon"
-msgstr ""
+msgstr "ma"
 
 #: misc/localization/eventum.c
 msgid "day"
@@ -6513,18 +6599,17 @@ msgstr "dag"
 
 #: misc/localization/eventum.c
 msgid "Include expired contracts"
-msgstr ""
+msgstr "Neem verstreken contracten"
 
 #: misc/localization/eventum.c
 msgid "Red values indicate value is higher than the aggregate one."
-msgstr ""
+msgstr "Red waarden duiden op waarde hoger is dan het totaal."
 
 #: misc/localization/eventum.c
 msgid "Blue values indicate value is lower than the aggregate one."
-msgstr ""
+msgstr "Blue waarden duiden op waarde lager is dan het totaal."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Customers"
 msgstr "Relatie "
 
@@ -6534,27 +6619,27 @@ msgstr "Meldingen"
 
 #: misc/localization/eventum.c
 msgid "Emails by Customers"
-msgstr ""
+msgstr "E-mails door klanten"
 
 #: misc/localization/eventum.c
 msgid "Emails by Staff"
-msgstr ""
+msgstr "E-mails door Personeel"
 
 #: misc/localization/eventum.c
 msgid "Count"
-msgstr ""
+msgstr "Count"
 
 #: misc/localization/eventum.c
 msgid "Using CSC"
-msgstr ""
+msgstr "Met behulp van CSC"
 
 #: misc/localization/eventum.c
 msgid "Issues in CSC"
-msgstr ""
+msgstr "Kwesties in CSC"
 
 #: misc/localization/eventum.c
 msgid "Tot"
-msgstr ""
+msgstr "Tot"
 
 #: misc/localization/eventum.c
 msgid "Avg"
@@ -6570,15 +6655,15 @@ msgstr "Maximum"
 
 #: misc/localization/eventum.c
 msgid "Time To First Response"
-msgstr ""
+msgstr "Tijd tot eerste reactie"
 
 #: misc/localization/eventum.c
 msgid "Time To Close"
-msgstr ""
+msgstr "Tijd om te sluiten"
 
 #: misc/localization/eventum.c
 msgid "Min"
-msgstr ""
+msgstr "Min"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -6587,28 +6672,41 @@ msgid ""
 "    Average and median counts do not include customers who have never opened "
 "an issue."
 msgstr ""
+"Verwijst naar het aantal punten in eventum voor de gegeven steun-niveau of "
+"klant.\n"
+"     Gemiddelde en mediaan telt omvatten niet de klanten die nog nooit een "
+"zaak geopend."
 
 #: misc/localization/eventum.c
 msgid ""
 "Refers to the number of emails sent by customers in eventum per issue. Does "
 "<b>not</b> include emails sent to general support mailbox."
 msgstr ""
+"Verwijst naar het aantal e-mails verstuurd door de klanten in eventum per "
+"onderwerp. Is <b> niet </b> ook e-mails die naar algemene steun mailbox."
 
 #: misc/localization/eventum.c
 msgid ""
 "Refers to the number of emails sent by developers in eventum per issue. Does "
 "<b>not</b> include emails sent to general support mailbox."
 msgstr ""
+"Verwijst naar het aantal e-mails verstuurd door ontwikkelaars in eventum per "
+"onderwerp. Is <b> niet </b> ook e-mails die naar algemene steun mailbox."
 
 #: misc/localization/eventum.c
 msgid "Date issue was opened - Date issue was closed for all closed issues."
 msgstr ""
+"Datum kwestie werd geopend - Datum kwestie werd afgesloten voor alle "
+"gesloten."
 
 #: misc/localization/eventum.c
 msgid ""
 "All time tracking information for the given support level or customer. "
 "Issues without any time tracking data do not affect the average or median."
 msgstr ""
+"Alle tijd bijhouden van informatie voor de gegeven steun-niveau of klant. "
+"Kwesties zonder enige tijd het bijhouden van gegevens zijn niet van invloed "
+"op de gemiddelde of de mediaan."
 
 #: misc/localization/eventum.c
 msgid "Estimated Development Time by Category"
@@ -6636,16 +6734,15 @@ msgstr "Aantal dagen terug dat niet dient te worden getoond"
 
 #: misc/localization/eventum.c
 msgid "Days and Hours Since"
-msgstr ""
+msgstr "Dagen en uren Sinds"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Last Update"
 msgstr "Gewijzigd"
 
 #: misc/localization/eventum.c
 msgid "Last Outgoing Msg"
-msgstr ""
+msgstr "Laatste uitgaande msg"
 
 #: misc/localization/eventum.c
 msgid "Recent Activity"
@@ -6809,10 +6906,9 @@ msgstr "Geschatte verwerkingstijd"
 
 #: misc/localization/eventum.c
 msgid "Categories and Statuses"
-msgstr ""
+msgstr "Categorieën en statussen"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Report Type:"
 msgstr "Soort rapportage"
 
@@ -6821,12 +6917,10 @@ msgid "Weekly"
 msgstr "Wekelijkse"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Week"
 msgstr "week"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "End:"
 msgstr "Einde"
 
@@ -6863,7 +6957,6 @@ msgid "issues worked on"
 msgstr "meldingen waar aan gewerkt is"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "No issues touched this time period"
 msgstr "Geen meldingen gesloten in deze periode"
 
@@ -7005,15 +7098,13 @@ msgstr "Tijdvak"
 
 #: misc/localization/eventum.c
 msgid "(GMT)"
-msgstr ""
+msgstr "(GMT)"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the impact analysis was updated successfully."
 msgstr "Actie bijgewerkt."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid ""
 "Please use only floating point numbers on the estimated development time "
 "field."
@@ -7021,52 +7112,45 @@ msgstr "Gebruik alleen hele getalen bij het invullen van tijden."
 
 #: misc/localization/eventum.c
 msgid "Please enter the impact analysis for this new requirement."
-msgstr ""
+msgstr "Geef de analyse van de gevolgen voor deze nieuwe eis."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Enter Impact Analysis"
 msgstr "Initiële Impact analyse"
 
 #: misc/localization/eventum.c
 msgid "Impact <br />Analysis"
-msgstr ""
+msgstr "Impact <br /> Analyse"
 
 #: misc/localization/eventum.c
 msgid "Widen the field"
-msgstr ""
+msgstr "Het terrein"
 
 #: misc/localization/eventum.c
 msgid "Shorten the field"
-msgstr ""
+msgstr "Verkorting van het gebied"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Quick Search"
 msgstr "snelzoeken"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Keyword(s):"
 msgstr "Zoekwoord(en)"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Assigned:"
 msgstr "Toegewezen"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Category:"
 msgstr "Categorie"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Priority:"
 msgstr "Prioriteit"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please choose the project."
 msgstr "Selecteer..."
 
@@ -7076,7 +7160,7 @@ msgstr "Selecteer een project"
 
 #: misc/localization/eventum.c
 msgid "You are not allowed to use the selected project."
-msgstr ""
+msgstr "U bent niet toegestaan gebruik te maken van het gekozen project."
 
 #: misc/localization/eventum.c
 msgid "Remember Selection"
@@ -7113,15 +7197,17 @@ msgid ""
 "  Please contact the administrator of this application for further "
 "assistance."
 msgstr ""
+"Sorry, maar de e-mail kan niet worden wachtrij geplaatst. Dit kan zijn in "
+"verband met problemen met uw SMTP-account-instellingen.\n"
+"   Neem contact op met de beheerder van deze toepassing voor verdere hulp."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the email was queued to be sent successfully."
 msgstr "Fase toegevoegd."
 
 #: misc/localization/eventum.c
 msgid "Thank you, the email message was saved as a draft successfully."
-msgstr ""
+msgstr "Dank u wel, de e-mail bericht is opgeslagen als een succesvol ontwerp."
 
 #: misc/localization/eventum.c
 msgid "If you close this window, you will lose your message"
@@ -7129,15 +7215,15 @@ msgstr "(Eventueel ingevoerde informatie wordt niet verwerkt)"
 
 #: misc/localization/eventum.c
 msgid "Please enter the recipient of this email."
-msgstr ""
+msgstr "Geef de ontvanger van deze e-mail."
 
 #: misc/localization/eventum.c
 msgid "Please enter the subject of this email."
-msgstr ""
+msgstr "Geef het onderwerp van deze e-mail."
 
 #: misc/localization/eventum.c
 msgid "Please enter the message body of this email."
-msgstr ""
+msgstr "Geef het bericht van dit e-mailbericht."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -7145,6 +7231,11 @@ msgid ""
 "Your blocked email will be converted to a note that can be recovered later.\n"
 "For more information, please see the topic 'email blocking' in help."
 msgstr ""
+"WAARSCHUWING: U bent niet toegewezen aan deze kwestie, zodat uw e-mail wordt "
+"geblokkeerd.\n"
+" Uw e-mail geblokkeerd zal worden omgezet in een nota die kan worden "
+"teruggevorderd later.\n"
+" Voor meer informatie, zie het onderwerp 'e-mail blokkeren' in helpen."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -7153,6 +7244,11 @@ msgid ""
 "If you want the CUSTOMER to receive your message now, press OK.\n"
 "Otherwise, to return to your editing window, press CANCEL."
 msgstr ""
+"WAARSCHUWING: Dit e-mail wordt verstuurd naar alle namen in deze kwestie in "
+"de mededeling Lijst, waaronder de klanten.\n"
+" Als u wilt dat de klant uw bericht te ontvangen nu, druk op OK.\n"
+" Zo niet, om terug te keren naar uw venster voor het bewerken, drukt u op "
+"CANCEL."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -7161,19 +7257,26 @@ msgid ""
 "If you want all users to receive your message now, press OK.\n"
 "Otherwise, to return to your editing window, press CANCEL."
 msgstr ""
+"WAARSCHUWING: Dit e-mail wordt verstuurd naar alle namen in deze kwestie in "
+"de mededeling Lijst.\n"
+" Als u wilt dat alle gebruikers uw bericht te ontvangen nu, druk op OK.\n"
+" Zo niet, om terug te keren naar uw venster voor het bewerken, drukt u op "
+"CANCEL."
 
 #: misc/localization/eventum.c
 msgid "Warning: This draft has already been sent. You cannot resend it."
-msgstr ""
+msgstr "Waarschuwing: Dit ontwerp is al verstuurd. Je kunt niet onderbroken."
 
 #: misc/localization/eventum.c
 msgid ""
 "Warning: This draft has already been edited. You cannot send or edit it."
 msgstr ""
+"Waarschuwing: Dit ontwerp is al bewerkt. Je kunt niet verzenden of te "
+"bewerken."
 
 #: misc/localization/eventum.c
 msgid "Send Email"
-msgstr ""
+msgstr "Stuur E-mail"
 
 #: misc/localization/eventum.c
 msgid ""
@@ -7182,9 +7285,12 @@ msgid ""
 "              Please contact the administrator of this application for "
 "assistance."
 msgstr ""
+"Sorry, maar de e-mail kan niet worden verzonden. Dit kan zijn in verband met "
+"problemen met uw SMTP-account-instellingen.\n"
+"               Neem contact op met de beheerder van deze toepassing voor de "
+"bijstand."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the email was sent successfully."
 msgstr "Fase toegevoegd."
 
@@ -7194,7 +7300,7 @@ msgstr "Leden"
 
 #: misc/localization/eventum.c
 msgid "Cc"
-msgstr ""
+msgstr "Cc"
 
 #: misc/localization/eventum.c
 msgid "Add Unknown Recipients to Issue Notification List"
@@ -7210,24 +7316,23 @@ msgstr "Standaard antwoord gebruiken"
 
 #: misc/localization/eventum.c
 msgid "Check Spelling"
-msgstr ""
+msgstr "Spelling controleren"
 
 #: misc/localization/eventum.c
 msgid "Save Draft Changes"
-msgstr ""
+msgstr "Sla ontwerp-wijzigingen"
 
 #: misc/localization/eventum.c
 msgid "Save as Draft"
 msgstr "Concept opslaan"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter your email address."
 msgstr "Geef een geldig e-mail adres."
 
 #: misc/localization/eventum.c
 msgid "Please enter your password."
-msgstr ""
+msgstr "Geef uw wachtwoord op te geven."
 
 #: misc/localization/eventum.c
 msgid "Account Signup"
@@ -7238,6 +7343,8 @@ msgid ""
 "Error: The email address specified is already associated with an user in the "
 "system."
 msgstr ""
+"Fout: De opgegeven e-mailadres is al gekoppeld aan een gebruiker in het "
+"systeem."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -7245,45 +7352,52 @@ msgid ""
 "security reasons a confirmation email was sent to the provided email address "
 "with instructions on how to confirm your request and activate your account."
 msgstr ""
+"Dank u, uw account oprichting verzoek is verwerkt. Om veiligheidsredenen een "
+"bevestiging per e-mail is verzonden naar de opgegeven e-mailadres met "
+"instructies voor het bevestigen van uw verzoek en uw account activeren."
 
 #: misc/localization/eventum.c
 msgid "Full Name:"
-msgstr ""
+msgstr "Volledige naam:"
 
 #: misc/localization/eventum.c
 msgid "Spell Check"
-msgstr ""
+msgstr "Spellingcontrole"
 
 #: misc/localization/eventum.c
 msgid "No spelling mistakes could be found."
-msgstr ""
+msgstr "Geen spelfouten gevonden kan worden."
 
 #: misc/localization/eventum.c
 msgid "Misspelled Words:"
-msgstr ""
+msgstr "Gespelde woorden:"
 
 #: misc/localization/eventum.c
 msgid "Suggestions:"
-msgstr ""
+msgstr "Suggesties:"
 
 #: misc/localization/eventum.c
 msgid "Choose a misspelled word"
-msgstr ""
+msgstr "Kies een verkeerd gespeld woord"
 
 #: misc/localization/eventum.c
 msgid "Fix Spelling"
-msgstr ""
+msgstr "Fix Spelling"
 
 #: misc/localization/eventum.c
 msgid ""
 "Please choose which entries need to be disassociated with the current issue."
 msgstr ""
+"Geef uw keuze die vermeldingen moeten worden gescheiden met het huidige "
+"onderwerp."
 
 #: misc/localization/eventum.c
 msgid ""
 "This action will remove the association of the selected entries to the "
 "current issue."
 msgstr ""
+"Deze actie zal de associatie van de geselecteerde items op de huidige "
+"kwestie."
 
 #: misc/localization/eventum.c
 msgid "Associated Emails"
@@ -7291,7 +7405,7 @@ msgstr "Gekoppelde berichten"
 
 #: misc/localization/eventum.c
 msgid "view the history of sent emails"
-msgstr ""
+msgstr "Gezien de geschiedenis van de verzonden e-mails"
 
 #: misc/localization/eventum.c
 msgid "Mail Queue Log"
@@ -7307,7 +7421,7 @@ msgstr "Ontvangen"
 
 #: misc/localization/eventum.c
 msgid "reply to this email"
-msgstr ""
+msgstr "Beantwoord dit e-mailbericht"
 
 #: misc/localization/eventum.c
 msgid "No associated emails could be found."
@@ -7315,20 +7429,19 @@ msgstr "Geen gekoppelde berichten gevonden."
 
 #: misc/localization/eventum.c
 msgid "Disassociate Selected"
-msgstr ""
+msgstr "Loskoppelen Geselecteerde"
 
 #: misc/localization/eventum.c
 msgid "Thank you, your current selected project was changed successfully."
-msgstr ""
+msgstr "Dank u, uw huidige geselecteerde project werd met succes veranderd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "This action will permanently delete the specified time tracking entry."
 msgstr "Door deze actie wordt de notitie verwijderd."
 
 #: misc/localization/eventum.c
 msgid "No time tracking entries could be found."
-msgstr ""
+msgstr "Geen tijd bijhouden van gegevens kan worden gevonden."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -7354,12 +7467,19 @@ msgstr ""
 "gebruiker die beschikt over de rechten om standaard antwoorden op te stellen."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "You can create as many custom queries as you want through the\n"
 "<a class=\"link\" href=\"%1\">Advanced Search</a> interface.\n"
 "There is also the ability to save and modify custom queries and load\n"
 "them quickly from the Issue Listing screen."
 msgstr ""
+"U kunt zoveel aangepaste zoekopdrachten als u maar wilt via de\n"
+" <a class=\"link\" href=\"adv_search.php\"> Geavanceerd zoeken </a> "
+"interface.\n"
+" Er bestaat ook de mogelijkheid om te slaan en te wijzigen aangepaste "
+"zoekopdrachten en belasting\n"
+" deze snel van de Uitgifte aanbieding scherm."
 
 #: misc/localization/eventum.c
 msgid ""
@@ -7388,17 +7508,15 @@ msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
 msgstr ""
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Error: The issue could not be found."
 msgstr "Fout: Melding %1 is niet gevonden"
 
 #: misc/localization/eventum.c
 #, fuzzy
 msgid "Sorry, you do not have the required privileges to update this issue."
-msgstr "U bent niet gemachtigd deze pagina te bekijken"
+msgstr "Sorry, u niet over de benodigde rechten om deze kwestie."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, issue #%1 was updated successfully."
 msgstr "Fase bijgewerkt."
 
@@ -7407,50 +7525,52 @@ msgid ""
 "Also, all issues that are marked as duplicates from this one were updated as "
 "well."
 msgstr ""
+"Ook zijn alle kwesties die zijn gemarkeerd als duplicaten van een bijgewerkt "
+"worden."
 
 #: misc/localization/eventum.c
 msgid "Return to Issue #%1 Details Page"
-msgstr ""
+msgstr "Terug naar de Issue #%1 Details Page"
 
 #: misc/localization/eventum.c
 msgid "Update Issue #%1"
 msgstr "Melding %1 bijwerken"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the summary for this issue."
 msgstr "Geef nieuwe vereiste voor deze melding."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please enter the description for this issue."
 msgstr "Geef nieuwe vereiste voor deze melding."
 
 #: misc/localization/eventum.c
 msgid "Percentage complete should be between 0 and 100"
-msgstr ""
+msgstr "Percentage voltooid moet zijn tussen 0 en 100"
 
 #: misc/localization/eventum.c
 msgid "Please select an assignment for this issue"
-msgstr ""
+msgstr "Selecteer een opdracht voor dit onderwerp"
 
 #: misc/localization/eventum.c
 msgid ""
 "Warning: All changes to this issue will be lost if you continue and close "
 "this issue."
 msgstr ""
+"Waarschuwing: Alle wijzigingen in deze kwestie zal worden verloren als u "
+"doorgaat en sluit deze kwestie."
 
 #: misc/localization/eventum.c
 msgid "Note: Project automatically switched to '%1' from '%2'."
-msgstr ""
+msgstr "Opmerking: Project automatisch overgeschakeld naar '%1' uit '%2'."
 
 #: misc/localization/eventum.c
 msgid "Update Issue Overview"
-msgstr ""
+msgstr "Update kwestie Overzicht"
 
 #: misc/localization/eventum.c
 msgid "edit the authorized repliers list for this issue"
-msgstr ""
+msgstr "het bewerken van de toegestane repliers lijst voor dit onderwerp"
 
 #: misc/localization/eventum.c
 msgid "Edit Authorized Replier List"
@@ -7465,12 +7585,10 @@ msgid "History of Changes"
 msgstr "Geschiedenis"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Notification List:"
 msgstr "Notificatielijst"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Staff"
 msgstr "Abonnees:"
 
@@ -7480,7 +7598,7 @@ msgstr "Ingebracht:"
 
 #: misc/localization/eventum.c
 msgid "Update Date:"
-msgstr ""
+msgstr "Update Datum:"
 
 #: misc/localization/eventum.c
 msgid "Associated Issues:"
@@ -7491,7 +7609,6 @@ msgid "Expected Resolution Date:"
 msgstr "Verwachte afhandeldatum:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Scheduled Release:"
 msgstr "Fase"
 
@@ -7505,18 +7622,17 @@ msgstr "Geschatte verwerkingstijd:"
 
 #: misc/localization/eventum.c
 msgid "Keep Current Assignments:"
-msgstr ""
+msgstr "Houd huidige opdrachten:"
 
 #: misc/localization/eventum.c
 msgid "Change Assignments:"
-msgstr ""
+msgstr "Verander Opdrachten:"
 
 #: misc/localization/eventum.c
 msgid "Current Selections:"
-msgstr ""
+msgstr "De huidige selectie:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Authorized Repliers:"
 msgstr "Gemachtigd om de melding te beantwoorden"
 
@@ -7525,12 +7641,10 @@ msgid "Staff:"
 msgstr "Abonnees:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Other:"
 msgstr "Anders"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Group:"
 msgstr "groep"
 
@@ -7539,58 +7653,56 @@ msgid "Summary:"
 msgstr "Titel:"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Private:"
 msgstr "Privé"
 
 #: misc/localization/eventum.c
 msgid "Trigger Reminders:"
-msgstr ""
+msgstr "Trigger Herinneringen:"
 
 #: misc/localization/eventum.c
 msgid "Cancel Update"
-msgstr ""
+msgstr "De stijl Update"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Error: The issue #%1 could not be found."
 msgstr "Fout: Melding %1 is niet gevonden"
 
 #: misc/localization/eventum.c
 msgid "Sorry, you do not have the required privileges to view this issue."
-msgstr ""
+msgstr "Sorry, u niet over de benodigde rechten om deze kwestie."
 
 #: misc/localization/eventum.c
 msgid ""
 "Re-directing the parent window to the issue report page. This window will be "
 "closed automatically."
 msgstr ""
+"Omleiding van de ouder-venster op de kwestie verslag pagina. Dit venster "
+"wordt automatisch gesloten."
 
 #: misc/localization/eventum.c
 msgid "This message already belongs to that account"
-msgstr ""
+msgstr "Dit bericht al behoort tot die account"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the email was successfully moved."
 msgstr "Fase toegevoegd."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "View Email Details"
 msgstr "details bekijken"
 
 #: misc/localization/eventum.c
 msgid "Associated with Issue"
-msgstr ""
+msgstr "Geassocieerd met Issue"
 
 #: misc/localization/eventum.c
 msgid "Previous Message"
-msgstr ""
+msgstr "Vorig bericht"
 
 #: misc/localization/eventum.c
 msgid "Next Message"
-msgstr ""
+msgstr "Volgend bericht"
 
 #: misc/localization/eventum.c
 msgid "display in fixed width font"
@@ -7598,46 +7710,48 @@ msgstr "Weergeven in een lettertype met vaste breedte"
 
 #: misc/localization/eventum.c
 msgid "Raw Headers"
-msgstr ""
+msgstr "Ruwe Headers"
 
 #: misc/localization/eventum.c
 msgid "Move Message To"
-msgstr ""
+msgstr "Verplaats bericht naar"
 
 #: misc/localization/eventum.c
 msgid "Please select the new status for this issue."
-msgstr ""
+msgstr "Selecteer de nieuwe status voor dit probleem."
 
 #: misc/localization/eventum.c
 msgid ""
 "NOTE: If you need to send new information regarding this issue, please use "
 "the EMAIL related buttons available at the bottom of the screen."
 msgstr ""
+"LET OP: Als u nodig voor het verzenden van nieuwe informatie met betrekking "
+"tot dit onderwerp, kunt u via de e-mail gerelateerde beschikbare knoppen aan "
+"de onderkant van het scherm."
 
 #: misc/localization/eventum.c
 msgid "previous issue on your current active filter"
-msgstr ""
+msgstr "vorige nummer van uw huidige actieve filter"
 
 #: misc/localization/eventum.c
 msgid "Previous Issue"
-msgstr ""
+msgstr "Vorige Issue"
 
 #: misc/localization/eventum.c
 msgid "next issue on your current active filter"
-msgstr ""
+msgstr "volgende nummer van uw huidige actieve filter"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Next Issue"
 msgstr "Nieuwe melding"
 
 #: misc/localization/eventum.c
 msgid "This Issue is Currently Quarantined"
-msgstr ""
+msgstr "Deze kwestie wordt momenteel in quarantaine"
 
 #: misc/localization/eventum.c
 msgid "Quarantine expires in %1"
-msgstr ""
+msgstr "Quarantaine loopt af in %1"
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -7645,16 +7759,14 @@ msgid ""
 "Please see the <a class=\"link\" href=\"%1\">FAQ</a> for information "
 "regarding quarantined issues."
 msgstr ""
-"Waarschuwing: de melding is in quarantaine geplaatst.\n"
-"Bekijk de <a href=\"faq.php\">veelgestelde vragen</a> voor informatie over "
-"meldingen in quarantaine."
+"Zie de <a class=\"link\" href=\"faq.php\">FAQ</a> voor informatie met "
+"betrekking tot kwesties in quarantaine."
 
 #: misc/localization/eventum.c
 msgid "Remove Quarantine"
-msgstr ""
+msgstr "Verwijder Quarantaine"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Note: "
 msgstr "Notities"
 
@@ -7663,6 +7775,8 @@ msgid ""
 "This issue is marked private. Only Managers, the reporter and users assigned "
 "to the issue can view it."
 msgstr ""
+"Dit onderwerp is gemarkeerd als prive. Alleen beheerders, de melder en "
+"gebruikers aan het probleem kunnen bekijken."
 
 #: misc/localization/eventum.c
 msgid "Issue Overview"
@@ -7670,27 +7784,27 @@ msgstr "Meldingoverzicht"
 
 #: misc/localization/eventum.c
 msgid "edit the notification list for this issue"
-msgstr ""
+msgstr "het bewerken van de kennisgeving lijst voor dit onderwerp"
 
 #: misc/localization/eventum.c
 msgid "view the full history of changes on this issue"
-msgstr ""
+msgstr "Gezien de volledige geschiedenis van de veranderingen op dit punt"
 
 #: misc/localization/eventum.c
 msgid "Complete Details"
-msgstr ""
+msgstr "Compleet met details"
 
 #: misc/localization/eventum.c
 msgid "Customer Contract"
-msgstr ""
+msgstr "Customer Contract"
 
 #: misc/localization/eventum.c
 msgid "Support Options"
-msgstr ""
+msgstr "Support Opties"
 
 #: misc/localization/eventum.c
 msgid "Redeemed Incident Types"
-msgstr ""
+msgstr "Verzilverd incident soorten"
 
 #: misc/localization/eventum.c
 msgid "Submitted Date"
@@ -7727,12 +7841,10 @@ msgid "Duplicates"
 msgstr "Dubbelgangers"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Duplicate of"
 msgstr "Dubbelgangers"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Duplicated by"
 msgstr "Dubbelgangers"
 
@@ -7762,7 +7874,7 @@ msgstr "Melding bijwerken"
 
 #: misc/localization/eventum.c
 msgid "Clear Duplicate Status"
-msgstr ""
+msgstr "Duidelijke tweevoud status"
 
 #: misc/localization/eventum.c
 msgid "Mark as Duplicate"
@@ -7770,11 +7882,11 @@ msgstr "Als dubbelganger aanmerken"
 
 #: misc/localization/eventum.c
 msgid "Signup as Authorized Replier"
-msgstr ""
+msgstr "Meld als gemachtigde Replier"
 
 #: misc/localization/eventum.c
 msgid "Edit Incident Redemption"
-msgstr ""
+msgstr "Edit incident aflossing"
 
 #: misc/localization/eventum.c
 msgid "Change Status To"
@@ -7782,48 +7894,48 @@ msgstr "Status wijzigen in"
 
 #: misc/localization/eventum.c
 msgid "View Email Raw Headers"
-msgstr ""
+msgstr "Kijk ruwe e-mail headers"
 
 #: misc/localization/eventum.c
 msgid ""
 "The specified note does not exist. <br />\n"
 "      It could have been converted to an email."
 msgstr ""
+"De gespecificeerde nota bestaat niet. <br />\n"
+"       Het kan zijn omgebouwd tot een e-mail."
 
 #: misc/localization/eventum.c
 msgid "View Note Details"
-msgstr ""
+msgstr "Kijk Opmerking details"
 
 #: misc/localization/eventum.c
 msgid "Previous Note"
-msgstr ""
+msgstr "Vorige Opmerking"
 
 #: misc/localization/eventum.c
 msgid "Next Note"
-msgstr ""
+msgstr "Volgende Opmerking"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Posted Date:"
 msgstr "Geplaatst op"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Attachments:"
 msgstr "Bijlagen"
 
 #: misc/localization/eventum.c
 msgid "download file"
-msgstr ""
+msgstr "download bestand"
 
 #: misc/localization/eventum.c
 msgid "Blocked Message Raw Headers"
-msgstr ""
+msgstr "Geblokkeerde bericht ruwe headers"
 
 #: include/class.custom_field.php:319
-#, php-format
+#, fuzzy, php-format
 msgid "Custom field updated (%1$s) by %2$s"
-msgstr ""
+msgstr "Aangepast veld bijgewerkt (%1$s) door %2$s"
 
 #: include/class.customer_stats_report.php:192
 msgid "Aggregate"
@@ -7831,32 +7943,36 @@ msgstr "Gegroepeerd"
 
 #: include/class.customer_stats_report.php:685
 msgid "Total Workload by Support Level"
-msgstr ""
+msgstr "De totale werklast door steun niveau"
 
 #: include/class.customer_stats_report.php:686
 msgid ""
 "Includes issue count, Developer email Count, Customer Email Count, Customers "
 "count by Support Level"
 msgstr ""
+"Inclusief kwestie tellen, e-mail Developer Graaf, Customer Email Graaf, "
+"Klanten rekenen op steun van niveau"
 
 #: include/class.customer_stats_report.php:693
 msgid "Avg Workload per Customer by Support Level"
-msgstr ""
+msgstr "Gem werklast per klant door ondersteuning niveau"
 
 #: include/class.customer_stats_report.php:694
 msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
 msgstr ""
+"Geeft het gemiddelde aantal punten, ontwikkelaar van e-mails en e-mails per "
+"klant afgifte door steun niveau"
 
 #: include/class.customer_stats_report.php:702
 msgid "Avg and Median Time to Close by Support Level"
-msgstr ""
+msgstr "Gem en de mediane tijd te sluiten door Support Level"
 
 #: include/class.customer_stats_report.php:703
 #: include/class.customer_stats_report.php:712
 msgid "Displays time stats"
-msgstr ""
+msgstr "Geeft tijd statistieken"
 
 #: include/class.customer_stats_report.php:708
 msgid "Days"
@@ -7864,7 +7980,7 @@ msgstr "Dagen"
 
 #: include/class.customer_stats_report.php:711
 msgid "Avg and Median Time to First Response by Support Level"
-msgstr ""
+msgstr "Gem en de mediane tijd tot eerste reactie van steun niveau"
 
 #: include/class.customer_stats_report.php:717
 msgid "Hours"
@@ -7872,95 +7988,92 @@ msgstr "Uur"
 
 #: include/class.customer_stats_report.php:732
 msgid "Customer Counts"
-msgstr ""
+msgstr "Klant Counts"
 
 #: include/class.customer_stats_report.php:733
 msgid "Issue Counts"
-msgstr ""
+msgstr "Kwestie Counts"
 
 #: include/class.customer_stats_report.php:734
 msgid "Email Counts"
-msgstr ""
+msgstr "E-mail Counts"
 
 #: include/class.customer_stats_report.php:735
 msgid "Time Statistics"
-msgstr ""
+msgstr "Tijd Statistieken"
 
 #: include/class.display_column.php:182 include/class.filter.php:615
 msgid "Created Date"
-msgstr ""
+msgstr "Datum gemaakt"
 
 #: include/class.display_column.php:194
 msgid "% Complete"
-msgstr ""
+msgstr "% Voltooid"
 
 #: include/class.display_column.php:198
 msgid "Est Dev Time"
-msgstr ""
+msgstr "Est dev tijd"
 
 #: include/class.display_column.php:217
 msgid "Status Change Date"
 msgstr "Status gewijzigd op"
 
 #: include/class.draft.php:116
-#, php-format
+#, fuzzy, php-format
 msgid "Email message saved as a draft by %1$s"
-msgstr ""
+msgstr "E-mail bericht opgeslagen als concept door%1$s"
 
 #: include/class.draft.php:160
-#, php-format
+#, fuzzy, php-format
 msgid "Email message draft updated by %1$s"
-msgstr ""
+msgstr "E-mail bericht ontwerp bijgewerkt door%1$s"
 
 #: include/class.filter.php:620
 msgid "Updated Date"
-msgstr ""
+msgstr "Datum bijgewerkt"
 
 #: include/class.filter.php:625
 msgid "Last Response Date"
-msgstr ""
+msgstr "Laatste reactie datum"
 
 #: include/class.filter.php:630
 msgid "First Response Date"
-msgstr ""
+msgstr "Eerste reactie datum"
 
 #: include/class.filter.php:635
 msgid "Closed Date"
-msgstr ""
+msgstr "Gesloten Datum"
 
 #: include/class.filter.php:640
-#, fuzzy
 msgid "Rows Per Page"
 msgstr "Rijen per pagina:"
 
 #: include/class.filter.php:664
-#, fuzzy
 msgid "Search Type"
 msgstr "Zoektitel"
 
 #: include/class.help.php:35
 msgid "Help Topics"
-msgstr ""
+msgstr "Hulp"
 
 #: include/class.help.php:39
-#, fuzzy
 msgid "Reporting Issues"
 msgstr "Nieuwe meldingen rapporteren"
 
 #: include/class.impact_analysis.php:79
-#, php-format
+#, fuzzy, php-format
 msgid "New requirement submitted by %1$s"
-msgstr ""
+msgstr "Nieuwe eis ingediend door%1$s"
 
 #: include/class.impact_analysis.php:170
-#, php-format
+#, fuzzy, php-format
 msgid "Impact analysis submitted by %1$s"
-msgstr ""
+msgstr "Impact analyse ingediend door%1$s"
 
 #: include/class.impact_analysis.php:204
-#, php-format
+#, fuzzy, php-format
 msgid "Impact analysis removed by %1$s"
-msgstr ""
+msgstr "Impact analyse verwijderd door%1$s"
 
 #: include/class.mail.php:119
 msgid ""
@@ -7975,184 +8088,194 @@ msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
 msgstr ""
+"Alleen medewerkers die in de opdracht of toestemming replier velden kunnen "
+"sturen e-mails."
 
 #: include/class.mail.php:469
 msgid "ADVISORY: Your reply will be sent to the notification list."
-msgstr ""
+msgstr "RAADGEVENDE: Uw reactie wordt verstuurd naar de aanmelding lijst."
 
 #: include/class.mail.php:471
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
+"WAARSCHUWING: Als antwoord, voeg jezelf te Geautoriseerde Repliers eerste "
+"lijst."
 
 #: include/class.monitor.php:85
 msgid "ERROR: Almost no free disk space left (percentage left"
-msgstr ""
+msgstr "FOUT: bijna geen vrije schijfruimte links (percentage links"
 
 #: include/class.monitor.php:89
 msgid "ERROR: Free disk space left is getting very low (percentage left"
 msgstr ""
+"FOUT: Vrije ruimte op de harde schijf links steeds zeer laag (percentage "
+"links"
 
 #: include/class.monitor.php:106
 msgid "ERROR: File could not be found (path"
-msgstr ""
+msgstr "FOUT: Bestand kon niet worden gevonden (pad"
 
 #: include/class.monitor.php:112
-#, php-format
+#, fuzzy, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %"
 "3$s)"
 msgstr ""
+"FOUT: Bestand eigenaar mismatch (pad: %1$s; huidige eigenaar:%2$s; juiste "
+"eigenaar:%3$s)"
 
 #: include/class.monitor.php:115
-#, php-format
+#, fuzzy, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %"
 "3$s)"
 msgstr ""
+"FOUT: Bestand groep mismatch (pad: %1$s; huidige groep: %2$s; juiste groep:%3"
+"$s)"
 
 #: include/class.monitor.php:120
-#, php-format
+#, fuzzy, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
+"FOUT: Bestand toestemming mismatch (pad: %1$s; huidige perm: %2$s; juiste "
+"perm:%3$s)"
 
 #: include/class.monitor.php:124
-#, php-format
+#, fuzzy, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
+"FOUT: Bestand grote mismatch (pad: %1$s; huidige bestandsgrootte: %2$s)"
 
 #: include/class.monitor.php:144
-#, php-format
+#, fuzzy, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
-msgstr ""
+msgstr "FOUT: Directory kon niet worden gevonden (pad: %1$s)"
 
 #: include/class.monitor.php:150
-#, php-format
+#, fuzzy, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
 "correct perm: %3$s)"
 msgstr ""
+"FOUT: Directory toestemming mismatch (pad: %1$s; huidige perm: %2$s; juiste "
+"perm: %3$s)"
 
 #: include/class.monitor.php:173
 msgid "ERROR: Could not connect to the mysql database. Detailed error message:"
 msgstr ""
+"FOUT: Kan geen verbinding maken met de mysql-database. Exacte foutmelding:"
 
 #: include/class.monitor.php:271
 msgid "ERROR: Could not find IRC bot pid from process list."
-msgstr ""
+msgstr "FOUT: Kan niet vinden IRC bot pid van proces lijst."
 
 #: include/class.notification.php:613 include/class.notification.php:614
-#, fuzzy
 msgid "Assignment List"
 msgstr "Toewijzing"
 
 #: include/class.notification.php:690
-#, fuzzy
 msgid "Updated"
 msgstr "Bijwerken"
 
 #: include/class.notification.php:820
-#, fuzzy
 msgid "Closed"
 msgstr "Sluiten"
 
 #: include/class.notification.php:958
-#, fuzzy
 msgid "BLOCKED"
 msgstr "Prikklok"
 
 #: include/class.notification.php:1372
 msgid "User account information updated"
-msgstr ""
+msgstr "User account informatie bijgewerkt"
 
 #: include/class.notification.php:1409
 msgid "User account password changed"
-msgstr ""
+msgstr "User account wachtwoord wijzigen"
 
 #: include/class.notification.php:1446
 msgid "New User information"
-msgstr ""
+msgstr "Nieuwe gebruiker informatie"
 
 #: include/class.notification.php:1572
 msgid "Your User Account Details"
-msgstr ""
+msgstr "Uw user account details"
 
 #: include/class.notification.php:1844
-#, php-format
+#, fuzzy, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
-msgstr ""
+msgstr "Aanmelding lijst item (%1$s) verwijderd door %2$s"
 
 #: include/class.notification.php:1995
-#, php-format
+#, fuzzy, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
-msgstr ""
+msgstr "Aanmelding lijst item (%1$s) toegevoegd door %2$s"
 
 #: include/class.notification.php:2076
-#, php-format
+#, fuzzy, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
-msgstr ""
+msgstr "Aanmelding lijst item ('%1$s') toegevoegd door %2$s"
 
 #: include/class.notification.php:2172
-#, php-format
+#, fuzzy, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
-msgstr ""
+msgstr "Aanmelding lijst item ('%1$s') bijgewerkt door %2$s"
 
 #: include/class.pager.php:123
 msgid "Previous"
-msgstr ""
+msgstr "Vorige"
 
 #: include/class.phone_support.php:339
 msgid "Time entry inserted from phone call."
-msgstr ""
+msgstr "Tijd binnenkomst ingevoegd uit telefoontje."
 
 #: include/class.phone_support.php:353
-#, php-format
+#, fuzzy, php-format
 msgid "Phone Support entry submitted by %1$s"
-msgstr ""
+msgstr "Telefoon Support binnenkomst ingediend door%1$s"
 
 #: include/class.phone_support.php:412
-#, php-format
+#, fuzzy, php-format
 msgid "Phone Support entry removed by %1$s"
-msgstr ""
+msgstr "Telefoon Support item verwijderd door%1$s"
 
 #: include/class.reminder_action.php:596
 msgid "Processing Group Leader notification"
-msgstr ""
+msgstr "Processing Group Leader aanmelding"
 
 #: include/class.reminder_action.php:602
-#, php-format
+#, fuzzy, php-format
 msgid "No group associated with issue %1$s"
-msgstr ""
+msgstr "Geen enkele groep in verband met afgifte %1$s"
 
 #: include/class.reminder_action.php:612
-#, php-format
+#, fuzzy, php-format
 msgid "Performing action %1$s for issue # %2$s"
-msgstr ""
+msgstr "Het uitvoeren van de actie%1$s voor de afgifte #%2$s"
 
 #: include/class.reminder_action.php:801
 msgid "Reminder Not Triggered"
-msgstr ""
+msgstr "Herinnering niet op gang"
 
 #: include/class.routing.php:61
-#, fuzzy
 msgid "Error: The email message was empty"
 msgstr "Fout: Het bericht bevatte geen inhoud"
 
 #: include/class.routing.php:70
-#, fuzzy
 msgid "Error: The email routing interface is disabled."
 msgstr "Fout: De Conceptberichten functie is inactief"
 
 #: include/class.routing.php:73 include/class.routing.php:275
 #: include/class.routing.php:391
 msgid "Error: Please configure the email address prefix."
-msgstr ""
+msgstr "Fout: U configureert het e-mailadres prefix."
 
 #: include/class.routing.php:76 include/class.routing.php:278
 #: include/class.routing.php:394
 msgid "Error: Please configure the email address domain."
-msgstr ""
+msgstr "Fout: U configureert het e-mailadres domein."
 
 #: include/class.routing.php:82
 msgid ""
@@ -8188,7 +8311,6 @@ msgid "Error: The internal note routing interface is disabled."
 msgstr "Fout: De interne notitie functie is inactief"
 
 #: include/class.routing.php:293
-#, fuzzy
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -8210,13 +8332,13 @@ msgid "Draft routed from"
 msgstr "Concept afkomstig van"
 
 #: include/class.scm.php:103
-#, php-format
+#, fuzzy, php-format
 msgid "SCM Checkins removed by %1$s"
-msgstr ""
+msgstr "SCM Checkins verwijderd door%1$s"
 
 #: include/class.scm.php:205
 msgid "SCM Checkins associated by SCM user '"
-msgstr ""
+msgstr "SCM Checkins verbonden door SCM-gebruiker '"
 
 #: include/class.support.php:495
 msgid "Postmaster notify: see transcript for details"
@@ -8294,59 +8416,102 @@ msgstr "Toewijzing"
 msgid "Update Issue #%1$s"
 msgstr "Bewerken melding %1$s"
 
+#~ msgid "(e.g. <b>issue_</b>51@example.com)"
+#~ msgstr "(e.g. <b> issue_ </b> 51@example.com)"
+
+#~ msgid "(e.g. issue_51@<b>example.com</b>)"
+#~ msgstr "(e.g. issue_51 <b> @ example.com </b>)"
+
+#~ msgid "(e.g. <b>note_</b>51@example.com)"
+#~ msgstr "(e.g. <b> note_ </b> 51@example.com)"
+
+#~ msgid "(e.g. note_51@<b>example.com</b>)"
+#~ msgstr "(e.g. note_51 <b> @ example.com </b>)"
+
+#~ msgid "(e.g. <b>draft_</b>51@example.com)"
+#~ msgstr "(e.g. <b> draft_ </b> 51@example.com)"
+
+#~ msgid "(e.g. draft_51@<b>example.com</b>)"
+#~ msgstr "(e.g. draft_51 <b> @ example.com </b>)"
+
 #~ msgid ""
-#~ "Error: The sender of this email is not allowed in the project associated "
-#~ "with issue #"
+#~ "(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
+#~ "sourceforge.net/\">aspell</a> installed in your server)"
 #~ msgstr ""
-#~ "Fout: De afzender van dit bericht heeft geen rechten op de "
-#~ "projectomgeving van melding"
-
-#~ msgid "Reported"
-#~ msgstr "Gemeld"
-
-#~ msgid "and"
-#~ msgstr "en"
-
-#~ msgid "Individual"
-#~ msgstr "Individueel"
-
-#~ msgid "Invalid role"
-#~ msgstr "Ongeldige rol"
-
-#~ msgid "issues"
-#~ msgstr "Meldingen"
-
-#~ msgid "for"
-#~ msgstr "van"
-
-#~ msgid "through"
-#~ msgstr "tot"
-
-#~ msgid "per day"
-#~ msgstr "per dag"
-
-#~ msgid "per week"
-#~ msgstr "per week"
-
-#~ msgid "per month"
-#~ msgstr "per maand"
-
-#~ msgid "per day of week"
-#~ msgstr "per weekdag"
-
-#~ msgid "Issues by created date"
-#~ msgstr "Meldingen ontstaan van"
-
-#~ msgid "ago"
-#~ msgstr "geleden"
-
-#~ msgid "Not available"
-#~ msgstr "Niet beschikbaar"
-
-#~ msgid "We recieved a message from"
-#~ msgstr "Er is een bericht ontvangen van"
+#~ "(vereist <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
+#~ "sourceforge.net/\">aspell</a> geïnstalleerd in uw server)"
 
 #~ msgid ""
-#~ "and created an issue from it. Since you were a recipient of the original "
-#~ "message, we are sending you the issue details."
-#~ msgstr "waaruit de volgende melding is aangemaakt."
+#~ "You can switch to the 'Search' or 'Go' boxes quickly by using a\n"
+#~ "special shortcut keystroke in your keyboard.<br />\n"
+#~ "<br />\n"
+#~ "Use the following shortcuts:<br />\n"
+#~ "<br />\n"
+#~ "<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the "
+#~ "'Search' box<br />\n"
+#~ "<br />\n"
+#~ "<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' "
+#~ "box"
+#~ msgstr ""
+#~ "U kunt overschakelen naar de 'Zoeken' of 'Uitvoeren' dozen snel door "
+#~ "gebruik te maken van een\n"
+#~ " speciale sneltoets Shift-toets te gebruiken in uw toetsenbord. <br />\n"
+#~ " <br />\n"
+#~ " Gebruik de volgende snelkoppelingen: <br />\n"
+#~ " <br />\n"
+#~ " <b> ALT-3 </b> (hold 'ALT' toets ingedrukt en druk op '3' een keer) - om "
+#~ "toegang te krijgen tot de 'Zoek' box <br />\n"
+#~ " <br />\n"
+#~ " <b> ALT-4 </b> (hold 'ALT' toets ingedrukt en druk op '4' een tijd) - om "
+#~ "toegang te krijgen tot de 'Ga naar' doos"
+
+#~ msgid ""
+#~ "<b>NOTE:</b> Emails will <b>NOT</b> be sent to the notification list, if "
+#~ "this option if chosen. This is useful as way to backload a set of emails "
+#~ "into an existing issue."
+#~ msgstr ""
+#~ "<b>Let op:</b> Berichten worden <b>niet</b> verzonden aan de "
+#~ "notificatielijst wanneer deze optie wordt gekozen. Dit is bedoeld om "
+#~ "eerder verzonden berichten opnieuw te koppelen."
+
+#~ msgid ""
+#~ "<b>NOTE:</b> Emails will be broadcasted to the full notification list, "
+#~ "including any customers, if this option is chosen."
+#~ msgstr ""
+#~ "<b>Let op:</b> Berichten worden verzonden aan de notificatielijst, "
+#~ "inclusief relaties, als deze optie wordt gekozen"
+
+#~ msgid ""
+#~ "<b>NOTE:</b> Emails will be saved as notes and broadcasted only to staff "
+#~ "users."
+#~ msgstr ""
+#~ "<b>Let op:</b> Berichten worden opgeslagen als notities en alleen "
+#~ "verzonden naar stafmedewerkers."
+
+#~ msgid "Associate Email Messages to Issue #%1"
+#~ msgstr "Berichten gekoppeld aan melding %1"
+
+#~ msgid ""
+#~ "Please choose one of the following actions to take in regards to the "
+#~ "selected email messages"
+#~ msgstr ""
+#~ "Selecteer een van onderstaande acties met betrekking tot de geselecteerde "
+#~ "berichten"
+
+#~ msgid "Replace current assignees with Myself."
+#~ msgstr "Mij toevoegen aan de behandelaars."
+
+#~ msgid "Save Message as Reference Emails"
+#~ msgstr "Berichten opslaan als referenties"
+
+#~ msgid "Save Messages as an Internal Notes"
+#~ msgstr "Berichten opslaan als interne notities"
+
+#~ msgid "Thank you, the selected email messages were associated successfully."
+#~ msgstr "De geselecteerde berichten zijn gekoppeld"
+
+#~ msgid "The following users are already assigned to this issue"
+#~ msgstr "Onderstaande gebruikers zijn al toegewezen als behandelaar"
+
+#~ msgid "Viewing Emails (%1 emails found, %2 - %3 shown)"
+#~ msgstr "Berichten (%1 berichten gevonden, %2 - %3 getoond)"
