@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-04 23:16+0300\n"
+"POT-Creation-Date: 2008-07-19 21:05+0300\n"
 "PO-Revision-Date: 2007-11-10 03:02+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
@@ -121,7 +121,7 @@ msgstr "Tillfälligt nummer"
 msgid "Other"
 msgstr "Annat"
 
-#: misc/localization/eventum.c include/class.display_column.php:188
+#: misc/localization/eventum.c include/class.display_column.php:191
 msgid "Time Spent"
 msgstr "Nedlagd tid"
 
@@ -165,12 +165,12 @@ msgstr ""
 msgid "Record Time Worked"
 msgstr "Spara nedlagd tid"
 
-#: misc/localization/eventum.c include/class.display_column.php:223
+#: misc/localization/eventum.c include/class.display_column.php:226
 #: include/class.notification.php:646 include/class.notification.php:647
 msgid "Summary"
 msgstr "Sammanfattning"
 
-#: misc/localization/eventum.c include/class.display_column.php:199
+#: misc/localization/eventum.c include/class.display_column.php:202
 #: include/class.filter.php:601 include/class.notification.php:622
 #: include/class.notification.php:623 include/class.project.php:1102
 msgid "Category"
@@ -218,7 +218,7 @@ msgstr "KundID (t.ex \"Example Inc.\", \"johndoe@example.com\", 12345)"
 msgid "All Text (emails, notes, etc)"
 msgstr "All Text(e-post, noteringar, etc)"
 
-#: misc/localization/eventum.c include/class.display_column.php:185
+#: misc/localization/eventum.c include/class.display_column.php:188
 #: include/class.filter.php:596
 msgid "Assigned"
 msgstr "Tilldelad"
@@ -233,7 +233,7 @@ msgstr "alla"
 msgid "Priority"
 msgstr "Prioritet"
 
-#: misc/localization/eventum.c include/class.display_column.php:211
+#: misc/localization/eventum.c include/class.display_column.php:214
 #: include/class.filter.php:606 include/class.notification.php:634
 #: include/class.notification.php:635
 msgid "Status"
@@ -248,7 +248,7 @@ msgstr "Rapportör"
 msgid "Any"
 msgstr "Alla"
 
-#: misc/localization/eventum.c include/class.display_column.php:202
+#: misc/localization/eventum.c include/class.display_column.php:205
 #: include/class.filter.php:611 include/class.notification.php:626
 #: include/class.notification.php:627
 msgid "Release"
@@ -274,7 +274,7 @@ msgstr "Sortera efter"
 msgid "Issue ID"
 msgstr "Ärende ID"
 
-#: misc/localization/eventum.c include/class.display_column.php:217
+#: misc/localization/eventum.c include/class.display_column.php:220
 msgid "Last Action Date"
 msgstr "Senaste uppdateringsdatum"
 
@@ -997,12 +997,12 @@ msgstr "mina och min grupp"
 msgid "myself, un-assigned and my group"
 msgstr "mina, ej tilldelade och min grupp"
 
-#: misc/localization/eventum.c include/class.display_column.php:182
+#: misc/localization/eventum.c include/class.display_column.php:185
 #: include/class.project.php:1107 list.php:88
 msgid "Group"
 msgstr "Grupp"
 
-#: misc/localization/eventum.c include/class.misc.php:710
+#: misc/localization/eventum.c include/class.misc.php:713
 msgid "Yes"
 msgstr "Ja"
 
@@ -1010,7 +1010,7 @@ msgstr "Ja"
 msgid "None"
 msgstr "Inga"
 
-#: misc/localization/eventum.c include/class.display_column.php:220
+#: misc/localization/eventum.c include/class.display_column.php:223
 msgid "Custom Fields"
 msgstr "Anpassade fält"
 
@@ -1052,7 +1052,7 @@ msgid "Contract #"
 msgstr ""
 
 #: misc/localization/eventum.c include/class.customer_stats_report.php:670
-#: include/class.display_column.php:208
+#: include/class.display_column.php:211
 msgid "Support Level"
 msgstr "Supportnivå"
 
@@ -1096,7 +1096,7 @@ msgid "Time Until First Response Deadline"
 msgstr ""
 
 #: misc/localization/eventum.c include/class.customer_stats_report.php:668
-#: include/class.display_column.php:205 include/class.user.php:1521
+#: include/class.display_column.php:208 include/class.user.php:1521
 msgid "Customer"
 msgstr "Kund"
 
@@ -1200,7 +1200,7 @@ msgstr "Kund"
 msgid "Add Primary Contact to Notification List? *"
 msgstr "Lägg till extra mottagare till notifieringslistan?"
 
-#: misc/localization/eventum.c include/class.misc.php:712
+#: misc/localization/eventum.c include/class.misc.php:715
 msgid "No"
 msgstr "Nej"
 
@@ -1424,7 +1424,7 @@ msgstr "Inga e-postmeddelanden hittades."
 msgid "Associate"
 msgstr "Associera"
 
-#: misc/localization/eventum.c include/class.notification.php:1103
+#: misc/localization/eventum.c include/class.notification.php:1107
 msgid "New Issue"
 msgstr "Nytt Ärende"
 
@@ -5985,6 +5985,14 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c
+msgid "Eventum was unable to route your email"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "The original message headers follow"
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "This issue was just closed by"
 msgstr ""
 
@@ -6083,6 +6091,11 @@ msgid ""
 "However, if you would like to confirm this request, please do so by visiting "
 "the URL below:\n"
 msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "The issue was updated by %1"
+msgstr "lista alla ärenden tilldelade dig"
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -7637,7 +7650,8 @@ msgid "Error: The issue could not be found."
 msgstr "FEL: Ärendet hittades inte."
 
 #: misc/localization/eventum.c
-msgid "Sorry, you do not have the required privileges to view this issue."
+#, fuzzy
+msgid "Sorry, you do not have the required privileges to update this issue."
 msgstr "Du har inte behörighet att se ärendet."
 
 #: misc/localization/eventum.c
@@ -7793,6 +7807,10 @@ msgid "Error: The issue #%1 could not be found."
 msgstr "FEL: Ärendet hittades inte."
 
 #: misc/localization/eventum.c
+msgid "Sorry, you do not have the required privileges to view this issue."
+msgstr "Du har inte behörighet att se ärendet."
+
+#: misc/localization/eventum.c
 msgid ""
 "Re-directing the parent window to the issue report page. This window will be "
 "closed automatically."
@@ -7943,7 +7961,7 @@ msgstr "Inget ärende associerat"
 msgid "Resolution"
 msgstr "Lösning"
 
-#: misc/localization/eventum.c include/class.display_column.php:228
+#: misc/localization/eventum.c include/class.display_column.php:231
 #: include/class.notification.php:618 include/class.notification.php:619
 msgid "Expected Resolution Date"
 msgstr "Förväntat lösningsdatum"
@@ -8130,17 +8148,22 @@ msgstr "E-postkonto:"
 msgid "Time Statistics"
 msgstr "Prestandatest, statistik"
 
-#: include/class.display_column.php:191
+#: include/class.display_column.php:182 include/class.filter.php:615
+#, fuzzy
+msgid "Created Date"
+msgstr "Skapa Utkast"
+
+#: include/class.display_column.php:194
 #, fuzzy
 msgid "% Complete"
 msgstr "Procent färdigt"
 
-#: include/class.display_column.php:195
+#: include/class.display_column.php:198
 #, fuzzy
 msgid "Est Dev Time"
 msgstr "Beräknad utv. tid"
 
-#: include/class.display_column.php:214
+#: include/class.display_column.php:217
 msgid "Status Change Date"
 msgstr ""
 
@@ -8153,11 +8176,6 @@ msgstr "Tack så mycket, e-postmeddelandet har sparats som utkast."
 #, php-format
 msgid "Email message draft updated by %1$s"
 msgstr ""
-
-#: include/class.filter.php:615
-#, fuzzy
-msgid "Created Date"
-msgstr "Skapa Utkast"
 
 #: include/class.filter.php:620
 #, fuzzy
@@ -8304,49 +8322,49 @@ msgstr "Tilldelning"
 msgid "Updated"
 msgstr "Updatera"
 
-#: include/class.notification.php:817
+#: include/class.notification.php:820
 #, fuzzy
 msgid "Closed"
 msgstr "Stäng"
 
-#: include/class.notification.php:954
+#: include/class.notification.php:958
 #, fuzzy
 msgid "BLOCKED"
 msgstr "STÄMPLAD"
 
-#: include/class.notification.php:1407
+#: include/class.notification.php:1372
 msgid "User account information updated"
 msgstr ""
 
-#: include/class.notification.php:1444
+#: include/class.notification.php:1409
 msgid "User account password changed"
 msgstr ""
 
-#: include/class.notification.php:1481
+#: include/class.notification.php:1446
 msgid "New User information"
 msgstr ""
 
-#: include/class.notification.php:1607
+#: include/class.notification.php:1572
 #, fuzzy
 msgid "Your User Account Details"
 msgstr "Användardealjer"
 
-#: include/class.notification.php:1879
+#: include/class.notification.php:1844
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2030
+#: include/class.notification.php:1995
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2111
+#: include/class.notification.php:2076
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2207
+#: include/class.notification.php:2172
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -8425,7 +8443,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Fel: Vänligen ange din e-postadress."
 
-#: include/class.routing.php:232 include/class.support.php:707
+#: include/class.routing.php:232 include/class.support.php:782
 #, php-format
 msgid "Email routed from %1$s"
 msgstr ""
@@ -8466,30 +8484,34 @@ msgstr ""
 msgid "SCM Checkins associated by SCM user '"
 msgstr ""
 
-#: include/class.support.php:1403
+#: include/class.support.php:495
+msgid "Postmaster notify: see transcript for details"
+msgstr ""
+
+#: include/class.support.php:1478
 msgid "Attachment originated from an email"
 msgstr ""
 
-#: include/class.support.php:1405
+#: include/class.support.php:1480
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: include/class.support.php:1457
+#: include/class.support.php:1532
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: include/class.support.php:1810
+#: include/class.support.php:1885
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
 
-#: include/class.support.php:2164
+#: include/class.support.php:2239
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
 
-#: include/class.support.php:2530
+#: include/class.support.php:2605
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -8538,7 +8560,7 @@ msgstr "Åtgärder"
 msgid "Issues by Assignment"
 msgstr "Mina tilldelade"
 
-#: update.php:75
+#: update.php:77
 #, fuzzy, php-format
 msgid "Update Issue #%1$s"
 msgstr "Uppdatera ärende"

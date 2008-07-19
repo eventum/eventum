@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-04 23:16+0300\n"
+"POT-Creation-Date: 2008-07-19 21:05+0300\n"
 "PO-Revision-Date: 2008-01-28 12:32+0100\n"
 "Last-Translator: Franco Alberganti <streamlake@tiscali.it>\n"
 "Language-Team: US English\n"
@@ -121,7 +121,7 @@ msgstr "Numero Temp."
 msgid "Other"
 msgstr "Altro"
 
-#: misc/localization/eventum.c include/class.display_column.php:188
+#: misc/localization/eventum.c include/class.display_column.php:191
 msgid "Time Spent"
 msgstr "Tempo impiegato"
 
@@ -166,12 +166,12 @@ msgstr ""
 msgid "Record Time Worked"
 msgstr "Registra tempo di lavorazione"
 
-#: misc/localization/eventum.c include/class.display_column.php:223
+#: misc/localization/eventum.c include/class.display_column.php:226
 #: include/class.notification.php:646 include/class.notification.php:647
 msgid "Summary"
 msgstr "Riepilogo"
 
-#: misc/localization/eventum.c include/class.display_column.php:199
+#: misc/localization/eventum.c include/class.display_column.php:202
 #: include/class.filter.php:601 include/class.notification.php:622
 #: include/class.notification.php:623 include/class.project.php:1102
 msgid "Category"
@@ -220,7 +220,7 @@ msgstr ""
 msgid "All Text (emails, notes, etc)"
 msgstr "Tutto il testo (email, note, ecc.)"
 
-#: misc/localization/eventum.c include/class.display_column.php:185
+#: misc/localization/eventum.c include/class.display_column.php:188
 #: include/class.filter.php:596
 msgid "Assigned"
 msgstr "Assegnato"
@@ -235,7 +235,7 @@ msgstr "qualunque"
 msgid "Priority"
 msgstr "Priorità"
 
-#: misc/localization/eventum.c include/class.display_column.php:211
+#: misc/localization/eventum.c include/class.display_column.php:214
 #: include/class.filter.php:606 include/class.notification.php:634
 #: include/class.notification.php:635
 msgid "Status"
@@ -250,7 +250,7 @@ msgstr "Redattore"
 msgid "Any"
 msgstr "Qualunque"
 
-#: misc/localization/eventum.c include/class.display_column.php:202
+#: misc/localization/eventum.c include/class.display_column.php:205
 #: include/class.filter.php:611 include/class.notification.php:626
 #: include/class.notification.php:627
 msgid "Release"
@@ -276,7 +276,7 @@ msgstr "Ordina per"
 msgid "Issue ID"
 msgstr "ID segnalazione"
 
-#: misc/localization/eventum.c include/class.display_column.php:217
+#: misc/localization/eventum.c include/class.display_column.php:220
 msgid "Last Action Date"
 msgstr "Data ultima azione"
 
@@ -1006,12 +1006,12 @@ msgstr "me e il mio gruppo"
 msgid "myself, un-assigned and my group"
 msgstr "me, non assegnati e il mio gruppo"
 
-#: misc/localization/eventum.c include/class.display_column.php:182
+#: misc/localization/eventum.c include/class.display_column.php:185
 #: include/class.project.php:1107 list.php:88
 msgid "Group"
 msgstr "Gruppo"
 
-#: misc/localization/eventum.c include/class.misc.php:710
+#: misc/localization/eventum.c include/class.misc.php:713
 msgid "Yes"
 msgstr "Sì"
 
@@ -1019,7 +1019,7 @@ msgstr "Sì"
 msgid "None"
 msgstr "Nessuno"
 
-#: misc/localization/eventum.c include/class.display_column.php:220
+#: misc/localization/eventum.c include/class.display_column.php:223
 msgid "Custom Fields"
 msgstr "Campi personalizzati"
 
@@ -1060,7 +1060,7 @@ msgid "Contract #"
 msgstr "Contratto #"
 
 #: misc/localization/eventum.c include/class.customer_stats_report.php:670
-#: include/class.display_column.php:208
+#: include/class.display_column.php:211
 msgid "Support Level"
 msgstr "Livello supporto"
 
@@ -1101,7 +1101,7 @@ msgid "Time Until First Response Deadline"
 msgstr "Tempo a scadenza prima risposta"
 
 #: misc/localization/eventum.c include/class.customer_stats_report.php:668
-#: include/class.display_column.php:205 include/class.user.php:1521
+#: include/class.display_column.php:208 include/class.user.php:1521
 msgid "Customer"
 msgstr "Cliente"
 
@@ -1193,7 +1193,7 @@ msgstr "Cerca cliente"
 msgid "Add Primary Contact to Notification List? *"
 msgstr "Aggiungere contatto primario all'elenco notifiche? *"
 
-#: misc/localization/eventum.c include/class.misc.php:712
+#: misc/localization/eventum.c include/class.misc.php:715
 msgid "No"
 msgstr "No"
 
@@ -1412,7 +1412,7 @@ msgstr "Nessuna email trovata."
 msgid "Associate"
 msgstr "Associa"
 
-#: misc/localization/eventum.c include/class.notification.php:1103
+#: misc/localization/eventum.c include/class.notification.php:1107
 msgid "New Issue"
 msgstr "Nuova segnalazione"
 
@@ -5888,6 +5888,14 @@ msgstr ""
 "preferenze del tuo account visitando la URL seguente"
 
 #: misc/localization/eventum.c
+msgid "Eventum was unable to route your email"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "The original message headers follow"
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "This issue was just closed by"
 msgstr "Questa segnalazione è stata appena chiusa da"
 
@@ -6001,6 +6009,11 @@ msgstr ""
 "una nuova password, ignorate questa email.\n"
 "\n"
 "Comunque, se desiderate confermare la richiesta, visitate l'URL seguente:\n"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "The issue was updated by %1"
+msgstr "Questa segnalazione è stata appena chiusa da"
 
 #: misc/localization/eventum.c
 msgid "Issue #"
@@ -7579,7 +7592,8 @@ msgid "Error: The issue could not be found."
 msgstr "Errore: segnalazione non trovata."
 
 #: misc/localization/eventum.c
-msgid "Sorry, you do not have the required privileges to view this issue."
+#, fuzzy
+msgid "Sorry, you do not have the required privileges to update this issue."
 msgstr ""
 "Spiacente, non possiedi i privilegi richiesti per visualizzare questa "
 "segnalazione."
@@ -7739,6 +7753,12 @@ msgid "Error: The issue #%1 could not be found."
 msgstr "Errore: La segnalazione #%1 non è stata trovata."
 
 #: misc/localization/eventum.c
+msgid "Sorry, you do not have the required privileges to view this issue."
+msgstr ""
+"Spiacente, non possiedi i privilegi richiesti per visualizzare questa "
+"segnalazione."
+
+#: misc/localization/eventum.c
 msgid ""
 "Re-directing the parent window to the issue report page. This window will be "
 "closed automatically."
@@ -7890,7 +7910,7 @@ msgstr "Nessuna segnalazione associata"
 msgid "Resolution"
 msgstr "Risoluzione"
 
-#: misc/localization/eventum.c include/class.display_column.php:228
+#: misc/localization/eventum.c include/class.display_column.php:231
 #: include/class.notification.php:618 include/class.notification.php:619
 msgid "Expected Resolution Date"
 msgstr "Data risoluzione prevista"
@@ -8069,15 +8089,19 @@ msgstr "Conteggio email"
 msgid "Time Statistics"
 msgstr "Statistiche tempi"
 
-#: include/class.display_column.php:191
+#: include/class.display_column.php:182 include/class.filter.php:615
+msgid "Created Date"
+msgstr "Data creazione"
+
+#: include/class.display_column.php:194
 msgid "% Complete"
 msgstr "% completamento"
 
-#: include/class.display_column.php:195
+#: include/class.display_column.php:198
 msgid "Est Dev Time"
 msgstr "Tempo di sviluppo stimato"
 
-#: include/class.display_column.php:214
+#: include/class.display_column.php:217
 msgid "Status Change Date"
 msgstr "Data modifica stato"
 
@@ -8090,10 +8114,6 @@ msgstr "Messaggio email salvato come bozza da %1$s"
 #, php-format
 msgid "Email message draft updated by %1$s"
 msgstr "Bozza messaggio email aggiornata da %1$s"
-
-#: include/class.filter.php:615
-msgid "Created Date"
-msgstr "Data creazione"
 
 #: include/class.filter.php:620
 msgid "Updated Date"
@@ -8248,46 +8268,46 @@ msgstr "Lista attribuzioni"
 msgid "Updated"
 msgstr "Aggiornato"
 
-#: include/class.notification.php:817
+#: include/class.notification.php:820
 msgid "Closed"
 msgstr "Chiuso"
 
-#: include/class.notification.php:954
+#: include/class.notification.php:958
 msgid "BLOCKED"
 msgstr "BLOCCATO"
 
-#: include/class.notification.php:1407
+#: include/class.notification.php:1372
 msgid "User account information updated"
 msgstr "Informazioni account utente aggiornate"
 
-#: include/class.notification.php:1444
+#: include/class.notification.php:1409
 msgid "User account password changed"
 msgstr "Password account utente modificata"
 
-#: include/class.notification.php:1481
+#: include/class.notification.php:1446
 msgid "New User information"
 msgstr "Nuove informazioni utente"
 
-#: include/class.notification.php:1607
+#: include/class.notification.php:1572
 msgid "Your User Account Details"
 msgstr "I dettagli del tuo account"
 
-#: include/class.notification.php:1879
+#: include/class.notification.php:1844
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Voce elenco notifiche (%1$s) rimossa da %2$s"
 
-#: include/class.notification.php:2030
+#: include/class.notification.php:1995
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Voce elenco notifiche (%1$s) aggiunta da %2$s"
 
-#: include/class.notification.php:2111
+#: include/class.notification.php:2076
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Voce elenco notifiche ('%1$s') aggiunta da %2$s"
 
-#: include/class.notification.php:2207
+#: include/class.notification.php:2172
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Voce elenco notifiche ('%1$s') aggiornata da %2$s"
@@ -8366,7 +8386,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Errore: inserisci l'ID dell'account email."
 
-#: include/class.routing.php:232 include/class.support.php:707
+#: include/class.routing.php:232 include/class.support.php:782
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Email reindirizzata da %1$s"
@@ -8409,30 +8429,34 @@ msgstr "Checkins SCM rimossi da %1$s"
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Checkins SCM associati dall'utente SCM '"
 
-#: include/class.support.php:1403
+#: include/class.support.php:495
+msgid "Postmaster notify: see transcript for details"
+msgstr ""
+
+#: include/class.support.php:1478
 msgid "Attachment originated from an email"
 msgstr "Allegato proveniente da una email"
 
-#: include/class.support.php:1405
+#: include/class.support.php:1480
 msgid "Attachment originated from a note"
 msgstr "Allegato proveniente da una nota"
 
-#: include/class.support.php:1457
+#: include/class.support.php:1532
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Email (oggetto: '%1$s') associata da %2$s"
 
-#: include/class.support.php:1810
+#: include/class.support.php:1885
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (oggetto: '%1$s') dissociata da %2$s"
 
-#: include/class.support.php:2164
+#: include/class.support.php:2239
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email in uscita inviata da %1$s"
 
-#: include/class.support.php:2530
+#: include/class.support.php:2605
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email da '%1$s' bloccata"
@@ -8480,7 +8504,7 @@ msgstr "Azioni"
 msgid "Issues by Assignment"
 msgstr "Segnalazioni per assegnazione"
 
-#: update.php:75
+#: update.php:77
 #, fuzzy, php-format
 msgid "Update Issue #%1$s"
 msgstr "Aggiorna Segnalazione"
