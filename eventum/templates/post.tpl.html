@@ -26,7 +26,7 @@
           <td class="default">
             <b>{t escape="none" 1=$new_issue_id}Thank you, the new issue was created successfully. For your records, the new issue ID is <font color="red">%1</font>{/t}</b>
             <br /><br />
-            {t url=$smarty.server.PHP_SELF name="submit another issue" escape="none"}You may <a class="link" href="%1">%2</a> if you so wish.{/t}
+            {t 1=$smarty.server.PHP_SELF escape=no}You may <a class="link" href="%1">submit another issue</a> if you so wish.{/t}
           </td>
         </tr>
       </table>
@@ -41,7 +41,7 @@
 function validateForm(f)
 {
     if (hasSelected(f.project, -1)) {
-        alert('{/literal}{t escape=js}Please choose the project that this new issue will apply to.{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose the project that this new issue will apply to{/t}.{literal}');
         selectField(f, 'project');
         return false;
     }
