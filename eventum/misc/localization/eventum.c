@@ -1463,7 +1463,7 @@ gettext("This page allows you to dynamically configure the values displayed in t
 gettext("Email Blocking");
 
 /* templates/help/email_blocking.tpl.html */
-gettext("To prevent inappropriate emails reaching the notification list, only users that are assigned\nto the issue are allowed to email through Eventum. If an un-authorized\nuser sends an email to <i>issue-XXXX@example.com</i> it is converted into a note and\nstored for later use. This note can be converted into an email at a later date.");
+gettext("To prevent inappropriate emails reaching the notification list, only users that are assigned\nto the issue are allowed to email through Eventum. If an un-authorized\nuser sends an email to <i>%1</i> it is converted into a note and\nstored for later use. This note can be converted into an email at a later date.");
 
 /* templates/help/field_display.tpl.html */
 gettext("Edit Fields to Display");
