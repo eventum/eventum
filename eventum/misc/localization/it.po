@@ -2004,8 +2004,8 @@ msgid ""
 "interface."
 msgstr ""
 "Questo tipo di utente ha accesso completo a Eventum, inclusi\n"
-"i parametri di configurazione a basso livello disponibili tramite"
-"\bl'interfaccia di amministrazione."
+"i parametri di configurazione a basso livello disponibili tramite\n"
+"l'interfaccia di amministrazione."
 
 #: misc/localization/eventum.c
 msgid ""
