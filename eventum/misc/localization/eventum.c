@@ -1703,6 +1703,9 @@ gettext("This feature allows your software development teams to integrate your\n
 gettext("The integration is implemented in such a way that it will be forward\ncompatible with pretty much any SCM system, such as CVS. When entering\nthe required information for the checkout page and diff page input\nfields, use the following placeholders:");
 
 /* templates/help/scm_integration.tpl.html */
+gettext("The CVS module name");
+
+/* templates/help/scm_integration.tpl.html */
 gettext("The filename that was committed");
 
 /* templates/help/scm_integration.tpl.html */
@@ -1712,7 +1715,13 @@ gettext("The old revision of the file");
 gettext("The new revision of the file");
 
 /* templates/help/scm_integration.tpl.html */
-gettext("As an example, using the <a href=\"http://www.horde.org/chora/\" class=\"link\" target=\"_chora\">Chora CVS viewer</a> [highly recommended] from the Horde project you\nwould usually have the following URL as the diff page:");
+gettext("As an example, using the");
+
+/* templates/help/scm_integration.tpl.html */
+gettext("Chora CVS viewer");
+
+/* templates/help/scm_integration.tpl.html */
+gettext("[highly recommended] from the Horde project you\nwould usually have the following URL as the diff page:");
 
 /* templates/help/scm_integration.tpl.html */
 gettext("With that information in mind, the appropriate value to be entered in\nthe 'Checkout page' input field is:");
@@ -1721,22 +1730,22 @@ gettext("With that information in mind, the appropriate value to be entered in\n
 gettext("Installation Instructions");
 
 /* templates/help/scm_integration_installation.tpl.html */
-gettext("The process_commits.pl script, which is available in the misc \nsub-directory in your Eventum installation directory, will need to be \ninstalled in your CVSROOT CVS module by following the procedure below:");
+gettext("The %1 script, which is available in the %2\nsub-directory in your Eventum installation directory, will need to be\ninstalled in your CVSROOT CVS module by following the procedure below:");
 
 /* templates/help/scm_integration_installation.tpl.html */
-gettext("The first thing to do is to checkout the CVSROOT module from your CVS\nrepository:");
+gettext("The first thing to do is to checkout the %1 module from your CVS\nrepository:");
 
 /* templates/help/scm_integration_installation.tpl.html */
 gettext("The command above will checkout and create the CVSROOT directory that\nyou will need to work with. Next, open the <b>loginfo</b> file and\nadd the following line:");
 
 /* templates/help/scm_integration_installation.tpl.html */
-gettext("Replace %repository path% by the appropriate absolute path in your\nCVS server, such as /home/username/repository for instance. Also make\nsure to put the appropriate path to your Perl binary.");
+gettext("Replace %1 by the appropriate absolute path in your\nCVS server, such as /home/username/repository for instance. Also make\nsure to put the appropriate path to your PHP binary.");
 
 /* templates/help/scm_integration_installation.tpl.html */
 gettext("You may also turn the parsing of commit messages for just a single CVS\nmodule by substituting the 'ALL' in the line above to the appropriate\nCVS module name, as in:");
 
 /* templates/help/scm_integration_installation.tpl.html */
-gettext("The last step of this installation process is to login into the CVS\nserver and copy the process_cvs_commits.php script into the CVSROOT \ndirectory. Make sure you give the appropriate permissions to the \nscript.");
+gettext("The last step of this installation process is to login into the CVS\nserver and copy the %1 script into the %2\ndirectory. Make sure you give the appropriate permissions to the\nscript.");
 
 /* templates/help/scm_integration_usage.tpl.html */
 gettext("Usage Examples");
@@ -3236,7 +3245,7 @@ gettext("SMTP (Outgoing Email) Settings:");
 gettext("Sender Email");
 
 /* templates/manage/general.tpl.html */
-gettext("(This MUST contain a real email address, e.g. \"eventum@example.com\" or \"Eventum <eventum@example.com>\")");
+gettext("(This MUST contain a real email address, e.g. \"%1\" or \"%2\")");
 
 /* templates/manage/general.tpl.html */
 gettext("Hostname:");
@@ -3320,13 +3329,13 @@ gettext("Disabled");
 gettext("Email Address Prefix:");
 
 /* templates/manage/general.tpl.html */
-gettext("(e.g. <b>issue_</b>51@example.com)");
+gettext("(e.g. %1)");
 
 /* templates/manage/general.tpl.html */
 gettext("Address Hostname:");
 
 /* templates/manage/general.tpl.html */
-gettext("(e.g. issue_51@<b>example.com</b>)");
+gettext("(e.g. %1)");
 
 /* templates/manage/general.tpl.html */
 gettext("Host Alias:");
@@ -3371,13 +3380,13 @@ gettext("Disabled");
 gettext("Note Address Prefix:");
 
 /* templates/manage/general.tpl.html */
-gettext("(e.g. <b>note_</b>51@example.com)");
+gettext("(e.g. %1)");
 
 /* templates/manage/general.tpl.html */
 gettext("Address Hostname:");
 
 /* templates/manage/general.tpl.html */
-gettext("(e.g. note_51@<b>example.com</b>)");
+gettext("(e.g. %1)");
 
 /* templates/manage/general.tpl.html */
 gettext("Email Draft Interface:");
@@ -3392,13 +3401,13 @@ gettext("Disabled");
 gettext("Draft Address Prefix:");
 
 /* templates/manage/general.tpl.html */
-gettext("(e.g. <b>draft_</b>51@example.com)");
+gettext("(e.g. %1)");
 
 /* templates/manage/general.tpl.html */
 gettext("Address Hostname:");
 
 /* templates/manage/general.tpl.html */
-gettext("(e.g. draft_51@<b>example.com</b>)");
+gettext("(e.g. %1)");
 
 /* templates/manage/general.tpl.html */
 gettext("SCM <br />Integration:");
@@ -3443,7 +3452,7 @@ gettext("Enabled");
 gettext("Disabled");
 
 /* templates/manage/general.tpl.html */
-gettext("(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell.sourceforge.net/\">aspell</a> installed in your server)");
+gettext("(requires %1 installed in your server)");
 
 /* templates/manage/general.tpl.html */
 gettext("IRC Notifications:");
@@ -6089,10 +6098,10 @@ gettext("Sorry, but there are no projects currently setup as allowing anonymous 
 gettext("Thank you, the new issue was created successfully. For your records, the new issue ID is <font color=\"red\">%1</font>");
 
 /* templates/post.tpl.html */
-gettext("You may <a class=\"link\" href=\"%1\">%2</a> if you so wish.");
+gettext("You may <a class=\"link\" href=\"%1\">submit another issue</a> if you so wish.");
 
 /* templates/post.tpl.html */
-gettext("Please choose the project that this new issue will apply to.");
+gettext("Please choose the project that this new issue will apply to");
 
 /* templates/post.tpl.html */
 gettext("Report New Issue");
@@ -6470,7 +6479,7 @@ gettext("Action");
 gettext("Alert Query");
 
 /* templates/reminders/email_alert.tpl.text */
-gettext("Automated Issue # %1 Reminder Alert");
+gettext("Automated Issue #%1 Reminder Alert");
 
 /* templates/reminders/email_alert.tpl.text */
 gettext("URL");
@@ -7730,10 +7739,25 @@ gettext("Add Time Entry");
 gettext("You can create canned email responses and use them when sending emails from the\nsystem. That is an useful feature when dealing with lots of issues that relate\nto the same problem.\n<br /><br />\nIf no canned email responses are available through the Email window, please\ncontact an user with the appropriate permissions (administrator or manager) to\nadd some for you.");
 
 /* templates/tips/custom_queries.tpl.html */
-gettext("You can create as many custom queries as you want through the\n<a class=\"link\" href=\"adv_search.php\">Advanced Search</a> interface.\nThere is also the ability to save and modify custom queries and load\nthem quickly from the Issue Listing screen.");
+gettext("You can create as many custom queries as you want through the\n<a class=\"link\" href=\"%1\">Advanced Search</a> interface.\nThere is also the ability to save and modify custom queries and load\nthem quickly from the Issue Listing screen.");
 
 /* templates/tips/keyboard_shortcuts.tpl.html */
-gettext("You can switch to the 'Search' or 'Go' boxes quickly by using a\nspecial shortcut keystroke in your keyboard.<br />\n<br />\nUse the following shortcuts:<br />\n<br />\n<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the 'Search' box<br />\n<br />\n<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box");
+gettext("You can switch to the 'Search' or 'Go' boxes quickly by using a\nspecial shortcut keystroke in your keyboard.");
+
+/* templates/tips/keyboard_shortcuts.tpl.html */
+gettext("Use the following shortcuts:");
+
+/* templates/tips/keyboard_shortcuts.tpl.html */
+gettext("ALT-3");
+
+/* templates/tips/keyboard_shortcuts.tpl.html */
+gettext("(hold 'ALT' key and press '3' one time) - to access the 'Search' box");
+
+/* templates/tips/keyboard_shortcuts.tpl.html */
+gettext("ALT-4");
+
+/* templates/tips/keyboard_shortcuts.tpl.html */
+gettext("(hold 'ALT' key and press '4' one time) - to access the 'Go' box");
 
 /* templates/top_link.tpl.html */
 gettext("Back to Top");
@@ -8030,7 +8054,7 @@ gettext("This Issue is Currently Quarantined");
 gettext("Quarantine expires in %1");
 
 /* templates/view_form.tpl.html */
-gettext("Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
+gettext("Please see the <a class=\"link\" href=\"%1\">FAQ</a> for information regarding quarantined issues.");
 
 /* templates/view_form.tpl.html */
 gettext("Remove Quarantine");

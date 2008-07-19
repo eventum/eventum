@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-19 21:27+0300\n"
+"POT-Creation-Date: 2008-07-19 22:11+0300\n"
 "PO-Revision-Date: 2007-11-10 02:59+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -2252,6 +2252,10 @@ msgstr ""
 "различий, используйте следующие указатели мест заполнения:"
 
 #: misc/localization/eventum.c
+msgid "The CVS module name"
+msgstr "Название модуля CVS"
+
+#: misc/localization/eventum.c
 msgid "The filename that was committed"
 msgstr "Имя файла, который был передан"
 
@@ -2264,10 +2268,17 @@ msgid "The new revision of the file"
 msgstr "Новая ревизия файла"
 
 #: misc/localization/eventum.c
+msgid "As an example, using the"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Chora CVS viewer"
+msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"As an example, using the <a href=\"http://www.horde.org/chora/\" class=\"link"
-"\" target=\"_chora\">Chora CVS viewer</a> [highly recommended] from the "
-"Horde project you\n"
+"[highly recommended] from the Horde project you\n"
 "would usually have the following URL as the diff page:"
 msgstr ""
 "Например, используя <a href=\"http://www.horde.org/chora/\" class=\"link\" "
@@ -2284,9 +2295,10 @@ msgstr ""
 "информацию в поле ввода 'Страница извлечения':"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"The process_commits.pl script, which is available in the misc \n"
-"sub-directory in your Eventum installation directory, will need to be \n"
+"The %1 script, which is available in the %2\n"
+"sub-directory in your Eventum installation directory, will need to be\n"
 "installed in your CVSROOT CVS module by following the procedure below:"
 msgstr ""
 "Скрипт process_commits.pl, расположенный в поддиректории misc\n"
@@ -2294,8 +2306,9 @@ msgstr ""
 "в директорию CVSROOT модуля CVS, с помощью процедуры, описанной далее:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"The first thing to do is to checkout the CVSROOT module from your CVS\n"
+"The first thing to do is to checkout the %1 module from your CVS\n"
 "repository:"
 msgstr ""
 "В первую очередь, вы должны извлечь модуль CVSROOT из репозитария CVS: "
@@ -2311,10 +2324,11 @@ msgstr ""
 "<b>loginfo</b> и добавьте следующую строку:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Replace %repository path% by the appropriate absolute path in your\n"
+"Replace %1 by the appropriate absolute path in your\n"
 "CVS server, such as /home/username/repository for instance. Also make\n"
-"sure to put the appropriate path to your Perl binary."
+"sure to put the appropriate path to your PHP binary."
 msgstr ""
 "Замените %repository path% соответствующим абсолютным путем \n"
 "к вашему серверу CVS, например /home/username/repository. Также \n"
@@ -2331,10 +2345,11 @@ msgstr ""
 "соответствующим названием модуля CVS, как в:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "The last step of this installation process is to login into the CVS\n"
-"server and copy the process_cvs_commits.php script into the CVSROOT \n"
-"directory. Make sure you give the appropriate permissions to the \n"
+"server and copy the %1 script into the %2\n"
+"directory. Make sure you give the appropriate permissions to the\n"
 "script."
 msgstr ""
 "Последний этап установочного процесса - это вход на сервер \n"
@@ -4000,9 +4015,7 @@ msgstr "Отправитель эл.почты"
 
 #: misc/localization/eventum.c
 #, fuzzy
-msgid ""
-"(This MUST contain a real email address, e.g. \"eventum@example.com\" or "
-"\"Eventum <eventum@example.com>\")"
+msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
 "(НЕОБХОДИМО указать действующий адрес эл.почты, например. \"eventum@example."
 "com\" или \"Eventum <eventum@example.com>\")"
@@ -4075,18 +4088,12 @@ msgid "Email Address Prefix:"
 msgstr "Префикс адреса эл.письма:"
 
 #: misc/localization/eventum.c
-#, fuzzy
-msgid "(e.g. <b>issue_</b>51@example.com)"
-msgstr "(например <b>issue_</b>51@example.com)"
+msgid "(e.g. %1)"
+msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Address Hostname:"
 msgstr "Имя хоста адреса:"
-
-#: misc/localization/eventum.c
-#, fuzzy
-msgid "(e.g. issue_51@<b>example.com</b>)"
-msgstr "(например issue_51@<b>example.com</b>)"
 
 #: misc/localization/eventum.c
 msgid "Host Alias:"
@@ -4121,32 +4128,12 @@ msgid "Note Address Prefix:"
 msgstr "Префикс адреса примечания:"
 
 #: misc/localization/eventum.c
-#, fuzzy
-msgid "(e.g. <b>note_</b>51@example.com)"
-msgstr "(например <b>note_</b>51@example.com)"
-
-#: misc/localization/eventum.c
-#, fuzzy
-msgid "(e.g. note_51@<b>example.com</b>)"
-msgstr "(например note_51@<b>example.com</b>)"
-
-#: misc/localization/eventum.c
 msgid "Email Draft Interface:"
 msgstr "Интерфейс черновиков эл.писем:"
 
 #: misc/localization/eventum.c
 msgid "Draft Address Prefix:"
 msgstr "Префикс адреса черновика:"
-
-#: misc/localization/eventum.c
-#, fuzzy
-msgid "(e.g. <b>draft_</b>51@example.com)"
-msgstr "(например <b>draft_</b>51@example.com)"
-
-#: misc/localization/eventum.c
-#, fuzzy
-msgid "(e.g. draft_51@<b>example.com</b>)"
-msgstr "(например draft_51@<b>example.com</b>)"
 
 #: misc/localization/eventum.c
 msgid "SCM <br />Integration:"
@@ -4173,12 +4160,8 @@ msgid "Email Spell Checker:"
 msgstr "Проверка орфографии в эл.письме:"
 
 #: misc/localization/eventum.c
-msgid ""
-"(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
-"sourceforge.net/\">aspell</a> installed in your server)"
+msgid "(requires %1 installed in your server)"
 msgstr ""
-"(требует установленного на вашем сервере приложения <a target=\"_aspell\" "
-"class=\"link\" href=\"http://aspell.sourceforge.net/\">aspell</a>)"
 
 #: misc/localization/eventum.c
 msgid "IRC Notifications:"
@@ -6272,11 +6255,15 @@ msgstr ""
 "равен <font color=\"red\">%1</font>"
 
 #: misc/localization/eventum.c
-msgid "You may <a class=\"link\" href=\"%1\">%2</a> if you so wish."
+#, fuzzy
+msgid ""
+"You may <a class=\"link\" href=\"%1\">submit another issue</a> if you so "
+"wish."
 msgstr "Вы можете <a class=\"link\" href=\"%1\">%2</a>, если вы так желаете."
 
 #: misc/localization/eventum.c
-msgid "Please choose the project that this new issue will apply to."
+#, fuzzy
+msgid "Please choose the project that this new issue will apply to"
 msgstr "Пожалуйста, выберите проект, к которому относится данный запрос."
 
 #: misc/localization/eventum.c
@@ -6549,7 +6536,8 @@ msgid "Alert Query"
 msgstr "Запрос предупреждения"
 
 #: misc/localization/eventum.c
-msgid "Automated Issue # %1 Reminder Alert"
+#, fuzzy
+msgid "Automated Issue #%1 Reminder Alert"
 msgstr "Предупреждающее напоминание по автоматическому запросу # %1"
 
 #: misc/localization/eventum.c
@@ -7555,9 +7543,10 @@ msgstr ""
 "или менеджер) для добавления необходимых ответов."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "You can create as many custom queries as you want through the\n"
-"<a class=\"link\" href=\"adv_search.php\">Advanced Search</a> interface.\n"
+"<a class=\"link\" href=\"%1\">Advanced Search</a> interface.\n"
 "There is also the ability to save and modify custom queries and load\n"
 "them quickly from the Issue Listing screen."
 msgstr ""
@@ -7570,25 +7559,28 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid ""
 "You can switch to the 'Search' or 'Go' boxes quickly by using a\n"
-"special shortcut keystroke in your keyboard.<br />\n"
-"<br />\n"
-"Use the following shortcuts:<br />\n"
-"<br />\n"
-"<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the "
-"'Search' box<br />\n"
-"<br />\n"
-"<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box"
+"special shortcut keystroke in your keyboard."
 msgstr ""
-"Вы можете быстро переключаться в поля ввода 'Поиск' или '>>', \n"
-"используя специальные комбинации клавиш на клавиатуре.<br />\n"
-"<br />\n"
-"Используйте следующие комбинации клавиш:<br />\n"
-"<br />\n"
-"<b>ALT-3</b> (удерживайте клавишу 'ALT' и нажмите '3' один раз) - для "
-"доступа к полю ввода 'Поиск' <br />\n"
-"<br />\n"
-"<b>ALT-4</b> (удерживайте клавишу 'ALT' и нажмите '4' один раз) - для "
-"доступа к полю ввода '>>'"
+
+#: misc/localization/eventum.c
+msgid "Use the following shortcuts:"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "ALT-3"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "ALT-4"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
+msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Error: The issue could not be found."
@@ -7838,8 +7830,9 @@ msgid "Quarantine expires in %1"
 msgstr "Изоляция истекает в %1"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information "
+"Please see the <a class=\"link\" href=\"%1\">FAQ</a> for information "
 "regarding quarantined issues."
 msgstr ""
 "Пожалуйста, см. раздел <a class=\"link\" href=\"faq.php\">FAQ</a> для "
@@ -8503,6 +8496,60 @@ msgstr "Запросы по назначениям"
 msgid "Update Issue #%1$s"
 msgstr "Обновить запрос"
 
+#, fuzzy
+#~ msgid "(e.g. <b>issue_</b>51@example.com)"
+#~ msgstr "(например <b>issue_</b>51@example.com)"
+
+#, fuzzy
+#~ msgid "(e.g. issue_51@<b>example.com</b>)"
+#~ msgstr "(например issue_51@<b>example.com</b>)"
+
+#, fuzzy
+#~ msgid "(e.g. <b>note_</b>51@example.com)"
+#~ msgstr "(например <b>note_</b>51@example.com)"
+
+#, fuzzy
+#~ msgid "(e.g. note_51@<b>example.com</b>)"
+#~ msgstr "(например note_51@<b>example.com</b>)"
+
+#, fuzzy
+#~ msgid "(e.g. <b>draft_</b>51@example.com)"
+#~ msgstr "(например <b>draft_</b>51@example.com)"
+
+#, fuzzy
+#~ msgid "(e.g. draft_51@<b>example.com</b>)"
+#~ msgstr "(например draft_51@<b>example.com</b>)"
+
+#~ msgid ""
+#~ "(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
+#~ "sourceforge.net/\">aspell</a> installed in your server)"
+#~ msgstr ""
+#~ "(требует установленного на вашем сервере приложения <a target=\"_aspell\" "
+#~ "class=\"link\" href=\"http://aspell.sourceforge.net/\">aspell</a>)"
+
+#~ msgid ""
+#~ "You can switch to the 'Search' or 'Go' boxes quickly by using a\n"
+#~ "special shortcut keystroke in your keyboard.<br />\n"
+#~ "<br />\n"
+#~ "Use the following shortcuts:<br />\n"
+#~ "<br />\n"
+#~ "<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the "
+#~ "'Search' box<br />\n"
+#~ "<br />\n"
+#~ "<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' "
+#~ "box"
+#~ msgstr ""
+#~ "Вы можете быстро переключаться в поля ввода 'Поиск' или '>>', \n"
+#~ "используя специальные комбинации клавиш на клавиатуре.<br />\n"
+#~ "<br />\n"
+#~ "Используйте следующие комбинации клавиш:<br />\n"
+#~ "<br />\n"
+#~ "<b>ALT-3</b> (удерживайте клавишу 'ALT' и нажмите '3' один раз) - для "
+#~ "доступа к полю ввода 'Поиск' <br />\n"
+#~ "<br />\n"
+#~ "<b>ALT-4</b> (удерживайте клавишу 'ALT' и нажмите '4' один раз) - для "
+#~ "доступа к полю ввода '>>'"
+
 #~ msgid "Reported"
 #~ msgstr "Автор"
 
@@ -8512,9 +8559,6 @@ msgstr "Обновить запрос"
 #~ msgstr ""
 #~ "Ошибка: Отправитель этого эл. письма не допущен к проекту, связанному с "
 #~ "запросом #"
-
-#~ msgid "The CVS module name"
-#~ msgstr "Название модуля CVS"
 
 #~ msgid ""
 #~ "http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h"

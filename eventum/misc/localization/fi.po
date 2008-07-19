@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-19 21:27+0300\n"
+"POT-Creation-Date: 2008-07-19 22:11+0300\n"
 "PO-Revision-Date: 2007-11-10 17:22+0200\n"
 "Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -2208,6 +2208,10 @@ msgstr ""
 "syöttökenttiin, käytä seuraavia parametrejä:"
 
 #: misc/localization/eventum.c
+msgid "The CVS module name"
+msgstr "CVS-moduulinimi"
+
+#: misc/localization/eventum.c
 msgid "The filename that was committed"
 msgstr "Tiedostonnimi, joka lähetettiin"
 
@@ -2220,10 +2224,17 @@ msgid "The new revision of the file"
 msgstr "Tiedoston uusi versio"
 
 #: misc/localization/eventum.c
+msgid "As an example, using the"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Chora CVS viewer"
+msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"As an example, using the <a href=\"http://www.horde.org/chora/\" class=\"link"
-"\" target=\"_chora\">Chora CVS viewer</a> [highly recommended] from the "
-"Horde project you\n"
+"[highly recommended] from the Horde project you\n"
 "would usually have the following URL as the diff page:"
 msgstr ""
 "Esimerkiksi, käyttäessä <a href=\"http://www.horde.org/chora/\" class=\"link"
@@ -2239,9 +2250,10 @@ msgstr ""
 "ulosmerkitsemis-sivun syöttökenttiin ovat:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"The process_commits.pl script, which is available in the misc \n"
-"sub-directory in your Eventum installation directory, will need to be \n"
+"The %1 script, which is available in the %2\n"
+"sub-directory in your Eventum installation directory, will need to be\n"
 "installed in your CVSROOT CVS module by following the procedure below:"
 msgstr ""
 "Eventumin asennuskansion 'misc'-alikansiossa oleva \n"
@@ -2249,8 +2261,9 @@ msgstr ""
 "CVS-moduuliin noudattamalla seuraavia vaiheita:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"The first thing to do is to checkout the CVSROOT module from your CVS\n"
+"The first thing to do is to checkout the %1 module from your CVS\n"
 "repository:"
 msgstr "Ensimmäinen tehtävä asia on uloskirjata CVSROOT moduuli CVS-säiliöstä:"
 
@@ -2265,10 +2278,11 @@ msgstr ""
 "lisää seuraava rivi:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Replace %repository path% by the appropriate absolute path in your\n"
+"Replace %1 by the appropriate absolute path in your\n"
 "CVS server, such as /home/username/repository for instance. Also make\n"
-"sure to put the appropriate path to your Perl binary."
+"sure to put the appropriate path to your PHP binary."
 msgstr ""
 "Korvaa %repository path% absoluuttisella polulla CVS-palvelimellasi,\n"
 "esimerkiksi /home/username/repository. Varmista myös, että\n"
@@ -2286,10 +2300,11 @@ msgstr ""
 "kuten esimerkiksi:"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "The last step of this installation process is to login into the CVS\n"
-"server and copy the process_cvs_commits.php script into the CVSROOT \n"
-"directory. Make sure you give the appropriate permissions to the \n"
+"server and copy the %1 script into the %2\n"
+"directory. Make sure you give the appropriate permissions to the\n"
 "script."
 msgstr ""
 "Viimeinen asennuksen vaihe on kirjautua sisään CVS-palvelimelle\n"
@@ -3916,9 +3931,8 @@ msgid "Sender Email"
 msgstr "Lähettäjän sähköpostiosoite"
 
 #: misc/localization/eventum.c
-msgid ""
-"(This MUST contain a real email address, e.g. \"eventum@example.com\" or "
-"\"Eventum <eventum@example.com>\")"
+#, fuzzy
+msgid "(This MUST contain a real email address, e.g. \"%1\" or \"%2\")"
 msgstr ""
 "(Tämän TÄYTYY sisältää oikea sähköpostiosoite, esim. \"eventum@example.com\" "
 "tai \"Eventum <eventum@example.comi>\")"
@@ -3991,16 +4005,12 @@ msgid "Email Address Prefix:"
 msgstr "Sähköpostiosoitteen alkuosa:"
 
 #: misc/localization/eventum.c
-msgid "(e.g. <b>issue_</b>51@example.com)"
-msgstr "(esim. <b>vikailmoitus_</b>51@example.com)"
+msgid "(e.g. %1)"
+msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Address Hostname:"
 msgstr "Koneen nimi:"
-
-#: misc/localization/eventum.c
-msgid "(e.g. issue_51@<b>example.com</b>)"
-msgstr "(esim. vikailmoitus_51@<b>example.com</b>)"
 
 #: misc/localization/eventum.c
 msgid "Host Alias:"
@@ -4036,28 +4046,12 @@ msgid "Note Address Prefix:"
 msgstr "Viestin osoitteen etuliite:"
 
 #: misc/localization/eventum.c
-msgid "(e.g. <b>note_</b>51@example.com)"
-msgstr "(esim. <b>viesti_</b>51@example.com)"
-
-#: misc/localization/eventum.c
-msgid "(e.g. note_51@<b>example.com</b>)"
-msgstr "(esim. viesti_51@<b>example.com</b>)"
-
-#: misc/localization/eventum.c
 msgid "Email Draft Interface:"
 msgstr "Sähköpostiluonnosrajapinta:"
 
 #: misc/localization/eventum.c
 msgid "Draft Address Prefix:"
 msgstr "Luonnoksen osoitteen etuliite:"
-
-#: misc/localization/eventum.c
-msgid "(e.g. <b>draft_</b>51@example.com)"
-msgstr "(esim. <b>luonnos_</b>51@example.com)"
-
-#: misc/localization/eventum.c
-msgid "(e.g. draft_51@<b>example.com</b>)"
-msgstr "(esim. luonnos_51@<b>example.com</b>)"
 
 #: misc/localization/eventum.c
 msgid "SCM <br />Integration:"
@@ -4084,12 +4078,8 @@ msgid "Email Spell Checker:"
 msgstr "Sähköpostiviestien oikolukija:"
 
 #: misc/localization/eventum.c
-msgid ""
-"(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
-"sourceforge.net/\">aspell</a> installed in your server)"
+msgid "(requires %1 installed in your server)"
 msgstr ""
-"(vaatii <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
-"sourceforge.net/\">aspellin</a> asentamista palvelimelle)"
 
 #: misc/localization/eventum.c
 msgid "IRC Notifications:"
@@ -6146,11 +6136,15 @@ msgstr ""
 "on <font color=\"red\">%1</font>"
 
 #: misc/localization/eventum.c
-msgid "You may <a class=\"link\" href=\"%1\">%2</a> if you so wish."
+#, fuzzy
+msgid ""
+"You may <a class=\"link\" href=\"%1\">submit another issue</a> if you so "
+"wish."
 msgstr "Voit <a class=\"link\" href=\"%1\">%2</a> jos haluat."
 
 #: misc/localization/eventum.c
-msgid "Please choose the project that this new issue will apply to."
+#, fuzzy
+msgid "Please choose the project that this new issue will apply to"
 msgstr "Valitse projekti johon tämä vikailmoitus liittyy."
 
 #: misc/localization/eventum.c
@@ -6421,7 +6415,8 @@ msgid "Alert Query"
 msgstr "Hälytyshaku"
 
 #: misc/localization/eventum.c
-msgid "Automated Issue # %1 Reminder Alert"
+#, fuzzy
+msgid "Automated Issue #%1 Reminder Alert"
 msgstr "Automaattinen vikailmoitus # %1 muistutushälytys"
 
 #: misc/localization/eventum.c
@@ -7416,9 +7411,10 @@ msgstr ""
 "luoda sinulle semmoinen."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "You can create as many custom queries as you want through the\n"
-"<a class=\"link\" href=\"adv_search.php\">Advanced Search</a> interface.\n"
+"<a class=\"link\" href=\"%1\">Advanced Search</a> interface.\n"
 "There is also the ability to save and modify custom queries and load\n"
 "them quickly from the Issue Listing screen."
 msgstr ""
@@ -7431,25 +7427,28 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid ""
 "You can switch to the 'Search' or 'Go' boxes quickly by using a\n"
-"special shortcut keystroke in your keyboard.<br />\n"
-"<br />\n"
-"Use the following shortcuts:<br />\n"
-"<br />\n"
-"<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the "
-"'Search' box<br />\n"
-"<br />\n"
-"<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' box"
+"special shortcut keystroke in your keyboard."
 msgstr ""
-"Voit vaihtaa 'Haku' tai 'Hae' kenttiin nopeasti käyttämällä\n"
-"erikoista pikanäppäinyhdistelmää.<br />\n"
-"<br />\n"
-"Käytä seuraavaa oikoreittiä: <br />\n"
-"<br />\n"
-"<b>ALT-3</b>(Pidä 'ALT'-näppäin pohjassa ja paina '3'-näppäintä kerran) - "
-"Tällä pääset 'Haku'-kenttään<br />\n"
-"<br />\n"
-"<b>ALT-4</b> (Pidä 'ALT'-näppäin pohjassa ja paina '4'-näppäintä kerran) - "
-"Tällä pääset 'Hae'-kenttään"
+
+#: misc/localization/eventum.c
+msgid "Use the following shortcuts:"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "ALT-3"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "(hold 'ALT' key and press '3' one time) - to access the 'Search' box"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "ALT-4"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "(hold 'ALT' key and press '4' one time) - to access the 'Go' box"
+msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Error: The issue could not be found."
@@ -7695,8 +7694,9 @@ msgid "Quarantine expires in %1"
 msgstr "Eristys päättyy %1"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Please see the <a class=\"link\" href=\"faq.php\">FAQ</a> for information "
+"Please see the <a class=\"link\" href=\"%1\">FAQ</a> for information "
 "regarding quarantined issues."
 msgstr ""
 "Katso <a class=\"link\" href=\"faq.php\">UKK:sta</a> lisätietoja "
@@ -8352,6 +8352,54 @@ msgstr "Vikailmoitukset määrätyn mukaan"
 msgid "Update Issue #%1$s"
 msgstr "Päivitä vikailmoitus #%1$s"
 
+#~ msgid "(e.g. <b>issue_</b>51@example.com)"
+#~ msgstr "(esim. <b>vikailmoitus_</b>51@example.com)"
+
+#~ msgid "(e.g. issue_51@<b>example.com</b>)"
+#~ msgstr "(esim. vikailmoitus_51@<b>example.com</b>)"
+
+#~ msgid "(e.g. <b>note_</b>51@example.com)"
+#~ msgstr "(esim. <b>viesti_</b>51@example.com)"
+
+#~ msgid "(e.g. note_51@<b>example.com</b>)"
+#~ msgstr "(esim. viesti_51@<b>example.com</b>)"
+
+#~ msgid "(e.g. <b>draft_</b>51@example.com)"
+#~ msgstr "(esim. <b>luonnos_</b>51@example.com)"
+
+#~ msgid "(e.g. draft_51@<b>example.com</b>)"
+#~ msgstr "(esim. luonnos_51@<b>example.com</b>)"
+
+#~ msgid ""
+#~ "(requires <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
+#~ "sourceforge.net/\">aspell</a> installed in your server)"
+#~ msgstr ""
+#~ "(vaatii <a target=\"_aspell\" class=\"link\" href=\"http://aspell."
+#~ "sourceforge.net/\">aspellin</a> asentamista palvelimelle)"
+
+#~ msgid ""
+#~ "You can switch to the 'Search' or 'Go' boxes quickly by using a\n"
+#~ "special shortcut keystroke in your keyboard.<br />\n"
+#~ "<br />\n"
+#~ "Use the following shortcuts:<br />\n"
+#~ "<br />\n"
+#~ "<b>ALT-3</b> (hold 'ALT' key and press '3' one time) - to access the "
+#~ "'Search' box<br />\n"
+#~ "<br />\n"
+#~ "<b>ALT-4</b> (hold 'ALT' key and press '4' one time) - to access the 'Go' "
+#~ "box"
+#~ msgstr ""
+#~ "Voit vaihtaa 'Haku' tai 'Hae' kenttiin nopeasti käyttämällä\n"
+#~ "erikoista pikanäppäinyhdistelmää.<br />\n"
+#~ "<br />\n"
+#~ "Käytä seuraavaa oikoreittiä: <br />\n"
+#~ "<br />\n"
+#~ "<b>ALT-3</b>(Pidä 'ALT'-näppäin pohjassa ja paina '3'-näppäintä kerran) - "
+#~ "Tällä pääset 'Haku'-kenttään<br />\n"
+#~ "<br />\n"
+#~ "<b>ALT-4</b> (Pidä 'ALT'-näppäin pohjassa ja paina '4'-näppäintä kerran) "
+#~ "- Tällä pääset 'Hae'-kenttään"
+
 #~ msgid "Reported"
 #~ msgstr "Ilmoitettu"
 
@@ -8361,9 +8409,6 @@ msgstr "Päivitä vikailmoitus #%1$s"
 #~ msgstr ""
 #~ "Virhe: Lähettäjän sähköpostiosoite ei ole sallittu tähän vikailmoitus ID:"
 #~ "hen liittyvässä projektissa"
-
-#~ msgid "The CVS module name"
-#~ msgstr "CVS-moduulinimi"
 
 #~ msgid ""
 #~ "http://example.com/chora/diff.php/module/filename.ext?r1=1.3&r2=1.4&ty=h"
