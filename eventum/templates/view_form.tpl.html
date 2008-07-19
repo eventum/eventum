@@ -129,7 +129,7 @@ function collapseDescription()
             {if $current_role > $roles.customer && $quarantine.iqu_expiration != ''}
                 {t 1=$quarantine.time_till_expiration}Quarantine expires in %1{/t}<br />
             {/if}
-            {t escape="none"}Please see the <a class="link" href="faq.php">FAQ</a> for information regarding quarantined issues.{/t}
+            {t 1="faq.php"}Please see the <a class="link" href="%1">FAQ</a> for information regarding quarantined issues.{/t}
             </span>
             {if $current_role > $roles.developer}
             <br /><br />
