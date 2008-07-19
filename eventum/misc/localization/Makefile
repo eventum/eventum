@@ -14,8 +14,15 @@ all:
 		msgfmt --statistics --output=t.mo $$lang.po && mv t.mo $$lang/LC_MESSAGES/$(DOMAIN).mo; \
 	done
 
+tools-check:
+	@TOOLS='svn find sort xargs tsmarty2c xgettext sed mv rm'; \
+	for t in $$TOOLS; do \
+		p=`which $$t 2>/dev/null`; \
+		[ "$$p" -a -x "$$p" ] || { echo "ERROR: Can't find $$t"; exit 1; }; \
+	done
+
 # generate .pot file from Eventum svn trunk
-pot:
+pot: tools-check
 	@set -x -e; \
 	umask 002; \
 	rm -rf export; \
