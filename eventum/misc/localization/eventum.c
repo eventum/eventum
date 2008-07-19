@@ -5557,6 +5557,12 @@ gettext("Description");
 /* templates/notifications/assigned.tpl.text */
 gettext("Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below");
 
+/* templates/notifications/bounced_email.tpl.text */
+gettext("Eventum was unable to route your email");
+
+/* templates/notifications/bounced_email.tpl.text */
+gettext("The original message headers follow");
+
 /* templates/notifications/closed.tpl.text */
 gettext("This is an automated message sent at your request from %1.");
 
@@ -5796,6 +5802,9 @@ gettext("Hello,\n\nWe just received a request to create a new random password fo
 
 /* templates/notifications/updated.tpl.text */
 gettext("This is an automated message sent at your request from %1");
+
+/* templates/notifications/updated.tpl.text */
+gettext("The issue was updated by %1");
 
 /* templates/notifications/updated.tpl.text */
 gettext("To view more details of this issue, or to update it, please visit the following URL");
@@ -7730,7 +7739,7 @@ gettext("Error: The issue could not be found.");
 gettext("Go Back");
 
 /* templates/update.tpl.html */
-gettext("Sorry, you do not have the required privileges to view this issue.");
+gettext("Sorry, you do not have the required privileges to update this issue.");
 
 /* templates/update.tpl.html */
 gettext("Go Back");
