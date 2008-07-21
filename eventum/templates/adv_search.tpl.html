@@ -569,6 +569,16 @@ function disableCustomFields(disable)
                 <td width="35%" align="left">
                   {if $field.fld_type == 'text' OR $field.fld_type == 'textarea'}
                   <input type="text" name="custom_field[{$field.fld_id}]" class="default" value="{$options.cst_custom_field[$field.fld_id]}" disabled>
+                  {elseif $field.fld_type == 'integer'}
+                  {assign var="cmp" value=$options.cst_custom_field[$field.fld_id].filter_type}
+                  <select name="custom_field[{$field.fld_id}][filter_type]" class="default">
+                    <option value="eq" {if $cmp == 'eq'}selected{/if}>{t}Equals{/t}</option>
+                    <option value="ge" {if $cmp == 'ge'}selected{/if}>{t}Greater or Equal{/t}</option>
+                    <option value="le" {if $cmp == 'le'}selected{/if}>{t}Less or Equal{/t}</option>
+                    <option value="gt" {if $cmp == 'gt'}selected{/if}>{t}Greater Than{/t}</option>
+                    <option value="lt" {if $cmp == 'lt'}selected{/if}>{t}Less Than{/t}</option>
+                  </select>
+                  <input type="text" size="8" name="custom_field[{$field.fld_id}][value]" class="default" value="{$options.cst_custom_field[$field.fld_id].value}" disabled>
                   {elseif $field.fld_type == 'combo' OR $field.fld_type == 'multiple'}
                   <select name="custom_field[{$field.fld_id}][]" class="default" multiple size="3" disabled>
                     {html_options options=$field.field_options selected=$options.cst_custom_field[$field.fld_id]}

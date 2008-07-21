@@ -31,6 +31,7 @@ Eventum Issue Tracking System
 - Removed "View Mail Queue" link for Standard Users (Bryan, #37324)
 - Changed subject of issue manually created from email to be consistent with other emails (Bryan)
 - Allow managers to delete notes from any user (Bryan)
+- Handled integer custom fields on advanced search (bug #38253)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

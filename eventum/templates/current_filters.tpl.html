@@ -77,6 +77,18 @@
                   {$filter_details|escape:"html"}
                 {elseif $filter.fld_type == 'date'}
                   {$filter_details.Year}-{$filter_details.Month}-{$filter_details.Day}
+                {elseif $filter.fld_type == 'integer'}
+                  {if $filter_details.filter_type == 'ge'}
+                    {t 1=$filter_details.value} %1 or greater {/t}
+                  {elseif $filter_details.filter_type == 'le'}
+                    {t 1=$filter_details.value} %1 or less {/t}
+                  {elseif $filter_details.filter_type == 'gt'}
+                    {t 1=$filter_details.value} Greater than %1 {/t}
+                  {elseif $filter_details.filter_type == 'lt'}
+                    {t 1=$filter_details.value} Less than %1 {/t}
+                  {else}
+                    {$filter_details.value}
+                  {/if}
                 {else}
                   {$custom_fields_display[$fld_id]}
                 {/if}

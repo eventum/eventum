@@ -2963,6 +2963,18 @@ class Issue
                     $search_value = $search_value['Year'] . "-" . $search_value['Month'] . "-" . $search_value['Day'];
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id AND
                         cf" . $fld_id . "." . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
+                } else if ($field['fld_type'] == 'integer') {
+                    $value = $search_value['value'];
+                    switch ($search_value['filter_type']) {
+                        case 'ge': $cmp = '>='; break;
+                        case 'le': $cmp = '<='; break;
+                        case 'gt': $cmp = '>'; break;
+                        case 'lt': $cmp = '<'; break;
+                        default:   $cmp = '='; break;
+                    }
+                    $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
+                    $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
+                    $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . $cmp . Misc::escapeString($value) . ')';
                 } else {
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
