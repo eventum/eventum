@@ -7,98 +7,11 @@
           {strip}
           <td class="default">
             {t}Current filters:{/t}&nbsp;
-            {assign var="displayed_count" value=0}
-            {foreach from=$filter_info item=filter key=filter_key}
-            {assign var=filter_param value=$filter.param}
-            {if $filter.is_custom == 1}
-              {assign var=fld_id value=$filter.fld_id}
-              {assign var=filter_details value=$options.custom_field.$fld_id}
-            {else}
-              {assign var=filter_details value=$options.$filter_param}
-            {/if}
-            {if $filter_param != 'sort_order' && $filter_param != 'sort_by' && $filter_param != 'rows' && $filter_param != 'search_type' &&
-                (($filter_details != '' && $filter_details != '0') OR $filter_details|is_array) &&
-                (!isset($filter_details.Year) OR $filter_details.Year != '' OR $filter_details.time_period != '' OR
-                    ($filter.is_custom == 1 && ($filter.fld_type != 'date' OR $filter.Year != '')))
-            }
-              {if $displayed_count != 0}, {/if}
-              <b>{if $filter_param == 'keywords' && $options.use_fulltext == 1}{t}Fulltext{/t}&nbsp;{/if}{$filter.title}</b>:&nbsp;
-              {if $filter.is_date == true}
-                {if $filter_details.filter_type == 'in_past'}
-                  {t 1=$filter_details.time_period}In Past %1 hours{/t}
-                {elseif $filter_details.filter_type == 'null'}
-                  {t}Is NULL{/t}
-                {elseif $filter_details.filter_type == 'between'}
-                  {assign var=end_var value=`$filter_param`_end}
-                  {assign var=end_details value=$options.$end_var}
-                  {t 1=$filter_details.Year 2=$filter_details.Month 3=$filter_details.Day 4=$end_details.Year 5=$end_details.Month 6=$end_details.Day}Is between %1-%2-%3 AND %4-%5-%6{/t}
-                {elseif $filter_details.filter_type == 'greater'}
-                  {t 1=$filter_details.Year 2=$filter_details.Month 3=$filter_details.Day}Is greater than %1-%2-%3{/t}
-                {elseif $filter_details.filter_type == 'less'}
-                  {t 1=$filter_details.Year 2=$filter_details.Month 3=$filter_details.Day}Is less than %1-%2-%3{/t}
-                {/if}
-              {elseif $filter_param == 'status'}
-                {$status[$filter_details]}
-              {elseif $filter_param == 'category'}
-                {if $filter_details|is_array}
-                {foreach name=category from=$filter_details item=category}
-                  {$categories[$category]}{if !$smarty.foreach.category.last}, {/if}
-                {/foreach}
-                {else}
-                {$categories[$filter_details]}
-                {/if}
-              {elseif $filter_param == 'priority'}
-                {$priorities[$filter_details]}
-              {elseif $filter_param == 'users'}
-                {if $filter_details == -1}
-                  {t}un-assigned{/t}
-                {elseif $filter_details == -2}
-                  {t}myself and un-assigned{/t}
-                {elseif $filter_details == -3}
-                  {t}myself and my group{/t}
-                {elseif $filter_details == -4}
-                  {t}myself, un-assigned and my group{/t}
-                {elseif $filter_details|substr:"0":"3" == 'grp'}
-                  {assign var=grp_id value=$filter_details|substr:"4"}
-                  {$groups[$grp_id]} {t}Group{/t}
-                {else}
-                  {$users[$filter_details]}
-                {/if}
-              {elseif $filter_param == 'hide_closed'}
-                {if $filter_details == 1}
-                  {t}Yes{/t}
-                {/if}
-              {elseif $filter_param == 'reporter'}
-                {$reporters[$filter_details]}
-              {elseif $filter_param == 'release'}
-                {$releases[$filter_details]}
-              {elseif $filter.is_custom == 1}
-                {if $filter.fld_type == 'text' OR $filter.fld_type == 'textarea'}
-                  {$filter_details|escape:"html"}
-                {elseif $filter.fld_type == 'date'}
-                  {$filter_details.Year}-{$filter_details.Month}-{$filter_details.Day}
-                {elseif $filter.fld_type == 'integer'}
-                  {if $filter_details.filter_type == 'ge'}
-                    {t 1=$filter_details.value} %1 or greater {/t}
-                  {elseif $filter_details.filter_type == 'le'}
-                    {t 1=$filter_details.value} %1 or less {/t}
-                  {elseif $filter_details.filter_type == 'gt'}
-                    {t 1=$filter_details.value} Greater than %1 {/t}
-                  {elseif $filter_details.filter_type == 'lt'}
-                    {t 1=$filter_details.value} Less than %1 {/t}
-                  {else}
-                    {$filter_details.value}
-                  {/if}
-                {else}
-                  {$custom_fields_display[$fld_id]}
-                {/if}
-              {else}
-                {$filter_details|escape:"html"}
-              {/if}
-              {assign var="displayed_count" value=$displayed_count+1}
-            {/if}
+            {foreach from=$active_filters name=active_filters key=filter_name item=filter_value}
+              <b>{$filter_name}</b>: {$filter_value}{if !$smarty.foreach.active_filters.last}; {/if}
+            {foreachelse}
+              <i>{t}None{/t}</i>
             {/foreach}
-            {if $displayed_count == 0}&nbsp;<i>{t}None{/t}</i>{/if}
           </td>
           {/strip}
         </tr>

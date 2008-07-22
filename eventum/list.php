@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: list.php 3641 2008-07-09 07:05:45Z glen $
+// @(#) $Id: list.php 3677 2008-07-22 20:19:52Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -90,20 +90,6 @@ if ((count($groups) > 0) && (Auth::getCurrentRole() > User::getRoleID("Customer"
 }
 $assign_options += $users;
 
-// get display values for custom fields
-$custom_fields_display = array();
-if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
-    foreach ($options['custom_field'] as $fld_id => $search_value) {
-        if (empty($search_value)) {
-            continue;
-        }
-        $field = Custom_Field::getDetails($fld_id);
-        if (($field['fld_type'] == 'combo') || ($field['fld_type'] == 'multiple')) {
-            $custom_fields_display[$fld_id] = join(', ', Custom_Field::getOptions($fld_id, $search_value));
-        }
-    }
-}
-
 $list = Issue::getListing($prj_id, $options, $pagerRow, $rows);
 $tpl->assign("list", $list["list"]);
 $tpl->assign("list_info", $list["info"]);
@@ -112,17 +98,12 @@ $tpl->assign("csv_data", base64_encode(@$list["csv"]));
 $tpl->assign("columns", Display_Column::getColumnsToDisplay($prj_id, 'list_issues'));
 $tpl->assign("priorities", Priority::getAssocList($prj_id));
 $tpl->assign("status", Status::getAssocStatusList($prj_id));
-$tpl->assign("open_status", Status::getAssocStatusList($prj_id, false));
-$tpl->assign("users", $users);
 $tpl->assign("assign_options", $assign_options);
 $tpl->assign("custom", Filter::getAssocList($prj_id));
 $tpl->assign("csts", Filter::getListing(true));
-$tpl->assign("filter_info", Filter::getFiltersInfo());
+$tpl->assign("active_filters", Filter::getActiveFilters($options));
 $tpl->assign("categories", Category::getAssocList($prj_id));
 $tpl->assign("releases", Release::getAssocList($prj_id, true));
-$tpl->assign("available_releases", Release::getAssocList($prj_id));
-$tpl->assign("groups", $groups);
-$tpl->assign("custom_fields_display", $custom_fields_display);
 $tpl->assign("reporters", Project::getReporters($prj_id));
 
 $prefs = Prefs::get($usr_id);

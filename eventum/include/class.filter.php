@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.filter.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.filter.php 3677 2008-07-22 20:19:52Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -567,6 +567,132 @@ class Filter
         } else {
             return true;
         }
+    }
+
+    /**
+     * Returns an array of active filters
+     *
+     * @param   array $options The options array
+     */
+    function getActiveFilters($options)
+    {
+        $prj_id = Auth::getCurrentProject();
+        $filter_info = self::getFiltersInfo();
+
+        $return = array();
+
+        foreach ($filter_info as $filter_key => $filter) {
+            $display = false;
+
+            if ((isset($filter['param'])) && (isset($options[$filter['param']]))) {
+                $filter_details = $options[$filter['param']];
+            }
+
+            if (isset($filter['is_custom'])) {
+                // custom fields
+                $fld_id = $filter['fld_id'];
+                if ((!isset($options['custom_field'][$fld_id])) || (empty($options['custom_field'][$fld_id]))) {
+                    continue;
+                } elseif (($filter['fld_type'] == 'date') && (empty($options['custom_field'][$fld_id]['Year']))) {
+                    continue;
+                } elseif ($filter['fld_type'] == 'integer') {
+                    if ((!isset($options['custom_field'][$fld_id]['value'])) || (empty($options['custom_field'][$fld_id]['value']))) {
+                        continue;
+                    } else {
+                        $filter_details = $options['custom_field'][$fld_id];
+                        switch ($filter_details['filter_type']) {
+                            case 'ge':
+                                $display = ev_gettext('%1$s or greater', $filter_details['value']);
+                                break;
+                            case 'le':
+                                $display = ev_gettext('%1$s or less', $filter_details['value']);
+                                break;
+                            case 'gt':
+                                $display = ev_gettext('Greater than %1$s', $filter_details['value']);
+                            case 'lt':
+                                $display = ev_gettext('Less than %1$s', $filter_details['value']);
+                            default:
+                                $display = $filter_details['value'];
+                        }
+                    }
+                } elseif (in_array($filter['fld_type'], array('multiple', 'combo'))) {
+                    $display = join(', ', Custom_Field::getOptions($fld_id, $options['custom_field'][$fld_id]));
+                } else {
+                    $display = $options['custom_field'][$fld_id];
+                }
+            } elseif ((!isset($options[$filter['param']])) || (empty($options[$filter['param']])) ||
+                    (in_array($filter_key, array('sort_order', 'sort_by', 'rows', 'search_type')))) {
+                continue;
+            } elseif ((isset($filter['is_date'])) && ($filter['is_date'] == true)) {
+                if ((!empty($filter_details['Year'])) || (isset($filter_details['time_period']))) {
+                    switch ($filter_details['filter_type']) {
+                        case 'in_past':
+                            $display = ev_gettext('In Past %1$s hours', $filter_details['time_period']);
+                            break;
+                        case 'null':
+                            $display = ev_gettext('Is NULL');
+                            break;
+                        case 'between':
+                            $end = $options[$filter['param'] . '_end'];
+                            $display = ev_gettext('Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s', $filter_details['Year'], $filter_details['Month'],
+                                            $filter_details['Day'], $end['Year'], $end['Month'], $end['Day']);
+                            break;
+                        case 'greater':
+                            $display = ev_gettext('Is greater than %1$s-%2$s-%3$s', $filter_details['Year'], $filter_details['Month'], $filter_details['Day']);
+                            break;
+                        case 'less':
+                            $display = ev_gettext('Is less than %1$s-%2$s-%3$s', $filter_details['Year'], $filter_details['Month'], $filter_details['Day']);
+                    }
+                }
+            } elseif ($filter['param'] == 'status') {
+                $statuses = Status::getAssocStatusList($prj_id);
+                $display = $statuses[$filter_details];
+            } elseif ($filter['param'] == 'category') {
+                $categories = Category::getAssocList($prj_id);
+                if (is_array($filter_details)) {
+                    $active_categories = array();
+                    foreach ($filter_details as $category) {
+                        $active_categories[] = $categories[$category];
+                    }
+                    $display = join(', ', $active_categories);
+                } else {
+                    $display = $categories[$filter_details];
+                }
+            } elseif ($filter['param'] == 'priority') {
+                $priorities = Priority::getAssocList($prj_id);
+                $display = $priorities[$filter_details];
+            } elseif ($filter['param'] == 'users') {
+                if ($filter_details == -1) {
+                    $display = ev_gettext('un-assigned');
+                } elseif ($filter_details == -2) {
+                    $display = ev_gettext('myself and un-assigned');
+                } elseif ($filter_details == -3) {
+                    $display = ev_gettext('myself and my group');
+                } elseif ($filter_details == -4) {
+                    $display = ev_gettext('myself, un-assigned and my group');
+                } elseif (substr($filter_details, 0, 3) == 'grp') {
+                    $display = ev_gettext('%1$s Group', Group::getName(substr($filter_details, 4)));
+                } else {
+                    $display = User::getFullName($filter_details);
+                }
+            } elseif ($filter['param'] == 'hide_closed') {
+                if ($filter_details == true) {
+                    $display = 'Yes';
+                }
+            } elseif ($filter['param'] == 'reporter') {
+                $display = User::getFullName($filter_details);
+            } elseif ($filter['param'] == 'release') {
+                $display = Release::getTitle($filter_details);
+            } else {
+                $display = $filter_details;
+            }
+
+            if ($display != false) {
+                $return[$filter['title']] = $display;
+            }
+        }
+
+        return $return;
     }
 
 
