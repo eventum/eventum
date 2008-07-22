@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3648 2008-07-17 08:04:57Z balsdorf $
+// @(#) $Id: class.custom_field.php 3676 2008-07-22 01:42:26Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -437,6 +437,14 @@ class Custom_Field
 
 
                     $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
+
+                    // get the default value (if one exists)
+                    $backend = Custom_Field::getBackend($res[$i]["fld_id"]);
+                    if ((is_object($backend)) && (method_exists($backend, 'getDefaultValue'))) {
+                        $res[$i]['default_value'] = $backend->getDefaultValue($res[$i]['fld_id']);
+                    } else {
+                        $res[$i]['default_value'] = '';
+                    }
                 }
                 return $res;
             }
