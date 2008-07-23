@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.filter.php 3677 2008-07-22 20:19:52Z balsdorf $
+// @(#) $Id: class.filter.php 3678 2008-07-23 08:25:46Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -609,8 +609,10 @@ class Filter
                                 break;
                             case 'gt':
                                 $display = ev_gettext('Greater than %1$s', $filter_details['value']);
+                                break;
                             case 'lt':
                                 $display = ev_gettext('Less than %1$s', $filter_details['value']);
+                                break;
                             default:
                                 $display = $filter_details['value'];
                         }
