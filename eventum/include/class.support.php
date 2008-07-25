@@ -1776,21 +1776,11 @@ class Support
                     sup_cc,
                     sup_date,
                     sup_subject,
-                    seb_body,
                     sup_has_attachment,
                     CONCAT(sup_ema_id, '-', sup_id) AS composite_id
                  FROM
-                    (
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                    )
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
-                    sup_id=seb_sup_id AND
-                    ema_id=sup_ema_id AND
-                    iss_id = sup_iss_id AND
-                    ema_prj_id=iss_prj_id AND
                     sup_iss_id=" . Misc::escapeInteger($issue_id) . "
                  ORDER BY
                     sup_id ASC";
