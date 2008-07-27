@@ -640,7 +640,7 @@ class Mail_API
      */
     function saveEmailInformation($email)
     {
-        static $subjects;
+        static $subjects = array();
 
         $hdrs = $email['headers'];
         $body = $email['body'];
