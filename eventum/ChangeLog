@@ -34,6 +34,7 @@ Eventum Issue Tracking System
 - Handled integer custom fields on advanced search (bug #38253)
 - Added support for default values to the Custom Field API (Bryan)
 - Don't check which project an email account belongs to when listing emails for an issue (Bryan)
+- Fixed problem with associated issue validation on issue update page (Ingo van Lil, Bryan)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

@@ -1,5 +1,5 @@
 /*
- * @(#) $Id: validation.js 3550 2008-02-20 17:06:14Z balsdorf $
+ * @(#) $Id: validation.js 3681 2008-07-27 07:22:01Z balsdorf $
  */
 
 last_issue_number_validation_value = '';
@@ -25,7 +25,7 @@ function displayIssueFieldValidation(response)
         selectField(f, chunks[1]);
         error_span.innerHTML = '<b>Error</b>: The following issues are invalid: ' + chunks[2];
     } else {
-        errorDetails(f, chunks[0], false);
+        errorDetails(f, chunks[1], false);
         error_span.innerHTML = '';
     }
 }
@@ -286,7 +286,7 @@ function checkErrorCondition(e, form_name, field_name, old_onchange)
     if ((field.type == 'text') || (field.type == 'textarea') || (field.type == 'password')) {
         if (!isWhitespace(field.value)) {
             errorDetails(f, field_name, false);
-            if (old_onchange != false) {
+            if (old_onchange != false && old_onchange != undefined) {
                 field.onchange = old_onchange;
                 eval('trash = ' + old_onchange + '(e)');
             }
@@ -294,7 +294,7 @@ function checkErrorCondition(e, form_name, field_name, old_onchange)
     } else if (field.type == 'select-one') {
         if (getSelectedOption(f, field_name) != '-1') {
             errorDetails(f, field_name, false);
-            if (old_onchange != false) {
+            if (old_onchange != false && old_onchange != undefined) {
                 field.onchange = old_onchange;
                 eval('trash = ' + old_onchange + '(e)');
             }
@@ -302,7 +302,7 @@ function checkErrorCondition(e, form_name, field_name, old_onchange)
     } else if (field.type == 'select-multiple') {
         if (hasOneSelected(f, field_name)) {
             errorDetails(f, field_name, false);
-            if (old_onchange != false) {
+            if (old_onchange != false && old_onchange != undefined) {
                 field.onchange = old_onchange;
                 eval('trash = ' + old_onchange + '(e)');
             }

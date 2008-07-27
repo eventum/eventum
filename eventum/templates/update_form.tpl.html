@@ -235,7 +235,7 @@ function closeIssue(issue_id)
             <nobr><b>{t}Associated Issues:{/t}</b></nobr>
           </td>
           <td bgcolor="{$light_color}">
-            <input type="text" name="associated_issues" value="{", "|join:$issue.associated_issues}" class="default" onBlur="validateIssueNumberField('{$base_url}', 'update_form', 'associated_issues')">
+            <input type="text" name="associated_issues" value="{", "|join:$issue.associated_issues}" class="default" onBlur="validateIssueNumberField('{$app_base_url}', 'update_form', 'associated_issues')">
             {include file="error_icon.tpl.html" field="associated_issues"}
             <span id="associated_issues_error" class="default"></span>
           </td>

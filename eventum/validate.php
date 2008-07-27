@@ -55,7 +55,7 @@ function validateIssueNumbers()
     $bad_issues = array();
     if (count($issues) > 0) {
         for ($i = 0; $i < count($issues); $i++) {
-            if (!Issue::exists(trim($issues[$i]), $check_project)) {
+            if ((trim($issues[$i]) != '') && (!Issue::exists(trim($issues[$i]), $check_project))) {
                 $bad_issues[] = $issues[$i];
             }
         }
