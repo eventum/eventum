@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: emails.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: emails.php 3683 2008-07-28 20:18:25Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -63,7 +63,6 @@ $tpl->assign("list", $list["list"]);
 $tpl->assign("list_info", $list["info"]);
 $tpl->assign("issues", Issue::getColList());
 $tpl->assign("accounts", Email_Account::getAssocList(Auth::getCurrentProject()));
-$tpl->assign("assoc_issues", Issue::getAssocList());
 
 $prefs = Prefs::get(Auth::getUserID());
 $tpl->assign("refresh_rate", $prefs['emails_refresh_rate'] * 60);

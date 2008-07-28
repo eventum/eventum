@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: duplicate.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: duplicate.php 3683 2008-07-28 20:18:25Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -41,10 +41,6 @@ Auth::checkAuthentication(APP_COOKIE);
 if (@$_POST["cat"] == "mark") {
     $res = Issue::markAsDuplicate($_POST["issue_id"]);
     $tpl->assign("duplicate_result", $res);
-} else {
-    // need to show only the issues that have iss_duplicated_iss_id = NULL
-    $tpl->assign("issues", Issue::getColList("iss_duplicated_iss_id IS NULL AND iss_id <> " . $_GET["id"]));
-    $tpl->assign("assoc_issues", Issue::getAssocList("iss_duplicated_iss_id IS NULL AND iss_id <> " . $_GET["id"]));
 }
 
 $tpl->displayTemplate();

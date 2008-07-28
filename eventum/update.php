@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: update.php 3640 2008-07-07 05:06:58Z balsdorf $
+// @(#) $Id: update.php 3683 2008-07-28 20:18:25Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -121,7 +121,6 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
         "releases"     => $releases,
         "resolutions"  => Resolution::getAssocList(),
         "users"        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
-        "issues"       => Issue::getColList("iss_id <> $issue_id"),
         "one_week_ts"  => time() + (7 * DAY),
         "allow_unassigned_issues"   =>  @$setup["allow_unassigned_issues"],
         "groups"       => Group::getAssocList($prj_id),
