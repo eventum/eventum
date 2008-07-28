@@ -99,14 +99,15 @@ function associateEmails(f)
         alert('{/literal}{t escape=js}Please choose which emails need to be associated.{/t}{literal}');
         return false;
     }
-    if (f.issue.options[f.issue.selectedIndex].value == 'support') {
-        f.target = '';
-        f.action = 'ticket.php';
-    } else if (f.issue.options[f.issue.selectedIndex].value == 'new') {
+    if (f.issue.options[f.issue.selectedIndex].value == 'new') {
         f.target = '';
         f.action = 'new.php';
     } else {
-        var issue_id = getSelectedOption(f, 'issue');
+        var issue_id = jQuery('#issue_id').fieldValue();
+        if (issue_id == '') {
+            alert('{/literal}{t escape=js}Please enter an issue to associate these emails with.{/t}{literal}');
+            return false;
+        }
         var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
         var window_name = '_associateEmail_' + issue_id;
         f.target = window_name;
@@ -133,6 +134,17 @@ function removeEmails(f)
         popupWin.focus();
     }
 }
+function toggleIssueField()
+{
+    var new_existing = jQuery('#new_existing');
+    var issue_field_span = jQuery('#issue_id').parent();
+    if (new_existing.fieldValue() == 'new') {
+        issue_field_span.hide();
+    } else {
+        issue_field_span.show();
+    }
+}
+jQuery(function() { toggleIssueField(); });
 //-->
 </script>
 {/literal}
@@ -216,12 +228,12 @@ function removeEmails(f)
                 <td width="35%">
                   {if $list}
                   <input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">
-                  <input type="button" value="{t}Associate{/t} &gt;" class="shortcut" onClick="javascript:associateEmails(this.form);">
-                  <select name="issue" class="default">
+                  <select name="issue" class="default" onchange="toggleIssueField()" id="new_existing">
                     <option value="new">{t}New Issue{/t}</option>
-                    {html_options output=$issues values=$issues}
+                    <option value="existing">{t}Existing Issue{/t}</option>
                   </select>
-                  {if not ($os.mac and $browser.ie)}<a title="{t}lookup issues by their summaries{/t}" href="javascript:void(null);" onClick="return overlib(getOverlibContents('{include file="lookup_layer.tpl.html" list=$assoc_issues}', 'email_list_form', 'issue'), STICKY, HEIGHT, 50, WIDTH, 160, BELOW, RIGHT, CLOSECOLOR, '#FFFFFF', FGCOLOR, '#FFFFFF', BGCOLOR, '#333333', CAPTION, 'Lookup Details', CLOSECLICK);" onMouseOut="javascript:nd();"><img src="{$rel_url}images/lookup.gif" border="0"></a>{/if}
+                  {include file="include/issue_field.tpl.html" field_name="issue_id" form_name='email_list_form' span_class="default_white"}
+                  <input type="button" value="{t}Associate{/t} &gt;" class="shortcut" onClick="javascript:associateEmails(this.form);">
                   {/if}
                 </td>
                 <td width="40%" align="center">

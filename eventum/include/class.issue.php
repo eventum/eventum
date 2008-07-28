@@ -1032,6 +1032,9 @@ class Issue
     function markAsDuplicate($issue_id)
     {
         $issue_id = Misc::escapeInteger($issue_id);
+        if (!Issue::exists($issue_id)) {
+            return -1;
+        }
 
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -1057,6 +1060,28 @@ class Issue
             History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'),
                     "Issue marked as a duplicate of issue #" . $_POST["duplicated_issue"] . " by " . User::getFullName(Auth::getUserID()));
             return 1;
+        }
+    }
+
+
+    function isDuplicate($issue_id)
+    {
+        $sql = "SELECT
+                    count(iss_id)
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    iss_id = " . Misc::escapeInteger($issue_id) . " AND
+                    iss_duplicated_iss_id IS NULL";
+        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
+        }
+        if ($res > 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 

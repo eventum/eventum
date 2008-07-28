@@ -1,9 +1,9 @@
 /*
- * @(#) $Id: validation.js 3681 2008-07-27 07:22:01Z balsdorf $
+ * @(#) $Id: validation.js 3682 2008-07-28 20:05:00Z balsdorf $
  */
 
 last_issue_number_validation_value = '';
-function validateIssueNumberField(baseURL, form_name, field_name)
+function validateIssueNumberField(baseURL, form_name, field_name, options)
 {
     form_value = getFormElement(getForm(form_name), field_name).value;
     if (last_issue_number_validation_value == form_value) {
@@ -11,23 +11,40 @@ function validateIssueNumberField(baseURL, form_name, field_name)
     } else {
         last_issue_number_validation_value = form_value;
     }
-    validate_issue_http_client = new HTTPClient();
-    validate_issue_http_client.loadRemoteContent(baseURL + '/validate.php?action=validateIssueNumbers&values=' +
-        form_value + '&field_name=' + field_name + '&form_name=' + form_name + '&check_project=0', 'displayIssueFieldValidation');
-}
-
-function displayIssueFieldValidation(response)
-{
-    var chunks = response.responseText.split(':',3);
-    f = getForm(chunks[0]);
-    error_span = getPageElement(chunks[1] + '_error');
-    if (chunks[2] != 'ok') {
-        selectField(f, chunks[1]);
-        error_span.innerHTML = '<b>Error</b>: The following issues are invalid: ' + chunks[2];
+    if (options.check_project != undefined) {
+        var check_project = options.check_project;
     } else {
-        errorDetails(f, chunks[1], false);
-        error_span.innerHTML = '';
+        var check_project = 1;
     }
+
+    jQuery.ajax({
+            url: baseURL + '/validate.php',
+            data: {
+                action: 'validateIssueNumbers',
+                values: form_value,
+                field_name: field_name,
+                form_name: form_name,
+                check_project: check_project,
+                exclude_issue: options.exclude_issue,
+                exclude_duplicates: options.exclude_duplicates
+            },
+            error_message: options.error_message,
+            success: function(data, textStatus) {
+                var chunks = data.split(':',3);
+                f = getForm(chunks[0]);
+                error_span = getPageElement(chunks[1] + '_error');
+                if (chunks[2] != 'ok') {
+                    selectField(f, chunks[1]);
+                    error_span.innerHTML = '<b>Error</b>: The following issues are invalid: ' + chunks[2];
+                    if (this.error_message != undefined) {
+                        error_span.innerHTML += '. ' + this.error_message;
+                    }
+                } else {
+                    errorDetails(f, chunks[1], false);
+                    error_span.innerHTML = '';
+                }
+            }
+     });
 }
 
 function isValidDate(f, field_prefix)

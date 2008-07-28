@@ -35,6 +35,8 @@ Eventum Issue Tracking System
 - Added support for default values to the Custom Field API (Bryan)
 - Don't check which project an email account belongs to when listing emails for an issue (Bryan)
 - Fixed problem with associated issue validation on issue update page (Ingo van Lil, Bryan)
+- Use text field for choosing issue to associate emails with (Bryan)
+- Use text field for choosing duplicate issue (Bryan)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
