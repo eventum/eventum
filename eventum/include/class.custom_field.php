@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3676 2008-07-22 01:42:26Z balsdorf $
+// @(#) $Id: class.custom_field.php 3685 2008-07-29 05:35:31Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -1162,17 +1162,15 @@ class Custom_Field
             // update the custom field options, if any
             if (($_POST["field_type"] == "combo") || ($_POST["field_type"] == "multiple")) {
                 $updated_options = array();
-                if (empty($_POST['custom_field_backend'])) {
-                    foreach ($_POST["field_options"] as $option_value) {
-                        $params = Custom_Field::parseParameters($option_value);
-                        if ($params["type"] == 'new') {
-                            Custom_Field::addOptions($_POST["id"], $params["value"]);
-                        } else {
-                            $updated_options[] = $params["id"];
-                            // check if the user is trying to update the value of this option
-                            if ($params["value"] != Custom_Field::getOptionValue($_POST["id"], $params["id"])) {
-                                Custom_Field::updateOption($params["id"], $params["value"]);
-                            }
+                foreach ($_POST["field_options"] as $option_value) {
+                    $params = Custom_Field::parseParameters($option_value);
+                    if ($params["type"] == 'new') {
+                        Custom_Field::addOptions($_POST["id"], $params["value"]);
+                    } else {
+                        $updated_options[] = $params["id"];
+                        // check if the user is trying to update the value of this option
+                        if ($params["value"] != Custom_Field::getOptionValue($_POST["id"], $params["id"])) {
+                            Custom_Field::updateOption($params["id"], $params["value"]);
                         }
                     }
                 }

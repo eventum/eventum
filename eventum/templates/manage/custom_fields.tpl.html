@@ -314,7 +314,7 @@
                           <tr>
                             <td>
                               <select name="field_options[]" multiple size="3" class="default">
-                              {if $info.field_options == "" OR $info.fld_backend != ''}
+                              {if $info.field_options == ""}
                                 <option value="-1">{t}enter a new option above{/t}</option>
                               {else}
                                 {html_options options=$info.field_options}
