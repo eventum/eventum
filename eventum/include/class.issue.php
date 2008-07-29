@@ -1646,7 +1646,10 @@ class Issue
                 $new_prj_id = (int)@$_POST['new_prj'];
                 if (($prj_id != $new_prj_id) && (array_key_exists($new_prj_id, Project::getAssocList($usr_id)))) {
                     if(User::getRoleByUser($usr_id, $new_prj_id) >= User::getRoleID("Reporter")) {
-                        self::moveIssue($issue_id, $new_prj_id);
+                        $res = self::moveIssue($issue_id, $new_prj_id);
+                        if ($res == -1) {
+                            return $res;
+                        }
                     } else {
                         return -1;
                     }
