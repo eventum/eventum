@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.auth.php 3690 2008-07-30 06:23:14Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -490,7 +490,7 @@ class Auth
         );
         $cookie = base64_encode(serialize($cookie));
         Auth::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
-        Auth::createFakeCookie(Auth::getUserID(), $project);
+        $_COOKIE[APP_PROJECT_COOKIE] = $cookie;
     }
 
 

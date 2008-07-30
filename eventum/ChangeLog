@@ -37,6 +37,7 @@ Eventum Issue Tracking System
 - Fixed problem with associated issue validation on issue update page (Ingo van Lil, Bryan)
 - Use text field for choosing issue to associate emails with (Bryan)
 - Use text field for choosing duplicate issue (Bryan)
+- Fixed bug with project selection not being remembered (bug #38279)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
