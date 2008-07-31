@@ -1,0 +1,22 @@
+{*
+    Parameters:
+        $field_name: The name of this field
+        $form_name: The name of the form
+        $value: The current value
+        $check_project: If the issue must belong to the current project
+        $exclude_issue: An issue ID to exclude (usually current issue)
+        $exclude_duplicates: If issues that have a duplicate status should be be excluded (not counted as valid)
+        $error_message: An extra error message to show.
+        $span_class: The class to set for the span
+*}
+<span>
+<input type="text" id="{$field_name}" name="{$field_name}" value="{$value}" class="default"
+    onBlur="validateIssueNumberField('{$app_base_url}', '{$form_name}', '{$field_name}', {literal}{{/literal}
+                check_project: {$check_project|default:1},
+                exclude_issue: {$exclude_issue|default:0},
+                exclude_duplicates: {$exclude_duplicates|default:0},
+                error_message: '{$error_message|default:""}'
+            {literal}}{/literal})">
+{include file="error_icon.tpl.html" field=$field_name}
+<span id="{$field_name}_error" class="{$span_class|default:'default'}"></span>
+</span>
