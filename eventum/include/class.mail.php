@@ -138,7 +138,7 @@ class Mail_API
             $headers[strtolower($key)] = $value;
         }
 
-        if ((@$headers['x-vacationmessage'] == 'Yes') || ((isset($headers['auto-submitted'])) && (!empty($headers['auto-submitted'])s))) {
+        if ((@$headers['x-vacationmessage'] == 'Yes') || ((isset($headers['auto-submitted'])) && (!empty($headers['auto-submitted'])))) {
             return true;
         } else {
             return false;
