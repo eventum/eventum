@@ -2206,7 +2206,7 @@ class Support
             }
         }
         if ($t['has_attachment'] == 1) {
-            $_POST["file_description"] = "Attached File";
+            $_POST["file_description"] = "Attachment originated from outgoing email";
             $attachment_id = Attachment::attach($sender_usr_id);
         }
         $structure = Mime_Helper::decode($full_email, true, false);
