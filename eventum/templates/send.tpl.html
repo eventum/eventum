@@ -261,7 +261,7 @@ function setSignature(f)
             <b>Attachment:</b>
           </td>
           <td bgcolor="{$light_color}" >
-            <input type="file" name="attachment" size="30"></input>
+            <input type="file" name="attachment[]" size="30"></input>
           </td>
         </tr>
         {if $issue_id and $current_role > $roles.customer and $read_only != 1}
