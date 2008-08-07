@@ -9,5 +9,5 @@ string you would like to use as a replacement with $x to insert the matched text
 {t}For example{/t}:
 <br /><br />
 {t 1="bug #(\d+)"}Pattern: "%1"{/t}<br />
-{t 1="<a href=http://example.com/bug.php?id=X>Bug #X</a>"}Replacement: "%1"{/t}<br />
+{t 1="<a href=http://example.com/bug.php?id=$1>Bug #$1</a>"}Replacement: "%1"{/t}<br />
 </span>
