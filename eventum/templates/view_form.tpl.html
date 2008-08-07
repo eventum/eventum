@@ -129,7 +129,7 @@ function collapseDescription()
             {if $current_role > $roles.customer && $quarantine.iqu_expiration != ''}
                 {t 1=$quarantine.time_till_expiration}Quarantine expires in %1{/t}<br />
             {/if}
-            {t 1="faq.php"}Please see the <a class="link" href="%1">FAQ</a> for information regarding quarantined issues.{/t}
+            {t 1="faq.php" escape=no}Please see the <a class="link" href="%1">FAQ</a> for information regarding quarantined issues.{/t}
             </span>
             {if $current_role > $roles.developer}
             <br /><br />
@@ -160,7 +160,7 @@ function collapseDescription()
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td width="100%" align="center" class="default" bgcolor="{$light_color}">
-            <b>{t}Note: {/t}</b>{t}This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.{/t}
+            <b>{t}Note{/t} :</b>{t}This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.{/t}
           </td>
         </tr>
       </table>
@@ -178,7 +178,7 @@ function collapseDescription()
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td colspan="2" class="default" nowrap>
-            <b>{t}Issue Overview{/t}</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" title="view issue details" class="link">{$issue.iss_id}</a>)
+            <b>{t}Issue Overview{/t}</b> (ID: <a href="{$rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}" class="link">{$issue.iss_id}</a>)
           </td>
           <td colspan="2" align="right" class="default">
             {if $current_role > $roles.customer}
@@ -293,7 +293,7 @@ function collapseDescription()
           <td width="50%" bgcolor="{$light_color}" class="default">
             {section name="i" loop=$issue.associated_issues_details}
               {strip}
-              <a href="view.php?id={$issue.associated_issues_details[i].associated_issue}" title="issue #{$issue.associated_issues_details[i].associated_issue} ({$issue.associated_issues_details[i].current_status}) - {$issue.associated_issues_details[i].associated_title|escape:"html"}" class="{if $issue.associated_issues_details[i].is_closed}closed_{/if}link">#{$issue.associated_issues_details[i].associated_issue}</a>
+              <a href="view.php?id={$issue.associated_issues_details[i].associated_issue}" title="{t}issue{/t} #{$issue.associated_issues_details[i].associated_issue} ({$issue.associated_issues_details[i].current_status}) - {$issue.associated_issues_details[i].associated_title|escape:"html"}" class="{if $issue.associated_issues_details[i].is_closed}closed_{/if}link">#{$issue.associated_issues_details[i].associated_issue}</a>
               {if not $smarty.section.i.last},{/if}
               {/strip}
             {sectionelse}
@@ -347,14 +347,14 @@ function collapseDescription()
           </td>
           <td width="50%" bgcolor="{$light_color}" class="default">
             {if $issue.iss_duplicated_iss_id}
-            {t}Duplicate of{/t}: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="issue #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed_{/if}link">#{$issue.iss_duplicated_iss_id}</a>
+            {t}Duplicate of{/t}: <a href="{$rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{t}issue{/t} #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed_{/if}link">#{$issue.iss_duplicated_iss_id}</a>
             {/if}
             {if $issue.duplicates_details|@count > 0}
               {if $issue.iss_duplicated_iss_id}<br />{/if}
               {t}Duplicated by{/t}:
               {section name="i" loop=$issue.duplicates_details}
                 {strip}
-                <a href="{$rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="issue #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed_{/if}link">#{$issue.duplicates_details[i].issue_id}</a>
+                <a href="{$rel_url}view.php?id={$issue.duplicates_details[i].issue_id}" title="{t}issue{/t} #{$issue.duplicates_details[i].issue_id} ({$issue.duplicates_details[i].current_status|escape:"html"}) - {$issue.duplicates_details[i].title|escape:"html"}" class="{if $issue.duplicates_details[i].is_closed}closed_{/if}link">#{$issue.duplicates_details[i].issue_id}</a>
                 {if not $smarty.section.i.last}, {/if}
                 {/strip}
               {/section}

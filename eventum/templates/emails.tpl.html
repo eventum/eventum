@@ -164,29 +164,29 @@ jQuery(function() { toggleIssueField(); });
         <tr bgcolor="{$cell_color}">
           <td width="1%">{if $list}<input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'item[]');">{/if}</td>
           <td align="center" class="default_white">
-            <a title="sort by sender" href="{$sorting.links.sup_from}" class="white_link">{t}Sender{/t}</a>
+            <a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link">{t}Sender{/t}</a>
             {if $sorting.images.sup_from != ""}<a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link"><img border="0" src="{$sorting.images.sup_from}"></a>{/if}
           </td>
           {if $has_customer_integration}
           <td align="center" class="default_white" nowrap>
-            <a title="sort by sender" href="{$sorting.links.sup_customer_id}" class="white_link">{t}Customer{/t}</a>
+            <a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link">{t}Customer{/t}</a>
             {if $sorting.images.sup_customer_id != ""}<a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link"><img border="0" src="{$sorting.images.sup_customer_id}"></a>{/if}
           </td>
           {/if}
           <td align="center" class="default_white">
-            <a title="sort by date" href="{$sorting.links.sup_date}" class="white_link">{t}Date{/t}</a>
+            <a title="{t}sort by date{/t}" href="{$sorting.links.sup_date}" class="white_link">{t}Date{/t}</a>
             {if $sorting.images.sup_date != ""}<a title="{t}sort by date{/t}" href="{$sorting.links.sup_date}" class="white_link"><img border="0" src="{$sorting.images.sup_date}"></a>{/if}
           </td>
           <td align="center" class="default_white">
-            <a title="sort by recipient" href="{$sorting.links.sup_to}" class="white_link">{t}To{/t}</a>
+            <a title="{t}sort by recipient{/t}" href="{$sorting.links.sup_to}" class="white_link">{t}To{/t}</a>
             {if $sorting.images.sup_to != ""}<a title="{t}sort by recipient{/t}" href="{$sorting.links.sup_to}" class="white_link"><img border="0" src="{$sorting.images.sup_to}"></a>{/if}
           </td>
           <td align="center" class="default_white" nowrap>
-            <a title="sort by status" href="{$sorting.links.sup_iss_id}" class="white_link">{t}Status{/t}</a>
+            <a title="{t}sort by status{/t}" href="{$sorting.links.sup_iss_id}" class="white_link">{t}Status{/t}</a>
             {if $sorting.images.sup_iss_id != ""}<a title="{t}sort by status{/t}" href="{$sorting.links.sup_iss_id}" class="white_link"><img border="0" src="{$sorting.images.sup_iss_id}"></a>{/if}
           </td>
           <td class="default_white" width="45%">
-            &nbsp;<a title="sort by subject" href="{$sorting.links.sup_subject}" class="white_link">{t}Subject{/t}</a>
+            &nbsp;<a title="{t}sort by subject{/t}" href="{$sorting.links.sup_subject}" class="white_link">{t}Subject{/t}</a>
             {if $sorting.images.sup_subject != ""}<a title="{t}sort by subject{/t}" href="{$sorting.links.sup_subject}" class="white_link"><img border="0" src="{$sorting.images.sup_subject}"></a>{/if}
           </td>
         </tr>

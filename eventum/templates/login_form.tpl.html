@@ -46,30 +46,30 @@ function validateForm(f)
           <td colspan="2" align="center" class="error" bgcolor="#006486">
             <b>
             {if $smarty.get.err == 1}
-              {t}Error: Please provide your email address.{/t}
+              {t}Error{/t}: {t}Please provide your email address{/t}.
             {elseif $smarty.get.err == 2}
-              {t}Error: Please provide your password.{/t}
+              {t}Error{/t}: {t}Please provide your password{/t}.
             {elseif $smarty.get.err == 3 or $smarty.get.err == 4}
-              {t}Error: The email address / password combination could not be found in the system.{/t}
+              {t}Error{/t}: {t}The email address / password combination could not be found in the system{/t}.
             {elseif $smarty.get.err == 5}
               {t}Your session has expired. Please login again to continue.{/t}
             {elseif $smarty.get.err == 6}
-              {t name=$application_title}Thank you, you are now logged out of %1{/t}.
+              {t 1=$application_title}Thank you, you are now logged out of %1{/t}.
             {elseif $smarty.get.err == 7}
-              {t}Error: Your user status is currently set as inactive. Please
+              {t}Error{/t}: {t escape=no}Your user status is currently set as inactive. Please
               contact your local system administrator for further information.{/t}
             {elseif $smarty.get.err == 8}
               {t}Thank you, your account is now active and ready to be
               used. Use the form below to login.{/t}
             {elseif $smarty.get.err == 9}
-              {t}Error: Your user status is currently set as pending. This
+              {t}Error{/t}: {t escape=no}Your user status is currently set as pending. This
               means that you still need to confirm your account
               creation request. Please contact your local system
               administrator for further information.{/t}
             {elseif $smarty.get.err == 11}
-              {t}Error: Cookies support seem to be disabled in your browser. Please enable this feature and try again.{/t}
+              {t}Error{/t}: {t}Cookies support seem to be disabled in your browser. Please enable this feature and try again.{/t}
             {elseif $smarty.get.err == 12}
-              {t name=$application_title}Error: In order for %1 to work properly, you must enable cookie support in your browser. Please login
+              {t}Error{/t}: {t 1=$application_title}In order for %1 to work properly, you must enable cookie support in your browser. Please login
               again and accept all cookies coming from it.{/t}
             {/if}
             </b>
@@ -119,7 +119,7 @@ function validateForm(f)
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
           <td class="default">
-            <b>{t}NOTE: You may report issues without the need to login by using the following URL{/t}:</b>
+            <b>{t}NOTE: You may report issues without the need to login by using the following URL:{/t}</b>
             <br /><br />
             <a href="{$app_base_url}post.php" class="link">{$app_base_url}post.php</a>
           </td>
