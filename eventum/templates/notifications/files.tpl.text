@@ -18,19 +18,6 @@
 {$data.attachment.iat_description}
 ----------------------------------------------------------------------
 
-{t escape=no}These are the current issue details{/t}:
-----------------------------------------------------------------------
-               {t escape=no}ID{/t}: {$data.iss_id}
-          {t escape=no}Summary{/t}: {$data.iss_summary}
-           {t escape=no}Status{/t}: {$data.sta_title}
-          {t escape=no}Project{/t}: {$data.prj_title}
-      {t escape=no}Reported By{/t}: {$data.usr_full_name}
-         {t escape=no}Priority{/t}: {$data.pri_title}
-      {t escape=no}Description{/t}:
-----------------------------------------------------------------------
-{$data.iss_description}
-----------------------------------------------------------------------
-
 {textformat style="email"}
 {t escape=no 1=$app_title}Please Note: If you do not wish to receive any future email notifications from %1, please change your account preferences by visiting the URL below{/t}:
 {$app_base_url}preferences.php{/textformat}
