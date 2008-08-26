@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: list.php 3677 2008-07-22 20:19:52Z balsdorf $
+// @(#) $Id: list.php 3715 2008-08-26 14:13:40Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -109,5 +109,12 @@ $tpl->assign("reporters", Project::getReporters($prj_id));
 $prefs = Prefs::get($usr_id);
 $tpl->assign("refresh_rate", $prefs['list_refresh_rate'] * 60);
 $tpl->assign("refresh_page", "list.php");
+
+// items needed for bulk update tool
+if (Auth::getCurrentRole() > User::getRoleID("Developer")) {
+    $tpl->assign("users", $users);
+    $tpl->assign("open_status", Status::getAssocStatusList($prj_id, false));
+    $tpl->assign("available_releases", Release::getAssocList($prj_id));
+}
 
 $tpl->displayTemplate();
