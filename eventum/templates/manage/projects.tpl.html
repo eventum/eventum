@@ -43,6 +43,16 @@
                       alert('{/literal}{t escape=js}Please enter a valid outgoing sender address for this project.{/t}{literal}');
                       return false;
                   }
+                  if (f.mail_aliases.value) {
+                      aliases = f.mail_aliases.value.split(',');
+                      for (idx in aliases) {
+	                      if (!isEmail(aliases[idx])) {
+	                          selectField(f, 'mail_aliases');
+	                          alert('{/literal}{t escape=js}Please enter a comma separated list of valid mail address aliases for this project{/t}{literal}');
+	                          return false;
+	                      }
+                      }
+		  }
                   return true;
               }
               function checkLeadSelection(f)
@@ -188,6 +198,15 @@
                 <td bgcolor="{$light_color}" width="80%">
                   <input type="text" name="outgoing_sender_email" size="40" class="default" value="{$info.prj_outgoing_sender_email|escape:"html"}">
                   {include file="error_icon.tpl.html" field="outgoing_sender_email"}
+                </td>
+              </tr>
+              <tr>
+                <td width="120" bgcolor="{$cell_color}" class="default_white">
+                  <b>{t}Project mail aliases{/t}:</b>
+                </td>
+                <td bgcolor="{$light_color}" width="80%">
+                  <input type="text" name="mail_aliases" size="40" class="default" value="{$info.prj_mail_aliases|escape:"html"}">
+                  {include file="error_icon.tpl.html" field="mail_aliases"}
                 </td>
               </tr>
               <tr>

@@ -17,6 +17,7 @@ define('EXIT_ERROR', 1);
 function db_getAll($query) {
 	$query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
 	$query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
+
 	$res = $GLOBALS['db_api']->dbh->getAll($query, DB_FETCHMODE_ASSOC);
 	if (PEAR::isError($res)) {
 		echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
@@ -28,7 +29,20 @@ function db_getAll($query) {
 function db_getOne($query) {
 	$query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
 	$query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
-    $res = $GLOBALS['db_api']->dbh->getOne($query);
+
+	$res = $GLOBALS['db_api']->dbh->getOne($query);
+	if (PEAR::isError($res)) {
+		echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
+		exit(1);
+	}
+	return $res;
+}
+
+function db_getCol($query) {
+	$query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
+	$query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
+
+	$res = $GLOBALS['db_api']->dbh->getCol($query);
 	if (PEAR::isError($res)) {
 		echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
 		exit(1);
@@ -39,6 +53,7 @@ function db_getOne($query) {
 function db_query($query) {
 	$query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
 	$query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
+
 	$res = $GLOBALS['db_api']->dbh->query($query);
 	if (PEAR::isError($res)) {
 		echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
@@ -60,6 +75,7 @@ function patch_database() {
 	$versions = array(
 		1 => '01_notes.php',
 		2 => '02_usr_alias.php',
+		3 => '03_prj_mail_aliases.php',
 	);
 
 	// sanity check. check that the version table exists.

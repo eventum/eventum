@@ -323,6 +323,7 @@ CREATE TABLE %TABLE_PREFIX%project (
   prj_anonymous_post_options text,
   prj_outgoing_sender_name varchar(255) NOT NULL,
   prj_outgoing_sender_email varchar(255) NOT NULL,
+  prj_mail_aliases varchar(255) NULL,
   prj_customer_backend varchar(64) NULL,
   prj_workflow_backend varchar(64) NULL,
   prj_segregate_reporter tinyint(1) DEFAULT 0,

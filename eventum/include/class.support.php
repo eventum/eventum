@@ -931,7 +931,8 @@ class Support
             // add to and cc addresses to notification list
             $prj_id = Auth::getCurrentProject();
             $project_details = Project::getDetails($prj_id);
-            $addresses_not_too_add = array($project_details['prj_outgoing_sender_email']);
+            $addresses_not_too_add = explode(',', $project_details['prj_mail_aliases']);
+            array_push($addresses_not_too_add, $project_details['prj_outgoing_sender_email']);
 
             if (!empty($to)) {
                 $to_addresses = Mail_API::getAddressInfo($to, true);

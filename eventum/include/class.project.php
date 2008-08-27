@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.project.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.project.php 3716 2008-08-27 15:14:45Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -434,6 +434,7 @@ class Project
                     prj_initial_sta_id=" . Misc::escapeInteger($_POST["initial_status"]) . ",
                     prj_outgoing_sender_name='" . Misc::escapeString($_POST["outgoing_sender_name"]) . "',
                     prj_outgoing_sender_email='" . Misc::escapeString($_POST["outgoing_sender_email"]) . "',
+                    prj_mail_aliases='" . Misc::escapeString($_POST["mail_aliases"]) . "',
                     prj_remote_invocation='" . Misc::escapeString($_POST["remote_invocation"]) . "',
                     prj_segregate_reporter='" . Misc::escapeString($_POST["segregate_reporter"]) . "',
                     prj_customer_backend='" . Misc::escapeString($_POST["customer_backend"]) . "',
@@ -539,6 +540,7 @@ class Project
                     prj_initial_sta_id,
                     prj_outgoing_sender_name,
                     prj_outgoing_sender_email,
+                    prj_mail_aliases,
                     prj_remote_invocation,
                     prj_customer_backend,
                     prj_workflow_backend
@@ -550,6 +552,7 @@ class Project
                     " . Misc::escapeInteger($_POST["initial_status"]) . ",
                     '" . Misc::escapeString($_POST["outgoing_sender_name"]) . "',
                     '" . Misc::escapeString($_POST["outgoing_sender_email"]) . "',
+                    '" . Misc::escapeString($_POST["mail_aliases"]) . "',
                     '" . Misc::escapeString($_POST["remote_invocation"]) . "',
                     '" . Misc::escapeString($_POST["customer_backend"]) . "',
                     '" . Misc::escapeString($_POST["workflow_backend"]) . "'
