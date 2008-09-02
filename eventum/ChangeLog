@@ -40,6 +40,7 @@ Eventum Issue Tracking System
 - Fixed bug with project selection not being remembered (bug #38279)
 - Fixed bug with sorting by status from advanced search page (bug #37372)
 - Fixed bug with adding attachments when sending emails (Bryan)
+- Send specialized headers to reporters too (Bryan)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

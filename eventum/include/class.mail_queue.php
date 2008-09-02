@@ -96,7 +96,7 @@ class Mail_Queue
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
 
         // add specialized headers
-        if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) > User::getRoleID("Customer"))) ||
+        if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID("Customer"))) ||
                 (@in_array(Mail_API::getEmailAddress($to), $reminder_addresses))) {
             $headers += Mail_API::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
         }
