@@ -131,7 +131,7 @@ function closeIssue(issue_id)
 {if $project_auto_switched == 1}
 <center>
   <span class="banner_red">
-    {t 1=$current_project_name 2=$old_project}Note: Project automatically switched to '%1' from '%2'.{/t}
+    {t}Note{/t}: {t 1=$current_project_name 2=$old_project}Project automatically switched to '%1' from '%2'.{/t}
   </span>
 </center>
 <br />

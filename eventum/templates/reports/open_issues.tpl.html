@@ -49,8 +49,8 @@
         </tr>
         {foreach key=issue_id item=issue from=$assigned_issues}
         <tr>
-          <td bgcolor="{$issue.status_color}" class="default" align="center"><a target="_top" href="{$rel_url}view.php?id={$issue_id}" class="link" title="view issue details">{$issue_id}</a></td>
-          <td bgcolor="{$issue.status_color}" class="default"><a target="_top" href="{$rel_url}view.php?id={$issue_id}" class="link" title="view issue details">{$issue.iss_summary|escape:"html"}</a></td>
+          <td bgcolor="{$issue.status_color}" class="default" align="center"><a target="_top" href="{$rel_url}view.php?id={$issue_id}" class="link" title="{t}view issue details{/t}">{$issue_id}</a></td>
+          <td bgcolor="{$issue.status_color}" class="default"><a target="_top" href="{$rel_url}view.php?id={$issue_id}" class="link" title="{t}view issue details{/t}">{$issue.iss_summary|escape:"html"}</a></td>
           <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.sta_title|escape:"html"}</td>
           <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.time_spent}</td>
           <td bgcolor="{$issue.status_color}" class="default" align="center">{$issue.iss_created_date}</td>

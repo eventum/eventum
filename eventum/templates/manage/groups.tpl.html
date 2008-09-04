@@ -38,7 +38,7 @@ function checkDelete(f)
       alert('{/literal}{t escape=js}Please select at least one of the groups.{/t}{literal}');
       return false;
     }
-    if (!confirm('{/literal}{t escape=js}WARNING: This action will remove the selected groups permanently.\nPlease click OK to confirm.{/t}{literal}')) {
+    if (!confirm('{/literal}{t escape=js}WARNING: This action will remove the selected groups permanently.{/t}{literal}\n{/literal}{t escape=js}Please click OK to confirm.{/t}{literal}')) {
       return false;
     } else {
       return true;
@@ -83,7 +83,7 @@ function checkDelete(f)
                 {/if}
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>{t}Name: *{/t}</b>
+                        <b>{t}Name:{/t} *</b>
                     </td>
                     <td bgcolor="{$light_color}">
                         <input type="text" name="group_name" size="40" class="default" value="{$info.grp_name}">
@@ -101,7 +101,7 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <nobr><b>{t}Assigned Projects: *{/t}</b></nobr>
+                        <nobr><b>{t}Assigned Projects:{/t} *</b></nobr>
                     </td>
                     <td bgcolor="{$light_color}">
                         <select name="projects[]" multiple size="3" class="default">
@@ -112,7 +112,7 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>{t}Users: *{/t}</b>
+                        <b>{t}Users:{/t} *</b>
                     </td>
                     <td bgcolor="{$light_color}" width="80%">
                         <select name="users[]" multiple size="6" class="default" onChange="javascript:showSelections('group_form', 'users[]');">
@@ -125,7 +125,7 @@ function checkDelete(f)
                 </tr>
                 <tr>
                     <td width="120" bgcolor="{$cell_color}" class="default_white">
-                        <b>{t}Manager: *{/t}</b>
+                        <b>{t}Manager:{/t} *</b>
                     </td>
                     <td bgcolor="{$light_color}" width="80%">
                         <select name="manager" size="1" class="default">
@@ -157,7 +157,7 @@ function checkDelete(f)
                         <table border="0" width="100%" cellpadding="1" cellspacing="1">
                             <form name="delete_group" onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                             <tr>
-                                <td bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                                <td bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
                                 <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Name{/t}</b></td>
                                 <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Description{/t}</b></td>
                                 <td bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Manager{/t}</b></td>
@@ -170,7 +170,7 @@ function checkDelete(f)
                                     <input type="checkbox" name="items[]" value="{$list[i].grp_id}" {if $smarty.section.i.total == 0}disabled{/if}>
                                 </td>
                                 <td width="20%" bgcolor="{$row_color}" class="default">
-                                    &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].grp_id}" title="update this entry">{$list[i].grp_name}</a>
+                                    &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].grp_id}" title="{t}update this entry{/t}">{$list[i].grp_name}</a>
                                 </td>
                                 <td width="20%" bgcolor="{$row_color}" class="default">
                                     &nbsp;{$list[i].grp_description}

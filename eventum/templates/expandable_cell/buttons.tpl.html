@@ -7,7 +7,7 @@
     {capture assign="expand_all"}{t}Expand all collapsed cells{/t}{/capture}
     {assign var="expand_tip" value=$expand_all}
     {assign var="js_collapse_func" value="collapseAll('$ec_id')"}
-    {capture assign="collapse_all"}{t}Expand all collapsed cells{/t}{/capture}
+    {capture assign="collapse_all"}{t}Collapse all expanded cells{/t}{/capture}
     {assign var="collapse_tip" value=$collapse_all}
 {else}
     {assign var="js_expand_func" value="expand('$rel_url', '$ec_id', '$list_id')"}

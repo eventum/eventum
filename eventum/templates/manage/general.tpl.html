@@ -274,15 +274,11 @@
               <tr>
                 <td colspan="2" bgcolor="{$cell_color}" align="center" class="error">
                   {if $result == -1}
-                    {t}ERROR: The system doesn't have the appropriate permissions to
-                    create the configuration file in the setup directory{/t}
-                    ({$app_config_path}). {t}Please contact your local system
-                    administrator and ask for write privileges on the provided path.{/t}
+                    {t}ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory{/t}
+                    ({$app_config_path}). {t}Please contact your local system administrator and ask for write privileges on the provided path.{/t}
                   {elseif $result == -2}
-                    {t}ERROR: The system doesn't have the appropriate permissions to
-                    update the configuration file in the setup directory{/t}
-                    ({$app_setup_file}). {t}Please contact your local system
-                    administrator and ask for write privileges on the provided filename.{/t}
+                    {t}ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory{/t}
+                    ({$app_setup_file}). {t}Please contact your local system administrator and ask for write privileges on the provided filename.{/t}
                   {elseif $result == 1}
                     {t}Thank you, the setup information was saved successfully.{/t}
                   {/if}
@@ -618,7 +614,7 @@
               </tr>
               <tr>
                 <td width="120" bgcolor="{$cell_color}" class="default_white">
-                  <b>{t escape="none"}SCM <br />Integration:{/t}</b> {include file="help_link.tpl.html" topic="scm_integration"}
+                  <b>{t escape=no}SCM <br />Integration:{/t}</b> {include file="help_link.tpl.html" topic="scm_integration"}
                 </td>
                 <td bgcolor="{$light_color}" class="default">
                   <table>

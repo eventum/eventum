@@ -129,7 +129,7 @@ function selectCustomerContact(customer_id, customer_name, contact_id, contact_l
     <td colspan="5" class="default">
       <ul>
       {section name="y" loop=$results[i].contacts}
-      <li><a title="select this contact" class="link" href="javascript:void(null);" onClick="javascript:selectCustomerContact({$results[i].customer_id}, '{$results[i].customer_name|replace:"'":"\\'"}', {$results[i].contacts[y].contact_id}, '{$results[i].contacts[y].last_name|replace:"'":"\\'"}', '{$results[i].contacts[y].first_name|replace:"'":"\\'"}', '{$results[i].contacts[y].email}', '{$results[i].contacts[y].phone}');">{$results[i].contacts[y].first_name} {$results[i].contacts[y].last_name} - {$results[i].contacts[y].email}</a></li>
+      <li><a title="{t}select this contact{/t}" class="link" href="javascript:void(null);" onClick="javascript:selectCustomerContact({$results[i].customer_id}, '{$results[i].customer_name|replace:"'":"\\'"}', {$results[i].contacts[y].contact_id}, '{$results[i].contacts[y].last_name|replace:"'":"\\'"}', '{$results[i].contacts[y].first_name|replace:"'":"\\'"}', '{$results[i].contacts[y].email}', '{$results[i].contacts[y].phone}');">{$results[i].contacts[y].first_name} {$results[i].contacts[y].last_name} - {$results[i].contacts[y].email}</a></li>
       {/section}
       </ul>
     </td>

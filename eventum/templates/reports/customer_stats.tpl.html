@@ -33,7 +33,7 @@ function clearDate()
         </tr>
         <tr>
           <td width="30%" class="default" align="center">
-            {if $has_support_levels == 1}<b>Support Level</b>{/if}
+            {if $has_support_levels == 1}<b>{t}Support Level{/t}</b>{/if}
           </td>
           <td width="40%" class="default" align="center">
             <b>{t}Date Range{/t}</b>
@@ -64,7 +64,7 @@ function clearDate()
                     <td align="center" NOWRAP>{html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" year_empty=$year month_empty=$month day_empty=$day all_extra="class='default'"}</td>
                 </tr>
             </table>
-            <input type="button" name="clear_date" value="Clear Date" onClick="clearDate()" class="shortcut">
+            <input type="button" name="clear_date" value="{t}Clear Date{/t}" onClick="clearDate()" class="shortcut">
           </td>
           <td align="center" valign="top">
             <select name="display_sections[]" size="5" multiple class="default">
@@ -314,10 +314,10 @@ function clearDate()
 {/if}
 
 <span class="default">
-1. {t}Refers to the number of issues in eventum for the given support level or customer.
-    Average and median counts do not include customers who have never opened an issue.{/t}<br />
-2. {t}Refers to the number of emails sent by customers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.{/t}<br />
-3. {t}Refers to the number of emails sent by developers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.{/t}<br />
+1. {t}Refers to the number of issues in eventum for the given support level or customer.{/t}
+ &nbsp;&nbsp;&nbsp;{t}Average and median counts do not include customers who have never opened an issue.{/t}<br />
+2. {t escape=no}Refers to the number of emails sent by customers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.{/t}<br />
+3. {t escape=no}Refers to the number of emails sent by developers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.{/t}<br />
 4. {t}Date issue was opened - Date issue was closed for all closed issues.{/t}<br />
 5. {t}All time tracking information for the given support level or customer. Issues without any time tracking data do not affect the average or median.{/t}<br />
 </span>

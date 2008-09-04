@@ -35,7 +35,7 @@
     </td>
     {if $benchmark_total}
     <td align="right" valign="top" width="40%" class="footer">
-      {t name=$benchmark_total}Page generated in %1 seconds{/t} {if $total_queries}({$total_queries} {t}queries{/t}){/if}<br />
+      {t 1=$benchmark_total}Page generated in %1 seconds{/t} {if $total_queries}({$total_queries} {t}queries{/t}){/if}<br />
       <a class="link" href="javascript:void(null);" onClick="javascript:openBenchmark();">{t}Benchmark Statistics{/t}</a>
     </td>
     {/if}

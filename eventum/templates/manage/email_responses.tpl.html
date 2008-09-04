@@ -122,7 +122,7 @@
                     <form onSubmit="javascript:return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
                       <td width="60%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
                       <td width="40%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Projects{/t}</b></td>
                     </tr>

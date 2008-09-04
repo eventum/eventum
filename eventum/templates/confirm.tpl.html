@@ -24,17 +24,11 @@
             <br />
             <b>
             {if $confirm_result == -1}
-            {t}The provided trial account email address could not be
-confirmed. Please contact the local Technical Support staff for
-further assistance.{/t}
+            {t}The provided trial account email address could not be confirmed. Please contact the local Technical Support staff for further assistance.{/t}
             {elseif $confirm_result == -2}
-            {t}The provided trial account email address could not be
-            found. Please contact the local Technical Support staff for
-            further assistance.{/t}
+            {t}The provided trial account email address could not be found. Please contact the local Technical Support staff for further assistance.{/t}
             {elseif $confirm_result == -3}
-            {t}The provided trial account encrypted hash could not be
-            authenticated. Please contact the local Technical
-            Support staff for further assistance.{/t}
+            {t}The provided trial account encrypted hash could not be authenticated. Please contact the local Technical Support staff for further assistance.{/t}
             {elseif $confirm_result == 1}
             {t}Thank you, your request for a new password was confirmed successfully. You should receive an email with your new password shortly.{/t}<br /><br />
             <center><a href="{$rel_url}index.php?email={$email}" class="link">{t}Back to Login Form{/t}</a></center>

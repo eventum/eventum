@@ -37,7 +37,7 @@
                         <b>{t}Manage Reminder Actions{/t}</b>
                       </td>
                       <td align="right" class="default">
-                        (<a href="reminders.php?cat=edit&id={$rem_id}" class="link" title="{t}view reminder details{/t}">Reminder #{$rem_id}: {$rem_title}</a>)
+                        (<a href="reminders.php?cat=edit&id={$rem_id}" class="link" title="{t}view reminder details{/t}">{t}Reminder{/t} #{$rem_id}: {$rem_title}</a>)
                       </td>
                     </tr>
                   </table>
@@ -236,7 +236,7 @@
                     <input type="hidden" name="rem_id" value="{$rem_id}">
                     <input type="hidden" name="cat" value="delete">
                     <tr>
-                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="All" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
+                      <td width="4" bgcolor="{$cell_color}" nowrap><input type="button" value="{t}All{/t}" class="shortcut" onClick="javascript:toggleSelectAll(this.form, 'items[]');"></td>
                       <td bgcolor="{$cell_color}" class="default_white" align="center">&nbsp;<b>{t}Rank{/t}</b>&nbsp;</td>
                       <td width="20%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Title{/t}</b></td>
                       <td width="50%" bgcolor="{$cell_color}" class="default_white">&nbsp;<b>{t}Type{/t}</b></td>
@@ -251,7 +251,7 @@
                         <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=asc"><img src="{$rel_url}images/asc.gif" border="0"></a>
                       </td>
                       <td width="20%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&rem_id={$rem_id}&id={$list[i].rma_id}" title="update this entry">{$list[i].rma_title|escape:"html"}</a>
+                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&rem_id={$rem_id}&id={$list[i].rma_id}" title="{t}update this entry{/t}">{$list[i].rma_title|escape:"html"}</a>
                       </td>
                       <td width="50%" bgcolor="{$row_color}" class="default">
                         &nbsp;{$list[i].rmt_title}

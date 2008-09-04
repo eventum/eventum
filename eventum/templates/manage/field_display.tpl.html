@@ -1,7 +1,6 @@
 {if $prj_id == ''}
     <span class="default">
-    {t}This page can only be accessed in relation to a project. Please go to the project page and choose
-"Edit Fields to Display" to access this page.{/t}<br />
+    {t}This page can only be accessed in relation to a project. Please go to the project page and choose{/t}&nbsp;"{t}Edit Fields to Display{/t}"&nbsp;{t}to access this page.{/t}<br />
     <a href="{$rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
     </span>
 {else}
@@ -30,7 +29,7 @@
                 {cycle values=$cycle assign="row_color"}
                 <tr>
                     <td bgcolor="{$cell_color}" align="center" class="default_white" width="150">
-                        {$field_title} {t}Field{/t}:
+                        {t 1=$field_title}%1 Field{/t}:
                     </td>
                     <td bgcolor="{$row_color}">
                         <select name="min_role[{$field_name}]" class="default">
