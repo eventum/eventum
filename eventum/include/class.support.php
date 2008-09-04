@@ -2552,7 +2552,7 @@ class Support
 
         $issue_id = $email['issue_id'];
         $prj_id = Issue::getProjectID($issue_id);
-        $sender_email = strtolower(Mail_API::getEmailAddress($email['headers']['from']));
+        $sender_email = strtolower(Mail_API::getEmailAddress($email['from']));
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($email['full_email']);
         if ((Mail_API::isVacationAutoResponder($email['headers'])) || (Notification::isBounceMessage($sender_email)) ||
                 (!Support::isAllowedToEmail($issue_id, $sender_email))) {
