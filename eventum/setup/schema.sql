@@ -446,7 +446,7 @@ DROP TABLE IF EXISTS %TABLE_PREFIX%support_email_body;
 CREATE TABLE %TABLE_PREFIX%support_email_body (
   seb_sup_id int(11) unsigned NOT NULL,
   seb_body longtext NOT NULL,
-  seb_full_email longtext NOT NULL,
+  seb_full_email longblob NOT NULL,
   PRIMARY KEY (seb_sup_id),
   FULLTEXT ft_support_email (seb_body)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
@@ -509,7 +509,7 @@ INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_status, usr_passwo
 INSERT INTO %TABLE_PREFIX%user (usr_id, usr_created_date, usr_password, usr_full_name, usr_email, usr_preferences) VALUES (2, NOW(), '21232f297a57a5a743894a0e4a801fc3', 'Admin User', 'admin@example.com', '');
 
 DROP TABLE IF EXISTS %TABLE_PREFIX%user_alias;
-CREATE TABLE eventum_user_alias (
+CREATE TABLE %TABLE_PREFIX%user_alias (
     ual_usr_id int(11) unsigned not null,
     ual_email varchar(255),
     KEY(ual_usr_id, ual_email),
@@ -875,7 +875,7 @@ CREATE TABLE %TABLE_PREFIX%mail_queue (
   maq_recipient VARCHAR(255) NOT NULL,
   maq_subject varchar(255) NOT NULL,
   maq_headers TEXT NOT NULL,
-  maq_body LONGTEXT NOT NULL,
+  maq_body longblob NOT NULL,
   maq_type varchar(30) NULL,
   maq_usr_id int(11) unsigned NULL DEFAULT NULL,
   maq_type_id int(11) unsigned NULL DEFAULT NULL,
