@@ -1037,7 +1037,7 @@ CREATE TABLE %TABLE_PREFIX%search_profile (
   UNIQUE (sep_usr_id, sep_prj_id, sep_type)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS %TABLE_PREFIX%version;
 CREATE TABLE %TABLE_PREFIX%version (
     ver_version int(11) unsigned NOT NULL DEFAULT 0
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
