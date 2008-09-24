@@ -15,7 +15,7 @@
                 check_project: {$check_project|default:1},
                 exclude_issue: {$exclude_issue|default:0},
                 exclude_duplicates: {$exclude_duplicates|default:0},
-                error_message: '{$error_message|default:""}'
+                error_message: '{t}{$error_message|default:""}{/t}'
             {literal}}{/literal})">
 {include file="error_icon.tpl.html" field=$field_name}
 <span id="{$field_name}_error" class="{$span_class|default:'default'}"></span>

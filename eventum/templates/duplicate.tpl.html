@@ -76,7 +76,7 @@ function validateDuplicate(f)
             <b>{t}Duplicated Issue:{/t} *</b>
           </td>
           <td bgcolor="{$light_color}">
-            {include file="include/issue_field.tpl.html" field_name="duplicated_issue" form_name='duplicate_form' exclude_issue=$smarty.get.id error_message="{t}You must enter the ID of an issue that does not have a duplicate status.{/t}" exclude_duplicates=1}
+            {include file="include/issue_field.tpl.html" field_name="duplicated_issue" form_name='duplicate_form' exclude_issue=$smarty.get.id error_message="You must enter the ID of an issue that does not have a duplicate status." exclude_duplicates=1}
           </td>
         </tr>
         <tr>
