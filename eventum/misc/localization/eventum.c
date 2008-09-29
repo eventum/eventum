@@ -203,7 +203,7 @@ gettext("any");
 gettext("Hide Closed Issues");
 
 /* templates/adv_search.tpl.html */
-gettext("Rows Per Page:");
+gettext("Rows Per Page");
 
 /* templates/adv_search.tpl.html */
 gettext("ALL");
@@ -227,7 +227,7 @@ gettext("Summary");
 gettext("Last Action Date");
 
 /* templates/adv_search.tpl.html */
-gettext("Sort Order:");
+gettext("Sort Order");
 
 /* templates/adv_search.tpl.html */
 gettext("ascending");
@@ -236,7 +236,7 @@ gettext("ascending");
 gettext("descending");
 
 /* templates/adv_search.tpl.html */
-gettext("Show Issues in Which I Am:");
+gettext("Show Issues in Which I Am");
 
 /* templates/adv_search.tpl.html */
 gettext("Authorized to Send Emails");
@@ -375,6 +375,21 @@ gettext("End date");
 
 /* templates/adv_search.tpl.html */
 gettext("Show additional fields to search by");
+
+/* templates/adv_search.tpl.html */
+gettext("Equals");
+
+/* templates/adv_search.tpl.html */
+gettext("Greater or Equal");
+
+/* templates/adv_search.tpl.html */
+gettext("Less or Equal");
+
+/* templates/adv_search.tpl.html */
+gettext("Greater Than");
+
+/* templates/adv_search.tpl.html */
+gettext("Less Than");
 
 /* templates/adv_search.tpl.html */
 gettext("Run Search");
@@ -527,7 +542,19 @@ gettext("Date");
 gettext("Description");
 
 /* templates/attachments.tpl.html */
+gettext("download file");
+
+/* templates/attachments.tpl.html */
+gettext("download file");
+
+/* templates/attachments.tpl.html */
+gettext("delete file");
+
+/* templates/attachments.tpl.html */
 gettext("delete");
+
+/* templates/attachments.tpl.html */
+gettext("delete attachment");
 
 /* templates/attachments.tpl.html */
 gettext("delete");
@@ -704,22 +731,22 @@ gettext("This customer has a per incident contract. You have chosen not to redee
 gettext("Close Issue");
 
 /* templates/close.tpl.html */
-gettext("Issue ID:");
+gettext("Issue ID");
 
 /* templates/close.tpl.html */
-gettext("Status:");
+gettext("Status");
 
 /* templates/close.tpl.html */
 gettext("Please choose a status");
 
 /* templates/close.tpl.html */
-gettext("Resolution:");
+gettext("Resolution");
 
 /* templates/close.tpl.html */
 gettext("Send Notification About Issue Being Closed?");
 
 /* templates/close.tpl.html */
-gettext("Send Notification To:");
+gettext("Send Notification To");
 
 /* templates/close.tpl.html */
 gettext("Internal Users");
@@ -728,16 +755,16 @@ gettext("Internal Users");
 gettext("All");
 
 /* templates/close.tpl.html */
-gettext("Reason for closing issue:");
+gettext("Reason for closing issue");
 
 /* templates/close.tpl.html */
-gettext("Incident Types to Redeem:");
+gettext("Incident Types to Redeem");
 
 /* templates/close.tpl.html */
-gettext("Time Spent:");
+gettext("Time Spent");
 
 /* templates/close.tpl.html */
-gettext("Time Category:");
+gettext("Time Category");
 
 /* templates/close.tpl.html */
 gettext("Please choose a category");
@@ -761,13 +788,13 @@ gettext("Error");
 gettext("Password Confirmation Success");
 
 /* templates/confirm.tpl.html */
-gettext("The provided trial account email address could not be\nconfirmed. Please contact the local Technical Support staff for\nfurther assistance.");
+gettext("The provided trial account email address could not be confirmed. Please contact the local Technical Support staff for further assistance.");
 
 /* templates/confirm.tpl.html */
-gettext("The provided trial account email address could not be\n            found. Please contact the local Technical Support staff for\n            further assistance.");
+gettext("The provided trial account email address could not be found. Please contact the local Technical Support staff for further assistance.");
 
 /* templates/confirm.tpl.html */
-gettext("The provided trial account encrypted hash could not be\n            authenticated. Please contact the local Technical\n            Support staff for further assistance.");
+gettext("The provided trial account encrypted hash could not be authenticated. Please contact the local Technical Support staff for further assistance.");
 
 /* templates/confirm.tpl.html */
 gettext("Thank you, your request for a new password was confirmed successfully. You should receive an email with your new password shortly.");
@@ -800,7 +827,10 @@ gettext("Convert Note To Email");
 gettext("Convert to Draft and Save For Later Editing");
 
 /* templates/convert_note.tpl.html */
-gettext("<b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, and without any attachments.");
+gettext("ALERT:");
+
+/* templates/convert_note.tpl.html */
+gettext("Email will be re-sent from your name, NOT original sender's, and without any attachments.");
 
 /* templates/convert_note.tpl.html */
 gettext("Convert to Email and Send Now");
@@ -819,42 +849,6 @@ gettext("Continue");
 
 /* templates/current_filters.tpl.html */
 gettext("Current filters:");
-
-/* templates/current_filters.tpl.html */
-gettext("Fulltext");
-
-/* templates/current_filters.tpl.html */
-gettext("In Past %1 hours");
-
-/* templates/current_filters.tpl.html */
-gettext("Is NULL");
-
-/* templates/current_filters.tpl.html */
-gettext("Is between %1-%2-%3 AND %4-%5-%6");
-
-/* templates/current_filters.tpl.html */
-gettext("Is greater than %1-%2-%3");
-
-/* templates/current_filters.tpl.html */
-gettext("Is less than %1-%2-%3");
-
-/* templates/current_filters.tpl.html */
-gettext("un-assigned");
-
-/* templates/current_filters.tpl.html */
-gettext("myself and un-assigned");
-
-/* templates/current_filters.tpl.html */
-gettext("myself and my group");
-
-/* templates/current_filters.tpl.html */
-gettext("myself, un-assigned and my group");
-
-/* templates/current_filters.tpl.html */
-gettext("Group");
-
-/* templates/current_filters.tpl.html */
-gettext("Yes");
 
 /* templates/current_filters.tpl.html */
 gettext("None");
@@ -998,6 +992,9 @@ gettext("Expiration Date");
 gettext("Status");
 
 /* templates/customer/example/customer_lookup.tpl.html */
+gettext("select this contact");
+
+/* templates/customer/example/customer_lookup.tpl.html */
 gettext("No results could be found");
 
 /* templates/customer/example/customer_report.tpl.html */
@@ -1082,7 +1079,7 @@ gettext("(only technical contacts listed on your contract)");
 gettext("Sorry, an error happened while trying to run your query.");
 
 /* templates/duplicate.tpl.html */
-gettext("Thank you, the issue was marked as a duplicate successfully. Please choose \n            from one of the options below:");
+gettext("Thank you, the issue was marked as a duplicate successfully. Please choose from one of the options below:");
 
 /* templates/duplicate.tpl.html */
 gettext("Open the Issue Details Page");
@@ -1097,7 +1094,7 @@ gettext("Open the Emails Listing Page");
 gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
 
 /* templates/duplicate.tpl.html */
-gettext("Please choose the duplicated issue.");
+gettext("Please enter the ID of the duplicated issue.");
 
 /* templates/duplicate.tpl.html */
 gettext("Mark Issue as Duplicate");
@@ -1107,9 +1104,6 @@ gettext("Issue ID:");
 
 /* templates/duplicate.tpl.html */
 gettext("Duplicated Issue:");
-
-/* templates/duplicate.tpl.html */
-gettext("Please select an issue");
 
 /* templates/duplicate.tpl.html */
 gettext("Comments:");
@@ -1146,6 +1140,9 @@ gettext("Last Updated Date");
 
 /* templates/email_drafts.tpl.html */
 gettext("Subject");
+
+/* templates/email_drafts.tpl.html */
+gettext("view email details");
 
 /* templates/email_drafts.tpl.html */
 gettext("No email drafts could be found.");
@@ -1214,6 +1211,9 @@ gettext("Go Back");
 gettext("Please choose which emails need to be associated.");
 
 /* templates/emails.tpl.html */
+gettext("Please enter an issue to associate these emails with.");
+
+/* templates/emails.tpl.html */
 gettext("Please choose which emails need to be marked as deleted.");
 
 /* templates/emails.tpl.html */
@@ -1226,10 +1226,16 @@ ngettext("Viewing Emails (%1 emails found)","Viewing Emails (%1 emails found, %2
 gettext("All");
 
 /* templates/emails.tpl.html */
+gettext("sort by sender");
+
+/* templates/emails.tpl.html */
 gettext("Sender");
 
 /* templates/emails.tpl.html */
 gettext("sort by sender");
+
+/* templates/emails.tpl.html */
+gettext("sort by customer");
 
 /* templates/emails.tpl.html */
 gettext("Customer");
@@ -1238,10 +1244,16 @@ gettext("Customer");
 gettext("sort by customer");
 
 /* templates/emails.tpl.html */
+gettext("sort by date");
+
+/* templates/emails.tpl.html */
 gettext("Date");
 
 /* templates/emails.tpl.html */
 gettext("sort by date");
+
+/* templates/emails.tpl.html */
+gettext("sort by recipient");
 
 /* templates/emails.tpl.html */
 gettext("To");
@@ -1250,10 +1262,16 @@ gettext("To");
 gettext("sort by recipient");
 
 /* templates/emails.tpl.html */
+gettext("sort by status");
+
+/* templates/emails.tpl.html */
 gettext("Status");
 
 /* templates/emails.tpl.html */
 gettext("sort by status");
+
+/* templates/emails.tpl.html */
+gettext("sort by subject");
 
 /* templates/emails.tpl.html */
 gettext("Subject");
@@ -1286,13 +1304,13 @@ gettext("No emails could be found.");
 gettext("All");
 
 /* templates/emails.tpl.html */
-gettext("Associate");
-
-/* templates/emails.tpl.html */
 gettext("New Issue");
 
 /* templates/emails.tpl.html */
-gettext("lookup issues by their summaries");
+gettext("Existing Issue");
+
+/* templates/emails.tpl.html */
+gettext("Associate");
 
 /* templates/emails.tpl.html */
 gettext("ALL");
@@ -1322,7 +1340,7 @@ gettext("error condition detected");
 gettext("Expand all collapsed cells");
 
 /* templates/expandable_cell/buttons.tpl.html */
-gettext("Expand all collapsed cells");
+gettext("Collapse all expanded cells");
 
 /* templates/expandable_cell/buttons.tpl.html */
 gettext("Expand collapsed cell");
@@ -1385,7 +1403,7 @@ gettext("standard user and above only");
 gettext("Filenames");
 
 /* templates/file_upload.tpl.html */
-gettext("ote: The current maximum allowed upload file size is");
+gettext("Note: The current maximum allowed upload file size is");
 
 /* templates/file_upload.tpl.html */
 gettext("Description");
@@ -1412,7 +1430,7 @@ gettext("Error: An error occurred while trying to run your query.");
 gettext("Thank you, a confirmation message was just emailed to you. Please follow the instructions available in this message to confirm your password creation request.");
 
 /* templates/forgot_password.tpl.html */
-gettext("Error: Your user status is currently set as inactive. Please\n              contact your local system administrator for further information.");
+gettext("Error: Your user status is currently set as inactive. Please contact your local system administrator for further information.");
 
 /* templates/forgot_password.tpl.html */
 gettext(" Error: Please provide your email address.");
@@ -1433,10 +1451,10 @@ gettext("Back to Login Form");
 gettext("Advanced Search / Creating Custom Queries");
 
 /* templates/help/adv_search.tpl.html */
-gettext("This page allows you to create and modify saved custom searches, which\nwill save searches that can be executed from the Issue Listing screen.");
+gettext("This page allows you to create and modify saved custom searches, which will save searches that can be executed from the Issue Listing screen.");
 
 /* templates/help/adv_search.tpl.html */
-gettext("Most of the time users will want to run common used queries against\nthe issue database, and this is a feature perfect for such situations,\njust create a custom query in this screen and run it from the Issue\nListing page.");
+gettext("Most of the time users will want to run common used queries against the issue database, and this is a feature perfect for such situations, just create a custom query in this screen and run it from the Issue Listing page.");
 
 /* templates/help/banner.tpl.html */
 gettext("Close Window");
@@ -1448,37 +1466,49 @@ gettext("Edit Columns to Display");
 gettext("This page allows you to dynamically control which columns are displayed on the list issues page.");
 
 /* templates/help/column_display.tpl.html */
-gettext("You can set the minimum role required to view a column. For example, if you set the mimimum role for 'Category'\nto be 'Manager' anyone with a role lower then 'Manager' will not be able to see that column. To hide a column\nfrom all users, select 'Never Display'.");
+gettext("You can set the minimum role required to view a column. For example, if you set the mimimum role for 'Category' to be 'Manager' anyone with a role lower then 'Manager' will not be able to see that column. To hide a column from all users, select 'Never Display'.");
 
 /* templates/help/column_display.tpl.html */
-gettext("Please note that some columns may be hidden even if you specify they should be shown. For example, if no releases\nare defined in the system the 'Release' column will be hidden.");
+gettext("Please note that some columns may be hidden even if you specify they should be shown. For example, if no releases are defined in the system the 'Release' column will be hidden.");
 
 /* templates/help/customize_listing.tpl.html */
 gettext("Customize Issue Listing Screen");
 
 /* templates/help/customize_listing.tpl.html */
-gettext("This page allows you to dynamically configure the values displayed in the \n\"Status Change Date\" column in the issue listing screen, for a particular\nproject.\n<br /><br />\nThis column is useful to display the amount of time since the last change\nin status for each issue. For example, if issue #1234 is set to status\n'Closed', you could configure Eventum to display the difference\nin time between \"now\" and the date value stored in the closed date\nfield.\n<br /><br />\nSince the list of statuses available per project is dynamic and \ndatabase driven, this manual process is needed to associate a status\nto a date field coming from the database.");
+gettext("This page allows you to dynamically configure the values displayed in the \"Status Change Date\" column in the issue listing screen, for a particular project.");
+
+/* templates/help/customize_listing.tpl.html */
+gettext("This column is useful to display the amount of time since the last change in status for each issue. For example, if issue #1234 is set to status 'Closed', you could configure Eventum to display the difference in time between \"now\" and the date value stored in the closed date field.");
+
+/* templates/help/customize_listing.tpl.html */
+gettext("Since the list of statuses available per project is dynamic and database driven, this manual process is needed to associate a status to a date field coming from the database.");
 
 /* templates/help/email_blocking.tpl.html */
 gettext("Email Blocking");
 
 /* templates/help/email_blocking.tpl.html */
-gettext("To prevent inappropriate emails reaching the notification list, only users that are assigned\nto the issue are allowed to email through Eventum. If an un-authorized\nuser sends an email to <i>%1</i> it is converted into a note and\nstored for later use. This note can be converted into an email at a later date.");
+gettext("To prevent inappropriate emails reaching the notification list, only users that are assigned to the issue are allowed to email through Eventum. If an un-authorized user sends an email to <i>%1</i> it is converted into a note and stored for later use. This note can be converted into an email at a later date.");
 
 /* templates/help/field_display.tpl.html */
 gettext("Edit Fields to Display");
 
 /* templates/help/field_display.tpl.html */
-gettext("This page allows you to dynamically control which fields are displayed \nto users of a certain minimum role.\nFor example, you could use this page so that only users of the role \"<i>standard user</i>\" \n(and higher ranking roles) are able to set the category or \nrelease fields when reporting a new issue.");
+gettext("This page allows you to dynamically control which fields are displayed to users of a certain minimum role.");
+
+/* templates/help/field_display.tpl.html */
+gettext("For example, you could use this page so that only users of the role \"<i>standard user</i>\" (and higher ranking roles) are able to set the category or release fields when reporting a new issue.");
 
 /* templates/help/index.tpl.html */
-gettext("Available Related Topics:");
+gettext("Available Related Topics");
 
 /* templates/help/link_filters.tpl.html */
 gettext("Link Filters");
 
 /* templates/help/link_filters.tpl.html */
-gettext("Link filters are used to replace text such as '%1' with an automatic\nlink to some external resource. It uses regular expressions to replace the text.\nSpecify the search pattern in the pattern field without delimiters. Specify the entire\nstring you would like to use as a replacement with $x to insert the matched text.");
+gettext("Link filters are used to replace text such as '%1' with an automatic link to some external resource. It uses regular expressions to replace the text. Specify the search pattern in the pattern field without delimiters. Specify the entire string you would like to use as a replacement with $x to insert the matched text.");
+
+/* templates/help/link_filters.tpl.html */
+gettext("For example");
 
 /* templates/help/link_filters.tpl.html */
 gettext("Pattern: \"%1\"");
@@ -1490,16 +1520,16 @@ gettext("Replacement: \"%1\"");
 gettext("Listing / Searching for Issues");
 
 /* templates/help/list.tpl.html */
-gettext("The Issue Listing page uses a grid layout to simplify the manual\nsearch for issues in a project. You may sort for (almost) any column\nin this grid form, and users with the appropriate permissions may also\nassign selected issues to another user.");
+gettext("The Issue Listing page uses a grid layout to simplify the manual search for issues in a project. You may sort for (almost) any column in this grid form, and users with the appropriate permissions may also assign selected issues to another user.");
 
 /* templates/help/list.tpl.html */
-gettext("The quick search table in the top of the screen helps the users find\nthe issues they want quickly. More advanced searches may be created\nusing the Advanced Search tool.");
+gettext("The quick search table in the top of the screen helps the users find the issues they want quickly. More advanced searches may be created using the Advanced Search tool.");
 
 /* templates/help/main.tpl.html */
 gettext("Available Help Topics");
 
 /* templates/help/main.tpl.html */
-gettext("Please refer to the following help sections for more information on \nspecific parts of the application:");
+gettext("Please refer to the following help sections for more information on specific parts of the application:");
 
 /* templates/help/main.tpl.html */
 gettext("Listing / Searching for Issues");
@@ -1556,7 +1586,7 @@ gettext("User Permission Levels");
 gettext("Email Notifications");
 
 /* templates/help/notifications.tpl.html */
-gettext("This feature allows system users to subscribe to email notifications\nwhen changes are done to specific issues. The current actions that\ntrigger email notifications are:");
+gettext("This feature allows system users to subscribe to email notifications when changes are done to specific issues. The current actions that trigger email notifications are:");
 
 /* templates/help/notifications.tpl.html */
 gettext("Issue details are updated");
@@ -1574,133 +1604,139 @@ gettext("Emails are associated to existing issues");
 gettext("Files are attached to existing issues");
 
 /* templates/help/notifications.tpl.html */
-gettext("System users may subscribe to the actions above for specific issues\nwhen they report new issues or by visiting the issue details screen \nand subscribing manually by using the 'Edit Notification List' link.");
+gettext("System users may subscribe to the actions above for specific issues when they report new issues or by visiting the issue details screen and subscribing manually by using the 'Edit Notification List' link.");
 
 /* templates/help/permission_levels.tpl.html */
 gettext("User Permission Levels");
 
 /* templates/help/permission_levels.tpl.html */
-gettext("The following is a brief overview of the available user permission levels \nin Eventum:");
+gettext("The following is a brief overview of the available user permission levels in Eventum:");
 
 /* templates/help/permission_levels.tpl.html */
 gettext("Viewer");
 
 /* templates/help/permission_levels.tpl.html */
-gettext("Allowed to view all issues on the projects associated to \nthis user; cannot create new issues or edit existing issues.");
+gettext("Allowed to view all issues on the projects associated to this user; cannot create new issues or edit existing issues.");
 
 /* templates/help/permission_levels.tpl.html */
 gettext("Reporter");
 
 /* templates/help/permission_levels.tpl.html */
-gettext("Allowed to view all issues on the projects associated to \nthis user; Allowed to create new issues and to send emails on existing\nissues.");
+gettext("Allowed to view all issues on the projects associated to this user; Allowed to create new issues and to send emails on existing issues.");
 
 /* templates/help/permission_levels.tpl.html */
 gettext("Customer");
 
 /* templates/help/permission_levels.tpl.html */
-gettext("This is a special permission level reserved for the Customer\nIntegration API, which allows you to integrate Eventum with your CRM database. \nWhen this feature is enabled, this type of user can only access issues associated\nwith their own customer. Allowed to create new issues, update and send emails\nto existing issues.");
+gettext("This is a special permission level reserved for the Customer Integration API, which allows you to integrate Eventum with your CRM database. When this feature is enabled, this type of user can only access issues associated with their own customer. Allowed to create new issues, update and send emails to existing issues.");
 
 /* templates/help/permission_levels.tpl.html */
 gettext("Standard User");
 
 /* templates/help/permission_levels.tpl.html */
-gettext("Allowed to view all issues on the projects associated to\nthis user; Allowed to create new issues, update existing issues, and to send\nemails and notes to existing issues.");
+gettext("Allowed to view all issues on the projects associated to this user; Allowed to create new issues, update existing issues, and to send emails and notes to existing issues.");
 
 /* templates/help/permission_levels.tpl.html */
 gettext("Developer");
 
 /* templates/help/permission_levels.tpl.html */
-gettext("Similar in every way to the above permission level, but \nthis extra level allows you to segregate users who will deal with issues, and\noverall normal staff users who do not handle issues themselves.");
+gettext("Similar in every way to the above permission level, but this extra level allows you to segregate users who will deal with issues, and overall normal staff users who do not handle issues themselves.");
 
 /* templates/help/permission_levels.tpl.html */
 gettext("Manager");
 
 /* templates/help/permission_levels.tpl.html */
-gettext("Allowed to view all issues on the projects associated to\nthis user; Allowed to create new issues, update existing issues, and to send\nemails and notes to existing issues. Also, this type of user is also allowed on\nthe special administration section of Eventum to tweak most project-level \nfeatures and options.");
+gettext("Allowed to view all issues on the projects associated to this user; Allowed to create new issues, update existing issues, and to send emails and notes to existing issues. Also, this type of user is also allowed on the special administration section of Eventum to tweak most project-level features and options.");
 
 /* templates/help/permission_levels.tpl.html */
 gettext("Administrator");
 
 /* templates/help/permission_levels.tpl.html */
-gettext("This type of user has full access to Eventum, including\nthe low level configuration parameters available through the administration\ninterface.");
+gettext("This type of user has full access to Eventum, including the low level configuration parameters available through the administration interface.");
 
 /* templates/help/preferences.tpl.html */
 gettext("Account Preferences");
 
 /* templates/help/preferences.tpl.html */
-gettext("This screen allows users to change their appropriate full name, account\npassword and email address. This address will be used by the system to\nsend email notifications whenever details about issues you are \nsubscribed to changes.");
+gettext("This screen allows users to change their appropriate full name, account password and email address. This address will be used by the system to send email notifications whenever details about issues you are subscribed to changes.");
 
 /* templates/help/preferences.tpl.html */
-gettext("You may also set the appropriate timezone where you live in this \nscreen, and all of the software will adjust the dates displayed in\nthe system accordingly.");
+gettext("You may also set the appropriate timezone where you live in this screen, and all of the software will adjust the dates displayed in the system accordingly.");
 
 /* templates/help/preferences.tpl.html */
-gettext("The default options for email notifications are used to pre-select\nthe notification related fields when you report a new issue, or \nsubscribe manually for changes in the issue details page.");
+gettext("The default options for email notifications are used to pre-select the notification related fields when you report a new issue, or subscribe manually for changes in the issue details page.");
 
 /* templates/help/report.tpl.html */
 gettext("Reporting New Issues");
 
 /* templates/help/report.tpl.html */
-gettext("To report new issues, click in the 'Create Issue' link in the top of \nyour browser window.");
+gettext("To report new issues, click in the 'Create Issue' link in the top of your browser window.");
 
 /* templates/help/report_assignment.tpl.html */
 gettext("Assignment Field");
 
 /* templates/help/report_assignment.tpl.html */
-gettext("This field is used to determine who should be assigned to this new \nissue. You are be able to assign a new issue to several persons at the\nsame time.\n<br /><br />\nIf you don't know who should be the assigned person for this new issue,\nassign it to your Project Lead.");
+gettext("This field is used to determine who should be assigned to this new issue. You are be able to assign a new issue to several persons at the same time.");
+
+/* templates/help/report_assignment.tpl.html */
+gettext("If you don't know who should be the assigned person for this new issue, assign it to your Project Lead.");
 
 /* templates/help/report_category.tpl.html */
 gettext("Category Field");
 
 /* templates/help/report_category.tpl.html */
-gettext("This field is used to categorize issues by a common denominator, such\nas 'Feature Request', 'Bug' or 'Support Inquiry'.\n<br /><br />\nNote: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
+gettext("This field is used to categorize issues by a common denominator, such as 'Feature Request', 'Bug' or 'Support Inquiry'.");
+
+/* templates/help/report_category.tpl.html */
+gettext("Note: The values in this field can be changed by going in the administration section of this application and editing the appropriate atributes of a project. If you do not have the needed permissions to do so, please contact your local Eventum administrator.");
 
 /* templates/help/report_description.tpl.html */
 gettext("Description Field");
 
 /* templates/help/report_description.tpl.html */
-gettext("The description field should be used to describe the new issue. Good\npractices dictate that this field should have a description of what\nhappened, steps to reproduce the problem/issue and what you expected \nto happen instead.");
+gettext("The description field should be used to describe the new issue. Good practices dictate that this field should have a description of what happened, steps to reproduce the problem/issue and what you expected to happen instead.");
 
 /* templates/help/report_estimated_dev_time.tpl.html */
 gettext("Estimated Development Time Field");
 
 /* templates/help/report_estimated_dev_time.tpl.html */
-gettext("This field is used by the reporters of new issues to estimate the \ntotal development time for the issue. It is especially important as a \nmetrics tool to get a simple estimate of how much time each issue will\ntake from discovery, going through implementation and testing up until\nrelease time.");
+gettext("This field is used by the reporters of new issues to estimate the total development time for the issue. It is especially important as a metrics tool to get a simple estimate of how much time each issue will take from discovery, going through implementation and testing up until release time.");
 
 /* templates/help/report_estimated_dev_time.tpl.html */
-gettext("This field can also be used as a way to check the estimation abilities\nof project managers against the impact analysis given by the \ndevelopers themselves. That is, the value entered by a project manager\nhere can be compared against the impact analysis / estimated \ndevelopment time entered by the developers, and this way get more \nexperience estimating the required time for new projects.");
+gettext("This field can also be used as a way to check the estimation abilities of project managers against the impact analysis given by the developers themselves. That is, the value entered by a project manager here can be compared against the impact analysis / estimated development time entered by the developers, and this way get more experience estimating the required time for new projects.");
 
 /* templates/help/report_priority.tpl.html */
 gettext("Priority Field");
 
 /* templates/help/report_priority.tpl.html */
-gettext("This field is used to prioritize issues, as to make project management\na little easier. If you are not sure, or don't know what the appropriate\npriority should be for new issues, choose 'not prioritized' as the \noption and leave the issue to be prioritized by a project manager.");
+gettext("This field is used to prioritize issues, as to make project management a little easier. If you are not sure, or don't know what the appropriate priority should be for new issues, choose 'not prioritized' as the option and leave the issue to be prioritized by a project manager.");
 
 /* templates/help/report_priority.tpl.html */
-gettext("Note: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
+gettext("Note: The values in this field can be changed by going in the administration section of this application and editing the appropriate atributes of a project. If you do not have the needed permissions to do so, please contact your local Eventum administrator.");
 
 /* templates/help/report_release.tpl.html */
 gettext("Scheduled Release Field");
 
 /* templates/help/report_release.tpl.html */
-gettext("This field is used to determine what the deadline should be for when\nthis new issue should be completed and resolved. If you don't know \nwhat the deadline should be for this new issue, leave the field as\n'un-scheduled', and a project manager will set it appropriately.");
+gettext("This field is used to determine what the deadline should be for when this new issue should be completed and resolved. If you don't know what the deadline should be for this new issue, leave the field as 'un-scheduled', and a project manager will set it appropriately.");
 
 /* templates/help/report_release.tpl.html */
-gettext("Note: The values in this field can be changed by going in the administration\nsection of this application and editing the appropriate atributes of\na project. If you do not have the needed permissions to do so, please\ncontact your local Eventum administrator.");
+gettext("Note: The values in this field can be changed by going in the administration section of this application and editing the appropriate atributes of a project. If you do not have the needed permissions to do so, please contact your local Eventum administrator.");
 
 /* templates/help/report_summary.tpl.html */
 gettext("Summary Field");
 
 /* templates/help/report_summary.tpl.html */
-gettext("This field is used as a simple and descriptive title to this new\nissue. As a suggestion, it should be descriptive and short enough to\nbe used by other users to remember quickly what the issue was all\nabout.");
+gettext("This field is used as a simple and descriptive title to this new issue. As a suggestion, it should be descriptive and short enough to be used by other users to remember quickly what the issue was all about.");
 
 /* templates/help/scm_integration.tpl.html */
 gettext("SCM Integration");
 
 /* templates/help/scm_integration.tpl.html */
-gettext("This feature allows your software development teams to integrate your\nSource Control Management system with your Issue Tracking System.");
+gettext("This feature allows your software development teams to integrate your Source Control Management system with your Issue Tracking System.");
 
 /* templates/help/scm_integration.tpl.html */
-gettext("The integration is implemented in such a way that it will be forward\ncompatible with pretty much any SCM system, such as CVS. When entering\nthe required information for the checkout page and diff page input\nfields, use the following placeholders:");
+gettext("The integration is implemented in such a way that it will be forward compatible with pretty much any SCM system, such as CVS. When entering the required information for the checkout page and diff page input fields, use the following placeholders:");
 
 /* templates/help/scm_integration.tpl.html */
 gettext("The CVS module name");
@@ -1721,49 +1757,49 @@ gettext("As an example, using the");
 gettext("Chora CVS viewer");
 
 /* templates/help/scm_integration.tpl.html */
-gettext("[highly recommended] from the Horde project you\nwould usually have the following URL as the diff page:");
+gettext("[highly recommended] from the Horde project you would usually have the following URL as the diff page:");
 
 /* templates/help/scm_integration.tpl.html */
-gettext("With that information in mind, the appropriate value to be entered in\nthe 'Checkout page' input field is:");
+gettext("With that information in mind, the appropriate value to be entered in the 'Checkout page' input field is:");
 
 /* templates/help/scm_integration_installation.tpl.html */
 gettext("Installation Instructions");
 
 /* templates/help/scm_integration_installation.tpl.html */
-gettext("The %1 script, which is available in the %2\nsub-directory in your Eventum installation directory, will need to be\ninstalled in your CVSROOT CVS module by following the procedure below:");
+gettext("The %1 script, which is available in the %2 sub-directory in your Eventum installation directory, will need to be installed in your CVSROOT CVS module by following the procedure below:");
 
 /* templates/help/scm_integration_installation.tpl.html */
-gettext("The first thing to do is to checkout the %1 module from your CVS\nrepository:");
+gettext("The first thing to do is to checkout the %1 module from your CVS repository:");
 
 /* templates/help/scm_integration_installation.tpl.html */
-gettext("The command above will checkout and create the CVSROOT directory that\nyou will need to work with. Next, open the <b>loginfo</b> file and\nadd the following line:");
+gettext("The command above will checkout and create the CVSROOT directory that you will need to work with. Next, open the <b>loginfo</b> file and add the following line:");
 
 /* templates/help/scm_integration_installation.tpl.html */
-gettext("Replace %1 by the appropriate absolute path in your\nCVS server, such as /home/username/repository for instance. Also make\nsure to put the appropriate path to your PHP binary.");
+gettext("Replace %1 by the appropriate absolute path in your CVS server, such as /home/username/repository for instance. Also make sure to put the appropriate path to your PHP binary.");
 
 /* templates/help/scm_integration_installation.tpl.html */
-gettext("You may also turn the parsing of commit messages for just a single CVS\nmodule by substituting the 'ALL' in the line above to the appropriate\nCVS module name, as in:");
+gettext("You may also turn the parsing of commit messages for just a single CVS module by substituting the 'ALL' in the line above to the appropriate CVS module name, as in:");
 
 /* templates/help/scm_integration_installation.tpl.html */
-gettext("The last step of this installation process is to login into the CVS\nserver and copy the %1 script into the %2\ndirectory. Make sure you give the appropriate permissions to the\nscript.");
+gettext("The last step of this installation process is to login into the CVS server and copy the %1 script into the %2 directory. Make sure you give the appropriate permissions to the script.");
 
 /* templates/help/scm_integration_usage.tpl.html */
 gettext("Usage Examples");
 
 /* templates/help/scm_integration_usage.tpl.html */
-gettext("An integration script will need to be installed in your CVS root \nrepository in order to send a message to Eventum whenever changes are\ncommitted to the repository. This message will then be processed by\nEventum and the changes to the appropriate files will be associated\nwith existing issue mentioned in your commit message.");
+gettext("An integration script will need to be installed in your CVS root repository in order to send a message to Eventum whenever changes are committed to the repository. This message will then be processed by Eventum and the changes to the appropriate files will be associated with existing issue mentioned in your commit message.");
 
 /* templates/help/scm_integration_usage.tpl.html */
-gettext("So to examplify its use, whenever the users are ready to commit the\nchanges to the CVS repository, they will add a special string to\nspecify which issue this is related to. The following would be a\ngood example of its use:");
+gettext("So to examplify its use, whenever the users are ready to commit the changes to the CVS repository, they will add a special string to specify which issue this is related to. The following would be a good example of its use:");
 
 /* templates/help/scm_integration_usage.tpl.html */
 gettext("[prompt]$ cvs -q commit -m \"Adding form validation as requested (issue: 13)\" form.php");
 
 /* templates/help/scm_integration_usage.tpl.html */
-gettext("You may also use 'bug' to specify the issue ID - whichever you are more\ncomfortable with.");
+gettext("You may also use 'bug' to specify the issue ID - whichever you are more comfortable with.");
 
 /* templates/help/scm_integration_usage.tpl.html */
-gettext("This command will be parsed by the CVS integration script (provided to\nyou and available in %eventum_path%/misc/scm/process_cvs_commits.php) and it\nwill notify Eventum that these changes are to be associated with issue\n#13.");
+gettext("This command will be parsed by the CVS integration script (provided to you and available in %eventum_path%/misc/scm/process_cvs_commits.php) and it will notify Eventum that these changes are to be associated with issue #13.");
 
 /* templates/help/segregate_reporter.tpl.html */
 gettext("Segregate Reporter");
@@ -1775,25 +1811,25 @@ gettext("If this option is enabled, users with a role of Reporter will only be a
 gettext("Associate Emails");
 
 /* templates/help/support_emails.tpl.html */
-gettext("This screen allows users with the appropriate permissions to associate\nemails with existing issues, or create new issues and \nassociate emails with them.");
+gettext("This screen allows users with the appropriate permissions to associate emails with existing issues, or create new issues and associate emails with them.");
 
 /* templates/help/support_emails.tpl.html */
-gettext("In order to do that, however, the administrator of the system needs\nto configure email accounts to make the software download\nthe email messages from the appropriate POP3/IMAP server.");
+gettext("In order to do that, however, the administrator of the system needs to configure email accounts to make the software download the email messages from the appropriate POP3/IMAP server.");
 
 /* templates/help/support_emails.tpl.html */
-gettext("One of the optimal uses of this feature is to create a separate \n'issues' or 'support' POP3/IMAP account and ask your customers or \nend-users to send support questions, issues or suggestions to that \nmailbox. Eventum will then download the emails and provide \nthem to the users of the system.");
+gettext("One of the optimal uses of this feature is to create a separate 'issues' or 'support' POP3/IMAP account and ask your customers or end-users to send support questions, issues or suggestions to that mailbox. Eventum will then download the emails and provide them to the users of the system.");
 
 /* templates/help/view.tpl.html */
 gettext("Viewing Issues");
 
 /* templates/help/view.tpl.html */
-gettext("The issue details screen can be accessed quickly by using the 'Go'\ninput field in the top of your browser window. Just enter the issue \nnumber and it will take you to the appropriate screen.");
+gettext("The issue details screen can be accessed quickly by using the 'Go' input field in the top of your browser window. Just enter the issue number and it will take you to the appropriate screen.");
 
 /* templates/help/view.tpl.html */
-gettext("The Issue Details page will also show '<< Previous Issue' and 'Next\nIssue >>' links that are related to the previous and next issues for\nthe current active filter, if appropriate.");
+gettext("The Issue Details page will also show '<< Previous Issue' and 'Next Issue >>' links that are related to the previous and next issues for the current active filter, if appropriate.");
 
 /* templates/help/view.tpl.html */
-gettext("The full history of changes related to the current issue is available\nby clickin on the 'History of Changes' link.");
+gettext("The full history of changes related to the current issue is available by clickin on the 'History of Changes' link.");
 
 /* templates/help/view_attachment.tpl.html */
 gettext("Attachments");
@@ -2033,13 +2069,22 @@ gettext("Password");
 gettext("Login");
 
 /* templates/login_form.tpl.html */
-gettext("Error: Please provide your email address.");
+gettext("Error");
 
 /* templates/login_form.tpl.html */
-gettext("Error: Please provide your password.");
+gettext("Please provide your email address.");
 
 /* templates/login_form.tpl.html */
-gettext("Error: The email address / password combination could not be found in the system.");
+gettext("Error");
+
+/* templates/login_form.tpl.html */
+gettext("Please provide your password.");
+
+/* templates/login_form.tpl.html */
+gettext("Error");
+
+/* templates/login_form.tpl.html */
+gettext("The email address / password combination could not be found in the system.");
 
 /* templates/login_form.tpl.html */
 gettext("Your session has expired. Please login again to continue.");
@@ -2048,19 +2093,31 @@ gettext("Your session has expired. Please login again to continue.");
 gettext("Thank you, you are now logged out of %1");
 
 /* templates/login_form.tpl.html */
-gettext("Error: Your user status is currently set as inactive. Please\n              contact your local system administrator for further information.");
+gettext("Error");
 
 /* templates/login_form.tpl.html */
-gettext("Thank you, your account is now active and ready to be\n              used. Use the form below to login.");
+gettext("Your user status is currently set as inactive. Please contact your local system administrator for further information.");
 
 /* templates/login_form.tpl.html */
-gettext("Error: Your user status is currently set as pending. This\n              means that you still need to confirm your account\n              creation request. Please contact your local system\n              administrator for further information.");
+gettext("Thank you, your account is now active and ready to be used. Use the form below to login.");
 
 /* templates/login_form.tpl.html */
-gettext("Error: Cookies support seem to be disabled in your browser. Please enable this feature and try again.");
+gettext("Error");
 
 /* templates/login_form.tpl.html */
-gettext("Error: In order for %1 to work properly, you must enable cookie support in your browser. Please login\n              again and accept all cookies coming from it.");
+gettext("Your user status is currently set as pending. This means that you still need to confirm your account creation request. Please contact your local system administrator for further information.");
+
+/* templates/login_form.tpl.html */
+gettext("Error");
+
+/* templates/login_form.tpl.html */
+gettext("Cookies support seem to be disabled in your browser. Please enable this feature and try again.");
+
+/* templates/login_form.tpl.html */
+gettext("Error");
+
+/* templates/login_form.tpl.html */
+gettext("In order for %1 to work properly, you must enable cookie support in your browser. Please login again and accept all cookies coming from it.");
 
 /* templates/login_form.tpl.html */
 gettext("Email Address");
@@ -2081,7 +2138,7 @@ gettext("Signup for an Account");
 gettext("Requires support for cookies and javascript in your browser");
 
 /* templates/login_form.tpl.html */
-gettext("NOTE: You may report issues without the need to login by using the following URL");
+gettext("NOTE: You may report issues without the need to login by using the following URL:");
 
 /* templates/lookup_field.tpl.html */
 gettext("paste or start typing here");
@@ -2390,7 +2447,13 @@ gettext("All");
 gettext("Delete");
 
 /* templates/manage/column_display.tpl.html */
-gettext("This page can only be accessed in relation to a project. Please go to the project page and choose\n\"Edit Fields to Display\" to access this page.");
+gettext("This page can only be accessed in relation to a project. Please go to the project page and choose");
+
+/* templates/manage/column_display.tpl.html */
+gettext("Edit Columns to Display");
+
+/* templates/manage/column_display.tpl.html */
+gettext("to access this page.");
 
 /* templates/manage/column_display.tpl.html */
 gettext("Manage Projects");
@@ -2534,6 +2597,12 @@ gettext("Date");
 gettext("Integer");
 
 /* templates/manage/custom_fields.tpl.html */
+gettext("Warning");
+
+/* templates/manage/custom_fields.tpl.html */
+gettext("Changing field types can result in loss of data.");
+
+/* templates/manage/custom_fields.tpl.html */
 gettext("Field Options");
 
 /* templates/manage/custom_fields.tpl.html */
@@ -2546,7 +2615,7 @@ gettext("Add");
 gettext("Update Value");
 
 /* templates/manage/custom_fields.tpl.html */
-gettext("OR");
+gettext("AND / OR");
 
 /* templates/manage/custom_fields.tpl.html */
 gettext("Choose Custom Field Backend");
@@ -2589,6 +2658,9 @@ gettext("Please select at least one of the custom fields.");
 
 /* templates/manage/custom_fields.tpl.html */
 gettext("This action will permanently remove the selected custom fields.");
+
+/* templates/manage/custom_fields.tpl.html */
+gettext("All");
 
 /* templates/manage/custom_fields.tpl.html */
 gettext("Rank");
@@ -2702,6 +2774,9 @@ gettext("Please select at least one of the notes.");
 gettext("This action will permanently remove the selected entries.");
 
 /* templates/manage/customer_notes.tpl.html */
+gettext("All");
+
+/* templates/manage/customer_notes.tpl.html */
 gettext("Customer");
 
 /* templates/manage/customer_notes.tpl.html */
@@ -2787,6 +2862,9 @@ gettext("Label");
 
 /* templates/manage/customize_listing.tpl.html */
 gettext("Date Field");
+
+/* templates/manage/customize_listing.tpl.html */
+gettext("update this entry");
 
 /* templates/manage/customize_listing.tpl.html */
 gettext("No customizations could be found.");
@@ -3023,6 +3101,9 @@ gettext("Please select at least one of the email responses.");
 gettext("This action will remove the selected entries.");
 
 /* templates/manage/email_responses.tpl.html */
+gettext("All");
+
+/* templates/manage/email_responses.tpl.html */
 gettext("Title");
 
 /* templates/manage/email_responses.tpl.html */
@@ -3146,7 +3227,13 @@ gettext("All");
 gettext("Delete");
 
 /* templates/manage/field_display.tpl.html */
-gettext("This page can only be accessed in relation to a project. Please go to the project page and choose\n\"Edit Fields to Display\" to access this page.");
+gettext("This page can only be accessed in relation to a project. Please go to the project page and choose");
+
+/* templates/manage/field_display.tpl.html */
+gettext("Edit Fields to Display");
+
+/* templates/manage/field_display.tpl.html */
+gettext("to access this page.");
 
 /* templates/manage/field_display.tpl.html */
 gettext("Manage Projects");
@@ -3161,7 +3248,7 @@ gettext("An error occurred while trying to update field display settings.");
 gettext("Thank you, field display settings were updated successfully.");
 
 /* templates/manage/field_display.tpl.html */
-gettext("Field");
+gettext("%1 Field");
 
 /* templates/manage/field_display.tpl.html */
 gettext("Set Display Preferences");
@@ -3221,16 +3308,16 @@ gettext("Please choose whether the daily tips feature should be enabled or not."
 gettext("General Setup");
 
 /* templates/manage/general.tpl.html */
-gettext("ERROR: The system doesn't have the appropriate permissions to\n                    create the configuration file in the setup directory");
+gettext("ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory");
 
 /* templates/manage/general.tpl.html */
-gettext("Please contact your local system\n                    administrator and ask for write privileges on the provided path.");
+gettext("Please contact your local system administrator and ask for write privileges on the provided path.");
 
 /* templates/manage/general.tpl.html */
-gettext("ERROR: The system doesn't have the appropriate permissions to\n                    update the configuration file in the setup directory");
+gettext("ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory");
 
 /* templates/manage/general.tpl.html */
-gettext("Please contact your local system\n                    administrator and ask for write privileges on the provided filename.");
+gettext("Please contact your local system administrator and ask for write privileges on the provided filename.");
 
 /* templates/manage/general.tpl.html */
 gettext("Thank you, the setup information was saved successfully.");
@@ -3539,7 +3626,10 @@ gettext("Please assign the manager of this group.");
 gettext("Please select at least one of the groups.");
 
 /* templates/manage/groups.tpl.html */
-gettext("WARNING: This action will remove the selected groups permanently.nPlease click OK to confirm.");
+gettext("WARNING: This action will remove the selected groups permanently.");
+
+/* templates/manage/groups.tpl.html */
+gettext("Please click OK to confirm.");
 
 /* templates/manage/groups.tpl.html */
 gettext("Manage Groups");
@@ -3557,19 +3647,19 @@ gettext("An error occurred while trying to update the group information.");
 gettext("Thank you, the group was updated successfully.");
 
 /* templates/manage/groups.tpl.html */
-gettext("Name: *");
+gettext("Name:");
 
 /* templates/manage/groups.tpl.html */
 gettext("Description:");
 
 /* templates/manage/groups.tpl.html */
-gettext("Assigned Projects: *");
+gettext("Assigned Projects:");
 
 /* templates/manage/groups.tpl.html */
-gettext("Users: *");
+gettext("Users:");
 
 /* templates/manage/groups.tpl.html */
-gettext("Manager: *");
+gettext("Manager:");
 
 /* templates/manage/groups.tpl.html */
 gettext("-- Select One --");
@@ -3587,6 +3677,9 @@ gettext("Reset");
 gettext("Existing Groups");
 
 /* templates/manage/groups.tpl.html */
+gettext("All");
+
+/* templates/manage/groups.tpl.html */
 gettext("Name");
 
 /* templates/manage/groups.tpl.html */
@@ -3597,6 +3690,9 @@ gettext("Manager");
 
 /* templates/manage/groups.tpl.html */
 gettext("Projects");
+
+/* templates/manage/groups.tpl.html */
+gettext("update this entry");
 
 /* templates/manage/groups.tpl.html */
 gettext("No groups could be found.");
@@ -3623,7 +3719,7 @@ gettext("Auto-Creation of Issues");
 gettext("Associated Project:");
 
 /* templates/manage/issue_auto_creation.tpl.html */
-gettext("Auto-Creation of Issues:");
+gettext("Auto-Creation of Issues");
 
 /* templates/manage/issue_auto_creation.tpl.html */
 gettext("Enabled");
@@ -3729,6 +3825,9 @@ gettext("Reset");
 
 /* templates/manage/link_filters.tpl.html */
 gettext("Existing Link Filters");
+
+/* templates/manage/link_filters.tpl.html */
+gettext("All");
 
 /* templates/manage/link_filters.tpl.html */
 gettext("Pattern");
@@ -3914,6 +4013,9 @@ gettext("Please select at least one of the news entries.");
 gettext("This action will permanently remove the selected news entries.");
 
 /* templates/manage/news.tpl.html */
+gettext("All");
+
+/* templates/manage/news.tpl.html */
 gettext("Title");
 
 /* templates/manage/news.tpl.html */
@@ -4091,6 +4193,9 @@ gettext("Please choose the initial status from one of the assigned statuses of t
 gettext("Please enter a valid outgoing sender address for this project.");
 
 /* templates/manage/projects.tpl.html */
+gettext("Please enter a comma separated list of valid mail address aliases for this project");
+
+/* templates/manage/projects.tpl.html */
 gettext("Manage Projects");
 
 /* templates/manage/projects.tpl.html */
@@ -4154,6 +4259,9 @@ gettext("Outgoing Email Sender Name");
 gettext("Outgoing Email Sender Address");
 
 /* templates/manage/projects.tpl.html */
+gettext("Project mail aliases");
+
+/* templates/manage/projects.tpl.html */
 gettext("Remote Invocation");
 
 /* templates/manage/projects.tpl.html */
@@ -4209,6 +4317,9 @@ gettext("Status");
 
 /* templates/manage/projects.tpl.html */
 gettext("Actions");
+
+/* templates/manage/projects.tpl.html */
+gettext("update this entry");
 
 /* templates/manage/projects.tpl.html */
 gettext("Edit Releases");
@@ -4337,6 +4448,9 @@ gettext("Manage Reminder Actions");
 gettext("view reminder details");
 
 /* templates/manage/reminder_actions.tpl.html */
+gettext("Reminder");
+
+/* templates/manage/reminder_actions.tpl.html */
 gettext("An error occurred while trying to add the new action.");
 
 /* templates/manage/reminder_actions.tpl.html */
@@ -4424,6 +4538,9 @@ gettext("Please select at least one of the actions.");
 gettext("This action will remove the selected entries.");
 
 /* templates/manage/reminder_actions.tpl.html */
+gettext("All");
+
+/* templates/manage/reminder_actions.tpl.html */
 gettext("Rank");
 
 /* templates/manage/reminder_actions.tpl.html */
@@ -4434,6 +4551,9 @@ gettext("Type");
 
 /* templates/manage/reminder_actions.tpl.html */
 gettext("Details");
+
+/* templates/manage/reminder_actions.tpl.html */
+gettext("update this entry");
 
 /* templates/manage/reminder_actions.tpl.html */
 gettext("No actions could be found.");
@@ -4671,6 +4791,9 @@ gettext("Please select at least one of the reminders.");
 
 /* templates/manage/reminders.tpl.html */
 gettext("This action will remove the selected entries.");
+
+/* templates/manage/reminders.tpl.html */
+gettext("All");
 
 /* templates/manage/reminders.tpl.html */
 gettext("ID");
@@ -5045,10 +5168,10 @@ gettext("All");
 gettext("Delete");
 
 /* templates/manage/time_tracking.tpl.html */
-gettext("Note:");
+gettext("Note");
 
 /* templates/manage/time_tracking.tpl.html */
-gettext("'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories are\n                    required by Eventum and cannot be deleted.");
+gettext("'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories are required by Eventum and cannot be deleted.");
 
 /* templates/manage/users.tpl.html */
 gettext("Please enter the email of this user.");
@@ -5243,13 +5366,10 @@ gettext("Please enter a valid issue ID.");
 gettext("Switch");
 
 /* templates/navigation.tpl.html */
-gettext("CLOCKED");
+gettext("CLOCKED IN");
 
 /* templates/navigation.tpl.html */
-gettext("IN");
-
-/* templates/navigation.tpl.html */
-gettext("OUT");
+gettext("CLOCKED OUT");
 
 /* templates/navigation.tpl.html */
 gettext("modify your account details and preferences");
@@ -5261,13 +5381,16 @@ gettext("Preferences");
 gettext("change your account clocked-in status");
 
 /* templates/navigation.tpl.html */
-gettext("Clock");
+gettext("Clock Out");
 
 /* templates/navigation.tpl.html */
-gettext("Out");
+gettext("Clock In");
 
 /* templates/navigation.tpl.html */
-gettext("In");
+gettext("keywords");
+
+/* templates/navigation.tpl.html */
+gettext("keywords");
 
 /* templates/navigation.tpl.html */
 gettext("keywords");
@@ -5309,7 +5432,10 @@ gettext("Report a New Issue");
 gettext("Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.");
 
 /* templates/new.tpl.html */
-gettext("Warning: your issue is currently quarantined.\n                Please see the <a href=\"faq.php\">FAQ</a> for information regarding quarantined issues.");
+gettext("Warning: your issue is currently quarantined.");
+
+/* templates/new.tpl.html */
+gettext("Please see the <a href=\"%1\">FAQ</a> for information regarding quarantined issues.");
 
 /* templates/new.tpl.html */
 gettext("Category");
@@ -5433,6 +5559,12 @@ gettext("reply to this note");
 
 /* templates/notes.tpl.html */
 gettext("delete");
+
+/* templates/notes.tpl.html */
+gettext("view note details");
+
+/* templates/notes.tpl.html */
+gettext("view note details");
 
 /* templates/notes.tpl.html */
 gettext("convert note");
@@ -5631,30 +5763,6 @@ gettext("Date");
 
 /* templates/notifications/files.tpl.text */
 gettext("Files");
-
-/* templates/notifications/files.tpl.text */
-gettext("Description");
-
-/* templates/notifications/files.tpl.text */
-gettext("These are the current issue details");
-
-/* templates/notifications/files.tpl.text */
-gettext("ID");
-
-/* templates/notifications/files.tpl.text */
-gettext("Summary");
-
-/* templates/notifications/files.tpl.text */
-gettext("Status");
-
-/* templates/notifications/files.tpl.text */
-gettext("Project");
-
-/* templates/notifications/files.tpl.text */
-gettext("Reported By");
-
-/* templates/notifications/files.tpl.text */
-gettext("Priority");
 
 /* templates/notifications/files.tpl.text */
 gettext("Description");
@@ -6188,13 +6296,7 @@ gettext("Clear Selections");
 gettext("Add Extra Recipients To Notification List?");
 
 /* templates/post_note.tpl.html */
-gettext("yes");
-
-/* templates/post_note.tpl.html */
 gettext("Yes");
-
-/* templates/post_note.tpl.html */
-gettext("no");
 
 /* templates/post_note.tpl.html */
 gettext("No");
@@ -6210,9 +6312,6 @@ gettext("Post Internal Note");
 
 /* templates/post_note.tpl.html */
 gettext("Cancel");
-
-/* templates/post_note.tpl.html */
-gettext("yes");
 
 /* templates/post_note.tpl.html */
 gettext("Add Email Signature");
@@ -6413,6 +6512,9 @@ gettext("any");
 gettext("quick search bar");
 
 /* templates/quick_filter_form.tpl.html */
+gettext("create advanced searches");
+
+/* templates/quick_filter_form.tpl.html */
 gettext("Advanced Search");
 
 /* templates/quick_filter_form.tpl.html */
@@ -6590,7 +6692,7 @@ gettext("Assignee");
 gettext("Generate");
 
 /* templates/reports/custom_fields.tpl.html */
-gettext("Percentages may not add up to exactly 100% due to rounding");
+gettext("Percentages may not add up to exactly 100% due to rounding.");
 
 /* templates/reports/custom_fields.tpl.html */
 gettext("Issues/Customers matching criteria");
@@ -6617,6 +6719,9 @@ gettext("The current project does not have customer integration so this report c
 gettext("Customer Stats Report");
 
 /* templates/reports/customer_stats.tpl.html */
+gettext("Support Level");
+
+/* templates/reports/customer_stats.tpl.html */
 gettext("Date Range");
 
 /* templates/reports/customer_stats.tpl.html */
@@ -6636,6 +6741,9 @@ gettext("day");
 
 /* templates/reports/customer_stats.tpl.html */
 gettext("To");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Clear Date");
 
 /* templates/reports/customer_stats.tpl.html */
 gettext("Options");
@@ -6755,7 +6863,10 @@ gettext("Avg");
 gettext("Med");
 
 /* templates/reports/customer_stats.tpl.html */
-gettext("Refers to the number of issues in eventum for the given support level or customer.\n    Average and median counts do not include customers who have never opened an issue.");
+gettext("Refers to the number of issues in eventum for the given support level or customer.");
+
+/* templates/reports/customer_stats.tpl.html */
+gettext("Average and median counts do not include customers who have never opened an issue.");
 
 /* templates/reports/customer_stats.tpl.html */
 gettext("Refers to the number of emails sent by customers in eventum per issue. Does <b>not</b> include emails sent to general support mailbox.");
@@ -6796,6 +6907,12 @@ gettext("Time Spent");
 /* templates/reports/issue_user.tpl.html */
 gettext("Created");
 
+/* templates/reports/issue_user.tpl.html */
+gettext("view issue details");
+
+/* templates/reports/issue_user.tpl.html */
+gettext("view issue details");
+
 /* templates/reports/open_issues.tpl.html */
 gettext("Showing all open issues older than ");
 
@@ -6831,6 +6948,12 @@ gettext("Last Update");
 
 /* templates/reports/open_issues.tpl.html */
 gettext("Last Outgoing Msg");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("view issue details");
+
+/* templates/reports/open_issues.tpl.html */
+gettext("view issue details");
 
 /* templates/reports/recent_activity.tpl.html */
 gettext("Recent Activity");
@@ -7259,7 +7382,7 @@ gettext("End");
 gettext("Generate");
 
 /* templates/reports/workload_date_range.tpl.html */
-gettext(" Warning: Some type and interval options, combined with large <br />\n    date ranges can produce extremely large graphs.");
+gettext(" Warning: Some type and interval options, combined with large <br />date ranges can produce extremely large graphs.");
 
 /* templates/reports/workload_date_range.tpl.html */
 gettext("Day");
@@ -7316,7 +7439,10 @@ gettext("Based on all issues recorded in Eventum since start to present.");
 gettext("Workload by Time of day");
 
 /* templates/reports/workload_time_period.tpl.html */
-gettext("Based on all issues recorded in Eventum since start to present.\n        Actions are any event that shows up in the history of an issue, such as a user or a developer updating an issue, uploading a file, sending an email, etc.");
+gettext("Based on all issues recorded in Eventum since start to present.");
+
+/* templates/reports/workload_time_period.tpl.html */
+gettext("Actions are any event that shows up in the history of an issue, such as a user or a developer updating an issue, uploading a file, sending an email, etc.");
 
 /* templates/reports/workload_time_period.tpl.html */
 gettext("Time Period");
@@ -7457,7 +7583,10 @@ gettext("Continue");
 gettext("An error occurred while trying to run your query");
 
 /* templates/send.tpl.html */
-gettext("Sorry, but the email could not be queued. This might be related to problems with your SMTP account settings.\n  Please contact the administrator of this application for further assistance.");
+gettext("Sorry, but the email could not be queued. This might be related to problems with your SMTP account settings.");
+
+/* templates/send.tpl.html */
+gettext("Please contact the administrator of this application for further assistance.");
 
 /* templates/send.tpl.html */
 gettext("Thank you, the email was queued to be sent successfully.");
@@ -7511,7 +7640,10 @@ gettext("Send Email");
 gettext("An error occurred while trying to run your query");
 
 /* templates/send.tpl.html */
-gettext("Sorry, but the email could not be sent. This might be related to problems with your SMTP account settings.\n              Please contact the administrator of this application for assistance.");
+gettext("Sorry, but the email could not be sent. This might be related to problems with your SMTP account settings.");
+
+/* templates/send.tpl.html */
+gettext("Please contact the administrator of this application for assistance.");
 
 /* templates/send.tpl.html */
 gettext("Thank you, the email was sent successfully.");
@@ -7578,6 +7710,171 @@ gettext("Save as Draft");
 
 /* templates/send.tpl.html */
 gettext("Required fields");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the hostname for the server of this installation of Eventum.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the relative URL of this installation of Eventum.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the database hostname for this installation of Eventum.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the database name for this installation of Eventum.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the database username for this installation of Eventum.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the alternate username for this installation of Eventum.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the sender address that will be used for all outgoing notification emails.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter a valid email address for the sender address.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the SMTP server hostname.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the SMTP server port number.");
+
+/* templates/setup.tpl.html */
+gettext("Please indicate whether the SMTP server requires authentication or not.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the SMTP server username.");
+
+/* templates/setup.tpl.html */
+gettext("Please enter the SMTP server password.");
+
+/* templates/setup.tpl.html */
+gettext("An Error Was Found");
+
+/* templates/setup.tpl.html */
+gettext("Details:");
+
+/* templates/setup.tpl.html */
+gettext("Thank You, Eventum is now properly setup and ready to be used. Open the following URL to login on it for the first time:");
+
+/* templates/setup.tpl.html */
+gettext("Email Address");
+
+/* templates/setup.tpl.html */
+gettext("(literally)");
+
+/* templates/setup.tpl.html */
+gettext("Password");
+
+/* templates/setup.tpl.html */
+gettext("NOTE: For security reasons it is highly recommended that the default password be changed as soon as possible.");
+
+/* templates/setup.tpl.html */
+gettext("Remember to protect your '%1' directory (like changing its permissions) to prevent anyone else from changing your existing Eventum configuration.");
+
+/* templates/setup.tpl.html */
+gettext("In order to check if your permissions are setup correctly visit the");
+
+/* templates/setup.tpl.html */
+gettext("Check Permissions");
+
+/* templates/setup.tpl.html */
+gettext("page");
+
+/* templates/setup.tpl.html */
+gettext("WARNING: If you want to use the email integration features to download messages saved on a IMAP/POP3 server, you will need to enable the IMAP extension in your PHP.INI configuration file. See the PHP manual for more details.");
+
+/* templates/setup.tpl.html */
+gettext("Eventum Installation");
+
+/* templates/setup.tpl.html */
+gettext("Server Hostname:");
+
+/* templates/setup.tpl.html */
+gettext("SSL Server");
+
+/* templates/setup.tpl.html */
+gettext("Eventum Relative URL:");
+
+/* templates/setup.tpl.html */
+gettext("MySQL Server Hostname:");
+
+/* templates/setup.tpl.html */
+gettext("MySQL Database:");
+
+/* templates/setup.tpl.html */
+gettext("MySQL Table Prefix:");
+
+/* templates/setup.tpl.html */
+gettext("Drop Tables If They Already Exist");
+
+/* templates/setup.tpl.html */
+gettext("MySQL Username:");
+
+/* templates/setup.tpl.html */
+gettext("Note");
+
+/* templates/setup.tpl.html */
+gettext("This user requires permission to create and drop tables in the specified database.");
+
+/* templates/setup.tpl.html */
+gettext("This value is used only for these installation procedures, and is not saved if you provide a separate user below.");
+
+/* templates/setup.tpl.html */
+gettext("MySQL Password:");
+
+/* templates/setup.tpl.html */
+gettext("Use a Separate MySQL User for Normal Eventum Use");
+
+/* templates/setup.tpl.html */
+gettext("Enter the details below:");
+
+/* templates/setup.tpl.html */
+gettext("Username:");
+
+/* templates/setup.tpl.html */
+gettext("Password:");
+
+/* templates/setup.tpl.html */
+gettext("Create User and Permissions");
+
+/* templates/setup.tpl.html */
+gettext("SMTP Configuration");
+
+/* templates/setup.tpl.html */
+gettext("The SMTP (outgoing mail) configuration is needed to make sure emails are properly sent when creating new users/projects.");
+
+/* templates/setup.tpl.html */
+gettext("must be a valid email address");
+
+/* templates/setup.tpl.html */
+gettext("Hostname:");
+
+/* templates/setup.tpl.html */
+gettext("Port:");
+
+/* templates/setup.tpl.html */
+gettext("Requires Authentication?");
+
+/* templates/setup.tpl.html */
+gettext("Yes");
+
+/* templates/setup.tpl.html */
+gettext("No");
+
+/* templates/setup.tpl.html */
+gettext("Username:");
+
+/* templates/setup.tpl.html */
+gettext("Password:");
+
+/* templates/setup.tpl.html */
+gettext("Start Installation");
+
+/* templates/setup.tpl.html */
+gettext("Required Fields");
 
 /* templates/signup.tpl.html */
 gettext("Sorry, but this feature has been disabled by the administrator.");
@@ -7685,6 +7982,12 @@ gettext("reply to this email");
 gettext("sent to notification list");
 
 /* templates/support_emails.tpl.html */
+gettext("view email details");
+
+/* templates/support_emails.tpl.html */
+gettext("view email details");
+
+/* templates/support_emails.tpl.html */
 gettext("No associated emails could be found.");
 
 /* templates/support_emails.tpl.html */
@@ -7736,16 +8039,19 @@ gettext("No time tracking entries could be found.");
 gettext("Add Time Entry");
 
 /* templates/tips/canned_responses.tpl.html */
-gettext("You can create canned email responses and use them when sending emails from the\nsystem. That is an useful feature when dealing with lots of issues that relate\nto the same problem.\n<br /><br />\nIf no canned email responses are available through the Email window, please\ncontact an user with the appropriate permissions (administrator or manager) to\nadd some for you.");
+gettext("You can create canned email responses and use them when sending emails from the system. That is an useful feature when dealing with lots of issues that relate to the same problem.");
+
+/* templates/tips/canned_responses.tpl.html */
+gettext("If no canned email responses are available through the Email window, please contact an user with the appropriate permissions (administrator or manager) to add some for you.");
 
 /* templates/tips/custom_queries.tpl.html */
-gettext("You can create as many custom queries as you want through the\n<a class=\"link\" href=\"%1\">Advanced Search</a> interface.\nThere is also the ability to save and modify custom queries and load\nthem quickly from the Issue Listing screen.");
+gettext("You can create as many custom queries as you want through the <a class=\"link\" href=\"%1\">Advanced Search</a> interface. There is also the ability to save and modify custom queries and load them quickly from the Issue Listing screen.");
 
 /* templates/tips/keyboard_shortcuts.tpl.html */
-gettext("You can switch to the 'Search' or 'Go' boxes quickly by using a\nspecial shortcut keystroke in your keyboard.");
+gettext("You can switch to the 'Search' or 'Go' boxes quickly by using a special shortcut keystroke in your keyboard.");
 
 /* templates/tips/keyboard_shortcuts.tpl.html */
-gettext("Use the following shortcuts:");
+gettext("Use the following shortcuts");
 
 /* templates/tips/keyboard_shortcuts.tpl.html */
 gettext("ALT-3");
@@ -7814,7 +8120,10 @@ gettext("Please select an assignment for this issue");
 gettext("Warning: All changes to this issue will be lost if you continue and close this issue.");
 
 /* templates/update_form.tpl.html */
-gettext("Note: Project automatically switched to '%1' from '%2'.");
+gettext("Note");
+
+/* templates/update_form.tpl.html */
+gettext("Project automatically switched to '%1' from '%2'.");
 
 /* templates/update_form.tpl.html */
 gettext("Update Issue Overview");
@@ -8006,6 +8315,12 @@ gettext("Subject");
 gettext("Attachments");
 
 /* templates/view_email.tpl.html */
+gettext("download file");
+
+/* templates/view_email.tpl.html */
+gettext("download file");
+
+/* templates/view_email.tpl.html */
 gettext("Message");
 
 /* templates/view_email.tpl.html */
@@ -8060,13 +8375,16 @@ gettext("Please see the <a class=\"link\" href=\"%1\">FAQ</a> for information re
 gettext("Remove Quarantine");
 
 /* templates/view_form.tpl.html */
-gettext("Note: ");
+gettext("Note");
 
 /* templates/view_form.tpl.html */
 gettext("This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.");
 
 /* templates/view_form.tpl.html */
 gettext("Issue Overview");
+
+/* templates/view_form.tpl.html */
+gettext("view issue details");
 
 /* templates/view_form.tpl.html */
 gettext("edit the authorized repliers list for this issue");
@@ -8141,6 +8459,9 @@ gettext("Scheduled Release");
 gettext("Associated Issues");
 
 /* templates/view_form.tpl.html */
+gettext("issue");
+
+/* templates/view_form.tpl.html */
 gettext("No issues associated");
 
 /* templates/view_form.tpl.html */
@@ -8171,7 +8492,13 @@ gettext("Duplicates");
 gettext("Duplicate of");
 
 /* templates/view_form.tpl.html */
+gettext("issue");
+
+/* templates/view_form.tpl.html */
 gettext("Duplicated by");
+
+/* templates/view_form.tpl.html */
+gettext("issue");
 
 /* templates/view_form.tpl.html */
 gettext("Assignment");
@@ -8243,7 +8570,10 @@ gettext("Close");
 gettext("Close");
 
 /* templates/view_note.tpl.html */
-gettext("The specified note does not exist. <br />\n      It could have been converted to an email.");
+gettext("The specified note does not exist.");
+
+/* templates/view_note.tpl.html */
+gettext("It could have been converted to an email.");
 
 /* templates/view_note.tpl.html */
 gettext("Close");
