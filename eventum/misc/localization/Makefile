@@ -1,5 +1,5 @@
 # Makefile for Eventum po files.
-# (c) 2007 Elan Ruusam√e <glen@delfi.ee>
+# (c) 2007 Elan Ruusam√§e <glen@delfi.ee>
 
 SVN_URL := svn://eventum.mysql.org/eventum-gpl/trunk/eventum
 ALL_LINGUAS := de en es fi fr it nl pl ru sv
