@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-19 22:20+0300\n"
+"POT-Creation-Date: 2008-09-30 01:57+0300\n"
 "PO-Revision-Date: 2007-11-10 03:02+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
@@ -171,8 +171,8 @@ msgid "Summary"
 msgstr "Sammanfattning"
 
 #: misc/localization/eventum.c include/class.display_column.php:202
-#: include/class.filter.php:601 include/class.notification.php:622
-#: include/class.notification.php:623 include/class.project.php:1102
+#: include/class.filter.php:729 include/class.notification.php:622
+#: include/class.notification.php:623 include/class.project.php:1105
 msgid "Category"
 msgstr "Kategori"
 
@@ -204,7 +204,7 @@ msgstr "Vänligen välj vilka poster som skall tas bort."
 msgid "This action will permanently delete the selected entries."
 msgstr "Den här åtgärden kommer ta bort valda poster."
 
-#: misc/localization/eventum.c include/class.filter.php:591
+#: misc/localization/eventum.c include/class.filter.php:719
 msgid "Keyword(s)"
 msgstr "Nyckelord"
 
@@ -219,7 +219,7 @@ msgid "All Text (emails, notes, etc)"
 msgstr "All Text(e-post, noteringar, etc)"
 
 #: misc/localization/eventum.c include/class.display_column.php:188
-#: include/class.filter.php:596
+#: include/class.filter.php:724
 msgid "Assigned"
 msgstr "Tilldelad"
 
@@ -228,19 +228,19 @@ msgid "any"
 msgstr "alla"
 
 #: misc/localization/eventum.c include/class.display_column.php:173
-#: include/class.filter.php:586 include/class.notification.php:630
-#: include/class.notification.php:631 include/class.project.php:1103
+#: include/class.filter.php:714 include/class.notification.php:630
+#: include/class.notification.php:631 include/class.project.php:1106
 msgid "Priority"
 msgstr "Prioritet"
 
 #: misc/localization/eventum.c include/class.display_column.php:214
-#: include/class.filter.php:606 include/class.notification.php:634
+#: include/class.filter.php:734 include/class.notification.php:634
 #: include/class.notification.php:635
 msgid "Status"
 msgstr "Status"
 
 #: misc/localization/eventum.c include/class.display_column.php:179
-#: include/class.filter.php:668 include/class.user.php:1520
+#: include/class.filter.php:796 include/class.user.php:1520
 msgid "Reporter"
 msgstr "Rapportör"
 
@@ -249,24 +249,25 @@ msgid "Any"
 msgstr "Alla"
 
 #: misc/localization/eventum.c include/class.display_column.php:205
-#: include/class.filter.php:611 include/class.notification.php:626
+#: include/class.filter.php:739 include/class.notification.php:626
 #: include/class.notification.php:627
 msgid "Release"
 msgstr "Version"
 
-#: misc/localization/eventum.c include/class.filter.php:652
+#: misc/localization/eventum.c include/class.filter.php:780
 msgid "Hide Closed Issues"
 msgstr "Göm stängda ärenden"
 
-#: misc/localization/eventum.c
-msgid "Rows Per Page:"
+#: misc/localization/eventum.c include/class.filter.php:768
+#, fuzzy
+msgid "Rows Per Page"
 msgstr "Rader per sida:"
 
 #: misc/localization/eventum.c
 msgid "ALL"
 msgstr "ALLT"
 
-#: misc/localization/eventum.c include/class.filter.php:644
+#: misc/localization/eventum.c include/class.filter.php:772
 msgid "Sort By"
 msgstr "Sortera efter"
 
@@ -278,8 +279,9 @@ msgstr "Ärende ID"
 msgid "Last Action Date"
 msgstr "Senaste uppdateringsdatum"
 
-#: misc/localization/eventum.c
-msgid "Sort Order:"
+#: misc/localization/eventum.c include/class.filter.php:776
+#, fuzzy
+msgid "Sort Order"
 msgstr "Sorteringsordning:"
 
 #: misc/localization/eventum.c
@@ -291,14 +293,15 @@ msgid "descending"
 msgstr "fallande"
 
 #: misc/localization/eventum.c
-msgid "Show Issues in Which I Am:"
+#, fuzzy
+msgid "Show Issues in Which I Am"
 msgstr "Visa ärenden för vilka jag är:"
 
-#: misc/localization/eventum.c include/class.filter.php:656
+#: misc/localization/eventum.c include/class.filter.php:784
 msgid "Authorized to Send Emails"
 msgstr "Behörig att skicka e-post"
 
-#: misc/localization/eventum.c include/class.filter.php:660
+#: misc/localization/eventum.c include/class.filter.php:788
 msgid "In Notification List"
 msgstr "I notifieringslista"
 
@@ -361,6 +364,20 @@ msgstr "Status stängd"
 #: misc/localization/eventum.c
 msgid "Show additional fields to search by"
 msgstr "Visa ytterligare fält att söka med"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Equals"
+msgstr "Epostmeddelanden"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Greater or Equal"
+msgstr "Större än"
+
+#: misc/localization/eventum.c
+msgid "Less or Equal"
+msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Run Search"
@@ -594,8 +611,23 @@ msgid "Date"
 msgstr "Datum"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "download file"
+msgstr "Ladda upp fil"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "delete file"
+msgstr "radera"
+
+#: misc/localization/eventum.c
 msgid "delete"
 msgstr "radera"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "delete attachment"
+msgstr "Bilagor"
 
 #: misc/localization/eventum.c
 msgid "No attachments could be found."
@@ -661,7 +693,7 @@ msgstr "Stäng"
 msgid "Bulk Update Tool"
 msgstr "Massuppdateringsverktyg"
 
-#: misc/localization/eventum.c include/class.project.php:1104
+#: misc/localization/eventum.c include/class.project.php:1107
 msgid "Assignment"
 msgstr "Tilldelning"
 
@@ -681,7 +713,7 @@ msgstr "Användare"
 msgid "Module / Directory"
 msgstr "Module / Katalog"
 
-#: misc/localization/eventum.c include/class.project.php:1108
+#: misc/localization/eventum.c include/class.project.php:1111
 msgid "File"
 msgstr "Fil"
 
@@ -781,27 +813,21 @@ msgid "Close Issue"
 msgstr "Stäng Ärende"
 
 #: misc/localization/eventum.c
-msgid "Issue ID:"
-msgstr "Ärende ID:"
-
-#: misc/localization/eventum.c
-msgid "Status:"
-msgstr "Status:"
-
-#: misc/localization/eventum.c
 msgid "Please choose a status"
 msgstr "Vänligen välj en status"
 
-#: misc/localization/eventum.c
-msgid "Resolution:"
-msgstr "Lösning:"
+#: misc/localization/eventum.c include/class.notification.php:638
+#: include/class.notification.php:639
+msgid "Resolution"
+msgstr "Lösning"
 
 #: misc/localization/eventum.c
 msgid "Send Notification About Issue Being Closed?"
 msgstr "Skicka notifiering om att ärendet stängts?"
 
 #: misc/localization/eventum.c
-msgid "Send Notification To:"
+#, fuzzy
+msgid "Send Notification To"
 msgstr "Skicka notifiering till:"
 
 #: misc/localization/eventum.c
@@ -809,19 +835,18 @@ msgid "Internal Users"
 msgstr "Interna användare"
 
 #: misc/localization/eventum.c
-msgid "Reason for closing issue:"
+#, fuzzy
+msgid "Reason for closing issue"
 msgstr "Anledning till att ärendet stängs:"
 
 #: misc/localization/eventum.c
-msgid "Incident Types to Redeem:"
+#, fuzzy
+msgid "Incident Types to Redeem"
 msgstr "Ärendetyper att återskapa:"
 
 #: misc/localization/eventum.c
-msgid "Time Spent:"
-msgstr "Nedlagd tid:"
-
-#: misc/localization/eventum.c
-msgid "Time Category:"
+#, fuzzy
+msgid "Time Category"
 msgstr "Tidskategori:"
 
 #: misc/localization/eventum.c
@@ -845,29 +870,28 @@ msgid "Password Confirmation Success"
 msgstr "Lösenordsbekräftelse Lyckades"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"The provided trial account email address could not be\n"
-"confirmed. Please contact the local Technical Support staff for\n"
-"further assistance."
+"The provided trial account email address could not be confirmed. Please "
+"contact the local Technical Support staff for further assistance."
 msgstr ""
 "Det tillhandahållna utvärderingskontots e-postadress kunde inte \n"
 "bekräftas. Vänligen kontakta supporten för ytterligare info. "
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"The provided trial account email address could not be\n"
-"            found. Please contact the local Technical Support staff for\n"
-"            further assistance."
+"The provided trial account email address could not be found. Please contact "
+"the local Technical Support staff for further assistance."
 msgstr ""
-"Det tillhandahållna utvärderingskontots e-postadress\n"
-"             kunde inte hittas. Vänligen kontakta support\n"
-"             för ytterligare info."
+"Det tillhandahållna utvärderingskontots e-postadress kunde inte \n"
+"bekräftas. Vänligen kontakta supporten för ytterligare info. "
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"The provided trial account encrypted hash could not be\n"
-"            authenticated. Please contact the local Technical\n"
-"            Support staff for further assistance."
+"The provided trial account encrypted hash could not be authenticated. Please "
+"contact the local Technical Support staff for further assistance."
 msgstr ""
 "Det tillhandahållna utvärderingskontots krypterade\n"
 "           hash kunde inte \n"
@@ -929,9 +953,14 @@ msgid "Convert to Draft and Save For Later Editing"
 msgstr "Konvertera til utkast och spara för att editera senare"
 
 #: misc/localization/eventum.c
+msgid "ALERT:"
+msgstr "OBS:"
+
+#: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"<b>ALERT:</b> Email will be re-sent from your name, NOT original sender's, "
-"and without any attachments."
+"Email will be re-sent from your name, NOT original sender's, and without any "
+"attachments."
 msgstr ""
 "<b>OBS:</b> E-post kommer återsändas från ditt namn, INTE orginalavsändare, "
 "och utan bilagor. "
@@ -939,10 +968,6 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid "Convert to Email and Send Now"
 msgstr "Konvertera till e-post och skicka nu"
-
-#: misc/localization/eventum.c
-msgid "ALERT:"
-msgstr "OBS:"
 
 #: misc/localization/eventum.c
 msgid "Email will be re-sent from original sender, including any attachments."
@@ -956,55 +981,6 @@ msgstr "Lägga till avsändare till listan över behöriga besvarare?"
 #: misc/localization/eventum.c
 msgid "Current filters:"
 msgstr "Nuvarande filter:"
-
-#: misc/localization/eventum.c
-msgid "Fulltext"
-msgstr "Fulltext"
-
-#: misc/localization/eventum.c
-msgid "In Past %1 hours"
-msgstr "Senaste %1 timmarna"
-
-#: misc/localization/eventum.c
-msgid "Is NULL"
-msgstr "Är NULL"
-
-#: misc/localization/eventum.c
-msgid "Is between %1-%2-%3 AND %4-%5-%6"
-msgstr "Är mellan %1-%2-%3 och %4-%5-%6"
-
-#: misc/localization/eventum.c
-msgid "Is greater than %1-%2-%3"
-msgstr "Är större än %1-%2-%3"
-
-#: misc/localization/eventum.c
-msgid "Is less than %1-%2-%3"
-msgstr "Är mindre än %1-%2-%3"
-
-#: misc/localization/eventum.c adv_search.php:61 list.php:79
-msgid "un-assigned"
-msgstr "ej tilldelade"
-
-#: misc/localization/eventum.c adv_search.php:62 list.php:80
-msgid "myself and un-assigned"
-msgstr "mina och ej tilldelade"
-
-#: misc/localization/eventum.c adv_search.php:65 list.php:83
-msgid "myself and my group"
-msgstr "mina och min grupp"
-
-#: misc/localization/eventum.c adv_search.php:66 list.php:84
-msgid "myself, un-assigned and my group"
-msgstr "mina, ej tilldelade och min grupp"
-
-#: misc/localization/eventum.c include/class.display_column.php:185
-#: include/class.project.php:1107 list.php:88
-msgid "Group"
-msgstr "Grupp"
-
-#: misc/localization/eventum.c include/class.misc.php:713
-msgid "Yes"
-msgstr "Ja"
 
 #: misc/localization/eventum.c
 msgid "None"
@@ -1169,6 +1145,10 @@ msgid "Expiration Date"
 msgstr "Exportera data:"
 
 #: misc/localization/eventum.c
+msgid "select this contact"
+msgstr ""
+
+#: misc/localization/eventum.c
 #, fuzzy
 msgid "No results could be found"
 msgstr "Inga ärenden kunde hittas."
@@ -1199,6 +1179,10 @@ msgstr "Kund"
 #, fuzzy
 msgid "Add Primary Contact to Notification List? *"
 msgstr "Lägg till extra mottagare till notifieringslistan?"
+
+#: misc/localization/eventum.c include/class.misc.php:713
+msgid "Yes"
+msgstr "Ja"
 
 #: misc/localization/eventum.c include/class.misc.php:715
 msgid "No"
@@ -1236,9 +1220,10 @@ msgid "Sorry, an error happened while trying to run your query."
 msgstr "Tyvärr, ett fel uppstod vid försök att ställa din fråga."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Thank you, the issue was marked as a duplicate successfully. Please choose \n"
-"            from one of the options below:"
+"Thank you, the issue was marked as a duplicate successfully. Please choose "
+"from one of the options below:"
 msgstr ""
 "Tack, ärendet har markerats som dublett. Var vänlig \n"
 "              välj ett av alternativen nedan: "
@@ -1252,7 +1237,8 @@ msgstr ""
 "5 sekunder."
 
 #: misc/localization/eventum.c
-msgid "Please choose the duplicated issue."
+#, fuzzy
+msgid "Please enter the ID of the duplicated issue."
 msgstr "Var vänlig välj det dubblerade ärendet."
 
 #: misc/localization/eventum.c
@@ -1260,12 +1246,12 @@ msgid "Mark Issue as Duplicate"
 msgstr "Markera ärendet som dublett"
 
 #: misc/localization/eventum.c
-msgid "Duplicated Issue:"
-msgstr "Dubblerat ärende:"
+msgid "Issue ID:"
+msgstr "Ärende ID:"
 
 #: misc/localization/eventum.c
-msgid "Please select an issue"
-msgstr "Var vänlig välj ett ärende"
+msgid "Duplicated Issue:"
+msgstr "Dubblerat ärende:"
 
 #: misc/localization/eventum.c
 msgid "Comments:"
@@ -1294,6 +1280,10 @@ msgstr "Till"
 #: misc/localization/eventum.c
 msgid "Last Updated Date"
 msgstr "Senast uppdateringsdatum"
+
+#: misc/localization/eventum.c
+msgid "view email details"
+msgstr "visa e-postdetaljer"
 
 #: misc/localization/eventum.c
 msgid "No email drafts could be found."
@@ -1356,6 +1346,11 @@ msgid "Please choose which emails need to be associated."
 msgstr "Var vänlig välj vilka e-postmeddelanden som skall associeras."
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Please enter an issue to associate these emails with."
+msgstr "Vänligen ange ämne för e-postmeddelandet"
+
+#: misc/localization/eventum.c
 msgid "Please choose which emails need to be marked as deleted."
 msgstr ""
 "Var vänlig välj vilka e-postmeddelanden som skall markeras som borttagna."
@@ -1413,24 +1408,21 @@ msgid "Empty Subject Header"
 msgstr "Töm meddelandehuvud"
 
 #: misc/localization/eventum.c
-msgid "view email details"
-msgstr "visa e-postdetaljer"
-
-#: misc/localization/eventum.c
 msgid "No emails could be found."
 msgstr "Inga e-postmeddelanden hittades."
-
-#: misc/localization/eventum.c
-msgid "Associate"
-msgstr "Associera"
 
 #: misc/localization/eventum.c include/class.notification.php:1107
 msgid "New Issue"
 msgstr "Nytt Ärende"
 
 #: misc/localization/eventum.c
-msgid "lookup issues by their summaries"
-msgstr "sök upp ärenden efter deras sammanfattningar"
+#, fuzzy
+msgid "Existing Issue"
+msgstr "Skapa påminnelse:"
+
+#: misc/localization/eventum.c
+msgid "Associate"
+msgstr "Associera"
 
 #: misc/localization/eventum.c
 msgid "Set"
@@ -1458,6 +1450,10 @@ msgstr "felaktighet upptäckt"
 
 #: misc/localization/eventum.c
 msgid "Expand all collapsed cells"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Collapse all expanded cells"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -1517,7 +1513,7 @@ msgstr "Publik"
 msgid "visible to all"
 msgstr "Synlig för alla"
 
-#: misc/localization/eventum.c include/class.project.php:1109
+#: misc/localization/eventum.c include/class.project.php:1112
 msgid "Private"
 msgstr "Privat"
 
@@ -1531,7 +1527,7 @@ msgstr "Filnamn"
 
 #: misc/localization/eventum.c
 #, fuzzy
-msgid "ote: The current maximum allowed upload file size is"
+msgid "Note: The current maximum allowed upload file size is"
 msgstr "Notera: den nuvarande tillåtna maxstorleken för uppladdade filer är"
 
 #: misc/localization/eventum.c
@@ -1574,10 +1570,10 @@ msgstr ""
 " följ instruktionerna i meddelandet och bekräfta begäran om lösenord."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Error: Your user status is currently set as inactive. Please\n"
-"              contact your local system administrator for further "
-"information."
+"Error: Your user status is currently set as inactive. Please contact your "
+"local system administrator for further information."
 msgstr ""
 "Fel: din användare är just nu satt till inaktiv. Var vänlig \n"
 " kontakta din lokala systemadministratör \n"
@@ -1606,16 +1602,15 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"This page allows you to create and modify saved custom searches, which\n"
-"will save searches that can be executed from the Issue Listing screen."
+"This page allows you to create and modify saved custom searches, which will "
+"save searches that can be executed from the Issue Listing screen."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Most of the time users will want to run common used queries against\n"
-"the issue database, and this is a feature perfect for such situations,\n"
-"just create a custom query in this screen and run it from the Issue\n"
-"Listing page."
+"Most of the time users will want to run common used queries against the "
+"issue database, and this is a feature perfect for such situations, just "
+"create a custom query in this screen and run it from the Issue Listing page."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:119
@@ -1631,17 +1626,16 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid ""
 "You can set the minimum role required to view a column. For example, if you "
-"set the mimimum role for 'Category'\n"
-"to be 'Manager' anyone with a role lower then 'Manager' will not be able to "
-"see that column. To hide a column\n"
-"from all users, select 'Never Display'."
+"set the mimimum role for 'Category' to be 'Manager' anyone with a role lower "
+"then 'Manager' will not be able to see that column. To hide a column from "
+"all users, select 'Never Display'."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
 "Please note that some columns may be hidden even if you specify they should "
-"be shown. For example, if no releases\n"
-"are defined in the system the 'Release' column will be hidden."
+"be shown. For example, if no releases are defined in the system the "
+"'Release' column will be hidden."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:123
@@ -1651,19 +1645,24 @@ msgstr "Öppna listvyn för ärenden"
 
 #: misc/localization/eventum.c
 msgid ""
-"This page allows you to dynamically configure the values displayed in the \n"
-"\"Status Change Date\" column in the issue listing screen, for a particular\n"
-"project.\n"
-"<br /><br />\n"
-"This column is useful to display the amount of time since the last change\n"
-"in status for each issue. For example, if issue #1234 is set to status\n"
-"'Closed', you could configure Eventum to display the difference\n"
-"in time between \"now\" and the date value stored in the closed date\n"
-"field.\n"
-"<br /><br />\n"
-"Since the list of statuses available per project is dynamic and \n"
-"database driven, this manual process is needed to associate a status\n"
-"to a date field coming from the database."
+"This page allows you to dynamically configure the values displayed in the "
+"\"Status Change Date\" column in the issue listing screen, for a particular "
+"project."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid ""
+"This column is useful to display the amount of time since the last change in "
+"status for each issue. For example, if issue #1234 is set to status "
+"'Closed', you could configure Eventum to display the difference in time "
+"between \"now\" and the date value stored in the closed date field."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid ""
+"Since the list of statuses available per project is dynamic and database "
+"driven, this manual process is needed to associate a status to a date field "
+"coming from the database."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:107
@@ -1673,11 +1672,10 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid ""
 "To prevent inappropriate emails reaching the notification list, only users "
-"that are assigned\n"
-"to the issue are allowed to email through Eventum. If an un-authorized\n"
-"user sends an email to <i>%1</i> it is converted into a note and\n"
-"stored for later use. This note can be converted into an email at a later "
-"date."
+"that are assigned to the issue are allowed to email through Eventum. If an "
+"un-authorized user sends an email to <i>%1</i> it is converted into a note "
+"and stored for later use. This note can be converted into an email at a "
+"later date."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:115
@@ -1686,16 +1684,19 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"This page allows you to dynamically control which fields are displayed \n"
-"to users of a certain minimum role.\n"
-"For example, you could use this page so that only users of the role "
-"\"<i>standard user</i>\" \n"
-"(and higher ranking roles) are able to set the category or \n"
-"release fields when reporting a new issue."
+"This page allows you to dynamically control which fields are displayed to "
+"users of a certain minimum role."
 msgstr ""
 
 #: misc/localization/eventum.c
-msgid "Available Related Topics:"
+msgid ""
+"For example, you could use this page so that only users of the role "
+"\"<i>standard user</i>\" (and higher ranking roles) are able to set the "
+"category or release fields when reporting a new issue."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Available Related Topics"
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:111
@@ -1705,13 +1706,15 @@ msgstr "i minuter"
 
 #: misc/localization/eventum.c
 msgid ""
-"Link filters are used to replace text such as '%1' with an automatic\n"
-"link to some external resource. It uses regular expressions to replace the "
-"text.\n"
+"Link filters are used to replace text such as '%1' with an automatic link to "
+"some external resource. It uses regular expressions to replace the text. "
 "Specify the search pattern in the pattern field without delimiters. Specify "
-"the entire\n"
-"string you would like to use as a replacement with $x to insert the matched "
-"text."
+"the entire string you would like to use as a replacement with $x to insert "
+"the matched text."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "For example"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -1730,17 +1733,17 @@ msgstr "Prenuumeranter för ärendet."
 
 #: misc/localization/eventum.c
 msgid ""
-"The Issue Listing page uses a grid layout to simplify the manual\n"
-"search for issues in a project. You may sort for (almost) any column\n"
-"in this grid form, and users with the appropriate permissions may also\n"
-"assign selected issues to another user."
+"The Issue Listing page uses a grid layout to simplify the manual search for "
+"issues in a project. You may sort for (almost) any column in this grid form, "
+"and users with the appropriate permissions may also assign selected issues "
+"to another user."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The quick search table in the top of the screen helps the users find\n"
-"the issues they want quickly. More advanced searches may be created\n"
-"using the Advanced Search tool."
+"The quick search table in the top of the screen helps the users find the "
+"issues they want quickly. More advanced searches may be created using the "
+"Advanced Search tool."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -1749,8 +1752,8 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Please refer to the following help sections for more information on \n"
-"specific parts of the application:"
+"Please refer to the following help sections for more information on specific "
+"parts of the application:"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -1802,9 +1805,9 @@ msgstr "Skapa användare och behörighet"
 
 #: misc/localization/eventum.c
 msgid ""
-"This feature allows system users to subscribe to email notifications\n"
-"when changes are done to specific issues. The current actions that\n"
-"trigger email notifications are:"
+"This feature allows system users to subscribe to email notifications when "
+"changes are done to specific issues. The current actions that trigger email "
+"notifications are:"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -1831,15 +1834,15 @@ msgstr "Filer är bifogade"
 
 #: misc/localization/eventum.c
 msgid ""
-"System users may subscribe to the actions above for specific issues\n"
-"when they report new issues or by visiting the issue details screen \n"
-"and subscribing manually by using the 'Edit Notification List' link."
+"System users may subscribe to the actions above for specific issues when "
+"they report new issues or by visiting the issue details screen and "
+"subscribing manually by using the 'Edit Notification List' link."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The following is a brief overview of the available user permission levels \n"
-"in Eventum:"
+"The following is a brief overview of the available user permission levels in "
+"Eventum:"
 msgstr ""
 
 #: misc/localization/eventum.c include/class.user.php:1519
@@ -1848,27 +1851,23 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Allowed to view all issues on the projects associated to \n"
-"this user; cannot create new issues or edit existing issues."
+"Allowed to view all issues on the projects associated to this user; cannot "
+"create new issues or edit existing issues."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Allowed to view all issues on the projects associated to \n"
-"this user; Allowed to create new issues and to send emails on existing\n"
-"issues."
+"Allowed to view all issues on the projects associated to this user; Allowed "
+"to create new issues and to send emails on existing issues."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"This is a special permission level reserved for the Customer\n"
-"Integration API, which allows you to integrate Eventum with your CRM "
-"database. \n"
-"When this feature is enabled, this type of user can only access issues "
-"associated\n"
-"with their own customer. Allowed to create new issues, update and send "
-"emails\n"
-"to existing issues."
+"This is a special permission level reserved for the Customer Integration "
+"API, which allows you to integrate Eventum with your CRM database. When this "
+"feature is enabled, this type of user can only access issues associated with "
+"their own customer. Allowed to create new issues, update and send emails to "
+"existing issues."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.user.php:1522
@@ -1877,10 +1876,9 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Allowed to view all issues on the projects associated to\n"
-"this user; Allowed to create new issues, update existing issues, and to "
-"send\n"
-"emails and notes to existing issues."
+"Allowed to view all issues on the projects associated to this user; Allowed "
+"to create new issues, update existing issues, and to send emails and notes "
+"to existing issues."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.user.php:1523
@@ -1889,10 +1887,9 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Similar in every way to the above permission level, but \n"
-"this extra level allows you to segregate users who will deal with issues, "
-"and\n"
-"overall normal staff users who do not handle issues themselves."
+"Similar in every way to the above permission level, but this extra level "
+"allows you to segregate users who will deal with issues, and overall normal "
+"staff users who do not handle issues themselves."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.user.php:1524
@@ -1901,13 +1898,11 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Allowed to view all issues on the projects associated to\n"
-"this user; Allowed to create new issues, update existing issues, and to "
-"send\n"
-"emails and notes to existing issues. Also, this type of user is also allowed "
-"on\n"
-"the special administration section of Eventum to tweak most project-level \n"
-"features and options."
+"Allowed to view all issues on the projects associated to this user; Allowed "
+"to create new issues, update existing issues, and to send emails and notes "
+"to existing issues. Also, this type of user is also allowed on the special "
+"administration section of Eventum to tweak most project-level features and "
+"options."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.user.php:1525
@@ -1917,37 +1912,36 @@ msgstr "Administration"
 
 #: misc/localization/eventum.c
 msgid ""
-"This type of user has full access to Eventum, including\n"
-"the low level configuration parameters available through the administration\n"
-"interface."
+"This type of user has full access to Eventum, including the low level "
+"configuration parameters available through the administration interface."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"This screen allows users to change their appropriate full name, account\n"
-"password and email address. This address will be used by the system to\n"
-"send email notifications whenever details about issues you are \n"
-"subscribed to changes."
+"This screen allows users to change their appropriate full name, account "
+"password and email address. This address will be used by the system to send "
+"email notifications whenever details about issues you are subscribed to "
+"changes."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"You may also set the appropriate timezone where you live in this \n"
-"screen, and all of the software will adjust the dates displayed in\n"
-"the system accordingly."
+"You may also set the appropriate timezone where you live in this screen, and "
+"all of the software will adjust the dates displayed in the system "
+"accordingly."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The default options for email notifications are used to pre-select\n"
-"the notification related fields when you report a new issue, or \n"
-"subscribe manually for changes in the issue details page."
+"The default options for email notifications are used to pre-select the "
+"notification related fields when you report a new issue, or subscribe "
+"manually for changes in the issue details page."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"To report new issues, click in the 'Create Issue' link in the top of \n"
-"your browser window."
+"To report new issues, click in the 'Create Issue' link in the top of your "
+"browser window."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:51
@@ -1957,11 +1951,13 @@ msgstr "Tilldelning"
 
 #: misc/localization/eventum.c
 msgid ""
-"This field is used to determine who should be assigned to this new \n"
-"issue. You are be able to assign a new issue to several persons at the\n"
-"same time.\n"
-"<br /><br />\n"
-"If you don't know who should be the assigned person for this new issue,\n"
+"This field is used to determine who should be assigned to this new issue. "
+"You are be able to assign a new issue to several persons at the same time."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid ""
+"If you don't know who should be the assigned person for this new issue, "
 "assign it to your Project Lead."
 msgstr ""
 
@@ -1972,14 +1968,16 @@ msgstr "Kategori"
 
 #: misc/localization/eventum.c
 msgid ""
-"This field is used to categorize issues by a common denominator, such\n"
-"as 'Feature Request', 'Bug' or 'Support Inquiry'.\n"
-"<br /><br />\n"
-"Note: The values in this field can be changed by going in the "
-"administration\n"
-"section of this application and editing the appropriate atributes of\n"
-"a project. If you do not have the needed permissions to do so, please\n"
-"contact your local Eventum administrator."
+"This field is used to categorize issues by a common denominator, such as "
+"'Feature Request', 'Bug' or 'Support Inquiry'."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid ""
+"Note: The values in this field can be changed by going in the administration "
+"section of this application and editing the appropriate atributes of a "
+"project. If you do not have the needed permissions to do so, please contact "
+"your local Eventum administrator."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:63
@@ -1989,10 +1987,10 @@ msgstr "Beskrivning"
 
 #: misc/localization/eventum.c
 msgid ""
-"The description field should be used to describe the new issue. Good\n"
-"practices dictate that this field should have a description of what\n"
-"happened, steps to reproduce the problem/issue and what you expected \n"
-"to happen instead."
+"The description field should be used to describe the new issue. Good "
+"practices dictate that this field should have a description of what "
+"happened, steps to reproduce the problem/issue and what you expected to "
+"happen instead."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:67
@@ -2002,21 +2000,20 @@ msgstr "Beräknad utv. tid"
 
 #: misc/localization/eventum.c
 msgid ""
-"This field is used by the reporters of new issues to estimate the \n"
-"total development time for the issue. It is especially important as a \n"
-"metrics tool to get a simple estimate of how much time each issue will\n"
-"take from discovery, going through implementation and testing up until\n"
-"release time."
+"This field is used by the reporters of new issues to estimate the total "
+"development time for the issue. It is especially important as a metrics tool "
+"to get a simple estimate of how much time each issue will take from "
+"discovery, going through implementation and testing up until release time."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"This field can also be used as a way to check the estimation abilities\n"
-"of project managers against the impact analysis given by the \n"
-"developers themselves. That is, the value entered by a project manager\n"
-"here can be compared against the impact analysis / estimated \n"
-"development time entered by the developers, and this way get more \n"
-"experience estimating the required time for new projects."
+"This field can also be used as a way to check the estimation abilities of "
+"project managers against the impact analysis given by the developers "
+"themselves. That is, the value entered by a project manager here can be "
+"compared against the impact analysis / estimated development time entered by "
+"the developers, and this way get more experience estimating the required "
+"time for new projects."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:47
@@ -2026,19 +2023,10 @@ msgstr "Prioritet"
 
 #: misc/localization/eventum.c
 msgid ""
-"This field is used to prioritize issues, as to make project management\n"
-"a little easier. If you are not sure, or don't know what the appropriate\n"
-"priority should be for new issues, choose 'not prioritized' as the \n"
-"option and leave the issue to be prioritized by a project manager."
-msgstr ""
-
-#: misc/localization/eventum.c
-msgid ""
-"Note: The values in this field can be changed by going in the "
-"administration\n"
-"section of this application and editing the appropriate atributes of\n"
-"a project. If you do not have the needed permissions to do so, please\n"
-"contact your local Eventum administrator."
+"This field is used to prioritize issues, as to make project management a "
+"little easier. If you are not sure, or don't know what the appropriate "
+"priority should be for new issues, choose 'not prioritized' as the option "
+"and leave the issue to be prioritized by a project manager."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:55
@@ -2048,10 +2036,10 @@ msgstr "Planerad release"
 
 #: misc/localization/eventum.c
 msgid ""
-"This field is used to determine what the deadline should be for when\n"
-"this new issue should be completed and resolved. If you don't know \n"
-"what the deadline should be for this new issue, leave the field as\n"
-"'un-scheduled', and a project manager will set it appropriately."
+"This field is used to determine what the deadline should be for when this "
+"new issue should be completed and resolved. If you don't know what the "
+"deadline should be for this new issue, leave the field as 'un-scheduled', "
+"and a project manager will set it appropriately."
 msgstr ""
 
 #: misc/localization/eventum.c include/class.help.php:59
@@ -2061,24 +2049,23 @@ msgstr "Sammanfattning"
 
 #: misc/localization/eventum.c
 msgid ""
-"This field is used as a simple and descriptive title to this new\n"
-"issue. As a suggestion, it should be descriptive and short enough to\n"
-"be used by other users to remember quickly what the issue was all\n"
-"about."
+"This field is used as a simple and descriptive title to this new issue. As a "
+"suggestion, it should be descriptive and short enough to be used by other "
+"users to remember quickly what the issue was all about."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"This feature allows your software development teams to integrate your\n"
-"Source Control Management system with your Issue Tracking System."
+"This feature allows your software development teams to integrate your Source "
+"Control Management system with your Issue Tracking System."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The integration is implemented in such a way that it will be forward\n"
-"compatible with pretty much any SCM system, such as CVS. When entering\n"
-"the required information for the checkout page and diff page input\n"
-"fields, use the following placeholders:"
+"The integration is implemented in such a way that it will be forward "
+"compatible with pretty much any SCM system, such as CVS. When entering the "
+"required information for the checkout page and diff page input fields, use "
+"the following placeholders:"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -2107,73 +2094,70 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"[highly recommended] from the Horde project you\n"
-"would usually have the following URL as the diff page:"
+"[highly recommended] from the Horde project you would usually have the "
+"following URL as the diff page:"
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"With that information in mind, the appropriate value to be entered in\n"
-"the 'Checkout page' input field is:"
+"With that information in mind, the appropriate value to be entered in the "
+"'Checkout page' input field is:"
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The %1 script, which is available in the %2\n"
-"sub-directory in your Eventum installation directory, will need to be\n"
-"installed in your CVSROOT CVS module by following the procedure below:"
+"The %1 script, which is available in the %2 sub-directory in your Eventum "
+"installation directory, will need to be installed in your CVSROOT CVS module "
+"by following the procedure below:"
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The first thing to do is to checkout the %1 module from your CVS\n"
-"repository:"
+"The first thing to do is to checkout the %1 module from your CVS repository:"
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The command above will checkout and create the CVSROOT directory that\n"
-"you will need to work with. Next, open the <b>loginfo</b> file and\n"
-"add the following line:"
+"The command above will checkout and create the CVSROOT directory that you "
+"will need to work with. Next, open the <b>loginfo</b> file and add the "
+"following line:"
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Replace %1 by the appropriate absolute path in your\n"
-"CVS server, such as /home/username/repository for instance. Also make\n"
-"sure to put the appropriate path to your PHP binary."
+"Replace %1 by the appropriate absolute path in your CVS server, such as /"
+"home/username/repository for instance. Also make sure to put the appropriate "
+"path to your PHP binary."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"You may also turn the parsing of commit messages for just a single CVS\n"
-"module by substituting the 'ALL' in the line above to the appropriate\n"
-"CVS module name, as in:"
+"You may also turn the parsing of commit messages for just a single CVS "
+"module by substituting the 'ALL' in the line above to the appropriate CVS "
+"module name, as in:"
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The last step of this installation process is to login into the CVS\n"
-"server and copy the %1 script into the %2\n"
-"directory. Make sure you give the appropriate permissions to the\n"
-"script."
+"The last step of this installation process is to login into the CVS server "
+"and copy the %1 script into the %2 directory. Make sure you give the "
+"appropriate permissions to the script."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"An integration script will need to be installed in your CVS root \n"
-"repository in order to send a message to Eventum whenever changes are\n"
-"committed to the repository. This message will then be processed by\n"
-"Eventum and the changes to the appropriate files will be associated\n"
-"with existing issue mentioned in your commit message."
+"An integration script will need to be installed in your CVS root repository "
+"in order to send a message to Eventum whenever changes are committed to the "
+"repository. This message will then be processed by Eventum and the changes "
+"to the appropriate files will be associated with existing issue mentioned in "
+"your commit message."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"So to examplify its use, whenever the users are ready to commit the\n"
-"changes to the CVS repository, they will add a special string to\n"
-"specify which issue this is related to. The following would be a\n"
-"good example of its use:"
+"So to examplify its use, whenever the users are ready to commit the changes "
+"to the CVS repository, they will add a special string to specify which issue "
+"this is related to. The following would be a good example of its use:"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -2184,17 +2168,15 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"You may also use 'bug' to specify the issue ID - whichever you are more\n"
+"You may also use 'bug' to specify the issue ID - whichever you are more "
 "comfortable with."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"This command will be parsed by the CVS integration script (provided to\n"
-"you and available in %eventum_path%/misc/scm/process_cvs_commits.php) and "
-"it\n"
-"will notify Eventum that these changes are to be associated with issue\n"
-"#13."
+"This command will be parsed by the CVS integration script (provided to you "
+"and available in %eventum_path%/misc/scm/process_cvs_commits.php) and it "
+"will notify Eventum that these changes are to be associated with issue #13."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -2210,45 +2192,44 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"This screen allows users with the appropriate permissions to associate\n"
-"emails with existing issues, or create new issues and \n"
-"associate emails with them."
+"This screen allows users with the appropriate permissions to associate "
+"emails with existing issues, or create new issues and associate emails with "
+"them."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"In order to do that, however, the administrator of the system needs\n"
-"to configure email accounts to make the software download\n"
-"the email messages from the appropriate POP3/IMAP server."
+"In order to do that, however, the administrator of the system needs to "
+"configure email accounts to make the software download the email messages "
+"from the appropriate POP3/IMAP server."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"One of the optimal uses of this feature is to create a separate \n"
-"'issues' or 'support' POP3/IMAP account and ask your customers or \n"
-"end-users to send support questions, issues or suggestions to that \n"
-"mailbox. Eventum will then download the emails and provide \n"
-"them to the users of the system."
+"One of the optimal uses of this feature is to create a separate 'issues' or "
+"'support' POP3/IMAP account and ask your customers or end-users to send "
+"support questions, issues or suggestions to that mailbox. Eventum will then "
+"download the emails and provide them to the users of the system."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The issue details screen can be accessed quickly by using the 'Go'\n"
-"input field in the top of your browser window. Just enter the issue \n"
-"number and it will take you to the appropriate screen."
+"The issue details screen can be accessed quickly by using the 'Go' input "
+"field in the top of your browser window. Just enter the issue number and it "
+"will take you to the appropriate screen."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The Issue Details page will also show '<< Previous Issue' and 'Next\n"
-"Issue >>' links that are related to the previous and next issues for\n"
-"the current active filter, if appropriate."
+"The Issue Details page will also show '<< Previous Issue' and 'Next Issue "
+">>' links that are related to the previous and next issues for the current "
+"active filter, if appropriate."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"The full history of changes related to the current issue is available\n"
-"by clickin on the 'History of Changes' link."
+"The full history of changes related to the current issue is available by "
+"clickin on the 'History of Changes' link."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -2334,7 +2315,7 @@ msgid "Requirement"
 msgstr "Krav"
 
 #: misc/localization/eventum.c include/class.notification.php:642
-#: include/class.notification.php:643 include/class.project.php:1106
+#: include/class.notification.php:643 include/class.project.php:1109
 msgid "Estimated Dev. Time"
 msgstr "Beräknad utv. tid"
 
@@ -2463,17 +2444,19 @@ msgid "Login"
 msgstr "Logga in"
 
 #: misc/localization/eventum.c
-msgid "Error: Please provide your email address."
+#, fuzzy
+msgid "Please provide your email address."
 msgstr "Fel: Vänligen ange din e-postadress."
 
 #: misc/localization/eventum.c
-msgid "Error: Please provide your password."
+#, fuzzy
+msgid "Please provide your password."
 msgstr "Fel: Vänligen ange ditt lösenord."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Error: The email address / password combination could not be found in the "
-"system."
+"The email address / password combination could not be found in the system."
 msgstr ""
 "Fel. Den e-postadress / lösenordskombination kunde inte hittas i systemet."
 
@@ -2486,37 +2469,49 @@ msgid "Thank you, you are now logged out of %1"
 msgstr "Tack, du är nu utloggad från %1"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Thank you, your account is now active and ready to be\n"
-"              used. Use the form below to login."
+"Your user status is currently set as inactive. Please contact your local "
+"system administrator for further information."
+msgstr ""
+"Fel: din användare är just nu satt till inaktiv. Var vänlig \n"
+" kontakta din lokala systemadministratör \n"
+" för mer information."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"Thank you, your account is now active and ready to be used. Use the form "
+"below to login."
 msgstr ""
 "Tack så mycket, ditt konto är nu aktiverat och kan användas. Använd "
 "formuläret nedanför för att logga in."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Error: Your user status is currently set as pending. This\n"
-"              means that you still need to confirm your account\n"
-"              creation request. Please contact your local system\n"
-"              administrator for further information."
+"Your user status is currently set as pending. This means that you still need "
+"to confirm your account creation request. Please contact your local system "
+"administrator for further information."
 msgstr ""
 "Fel: Din användarstatus är väntande. Detta betyder att du\n"
 "måste bekräfta att ditt konto skapas. Vänligen kontakta \n"
 "systemadministratören för ytterligare information."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Error: Cookies support seem to be disabled in your browser. Please enable "
-"this feature and try again."
+"Cookies support seem to be disabled in your browser. Please enable this "
+"feature and try again."
 msgstr ""
 "Fe: Cookies verkar inte vara aktiverad i din webläsare. Vänligen aktivera "
 "cookie och försök igen."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Error: In order for %1 to work properly, you must enable cookie support in "
-"your browser. Please login\n"
-"              again and accept all cookies coming from it."
+"In order for %1 to work properly, you must enable cookie support in your "
+"browser. Please login again and accept all cookies coming from it."
 msgstr ""
 "Fel: för att %1 ska fungera ordentligt, måste du kontrollera att du har "
 "cookies aktiverat."
@@ -2534,9 +2529,10 @@ msgid "Requires support for cookies and javascript in your browser"
 msgstr "Kräver stöd för kakor och javascript i din webläsare"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "NOTE: You may report issues without the need to login by using the following "
-"URL"
+"URL:"
 msgstr ""
 "NOTERA: Du kan rapportera ärenden utan att vara inloggad genom att använda "
 "den här URL:en"
@@ -2899,8 +2895,11 @@ msgstr "Inga noteringar hittades."
 #: misc/localization/eventum.c
 msgid ""
 "This page can only be accessed in relation to a project. Please go to the "
-"project page and choose\n"
-"\"Edit Fields to Display\" to access this page."
+"project page and choose"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "to access this page."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -3085,6 +3084,15 @@ msgid "Integer"
 msgstr "Intern FAQ"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Warning"
+msgstr "Varning!"
+
+#: misc/localization/eventum.c
+msgid "Changing field types can result in loss of data."
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "Field Options"
 msgstr ""
 
@@ -3099,7 +3107,7 @@ msgid "Update Value"
 msgstr "Updatera värden"
 
 #: misc/localization/eventum.c
-msgid "OR"
+msgid "AND / OR"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -3285,6 +3293,10 @@ msgstr "Vänligen ange rubrik för noteringen."
 #, fuzzy
 msgid "Thank you, the customization was updated successfully."
 msgstr "Tack så mycket, notifierinsposten har uppdaterats."
+
+#: misc/localization/eventum.c
+msgid "Status:"
+msgstr "Status:"
 
 #: misc/localization/eventum.c
 msgid "Date Field:"
@@ -3757,6 +3769,11 @@ msgstr "Tack så mycket, ärendet har uppdaterats."
 
 #: misc/localization/eventum.c
 #, fuzzy
+msgid "%1 Field"
+msgstr "Fil"
+
+#: misc/localization/eventum.c
+#, fuzzy
 msgid "Set Display Preferences"
 msgstr "Inställningar"
 
@@ -3851,28 +3868,26 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"ERROR: The system doesn't have the appropriate permissions to\n"
-"                    create the configuration file in the setup directory"
+"ERROR: The system doesn't have the appropriate permissions to create the "
+"configuration file in the setup directory"
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Please contact your local system\n"
-"                    administrator and ask for write privileges on the "
-"provided path."
+"Please contact your local system administrator and ask for write privileges "
+"on the provided path."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"ERROR: The system doesn't have the appropriate permissions to\n"
-"                    update the configuration file in the setup directory"
+"ERROR: The system doesn't have the appropriate permissions to update the "
+"configuration file in the setup directory"
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Please contact your local system\n"
-"                    administrator and ask for write privileges on the "
-"provided filename."
+"Please contact your local system administrator and ask for write privileges "
+"on the provided filename."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -4123,12 +4138,12 @@ msgstr "Vänligen välj minst en av prenumeranterna."
 
 #: misc/localization/eventum.c
 #, fuzzy
-msgid ""
-"WARNING: This action will remove the selected groups permanently.nPlease "
-"click OK to confirm."
+msgid "WARNING: This action will remove the selected groups permanently."
+msgstr "Den här åtgärden kommer ta bort vald post."
+
+#: misc/localization/eventum.c
+msgid "Please click OK to confirm."
 msgstr ""
-"VARNING: Åtgärden kommer ta bort valda e-postmeddelanden från ditt e-"
-"postkonto."
 
 #: misc/localization/eventum.c
 msgid "Manage Groups"
@@ -4156,8 +4171,8 @@ msgstr "Tack så mycket, ärendet har uppdaterats."
 
 #: misc/localization/eventum.c
 #, fuzzy
-msgid "Name: *"
-msgstr "Notering:"
+msgid "Name:"
+msgstr "Fullständigt namn"
 
 #: misc/localization/eventum.c
 msgid "Description:"
@@ -4165,17 +4180,13 @@ msgstr "Beskrivning:"
 
 #: misc/localization/eventum.c
 #, fuzzy
-msgid "Assigned Projects: *"
-msgstr "Tilldelade ärenden"
-
-#: misc/localization/eventum.c
-#, fuzzy
-msgid "Users: *"
+msgid "Users:"
 msgstr "Användare"
 
 #: misc/localization/eventum.c
-msgid "Manager: *"
-msgstr ""
+#, fuzzy
+msgid "Manager:"
+msgstr "Interna användare"
 
 #: misc/localization/eventum.c
 msgid "-- Select One --"
@@ -4222,11 +4233,6 @@ msgid "Please choose the default priority."
 msgstr "Vänligen välj projektet."
 
 #: misc/localization/eventum.c
-#, fuzzy
-msgid "Auto-Creation of Issues:"
-msgstr "Skapa ärende"
-
-#: misc/localization/eventum.c
 msgid "Only for Known Customers?"
 msgstr ""
 
@@ -4259,10 +4265,6 @@ msgstr "Vänligen välj minst en av prenumeranterna."
 #, fuzzy
 msgid "WARNING: This action will remove the selected link filters permanently."
 msgstr "Den här åtgärden kommer ta bort vald post."
-
-#: misc/localization/eventum.c
-msgid "Please click OK to confirm."
-msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Manage Link Filters"
@@ -4590,6 +4592,13 @@ msgstr "Ange en giltig avsändaradress"
 
 #: misc/localization/eventum.c
 #, fuzzy
+msgid ""
+"Please enter a comma separated list of valid mail address aliases for this "
+"project"
+msgstr "Ange en giltig avsändaradress"
+
+#: misc/localization/eventum.c
+#, fuzzy
 msgid "An error occurred while trying to add the new project."
 msgstr "Ett fel uppstod vid försök att konvertera den valda noteringen."
 
@@ -4669,6 +4678,10 @@ msgstr ""
 #, fuzzy
 msgid "Outgoing Email Sender Address"
 msgstr "E-postadress"
+
+#: misc/localization/eventum.c
+msgid "Project mail aliases"
+msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Remote Invocation"
@@ -4836,6 +4849,11 @@ msgstr ""
 msgid "view reminder details"
 msgstr "visa e-postdetaljer"
 
+#: misc/localization/eventum.c include/class.reminder_action.php:761
+#, fuzzy
+msgid "Reminder"
+msgstr "Avsändare"
+
 #: misc/localization/eventum.c
 #, fuzzy
 msgid "An error occurred while trying to add the new action."
@@ -4936,11 +4954,6 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid "Manage Reminder Conditions"
 msgstr ""
-
-#: misc/localization/eventum.c include/class.reminder_action.php:761
-#, fuzzy
-msgid "Reminder"
-msgstr "Avsändare"
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -5492,15 +5505,9 @@ msgid "No time tracking categories could be found."
 msgstr "Inga tidsnoteringar kunde hittas."
 
 #: misc/localization/eventum.c
-#, fuzzy
-msgid "Note:"
-msgstr "Notering:"
-
-#: misc/localization/eventum.c
 msgid ""
 "'Note Discussion', 'Email Discussion' and 'Telephone Discussion' categories "
-"are\n"
-"                    required by Eventum and cannot be deleted."
+"are required by Eventum and cannot be deleted."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -5593,6 +5600,11 @@ msgstr "Den här åtgärden kommer ta bort vald post."
 #, fuzzy
 msgid "Role"
 msgstr "Mobil"
+
+#: misc/localization/eventum.c include/class.display_column.php:185
+#: include/class.project.php:1110 list.php:88
+msgid "Group"
+msgstr "Grupp"
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -5698,16 +5710,14 @@ msgid "Switch"
 msgstr "Byt"
 
 #: misc/localization/eventum.c
-msgid "CLOCKED"
+#, fuzzy
+msgid "CLOCKED IN"
 msgstr "STÄMPLAD"
 
 #: misc/localization/eventum.c
-msgid "IN"
-msgstr "IN"
-
-#: misc/localization/eventum.c
-msgid "OUT"
-msgstr "UT"
+#, fuzzy
+msgid "CLOCKED OUT"
+msgstr "STÄMPLAD"
 
 #: misc/localization/eventum.c
 msgid "modify your account details and preferences"
@@ -5722,16 +5732,14 @@ msgid "change your account clocked-in status"
 msgstr "ändra instämpling för ditt konto"
 
 #: misc/localization/eventum.c
-msgid "Clock"
+#, fuzzy
+msgid "Clock Out"
 msgstr "Klocka"
 
 #: misc/localization/eventum.c
-msgid "Out"
-msgstr "Ut"
-
-#: misc/localization/eventum.c
-msgid "In"
-msgstr "In"
+#, fuzzy
+msgid "Clock In"
+msgstr "Klocka"
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -5775,10 +5783,14 @@ msgstr "Rapportera nytt ärende"
 
 #: misc/localization/eventum.c
 #, fuzzy
+msgid "Warning: your issue is currently quarantined."
+msgstr "Ärendet ligger i karantän"
+
+#: misc/localization/eventum.c
+#, fuzzy
 msgid ""
-"Warning: your issue is currently quarantined.\n"
-"                Please see the <a href=\"faq.php\">FAQ</a> for information "
-"regarding quarantined issues."
+"Please see the <a href=\"%1\">FAQ</a> for information regarding quarantined "
+"issues."
 msgstr ""
 "Vänigen se i <a class=\"link\" href=\"faq.php\">FAQ:n</a> för information om "
 "ärenden i karantän."
@@ -5797,7 +5809,7 @@ msgstr "Beräknad utv. tid"
 msgid "Create New Issue"
 msgstr "Skapa ärende"
 
-#: misc/localization/eventum.c include/class.project.php:1105
+#: misc/localization/eventum.c include/class.project.php:1108
 msgid "Scheduled Release"
 msgstr "Planerad release"
 
@@ -5854,6 +5866,11 @@ msgstr "Postat datum"
 #: misc/localization/eventum.c
 msgid "reply to this note"
 msgstr "svara på noteringen"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "view note details"
+msgstr "Visa detaljer för e-post"
 
 #: misc/localization/eventum.c
 msgid "convert note"
@@ -6000,10 +6017,6 @@ msgid "New Attachment"
 msgstr "Bilagor"
 
 #: misc/localization/eventum.c
-msgid "These are the current issue details"
-msgstr ""
-
-#: misc/localization/eventum.c
 #, fuzzy
 msgid "A new issue was just created and assigned to you."
 msgstr "lista alla ärenden tilldelade dig"
@@ -6065,6 +6078,10 @@ msgstr "lista ärenden lagrade i systemet"
 
 #: misc/localization/eventum.c
 msgid "To start using the system, please load the URL below"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "These are the current issue details"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -6388,16 +6405,12 @@ msgid "Add Extra Recipients To Notification List?"
 msgstr "Lägg till extra mottagare till notifieringslistan?"
 
 #: misc/localization/eventum.c
-msgid "yes"
-msgstr "ja"
-
-#: misc/localization/eventum.c
-msgid "no"
-msgstr "nej"
-
-#: misc/localization/eventum.c
 msgid "New Status for Issue"
 msgstr "Ny status för ärendet"
+
+#: misc/localization/eventum.c
+msgid "Time Spent:"
+msgstr "Nedlagd tid:"
 
 #: misc/localization/eventum.c
 msgid "Add Email Signature"
@@ -6535,6 +6548,11 @@ msgstr "Rensa filter"
 #, fuzzy
 msgid "quick search bar"
 msgstr "Snabbsökning"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "create advanced searches"
+msgstr "avancerad sökning"
 
 #: misc/localization/eventum.c
 msgid "There was an error marking this issue as redeemed"
@@ -6677,7 +6695,7 @@ msgstr ""
 
 #: misc/localization/eventum.c
 #, c-format
-msgid "Percentages may not add up to exactly 100% due to rounding"
+msgid "Percentages may not add up to exactly 100% due to rounding."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -6725,6 +6743,11 @@ msgstr ""
 #, fuzzy
 msgid "day"
 msgstr "alla"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Clear Date"
+msgstr "Postat datum"
 
 #: misc/localization/eventum.c
 msgid "Include expired contracts"
@@ -6804,9 +6827,13 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid ""
 "Refers to the number of issues in eventum for the given support level or "
-"customer.\n"
-"    Average and median counts do not include customers who have never opened "
-"an issue."
+"customer."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid ""
+"Average and median counts do not include customers who have never opened an "
+"issue."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -6897,11 +6924,6 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid "Activity in Past"
 msgstr ""
-
-#: misc/localization/eventum.c include/class.filter.php:648
-#, fuzzy
-msgid "Sort Order"
-msgstr "Sorteringsordning:"
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -7201,8 +7223,8 @@ msgstr "Intern FAQ"
 
 #: misc/localization/eventum.c
 msgid ""
-" Warning: Some type and interval options, combined with large <br />\n"
-"    date ranges can produce extremely large graphs."
+" Warning: Some type and interval options, combined with large <br />date "
+"ranges can produce extremely large graphs."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -7257,10 +7279,9 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"Based on all issues recorded in Eventum since start to present.\n"
-"        Actions are any event that shows up in the history of an issue, such "
-"as a user or a developer updating an issue, uploading a file, sending an "
-"email, etc."
+"Actions are any event that shows up in the history of an issue, such as a "
+"user or a developer updating an issue, uploading a file, sending an email, "
+"etc."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -7362,15 +7383,19 @@ msgid "Add Myself to list of assignees."
 msgstr "Lägg till mig själv i listan med tilldelade."
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "Sorry, but the email could not be queued. This might be related to problems "
-"with your SMTP account settings.\n"
-"  Please contact the administrator of this application for further "
-"assistance."
+"with your SMTP account settings."
 msgstr ""
 "E-postmeddelandet kunde inte läggas till i kön. Det kan bero på dina SMTP "
 "inställningar.\n"
 " Kontakta systemadministratören för ytterligare information."
+
+#: misc/localization/eventum.c
+msgid ""
+"Please contact the administrator of this application for further assistance."
+msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Thank you, the email was queued to be sent successfully."
@@ -7446,15 +7471,18 @@ msgid "Send Email"
 msgstr "Skicka e-post"
 
 #: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "Sorry, but the email could not be sent. This might be related to problems "
-"with your SMTP account settings.\n"
-"              Please contact the administrator of this application for "
-"assistance."
+"with your SMTP account settings."
 msgstr ""
 "E-posten kunde inte skickas. Det kan bero på problem med din SMTP "
 "konfiguration.\n"
 "Vänligen kontakta systemadministratören för ytterligare info."
+
+#: misc/localization/eventum.c
+msgid "Please contact the administrator of this application for assistance."
+msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Thank you, the email was sent successfully."
@@ -7491,6 +7519,200 @@ msgstr "Spara utkastets ändringar"
 #: misc/localization/eventum.c
 msgid "Save as Draft"
 msgstr "Spara som utkast"
+
+#: misc/localization/eventum.c
+msgid ""
+"Please enter the hostname for the server of this installation of Eventum."
+msgstr ""
+"Vänligen ange värdnamn för servern för den här installationen av Eventum."
+
+#: misc/localization/eventum.c
+msgid "Please enter the relative URL of this installation of Eventum."
+msgstr ""
+"Vänligen ange den relativa adressen för den här installationen av Eventum."
+
+#: misc/localization/eventum.c
+msgid "Please enter the database hostname for this installation of Eventum."
+msgstr ""
+"Vänligen ange databasens värdnamn för den här installationen av Eventum."
+
+#: misc/localization/eventum.c
+msgid "Please enter the database name for this installation of Eventum."
+msgstr "Vänligen ange databasens namn för den här installationen av Eventum."
+
+#: misc/localization/eventum.c
+msgid "Please enter the database username for this installation of Eventum."
+msgstr ""
+"Vänligen ange databasens användarnamn för den här installationen av Eventum."
+
+#: misc/localization/eventum.c
+msgid "Please enter the alternate username for this installation of Eventum."
+msgstr ""
+"Vänligen ange det alternativa användarnamnet för den här installationen av "
+"Eventum."
+
+#: misc/localization/eventum.c
+msgid "Please enter a valid email address for the sender address."
+msgstr "Ange en giltig avsändaradress"
+
+#: misc/localization/eventum.c
+msgid "An Error Was Found"
+msgstr "Ett fel upptäcktes"
+
+#: misc/localization/eventum.c
+msgid "Details:"
+msgstr "Detaljer:"
+
+#: misc/localization/eventum.c
+msgid ""
+"Thank You, Eventum is now properly setup and ready to be used. Open the "
+"following URL to login on it for the first time:"
+msgstr ""
+"Tack så mycket, Eventum har nu installerats. För att logga in gå till "
+"följande URL:"
+
+#: misc/localization/eventum.c
+msgid "(literally)"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid ""
+"NOTE: For security reasons it is highly recommended that the default "
+"password be changed as soon as possible."
+msgstr ""
+"OBS: För att öka säkerheten rekomenderas du att ändra lösenordet snarast."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"Remember to protect your '%1' directory (like changing its permissions) to "
+"prevent anyone else from changing your existing Eventum configuration."
+msgstr ""
+"Kom ihåg att skydda din installationskataölog (genom att ändra rättigheter) "
+"för att förhindra att någon annan ändrar inställningarna."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "In order to check if your permissions are setup correctly visit the"
+msgstr ""
+"För att kontrollera att dina rättigheter har skapats korrekt, besök <a class="
+"\"link\" href=\"check_permissions.php\">Kontrollera Rättigheter</a>."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Check Permissions"
+msgstr "Skapa användare och behörighet"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "page"
+msgstr "Updatera"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"WARNING: If you want to use the email integration features to download "
+"messages saved on a IMAP/POP3 server, you will need to enable the IMAP "
+"extension in your PHP.INI configuration file. See the PHP manual for more "
+"details."
+msgstr ""
+"VARNING: Om du vill använda e-postintegrationen för att ladda ned "
+"meddelanden sparade på en IMAP/POP3-serveer, så måste du aktivera IMAP-"
+"tilläget i php.ini."
+
+#: misc/localization/eventum.c
+msgid "Eventum Installation"
+msgstr "Eventum Installation"
+
+#: misc/localization/eventum.c
+msgid "Server Hostname:"
+msgstr "Värdnamn för server:"
+
+#: misc/localization/eventum.c
+msgid "SSL Server"
+msgstr "SSL-server"
+
+#: misc/localization/eventum.c
+msgid "Eventum Relative URL:"
+msgstr "Eventums relativa URL:"
+
+#: misc/localization/eventum.c
+msgid "MySQL Server Hostname:"
+msgstr "Värdnman för MySQL-server :"
+
+#: misc/localization/eventum.c
+msgid "MySQL Database:"
+msgstr "MySQL databas:"
+
+#: misc/localization/eventum.c
+msgid "MySQL Table Prefix:"
+msgstr "MySQL Tabellprefix:"
+
+#: misc/localization/eventum.c
+msgid "Drop Tables If They Already Exist"
+msgstr "Radera tabeller om de redan finns"
+
+#: misc/localization/eventum.c
+msgid "MySQL Username:"
+msgstr "MySQL Användarnamn:"
+
+#: misc/localization/eventum.c
+msgid ""
+"This user requires permission to create and drop tables in the specified "
+"database."
+msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"This value is used only for these installation procedures, and is not saved "
+"if you provide a separate user below."
+msgstr ""
+"<b>Notera:</b> Användaren kräver behörighet för att skapa och tabort "
+"tabeller i databasen.<br />Värdet används endast för det "
+"installationsförfarandeoch sparas inte om du angivit en annan användare "
+"nedanför. "
+
+#: misc/localization/eventum.c
+msgid "MySQL Password:"
+msgstr "MySQL Lösenord:"
+
+#: misc/localization/eventum.c
+msgid "Use a Separate MySQL User for Normal Eventum Use"
+msgstr "Använd en annan MySQL-användare för vanligt Eventumanvändande"
+
+#: misc/localization/eventum.c
+msgid "Enter the details below:"
+msgstr "Skriv in detaljerna nedanför:"
+
+#: misc/localization/eventum.c
+msgid "Create User and Permissions"
+msgstr "Skapa användare och behörighet"
+
+#: misc/localization/eventum.c
+msgid "SMTP Configuration"
+msgstr "SMTP Konfiguration"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"The SMTP (outgoing mail) configuration is needed to make sure emails are "
+"properly sent when creating new users/projects."
+msgstr ""
+"<b>Notera:</b> Konfiguration av SMTP (utgående e-post) krävs för att e-"
+"postmeddelanden skall kunna skickas när man skapar nya användare/projekt."
+
+#: misc/localization/eventum.c
+msgid "must be a valid email address"
+msgstr "måste vara en giltig e-postadress"
+
+#: misc/localization/eventum.c
+msgid "Start Installation"
+msgstr "Starta installationen"
+
+#: misc/localization/eventum.c
+msgid "Required Fields"
+msgstr "Obligatoriska fält"
 
 #: misc/localization/eventum.c
 msgid "Please enter your email address."
@@ -7608,33 +7830,33 @@ msgstr "Inga tidsnoteringar kunde hittas."
 #: misc/localization/eventum.c
 msgid ""
 "You can create canned email responses and use them when sending emails from "
-"the\n"
-"system. That is an useful feature when dealing with lots of issues that "
-"relate\n"
-"to the same problem.\n"
-"<br /><br />\n"
-"If no canned email responses are available through the Email window, please\n"
+"the system. That is an useful feature when dealing with lots of issues that "
+"relate to the same problem."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid ""
+"If no canned email responses are available through the Email window, please "
 "contact an user with the appropriate permissions (administrator or manager) "
-"to\n"
-"add some for you."
+"to add some for you."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"You can create as many custom queries as you want through the\n"
-"<a class=\"link\" href=\"%1\">Advanced Search</a> interface.\n"
-"There is also the ability to save and modify custom queries and load\n"
-"them quickly from the Issue Listing screen."
+"You can create as many custom queries as you want through the <a class=\"link"
+"\" href=\"%1\">Advanced Search</a> interface. There is also the ability to "
+"save and modify custom queries and load them quickly from the Issue Listing "
+"screen."
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid ""
-"You can switch to the 'Search' or 'Go' boxes quickly by using a\n"
-"special shortcut keystroke in your keyboard."
+"You can switch to the 'Search' or 'Go' boxes quickly by using a special "
+"shortcut keystroke in your keyboard."
 msgstr ""
 
 #: misc/localization/eventum.c
-msgid "Use the following shortcuts:"
+msgid "Use the following shortcuts"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -7706,7 +7928,8 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c
-msgid "Note: Project automatically switched to '%1' from '%2'."
+#, fuzzy
+msgid "Project automatically switched to '%1' from '%2'."
 msgstr "Notering: Projektet har automatiskt bytt från '%1' till '%2'."
 
 #: misc/localization/eventum.c
@@ -7912,10 +8135,6 @@ msgid "Remove Quarantine"
 msgstr "Ta bort karantän"
 
 #: misc/localization/eventum.c
-msgid "Note: "
-msgstr "Notering:"
-
-#: misc/localization/eventum.c
 msgid ""
 "This issue is marked private. Only Managers, the reporter and users assigned "
 "to the issue can view it."
@@ -7962,13 +8181,13 @@ msgid "Associated Issues"
 msgstr "Associerat ärende"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "issue"
+msgstr "Ärende"
+
+#: misc/localization/eventum.c
 msgid "No issues associated"
 msgstr "Inget ärende associerat"
-
-#: misc/localization/eventum.c include/class.notification.php:638
-#: include/class.notification.php:639
-msgid "Resolution"
-msgstr "Lösning"
 
 #: misc/localization/eventum.c include/class.display_column.php:231
 #: include/class.notification.php:618 include/class.notification.php:619
@@ -8045,9 +8264,11 @@ msgid "View Email Raw Headers"
 msgstr "Visa e-posten oformaterad"
 
 #: misc/localization/eventum.c
-msgid ""
-"The specified note does not exist. <br />\n"
-"      It could have been converted to an email."
+msgid "The specified note does not exist."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "It could have been converted to an email."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -8076,13 +8297,24 @@ msgid "Attachments:"
 msgstr "Bilagor"
 
 #: misc/localization/eventum.c
-#, fuzzy
-msgid "download file"
-msgstr "Ladda upp fil"
-
-#: misc/localization/eventum.c
 msgid "Blocked Message Raw Headers"
 msgstr ""
+
+#: adv_search.php:61 include/class.filter.php:668 list.php:79
+msgid "un-assigned"
+msgstr "ej tilldelade"
+
+#: adv_search.php:62 include/class.filter.php:670 list.php:80
+msgid "myself and un-assigned"
+msgstr "mina och ej tilldelade"
+
+#: adv_search.php:65 include/class.filter.php:672 list.php:83
+msgid "myself and my group"
+msgstr "mina och min grupp"
+
+#: adv_search.php:66 include/class.filter.php:674 list.php:84
+msgid "myself, un-assigned and my group"
+msgstr "mina, ej tilldelade och min grupp"
 
 #: include/class.custom_field.php:319
 #, php-format
@@ -8157,7 +8389,7 @@ msgstr "E-postkonto:"
 msgid "Time Statistics"
 msgstr "Prestandatest, statistik"
 
-#: include/class.display_column.php:182 include/class.filter.php:615
+#: include/class.display_column.php:182 include/class.filter.php:743
 #, fuzzy
 msgid "Created Date"
 msgstr "Skapa Utkast"
@@ -8186,32 +8418,76 @@ msgstr "Tack så mycket, e-postmeddelandet har sparats som utkast."
 msgid "Email message draft updated by %1$s"
 msgstr ""
 
-#: include/class.filter.php:620
+#: include/class.filter.php:605
+#, php-format
+msgid "%1$s or greater"
+msgstr ""
+
+#: include/class.filter.php:608
+#, php-format
+msgid "%1$s or less"
+msgstr ""
+
+#: include/class.filter.php:611
+#, fuzzy, php-format
+msgid "Greater than %1$s"
+msgstr "Större än"
+
+#: include/class.filter.php:614
+#, fuzzy, php-format
+msgid "Less than %1$s"
+msgstr "Mindre än"
+
+#: include/class.filter.php:632
+#, fuzzy, php-format
+msgid "In Past %1$s hours"
+msgstr "Senaste %1 timmarna"
+
+#: include/class.filter.php:635
+msgid "Is NULL"
+msgstr "Är NULL"
+
+#: include/class.filter.php:639
+#, fuzzy, php-format
+msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
+msgstr "Är mellan %1-%2-%3 och %4-%5-%6"
+
+#: include/class.filter.php:643
+#, fuzzy, php-format
+msgid "Is greater than %1$s-%2$s-%3$s"
+msgstr "Är större än %1-%2-%3"
+
+#: include/class.filter.php:646
+#, fuzzy, php-format
+msgid "Is less than %1$s-%2$s-%3$s"
+msgstr "Är mindre än %1-%2-%3"
+
+#: include/class.filter.php:676
+#, fuzzy, php-format
+msgid "%1$s Group"
+msgstr "Grupp"
+
+#: include/class.filter.php:748
 #, fuzzy
 msgid "Updated Date"
 msgstr "Updaterat datum:"
 
-#: include/class.filter.php:625
+#: include/class.filter.php:753
 #, fuzzy
 msgid "Last Response Date"
 msgstr "Senaste svar från personal"
 
-#: include/class.filter.php:630
+#: include/class.filter.php:758
 #, fuzzy
 msgid "First Response Date"
 msgstr "Första svar från personal"
 
-#: include/class.filter.php:635
+#: include/class.filter.php:763
 #, fuzzy
 msgid "Closed Date"
 msgstr "Postat datum"
 
-#: include/class.filter.php:640
-#, fuzzy
-msgid "Rows Per Page"
-msgstr "Rader per sida:"
-
-#: include/class.filter.php:664
+#: include/class.filter.php:792
 #, fuzzy
 msgid "Search Type"
 msgstr "Söktitel"
@@ -8497,30 +8773,30 @@ msgstr ""
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1478
+#: include/class.support.php:1479
 msgid "Attachment originated from an email"
 msgstr ""
 
-#: include/class.support.php:1480
+#: include/class.support.php:1481
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: include/class.support.php:1532
+#: include/class.support.php:1533
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: include/class.support.php:1885
+#: include/class.support.php:1876
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
 
-#: include/class.support.php:2239
+#: include/class.support.php:2231
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
 
-#: include/class.support.php:2605
+#: include/class.support.php:2597
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -8574,6 +8850,91 @@ msgstr "Mina tilldelade"
 msgid "Update Issue #%1$s"
 msgstr "Uppdatera ärende"
 
+#~ msgid "Rows Per Page:"
+#~ msgstr "Rader per sida:"
+
+#~ msgid "Sort Order:"
+#~ msgstr "Sorteringsordning:"
+
+#~ msgid "Resolution:"
+#~ msgstr "Lösning:"
+
+#~ msgid ""
+#~ "The provided trial account email address could not be\n"
+#~ "            found. Please contact the local Technical Support staff for\n"
+#~ "            further assistance."
+#~ msgstr ""
+#~ "Det tillhandahållna utvärderingskontots e-postadress\n"
+#~ "             kunde inte hittas. Vänligen kontakta support\n"
+#~ "             för ytterligare info."
+
+#~ msgid "Fulltext"
+#~ msgstr "Fulltext"
+
+#~ msgid "Please select an issue"
+#~ msgstr "Var vänlig välj ett ärende"
+
+#~ msgid "lookup issues by their summaries"
+#~ msgstr "sök upp ärenden efter deras sammanfattningar"
+
+#, fuzzy
+#~ msgid ""
+#~ "WARNING: This action will remove the selected groups permanently.nPlease "
+#~ "click OK to confirm."
+#~ msgstr ""
+#~ "VARNING: Åtgärden kommer ta bort valda e-postmeddelanden från ditt e-"
+#~ "postkonto."
+
+#, fuzzy
+#~ msgid "Name: *"
+#~ msgstr "Notering:"
+
+#, fuzzy
+#~ msgid "Assigned Projects: *"
+#~ msgstr "Tilldelade ärenden"
+
+#, fuzzy
+#~ msgid "Users: *"
+#~ msgstr "Användare"
+
+#, fuzzy
+#~ msgid "Auto-Creation of Issues:"
+#~ msgstr "Skapa ärende"
+
+#, fuzzy
+#~ msgid "Note:"
+#~ msgstr "Notering:"
+
+#~ msgid "IN"
+#~ msgstr "IN"
+
+#~ msgid "OUT"
+#~ msgstr "UT"
+
+#~ msgid "Out"
+#~ msgstr "Ut"
+
+#~ msgid "In"
+#~ msgstr "In"
+
+#, fuzzy
+#~ msgid ""
+#~ "Warning: your issue is currently quarantined.\n"
+#~ "                Please see the <a href=\"faq.php\">FAQ</a> for "
+#~ "information regarding quarantined issues."
+#~ msgstr ""
+#~ "Vänigen se i <a class=\"link\" href=\"faq.php\">FAQ:n</a> för information "
+#~ "om ärenden i karantän."
+
+#~ msgid "yes"
+#~ msgstr "ja"
+
+#~ msgid "no"
+#~ msgstr "nej"
+
+#~ msgid "Note: "
+#~ msgstr "Notering:"
+
 #, fuzzy
 #~ msgid "Reported"
 #~ msgstr "Rapportör"
@@ -8591,52 +8952,8 @@ msgstr "Uppdatera ärende"
 #~ msgid "Please enter the reason for closing this issue."
 #~ msgstr "Vänligen ange orska till att äredet stängs."
 
-#~ msgid ""
-#~ "Please enter the hostname for the server of this installation of Eventum."
-#~ msgstr ""
-#~ "Vänligen ange värdnamn för servern för den här installationen av Eventum."
-
-#~ msgid "Please enter the relative URL of this installation of Eventum."
-#~ msgstr ""
-#~ "Vänligen ange den relativa adressen för den här installationen av Eventum."
-
-#~ msgid "Please enter the database hostname for this installation of Eventum."
-#~ msgstr ""
-#~ "Vänligen ange databasens värdnamn för den här installationen av Eventum."
-
-#~ msgid "Please enter the database name for this installation of Eventum."
-#~ msgstr ""
-#~ "Vänligen ange databasens namn för den här installationen av Eventum."
-
-#~ msgid "Please enter the database username for this installation of Eventum."
-#~ msgstr ""
-#~ "Vänligen ange databasens användarnamn för den här installationen av "
-#~ "Eventum."
-
-#~ msgid ""
-#~ "Please enter the alternate username for this installation of Eventum."
-#~ msgstr ""
-#~ "Vänligen ange det alternativa användarnamnet för den här installationen "
-#~ "av Eventum."
-
-#~ msgid "Please enter a valid email address for the sender address."
-#~ msgstr "Ange en giltig avsändaradress"
-
-#~ msgid "An Error Was Found"
-#~ msgstr "Ett fel upptäcktes"
-
-#~ msgid "Details:"
-#~ msgstr "Detaljer:"
-
 #~ msgid "Success!"
 #~ msgstr "Lyckades!"
-
-#~ msgid ""
-#~ "Thank You, Eventum is now properly setup and ready to be used. Open the "
-#~ "following URL to login on it for the first time:"
-#~ msgstr ""
-#~ "Tack så mycket, Eventum har nu installerats. För att logga in gå till "
-#~ "följande URL:"
 
 #~ msgid "Email Address: admin@example.com (literally)"
 #~ msgstr "E-postadress: admin@example.com"
@@ -8644,108 +8961,8 @@ msgstr "Uppdatera ärende"
 #~ msgid "Password: admin"
 #~ msgstr "Lösenord: admin"
 
-#~ msgid ""
-#~ "NOTE: For security reasons it is highly recommended that the default "
-#~ "password be changed as soon as possible."
-#~ msgstr ""
-#~ "OBS: För att öka säkerheten rekomenderas du att ändra lösenordet snarast."
-
-#~ msgid ""
-#~ "Remember to protect your 'setup' directory (like changing its "
-#~ "permissions) to prevent anyone else\n"
-#~ "            from changing your existing Eventum configuration."
-#~ msgstr ""
-#~ "Kom ihåg att skydda din installationskataölog (genom att ändra "
-#~ "rättigheter) för att förhindra att någon annan ändrar inställningarna."
-
-#~ msgid ""
-#~ "In order to check if your permissions are setup correctly visit the <a "
-#~ "class=\"link\" href=\"check_permissions.php\">Check Permissions</a> page."
-#~ msgstr ""
-#~ "För att kontrollera att dina rättigheter har skapats korrekt, besök <a "
-#~ "class=\"link\" href=\"check_permissions.php\">Kontrollera Rättigheter</a>."
-
-#~ msgid ""
-#~ "WARNING: If you want to use the email integration features to download "
-#~ "messages saved on a IMAP/POP3 server, you will need to\n"
-#~ "            enable the IMAP extension in your PHP.INI configuration file. "
-#~ "See the PHP manual for more details."
-#~ msgstr ""
-#~ "VARNING: Om du vill använda e-postintegrationen för att ladda ned "
-#~ "meddelanden sparade på en IMAP/POP3-serveer, så måste du aktivera IMAP-"
-#~ "tilläget i php.ini."
-
-#~ msgid "Eventum Installation"
-#~ msgstr "Eventum Installation"
-
-#~ msgid "Server Hostname:"
-#~ msgstr "Värdnamn för server:"
-
-#~ msgid "SSL Server"
-#~ msgstr "SSL-server"
-
-#~ msgid "Eventum Relative URL:"
-#~ msgstr "Eventums relativa URL:"
-
-#~ msgid "MySQL Server Hostname:"
-#~ msgstr "Värdnman för MySQL-server :"
-
-#~ msgid "MySQL Database:"
-#~ msgstr "MySQL databas:"
-
 #~ msgid "Create Database"
 #~ msgstr "Skapa databas"
-
-#~ msgid "MySQL Table Prefix:"
-#~ msgstr "MySQL Tabellprefix:"
-
-#~ msgid "Drop Tables If They Already Exist"
-#~ msgstr "Radera tabeller om de redan finns"
-
-#~ msgid "MySQL Username:"
-#~ msgstr "MySQL Användarnamn:"
-
-#~ msgid ""
-#~ "<b>Note:</b> This user requires permission to create and drop tables in "
-#~ "the specified database.<br />This value is used only for these "
-#~ "installation procedures, and is not saved if you provide a separate user "
-#~ "below."
-#~ msgstr ""
-#~ "<b>Notera:</b> Användaren kräver behörighet för att skapa och tabort "
-#~ "tabeller i databasen.<br />Värdet används endast för det "
-#~ "installationsförfarandeoch sparas inte om du angivit en annan användare "
-#~ "nedanför. "
-
-#~ msgid "MySQL Password:"
-#~ msgstr "MySQL Lösenord:"
-
-#~ msgid "Use a Separate MySQL User for Normal Eventum Use"
-#~ msgstr "Använd en annan MySQL-användare för vanligt Eventumanvändande"
-
-#~ msgid "Enter the details below:"
-#~ msgstr "Skriv in detaljerna nedanför:"
-
-#~ msgid "Create User and Permissions"
-#~ msgstr "Skapa användare och behörighet"
-
-#~ msgid "SMTP Configuration"
-#~ msgstr "SMTP Konfiguration"
-
-#~ msgid ""
-#~ "<b>Note:</b> The SMTP (outgoing mail) configuration is needed to make "
-#~ "sure emails are properly sent when creating new users/projects."
-#~ msgstr ""
-#~ "<b>Notera:</b> Konfiguration av SMTP (utgående e-post) krävs för att e-"
-#~ "postmeddelanden skall kunna skickas när man skapar nya användare/projekt."
-
-#~ msgid "must be a valid email address"
-#~ msgstr "måste vara en giltig e-postadress"
-
-#~ msgid "Start Installation"
-#~ msgstr "Starta installationen"
-
-#~ msgid "Required Fields"
-#~ msgstr "Obligatoriska fält"
 
 #~ msgid "No custom field could be found."
 #~ msgstr "Inga anpassade fält hittades."
@@ -8758,9 +8975,6 @@ msgstr "Uppdatera ärende"
 #~ msgstr ""
 #~ "Vänligen ange den fullständiga sökvägen i servern för den här "
 #~ "installationen av Eventum."
-
-#~ msgid "Warning!"
-#~ msgstr "Varning!"
 
 #~ msgid ""
 #~ "You are running PHP version %1.\n"
