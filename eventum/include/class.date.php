@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.date.php 3732 2008-09-30 22:44:53Z glen $
+// @(#) $Id: class.date.php 3733 2008-09-30 22:47:16Z glen $
 //
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
@@ -131,28 +131,14 @@ class Date_API
     function getDateGMT($date = null, $format = DATE_FORMAT_ISO)
     {
         $dt = new Date();
+        $dt->toUTC();
 
         if (is_a($date, 'Date')) {
             $dt->copy($date);
         } else {
             if (!is_null($date)) {
-                if (is_null($format)) {
-                    if (is_int($date)) {
-                        // unix timestamps are always in UTC
-                        $dt->toUTC();
-                        $format = DATE_FORMAT_UNIXTIME;
-                    } elseif (is_numeric($date)) {
-                        $format = DATE_FORMAT_TIMESTAMP;
-                        $date = $date.'Z';
-                    } else {
-                        // add TZ information to timestamp
-                        $date = self::iso8601_date($date);
-                        $format = DATE_FORMAT_ISO;
-                    }
-                }
                 $dt->setDate($date, $format);
             } else {
-                $dt->toUTC();
                 $dt->setDate(gmdate("Y-m-d H:i:s"));
             }
         }
