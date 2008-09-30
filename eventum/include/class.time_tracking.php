@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.time_tracking.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.time_tracking.php 3731 2008-09-30 18:03:08Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -423,7 +423,7 @@ class Time_Tracking
                 $_POST["date"]["Day"], $_POST["date"]["Hour"],
                 $_POST["date"]["Minute"], 0);
             // convert the date to GMT timezone
-            $created_date = Date_API::getDateGMT($created_date);
+            $created_date = Date_API::convertDateGMT($created_date);
         } else {
             $created_date = Date_API::getCurrentDateGMT();
         }

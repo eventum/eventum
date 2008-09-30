@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.date.php 3730 2008-09-30 16:09:52Z glen $
+// @(#) $Id: class.date.php 3731 2008-09-30 18:03:08Z glen $
 //
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
@@ -321,14 +321,14 @@ class Date_API
 
 
     /**
-     * Method used to convert the user date (that might be in a
-     * specific timezone) to a GMT date.
+     * Method used to convert the user date (that is in a specific timezone) to
+     * a GMT date.
      *
      * @access  public
-     * @param   string $date The user based date
+     * @param   string $date The date in use timezone
      * @return  string The date in the GMT timezone
      */
-    function getDateGMT($date)
+    function convertDateGMT($date)
     {
         $dt = new Date($date);
         $dt->setTZbyID(Date_API::getPreferredTimezone());
@@ -344,7 +344,7 @@ class Date_API
      * @param   integer $timestamp The user based date
      * @return  string The date in the GMT timezone
      */
-    function getDateGMTByTS($timestamp)
+    function convertDateGMTByTS($timestamp)
     {
         return gmdate('Y-m-d H:i:s', $timestamp);
     }

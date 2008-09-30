@@ -650,7 +650,7 @@ class Support
         $t = array(
             'ema_id'         => $info['ema_id'],
             'message_id'     => $message_id,
-            'date'           => @Date_API::getDateGMTByTS($email->udate),
+            'date'           => Date_API::convertDateGMTByTS($email->udate),
             'from'           => $sender_email,
             'to'             => @$email->toaddress,
             'cc'             => @$email->ccaddress,
