@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.date.php 3733 2008-09-30 22:47:16Z glen $
+// @(#) $Id: class.date.php 3734 2008-09-30 23:21:47Z glen $
 //
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
@@ -222,7 +222,7 @@ class Date_API
      * Method used to get the current date in the GMT timezone.
      *
      * @access  public
-     * @return  string The current GMT date
+     * @return  string The current GMT date in DATE_FORMAT_ISO format.
      */
     function getCurrentDateGMT()
     {
@@ -249,6 +249,7 @@ class Date_API
      * @access  public
      * @param   object $date The Date object
      * @return  string The timezone short name
+     * @note    PEAR Date 1.5.0 Includes this method itself.
      */
     function getTimezoneShortName($date)
     {
@@ -275,23 +276,6 @@ class Date_API
         return Date_API::getTimezoneShortName($date);
     }
 
-
-    /**
-     *
-     * Format datetime into iso8601 timestamp
-     *
-     * @param   string $ts timestamp in datetime format
-     * @return  string iso8601 formatted date
-     * @access  public
-     * @see     http://php.net/manual/en/function.date.php
-     * @see     http://en.wikipedia.org/wiki/ISO_8601
-     * @see     http://www.exslt.org/date/functions/date/index.html
-     */
-    function iso8601_date($ts) {
-        list($date, $time) = explode(' ', $ts);
-        return $date.'T'.$time.'Z';
-    }
-
     /**
      * Method used to get the formatted date for a specific timestamp
      * and a specific timezone, provided by the user' preference.
@@ -307,7 +291,7 @@ class Date_API
             $timezone = Date_API::getPreferredTimezone();
         }
 
-        $date = new Date(self::iso8601_date($ts));
+        $date = self::getDateGMT($ts);
         // now convert to another timezone and return the date
         $date->convertTZById($timezone);
         return $date->format('%a, %d %b %Y, %H:%M:%S %Z');
