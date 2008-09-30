@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.date.php 3731 2008-09-30 18:03:08Z glen $
+// @(#) $Id: class.date.php 3732 2008-09-30 22:44:53Z glen $
 //
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
@@ -91,6 +91,74 @@ class Date_API
         }
     }
 
+    /**
+     * Creates a new Date Object initialized to the current date/time in the
+     * GMT timezone by default.  A date optionally
+     * passed in may be in the ISO 8601, TIMESTAMP or UNIXTIME format,
+     * or another Date object.  If no date is passed, the current date/time
+     * is used.
+     *
+     * Format parameter should be one of the specified DATE_FORMAT_* constants:
+     *
+     *  <code>DATE_FORMAT_ISO</code>
+     *                              - 'YYYY-MM-DD HH:MI:SS'
+     *  <code>DATE_FORMAT_ISO_BASIC</code>
+     *                              - 'YYYYMMSSTHHMMSS(Z|(+/-)HHMM)?'
+     *  <code>DATE_FORMAT_ISO_EXTENDED</code>
+     *                              - 'YYYY-MM-SSTHH:MM:SS(Z|(+/-)HH:MM)?'
+     *  <code>DATE_FORMAT_ISO_EXTENDED_MICROTIME</code>
+     *                              - 'YYYY-MM-SSTHH:MM:SS(.S*)?(Z|(+/-)HH:MM)?'
+     *  <code>DATE_FORMAT_TIMESTAMP</code>
+     *                              - 'YYYYMMDDHHMMSS'
+     *  <code>DATE_FORMAT_UNIXTIME'</code>
+     *                              - long integer of the no of seconds since
+     *                                 the Unix Epoch
+     *                                 (1st January 1970 00.00.00 GMT)
+     *
+     * @param mixed $date                optional ISO 8601 date/time to initialize;
+     *                                    or, a Unix time stamp
+     * @param int    $format                 optional format constant
+     *                                        (DATE_FORMAT_*) of the input date.
+     *                                        This parameter is not needed,
+     *                                        except to force the setting of the
+     *                                        date from a Unix time-stamp
+     *                                        (DATE_FORMAT_UNIXTIME).
+     *
+     * @return   Object Date in GMT timezone
+     * @access   public
+     * @see      new Date()
+     */
+    function getDateGMT($date = null, $format = DATE_FORMAT_ISO)
+    {
+        $dt = new Date();
+
+        if (is_a($date, 'Date')) {
+            $dt->copy($date);
+        } else {
+            if (!is_null($date)) {
+                if (is_null($format)) {
+                    if (is_int($date)) {
+                        // unix timestamps are always in UTC
+                        $dt->toUTC();
+                        $format = DATE_FORMAT_UNIXTIME;
+                    } elseif (is_numeric($date)) {
+                        $format = DATE_FORMAT_TIMESTAMP;
+                        $date = $date.'Z';
+                    } else {
+                        // add TZ information to timestamp
+                        $date = self::iso8601_date($date);
+                        $format = DATE_FORMAT_ISO;
+                    }
+                }
+                $dt->setDate($date, $format);
+            } else {
+                $dt->toUTC();
+                $dt->setDate(gmdate("Y-m-d H:i:s"));
+            }
+        }
+
+        return $dt;
+    }
 
     /**
      * Returns the current UNIX timestamp in the GMT timezone.
