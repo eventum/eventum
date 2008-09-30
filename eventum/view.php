@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: view.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: view.php 3729 2008-09-30 09:43:00Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -55,7 +55,6 @@ $role_id = Auth::getCurrentRole();
 $associated_projects = @array_keys(Project::getAssocList($usr_id));
 
 @$issue_id = $_POST["issue_id"] ? $_POST["issue_id"] : $_GET["id"];
-$tpl->assign("extra_title", "Issue #$issue_id Details");
 
 // check if the requested issue is a part of the 'current' project. If it doesn't
 // check if issue exists in another project and if it does, switch projects
@@ -69,6 +68,7 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
 }
 
 $details = Issue::getDetails($issue_id);
+$tpl->assign("extra_title", ev_gettext('#%1$s - %2$s', $issue_id, $details['iss_summary']));
 $tpl->assign("issue", $details);
 
 // in the case of a customer user, also need to check if that customer has access to this issue
