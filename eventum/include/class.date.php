@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.date.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.date.php 3730 2008-09-30 16:09:52Z glen $
 //
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
@@ -223,23 +223,40 @@ class Date_API
 
 
     /**
+     *
+     * Format datetime into iso8601 timestamp
+     *
+     * @param   string $ts timestamp in datetime format
+     * @return  string iso8601 formatted date
+     * @access  public
+     * @see     http://php.net/manual/en/function.date.php
+     * @see     http://en.wikipedia.org/wiki/ISO_8601
+     * @see     http://www.exslt.org/date/functions/date/index.html
+     */
+    function iso8601_date($ts) {
+        list($date, $time) = explode(' ', $ts);
+        return $date.'T'.$time.'Z';
+    }
+
+    /**
      * Method used to get the formatted date for a specific timestamp
      * and a specific timezone, provided by the user' preference.
      *
      * @access  public
-     * @param   string $timestamp The date timestamp to be formatted
+     * @param   string $ts The date timestamp to be formatted
      * @param   string $timezone The timezone name
      * @return  string
      */
-    function getFormattedDate($timestamp, $timezone = FALSE)
+    function getFormattedDate($ts, $timezone = FALSE)
     {
         if ($timezone === FALSE) {
             $timezone = Date_API::getPreferredTimezone();
         }
-        $date = new Date($timestamp);
+
+        $date = new Date(self::iso8601_date($ts));
         // now convert to another timezone and return the date
         $date->convertTZById($timezone);
-        return $date->format('%a, %d %b %Y, %H:%M:%S ') . Date_API::getTimezoneShortName($date);
+        return $date->format('%a, %d %b %Y, %H:%M:%S %Z');
     }
 
 
