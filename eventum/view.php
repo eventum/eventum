@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: view.php 3729 2008-09-30 09:43:00Z glen $
+// @(#) $Id: view.php 3735 2008-10-01 14:51:06Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -68,15 +68,20 @@ if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, 
 }
 
 $details = Issue::getDetails($issue_id);
-$tpl->assign("extra_title", ev_gettext('#%1$s - %2$s', $issue_id, $details['iss_summary']));
+$tpl->assign("extra_title", ev_gettext('Issue #%1$s Details', $issue_id));
 $tpl->assign("issue", $details);
 
 // in the case of a customer user, also need to check if that customer has access to this issue
 if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) != $details['iss_customer_id'])) {
     $tpl->assign("auth_customer", 'denied');
+
 } elseif (!Issue::canAccess($issue_id, $usr_id)) {
     $tpl->assign("auth_user", 'denied');
+
 } else {
+    // now that we access to the issue, add more verbose HTML <title>
+    $tpl->assign("extra_title", ev_gettext('#%1$s - %2$s', $issue_id, $details['iss_summary']));
+
     $associated_projects = @array_keys(Project::getAssocList($usr_id));
     if ((empty($details)) || ($details['iss_prj_id'] != $prj_id)) {
         $tpl->assign('issue', '');
