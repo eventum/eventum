@@ -2,7 +2,7 @@
 # (c) 2007 Elan Ruusamäe <glen@delfi.ee>
 
 SVN_URL := svn://eventum.mysql.org/eventum-gpl/trunk/eventum
-ALL_LINGUAS := de en es fi fr it nl pl ru sv
+ALL_LINGUAS := de en es fi fr it nl pl ru sv pt_BR
 DOMAIN := eventum
 POFILES := $(patsubst %,%.po,$(ALL_LINGUAS))
 

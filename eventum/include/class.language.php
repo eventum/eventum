@@ -54,6 +54,7 @@ $avail_langs = array(
 #    'es_ES' =>  'Spanish',
 #    'nl_NL' =>  'Dutch',
     'sv_SE' =>  'Swedish',
+    'pt_BR' =>  'Brazilian Portuguese',
 );
 
 class Language
