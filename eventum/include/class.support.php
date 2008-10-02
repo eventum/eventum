@@ -1922,7 +1922,7 @@ class Support
             // also not in the authorized repliers list
             // also not the reporter
             $details = Issue::getDetails($issue_id);
-            if (!Issue::canAccess($issue_id, $sender_usr_id)) {
+            if ((!Issue::canAccess($issue_id, $sender_usr_id)) && (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
                 $is_allowed = false;
             } if (($sender_usr_id != $details['iss_usr_id']) &&
                     (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) &&

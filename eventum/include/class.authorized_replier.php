@@ -25,7 +25,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.authorized_replier.php 3737 2008-10-02 02:00:02Z balsdorf $
+// @(#) $Id: class.authorized_replier.php 3738 2008-10-02 02:19:13Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.user.php");
@@ -238,6 +238,8 @@ class Authorized_Replier
      */
     function isAuthorizedReplier($issue_id, $email)
     {
+        // XXX: Add caching
+
         $email = strtolower(Mail_API::getEmailAddress($email));
         // first check if this is an actual user or just an email address
         $usr_id = User::getUserIDByEmail($email, true);
