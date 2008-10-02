@@ -182,7 +182,7 @@ function calcDateDiff(f, type, element)
               </tr>
 
               <tr>
-                <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>Work ended:</b></td>
+                <td bgcolor="{$internal_color}" class="default_white" width="190" nowrap><b>{t}Work ended{/t}:</b></td>
                 <td bgcolor="{$light_color}" width="100%">
                   {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 2)"'}&nbsp;
                   {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="calcDateDiff(this.form, 2)"' display_seconds=false}

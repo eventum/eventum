@@ -57,7 +57,7 @@ function addTimeEntry()
                 <td class="default" nowrap>{$time_entries[i].ttr_created_date}</td>
                 <td class="default" nowrap>
                   {$time_entries[i].usr_full_name}
-                  {if $current_user_id == $time_entries[i].ttr_usr_id}[ <a class="link" href="javascript:void(null);" onClick="javascript:deleteTimeEntry({$time_entries[i].ttr_id});">delete</a> ]{/if}
+                  {if $current_user_id == $time_entries[i].ttr_usr_id}[ <a class="link" href="javascript:void(null);" onClick="javascript:deleteTimeEntry({$time_entries[i].ttr_id});">{t}delete{/t}</a> ]{/if}
                 </td>
                 <td class="default">{$time_entries[i].formatted_time}</td>
                 <td class="default" nowrap>{$time_entries[i].ttc_title}</td>
