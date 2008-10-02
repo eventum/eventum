@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 01:39+0300\n"
+"POT-Creation-Date: 2008-10-03 01:46+0300\n"
 "PO-Revision-Date: 2007-11-10 17:22+0200\n"
 "Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -183,6 +183,11 @@ msgstr "Valitse kategoria"
 
 #: misc/localization/eventum.c
 msgid "Work started"
+msgstr "Työ aloitettu"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Work ended"
 msgstr "Työ aloitettu"
 
 #: misc/localization/eventum.c

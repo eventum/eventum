@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 01:39+0300\n"
+"POT-Creation-Date: 2008-10-03 01:46+0300\n"
 "PO-Revision-Date: 2007-11-10 02:59+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -186,6 +186,11 @@ msgstr "Пожалуйста, выберите категорию"
 #: misc/localization/eventum.c
 msgid "Work started"
 msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Work ended"
+msgstr "Процесс обработки рабочего процесса"
 
 #: misc/localization/eventum.c
 msgid "Add Time Entry"

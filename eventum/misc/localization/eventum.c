@@ -140,6 +140,9 @@ gettext("in minutes");
 gettext("Work started");
 
 /* templates/add_time_tracking.tpl.html */
+gettext("Work ended");
+
+/* templates/add_time_tracking.tpl.html */
 gettext("Add Time Entry");
 
 /* templates/adv_search.tpl.html */
@@ -8028,6 +8031,9 @@ gettext("Category");
 
 /* templates/time_tracking.tpl.html */
 gettext("Summary");
+
+/* templates/time_tracking.tpl.html */
+gettext("delete");
 
 /* templates/time_tracking.tpl.html */
 gettext("Total Time Spent");
