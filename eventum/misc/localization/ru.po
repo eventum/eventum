@@ -2,8 +2,8 @@
 # Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008 MySQL AB
 # This file is distributed under the same license as the Eventum package.
 #
-# Eugene Volik <evolik@gmail.com>, 2007.
-# Elan Ruusamäe <glen@delfi.ee>, 2007.
+# Eugene Volik <evolik@gmail.com>, 2007
+# Elan Ruusamäe <glen@delfi.ee>, 2007
 msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"

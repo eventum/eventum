@@ -1,11 +1,10 @@
 # Translation of eventum.po to Swedish
-# translation of eventum.po to Swedish
-# This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# Copyright (C) 2006, 2007 MySQL AB
+# This file is distributed under the same license as the Eventum package.
 #
-# Bryan Alsdorf <bryan@mysql.com>, 2006.
-# Jostein Martinsen <jostein.martinsen@redpill.se>, 2006.
-# Elan Ruusamäe <glen@delfi.ee>, 2007.
+# Bryan Alsdorf <bryan@mysql.com>, 2006
+# Jostein Martinsen <jostein.martinsen@redpill.se>, 2006
+# Elan Ruusamäe <glen@delfi.ee>, 2007
 msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"

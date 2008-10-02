@@ -1,10 +1,9 @@
 # Translation of eventum.po to Polish
-# translation of eventum.po to
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) 2007 MySQL AB
+# This file is distributed under the same license as the Eventum package.
 #
-# Grzegorz Sterniczuk <grzegorz.sterniczuk@helimed.pl>, 2006.
-# Elan Ruusamäe <glen@delfi.ee>, 2007.
+# Grzegorz Sterniczuk <grzegorz.sterniczuk@helimed.pl>, 2006
+# Elan Ruusamäe <glen@delfi.ee>, 2007
 msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"

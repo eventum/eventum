@@ -1,12 +1,12 @@
 # Translation of nl.po to Dutch
-# Copyright (C) 2008
+# Copyright (C) 2008 MySQL AB
 # This file is distributed under the same license as the Eventum package.
 #
 # Milo van der Linden <mlinden@zeelandnet.nl>, 2008
-# Elan Ruusamäe <glen@delfi.ee>, 2008.
+# Elan Ruusamäe <glen@delfi.ee>, 2008
 msgid ""
 msgstr ""
-"Project-Id-Version: nl\n"
+"Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-30 01:57+0300\n"
 "PO-Revision-Date: 2008-07-19 22:33+0300\n"
