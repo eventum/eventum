@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-30 01:57+0300\n"
+"POT-Creation-Date: 2008-10-03 01:39+0300\n"
 "PO-Revision-Date: 2007-11-10 03:13+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Polish <eventum-devel@lists.mysql.com>\n"
@@ -8196,6 +8196,16 @@ msgstr "Zgłoszenia wg przypisanych osób"
 #, fuzzy, php-format
 msgid "Update Issue #%1$s"
 msgstr "Aktualizuj zgłoszenie"
+
+#: view.php:71
+#, fuzzy, php-format
+msgid "Issue #%1$s Details"
+msgstr "Wróć do Szczegółów Zgłoszenia  #%1"
+
+#: view.php:83
+#, php-format
+msgid "#%1$s - %2$s"
+msgstr ""
 
 #~ msgid "Rows Per Page:"
 #~ msgstr "Wierszy na stronie:"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-30 01:57+0300\n"
+"POT-Creation-Date: 2008-10-03 01:39+0300\n"
 "PO-Revision-Date: 2007-11-10 03:02+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
@@ -8848,6 +8848,16 @@ msgstr "Mina tilldelade"
 #, fuzzy, php-format
 msgid "Update Issue #%1$s"
 msgstr "Uppdatera ärende"
+
+#: view.php:71
+#, fuzzy, php-format
+msgid "Issue #%1$s Details"
+msgstr "Användardealjer"
+
+#: view.php:83
+#, php-format
+msgid "#%1$s - %2$s"
+msgstr ""
 
 #~ msgid "Rows Per Page:"
 #~ msgstr "Rader per sida:"

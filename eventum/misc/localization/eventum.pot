@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-30 01:57+0300\n"
+"POT-Creation-Date: 2008-10-03 01:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -8475,4 +8475,14 @@ msgstr ""
 #: update.php:77
 #, php-format
 msgid "Update Issue #%1$s"
+msgstr ""
+
+#: view.php:71
+#, php-format
+msgid "Issue #%1$s Details"
+msgstr ""
+
+#: view.php:83
+#, php-format
+msgid "#%1$s - %2$s"
 msgstr ""
