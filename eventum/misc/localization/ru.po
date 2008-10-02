@@ -8860,12 +8860,12 @@ msgstr "Обновить запрос"
 #: view.php:71
 #, fuzzy, php-format
 msgid "Issue #%1$s Details"
-msgstr "Детали запроса"
+msgstr "Детали запроса #%1$s"
 
 #: view.php:83
 #, php-format
 msgid "#%1$s - %2$s"
-msgstr ""
+msgstr "#%1$s - %2$s"
 
 #~ msgid "Rows Per Page:"
 #~ msgstr "Рядов на страницу:"
