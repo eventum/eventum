@@ -1925,7 +1925,7 @@ class Support
             if (!Issue::canAccess($issue_id, $sender_usr_id)) {
                 $is_allowed = false;
             } if (($sender_usr_id != $details['iss_usr_id']) &&
-                    (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $sender_usr_id)) &&
+                    (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) &&
                     (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
                     (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) {
                 $is_allowed = false;

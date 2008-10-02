@@ -25,7 +25,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.authorized_replier.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.authorized_replier.php 3737 2008-10-02 02:00:02Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.user.php");
@@ -157,10 +157,9 @@ class Authorized_Replier
             }
 
             // first check if this is an actual user or just an email address
-            $user_emails = User::getAssocEmailList();
-            $user_emails = array_map('strtolower', $user_emails);
-            if (in_array($email, array_keys($user_emails))) {
-                return Authorized_Replier::addUser($issue_id, $user_emails[$email], $add_history);
+            $usr_id = User::getUserIDByEmail($email, true);
+            if (!empty($usr_id)) {
+                return Authorized_Replier::addUser($issue_id, $usr_id, $add_history);
             }
 
             $stmt = "INSERT INTO
@@ -241,30 +240,33 @@ class Authorized_Replier
     {
         $email = strtolower(Mail_API::getEmailAddress($email));
         // first check if this is an actual user or just an email address
-        $user_emails = User::getAssocEmailList();
-        if (in_array($email, array_keys($user_emails))) {
+        $usr_id = User::getUserIDByEmail($email, true);
+        if (!empty($usr_id)) {
             // real user, get id
-            $usr_id = User::getUserIDByEmail($email);
-            return Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id);
+            $is_usr_authorized = Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id);
+            if ($is_usr_authorized) {
+                return true;
+            }
+            // if user is not authorized by user ID, continue to check by email in case the user account was added
+            // after the email address was added to authorized repliers list.
+        }
+        // not a real user
+        $stmt = "SELECT
+                    COUNT(*) AS total
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
+                 WHERE
+                    iur_iss_id=" . Misc::escapeInteger($issue_id) . " AND
+                    iur_email='" . Misc::escapeString($email) . "'";
+        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return false;
         } else {
-            // not a real user
-            $stmt = "SELECT
-                        COUNT(*) AS total
-                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
-                     WHERE
-                        iur_iss_id=" . Misc::escapeInteger($issue_id) . " AND
-                        iur_email='" . Misc::escapeString($email) . "'";
-            $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
-            if (PEAR::isError($res)) {
-                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-                return false;
+            if ($res > 0) {
+                return true;
             } else {
-                if ($res > 0) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return false;
             }
         }
     }
