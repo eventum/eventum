@@ -5,7 +5,13 @@ define('INSTALL_PATH', realpath(dirname(__FILE__) . '/../..'));
 define('CONFIG_PATH', INSTALL_PATH.'/config');
 
 if (!file_exists(CONFIG_PATH. '/config.php')) {
-	die("Can't find config.php from ". CONFIG_PATH . ". Did you forgot to copy config from old install?");
+	echo "\nCan't find config.php from ", CONFIG_PATH, ". Did you forgot to copy config from old install?\n";
+	exit(1);
+}
+// on fresh install config is empty or missing
+if (!defined('APP_SQL_DBNAME')) {
+	echo "\nEventum not configured. Please run setup.\n";
+	exit(1);
 }
 
 require_once INSTALL_PATH . '/init.php';
