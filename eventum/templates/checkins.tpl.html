@@ -55,13 +55,13 @@ function removeCheckins(f)
               {section name="i" loop=$checkins}
               {cycle values=$cycle assign="row_color"}
               <tr bgcolor="{$row_color}">
-                <td>
+                <td valign="top">
                   <input type="checkbox" name="item[]" value="{$checkins[i].isc_id}">
                 </td>
-                <td class="default" nowrap>{$checkins[i].isc_created_date}</td>
-                <td class="default">{$checkins[i].isc_username|escape:"html"}</td>
-                <td class="default">{$checkins[i].isc_module|escape:"html"}</td>
-                <td class="default" nowrap>
+                <td class="default" valign="top" nowrap>{$checkins[i].isc_created_date}</td>
+                <td class="default" valign="top" >{$checkins[i].isc_username|escape:"html"}</td>
+                <td class="default" valign="top">{$checkins[i].isc_module|escape:"html"}</td>
+                <td class="default" valign="top" nowrap>
                   {if $checkins[i].checkout_url}
                   <a title="{t 1=$checkins[i].isc_new_version 2=$checkins[i].isc_filename}see the source of revision %1 of %2{/t}" target="_checkout" class="link" href="{$checkins[i].checkout_url}">{$checkins[i].isc_filename|escape:"html"} ({$checkins[i].isc_new_version})</a>
                   {else}
@@ -71,7 +71,7 @@ function removeCheckins(f)
                   [<a title="{t 1=$checkins[i].isc_old_version}see the diff to revision %1{/t}" target="_checkout" class="link" href="{$checkins[i].diff_url}">{t 1=$checkins[i].isc_old_version}diff to %1{/t}</a>]
                   {/if}
                 </td>
-                <td class="default">
+                <td class="default" valign=top>
                   {$checkins[i].isc_commit_msg}
                 </td>
               </tr>
