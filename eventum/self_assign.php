@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: self_assign.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: self_assign.php 3747 2008-10-08 20:19:38Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -59,7 +59,7 @@ if ((count($assigned_user_ids) > 0) && (empty($_REQUEST["target"]))) {
     }
     $res = Issue::addUserAssociation($usr_id, $issue_id, $usr_id);
     $tpl->assign("self_assign_result", $res);
-    Notification::subscribeUser($usr_id, $issue_id, $usr_id, Notification::getDefaultActions());
+    Notification::subscribeUser($usr_id, $issue_id, $usr_id, Notification::getDefaultActions($issue_id, User::getEmail($usr_id), 'self_assign'));
     Workflow::handleAssignment($prj_id, $issue_id, $usr_id);
 }
 

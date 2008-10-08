@@ -408,4 +408,20 @@ class Abstract_Workflow_Backend
     {
         return null;
     }
+
+
+    /**
+     * Called to determine which actions to subscribe a new user too.
+     *
+     * @see     Notification::getDefaultActions()
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue
+     * @param   string  $email The email address of the user being added
+     * @param   string  $source The source of this call
+     * @return  array   an array of actions
+     */
+    function getNotificationActions($prj_id, $issue_id, $email, $source)
+    {
+        return null;
+    }
 }

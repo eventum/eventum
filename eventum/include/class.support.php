@@ -946,7 +946,7 @@ class Support
                     } else {
                         $recipient = Mail_API::getFormattedName($address['sender_name'], $address['email']);
                     }
-                    Notification::subscribeEmail(Auth::getUserID(), $issue_id, $address['email'], Notification::getDefaultActions());
+                    Notification::subscribeEmail(Auth::getUserID(), $issue_id, $address['email'], Notification::getDefaultActions($issue_id, $recipient, 'issue_from_email'));
                     Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $from, $date, $subject, $recipient);
                 }
             }
@@ -962,7 +962,7 @@ class Support
                     } else {
                         $recipient = Mail_API::getFormattedName($address['sender_name'], $address['email']);
                     }
-                    Notification::subscribeEmail(Auth::getUserID(), $issue_id, $address['email'], Notification::getDefaultActions());
+                    Notification::subscribeEmail(Auth::getUserID(), $issue_id, $address['email'], Notification::getDefaultActions($issue_id, $recipient, 'issue_from_email'));
                     Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $from, $date, $subject, $recipient);
                 }
             }
@@ -2133,7 +2133,8 @@ class Support
                 $recipients = array_merge($recipients, Support::getRecipientsCC($_POST['cc']));
                 for ($i = 0; $i < count($recipients); $i++) {
                     if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($_POST["issue_id"], $recipients[$i]))) {
-                        Notification::subscribeEmail(Auth::getUserID(), $_POST["issue_id"], Mail_API::getEmailAddress($recipients[$i]), Notification::getDefaultActions());
+                        Notification::subscribeEmail(Auth::getUserID(), $_POST["issue_id"], Mail_API::getEmailAddress($recipients[$i]),
+                                        Notification::getDefaultActions($_POST['issue_id'], $recipients[$i], 'add_unknown_user'));
                     }
                 }
             }

@@ -909,6 +909,7 @@ class Notification
         $final_type = $type;
         $sender_usr_id = false;
         $threading_headers = Mail_API::getBaseThreadingHeaders($issue_id);
+        $emails = array_unique($emails);
         for ($i = 0; $i < count($emails); $i++) {
 
             $can_access = true;
@@ -1901,10 +1902,19 @@ class Notification
      * actions.
      *
      * @access  public
+     * @param   integer $issue_id The ID of the issue the user is being subscribed too
+     * @param   string  $email The email address of the user to be subscribed
+     * @param   string  $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note"
      * @return  array The list of default notification actions
      */
-    function getDefaultActions()
+    function getDefaultActions($issue_id = false, $email = false, $source = false)
     {
+        $prj_id = Auth::getCurrentProject();
+        $workflow = Workflow::getNotificationActions($prj_id, $issue_id, $email, $source);
+        if (!is_null($workflow)) {
+            return $workflow;
+        }
+
         $actions = array();
         $setup = Setup::load();
 

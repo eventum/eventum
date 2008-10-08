@@ -166,7 +166,7 @@ class Workflow
             return true;
         }
         $backend =& Workflow::_getBackend($prj_id);
-        return $backend->preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes);
+        return $backend->preIssueUpdated($prj_id, $issue_id, $usr_id, $changes);
     }
 
 
@@ -624,5 +624,25 @@ class Workflow
         }
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->prePage($prj_id, $page_name);
+    }
+
+
+    /**
+     * Called to determine which actions to subscribe a new user too.
+     *
+     * @see     Notification::getDefaultActions()
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue
+     * @param   string  $email The email address of the user being added
+     * @param   string  $source The source of this call
+     * @return  array   an array of actions
+     */
+    function getNotificationActions($prj_id, $issue_id, $email, $source)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return true;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+        return $backend->getNotificationActions($prj_id, $issue_id, $email, $source);
     }
 }

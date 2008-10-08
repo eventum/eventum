@@ -336,7 +336,7 @@ class Note
         $note_cc[] = $usr_id;
         if (($unknown_user == false) && ($is_blocked == false)) {
             for ($i = 0; $i < count($note_cc); $i++) {
-                Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getDefaultActions());
+                Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getDefaultActions($issue_id, User::getEmail($usr_id), 'note'));
             }
         }
         if (Validation::isWhitespace($_POST["note"])) {
