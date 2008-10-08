@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: associate.php 3565 2008-04-14 16:53:06Z balsdorf $
+// @(#) $Id: associate.php 3748 2008-10-08 20:24:01Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -43,15 +43,15 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 if (@$_POST['cat'] == 'associate') {
     if ($_POST['target'] == 'email') {
-        $res = Support::associate(Auth::getUserID(), $_POST['issue'], $_POST['item']);
+        $res = Support::associate(Auth::getUserID(), $_POST['issue_id'], $_POST['item']);
         if ($res == 1) {
-            Workflow::handleManualEmailAssociation(Issue::getProjectID($_POST['issue']), $_POST['issue']);
+            Workflow::handleManualEmailAssociation(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id']);
         }
         $tpl->assign("associate_result", $res);
     } elseif ($_POST['target'] == 'reference') {
-        $res = Support::associateEmail(Auth::getUserID(), $_POST['issue'], $_POST['item']);
+        $res = Support::associateEmail(Auth::getUserID(), $_POST['issue_id'], $_POST['item']);
         if ($res == 1) {
-            Workflow::handleManualEmailAssociation(Issue::getProjectID($_POST['issue']), $_POST['issue']);
+            Workflow::handleManualEmailAssociation(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id']);
         }
         $tpl->assign("associate_result", $res);
     } else {
@@ -63,11 +63,11 @@ if (@$_POST['cat'] == 'associate') {
             $_POST['note'] = $email['seb_body'];
             // XXX: probably broken to use the current logged in user as the 'owner' of
             // XXX: this new note, but that's how it was already
-            $res = Note::insert(Auth::getUserID(), $_POST['issue'], false, true, false, true, true);
+            $res = Note::insert(Auth::getUserID(), $_POST['issue_id'], false, true, false, true, true);
             // remove the associated email
             if ($res) {
                 list($_POST["from"]) = Support::getSender(array($_POST['item'][$i]));
-                Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue']), $_POST['issue'], $_POST, 'associated');
+                Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'associated');
                 Support::removeEmail($_POST['item'][$i]);
             }
         }
@@ -77,7 +77,7 @@ if (@$_POST['cat'] == 'associate') {
 } else {
     @$tpl->assign('emails', $_GET['item']);
     @$tpl->assign('total_emails', count($_GET['item']));
-    $prj_id = Issue::getProjectID($_GET['issue']);
+    $prj_id = Issue::getProjectID($_GET['issue_id']);
     if (Customer::hasCustomerIntegration($prj_id)) {
         // check if the selected emails all have sender email addresses that are associated with the issue' customer
         $senders = Support::getSender($_GET['item']);
@@ -86,7 +86,7 @@ if (@$_POST['cat'] == 'associate') {
             $email = Mail_API::getEmailAddress($senders[$i]);
             $sender_emails[$email] = $senders[$i];
         }
-        $customer_id = Issue::getCustomerID($_GET['issue']);
+        $customer_id = Issue::getCustomerID($_GET['issue_id']);
         if (!empty($customer_id)) {
             $contact_emails = array_keys(Customer::getContactEmailAssocList($prj_id, $customer_id));
             $unknown_contacts = array();
