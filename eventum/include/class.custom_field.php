@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3685 2008-07-29 05:35:31Z balsdorf $
+// @(#) $Id: class.custom_field.php 3749 2008-10-14 22:34:50Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -587,6 +587,9 @@ class Custom_Field
                     fld_anonymous_form_required,
                     fld_close_form_required,
                     " . Custom_Field::getDBValueFieldSQL() . " as value,
+                    icf_value,
+                    icf_value_date,
+                    icf_value_integer,
                     fld_min_role
                  FROM
                     (
@@ -657,6 +660,14 @@ class Custom_Field
                             $fields[$found_index]['field_options'][$original_value] = Custom_Field::getOptionValue($res[$i]['fld_id'], $original_value);
                         }
                     } else {
+                        switch ($res[$i]["fld_type"]) {
+                            case 'date':
+                                $res[$i]["value"] = $res[$i]["icf_value_date"];
+                            case 'integer':
+                                $res[$i]["value"] = $res[$i]["icf_value_integer"];
+                            default:
+                                $res[$i]["value"] = $res[$i]["icf_value"];
+                        }
                         $fields[] = $res[$i];
                     }
                 }
