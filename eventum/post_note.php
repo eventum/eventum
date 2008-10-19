@@ -22,16 +22,13 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
-//
-// @(#) $Id: post_note.php 3632 2008-06-19 05:30:31Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.user.php");
 require_once(APP_INC_PATH . "class.note.php");
+require_once(APP_INC_PATH . "class.issue_field.php");
 require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_API();
@@ -66,6 +63,7 @@ if (@$_POST["cat"] == "post_note") {
     }
 
     $res = Note::insert($usr_id, $issue_id);
+    Issue_Field::updateValues($issue_id, 'post_note', @$_REQUEST['issue_field']);
     $tpl->assign("post_result", $res);
     // enter the time tracking entry about this phone support entry
     if (!empty($_POST['time_spent'])) {
@@ -101,7 +99,8 @@ $tpl->assign(array(
     'current_issue_status'  =>  Issue::getStatusID($issue_id),
     'time_categories'    => Time_Tracking::getAssocCategories(),
     'note_category_id'   => Time_Tracking::getCategoryID('Note Discussion'),
-    'reply_subject'      => $reply_subject
+    'reply_subject'      => $reply_subject,
+    'issue_fields'       => Issue_Field::getDisplayData($issue_id, 'post_note'),
 ));
 
 $tpl->displayTemplate();

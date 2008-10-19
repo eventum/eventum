@@ -4322,6 +4322,47 @@ class Issue
         }
         return $returns[$msg_id];
     }
+
+
+    /**
+     * Sets the assignees for the issue
+     *
+     * @param   integer $issue_id
+     * @param   array   $assignees
+     */
+    function setAssignees($issue_id, $assignees)
+    {
+        if (!is_array($assignees)) {
+            $assignees = array();
+        }
+
+        // see if there is anything to change
+        $old_assignees = Issue::getAssignedUserIDs($issue_id);
+        if ((count(array_diff($old_assignees, $assignees)) == 0) && (count(array_diff($assignees, $old_assignees)) == 0)) {
+            return;
+        }
+
+        $old_assignee_names = Issue::getAssignedUsers($issue_id);
+
+        Workflow::handleAssignmentChange(Issue::getProjectID($issue_id), $issue_id, Auth::getUserID(), Issue::getDetails($issue_id), $assignees, true);
+        // clear up the assignments for this issue, and then assign it to the current user
+        Issue::deleteUserAssociations($issue_id);
+        $assignee_names = array();
+        foreach ($assignees as $assignee) {
+            $res = Issue::addUserAssociation(Auth::getUserID(), $issue_id, $assignee, false);
+            if ($res == -1) {
+                return false;
+            }
+            $assignee_names[] = User::getFullName($assignee);
+            Notification::subscribeUser(Auth::getUserID(), $issue_id, $assignee, Notification::getDefaultActions($issue_id, User::getEmail($assignee), 'set_assignees'), false);
+        }
+
+        Notification::notifyNewAssignment($assignees, $issue_id);
+
+        // save a history entry about this...
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('user_associated'),
+                        "Issue assignment to changed (" . History::formatChanges(join(', ', $old_assignee_names), join(', ', $assignee_names)) . ") by " . User::getFullName(Auth::getUserID()));
+    }
 }
 
 // benchmarking the included file (aka setup time)

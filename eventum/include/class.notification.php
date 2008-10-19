@@ -1510,6 +1510,9 @@ class Notification
         $prj_id = Issue::getProjectID($issue_id);
         $emails = array();
         for ($i = 0; $i < count($users); $i++) {
+            if ($users[$i] == Auth::getUserID()) {
+                continue;
+            }
             $prefs = Prefs::get($users[$i]);
             if ((!empty($prefs)) && (isset($prefs["receive_assigned_emails"][$prj_id])) &&
                     ($prefs["receive_assigned_emails"][$prj_id]) && ($users[$i] != Auth::getUserID())) {

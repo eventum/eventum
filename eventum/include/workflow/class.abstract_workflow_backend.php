@@ -424,4 +424,19 @@ class Abstract_Workflow_Backend
     {
         return null;
     }
+
+
+    /**
+     * Returns which "issue fields" should be displayed in a given location.
+     *
+     * @see     class.issue_field.php
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The ID of the issue
+     * @param   string  $location The location to display these fields at
+     * @return  array   an array of fields to display and their associated options
+     */
+    function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
+    {
+        return array();
+    }
 }
