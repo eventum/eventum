@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3749 2008-10-14 22:34:50Z glen $
+// @(#) $Id: class.custom_field.php 3752 2008-10-19 05:39:18Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -566,6 +566,7 @@ class Custom_Field
      * @param   integer $prj_id The project ID
      * @param   integer $iss_id The issue ID
      * @param   integer $usr_id The ID of the user who is going to be viewing this list.
+     * @param   mixed   $form_type The name of the form this is for or if this is an array the ids of the fields to return
      * @return  array The list of custom fields
      */
     function getListByIssue($prj_id, $iss_id, $usr_id = false, $form_type = false)
@@ -605,8 +606,14 @@ class Custom_Field
                     pcf_fld_id=fld_id AND
                     pcf_prj_id=" .  Misc::escapeInteger($prj_id) . " AND
                     fld_min_role <= " . $usr_role;
-        if ($form_type != '') {
-            $stmt .= " AND\nfld_" .  Misc::escapeString($form_type) . "=1";
+        if ($form_type != false) {
+            if (is_array($form_type)) {
+                $stmt .= " AND
+                    fld_id IN(" . join($form_type) . ")";
+            } else {
+                $stmt .= " AND
+                    fld_" .  Misc::escapeString($form_type) . "=1";
+            }
         }
         $stmt .= "
                  ORDER BY
@@ -660,14 +667,7 @@ class Custom_Field
                             $fields[$found_index]['field_options'][$original_value] = Custom_Field::getOptionValue($res[$i]['fld_id'], $original_value);
                         }
                     } else {
-                        switch ($res[$i]["fld_type"]) {
-                            case 'date':
-                                $res[$i]["value"] = $res[$i]["icf_value_date"];
-                            case 'integer':
-                                $res[$i]["value"] = $res[$i]["icf_value_integer"];
-                            default:
-                                $res[$i]["value"] = $res[$i]["icf_value"];
-                        }
+                        $res[$i]['value'] = $res[$i][self::getDBValueFieldNameByType($res[$i]['fld_type'])];
                         $fields[] = $res[$i];
                     }
                 }
