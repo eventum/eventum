@@ -1,0 +1,7 @@
+{foreach from=$issue_fields item='issue_field' key='field_name'}
+  {if $field_name == 'custom'}
+    {include file="edit_custom_fields.tpl.html" custom_fields=$issue_field.custom}
+  {else}
+    {include file="include/issue_fields/`$field_name`.tpl.html"}
+  {/if}
+{/foreach}
