@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.scm.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.scm.php 3757 2008-10-23 14:15:04Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -120,6 +120,14 @@ class SCM
         $url = str_replace('{FILE}', $info["isc_filename"], $url);
         $url = str_replace('{OLD_VERSION}', $info["isc_old_version"], $url);
         $url = str_replace('{NEW_VERSION}', $info["isc_new_version"], $url);
+
+        // the current version to look log from
+        if ($info['added']) {
+            $url = str_replace('{VERSION}', $info["isc_new_version"], $url);
+        } elseif ($info['removed']) {
+            $url = str_replace('{VERSION}', $info["isc_old_version"], $url);
+        }
+
         return $url;
     }
 
@@ -145,20 +153,25 @@ class SCM
         $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            if (empty($res)) {
-                return "";
-            } else {
-                for ($i = 0; $i < count($res); $i++) {
-                    $res[$i]["isc_commit_msg"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isc_commit_msg"])));
-                    @$res[$i]["checkout_url"] = SCM::parseURL($setup["checkout_url"], $res[$i]);
-                    @$res[$i]["diff_url"] = SCM::parseURL($setup["diff_url"], $res[$i]);
-                    $res[$i]["isc_created_date"] = Date_API::getFormattedDate($res[$i]["isc_created_date"]);
-                }
-                return $res;
-            }
+            return array();
         }
+
+        if (empty($res)) {
+            return array();
+        }
+
+        foreach ($res as $i => $row) {
+            // add ADDED and REMOVED fields
+            $res[$i]['added'] = $res[$i]['isc_old_version'] == 'NONE';
+            $res[$i]['removed'] = $res[$i]['isc_new_version'] == 'NONE';
+
+            $res[$i]["isc_commit_msg"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isc_commit_msg"])));
+            $res[$i]["checkout_url"] = SCM::parseURL($setup["checkout_url"], $res[$i]);
+            $res[$i]["diff_url"] = SCM::parseURL($setup["diff_url"], $res[$i]);
+            $res[$i]["scm_log_url"] = SCM::parseURL($setup["scm_log_url"], $res[$i]);
+            $res[$i]["isc_created_date"] = Date_API::getFormattedDate($res[$i]["isc_created_date"]);
+        }
+        return $res;
     }
 
 

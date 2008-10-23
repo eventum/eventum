@@ -97,6 +97,12 @@
                           selectField(f, 'diff_url');
                           return false;
                       }
+                      field = getFormElement(f, 'scm_log_url');
+                      if (isWhitespace(field.value)) {
+                          alert('{/literal}{t escape=js}Please enter the log page URL for your SCM integration tool.{/t}{literal}');
+                          selectField(f, 'scm_log_url');
+                          return false;
+                      }
                   }
                   if ((!f.support_email[0].checked) && (!f.support_email[1].checked))  {
                       alert('{/literal}{t escape=js}Please choose whether the email integration feature should be enabled or not.{/t}{literal}');
@@ -642,6 +648,15 @@
                       <td width="80%">
                         <input type="text" class="default" name="diff_url" size="50" value="{$setup.diff_url|escape:"html"}">
                         {include file="error_icon.tpl.html" field="diff_url"}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="100" class="default" align="right">
+                        {t}Log Page:{/t}&nbsp;
+                      </td>
+                      <td width="80%">
+                        <input type="text" class="default" name="scm_log_url" size="50" value="{$setup.scm_log_url|escape:"html"}">
+                        {include file="error_icon.tpl.html" field="scm_log_url"}
                       </td>
                     </tr>
                   </table>

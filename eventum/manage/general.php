@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: general.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: general.php 3757 2008-10-23 14:15:04Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -65,6 +65,7 @@ if ($role_id == User::getRoleID('administrator')) {
         @$setup["scm_integration"] = $_POST["scm_integration"];
         @$setup["checkout_url"] = $_POST["checkout_url"];
         @$setup["diff_url"] = $_POST["diff_url"];
+        @$setup["scm_log_url"] = $_POST["scm_log_url"];
         @$setup["open_signup"] = $_POST["open_signup"];
         @$setup["accounts_projects"] = $_POST["accounts_projects"];
         @$setup["accounts_role"] = $_POST["accounts_role"];
