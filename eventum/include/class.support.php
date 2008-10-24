@@ -2016,6 +2016,7 @@ class Support
      */
     function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $attachment, $message_id, $sender_usr_id = false)
     {
+        $prj_id = Issue::getProjectID($issue_id);
         $subject = Mail_API::formatSubject($issue_id, $subject);
         $recipients = Support::getRecipientsCC($cc);
         $recipients[] = $to;
@@ -2028,9 +2029,9 @@ class Support
                 $mail->setHeaders(array(
                     "Message-Id" => $message_id
                 ));
-                // skip users who don't have access to this issue
-                $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient));
-                if (((!empty($recipient_usr_id)) && (!Issue::canAccess($issue_id, $recipient_usr_id))) ||
+                // skip users who don't have access to this issue (but allow non-users and users without access to this project) to get emails
+                $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient), true);
+                if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != NULL)))) ||
                         (empty($recipient_usr_id)) && (Issue::isPrivate($issue_id))) {
                     continue;
                 }
@@ -2042,10 +2043,10 @@ class Support
             } else {
                 $type = 'other_email';
             }
-            if ($attachment && !empty($attachment["name"])) {
-                $mail->addAttachment($attachment["name"],
-                                     Misc::getFileContents($attachment["tmp_name"]),
-                                     $attachment["type"]);
+            if ($attachment && !empty($attachment["name"][0])) {
+                $mail->addAttachment($attachment["name"][0],
+                                     Misc::getFileContents($attachment["tmp_name"][0]),
+                                     $attachment["type"][0]);
             }
             $mail->setTextBody($fixed_body);
             $mail->send($from, $recipient, $subject, TRUE, $issue_id, $type, $sender_usr_id);
