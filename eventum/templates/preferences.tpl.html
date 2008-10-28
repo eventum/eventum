@@ -209,7 +209,7 @@ function validateAccount(f)
         {if $current_role != $roles.customer}
         <tr>
           <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Automatically close confirmation popup windows ?{/t}</b>
+            <b>{t}Automatically close confirmation popup windows?{/t}</b>
           </td>
           <td bgcolor="{$light_color}" class="default" colspan="{$assigned_projects|@count}">
             <label><input type="radio" name="close_popup_windows" {if $user_prefs.close_popup_windows == "1"}checked{/if} value="1"> {t}Yes{/t}</label>&nbsp;&nbsp;
@@ -230,7 +230,7 @@ function validateAccount(f)
         </tr>
         <tr>
           <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Receive emails when all issues are created ?{/t}</b>
+            <b>{t}Receive emails when all issues are created?{/t}</b>
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
@@ -241,7 +241,7 @@ function validateAccount(f)
         </tr>
         <tr>
           <td width="190" bgcolor="{$cell_color}" class="default_white">
-            <b>{t}Receive emails when new issues are assigned to you ?{/t}</b>
+            <b>{t}Receive emails when new issues are assigned to you?{/t}</b>
           </td>
           {foreach from=$assigned_projects key=prj_id item=project_info}
           <td bgcolor="{$light_color}" class="default">
