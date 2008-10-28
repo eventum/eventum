@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 01:46+0300\n"
+"POT-Creation-Date: 2008-10-28 20:25+0200\n"
 "PO-Revision-Date: 2007-11-10 03:02+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
@@ -725,6 +725,18 @@ msgid "Commit Message"
 msgstr "Spara meddelande"
 
 #: misc/localization/eventum.c
+msgid "see the log of of %1"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "ADDED"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "REMOVED"
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "see the source of revision %1 of %2"
 msgstr ""
 
@@ -1414,7 +1426,7 @@ msgstr "Töm meddelandehuvud"
 msgid "No emails could be found."
 msgstr "Inga e-postmeddelanden hittades."
 
-#: misc/localization/eventum.c include/class.notification.php:1107
+#: misc/localization/eventum.c include/class.notification.php:1108
 msgid "New Issue"
 msgstr "Nytt Ärende"
 
@@ -2337,6 +2349,19 @@ msgstr "Var vänlig ange nytt krav för det här ärendet."
 #: misc/localization/eventum.c
 msgid "Add New Requirement"
 msgstr "Lägg till Nytt Krav"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Assignee:"
+msgstr "Tilldelad"
+
+#: misc/localization/eventum.c
+msgid "Clear Selections"
+msgstr "Rensa val"
+
+#: misc/localization/eventum.c
+msgid "Current Selections:"
+msgstr "Nuvarande val:"
 
 #: misc/localization/eventum.c
 msgid "News and Announcements"
@@ -3854,6 +3879,12 @@ msgstr ""
 
 #: misc/localization/eventum.c
 #, fuzzy
+msgid "Please enter the log page URL for your SCM integration tool."
+msgstr ""
+"Vänligen ange den relativa adressen för den här installationen av Eventum."
+
+#: misc/localization/eventum.c
+#, fuzzy
 msgid ""
 "Please choose whether the email integration feature should be enabled or not."
 msgstr ""
@@ -4044,6 +4075,11 @@ msgstr ""
 #: misc/localization/eventum.c
 #, fuzzy
 msgid "Diff Page:"
+msgstr "Detaljvy"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Log Page:"
 msgstr "Detaljvy"
 
 #: misc/localization/eventum.c
@@ -6364,10 +6400,6 @@ msgid "Attach Files"
 msgstr "Bifoga filer"
 
 #: misc/localization/eventum.c
-msgid "Keep Form Open"
-msgstr "Behåll formulär öppet"
-
-#: misc/localization/eventum.c
 msgid "Thank you, the internal note was posted successfully."
 msgstr "Tack så mycket, den interna noteringen har sparats."
 
@@ -6398,10 +6430,6 @@ msgstr "Notifieringslista"
 #: misc/localization/eventum.c
 msgid "Extra Note Recipients:"
 msgstr "Extra noteringsmottagare:"
-
-#: misc/localization/eventum.c
-msgid "Clear Selections"
-msgstr "Rensa val"
 
 #: misc/localization/eventum.c
 msgid "Add Extra Recipients To Notification List?"
@@ -6485,15 +6513,32 @@ msgid "Available Languages"
 msgstr ""
 
 #: misc/localization/eventum.c
-msgid "Automatically close confirmation popup windows ?"
+msgid "Week starts on:"
+msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Sunday"
+msgstr "alla"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Monday"
+msgstr "alla"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Automatically close confirmation popup windows?"
 msgstr "Stäng popupfönster automatiskt ?"
 
 #: misc/localization/eventum.c
-msgid "Receive emails when all issues are created ?"
+#, fuzzy
+msgid "Receive emails when all issues are created?"
 msgstr "Mottag e-postmeddelanden när alla ärenden skapas ?"
 
 #: misc/localization/eventum.c
-msgid "Receive emails when new issues are assigned to you ?"
+#, fuzzy
+msgid "Receive emails when new issues are assigned to you?"
 msgstr "Mottag e-postmeddelande när nya ärenden tilldelas dig ?"
 
 #: misc/localization/eventum.c
@@ -8000,10 +8045,6 @@ msgid "Change Assignments:"
 msgstr "Ändra tilldelning:"
 
 #: misc/localization/eventum.c
-msgid "Current Selections:"
-msgstr "Nuvarande val:"
-
-#: misc/localization/eventum.c
 msgid "Authorized Repliers:"
 msgstr "Behöriga besvarare:"
 
@@ -8615,44 +8656,44 @@ msgstr "Updatera"
 msgid "Closed"
 msgstr "Stäng"
 
-#: include/class.notification.php:958
+#: include/class.notification.php:959
 #, fuzzy
 msgid "BLOCKED"
 msgstr "STÄMPLAD"
 
-#: include/class.notification.php:1372
+#: include/class.notification.php:1373
 msgid "User account information updated"
 msgstr ""
 
-#: include/class.notification.php:1409
+#: include/class.notification.php:1410
 msgid "User account password changed"
 msgstr ""
 
-#: include/class.notification.php:1446
+#: include/class.notification.php:1447
 msgid "New User information"
 msgstr ""
 
-#: include/class.notification.php:1572
+#: include/class.notification.php:1576
 #, fuzzy
 msgid "Your User Account Details"
 msgstr "Användardealjer"
 
-#: include/class.notification.php:1844
+#: include/class.notification.php:1848
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: include/class.notification.php:1995
+#: include/class.notification.php:2008
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2076
+#: include/class.notification.php:2089
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2172
+#: include/class.notification.php:2185
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
@@ -8768,7 +8809,7 @@ msgstr ""
 msgid "SCM Checkins removed by %1$s"
 msgstr ""
 
-#: include/class.scm.php:205
+#: include/class.scm.php:218
 msgid "SCM Checkins associated by SCM user '"
 msgstr ""
 
@@ -8794,12 +8835,12 @@ msgstr ""
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
 
-#: include/class.support.php:2231
+#: include/class.support.php:2233
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
 
-#: include/class.support.php:2597
+#: include/class.support.php:2599
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
@@ -8848,7 +8889,7 @@ msgstr "Åtgärder"
 msgid "Issues by Assignment"
 msgstr "Mina tilldelade"
 
-#: update.php:77
+#: update.php:78
 #, fuzzy, php-format
 msgid "Update Issue #%1$s"
 msgstr "Uppdatera ärende"
@@ -8862,6 +8903,9 @@ msgstr "Användardealjer"
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
+
+#~ msgid "Keep Form Open"
+#~ msgstr "Behåll formulär öppet"
 
 #~ msgid "Rows Per Page:"
 #~ msgstr "Rader per sida:"

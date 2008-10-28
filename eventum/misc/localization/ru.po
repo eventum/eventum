@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 01:46+0300\n"
+"POT-Creation-Date: 2008-10-28 20:25+0200\n"
 "PO-Revision-Date: 2007-11-10 02:59+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -756,6 +756,19 @@ msgid "Commit Message"
 msgstr "Отправить сообщение"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "see the log of of %1"
+msgstr "просмотреть различия ревизии %1"
+
+#: misc/localization/eventum.c
+msgid "ADDED"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "REMOVED"
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "see the source of revision %1 of %2"
 msgstr "просмотреть исходный код ревизии %1 из %2"
 
@@ -1424,7 +1437,7 @@ msgstr "Пустой заголовок темы"
 msgid "No emails could be found."
 msgstr "Эл.почта не найдена."
 
-#: misc/localization/eventum.c include/class.notification.php:1107
+#: misc/localization/eventum.c include/class.notification.php:1108
 msgid "New Issue"
 msgstr "Новый запрос"
 
@@ -2624,6 +2637,19 @@ msgstr "Пожалуйста, введите новую инструкцию д�
 #: misc/localization/eventum.c
 msgid "Add New Requirement"
 msgstr "Добавить новую инструкцию"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Assignee:"
+msgstr "Назначен"
+
+#: misc/localization/eventum.c
+msgid "Clear Selections"
+msgstr "Очистить выбор"
+
+#: misc/localization/eventum.c
+msgid "Current Selections:"
+msgstr "Текущий выбор:"
 
 #: misc/localization/eventum.c
 msgid "News and Announcements"
@@ -4016,6 +4042,13 @@ msgstr ""
 "с SCM."
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Please enter the log page URL for your SCM integration tool."
+msgstr ""
+"Пожалуйста, введите ссылку URL для страницы различий инструмента интеграции "
+"с SCM."
+
+#: misc/localization/eventum.c
 msgid ""
 "Please choose whether the email integration feature should be enabled or not."
 msgstr ""
@@ -4215,6 +4248,11 @@ msgstr "Страница отладки:"
 
 #: misc/localization/eventum.c
 msgid "Diff Page:"
+msgstr "Страница версий:"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Log Page:"
 msgstr "Страница версий:"
 
 #: misc/localization/eventum.c
@@ -6364,10 +6402,6 @@ msgid "Attach Files"
 msgstr "Вложить файлы"
 
 #: misc/localization/eventum.c
-msgid "Keep Form Open"
-msgstr "Оставить форму открытой"
-
-#: misc/localization/eventum.c
 msgid "Thank you, the internal note was posted successfully."
 msgstr "Спасибо, внутреннее примечание успешно добавлено."
 
@@ -6398,10 +6432,6 @@ msgstr "Список уведомлений"
 #: misc/localization/eventum.c
 msgid "Extra Note Recipients:"
 msgstr "Дополнительные получатели заметки:"
-
-#: misc/localization/eventum.c
-msgid "Clear Selections"
-msgstr "Очистить выбор"
 
 #: misc/localization/eventum.c
 msgid "Add Extra Recipients To Notification List?"
@@ -6486,15 +6516,32 @@ msgid "Available Languages"
 msgstr "Доступные языки"
 
 #: misc/localization/eventum.c
-msgid "Automatically close confirmation popup windows ?"
+msgid "Week starts on:"
+msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Sunday"
+msgstr "день"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Monday"
+msgstr "день"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Automatically close confirmation popup windows?"
 msgstr "Автоматически закрывать всплывающее окно подтверждения?"
 
 #: misc/localization/eventum.c
-msgid "Receive emails when all issues are created ?"
+#, fuzzy
+msgid "Receive emails when all issues are created?"
 msgstr "Получать почту при создании всех запросов?"
 
 #: misc/localization/eventum.c
-msgid "Receive emails when new issues are assigned to you ?"
+#, fuzzy
+msgid "Receive emails when new issues are assigned to you?"
 msgstr "Получать почту, когда запрос назначается мне?"
 
 #: misc/localization/eventum.c
@@ -8015,10 +8062,6 @@ msgid "Change Assignments:"
 msgstr "Изменить назначения:"
 
 #: misc/localization/eventum.c
-msgid "Current Selections:"
-msgstr "Текущий выбор:"
-
-#: misc/localization/eventum.c
 msgid "Authorized Repliers:"
 msgstr "Допущенные к ответу:"
 
@@ -8625,42 +8668,42 @@ msgstr "Обновлен"
 msgid "Closed"
 msgstr "Закрыт"
 
-#: include/class.notification.php:958
+#: include/class.notification.php:959
 msgid "BLOCKED"
 msgstr "БЛОКИРОВАННЫЙ"
 
-#: include/class.notification.php:1372
+#: include/class.notification.php:1373
 msgid "User account information updated"
 msgstr "Информация об учетной записи пользователя обновлена"
 
-#: include/class.notification.php:1409
+#: include/class.notification.php:1410
 msgid "User account password changed"
 msgstr "Пароль для учетной записи пользователя изменен"
 
-#: include/class.notification.php:1446
+#: include/class.notification.php:1447
 msgid "New User information"
 msgstr "Информация о новом пользователе"
 
-#: include/class.notification.php:1572
+#: include/class.notification.php:1576
 msgid "Your User Account Details"
 msgstr "Детали вашей учетной записи"
 
-#: include/class.notification.php:1844
+#: include/class.notification.php:1848
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Запись (%1$s) списка уведомлений была удалена пользователем %2$s"
 
-#: include/class.notification.php:1995
+#: include/class.notification.php:2008
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Запись (%1$s) списка уведомлений добавлена пользователем %2$s"
 
-#: include/class.notification.php:2076
+#: include/class.notification.php:2089
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Запись ('%1$s') списка уведомлений добавлена пользователем %2$s"
 
-#: include/class.notification.php:2172
+#: include/class.notification.php:2185
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Запись ('%1$s') списка уведомлений обновлена пользователем %2$s"
@@ -8778,7 +8821,7 @@ msgstr "Черновик маршрутизирован от"
 msgid "SCM Checkins removed by %1$s"
 msgstr "Новые версии в SCM удалены пользователем %1$s"
 
-#: include/class.scm.php:205
+#: include/class.scm.php:218
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Новые версии SCM связанные пользователем SCM '"
 
@@ -8804,12 +8847,12 @@ msgstr "Эл. письмо (тема: '%1$s') связанно пользова�
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Эл. письмо (тема: '%1$s') разъединено пользователем %2$s"
 
-#: include/class.support.php:2231
+#: include/class.support.php:2233
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Исходящее эл. писмо отправлено пользователем %1$s"
 
-#: include/class.support.php:2597
+#: include/class.support.php:2599
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Эл. письмо от  '%1$s'  заблокировано"
@@ -8857,7 +8900,7 @@ msgstr "Действия"
 msgid "Issues by Assignment"
 msgstr "Запросы по назначениям"
 
-#: update.php:77
+#: update.php:78
 #, fuzzy, php-format
 msgid "Update Issue #%1$s"
 msgstr "Обновить запрос"
@@ -8871,6 +8914,9 @@ msgstr "Детали запроса #%1$s"
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
+
+#~ msgid "Keep Form Open"
+#~ msgstr "Оставить форму открытой"
 
 #~ msgid "Rows Per Page:"
 #~ msgstr "Рядов на страницу:"

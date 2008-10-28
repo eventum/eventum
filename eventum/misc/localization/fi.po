@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 01:46+0300\n"
+"POT-Creation-Date: 2008-10-28 20:25+0200\n"
 "PO-Revision-Date: 2007-11-10 17:22+0200\n"
 "Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -726,6 +726,19 @@ msgid "Commit Message"
 msgstr "Lähetä viesti"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "see the log of of %1"
+msgstr "katso diff versioon %1"
+
+#: misc/localization/eventum.c
+msgid "ADDED"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "REMOVED"
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "see the source of revision %1 of %2"
 msgstr "katso lähdekoodin versio %1 %2:sta"
 
@@ -1382,7 +1395,7 @@ msgstr "Tyhjennä aihe-kenttä"
 msgid "No emails could be found."
 msgstr "Sähköpostiviestejä ei löytynyt."
 
-#: misc/localization/eventum.c include/class.notification.php:1107
+#: misc/localization/eventum.c include/class.notification.php:1108
 msgid "New Issue"
 msgstr "Uusi vikailmoitus"
 
@@ -2575,6 +2588,19 @@ msgstr "Syötä uusi vaatimus tälle vikailmoitukselle."
 #: misc/localization/eventum.c
 msgid "Add New Requirement"
 msgstr "Lisää uusi vaatimus"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Assignee:"
+msgstr "Määrätty"
+
+#: misc/localization/eventum.c
+msgid "Clear Selections"
+msgstr "Tyhjennä valinnat"
+
+#: misc/localization/eventum.c
+msgid "Current Selections:"
+msgstr "Nykyiset valinnat:"
 
 #: misc/localization/eventum.c
 msgid "News and Announcements"
@@ -3934,6 +3960,11 @@ msgid "Please enter the diff page URL for your SCM integration tool."
 msgstr "Syötä diff-sivun URL omaan SCM-integraatiotyökaluusi."
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Please enter the log page URL for your SCM integration tool."
+msgstr "Syötä diff-sivun URL omaan SCM-integraatiotyökaluusi."
+
+#: misc/localization/eventum.c
 msgid ""
 "Please choose whether the email integration feature should be enabled or not."
 msgstr "Valitse onko sähköpostin integrointi päällä vai pois."
@@ -4131,6 +4162,11 @@ msgstr "Ulosmerkitsemissivu:"
 
 #: misc/localization/eventum.c
 msgid "Diff Page:"
+msgstr "Diff-sivu:"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Log Page:"
 msgstr "Diff-sivu:"
 
 #: misc/localization/eventum.c
@@ -6241,10 +6277,6 @@ msgid "Attach Files"
 msgstr "Liitä tiedostoja"
 
 #: misc/localization/eventum.c
-msgid "Keep Form Open"
-msgstr "Pidä lomake auki"
-
-#: misc/localization/eventum.c
 msgid "Thank you, the internal note was posted successfully."
 msgstr "Kiitos, sisäinen viesti lähetettiin onnistuneesti."
 
@@ -6275,10 +6307,6 @@ msgstr "Muistutuslista"
 #: misc/localization/eventum.c
 msgid "Extra Note Recipients:"
 msgstr "Viestin lisävastaanottajat:"
-
-#: misc/localization/eventum.c
-msgid "Clear Selections"
-msgstr "Tyhjennä valinnat"
 
 #: misc/localization/eventum.c
 msgid "Add Extra Recipients To Notification List?"
@@ -6362,15 +6390,32 @@ msgid "Available Languages"
 msgstr "Käytettävät kielet"
 
 #: misc/localization/eventum.c
-msgid "Automatically close confirmation popup windows ?"
+msgid "Week starts on:"
+msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Sunday"
+msgstr "päivä"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Monday"
+msgstr "päivä"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Automatically close confirmation popup windows?"
 msgstr "Sulje varmistus-ponnahdusikkunat automaattisesti?"
 
 #: misc/localization/eventum.c
-msgid "Receive emails when all issues are created ?"
+#, fuzzy
+msgid "Receive emails when all issues are created?"
 msgstr "Vastaanota sähköpostia kun vikailmoituksia luodaan?"
 
 #: misc/localization/eventum.c
-msgid "Receive emails when new issues are assigned to you ?"
+#, fuzzy
+msgid "Receive emails when new issues are assigned to you?"
 msgstr "Vastaanota sähköpostia kun uusi vikailmoitus määrätään sinulle?"
 
 #: misc/localization/eventum.c
@@ -7869,10 +7914,6 @@ msgid "Change Assignments:"
 msgstr "Vaihda tehtäviä:"
 
 #: misc/localization/eventum.c
-msgid "Current Selections:"
-msgstr "Nykyiset valinnat:"
-
-#: misc/localization/eventum.c
 msgid "Authorized Repliers:"
 msgstr "Oikeutetut vastaajat:"
 
@@ -8476,42 +8517,42 @@ msgstr "Päivitetty"
 msgid "Closed"
 msgstr "Suljettu"
 
-#: include/class.notification.php:958
+#: include/class.notification.php:959
 msgid "BLOCKED"
 msgstr "ESTETTY"
 
-#: include/class.notification.php:1372
+#: include/class.notification.php:1373
 msgid "User account information updated"
 msgstr "Käyttäjätilin tiedot päivitetty"
 
-#: include/class.notification.php:1409
+#: include/class.notification.php:1410
 msgid "User account password changed"
 msgstr "Käyttäjätilin salasana vaihdettu"
 
-#: include/class.notification.php:1446
+#: include/class.notification.php:1447
 msgid "New User information"
 msgstr "Uuden käyttäjän tiedot"
 
-#: include/class.notification.php:1572
+#: include/class.notification.php:1576
 msgid "Your User Account Details"
 msgstr "Käyttäjätilisi yksityiskohdat"
 
-#: include/class.notification.php:1844
+#: include/class.notification.php:1848
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Muistutuslistan merkintä (%1$s) poistajana %2$s"
 
-#: include/class.notification.php:1995
+#: include/class.notification.php:2008
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Muistutuslistan merkintä (%1$s) lisääjänä %2$s"
 
-#: include/class.notification.php:2076
+#: include/class.notification.php:2089
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Muistutuslistan merkintä ('%1$s') lisääjänä %2$s"
 
-#: include/class.notification.php:2172
+#: include/class.notification.php:2185
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Muistutuslistan merkintä ('%1$s') päivittäjänä %2$s"
@@ -8627,7 +8668,7 @@ msgstr "Luonnos välitetty"
 msgid "SCM Checkins removed by %1$s"
 msgstr "SCM:n sisäänkirjaukset poistajana %1$s"
 
-#: include/class.scm.php:205
+#: include/class.scm.php:218
 msgid "SCM Checkins associated by SCM user '"
 msgstr "SCM:n sisäänkirjaukset liitettynä SCM käyttäjään"
 
@@ -8653,12 +8694,12 @@ msgstr "Sähköposti (aihe: '%1$s') liittäjänä %2$s"
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liitoksen poistajana %2$s"
 
-#: include/class.support.php:2231
+#: include/class.support.php:2233
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Sähköpostiviestin lähettäjänä %1$s"
 
-#: include/class.support.php:2597
+#: include/class.support.php:2599
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Sähköpostiviesti lähettäjältä '%1$s' estetty"
@@ -8702,7 +8743,7 @@ msgstr "toiminnot"
 msgid "Issues by Assignment"
 msgstr "Vikailmoitukset määrätyn mukaan"
 
-#: update.php:77
+#: update.php:78
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr "Päivitä vikailmoitus #%1$s"
@@ -8716,6 +8757,9 @@ msgstr "Vikailmoituksen yksityiskohdat"
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
+
+#~ msgid "Keep Form Open"
+#~ msgstr "Pidä lomake auki"
 
 #~ msgid "Rows Per Page:"
 #~ msgstr "Rivejä per sivu:"

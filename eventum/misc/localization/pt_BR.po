@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 01:46+0300\n"
+"POT-Creation-Date: 2008-10-28 20:25+0200\n"
 "PO-Revision-Date: 2008-09-26 14:42-0300\n"
 "Last-Translator: Georger Rommel Ferreira de Araújo <georger_br@yahoo.com."
 "br>\n"
@@ -732,6 +732,19 @@ msgid "Commit Message"
 msgstr "Mensagem de Commit"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "see the log of of %1"
+msgstr "ver o diff para a revisão %1"
+
+#: misc/localization/eventum.c
+msgid "ADDED"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "REMOVED"
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "see the source of revision %1 of %2"
 msgstr "ver o fonte da revisão %1 de %2"
 
@@ -1379,7 +1392,7 @@ msgstr "Cabeçalho de Assunto Vazio"
 msgid "No emails could be found."
 msgstr "Nenhum email foi encontrado."
 
-#: misc/localization/eventum.c include/class.notification.php:1107
+#: misc/localization/eventum.c include/class.notification.php:1108
 msgid "New Issue"
 msgstr "Chamado Novo"
 
@@ -2477,6 +2490,19 @@ msgstr "Por favor informe o novo requisito para este chamado."
 #: misc/localization/eventum.c
 msgid "Add New Requirement"
 msgstr "Adicionar Novo Requisito"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Assignee:"
+msgstr "Designado"
+
+#: misc/localization/eventum.c
+msgid "Clear Selections"
+msgstr "Limpar Seleções"
+
+#: misc/localization/eventum.c
+msgid "Current Selections:"
+msgstr "Selecionados Atuais:"
 
 #: misc/localization/eventum.c
 msgid "News and Announcements"
@@ -3849,6 +3875,13 @@ msgstr ""
 "SCM."
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Please enter the log page URL for your SCM integration tool."
+msgstr ""
+"Por favor informe a URL da página de diff de sua ferramenta de integração "
+"SCM."
+
+#: misc/localization/eventum.c
 msgid ""
 "Please choose whether the email integration feature should be enabled or not."
 msgstr ""
@@ -4042,6 +4075,11 @@ msgstr "Página de Checkout:"
 
 #: misc/localization/eventum.c
 msgid "Diff Page:"
+msgstr "Página de Diff:"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Log Page:"
 msgstr "Página de Diff:"
 
 #: misc/localization/eventum.c
@@ -6173,10 +6211,6 @@ msgid "Attach Files"
 msgstr "Anexar Arquivos"
 
 #: misc/localization/eventum.c
-msgid "Keep Form Open"
-msgstr "Manter Tela Aberta"
-
-#: misc/localization/eventum.c
 msgid "Thank you, the internal note was posted successfully."
 msgstr "Obrigado, a nota interna foi postada com sucesso."
 
@@ -6207,10 +6241,6 @@ msgstr "Lista de Notificação"
 #: misc/localization/eventum.c
 msgid "Extra Note Recipients:"
 msgstr "Destinatários Extras da Nota:"
-
-#: misc/localization/eventum.c
-msgid "Clear Selections"
-msgstr "Limpar Seleções"
 
 #: misc/localization/eventum.c
 msgid "Add Extra Recipients To Notification List?"
@@ -6294,15 +6324,32 @@ msgid "Available Languages"
 msgstr "Idiomas Disponíveis"
 
 #: misc/localization/eventum.c
-msgid "Automatically close confirmation popup windows ?"
+msgid "Week starts on:"
+msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Sunday"
+msgstr "dia"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Monday"
+msgstr "dia"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Automatically close confirmation popup windows?"
 msgstr "Fechar automaticamente janelas popup de confirmação?"
 
 #: misc/localization/eventum.c
-msgid "Receive emails when all issues are created ?"
+#, fuzzy
+msgid "Receive emails when all issues are created?"
 msgstr "Receber email quando um chamado for aberto?"
 
 #: misc/localization/eventum.c
-msgid "Receive emails when new issues are assigned to you ?"
+#, fuzzy
+msgid "Receive emails when new issues are assigned to you?"
 msgstr "Receber email quando você for designado para um chamado?"
 
 #: misc/localization/eventum.c
@@ -7786,10 +7833,6 @@ msgid "Change Assignments:"
 msgstr "Mudar Designados:"
 
 #: misc/localization/eventum.c
-msgid "Current Selections:"
-msgstr "Selecionados Atuais:"
-
-#: misc/localization/eventum.c
 msgid "Authorized Repliers:"
 msgstr "Autorizados a Responder:"
 
@@ -8392,42 +8435,42 @@ msgstr "Atualizado"
 msgid "Closed"
 msgstr "Fechado"
 
-#: include/class.notification.php:958
+#: include/class.notification.php:959
 msgid "BLOCKED"
 msgstr "BLOQUEADO"
 
-#: include/class.notification.php:1372
+#: include/class.notification.php:1373
 msgid "User account information updated"
 msgstr "Informações de conta de usuário atualizadas"
 
-#: include/class.notification.php:1409
+#: include/class.notification.php:1410
 msgid "User account password changed"
 msgstr "Senha de conta de usuário modificada"
 
-#: include/class.notification.php:1446
+#: include/class.notification.php:1447
 msgid "New User information"
 msgstr "Informações de novo usuário"
 
-#: include/class.notification.php:1572
+#: include/class.notification.php:1576
 msgid "Your User Account Details"
 msgstr "Detalhes da sua Conta de Usuário"
 
-#: include/class.notification.php:1844
+#: include/class.notification.php:1848
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Entrada de lista de notificação (%1$s) excluída por %2$s"
 
-#: include/class.notification.php:1995
+#: include/class.notification.php:2008
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Entrada de lista de notificação (%1$s) adicionada por %2$s"
 
-#: include/class.notification.php:2076
+#: include/class.notification.php:2089
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Entrada de lista de notificação ('%1$s') adicionada por %2$s"
 
-#: include/class.notification.php:2172
+#: include/class.notification.php:2185
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Entrada de lista de notificação ('%1$s') atualizada por %2$s"
@@ -8546,7 +8589,7 @@ msgstr "Rascunho roteado de"
 msgid "SCM Checkins removed by %1$s"
 msgstr "Checkins SCM excluídos por %1$s"
 
-#: include/class.scm.php:205
+#: include/class.scm.php:218
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Checkins SCM asociados pelo usuário SCM '"
 
@@ -8572,12 +8615,12 @@ msgstr "Email (assunto: '%1$s') associado por %2$s"
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (assunto: '%1$s') desassociado por %2$s"
 
-#: include/class.support.php:2231
+#: include/class.support.php:2233
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email sainte enviado por %1$s"
 
-#: include/class.support.php:2597
+#: include/class.support.php:2599
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email de '%1$s' bloqueado"
@@ -8621,7 +8664,7 @@ msgstr "ações"
 msgid "Issues by Assignment"
 msgstr "Chamados por Designação"
 
-#: update.php:77
+#: update.php:78
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr "Atualizar Chamado #%1$s"
@@ -8635,6 +8678,9 @@ msgstr "Detalhes do Chamado"
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
+
+#~ msgid "Keep Form Open"
+#~ msgstr "Manter Tela Aberta"
 
 #~ msgid ""
 #~ "You must enter the ID of an issue that does not have a duplicate status."

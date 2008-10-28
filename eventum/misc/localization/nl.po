@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-03 01:46+0300\n"
+"POT-Creation-Date: 2008-10-28 20:25+0200\n"
 "PO-Revision-Date: 2008-07-19 22:33+0300\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
@@ -728,6 +728,19 @@ msgid "Commit Message"
 msgstr "Bericht versturen"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "see the log of of %1"
+msgstr "Bekijk het verschil met revisie %1"
+
+#: misc/localization/eventum.c
+msgid "ADDED"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "REMOVED"
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "see the source of revision %1 of %2"
 msgstr "Bekijk de bron van revisie %1 van %2"
 
@@ -1387,7 +1400,7 @@ msgstr "(Geen onderwerp)"
 msgid "No emails could be found."
 msgstr "Geen berichten gevonden."
 
-#: misc/localization/eventum.c include/class.notification.php:1107
+#: misc/localization/eventum.c include/class.notification.php:1108
 msgid "New Issue"
 msgstr "Nieuwe melding"
 
@@ -2578,6 +2591,19 @@ msgstr "Geef nieuwe vereiste voor deze melding."
 #: misc/localization/eventum.c
 msgid "Add New Requirement"
 msgstr "Nieuwe vereiste toevoegen"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Assignee:"
+msgstr "Toegewezen"
+
+#: misc/localization/eventum.c
+msgid "Clear Selections"
+msgstr "Reset"
+
+#: misc/localization/eventum.c
+msgid "Current Selections:"
+msgstr "De huidige selectie:"
 
 #: misc/localization/eventum.c
 msgid "News and Announcements"
@@ -3949,6 +3975,11 @@ msgid "Please enter the diff page URL for your SCM integration tool."
 msgstr "Geef de URL van de pagina met diff voor uw SCM-integratie-instrument."
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Please enter the log page URL for your SCM integration tool."
+msgstr "Geef de URL van de pagina met diff voor uw SCM-integratie-instrument."
+
+#: misc/localization/eventum.c
 msgid ""
 "Please choose whether the email integration feature should be enabled or not."
 msgstr ""
@@ -4150,6 +4181,11 @@ msgstr "Afrekenen Pagina:"
 
 #: misc/localization/eventum.c
 msgid "Diff Page:"
+msgstr "GK Page:"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Log Page:"
 msgstr "GK Page:"
 
 #: misc/localization/eventum.c
@@ -6291,10 +6327,6 @@ msgid "Attach Files"
 msgstr "Bijlage"
 
 #: misc/localization/eventum.c
-msgid "Keep Form Open"
-msgstr "Hierna nog een melding opgeven"
-
-#: misc/localization/eventum.c
 msgid "Thank you, the internal note was posted successfully."
 msgstr "Fase bijgewerkt."
 
@@ -6325,10 +6357,6 @@ msgstr "Notificatielijst"
 #: misc/localization/eventum.c
 msgid "Extra Note Recipients:"
 msgstr "Extra geadresseerden:"
-
-#: misc/localization/eventum.c
-msgid "Clear Selections"
-msgstr "Reset"
 
 #: misc/localization/eventum.c
 msgid "Add Extra Recipients To Notification List?"
@@ -6414,15 +6442,32 @@ msgid "Available Languages"
 msgstr "Beschikbare talen"
 
 #: misc/localization/eventum.c
-msgid "Automatically close confirmation popup windows ?"
+msgid "Week starts on:"
+msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Sunday"
+msgstr "dag"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Monday"
+msgstr "dag"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Automatically close confirmation popup windows?"
 msgstr "Automatisch sluiten bevestiging pop-up vensters?"
 
 #: misc/localization/eventum.c
-msgid "Receive emails when all issues are created ?"
+#, fuzzy
+msgid "Receive emails when all issues are created?"
 msgstr "Ontvang e-mailberichten als alle problemen zijn ontstaan?"
 
 #: misc/localization/eventum.c
-msgid "Receive emails when new issues are assigned to you ?"
+#, fuzzy
+msgid "Receive emails when new issues are assigned to you?"
 msgstr "Ontvang e-mail wanneer er nieuwe kwesties zijn die aan u zijn?"
 
 #: misc/localization/eventum.c
@@ -7915,10 +7960,6 @@ msgid "Change Assignments:"
 msgstr "Verander Opdrachten:"
 
 #: misc/localization/eventum.c
-msgid "Current Selections:"
-msgstr "De huidige selectie:"
-
-#: misc/localization/eventum.c
 msgid "Authorized Repliers:"
 msgstr "Gemachtigd om de melding te beantwoorden"
 
@@ -8524,42 +8565,42 @@ msgstr "Bijwerken"
 msgid "Closed"
 msgstr "Sluiten"
 
-#: include/class.notification.php:958
+#: include/class.notification.php:959
 msgid "BLOCKED"
 msgstr "Prikklok"
 
-#: include/class.notification.php:1372
+#: include/class.notification.php:1373
 msgid "User account information updated"
 msgstr "User account informatie bijgewerkt"
 
-#: include/class.notification.php:1409
+#: include/class.notification.php:1410
 msgid "User account password changed"
 msgstr "User account wachtwoord wijzigen"
 
-#: include/class.notification.php:1446
+#: include/class.notification.php:1447
 msgid "New User information"
 msgstr "Nieuwe gebruiker informatie"
 
-#: include/class.notification.php:1572
+#: include/class.notification.php:1576
 msgid "Your User Account Details"
 msgstr "Uw user account details"
 
-#: include/class.notification.php:1844
+#: include/class.notification.php:1848
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Aanmelding lijst item (%1$s) verwijderd door %2$s"
 
-#: include/class.notification.php:1995
+#: include/class.notification.php:2008
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Aanmelding lijst item (%1$s) toegevoegd door %2$s"
 
-#: include/class.notification.php:2076
+#: include/class.notification.php:2089
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Aanmelding lijst item ('%1$s') toegevoegd door %2$s"
 
-#: include/class.notification.php:2172
+#: include/class.notification.php:2185
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Aanmelding lijst item ('%1$s') bijgewerkt door %2$s"
@@ -8677,7 +8718,7 @@ msgstr "Concept afkomstig van"
 msgid "SCM Checkins removed by %1$s"
 msgstr "SCM Checkins verwijderd door %1$s"
 
-#: include/class.scm.php:205
+#: include/class.scm.php:218
 msgid "SCM Checkins associated by SCM user '"
 msgstr "SCM Checkins verbonden door SCM-gebruiker '"
 
@@ -8703,12 +8744,12 @@ msgstr "Bericht (Onderwerp: '%1$s') gekoppeld door %2$s"
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Bericht (Onderwerp: '%1$s') ontkoppeld door %2$s"
 
-#: include/class.support.php:2231
+#: include/class.support.php:2233
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Uitgaande berichten verzonden door %1$s"
 
-#: include/class.support.php:2597
+#: include/class.support.php:2599
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Berichten van '%1$s' geblokkeerd"
@@ -8752,7 +8793,7 @@ msgstr "acties"
 msgid "Issues by Assignment"
 msgstr "Toewijzing"
 
-#: update.php:77
+#: update.php:78
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr "Bewerken melding %1$s"
@@ -8766,6 +8807,9 @@ msgstr "Details"
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
+
+#~ msgid "Keep Form Open"
+#~ msgstr "Hierna nog een melding opgeven"
 
 #~ msgid "Rows Per Page:"
 #~ msgstr "Rijen per pagina:"
