@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: update.php 3683 2008-07-28 20:18:25Z balsdorf $
+// @(#) $Id: update.php 3762 2008-10-28 18:23:04Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -49,6 +49,7 @@ $associated_projects = @array_keys(Project::getAssocList($usr_id));
 
 $tpl = new Template_API();
 $tpl->setTemplate("update.tpl.html");
+$tpl->assign("user_prefs", Prefs::get($usr_id));
 
 Auth::checkAuthentication(APP_COOKIE);
 

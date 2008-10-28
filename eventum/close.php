@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: close.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: close.php 3762 2008-10-28 18:23:04Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -47,6 +47,7 @@ $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 $issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : @$_GET["id"];
 $tpl->assign("extra_title", "Close Issue #$issue_id");
+$tpl->assign("user_prefs", Prefs::get($usr_id));
 
 if (!Issue::exists($issue_id, false)) {
     $tpl->assign("no_issue", true);

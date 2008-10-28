@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.prefs.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.prefs.php 3762 2008-10-28 18:23:04Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -127,6 +127,7 @@ class Prefs
 
         $data = serialize(array(
             'close_popup_windows'     => $_POST['close_popup_windows'],
+            'week_firstday'           => $_POST['week_firstday'] == 1 ? 1 : 0,
             'receive_assigned_emails' => $_POST['receive_assigned_emails'],
             'receive_new_emails'      => @$_POST['receive_new_emails'],
             'timezone'                => $_POST['timezone'],

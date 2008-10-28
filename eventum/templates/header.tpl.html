@@ -9,6 +9,15 @@
 <script language="JavaScript" src="{$rel_url}js/jquery/form.js"></script>
 <script language="JavaScript" src="{$rel_url}js/jquery/ui.datepicker.js"></script>
 <link rel="stylesheet" href="{$rel_url}js/jquery/ui.datepicker.css">
+<script language="JavaScript">
+<!--
+var user_prefs = {ldelim}
+{if $user_prefs}
+	week_firstday : {$user_prefs.week_firstday}
+{/if}
+{rdelim};
+//-->
+</script>
 <script language="JavaScript" src="{$rel_url}js/global.js"></script>
 <script language="JavaScript" src="{$rel_url}js/validation.js"></script>
 {if $refresh_rate}

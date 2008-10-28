@@ -206,6 +206,15 @@ function validateAccount(f)
             {include file="lookup_field.tpl.html" lookup_field_name="search" lookup_field_target="timezone"}
           </td>
         </tr>
+        <tr>
+          <td width="190" bgcolor="{$cell_color}" class="default_white">
+            <b>{t}Week starts on:{/t}</b>
+          </td>
+          <td bgcolor="{$light_color}" class="default" colspan="{$assigned_projects|@count}">
+            <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday != "1"}checked{/if} value="0"> {t}Sunday{/t}</label>&nbsp;&nbsp;
+            <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
+          </td>
+        </tr>
         {if $current_role != $roles.customer}
         <tr>
           <td width="190" bgcolor="{$cell_color}" class="default_white">

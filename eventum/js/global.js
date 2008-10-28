@@ -1,5 +1,5 @@
 <!--
-// @(#) $Id: global.js 3751 2008-10-15 15:07:52Z glen $
+// @(#) $Id: global.js 3762 2008-10-28 18:23:04Z glen $
 var today = new Date();
 var expires = new Date(today.getTime() + (56 * 86400000));
 
@@ -794,7 +794,8 @@ function getEventTarget(e)
 // call when document ready
 $(document).ready(function() {
     $('.date_picker').datepicker({
-        dateFormat: 'yy-mm-dd', firstDay: 0  // FIXME: make it configurable
+        dateFormat: 'yy-mm-dd',
+        firstDay: user_prefs.week_firstday
     });
 });
 //-->
