@@ -665,6 +665,15 @@ gettext("File");
 gettext("Commit Message");
 
 /* templates/checkins.tpl.html */
+gettext("see the log of of %1");
+
+/* templates/checkins.tpl.html */
+gettext("ADDED");
+
+/* templates/checkins.tpl.html */
+gettext("REMOVED");
+
+/* templates/checkins.tpl.html */
 gettext("see the source of revision %1 of %2");
 
 /* templates/checkins.tpl.html */
@@ -1950,6 +1959,15 @@ gettext("Please enter the new requirement for this issue.");
 
 /* templates/impact_analysis.tpl.html */
 gettext("Add New Requirement");
+
+/* templates/include/issue_fields/assignee.tpl.html */
+gettext("Assignee:");
+
+/* templates/include/issue_fields/assignee.tpl.html */
+gettext("Clear Selections");
+
+/* templates/include/issue_fields/assignee.tpl.html */
+gettext("Current Selections:");
 
 /* templates/latest_news.tpl.html */
 gettext("News and Announcements");
@@ -3302,6 +3320,9 @@ gettext("Please enter the checkout page URL for your SCM integration tool.");
 gettext("Please enter the diff page URL for your SCM integration tool.");
 
 /* templates/manage/general.tpl.html */
+gettext("Please enter the log page URL for your SCM integration tool.");
+
+/* templates/manage/general.tpl.html */
 gettext("Please choose whether the email integration feature should be enabled or not.");
 
 /* templates/manage/general.tpl.html */
@@ -3513,6 +3534,9 @@ gettext("Checkout Page:");
 
 /* templates/manage/general.tpl.html */
 gettext("Diff Page:");
+
+/* templates/manage/general.tpl.html */
+gettext("Log Page:");
 
 /* templates/manage/general.tpl.html */
 gettext("Email Integration Feature:");
@@ -6212,6 +6236,9 @@ gettext("Thank you, the new issue was created successfully. For your records, th
 gettext("You may <a class=\"link\" href=\"%1\">submit another issue</a> if you so wish.");
 
 /* templates/post.tpl.html */
+gettext("Back to Login Form");
+
+/* templates/post.tpl.html */
 gettext("Please choose the project that this new issue will apply to");
 
 /* templates/post.tpl.html */
@@ -6233,6 +6260,9 @@ gettext("Summary");
 gettext("Description");
 
 /* templates/post.tpl.html */
+gettext("Back to Login Form");
+
+/* templates/post.tpl.html */
 gettext("Report New Issue");
 
 /* templates/post.tpl.html */
@@ -6246,9 +6276,6 @@ gettext("Description");
 
 /* templates/post.tpl.html */
 gettext("Attach Files");
-
-/* templates/post.tpl.html */
-gettext("Keep Form Open");
 
 /* templates/post.tpl.html */
 gettext("Submit");
@@ -6407,7 +6434,16 @@ gettext("Available Languages");
 gettext("Timezone");
 
 /* templates/preferences.tpl.html */
-gettext("Automatically close confirmation popup windows ?");
+gettext("Week starts on:");
+
+/* templates/preferences.tpl.html */
+gettext("Sunday");
+
+/* templates/preferences.tpl.html */
+gettext("Monday");
+
+/* templates/preferences.tpl.html */
+gettext("Automatically close confirmation popup windows?");
 
 /* templates/preferences.tpl.html */
 gettext("Yes");
@@ -6416,7 +6452,7 @@ gettext("Yes");
 gettext("No");
 
 /* templates/preferences.tpl.html */
-gettext("Receive emails when all issues are created ?");
+gettext("Receive emails when all issues are created?");
 
 /* templates/preferences.tpl.html */
 gettext("Yes");
@@ -6425,7 +6461,7 @@ gettext("Yes");
 gettext("No");
 
 /* templates/preferences.tpl.html */
-gettext("Receive emails when new issues are assigned to you ?");
+gettext("Receive emails when new issues are assigned to you?");
 
 /* templates/preferences.tpl.html */
 gettext("Yes");
