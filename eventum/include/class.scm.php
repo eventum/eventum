@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.scm.php 3757 2008-10-23 14:15:04Z glen $
+// @(#) $Id: class.scm.php 3765 2008-10-28 19:01:38Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -126,6 +126,8 @@ class SCM
             $url = str_replace('{VERSION}', $info["isc_new_version"], $url);
         } elseif ($info['removed']) {
             $url = str_replace('{VERSION}', $info["isc_old_version"], $url);
+        } else {
+            $url = str_replace('{VERSION}', $info["isc_new_version"], $url);
         }
 
         return $url;
