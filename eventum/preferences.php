@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: preferences.php 3619 2008-06-05 17:24:38Z glen $
+// @(#) $Id: preferences.php 3766 2008-10-28 21:37:34Z glen $
 
 // skip language init if we're saving language
 if (@$_POST['language']) {
@@ -55,7 +55,6 @@ Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
 
 if (@$_POST["cat"] == "update_account") {
-    $tpl->assign('update_lang_result', $res);
     $res = Prefs::set($usr_id);
     $tpl->assign('update_account_result', $res);
     User::updateSMS($usr_id, @$_POST['sms_email']);
