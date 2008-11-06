@@ -7,10 +7,11 @@ DOMAIN := eventum
 POFILES := $(patsubst %,%.po,$(ALL_LINGUAS))
 
 all:
-	@set -x -e; \
+	@set -e; \
 	umask 002; \
 	for lang in $(ALL_LINGUAS); do \
-		[ -f $$lang.po ] || continue; \
+		echo -n "$$lang: "; \
+		[ -f $$lang.po ] || { echo Missing; continue; }; \
 		msgfmt --statistics --output=t.mo $$lang.po && mv t.mo $$lang/LC_MESSAGES/$(DOMAIN).mo; \
 	done
 
