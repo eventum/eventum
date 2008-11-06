@@ -50,6 +50,7 @@ Eventum Issue Tracking System
 - Changed logic to allow users without access to the project to be CC'd on emails (Bryan Alsdorf)
 - Updated datepicker to RC version to solve problem with the day of DST switch being displayed twice (Bryan Alsdorf)
 - Made week start day configurable from preferences for datepicker (Elan Ruusamäe)
+- Let custom field size for multiple selection be items count but not more than 10 (Elan Ruusamäe)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
