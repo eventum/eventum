@@ -43,10 +43,10 @@ var custom_fields_info = new Array();
     {elseif $custom_fields[i].fld_type == 'textarea'}
     <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value}</textarea>
     {elseif $custom_fields[i].fld_type == 'date'}
-    <input type="text" id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_field_id}]" size="10" class="date_picker" value="{$custom_fields[i].value|default:$custom_fields[i].default_value}">
+    <input type="text" id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_field_id}]" size="12" class="date_picker" value="{$custom_fields[i].value|default:$custom_fields[i].default_value}">
     {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]"}
     {else}
-    <select style="width: 120px" id="custom_field_{$custom_fields[i].fld_id}"
+    <select id="custom_field_{$custom_fields[i].fld_id}"
         {if $custom_fields[i].fld_type == 'multiple'}
           {if $custom_fields[i].field_options|@count > 10}
             multiple size="10"
