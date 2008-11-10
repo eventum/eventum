@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: custom_fields.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: custom_fields.php 3775 2008-11-10 10:40:05Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -51,8 +51,11 @@ if (!Issue::canAccess($issue_id, Auth::getUserID())) {
 if (@$_POST["cat"] == "update_values") {
     $res = Custom_Field::updateValues();
     $tpl->assign("update_result", $res);
-    $tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
 }
+
+$prefs = Prefs::get(Auth::getUserID());
+$tpl->assign("current_user_prefs", $prefs); // XXX: use 'user_prefs' recursively
+$tpl->assign("user_prefs", $prefs);
 
 $tpl->assign("custom_fields", Custom_Field::getListByIssue($prj_id, $issue_id));
 
