@@ -49,6 +49,7 @@ Eventum Issue Tracking System
 - Added scm_log_url to SCM and handle ADDED and REMOVED actions for checkins (Elan Ruusamäe)
 - Changed logic to allow users without access to the project to be CC'd on emails (Bryan Alsdorf)
 - Updated datepicker to RC version to solve problem with the day of DST switch being displayed twice (Bryan Alsdorf)
+- Allow users to login using email aliases (Bryan Alsdorf)
 - Made week start day configurable from preferences for datepicker (Elan Ruusamäe)
 - Let custom field size for multiple selection be items count but not more than 10 (Elan Ruusamäe)
 

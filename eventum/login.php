@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: login.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: login.php 3776 2008-11-14 20:43:52Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -51,6 +51,10 @@ if (!Auth::isCorrectPassword($_POST["email"], $_POST["passwd"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'wrong password');
     Auth::redirect(APP_RELATIVE_URL . "index.php?err=3&email=" . $_POST["email"]);
 }
+
+// handle aliases since the user is now authenticated
+$_POST['email'] = User::getEmail(User::getUserIDByEmail($_POST['email'], true));
+
 // check if this user did already confirm his account
 if (Auth::isPendingUser($_POST["email"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'pending user');

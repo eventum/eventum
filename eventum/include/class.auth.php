@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3690 2008-07-30 06:23:14Z balsdorf $
+// @(#) $Id: class.auth.php 3776 2008-11-14 20:43:52Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -348,18 +348,9 @@ class Auth
     {
         if (empty($email)) {
             return false;
-          } else {
-            $stmt = "SELECT
-                        usr_email
-                     FROM
-                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                     WHERE
-                        usr_email='" . Misc::escapeString($email) . "'";
-            $info = $GLOBALS["db_api"]->dbh->getOne($stmt);
-            if (PEAR::isError($info)) {
-                Error_Handler::logError(array($info->getMessage(), $info->getDebugInfo()), __FILE__, __LINE__);
-                return false;
-            } elseif (empty($info)) {
+        } else {
+            $usr_id = User::getUserIDByEmail($email, true);
+            if (empty($usr_id)) {
                 return false;
             } else {
                 return true;
@@ -379,23 +370,12 @@ class Auth
      */
     function isCorrectPassword($email, $password)
     {
-        $stmt = "SELECT
-                    usr_password
-                 FROM
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
-                 WHERE
-                    usr_email='" . Misc::escapeString($email) . "' AND
-                    usr_id != " . APP_SYSTEM_USER_ID;
-        $passwd = $GLOBALS["db_api"]->dbh->getOne($stmt);
-        if (PEAR::isError($passwd)) {
-            Error_Handler::logError(array($passwd->getMessage(), $passwd->getDebugInfo()), __FILE__, __LINE__);
+        $usr_id = User::getUserIDByEmail($email, true);
+        $user = User::getDetails($usr_id);
+        if ($user['usr_password'] != Auth::hashPassword($password)) {
             return false;
         } else {
-            if ($passwd != Auth::hashPassword($password)) {
-                return false;
-            } else {
-                return true;
-            }
+            return true;
         }
     }
 
