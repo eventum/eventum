@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 20:25+0200\n"
+"POT-Creation-Date: 2008-11-18 01:53+0200\n"
 "PO-Revision-Date: 2008-10-29 15:12-0200\n"
 "Last-Translator: Georger Rommel Ferreira de Araújo <georger_br@yahoo.com."
 "br>\n"
@@ -8579,7 +8579,7 @@ msgstr "Rascunho roteado de"
 msgid "SCM Checkins removed by %1$s"
 msgstr "Checkins SCM excluídos por %1$s"
 
-#: include/class.scm.php:218
+#: include/class.scm.php:220
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Checkins SCM asociados pelo usuário SCM '"
 

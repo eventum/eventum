@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 20:25+0200\n"
+"POT-Creation-Date: 2008-11-18 01:53+0200\n"
 "PO-Revision-Date: 2007-11-10 02:59+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -8821,7 +8821,7 @@ msgstr "Черновик маршрутизирован от"
 msgid "SCM Checkins removed by %1$s"
 msgstr "Новые версии в SCM удалены пользователем %1$s"
 
-#: include/class.scm.php:218
+#: include/class.scm.php:220
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Новые версии SCM связанные пользователем SCM '"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 20:25+0200\n"
+"POT-Creation-Date: 2008-11-18 01:53+0200\n"
 "PO-Revision-Date: 2008-10-31 09:28-0200\n"
 "Last-Translator: Normando Hall <nhall@unixlan.com.ar>\n"
 "Language-Team: Unixlan <nhall@unixlan.com.ar>\n"
@@ -8778,7 +8778,7 @@ msgstr "Borrador enrutado desde"
 msgid "SCM Checkins removed by %1$s"
 msgstr "Ingresos SCM removidos por %1$s"
 
-#: include/class.scm.php:218
+#: include/class.scm.php:220
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Ingresos SCM asociados por usuario SCM '"
 

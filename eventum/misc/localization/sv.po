@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-28 20:25+0200\n"
+"POT-Creation-Date: 2008-11-18 01:53+0200\n"
 "PO-Revision-Date: 2007-11-10 03:02+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
@@ -8809,7 +8809,7 @@ msgstr ""
 msgid "SCM Checkins removed by %1$s"
 msgstr ""
 
-#: include/class.scm.php:218
+#: include/class.scm.php:220
 msgid "SCM Checkins associated by SCM user '"
 msgstr ""
 
