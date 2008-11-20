@@ -25,7 +25,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.group.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.group.php 3779 2008-11-20 15:39:14Z kbrown $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -364,6 +364,32 @@ class Group
             return -1;
         } else {
             $list[$prj_id] = $res;
+            return $res;
+        }
+    }
+
+
+    /**
+     * Method used to get an associative array of group ID and name
+     * of all groups that exist in the system.
+     *
+     * @access  public
+     * @return  array List of groups
+     */
+    function getAssocListAllProjects()
+    {
+        $stmt = "SELECT
+                    grp_id,
+                    grp_name
+                 FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "group
+                 ORDER BY
+                    grp_name";
+        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return "";
+        } else {
             return $res;
         }
     }

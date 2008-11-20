@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3576 2008-05-23 19:36:25Z balsdorf $
+// @(#) $Id: class.user.php 3779 2008-11-20 15:39:14Z kbrown $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -995,13 +995,13 @@ class User
         if ($_POST["id"] == APP_SYSTEM_USER_ID) {
             return 1;
         }
-
+        $group_id = ($_POST["grp_id"]) ? Misc::escapeInteger($_POST["grp_id"]) : 'NULL';
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  SET
                     usr_full_name='" . Misc::escapeString($_POST["full_name"]) . "',
-                    usr_email='" . Misc::escapeString($_POST["email"]) . "',
-                    usr_grp_id=" . Misc::escapeInteger($_POST["grp_id"]);;
+                    usr_email='"     . Misc::escapeString($_POST["email"])     . "',
+                    usr_grp_id="     . $group_id;
         if (!empty($_POST["password"])) {
             $stmt .= ",
                     usr_password='" . Auth::hashPassword($_POST["password"]) . "'";

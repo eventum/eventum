@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: users.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: users.php 3779 2008-11-20 15:39:14Z kbrown $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -85,6 +85,7 @@ if (($role_id == User::getRoleID('administrator')) || ($role_id == User::getRole
     $tpl->assign("list", User::getList($show_customer));
     $tpl->assign("project_list", $project_list);
     $tpl->assign("project_roles", $project_roles);
+    $tpl->assign("group_list", Group::getAssocListAllProjects());
 } else {
     $tpl->assign("show_not_allowed_msg", true);
 }
