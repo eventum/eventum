@@ -52,6 +52,7 @@ Eventum Issue Tracking System
 - Allow users to login using email aliases (Bryan Alsdorf)
 - Made week start day configurable from preferences for datepicker (Elan Ruusamäe)
 - Let custom field size for multiple selection be items count but not more than 10 (Elan Ruusamäe)
+- Fixed grp_id error on the manage users page after editing a user (Kirk Brown)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
