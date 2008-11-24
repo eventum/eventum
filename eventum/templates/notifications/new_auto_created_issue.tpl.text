@@ -11,6 +11,8 @@
 {t escape=no}We recieved a message from {$sender_name} and created an issue from it. Since you were a recipient of the original message, we are sending you the issue details.{/t}
 {/if}
 {/textformat}
+
+
 {if $sender_can_access == 1}
 {t escape=no}
 To view more details of this issue, or to update it, please visit the following URL{/t}:
