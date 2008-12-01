@@ -659,7 +659,7 @@ class Workflow
     function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
-            return true;
+            return array();
         }
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->getIssueFieldsToDisplay($prj_id, $issue_id, $location);
