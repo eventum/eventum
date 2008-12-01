@@ -1928,7 +1928,7 @@ class Issue
     {
         $exclude_list = array();
         $sender_email = Mail_API::getEmailAddress($sender);
-        $sender_usr_id = User::getUserIDByEmail($sender_email);
+        $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $reporter = $sender_usr_id;
             $exclude_list[] = $sender_usr_id;
