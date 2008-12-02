@@ -9,7 +9,7 @@
 // | Authors: João Prado Maia <jpm@impleo.net>                            |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: eventum 3579 2008-05-27 18:08:22Z balsdorf $
+// @(#) $Id: eventum 3785 2008-12-02 17:07:11Z glen $
 //
 require_once(dirname(__FILE__) . '/config.inc.php');
 require_once(APP_INC_PATH . 'class.command_line.php');
