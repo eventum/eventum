@@ -9,11 +9,11 @@
 // | Authors: João Prado Maia <jpm@impleo.net>                            |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: eventum 3785 2008-12-02 17:07:11Z glen $
+// @(#) $Id: eventum 3786 2008-12-02 17:08:25Z glen $
 //
 require_once(dirname(__FILE__) . '/config.inc.php');
 require_once(APP_INC_PATH . 'class.command_line.php');
-require_once(APP_PEAR_PATH . 'XML_RPC/RPC.php');
+require_once(APP_PEAR_PATH . 'XML/RPC.php');
 
 list($user_email, $user_password, $url, $port, $relative_url) = Command_Line::getEnvironmentSettings();
 if (empty($port)) {
