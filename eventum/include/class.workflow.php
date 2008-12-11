@@ -640,7 +640,7 @@ class Workflow
     function getNotificationActions($prj_id, $issue_id, $email, $source)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
-            return true;
+            return null;
         }
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->getNotificationActions($prj_id, $issue_id, $email, $source);
