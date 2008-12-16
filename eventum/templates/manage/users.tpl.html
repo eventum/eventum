@@ -60,7 +60,7 @@
               //-->
               </script>
               {/literal}
-              <form name="user_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+              <form name="user_form" onSubmit="javascript:return validateForm(this);" method="post" action="{$rel_url}manage/users.php">
               {if $smarty.get.cat == 'edit'}
               <input type="hidden" name="cat" value="update">
               <input type="hidden" name="id" value="{$smarty.get.id}">
@@ -241,7 +241,7 @@
                         <input type="checkbox" name="items[]" value="{$list[i].usr_id}" {if $smarty.section.i.total == 0}disabled{/if}>
                       </td>
                       <td width="15%" bgcolor="{$row_color}" class="default">
-                        &nbsp;<a class="link" href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].usr_id}" title="{t}update this entry{/t}">{$list[i].usr_full_name}</a>
+                        &nbsp;<a class="link" href="{$rel_url}manage/users.php?cat=edit&id={$list[i].usr_id}" title="{t}update this entry{/t}">{$list[i].usr_full_name}</a>
                       </td>
                       <td width="15%" bgcolor="{$row_color}" class="default" nowrap>
                         {foreach from=$list[i].roles item=role_data}
