@@ -87,22 +87,30 @@ class Notification
      * @param   string $type The notification type
      * @return  array The list of email addresses
      */
-    function getSubscribedEmails($issue_id, $type)
+    function getSubscribedEmails($issue_id, $type = false)
     {
         $stmt = "SELECT
                     IF(usr_id <> 0, usr_email, sub_email) AS email
                  FROM
                     (
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription,
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription";
+        if ($type != false) {
+            $stmt .= ",
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type";
+        }
+        $stmt .= "
                     )
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  ON
                     usr_id=sub_usr_id
-                 WHERE
+                 WHERE";
+        if ($type != false) {
+            $stmt .= "
                     sbt_sub_id=sub_id AND
-                    sbt_type='" . Misc::escapeString($type) . "' AND
+                    sbt_type='" . Misc::escapeString($type) . "' AND";
+        }
+        $stmt .= "
                     sub_iss_id=" . Misc::escapeInteger($issue_id);
         $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
         if (PEAR::isError($res)) {
@@ -347,7 +355,7 @@ class Notification
             $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($to));
             // add the warning message about replies being blocked or not
             $fixed_body = Mail_API::addWarningMessage($issue_id, $to, $body, $headers);
-            $headers['To'] = $to;
+            $headers['To'] = Mime_Helper::encodeAddress($to);
 
             Mail_Queue::add($to, $headers, $fixed_body, 1, $issue_id, $type, $sender_usr_id, $sup_id);
         }
@@ -1907,7 +1915,7 @@ class Notification
      * @access  public
      * @param   integer $issue_id The ID of the issue the user is being subscribed too
      * @param   string  $email The email address of the user to be subscribed
-     * @param   string  $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note"
+     * @param   string  $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note", "add_extra_recipients"
      * @return  array The list of default notification actions
      */
     function getDefaultActions($issue_id = false, $email = false, $source = false)
@@ -2025,7 +2033,11 @@ class Notification
      */
     function subscribeEmail($usr_id, $issue_id, $form_email, $actions)
     {
-        $form_email = strtolower(Mail_API::getEmailAddress($form_email));
+        $form_email = Mail_API::getEmailAddress($form_email);
+        if (!is_string($form_email)) {
+            return -1;
+        }
+        $form_email = strtolower($form_email);
         // first check if this is an actual user or just an email address
         $user_emails = User::getAssocEmailList();
         if (in_array($form_email, array_keys($user_emails))) {
