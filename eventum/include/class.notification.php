@@ -2037,11 +2037,12 @@ class Notification
         if (!is_string($form_email)) {
             return -1;
         }
+
         $form_email = strtolower($form_email);
         // first check if this is an actual user or just an email address
-        $user_emails = User::getAssocEmailList();
-        if (in_array($form_email, array_keys($user_emails))) {
-            return Notification::subscribeUser($usr_id, $issue_id, $user_emails[$form_email], $actions);
+        $sub_usr_id = User::getUserIDByEmail($form_email, true);
+        if (!empty($sub_usr_id)) {
+            return Notification::subscribeUser($usr_id, $issue_id, $sub_usr_id, $actions);
         }
 
         $issue_id = Misc::escapeInteger($issue_id);
@@ -2149,7 +2150,7 @@ class Notification
         list($issue_id, $usr_id) = $GLOBALS["db_api"]->dbh->getRow($stmt);
 
         $email = strtolower(Mail_API::getEmailAddress($_POST["email"]));
-        $usr_id = User::getUserIDByEmail($email);
+        $usr_id = User::getUserIDByEmail($email, true);
         if (!empty($usr_id)) {
             $email = '';
         } else {
