@@ -268,7 +268,7 @@ class Notification
         $structure = Mime_Helper::decode($full_message, true);
 
         // get ID of whoever is sending this.
-        $sender_usr_id = User::getUserIDByEmail($sender_email);
+        $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (empty($sender_usr_id)) {
             $sender_usr_id = false;
         }
@@ -308,7 +308,8 @@ class Notification
             }
             if (!empty($email)) {
                 // don't send the email to the same person who sent it
-                if (strtolower(Mail_API::getEmailAddress($email)) == $sender_email) {
+                if ((($sender_usr_id != false) && (!empty($users[$i]["sub_usr_id"])) && ($sender_usr_id == $users[$i]["sub_usr_id"])) ||
+                        (strtolower(Mail_API::getEmailAddress($email)) == $sender_email)) {
                     continue;
                 }
                 $emails[] = $email;
