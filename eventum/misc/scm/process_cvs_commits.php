@@ -25,13 +25,10 @@
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
-//
-// @(#) $Id: process_cvs_commits.php 3555 2008-03-15 16:45:34Z glen $
-
 
 // URL to your Eventum installation.
 // https is supported transparently by PHP 5 if you have openssl module enabled.
-$eventum_url = 'http://rabbit.impleo.net/';
+$eventum_url = 'http://eventum.example.com/';
 
 
 //
