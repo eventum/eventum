@@ -168,9 +168,9 @@ function setSignature(f)
           </td>
           <td bgcolor="{$light_color}" class="default">
             <input type="radio" name="send_notification" checked value="1">
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('close_form', 'send_notification', 0);">Yes</a>&nbsp;&nbsp;
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('close_form', 'send_notification', 0);">{t}Yes{/t}</a>&nbsp;&nbsp;
             <input type="radio" name="send_notification" value="0">
-            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('close_form', 'send_notification', 1);">No</a>
+            <a id="link" class="link" href="javascript:void(null);" onClick="javascript:checkRadio('close_form', 'send_notification', 1);">{t}No{/t}</a>
           </td>
         </tr>
         <tr>
@@ -179,9 +179,9 @@ function setSignature(f)
           </td>
           <td bgcolor="{$light_color}" class="default">
             <input id="notification_internal" type="radio" name="notification_list" checked value="internal" onchange="toggleNotificationList()">
-            <label for="notification_internal">{t}Internal Users{/t} ({$notification_list_internal|default:"<i>None</i>"})</label><br />
+            <label for="notification_internal">{t}Internal Users{/t} ({$notification_list_internal|default:"<i>None</i>"}) ({t}Will save as a note{/t})</label><br />
             <input id="notification_all" type="radio" name="notification_list" value="all" onchange="toggleNotificationList()">
-            <label for="notification_all">{t}All{/t} ({$notification_list_all|default:"<i>None</i>"})</label>
+            <label for="notification_all">{t}All{/t} ({$notification_list_all|default:"<i>None</i>"}) ({t}Will save as email{/t})</label>
           </td>
         </tr>
         <tr>
