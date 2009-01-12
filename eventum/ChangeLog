@@ -55,6 +55,7 @@ Eventum Issue Tracking System
 - Fixed bug with encoding addresses with special characters when sending emails (Bryan)
 - Fixed grp_id error on the manage users page after editing a user (Kirk Brown)
 - Added workflow method to control if new To/Cc addresses are auto added to notification list (Bryan)
+- Prevent PHP error with IRC bot when trying to fetch channels for a project with no channels defined (Bryan)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

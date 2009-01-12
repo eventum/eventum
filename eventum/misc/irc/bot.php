@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: bot.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: bot.php 3795 2009-01-12 18:49:55Z balsdorf $
 //
 
 ini_set('memory_limit', '256M');
@@ -260,7 +260,10 @@ class Eventum_Bot
     function _getChannels($prj_id)
     {
         global $channels;
-        return $channels[$prj_id];
+        if (isset($channels[$prj_id]))  {
+            return $channels[$prj_id];
+        }
+        return array();
     }
 
 
