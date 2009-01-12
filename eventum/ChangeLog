@@ -54,6 +54,7 @@ Eventum Issue Tracking System
 - Let custom field size for multiple selection be items count but not more than 10 (Elan Ruusamäe)
 - Fixed bug with encoding addresses with special characters when sending emails (Bryan)
 - Fixed grp_id error on the manage users page after editing a user (Kirk Brown)
+- Added workflow method to control if new To/Cc addresses are auto added to notification list (Bryan)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

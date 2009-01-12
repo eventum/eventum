@@ -716,7 +716,7 @@ class Support
                         $cc_users = array();
                         foreach ($addresses as $email) {
                             if (in_array(strtolower($email), $user_emails)) {
-                                $cc_users[] = $users[$email];
+                                $cc_users[] = $users[strtolower($email)];
                             }
                         }
 
@@ -762,6 +762,11 @@ class Support
                             $assignee_only = true;
                             $internal_only = true;
                         }
+
+                        if (Workflow::shouldAutoAddToNotificationList($info['ema_prj_id'])) {
+                            Support::addExtraRecipientsToNotificationList($t);
+                        }
+
                         Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
                         // try to get usr_id of sender, if not, use system account
                         $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
@@ -917,7 +922,7 @@ class Support
                     $options['priority'], @$options['users'], $date, $message_id);
 
             // add sender to authorized repliers list if they are not a real user
-            $sender_usr_id = User::getUserIDByEmail($sender_email);
+            $sender_usr_id = User::getUserIDByEmail($sender_email, true);
             if (empty($sender_usr_id)) {
                 Authorized_Replier::manualInsert($issue_id, $sender_email, false);
             }
@@ -2127,7 +2132,7 @@ class Support
         }
 
         // only send a direct email if the user doesn't want to add the Cc'ed people to the notification list
-        if (@$_POST['add_unknown'] == 'yes') {
+        if ((@$_POST['add_unknown'] == 'yes') || (Workflow::shouldAutoAddToNotificationList(Issue::getProjectID($_POST['issue_id'])))) {
             if (!empty($_POST['issue_id'])) {
                 // add the recipients to the notification list of the associated issue
                 $recipients = array($_POST['to']);
@@ -2600,6 +2605,33 @@ class Support
             return true;
         }
         return false;
+    }
+
+
+    function addExtraRecipientsToNotificationList($email)
+    {
+        if ((empty($email['to'])) && (!empty($email['sup_to']))) {
+            $email['to'] = $email['sup_to'];
+        }
+        if ((empty($email['cc'])) && (!empty($email['sup_cc']))) {
+            $email['cc'] = $email['sup_cc'];
+        }
+
+        $addresses = array();
+        $to_addresses = Mail_API::getEmailAddresses(@$email['to']);
+        if (count($to_addresses)) {
+            $addresses = $to_addresses;
+        }
+        $cc_addresses = Mail_API::getEmailAddresses(@$email['cc']);
+        if (count($cc_addresses)) {
+            $addresses = array_merge($addresses, $cc_addresses);
+        }
+        $subscribers = Notification::getSubscribedEmails($email['issue_id']);
+        foreach ($addresses as $address) {
+            if (!in_array($address, $subscribers)) {
+                Notification::subscribeEmail(Auth::getUserID(), $email['issue_id'], $address, Notification::getDefaultActions($email['issue_id'], $address, 'add_extra_recipients'));
+            }
+        }
     }
 }
 
