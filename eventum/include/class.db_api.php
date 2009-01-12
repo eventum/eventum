@@ -3,7 +3,8 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008 MySQL AB            |
+// | Copyright (c) 2003 - 2008 MySQL AB                                   |
+// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.db_api.php 3585 2008-05-30 06:10:02Z glen $
+// @(#) $Id: class.db_api.php 3797 2009-01-12 20:14:39Z balsdorf $
 //
 
 $TOTAL_QUERIES = 0;

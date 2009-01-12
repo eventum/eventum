@@ -4,7 +4,8 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008 MySQL AB            |
+// | Copyright (c) 2003 - 2008 MySQL AB                                   |
+// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -29,7 +30,7 @@
 // |          Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: process_svn_commits.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: process_svn_commits.php 3797 2009-01-12 20:14:39Z balsdorf $
 
 // See http://eventum.mysql.org/wiki/index.php/Subversion_integration about SVN integration.
 

@@ -3,7 +3,8 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008 MySQL AB            |
+// | Copyright (c) 2003 - 2008 MySQL AB                                   |
+// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.authorized_replier.php 3738 2008-10-02 02:19:13Z balsdorf $
+// @(#) $Id: class.authorized_replier.php 3797 2009-01-12 20:14:39Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.user.php");
