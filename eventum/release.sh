@@ -18,7 +18,6 @@ chmod -R a+rwX templates_c locks logs config
 rm -f release.sh phpxref.cfg phpxref.sh make-tag.sh
 
 # sanity check
-find -name '*.php' | xargs -l1 php4 -l
 find -name '*.php' | xargs -l1 php -l
 cd -
 
