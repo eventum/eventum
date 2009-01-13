@@ -57,10 +57,55 @@ header('content-type: text/html;charset=' . APP_CHARSET);
 set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
 require_once('File/Util.php');
 
-$html = checkRequirements();
-if (!empty($html)) {
-    echo $html;
-    exit;
+list($warnings, $errors) = checkRequirements();
+if ((count($warnings) > 0) || (count($errors) > 0)) {
+    echo '<html>
+<head>
+<style type="text/css">
+<!--
+.default {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 70%;
+}
+-->
+</style>
+<title>Eventum Setup</title>
+</head>
+<body>
+
+<br /><br />
+
+<table width="600" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
+  <tr>
+    <td>
+      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
+        <tr>
+          <td><img src="../images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Configuration Error:</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="default">
+            <br />
+            <b>The following problems were found:</b>
+            <br /><br />
+            ' . implode("\n<hr>\n", array_merge($errors, $warnings)) . '
+            <br /><br />
+            <b>Please resolve the issues described above. For file permission errors, please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
+            <br /><br />
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>';
+    if (count($errors) > 0) {
+        exit;
+    }
 }
 
 require_once(APP_SMARTY_PATH . 'Smarty.class.php');
@@ -171,6 +216,7 @@ function getPermissionError($file, $desc, $is_directory, $exists)
 function checkRequirements()
 {
     $errors = array();
+    $warnings = array();
 
     // check for GD support
     ob_start();
@@ -191,6 +237,11 @@ function checkRequirements()
     // check for the file_uploads php.ini directive
     if (ini_get('file_uploads') != "1") {
         $errors[] = "The 'file_uploads' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
+    }
+    // check for the file_uploads php.ini directive
+    if (!function_exists('mb_detect_encoding')) {
+        $warnings[] = "The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly " .
+            "you need to install this extension. If you do not install this extension localization will be disabled.";
     }
     $error = checkPermissions(APP_CONFIG_PATH, "Directory '" . APP_CONFIG_PATH . "'", TRUE);
     if (!empty($error)) {
@@ -213,54 +264,7 @@ function checkRequirements()
         $errors[] = $error;
     }
 
-    $html = '';
-    if (count($errors) > 0) {
-        $html = '<html>
-<head>
-<style type="text/css">
-<!--
-.default {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 70%;
-}
--->
-</style>
-<title>Eventum Setup</title>
-</head>
-<body>
-
-<br /><br />
-
-<table width="600" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td><img src="../images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Configuration Error:</span></td>
-        </tr>
-        <tr>
-          <td colspan="2" class="default">
-            <br />
-            <b>The following problems regarding file and/or directory permissions were found:</b>
-            <br /><br />
-            ' . implode("\n<hr>\n", $errors) . '
-            <br /><br />
-            <b>Please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
-            <br /><br />
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-
-</body>
-</html>';
-    }
-    return $html;
+    return array($warnings, $errors);
 }
 
 
