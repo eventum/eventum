@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-18 01:53+0200\n"
+"POT-Creation-Date: 2009-01-13 17:52+0200\n"
 "PO-Revision-Date: 2007-11-10 02:59+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -124,7 +124,7 @@ msgstr "Временный номер"
 msgid "Other"
 msgstr "Дополн."
 
-#: misc/localization/eventum.c include/class.display_column.php:191
+#: misc/localization/eventum.c include/class.display_column.php:192
 msgid "Time Spent"
 msgstr "Затрачено времени"
 
@@ -168,14 +168,14 @@ msgstr ""
 msgid "Record Time Worked"
 msgstr "Регистрация времени обработки"
 
-#: misc/localization/eventum.c include/class.display_column.php:226
-#: include/class.notification.php:646 include/class.notification.php:647
+#: misc/localization/eventum.c include/class.display_column.php:227
+#: include/class.notification.php:656 include/class.notification.php:657
 msgid "Summary"
 msgstr "Сводка"
 
-#: misc/localization/eventum.c include/class.display_column.php:202
-#: include/class.filter.php:729 include/class.notification.php:622
-#: include/class.notification.php:623 include/class.project.php:1105
+#: misc/localization/eventum.c include/class.display_column.php:203
+#: include/class.filter.php:730 include/class.notification.php:632
+#: include/class.notification.php:633 include/class.project.php:1106
 msgid "Category"
 msgstr "Категория"
 
@@ -212,7 +212,7 @@ msgstr "Пожалуйста выберите, какие записи необ�
 msgid "This action will permanently delete the selected entries."
 msgstr "Это действие удалит выбранные записи без возможности восстановления."
 
-#: misc/localization/eventum.c include/class.filter.php:719
+#: misc/localization/eventum.c include/class.filter.php:720
 msgid "Keyword(s)"
 msgstr "Ключевое слово(а)"
 
@@ -228,8 +228,8 @@ msgstr ""
 msgid "All Text (emails, notes, etc)"
 msgstr "По всему тексту (эл. письма, примечания и т.д)"
 
-#: misc/localization/eventum.c include/class.display_column.php:188
-#: include/class.filter.php:724
+#: misc/localization/eventum.c include/class.display_column.php:189
+#: include/class.filter.php:725
 msgid "Assigned"
 msgstr "Назначен"
 
@@ -237,38 +237,38 @@ msgstr "Назначен"
 msgid "any"
 msgstr "любой"
 
-#: misc/localization/eventum.c include/class.display_column.php:173
-#: include/class.filter.php:714 include/class.notification.php:630
-#: include/class.notification.php:631 include/class.project.php:1106
+#: misc/localization/eventum.c include/class.display_column.php:174
+#: include/class.filter.php:715 include/class.notification.php:640
+#: include/class.notification.php:641 include/class.project.php:1107
 msgid "Priority"
 msgstr "Приоритет"
 
-#: misc/localization/eventum.c include/class.display_column.php:214
-#: include/class.filter.php:734 include/class.notification.php:634
-#: include/class.notification.php:635
+#: misc/localization/eventum.c include/class.display_column.php:215
+#: include/class.filter.php:735 include/class.notification.php:644
+#: include/class.notification.php:645
 msgid "Status"
 msgstr "Статус"
 
-#: misc/localization/eventum.c include/class.display_column.php:179
-#: include/class.filter.php:796 include/class.user.php:1520
+#: misc/localization/eventum.c include/class.display_column.php:180
+#: include/class.filter.php:797 include/class.user.php:1521
 msgid "Reporter"
 msgstr "Автор"
 
-#: misc/localization/eventum.c adv_search.php:60 list.php:78
+#: misc/localization/eventum.c adv_search.php:61 list.php:79
 msgid "Any"
 msgstr "Любой"
 
-#: misc/localization/eventum.c include/class.display_column.php:205
-#: include/class.filter.php:739 include/class.notification.php:626
-#: include/class.notification.php:627
+#: misc/localization/eventum.c include/class.display_column.php:206
+#: include/class.filter.php:740 include/class.notification.php:636
+#: include/class.notification.php:637
 msgid "Release"
 msgstr "Релиз"
 
-#: misc/localization/eventum.c include/class.filter.php:780
+#: misc/localization/eventum.c include/class.filter.php:781
 msgid "Hide Closed Issues"
 msgstr "Скрыть закрытые запросы"
 
-#: misc/localization/eventum.c include/class.filter.php:768
+#: misc/localization/eventum.c include/class.filter.php:769
 msgid "Rows Per Page"
 msgstr "Рядов на страницу"
 
@@ -276,19 +276,19 @@ msgstr "Рядов на страницу"
 msgid "ALL"
 msgstr "ВСЕ"
 
-#: misc/localization/eventum.c include/class.filter.php:772
+#: misc/localization/eventum.c include/class.filter.php:773
 msgid "Sort By"
 msgstr "Сортировать по"
 
-#: misc/localization/eventum.c include/class.display_column.php:176
+#: misc/localization/eventum.c include/class.display_column.php:177
 msgid "Issue ID"
 msgstr "Запрос #"
 
-#: misc/localization/eventum.c include/class.display_column.php:220
+#: misc/localization/eventum.c include/class.display_column.php:221
 msgid "Last Action Date"
 msgstr "Дата последнего действия"
 
-#: misc/localization/eventum.c include/class.filter.php:776
+#: misc/localization/eventum.c include/class.filter.php:777
 msgid "Sort Order"
 msgstr "Порядок сортировки"
 
@@ -305,11 +305,11 @@ msgstr "по убыванию"
 msgid "Show Issues in Which I Am"
 msgstr "Показать запросы в которых я / мне:"
 
-#: misc/localization/eventum.c include/class.filter.php:784
+#: misc/localization/eventum.c include/class.filter.php:785
 msgid "Authorized to Send Emails"
 msgstr "Разрешено отправлять эл. почту"
 
-#: misc/localization/eventum.c include/class.filter.php:788
+#: misc/localization/eventum.c include/class.filter.php:789
 msgid "In Notification List"
 msgstr "В списке уведомлений"
 
@@ -337,7 +337,7 @@ msgstr "Между"
 msgid "In Past"
 msgstr "По истечению"
 
-#: misc/localization/eventum.c include/class.reminder_condition.php:223
+#: misc/localization/eventum.c include/class.reminder_condition.php:224
 msgid "hours"
 msgstr "часов"
 
@@ -727,7 +727,7 @@ msgstr "Закрыть"
 msgid "Bulk Update Tool"
 msgstr "Инструмент для массового обновления"
 
-#: misc/localization/eventum.c include/class.project.php:1107
+#: misc/localization/eventum.c include/class.project.php:1108
 msgid "Assignment"
 msgstr "Назначение"
 
@@ -747,7 +747,7 @@ msgstr "Пользователь"
 msgid "Module / Directory"
 msgstr "Модуль / Директория"
 
-#: misc/localization/eventum.c include/class.project.php:1111
+#: misc/localization/eventum.c include/class.project.php:1112
 msgid "File"
 msgstr "Файл"
 
@@ -861,14 +861,22 @@ msgstr "Закрыть запрос"
 msgid "Please choose a status"
 msgstr "Пожалуйста, выберите статус"
 
-#: misc/localization/eventum.c include/class.notification.php:638
-#: include/class.notification.php:639
+#: misc/localization/eventum.c include/class.notification.php:648
+#: include/class.notification.php:649
 msgid "Resolution"
 msgstr "Решение"
 
 #: misc/localization/eventum.c
 msgid "Send Notification About Issue Being Closed?"
 msgstr "Отправить уведомление о закрытии запроса?"
+
+#: misc/localization/eventum.c include/class.misc.php:714
+msgid "Yes"
+msgstr "Да"
+
+#: misc/localization/eventum.c include/class.misc.php:716
+msgid "No"
+msgstr "Нет"
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -878,6 +886,14 @@ msgstr "Отправить уведомление адресатам:"
 #: misc/localization/eventum.c
 msgid "Internal Users"
 msgstr "Внутренние пользователи"
+
+#: misc/localization/eventum.c
+msgid "Will save as a note"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Will save as email"
+msgstr ""
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -1033,7 +1049,7 @@ msgstr "Текущие фильтры:"
 msgid "None"
 msgstr "Нет"
 
-#: misc/localization/eventum.c include/class.display_column.php:223
+#: misc/localization/eventum.c include/class.display_column.php:224
 msgid "Custom Fields"
 msgstr "Дополнительные поля"
 
@@ -1073,8 +1089,8 @@ msgstr "Название компании"
 msgid "Contract #"
 msgstr "Договор #"
 
-#: misc/localization/eventum.c include/class.customer_stats_report.php:670
-#: include/class.display_column.php:211
+#: misc/localization/eventum.c include/class.customer_stats_report.php:671
+#: include/class.display_column.php:212
 msgid "Support Level"
 msgstr "Уровень поддержки"
 
@@ -1114,8 +1130,8 @@ msgstr "Максимальное время первого ответа"
 msgid "Time Until First Response Deadline"
 msgstr "Предельное время до первого ответа"
 
-#: misc/localization/eventum.c include/class.customer_stats_report.php:668
-#: include/class.display_column.php:208 include/class.user.php:1521
+#: misc/localization/eventum.c include/class.customer_stats_report.php:669
+#: include/class.display_column.php:209 include/class.user.php:1522
 msgid "Customer"
 msgstr "Клиент"
 
@@ -1139,7 +1155,7 @@ msgstr "Добавить"
 msgid "Edit"
 msgstr "Редактировать"
 
-#: misc/localization/eventum.c include/class.reminder_condition.php:217
+#: misc/localization/eventum.c include/class.reminder_condition.php:218
 msgid "Field"
 msgstr "Поле"
 
@@ -1210,14 +1226,6 @@ msgstr "Просмотр клиентов"
 #: misc/localization/eventum.c
 msgid "Add Primary Contact to Notification List? *"
 msgstr "Добавить основной контакт в список уведомлений? *"
-
-#: misc/localization/eventum.c include/class.misc.php:713
-msgid "Yes"
-msgstr "Да"
-
-#: misc/localization/eventum.c include/class.misc.php:715
-msgid "No"
-msgstr "Нет"
 
 #: misc/localization/eventum.c
 msgid "Notify Customer About New Issue? *"
@@ -1357,7 +1365,7 @@ msgstr "Фильтр по дате прибытия:"
 msgid "Arrival Date:"
 msgstr "Дата прибытия:"
 
-#: misc/localization/eventum.c include/class.help.php:91
+#: misc/localization/eventum.c include/class.help.php:92
 msgid "Associate Emails"
 msgstr "Обработка эл.почты"
 
@@ -1437,7 +1445,7 @@ msgstr "Пустой заголовок темы"
 msgid "No emails could be found."
 msgstr "Эл.почта не найдена."
 
-#: misc/localization/eventum.c include/class.notification.php:1108
+#: misc/localization/eventum.c include/class.notification.php:1118
 msgid "New Issue"
 msgstr "Новый запрос"
 
@@ -1539,7 +1547,7 @@ msgstr "Общедоступный"
 msgid "visible to all"
 msgstr "видимый для всех"
 
-#: misc/localization/eventum.c include/class.project.php:1112
+#: misc/localization/eventum.c include/class.project.php:1113
 msgid "Private"
 msgstr "Частный"
 
@@ -1624,7 +1632,7 @@ msgstr "Адрес эл. почты:"
 msgid "Send New Password"
 msgstr "Отправить новый пароль"
 
-#: misc/localization/eventum.c include/class.help.php:87
+#: misc/localization/eventum.c include/class.help.php:88
 msgid "Advanced Search / Creating Custom Queries"
 msgstr "Расширенный поиск / Создание пользовательских запросов"
 
@@ -1649,7 +1657,7 @@ msgstr ""
 "таких ситуаций, просто создайте пользовательский запрос на этой \n"
 "странице и выполните его на странице просмотра запросов."
 
-#: misc/localization/eventum.c include/class.help.php:119
+#: misc/localization/eventum.c include/class.help.php:120
 msgid "Edit Columns to Display"
 msgstr "Редактировать отображаемые столбцы"
 
@@ -1688,7 +1696,7 @@ msgstr ""
 "отображать. Например, если релизы не определены в системе, столбец 'Релиз' "
 "будет скрыт."
 
-#: misc/localization/eventum.c include/class.help.php:123
+#: misc/localization/eventum.c include/class.help.php:124
 msgid "Customize Issue Listing Screen"
 msgstr "Настройка страницы просмотра запросов"
 
@@ -1731,7 +1739,7 @@ msgid ""
 "coming from the database."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:107
+#: misc/localization/eventum.c include/class.help.php:108
 msgid "Email Blocking"
 msgstr "Блокирование эл.почты"
 
@@ -1753,7 +1761,7 @@ msgstr ""
 "оно преобразовывается в примечание и сохраняется для дальнейшего "
 "использования. Это примечаниеможет быть преобразовано в эл.письмо позднее.   "
 
-#: misc/localization/eventum.c include/class.help.php:115
+#: misc/localization/eventum.c include/class.help.php:116
 msgid "Edit Fields to Display"
 msgstr "Редактировать отображаемые поля"
 
@@ -1786,7 +1794,7 @@ msgstr ""
 msgid "Available Related Topics"
 msgstr "Доступные связанные разделы:"
 
-#: misc/localization/eventum.c include/class.help.php:111
+#: misc/localization/eventum.c include/class.help.php:112
 msgid "Link Filters"
 msgstr "Фильтры ссылок"
 
@@ -1825,7 +1833,7 @@ msgstr "Шаблон"
 msgid "Replacement: \"%1\""
 msgstr "Подстановка"
 
-#: misc/localization/eventum.c include/class.help.php:83
+#: misc/localization/eventum.c include/class.help.php:84
 msgid "Listing / Searching for Issues"
 msgstr "Просмотр / Поиск запросов"
 
@@ -1871,15 +1879,15 @@ msgstr ""
 msgid "Reporting New Issues"
 msgstr "Создание новых запросов"
 
-#: misc/localization/eventum.c include/class.help.php:95
+#: misc/localization/eventum.c include/class.help.php:96
 msgid "Account Preferences"
 msgstr "Предпочтения учетной записи"
 
-#: misc/localization/eventum.c include/class.help.php:103
+#: misc/localization/eventum.c include/class.help.php:104
 msgid "Viewing Issues"
 msgstr "Просмотр запросов"
 
-#: misc/localization/eventum.c include/class.help.php:99
+#: misc/localization/eventum.c include/class.help.php:100
 msgid "Email Notifications"
 msgstr "Уведомление по эл. почте"
 
@@ -1887,23 +1895,23 @@ msgstr "Уведомление по эл. почте"
 msgid "Configuration Parameters"
 msgstr "Конфигурационные параметры:"
 
-#: misc/localization/eventum.c include/class.help.php:71
+#: misc/localization/eventum.c include/class.help.php:72
 msgid "SCM Integration"
 msgstr "Интеграция с SCM"
 
-#: misc/localization/eventum.c include/class.help.php:75
+#: misc/localization/eventum.c include/class.help.php:76
 msgid "Usage Examples"
 msgstr "Примеры использования"
 
-#: misc/localization/eventum.c include/class.help.php:79
+#: misc/localization/eventum.c include/class.help.php:80
 msgid "Installation Instructions"
 msgstr "Инструкции по установке"
 
-#: misc/localization/eventum.c include/class.help.php:127
+#: misc/localization/eventum.c include/class.help.php:128
 msgid "Segregate Reporters"
 msgstr "Отдельные авторы"
 
-#: misc/localization/eventum.c include/class.help.php:131
+#: misc/localization/eventum.c include/class.help.php:132
 msgid "User Permission Levels"
 msgstr "Уровни разрешений пользователя"
 
@@ -1960,7 +1968,7 @@ msgstr ""
 "Ниже приведен краткий обзор доступных в системе Eventum\n"
 "уровней разрешений пользователя:"
 
-#: misc/localization/eventum.c include/class.user.php:1519
+#: misc/localization/eventum.c include/class.user.php:1520
 msgid "Viewer"
 msgstr "Зритель"
 
@@ -2001,7 +2009,7 @@ msgstr ""
 "данного пользователя. Разрешено создавать новые запросы,\n"
 "обновлять и отправлять эл.письма в существующие запросы."
 
-#: misc/localization/eventum.c include/class.user.php:1522
+#: misc/localization/eventum.c include/class.user.php:1523
 msgid "Standard User"
 msgstr "Пользователь"
 
@@ -2017,7 +2025,7 @@ msgstr ""
 "обновлять существующие и отправлять эл.письма и примечания \n"
 "в существующих запросах."
 
-#: misc/localization/eventum.c include/class.user.php:1523
+#: misc/localization/eventum.c include/class.user.php:1524
 msgid "Developer"
 msgstr "Специалист"
 
@@ -2033,7 +2041,7 @@ msgstr ""
 "имеют дело с запросами и остальных сотрудников, которые не \n"
 "могут самостоятельно управлять запросами ."
 
-#: misc/localization/eventum.c include/class.user.php:1524
+#: misc/localization/eventum.c include/class.user.php:1525
 msgid "Manager"
 msgstr "Менеджер"
 
@@ -2056,7 +2064,7 @@ msgstr ""
 "и \n"
 "параметров уровня проекта."
 
-#: misc/localization/eventum.c include/class.user.php:1525
+#: misc/localization/eventum.c include/class.user.php:1526
 msgid "Administrator"
 msgstr "Администратор"
 
@@ -2116,7 +2124,7 @@ msgstr ""
 "Для создания новых запросов, нажмите на 'Создать запрос' \n"
 "в верхней части вашего броузера."
 
-#: misc/localization/eventum.c include/class.help.php:51
+#: misc/localization/eventum.c include/class.help.php:52
 msgid "Assignment Field"
 msgstr "Поле Назначение"
 
@@ -2139,7 +2147,7 @@ msgid ""
 "assign it to your Project Lead."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:43
+#: misc/localization/eventum.c include/class.help.php:44
 msgid "Category Field"
 msgstr "Поле Категория"
 
@@ -2162,7 +2170,7 @@ msgstr ""
 "соответствующих свойств проекта. Если у вас не достаточно прав для\n"
 "этого, пожалуйста, свяжитесь с администратором системы Eventum."
 
-#: misc/localization/eventum.c include/class.help.php:63
+#: misc/localization/eventum.c include/class.help.php:64
 msgid "Description Field"
 msgstr "Поле Описание"
 
@@ -2179,7 +2187,7 @@ msgstr ""
 "того, что произошло, шаги по воспроизведению проблемы/запроса и\n"
 "описание результата, который вы ожидали получить."
 
-#: misc/localization/eventum.c include/class.help.php:67
+#: misc/localization/eventum.c include/class.help.php:68
 msgid "Estimated Development Time Field"
 msgstr "Поле Ожидамое время решения"
 
@@ -2214,7 +2222,7 @@ msgstr ""
 "и таким образом получить больше опыта в оценке требуемого времени для новых "
 "проектов."
 
-#: misc/localization/eventum.c include/class.help.php:47
+#: misc/localization/eventum.c include/class.help.php:48
 msgid "Priority Field"
 msgstr "Поле Приоритет"
 
@@ -2232,7 +2240,7 @@ msgstr ""
 "выберите опцию 'без приоритета' и приоритет запроса будет указан \n"
 "менеджером проекта."
 
-#: misc/localization/eventum.c include/class.help.php:55
+#: misc/localization/eventum.c include/class.help.php:56
 msgid "Scheduled Release Field"
 msgstr "Поле запланированного релиза"
 
@@ -2250,7 +2258,7 @@ msgstr ""
 "'незапланированное', и менеджер проекта установит его в соответствующе "
 "значение."
 
-#: misc/localization/eventum.c include/class.help.php:59
+#: misc/localization/eventum.c include/class.help.php:60
 msgid "Summary Field"
 msgstr "Поле Сводка"
 
@@ -2549,7 +2557,7 @@ msgstr "Оценка действий"
 msgid "Notes"
 msgstr "Примечания"
 
-#: misc/localization/eventum.c include/class.customer_stats_report.php:736
+#: misc/localization/eventum.c include/class.customer_stats_report.php:737
 msgid "Time Tracking"
 msgstr "Учет времени"
 
@@ -2617,8 +2625,8 @@ msgstr "Оператор"
 msgid "Requirement"
 msgstr "Инструкция"
 
-#: misc/localization/eventum.c include/class.notification.php:642
-#: include/class.notification.php:643 include/class.project.php:1109
+#: misc/localization/eventum.c include/class.notification.php:652
+#: include/class.notification.php:653 include/class.project.php:1110
 msgid "Estimated Dev. Time"
 msgstr "Ожидамое время решения"
 
@@ -2885,19 +2893,19 @@ msgstr "Очередь почты не найдена."
 msgid "Overall Stats"
 msgstr "Общая статистика"
 
-#: misc/localization/eventum.c stats_chart.php:63
+#: misc/localization/eventum.c stats_chart.php:64
 msgid "Issues by Status"
 msgstr "Запросы по статусам"
 
-#: misc/localization/eventum.c stats_chart.php:75
+#: misc/localization/eventum.c stats_chart.php:76
 msgid "Issues by Release"
 msgstr "Запросы по релизам"
 
-#: misc/localization/eventum.c stats_chart.php:78
+#: misc/localization/eventum.c stats_chart.php:79
 msgid "Issues by Priority"
 msgstr "Запросы по приоритетам"
 
-#: misc/localization/eventum.c stats_chart.php:84
+#: misc/localization/eventum.c stats_chart.php:85
 msgid "Issues by Category"
 msgstr "Запросы по категориям"
 
@@ -4965,7 +4973,7 @@ msgstr "Управление действиями напоминания"
 msgid "view reminder details"
 msgstr "просмотреть детали напоминания"
 
-#: misc/localization/eventum.c include/class.reminder_action.php:761
+#: misc/localization/eventum.c include/class.reminder_action.php:762
 msgid "Reminder"
 msgstr "Напоминание"
 
@@ -5580,6 +5588,10 @@ msgid "Full Name"
 msgstr "Полное имя"
 
 #: misc/localization/eventum.c
+msgid "Group:"
+msgstr "Группа:"
+
+#: misc/localization/eventum.c
 msgid "Assigned Projects and Roles"
 msgstr "Назначенные проекты и роли"
 
@@ -5617,8 +5629,8 @@ msgstr "Это действие изменит статус выбранных �
 msgid "Role"
 msgstr "Роль"
 
-#: misc/localization/eventum.c include/class.display_column.php:185
-#: include/class.project.php:1110 list.php:88
+#: misc/localization/eventum.c include/class.display_column.php:186
+#: include/class.project.php:1111 list.php:89
 msgid "Group"
 msgstr "Группа"
 
@@ -5813,7 +5825,7 @@ msgstr "Ожидаемое время решения (только цифры)"
 msgid "Create New Issue"
 msgstr "Создание нового запроса"
 
-#: misc/localization/eventum.c include/class.project.php:1108
+#: misc/localization/eventum.c include/class.project.php:1109
 msgid "Scheduled Release"
 msgstr "Запланированный релиз"
 
@@ -6393,7 +6405,7 @@ msgstr "Создание нового запроса"
 msgid "Please choose a project"
 msgstr "Пожалуйста, выберите проект"
 
-#: misc/localization/eventum.c include/class.pager.php:124
+#: misc/localization/eventum.c include/class.pager.php:125
 msgid "Next"
 msgstr "Далее"
 
@@ -8074,10 +8086,6 @@ msgid "Other:"
 msgstr "Дополн.:"
 
 #: misc/localization/eventum.c
-msgid "Group:"
-msgstr "Группа:"
-
-#: misc/localization/eventum.c
 msgid "Summary:"
 msgstr "Сводка:"
 
@@ -8250,8 +8258,8 @@ msgstr "Запрос"
 msgid "No issues associated"
 msgstr "Нет связанных запросов"
 
-#: misc/localization/eventum.c include/class.display_column.php:231
-#: include/class.notification.php:618 include/class.notification.php:619
+#: misc/localization/eventum.c include/class.display_column.php:232
+#: include/class.notification.php:628 include/class.notification.php:629
 msgid "Expected Resolution Date"
 msgstr "Предполагаемая дата решения"
 
@@ -8358,36 +8366,36 @@ msgstr "Вложения:"
 msgid "Blocked Message Raw Headers"
 msgstr "Исходные заголовки блокированного сообщения"
 
-#: adv_search.php:61 include/class.filter.php:668 list.php:79
+#: adv_search.php:62 include/class.filter.php:669 list.php:80
 msgid "un-assigned"
 msgstr "неназначеные"
 
-#: adv_search.php:62 include/class.filter.php:670 list.php:80
+#: adv_search.php:63 include/class.filter.php:671 list.php:81
 msgid "myself and un-assigned"
 msgstr "мои и неназначенные"
 
-#: adv_search.php:65 include/class.filter.php:672 list.php:83
+#: adv_search.php:66 include/class.filter.php:673 list.php:84
 msgid "myself and my group"
 msgstr "мои и моей группы"
 
-#: adv_search.php:66 include/class.filter.php:674 list.php:84
+#: adv_search.php:67 include/class.filter.php:675 list.php:85
 msgid "myself, un-assigned and my group"
 msgstr "мои, неназначенные и моей группы"
 
-#: include/class.custom_field.php:319
+#: include/class.custom_field.php:320
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
 msgstr "Дополнительное поле (%1$s) обновлено пользователем %2$s"
 
-#: include/class.customer_stats_report.php:192
+#: include/class.customer_stats_report.php:193
 msgid "Aggregate"
 msgstr "Общий"
 
-#: include/class.customer_stats_report.php:685
+#: include/class.customer_stats_report.php:686
 msgid "Total Workload by Support Level"
 msgstr "Общий объем работы по уровню поддержки"
 
-#: include/class.customer_stats_report.php:686
+#: include/class.customer_stats_report.php:687
 msgid ""
 "Includes issue count, Developer email Count, Customer Email Count, Customers "
 "count by Support Level"
@@ -8395,11 +8403,11 @@ msgstr ""
 "Включает кол-во запросов, кол-во эл.писем специалистов, кол-во эл.писем "
 "клиентов, кол-во клиентов по уровню поддержки"
 
-#: include/class.customer_stats_report.php:693
+#: include/class.customer_stats_report.php:694
 msgid "Avg Workload per Customer by Support Level"
 msgstr "Средний объем работы на клиента по уровню поддержки"
 
-#: include/class.customer_stats_report.php:694
+#: include/class.customer_stats_report.php:695
 msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
@@ -8407,162 +8415,162 @@ msgstr ""
 "Показывает среднее кол-во запросов, эл.писем специалистов и эл.писем "
 "клиентов на запрос по уровню поддержки"
 
-#: include/class.customer_stats_report.php:702
+#: include/class.customer_stats_report.php:703
 msgid "Avg and Median Time to Close by Support Level"
 msgstr "Среднее и промежуточное время закрытия по уровню поддержки"
 
-#: include/class.customer_stats_report.php:703
-#: include/class.customer_stats_report.php:712
+#: include/class.customer_stats_report.php:704
+#: include/class.customer_stats_report.php:713
 msgid "Displays time stats"
 msgstr "Показать временную статистику"
 
-#: include/class.customer_stats_report.php:708
+#: include/class.customer_stats_report.php:709
 msgid "Days"
 msgstr "Дней"
 
-#: include/class.customer_stats_report.php:711
+#: include/class.customer_stats_report.php:712
 msgid "Avg and Median Time to First Response by Support Level"
 msgstr "Среднее и промежуточное время первого ответа по уровню поддержки"
 
-#: include/class.customer_stats_report.php:717
+#: include/class.customer_stats_report.php:718
 msgid "Hours"
 msgstr "Часов"
 
-#: include/class.customer_stats_report.php:732
+#: include/class.customer_stats_report.php:733
 msgid "Customer Counts"
 msgstr "Кол-во клиентов"
 
-#: include/class.customer_stats_report.php:733
+#: include/class.customer_stats_report.php:734
 msgid "Issue Counts"
 msgstr "Кол-во запросов"
 
-#: include/class.customer_stats_report.php:734
+#: include/class.customer_stats_report.php:735
 msgid "Email Counts"
 msgstr "Кол-во эл.писем"
 
-#: include/class.customer_stats_report.php:735
+#: include/class.customer_stats_report.php:736
 msgid "Time Statistics"
 msgstr "Временная статистика"
 
-#: include/class.display_column.php:182 include/class.filter.php:743
+#: include/class.display_column.php:183 include/class.filter.php:744
 msgid "Created Date"
 msgstr "Дата создания"
 
-#: include/class.display_column.php:194
+#: include/class.display_column.php:195
 msgid "% Complete"
 msgstr "% Выполнено"
 
-#: include/class.display_column.php:198
+#: include/class.display_column.php:199
 msgid "Est Dev Time"
 msgstr "Ожидаемое время решения"
 
-#: include/class.display_column.php:217
+#: include/class.display_column.php:218
 msgid "Status Change Date"
 msgstr "Дата изменения статуса"
 
-#: include/class.draft.php:116
+#: include/class.draft.php:117
 #, php-format
 msgid "Email message saved as a draft by %1$s"
 msgstr "Почтовое сообщение сохранено как черновик пользователем %1$s"
 
-#: include/class.draft.php:160
+#: include/class.draft.php:161
 #, php-format
 msgid "Email message draft updated by %1$s"
 msgstr "Черновик почтового сообщения обновлен пользователем %1$s"
 
-#: include/class.filter.php:605
+#: include/class.filter.php:606
 #, php-format
 msgid "%1$s or greater"
 msgstr ""
 
-#: include/class.filter.php:608
+#: include/class.filter.php:609
 #, php-format
 msgid "%1$s or less"
 msgstr ""
 
-#: include/class.filter.php:611
+#: include/class.filter.php:612
 #, fuzzy, php-format
 msgid "Greater than %1$s"
 msgstr "Старше чем"
 
-#: include/class.filter.php:614
+#: include/class.filter.php:615
 #, fuzzy, php-format
 msgid "Less than %1$s"
 msgstr "Младше чем"
 
-#: include/class.filter.php:632
+#: include/class.filter.php:633
 #, fuzzy, php-format
 msgid "In Past %1$s hours"
 msgstr "Прошло %1 час(а,ов)"
 
-#: include/class.filter.php:635
+#: include/class.filter.php:636
 msgid "Is NULL"
 msgstr "ПУСТОЙ"
 
-#: include/class.filter.php:639
+#: include/class.filter.php:640
 #, fuzzy, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
 msgstr "Между %1-%2-%3 И %4-%5-%6"
 
-#: include/class.filter.php:643
+#: include/class.filter.php:644
 #, fuzzy, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
 msgstr "Старше чем %1-%2-%3"
 
-#: include/class.filter.php:646
+#: include/class.filter.php:647
 #, fuzzy, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
 msgstr "Младше чем %1-%2-%3"
 
-#: include/class.filter.php:676
+#: include/class.filter.php:677
 #, fuzzy, php-format
 msgid "%1$s Group"
 msgstr "Группа"
 
-#: include/class.filter.php:748
+#: include/class.filter.php:749
 msgid "Updated Date"
 msgstr "Дата обновления"
 
-#: include/class.filter.php:753
+#: include/class.filter.php:754
 msgid "Last Response Date"
 msgstr "Дата последнего ответа"
 
-#: include/class.filter.php:758
+#: include/class.filter.php:759
 msgid "First Response Date"
 msgstr "Дата первого ответа"
 
-#: include/class.filter.php:763
+#: include/class.filter.php:764
 msgid "Closed Date"
 msgstr "Дата закрытия"
 
-#: include/class.filter.php:792
+#: include/class.filter.php:793
 msgid "Search Type"
 msgstr "Тип поиска"
 
-#: include/class.help.php:35
+#: include/class.help.php:36
 msgid "Help Topics"
 msgstr "Разделы справочника"
 
-#: include/class.help.php:39
+#: include/class.help.php:40
 msgid "Reporting Issues"
 msgstr "Создавать запросы"
 
-#: include/class.impact_analysis.php:79
+#: include/class.impact_analysis.php:80
 #, php-format
 msgid "New requirement submitted by %1$s"
 msgstr "Новое требование утверждено пользователем %1$s"
 
-#: include/class.impact_analysis.php:170
+#: include/class.impact_analysis.php:171
 #, php-format
 msgid "Impact analysis submitted by %1$s"
 msgstr "Оценка действий указана пользователем %1$s"
 
-#: include/class.impact_analysis.php:204
+#: include/class.impact_analysis.php:205
 #, php-format
 msgid "Impact analysis removed by %1$s"
 msgstr "Оценка действий удалена пользователем %1$s"
 
-#: include/class.mail.php:119
+#: include/class.mail.php:120
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -8570,7 +8578,7 @@ msgstr ""
 "ПРЕДУПРЕЖДЕНИЕ: Это сообщение было блокировано, т.к. отправителю не "
 "разрешено отправлять эл. почту для связанного запроса."
 
-#: include/class.mail.php:120
+#: include/class.mail.php:121
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -8578,28 +8586,28 @@ msgstr ""
 "Только сотрудники, перечисленные в полях назначение или допущенные к ответу, "
 "могут отправлять эл.письма."
 
-#: include/class.mail.php:469
+#: include/class.mail.php:470
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "ИНФОРМАЦИЯ: Ваш ответ будет разослан по списку уведомлений."
 
-#: include/class.mail.php:471
+#: include/class.mail.php:472
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr "ПРЕДУПРЕЖДЕНИЕ: перед ответом вначале получите право отвечать."
 
-#: include/class.monitor.php:85
+#: include/class.monitor.php:86
 msgid "ERROR: Almost no free disk space left (percentage left"
 msgstr "ОШИБКА: Свободного дискового пространства практически нет (осталось %"
 
-#: include/class.monitor.php:89
+#: include/class.monitor.php:90
 msgid "ERROR: Free disk space left is getting very low (percentage left"
 msgstr ""
 "ОШИБКА: Свободного дискового пространство остается очень мало (осталось %"
 
-#: include/class.monitor.php:106
+#: include/class.monitor.php:107
 msgid "ERROR: File could not be found (path"
 msgstr "ОШИБКА: Файл не найден (путь"
 
-#: include/class.monitor.php:112
+#: include/class.monitor.php:113
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %"
@@ -8608,7 +8616,7 @@ msgstr ""
 "ОШИБКА: Несоответствие владельца файла (путь: %1$s; текущий владелец: %2$s; "
 "верный владелец: %3$s)"
 
-#: include/class.monitor.php:115
+#: include/class.monitor.php:116
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %"
@@ -8617,7 +8625,7 @@ msgstr ""
 "ОШИБКА: Несоответствие группы файла (путь: %1$s; текущая группа: %2$s; "
 "верная группа: %3$s)"
 
-#: include/class.monitor.php:120
+#: include/class.monitor.php:121
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
@@ -8626,18 +8634,18 @@ msgstr ""
 "ОШИБКА: Несоответствие разрешений файла (путь: %1$s; текущие разр.: %2$s; "
 "верные разреш.: %3$s)"
 
-#: include/class.monitor.php:124
+#: include/class.monitor.php:125
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 "ОШИБКА: Несоответствие размера файла (путь: %1$s; текущий размер файла: %2$s)"
 
-#: include/class.monitor.php:144
+#: include/class.monitor.php:145
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
 msgstr "ОШИБКА: Директория не найдена (путь: %1$s)"
 
-#: include/class.monitor.php:150
+#: include/class.monitor.php:151
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
@@ -8646,131 +8654,131 @@ msgstr ""
 "ОШИБКА: Несоответствие разрешений директории (путь: %1$s; текущие разр.: %2"
 "$s; верные разр.: %3$s)"
 
-#: include/class.monitor.php:173
+#: include/class.monitor.php:174
 msgid "ERROR: Could not connect to the mysql database. Detailed error message:"
 msgstr ""
 "ОШИБКА: Невозможно подключиться к базе данных MySQL. Детальное сообщение "
 "ошибки:"
 
-#: include/class.monitor.php:271
+#: include/class.monitor.php:272
 msgid "ERROR: Could not find IRC bot pid from process list."
 msgstr "ОШИБКА: Невозможно найти идентификатор бота IRC из списка процесса."
 
-#: include/class.notification.php:613 include/class.notification.php:614
+#: include/class.notification.php:623 include/class.notification.php:624
 msgid "Assignment List"
 msgstr "Список назначений"
 
-#: include/class.notification.php:690
+#: include/class.notification.php:700
 msgid "Updated"
 msgstr "Обновлен"
 
-#: include/class.notification.php:820
+#: include/class.notification.php:830
 msgid "Closed"
 msgstr "Закрыт"
 
-#: include/class.notification.php:959
+#: include/class.notification.php:969
 msgid "BLOCKED"
 msgstr "БЛОКИРОВАННЫЙ"
 
-#: include/class.notification.php:1373
+#: include/class.notification.php:1383
 msgid "User account information updated"
 msgstr "Информация об учетной записи пользователя обновлена"
 
-#: include/class.notification.php:1410
+#: include/class.notification.php:1420
 msgid "User account password changed"
 msgstr "Пароль для учетной записи пользователя изменен"
 
-#: include/class.notification.php:1447
+#: include/class.notification.php:1457
 msgid "New User information"
 msgstr "Информация о новом пользователе"
 
-#: include/class.notification.php:1576
+#: include/class.notification.php:1586
 msgid "Your User Account Details"
 msgstr "Детали вашей учетной записи"
 
-#: include/class.notification.php:1848
+#: include/class.notification.php:1858
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Запись (%1$s) списка уведомлений была удалена пользователем %2$s"
 
-#: include/class.notification.php:2008
+#: include/class.notification.php:2018
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Запись (%1$s) списка уведомлений добавлена пользователем %2$s"
 
-#: include/class.notification.php:2089
+#: include/class.notification.php:2104
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Запись ('%1$s') списка уведомлений добавлена пользователем %2$s"
 
-#: include/class.notification.php:2185
+#: include/class.notification.php:2200
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Запись ('%1$s') списка уведомлений обновлена пользователем %2$s"
 
-#: include/class.pager.php:123
+#: include/class.pager.php:124
 msgid "Previous"
 msgstr "Назад"
 
-#: include/class.phone_support.php:339
+#: include/class.phone_support.php:340
 msgid "Time entry inserted from phone call."
 msgstr "Запись времени добавлена из телефонного звонка."
 
-#: include/class.phone_support.php:353
+#: include/class.phone_support.php:354
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
 msgstr "Запись Поддержка по телефону добавлена пользователем %1$s"
 
-#: include/class.phone_support.php:412
+#: include/class.phone_support.php:413
 #, php-format
 msgid "Phone Support entry removed by %1$s"
 msgstr "Запись поддержки по телефону удалена пользователем %1$s"
 
-#: include/class.reminder_action.php:596
+#: include/class.reminder_action.php:597
 msgid "Processing Group Leader notification"
 msgstr "Обработка уведомлений для руководителя группы"
 
-#: include/class.reminder_action.php:602
+#: include/class.reminder_action.php:603
 #, php-format
 msgid "No group associated with issue %1$s"
 msgstr "Нет группы, связанной с запросом %1$s"
 
-#: include/class.reminder_action.php:612
+#: include/class.reminder_action.php:613
 #, php-format
 msgid "Performing action %1$s for issue # %2$s"
 msgstr "Выполнение действия %1$s для запроса # %2$s"
 
-#: include/class.reminder_action.php:801
+#: include/class.reminder_action.php:802
 msgid "Reminder Not Triggered"
 msgstr "Напоминание не инициировано"
 
-#: include/class.routing.php:61
+#: include/class.routing.php:62
 msgid "Error: The email message was empty"
 msgstr "Ошибка: Почтовое сообщение было пустым"
 
-#: include/class.routing.php:70
+#: include/class.routing.php:71
 msgid "Error: The email routing interface is disabled."
 msgstr "Ошибка: интерфейс маршрутизации электронной почты отключен."
 
-#: include/class.routing.php:73 include/class.routing.php:275
-#: include/class.routing.php:391
+#: include/class.routing.php:74 include/class.routing.php:276
+#: include/class.routing.php:392
 msgid "Error: Please configure the email address prefix."
 msgstr "Ошибка: Пожалуйста, сконфигурируйте префикс адреса эл. почты."
 
-#: include/class.routing.php:76 include/class.routing.php:278
-#: include/class.routing.php:394
+#: include/class.routing.php:77 include/class.routing.php:279
+#: include/class.routing.php:395
 msgid "Error: Please configure the email address domain."
 msgstr "Ошибка: Пожалуйста, сконфигурируйте домен адреса эл. почты."
 
-#: include/class.routing.php:82
+#: include/class.routing.php:83
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
 "Ошибка: должен быть установлен связанный пользователь для интерфейса "
 "маршрутизации эл. почты."
 
-#: include/class.routing.php:112 include/class.routing.php:117
-#: include/class.routing.php:410
+#: include/class.routing.php:113 include/class.routing.php:118
+#: include/class.routing.php:411
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -8778,24 +8786,24 @@ msgstr ""
 "Ошибка: Маршутизируемое эл. письмо не имеет связанного ID запроса или адрес "
 "получателя неверный."
 
-#: include/class.routing.php:122
+#: include/class.routing.php:123
 msgid "Error: Please provide the email account ID."
 msgstr "Ошибка: Пожалуйста, укажите идентификатор учетной записи эл. почты."
 
-#: include/class.routing.php:232 include/class.support.php:782
+#: include/class.routing.php:233 include/class.support.php:788
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Эл. письмо маршутизировано от %1$s"
 
-#: include/class.routing.php:261 include/class.routing.php:377
+#: include/class.routing.php:262 include/class.routing.php:378
 msgid "Error: The email message was empty."
 msgstr "Ошибка: Сообщение эл. письмо было пустым."
 
-#: include/class.routing.php:272
+#: include/class.routing.php:273
 msgid "Error: The internal note routing interface is disabled."
 msgstr "Ошибка: Интерфейс маршрутизация внутренних примечаний отключен."
 
-#: include/class.routing.php:293
+#: include/class.routing.php:294
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -8803,71 +8811,71 @@ msgstr ""
 "Ошибка: Маршутизируемое примечание не имеет связанного ID запроса или адрес "
 "получателя неверный."
 
-#: include/class.routing.php:352
+#: include/class.routing.php:353
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Примечание маршутизировано от %1$s"
 
-#: include/class.routing.php:388
+#: include/class.routing.php:389
 msgid "Error: The email draft interface is disabled."
 msgstr "Ошибка: Интерфейс управления черновиками эл. писем отключен."
 
-#: include/class.routing.php:429
+#: include/class.routing.php:430
 msgid "Draft routed from"
 msgstr "Черновик маршрутизирован от"
 
-#: include/class.scm.php:103
+#: include/class.scm.php:104
 #, php-format
 msgid "SCM Checkins removed by %1$s"
 msgstr "Новые версии в SCM удалены пользователем %1$s"
 
-#: include/class.scm.php:220
+#: include/class.scm.php:221
 msgid "SCM Checkins associated by SCM user '"
 msgstr "Новые версии SCM связанные пользователем SCM '"
 
-#: include/class.support.php:495
+#: include/class.support.php:496
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1479
+#: include/class.support.php:1485
 msgid "Attachment originated from an email"
 msgstr "Приложение создано из эл. почты"
 
-#: include/class.support.php:1481
+#: include/class.support.php:1487
 msgid "Attachment originated from a note"
 msgstr "Приложение создано из примечания"
 
-#: include/class.support.php:1533
+#: include/class.support.php:1539
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Эл. письмо (тема: '%1$s') связанно пользователем %2$s"
 
-#: include/class.support.php:1876
+#: include/class.support.php:1882
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Эл. письмо (тема: '%1$s') разъединено пользователем %2$s"
 
-#: include/class.support.php:2233
+#: include/class.support.php:2239
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Исходящее эл. писмо отправлено пользователем %1$s"
 
-#: include/class.support.php:2599
+#: include/class.support.php:2605
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Эл. письмо от  '%1$s'  заблокировано"
 
-#: include/class.time_tracking.php:405
+#: include/class.time_tracking.php:406
 #, php-format
 msgid "Time tracking entry removed by %1$s"
 msgstr "Запись учета времени удалена пользователем %1$s"
 
-#: include/class.time_tracking.php:455
+#: include/class.time_tracking.php:456
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
 msgstr "Запись учета времени добавлена пользователем %1$s"
 
-#: include/class.time_tracking.php:498
+#: include/class.time_tracking.php:499
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Запись учета времени добавлена удаленно пользователем %1$s"
@@ -8896,21 +8904,21 @@ msgstr "Объем работы за период"
 msgid "actions"
 msgstr "Действия"
 
-#: stats_chart.php:81
+#: stats_chart.php:82
 msgid "Issues by Assignment"
 msgstr "Запросы по назначениям"
 
-#: update.php:78
+#: update.php:79
 #, fuzzy, php-format
 msgid "Update Issue #%1$s"
 msgstr "Обновить запрос"
 
-#: view.php:71
+#: view.php:72
 #, fuzzy, php-format
 msgid "Issue #%1$s Details"
 msgstr "Детали запроса #%1$s"
 
-#: view.php:83
+#: view.php:84
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"

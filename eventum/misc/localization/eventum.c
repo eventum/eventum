@@ -758,13 +758,25 @@ gettext("Resolution");
 gettext("Send Notification About Issue Being Closed?");
 
 /* templates/close.tpl.html */
+gettext("Yes");
+
+/* templates/close.tpl.html */
+gettext("No");
+
+/* templates/close.tpl.html */
 gettext("Send Notification To");
 
 /* templates/close.tpl.html */
 gettext("Internal Users");
 
 /* templates/close.tpl.html */
+gettext("Will save as a note");
+
+/* templates/close.tpl.html */
 gettext("All");
+
+/* templates/close.tpl.html */
+gettext("Will save as email");
 
 /* templates/close.tpl.html */
 gettext("Reason for closing issue");
@@ -5244,6 +5256,12 @@ gettext("leave empty to keep the current password");
 
 /* templates/manage/users.tpl.html */
 gettext("Full Name");
+
+/* templates/manage/users.tpl.html */
+gettext("Group:");
+
+/* templates/manage/users.tpl.html */
+gettext("-- Select One --");
 
 /* templates/manage/users.tpl.html */
 gettext("Assigned Projects and Roles");

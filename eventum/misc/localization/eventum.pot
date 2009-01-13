@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-18 01:53+0200\n"
+"POT-Creation-Date: 2009-01-13 17:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,7 +151,7 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.display_column.php:191
+#: misc/localization/eventum.c include/class.display_column.php:192
 msgid "Time Spent"
 msgstr ""
 
@@ -216,8 +216,8 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.display_column.php:226 include/class.notification.php:646
-#: include/class.notification.php:647
+#: include/class.display_column.php:227 include/class.notification.php:656
+#: include/class.notification.php:657
 msgid "Summary"
 msgstr ""
 
@@ -227,9 +227,9 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.display_column.php:202 include/class.filter.php:729
-#: include/class.notification.php:622 include/class.notification.php:623
-#: include/class.project.php:1105
+#: include/class.display_column.php:203 include/class.filter.php:730
+#: include/class.notification.php:632 include/class.notification.php:633
+#: include/class.project.php:1106
 msgid "Category"
 msgstr ""
 
@@ -271,7 +271,7 @@ msgid "This action will permanently delete the selected entries."
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.filter.php:719
+#: include/class.filter.php:720
 msgid "Keyword(s)"
 msgstr ""
 
@@ -285,7 +285,7 @@ msgid "All Text (emails, notes, etc)"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.display_column.php:188 include/class.filter.php:724
+#: include/class.display_column.php:189 include/class.filter.php:725
 msgid "Assigned"
 msgstr ""
 
@@ -304,9 +304,9 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.display_column.php:173
-#: include/class.filter.php:714 include/class.notification.php:630
-#: include/class.notification.php:631 include/class.project.php:1106
+#: misc/localization/eventum.c include/class.display_column.php:174
+#: include/class.filter.php:715 include/class.notification.php:640
+#: include/class.notification.php:641 include/class.project.php:1107
 msgid "Priority"
 msgstr ""
 
@@ -324,33 +324,33 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.display_column.php:214 include/class.filter.php:734
-#: include/class.notification.php:634 include/class.notification.php:635
+#: include/class.display_column.php:215 include/class.filter.php:735
+#: include/class.notification.php:644 include/class.notification.php:645
 msgid "Status"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.display_column.php:179
-#: include/class.filter.php:796 include/class.user.php:1520
+#: misc/localization/eventum.c include/class.display_column.php:180
+#: include/class.filter.php:797 include/class.user.php:1521
 msgid "Reporter"
 msgstr ""
 
-#: misc/localization/eventum.c adv_search.php:60 list.php:78
+#: misc/localization/eventum.c adv_search.php:61 list.php:79
 msgid "Any"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.display_column.php:205 include/class.filter.php:739
-#: include/class.notification.php:626 include/class.notification.php:627
+#: include/class.display_column.php:206 include/class.filter.php:740
+#: include/class.notification.php:636 include/class.notification.php:637
 msgid "Release"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.filter.php:780
+#: misc/localization/eventum.c include/class.filter.php:781
 msgid "Hide Closed Issues"
 msgstr ""
 
-#: misc/localization/eventum.c include/class.filter.php:768
+#: misc/localization/eventum.c include/class.filter.php:769
 msgid "Rows Per Page"
 msgstr ""
 
@@ -359,7 +359,7 @@ msgstr ""
 msgid "ALL"
 msgstr ""
 
-#: misc/localization/eventum.c include/class.filter.php:772
+#: misc/localization/eventum.c include/class.filter.php:773
 msgid "Sort By"
 msgstr ""
 
@@ -369,16 +369,16 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.display_column.php:176
+#: include/class.display_column.php:177
 msgid "Issue ID"
 msgstr ""
 
-#: misc/localization/eventum.c include/class.display_column.php:220
+#: misc/localization/eventum.c include/class.display_column.php:221
 msgid "Last Action Date"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.filter.php:776
+#: misc/localization/eventum.c include/class.filter.php:777
 msgid "Sort Order"
 msgstr ""
 
@@ -394,11 +394,11 @@ msgstr ""
 msgid "Show Issues in Which I Am"
 msgstr ""
 
-#: misc/localization/eventum.c include/class.filter.php:784
+#: misc/localization/eventum.c include/class.filter.php:785
 msgid "Authorized to Send Emails"
 msgstr ""
 
-#: misc/localization/eventum.c include/class.filter.php:788
+#: misc/localization/eventum.c include/class.filter.php:789
 msgid "In Notification List"
 msgstr ""
 
@@ -440,7 +440,7 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.reminder_condition.php:223
+#: misc/localization/eventum.c include/class.reminder_condition.php:224
 msgid "hours"
 msgstr ""
 
@@ -873,7 +873,7 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.project.php:1107
+#: include/class.project.php:1108
 msgid "Assignment"
 msgstr ""
 
@@ -895,7 +895,7 @@ msgstr ""
 msgid "Module / Directory"
 msgstr ""
 
-#: misc/localization/eventum.c include/class.project.php:1111
+#: misc/localization/eventum.c include/class.project.php:1112
 msgid "File"
 msgstr ""
 
@@ -1008,12 +1008,40 @@ msgid "Please choose a status"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.notification.php:638 include/class.notification.php:639
+#: include/class.notification.php:648 include/class.notification.php:649
 msgid "Resolution"
 msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Send Notification About Issue Being Closed?"
+msgstr ""
+
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c include/class.misc.php:714
+msgid "Yes"
+msgstr ""
+
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c include/class.misc.php:716
+msgid "No"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -1022,6 +1050,14 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Internal Users"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Will save as a note"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Will save as email"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -1155,7 +1191,7 @@ msgid "None"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.display_column.php:223
+#: include/class.display_column.php:224
 msgid "Custom Fields"
 msgstr ""
 
@@ -1201,8 +1237,8 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c
-#: include/class.customer_stats_report.php:670
-#: include/class.display_column.php:211
+#: include/class.customer_stats_report.php:671
+#: include/class.display_column.php:212
 msgid "Support Level"
 msgstr ""
 
@@ -1257,8 +1293,8 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c
-#: include/class.customer_stats_report.php:668
-#: include/class.display_column.php:208 include/class.user.php:1521
+#: include/class.customer_stats_report.php:669
+#: include/class.display_column.php:209 include/class.user.php:1522
 msgid "Customer"
 msgstr ""
 
@@ -1285,7 +1321,7 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.reminder_condition.php:217
+#: include/class.reminder_condition.php:218
 msgid "Field"
 msgstr ""
 
@@ -1363,34 +1399,6 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Add Primary Contact to Notification List? *"
-msgstr ""
-
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.misc.php:713
-msgid "Yes"
-msgstr ""
-
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.misc.php:715
-msgid "No"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -1545,7 +1553,7 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:91
+#: include/class.help.php:92
 msgid "Associate Emails"
 msgstr ""
 
@@ -1627,7 +1635,7 @@ msgstr ""
 msgid "No emails could be found."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.notification.php:1108
+#: misc/localization/eventum.c include/class.notification.php:1118
 msgid "New Issue"
 msgstr ""
 
@@ -1738,7 +1746,7 @@ msgid "visible to all"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.project.php:1112
+#: include/class.project.php:1113
 msgid "Private"
 msgstr ""
 
@@ -1808,7 +1816,7 @@ msgid "Send New Password"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:87
+#: include/class.help.php:88
 msgid "Advanced Search / Creating Custom Queries"
 msgstr ""
 
@@ -1827,7 +1835,7 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:119
+#: include/class.help.php:120
 msgid "Edit Columns to Display"
 msgstr ""
 
@@ -1854,7 +1862,7 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:123
+#: include/class.help.php:124
 msgid "Customize Issue Listing Screen"
 msgstr ""
 
@@ -1881,7 +1889,7 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:107
+#: include/class.help.php:108
 msgid "Email Blocking"
 msgstr ""
 
@@ -1897,7 +1905,7 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:115
+#: include/class.help.php:116
 msgid "Edit Fields to Display"
 msgstr ""
 
@@ -1919,7 +1927,7 @@ msgid "Available Related Topics"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:111
+#: include/class.help.php:112
 msgid "Link Filters"
 msgstr ""
 
@@ -1945,7 +1953,7 @@ msgid "Replacement: \"%1\""
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:83
+#: include/class.help.php:84
 msgid "Listing / Searching for Issues"
 msgstr ""
 
@@ -1979,17 +1987,17 @@ msgid "Reporting New Issues"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.help.php:95
+#: misc/localization/eventum.c include/class.help.php:96
 msgid "Account Preferences"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:103
+#: include/class.help.php:104
 msgid "Viewing Issues"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:99
+#: include/class.help.php:100
 msgid "Email Notifications"
 msgstr ""
 
@@ -1998,27 +2006,27 @@ msgid "Configuration Parameters"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:71
+#: include/class.help.php:72
 msgid "SCM Integration"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:75
+#: include/class.help.php:76
 msgid "Usage Examples"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:79
+#: include/class.help.php:80
 msgid "Installation Instructions"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:127
+#: include/class.help.php:128
 msgid "Segregate Reporters"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.help.php:131
+#: include/class.help.php:132
 msgid "User Permission Levels"
 msgstr ""
 
@@ -2062,7 +2070,7 @@ msgid ""
 "Eventum:"
 msgstr ""
 
-#: misc/localization/eventum.c include/class.user.php:1519
+#: misc/localization/eventum.c include/class.user.php:1520
 msgid "Viewer"
 msgstr ""
 
@@ -2087,7 +2095,7 @@ msgid ""
 "existing issues."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.user.php:1522
+#: misc/localization/eventum.c include/class.user.php:1523
 msgid "Standard User"
 msgstr ""
 
@@ -2100,7 +2108,7 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.user.php:1523
+#: misc/localization/eventum.c include/class.user.php:1524
 msgid "Developer"
 msgstr ""
 
@@ -2112,7 +2120,7 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.user.php:1524
+#: include/class.user.php:1525
 msgid "Manager"
 msgstr ""
 
@@ -2125,7 +2133,7 @@ msgid ""
 "options."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.user.php:1525
+#: misc/localization/eventum.c include/class.user.php:1526
 msgid "Administrator"
 msgstr ""
 
@@ -2163,7 +2171,7 @@ msgid ""
 "browser window."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:51
+#: misc/localization/eventum.c include/class.help.php:52
 msgid "Assignment Field"
 msgstr ""
 
@@ -2179,7 +2187,7 @@ msgid ""
 "assign it to your Project Lead."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:43
+#: misc/localization/eventum.c include/class.help.php:44
 msgid "Category Field"
 msgstr ""
 
@@ -2198,7 +2206,7 @@ msgid ""
 "your local Eventum administrator."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:63
+#: misc/localization/eventum.c include/class.help.php:64
 msgid "Description Field"
 msgstr ""
 
@@ -2210,7 +2218,7 @@ msgid ""
 "happen instead."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:67
+#: misc/localization/eventum.c include/class.help.php:68
 msgid "Estimated Development Time Field"
 msgstr ""
 
@@ -2232,7 +2240,7 @@ msgid ""
 "time for new projects."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:47
+#: misc/localization/eventum.c include/class.help.php:48
 msgid "Priority Field"
 msgstr ""
 
@@ -2244,7 +2252,7 @@ msgid ""
 "and leave the issue to be prioritized by a project manager."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:55
+#: misc/localization/eventum.c include/class.help.php:56
 msgid "Scheduled Release Field"
 msgstr ""
 
@@ -2256,7 +2264,7 @@ msgid ""
 "and a project manager will set it appropriately."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:59
+#: misc/localization/eventum.c include/class.help.php:60
 msgid "Summary Field"
 msgstr ""
 
@@ -2460,7 +2468,7 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c
-#: include/class.customer_stats_report.php:736
+#: include/class.customer_stats_report.php:737
 msgid "Time Tracking"
 msgstr ""
 
@@ -2529,8 +2537,8 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.notification.php:642 include/class.notification.php:643
-#: include/class.project.php:1109
+#: include/class.notification.php:652 include/class.notification.php:653
+#: include/class.project.php:1110
 msgid "Estimated Dev. Time"
 msgstr ""
 
@@ -2775,19 +2783,19 @@ msgstr ""
 msgid "Overall Stats"
 msgstr ""
 
-#: misc/localization/eventum.c stats_chart.php:63
+#: misc/localization/eventum.c stats_chart.php:64
 msgid "Issues by Status"
 msgstr ""
 
-#: misc/localization/eventum.c stats_chart.php:75
+#: misc/localization/eventum.c stats_chart.php:76
 msgid "Issues by Release"
 msgstr ""
 
-#: misc/localization/eventum.c stats_chart.php:78
+#: misc/localization/eventum.c stats_chart.php:79
 msgid "Issues by Priority"
 msgstr ""
 
-#: misc/localization/eventum.c stats_chart.php:84
+#: misc/localization/eventum.c stats_chart.php:85
 msgid "Issues by Category"
 msgstr ""
 
@@ -4270,7 +4278,7 @@ msgstr ""
 msgid "Manager:"
 msgstr ""
 
-#: misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
 msgid "-- Select One --"
 msgstr ""
 
@@ -4837,7 +4845,7 @@ msgid "view reminder details"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.reminder_action.php:761
+#: include/class.reminder_action.php:762
 msgid "Reminder"
 msgstr ""
 
@@ -5442,6 +5450,10 @@ msgstr ""
 msgid "Full Name"
 msgstr ""
 
+#: misc/localization/eventum.c misc/localization/eventum.c
+msgid "Group:"
+msgstr ""
+
 #: misc/localization/eventum.c
 msgid "Assigned Projects and Roles"
 msgstr ""
@@ -5481,8 +5493,8 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.display_column.php:185 include/class.project.php:1110
-#: list.php:88
+#: include/class.display_column.php:186 include/class.project.php:1111
+#: list.php:89
 msgid "Group"
 msgstr ""
 
@@ -5669,7 +5681,7 @@ msgid "Create New Issue"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.project.php:1108
+#: include/class.project.php:1109
 msgid "Scheduled Release"
 msgstr ""
 
@@ -6191,7 +6203,7 @@ msgstr ""
 msgid "Please choose a project"
 msgstr ""
 
-#: misc/localization/eventum.c include/class.pager.php:124
+#: misc/localization/eventum.c include/class.pager.php:125
 msgid "Next"
 msgstr ""
 
@@ -7730,10 +7742,6 @@ msgid "Other:"
 msgstr ""
 
 #: misc/localization/eventum.c
-msgid "Group:"
-msgstr ""
-
-#: misc/localization/eventum.c
 msgid "Summary:"
 msgstr ""
 
@@ -7894,8 +7902,8 @@ msgstr ""
 msgid "No issues associated"
 msgstr ""
 
-#: misc/localization/eventum.c include/class.display_column.php:231
-#: include/class.notification.php:618 include/class.notification.php:619
+#: misc/localization/eventum.c include/class.display_column.php:232
+#: include/class.notification.php:628 include/class.notification.php:629
 msgid "Expected Resolution Date"
 msgstr ""
 
@@ -7999,490 +8007,490 @@ msgstr ""
 msgid "Blocked Message Raw Headers"
 msgstr ""
 
-#: adv_search.php:61 include/class.filter.php:668 list.php:79
+#: adv_search.php:62 include/class.filter.php:669 list.php:80
 msgid "un-assigned"
 msgstr ""
 
-#: adv_search.php:62 include/class.filter.php:670 list.php:80
+#: adv_search.php:63 include/class.filter.php:671 list.php:81
 msgid "myself and un-assigned"
 msgstr ""
 
-#: adv_search.php:65 include/class.filter.php:672 list.php:83
+#: adv_search.php:66 include/class.filter.php:673 list.php:84
 msgid "myself and my group"
 msgstr ""
 
-#: adv_search.php:66 include/class.filter.php:674 list.php:84
+#: adv_search.php:67 include/class.filter.php:675 list.php:85
 msgid "myself, un-assigned and my group"
 msgstr ""
 
-#: include/class.custom_field.php:319
+#: include/class.custom_field.php:320
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
 msgstr ""
 
-#: include/class.customer_stats_report.php:192
+#: include/class.customer_stats_report.php:193
 msgid "Aggregate"
 msgstr ""
 
-#: include/class.customer_stats_report.php:685
+#: include/class.customer_stats_report.php:686
 msgid "Total Workload by Support Level"
 msgstr ""
 
-#: include/class.customer_stats_report.php:686
+#: include/class.customer_stats_report.php:687
 msgid ""
 "Includes issue count, Developer email Count, Customer Email Count, Customers "
 "count by Support Level"
 msgstr ""
 
-#: include/class.customer_stats_report.php:693
+#: include/class.customer_stats_report.php:694
 msgid "Avg Workload per Customer by Support Level"
 msgstr ""
 
-#: include/class.customer_stats_report.php:694
+#: include/class.customer_stats_report.php:695
 msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
 msgstr ""
 
-#: include/class.customer_stats_report.php:702
+#: include/class.customer_stats_report.php:703
 msgid "Avg and Median Time to Close by Support Level"
 msgstr ""
 
-#: include/class.customer_stats_report.php:703
-#: include/class.customer_stats_report.php:712
+#: include/class.customer_stats_report.php:704
+#: include/class.customer_stats_report.php:713
 msgid "Displays time stats"
 msgstr ""
 
-#: include/class.customer_stats_report.php:708
+#: include/class.customer_stats_report.php:709
 msgid "Days"
 msgstr ""
 
-#: include/class.customer_stats_report.php:711
+#: include/class.customer_stats_report.php:712
 msgid "Avg and Median Time to First Response by Support Level"
 msgstr ""
 
-#: include/class.customer_stats_report.php:717
+#: include/class.customer_stats_report.php:718
 msgid "Hours"
 msgstr ""
 
-#: include/class.customer_stats_report.php:732
+#: include/class.customer_stats_report.php:733
 msgid "Customer Counts"
 msgstr ""
 
-#: include/class.customer_stats_report.php:733
+#: include/class.customer_stats_report.php:734
 msgid "Issue Counts"
 msgstr ""
 
-#: include/class.customer_stats_report.php:734
+#: include/class.customer_stats_report.php:735
 msgid "Email Counts"
 msgstr ""
 
-#: include/class.customer_stats_report.php:735
+#: include/class.customer_stats_report.php:736
 msgid "Time Statistics"
 msgstr ""
 
-#: include/class.display_column.php:182 include/class.filter.php:743
+#: include/class.display_column.php:183 include/class.filter.php:744
 msgid "Created Date"
 msgstr ""
 
-#: include/class.display_column.php:194
+#: include/class.display_column.php:195
 msgid "% Complete"
 msgstr ""
 
-#: include/class.display_column.php:198
+#: include/class.display_column.php:199
 msgid "Est Dev Time"
 msgstr ""
 
-#: include/class.display_column.php:217
+#: include/class.display_column.php:218
 msgid "Status Change Date"
 msgstr ""
 
-#: include/class.draft.php:116
+#: include/class.draft.php:117
 #, php-format
 msgid "Email message saved as a draft by %1$s"
 msgstr ""
 
-#: include/class.draft.php:160
+#: include/class.draft.php:161
 #, php-format
 msgid "Email message draft updated by %1$s"
 msgstr ""
 
-#: include/class.filter.php:605
+#: include/class.filter.php:606
 #, php-format
 msgid "%1$s or greater"
 msgstr ""
 
-#: include/class.filter.php:608
+#: include/class.filter.php:609
 #, php-format
 msgid "%1$s or less"
 msgstr ""
 
-#: include/class.filter.php:611
+#: include/class.filter.php:612
 #, php-format
 msgid "Greater than %1$s"
 msgstr ""
 
-#: include/class.filter.php:614
+#: include/class.filter.php:615
 #, php-format
 msgid "Less than %1$s"
 msgstr ""
 
-#: include/class.filter.php:632
+#: include/class.filter.php:633
 #, php-format
 msgid "In Past %1$s hours"
 msgstr ""
 
-#: include/class.filter.php:635
+#: include/class.filter.php:636
 msgid "Is NULL"
 msgstr ""
 
-#: include/class.filter.php:639
+#: include/class.filter.php:640
 #, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
 msgstr ""
 
-#: include/class.filter.php:643
+#: include/class.filter.php:644
 #, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
 msgstr ""
 
-#: include/class.filter.php:646
+#: include/class.filter.php:647
 #, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
 msgstr ""
 
-#: include/class.filter.php:676
+#: include/class.filter.php:677
 #, php-format
 msgid "%1$s Group"
 msgstr ""
 
-#: include/class.filter.php:748
+#: include/class.filter.php:749
 msgid "Updated Date"
 msgstr ""
 
-#: include/class.filter.php:753
+#: include/class.filter.php:754
 msgid "Last Response Date"
 msgstr ""
 
-#: include/class.filter.php:758
+#: include/class.filter.php:759
 msgid "First Response Date"
 msgstr ""
 
-#: include/class.filter.php:763
+#: include/class.filter.php:764
 msgid "Closed Date"
 msgstr ""
 
-#: include/class.filter.php:792
+#: include/class.filter.php:793
 msgid "Search Type"
 msgstr ""
 
-#: include/class.help.php:35
+#: include/class.help.php:36
 msgid "Help Topics"
 msgstr ""
 
-#: include/class.help.php:39
+#: include/class.help.php:40
 msgid "Reporting Issues"
 msgstr ""
 
-#: include/class.impact_analysis.php:79
+#: include/class.impact_analysis.php:80
 #, php-format
 msgid "New requirement submitted by %1$s"
 msgstr ""
 
-#: include/class.impact_analysis.php:170
+#: include/class.impact_analysis.php:171
 #, php-format
 msgid "Impact analysis submitted by %1$s"
 msgstr ""
 
-#: include/class.impact_analysis.php:204
+#: include/class.impact_analysis.php:205
 #, php-format
 msgid "Impact analysis removed by %1$s"
 msgstr ""
 
-#: include/class.mail.php:119
+#: include/class.mail.php:120
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
 msgstr ""
 
-#: include/class.mail.php:120
+#: include/class.mail.php:121
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
 msgstr ""
 
-#: include/class.mail.php:469
+#: include/class.mail.php:470
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr ""
 
-#: include/class.mail.php:471
+#: include/class.mail.php:472
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 
-#: include/class.monitor.php:85
+#: include/class.monitor.php:86
 msgid "ERROR: Almost no free disk space left (percentage left"
 msgstr ""
 
-#: include/class.monitor.php:89
+#: include/class.monitor.php:90
 msgid "ERROR: Free disk space left is getting very low (percentage left"
 msgstr ""
 
-#: include/class.monitor.php:106
+#: include/class.monitor.php:107
 msgid "ERROR: File could not be found (path"
 msgstr ""
 
-#: include/class.monitor.php:112
+#: include/class.monitor.php:113
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %"
 "3$s)"
 msgstr ""
 
-#: include/class.monitor.php:115
+#: include/class.monitor.php:116
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %"
 "3$s)"
 msgstr ""
 
-#: include/class.monitor.php:120
+#: include/class.monitor.php:121
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
 "perm: %3$s)"
 msgstr ""
 
-#: include/class.monitor.php:124
+#: include/class.monitor.php:125
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 
-#: include/class.monitor.php:144
+#: include/class.monitor.php:145
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
 msgstr ""
 
-#: include/class.monitor.php:150
+#: include/class.monitor.php:151
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
 "correct perm: %3$s)"
 msgstr ""
 
-#: include/class.monitor.php:173
+#: include/class.monitor.php:174
 msgid "ERROR: Could not connect to the mysql database. Detailed error message:"
 msgstr ""
 
-#: include/class.monitor.php:271
+#: include/class.monitor.php:272
 msgid "ERROR: Could not find IRC bot pid from process list."
 msgstr ""
 
-#: include/class.notification.php:613 include/class.notification.php:614
+#: include/class.notification.php:623 include/class.notification.php:624
 msgid "Assignment List"
 msgstr ""
 
-#: include/class.notification.php:690
+#: include/class.notification.php:700
 msgid "Updated"
 msgstr ""
 
-#: include/class.notification.php:820
+#: include/class.notification.php:830
 msgid "Closed"
 msgstr ""
 
-#: include/class.notification.php:959
+#: include/class.notification.php:969
 msgid "BLOCKED"
 msgstr ""
 
-#: include/class.notification.php:1373
+#: include/class.notification.php:1383
 msgid "User account information updated"
 msgstr ""
 
-#: include/class.notification.php:1410
+#: include/class.notification.php:1420
 msgid "User account password changed"
 msgstr ""
 
-#: include/class.notification.php:1447
+#: include/class.notification.php:1457
 msgid "New User information"
 msgstr ""
 
-#: include/class.notification.php:1576
+#: include/class.notification.php:1586
 msgid "Your User Account Details"
 msgstr ""
 
-#: include/class.notification.php:1848
+#: include/class.notification.php:1858
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2008
+#: include/class.notification.php:2018
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2089
+#: include/class.notification.php:2104
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr ""
 
-#: include/class.notification.php:2185
+#: include/class.notification.php:2200
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr ""
 
-#: include/class.pager.php:123
+#: include/class.pager.php:124
 msgid "Previous"
 msgstr ""
 
-#: include/class.phone_support.php:339
+#: include/class.phone_support.php:340
 msgid "Time entry inserted from phone call."
 msgstr ""
 
-#: include/class.phone_support.php:353
+#: include/class.phone_support.php:354
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
 msgstr ""
 
-#: include/class.phone_support.php:412
+#: include/class.phone_support.php:413
 #, php-format
 msgid "Phone Support entry removed by %1$s"
 msgstr ""
 
-#: include/class.reminder_action.php:596
+#: include/class.reminder_action.php:597
 msgid "Processing Group Leader notification"
 msgstr ""
 
-#: include/class.reminder_action.php:602
+#: include/class.reminder_action.php:603
 #, php-format
 msgid "No group associated with issue %1$s"
 msgstr ""
 
-#: include/class.reminder_action.php:612
+#: include/class.reminder_action.php:613
 #, php-format
 msgid "Performing action %1$s for issue # %2$s"
 msgstr ""
 
-#: include/class.reminder_action.php:801
+#: include/class.reminder_action.php:802
 msgid "Reminder Not Triggered"
 msgstr ""
 
-#: include/class.routing.php:61
+#: include/class.routing.php:62
 msgid "Error: The email message was empty"
 msgstr ""
 
-#: include/class.routing.php:70
+#: include/class.routing.php:71
 msgid "Error: The email routing interface is disabled."
 msgstr ""
 
-#: include/class.routing.php:73 include/class.routing.php:275
-#: include/class.routing.php:391
+#: include/class.routing.php:74 include/class.routing.php:276
+#: include/class.routing.php:392
 msgid "Error: Please configure the email address prefix."
 msgstr ""
 
-#: include/class.routing.php:76 include/class.routing.php:278
-#: include/class.routing.php:394
+#: include/class.routing.php:77 include/class.routing.php:279
+#: include/class.routing.php:395
 msgid "Error: Please configure the email address domain."
 msgstr ""
 
-#: include/class.routing.php:82
+#: include/class.routing.php:83
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr ""
 
-#: include/class.routing.php:112 include/class.routing.php:117
-#: include/class.routing.php:410
+#: include/class.routing.php:113 include/class.routing.php:118
+#: include/class.routing.php:411
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
 msgstr ""
 
-#: include/class.routing.php:122
+#: include/class.routing.php:123
 msgid "Error: Please provide the email account ID."
 msgstr ""
 
-#: include/class.routing.php:232 include/class.support.php:782
+#: include/class.routing.php:233 include/class.support.php:788
 #, php-format
 msgid "Email routed from %1$s"
 msgstr ""
 
-#: include/class.routing.php:261 include/class.routing.php:377
+#: include/class.routing.php:262 include/class.routing.php:378
 msgid "Error: The email message was empty."
 msgstr ""
 
-#: include/class.routing.php:272
+#: include/class.routing.php:273
 msgid "Error: The internal note routing interface is disabled."
 msgstr ""
 
-#: include/class.routing.php:293
+#: include/class.routing.php:294
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
 msgstr ""
 
-#: include/class.routing.php:352
+#: include/class.routing.php:353
 #, php-format
 msgid "Note routed from %1$s"
 msgstr ""
 
-#: include/class.routing.php:388
+#: include/class.routing.php:389
 msgid "Error: The email draft interface is disabled."
 msgstr ""
 
-#: include/class.routing.php:429
+#: include/class.routing.php:430
 msgid "Draft routed from"
 msgstr ""
 
-#: include/class.scm.php:103
+#: include/class.scm.php:104
 #, php-format
 msgid "SCM Checkins removed by %1$s"
 msgstr ""
 
-#: include/class.scm.php:220
+#: include/class.scm.php:221
 msgid "SCM Checkins associated by SCM user '"
 msgstr ""
 
-#: include/class.support.php:495
+#: include/class.support.php:496
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1479
+#: include/class.support.php:1485
 msgid "Attachment originated from an email"
 msgstr ""
 
-#: include/class.support.php:1481
+#: include/class.support.php:1487
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: include/class.support.php:1533
+#: include/class.support.php:1539
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: include/class.support.php:1876
+#: include/class.support.php:1882
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
 
-#: include/class.support.php:2233
+#: include/class.support.php:2239
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
 
-#: include/class.support.php:2599
+#: include/class.support.php:2605
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""
 
-#: include/class.time_tracking.php:405
+#: include/class.time_tracking.php:406
 #, php-format
 msgid "Time tracking entry removed by %1$s"
 msgstr ""
 
-#: include/class.time_tracking.php:455
+#: include/class.time_tracking.php:456
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
 msgstr ""
 
-#: include/class.time_tracking.php:498
+#: include/class.time_tracking.php:499
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr ""
@@ -8507,21 +8515,21 @@ msgstr ""
 msgid "actions"
 msgstr ""
 
-#: stats_chart.php:81
+#: stats_chart.php:82
 msgid "Issues by Assignment"
 msgstr ""
 
-#: update.php:78
+#: update.php:79
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr ""
 
-#: view.php:71
+#: view.php:72
 #, php-format
 msgid "Issue #%1$s Details"
 msgstr ""
 
-#: view.php:83
+#: view.php:84
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""

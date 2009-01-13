@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-18 01:53+0200\n"
+"POT-Creation-Date: 2009-01-13 17:52+0200\n"
 "PO-Revision-Date: 2007-11-10 17:22+0200\n"
 "Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -122,7 +122,7 @@ msgstr "Tilapäinen puhelinnumero"
 msgid "Other"
 msgstr "Muu"
 
-#: misc/localization/eventum.c include/class.display_column.php:191
+#: misc/localization/eventum.c include/class.display_column.php:192
 msgid "Time Spent"
 msgstr "Aikaa käytetty"
 
@@ -166,14 +166,14 @@ msgstr "Lopetusaika tulevaisuudessa."
 msgid "Record Time Worked"
 msgstr "Tallenna työaika"
 
-#: misc/localization/eventum.c include/class.display_column.php:226
-#: include/class.notification.php:646 include/class.notification.php:647
+#: misc/localization/eventum.c include/class.display_column.php:227
+#: include/class.notification.php:656 include/class.notification.php:657
 msgid "Summary"
 msgstr "Yhteenveto"
 
-#: misc/localization/eventum.c include/class.display_column.php:202
-#: include/class.filter.php:729 include/class.notification.php:622
-#: include/class.notification.php:623 include/class.project.php:1105
+#: misc/localization/eventum.c include/class.display_column.php:203
+#: include/class.filter.php:730 include/class.notification.php:632
+#: include/class.notification.php:633 include/class.project.php:1106
 msgid "Category"
 msgstr "Kategoria"
 
@@ -210,7 +210,7 @@ msgstr "Valitse poistettavat merkinnät"
 msgid "This action will permanently delete the selected entries."
 msgstr "Toiminto poistaa pysyvästi valitut merkinnät"
 
-#: misc/localization/eventum.c include/class.filter.php:719
+#: misc/localization/eventum.c include/class.filter.php:720
 msgid "Keyword(s)"
 msgstr "Avainsana(t)"
 
@@ -225,8 +225,8 @@ msgstr ""
 msgid "All Text (emails, notes, etc)"
 msgstr "Kaikki tekstit (sähköpostiviestit, viestit, yms)"
 
-#: misc/localization/eventum.c include/class.display_column.php:188
-#: include/class.filter.php:724
+#: misc/localization/eventum.c include/class.display_column.php:189
+#: include/class.filter.php:725
 msgid "Assigned"
 msgstr "Määrätty"
 
@@ -234,38 +234,38 @@ msgstr "Määrätty"
 msgid "any"
 msgstr "kaikki"
 
-#: misc/localization/eventum.c include/class.display_column.php:173
-#: include/class.filter.php:714 include/class.notification.php:630
-#: include/class.notification.php:631 include/class.project.php:1106
+#: misc/localization/eventum.c include/class.display_column.php:174
+#: include/class.filter.php:715 include/class.notification.php:640
+#: include/class.notification.php:641 include/class.project.php:1107
 msgid "Priority"
 msgstr "Prioriteetti"
 
-#: misc/localization/eventum.c include/class.display_column.php:214
-#: include/class.filter.php:734 include/class.notification.php:634
-#: include/class.notification.php:635
+#: misc/localization/eventum.c include/class.display_column.php:215
+#: include/class.filter.php:735 include/class.notification.php:644
+#: include/class.notification.php:645
 msgid "Status"
 msgstr "Tila"
 
-#: misc/localization/eventum.c include/class.display_column.php:179
-#: include/class.filter.php:796 include/class.user.php:1520
+#: misc/localization/eventum.c include/class.display_column.php:180
+#: include/class.filter.php:797 include/class.user.php:1521
 msgid "Reporter"
 msgstr "Ilmoittaja"
 
-#: misc/localization/eventum.c adv_search.php:60 list.php:78
+#: misc/localization/eventum.c adv_search.php:61 list.php:79
 msgid "Any"
 msgstr "Kaikki"
 
-#: misc/localization/eventum.c include/class.display_column.php:205
-#: include/class.filter.php:739 include/class.notification.php:626
-#: include/class.notification.php:627
+#: misc/localization/eventum.c include/class.display_column.php:206
+#: include/class.filter.php:740 include/class.notification.php:636
+#: include/class.notification.php:637
 msgid "Release"
 msgstr "Julkaisu"
 
-#: misc/localization/eventum.c include/class.filter.php:780
+#: misc/localization/eventum.c include/class.filter.php:781
 msgid "Hide Closed Issues"
 msgstr "Piilota suljetut vikailmoitukset"
 
-#: misc/localization/eventum.c include/class.filter.php:768
+#: misc/localization/eventum.c include/class.filter.php:769
 msgid "Rows Per Page"
 msgstr "Rivejä per sivu"
 
@@ -273,19 +273,19 @@ msgstr "Rivejä per sivu"
 msgid "ALL"
 msgstr "KAIKKI"
 
-#: misc/localization/eventum.c include/class.filter.php:772
+#: misc/localization/eventum.c include/class.filter.php:773
 msgid "Sort By"
 msgstr "Järjestä"
 
-#: misc/localization/eventum.c include/class.display_column.php:176
+#: misc/localization/eventum.c include/class.display_column.php:177
 msgid "Issue ID"
 msgstr "Vikailmoitus ID"
 
-#: misc/localization/eventum.c include/class.display_column.php:220
+#: misc/localization/eventum.c include/class.display_column.php:221
 msgid "Last Action Date"
 msgstr "Viimeisen toiminnon päivämäärä"
 
-#: misc/localization/eventum.c include/class.filter.php:776
+#: misc/localization/eventum.c include/class.filter.php:777
 msgid "Sort Order"
 msgstr "Lajittelujärjestys"
 
@@ -302,11 +302,11 @@ msgstr "laskeva"
 msgid "Show Issues in Which I Am"
 msgstr "Näytä vikailmoitukset, joissa minä olen:"
 
-#: misc/localization/eventum.c include/class.filter.php:784
+#: misc/localization/eventum.c include/class.filter.php:785
 msgid "Authorized to Send Emails"
 msgstr "Valtuutettu lähettämään sähköpostia"
 
-#: misc/localization/eventum.c include/class.filter.php:788
+#: misc/localization/eventum.c include/class.filter.php:789
 msgid "In Notification List"
 msgstr "Muistutuslistassa"
 
@@ -334,7 +334,7 @@ msgstr "Välissä"
 msgid "In Past"
 msgstr "Menneisyydessä"
 
-#: misc/localization/eventum.c include/class.reminder_condition.php:223
+#: misc/localization/eventum.c include/class.reminder_condition.php:224
 msgid "hours"
 msgstr "tuntia"
 
@@ -697,7 +697,7 @@ msgstr "Sulje"
 msgid "Bulk Update Tool"
 msgstr "Massapäivitystyökalu"
 
-#: misc/localization/eventum.c include/class.project.php:1107
+#: misc/localization/eventum.c include/class.project.php:1108
 msgid "Assignment"
 msgstr "Tehtävä"
 
@@ -717,7 +717,7 @@ msgstr "Käyttäjä"
 msgid "Module / Directory"
 msgstr "Moduuli / Kansio"
 
-#: misc/localization/eventum.c include/class.project.php:1111
+#: misc/localization/eventum.c include/class.project.php:1112
 msgid "File"
 msgstr "Tiedosto"
 
@@ -824,14 +824,22 @@ msgstr "Sulje vikailmoitus"
 msgid "Please choose a status"
 msgstr "Valitse tila"
 
-#: misc/localization/eventum.c include/class.notification.php:638
-#: include/class.notification.php:639
+#: misc/localization/eventum.c include/class.notification.php:648
+#: include/class.notification.php:649
 msgid "Resolution"
 msgstr "Ratkaisu"
 
 #: misc/localization/eventum.c
 msgid "Send Notification About Issue Being Closed?"
 msgstr "Lähetä muistutus vikailmoituksen sulkemisesta?"
+
+#: misc/localization/eventum.c include/class.misc.php:714
+msgid "Yes"
+msgstr "Kyllä"
+
+#: misc/localization/eventum.c include/class.misc.php:716
+msgid "No"
+msgstr "Ei"
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -841,6 +849,14 @@ msgstr "Lähetä ilmoitus henkilölle:"
 #: misc/localization/eventum.c
 msgid "Internal Users"
 msgstr "Sisäiset käyttäjät"
+
+#: misc/localization/eventum.c
+msgid "Will save as a note"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Will save as email"
+msgstr ""
 
 #: misc/localization/eventum.c
 #, fuzzy
@@ -991,7 +1007,7 @@ msgstr "Nykyiset suodattimet:"
 msgid "None"
 msgstr "Ei mitään"
 
-#: misc/localization/eventum.c include/class.display_column.php:223
+#: misc/localization/eventum.c include/class.display_column.php:224
 msgid "Custom Fields"
 msgstr "Lisäkentät"
 
@@ -1031,8 +1047,8 @@ msgstr "Yhtiön nimi"
 msgid "Contract #"
 msgstr "Sopimus #"
 
-#: misc/localization/eventum.c include/class.customer_stats_report.php:670
-#: include/class.display_column.php:211
+#: misc/localization/eventum.c include/class.customer_stats_report.php:671
+#: include/class.display_column.php:212
 msgid "Support Level"
 msgstr "Tukitaso"
 
@@ -1072,8 +1088,8 @@ msgstr "Maksimi ensivastaus aika"
 msgid "Time Until First Response Deadline"
 msgstr "Aikaa ensimmäisen vastauksen aikarajaan"
 
-#: misc/localization/eventum.c include/class.customer_stats_report.php:668
-#: include/class.display_column.php:208 include/class.user.php:1521
+#: misc/localization/eventum.c include/class.customer_stats_report.php:669
+#: include/class.display_column.php:209 include/class.user.php:1522
 msgid "Customer"
 msgstr "Asiakas"
 
@@ -1097,7 +1113,7 @@ msgstr "Lisää"
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: misc/localization/eventum.c include/class.reminder_condition.php:217
+#: misc/localization/eventum.c include/class.reminder_condition.php:218
 msgid "Field"
 msgstr "Kenttä"
 
@@ -1168,14 +1184,6 @@ msgstr "Asiakkaan etsintä"
 #: misc/localization/eventum.c
 msgid "Add Primary Contact to Notification List? *"
 msgstr "Lisää pääyhteyshenkilö muistutuslistaan? *"
-
-#: misc/localization/eventum.c include/class.misc.php:713
-msgid "Yes"
-msgstr "Kyllä"
-
-#: misc/localization/eventum.c include/class.misc.php:715
-msgid "No"
-msgstr "Ei"
 
 #: misc/localization/eventum.c
 msgid "Notify Customer About New Issue? *"
@@ -1315,7 +1323,7 @@ msgstr "Suodata saapumispäivän mukaan:"
 msgid "Arrival Date:"
 msgstr "Saapumispäivä:"
 
-#: misc/localization/eventum.c include/class.help.php:91
+#: misc/localization/eventum.c include/class.help.php:92
 msgid "Associate Emails"
 msgstr "Liitä sähköpostiviestejä"
 
@@ -1395,7 +1403,7 @@ msgstr "Tyhjennä aihe-kenttä"
 msgid "No emails could be found."
 msgstr "Sähköpostiviestejä ei löytynyt."
 
-#: misc/localization/eventum.c include/class.notification.php:1108
+#: misc/localization/eventum.c include/class.notification.php:1118
 msgid "New Issue"
 msgstr "Uusi vikailmoitus"
 
@@ -1497,7 +1505,7 @@ msgstr "Julkinen"
 msgid "visible to all"
 msgstr "näkyvissä kaikille"
 
-#: misc/localization/eventum.c include/class.project.php:1112
+#: misc/localization/eventum.c include/class.project.php:1113
 msgid "Private"
 msgstr "Yksityinen"
 
@@ -1577,7 +1585,7 @@ msgstr "Sähköpostiosoite:"
 msgid "Send New Password"
 msgstr "Lähetä uusi salasana"
 
-#: misc/localization/eventum.c include/class.help.php:87
+#: misc/localization/eventum.c include/class.help.php:88
 msgid "Advanced Search / Creating Custom Queries"
 msgstr "Kehittynyt haku / Hakujen luonti"
 
@@ -1604,7 +1612,7 @@ msgstr ""
 "Luo vain oma hakusi, tallenna se ja voit ajaa sitä luetteloi vikailmoitukset "
 "sivulta."
 
-#: misc/localization/eventum.c include/class.help.php:119
+#: misc/localization/eventum.c include/class.help.php:120
 msgid "Edit Columns to Display"
 msgstr "Muokataan näytettäviä sarakkeita"
 
@@ -1642,7 +1650,7 @@ msgstr ""
 "ne näkyviksi. Esimerkiksi, jos yhtään julkaisua ei ole määritelty, niin "
 "julkaisusarake pysyy piilotettuna."
 
-#: misc/localization/eventum.c include/class.help.php:123
+#: misc/localization/eventum.c include/class.help.php:124
 msgid "Customize Issue Listing Screen"
 msgstr "Muokkaa vikailmoitusten luettelointisivua"
 
@@ -1684,7 +1692,7 @@ msgid ""
 "coming from the database."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:107
+#: misc/localization/eventum.c include/class.help.php:108
 msgid "Email Blocking"
 msgstr "Sähköpostiviestien esto"
 
@@ -1707,7 +1715,7 @@ msgstr ""
 "Tämä viesti\n"
 "voidaan muuntaa takaisin sähköpostiksi myöhemmin."
 
-#: misc/localization/eventum.c include/class.help.php:115
+#: misc/localization/eventum.c include/class.help.php:116
 msgid "Edit Fields to Display"
 msgstr "Muokataan näytettäviä kenttiä"
 
@@ -1740,7 +1748,7 @@ msgstr ""
 msgid "Available Related Topics"
 msgstr "Mahdolliset liittyvät aiheet:"
 
-#: misc/localization/eventum.c include/class.help.php:111
+#: misc/localization/eventum.c include/class.help.php:112
 msgid "Link Filters"
 msgstr "Linkkisuodattimia"
 
@@ -1779,7 +1787,7 @@ msgstr "Kuvio"
 msgid "Replacement: \"%1\""
 msgstr "Korvaava"
 
-#: misc/localization/eventum.c include/class.help.php:83
+#: misc/localization/eventum.c include/class.help.php:84
 msgid "Listing / Searching for Issues"
 msgstr "Luetteloi / Etsii vikailmoituksia"
 
@@ -1826,15 +1834,15 @@ msgstr ""
 msgid "Reporting New Issues"
 msgstr "Uuden vikailmoituksen ilmoitus"
 
-#: misc/localization/eventum.c include/class.help.php:95
+#: misc/localization/eventum.c include/class.help.php:96
 msgid "Account Preferences"
 msgstr "Tilin asetukset"
 
-#: misc/localization/eventum.c include/class.help.php:103
+#: misc/localization/eventum.c include/class.help.php:104
 msgid "Viewing Issues"
 msgstr "Näytetään vikailmoituksia"
 
-#: misc/localization/eventum.c include/class.help.php:99
+#: misc/localization/eventum.c include/class.help.php:100
 msgid "Email Notifications"
 msgstr "Sähköpostimuistutukset"
 
@@ -1842,23 +1850,23 @@ msgstr "Sähköpostimuistutukset"
 msgid "Configuration Parameters"
 msgstr "Asetuksien parametrit"
 
-#: misc/localization/eventum.c include/class.help.php:71
+#: misc/localization/eventum.c include/class.help.php:72
 msgid "SCM Integration"
 msgstr "SCM integraatio"
 
-#: misc/localization/eventum.c include/class.help.php:75
+#: misc/localization/eventum.c include/class.help.php:76
 msgid "Usage Examples"
 msgstr "Käyttöesimerkki"
 
-#: misc/localization/eventum.c include/class.help.php:79
+#: misc/localization/eventum.c include/class.help.php:80
 msgid "Installation Instructions"
 msgstr "Asennusohjeet"
 
-#: misc/localization/eventum.c include/class.help.php:127
+#: misc/localization/eventum.c include/class.help.php:128
 msgid "Segregate Reporters"
 msgstr "Erittele raportoijat"
 
-#: misc/localization/eventum.c include/class.help.php:131
+#: misc/localization/eventum.c include/class.help.php:132
 msgid "User Permission Levels"
 msgstr "Käyttäjän oikeustasot"
 
@@ -1917,7 +1925,7 @@ msgstr ""
 "Seuraava on lyhyt katselma mahdollisiin käyttäjien oikeustasoihin\n"
 "Eventumissa:"
 
-#: misc/localization/eventum.c include/class.user.php:1519
+#: misc/localization/eventum.c include/class.user.php:1520
 msgid "Viewer"
 msgstr "Katsoja"
 
@@ -1963,7 +1971,7 @@ msgstr ""
 "ja lähettää\n"
 "sähköpostiviestejä olemassaoleviin vikailmoituksiin."
 
-#: misc/localization/eventum.c include/class.user.php:1522
+#: misc/localization/eventum.c include/class.user.php:1523
 msgid "Standard User"
 msgstr "Peruskäyttäjä"
 
@@ -1980,7 +1988,7 @@ msgstr ""
 "ja \n"
 "lähettää sähköpostiviestejä ja viestejä olemassaoleviin vikailmoituksiin."
 
-#: misc/localization/eventum.c include/class.user.php:1523
+#: misc/localization/eventum.c include/class.user.php:1524
 msgid "Developer"
 msgstr "Kehittäjä"
 
@@ -1995,7 +2003,7 @@ msgstr ""
 "mahdollistaa vikailmoituksia käsittelevien käyttäjien erittelyn\n"
 "ja yleensäkin normaalin henkilökunnan joka ei käsittele vikailmoituksia itse."
 
-#: misc/localization/eventum.c include/class.user.php:1524
+#: misc/localization/eventum.c include/class.user.php:1525
 msgid "Manager"
 msgstr "Johtaja"
 
@@ -2017,7 +2025,7 @@ msgstr ""
 "ja mahdollisuus muokata suurinta osaa projektitason asetuksista\n"
 "ja ominaisuuksista."
 
-#: misc/localization/eventum.c include/class.user.php:1525
+#: misc/localization/eventum.c include/class.user.php:1526
 msgid "Administrator"
 msgstr "Järjestelmänvalvoja"
 
@@ -2074,7 +2082,7 @@ msgstr ""
 "Raportoidaksesi uuden vikailmoituksen, klikkaa linkkiä 'Luo vikailmoitus'\n"
 "ruudun yläreunasta."
 
-#: misc/localization/eventum.c include/class.help.php:51
+#: misc/localization/eventum.c include/class.help.php:52
 msgid "Assignment Field"
 msgstr "Tehtäväkenttä"
 
@@ -2097,7 +2105,7 @@ msgid ""
 "assign it to your Project Lead."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.help.php:43
+#: misc/localization/eventum.c include/class.help.php:44
 msgid "Category Field"
 msgstr "Kategoriakenttä"
 
@@ -2120,7 +2128,7 @@ msgstr ""
 "Jos sinulla ei ole tarvittavia oikeuksia tähän, ota yhteyttä "
 "järjestelmänvalvojaan."
 
-#: misc/localization/eventum.c include/class.help.php:63
+#: misc/localization/eventum.c include/class.help.php:64
 msgid "Description Field"
 msgstr "Selityskenttä"
 
@@ -2137,7 +2145,7 @@ msgstr ""
 "kävi, vaiheet vian toistamiseen ja\n"
 " odotettu lopputulos."
 
-#: misc/localization/eventum.c include/class.help.php:67
+#: misc/localization/eventum.c include/class.help.php:68
 msgid "Estimated Development Time Field"
 msgstr "Arvioitu kehitysaika kenttä"
 
@@ -2171,7 +2179,7 @@ msgstr ""
 "vaikutusanalyysin arvioituun kokonaiskehitysaikaan ja tällä tavalla\n"
 "saadaan enemmän kokemusta vaaditun ajan määrittelemisessä."
 
-#: misc/localization/eventum.c include/class.help.php:47
+#: misc/localization/eventum.c include/class.help.php:48
 msgid "Priority Field"
 msgstr "Prioriteettikenttä"
 
@@ -2188,7 +2196,7 @@ msgstr ""
 " prioriteetti vikailmoitukselle, valitse 'Ei priorisoitu'\n"
 " ja jätä priorisointi projektijohtajalle."
 
-#: misc/localization/eventum.c include/class.help.php:55
+#: misc/localization/eventum.c include/class.help.php:56
 msgid "Scheduled Release Field"
 msgstr "Suunniteltu julkaisu kenttä"
 
@@ -2204,7 +2212,7 @@ msgstr ""
 "Jos et tiedä mikä valmistumismääräaika pitäisi olla, jätä kenttään arvo \n"
 "'Ei aikataulutettu' ja projektinjohtaja asettaa sen asianmukaiseksi."
 
-#: misc/localization/eventum.c include/class.help.php:59
+#: misc/localization/eventum.c include/class.help.php:60
 msgid "Summary Field"
 msgstr "Yhteenvetokenttä"
 
@@ -2500,7 +2508,7 @@ msgstr "Vaikutusanalyysi"
 msgid "Notes"
 msgstr "Viestit"
 
-#: misc/localization/eventum.c include/class.customer_stats_report.php:736
+#: misc/localization/eventum.c include/class.customer_stats_report.php:737
 msgid "Time Tracking"
 msgstr "Ajanseuranta"
 
@@ -2568,8 +2576,8 @@ msgstr "Käsittelijä"
 msgid "Requirement"
 msgstr "Vaatimus"
 
-#: misc/localization/eventum.c include/class.notification.php:642
-#: include/class.notification.php:643 include/class.project.php:1109
+#: misc/localization/eventum.c include/class.notification.php:652
+#: include/class.notification.php:653 include/class.project.php:1110
 msgid "Estimated Dev. Time"
 msgstr "Arvioitu kehit. aika"
 
@@ -2833,19 +2841,19 @@ msgstr "Sähköpostijonoa ei löytynyt."
 msgid "Overall Stats"
 msgstr "Kokonaistilastot"
 
-#: misc/localization/eventum.c stats_chart.php:63
+#: misc/localization/eventum.c stats_chart.php:64
 msgid "Issues by Status"
 msgstr "Vikailmoitukset tilan mukaan"
 
-#: misc/localization/eventum.c stats_chart.php:75
+#: misc/localization/eventum.c stats_chart.php:76
 msgid "Issues by Release"
 msgstr "Vikailmoitukset julkaisun mukaan"
 
-#: misc/localization/eventum.c stats_chart.php:78
+#: misc/localization/eventum.c stats_chart.php:79
 msgid "Issues by Priority"
 msgstr "Vikailmoitukset prioriteetin mukaan"
 
-#: misc/localization/eventum.c stats_chart.php:84
+#: misc/localization/eventum.c stats_chart.php:85
 msgid "Issues by Category"
 msgstr "Vikailmoitukset kategorian mukaan"
 
@@ -4867,7 +4875,7 @@ msgstr "Hallinnoi muistutustoimintoja"
 msgid "view reminder details"
 msgstr "näytä muistutuksen yksityiskohdat"
 
-#: misc/localization/eventum.c include/class.reminder_action.php:761
+#: misc/localization/eventum.c include/class.reminder_action.php:762
 msgid "Reminder"
 msgstr "Muistutus"
 
@@ -5472,6 +5480,10 @@ msgid "Full Name"
 msgstr "Koko nimi"
 
 #: misc/localization/eventum.c
+msgid "Group:"
+msgstr "Ryhmä:"
+
+#: misc/localization/eventum.c
 msgid "Assigned Projects and Roles"
 msgstr "Määrätyt projektit ja roolit"
 
@@ -5508,8 +5520,8 @@ msgstr "Toiminto vaihtaa valittujen käyttäjien tilan."
 msgid "Role"
 msgstr "Rooli"
 
-#: misc/localization/eventum.c include/class.display_column.php:185
-#: include/class.project.php:1110 list.php:88
+#: misc/localization/eventum.c include/class.display_column.php:186
+#: include/class.project.php:1111 list.php:89
 msgid "Group"
 msgstr "Ryhmä"
 
@@ -5702,7 +5714,7 @@ msgstr "Arvioitu kehitysaika (ainoastaan numeroita)"
 msgid "Create New Issue"
 msgstr "Luo vikailmoitus"
 
-#: misc/localization/eventum.c include/class.project.php:1108
+#: misc/localization/eventum.c include/class.project.php:1109
 msgid "Scheduled Release"
 msgstr "Suunniteltu julkaisu"
 
@@ -6268,7 +6280,7 @@ msgstr "Luo uusi vikailmoitus"
 msgid "Please choose a project"
 msgstr "Valitse projekti"
 
-#: misc/localization/eventum.c include/class.pager.php:124
+#: misc/localization/eventum.c include/class.pager.php:125
 msgid "Next"
 msgstr "Seuraava"
 
@@ -7926,10 +7938,6 @@ msgid "Other:"
 msgstr "Muuta:"
 
 #: misc/localization/eventum.c
-msgid "Group:"
-msgstr "Ryhmä:"
-
-#: misc/localization/eventum.c
 msgid "Summary:"
 msgstr "Yhteenveto:"
 
@@ -8099,8 +8107,8 @@ msgstr "Vikailmoitus"
 msgid "No issues associated"
 msgstr "Ei liitettyjä vikailmoituksia"
 
-#: misc/localization/eventum.c include/class.display_column.php:231
-#: include/class.notification.php:618 include/class.notification.php:619
+#: misc/localization/eventum.c include/class.display_column.php:232
+#: include/class.notification.php:628 include/class.notification.php:629
 msgid "Expected Resolution Date"
 msgstr "Oletettu ratkaisupäivämäärä"
 
@@ -8207,36 +8215,36 @@ msgstr "Liitteet:"
 msgid "Blocked Message Raw Headers"
 msgstr "Estetty viestin raakaotsikot"
 
-#: adv_search.php:61 include/class.filter.php:668 list.php:79
+#: adv_search.php:62 include/class.filter.php:669 list.php:80
 msgid "un-assigned"
 msgstr "määräämättömät"
 
-#: adv_search.php:62 include/class.filter.php:670 list.php:80
+#: adv_search.php:63 include/class.filter.php:671 list.php:81
 msgid "myself and un-assigned"
 msgstr "minulle ja määräämättömille"
 
-#: adv_search.php:65 include/class.filter.php:672 list.php:83
+#: adv_search.php:66 include/class.filter.php:673 list.php:84
 msgid "myself and my group"
 msgstr "Minä ja ryhmäni"
 
-#: adv_search.php:66 include/class.filter.php:674 list.php:84
+#: adv_search.php:67 include/class.filter.php:675 list.php:85
 msgid "myself, un-assigned and my group"
 msgstr "minulle, määräämättömille ja ryhmälleni"
 
-#: include/class.custom_field.php:319
+#: include/class.custom_field.php:320
 #, php-format
 msgid "Custom field updated (%1$s) by %2$s"
 msgstr "Lisäkenttä päivitetty (%1$s) päivittäjänä %2$s"
 
-#: include/class.customer_stats_report.php:192
+#: include/class.customer_stats_report.php:193
 msgid "Aggregate"
 msgstr "Kokonaissumma"
 
-#: include/class.customer_stats_report.php:685
+#: include/class.customer_stats_report.php:686
 msgid "Total Workload by Support Level"
 msgstr "Kokonais työmäärä tukitasoittain"
 
-#: include/class.customer_stats_report.php:686
+#: include/class.customer_stats_report.php:687
 msgid ""
 "Includes issue count, Developer email Count, Customer Email Count, Customers "
 "count by Support Level"
@@ -8244,11 +8252,11 @@ msgstr ""
 "Sisältää vikailmoitusten määrän, kehittäjän sähköpostiviestien määrän, "
 "asiakkaan sähköpostiviestien määrän, asiakkaiden määrän tukitasoittain"
 
-#: include/class.customer_stats_report.php:693
+#: include/class.customer_stats_report.php:694
 msgid "Avg Workload per Customer by Support Level"
 msgstr "Keskimääräinen työmäärä per asiakas tukitasoittain"
 
-#: include/class.customer_stats_report.php:694
+#: include/class.customer_stats_report.php:695
 msgid ""
 "Displays average number of issues, developer emails and customer emails per "
 "issue by support level"
@@ -8257,162 +8265,162 @@ msgstr ""
 "sähköpostiviestien määrän ja asiakkaan sähköpostiviestien määrän per "
 "vikailmoitus tukitasoittain"
 
-#: include/class.customer_stats_report.php:702
+#: include/class.customer_stats_report.php:703
 msgid "Avg and Median Time to Close by Support Level"
 msgstr "Keskim.- ja mediaaniaika sulkemiseen tukitasoittain"
 
-#: include/class.customer_stats_report.php:703
-#: include/class.customer_stats_report.php:712
+#: include/class.customer_stats_report.php:704
+#: include/class.customer_stats_report.php:713
 msgid "Displays time stats"
 msgstr "Näytä aikatilastot"
 
-#: include/class.customer_stats_report.php:708
+#: include/class.customer_stats_report.php:709
 msgid "Days"
 msgstr "Päivää"
 
-#: include/class.customer_stats_report.php:711
+#: include/class.customer_stats_report.php:712
 msgid "Avg and Median Time to First Response by Support Level"
 msgstr "Keskim.- ja mediaaniaika ensimmäiseen vastaukseen tukitasoittain"
 
-#: include/class.customer_stats_report.php:717
+#: include/class.customer_stats_report.php:718
 msgid "Hours"
 msgstr "Tuntia"
 
-#: include/class.customer_stats_report.php:732
+#: include/class.customer_stats_report.php:733
 msgid "Customer Counts"
 msgstr "Asiakaslaskuri"
 
-#: include/class.customer_stats_report.php:733
+#: include/class.customer_stats_report.php:734
 msgid "Issue Counts"
 msgstr "Vikailmoituslaskuri"
 
-#: include/class.customer_stats_report.php:734
+#: include/class.customer_stats_report.php:735
 msgid "Email Counts"
 msgstr "Sähköpostilaskuri"
 
-#: include/class.customer_stats_report.php:735
+#: include/class.customer_stats_report.php:736
 msgid "Time Statistics"
 msgstr "Aikatilastot"
 
-#: include/class.display_column.php:182 include/class.filter.php:743
+#: include/class.display_column.php:183 include/class.filter.php:744
 msgid "Created Date"
 msgstr "Luomispäivämäärä"
 
-#: include/class.display_column.php:194
+#: include/class.display_column.php:195
 msgid "% Complete"
 msgstr "% valmiina"
 
-#: include/class.display_column.php:198
+#: include/class.display_column.php:199
 msgid "Est Dev Time"
 msgstr "Arvioitu kehitys aika"
 
-#: include/class.display_column.php:217
+#: include/class.display_column.php:218
 msgid "Status Change Date"
 msgstr "Tilan muutos päivämäärä"
 
-#: include/class.draft.php:116
+#: include/class.draft.php:117
 #, php-format
 msgid "Email message saved as a draft by %1$s"
 msgstr "Sähköpostiviestin tallensi luonnokseksi %1$s"
 
-#: include/class.draft.php:160
+#: include/class.draft.php:161
 #, php-format
 msgid "Email message draft updated by %1$s"
 msgstr "Sähköpostiviestin luonnoksen päivitti %1$s"
 
-#: include/class.filter.php:605
+#: include/class.filter.php:606
 #, php-format
 msgid "%1$s or greater"
 msgstr ""
 
-#: include/class.filter.php:608
+#: include/class.filter.php:609
 #, php-format
 msgid "%1$s or less"
 msgstr ""
 
-#: include/class.filter.php:611
+#: include/class.filter.php:612
 #, fuzzy, php-format
 msgid "Greater than %1$s"
 msgstr "Suurempi kuin"
 
-#: include/class.filter.php:614
+#: include/class.filter.php:615
 #, fuzzy, php-format
 msgid "Less than %1$s"
 msgstr "Pienempi kuin"
 
-#: include/class.filter.php:632
+#: include/class.filter.php:633
 #, fuzzy, php-format
 msgid "In Past %1$s hours"
 msgstr "Viime %1 tuntina"
 
-#: include/class.filter.php:635
+#: include/class.filter.php:636
 msgid "Is NULL"
 msgstr "On määrittämätön"
 
-#: include/class.filter.php:639
+#: include/class.filter.php:640
 #, fuzzy, php-format
 msgid "Is between %1$s-%2$s-%3$s AND %4$s-%5$s-%6$s"
 msgstr "Välissä %1-%2-%3 JA %4-%5-%6"
 
-#: include/class.filter.php:643
+#: include/class.filter.php:644
 #, fuzzy, php-format
 msgid "Is greater than %1$s-%2$s-%3$s"
 msgstr "Suurempi kuin %1-%2-%3"
 
-#: include/class.filter.php:646
+#: include/class.filter.php:647
 #, fuzzy, php-format
 msgid "Is less than %1$s-%2$s-%3$s"
 msgstr "Pienempi kuin "
 
-#: include/class.filter.php:676
+#: include/class.filter.php:677
 #, fuzzy, php-format
 msgid "%1$s Group"
 msgstr "Ryhmä"
 
-#: include/class.filter.php:748
+#: include/class.filter.php:749
 msgid "Updated Date"
 msgstr "Päivityspäivämäärä"
 
-#: include/class.filter.php:753
+#: include/class.filter.php:754
 msgid "Last Response Date"
 msgstr "Viimeisen vastauksen päivämäärä"
 
-#: include/class.filter.php:758
+#: include/class.filter.php:759
 msgid "First Response Date"
 msgstr "Ensimmäisen vastauksen päivämäärä"
 
-#: include/class.filter.php:763
+#: include/class.filter.php:764
 msgid "Closed Date"
 msgstr "Sulkemispäivämäärä"
 
-#: include/class.filter.php:792
+#: include/class.filter.php:793
 msgid "Search Type"
 msgstr "Haun tyyppi"
 
-#: include/class.help.php:35
+#: include/class.help.php:36
 msgid "Help Topics"
 msgstr "Ohje-aiheet"
 
-#: include/class.help.php:39
+#: include/class.help.php:40
 msgid "Reporting Issues"
 msgstr "Vikailmoitusten ilmoitus"
 
-#: include/class.impact_analysis.php:79
+#: include/class.impact_analysis.php:80
 #, php-format
 msgid "New requirement submitted by %1$s"
 msgstr "Uusi vaatimus lähettäjänä %1$s"
 
-#: include/class.impact_analysis.php:170
+#: include/class.impact_analysis.php:171
 #, php-format
 msgid "Impact analysis submitted by %1$s"
 msgstr "Vaikutusanalyysi lähettäjänä %1$s"
 
-#: include/class.impact_analysis.php:204
+#: include/class.impact_analysis.php:205
 #, php-format
 msgid "Impact analysis removed by %1$s"
 msgstr "Vaikutusanalyysi poistajana %1$s"
 
-#: include/class.mail.php:119
+#: include/class.mail.php:120
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -8420,7 +8428,7 @@ msgstr ""
 "VAROITUS: Tämä viesti estettiin koska lähettäjällä ei ole oikeuksia lähettää "
 "viestejä kyseiseen vikailmoitukseen."
 
-#: include/class.mail.php:120
+#: include/class.mail.php:121
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -8428,28 +8436,28 @@ msgstr ""
 "Ainoastaan henkilökunnan jäsenet, jotka on listattu \"määrätty\"-kentässä "
 "tai \"oikeutetut vastaajat\"-kentässä voivat lähettää sähköpostia."
 
-#: include/class.mail.php:469
+#: include/class.mail.php:470
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "TIEDOTUS: Vastauksesi lähetetään muistutuslistalle."
 
-#: include/class.mail.php:471
+#: include/class.mail.php:472
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "VAROITUS: Jos vastaat, lisää itsesi oikeutettujen vastaajien listaan ensin."
 
-#: include/class.monitor.php:85
+#: include/class.monitor.php:86
 msgid "ERROR: Almost no free disk space left (percentage left"
 msgstr "VIRHE: Kovalevytila melkein lopussa (prosenttia jäljellä"
 
-#: include/class.monitor.php:89
+#: include/class.monitor.php:90
 msgid "ERROR: Free disk space left is getting very low (percentage left"
 msgstr "VIRHE: Vapaan kovalevytilan määrä alhainen (prosenttia jäljellä"
 
-#: include/class.monitor.php:106
+#: include/class.monitor.php:107
 msgid "ERROR: File could not be found (path"
 msgstr "VIRHE: Tiedostoa ei löytynyt (polku"
 
-#: include/class.monitor.php:112
+#: include/class.monitor.php:113
 #, php-format
 msgid ""
 "ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %"
@@ -8458,7 +8466,7 @@ msgstr ""
 "VIRHE: Tiedoston omistusristiriita (Polku: %1$s; Nykyinen omistaja: %2$s; "
 "Oikea omistaja: %3$s)"
 
-#: include/class.monitor.php:115
+#: include/class.monitor.php:116
 #, php-format
 msgid ""
 "ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %"
@@ -8467,7 +8475,7 @@ msgstr ""
 "VIRHE: Tiedoston ryhmäristiriita (Polku: %1$s; Nykyinen ryhmä: %2$s; Oikea "
 "ryhmä: %3$s)"
 
-#: include/class.monitor.php:120
+#: include/class.monitor.php:121
 #, php-format
 msgid ""
 "ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct "
@@ -8476,18 +8484,18 @@ msgstr ""
 "VIRHE: Tiedoston oikeusristiriita (Polku: %1$s; Nykyiset oikeudet: %2$s; "
 "Oikeat oikeudet: %3$s)"
 
-#: include/class.monitor.php:124
+#: include/class.monitor.php:125
 #, php-format
 msgid "ERROR: File size mismatch (path: %1$s; current filesize: %2$s)"
 msgstr ""
 "VIRHE: Tiedoston kokoristiriita (Polku: %1$s; Nykyinen tiedostokoko: %2$s)"
 
-#: include/class.monitor.php:144
+#: include/class.monitor.php:145
 #, php-format
 msgid "ERROR: Directory could not be found (path: %1$s)"
 msgstr "VIRHE: Kansiota ei löytynyt (Polku: %1$s)"
 
-#: include/class.monitor.php:150
+#: include/class.monitor.php:151
 #, php-format
 msgid ""
 "ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; "
@@ -8496,128 +8504,128 @@ msgstr ""
 "VIRHE: Kansion oikeusristiriita (Polku: %1$s; Nykyiset oikeudet: %2$s; "
 "Oikeat oikeudet: %3$s)"
 
-#: include/class.monitor.php:173
+#: include/class.monitor.php:174
 msgid "ERROR: Could not connect to the mysql database. Detailed error message:"
 msgstr ""
 "VIRHE: Ei pystynyt yhdistämään mysql-tietokantaan. Tarkempi virheilmoitus:"
 
-#: include/class.monitor.php:271
+#: include/class.monitor.php:272
 msgid "ERROR: Could not find IRC bot pid from process list."
 msgstr "VIRHE: Ei löytänyt IRC-botin PID:iä prosessilistasta."
 
-#: include/class.notification.php:613 include/class.notification.php:614
+#: include/class.notification.php:623 include/class.notification.php:624
 msgid "Assignment List"
 msgstr "Tehtävälista"
 
-#: include/class.notification.php:690
+#: include/class.notification.php:700
 msgid "Updated"
 msgstr "Päivitetty"
 
-#: include/class.notification.php:820
+#: include/class.notification.php:830
 msgid "Closed"
 msgstr "Suljettu"
 
-#: include/class.notification.php:959
+#: include/class.notification.php:969
 msgid "BLOCKED"
 msgstr "ESTETTY"
 
-#: include/class.notification.php:1373
+#: include/class.notification.php:1383
 msgid "User account information updated"
 msgstr "Käyttäjätilin tiedot päivitetty"
 
-#: include/class.notification.php:1410
+#: include/class.notification.php:1420
 msgid "User account password changed"
 msgstr "Käyttäjätilin salasana vaihdettu"
 
-#: include/class.notification.php:1447
+#: include/class.notification.php:1457
 msgid "New User information"
 msgstr "Uuden käyttäjän tiedot"
 
-#: include/class.notification.php:1576
+#: include/class.notification.php:1586
 msgid "Your User Account Details"
 msgstr "Käyttäjätilisi yksityiskohdat"
 
-#: include/class.notification.php:1848
+#: include/class.notification.php:1858
 #, php-format
 msgid "Notification list entry (%1$s) removed by %2$s"
 msgstr "Muistutuslistan merkintä (%1$s) poistajana %2$s"
 
-#: include/class.notification.php:2008
+#: include/class.notification.php:2018
 #, php-format
 msgid "Notification list entry (%1$s) added by %2$s"
 msgstr "Muistutuslistan merkintä (%1$s) lisääjänä %2$s"
 
-#: include/class.notification.php:2089
+#: include/class.notification.php:2104
 #, php-format
 msgid "Notification list entry ('%1$s') added by %2$s"
 msgstr "Muistutuslistan merkintä ('%1$s') lisääjänä %2$s"
 
-#: include/class.notification.php:2185
+#: include/class.notification.php:2200
 #, php-format
 msgid "Notification list entry ('%1$s') updated by %2$s"
 msgstr "Muistutuslistan merkintä ('%1$s') päivittäjänä %2$s"
 
-#: include/class.pager.php:123
+#: include/class.pager.php:124
 msgid "Previous"
 msgstr "Edellinen"
 
-#: include/class.phone_support.php:339
+#: include/class.phone_support.php:340
 msgid "Time entry inserted from phone call."
 msgstr "Aikamerkintä puhelusta."
 
-#: include/class.phone_support.php:353
+#: include/class.phone_support.php:354
 #, php-format
 msgid "Phone Support entry submitted by %1$s"
 msgstr "Puhelintukimerkintä lisääjänä %1$s"
 
-#: include/class.phone_support.php:412
+#: include/class.phone_support.php:413
 #, php-format
 msgid "Phone Support entry removed by %1$s"
 msgstr "Puhelintukimerkintä poistajana %1$s"
 
-#: include/class.reminder_action.php:596
+#: include/class.reminder_action.php:597
 msgid "Processing Group Leader notification"
 msgstr "Käsitellään ryhmänjohtajan muistutuksia"
 
-#: include/class.reminder_action.php:602
+#: include/class.reminder_action.php:603
 #, php-format
 msgid "No group associated with issue %1$s"
 msgstr "Yhtään ryhmää ei ole liitetty vikailmoitukseen %1$s"
 
-#: include/class.reminder_action.php:612
+#: include/class.reminder_action.php:613
 #, php-format
 msgid "Performing action %1$s for issue # %2$s"
 msgstr "Suoritetaan toiminto %1$s vikailmoitukseen # %2$s "
 
-#: include/class.reminder_action.php:801
+#: include/class.reminder_action.php:802
 msgid "Reminder Not Triggered"
 msgstr "Muistutusta ei ole laukaistu"
 
-#: include/class.routing.php:61
+#: include/class.routing.php:62
 msgid "Error: The email message was empty"
 msgstr "Virhe: Sähköpostiviesti oli tyhjä"
 
-#: include/class.routing.php:70
+#: include/class.routing.php:71
 msgid "Error: The email routing interface is disabled."
 msgstr "Virhe: Sähköpostin välitysrajapinta on pois päältä."
 
-#: include/class.routing.php:73 include/class.routing.php:275
-#: include/class.routing.php:391
+#: include/class.routing.php:74 include/class.routing.php:276
+#: include/class.routing.php:392
 msgid "Error: Please configure the email address prefix."
 msgstr "Virhe: Aseta sähköpostiosoitteen etuliite."
 
-#: include/class.routing.php:76 include/class.routing.php:278
-#: include/class.routing.php:394
+#: include/class.routing.php:77 include/class.routing.php:279
+#: include/class.routing.php:395
 msgid "Error: Please configure the email address domain."
 msgstr "Virhe: Aseta sähköpostiosoitteen toimialue."
 
-#: include/class.routing.php:82
+#: include/class.routing.php:83
 msgid ""
 "Error: The associated user for the email routing interface needs to be set."
 msgstr "Virhe: Sähköpostin välitysrajapintaan liittyvä käyttäjä pitää asettaa."
 
-#: include/class.routing.php:112 include/class.routing.php:117
-#: include/class.routing.php:410
+#: include/class.routing.php:113 include/class.routing.php:118
+#: include/class.routing.php:411
 msgid ""
 "Error: The routed email had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -8625,24 +8633,24 @@ msgstr ""
 "Virhe: Reititetty sähköpostiviesti ei sisältänyt Eventum vikailmoitus ID:tä "
 "tai vastaanottaja oli virheellisesti asetettu."
 
-#: include/class.routing.php:122
+#: include/class.routing.php:123
 msgid "Error: Please provide the email account ID."
 msgstr "Virhe: Syötä sähköpostitilisi käyttäjätunnus."
 
-#: include/class.routing.php:232 include/class.support.php:782
+#: include/class.routing.php:233 include/class.support.php:788
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Sähköposti välitetty %1$s"
 
-#: include/class.routing.php:261 include/class.routing.php:377
+#: include/class.routing.php:262 include/class.routing.php:378
 msgid "Error: The email message was empty."
 msgstr "Virhe: Sähköpostin viesti oli tyhjä."
 
-#: include/class.routing.php:272
+#: include/class.routing.php:273
 msgid "Error: The internal note routing interface is disabled."
 msgstr "Virhe: Sisäisten viestin välitysrajapinta on pois päältä."
 
-#: include/class.routing.php:293
+#: include/class.routing.php:294
 msgid ""
 "Error: The routed note had no associated Eventum issue ID or had an invalid "
 "recipient address."
@@ -8650,71 +8658,71 @@ msgstr ""
 "Virhe: Reititetty viesti ei sisältänyt Eventum vikailmoitus ID:tä tai "
 "vastaanottaja oli virheellisesti asetettu."
 
-#: include/class.routing.php:352
+#: include/class.routing.php:353
 #, php-format
 msgid "Note routed from %1$s"
 msgstr "Viesti välitetty %1$s"
 
-#: include/class.routing.php:388
+#: include/class.routing.php:389
 msgid "Error: The email draft interface is disabled."
 msgstr "Virhe: Sähköpostiviestin luonnosrajapinta on pois päältä."
 
-#: include/class.routing.php:429
+#: include/class.routing.php:430
 msgid "Draft routed from"
 msgstr "Luonnos välitetty"
 
-#: include/class.scm.php:103
+#: include/class.scm.php:104
 #, php-format
 msgid "SCM Checkins removed by %1$s"
 msgstr "SCM:n sisäänkirjaukset poistajana %1$s"
 
-#: include/class.scm.php:220
+#: include/class.scm.php:221
 msgid "SCM Checkins associated by SCM user '"
 msgstr "SCM:n sisäänkirjaukset liitettynä SCM käyttäjään"
 
-#: include/class.support.php:495
+#: include/class.support.php:496
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1479
+#: include/class.support.php:1485
 msgid "Attachment originated from an email"
 msgstr "Liite tuli sähköpostista"
 
-#: include/class.support.php:1481
+#: include/class.support.php:1487
 msgid "Attachment originated from a note"
 msgstr "Liite tuli viestistä"
 
-#: include/class.support.php:1533
+#: include/class.support.php:1539
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liittäjänä %2$s"
 
-#: include/class.support.php:1876
+#: include/class.support.php:1882
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liitoksen poistajana %2$s"
 
-#: include/class.support.php:2233
+#: include/class.support.php:2239
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Sähköpostiviestin lähettäjänä %1$s"
 
-#: include/class.support.php:2599
+#: include/class.support.php:2605
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Sähköpostiviesti lähettäjältä '%1$s' estetty"
 
-#: include/class.time_tracking.php:405
+#: include/class.time_tracking.php:406
 #, php-format
 msgid "Time tracking entry removed by %1$s"
 msgstr "Ajanseurantamerkinnän poistaja %1$s"
 
-#: include/class.time_tracking.php:455
+#: include/class.time_tracking.php:456
 #, php-format
 msgid "Time tracking entry submitted by %1$s"
 msgstr "Ajanseurantamerkinnän lisääjä %1$s"
 
-#: include/class.time_tracking.php:498
+#: include/class.time_tracking.php:499
 #, php-format
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Etänä lisätty ajanseurantamerkintä lisääjänä %1$s"
@@ -8739,21 +8747,21 @@ msgstr "Työmäärä aikajaksoittain"
 msgid "actions"
 msgstr "toiminnot"
 
-#: stats_chart.php:81
+#: stats_chart.php:82
 msgid "Issues by Assignment"
 msgstr "Vikailmoitukset määrätyn mukaan"
 
-#: update.php:78
+#: update.php:79
 #, php-format
 msgid "Update Issue #%1$s"
 msgstr "Päivitä vikailmoitus #%1$s"
 
-#: view.php:71
+#: view.php:72
 #, fuzzy, php-format
 msgid "Issue #%1$s Details"
 msgstr "Vikailmoituksen yksityiskohdat"
 
-#: view.php:83
+#: view.php:84
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
