@@ -57,6 +57,7 @@ Eventum Issue Tracking System
 - Added workflow method to control if new To/Cc addresses are auto added to notification list (Bryan)
 - Prevent PHP error with IRC bot when trying to fetch channels for a project with no channels defined (Bryan)
 - Added more informative to close issue page explaining the difference between Internal / All notification options (Bryan)
+- Fixed bug with custom field report display keys instead of values (Bryan, Elan Ruusamäe)
 
 2008-01-09, Version 2.1.1
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)

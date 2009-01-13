@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.report.php 3803 2009-01-13 18:28:04Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -651,7 +651,7 @@ class Report
                         iss_customer_id,
                         count(DISTINCT(iss_id)) as row_count,
                         iss_private,
-                        " . Custom_Field::getDBValueFieldSQL() . " as field_value";
+                        fld_id";
             if ($label_field != '') {
                 $sql .= ",
                         $label_field as interval_label";
@@ -713,6 +713,9 @@ class Report
                         return 0;
                     }'));
                 }
+            }
+            for ($i = 0; $i < count($res); $i++) {
+                $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $res[$i]['fld_id']);
             }
             return $res;
         }
