@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.user.php 3804 2009-01-14 14:04:56Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -413,6 +413,11 @@ class User
     function getUserIDByEmail($email, $check_aliases = false)
     {
         static $returns;
+
+        if (!is_string($email)) {
+            Error_Handler::logError('$email parameter is not a string: '.gettype($email), __FILE__, __LINE__);
+            return null;
+        }
 
         if (!empty($returns[$email])) {
             return $returns[$email];
