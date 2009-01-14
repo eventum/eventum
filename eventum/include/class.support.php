@@ -765,7 +765,7 @@ class Support
                         }
 
                         if (Workflow::shouldAutoAddToNotificationList($info['ema_prj_id'])) {
-                            Support::addExtraRecipientsToNotificationList($t);
+                            Support::addExtraRecipientsToNotificationList($info['ema_prj_id'], $t);
                         }
 
                         Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
@@ -834,7 +834,6 @@ class Support
         $references = Mail_API::getAllReferences($headers);
 
         $message_id = Mail_API::getMessageID($headers, $message_body);
-
         $workflow = Workflow::getIssueIDforNewEmail($info['ema_prj_id'], $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
         if ($workflow == 'new') {
             $should_create_issue = true;
@@ -2609,7 +2608,7 @@ class Support
     }
 
 
-    function addExtraRecipientsToNotificationList($email)
+    function addExtraRecipientsToNotificationList($prj_id, $email)
     {
         if ((empty($email['to'])) && (!empty($email['sup_to']))) {
             $email['to'] = $email['sup_to'];
@@ -2617,6 +2616,11 @@ class Support
         if ((empty($email['cc'])) && (!empty($email['sup_cc']))) {
             $email['cc'] = $email['sup_cc'];
         }
+
+
+        $project_details = Project::getDetails($prj_id);
+        $addresses_not_too_add = explode(',', $project_details['prj_mail_aliases']);
+        array_push($addresses_not_too_add, $project_details['prj_outgoing_sender_email']);
 
         $addresses = array();
         $to_addresses = Mail_API::getEmailAddresses(@$email['to']);
@@ -2629,7 +2633,7 @@ class Support
         }
         $subscribers = Notification::getSubscribedEmails($email['issue_id']);
         foreach ($addresses as $address) {
-            if (!in_array($address, $subscribers)) {
+            if ((!in_array($address, $subscribers)) && (!in_array($address, $addresses_not_too_add))) {
                 Notification::subscribeEmail(Auth::getUserID(), $email['issue_id'], $address, Notification::getDefaultActions($email['issue_id'], $address, 'add_extra_recipients'));
             }
         }

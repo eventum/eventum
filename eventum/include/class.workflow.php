@@ -562,7 +562,7 @@ class Workflow
     function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
-            return true;
+            return null;
         }
         $backend =& Workflow::_getBackend($prj_id);
         return $backend->getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
