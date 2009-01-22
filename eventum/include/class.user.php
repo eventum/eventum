@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3804 2009-01-14 14:04:56Z glen $
+// @(#) $Id: class.user.php 3808 2009-01-22 10:20:10Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -415,6 +415,11 @@ class User
         static $returns;
 
         if (!is_string($email)) {
+            if (PEAR::isError($email)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return null;
+            }
+
             Error_Handler::logError('$email parameter is not a string: '.gettype($email), __FILE__, __LINE__);
             return null;
         }

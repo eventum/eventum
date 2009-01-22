@@ -769,11 +769,20 @@ class Support
                         }
 
                         Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
+
                         // try to get usr_id of sender, if not, use system account
-                        $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
-                        if (!$usr_id) {
+                        $addr = Mail_API::getEmailAddress($structure->headers['from']);
+                        if (PEAR::isError($addr)) {
+                            // XXX should we log or is this expected?
+                            Error_Handler::logError(array($addr->getMessage()." addr: $addr", $addr->getDebugInfo()), __FILE__, __LINE__);
                             $usr_id = APP_SYSTEM_USER_ID;
+                        } else {
+                            $usr_id = User::getUserIDByEmail($addr);
+                            if (!$usr_id) {
+                                $usr_id = APP_SYSTEM_USER_ID;
+                            }
                         }
+
                         // mark this issue as updated
                         if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')))) {
                             Issue::markAsUpdated($t['issue_id'], 'customer action');
