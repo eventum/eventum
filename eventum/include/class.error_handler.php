@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.error_handler.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.error_handler.php 3809 2009-01-25 03:40:17Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
@@ -39,6 +39,7 @@ require_once(APP_INC_PATH . "class.setup.php");
  *
  * @version 1.0
  * @author João Prado Maia <jpm@mysql.com>
+ * @author Elan Ruusamäe <glen@delfi.ee>
  */
 
 class Error_Handler
@@ -53,13 +54,11 @@ class Error_Handler
      * @param  integer $line The line number where the error happened
      * @param  boolean $notify_error Whether error should be notified by email.
      */
-    function logError($error_msg = 'unknown', $script = 'unknown', $line = 'unknown', $notify_error = true)
+    static public function logError($error_msg = 'unknown', $script = 'unknown', $line = 'unknown', $notify_error = true)
     {
-        $msg =& Error_Handler::_createErrorReport($error_msg, $script, $line);
-        $fp = @fopen(APP_ERROR_LOG, 'a');
-        fwrite($fp, '[' . date('D M d H:i:s Y') . '] ');
-        fwrite($fp, $msg);
-        fclose($fp);
+        $msg =& self::_createErrorReport($error_msg, $script, $line);
+
+        file_put_contents(APP_ERROR_LOG, array(date('[D M d H:i:s Y] '), $msg), FILE_APPEND);
 
         // if there's no db_api object, then we cannot
         // possibly queue up the error emails
@@ -73,7 +72,7 @@ class Error_Handler
             if (empty($notify_list)) {
                 return false;
             }
-            Error_Handler::_notify($msg, $setup['smtp']['from'], $notify_list, $script, $line);
+            self::_notify($msg, $setup['smtp']['from'], $notify_list, $script, $line);
         }
     }
 
@@ -85,12 +84,13 @@ class Error_Handler
      * @param  string $notify_from Sender of the email
      * @param  string $notify_list Email addresses to whom send the error report.
      */
-    function _notify(&$notify_msg, $notify_from, $notify_list, $script, $line)
+    static private function _notify(&$notify_msg, $notify_from, $notify_list, $script, $line)
     {
         $backtrace = debug_backtrace();
         array_splice($backtrace, 0, 2);
         for ($i = 0; $i < count($backtrace); $i++) {
-            if ($backtrace[$i]['class'] == 'Error_Handler') {
+            // avoid recursion?
+            if ($backtrace[$i]['class'] == __CLASS__) {
                 return;
             }
         }
@@ -143,7 +143,7 @@ class Error_Handler
      * @param  array    $backtrace The backtrace to format
      * @return string   A nicely formatted backtrace.
      */
-    function format_backtrace($backtrace = null)
+    static private function format_backtrace($backtrace = null)
     {
         if ($backtrace == null) {
             $backtrace = debug_backtrace();
@@ -198,7 +198,7 @@ class Error_Handler
      * @param  string $script The script name where the error happened
      * @param  integer $line The line number where the error happened
      */
-    function &_createErrorReport(&$error_msg, $script, $line)
+    static private function &_createErrorReport(&$error_msg, $script, $line)
     {
         $msg = "An error was found on line '" . $line . "' of script " . "'$script'.\n\n";
 
@@ -229,7 +229,7 @@ class Error_Handler
         // remove the two entries related to the error handling stuff itself
         array_splice($backtrace, 0, 2);
 
-        $msg .= Error_Handler::format_backtrace($backtrace);
+        $msg .= self::format_backtrace($backtrace);
         $msg .= "\n\n";
 
         return $msg;
@@ -238,5 +238,5 @@ class Error_Handler
 
 // benchmarking the included file (aka setup time)
 if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Error_Handler Class');
+    $GLOBALS['bench']->setMarker('Included '.__CLASS__.'Class');
 }
