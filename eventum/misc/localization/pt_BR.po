@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-26 15:13+0200\n"
-"PO-Revision-Date: 2008-10-29 15:12-0200\n"
+"PO-Revision-Date: 2009-01-13 10:26-0200\n"
 "Last-Translator: Georger Rommel Ferreira de Araújo <georger_br@yahoo.com."
 "br>\n"
 "Language-Team: Brasiliant Portugese <eventum-devel@lists.mysql.com>\n"
@@ -858,11 +858,11 @@ msgstr "Usuários Internos"
 
 #: misc/localization/eventum.c
 msgid "Will save as a note"
-msgstr ""
+msgstr "Será salva como uma nota"
 
 #: misc/localization/eventum.c
 msgid "Will save as email"
-msgstr ""
+msgstr "Será salva como um email"
 
 #: misc/localization/eventum.c
 msgid "Reason for closing issue"

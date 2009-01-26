@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-26 15:13+0200\n"
-"PO-Revision-Date: 2008-10-31 09:28-0200\n"
+"PO-Revision-Date: 2009-01-23 11:20-0200\n"
 "Last-Translator: Normando Hall <nhall@unixlan.com.ar>\n"
 "Language-Team: Unixlan <nhall@unixlan.com.ar>\n"
 "MIME-Version: 1.0\n"
@@ -349,7 +349,7 @@ msgstr "horas"
 
 #: misc/localization/eventum.c
 msgid "Last Updated"
-msgstr "Ultima Actualización"
+msgstr "Última Actualización"
 
 #: misc/localization/eventum.c
 msgid "Is Null"
@@ -871,11 +871,11 @@ msgstr "Usuarios Internos"
 
 #: misc/localization/eventum.c
 msgid "Will save as a note"
-msgstr ""
+msgstr "Se guardará como una nota"
 
 #: misc/localization/eventum.c
 msgid "Will save as email"
-msgstr ""
+msgstr "Se guardará como un email"
 
 #: misc/localization/eventum.c
 msgid "Reason for closing issue"
