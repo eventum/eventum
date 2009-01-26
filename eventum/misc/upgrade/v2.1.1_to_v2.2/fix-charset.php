@@ -54,8 +54,9 @@ $changes = array();
 
 // convert textual columns to proper encoding and store as utf8
 $res = db_getAll(
-	"SELECT TABLE_NAME,COLUMN_NAME,COLUMN_TYPE,COLUMN_KEY FROM INFORMATION_SCHEMA.COLUMNS ".
-	"WHERE TABLE_SCHEMA='%DBNAME%' AND CHARACTER_SET_NAME='$db_charset' AND TABLE_TYPE = 'BASE TABLE'"
+	"SELECT COLUMNS.TABLE_NAME,COLUMN_NAME,COLUMN_TYPE,COLUMN_KEY FROM INFORMATION_SCHEMA.COLUMNS, INFORMATION_SCHEMA.TABLES ".
+	"WHERE COLUMNS.TABLE_SCHEMA='%DBNAME%' AND CHARACTER_SET_NAME='$db_charset' AND COLUMNS.TABLE_SCHEMA = TABLES.TABLE_SCHEMA AND " .
+	"COLUMNS.TABLE_NAME = TABLES.TABLE_NAME AND TABLE_TYPE = 'BASE TABLE'"
 );
 
 $tables = array();
@@ -66,7 +67,7 @@ foreach ($res as $idx => $row) {
 }
 
 foreach ($tables as $table => $column) {
-	$changes[] = "ALTER TABLE $table CONVERT TO CHARACTER SET utf8";
+	$changes[] = "ALTER TABLE `$table` CONVERT TO CHARACTER SET utf8";
 	$changes[] = "UPDATE $table SET ". join(", ", $column);
 }
 
