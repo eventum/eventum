@@ -245,7 +245,7 @@ jQuery(function() { toggleIssueField(); });
                   <input name="last" type="button" value="&gt;|" class="shortcut" onClick="javascript:setPage({$list_info.last_page});">
                 </td>
                 <td nowrap align="center">
-                  <span class="default_white">Rows:</span>
+                  <span class="default_white">{t}Rows per Page:{/t}</span>
                   <select name="page_size" class="default" onChange="javascript:resizePager(this.form);">
                     <option value="5" {if $options.rows == 5}selected{/if}>5</option>
                     <option value="10" {if $options.rows == 10}selected{/if}>10</option>
