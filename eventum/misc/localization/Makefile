@@ -2,6 +2,7 @@
 # (c) 2007 Elan Ruusamäe <glen@delfi.ee>
 
 SVN_URL := svn://eventum.mysql.org/eventum-gpl/trunk/eventum
+POOTLE_URL := https://www.unixlan.com.ar/eventum
 ALL_LINGUAS := de en es fi fr it nl pl ru sv pt_BR
 DOMAIN := eventum
 POFILES := $(patsubst %,%.po,$(ALL_LINGUAS))
@@ -49,3 +50,18 @@ update-po:
 			fi \
 		fi \
 	done
+
+update-pootle:
+	@set -x -e; \
+	svn export $(POOTLE_URL) pootle; \
+	for lang in $(ALL_LINGUAS); do \
+		[ -f pootle/$$lang/eventum.po ] || continue; \
+		if msgmerge pootle/$$lang/eventum.po $(DOMAIN).pot -o new.po; then \
+			if cmp -s $$lang.po new.po; then \
+				rm -f new.po; \
+			else \
+				mv -f new.po $$lang.po; \
+			fi \
+		fi \
+	done; \
+	rm -rf pootle
