@@ -36,12 +36,12 @@ var custom_fields_info = new Array();
   </td>
   <td bgcolor="{$light_color}">
     {if $custom_fields[i].fld_type == 'text'}
-    <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value}">
+    <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50" tabindex="{$tabindex++}" value="$custom_fields[i].value|default:$custom_fields[i].default_value}">
     {elseif $custom_fields[i].fld_type == 'integer'}
-    <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="10" tabindex="{$tabindex++}" value="{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value}">
+    <input id="custom_field_{$custom_fields[i].fld_id}" class="default" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="10" tabindex="{$tabindex++}" value="$custom_fields[i].value|default:$custom_fields[i].default_value}">
     </script>
     {elseif $custom_fields[i].fld_type == 'textarea'}
-    <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value}</textarea>
+    <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60" tabindex="{$tabindex++}">{$custom_fields[i].value|default:$custom_fields[i].default_value}</textarea>
     {elseif $custom_fields[i].fld_type == 'date'}
     <input type="text" id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_field_id}]" size="12" class="date_picker" value="{$custom_fields[i].value|default:$custom_fields[i].default_value}">
     {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]"}
@@ -57,7 +57,7 @@ var custom_fields_info = new Array();
       class="default" name="custom_fields[{$custom_fields[i].fld_id}]{if $custom_fields[i].fld_type == 'multiple'}[]{/if}" tabindex="{$tabindex++}">
 
       {if $custom_fields[i].fld_type != 'multiple'}<option value="">{t}Please choose an option{/t}</option>{/if}
-      {html_options options=$custom_fields[i].field_options selected=$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].selected_cfo_id|default:$custom_fields[i].default_value}
+      {html_options options=$custom_fields[i].field_options selected=$custom_fields[i].selected_cfo_id|default:$custom_fields[i].default_value}
     </select>
     {/if}
     {if $custom_fields[i].dynamic_options|@count > 0}
