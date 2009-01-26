@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+???, Version ???
+- Removed reference to dynCalendar.css (Bryan, #42301)
+
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
 - Added Precedence: Bulk header to emails to prevent out of office replies. Fixes #34466 (Bryan)
