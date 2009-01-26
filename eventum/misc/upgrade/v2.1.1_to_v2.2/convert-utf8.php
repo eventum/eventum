@@ -48,7 +48,7 @@ if (strtolower(APP_CHARSET) == 'utf-8' || strtolower(APP_CHARSET) == 'utf8') {
 		"WHERE TABLE_SCHEMA='%DBNAME%' AND TABLE_COLLATION NOT LIKE 'utf8\_%' AND TABLE_TYPE = 'BASE TABLE'"
 	);
 	foreach ($res as $idx => $row) {
-		$changes[] = "ALTER TABLE {$row['TABLE_NAME']} CONVERT TO CHARACTER SET utf8";
+		$changes[] = "ALTER TABLE `{$row['TABLE_NAME']}` CONVERT TO CHARACTER SET utf8";
 	}
 
 	// convert database:
