@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-13 17:52+0200\n"
+"POT-Creation-Date: 2009-01-26 15:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -331,7 +331,7 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c include/class.display_column.php:180
-#: include/class.filter.php:797 include/class.user.php:1521
+#: include/class.filter.php:797 include/class.user.php:1531
 msgid "Reporter"
 msgstr ""
 
@@ -1026,7 +1026,8 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.misc.php:714
+#: misc/localization/eventum.c include/class.filter.php:683
+#: include/class.misc.php:714
 msgid "Yes"
 msgstr ""
 
@@ -1294,7 +1295,7 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c
 #: include/class.customer_stats_report.php:669
-#: include/class.display_column.php:209 include/class.user.php:1522
+#: include/class.display_column.php:209 include/class.user.php:1532
 msgid "Customer"
 msgstr ""
 
@@ -1645,6 +1646,10 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Associate"
+msgstr ""
+
+#: misc/localization/eventum.c misc/localization/eventum.c
+msgid "Rows per Page:"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
@@ -2070,7 +2075,7 @@ msgid ""
 "Eventum:"
 msgstr ""
 
-#: misc/localization/eventum.c include/class.user.php:1520
+#: misc/localization/eventum.c include/class.user.php:1530
 msgid "Viewer"
 msgstr ""
 
@@ -2095,7 +2100,7 @@ msgid ""
 "existing issues."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.user.php:1523
+#: misc/localization/eventum.c include/class.user.php:1533
 msgid "Standard User"
 msgstr ""
 
@@ -2108,7 +2113,7 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c include/class.user.php:1524
+#: misc/localization/eventum.c include/class.user.php:1534
 msgid "Developer"
 msgstr ""
 
@@ -2120,7 +2125,7 @@ msgid ""
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: include/class.user.php:1525
+#: include/class.user.php:1535
 msgid "Manager"
 msgstr ""
 
@@ -2133,7 +2138,7 @@ msgid ""
 "options."
 msgstr ""
 
-#: misc/localization/eventum.c include/class.user.php:1526
+#: misc/localization/eventum.c include/class.user.php:1536
 msgid "Administrator"
 msgstr ""
 
@@ -2668,10 +2673,6 @@ msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
 msgid "Go"
-msgstr ""
-
-#: misc/localization/eventum.c
-msgid "Rows per Page:"
 msgstr ""
 
 #: misc/localization/eventum.c misc/localization/eventum.c
@@ -8407,7 +8408,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr ""
 
-#: include/class.routing.php:233 include/class.support.php:788
+#: include/class.routing.php:233 include/class.support.php:797
 #, php-format
 msgid "Email routed from %1$s"
 msgstr ""
@@ -8452,30 +8453,30 @@ msgstr ""
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1485
+#: include/class.support.php:1493
 msgid "Attachment originated from an email"
 msgstr ""
 
-#: include/class.support.php:1487
+#: include/class.support.php:1495
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: include/class.support.php:1539
+#: include/class.support.php:1547
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: include/class.support.php:1882
+#: include/class.support.php:1890
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
 
-#: include/class.support.php:2239
+#: include/class.support.php:2247
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
 
-#: include/class.support.php:2605
+#: include/class.support.php:2613
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""

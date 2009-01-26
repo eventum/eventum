@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-13 17:52+0200\n"
+"POT-Creation-Date: 2009-01-26 15:13+0200\n"
 "PO-Revision-Date: 2007-11-10 17:22+0200\n"
 "Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -247,7 +247,7 @@ msgid "Status"
 msgstr "Tila"
 
 #: misc/localization/eventum.c include/class.display_column.php:180
-#: include/class.filter.php:797 include/class.user.php:1521
+#: include/class.filter.php:797 include/class.user.php:1531
 msgid "Reporter"
 msgstr "Ilmoittaja"
 
@@ -833,7 +833,8 @@ msgstr "Ratkaisu"
 msgid "Send Notification About Issue Being Closed?"
 msgstr "Lähetä muistutus vikailmoituksen sulkemisesta?"
 
-#: misc/localization/eventum.c include/class.misc.php:714
+#: misc/localization/eventum.c include/class.filter.php:683
+#: include/class.misc.php:714
 msgid "Yes"
 msgstr "Kyllä"
 
@@ -1089,7 +1090,7 @@ msgid "Time Until First Response Deadline"
 msgstr "Aikaa ensimmäisen vastauksen aikarajaan"
 
 #: misc/localization/eventum.c include/class.customer_stats_report.php:669
-#: include/class.display_column.php:209 include/class.user.php:1522
+#: include/class.display_column.php:209 include/class.user.php:1532
 msgid "Customer"
 msgstr "Asiakas"
 
@@ -1415,6 +1416,10 @@ msgstr "Olemassa oleva käyttäjä"
 #: misc/localization/eventum.c
 msgid "Associate"
 msgstr "Liitä"
+
+#: misc/localization/eventum.c
+msgid "Rows per Page:"
+msgstr "Rivejä per sivu:"
 
 #: misc/localization/eventum.c
 msgid "Set"
@@ -1925,7 +1930,7 @@ msgstr ""
 "Seuraava on lyhyt katselma mahdollisiin käyttäjien oikeustasoihin\n"
 "Eventumissa:"
 
-#: misc/localization/eventum.c include/class.user.php:1520
+#: misc/localization/eventum.c include/class.user.php:1530
 msgid "Viewer"
 msgstr "Katsoja"
 
@@ -1971,7 +1976,7 @@ msgstr ""
 "ja lähettää\n"
 "sähköpostiviestejä olemassaoleviin vikailmoituksiin."
 
-#: misc/localization/eventum.c include/class.user.php:1523
+#: misc/localization/eventum.c include/class.user.php:1533
 msgid "Standard User"
 msgstr "Peruskäyttäjä"
 
@@ -1988,7 +1993,7 @@ msgstr ""
 "ja \n"
 "lähettää sähköpostiviestejä ja viestejä olemassaoleviin vikailmoituksiin."
 
-#: misc/localization/eventum.c include/class.user.php:1524
+#: misc/localization/eventum.c include/class.user.php:1534
 msgid "Developer"
 msgstr "Kehittäjä"
 
@@ -2003,7 +2008,7 @@ msgstr ""
 "mahdollistaa vikailmoituksia käsittelevien käyttäjien erittelyn\n"
 "ja yleensäkin normaalin henkilökunnan joka ei käsittele vikailmoituksia itse."
 
-#: misc/localization/eventum.c include/class.user.php:1525
+#: misc/localization/eventum.c include/class.user.php:1535
 msgid "Manager"
 msgstr "Johtaja"
 
@@ -2025,7 +2030,7 @@ msgstr ""
 "ja mahdollisuus muokata suurinta osaa projektitason asetuksista\n"
 "ja ominaisuuksista."
 
-#: misc/localization/eventum.c include/class.user.php:1526
+#: misc/localization/eventum.c include/class.user.php:1536
 msgid "Administrator"
 msgstr "Järjestelmänvalvoja"
 
@@ -2706,10 +2711,6 @@ msgstr "Vikailmoituksia ei löytynyt."
 #: misc/localization/eventum.c
 msgid "Go"
 msgstr "Hae"
-
-#: misc/localization/eventum.c
-msgid "Rows per Page:"
-msgstr "Rivejä per sivu:"
 
 #: misc/localization/eventum.c
 msgid "Password"
@@ -8637,7 +8638,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Virhe: Syötä sähköpostitilisi käyttäjätunnus."
 
-#: include/class.routing.php:233 include/class.support.php:788
+#: include/class.routing.php:233 include/class.support.php:797
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Sähköposti välitetty %1$s"
@@ -8684,30 +8685,30 @@ msgstr "SCM:n sisäänkirjaukset liitettynä SCM käyttäjään"
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1485
+#: include/class.support.php:1493
 msgid "Attachment originated from an email"
 msgstr "Liite tuli sähköpostista"
 
-#: include/class.support.php:1487
+#: include/class.support.php:1495
 msgid "Attachment originated from a note"
 msgstr "Liite tuli viestistä"
 
-#: include/class.support.php:1539
+#: include/class.support.php:1547
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liittäjänä %2$s"
 
-#: include/class.support.php:1882
+#: include/class.support.php:1890
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liitoksen poistajana %2$s"
 
-#: include/class.support.php:2239
+#: include/class.support.php:2247
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Sähköpostiviestin lähettäjänä %1$s"
 
-#: include/class.support.php:2605
+#: include/class.support.php:2613
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Sähköpostiviesti lähettäjältä '%1$s' estetty"

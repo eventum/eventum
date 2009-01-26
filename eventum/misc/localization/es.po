@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-13 17:52+0200\n"
+"POT-Creation-Date: 2009-01-26 15:13+0200\n"
 "PO-Revision-Date: 2008-10-31 09:28-0200\n"
 "Last-Translator: Normando Hall <nhall@unixlan.com.ar>\n"
 "Language-Team: Unixlan <nhall@unixlan.com.ar>\n"
@@ -255,7 +255,7 @@ msgid "Status"
 msgstr "Estado"
 
 #: misc/localization/eventum.c include/class.display_column.php:180
-#: include/class.filter.php:797 include/class.user.php:1521
+#: include/class.filter.php:797 include/class.user.php:1531
 msgid "Reporter"
 msgstr "Informador"
 
@@ -852,7 +852,8 @@ msgstr "Resolución"
 msgid "Send Notification About Issue Being Closed?"
 msgstr "¿Enviar Notificación Acerca del Cierre del Caso?"
 
-#: misc/localization/eventum.c include/class.misc.php:714
+#: misc/localization/eventum.c include/class.filter.php:683
+#: include/class.misc.php:714
 msgid "Yes"
 msgstr "Sí"
 
@@ -1106,7 +1107,7 @@ msgid "Time Until First Response Deadline"
 msgstr "Plazo de Tiempo Hasta la Primera Respuesta"
 
 #: misc/localization/eventum.c include/class.customer_stats_report.php:669
-#: include/class.display_column.php:209 include/class.user.php:1522
+#: include/class.display_column.php:209 include/class.user.php:1532
 msgid "Customer"
 msgstr "Cliente"
 
@@ -1430,6 +1431,10 @@ msgstr "Caso Existente"
 #: misc/localization/eventum.c
 msgid "Associate"
 msgstr "Asociar"
+
+#: misc/localization/eventum.c
+msgid "Rows per Page:"
+msgstr "Filas por página:"
 
 #: misc/localization/eventum.c
 msgid "Set"
@@ -1904,7 +1909,7 @@ msgstr ""
 "La siguiente es una breve reseña de los niveles de permisos de usuario "
 "disponibles en Eventum:"
 
-#: misc/localization/eventum.c include/class.user.php:1520
+#: misc/localization/eventum.c include/class.user.php:1530
 msgid "Viewer"
 msgstr "Observador"
 
@@ -1938,7 +1943,7 @@ msgstr ""
 "solamente acceder a los casos asociados con su propio cliente. Puede crear "
 "nuevos casos, actualizar y enviar emails a los casos existentes."
 
-#: misc/localization/eventum.c include/class.user.php:1523
+#: misc/localization/eventum.c include/class.user.php:1533
 msgid "Standard User"
 msgstr "Usuario Estándar"
 
@@ -1952,7 +1957,7 @@ msgstr ""
 "nuevos casos, actualizar casos existentes, y enviar emails y notas a los "
 "casos existentes."
 
-#: misc/localization/eventum.c include/class.user.php:1524
+#: misc/localization/eventum.c include/class.user.php:1534
 msgid "Developer"
 msgstr "Desarrollador"
 
@@ -1967,7 +1972,7 @@ msgstr ""
 "equipo que no manejen casos propios."
 
 # Pendiente verificar según contexto si usar "Ejecutivo" o "Supervisor". Ejecutivo es lo más probable, pero al ir solo podría perfectamente referirse al Rol de usuario.
-#: misc/localization/eventum.c include/class.user.php:1525
+#: misc/localization/eventum.c include/class.user.php:1535
 msgid "Manager"
 msgstr "Supervisor"
 
@@ -1985,7 +1990,7 @@ msgstr ""
 "sección especial de administración de Eventum retocar la mayoría de las "
 "características y opciones a nivel de proyecto."
 
-#: misc/localization/eventum.c include/class.user.php:1526
+#: misc/localization/eventum.c include/class.user.php:1536
 msgid "Administrator"
 msgstr "Administrador"
 
@@ -2636,10 +2641,6 @@ msgstr "No se encontraron casos."
 #: misc/localization/eventum.c
 msgid "Go"
 msgstr "Ir"
-
-#: misc/localization/eventum.c
-msgid "Rows per Page:"
-msgstr "Filas por página:"
 
 #: misc/localization/eventum.c
 msgid "Password"
@@ -8744,7 +8745,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Error: Por favor ingrese el ID de la cuenta de correo electrónico."
 
-#: include/class.routing.php:233 include/class.support.php:788
+#: include/class.routing.php:233 include/class.support.php:797
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Correo electrónico enrutado desde %1$s"
@@ -8794,30 +8795,30 @@ msgstr "Ingresos SCM asociados por usuario SCM '"
 msgid "Postmaster notify: see transcript for details"
 msgstr "Notificación del Postmaster: ver transcripción para detalles"
 
-#: include/class.support.php:1485
+#: include/class.support.php:1493
 msgid "Attachment originated from an email"
 msgstr "Adjuntos originados desde un email"
 
-#: include/class.support.php:1487
+#: include/class.support.php:1495
 msgid "Attachment originated from a note"
 msgstr "Adjuntos originados desde una nota"
 
-#: include/class.support.php:1539
+#: include/class.support.php:1547
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Email (asunto: '%1$s') asociado por %2$s"
 
-#: include/class.support.php:1882
+#: include/class.support.php:1890
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (asunto: '%1$s') desasociado por %2$s"
 
-#: include/class.support.php:2239
+#: include/class.support.php:2247
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email saliente enviado por %1$s"
 
-#: include/class.support.php:2605
+#: include/class.support.php:2613
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email de '%1$s' bloqueado"

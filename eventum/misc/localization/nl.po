@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-13 17:52+0200\n"
+"POT-Creation-Date: 2009-01-26 15:13+0200\n"
 "PO-Revision-Date: 2008-07-19 22:33+0300\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
@@ -242,7 +242,7 @@ msgid "Status"
 msgstr "Status"
 
 #: misc/localization/eventum.c include/class.display_column.php:180
-#: include/class.filter.php:797 include/class.user.php:1521
+#: include/class.filter.php:797 include/class.user.php:1531
 msgid "Reporter"
 msgstr "Afkomstig van"
 
@@ -835,7 +835,8 @@ msgstr "Afhandeling"
 msgid "Send Notification About Issue Being Closed?"
 msgstr "Notificatie versturen over het sluiten van de melding?"
 
-#: misc/localization/eventum.c include/class.misc.php:714
+#: misc/localization/eventum.c include/class.filter.php:683
+#: include/class.misc.php:714
 msgid "Yes"
 msgstr "Ja"
 
@@ -1097,7 +1098,7 @@ msgid "Time Until First Response Deadline"
 msgstr "Tijd tot eerste behandeltermijn"
 
 #: misc/localization/eventum.c include/class.customer_stats_report.php:669
-#: include/class.display_column.php:209 include/class.user.php:1522
+#: include/class.display_column.php:209 include/class.user.php:1532
 msgid "Customer"
 msgstr "Relatie "
 
@@ -1420,6 +1421,10 @@ msgstr "Bestaande gebruikers"
 #: misc/localization/eventum.c
 msgid "Associate"
 msgstr "Koppelen"
+
+#: misc/localization/eventum.c
+msgid "Rows per Page:"
+msgstr "Rijen per pagina:"
 
 #: misc/localization/eventum.c
 msgid "Set"
@@ -1918,7 +1923,7 @@ msgstr ""
 "Onderstaand is een kort overzicht van de mogelijke gebruikersniveau's\n"
 "aanwezig in het systeem:"
 
-#: misc/localization/eventum.c include/class.user.php:1520
+#: misc/localization/eventum.c include/class.user.php:1530
 msgid "Viewer"
 msgstr "Raadplegen"
 
@@ -1961,7 +1966,7 @@ msgstr ""
 "bijbehorende relatie. Gemachtigd om meldingen te doen, te wijzigen en\n"
 "berichten te versturen over bestaande meldingen."
 
-#: misc/localization/eventum.c include/class.user.php:1523
+#: misc/localization/eventum.c include/class.user.php:1533
 msgid "Standard User"
 msgstr "Standaard gebruiker"
 
@@ -1978,7 +1983,7 @@ msgstr ""
 "berichten te versturen en notitities te maken\n"
 "op bestaande meldingen."
 
-#: misc/localization/eventum.c include/class.user.php:1524
+#: misc/localization/eventum.c include/class.user.php:1534
 msgid "Developer"
 msgstr "Medewerker"
 
@@ -1993,7 +1998,7 @@ msgstr ""
 "met het verschil dat de Projectmedewerker kan worden\n"
 "toegewezen aan meldingen."
 
-#: misc/localization/eventum.c include/class.user.php:1525
+#: misc/localization/eventum.c include/class.user.php:1535
 msgid "Manager"
 msgstr "Projectmanager"
 
@@ -2014,7 +2019,7 @@ msgstr ""
 "van dit niveau zijn ook gemachtigd om instellingen\n"
 "op projectniveau aan te passen."
 
-#: misc/localization/eventum.c include/class.user.php:1526
+#: misc/localization/eventum.c include/class.user.php:1536
 msgid "Administrator"
 msgstr "Systeembeheerder"
 
@@ -2708,10 +2713,6 @@ msgstr "Geen meldingen gevonden."
 #: misc/localization/eventum.c
 msgid "Go"
 msgstr "Ok"
-
-#: misc/localization/eventum.c
-msgid "Rows per Page:"
-msgstr "Rijen per pagina:"
 
 #: misc/localization/eventum.c
 msgid "Password"
@@ -8687,7 +8688,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Fout: Geef een geldig e-mail account."
 
-#: include/class.routing.php:233 include/class.support.php:788
+#: include/class.routing.php:233 include/class.support.php:797
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Bericht afkomstig van %1$s"
@@ -8734,30 +8735,30 @@ msgstr "SCM Checkins verbonden door SCM-gebruiker '"
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1485
+#: include/class.support.php:1493
 msgid "Attachment originated from an email"
 msgstr "Bijlage van bericht"
 
-#: include/class.support.php:1487
+#: include/class.support.php:1495
 msgid "Attachment originated from a note"
 msgstr "Bijlage van notitie"
 
-#: include/class.support.php:1539
+#: include/class.support.php:1547
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Bericht (Onderwerp: '%1$s') gekoppeld door %2$s"
 
-#: include/class.support.php:1882
+#: include/class.support.php:1890
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Bericht (Onderwerp: '%1$s') ontkoppeld door %2$s"
 
-#: include/class.support.php:2239
+#: include/class.support.php:2247
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Uitgaande berichten verzonden door %1$s"
 
-#: include/class.support.php:2605
+#: include/class.support.php:2613
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Berichten van '%1$s' geblokkeerd"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-13 17:52+0200\n"
+"POT-Creation-Date: 2009-01-26 15:13+0200\n"
 "PO-Revision-Date: 2008-01-28 12:32+0100\n"
 "Last-Translator: Franco Alberganti <streamlake@tiscali.it>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
@@ -248,7 +248,7 @@ msgid "Status"
 msgstr "Stato"
 
 #: misc/localization/eventum.c include/class.display_column.php:180
-#: include/class.filter.php:797 include/class.user.php:1521
+#: include/class.filter.php:797 include/class.user.php:1531
 msgid "Reporter"
 msgstr "Redattore"
 
@@ -852,7 +852,8 @@ msgstr "Risoluzione"
 msgid "Send Notification About Issue Being Closed?"
 msgstr "Invia notifica riguardante segnalazioni in chiusura?"
 
-#: misc/localization/eventum.c include/class.misc.php:714
+#: misc/localization/eventum.c include/class.filter.php:683
+#: include/class.misc.php:714
 msgid "Yes"
 msgstr "Sì"
 
@@ -1110,7 +1111,7 @@ msgid "Time Until First Response Deadline"
 msgstr "Tempo a scadenza prima risposta"
 
 #: misc/localization/eventum.c include/class.customer_stats_report.php:669
-#: include/class.display_column.php:209 include/class.user.php:1522
+#: include/class.display_column.php:209 include/class.user.php:1532
 msgid "Customer"
 msgstr "Cliente"
 
@@ -1436,6 +1437,10 @@ msgstr "Utenti esistenti"
 #: misc/localization/eventum.c
 msgid "Associate"
 msgstr "Associa"
+
+#: misc/localization/eventum.c
+msgid "Rows per Page:"
+msgstr "Righe per Pagina:"
 
 #: misc/localization/eventum.c
 msgid "Set"
@@ -1954,7 +1959,7 @@ msgstr ""
 "Quella seguente è una rapida panoramica dei livelli di permessi utente \n"
 "disponibili in Eventum:"
 
-#: misc/localization/eventum.c include/class.user.php:1520
+#: misc/localization/eventum.c include/class.user.php:1530
 msgid "Viewer"
 msgstr "Osservatore"
 
@@ -1995,7 +2000,7 @@ msgstr ""
 "aggiornarle\n"
 "e inviare email a segnalazioni esistenti."
 
-#: misc/localization/eventum.c include/class.user.php:1523
+#: misc/localization/eventum.c include/class.user.php:1533
 msgid "Standard User"
 msgstr "Utente standard"
 
@@ -2010,7 +2015,7 @@ msgstr ""
 "questo utente; Può creare nuove segnalazioni, aggiornare quelle\n"
 "esistenti, e inviare email e note a segnalazioni esistenti."
 
-#: misc/localization/eventum.c include/class.user.php:1524
+#: misc/localization/eventum.c include/class.user.php:1534
 msgid "Developer"
 msgstr "Sviluppatore"
 
@@ -2026,7 +2031,7 @@ msgstr ""
 "segnalazioni, e\n"
 "generalizzare utenti normali dello staff che non maneggiano le segnalazioni."
 
-#: misc/localization/eventum.c include/class.user.php:1525
+#: misc/localization/eventum.c include/class.user.php:1535
 msgid "Manager"
 msgstr "Manager"
 
@@ -2047,7 +2052,7 @@ msgstr ""
 "progetto\n"
 "nella speciale sezione di amministrazione."
 
-#: misc/localization/eventum.c include/class.user.php:1526
+#: misc/localization/eventum.c include/class.user.php:1536
 msgid "Administrator"
 msgstr "Amministratore"
 
@@ -2754,10 +2759,6 @@ msgstr "Nessuna segnalazione trovata."
 #: misc/localization/eventum.c
 msgid "Go"
 msgstr "Vai"
-
-#: misc/localization/eventum.c
-msgid "Rows per Page:"
-msgstr "Righe per Pagina:"
 
 #: misc/localization/eventum.c
 msgid "Password"
@@ -8798,7 +8799,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Errore: inserisci l'ID dell'account email."
 
-#: include/class.routing.php:233 include/class.support.php:788
+#: include/class.routing.php:233 include/class.support.php:797
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Email reindirizzata da %1$s"
@@ -8845,30 +8846,30 @@ msgstr "Checkins SCM associati dall'utente SCM '"
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1485
+#: include/class.support.php:1493
 msgid "Attachment originated from an email"
 msgstr "Allegato proveniente da una email"
 
-#: include/class.support.php:1487
+#: include/class.support.php:1495
 msgid "Attachment originated from a note"
 msgstr "Allegato proveniente da una nota"
 
-#: include/class.support.php:1539
+#: include/class.support.php:1547
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Email (oggetto: '%1$s') associata da %2$s"
 
-#: include/class.support.php:1882
+#: include/class.support.php:1890
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (oggetto: '%1$s') dissociata da %2$s"
 
-#: include/class.support.php:2239
+#: include/class.support.php:2247
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email in uscita inviata da %1$s"
 
-#: include/class.support.php:2605
+#: include/class.support.php:2613
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email da '%1$s' bloccata"
