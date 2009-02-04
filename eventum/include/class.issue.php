@@ -2236,9 +2236,8 @@ class Issue
             // add the reporter to the notification list
             $emails[] = $info['usr_email'];
             $emails = array_unique($emails); // COMPAT: version >= 4.0.1
-            $actions = Notification::getDefaultActions($new_issue_id, false, 'new_issue');
             foreach ($emails as $address) {
-                Notification::subscribeEmail($usr_id, $new_issue_id, $address, $actions);
+                Notification::subscribeEmail($usr_id, $new_issue_id, $address, Notification::getDefaultActions($new_issue_id, $address, 'new_issue'));
             }
 
             // only assign the issue to an user if the associated customer has any technical account managers
@@ -2255,7 +2254,8 @@ class Issue
             // now add the user/issue association (aka assignments)
             if (@count($_POST["users"]) > 0) {
                 for ($i = 0; $i < count($_POST["users"]); $i++) {
-                    Notification::subscribeUser($usr_id, $new_issue_id, $_POST["users"][$i], $actions);
+                    Notification::subscribeUser($usr_id, $new_issue_id, $_POST["users"][$i],
+                                    Notification::getDefaultActions($new_issue_id, User::getEmail($_POST["users"][$i]), 'new_issue'));
                     Issue::addUserAssociation($usr_id, $new_issue_id, $_POST["users"][$i]);
                     if ($_POST["users"][$i] != $usr_id) {
                         $users[] = $_POST["users"][$i];
