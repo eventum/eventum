@@ -4,6 +4,8 @@ Eventum Issue Tracking System
 ???, Version ???
 - Removed reference to dynCalendar.css (Bryan, #42301)
 - Get default actions individualy for each address being added to notification list (Bryan)
+- Fixed case sensitivity problem when excluding project aliases from being added to notification list (Bryan)
+- Always allow issue reporter to email the issue (Bryan)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)

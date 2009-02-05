@@ -1936,10 +1936,11 @@ class Support
             // also not in the authorized repliers list
             // also not the reporter
             $details = Issue::getDetails($issue_id);
-            if ((!Issue::canAccess($issue_id, $sender_usr_id)) && (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
+            if ($sender_usr_id == $details['iss_usr_id']) {
+                $is_allowed = true;
+            } elseif ((!Issue::canAccess($issue_id, $sender_usr_id)) && (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email))) {
                 $is_allowed = false;
-            } if (($sender_usr_id != $details['iss_usr_id']) &&
-                    (!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) &&
+            } elseif ((!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) &&
                     (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
                     (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) {
                 $is_allowed = false;
@@ -2628,7 +2629,7 @@ class Support
 
 
         $project_details = Project::getDetails($prj_id);
-        $addresses_not_too_add = explode(',', $project_details['prj_mail_aliases']);
+        $addresses_not_too_add = explode(',', strtolower($project_details['prj_mail_aliases']));
         array_push($addresses_not_too_add, $project_details['prj_outgoing_sender_email']);
 
         $addresses = array();
@@ -2642,6 +2643,7 @@ class Support
         }
         $subscribers = Notification::getSubscribedEmails($email['issue_id']);
         foreach ($addresses as $address) {
+            $address = strtolower($address);
             if ((!in_array($address, $subscribers)) && (!in_array($address, $addresses_not_too_add))) {
                 Notification::subscribeEmail(Auth::getUserID(), $email['issue_id'], $address, Notification::getDefaultActions($email['issue_id'], $address, 'add_extra_recipients'));
             }
