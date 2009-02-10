@@ -907,7 +907,7 @@ class Notification
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
         // open text template
-        $tpl = new Template_Helper;
+        $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/' . $type . '.tpl.text');
         $tpl->bulkAssign(array(
             "app_title"    => Misc::getToolCaption(),
@@ -1156,7 +1156,7 @@ class Notification
             $data = Issue::getDetails($issue_id);
 
             // open text template
-            $tpl = new Template_Helper;
+            $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
             $tpl->bulkAssign(array(
                 "app_title"   => Misc::getToolCaption(),
@@ -1244,7 +1244,7 @@ class Notification
                 $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient));
 
                 // open text template
-                $tpl = new Template_Helper;
+                $tpl = new Template_Helper();
                 $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
                 $tpl->bulkAssign(array(
                     "data"        => $data,
@@ -1364,7 +1364,7 @@ class Notification
         $info = User::getDetails($usr_id);
         $info["projects"] = Project::getAssocList($usr_id, true, true);
         // open text template
-        $tpl = new Template_Helper;
+        $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/updated_account.tpl.text');
         $tpl->bulkAssign(array(
             "app_title"    => Misc::getToolCaption(),
@@ -1401,7 +1401,7 @@ class Notification
         $info["usr_password"] = $password;
         $info["projects"] = Project::getAssocList($usr_id, true, true);
         // open text template
-        $tpl = new Template_Helper;
+        $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/updated_password.tpl.text');
         $tpl->bulkAssign(array(
             "app_title"    => Misc::getToolCaption(),
@@ -1438,7 +1438,7 @@ class Notification
         $info["usr_password"] = $password;
         $info["projects"] = Project::getAssocList($usr_id, true, true);
         // open text template
-        $tpl = new Template_Helper;
+        $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/new_user.tpl.text');
         $tpl->bulkAssign(array(
             "app_title"    => Misc::getToolCaption(),
@@ -1477,7 +1477,7 @@ class Notification
             // get issue details
             $issue = Notification::getIssueDetails($issue_id);
             // open text template
-            $tpl = new Template_Helper;
+            $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/' . $type . '.tpl.text');
             $tpl->bulkAssign(array(
                 "app_title"    => Misc::getToolCaption(),
@@ -1535,7 +1535,7 @@ class Notification
         // get issue details
         $issue = Notification::getIssueDetails($issue_id);
         // open text template
-        $tpl = new Template_Helper;
+        $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/assigned.tpl.text');
         $tpl->bulkAssign(array(
             "app_title"    => Misc::getToolCaption(),
@@ -1569,7 +1569,7 @@ class Notification
         $info = User::getDetails($usr_id);
         $info["projects"] = Project::getAssocList($usr_id, true, true);
         // open text template
-        $tpl = new Template_Helper;
+        $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/account_details.tpl.text');
         $tpl->bulkAssign(array(
             "app_title"    => Misc::getToolCaption(),

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.reminder_action.php 3828 2009-02-10 07:01:48Z glen $
+// @(#) $Id: class.reminder_action.php 3829 2009-02-10 07:02:27Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -744,7 +744,7 @@ class Reminder_Action
                     $to = array_merge($to, $addresses);
                 }
             }
-            $tpl = new Template_Helper;
+            $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/' . $type . '_alert.tpl.text');
             $tpl->bulkAssign(array(
                 "data"                     => $data,
@@ -783,7 +783,7 @@ class Reminder_Action
     {
         $to = Reminder::_getReminderAlertAddresses();
         if (count($to) > 0) {
-            $tpl = new Template_Helper;
+            $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/alert_no_recipients.tpl.text');
             $tpl->bulkAssign(array(
                 "type"                     => $type,
