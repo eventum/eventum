@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.db_helper.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.db_helper.php 3830 2009-02-10 07:05:29Z glen $
 //
 
 $TOTAL_QUERIES = 0;
@@ -44,15 +44,25 @@ require_once(APP_INC_PATH . "class.error_handler.php");
 
 class DB_Helper
 {
-    var $dbh;
+    /**
+     * @access public
+     */
+    private static $instance;
+    function getInstance() {
+        if (!self::$instance) {
+            self::$instance =& new DB_Helper();
+        }
+        return self::$instance->dbh;
+    }
 
+    private $dbh;
     /**
      * Connects to the database and creates a data dictionary array to be used
      * on database related schema dynamic lookups.
      *
      * @access public
      */
-    function DB_Helper()
+    function __construct() {
     {
         $dsn = array(
             'phptype'  => APP_SQL_DBTYPE,
@@ -70,7 +80,7 @@ class DB_Helper
             Error_Handler::logError(array($this->dbh->getMessage(), $this->dbh->getDebugInfo()), __FILE__, __LINE__);
             $error_type = "db";
             require_once(APP_PATH . "offline.php");
-            exit;
+            exit(1);
         }
         $this->dbh->query("SET SQL_MODE = ''");
         if (strtolower(APP_CHARSET) == 'utf-8' || strtolower(APP_CHARSET) == 'utf8') {
@@ -88,9 +98,8 @@ class DB_Helper
      * @access  public
      * @return  integer The last inserted ID
      */
-    function get_last_insert_id()
-    {
-        return @mysql_insert_id($this->dbh->connection);
+    function get_last_insert_id() {
+        return mysql_insert_id($this->dbh->connection);
     }
 
 
@@ -101,19 +110,9 @@ class DB_Helper
      * @param   string $str The string that needs to be escaped
      * @return  string The escaped string
      */
-    function escapeString($str)
+    static function escapeString($str)
     {
-        static $real_escape_string;
-
-        if (!isset($real_escape_string)) {
-            $real_escape_string = function_exists('mysql_real_escape_string');
-        }
-
-        if ($real_escape_string) {
-            return mysql_real_escape_string($str, $this->dbh->connection);
-        } else {
-            return mysql_escape_string($str);
-        }
+        return mysql_real_escape_string($str, self::getInstance()->connection);
     }
 
 
