@@ -26,8 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: db_access.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: db_access.php 3831 2009-02-10 07:06:58Z glen $
 //
 
-require_once(APP_INC_PATH . "class.db_api.php");
-$db_api =& new DB_API;
+require_once(APP_INC_PATH . "class.db_helper.php");
