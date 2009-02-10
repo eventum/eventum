@@ -395,7 +395,7 @@ class Mail_Queue
         if (count($res) > 0) {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['maq_recipient'] = Mime_Helper::decodeAddress($res[$i]['maq_recipient']);
-                $res[$i]['maq_queued_date'] = Date_Helper::getFormattedDate(Date_API::getUnixTimestamp($res[$i]['maq_queued_date'], 'GMT'));
+                $res[$i]['maq_queued_date'] = Date_Helper::getFormattedDate(Date_Helper::getUnixTimestamp($res[$i]['maq_queued_date'], 'GMT'));
                 $res[$i]['maq_subject'] = Mime_Helper::fixEncoding($res[$i]['maq_subject']);
             }
         }

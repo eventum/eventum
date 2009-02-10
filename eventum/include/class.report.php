@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3832 2009-02-10 07:21:46Z glen $
+// @(#) $Id: class.report.php 3833 2009-02-10 07:23:54Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -136,8 +136,8 @@ class Report
                     'iss_last_response_date'    => Date_Helper::getFormattedDate($res[$i]['iss_last_response_date']),
                     'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
                     'status_color'        => $res[$i]['sta_color'],
-                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_updated_date'], Date_API::getDefaultTimezone())),
-                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_API::getDefaultTimezone()))
+                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_updated_date'], Date_Helper::getDefaultTimezone())),
+                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_Helper::getDefaultTimezone()))
                 );
             }
             return $issues;
@@ -221,8 +221,8 @@ class Report
                     'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
                     'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
                     'status_color'        => $res[$i]['sta_color'],
-                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_updated_date'], Date_API::getDefaultTimezone())),
-                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_API::getDefaultTimezone()))
+                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_updated_date'], Date_Helper::getDefaultTimezone())),
+                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_Helper::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_Helper::getDefaultTimezone()))
                 );
             }
             return $issues;

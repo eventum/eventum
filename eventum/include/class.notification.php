@@ -847,7 +847,7 @@ class Notification
                     } else {
                         $headers['In-Reply-To'] = Issue::getRootMessageID($issue_id);
                     }
-                    $headers['References'] = Mail_Helper::fold(join(' ', Mail_API::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
+                    $headers['References'] = Mail_Helper::fold(join(' ', Mail_Helper::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
                     $subject = 'Note';
                     break;
                 case 'emails':

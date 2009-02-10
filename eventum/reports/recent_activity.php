@@ -298,7 +298,7 @@ function processResult($res, $date_field, $issue_field)
             $details = Customer::getDetails($prj_id, Issue::getCustomerID($res[$i][$issue_field]));
             $res[$i]["customer"] = @$details['customer_name'];
         }
-        $res[$i]["date"] = Date_Helper::getFormattedDate($res[$i][$date_field], Date_API::getPreferredTimezone($usr_id));
+        $res[$i]["date"] = Date_Helper::getFormattedDate($res[$i][$date_field], Date_Helper::getPreferredTimezone($usr_id));
         // need to decode From:, To: mail headers
         if (isset($res[$i]["sup_from"])) {
             $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);

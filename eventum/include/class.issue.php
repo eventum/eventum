@@ -3432,11 +3432,11 @@ class Issue
             if (empty($res)) {
                 return "";
             } else {
-                $created_date_ts = Date_Helper::getUnixTimestamp($res['iss_created_date'], Date_API::getDefaultTimezone());
+                $created_date_ts = Date_Helper::getUnixTimestamp($res['iss_created_date'], Date_Helper::getDefaultTimezone());
                 // get customer information, if any
                 if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['iss_prj_id']))) {
                     $res['customer_business_hours'] = Customer::getBusinessHours($res['iss_prj_id'], $res['iss_customer_id']);
-                    $res['contact_local_time'] = Date_Helper::getFormattedDate(Date_API::getCurrentDateGMT(), $res['iss_contact_timezone']);
+                    $res['contact_local_time'] = Date_Helper::getFormattedDate(Date_Helper::getCurrentDateGMT(), $res['iss_contact_timezone']);
                     $res['customer_info'] = Customer::getDetails($res['iss_prj_id'], $res['iss_customer_id'], false, $res['iss_customer_contract_id']);
                     $res['redeemed_incidents'] = Customer::getRedeemedIncidentDetails($res['iss_prj_id'], $res['iss_id']);
                     $max_first_response_time = Customer::getMaximumFirstResponseTime($res['iss_prj_id'], $res['iss_customer_id'], $res['iss_customer_contract_id']);
@@ -3444,9 +3444,9 @@ class Issue
                     if (empty($res['iss_first_response_date'])) {
                         $first_response_deadline = $created_date_ts + $max_first_response_time;
                         if (Date_Helper::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
-                            $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, Date_API::getCurrentUnixTimestampGMT());
+                            $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, Date_Helper::getCurrentUnixTimestampGMT());
                         } else {
-                            $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(Date_API::getCurrentUnixTimestampGMT(), $first_response_deadline);
+                            $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(Date_Helper::getCurrentUnixTimestampGMT(), $first_response_deadline);
                         }
                     }
                 }
@@ -3918,8 +3918,8 @@ class Issue
             return array();
         } else {
             if (!empty($res["iqu_expiration"])) {
-                $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Date_API::getDefaultTimezone());
-                $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, Date_API::getCurrentUnixTimestampGMT());
+                $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Date_Helper::getDefaultTimezone());
+                $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, Date_Helper::getCurrentUnixTimestampGMT());
             }
             return $res;
         }

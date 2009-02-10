@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.round_robin.php 3832 2009-02-10 07:21:46Z glen $
+// @(#) $Id: class.round_robin.php 3833 2009-02-10 07:23:54Z glen $
 //
 
 require_once(APP_INC_PATH . 'class.date.php');
@@ -57,11 +57,11 @@ class Round_Robin
         // if start is PM and end is PM (and end is bigger than start), then use only today
         // if start is PM and end is AM, then use today and tomorrow
         //   - if date is between zero and the end, then use yesterday and today
-        if ((Date_Helper::isAM($start)) && (Date_API::isPM($end))) {
+        if ((Date_Helper::isAM($start)) && (Date_Helper::isPM($end))) {
             $first = 0;
             $second = 0;
         }
-        if ((Date_Helper::isAM($start)) && (Date_API::isAM($end)) && ($end < $start)) {
+        if ((Date_Helper::isAM($start)) && (Date_Helper::isAM($end)) && ($end < $start)) {
             if (($user->getHour() >= 0) && ($user->getHour() <= $end)) {
                 $first = -DAY;
                 $second = 0;
@@ -70,11 +70,11 @@ class Round_Robin
                 $second = DAY;
             }
         }
-        if ((Date_Helper::isAM($start)) && (Date_API::isAM($end)) && ($end > $start)) {
+        if ((Date_Helper::isAM($start)) && (Date_Helper::isAM($end)) && ($end > $start)) {
             $first = 0;
             $second = 0;
         }
-        if ((Date_Helper::isPM($start)) && (Date_API::isPM($end)) && ($end < $start)) {
+        if ((Date_Helper::isPM($start)) && (Date_Helper::isPM($end)) && ($end < $start)) {
             if (($user->getHour() >= 0) && ($user->getHour() <= $end)) {
                 $first = -DAY;
                 $second = 0;
@@ -83,11 +83,11 @@ class Round_Robin
                 $second = DAY;
             }
         }
-        if ((Date_Helper::isPM($start)) && (Date_API::isPM($end)) && ($end > $start)) {
+        if ((Date_Helper::isPM($start)) && (Date_Helper::isPM($end)) && ($end > $start)) {
             $first = 0;
             $second = 0;
         }
-        if ((Date_Helper::isPM($start)) && (Date_API::isAM($end))) {
+        if ((Date_Helper::isPM($start)) && (Date_Helper::isAM($end))) {
             if (($user->getHour() >= 0) && ($user->getHour() <= $end)) {
                 $first = -DAY;
                 $second = 0;
