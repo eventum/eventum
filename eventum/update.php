@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: update.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: update.php 3828 2009-02-10 07:01:48Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -48,7 +48,7 @@ $role_id = Auth::getCurrentRole();
 
 $associated_projects = @array_keys(Project::getAssocList($usr_id));
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("update.tpl.html");
 $tpl->assign("user_prefs", Prefs::get($usr_id));
 

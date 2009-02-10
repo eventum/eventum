@@ -37,7 +37,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $prj_id = Auth::getCurrentProject();
 $issue_id = $_REQUEST['iss_id'];
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate('redeem_incident.tpl.html');
 
 if (!empty($_REQUEST['submit'])) {

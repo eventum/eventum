@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: associate.php 3827 2009-02-10 07:00:47Z glen $
+// @(#) $Id: associate.php 3828 2009-02-10 07:01:48Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -37,7 +37,7 @@ require_once(APP_INC_PATH . "class.note.php");
 require_once(APP_INC_PATH . "class.support.php");
 require_once(APP_INC_PATH . "class.mail.php");
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("associate.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);

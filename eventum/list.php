@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: list.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: list.php 3828 2009-02-10 07:01:48Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -45,7 +45,7 @@ require_once(APP_INC_PATH . "class.group.php");
 require_once(APP_INC_PATH . "class.display_column.php");
 require_once(APP_INC_PATH . "class.search_profile.php");
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("list.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);

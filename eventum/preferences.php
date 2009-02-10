@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: preferences.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: preferences.php 3828 2009-02-10 07:01:48Z glen $
 
 // skip language init if we're saving language
 if (@$_POST['language']) {
@@ -48,7 +48,7 @@ if (@$_POST["cat"] == "update_account") {
     }
 }
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("preferences.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);

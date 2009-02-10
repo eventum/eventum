@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3827 2009-02-10 07:00:47Z glen $
+// @(#) $Id: class.user.php 3828 2009-02-10 07:01:48Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -334,7 +334,7 @@ class User
             // send confirmation email to user
             $hash = md5($_POST["full_name"] . md5($_POST["email"]) . $GLOBALS["private_key"]);
 
-            $tpl = new Template_API;
+            $tpl = new Template_Helper;
             $tpl->setTemplate('notifications/visitor_account.tpl.text');
             $tpl->bulkAssign(array(
                 "app_title"   => Misc::getToolCaption(),
@@ -367,7 +367,7 @@ class User
         // send confirmation email to user
         $hash = md5($info["usr_full_name"] . md5($info["usr_email"]) . $GLOBALS["private_key"]);
 
-        $tpl = new Template_API;
+        $tpl = new Template_Helper;
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
         $tpl->bulkAssign(array(
             "app_title" => Misc::getToolCaption(),

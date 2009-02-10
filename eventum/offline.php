@@ -26,12 +26,12 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: offline.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: offline.php 3828 2009-02-10 07:01:48Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 if (php_sapi_name() == 'cli') {
   $tpl->setTemplate("offline.tpl.text");
 } else {

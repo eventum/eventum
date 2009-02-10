@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.template_helper.php 3824 2009-02-10 06:52:02Z glen $
+// @(#) $Id: class.template_helper.php 3828 2009-02-10 07:01:48Z glen $
 //
 
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
@@ -47,7 +47,7 @@ require_once(APP_INC_PATH . "class.custom_field.php");
  * @author João Prado Maia <jpm@mysql.com>
  */
 
-class Template_API
+class Template_Helper
 {
     var $smarty;
     var $tpl_name = "";
@@ -57,7 +57,7 @@ class Template_API
      *
      * @access public
      */
-    function Template_API()
+    function Template_Helper()
     {
         $this->smarty = new Smarty;
         $this->smarty->template_dir = APP_TPL_PATH;

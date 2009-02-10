@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: download.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: download.php 3828 2009-02-10 07:01:48Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.auth.php");
@@ -47,7 +47,7 @@ if ($_GET['cat'] == 'attachment') {
     $file = Attachment::getDetails($_GET["id"]);
     if (!empty($file)) {
         if (!Issue::canAccess($file['iat_iss_id'], Auth::getUserID())) {
-            $tpl = new Template_API();
+            $tpl = new Template_Helper();
             $tpl->setTemplate("permission_denied.tpl.html");
             $tpl->displayTemplate();
             exit;

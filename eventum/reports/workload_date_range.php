@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: workload_date_range.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: workload_date_range.php 3828 2009-02-10 07:01:48Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -36,7 +36,7 @@ require_once(APP_INC_PATH . "class.session.php");
 require_once(APP_INC_PATH . "class.category.php");
 require_once(APP_INC_PATH . "db_access.php");
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("reports/workload_date_range.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);

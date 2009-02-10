@@ -26,13 +26,13 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: customer_lookup.php 3823 2009-02-10 06:46:03Z glen $
+// @(#) $Id: customer_lookup.php 3828 2009-02-10 07:01:48Z glen $
 //
 require_once(dirname(__FILE__) . "/../../init.php");
 require_once(APP_INC_PATH . "db_access.php");
 require_once(APP_INC_PATH . "class.template.php");
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("customer/example/customer_lookup.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);

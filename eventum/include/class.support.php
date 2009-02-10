@@ -467,7 +467,7 @@ class Support
     function bounceMessage($message, $error)
     {
         // open text template
-        $tpl = new Template_API;
+        $tpl = new Template_Helper;
         $tpl->setTemplate('notifications/bounced_email.tpl.text');
         $tpl->bulkAssign(array(
             'error_code'        => $error[0],

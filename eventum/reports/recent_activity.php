@@ -32,7 +32,7 @@ require_once(APP_INC_PATH . "class.template.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "db_access.php");
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("reports/recent_activity.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);

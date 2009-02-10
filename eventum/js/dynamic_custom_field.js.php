@@ -20,7 +20,7 @@ foreach ($fields as $field) {
     }
 }
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("js/dynamic_custom_field.tpl.js");
 $tpl->assign("fields", $data);
 $tpl->displayTemplate();

@@ -32,7 +32,7 @@ require_once(APP_INC_PATH . "class.note.php");
 require_once(APP_INC_PATH . "class.issue_field.php");
 require_once(APP_INC_PATH . "db_access.php");
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("post_note.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);

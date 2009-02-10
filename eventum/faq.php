@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: faq.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: faq.php 3828 2009-02-10 07:01:48Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -35,7 +35,7 @@ require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.faq.php");
 require_once(APP_INC_PATH . "class.customer.php");
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("faq.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);

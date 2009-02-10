@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: xmlrpc.php 3823 2009-02-10 06:46:03Z glen $
+// @(#) $Id: xmlrpc.php 3828 2009-02-10 07:01:48Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -687,7 +687,7 @@ function getWeeklyReport($p)
         // {if $smarty.post.separate_closed == 1}
         $_POST['separate_closed'] = true;
     }
-    $tpl = new Template_API();
+    $tpl = new Template_Helper();
     $tpl->setTemplate("reports/weekly_data.tpl.html");
     $tpl->assign("data", Report::getWeeklyReport(User::getUserIDByEmail($email), $start, $end, $separate_closed));
     

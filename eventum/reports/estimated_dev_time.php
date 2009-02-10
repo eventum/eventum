@@ -36,7 +36,7 @@ require_once(APP_INC_PATH . "class.customer.php");
 require_once(APP_INC_PATH . "class.customer_stats_report.php");
 require_once(APP_INC_PATH . "class.session.php");
 
-$tpl = new Template_API();
+$tpl = new Template_Helper();
 $tpl->setTemplate("reports/estimated_dev_time.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
