@@ -10,7 +10,7 @@ $sql = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
         WHERE
             usr_role != ''";
-$res = $GLOBALS["db_api"]->dbh->getAssoc($sql);
+$res = DB_Helper::getInstance()->getAssoc($sql);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
@@ -23,7 +23,7 @@ foreach ($res as $usr_id => $role) {
                 pru_role = $role
             WHERE
                 pru_usr_id = $usr_id";
-    $res = $GLOBALS["db_api"]->dbh->query($sql);
+    $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
 		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
@@ -53,7 +53,7 @@ foreach ($res as $usr_id => $role) {
                 usr_preferences='" . Misc::escapeString(serialize($prefs)) . "'
             WHERE
                 usr_id=$usr_id";
-    $res = $GLOBALS["db_api"]->dbh->query($sql);
+    $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
 		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
 		exit(1);

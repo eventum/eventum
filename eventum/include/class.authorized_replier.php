@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.authorized_replier.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.authorized_replier.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.user.php");
@@ -67,7 +67,7 @@ class Authorized_Replier
                  WHERE
                     iur_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     iur_usr_id=usr_id";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array(
@@ -113,7 +113,7 @@ class Authorized_Replier
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
                  WHERE
                     iur_id IN(" . join(",", $iur_ids) . ")";
-        $issue_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $issue_id = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($issue_id)) {
             Error_Handler::logError(array($issue_id->getMessage(), $issue_id->getDebugInfo()), __FILE__, __LINE__);
         }
@@ -124,7 +124,7 @@ class Authorized_Replier
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
                      WHERE
                         iur_id IN(" . join(",", $iur_ids) . ")";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return "";
@@ -174,7 +174,7 @@ class Authorized_Replier
                         " . APP_SYSTEM_USER_ID . ",
                         '" . Misc::escapeString($email) . "'
                      )";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -214,7 +214,7 @@ class Authorized_Replier
                     " . Misc::escapeInteger($issue_id) . ",
                     " . Misc::escapeInteger($usr_id) . "
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -261,7 +261,7 @@ class Authorized_Replier
                  WHERE
                     iur_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     iur_email='" . Misc::escapeString($email) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -292,7 +292,7 @@ class Authorized_Replier
                  WHERE
                     iur_iss_id = " . Misc::escapeInteger($issue_id) . " AND
                     iur_usr_id = " . Misc::escapeInteger($usr_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -323,7 +323,7 @@ class Authorized_Replier
                  WHERE
                     iur_usr_id = usr_id AND
                     iur_id = " . Misc::escapeInteger($iur_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -353,7 +353,7 @@ class Authorized_Replier
                  WHERE
                     iur_iss_id = " . Misc::escapeInteger($issue_id) . " AND
                     (iur_email = '" . Misc::escapeString($email) . "' OR usr_email = '" . Misc::escapeString($email) . "')";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;

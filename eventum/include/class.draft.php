@@ -100,7 +100,7 @@ class Draft
             $stmt .= ", '" . Misc::escapeString($unknown_user) . "'";
         }
         $stmt .= ")";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -152,7 +152,7 @@ class Draft
                     emd_status = 'edited'
                  WHERE
                     emd_id=$emd_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -181,7 +181,7 @@ class Draft
                     emd_status = 'sent'
                  WHERE
                     emd_id=$emd_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -206,7 +206,7 @@ class Draft
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft_recipient
                  WHERE
                     edr_emd_id=$emd_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -246,7 +246,7 @@ class Draft
                     $is_cc,
                     '" . Misc::escapeString($email) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -272,7 +272,7 @@ class Draft
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
                  WHERE
                     emd_id=$emd_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -316,7 +316,7 @@ class Draft
         }
         $stmt .= "ORDER BY
                     emd_id";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -356,7 +356,7 @@ class Draft
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft_recipient
                  WHERE
                     edr_emd_id=$emd_id";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array('', '');
@@ -400,7 +400,7 @@ class Draft
                 ORDER BY
                     emd_id ASC
                 LIMIT " . ($sequence - 1) . ", 1";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -457,7 +457,7 @@ class Draft
                  WHERE
                     emd_updated_date BETWEEN '$start' AND '$end' AND
                     emd_usr_id = $usr_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";

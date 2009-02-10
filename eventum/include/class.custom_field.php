@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.custom_field.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -68,7 +68,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
                  WHERE
                     cfo_id IN (" . implode(",", $cfo_id) . ")";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -80,7 +80,7 @@ class Custom_Field
                      WHERE
                         icf_fld_id IN (" . implode(", ", $fld_id) . ") AND
                         icf_value IN (" . implode(", ", $cfo_id) . ")";
-            $GLOBALS["db_api"]->dbh->query($stmt);
+            DB_Helper::getInstance()->query($stmt);
             return true;
         }
     }
@@ -110,7 +110,7 @@ class Custom_Field
                         $fld_id,
                         '" . Misc::escapeString($option) . "'
                      )";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -137,7 +137,7 @@ class Custom_Field
                     cfo_value='" . Misc::escapeString($cfo_value) . "'
                  WHERE
                     cfo_id=" . $cfo_id;
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -170,7 +170,7 @@ class Custom_Field
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                      WHERE
                         fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
-            $field_types = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+            $field_types = DB_Helper::getInstance()->getAssoc($stmt);
 
             // get the titles for all of the custom fields being submitted
             $stmt = "SELECT
@@ -180,7 +180,7 @@ class Custom_Field
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                      WHERE
                         fld_id IN (" . implode(", ", Misc::escapeInteger(@array_keys($_POST['custom_fields']))) . ")";
-            $field_titles = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+            $field_titles = DB_Helper::getInstance()->getAssoc($stmt);
 
             $updated_fields = array();
             foreach ($_POST["custom_fields"] as $fld_id => $value) {
@@ -194,7 +194,7 @@ class Custom_Field
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                         WHERE
                             fld_id = $fld_id";
-                $min_role = $GLOBALS["db_api"]->dbh->getOne($sql);
+                $min_role = DB_Helper::getInstance()->getOne($sql);
                 if ($min_role > Auth::getCurrentRole()) {
                     continue;
                 }
@@ -219,7 +219,7 @@ class Custom_Field
                              WHERE
                                 icf_iss_id=" . $issue_id . " AND
                                 icf_fld_id=$fld_id";
-                    $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+                    $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
                     if (PEAR::isError($res)) {
                         Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                         return -1;
@@ -250,7 +250,7 @@ class Custom_Field
                                     $fld_id,
                                     $value
                                  )";
-                        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                        $res = DB_Helper::getInstance()->query($stmt);
                         if (PEAR::isError($res)) {
                             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                             return -1;
@@ -263,7 +263,7 @@ class Custom_Field
                                     $fld_db_name=$value
                                  WHERE
                                     icf_id=$icf_id";
-                        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                        $res = DB_Helper::getInstance()->query($stmt);
                         if (PEAR::isError($res)) {
                             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                             return -1;
@@ -358,7 +358,7 @@ class Custom_Field
                         " . Misc::escapeInteger($fld_id) . ",
                         $item
                      )";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return false;
@@ -407,7 +407,7 @@ class Custom_Field
         $stmt .= "
                  ORDER BY
                     fld_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -490,7 +490,7 @@ class Custom_Field
                      WHERE
                         cfo_fld_id=" .  Misc::escapeInteger($fld_id) . " AND
                         cfo_id=" .  Misc::escapeInteger($value);
-            $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            $res = DB_Helper::getInstance()->getOne($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return "";
@@ -541,7 +541,7 @@ class Custom_Field
                      WHERE
                         cfo_fld_id=" .  Misc::escapeInteger($fld_id) . " AND
                         cfo_value='" .  Misc::escapeString($value) . "'";
-            $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            $res = DB_Helper::getInstance()->getOne($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return "";
@@ -619,7 +619,7 @@ class Custom_Field
         $stmt .= "
                  ORDER BY
                     fld_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -742,7 +742,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  WHERE
                     fld_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -751,7 +751,7 @@ class Custom_Field
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                      WHERE
                         pcf_fld_id IN ($items)";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return false;
@@ -760,7 +760,7 @@ class Custom_Field
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                          WHERE
                             icf_fld_id IN ($items)";
-                $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                $res = DB_Helper::getInstance()->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                     return false;
@@ -769,7 +769,7 @@ class Custom_Field
                                 " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
                              WHERE
                                 cfo_fld_id IN ($items)";
-                    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                    $res = DB_Helper::getInstance()->query($stmt);
                     if (PEAR::isError($res)) {
                         Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                         return false;
@@ -848,7 +848,7 @@ class Custom_Field
                     " . Misc::escapeInteger($_POST['rank']) . ",
                     '" . Misc::escapeString(@$_POST['custom_field_backend']) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -888,7 +888,7 @@ class Custom_Field
                     " . Misc::escapeInteger($prj_id) . ",
                     " . Misc::escapeInteger($fld_id) . "
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -913,7 +913,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  ORDER BY
                     fld_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -956,7 +956,7 @@ class Custom_Field
                     pcf_fld_id=" . Misc::escapeInteger($fld_id) . "
                  ORDER BY
                     prj_title ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -988,7 +988,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  WHERE
                     fld_id=" . Misc::escapeInteger($fld_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1050,7 +1050,7 @@ class Custom_Field
             $stmt .= "
                      ORDER BY
                         cfo_id ASC";
-            $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return "";
@@ -1145,7 +1145,7 @@ class Custom_Field
                     fld_backend = '" . Misc::escapeString(@$_POST['custom_field_backend']) . "'
                  WHERE
                     fld_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1158,7 +1158,7 @@ class Custom_Field
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
                          WHERE
                             cfo_fld_id=" . Misc::escapeInteger($_POST["id"]);
-                $current_options = $GLOBALS["db_api"]->dbh->getCol($stmt);
+                $current_options = DB_Helper::getInstance()->getCol($stmt);
             }
             if ($old_details["fld_type"] != $_POST["field_type"]) {
                 // gotta remove all custom field options if the field is being changed from a combo box to a text field
@@ -1210,7 +1210,7 @@ class Custom_Field
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                      WHERE
                         pcf_fld_id=" . Misc::escapeInteger($_POST["id"]);
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -1240,7 +1240,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                  WHERE
                     pcf_prj_id=" . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1290,7 +1290,7 @@ class Custom_Field
         if (count($issues) > 0) {
             $stmt .= " AND icf_iss_id IN(" . join(', ', Misc::escapeInteger($issues)) . ")";
         }
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1320,7 +1320,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field_option
                  WHERE
                     cfo_fld_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1346,7 +1346,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                  WHERE
                     icf_iss_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1371,7 +1371,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_custom_field
                  WHERE
                     pcf_prj_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1403,7 +1403,7 @@ class Custom_Field
                     fld_min_role <= " . Auth::getCurrentRole() . "
                 ORDER BY
                     fld_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($sql);
+        $res = DB_Helper::getInstance()->getAssoc($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1428,7 +1428,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                 WHERE
                     fld_title = '" . Misc::escapeString($title) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
@@ -1464,7 +1464,7 @@ class Custom_Field
                     fld_id=icf_fld_id AND
                     icf_iss_id=" .  Misc::escapeInteger($iss_id) . " AND
                     fld_id = " . Misc::escapeInteger($fld_id);
-        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -1502,7 +1502,7 @@ class Custom_Field
                     max(fld_rank)
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field";
-        return $GLOBALS["db_api"]->dbh->getOne($sql);
+        return DB_Helper::getInstance()->getOne($sql);
     }
 
 
@@ -1565,7 +1565,7 @@ class Custom_Field
                     fld_rank = $rank
                 WHERE
                     fld_id = $fld_id";
-        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1633,7 +1633,7 @@ class Custom_Field
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                 WHERE
                     fld_id = " . Misc::escapeInteger($fld_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1672,7 +1672,7 @@ class Custom_Field
                         icf_value_integer LIKE '%" . Misc::escapeInteger($search) . "%' OR
                         icf_value_date LIKE '%" . Misc::escapeString($search) . "%'
                     )";
-        $res = $GLOBALS["db_api"]->dbh->getCol($sql);
+        $res = DB_Helper::getInstance()->getCol($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1779,7 +1779,7 @@ class Custom_Field
                 WHERE
                     $db_field_name IS NULL AND
                     icf_fld_id = " . Misc::escapeInteger($fld_id);
-        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;

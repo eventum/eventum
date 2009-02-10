@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.category.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.category.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -57,7 +57,7 @@ class Category
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
                     prc_id=" . Misc::escapeInteger($prc_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -82,7 +82,7 @@ class Category
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
                     prc_prj_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -106,7 +106,7 @@ class Category
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
                     prc_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -136,7 +136,7 @@ class Category
                  WHERE
                     prc_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
                     prc_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -166,7 +166,7 @@ class Category
                     " . Misc::escapeInteger($_POST["prj_id"]) . ",
                     '" . Misc::escapeString($_POST["title"]) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -195,7 +195,7 @@ class Category
                     prc_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     prc_title ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -230,7 +230,7 @@ class Category
                     prc_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     prc_title ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -256,7 +256,7 @@ class Category
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_category
                  WHERE
                     prc_id=" . Misc::escapeInteger($prc_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";

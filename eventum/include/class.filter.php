@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.filter.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.filter.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -60,7 +60,7 @@ class Filter
                  WHERE
                     cst_id=" . Misc::escapeInteger($cst_id) . " AND
                     cst_is_global=1";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -92,7 +92,7 @@ class Filter
                  WHERE
                     cst_id=" . Misc::escapeInteger($cst_id) . " AND
                     cst_usr_id=" . Misc::escapeInteger($usr_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -290,7 +290,7 @@ class Filter
                         '" . Misc::escapeString($custom_field_string) . "'
                      )";
         }
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -318,7 +318,7 @@ class Filter
                     cst_usr_id=" . Auth::getUserID() . " AND
                     cst_prj_id=" . Auth::getCurrentProject() . " AND
                     cst_title='" . Misc::escapeString($cst_title) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
@@ -351,7 +351,7 @@ class Filter
                     )
                  ORDER BY
                     cst_title";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -384,7 +384,7 @@ class Filter
                     )
                  ORDER BY
                     cst_title";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -496,7 +496,7 @@ class Filter
         }
         $stmt .= "
                     cst_id=$cst_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -536,7 +536,7 @@ class Filter
             $stmt .= "
                         cst_prj_id=" . Auth::getCurrentProject() . " AND
                         cst_id=$cst_id";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -561,7 +561,7 @@ class Filter
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                  WHERE
                     cst_prj_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;

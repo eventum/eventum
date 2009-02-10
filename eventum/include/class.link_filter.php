@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.link_filter.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.link_filter.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.user.php");
@@ -58,7 +58,7 @@ class Link_Filter
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
                 WHERE
                     lfi_id = " . Misc::escapeInteger($lfi_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($sql, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -69,7 +69,7 @@ class Link_Filter
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
                     WHERE
                         plf_lfi_id = " . $res['lfi_id'];
-            $projects = $GLOBALS["db_api"]->dbh->getCol($sql);
+            $projects = DB_Helper::getInstance()->getCol($sql);
             if (PEAR::isError($projects)) {
                 Error_Handler::logError(array($projects->getMessage(), $projects->getDebugInfo()), __FILE__, __LINE__);
                 $projects = array();
@@ -99,7 +99,7 @@ class Link_Filter
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
                 ORDER BY
                     lfi_id";
-        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -114,7 +114,7 @@ class Link_Filter
                     WHERE
                         prj_id = plf_prj_id AND
                         plf_lfi_id = " . $res[$i]['lfi_id'];
-            $projects = $GLOBALS["db_api"]->dbh->getAssoc($sql);
+            $projects = DB_Helper::getInstance()->getAssoc($sql);
             if (PEAR::isError($projects)) {
                 Error_Handler::logError(array($projects->getMessage(), $projects->getDebugInfo()), __FILE__, __LINE__);
                 $projects = array();
@@ -149,7 +149,7 @@ class Link_Filter
                     '" . Misc::escapeInteger($_REQUEST["usr_role"]) . "',
                     '" . Misc::escapeString($_REQUEST["description"]) . "'
                 )";
-        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -165,7 +165,7 @@ class Link_Filter
                             $prj_id,
                             $lfi_id
                         )";
-                $res = $GLOBALS["db_api"]->dbh->query($sql);
+                $res = DB_Helper::getInstance()->query($sql);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                     return -1;
@@ -187,7 +187,7 @@ class Link_Filter
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "link_filter
                 WHERE
                     lfi_id IN(" . join(',', Misc::escapeInteger($_REQUEST["items"])) . ")";
-        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -196,7 +196,7 @@ class Link_Filter
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
                 WHERE
                     plf_lfi_id IN(" . join(',', Misc::escapeInteger($_REQUEST["items"])) . ")";
-        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -221,7 +221,7 @@ class Link_Filter
                     lfi_description = '" . Misc::escapeString($_REQUEST["description"]) . "'
                 WHERE
                     lfi_id = " . $_REQUEST["id"];
-        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -230,7 +230,7 @@ class Link_Filter
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter
                     WHERE
                         plf_lfi_id = " . Misc::escapeInteger($_REQUEST["id"]);
-            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -245,7 +245,7 @@ class Link_Filter
                             $prj_id,
                             " . Misc::escapeInteger($_REQUEST["id"]) . "
                         )";
-                $res = $GLOBALS["db_api"]->dbh->query($sql);
+                $res = DB_Helper::getInstance()->query($sql);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                     return -1;
@@ -327,7 +327,7 @@ class Link_Filter
                     plf_prj_id = $prj_id
                 ORDER BY
                     lfi_id";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt);
+        $res = DB_Helper::getInstance()->getAll($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();

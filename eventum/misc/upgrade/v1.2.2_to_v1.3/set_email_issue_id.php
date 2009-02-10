@@ -14,7 +14,7 @@ $stmt = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
          WHERE
             maq_iss_id IS NULL";
-$res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+$res = DB_Helper::getInstance()->getAssoc($stmt);
 foreach ($res as $id => $headers) {
     $decode = new Mail_mimeDecode($headers);
     $structure = $decode->decode();
@@ -34,7 +34,7 @@ foreach ($res as $id => $headers) {
                     maq_subject = '" . Misc::escapeString($headers["subject"]) . "'
                  WHERE
                     maq_id = $id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
     }
 }
 

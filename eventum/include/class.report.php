@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.report.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -115,7 +115,7 @@ class Report
                  ORDER BY
                     usr_full_name,
                     iss_last_response_date " . Misc::escapeString($sort_order);
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -195,7 +195,7 @@ class Report
         } else {
             $stmt .= "assignee.usr_full_name";
         }
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -264,7 +264,7 @@ class Report
                     isu_usr_id=usr_id
                  ORDER BY
                     usr_full_name";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -345,7 +345,7 @@ class Report
                     isu_usr_id = $usr_id AND
                     iss_prj_id = " . Auth::getCurrentProject() . " AND
                     isu_assigned_date BETWEEN '$start_ts' AND '$end_ts'";
-        $newly_assigned = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $newly_assigned = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($newly_assigned)) {
             Error_Handler::logError(array($newly_assigned->getMessage(), $newly_assigned->getDebugInfo()), __FILE__, __LINE__);
         }
@@ -409,7 +409,7 @@ class Report
                     time_period, performer
                  ORDER BY
                     time_period";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -487,7 +487,7 @@ class Report
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  GROUP BY
                     time_period";
-        $total = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $total = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($total)) {
             Error_Handler::logError(array($total->getMessage(), $total->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -510,7 +510,7 @@ class Report
                     sup_from IN('" . join("','", $emails) . "')
                  GROUP BY
                     time_period";
-        $dev_stats = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $dev_stats = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($dev_stats)) {
             Error_Handler::logError(array($dev_stats->getMessage(), $dev_stats->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -697,7 +697,7 @@ class Report
             }
             $sql .= "
                         row_count DESC";
-            $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return array();
@@ -752,7 +752,7 @@ class Report
                         $label_field ASC";
                 $res = $GLOBALS['db_api']->dbh->getAssoc($stmt);
             } else {
-                $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                $res = DB_Helper::getInstance()->getOne($stmt);
             }
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -773,7 +773,7 @@ class Report
                     icf_iss_id = iss_id AND
                     icf_fld_id = $fld_id AND
                     cfo_id NOT IN(" . join(",", $cfo_ids) . ")";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -853,7 +853,7 @@ class Report
         if (!empty($order_by)) {
             $stmt .= "\nORDER BY " . sprintf($order_by, 'iss_created_date');
         }
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -907,7 +907,7 @@ class Report
         if (!empty($order_by)) {
             $stmt .= "\nORDER BY " . sprintf($order_by, 'sup_date');
         }
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();

@@ -12,7 +12,7 @@ $sql = "SELECT
         ORDER BY
             pri_prj_id,
             pri_title";
-$res = $GLOBALS["db_api"]->dbh->getAssoc($sql);
+$res = DB_Helper::getInstance()->getAssoc($sql);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
@@ -31,7 +31,7 @@ foreach ($res as $id => $prj_id) {
                 pri_rank = $rank
             WHERE
                 pri_id = $id";
-    $res = $GLOBALS["db_api"]->dbh->query($sql);
+    $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
 		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);

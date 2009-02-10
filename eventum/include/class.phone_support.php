@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.phone_support.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.phone_support.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -67,7 +67,7 @@ class Phone_Support
                     " . Misc::escapeInteger($_POST["prj_id"]) . ",
                     '" . Misc::escapeString($_POST["title"]) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -97,7 +97,7 @@ class Phone_Support
                  WHERE
                     phc_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
                     phc_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -121,7 +121,7 @@ class Phone_Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
                  WHERE
                     phc_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -146,7 +146,7 @@ class Phone_Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_phone_category
                  WHERE
                     phc_id=" . Misc::escapeInteger($phc_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -175,7 +175,7 @@ class Phone_Support
                     phc_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     phc_title ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -204,7 +204,7 @@ class Phone_Support
                     phc_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     phc_id ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -229,7 +229,7 @@ class Phone_Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  WHERE
                     phs_id=" . Misc::escapeInteger($phs_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -267,7 +267,7 @@ class Phone_Support
                     phs_iss_id=" .  Misc::escapeInteger($issue_id) . "
                  ORDER BY
                     phs_created_date ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -328,7 +328,7 @@ class Phone_Support
                     '" . Misc::escapeString($_POST["to_lname"]) . "',
                     '" . Misc::escapeString($_POST["to_fname"]) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -346,7 +346,7 @@ class Phone_Support
                      WHERE
                         ttr_iss_id = " . Misc::escapeInteger($_POST["issue_id"]) . " AND
                         ttr_usr_id = $usr_id";
-            $ttr_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            $ttr_id = DB_Helper::getInstance()->getOne($stmt);
 
             Issue::markAsUpdated($_POST['issue_id'], 'phone call');
             // need to save a history entry for this
@@ -362,7 +362,7 @@ class Phone_Support
                             phs_ttr_id = $ttr_id
                          WHERE
                             phs_id = " . Misc::escapeInteger($phs_id);
-                $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                $res = DB_Helper::getInstance()->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                     return -1;
@@ -393,7 +393,7 @@ class Phone_Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  WHERE
                     phs_id=$phone_id";
-        $details = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $details = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if ($details['phs_usr_id'] != Auth::getUserID()) {
             return -2;
         }
@@ -402,7 +402,7 @@ class Phone_Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  WHERE
                     phs_id=$phone_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -441,7 +441,7 @@ class Phone_Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  WHERE
                     phs_iss_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -472,7 +472,7 @@ class Phone_Support
                     iss_prj_id = " . Auth::getCurrentProject() . " AND
                     phs_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "' AND
                     phs_usr_id = " . Misc::escapeInteger($usr_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";

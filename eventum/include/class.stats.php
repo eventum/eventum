@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.stats.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.stats.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -110,7 +110,7 @@ class Stats
                 $stmt .= " AND
                         sta_is_closed = 0";
             }
-            $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt);
             if ($res > 0) {
                 $stats[$prc_title] = $res;
             }
@@ -147,7 +147,7 @@ class Stats
                 $stmt .= " AND
                         sta_is_closed = 0";
             }
-            $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt);
             if ($res > 0) {
                 $stats[$pre_title] = $res;
             }
@@ -184,7 +184,7 @@ class Stats
                 $stmt .= " AND
                         sta_is_closed = 0";
             }
-            $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt);
             if ($res > 0) {
                 $stats[$sta_title] = $res;
             }
@@ -224,7 +224,7 @@ class Stats
                     iss_sta_id
                  ORDER BY
                     total_items DESC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -267,7 +267,7 @@ class Stats
                     iss_prc_id
                  ORDER BY
                     total_open_items";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -310,7 +310,7 @@ class Stats
                     iss_pre_id
                  ORDER BY
                     total_open_items DESC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -347,7 +347,7 @@ class Stats
                 $stmt .= " AND
                         sta_is_closed = 0";
             }
-            $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt);
             if ($res > 0) {
                 $stats[$pri_title] = $res;
             }
@@ -390,7 +390,7 @@ class Stats
                     iss_pri_id
                  ORDER BY
                     total_open_items DESC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -429,7 +429,7 @@ class Stats
                 $stmt .= " AND
                         sta_is_closed = 0";
             }
-            $res = (integer) $GLOBALS["db_api"]->dbh->getOne($stmt);
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt);
             if ($res > 0) {
                 $stats[$usr_full_name] = $res;
             }
@@ -474,7 +474,7 @@ class Stats
                     isu_usr_id
                  ORDER BY
                     total_open_items DESC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -506,7 +506,7 @@ class Stats
                     sup_removed=0
                  GROUP BY
                     type";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -526,7 +526,7 @@ class Stats
                     sup_ema_id=ema_id AND
                     ema_prj_id=$prj_id AND
                     sup_removed=1";
-        $res3 = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res3 = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res3)) {
             Error_Handler::logError(array($res3->getMessage(), $res3->getDebugInfo()), __FILE__, __LINE__);
             return "";

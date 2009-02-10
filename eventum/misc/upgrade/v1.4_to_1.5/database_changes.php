@@ -12,7 +12,7 @@ $sql = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "time_tracking_category
         WHERE
             ttc_title = 'Email Discussion'";
-$res = $GLOBALS["db_api"]->dbh->getOne($sql);
+$res = DB_Helper::getInstance()->getOne($sql);
 if ($res == 0) {
     // test if this works
     $stmts[] = "INSERT INTO eventum_time_tracking_category (ttc_title, ttc_created_date) VALUES ('Email Discussion', NOW())";
@@ -28,7 +28,7 @@ $stmts[] = "UPDATE eventum_columns_to_display SET ctd_field='pri_rank' WHERE ctd
 
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
-    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+    $res = DB_Helper::getInstance()->query($stmt);
     if (PEAR::isError($res)) {
 		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);

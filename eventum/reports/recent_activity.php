@@ -107,7 +107,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     phs_usr_id = usr_id AND
                     iss_prj_id = $prj_id AND\n";
         $sql .= createWhereClause('phs_created_date', 'usr_id');
-        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
@@ -132,7 +132,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     not_usr_id = usr_id AND
                     iss_prj_id = $prj_id AND\n";
         $sql .= createWhereClause('not_created_date', 'not_usr_id');
-        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
@@ -155,7 +155,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     sup_iss_id = iss_id AND
                     iss_prj_id = $prj_id AND\n";
         $sql .= createWhereClause('sup_date', 'sup_usr_id');
-        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -178,7 +178,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     emd_iss_id = iss_id AND
                     iss_prj_id = $prj_id AND\n";
         $sql .= createWhereClause('emd_updated_date', 'emd_usr_id');
-        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -218,7 +218,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     ttr_usr_id = usr_id AND
                     iss_prj_id = $prj_id AND\n";
         $sql .= createWhereClause('ttr_created_date', 'ttr_usr_id');
-        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -247,7 +247,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                     rmh_rma_id = rma_id AND
                     iss_prj_id = $prj_id AND\n";
         $sql .= createWhereClause('rmh_created_date');
-        $res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             print_r($res);
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);

@@ -9,7 +9,7 @@ $sql = "SELECT
             cst_customer_email
         FROM
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter";
-$res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+$res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
@@ -29,7 +29,7 @@ foreach ($res as $row) {
                 cst_keywords = '" . Misc::escapeString($keywords) . "'
             WHERE
                 cst_id = " . $row['cst_id'];
-    $res = $GLOBALS["db_api"]->dbh->query($sql);
+    $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
 		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);

@@ -4,7 +4,7 @@ require_once(APP_INC_PATH . "db_access.php");
 require_once(APP_INC_PATH . "class.date.php");
 
 $stmt = "SELECT MAX(usr_id)+1 FROM eventum_user";
-$res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+$res = DB_Helper::getInstance()->getOne($stmt);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
@@ -12,7 +12,7 @@ if (PEAR::isError($res)) {
 $new_usr_id = $res;
 
 $stmt = "UPDATE eventum_user SET usr_id = $new_usr_id WHERE usr_id = 1";
-$res = $GLOBALS["db_api"]->dbh->query($stmt);
+$res = DB_Helper::getInstance()->query($stmt);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
@@ -36,7 +36,7 @@ $fixes = array(
     "UPDATE eventum_email_draft SET emd_usr_id = $new_usr_id WHERE emd_usr_id = 1"
 );
 foreach ($fixes as $stmt) {
-    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+    $res = DB_Helper::getInstance()->query($stmt);
     if (PEAR::isError($res)) {
 		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);
@@ -63,7 +63,7 @@ $stmt = "INSERT INTO
             5,
             ''
          )";
-$res = $GLOBALS["db_api"]->dbh->query($stmt);
+$res = DB_Helper::getInstance()->query($stmt);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);

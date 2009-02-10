@@ -70,7 +70,7 @@ class Note
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -111,7 +111,7 @@ class Note
                  WHERE
                     not_usr_id=usr_id AND
                     not_id='$note_id'";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -163,7 +163,7 @@ class Note
                     not_iss_id = " . Misc::escapeInteger($issue_id) . "
                 ORDER BY
                     not_created_date ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt,  DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt,  DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -199,7 +199,7 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_id=$note_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -225,7 +225,7 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_id=$note_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -257,7 +257,7 @@ class Note
                  ORDER BY
                     not_created_date ASC
                 LIMIT " . ($sequence - 1) . ", 1";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -282,7 +282,7 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_id=$note_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -395,7 +395,7 @@ class Note
         }
         $stmt .= "
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -438,7 +438,7 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_iss_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -467,7 +467,7 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_id=$note_id";
-        $details = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $details = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (($details['not_usr_id'] != Auth::getUserID()) && ($details['has_blocked_message'] != 1) && (Auth::getCurrentRole() < User::getRoleID("Manager"))) {
             return -2;
         }
@@ -478,7 +478,7 @@ class Note
                     not_removed = 1
                  WHERE
                     not_id=$note_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -489,7 +489,7 @@ class Note
                      WHERE
                         iat_not_id=$note_id AND
                         iat_status='internal'";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             }
@@ -533,7 +533,7 @@ class Note
                     not_removed = 0
                  ORDER BY
                     not_created_date ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -678,7 +678,7 @@ class Note
                     not_created_date BETWEEN '$start' AND '$end' AND
                     not_usr_id = $usr_id AND
                     not_removed = 0";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -703,7 +703,7 @@ class Note
                     not_has_attachment=1
                  WHERE
                     not_id=$note_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -729,7 +729,7 @@ class Note
                  WHERE
                     not_iss_id=$issue_id AND
                     not_removed = 0";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
@@ -755,7 +755,7 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_message_id='" . Misc::escapeString($message_id) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -782,7 +782,7 @@ class Note
                 WHERE
                     parent.not_id = child.not_parent_id AND
                     child.not_message_id = '" . Misc::escapeString($msg_id) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -812,7 +812,7 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_message_id='" . Misc::escapeString($message_id) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -842,7 +842,7 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                  WHERE
                     not_id=" . Misc::escapeInteger($id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.email_account.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.email_account.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 
@@ -50,7 +50,7 @@ class Email_Account
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
                     ema_id=$ema_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -79,7 +79,7 @@ class Email_Account
                     ema_issue_auto_creation_options='" . @serialize($options) . "'
                  WHERE
                     ema_id=" . Misc::escapeInteger($ema_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -105,7 +105,7 @@ class Email_Account
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_id=$sup_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -134,7 +134,7 @@ class Email_Account
                     ema_username='" . Misc::escapeString($username) . "' AND
                     ema_hostname='" . Misc::escapeString($hostname) . "' AND
                     ema_folder='" . Misc::escapeString($mailbox) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
@@ -179,7 +179,7 @@ class Email_Account
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
                     ema_id=$ema_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -207,7 +207,7 @@ class Email_Account
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
                     ema_prj_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -217,7 +217,7 @@ class Email_Account
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                      WHERE
                         ema_prj_id IN ($items)";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return false;
@@ -241,7 +241,7 @@ class Email_Account
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
                     ema_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -297,7 +297,7 @@ class Email_Account
                     " . Misc::escapeInteger($_POST["leave_copy"]) . ",
                     " . Misc::escapeInteger($_POST["use_routing"]) . "
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -342,7 +342,7 @@ class Email_Account
                     ema_use_routing=" . Misc::escapeInteger($_POST["use_routing"]) . "
                  WHERE
                     ema_id=" . $_POST["id"];
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -367,7 +367,7 @@ class Email_Account
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  ORDER BY
                     ema_hostname";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -410,7 +410,7 @@ class Email_Account
                     ema_prj_id IN (" . join(',', $projects) . ")
                  ORDER BY
                     ema_title";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -441,7 +441,7 @@ class Email_Account
                     ema_prj_id=" . Misc::escapeInteger($prj_id) . "
                  LIMIT
                     0, 1";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -469,7 +469,7 @@ class Email_Account
                  WHERE
                     ema_prj_id=iss_prj_id AND
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";

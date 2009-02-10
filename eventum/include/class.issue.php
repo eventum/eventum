@@ -85,7 +85,7 @@ class Issue
             $stmt .= " AND
                     iss_prj_id = " . Auth::getCurrentProject();
         }
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -185,7 +185,7 @@ class Issue
                     iss_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     iss_id ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -218,7 +218,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -246,7 +246,7 @@ class Issue
                     iss_last_public_action_type='customer action'
                  WHERE
                     iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -279,7 +279,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -313,7 +313,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -344,7 +344,7 @@ class Issue
                     iss_customer_contract_id = " . Misc::escapeInteger($contract_id) . "
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -379,7 +379,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -413,7 +413,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -487,7 +487,7 @@ class Issue
                     iss_last_public_action_type='update'
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -554,7 +554,7 @@ class Issue
                         iss_pre_id = $pre_id
                     WHERE
                         iss_id = $issue_id";
-            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -580,7 +580,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                 WHERE
                     iss_id = " . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
@@ -610,7 +610,7 @@ class Issue
                         iss_pri_id = $pri_id
                     WHERE
                         iss_id = $issue_id";
-            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -636,7 +636,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                 WHERE
                     iss_id = " . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
@@ -666,7 +666,7 @@ class Issue
                         iss_prc_id = $prc_id
                     WHERE
                         iss_id = $issue_id";
-            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -692,7 +692,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                 WHERE
                     iss_id = " . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
@@ -747,7 +747,7 @@ class Issue
         }
         $stmt .= "\nGROUP BY
                         iss_id";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -785,7 +785,7 @@ class Issue
                  WHERE
                     iss_usr_id=usr_id AND
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -824,7 +824,7 @@ class Issue
         }
         $stmt .= "WHERE
                     iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -837,7 +837,7 @@ class Issue
                             iss_last_response_date='" . Date_API::getCurrentDateGMT() . "'
                          WHERE
                             iss_id = " . Misc::escapeInteger($issue_id);
-                $GLOBALS["db_api"]->dbh->query($stmt);
+                DB_Helper::getInstance()->query($stmt);
                 $stmt = "UPDATE
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                          SET
@@ -845,7 +845,7 @@ class Issue
                          WHERE
                             iss_first_response_date IS NULL AND
                             iss_id = " . Misc::escapeInteger($issue_id);
-                $GLOBALS["db_api"]->dbh->query($stmt);
+                DB_Helper::getInstance()->query($stmt);
             }
 
             return true;
@@ -869,7 +869,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_duplicated_iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -916,7 +916,7 @@ class Issue
                     iss_res_id=" . Misc::escapeInteger($_POST["resolution"]) . "
                  WHERE
                     iss_id IN (" . implode(", ", $ids) . ")";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -981,7 +981,7 @@ class Issue
                  WHERE
                     iss_sta_id=sta_id AND
                     iss_duplicated_iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1011,7 +1011,7 @@ class Issue
                     iss_duplicated_iss_id=NULL
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1046,7 +1046,7 @@ class Issue
                     iss_duplicated_iss_id=" . Misc::escapeInteger($_POST["duplicated_issue"]) . "
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1074,7 +1074,7 @@ class Issue
                 WHERE
                     iss_id = " . Misc::escapeInteger($issue_id) . " AND
                     iss_duplicated_iss_id IS NULL";
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1106,7 +1106,7 @@ class Issue
                  WHERE
                     isu_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     isu_usr_id=usr_id";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1131,7 +1131,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1156,7 +1156,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_summary='" . Misc::escapeString($summary) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
@@ -1215,7 +1215,7 @@ class Issue
                     '" . Misc::escapeString($_POST["description"]) . "',
                     '" . Misc::escapeString(Mail_API::generateMessageID()) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return $res;
@@ -1289,7 +1289,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_prj_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1312,7 +1312,7 @@ class Issue
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                          WHERE
                             iss_id IN ($items)";
-                $GLOBALS["db_api"]->dbh->query($stmt);
+                DB_Helper::getInstance()->query($stmt);
             }
             return true;
         }
@@ -1352,7 +1352,7 @@ class Issue
         $stmt .= "iss_sta_id=$status_id
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1402,7 +1402,7 @@ class Issue
                                 " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                              WHERE
                                 iss_id=$issue_id";
-                    $customer_contact_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                    $customer_contact_id = DB_Helper::getInstance()->getOne($stmt);
                     if (!empty($customer_contact_id)) {
                         Customer::notifyIssueClosed($prj_id, $issue_id, $customer_contact_id, $send_notification, $resolution_id, $status_id, $reason);
                     }
@@ -1542,7 +1542,7 @@ class Issue
         $stmt .= "
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1676,7 +1676,7 @@ class Issue
               iss_prj_id = " . Misc::escapeInteger($new_prj_id) . "
           WHERE
               iss_id = " . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1710,7 +1710,7 @@ class Issue
                   iss_pri_id=" . $new_pri_id . "
               WHERE
                   iss_id=$issue_id";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             }
@@ -1742,7 +1742,7 @@ class Issue
                     $issue_id,
                     $associated_id
                  )";
-        $GLOBALS["db_api"]->dbh->query($stmt);
+        DB_Helper::getInstance()->query($stmt);
         History::add($issue_id, $usr_id, History::getTypeID('issue_associated'), "Issue associated to #$associated_id by " . User::getFullName($usr_id));
         // link the associated issue back to this one
         if ($link_issues) {
@@ -1769,7 +1769,7 @@ class Issue
                  WHERE
                     isa_issue_id IN ($issue_id) OR
                     isa_associated_id IN ($issue_id)";
-        $GLOBALS["db_api"]->dbh->query($stmt);
+        DB_Helper::getInstance()->query($stmt);
         if ($usr_id) {
             History::add($issue_id, $usr_id, History::getTypeID('issue_all_unassociated'), 'Issue associations removed by ' . User::getFullName($usr_id));
         }
@@ -1799,7 +1799,7 @@ class Issue
                         isa_issue_id = $associated_id AND
                         isa_associated_id = $issue_id
                     )";
-        $GLOBALS["db_api"]->dbh->query($stmt);
+        DB_Helper::getInstance()->query($stmt);
         History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_unassociated'),
                 "Issue association #$associated_id removed by " . User::getFullName(Auth::getUserID()));
         History::add($associated_id, Auth::getUserID(), History::getTypeID('issue_unassociated'),
@@ -1832,7 +1832,7 @@ class Issue
                     $assignee_usr_id,
                     '" . Date_API::getCurrentDateGMT() . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1864,7 +1864,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
                  WHERE
                     isu_iss_id IN ($issue_id)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1895,7 +1895,7 @@ class Issue
                  WHERE
                     isu_iss_id = $issue_id AND
                     isu_usr_id = $usr_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -2008,7 +2008,7 @@ class Issue
                     '" . Misc::escapeString($description) . "',
                     '" . Misc::escapeString($msg_id) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -2203,7 +2203,7 @@ class Issue
                     " . Misc::escapeInteger($_POST["private"]) . " ,
                     '" . Misc::escapeString(Mail_API::generateMessageID()) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -2691,7 +2691,7 @@ class Issue
         $stmt .= "
                  LIMIT
                     " . Misc::escapeInteger($start) . ", " . Misc::escapeInteger($max);
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array(
@@ -3151,7 +3151,7 @@ class Issue
                  ORDER BY
                     " . $sort_by . " " . Misc::escapeString($options["sort_order"]) . ",
                     iss_id DESC";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -3190,7 +3190,7 @@ class Issue
                  WHERE
                     isu_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     isu_usr_id=usr_id";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -3243,7 +3243,7 @@ class Issue
                  WHERE
                     iss_usr_id=usr_id AND
                     iss_id IN ($ids)";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
@@ -3283,7 +3283,7 @@ class Issue
                  WHERE
                     isu_usr_id=usr_id AND
                     isu_iss_id IN ($ids)";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
@@ -3329,7 +3329,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_id in ($ids)";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {
@@ -3358,7 +3358,7 @@ class Issue
                  WHERE
                     isu_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     isu_usr_id=usr_id";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -3424,7 +3424,7 @@ class Issue
                  WHERE
                     iss_id=$issue_id AND
                     iss_prj_id=prj_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -3533,7 +3533,7 @@ class Issue
                  WHERE
                     iss_sta_id=sta_id AND
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -3585,7 +3585,7 @@ class Issue
                          WHERE
                             isu_usr_id = usr_id AND
                             isu_iss_id = " . $items[$i];
-                $current_assignees = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+                $current_assignees = DB_Helper::getInstance()->getAssoc($stmt);
                 if (PEAR::isError($current_assignees)) {
                     Error_Handler::logError(array($current_assignees->getMessage(), $current_assignees->getDebugInfo()), __FILE__, __LINE__);
                     return -1;
@@ -3608,7 +3608,7 @@ class Issue
                              WHERE
                                 isu_iss_id=" . $items[$i] . " AND
                                 isu_usr_id=" . $usr_id;
-                    $total = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                    $total = DB_Helper::getInstance()->getOne($stmt);
                     if ($total > 0) {
                         continue;
                     } else {
@@ -3696,7 +3696,7 @@ class Issue
                     iss_impact_analysis='" . Misc::escapeString($_POST["impact_analysis"]) . "'
                  WHERE
                     iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -3731,7 +3731,7 @@ class Issue
         $stmt .= "
                  ORDER BY
                     iss_id DESC";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -3764,7 +3764,7 @@ class Issue
         $stmt .= "
                  ORDER BY
                     iss_id ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -3821,7 +3821,7 @@ class Issue
                     isa_associated_id=iss_id AND
                     iss_sta_id=sta_id AND
                     isa_issue_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -3850,7 +3850,7 @@ class Issue
                     iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     iss_sta_id=sta_id AND
                     sta_is_closed=1";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -3884,7 +3884,7 @@ class Issue
                     iqu_iss_id=iss_id AND
                     iqu_expiration >= '" . Date_API::getCurrentDateGMT() . "' AND
                     iqu_expiration IS NOT NULL";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -3912,7 +3912,7 @@ class Issue
                     iqu_iss_id = " . Misc::escapeInteger($issue_id) . " AND
                         (iqu_expiration > '" . Date_API::getCurrentDateGMT() . "' OR
                         iqu_expiration IS NULL)";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -3947,7 +3947,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
                  WHERE
                     iqu_iss_id = $issue_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -3963,7 +3963,7 @@ class Issue
             }
             $stmt .= "\nWHERE
                         iqu_iss_id = $issue_id";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -3991,7 +3991,7 @@ class Issue
                 $stmt .= ",\n'" . Misc::escapeString($expiration) . "'\n";
             }
             $stmt .= ")";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -4024,7 +4024,7 @@ class Issue
                     iss_grp_id = $group_id
                  WHERE
                     iss_id = $issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -4054,7 +4054,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
@@ -4116,7 +4116,7 @@ class Issue
                      sup_id = seb_sup_id AND
                      MATCH(seb_body) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)
                  )";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array(-1);
@@ -4127,7 +4127,7 @@ class Issue
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
                     WHERE
                         MATCH (icf_value) AGAINST ('" . Misc::escapeString($options['keywords']) . "' IN BOOLEAN MODE)";
-            $custom_res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+            $custom_res = DB_Helper::getInstance()->getCol($stmt);
             if (PEAR::isError($custom_res)) {
                 Error_Handler::logError(array($custom_res->getMessage(), $custom_res->getDebugInfo()), __FILE__, __LINE__);
                 return array(-1);
@@ -4229,7 +4229,7 @@ class Issue
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     WHERE
                         iss_id=$issue_id";
-            $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+            $res = DB_Helper::getInstance()->getOne($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return true;
@@ -4260,7 +4260,7 @@ class Issue
                     iss_res_id = null
                  WHERE
                     iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -4282,7 +4282,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                 WHERE
                     iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -4311,7 +4311,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                 WHERE
                     iss_root_message_id = '" . Misc::escapeString($msg_id) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;

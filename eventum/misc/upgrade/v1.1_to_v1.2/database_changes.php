@@ -21,7 +21,7 @@ $changes[] = 'ALTER TABLE eventum_email_account ADD COLUMN ema_issue_auto_creati
 
 foreach ($changes as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
-    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+    $res = DB_Helper::getInstance()->query($stmt);
     if (PEAR::isError($res)) {
 		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);

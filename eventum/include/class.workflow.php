@@ -75,7 +75,7 @@ class Workflow
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  ORDER BY
                     prj_id";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';

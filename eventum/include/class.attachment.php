@@ -176,7 +176,7 @@ class Attachment
             $stmt .= " AND
                     iat_usr_id=$usr_id";
         }
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -193,7 +193,7 @@ class Attachment
                          WHERE
                             iaf_id=$iaf_id AND
                             iaf_iat_id=iat_id";
-                $attachment_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                $attachment_id = DB_Helper::getInstance()->getOne($stmt);
 
                 $res = Attachment::getFileList($attachment_id);
                 if (@count($res) > 1) {
@@ -225,7 +225,7 @@ class Attachment
                  WHERE
                     iat_id=iaf_iat_id AND
                     iaf_id=$file_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -258,7 +258,7 @@ class Attachment
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
                  WHERE
                     iat_iss_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -293,7 +293,7 @@ class Attachment
             $stmt .= " AND
                     iat_usr_id=$usr_id";
         }
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -308,7 +308,7 @@ class Attachment
                          WHERE
                             iat_id=$iat_id AND
                             iat_iss_id=$issue_id";
-                $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                $res = DB_Helper::getInstance()->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                     return -1;
@@ -341,7 +341,7 @@ class Attachment
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
                  WHERE
                     iaf_id=" . $iaf_id;
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -367,7 +367,7 @@ class Attachment
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment_file
                  WHERE
                     iaf_iat_id=$attachment_id";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -414,7 +414,7 @@ class Attachment
         $stmt .= "
                  ORDER BY
                     iat_created_date ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -530,7 +530,7 @@ class Attachment
                     '" . Misc::escapeString($filetype) . "',
                     '" . Misc::escapeString($blob) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -587,7 +587,7 @@ class Attachment
             $stmt .= ", " . Misc::escapeInteger($associated_note_id);
         }
         $stmt .= " )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;

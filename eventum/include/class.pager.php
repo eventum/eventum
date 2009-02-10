@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.pager.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.pager.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -63,7 +63,7 @@ class Pager
         }
         // remove any order by clauses
         $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)[,\s+\w+\s+\w+]*(.*)/sei", "'\\1\\3'", $stmt);
-        $rows = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $rows = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($rows)) {
             Error_Handler::logError(array($rows->getMessage(), $rows->getDebugInfo()), __FILE__, __LINE__);
             return 0;

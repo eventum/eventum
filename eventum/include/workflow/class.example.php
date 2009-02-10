@@ -258,7 +258,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
                     iss_percent_complete = '100%'
                 WHERE
                     iss_id = $issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;

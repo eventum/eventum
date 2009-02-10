@@ -128,7 +128,7 @@ class Display_Column
                     ctd_page = '$page'
                 ORDER BY
                     ctd_rank";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAssoc($stmt, false, array(), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -257,7 +257,7 @@ class Display_Column
                 WHERE
                     ctd_prj_id = $prj_id AND
                     ctd_page = '$page'";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -272,7 +272,7 @@ class Display_Column
                         ctd_field = '$field_name',
                         ctd_min_role = " . $_REQUEST['min_role'][$field_name] . ",
                         ctd_rank = $rank";
-            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -307,7 +307,7 @@ class Display_Column
                         ctd_field = '$field_name',
                         ctd_min_role = $min_role,
                         ctd_rank = $rank";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;

@@ -161,7 +161,7 @@ class Mail_Queue
             $stmt .= ",\n" . $type_id;
         }
         $stmt .= ")";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return $res;
@@ -299,7 +299,7 @@ class Mail_Queue
                     maq_id ASC
                  LIMIT
                     0, $limit";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -334,7 +334,7 @@ class Mail_Queue
                     '" . Misc::escapeString($status) . "',
                     '" . Misc::escapeString($server_message) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -345,7 +345,7 @@ class Mail_Queue
                         maq_status='" . Misc::escapeString($status) . "'
                      WHERE
                         maq_id=$maq_id";
-            $GLOBALS["db_api"]->dbh->query($stmt);
+            DB_Helper::getInstance()->query($stmt);
             return true;
         }
     }
@@ -387,7 +387,7 @@ class Mail_Queue
                     maq_iss_id = " . Misc::escapeInteger($issue_id) . "
                  ORDER BY
                     maq_queued_date ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -424,7 +424,7 @@ class Mail_Queue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "mail_queue
                  WHERE
                     maq_id = " . Misc::escapeInteger($maq_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -447,7 +447,7 @@ class Mail_Queue
                 WHERE
                     maq_type IN('" . join("', '", $types) . "') AND
                     maq_type_id = " . Misc::escapeInteger($type_id);
-        $res = $GLOBALS["db_api"]->dbh->getCol($sql);
+        $res = DB_Helper::getInstance()->getCol($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;

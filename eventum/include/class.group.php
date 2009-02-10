@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.group.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.group.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -67,7 +67,7 @@ class Group
                     '" . Misc::escapeString($_POST["description"]) . "',
                     '" . Misc::escapeInteger($_POST["manager"]) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -102,7 +102,7 @@ class Group
                     grp_manager_usr_id = '" . Misc::escapeInteger($_POST["manager"]) . "'
                  WHERE
                     grp_id = " . $_POST["id"];
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -138,7 +138,7 @@ class Group
                         " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
                      WHERE
                         grp_id = $grp_id";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -178,7 +178,7 @@ class Group
                         $prj_id,
                         $grp_id
                      )";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -201,7 +201,7 @@ class Group
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
                  WHERE
                     pgr_grp_id = " . Misc::escapeInteger($grp_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -224,7 +224,7 @@ class Group
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_group
                  WHERE
                     pgr_prj_id IN(" . join(",", Misc::escapeInteger($projects)) . ")";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -258,7 +258,7 @@ class Group
                     " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
                  WHERE
                     grp_id = $grp_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -316,7 +316,7 @@ class Group
                     " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
                  ORDER BY
                     grp_name";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -359,7 +359,7 @@ class Group
                     pgr_prj_id = $prj_id
                  ORDER BY
                     grp_name";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -386,7 +386,7 @@ class Group
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "group
                  ORDER BY
                     grp_name";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -411,7 +411,7 @@ class Group
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
                     usr_grp_id = " . Misc::escapeInteger($grp_id);
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -438,7 +438,7 @@ class Group
                  WHERE
                     pgr_prj_id = prj_id AND
                     pgr_grp_id = " . Misc::escapeInteger($grp_id);
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -465,7 +465,7 @@ class Group
                     grp_id = pgr_grp_id AND
                     pgr_prj_id = " . Auth::getCurrentProject() . " AND
                     grp_name = '" . Misc::escapeString($name) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;

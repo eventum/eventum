@@ -61,7 +61,7 @@ $sql = "SELECT
         	iss_prj_id = " . Auth::getCurrentProject() . "
         GROUP BY
         	iss_prc_id";
-$res = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+$res = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
 if (PEAR::isError($res)) {
     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
     return false;

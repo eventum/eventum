@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.customer_stats_report.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.customer_stats_report.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -329,7 +329,7 @@ class Customer_Stats_Report
                     " . $this->getWhereClause("iss_customer_id", "iss_created_date") . "
                  GROUP BY
                     iss_customer_id";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -367,7 +367,7 @@ class Customer_Stats_Report
                     " . $this->getWhereClause("iss_customer_id", "sup_date") . "
                  GROUP BY
                     sup_iss_id";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -402,7 +402,7 @@ class Customer_Stats_Report
                     " . $this->getWhereClause("iss_customer_id", "sup_date") . "
                  GROUP BY
                     sup_iss_id";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -475,7 +475,7 @@ class Customer_Stats_Report
             $stmt .= "\n AND ttr_ttc_id = $ttc_id";
         }
         $stmt .= "\nAND " . $this->getWhereClause("iss_customer_id", "ttr_created_date");
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -516,7 +516,7 @@ class Customer_Stats_Report
                  WHERE
                     iss_closed_date IS NOT NULL AND
                     " . $this->getWhereClause("iss_customer_id", array("iss_created_date", "iss_closed_date"));
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -556,7 +556,7 @@ class Customer_Stats_Report
                  WHERE
                     iss_first_response_date IS NOT NULL AND
                     " . $this->getWhereClause("iss_customer_id", array("iss_created_date", "iss_closed_date"));
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();

@@ -72,7 +72,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_id IN (" . implode(', ', Misc::escapeInteger($sup_ids)) . ")";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -124,7 +124,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_id=" . Misc::escapeInteger($sup_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -133,7 +133,7 @@ class Support
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                      WHERE
                         seb_sup_id=" . Misc::escapeInteger($sup_id);
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return false;
@@ -175,7 +175,7 @@ class Support
         $stmt .= "
                  ORDER BY
                     " . $options["sort_by"] . " " . $options["sort_order"];
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -223,7 +223,7 @@ class Support
                     sup_iss_id=" . Misc::escapeInteger($issue_id) . "
                  ORDER BY
                     sup_id ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -284,7 +284,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_id IN (" . implode(", ", Misc::escapeInteger($sup_ids)) . ")";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -326,7 +326,7 @@ class Support
                     sup_removed=0
                  WHERE
                     sup_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -357,7 +357,7 @@ class Support
                     ema_prj_id=" . Auth::getCurrentProject() . " AND
                     ema_id=sup_ema_id AND
                     sup_removed=1";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -390,7 +390,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_ema_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1030,7 +1030,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_ema_id=" . Misc::escapeInteger($ema_id);
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1055,7 +1055,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                 WHERE
                     sup_message_id = '" . Misc::escapeString($message_id) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1139,7 +1139,7 @@ class Support
                     '" . Misc::escapeString($row["subject"]) . "',
                     '" . Misc::escapeString($row["has_attachment"]) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1159,7 +1159,7 @@ class Support
                         '" . Misc::escapeString($row["body"]) . "',
                         '" . Misc::escapeString($row["full_email"]) . "'
                      )";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -1336,7 +1336,7 @@ class Support
         $stmt .= "
                  LIMIT
                     " . Misc::escapeInteger($start) . ", " . Misc::escapeInteger($max);
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array(
@@ -1524,7 +1524,7 @@ class Support
                     sup_iss_id=$issue_id
                  WHERE
                     sup_id IN (" . @implode(", ", Misc::escapeInteger($items)) . ")";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1541,7 +1541,7 @@ class Support
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                      WHERE
                         sup_id IN (" . @implode(", ", Misc::escapeInteger($items)) . ")";
-            $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+            $res = DB_Helper::getInstance()->getCol($stmt);
             for ($i = 0; $i < count($res); $i++) {
                 History::add($issue_id, $usr_id, History::getTypeID('email_associated'),
                        ev_gettext('Email (subject: \'%1$s\') associated by %2$s', $res[$i], User::getFullName($usr_id)));
@@ -1575,7 +1575,7 @@ class Support
                      WHERE
                         sup_id=seb_sup_id AND
                         sup_id IN (" . @implode(", ", Misc::escapeInteger($items)) . ")";
-            $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
             for ($i = 0; $i < count($res); $i++) {
                 // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
                 $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
@@ -1629,7 +1629,7 @@ class Support
                     sup_id=seb_sup_id AND
                     sup_id=" . Misc::escapeInteger($sup_id) . " AND
                     sup_ema_id=" . Misc::escapeInteger($ema_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1672,7 +1672,7 @@ class Support
                 ORDER BY
                     sup_id
                 LIMIT " . (Misc::escapeInteger($sequence) - 1) . ", 1";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt);
+        $res = DB_Helper::getInstance()->getRow($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1706,7 +1706,7 @@ class Support
                     ema_id=sup_ema_id AND
                     ema_prj_id=" . Auth::getCurrentProject() . " AND
                     sup_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1736,7 +1736,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                  WHERE
                     seb_sup_id=" . Misc::escapeInteger($sup_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1762,7 +1762,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
                  WHERE
                     seb_sup_id=" . Misc::escapeInteger($sup_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1799,7 +1799,7 @@ class Support
                     sup_iss_id=" . Misc::escapeInteger($issue_id) . "
                  ORDER BY
                     sup_id ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1836,7 +1836,7 @@ class Support
                     sup_removed=1
                  WHERE
                     sup_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1862,7 +1862,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_id IN ($items)";
-        $issue_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $issue_id = DB_Helper::getInstance()->getOne($stmt);
 
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
@@ -1870,7 +1870,7 @@ class Support
                     sup_iss_id=0
                  WHERE
                     sup_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1884,7 +1884,7 @@ class Support
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                      WHERE
                         sup_id IN ($items)";
-            $subjects = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+            $subjects = DB_Helper::getInstance()->getAssoc($stmt);
             for ($i = 0; $i < count($_POST["item"]); $i++) {
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'),
                                 ev_gettext('Email (subject: \'%1$s\') disassociated by %2$s', $subjects[$_POST["item"][$i]], User::getFullName(Auth::getUserID())));
@@ -2268,7 +2268,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_id=" . Misc::escapeInteger($sup_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -2294,7 +2294,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_message_id='" . Misc::escapeString($message_id) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -2324,7 +2324,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_message_id='" . Misc::escapeString($message_id) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -2350,7 +2350,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_id=" . Misc::escapeInteger($sup_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -2377,7 +2377,7 @@ class Support
                 WHERE
                     parent.sup_id = child.sup_parent_id AND
                     child.sup_message_id = '" . Misc::escapeString($msg_id) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -2420,7 +2420,7 @@ class Support
         } else {
             $stmt .= "= 0";
         }
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -2450,7 +2450,7 @@ class Support
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_account
                  WHERE
                     ema_id = " . Misc::escapeInteger($ema_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -2511,7 +2511,7 @@ class Support
                 WHERE
                     sup_id = " . Misc::escapeInteger($sup_id) . " AND
                     sup_ema_id = " . Misc::escapeInteger($current_ema_id);
-        $res = $GLOBALS["db_api"]->dbh->query($sql);
+        $res = DB_Helper::getInstance()->query($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.history.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.history.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -98,7 +98,7 @@ class History
             $stmt .= ", 1";
         }
         $stmt .= ")";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -128,7 +128,7 @@ class History
                     htt_role <= " . Auth::getCurrentRole() . "
                  ORDER BY
                     his_id $order_by";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -157,7 +157,7 @@ class History
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
                  WHERE
                     his_iss_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -194,7 +194,7 @@ class History
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "history_type
                  WHERE
                     htt_name IN('" . join("','", $name) . "')";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "unknown";
@@ -264,7 +264,7 @@ class History
                     iss_id
                  ORDER BY
                     iss_id ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -339,7 +339,7 @@ class History
                     sta_title
                  ORDER BY
                     sta_rank";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -376,7 +376,7 @@ class History
             $stmt .= "
                     AND his_htt_id IN(" . join(",", Misc::escapeInteger($htt_id)) . ")";
         }
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -403,7 +403,7 @@ class History
                 ORDER BY
                     his_created_date DESC
                 LIMIT 1";
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return 0;
@@ -443,7 +443,7 @@ class History
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'
                 GROUP BY his_iss_id";
 
-        $result = $GLOBALS["db_api"]->dbh->getAssoc($sql);
+        $result = DB_Helper::getInstance()->getAssoc($sql);
         if (PEAR::isError($result)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         } else {

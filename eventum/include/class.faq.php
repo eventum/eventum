@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.faq.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.faq.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 
@@ -66,7 +66,7 @@ class FAQ
                      ORDER BY
                         faq_rank ASC";
         }
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -95,7 +95,7 @@ class FAQ
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
                  WHERE
                     faq_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -125,7 +125,7 @@ class FAQ
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
                  WHERE
                     fsl_faq_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -161,7 +161,7 @@ class FAQ
                     faq_rank=" . $_POST['rank'] . "
                  WHERE
                     faq_id=" . $_POST["id"];
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -209,7 +209,7 @@ class FAQ
                     '" . Misc::escapeString($_POST["message"]) . "',
                     " . $_POST['rank'] . "
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -245,7 +245,7 @@ class FAQ
                     " . Misc::escapeInteger($faq_id) . ",
                     " . Misc::escapeInteger($support_level_id) . "
                  )";
-        $GLOBALS["db_api"]->dbh->query($stmt);
+        DB_Helper::getInstance()->query($stmt);
     }
 
 
@@ -264,7 +264,7 @@ class FAQ
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
                  WHERE
                     faq_id=" . Misc::escapeInteger($faq_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -300,7 +300,7 @@ class FAQ
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
                  ORDER BY
                     faq_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -333,7 +333,7 @@ class FAQ
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq_support_level
                  WHERE
                     fsl_faq_id=" . Misc::escapeInteger($faq_id);
-        $ids = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $ids = DB_Helper::getInstance()->getCol($stmt);
 
         $t = array();
         $levels = Customer::getSupportLevelAssocList(Misc::escapeInteger($prj_id));
@@ -384,7 +384,7 @@ class FAQ
                         faq_rank=" . $ranking[$faq_id] . "
                      WHERE
                         faq_id=" . $replaced_faq_id;
-            $GLOBALS["db_api"]->dbh->query($stmt);
+            DB_Helper::getInstance()->query($stmt);
         }
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
@@ -392,7 +392,7 @@ class FAQ
                     faq_rank=" . $new_rank . "
                  WHERE
                     faq_id=" . $faq_id;
-        $GLOBALS["db_api"]->dbh->query($stmt);
+        DB_Helper::getInstance()->query($stmt);
         return true;
     }
 
@@ -413,7 +413,7 @@ class FAQ
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
                  ORDER BY
                     faq_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();

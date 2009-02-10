@@ -12,7 +12,7 @@ $stmt = "SELECT
             pri_title
          FROM
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority";
-$res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+$res = DB_Helper::getInstance()->getAssoc($stmt);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
@@ -30,7 +30,7 @@ $stmt = "SELECT
             prj_title
          FROM
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project";
-$res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+$res = DB_Helper::getInstance()->getAssoc($stmt);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);

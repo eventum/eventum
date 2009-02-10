@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.news.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.news.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 
@@ -55,7 +55,7 @@ class News
                     nws_created_date DESC
                  LIMIT
                     0, 3";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -100,7 +100,7 @@ class News
                     " . Misc::escapeInteger($nws_id) . ",
                     " . Misc::escapeInteger($prj_id) . "
                  )";
-        $GLOBALS["db_api"]->dbh->query($stmt);
+        DB_Helper::getInstance()->query($stmt);
     }
 
 
@@ -133,7 +133,7 @@ class News
                     '" . Misc::escapeString($_POST["message"]) . "',
                     '" . Misc::escapeString($_POST["status"]) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -161,7 +161,7 @@ class News
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  WHERE
                     nws_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -194,7 +194,7 @@ class News
         if ($prj_id) {
             $stmt .= " AND prn_prj_id=" . Misc::escapeInteger($prj_id);
         }
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -226,7 +226,7 @@ class News
                     nws_status='" . Misc::escapeString($_POST["status"]) . "'
                  WHERE
                     nws_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -256,7 +256,7 @@ class News
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  WHERE
                     nws_id=" . Misc::escapeInteger($nws_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -284,7 +284,7 @@ class News
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  WHERE
                     nws_id=" . Misc::escapeInteger($nws_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -312,7 +312,7 @@ class News
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "news
                  ORDER BY
                     nws_title ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -345,7 +345,7 @@ class News
                  WHERE
                     prj_id=prn_prj_id AND
                     prn_nws_id=" . Misc::escapeInteger($nws_id);
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();

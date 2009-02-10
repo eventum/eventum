@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.db_helper.php 3824 2009-02-10 06:52:02Z glen $
+// @(#) $Id: class.db_helper.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 $TOTAL_QUERIES = 0;
@@ -42,7 +42,7 @@ require_once(APP_INC_PATH . "class.error_handler.php");
  * @author João Prado Maia <jpm@mysql.com>
  */
 
-class DB_API
+class DB_Helper
 {
     var $dbh;
 
@@ -52,7 +52,7 @@ class DB_API
      *
      * @access public
      */
-    function DB_API()
+    function DB_Helper()
     {
         $dsn = array(
             'phptype'  => APP_SQL_DBTYPE,

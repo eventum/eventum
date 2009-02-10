@@ -113,7 +113,7 @@ class Notification
         }
         $stmt .= "
                     sub_iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -415,7 +415,7 @@ class Notification
                     iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     iss_prj_id=prj_id AND
                     iss_usr_id=usr_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -458,7 +458,7 @@ class Notification
                  WHERE
                     not_id=" . Misc::escapeInteger($note_id) . " AND
                     not_usr_id=usr_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -504,7 +504,7 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -543,7 +543,7 @@ class Notification
                     iat_usr_id=usr_id AND
                     iat_iss_id=" . Misc::escapeInteger($issue_id) . " AND
                     iat_id=" . Misc::escapeInteger($attachment_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -590,7 +590,7 @@ class Notification
                         sub_id=sbt_sub_id AND
                         sbt_type='" . Misc::escapeString($type) . "'";
         }
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -807,7 +807,7 @@ class Notification
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                          WHERE
                             iss_id=" . Misc::escapeInteger($issue_id);
-                $customer_contact_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+                $customer_contact_id = DB_Helper::getInstance()->getOne($stmt);
                 if (!empty($customer_contact_id)) {
                     list($contact_email,,) = Customer::getContactLoginDetails($prj_id, $customer_contact_id);
                     for ($i = 0; $i < count($emails); $i++) {
@@ -1046,7 +1046,7 @@ class Notification
             $stmt .= " AND
                     usr_id NOT IN (" . join(', ', $exclude_list) . ")";
         }
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         $emails = array();
         for ($i = 0; $i < count($res); $i++) {
             @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
@@ -1076,7 +1076,7 @@ class Notification
                     isu_iss_id=$issue_id AND
                     usr_id=isu_usr_id AND
                     usr_status = 'active'";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($res); $i++) {
             @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
             $subscriber = Mail_API::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
@@ -1341,7 +1341,7 @@ class Notification
             $stmt .= ",\n $issue_id";
         }
         $stmt .= ")";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1637,7 +1637,7 @@ class Notification
             $stmt .= " AND\nsbt_sub_id = sub_id AND
                       sbt_type = '" . Misc::escapeString($type) . "'";
         }
-        $users = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $users = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($users)) {
             Error_Handler::logError(array($users->getMessage(), $users->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1676,7 +1676,7 @@ class Notification
             if ($type != false) {
                 $stmt .= " AND\nsbt_type = '" . Misc::escapeString($type) . "'";
             }
-            $emails = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+            $emails = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
             if (PEAR::isError($emails)) {
                 Error_Handler::logError(array($emails->getMessage(), $emails->getDebugInfo()), __FILE__, __LINE__);
                 return array();
@@ -1716,7 +1716,7 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  WHERE
                     sub_id=" . Misc::escapeInteger($sub_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1747,7 +1747,7 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
                  WHERE
                     sbt_sub_id=" . Misc::escapeInteger($sub_id);
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1775,7 +1775,7 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  WHERE
                     sub_iss_id=" . Misc::escapeInteger($issue_id);
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1810,7 +1810,7 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  WHERE
                     sub_iss_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -1838,7 +1838,7 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  WHERE
                     sub_id IN (" . implode(", ", $items) . ")";
-        $issue_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $issue_id = DB_Helper::getInstance()->getOne($stmt);
 
         for ($i = 0; $i < count($items); $i++) {
             $sub_id = $items[$i];
@@ -1847,12 +1847,12 @@ class Notification
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                      WHERE
                         sub_id=$sub_id";
-            $GLOBALS["db_api"]->dbh->query($stmt);
+            DB_Helper::getInstance()->query($stmt);
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
                      WHERE
                         sbt_sub_id=$sub_id";
-            $GLOBALS["db_api"]->dbh->query($stmt);
+            DB_Helper::getInstance()->query($stmt);
             // need to save a history entry for this
             History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'),
                             ev_gettext('Notification list entry (%1$s) removed by %2$s', $subscriber, User::getFullName(Auth::getUserID())));
@@ -1879,7 +1879,7 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  WHERE
                     sub_id=" . Misc::escapeInteger($sub_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
@@ -1982,7 +1982,7 @@ class Notification
                  WHERE
                     sub_iss_id=$issue_id AND
                     sub_usr_id=$subscriber_usr_id";
-        $total = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $total = DB_Helper::getInstance()->getOne($stmt);
         if ($total > 0) {
             return -1;
         }
@@ -2001,7 +2001,7 @@ class Notification
                     'issue',
                     ''
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -2068,7 +2068,7 @@ class Notification
                      WHERE
                         sub_iss_id=$issue_id AND
                         sub_email='$email'";
-            $total = $GLOBALS["db_api"]->dbh->getOne($stmt);
+            $total = DB_Helper::getInstance()->getOne($stmt);
             if ($total > 0) {
                 return -1;
             }
@@ -2088,7 +2088,7 @@ class Notification
                     'issue',
                     '$email'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -2127,7 +2127,7 @@ class Notification
                     " . Misc::escapeInteger($sub_id) . ",
                     '" . Misc::escapeString($type) . "'
                  )";
-        $GLOBALS["db_api"]->dbh->query($stmt);
+        DB_Helper::getInstance()->query($stmt);
     }
 
 
@@ -2149,7 +2149,7 @@ class Notification
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  WHERE
                     sub_id=$sub_id";
-        list($issue_id, $usr_id) = $GLOBALS["db_api"]->dbh->getRow($stmt);
+        list($issue_id, $usr_id) = DB_Helper::getInstance()->getRow($stmt);
 
         $email = strtolower(Mail_API::getEmailAddress($_POST["email"]));
         $usr_id = User::getUserIDByEmail($email, true);
@@ -2179,7 +2179,7 @@ class Notification
                     sub_usr_id=$usr_id
                  WHERE
                     sub_id=$sub_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -2188,7 +2188,7 @@ class Notification
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription_type
                      WHERE
                         sbt_sub_id=$sub_id";
-            $GLOBALS["db_api"]->dbh->query($stmt);
+            DB_Helper::getInstance()->query($stmt);
             // now add them all again
             for ($i = 0; $i < count($_POST["actions"]); $i++) {
                 Notification::addType($sub_id, $_POST["actions"][$i]);

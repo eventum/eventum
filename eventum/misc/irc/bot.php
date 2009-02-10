@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: bot.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: bot.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 ini_set('memory_limit', '256M');
@@ -314,7 +314,7 @@ class Eventum_Bot
                     iss_id=ino_iss_id
                  WHERE
                     ino_status='pending'";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($res); $i++) {
             $channels = $this->_getChannels($res[$i]['ino_prj_id']);
             if (count($channels) > 0) {
@@ -337,7 +337,7 @@ class Eventum_Bot
                             ino_status='sent'
                          WHERE
                             ino_id=" . $res[$i]['ino_id'];
-                $GLOBALS["db_api"]->dbh->query($stmt);
+                DB_Helper::getInstance()->query($stmt);
             }
         }
     }

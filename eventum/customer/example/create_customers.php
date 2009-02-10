@@ -55,7 +55,7 @@ foreach ($customers as $customer_id => $customer_name) {
                         usr_customer_id = " . $customer_id . ",
                         usr_customer_contact_id = " . $contact['contact_id'] . ",
                         usr_preferences = '" . Misc::escapeString(Prefs::getDefaults(array($prj_id))) . "'";
-            $res = $GLOBALS["db_api"]->dbh->query($sql);
+            $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 echo "Error inserting user<br /><pre>";
                 print_r($res);

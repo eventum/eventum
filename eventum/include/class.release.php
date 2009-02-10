@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.release.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.release.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -59,7 +59,7 @@ class Release
                  WHERE
                     pre_id=" . Misc::escapeInteger($pre_id) . " AND
                     pre_status='available'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -90,7 +90,7 @@ class Release
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  WHERE
                     pre_id=" . Misc::escapeInteger($pre_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -115,7 +115,7 @@ class Release
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  WHERE
                     pre_id=" . Misc::escapeInteger($pre_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -140,7 +140,7 @@ class Release
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                  WHERE
                     pre_prj_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -167,7 +167,7 @@ class Release
                     iss_pre_id=0
                  WHERE
                     iss_pre_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -176,7 +176,7 @@ class Release
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
                      WHERE
                         pre_id IN ($items)";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return false;
@@ -209,7 +209,7 @@ class Release
                  WHERE
                     pre_prj_id=" . Misc::escapeInteger($_POST["prj_id"]) . " AND
                     pre_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -245,7 +245,7 @@ class Release
                     '" . Misc::escapeString($scheduled_date) . "',
                     '" . Misc::escapeString($_POST["status"]) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -276,7 +276,7 @@ class Release
                     pre_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     pre_scheduled_date ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -314,7 +314,7 @@ class Release
                     )
                  ORDER BY
                     pre_scheduled_date ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";

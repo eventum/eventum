@@ -12,7 +12,7 @@ $stmt = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
          WHERE
             iss_root_message_id IS NULL";
-$issues = $GLOBALS["db_api"]->dbh->getCol($stmt);
+$issues = DB_Helper::getInstance()->getCol($stmt);
 foreach ($issues as $issue_id) {
     $sql = "SELECT
                 sup_message_id
@@ -23,7 +23,7 @@ foreach ($issues as $issue_id) {
             ORDER BY
                 sup_date ASC
             LIMIT 1";
-    $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+    $res = DB_Helper::getInstance()->getOne($sql);
     if (PEAR::isError($res)) {
         echo "<pre>";print_r($res);echo "</pre>";
         exit;
@@ -39,7 +39,7 @@ foreach ($issues as $issue_id) {
                 iss_root_message_id = '" . Misc::escapeString($msg_id) . "'
             WHERE
                 iss_id = $issue_id";
-    $res = $GLOBALS["db_api"]->dbh->query($sql);
+    $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
         echo "<pre>";print_r($res);echo "</pre>";
         exit;

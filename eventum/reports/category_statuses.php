@@ -61,7 +61,7 @@ foreach ($categories as $cat_id => $cat_title) {
                     iss_prj_id = $prj_id AND
                     iss_sta_id = $sta_id AND
                     iss_prc_id = $cat_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             break 2;

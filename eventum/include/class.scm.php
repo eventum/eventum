@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.scm.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.scm.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -62,7 +62,7 @@ class SCM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
                  WHERE
                     isc_iss_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -87,13 +87,13 @@ class SCM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
                  WHERE
                     isc_id IN ($items)";
-        $issue_id = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $issue_id = DB_Helper::getInstance()->getOne($stmt);
 
         $stmt = "DELETE FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
                  WHERE
                     isc_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -153,7 +153,7 @@ class SCM
                     isc_iss_id=" . Misc::escapeInteger($issue_id) . "
                  ORDER BY
                     isc_created_date ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -209,7 +209,7 @@ class SCM
                     '" . Misc::escapeString($_GET["username"]) . "',
                     '" . Misc::escapeString($_GET["commit_msg"]) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;

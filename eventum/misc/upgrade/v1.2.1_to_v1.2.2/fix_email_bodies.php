@@ -12,7 +12,7 @@ $stmt = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body
          ORDER BY
             seb_sup_id";
-$res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+$res = DB_Helper::getInstance()->getAssoc($stmt);
 foreach ($res as $sup_id => $full_message) {
     $structure = Mime_Helper::decode($full_message, true, true);
     $body = Mime_Helper::getMessageBody($structure);
@@ -23,7 +23,7 @@ foreach ($res as $sup_id => $full_message) {
                 seb_body='" . Misc::escapeString($body) . "'
              WHERE
                 seb_sup_id=$sup_id";
-    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+    $res = DB_Helper::getInstance()->query($stmt);
     if (PEAR::isError($res)) {
 		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);

@@ -14,7 +14,7 @@ $stmt = "SELECT
          WHERE
             sup_usr_id IS NULL AND
             sup_iss_id != 0";
-$res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+$res = DB_Helper::getInstance()->getAssoc($stmt);
 foreach ($res as $sup_id => $email) {
     $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($email));
     if (!empty($usr_id)) {
@@ -24,7 +24,7 @@ foreach ($res as $sup_id => $email) {
                     sup_usr_id = $usr_id
                  WHERE
                     sup_id = $sup_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
 			echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
             exit(1);

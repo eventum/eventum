@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.email_response.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.email_response.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -62,7 +62,7 @@ class Email_Response
                     " . Misc::escapeInteger($ere_id) . ",
                     " . Misc::escapeInteger($prj_id) . "
                  )";
-        $GLOBALS["db_api"]->dbh->query($stmt);
+        DB_Helper::getInstance()->query($stmt);
     }
 
 
@@ -86,7 +86,7 @@ class Email_Response
                     '" . Misc::escapeString($_POST["title"]) . "',
                     '" . Misc::escapeString($_POST["response_body"]) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -114,7 +114,7 @@ class Email_Response
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response
                  WHERE
                     ere_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -148,7 +148,7 @@ class Email_Response
         if ($prj_id) {
             $stmt .= " AND per_prj_id=$prj_id";
         }
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -178,7 +178,7 @@ class Email_Response
                     ere_response_body='" . Misc::escapeString($_POST["response_body"]) . "'
                  WHERE
                     ere_id=" . $_POST["id"];
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -210,7 +210,7 @@ class Email_Response
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response
                  WHERE
                     ere_id=$ere_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -242,7 +242,7 @@ class Email_Response
                  WHERE
                     prj_id=per_prj_id AND
                     per_ere_id=$ere_id";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -268,7 +268,7 @@ class Email_Response
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_response
                  ORDER BY
                     ere_title ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -303,7 +303,7 @@ class Email_Response
                     per_prj_id=" . Misc::escapeInteger($prj_id) . "
                  ORDER BY
                     ere_title ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -332,7 +332,7 @@ class Email_Response
                  WHERE
                     per_ere_id=ere_id AND
                     per_prj_id=" . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";

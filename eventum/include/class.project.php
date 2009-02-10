@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.project.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.project.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -69,7 +69,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
                     prj_id=" . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array(
@@ -108,7 +108,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
                     prj_id=" . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -134,7 +134,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
                     prj_id=" . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -163,7 +163,7 @@ class Project
                     prj_anonymous_post_options='" . Misc::escapeString(@serialize($_POST["options"])) . "'
                  WHERE
                     prj_id=" . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -191,7 +191,7 @@ class Project
                     prj_anonymous_post='enabled'
                  ORDER BY
                     prj_title";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -216,7 +216,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
                     prj_id=" . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -245,7 +245,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
                     prj_title='" . Misc::escapeString($prj_title) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -276,7 +276,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
                     prj_id=" . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -308,7 +308,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
                     prj_id="  . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return true;
@@ -339,7 +339,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
                     prj_id=" . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -364,7 +364,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project
                  WHERE
                     prj_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -405,7 +405,7 @@ class Project
         if ($users_to_not_remove != false) {
             $stmt .= " AND\n pru_usr_id NOT IN(" . join(', ', Misc::escapeInteger($users_to_not_remove)) . ")";
         }
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -442,7 +442,7 @@ class Project
                     prj_workflow_backend='" . Misc::escapeString($_POST["workflow_backend"]) . "'
                  WHERE
                     prj_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -490,7 +490,7 @@ class Project
                 WHERE
                     pru_prj_id = $prj_id AND
                     pru_usr_id = $usr_id";
-        $res = $GLOBALS["db_api"]->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -507,7 +507,7 @@ class Project
                             $prj_id,
                             " . Misc::escapeInteger($role) . "
                          )";
-                $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                $res = DB_Helper::getInstance()->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                     return false;
@@ -558,7 +558,7 @@ class Project
                     '" . Misc::escapeString($_POST["customer_backend"]) . "',
                     '" . Misc::escapeString($_POST["workflow_backend"]) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -603,7 +603,7 @@ class Project
                     prj_lead_usr_id=usr_id
                  ORDER BY
                     prj_title";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -647,9 +647,9 @@ class Project
                  ORDER BY
                     prj_title";
         if ($include_role) {
-            $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt, true, array(), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->getAssoc($stmt, true, array(), DB_FETCHMODE_ASSOC);
         } else {
-            $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+            $res = DB_Helper::getInstance()->getAssoc($stmt);
         }
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -696,7 +696,7 @@ class Project
         $stmt .= "
                  ORDER BY
                     usr_full_name ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -726,7 +726,7 @@ class Project
                     pru_usr_id=usr_id
                  ORDER BY
                     usr_full_name ASC";
-        $res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -757,7 +757,7 @@ class Project
         $stmt .= "
                  ORDER BY
                     prj_title";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -854,7 +854,7 @@ class Project
                  ORDER BY
                     usr_customer_id DESC,
                     usr_full_name ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -882,7 +882,7 @@ class Project
                     prj_remote_invocation='enabled'
                  ORDER BY
                     prj_title";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -925,7 +925,7 @@ class Project
         $stmt .= "
                  ORDER BY
                     prj_title";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -973,7 +973,7 @@ class Project
         $stmt .= "
                  ORDER BY
                     usr_email ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -1009,7 +1009,7 @@ class Project
                     usr_id = iss_usr_id
                  ORDER BY
                     usr_full_name ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1034,7 +1034,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_field_display
                  WHERE
                     pfd_prj_id = " . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1053,7 +1053,7 @@ class Project
                         '" . Misc::escapeString($field) . "',
                         " . Misc::escapeInteger($min_role) . "
                      )";
-            $res = $GLOBALS["db_api"]->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
@@ -1079,7 +1079,7 @@ class Project
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_field_display
                  WHERE
                     pfd_prj_id = " . Misc::escapeInteger($prj_id);
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;

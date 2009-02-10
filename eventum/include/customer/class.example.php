@@ -343,7 +343,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                     iss_sta_id=sta_id
                  WHERE
                     iss_customer_id=$customer_id";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if ((PEAR::isError($res)) || (empty($res)) || (count($res) == 0)) {
             return array(
                 'total_issues'           => 0,
@@ -399,7 +399,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                     sbt_type='emails'
                  WHERE
                     iss_customer_id=$customer_id";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         $persons = array();
         for ($i = 0; $i < count($res); $i++) {
             if ((!empty($res[$i]['sub_usr_id'])) && (!in_array($res[$i]['sub_usr_id'], $persons))) {
@@ -425,7 +425,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                     pru_prj_id=iss_prj_id AND
                     iss_id=$issue_id AND
                     pru_role <> " . User::getRoleID('Customer');
-        $staff_emails = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $staff_emails = DB_Helper::getInstance()->getCol($stmt);
 
         $stmt = "SELECT
                     sup_from
@@ -433,7 +433,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email
                  WHERE
                     sup_iss_id IN (" . implode(", ", $issues) . ")";
-        $emails = $GLOBALS["db_api"]->dbh->getCol($stmt);
+        $emails = DB_Helper::getInstance()->getCol($stmt);
         $total_emails = 0;
         foreach ($emails as $address) {
             $email = strtolower(Mail_API::getEmailAddress($address));
@@ -449,7 +449,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  WHERE
                     phs_iss_id IN (" . implode(", ", $issues) . ")";
-        $calls = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $calls = DB_Helper::getInstance()->getOne($stmt);
 
         $stmt = "SELECT
                     AVG(UNIX_TIMESTAMP(iss_first_response_date) - UNIX_TIMESTAMP(iss_created_date)) AS first_response_time
@@ -457,7 +457,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_id IN (" . implode(", ", $issues) . ")";
-        $avg_first_response = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $avg_first_response = DB_Helper::getInstance()->getOne($stmt);
         if (!empty($avg_first_response)) {
             // format the average into a number of minutes
             $avg_first_response = $avg_first_response / 60;
@@ -469,7 +469,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  WHERE
                     iss_id IN (" . implode(", ", $issues) . ")";
-        $avg_close = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $avg_close = DB_Helper::getInstance()->getOne($stmt);
         if (!empty($avg_close)) {
             // format the average into a number of minutes
             $avg_close = $avg_close / 60;
@@ -761,7 +761,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  WHERE
                     usr_customer_contact_id = $contact_id";
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt);
+        $res = DB_Helper::getInstance()->getRow($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;

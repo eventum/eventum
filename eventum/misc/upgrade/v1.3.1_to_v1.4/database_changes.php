@@ -5,7 +5,7 @@ require_once(APP_INC_PATH . "db_access.php");
 
 $stmt = "desc eventum_project_priority";
 $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
-$res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+$res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
@@ -23,7 +23,7 @@ if (!strstr($columns[0]['Key'], 'PRI')) {
 
 $stmt = "desc eventum_customer_note";
 $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
-$res = $GLOBALS["db_api"]->dbh->getCol($stmt);
+$res = DB_Helper::getInstance()->getCol($stmt);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);
@@ -86,7 +86,7 @@ $stmts[] = "UPDATE eventum_user SET usr_status = 'inactive' WHERE usr_id = 1";
 
 foreach ($stmts as $stmt) {
     $stmt = str_replace('eventum_', APP_TABLE_PREFIX, $stmt);
-    $res = $GLOBALS["db_api"]->dbh->query($stmt);
+    $res = DB_Helper::getInstance()->query($stmt);
     if (PEAR::isError($res)) {
 		echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
         exit(1);

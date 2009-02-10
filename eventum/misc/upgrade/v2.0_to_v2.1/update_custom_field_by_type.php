@@ -16,7 +16,7 @@ $sql = "SELECT
             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
         WHERE
             fld_type IN ('date', 'integer')";
-$res = $GLOBALS["db_api"]->dbh->getCol($sql);
+$res = DB_Helper::getInstance()->getCol($sql);
 if (PEAR::isError($res)) {
 	echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
     exit(1);

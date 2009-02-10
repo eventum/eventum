@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.status.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.status.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -62,7 +62,7 @@ class Status
                  WHERE
                     psd_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     psd_sta_id IN (" . implode(', ', Misc::escapeInteger($sta_ids)) . ")";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -87,7 +87,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
                  WHERE
                     psd_id=" . Misc::escapeInteger($psd_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -111,7 +111,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_status_date
                  WHERE
                     psd_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -143,7 +143,7 @@ class Status
                     psd_label='" . Misc::escapeString($label) . "'
                  WHERE
                     psd_id=" . Misc::escapeInteger($psd_id);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -178,7 +178,7 @@ class Status
                     '" . Misc::escapeString($date_field) . "',
                     '" . Misc::escapeString($label) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -213,7 +213,7 @@ class Status
                     sta_id=psd_sta_id
                  ORDER BY
                     prj_title ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -242,7 +242,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
                     sta_id=" . Misc::escapeInteger($sta_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -282,7 +282,7 @@ class Status
                     '" . Misc::escapeString($_POST['color']) . "',
                     " . Misc::escapeInteger($_POST['is_closed']) . "
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -318,7 +318,7 @@ class Status
                     sta_is_closed=" . Misc::escapeInteger($_POST['is_closed']) . "
                  WHERE
                     sta_id=" . Misc::escapeInteger($_POST["id"]);
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -345,7 +345,7 @@ class Status
                          WHERE
                             iss_sta_id=" . Misc::escapeInteger($_POST['id']) . " AND
                             iss_prj_id IN (" . implode(', ', $removed_projects) . ")";
-                $res = $GLOBALS["db_api"]->dbh->query($stmt);
+                $res = DB_Helper::getInstance()->query($stmt);
                 if (PEAR::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 }
@@ -368,7 +368,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
                     sta_id IN ($items)";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -381,7 +381,7 @@ class Status
                         iss_sta_id=0
                      WHERE
                         iss_sta_id IN ($items)";
-            $GLOBALS["db_api"]->dbh->query($stmt);
+            DB_Helper::getInstance()->query($stmt);
             return true;
         }
     }
@@ -406,7 +406,7 @@ class Status
                     " . Misc::escapeInteger($sta_id) . ",
                     " . Misc::escapeInteger($prj_id) . "
                  )";
-        $GLOBALS["db_api"]->dbh->query($stmt);
+        DB_Helper::getInstance()->query($stmt);
     }
 
 
@@ -432,7 +432,7 @@ class Status
         if ($prj_id) {
             $stmt .= " AND prs_prj_id=" . Misc::escapeInteger($prj_id);
         }
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -457,7 +457,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
                     sta_id=" . Misc::escapeInteger($sta_id);
-        $res = $GLOBALS["db_api"]->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -484,7 +484,7 @@ class Status
                  ORDER BY
                     sta_rank ASC,
                     sta_title";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -517,7 +517,7 @@ class Status
                  WHERE
                     prj_id=prs_prj_id AND
                     prs_sta_id=" . Misc::escapeInteger($sta_id);
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -548,7 +548,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
                     sta_title='" . Misc::escapeString($sta_title) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -574,7 +574,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  WHERE
                     sta_id=" . Misc::escapeInteger($sta_id);
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -610,7 +610,7 @@ class Status
                     sta_is_closed=1
                  ORDER BY
                     sta_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -650,7 +650,7 @@ class Status
         $stmt .= "
                  ORDER BY
                     sta_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -690,7 +690,7 @@ class Status
         $stmt .= "
                  ORDER BY
                     sta_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -716,7 +716,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  ORDER BY
                     sta_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -749,7 +749,7 @@ class Status
                     sta_is_closed=1
                  ORDER BY
                     sta_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAssoc($stmt);
+        $res = DB_Helper::getInstance()->getAssoc($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
@@ -774,7 +774,7 @@ class Status
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
                  ORDER BY
                     sta_rank ASC";
-        $res = $GLOBALS["db_api"]->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";

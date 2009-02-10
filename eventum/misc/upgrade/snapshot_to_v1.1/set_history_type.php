@@ -283,7 +283,7 @@ $sql = "SELECT
             his_htt_id = ''";
 
 //$sql .= " AND his_summary LIKE 'Time tracking entry submitted remotely by %' LIMIT 10";
-$result = $GLOBALS["db_api"]->dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+$result = DB_Helper::getInstance()->getAll($sql, DB_FETCHMODE_ASSOC);
 
 $updated = 0;
 $skipped = 0;
@@ -325,7 +325,7 @@ function getUser($name)
                 " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
             WHERE
                 usr_full_name = '" . trim(Misc::escapeString($name)) . "'";
-    return $GLOBALS["db_api"]->dbh->getOne($sql);
+    return DB_Helper::getInstance()->getOne($sql);
 }
 
 function update($his_id, $match)
@@ -340,7 +340,7 @@ function update($his_id, $match)
             $sql .= "
             WHERE
                 his_id = $his_id";
-    $res = $GLOBALS["db_api"]->dbh->query($sql);
+    $res = DB_Helper::getInstance()->query($sql);
     if (PEAR::isError($res)) {
         echo "<pre>";print_r($res);
         exit(1);

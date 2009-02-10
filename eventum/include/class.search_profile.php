@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.search_profile.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.search_profile.php 3825 2009-02-10 06:57:44Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -52,7 +52,7 @@ class Search_Profile
                     sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
                     sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     sep_type='" . Misc::escapeString($type) . "'";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -88,7 +88,7 @@ class Search_Profile
                     sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
                     sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     sep_type='" . Misc::escapeString($type) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -123,7 +123,7 @@ class Search_Profile
                     sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
                     sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     sep_type='" . Misc::escapeString($type) . "'";
-        $res = $GLOBALS["db_api"]->dbh->getOne($stmt);
+        $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -184,7 +184,7 @@ class Search_Profile
                     '" . Misc::escapeString($type) . "',
                     '" . Misc::escapeString(serialize($profile)) . "'
                  )";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
@@ -215,7 +215,7 @@ class Search_Profile
                     sep_usr_id=" . Misc::escapeInteger($usr_id) . " AND
                     sep_prj_id=" . Misc::escapeInteger($prj_id) . " AND
                     sep_type='" . Misc::escapeString($type) . "'";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
