@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-26 15:13+0200\n"
+"POT-Creation-Date: 2009-02-10 09:41+0200\n"
 "PO-Revision-Date: 2008-05-06 15:48+0100\n"
 "Last-Translator: Alex Krappen <sam.krappen@zeeland.nl>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
@@ -423,18 +423,6 @@ msgstr "Selectie verwijderen"
 #: misc/localization/eventum.c
 msgid "No custom searches could be found."
 msgstr "Geen opgeslagen zoekopdrachten gevonden"
-
-#: misc/localization/eventum.c
-msgid "Page generated in %1 seconds"
-msgstr "Pagina gegenereerd in %1 seconden"
-
-#: misc/localization/eventum.c
-msgid "queries"
-msgstr "zoekopdrachtem"
-
-#: misc/localization/eventum.c
-msgid "Benchmark Statistics"
-msgstr "Snelheidsstatistiek"
 
 #: misc/localization/eventum.c
 msgid "An error occurred while trying to associate the selected email message"
@@ -8320,7 +8308,7 @@ msgstr "Impactanalyse aangemeld door %1$s"
 msgid "Impact analysis removed by %1$s"
 msgstr "Impactanalyse verwijderd door %1$s"
 
-#: include/class.mail.php:120
+#: include/class.mail_helper.php:120
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -8328,7 +8316,7 @@ msgstr ""
 "Waarschuwing: Het bericht is geblokkeerd omdat de afzender niet gemachtigd "
 "is om emails te verzenden naar de daaraan gekoppelde melding."
 
-#: include/class.mail.php:121
+#: include/class.mail_helper.php:121
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -8336,11 +8324,11 @@ msgstr ""
 "Alleen stafleden die in de opdracht staan of bevoegd antwoorder zijn kunnen "
 "emails verzenden."
 
-#: include/class.mail.php:470
+#: include/class.mail_helper.php:470
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "Let op: Uw antwoord wordt verzonden naar de notificatielijst."
 
-#: include/class.mail.php:472
+#: include/class.mail_helper.php:472
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "Waarschuwing: Als u wilt antwoorden, voeg uzelf dan eerst toe aan de lijst "
@@ -8605,12 +8593,12 @@ msgstr "Bericht (Onderwerp: '%1$s') gekoppeld door %2$s"
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Bericht (Onderwerp: '%1$s') ontkoppeld door %2$s"
 
-#: include/class.support.php:2247
+#: include/class.support.php:2248
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Uitgaande berichten verzonden door %1$s"
 
-#: include/class.support.php:2613
+#: include/class.support.php:2614
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Berichten van '%1$s' geblokkeerd"
@@ -8630,23 +8618,23 @@ msgstr "Tijdregistratie ingevoerd door %1$s"
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Tijdregistratie op afstand ingevoerd door %1$s"
 
-#: reports/custom_fields.php:59
+#: reports/custom_fields.php:60
 msgid "No custom fields for this project"
 msgstr "Geen gedefinieerde velden voor dit project"
 
-#: reports/workload_time_period_graph.php:56
+#: reports/workload_time_period_graph.php:57
 msgid "Email by Time Period"
 msgstr "Berichten per tijdvak"
 
-#: reports/workload_time_period_graph.php:57
+#: reports/workload_time_period_graph.php:58
 msgid "emails"
 msgstr "berichten"
 
-#: reports/workload_time_period_graph.php:60
+#: reports/workload_time_period_graph.php:61
 msgid "Workload by Time Period"
 msgstr "werkzaamheden per uur van de dag"
 
-#: reports/workload_time_period_graph.php:61
+#: reports/workload_time_period_graph.php:62
 msgid "actions"
 msgstr "acties"
 
@@ -8668,6 +8656,15 @@ msgstr ""
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
+
+#~ msgid "Page generated in %1 seconds"
+#~ msgstr "Pagina gegenereerd in %1 seconden"
+
+#~ msgid "queries"
+#~ msgstr "zoekopdrachtem"
+
+#~ msgid "Benchmark Statistics"
+#~ msgstr "Snelheidsstatistiek"
 
 #~ msgid "Keep Form Open"
 #~ msgstr "Hierna nog een melding opgeven"

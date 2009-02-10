@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-26 15:13+0200\n"
+"POT-Creation-Date: 2009-02-10 09:41+0200\n"
 "PO-Revision-Date: 2007-11-10 17:22+0200\n"
 "Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -431,18 +431,6 @@ msgstr "Poista valitut"
 #: misc/localization/eventum.c
 msgid "No custom searches could be found."
 msgstr "Tallennettuja hakuja ei löytynyt."
-
-#: misc/localization/eventum.c
-msgid "Page generated in %1 seconds"
-msgstr "Sivu muodostettiin %1 sekunnissa"
-
-#: misc/localization/eventum.c
-msgid "queries"
-msgstr "haut"
-
-#: misc/localization/eventum.c
-msgid "Benchmark Statistics"
-msgstr "Suorituskykytilastot"
 
 #: misc/localization/eventum.c
 msgid "An error occurred while trying to associate the selected email message"
@@ -8421,7 +8409,7 @@ msgstr "Vaikutusanalyysi lähettäjänä %1$s"
 msgid "Impact analysis removed by %1$s"
 msgstr "Vaikutusanalyysi poistajana %1$s"
 
-#: include/class.mail.php:120
+#: include/class.mail_helper.php:120
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -8429,7 +8417,7 @@ msgstr ""
 "VAROITUS: Tämä viesti estettiin koska lähettäjällä ei ole oikeuksia lähettää "
 "viestejä kyseiseen vikailmoitukseen."
 
-#: include/class.mail.php:121
+#: include/class.mail_helper.php:121
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -8437,11 +8425,11 @@ msgstr ""
 "Ainoastaan henkilökunnan jäsenet, jotka on listattu \"määrätty\"-kentässä "
 "tai \"oikeutetut vastaajat\"-kentässä voivat lähettää sähköpostia."
 
-#: include/class.mail.php:470
+#: include/class.mail_helper.php:470
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "TIEDOTUS: Vastauksesi lähetetään muistutuslistalle."
 
-#: include/class.mail.php:472
+#: include/class.mail_helper.php:472
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "VAROITUS: Jos vastaat, lisää itsesi oikeutettujen vastaajien listaan ensin."
@@ -8703,12 +8691,12 @@ msgstr "Sähköposti (aihe: '%1$s') liittäjänä %2$s"
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liitoksen poistajana %2$s"
 
-#: include/class.support.php:2247
+#: include/class.support.php:2248
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Sähköpostiviestin lähettäjänä %1$s"
 
-#: include/class.support.php:2613
+#: include/class.support.php:2614
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Sähköpostiviesti lähettäjältä '%1$s' estetty"
@@ -8728,23 +8716,23 @@ msgstr "Ajanseurantamerkinnän lisääjä %1$s"
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Etänä lisätty ajanseurantamerkintä lisääjänä %1$s"
 
-#: reports/custom_fields.php:59
+#: reports/custom_fields.php:60
 msgid "No custom fields for this project"
 msgstr "Lisäkenttiä ei ole tälle projektille."
 
-#: reports/workload_time_period_graph.php:56
+#: reports/workload_time_period_graph.php:57
 msgid "Email by Time Period"
 msgstr "Sähköpostit aikajaksoittain"
 
-#: reports/workload_time_period_graph.php:57
+#: reports/workload_time_period_graph.php:58
 msgid "emails"
 msgstr "sähköpostit"
 
-#: reports/workload_time_period_graph.php:60
+#: reports/workload_time_period_graph.php:61
 msgid "Workload by Time Period"
 msgstr "Työmäärä aikajaksoittain"
 
-#: reports/workload_time_period_graph.php:61
+#: reports/workload_time_period_graph.php:62
 msgid "actions"
 msgstr "toiminnot"
 
@@ -8766,6 +8754,15 @@ msgstr "Vikailmoituksen yksityiskohdat"
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
+
+#~ msgid "Page generated in %1 seconds"
+#~ msgstr "Sivu muodostettiin %1 sekunnissa"
+
+#~ msgid "queries"
+#~ msgstr "haut"
+
+#~ msgid "Benchmark Statistics"
+#~ msgstr "Suorituskykytilastot"
 
 #~ msgid "Keep Form Open"
 #~ msgstr "Pidä lomake auki"

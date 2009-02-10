@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-26 15:13+0200\n"
+"POT-Creation-Date: 2009-02-10 09:41+0200\n"
 "PO-Revision-Date: 2008-01-28 12:32+0100\n"
 "Last-Translator: Franco Alberganti <streamlake@tiscali.it>\n"
 "Language-Team: Italian <eventum-devel@lists.mysql.com>\n"
@@ -433,18 +433,6 @@ msgstr "Rimuovi Selezionati"
 #: misc/localization/eventum.c
 msgid "No custom searches could be found."
 msgstr "Nessuna ricerca personalizzata trovata."
-
-#: misc/localization/eventum.c
-msgid "Page generated in %1 seconds"
-msgstr "Pagina generata in %1 secondi"
-
-#: misc/localization/eventum.c
-msgid "queries"
-msgstr "queries"
-
-#: misc/localization/eventum.c
-msgid "Benchmark Statistics"
-msgstr "Statistiche Benchmark"
 
 #: misc/localization/eventum.c
 msgid "An error occurred while trying to associate the selected email message"
@@ -8575,7 +8563,7 @@ msgstr "Analisi di impatto immessa da %1$s"
 msgid "Impact analysis removed by %1$s"
 msgstr "Analisi di impatto eliminata da %1$s"
 
-#: include/class.mail.php:120
+#: include/class.mail_helper.php:120
 msgid ""
 "WARNING: This message was blocked because the sender was not allowed to send "
 "emails to the associated issue."
@@ -8583,7 +8571,7 @@ msgstr ""
 "ATTENZIONE: questo messaggio è stato bloccato perchè il mittente non può "
 "inviare email alla segnalazione associata."
 
-#: include/class.mail.php:121
+#: include/class.mail_helper.php:121
 msgid ""
 "Only staff members listed in the assignment or authorized replier fields can "
 "send emails."
@@ -8591,11 +8579,11 @@ msgstr ""
 "Solo i membri dello staff elencati nei campi assegnazione o collaboratore "
 "autorizzato possono inviare email."
 
-#: include/class.mail.php:470
+#: include/class.mail_helper.php:470
 msgid "ADVISORY: Your reply will be sent to the notification list."
 msgstr "AVVISO: la risposta sarà inviata all'elenco notifiche."
 
-#: include/class.mail.php:472
+#: include/class.mail_helper.php:472
 msgid "WARNING: If replying, add yourself to Authorized Repliers list first."
 msgstr ""
 "ATTENZIONE: se rispondi, aggiungi prima te stesso all'elenco dei "
@@ -8864,12 +8852,12 @@ msgstr "Email (oggetto: '%1$s') associata da %2$s"
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (oggetto: '%1$s') dissociata da %2$s"
 
-#: include/class.support.php:2247
+#: include/class.support.php:2248
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email in uscita inviata da %1$s"
 
-#: include/class.support.php:2613
+#: include/class.support.php:2614
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email da '%1$s' bloccata"
@@ -8889,26 +8877,26 @@ msgstr "Voce di tracciamento temporale inserita da %1$s"
 msgid "Time tracking entry submitted remotely by %1$s"
 msgstr "Voce di tracciamento temporale inserita in remoto da %1$s"
 
-#: reports/custom_fields.php:59
+#: reports/custom_fields.php:60
 msgid "No custom fields for this project"
 msgstr "Nessun campo personalizzato per questo progetto"
 
-#: reports/workload_time_period_graph.php:56
+#: reports/workload_time_period_graph.php:57
 #, fuzzy
 msgid "Email by Time Period"
 msgstr "Email per periodo di tempo"
 
-#: reports/workload_time_period_graph.php:57
+#: reports/workload_time_period_graph.php:58
 #, fuzzy
 msgid "emails"
 msgstr "Emails"
 
-#: reports/workload_time_period_graph.php:60
+#: reports/workload_time_period_graph.php:61
 #, fuzzy
 msgid "Workload by Time Period"
 msgstr "Carico di lavoro per periodo di tempo"
 
-#: reports/workload_time_period_graph.php:61
+#: reports/workload_time_period_graph.php:62
 #, fuzzy
 msgid "actions"
 msgstr "Azioni"
@@ -8931,6 +8919,15 @@ msgstr "Dettagli segnalazione"
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr ""
+
+#~ msgid "Page generated in %1 seconds"
+#~ msgstr "Pagina generata in %1 secondi"
+
+#~ msgid "queries"
+#~ msgstr "queries"
+
+#~ msgid "Benchmark Statistics"
+#~ msgstr "Statistiche Benchmark"
 
 #~ msgid "Keep Form Open"
 #~ msgstr "Mantieni aperto il modulo"
