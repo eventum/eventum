@@ -117,8 +117,8 @@ class Note
             return '';
         } else {
             if (count($res) > 0) {
-                $res['timestamp'] = Date_API::getUnixTimestamp($res['not_created_date'], 'GMT');
-                $res['not_created_date'] = Date_API::getFormattedDate($res['not_created_date']);
+                $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
+                $res['not_created_date'] = Date_Helper::getFormattedDate($res['not_created_date']);
                 if ($res['not_is_blocked'] == 1) {
                     $res['has_blocked_message'] = true;
                 } else {
@@ -374,7 +374,7 @@ class Note
                  ) VALUES (
                     $issue_id,
                     $usr_id,
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($_POST["note"]) . "',
                     '" . Misc::escapeString($_POST["title"]) . "'";
         if (!@empty($_POST['full_message'])) {
@@ -552,7 +552,7 @@ class Note
                     $res[$i]["usr_full_name"] = $res[$i]["not_unknown_user"];
                 }
 
-                $res[$i]["not_created_date"] = Date_API::getFormattedDate($res[$i]["not_created_date"]);
+                $res[$i]["not_created_date"] = Date_Helper::getFormattedDate($res[$i]["not_created_date"]);
                 $t[] = $res[$i];
             }
             return $t;
@@ -589,7 +589,7 @@ class Note
                 'issue_id'       => $issue_id,
                 'ema_id'         => $email_account_id,
                 'message_id'     => @$structure->headers['message-id'],
-                'date'           => Date_API::getCurrentDateGMT(),
+                'date'           => Date_Helper::getCurrentDateGMT(),
                 'from'           => @$structure->headers['from'],
                 'to'             => @$structure->headers['to'],
                 'cc'             => @$structure->headers['cc'],

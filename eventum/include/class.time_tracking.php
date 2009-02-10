@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.time_tracking.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.time_tracking.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -166,7 +166,7 @@ class Time_Tracking
                     ttc_created_date
                  ) VALUES (
                     '" . Misc::escapeString($_POST["title"]) . "',
-                    '" . Date_API::getCurrentDateGMT() . "'
+                    '" . Date_Helper::getCurrentDateGMT() . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
@@ -331,7 +331,7 @@ class Time_Tracking
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["ttr_summary"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["ttr_summary"])));
                 $res[$i]["formatted_time"] = Misc::getFormattedTime($res[$i]["ttr_time_spent"]);
-                $res[$i]["ttr_created_date"] = Date_API::getFormattedDate($res[$i]["ttr_created_date"]);
+                $res[$i]["ttr_created_date"] = Date_Helper::getFormattedDate($res[$i]["ttr_created_date"]);
 
                 $total_time_spent += $res[$i]["ttr_time_spent"];
             }
@@ -424,9 +424,9 @@ class Time_Tracking
                 $_POST["date"]["Day"], $_POST["date"]["Hour"],
                 $_POST["date"]["Minute"], 0);
             // convert the date to GMT timezone
-            $created_date = Date_API::convertDateGMT($created_date);
+            $created_date = Date_Helper::convertDateGMT($created_date);
         } else {
-            $created_date = Date_API::getCurrentDateGMT();
+            $created_date = Date_Helper::getCurrentDateGMT();
         }
         $usr_id = Auth::getUserID();
         $stmt = "INSERT INTO
@@ -485,7 +485,7 @@ class Time_Tracking
                     " . Misc::escapeInteger($cat_id) . ",
                     " . Misc::escapeInteger($issue_id) . ",
                     " . Misc::escapeInteger($usr_id) . ",
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     " . Misc::escapeInteger($time_spent) . ",
                     '" . Misc::escapeString($summary) . "'
                  )";

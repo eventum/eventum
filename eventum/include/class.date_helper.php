@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.date_helper.php 3824 2009-02-10 06:52:02Z glen $
+// @(#) $Id: class.date_helper.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
@@ -57,7 +57,7 @@ define("YEAR", MONTH * 12);
  * @author João Prado Maia <jpm@mysql.com>
  */
 
-class Date_API
+class Date_Helper
 {
     /**
      * Returns whether the given hour is AM or not.
@@ -190,7 +190,7 @@ class Date_API
     function getUnixTimestamp($timestamp, $timezone = FALSE)
     {
         if (!$timezone) {
-            $timezone = Date_API::getPreferredTimezone();
+            $timezone = Date_Helper::getPreferredTimezone();
         }
         $date = new Date($timestamp);
         // now convert to another timezone and return the timestamp
@@ -210,7 +210,7 @@ class Date_API
     function getRFC822Date($timestamp, $timezone = FALSE)
     {
         if (!$timezone) {
-            $timezone = Date_API::getPreferredTimezone();
+            $timezone = Date_Helper::getPreferredTimezone();
         }
         $date = new Date($timestamp);
         // now convert to another timezone and return the date
@@ -273,8 +273,8 @@ class Date_API
     function getTimezoneShortNameByUser($usr_id)
     {
         $date = new Date();
-        $date->convertTZById(Date_API::getPreferredTimezone($usr_id));
-        return Date_API::getTimezoneShortName($date);
+        $date->convertTZById(Date_Helper::getPreferredTimezone($usr_id));
+        return Date_Helper::getTimezoneShortName($date);
     }
 
     /**
@@ -289,7 +289,7 @@ class Date_API
     function getFormattedDate($ts, $timezone = FALSE)
     {
         if ($timezone === FALSE) {
-            $timezone = Date_API::getPreferredTimezone();
+            $timezone = Date_Helper::getPreferredTimezone();
         }
 
         $date = self::getDateGMT($ts);
@@ -316,7 +316,7 @@ class Date_API
         $date = new Date($timestamp);
         // now convert to another timezone and return the date
         if ($convert) {
-            $timezone = Date_API::getPreferredTimezone();
+            $timezone = Date_Helper::getPreferredTimezone();
             $date->convertTZById($timezone);
         }
         return $date->format('%d %b %Y');
@@ -336,11 +336,11 @@ class Date_API
             $usr_id = Auth::getUserID();
         }
         if (empty($usr_id)) {
-            return Date_API::getDefaultTimezone();
+            return Date_Helper::getDefaultTimezone();
         }
         $prefs = Prefs::get($usr_id);
         if (empty($prefs["timezone"])) {
-            return Date_API::getDefaultTimezone();
+            return Date_Helper::getDefaultTimezone();
         } else {
             return $prefs["timezone"];
         }
@@ -370,7 +370,7 @@ class Date_API
     function convertDateGMT($date)
     {
         $dt = new Date($date);
-        $dt->setTZbyID(Date_API::getPreferredTimezone());
+        $dt->setTZbyID(Date_Helper::getPreferredTimezone());
         $dt->toUTC();
         return $dt->format('%Y-%m-%d %H:%M:%S');
     }
@@ -406,16 +406,16 @@ class Date_API
 
         // previous weeks
         for ($week = $weeks_past; $week > 0; $week--) {
-            $option = Date_API::formatWeekOption($current_start - ($week * WEEK));
+            $option = Date_Helper::formatWeekOption($current_start - ($week * WEEK));
             $options[$option[0]] = $option[1];
         }
 
-        $option = Date_API::formatWeekOption($current_start);
+        $option = Date_Helper::formatWeekOption($current_start);
         $options[$option[0]] = $option[1];
 
         // future weeks
         for ($week = 1; $week <= $weeks_future; $week++) {
-            $option = Date_API::formatWeekOption($current_start + ($week * WEEK));
+            $option = Date_Helper::formatWeekOption($current_start + ($week * WEEK));
             $options[$option[0]] = $option[1];
         }
 

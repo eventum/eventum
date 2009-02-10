@@ -363,7 +363,7 @@ class Support
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["sup_date"] = Date_API::getFormattedDate($res[$i]["sup_date"]);
+                $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
                 $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
                 $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
             }
@@ -651,7 +651,7 @@ class Support
         $t = array(
             'ema_id'         => $info['ema_id'],
             'message_id'     => $message_id,
-            'date'           => Date_API::convertDateGMTByTS($email->udate),
+            'date'           => Date_Helper::convertDateGMTByTS($email->udate),
             'from'           => $sender_email,
             'to'             => @$email->toaddress,
             'cc'             => @$email->ccaddress,
@@ -1360,7 +1360,7 @@ class Support
                 }
             }
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["sup_date"] = Date_API::getFormattedDate($res[$i]["sup_date"]);
+                $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
                 $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
                 $res[$i]["sup_from"] = join(', ', Mail_API::getName($res[$i]["sup_from"], true));
                 if ((empty($res[$i]["sup_to"])) && (!empty($res[$i]["sup_iss_id"]))) {
@@ -1636,8 +1636,8 @@ class Support
         } else {
             $res['message'] = $res['seb_body'];
             $res["attachments"] = Mime_Helper::getAttachmentCIDs($res["seb_full_email"]);
-            $res["timestamp"] = Date_API::getUnixTimestamp($res['sup_date'], 'GMT');
-            $res["sup_date"] = Date_API::getFormattedDate($res["sup_date"]);
+            $res["timestamp"] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
+            $res["sup_date"] = Date_Helper::getFormattedDate($res["sup_date"]);
             $res["sup_subject"] = Mime_Helper::fixEncoding($res["sup_subject"]);
             $res['reply_subject'] = Mail_API::removeExcessRe('Re: ' . $res["sup_subject"], true);
             $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
@@ -1808,7 +1808,7 @@ class Support
                 return "";
             } else {
                 for ($i = 0; $i < count($res); $i++) {
-                    $res[$i]["sup_date"] = Date_API::getFormattedDate($res[$i]["sup_date"]);
+                    $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
                     $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
                     $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
                     $res[$i]["sup_to"] = Mime_Helper::fixEncoding($res[$i]["sup_to"]);
@@ -2207,7 +2207,7 @@ class Support
             'issue_id'       => $_POST["issue_id"] ? $_POST["issue_id"] : 0,
             'ema_id'         => $_POST['ema_id'],
             'message_id'     => $message_id,
-            'date'           => Date_API::getCurrentDateGMT(),
+            'date'           => Date_Helper::getCurrentDateGMT(),
             'from'           => $_POST['from'],
             'to'             => $_POST['to'],
             'cc'             => @$_POST['cc'],

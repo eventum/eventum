@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: workload_time_period_graph.php 3823 2009-02-10 06:46:03Z glen $
+// @(#) $Id: workload_time_period_graph.php 3826 2009-02-10 06:59:40Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.auth.php");
@@ -96,7 +96,7 @@ $grouped = new GroupBarPlot($plots);
 $graph->Add($grouped);
 
 $graph->title->Set($graph_title);
-$graph->xaxis->title->Set("Hours (" . Date_API::getTimezoneShortNameByUser($usr_id) . ")");
+$graph->xaxis->title->Set("Hours (" . Date_Helper::getTimezoneShortNameByUser($usr_id) . ")");
 $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->yaxis->title->Set(ucfirst($event_type) . " (%)");

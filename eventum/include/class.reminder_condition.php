@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.reminder_condition.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.reminder_condition.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -85,7 +85,7 @@ class Reminder_Condition
                     rlc_value,
                     rlc_comparison_rmf_id
                  ) VALUES (
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     " . Misc::escapeInteger($_POST['rma_id']) . ",
                     " . Misc::escapeInteger($_POST['field']) . ",
                     " . Misc::escapeInteger($_POST['operator']) . ",
@@ -113,7 +113,7 @@ class Reminder_Condition
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level_condition
                  SET
-                    rlc_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    rlc_last_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
                     rlc_rmf_id=" . Misc::escapeInteger($_POST['field']) . ",
                     rlc_rmo_id=" . Misc::escapeInteger($_POST['operator']) . ",
                     rlc_value='" . Misc::escapeString(@$_POST['value']) . "',

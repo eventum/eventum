@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.project.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.project.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -546,7 +546,7 @@ class Project
                     prj_customer_backend,
                     prj_workflow_backend
                  ) VALUES (
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($_POST["title"]) . "',
                     '" . Misc::escapeString($_POST["status"]) . "',
                     " . Misc::escapeInteger($_POST["lead_usr_id"]) . ",

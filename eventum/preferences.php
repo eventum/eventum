@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: preferences.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: preferences.php 3826 2009-02-10 06:59:40Z glen $
 
 // skip language init if we're saving language
 if (@$_POST['language']) {
@@ -79,7 +79,7 @@ if (empty($prefs)) {
 $tpl->assign("user_prefs", $prefs);
 $tpl->assign("user_info", User::getDetails($usr_id));
 $tpl->assign("assigned_projects", Project::getAssocList($usr_id, false, true));
-$tpl->assign("zones", Date_API::getTimezoneList());
+$tpl->assign("zones", Date_Helper::getTimezoneList());
 $tpl->assign('avail_langs', Language::getAvailableLanguages());
 $tpl->assign('current_locale', User::getLang(Auth::getUserID(), true));
 

@@ -90,7 +90,7 @@ class Draft
             $stmt .= ", emd_unknown_user";
         }
         $stmt .= ") VALUES (
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     $usr_id,
                     $issue_id,
                     $parent_id,
@@ -148,7 +148,7 @@ class Draft
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "email_draft
                  SET
-                    emd_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    emd_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
                     emd_status = 'edited'
                  WHERE
                     emd_id=$emd_id";
@@ -277,7 +277,7 @@ class Draft
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
-            $res["emd_updated_date"] = Date_API::getFormattedDate($res["emd_updated_date"]);
+            $res["emd_updated_date"] = Date_Helper::getFormattedDate($res["emd_updated_date"]);
             if (!empty($res['emd_unknown_user'])) {
                 $res['from'] = $res["emd_unknown_user"];
             } else {
@@ -322,7 +322,7 @@ class Draft
             return '';
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["emd_updated_date"] = Date_API::getFormattedDate($res[$i]["emd_updated_date"]);
+                $res[$i]["emd_updated_date"] = Date_Helper::getFormattedDate($res[$i]["emd_updated_date"]);
                 if (!empty($res[$i]['emd_unknown_user'])) {
                     $res[$i]['from'] = $res[$i]["emd_unknown_user"];
                 } else {

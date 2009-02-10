@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.scm.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.scm.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -172,7 +172,7 @@ class SCM
             $res[$i]["checkout_url"] = SCM::parseURL($setup["checkout_url"], $res[$i]);
             $res[$i]["diff_url"] = SCM::parseURL($setup["diff_url"], $res[$i]);
             $res[$i]["scm_log_url"] = SCM::parseURL($setup["scm_log_url"], $res[$i]);
-            $res[$i]["isc_created_date"] = Date_API::getFormattedDate($res[$i]["isc_created_date"]);
+            $res[$i]["isc_created_date"] = Date_Helper::getFormattedDate($res[$i]["isc_created_date"]);
         }
         return $res;
     }
@@ -205,7 +205,7 @@ class SCM
                     '" . Misc::escapeString($_GET["files"][$i]) . "',
                     '" . Misc::escapeString($_GET["old_versions"][$i]) . "',
                     '" . Misc::escapeString($_GET["new_versions"][$i]) . "',
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($_GET["username"]) . "',
                     '" . Misc::escapeString($_GET["commit_msg"]) . "'
                  )";

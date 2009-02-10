@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.reminder.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.reminder.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -458,7 +458,7 @@ class Reminder
                     rem_prj_id,
                     rem_skip_weekend
                  ) VALUES (
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     " . Misc::escapeInteger($_POST['rank']) . ",
                     '" . Misc::escapeString($_POST['title']) . "',
                     " . Misc::escapeInteger($_POST['project']) . ",
@@ -507,7 +507,7 @@ class Reminder
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "reminder_level
                  SET
-                    rem_last_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    rem_last_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
                     rem_rank=" . Misc::escapeInteger($_POST['rank']) . ",
                     rem_title='" . Misc::escapeString($_POST['title']) . "',
                     rem_prj_id=" . Misc::escapeInteger($_POST['project']) . ",
@@ -654,7 +654,7 @@ class Reminder
             return array();
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['rem_created_date'] = Date_API::getFormattedDate($res[$i]["rem_created_date"]);
+                $res[$i]['rem_created_date'] = Date_Helper::getFormattedDate($res[$i]["rem_created_date"]);
                 $actions = Reminder_Action::getList($res[$i]['rem_id']);
                 $res[$i]['total_actions'] = count($actions);
                 $priorities = Reminder::getAssociatedPriorities($res[$i]['rem_id']);
@@ -731,7 +731,7 @@ class Reminder
         $stmt .= Reminder::getWhereClause($reminder, $conditions);
         $stmt .= ' AND iss_trigger_reminders=1 ';
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
-        $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "')", $stmt);
+        $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
         $res = DB_Helper::getInstance()->getCol($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -834,7 +834,7 @@ class Reminder
                     " . APP_TABLE_PREFIX . "issue";
         $stmt .= Reminder::getWhereClause($reminder, $conditions);
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
-        $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "')", $stmt);
+        $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
         return $stmt;
     }
 
@@ -866,7 +866,7 @@ class Reminder
             return array();
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["rmh_created_date"] = Date_API::getFormattedDate($res[$i]["rmh_created_date"]);
+                $res[$i]["rmh_created_date"] = Date_Helper::getFormattedDate($res[$i]["rmh_created_date"]);
             }
             return $res;
         }

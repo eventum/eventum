@@ -146,7 +146,7 @@ class Mail_Queue
         }
         $stmt .= ") VALUES (
                     $save_email_copy,
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . @$_SERVER['REMOTE_ADDR'] . "',
                     '" . Misc::escapeString($recipient) . "',
                     '" . Misc::escapeString($text_headers) . "',
@@ -330,7 +330,7 @@ class Mail_Queue
                     mql_server_message
                  ) VALUES (
                     $maq_id,
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($status) . "',
                     '" . Misc::escapeString($server_message) . "'
                  )";
@@ -395,7 +395,7 @@ class Mail_Queue
         if (count($res) > 0) {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]['maq_recipient'] = Mime_Helper::decodeAddress($res[$i]['maq_recipient']);
-                $res[$i]['maq_queued_date'] = Date_API::getFormattedDate(Date_API::getUnixTimestamp($res[$i]['maq_queued_date'], 'GMT'));
+                $res[$i]['maq_queued_date'] = Date_Helper::getFormattedDate(Date_API::getUnixTimestamp($res[$i]['maq_queued_date'], 'GMT'));
                 $res[$i]['maq_subject'] = Mime_Helper::fixEncoding($res[$i]['maq_subject']);
             }
         }

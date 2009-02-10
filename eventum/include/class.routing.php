@@ -171,7 +171,7 @@ class Routing
             'issue_id'       => $issue_id,
             'ema_id'         => $email_account_id,
             'message_id'     => @$structure->headers['message-id'],
-            'date'           => Date_API::getCurrentDateGMT(),
+            'date'           => Date_Helper::getCurrentDateGMT(),
             'from'           => @$structure->headers['from'],
             'to'             => @$structure->headers['to'],
             'cc'             => @$structure->headers['cc'],

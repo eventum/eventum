@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.phone_support.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.phone_support.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -275,7 +275,7 @@ class Phone_Support
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["phs_description"] = Misc::activateLinks(nl2br(htmlspecialchars($res[$i]["phs_description"])));
                 $res[$i]["phs_description"] = Link_Filter::processText($res[$i]['iss_prj_id'], $res[$i]["phs_description"]);
-                $res[$i]["phs_created_date"] = Date_API::getFormattedDate($res[$i]["phs_created_date"]);
+                $res[$i]["phs_created_date"] = Date_Helper::getFormattedDate($res[$i]["phs_created_date"]);
             }
             return $res;
         }
@@ -298,7 +298,7 @@ class Phone_Support
             $_POST["date"]["Day"], $_POST["date"]["Hour"],
             $_POST["date"]["Minute"], 0);
         // convert the date to GMT timezone
-        $created_date = Date_API::convertDateGMT($created_date);
+        $created_date = Date_Helper::convertDateGMT($created_date);
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "phone_support
                  (

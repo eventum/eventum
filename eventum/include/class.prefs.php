@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.prefs.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.prefs.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -55,7 +55,7 @@ class Prefs
         $prefs = array(
             'receive_assigned_emails' => array(),
             'receive_new_emails'      => array(),
-            'timezone'                => Date_API::getDefaultTimezone(),
+            'timezone'                => Date_Helper::getDefaultTimezone(),
             'list_refresh_rate'       => APP_DEFAULT_REFRESH_RATE,
             'emails_refresh_rate'     => APP_DEFAULT_REFRESH_RATE,
             'email_signature'         => '',

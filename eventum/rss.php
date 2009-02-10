@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: rss.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: rss.php 3826 2009-02-10 06:59:40Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -189,7 +189,7 @@ echo '<?xml version="1.0" encoding="'. APP_CHARSET .'"?>' . "\n";
       &lt;BR&gt;<?php echo htmlspecialchars(Link_Filter::activateLinks(nl2br($issue['iss_description']))); ?>&lt;BR&gt;
       </description>
       <author><?php echo htmlspecialchars($issue['reporter']); ?></author>
-      <pubDate><?php echo Date_API::getRFC822Date($issue['iss_created_date'], "GMT"); ?></pubDate>
+      <pubDate><?php echo Date_Helper::getRFC822Date($issue['iss_created_date'], "GMT"); ?></pubDate>
     </item>
 <?php } ?>
 

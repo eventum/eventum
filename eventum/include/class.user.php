@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.user.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -314,7 +314,7 @@ class User
                     usr_preferences,
                     usr_status
                  ) VALUES (
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Auth::hashPassword(Misc::escapeString($_POST["passwd"])) . "',
                     '" . Misc::escapeString($_POST["full_name"]) . "',
                     '" . Misc::escapeString($_POST["email"]) . "',
@@ -1096,7 +1096,7 @@ class User
                  ) VALUES (
                     NULL,
                     NULL,
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Auth::hashPassword(Misc::escapeString($_POST["password"])) . "',
                     '" . Misc::escapeString($_POST["full_name"]) . "',
                     '" . Misc::escapeString($_POST["email"]) . "',

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.db_helper.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.db_helper.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 $TOTAL_QUERIES = 0;
@@ -130,7 +130,7 @@ class DB_Helper
     function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = false)
     {
         if ($end_date_field == false) {
-            $end_date_field = "'" . Date_API::getCurrentDateGMT() . "'";
+            $end_date_field = "'" . Date_Helper::getCurrentDateGMT() . "'";
         }
 
         // this is crazy, but it does work. Anyone with a better solution email bryan@mysql.com

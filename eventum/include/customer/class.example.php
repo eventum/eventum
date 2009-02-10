@@ -155,7 +155,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
     {
         // active contracts have an expiration date in the future
         $expiration = strtotime($this->data[$customer_id]['expiration_date']);
-        $now = Date_API::getCurrentUnixTimestampGMT();
+        $now = Date_Helper::getCurrentUnixTimestampGMT();
         if ($expiration > $now) {
             return 'active';
         } elseif ($expiration > ($now + (DAY * $this->getExpirationOffset()))) {

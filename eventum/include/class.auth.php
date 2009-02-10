@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.auth.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -56,7 +56,7 @@ class Auth
      */
     function saveLoginAttempt($email, $type, $extra = false)
     {
-        $msg = Date_API::getCurrentDateGMT() . " - Login attempt by '$email' was ";
+        $msg = Date_Helper::getCurrentDateGMT() . " - Login attempt by '$email' was ";
         if ($type == 'success') {
             $msg .= "successful.\n";
         } else {

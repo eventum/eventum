@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.customer.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.customer.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . 'class.misc.php');
@@ -1286,7 +1286,7 @@ class Customer
                     cno_note='" . Misc::escapeString($note) . "',
                     cno_prj_id=" . Misc::escapeInteger($prj_id) . ",
                     cno_customer_id=" . Misc::escapeInteger($customer_id) . ",
-                    cno_updated_date='" . Date_API::getCurrentDateGMT() . "'
+                    cno_updated_date='" . Date_Helper::getCurrentDateGMT() . "'
                  WHERE
                     cno_id=" . Misc::escapeInteger($cno_id);
         $res = $GLOBALS['db_api']->dbh->query($stmt);
@@ -1320,8 +1320,8 @@ class Customer
                  ) VALUES (
                     " . Misc::escapeInteger($prj_id) . ",
                     " . Misc::escapeInteger($customer_id) . ",
-                    '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($note) . "'
                  )";
         $res = $GLOBALS['db_api']->dbh->query($stmt);

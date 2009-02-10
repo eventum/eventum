@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.history.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.history.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -91,7 +91,7 @@ class History
         $stmt .= ") VALUES (
                     " . Misc::escapeInteger($iss_id) . ",
                     " . Misc::escapeInteger($usr_id) . ",
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($summary) . "',
                     $htt_id";
         if ($hide == true) {
@@ -134,7 +134,7 @@ class History
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["his_created_date"] = Date_API::getFormattedDate($res[$i]["his_created_date"]);
+                $res[$i]["his_created_date"] = Date_Helper::getFormattedDate($res[$i]["his_created_date"]);
                 $res[$i]["his_summary"] = Mime_Helper::fixEncoding($res[$i]["his_summary"]);
             }
             return $res;

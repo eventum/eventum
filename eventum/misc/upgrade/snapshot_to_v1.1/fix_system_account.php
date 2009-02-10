@@ -56,7 +56,7 @@ $stmt = "INSERT INTO
             usr_preferences
          ) VALUES (
             1,
-            '" . Date_API::getCurrentDateGMT() . "',
+            '" . Date_Helper::getCurrentDateGMT() . "',
             '14589714398751513457adf349173434',
             'system',
             'system-account@example.com',

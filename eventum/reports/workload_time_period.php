@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: workload_time_period.php 3823 2009-02-10 06:46:03Z glen $
+// @(#) $Id: workload_time_period.php 3826 2009-02-10 06:59:40Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -60,6 +60,6 @@ if (@$_GET["type"] == "email") {
 $tpl->assign(array(
     "data"    => $data,
     "type"    => @$_GET["type"],
-    "user_tz" => Date_API::getTimezoneShortNameByUser($usr_id)
+    "user_tz" => Date_Helper::getTimezoneShortNameByUser($usr_id)
 ));
 $tpl->displayTemplate();

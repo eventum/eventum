@@ -556,7 +556,7 @@ class Misc
     function formatReplyDate($ts)
     {
         // On Fri, 01 Apr 2005, 17:07:44 GMT
-        return Date_API::getFormattedDate($ts);
+        return Date_Helper::getFormattedDate($ts);
     }
 
 

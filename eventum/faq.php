@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: faq.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: faq.php 3826 2009-02-10 06:59:40Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -68,7 +68,7 @@ if (!empty($_GET["id"])) {
     if (($support_level_id != -1) && (!in_array($support_level_id, $t['support_levels']))) {
         $tpl->assign('faq', -1);
     } else {
-        $t['faq_created_date'] = Date_API::getFormattedDate($t["faq_created_date"]);
+        $t['faq_created_date'] = Date_Helper::getFormattedDate($t["faq_created_date"]);
         $tpl->assign("faq", $t);
     }
 }

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: view.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: view.php 3826 2009-02-10 06:59:40Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -128,7 +128,7 @@ if (($role_id == User::getRoleID('customer')) && (User::getCustomerID($usr_id) !
                 'custom_fields'       => Custom_Field::getListByIssue($prj_id, $issue_id),
                 'files'               => Attachment::getList($issue_id),
                 'emails'              => Support::getEmailsByIssue($issue_id),
-                'zones'               => Date_API::getTimezoneList(),
+                'zones'               => Date_Helper::getTimezoneList(),
                 'users'               => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
                 'ema_id'              => Email_Account::getEmailAccount(),
                 'max_attachment_size' => Attachment::getMaxAttachmentSize(),

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: new.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: new.php 3826 2009-02-10 06:59:40Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -135,7 +135,7 @@ $tpl->assign("allow_unassigned_issues", @$setup["allow_unassigned_issues"]);
 
 $prefs = Prefs::get($usr_id);
 $tpl->assign("user_prefs", $prefs);
-$tpl->assign("zones", Date_API::getTimezoneList());
+$tpl->assign("zones", Date_Helper::getTimezoneList());
 if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
     $customer_contact_id = User::getCustomerContactID($usr_id);
     $tpl->assign("contact_details", Customer::getContactDetails($prj_id, $customer_contact_id));

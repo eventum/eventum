@@ -49,7 +49,7 @@ foreach ($customers as $customer_id => $customer_name) {
             $sql = "INSERT INTO
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                     SET
-                        usr_created_date = '" . Date_API::getCurrentDateGMT() . "',
+                        usr_created_date = '" . Date_Helper::getCurrentDateGMT() . "',
                         usr_full_name = '" . Misc::escapeString($contact['first_name'] . " " . $contact['last_name']) . "',
                         usr_email = '" . $contact['email'] . "',
                         usr_customer_id = " . $customer_id . ",

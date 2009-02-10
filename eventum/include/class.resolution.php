@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.resolution.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.resolution.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -227,7 +227,7 @@ class Resolution
                     res_created_date
                  ) VALUES (
                     '" . Misc::escapeString($_POST["title"]) . "',
-                    '" . Date_API::getCurrentDateGMT() . "'
+                    '" . Date_Helper::getCurrentDateGMT() . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {

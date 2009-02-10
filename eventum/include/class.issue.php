@@ -241,8 +241,8 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_last_customer_action_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_last_customer_action_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_public_action_type='customer action'
                  WHERE
                     iss_id=" . Misc::escapeInteger($issue_id);
@@ -482,8 +482,8 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
                     iss_sta_id=$status_id,
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_public_action_type='update'
                  WHERE
                     iss_id=$issue_id";
@@ -791,7 +791,7 @@ class Issue
             return '';
         } else {
             $res['reply_subject'] = 'Re: [#' . $issue_id . '] ' . $res["sup_subject"];
-            $res['created_date_ts'] = Date_API::getUnixTimestamp($res['iss_created_date'], 'GMT');
+            $res['created_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_created_date'], 'GMT');
             return $res;
         }
     }
@@ -812,14 +812,14 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "'\n";
+                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "'\n";
         if ($type != false) {
             if (in_array($type, $public)) {
                 $field = "iss_last_public_action_";
             } else {
                 $field = "iss_last_internal_action_";
             }
-            $stmt .= ",\n " . $field . "date = '" . Date_API::getCurrentDateGMT() . "',\n" .
+            $stmt .= ",\n " . $field . "date = '" . Date_Helper::getCurrentDateGMT() . "',\n" .
                 $field . "type  ='" . Misc::escapeString($type) . "'\n";
         }
         $stmt .= "WHERE
@@ -834,14 +834,14 @@ class Issue
                 $stmt = "UPDATE
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                          SET
-                            iss_last_response_date='" . Date_API::getCurrentDateGMT() . "'
+                            iss_last_response_date='" . Date_Helper::getCurrentDateGMT() . "'
                          WHERE
                             iss_id = " . Misc::escapeInteger($issue_id);
                 DB_Helper::getInstance()->query($stmt);
                 $stmt = "UPDATE
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                          SET
-                            iss_first_response_date='" . Date_API::getCurrentDateGMT() . "'
+                            iss_first_response_date='" . Date_Helper::getCurrentDateGMT() . "'
                          WHERE
                             iss_first_response_date IS NULL AND
                             iss_id = " . Misc::escapeInteger($issue_id);
@@ -903,8 +903,8 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_internal_action_type='updated',
                     iss_prc_id=" . Misc::escapeInteger($_POST["category"]) . ",";
         if (@$_POST["keep"] == "no") {
@@ -1005,8 +1005,8 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_internal_action_type='updated',
                     iss_duplicated_iss_id=NULL
                  WHERE
@@ -1040,8 +1040,8 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_internal_action_type='updated',
                     iss_duplicated_iss_id=" . Misc::escapeInteger($_POST["duplicated_issue"]) . "
                  WHERE
@@ -1208,8 +1208,8 @@ class Issue
             $stmt .= "$initial_status,";
         }
         $stmt .= "
-                    '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     'created',
                     '" . Misc::escapeString($_POST["summary"]) . "',
                     '" . Misc::escapeString($_POST["description"]) . "',
@@ -1342,10 +1342,10 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_public_action_type='closed',
-                    iss_closed_date='" . Date_API::getCurrentDateGMT() . "',\n";
+                    iss_closed_date='" . Date_Helper::getCurrentDateGMT() . "',\n";
         if (!empty($resolution_id)) {
             $stmt .= "iss_res_id=$resolution_id,\n";
         }
@@ -1375,7 +1375,7 @@ class Issue
                     'ema_id'        =>  Email_Account::getEmailAccount(Issue::getProjectID($issue_id)),
                     'issue_id'      =>  $issue_id,
                     'message_id'    =>  $message_id,
-                    'date'          =>  Date_API::getCurrentDateGMT(),
+                    'date'          =>  Date_Helper::getCurrentDateGMT(),
                     'subject'       =>  'Issue closed comments',
                     'from'          =>  $from,
                     'has_attachment'=>  0,
@@ -1510,8 +1510,8 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_public_action_type='updated',";
         if (!empty($_POST["category"])) {
             $stmt .= "iss_prc_id=" . Misc::escapeInteger($_POST["category"]) . ",";
@@ -1830,7 +1830,7 @@ class Issue
                  ) VALUES (
                     $issue_id,
                     $assignee_usr_id,
-                    '" . Date_API::getCurrentDateGMT() . "'
+                    '" . Date_Helper::getCurrentDateGMT() . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
@@ -1940,7 +1940,7 @@ class Issue
                 $contact = Customer::getContactDetails($prj_id, $customer_contact_id);
                 // overwrite the reporter with the customer contact
                 $reporter = User::getUserIDByContactID($customer_contact_id);
-                $contact_timezone = Date_API::getPreferredTimezone($reporter);
+                $contact_timezone = Date_Helper::getPreferredTimezone($reporter);
             }
         } else {
             $customer_id = FALSE;
@@ -2001,8 +2001,8 @@ class Issue
                     '" . Misc::escapeString($contact_timezone) . "',";
         }
         $stmt .= "
-                    '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     'created',
                     '" . Misc::escapeString($summary) . "',
                     '" . Misc::escapeString($description) . "',
@@ -2194,8 +2194,8 @@ class Issue
                     '" . Misc::escapeString($_POST["contact_timezone"]) . "',";
         }
         $stmt .= "
-                    '" . Date_API::getCurrentDateGMT() . "',
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     'created',
                     '" . Misc::escapeString($_POST["summary"]) . "',
                     '" . Misc::escapeString($_POST["description"]) . "',
@@ -2669,7 +2669,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
                  ON
                     iss_id=iqu_iss_id AND
-                    (iqu_expiration > '" . Date_API::getCurrentDateGMT() . "' OR iqu_expiration IS NULL)
+                    (iqu_expiration > '" . Date_Helper::getCurrentDateGMT() . "' OR iqu_expiration IS NULL)
                  WHERE
                     iss_prj_id= " . Misc::escapeInteger($prj_id);
         $stmt .= Issue::buildWhereClause($options);
@@ -2722,8 +2722,8 @@ class Issue
             $csv[] = @implode("\t", $column_headings);
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
-                $res[$i]["iss_created_date"] = Date_API::getFormattedDate($res[$i]["iss_created_date"]);
-                $res[$i]["iss_expected_resolution_date"] = Date_API::getSimpleDate($res[$i]["iss_expected_resolution_date"], false);
+                $res[$i]["iss_created_date"] = Date_Helper::getFormattedDate($res[$i]["iss_created_date"]);
+                $res[$i]["iss_expected_resolution_date"] = Date_Helper::getSimpleDate($res[$i]["iss_expected_resolution_date"], false);
                 $fields = array(
                     $res[$i]['pri_title'],
                     $res[$i]['iss_id'],
@@ -2811,9 +2811,9 @@ class Issue
                 $last_date = $result[$i]["iss_last_public_action_date"];
             }
             $date = new Date($last_date);
-            $current = new Date(Date_API::getCurrentDateGMT());
+            $current = new Date(Date_Helper::getCurrentDateGMT());
             $result[$i]['last_action_date'] = sprintf("%s: %s ago", ucwords($label),
-                    Date_API::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
+                    Date_Helper::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
         }
     }
 
@@ -2845,7 +2845,7 @@ class Issue
                     $result[$i]['status_change_date'] = '';
                     continue;
                 }
-                $current = new Date(Date_API::getCurrentDateGMT());
+                $current = new Date(Date_Helper::getCurrentDateGMT());
                 $desc = "$label: %s ago";
                 $target_date = $result[$i][$date_field_name];
                 if (empty($target_date)) {
@@ -2853,7 +2853,7 @@ class Issue
                     continue;
                 }
                 $date = new Date($target_date);
-                $result[$i]['status_change_date'] = sprintf($desc, Date_API::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
+                $result[$i]['status_change_date'] = sprintf($desc, Date_Helper::getFormattedDateDiff($current->getDate(DATE_FORMAT_UNIXTIME), $date->getDate(DATE_FORMAT_UNIXTIME)));
             }
         }
     }
@@ -2975,7 +2975,7 @@ class Issue
                         if (strlen($options[$field_name]['time_period']) == 0) {
                             $options[$field_name]['time_period'] = 0;
                         }
-                        $stmt .= " AND (UNIX_TIMESTAMP('" . Date_API::getCurrentDateGMT() . "') - UNIX_TIMESTAMP(iss_$field_name)) <= (" .
+                        $stmt .= " AND (UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "') - UNIX_TIMESTAMP(iss_$field_name)) <= (" .
                             Misc::escapeInteger($options[$field_name]['time_period']) . "*3600)";
                         break;
                 }
@@ -3432,21 +3432,21 @@ class Issue
             if (empty($res)) {
                 return "";
             } else {
-                $created_date_ts = Date_API::getUnixTimestamp($res['iss_created_date'], Date_API::getDefaultTimezone());
+                $created_date_ts = Date_Helper::getUnixTimestamp($res['iss_created_date'], Date_API::getDefaultTimezone());
                 // get customer information, if any
                 if ((!empty($res['iss_customer_id'])) && (Customer::hasCustomerIntegration($res['iss_prj_id']))) {
                     $res['customer_business_hours'] = Customer::getBusinessHours($res['iss_prj_id'], $res['iss_customer_id']);
-                    $res['contact_local_time'] = Date_API::getFormattedDate(Date_API::getCurrentDateGMT(), $res['iss_contact_timezone']);
+                    $res['contact_local_time'] = Date_Helper::getFormattedDate(Date_API::getCurrentDateGMT(), $res['iss_contact_timezone']);
                     $res['customer_info'] = Customer::getDetails($res['iss_prj_id'], $res['iss_customer_id'], false, $res['iss_customer_contract_id']);
                     $res['redeemed_incidents'] = Customer::getRedeemedIncidentDetails($res['iss_prj_id'], $res['iss_id']);
                     $max_first_response_time = Customer::getMaximumFirstResponseTime($res['iss_prj_id'], $res['iss_customer_id'], $res['iss_customer_contract_id']);
                     $res['max_first_response_time'] = Misc::getFormattedTime($max_first_response_time / 60);
                     if (empty($res['iss_first_response_date'])) {
                         $first_response_deadline = $created_date_ts + $max_first_response_time;
-                        if (Date_API::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
-                            $res['max_first_response_time_left'] = Date_API::getFormattedDateDiff($first_response_deadline, Date_API::getCurrentUnixTimestampGMT());
+                        if (Date_Helper::getCurrentUnixTimestampGMT() <= $first_response_deadline) {
+                            $res['max_first_response_time_left'] = Date_Helper::getFormattedDateDiff($first_response_deadline, Date_API::getCurrentUnixTimestampGMT());
                         } else {
-                            $res['overdue_first_response_time'] = Date_API::getFormattedDateDiff(Date_API::getCurrentUnixTimestampGMT(), $first_response_deadline);
+                            $res['overdue_first_response_time'] = Date_Helper::getFormattedDateDiff(Date_API::getCurrentUnixTimestampGMT(), $first_response_deadline);
                         }
                     }
                 }
@@ -3456,7 +3456,7 @@ class Issue
                     $res["iss_resolution"] = Resolution::getTitle($res["iss_res_id"]);
                 }
                 $res["iss_impact_analysis"] = nl2br(htmlspecialchars($res["iss_impact_analysis"]));
-                $res["iss_created_date"] = Date_API::getFormattedDate($res["iss_created_date"]);
+                $res["iss_created_date"] = Date_Helper::getFormattedDate($res["iss_created_date"]);
                 $res['iss_created_date_ts'] = $created_date_ts;
                 $res["assignments"] = @implode(", ", array_values(Issue::getAssignedUsers($res["iss_id"])));
                 list($res['authorized_names'], $res['authorized_repliers']) = Authorized_Replier::getAuthorizedRepliers($res["iss_id"]);
@@ -3483,7 +3483,7 @@ class Issue
                 if (empty($res["iss_updated_date"])) {
                     $res["iss_updated_date"] = 'not updated yet';
                 } else {
-                    $res["iss_updated_date"] = Date_API::getFormattedDate($res["iss_updated_date"]);
+                    $res["iss_updated_date"] = Date_Helper::getFormattedDate($res["iss_updated_date"]);
                 }
                 $res["estimated_formatted_time"] = Misc::getFormattedTime($res["iss_dev_time"]);
                 if (Release::isAssignable($res["iss_pre_id"])) {
@@ -3689,8 +3689,8 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_internal_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_internal_action_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_internal_action_type='update',
                     iss_developer_est_time=" . Misc::escapeInteger($_POST["dev_time"]) . ",
                     iss_impact_analysis='" . Misc::escapeString($_POST["impact_analysis"]) . "'
@@ -3882,7 +3882,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
                  WHERE
                     iqu_iss_id=iss_id AND
-                    iqu_expiration >= '" . Date_API::getCurrentDateGMT() . "' AND
+                    iqu_expiration >= '" . Date_Helper::getCurrentDateGMT() . "' AND
                     iqu_expiration IS NOT NULL";
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
@@ -3910,7 +3910,7 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_quarantine
                  WHERE
                     iqu_iss_id = " . Misc::escapeInteger($issue_id) . " AND
-                        (iqu_expiration > '" . Date_API::getCurrentDateGMT() . "' OR
+                        (iqu_expiration > '" . Date_Helper::getCurrentDateGMT() . "' OR
                         iqu_expiration IS NULL)";
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
@@ -3918,8 +3918,8 @@ class Issue
             return array();
         } else {
             if (!empty($res["iqu_expiration"])) {
-                $expiration_ts = Date_API::getUnixTimestamp($res['iqu_expiration'], Date_API::getDefaultTimezone());
-                $res["time_till_expiration"] = Date_API::getFormattedDateDiff($expiration_ts, Date_API::getCurrentUnixTimestampGMT());
+                $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Date_API::getDefaultTimezone());
+                $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, Date_API::getCurrentUnixTimestampGMT());
             }
             return $res;
         }

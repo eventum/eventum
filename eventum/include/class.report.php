@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.report.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -61,7 +61,7 @@ class Report
     function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
     {
         $prj_id = Misc::escapeInteger($prj_id);
-        $ts = Date_API::getCurrentUnixTimestampGMT();
+        $ts = Date_Helper::getCurrentUnixTimestampGMT();
         $before_ts = strtotime($before_date);
         $after_ts = strtotime($after_date);
 
@@ -132,12 +132,12 @@ class Report
                 $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
                     'iss_summary'         => $res[$i]['iss_summary'],
                     'sta_title'           => $res[$i]['sta_title'],
-                    'iss_created_date'    => Date_API::getFormattedDate($res[$i]['iss_created_date']),
-                    'iss_last_response_date'    => Date_API::getFormattedDate($res[$i]['iss_last_response_date']),
+                    'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
+                    'iss_last_response_date'    => Date_Helper::getFormattedDate($res[$i]['iss_last_response_date']),
                     'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
                     'status_color'        => $res[$i]['sta_color'],
-                    'last_update'         => Date_API::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_updated_date'], Date_API::getDefaultTimezone())),
-                    'last_email_response' => Date_API::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_API::getDefaultTimezone()))
+                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_updated_date'], Date_API::getDefaultTimezone())),
+                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_API::getDefaultTimezone()))
                 );
             }
             return $issues;
@@ -156,7 +156,7 @@ class Report
     {
         $prj_id = Misc::escapeInteger($prj_id);
         $cutoff_days = Misc::escapeInteger($cutoff_days);
-        $ts = Date_API::getCurrentUnixTimestampGMT();
+        $ts = Date_Helper::getCurrentUnixTimestampGMT();
         $ts_diff = $cutoff_days * DAY;
 
 
@@ -218,11 +218,11 @@ class Report
                 $issues[$name][$res[$i]['iss_id']] = array(
                     'iss_summary'         => $res[$i]['iss_summary'],
                     'sta_title'           => $res[$i]['sta_title'],
-                    'iss_created_date'    => Date_API::getFormattedDate($res[$i]['iss_created_date']),
+                    'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
                     'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
                     'status_color'        => $res[$i]['sta_color'],
-                    'last_update'         => Date_API::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_updated_date'], Date_API::getDefaultTimezone())),
-                    'last_email_response' => Date_API::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_API::getDefaultTimezone()))
+                    'last_update'         => Date_Helper::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_updated_date'], Date_API::getDefaultTimezone())),
+                    'last_email_response' => Date_Helper::getFormattedDateDiff($ts, Date_API::getUnixTimestamp($res[$i]['iss_last_response_date'], Date_API::getDefaultTimezone()))
                 );
             }
             return $issues;
@@ -275,7 +275,7 @@ class Report
                 $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
                     'iss_summary'      => $res[$i]['iss_summary'],
                     'sta_title'        => $res[$i]['sta_title'],
-                    'iss_created_date' => Date_API::getFormattedDate($res[$i]['iss_created_date']),
+                    'iss_created_date' => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
                     'time_spent'       => Misc::getFormattedTime($res[$i]['time_spent']),
                     'status_color'     => $res[$i]['sta_color']
                 );

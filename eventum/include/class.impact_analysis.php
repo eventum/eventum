@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.impact_analysis.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.impact_analysis.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
@@ -67,7 +67,7 @@ class Impact_Analysis
                  ) VALUES (
                     " . Misc::escapeInteger($issue_id) . ",
                     $usr_id,
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($_POST["new_requirement"]) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
@@ -156,7 +156,7 @@ class Impact_Analysis
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_requirement
                  SET
                     isr_updated_usr_id=$usr_id,
-                    isr_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    isr_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
                     isr_dev_time=$dev_time,
                     isr_impact_analysis='" . Misc::escapeString($_POST["impact_analysis"]) . "'
                  WHERE

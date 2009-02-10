@@ -59,7 +59,7 @@ if (count(@$_POST["end"]) > 0 &&
 }
 
 $tpl->assign(array(
-    "weeks" => Date_API::getWeekOptions(3,0),
+    "weeks" => Date_Helper::getWeekOptions(3,0),
     "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "start_date"    =>  @$start_date,
     "end_date"      =>  @$end_date,
@@ -87,7 +87,7 @@ if (!empty($_POST["developer"])) {
 }
 
 if (empty($_POST["week"])) {
-    $tpl->assign("week", Date_API::getCurrentWeek());
+    $tpl->assign("week", Date_Helper::getCurrentWeek());
 } else {
     $tpl->assign("week", $_POST["week"]);
 }

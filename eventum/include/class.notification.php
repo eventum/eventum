@@ -1334,7 +1334,7 @@ class Notification
         }
         $stmt .= ") VALUES (
                     " . Misc::escapeInteger($project_id) . ",
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     'pending',
                     '" . Misc::escapeString($notice) . "'";
         if ($issue_id != false) {
@@ -1997,7 +1997,7 @@ class Notification
                  ) VALUES (
                     $issue_id,
                     $subscriber_usr_id,
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     'issue',
                     ''
                  )";
@@ -2084,7 +2084,7 @@ class Notification
                  ) VALUES (
                     $issue_id,
                     0,
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     'issue',
                     '$email'
                  )";

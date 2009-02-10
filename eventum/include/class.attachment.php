@@ -422,7 +422,7 @@ class Attachment
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["iat_description"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["iat_description"])));
                 $res[$i]["files"] = Attachment::getFileList($res[$i]["iat_id"]);
-                $res[$i]["iat_created_date"] = Date_API::getFormattedDate($res[$i]["iat_created_date"]);
+                $res[$i]["iat_created_date"] = Date_Helper::getFormattedDate($res[$i]["iat_created_date"]);
 
                 // if there is an unknown user, user that instead of the user_full_name
                 if (!empty($res[$i]["iat_unknown_user"])) {
@@ -577,7 +577,7 @@ class Attachment
         $stmt .=") VALUES (
                     $issue_id,
                     $usr_id,
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($description) . "',
                     '" . Misc::escapeString($attachment_status) . "'";
         if ($unknown_user != false) {

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.faq.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.faq.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 
@@ -75,7 +75,7 @@ class FAQ
                 if (empty($res[$i]['faq_updated_date'])) {
                     $res[$i]['faq_updated_date'] = $res[$i]['faq_created_date'];
                 }
-                $res[$i]['faq_updated_date'] = Date_API::getSimpleDate($res[$i]["faq_updated_date"]);
+                $res[$i]['faq_updated_date'] = Date_Helper::getSimpleDate($res[$i]["faq_updated_date"]);
             }
             return $res;
         }
@@ -155,7 +155,7 @@ class FAQ
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "faq
                  SET
                     faq_prj_id=" . $_POST['project'] . ",
-                    faq_updated_date='" . Date_API::getCurrentDateGMT() . "',
+                    faq_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
                     faq_title='" . Misc::escapeString($_POST["title"]) . "',
                     faq_message='" . Misc::escapeString($_POST["message"]) . "',
                     faq_rank=" . $_POST['rank'] . "
@@ -204,7 +204,7 @@ class FAQ
                  ) VALUES (
                     " . $_POST['project'] . ",
                     " . Auth::getUserID() . ",
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($_POST["title"]) . "',
                     '" . Misc::escapeString($_POST["message"]) . "',
                     " . $_POST['rank'] . "
@@ -276,7 +276,7 @@ class FAQ
             if (empty($res['faq_updated_date'])) {
                 $res['faq_updated_date'] = $res['faq_created_date'];
             }
-            $res['faq_updated_date'] = Date_API::getFormattedDate($res['faq_updated_date']);
+            $res['faq_updated_date'] = Date_Helper::getFormattedDate($res['faq_updated_date']);
             $res['message'] = Misc::activateLinks(nl2br(htmlspecialchars($res['faq_message'])));
             return $res;
         }

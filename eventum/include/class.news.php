@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.news.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.news.php 3826 2009-02-10 06:59:40Z glen $
 //
 
 
@@ -61,7 +61,7 @@ class News
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['nws_created_date'] = Date_API::getSimpleDate($res[$i]["nws_created_date"]);
+                $res[$i]['nws_created_date'] = Date_Helper::getSimpleDate($res[$i]["nws_created_date"]);
                 if ((!$show_full_message) && (strlen($res[$i]['nws_message']) > 300)) {
                     $next_space = strpos($res[$i]['nws_message'], ' ', 254);
                     if (empty($next_space)) {
@@ -128,7 +128,7 @@ class News
                     nws_status
                  ) VALUES (
                     " . Auth::getUserID() . ",
-                    '" . Date_API::getCurrentDateGMT() . "',
+                    '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($_POST["title"]) . "',
                     '" . Misc::escapeString($_POST["message"]) . "',
                     '" . Misc::escapeString($_POST["status"]) . "'
