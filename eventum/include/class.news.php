@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.news.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.news.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 
@@ -138,7 +138,7 @@ class News
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_news_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_news_id = DB_Helper::get_last_insert_id();
             // now populate the project-news mapping table
             foreach ($_POST['projects'] as $prj_id) {
                 News::addProjectAssociation($new_news_id, $prj_id);

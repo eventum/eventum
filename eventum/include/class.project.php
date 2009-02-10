@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.project.php 3827 2009-02-10 07:00:47Z glen $
+// @(#) $Id: class.project.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -563,7 +563,7 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_prj_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_prj_id = DB_Helper::get_last_insert_id();
             for ($i = 0; $i < count($_POST["users"]); $i++) {
                 if ($_POST["users"][$i] == $_POST["lead_usr_id"]) {
                     $role_id = User::getRoleID("Manager");

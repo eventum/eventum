@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.email_response.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.email_response.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -91,7 +91,7 @@ class Email_Response
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_response_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_response_id = DB_Helper::get_last_insert_id();
             // now populate the project-news mapping table
             foreach ($_POST['projects'] as $prj_id) {
                 Email_Response::addProjectAssociation($new_response_id, $prj_id);

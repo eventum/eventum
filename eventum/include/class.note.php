@@ -400,7 +400,7 @@ class Note
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_note_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_note_id = DB_Helper::get_last_insert_id();
             Issue::markAsUpdated($issue_id, 'note');
             if ($log) {
                 // need to save a history entry for this
@@ -871,7 +871,7 @@ class Note
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
                 WHERE
                     not_message_id ='" . Misc::escapeString($message_id) . "'";
-        $res = $GLOBALS['db_api']->dbh->getOne($sql);
+        $res = DB_Helper::getInstance()->getOne($sql);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;

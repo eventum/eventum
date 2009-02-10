@@ -1144,7 +1144,7 @@ class Support
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_sup_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_sup_id = DB_Helper::get_last_insert_id();
             $sup_id = $new_sup_id;
             $row['sup_id'] = $sup_id;
             // now add the body and full email to the separate table

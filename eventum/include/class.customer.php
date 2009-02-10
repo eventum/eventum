@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.customer.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.customer.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . 'class.misc.php');
@@ -1202,7 +1202,7 @@ class Customer
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
                 WHERE
                     cno_customer_id = " . Misc::escapeInteger($customer_id);
-        $res = $GLOBALS['db_api']->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1229,7 +1229,7 @@ class Customer
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
                 WHERE
                     cno_id = " . Misc::escapeInteger($cno_id);
-        $res = $GLOBALS['db_api']->dbh->getRow($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1256,7 +1256,7 @@ class Customer
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
                 ORDER BY
                     cno_customer_id ASC";
-        $res = $GLOBALS['db_api']->dbh->getAll($stmt, DB_FETCHMODE_ASSOC);
+        $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
@@ -1289,7 +1289,7 @@ class Customer
                     cno_updated_date='" . Date_Helper::getCurrentDateGMT() . "'
                  WHERE
                     cno_id=" . Misc::escapeInteger($cno_id);
-        $res = $GLOBALS['db_api']->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1324,7 +1324,7 @@ class Customer
                     '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Misc::escapeString($note) . "'
                  )";
-        $res = $GLOBALS['db_api']->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
@@ -1346,7 +1346,7 @@ class Customer
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "customer_note
                  WHERE
                     cno_id IN (" . join(", ", Misc::escapeInteger($ids)) . ")";
-        $res = $GLOBALS['db_api']->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;

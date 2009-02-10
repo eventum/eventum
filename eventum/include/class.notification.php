@@ -2006,7 +2006,7 @@ class Notification
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $sub_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $sub_id = DB_Helper::get_last_insert_id();
             for ($i = 0; $i < count($actions); $i++) {
                 Notification::addType($sub_id, $actions[$i]);
             }
@@ -2093,7 +2093,7 @@ class Notification
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $sub_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $sub_id = DB_Helper::get_last_insert_id();
             for ($i = 0; $i < count($actions); $i++) {
                 Notification::addType($sub_id, $actions[$i]);
             }

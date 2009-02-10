@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3829 2009-02-10 07:02:27Z glen $
+// @(#) $Id: class.user.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -326,7 +326,7 @@ class User
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_usr_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_usr_id = DB_Helper::get_last_insert_id();
             // add the project associations!
             for ($i = 0; $i < count($projects); $i++) {
                 Project::associateUser($projects[$i], $new_usr_id, $role);
@@ -1107,7 +1107,7 @@ class User
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_usr_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_usr_id = DB_Helper::get_last_insert_id();
             // add the project associations!
             foreach ($_POST["role"] as $prj_id => $role) {
                 if ($role < 1) {

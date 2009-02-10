@@ -592,7 +592,7 @@ class Attachment
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            return $GLOBALS["db_api"]->get_last_insert_id();
+            return DB_Helper::get_last_insert_id();
         }
     }
 

@@ -14,7 +14,7 @@ require_once APP_INC_PATH . 'db_access.php';
 function db_getAll($query) {
 	$query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
 	$query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
-	$res = $GLOBALS['db_api']->dbh->getAll($query, DB_FETCHMODE_ASSOC);
+	$res = DB_Helper::getInstance()->getAll($query, DB_FETCHMODE_ASSOC);
 	if (PEAR::isError($res)) {
 		echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
 		exit(1);
@@ -25,7 +25,7 @@ function db_getAll($query) {
 function db_query($query) {
 	$query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
 	$query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
-	$res = $GLOBALS['db_api']->dbh->query($query);
+	$res = DB_Helper::getInstance()->query($query);
 	if (PEAR::isError($res)) {
 		echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
 		exit(1);

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.faq.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.faq.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 
@@ -214,7 +214,7 @@ class FAQ
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_faq_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_faq_id = DB_Helper::get_last_insert_id();
             if (Customer::doesBackendUseSupportLevels(Misc::escapeInteger($_POST['project']))) {
                 // now populate the faq-support level mapping table
                 foreach ($_POST['support_levels'] as $support_level_id) {

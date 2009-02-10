@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.custom_field.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.custom_field.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -853,7 +853,7 @@ class Custom_Field
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_id = DB_Helper::get_last_insert_id();
             if (($_POST["field_type"] == 'combo') || ($_POST["field_type"] == 'multiple')) {
                 foreach ($_POST["field_options"] as $option_value) {
                     $params = Custom_Field::parseParameters($option_value);
@@ -1275,7 +1275,7 @@ class Custom_Field
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     WHERE
                         iss_prj_id = " . Misc::escapeInteger($prj_id);
-            $res = $GLOBALS['db_api']->dbh->getCol($sql);
+            $res = DB_Helper::getInstance()->getCol($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return false;

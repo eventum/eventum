@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.group.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.group.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -72,7 +72,7 @@ class Group
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $grp_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $grp_id = DB_Helper::get_last_insert_id();
             
             Group::setProjects($grp_id, $_POST["projects"]);
             

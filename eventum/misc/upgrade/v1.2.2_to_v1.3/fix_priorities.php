@@ -50,12 +50,12 @@ foreach ($projects as $project_id => $project_name) {
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_priority
                  SET
                     pri_prj_id = $project_id";
-        $res = $GLOBALS['db_api']->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (DB::isError($res)) {
 			echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
 			exit(1);
         }
-        echo $GLOBALS['db_api']->dbh->affectedRows() . " priorities updated<br />";
+        echo DB_Helper::getInstance()->affectedRows() . " priorities updated<br />";
     } else {
         foreach ($priorities as $pri_id => $pri_title) {
             echo "Inserting new priority '$pri_title'<br />\n";
@@ -64,12 +64,12 @@ foreach ($projects as $project_id => $project_name) {
                      SET
                         pri_title = '" . $pri_title . "',
                         pri_prj_id = $project_id";
-            $res = $GLOBALS['db_api']->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (DB::isError($res)) {
 				echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
 				exit(1);
             }
-            $new_pri_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_pri_id = DB_Helper::get_last_insert_id();
             $stmt = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                      SET
@@ -77,12 +77,12 @@ foreach ($projects as $project_id => $project_name) {
                      WHERE
                         iss_pri_Id = $pri_id AND
                         iss_prj_id = $project_id";
-            $res = $GLOBALS['db_api']->dbh->query($stmt);
+            $res = DB_Helper::getInstance()->query($stmt);
             if (DB::isError($res)) {
 				echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
 				exit(1);
             }
-            echo $GLOBALS['db_api']->dbh->affectedRows() . " issues updated to correct priority for project.<br />";
+            echo DB_Helper::getInstance()->affectedRows() . " issues updated to correct priority for project.<br />";
         }
     }
     $first = false;

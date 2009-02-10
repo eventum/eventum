@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.error_handler.php 3827 2009-02-10 07:00:47Z glen $
+// @(#) $Id: class.error_handler.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
@@ -60,9 +60,8 @@ class Error_Handler
 
         file_put_contents(APP_ERROR_LOG, array(date('[D M d H:i:s Y] '), $msg), FILE_APPEND);
 
-        // if there's no db_api object, then we cannot
-        // possibly queue up the error emails
-        if ($notify_error === false || is_null(@$GLOBALS['db_api'])) {
+        // if there's no database connection, then we cannot possibly queue up the error emails
+        if ($notify_error === false || is_null(DB_Helper::getInstance())) {
             return;
         }
 
@@ -109,7 +108,7 @@ class Error_Handler
 
         // query database for 'max_allowed_packet'
         $stmt = "show variables like 'max_allowed_packet'";
-        $res =& $GLOBALS['db_api']->dbh->query($stmt);
+        $res =& DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             // we failed, assume 8M
             $max_allowed_packet = 8387584;

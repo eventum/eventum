@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.db_helper.php 3830 2009-02-10 07:05:29Z glen $
+// @(#) $Id: class.db_helper.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 $TOTAL_QUERIES = 0;
@@ -63,7 +63,6 @@ class DB_Helper
      * @access public
      */
     function __construct() {
-    {
         $dsn = array(
             'phptype'  => APP_SQL_DBTYPE,
             'hostspec' => APP_SQL_DBHOST,
@@ -98,8 +97,8 @@ class DB_Helper
      * @access  public
      * @return  integer The last inserted ID
      */
-    function get_last_insert_id() {
-        return mysql_insert_id($this->dbh->connection);
+    static function get_last_insert_id() {
+        return mysql_insert_id(self::getInstance()->connection);
     }
 
 

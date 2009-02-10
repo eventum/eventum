@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.phone_support.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.phone_support.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -334,7 +334,7 @@ class Phone_Support
             return -1;
         } else {
             // enter the time tracking entry about this phone support entry
-            $phs_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $phs_id = DB_Helper::get_last_insert_id();
             $_POST['category'] = Time_Tracking::getCategoryID('Telephone Discussion');
             $_POST['time_spent'] = $_POST['call_length'];
             $_POST['summary'] = ev_gettext("Time entry inserted from phone call.");

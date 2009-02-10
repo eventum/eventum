@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.link_filter.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.link_filter.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.user.php");
@@ -154,7 +154,7 @@ class Link_Filter
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $lfi_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $lfi_id = DB_Helper::get_last_insert_id();
             foreach ($_REQUEST["projects"] as $prj_id) {
                 $sql = "INSERT INTO
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_link_filter

@@ -105,7 +105,7 @@ class Draft
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_emd_id = $GLOBALS['db_api']->get_last_insert_id();
+            $new_emd_id = DB_Helper::get_last_insert_id();
             Draft::addEmailRecipient($new_emd_id, $to, false);
             $cc = str_replace(',', ';', $cc);
             $ccs = explode(';', $cc);

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.report.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -750,7 +750,7 @@ class Report
                         $interval_group_by_field
                     ORDER BY
                         $label_field ASC";
-                $res = $GLOBALS['db_api']->dbh->getAssoc($stmt);
+                $res = DB_Helper::getInstance()->getAssoc($stmt);
             } else {
                 $res = DB_Helper::getInstance()->getOne($stmt);
             }

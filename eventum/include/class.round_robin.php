@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.round_robin.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.round_robin.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . 'class.date.php');
@@ -326,7 +326,7 @@ class Round_Robin
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_id = DB_Helper::get_last_insert_id();
             // add all of the user associated with this round robin entry
             foreach ($_POST['users'] as $usr_id) {
                 Round_Robin::addUserAssociation($new_id, $usr_id);

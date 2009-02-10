@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.reminder.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.reminder.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -469,7 +469,7 @@ class Reminder
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_rem_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_rem_id = DB_Helper::get_last_insert_id();
             // map the reminder requirements now
             if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
                 for ($i = 0; $i < count($_POST['support_levels']); $i++) {

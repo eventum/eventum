@@ -1220,7 +1220,7 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return $res;
         } else {
-            $new_issue_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_issue_id = DB_Helper::get_last_insert_id();
             // log the creation of the issue
             History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('issue_opened_anon'), 'Issue opened anonymously');
 
@@ -2013,7 +2013,7 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_issue_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_issue_id = DB_Helper::get_last_insert_id();
             $has_TAM = false;
             $has_RR = false;
             // log the creation of the issue
@@ -2208,7 +2208,7 @@ class Issue
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_issue_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_issue_id = DB_Helper::get_last_insert_id();
             $has_TAM = false;
             $has_RR = false;
             $info = User::getNameEmail($usr_id);

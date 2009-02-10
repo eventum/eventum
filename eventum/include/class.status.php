@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.status.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.status.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -287,7 +287,7 @@ class Status
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_status_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_status_id = DB_Helper::get_last_insert_id();
             // now populate the project-status mapping table
             foreach ($_POST['projects'] as $prj_id) {
                 Status::addProjectAssociation($new_status_id, $prj_id);

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.reminder_action.php 3829 2009-02-10 07:02:27Z glen $
+// @(#) $Id: class.reminder_action.php 3832 2009-02-10 07:21:46Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -217,7 +217,7 @@ class Reminder_Action
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $new_rma_id = $GLOBALS["db_api"]->get_last_insert_id();
+            $new_rma_id = DB_Helper::get_last_insert_id();
             // add the user list, if appropriate
             if (Reminder_Action::isUserList($_POST['type'])) {
                 Reminder_Action::associateUserList($new_rma_id, $_POST['user_list']);

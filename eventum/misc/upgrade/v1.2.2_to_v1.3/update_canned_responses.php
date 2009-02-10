@@ -51,7 +51,7 @@ foreach ($responses as $ere_id => $ere_title) {
                         $prj_id,
                         $ere_id
                     )";
-        $res = $GLOBALS['db_api']->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (DB::isError($res)) {
 			echo 'ERROR: ', $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
 			exit(1);

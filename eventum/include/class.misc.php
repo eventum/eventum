@@ -371,7 +371,7 @@ class Misc
                 $input[$key] = Misc::escapeString($value);
             }
         } else {
-            $input = $GLOBALS["db_api"]->escapeString($input);
+            $input = DB_Helper::escapeString($input);
         }
         return $input;
     }

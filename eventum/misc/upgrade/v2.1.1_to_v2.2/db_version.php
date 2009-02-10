@@ -14,7 +14,7 @@ require_once APP_INC_PATH . 'db_access.php';
 function db_query($query) {
 	$query = str_replace('%TABLE_PREFIX%', APP_TABLE_PREFIX, $query);
 	$query = str_replace('%DBNAME%', APP_SQL_DBNAME, $query);
-	$res = $GLOBALS['db_api']->dbh->query($query);
+	$res = DB_Helper::getInstance()->query($query);
 	if (PEAR::isError($res)) {
 		echo $res->getMessage(), ': ', $res->getDebugInfo(), "\n";
 		exit(1);

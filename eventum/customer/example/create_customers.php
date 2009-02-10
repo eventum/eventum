@@ -61,7 +61,7 @@ foreach ($customers as $customer_id => $customer_name) {
                 print_r($res);
                 echo "</pre>";
             }
-            $new_usr_id = $GLOBALS['db_api']->get_last_insert_id();
+            $new_usr_id = DB_Helper::get_last_insert_id();
             Project::associateUser($prj_id, $new_usr_id, User::getRoleID("Customer"));
         }
     }
