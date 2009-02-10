@@ -16,7 +16,7 @@ $stmt = "SELECT
             sup_iss_id != 0";
 $res = DB_Helper::getInstance()->getAssoc($stmt);
 foreach ($res as $sup_id => $email) {
-    $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($email));
+    $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($email));
     if (!empty($usr_id)) {
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email

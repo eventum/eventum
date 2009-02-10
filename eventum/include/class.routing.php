@@ -135,13 +135,13 @@ class Routing
         Mime_Helper::parse_output($structure, $parts);
 
         // get the sender's email address
-        $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
+        $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
 
         // strip out the warning message sent to staff users
         if (($setup['email_routing']['status'] == 'enabled') &&
                 ($setup['email_routing']['warning']['status'] == 'enabled')) {
-            $full_message = Mail_API::stripWarningMessage($full_message);
-            $body = Mail_API::stripWarningMessage($body);
+            $full_message = Mail_Helper::stripWarningMessage($full_message);
+            $body = Mail_Helper::stripWarningMessage($body);
         }
 
         $prj_id = Issue::getProjectID($issue_id);
@@ -157,7 +157,7 @@ class Routing
         if ((!empty($structure->headers['cc'])) && (@$setup['smtp']['save_outgoing_email'] == 'yes')) {
             $ccs = explode(",", @$structure->headers['cc']);
             for ($i = 0; $i < count($ccs); $i++) {
-                if (Mail_API::getEmailAddress($ccs[$i]) == $setup['smtp']['save_address']) {
+                if (Mail_Helper::getEmailAddress($ccs[$i]) == $setup['smtp']['save_address']) {
                     unset($ccs[$i]);
                 }
             }
@@ -165,7 +165,7 @@ class Routing
         }
 
         // Remove excess Re's
-        @$structure->headers['subject'] = Mail_API::removeExcessRe(@$structure->headers['subject'], true);
+        @$structure->headers['subject'] = Mail_Helper::removeExcessRe(@$structure->headers['subject'], true);
 
         $t = array(
             'issue_id'       => $issue_id,
@@ -199,7 +199,7 @@ class Routing
         }
 
         // re-write Threading headers if needed
-        list($t['full_email'], $t['headers']) = Mail_API::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], "email");
+        list($t['full_email'], $t['headers']) = Mail_Helper::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], "email");
         $res = Support::insertEmail($t, $structure, $sup_id);
         if ($res != -1) {
             Support::extractAttachments($issue_id, $structure);
@@ -215,7 +215,7 @@ class Routing
             }
             Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $t, $internal_only, $assignee_only, '', $sup_id);
             // try to get usr_id of sender, if not, use system account
-            $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($structure->headers['from']));
+            $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($structure->headers['from']));
             if (!$usr_id) {
                 $usr_id = APP_SYSTEM_USER_ID;
             }
@@ -296,7 +296,7 @@ class Routing
 
         $prj_id = Issue::getProjectID($issue_id);
         // check if the sender is allowed in this issue' project and if it is an internal user
-        $sender_usr_id = User::getUserIDByEmail(strtolower(Mail_API::getEmailAddress($structure->headers['from'])), true);
+        $sender_usr_id = User::getUserIDByEmail(strtolower(Mail_Helper::getEmailAddress($structure->headers['from'])), true);
         if ((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::getRoleID('Standard User'))) {
             return array(77, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
         }
@@ -305,11 +305,11 @@ class Routing
 
         // parse the Cc: list, if any, and add these internal users to the issue notification list
         $addresses = array();
-        $to_addresses = Mail_API::getEmailAddresses(@$structure->headers['to']);
+        $to_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['to']);
         if (count($to_addresses)) {
             $addresses = $to_addresses;
         }
-        $cc_addresses = Mail_API::getEmailAddresses(@$structure->headers['cc']);
+        $cc_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['cc']);
         if (count($cc_addresses)) {
             $addresses = array_merge($addresses, $cc_addresses);
         }
@@ -322,7 +322,7 @@ class Routing
         }
 
         $body = $structure->body;
-        $reference_msg_id = Mail_API::getReferenceMessageID($headers);
+        $reference_msg_id = Mail_Helper::getReferenceMessageID($headers);
         if (!empty($reference_msg_id)) {
             $parent_id = Note::getIDByMessageID($reference_msg_id);
         } else {
@@ -413,7 +413,7 @@ class Routing
 
         $prj_id = Issue::getProjectID($issue_id);
         // check if the sender is allowed in this issue' project and if it is an internal user
-        $sender_usr_id = User::getUserIDByEmail(strtolower(Mail_API::getEmailAddress($structure->headers['from'])), true);
+        $sender_usr_id = User::getUserIDByEmail(strtolower(Mail_Helper::getEmailAddress($structure->headers['from'])), true);
         if (!empty($sender_usr_id)) {
             $sender_role = User::getRoleByUser($sender_usr_id, $prj_id);
             if ($sender_role < User::getRoleID('Standard User')) {

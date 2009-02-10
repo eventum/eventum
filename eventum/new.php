@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: new.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: new.php 3827 2009-02-10 07:00:47Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -109,7 +109,7 @@ if (@$_GET["cat"] == "associate") {
             ));
             // also auto pre-fill the customer contact text fields
             if (Customer::hasCustomerIntegration($prj_id)) {
-                $sender_email = Mail_API::getEmailAddress($email_details['sup_from']);
+                $sender_email = Mail_Helper::getEmailAddress($email_details['sup_from']);
                 list(,$contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
                 if (!empty($contact_id)) {
                     $tpl->assign("contact_details", Customer::getContactDetails($prj_id, $contact_id));

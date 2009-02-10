@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.project.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.project.php 3827 2009-02-10 07:00:47Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -781,7 +781,7 @@ class Project
         $list = Project::getAddressBook($prj_id, $issue_id);
         $emails = array();
         foreach ($list as $address => $name) {
-            $emails[] = Mail_API::getEmailAddress($address);
+            $emails[] = Mail_Helper::getEmailAddress($address);
         }
         return $emails;
     }

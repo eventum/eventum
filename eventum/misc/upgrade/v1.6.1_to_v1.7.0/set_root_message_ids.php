@@ -29,7 +29,7 @@ foreach ($issues as $issue_id) {
         exit;
     }
     if (empty($res)) {
-        $msg_id = Mail_API::generateMessageID();
+        $msg_id = Mail_Helper::generateMessageID();
     } else {
         $msg_id = $res;
     }

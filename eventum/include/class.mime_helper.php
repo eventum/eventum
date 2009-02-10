@@ -789,7 +789,7 @@ class Mime_Helper
     function splitHeaderBody($message, $unfold = true)
     {
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $message, $match)) {
-            return array(($unfold) ? Mail_API::unfold($match[1]) : $match[1], $match[2]);
+            return array(($unfold) ? Mail_Helper::unfold($match[1]) : $match[1], $match[2]);
         }
         return array();
     }

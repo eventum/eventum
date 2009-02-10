@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: send.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: send.php 3827 2009-02-10 07:00:47Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template.php");
@@ -147,7 +147,7 @@ if (@$_GET["cat"] == 'reply') {
         $date = Misc::formatReplyDate($details['created_date_ts']);
         $header = "\n\n\nOn $date, " . $details['reporter'] . " wrote:\n>\n";
         $details['seb_body'] = $header . Misc::formatReply($details['description']);
-        $details['sup_from'] = Mail_API::getFormattedName($details['reporter'], $details['reporter_email']);
+        $details['sup_from'] = Mail_Helper::getFormattedName($details['reporter'], $details['reporter_email']);
         $tpl->bulkAssign(array(
             "email"           => $details,
             "parent_email_id" => 0,

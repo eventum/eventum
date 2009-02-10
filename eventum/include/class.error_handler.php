@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.error_handler.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.error_handler.php 3827 2009-02-10 07:00:47Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
@@ -130,7 +130,7 @@ class Error_Handler
         $subject = APP_SITE_NAME . ' - Error found! - ' . $date;
 
         foreach ($notify_list as $notify_email) {
-            $mail = new Mail_API;
+            $mail = new Mail_Helper;
             $mail->setTextBody($msg);
             $mail->send($notify_from, $notify_email, $subject, 0, false, 'error');
         }

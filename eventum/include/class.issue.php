@@ -1213,7 +1213,7 @@ class Issue
                     'created',
                     '" . Misc::escapeString($_POST["summary"]) . "',
                     '" . Misc::escapeString($_POST["description"]) . "',
-                    '" . Misc::escapeString(Mail_API::generateMessageID()) . "'
+                    '" . Misc::escapeString(Mail_Helper::generateMessageID()) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
@@ -1928,7 +1928,7 @@ class Issue
     function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment, $date, $msg_id)
     {
         $exclude_list = array();
-        $sender_email = Mail_API::getEmailAddress($sender);
+        $sender_email = Mail_Helper::getEmailAddress($sender);
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $reporter = $sender_usr_id;
@@ -2201,7 +2201,7 @@ class Issue
                     '" . Misc::escapeString($_POST["description"]) . "',
                     " . Misc::escapeString($_POST["estimated_dev_time"]) . ",
                     " . Misc::escapeInteger($_POST["private"]) . " ,
-                    '" . Misc::escapeString(Mail_API::generateMessageID()) . "'
+                    '" . Misc::escapeString(Mail_Helper::generateMessageID()) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {

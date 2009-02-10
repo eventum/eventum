@@ -344,7 +344,7 @@ class Note
             return -2;
         }
         if (empty($_POST['message_id'])) {
-            $_POST['message_id'] = Mail_API::generateMessageID();
+            $_POST['message_id'] = Mail_Helper::generateMessageID();
         }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "note
@@ -577,14 +577,14 @@ class Note
         $unknown_user = Note::getUnknownUser($note_id);
         $structure = Mime_Helper::decode($blocked_message, true, true);
         $body = $structure->body;
-        $sender_email = strtolower(Mail_API::getEmailAddress($structure->headers['from']));
+        $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
         if ($target == 'email') {
             if (Mime_Helper::hasAttachments($structure)) {
                 $has_attachments = 1;
             } else {
                 $has_attachments = 0;
             }
-            list($blocked_message, $headers) = Mail_API::rewriteThreadingHeaders($issue_id, $blocked_message, @$structure->headers);
+            list($blocked_message, $headers) = Mail_Helper::rewriteThreadingHeaders($issue_id, $blocked_message, @$structure->headers);
             $t = array(
                 'issue_id'       => $issue_id,
                 'ema_id'         => $email_account_id,

@@ -81,7 +81,7 @@ class Mail_Queue
         Workflow::modifyMailQueue(Auth::getCurrentProject(), $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
 
         // avoid sending emails out to users with inactive status
-        $recipient_email = Mail_API::getEmailAddress($recipient);
+        $recipient_email = Mail_Helper::getEmailAddress($recipient);
         $usr_id = User::getUserIDByEmail($recipient_email);
         if (!empty($usr_id)) {
             $user_status = User::getStatusByEmail($recipient_email);
@@ -92,14 +92,14 @@ class Mail_Queue
         }
 
         $to_usr_id = User::getUserIDByEmail($recipient_email);
-        $recipient = Mail_API::fixAddressQuoting($recipient);
+        $recipient = Mail_Helper::fixAddressQuoting($recipient);
 
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
 
         // add specialized headers
         if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID("Customer"))) ||
-                (@in_array(Mail_API::getEmailAddress($to), $reminder_addresses))) {
-            $headers += Mail_API::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
+                (@in_array(Mail_Helper::getEmailAddress($to), $reminder_addresses))) {
+            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
         }
         $headers['precedence'] = 'bulk';
 
@@ -112,12 +112,12 @@ class Mail_Queue
             $headers['Date'] = MIME_Helper::encode(date('D, j M Y H:i:s O'));
         }
         if (!empty($headers['To'])) {
-            $headers['To'] = Mail_API::fixAddressQuoting($headers['To']);
+            $headers['To'] = Mail_Helper::fixAddressQuoting($headers['To']);
         }
         // encode headers and add special mime headers
         $headers = Mime_Helper::encodeHeaders($headers);
 
-        $res = Mail_API::prepareHeaders($headers);
+        $res = Mail_Helper::prepareHeaders($headers);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return $res;
@@ -197,7 +197,7 @@ class Mail_Queue
                 Mail_Queue::_saveLog($emails[$i]['id'], 'sent', '');
                 if ($emails[$i]['save_copy']) {
                     // send a copy of this email to eventum_sent@
-                    Mail_API::saveEmailInformation($emails[$i]);
+                    Mail_Helper::saveEmailInformation($emails[$i]);
                 }
             }
         }
@@ -241,7 +241,7 @@ class Mail_Queue
             unset($headers['Mime-Version']);
             $headers['MIME-Version'] = '1.0';
         }
-        $mail =& Mail::factory('smtp', Mail_API::getSMTPSettings());
+        $mail =& Mail::factory('smtp', Mail_Helper::getSMTPSettings());
         $res = $mail->send($recipient, $headers, $body);
         if (PEAR::isError($res)) {
             // special handling of errors when the mail server is down

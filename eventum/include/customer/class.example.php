@@ -436,7 +436,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         $emails = DB_Helper::getInstance()->getCol($stmt);
         $total_emails = 0;
         foreach ($emails as $address) {
-            $email = strtolower(Mail_API::getEmailAddress($address));
+            $email = strtolower(Mail_Helper::getEmailAddress($address));
             $staff_emails = array_map('strtolower', $staff_emails);
             if (@in_array($email, $staff_emails)) {
                 $total_emails++;
@@ -707,7 +707,7 @@ class Example_Customer_Backend extends Abstract_Customer_Backend
         if (count($senders) > 0) {
             $emails = array();
             for ($i = 0; $i < count($senders); $i++) {
-                $emails[] = Mail_API::getEmailAddress($senders[$i]);
+                $emails[] = Mail_Helper::getEmailAddress($senders[$i]);
             }
             list($customer_id, $contact_id) = $this->getCustomerIDByEmails($emails);
             $company = $this->getDetails($customer_id);

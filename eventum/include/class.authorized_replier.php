@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.authorized_replier.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.authorized_replier.php 3827 2009-02-10 07:00:47Z glen $
 //
 
 require_once(APP_INC_PATH . "class.user.php");
@@ -149,7 +149,7 @@ class Authorized_Replier
         if (Authorized_Replier::isAuthorizedReplier($issue_id, $email)) {
             return -1;
         } else {
-            $email = strtolower(Mail_API::getEmailAddress($email));
+            $email = strtolower(Mail_Helper::getEmailAddress($email));
 
             $workflow = Workflow::handleAuthorizedReplierAdded(Issue::getProjectID($issue_id), $issue_id, $email);
             if ($workflow === false) {
@@ -241,7 +241,7 @@ class Authorized_Replier
     {
         // XXX: Add caching
 
-        $email = strtolower(Mail_API::getEmailAddress($email));
+        $email = strtolower(Mail_Helper::getEmailAddress($email));
         // first check if this is an actual user or just an email address
         $usr_id = User::getUserIDByEmail($email, true);
         if (!empty($usr_id)) {

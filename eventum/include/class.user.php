@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.user.php 3827 2009-02-10 07:00:47Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -344,7 +344,7 @@ class User
             $text_message = $tpl->getTemplateContents();
 
             $setup = Setup::load();
-            $mail = new Mail_API;
+            $mail = new Mail_Helper;
             // need to make this message MIME based
             $mail->setTextBody($text_message);
             $mail->send($setup["smtp"]["from"], $_POST["email"], APP_SHORT_NAME . ": New Account - Confirmation Required");
@@ -377,7 +377,7 @@ class User
         $text_message = $tpl->getTemplateContents();
 
         $setup = Setup::load();
-        $mail = new Mail_API;
+        $mail = new Mail_Helper;
         // need to make this message MIME based
         $mail->setTextBody($text_message);
         $mail->send($setup["smtp"]["from"], $info["usr_email"], APP_SHORT_NAME . ": New Password - Confirmation Required");

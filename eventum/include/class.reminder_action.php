@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.reminder_action.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.reminder_action.php 3827 2009-02-10 07:00:47Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -756,7 +756,7 @@ class Reminder_Action
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
                 // send email (use PEAR's classes)
-                $mail = new Mail_API;
+                $mail = new Mail_Helper;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
                 $mail->send($setup["from"], $address, "[#$issue_id] " . ev_gettext("Reminder") . ": " . $action['rma_title'], 0, $issue_id, 'reminder');
@@ -796,7 +796,7 @@ class Reminder_Action
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
                 // send email (use PEAR's classes)
-                $mail = new Mail_API;
+                $mail = new Mail_Helper;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
                 $mail->send($setup["from"], $address, "[#$issue_id] " . ev_gettext("Reminder Not Triggered") . ": " . $action['rma_title'], 0, $issue_id);

@@ -64,7 +64,7 @@ class Notification
      */
     function isSubscribedToEmails($issue_id, $email)
     {
-        $email = strtolower(Mail_API::getEmailAddress($email));
+        $email = strtolower(Mail_Helper::getEmailAddress($email));
         if ($email == '@') {
             // broken address, don't send the email...
             return true;
@@ -152,11 +152,11 @@ class Notification
 
             // if no project name, use eventum wide sender name
             if (empty($info['sender_name'])) {
-                $setup_sender_info = Mail_API::getAddressInfo($setup['smtp']['from']);
+                $setup_sender_info = Mail_Helper::getAddressInfo($setup['smtp']['from']);
                 $info['sender_name'] = $setup_sender_info['sender_name'];
             }
         } else {
-            $info = Mail_API::getAddressInfo($sender);
+            $info = Mail_Helper::getAddressInfo($sender);
         }
         // allow flags even without routing enabled
         if (!empty($setup[$routing]['recipient_type_flag'])) {
@@ -200,7 +200,7 @@ class Notification
                 $info['sender_name'] = '"' . $info['sender_name'] . ' ' . trim($flag) . '"';
             }
         }
-        $from = Mail_API::getFormattedName($info['sender_name'], $from_email);
+        $from = Mail_Helper::getFormattedName($info['sender_name'], $from_email);
 
         return MIME_Helper::encodeAddress(trim($from));
     }
@@ -236,8 +236,8 @@ class Notification
     function isIssueRoutingSender($issue_id, $sender)
     {
         $check = Notification::getFixedFromHeader($issue_id, $sender, 'issue');
-        $check_email = strtolower(Mail_API::getEmailAddress($check));
-        $sender_email = strtolower(Mail_API::getEmailAddress($sender));
+        $check_email = strtolower(Mail_Helper::getEmailAddress($check));
+        $sender_email = strtolower(Mail_Helper::getEmailAddress($sender));
         if ($check_email == $sender_email) {
             return true;
         } else {
@@ -265,7 +265,7 @@ class Notification
 
         $full_message = $message['full_email'];
         $sender = $message['from'];
-        $sender_email = strtolower(Mail_API::getEmailAddress($sender));
+        $sender_email = strtolower(Mail_Helper::getEmailAddress($sender));
         $structure = Mime_Helper::decode($full_message, true);
 
         // get ID of whoever is sending this.
@@ -310,7 +310,7 @@ class Notification
             if (!empty($email)) {
                 // don't send the email to the same person who sent it
                 if ((($sender_usr_id != false) && (!empty($users[$i]["sub_usr_id"])) && ($sender_usr_id == $users[$i]["sub_usr_id"])) ||
-                        (strtolower(Mail_API::getEmailAddress($email)) == $sender_email)) {
+                        (strtolower(Mail_Helper::getEmailAddress($email)) == $sender_email)) {
                     continue;
                 }
                 $emails[] = $email;
@@ -328,7 +328,7 @@ class Notification
         list($_headers, $body) = Mime_Helper::splitBodyHeader($full_message);
         $header_names = Mime_Helper::getHeaderNames($_headers);
 
-        $current_headers = Mail_API::stripHeaders($message['headers']);
+        $current_headers = Mail_Helper::stripHeaders($message['headers']);
         $headers = array();
         // build the headers array required by the smtp library
         foreach ($current_headers as $header_name => $value) {
@@ -342,7 +342,7 @@ class Notification
             }
         }
 
-        $headers["Subject"] = Mail_API::formatSubject($issue_id, $headers['Subject']);
+        $headers["Subject"] = Mail_Helper::formatSubject($issue_id, $headers['Subject']);
 
         if (empty($type)) {
             if (($sender_usr_id != false) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) == User::getRoleID("Customer"))) {
@@ -354,9 +354,9 @@ class Notification
 
         @require_once(APP_PEAR_PATH . 'Mail/mime.php');
         foreach ($emails as $to) {
-            $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($to));
+            $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($to));
             // add the warning message about replies being blocked or not
-            $fixed_body = Mail_API::addWarningMessage($issue_id, $to, $body, $headers);
+            $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = Mime_Helper::encodeAddress($to);
 
             Mail_Queue::add($to, $headers, $fixed_body, 1, $issue_id, $type, $sender_usr_id, $sup_id);
@@ -811,7 +811,7 @@ class Notification
                 if (!empty($customer_contact_id)) {
                     list($contact_email,,) = Customer::getContactLoginDetails($prj_id, $customer_contact_id);
                     for ($i = 0; $i < count($emails); $i++) {
-                        $email = Mail_API::getEmailAddress($emails[$i]);
+                        $email = Mail_Helper::getEmailAddress($emails[$i]);
                         if ($email == $contact_email) {
                             unset($emails[$i]);
                             $emails = array_values($emails);
@@ -847,7 +847,7 @@ class Notification
                     } else {
                         $headers['In-Reply-To'] = Issue::getRootMessageID($issue_id);
                     }
-                    $headers['References'] = Mail_API::fold(join(' ', Mail_API::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
+                    $headers['References'] = Mail_Helper::fold(join(' ', Mail_API::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
                     $subject = 'Note';
                     break;
                 case 'emails':
@@ -918,12 +918,12 @@ class Notification
         $setup = Setup::load();
         $final_type = $type;
         $sender_usr_id = false;
-        $threading_headers = Mail_API::getBaseThreadingHeaders($issue_id);
+        $threading_headers = Mail_Helper::getBaseThreadingHeaders($issue_id);
         $emails = array_unique($emails);
         for ($i = 0; $i < count($emails); $i++) {
 
             $can_access = true;
-            $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($emails[$i]));
+            $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($emails[$i]));
             if (!empty($recipient_usr_id)) {
                 if (!Issue::canAccess($issue_id, $recipient_usr_id)) {
                     $can_access = false;
@@ -954,7 +954,7 @@ class Notification
             }
 
             // send email (use PEAR's classes)
-            $mail = new Mail_API;
+            $mail = new Mail_Helper;
             $mail->setTextBody($tpl->getTemplateContents());
             if ($headers != false) {
                 $mail->setHeaders($headers);
@@ -974,7 +974,7 @@ class Notification
                 } else {
                     $sender = User::getFromHeader($data["note"]["not_usr_id"]);
                 }
-                $sender_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($sender));
+                $sender_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($sender));
                 if (empty($sender_usr_id)) {
                     $sender_usr_id = false;
                 }
@@ -1050,7 +1050,7 @@ class Notification
         $emails = array();
         for ($i = 0; $i < count($res); $i++) {
             @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
-            $subscriber = Mail_API::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
+            $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
             // don't send these emails to customers
             if (($res[$i]['pru_role'] == User::getRoleID('Customer')) || (!empty($res[$i]['usr_customer_id']))
                     || (!empty($res[$i]['usr_customer_contact_id']))) {
@@ -1079,7 +1079,7 @@ class Notification
         $res = DB_Helper::getInstance()->getAll($stmt, DB_FETCHMODE_ASSOC);
         for ($i = 0; $i < count($res); $i++) {
             @$res[$i]['usr_preferences'] = unserialize($res[$i]['usr_preferences']);
-            $subscriber = Mail_API::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
+            $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
 
             if ((!empty($res[$i]['usr_preferences']['receive_assigned_emails'][$prj_id])) &&
             (@$res[$i]['usr_preferences']['receive_assigned_emails'][$prj_id]) && (!in_array($subscriber, $emails))) {
@@ -1148,9 +1148,9 @@ class Notification
                 $recipient = $sender;
                 $is_message_sender = true;
             }
-            $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient));
+            $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient));
 
-            if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress($recipient), $issue_id, 'auto_created')) {
+            if (!Workflow::shouldEmailAddress($prj_id, Mail_Helper::getEmailAddress($recipient), $issue_id, 'auto_created')) {
                 return;
             }
             $data = Issue::getDetails($issue_id);
@@ -1161,13 +1161,13 @@ class Notification
             $tpl->bulkAssign(array(
                 "app_title"   => Misc::getToolCaption(),
                 "data"        => $data,
-                "sender_name" => Mail_API::getName($sender),
-                'recipient_name'    => Mail_API::getName($recipient),
+                "sender_name" => Mail_Helper::getName($sender),
+                'recipient_name'    => Mail_Helper::getName($recipient),
                 'is_message_sender' =>  $is_message_sender
             ));
 
             // figure out if sender has a real account or not
-            $sender_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($sender));
+            $sender_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($sender));
             if ((!empty($sender_usr_id)) && (Issue::canAccess($issue_id, $sender_usr_id))) {
                 $can_access = 1;
             } else {
@@ -1193,9 +1193,9 @@ class Notification
             $text_message = $tpl->getTemplateContents();
 
             // send email (use PEAR's classes)
-            $mail = new Mail_API;
+            $mail = new Mail_Helper;
             $mail->setTextBody($text_message);
-            $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
+            $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
             $setup = $mail->getSMTPSettings();
             $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
             $recipient = Mime_Helper::fixEncoding($recipient);
@@ -1229,7 +1229,7 @@ class Notification
             for ($i = 0; $i < count($sup_ids); $i++) {
                 $senders = Support::getSender(array($sup_ids[$i]));
                 if (count($senders) > 0) {
-                    $sender_email = Mail_API::getEmailAddress($senders[0]);
+                    $sender_email = Mail_Helper::getEmailAddress($senders[0]);
                     $recipients[$sup_ids[$i]] = $senders[0];
                     $recipient_emails[] = $sender_email;
                 }
@@ -1241,16 +1241,16 @@ class Notification
             $data = Issue::getDetails($issue_id);
             foreach ($recipients as $sup_id => $recipient) {
 
-                $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient));
+                $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient));
 
                 // open text template
                 $tpl = new Template_API;
                 $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
                 $tpl->bulkAssign(array(
                     "data"        => $data,
-                    "sender_name" => Mail_API::getName($recipient),
+                    "sender_name" => Mail_Helper::getName($recipient),
                     "app_title"   => Misc::getToolCaption(),
-                    'recipient_name'    => Mail_API::getName($recipient),
+                    'recipient_name'    => Mail_Helper::getName($recipient),
                 ));
                 $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($sup_id), $sup_id);
                 $tpl->assign(array(
@@ -1271,11 +1271,11 @@ class Notification
                 $text_message = $tpl->getTemplateContents();
 
                 // send email (use PEAR's classes)
-                $mail = new Mail_API;
+                $mail = new Mail_Helper;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
                 $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
-                $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
+                $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
                 $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 1, $issue_id, 'email_converted_to_issue');
             }
             Language::restore();
@@ -1377,7 +1377,7 @@ class Notification
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
-        $mail = new Mail_API;
+        $mail = new Mail_Helper;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("User account information updated"));
@@ -1414,7 +1414,7 @@ class Notification
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
-        $mail = new Mail_API;
+        $mail = new Mail_Helper;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("User account password changed"));
@@ -1451,7 +1451,7 @@ class Notification
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
-        $mail = new Mail_API;
+        $mail = new Mail_Helper;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("New User information"));
@@ -1486,7 +1486,7 @@ class Notification
             ));
 
             for ($i = 0; $i < count($assignees); $i++) {
-                if (!Workflow::shouldEmailAddress($prj_id, Mail_API::getEmailAddress(User::getFromHeader($assignees[$i])))) {
+                if (!Workflow::shouldEmailAddress($prj_id, Mail_Helper::getEmailAddress(User::getFromHeader($assignees[$i])))) {
                     continue;
                 }
 
@@ -1495,9 +1495,9 @@ class Notification
                 $text_message = $tpl->getTemplateContents();
 
                 // send email (use PEAR's classes)
-                $mail = new Mail_API;
+                $mail = new Mail_Helper;
                 $mail->setTextBody($text_message);
-                $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
+                $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
                 $mail->send(Notification::getFixedFromHeader($issue_id, '', 'issue'), User::getFromHeader($assignees[$i]), "[#$issue_id] $title: " . $issue['iss_summary'], TRUE, $issue_id, $type);
             }
             Language::restore();
@@ -1545,12 +1545,12 @@ class Notification
 
         for ($i = 0; $i < count($emails); $i++) {
             $text_message = $tpl->getTemplateContents();
-            Language::set(User::getLang(User::getUserIDByEmail(Mail_API::getEmailAddress($emails[$i]))));
+            Language::set(User::getLang(User::getUserIDByEmail(Mail_Helper::getEmailAddress($emails[$i]))));
 
             // send email (use PEAR's classes)
-            $mail = new Mail_API;
+            $mail = new Mail_Helper;
             $mail->setTextBody($text_message);
-            $mail->setHeaders(Mail_API::getBaseThreadingHeaders($issue_id));
+            $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
             $mail->send(Notification::getFixedFromHeader($issue_id, '', 'issue'), $emails[$i], "[#$issue_id] New Assignment: " . $issue['iss_summary'], TRUE, $issue_id, 'assignment');
         }
         Language::restore();
@@ -1580,7 +1580,7 @@ class Notification
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
-        $mail = new Mail_API;
+        $mail = new Mail_Helper;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup["from"], $mail->getFormattedName($info["usr_full_name"], $info["usr_email"]), APP_SHORT_NAME . ": " . ev_gettext("Your User Account Details"));
@@ -2035,7 +2035,7 @@ class Notification
      */
     function subscribeEmail($usr_id, $issue_id, $form_email, $actions)
     {
-        $form_email = Mail_API::getEmailAddress($form_email);
+        $form_email = Mail_Helper::getEmailAddress($form_email);
         if (!is_string($form_email)) {
             return -1;
         }
@@ -2151,7 +2151,7 @@ class Notification
                     sub_id=$sub_id";
         list($issue_id, $usr_id) = DB_Helper::getInstance()->getRow($stmt);
 
-        $email = strtolower(Mail_API::getEmailAddress($_POST["email"]));
+        $email = strtolower(Mail_Helper::getEmailAddress($_POST["email"]));
         $usr_id = User::getUserIDByEmail($email, true);
         if (!empty($usr_id)) {
             $email = '';

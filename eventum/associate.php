@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: associate.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: associate.php 3827 2009-02-10 07:00:47Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -84,7 +84,7 @@ if (@$_POST['cat'] == 'associate') {
         $senders = Support::getSender($_GET['item']);
         $sender_emails = array();
         for ($i = 0; $i < count($senders); $i++) {
-            $email = Mail_API::getEmailAddress($senders[$i]);
+            $email = Mail_Helper::getEmailAddress($senders[$i]);
             $sender_emails[$email] = $senders[$i];
         }
         $customer_id = Issue::getCustomerID($_GET['issue_id']);

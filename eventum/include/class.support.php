@@ -479,7 +479,7 @@ class Support
             'cc'                => Mime_Helper::fixEncoding(@$message->ccaddress),
         ));
 
-        $sender_email = Mail_API::getEmailAddress($message->fromaddress);
+        $sender_email = Mail_Helper::getEmailAddress($message->fromaddress);
         $usr_id = User::getUserIDByEmail($sender_email);
         // change the current locale
         if ($usr_id) {
@@ -489,7 +489,7 @@ class Support
         $text_message = $tpl->getTemplateContents();
 
         // send email (use PEAR's classes)
-        $mail = new Mail_API;
+        $mail = new Mail_Helper;
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
         $mail->send($setup['from'], $sender_email,
@@ -532,7 +532,7 @@ class Support
             // XXX do some error reporting?
             return;
         }
-        $message_id = Mail_API::getMessageID($headers, $body);
+        $message_id = Mail_Helper::getMessageID($headers, $body);
         $message = $headers . $body;
         // we don't need $body anymore -- free memory
         unset($body);
@@ -551,7 +551,7 @@ class Support
         }
         // we can't trust the in-reply-to from the imap c-client, so let's
         // try to manually parse that value from the full headers
-        $reference_msg_id = Mail_API::getReferenceMessageID($headers);
+        $reference_msg_id = Mail_Helper::getReferenceMessageID($headers);
 
         // pass in $email by reference so it can be modified
         $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $message, $email, $structure);
@@ -643,7 +643,7 @@ class Support
             return;
         }
 
-        $sender_email = Mail_API::getEmailAddress($email->fromaddress);
+        $sender_email = Mail_Helper::getEmailAddress($email->fromaddress);
         if (PEAR::isError($sender_email)) {
             $sender_email = 'Error Parsing Email <>';
         }
@@ -706,11 +706,11 @@ class Support
                         $users = array_flip($users);
 
                         $addresses = array();
-                        $to_addresses = Mail_API::getEmailAddresses(@$structure->headers['to']);
+                        $to_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['to']);
                         if (count($to_addresses)) {
                             $addresses = $to_addresses;
                         }
-                        $cc_addresses = Mail_API::getEmailAddresses(@$structure->headers['cc']);
+                        $cc_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['cc']);
                         if (count($cc_addresses)) {
                             $addresses = array_merge($addresses, $cc_addresses);
                         }
@@ -723,7 +723,7 @@ class Support
 
                         // XXX FIXME, this is not nice thing to do
                         $_POST = array(
-                            'title'                => Mail_API::removeExcessRe($t['subject']),
+                            'title'                => Mail_Helper::removeExcessRe($t['subject']),
                             'note'                 => $t['body'],
                             'note_cc'              => $cc_users,
                             'add_extra_recipients' => 'yes',
@@ -738,7 +738,7 @@ class Support
             // check if we need to block this email
             if (($should_create_issue == true) || (!Support::blockEmailIfNeeded($t))) {
                 if (!empty($t['issue_id'])) {
-                    list($t['full_email'], $t['headers']) = Mail_API::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
+                    list($t['full_email'], $t['headers']) = Mail_Helper::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
                 }
 
                 // make variable available for workflow to be able to detect whether this email created new issue
@@ -771,7 +771,7 @@ class Support
                         Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
 
                         // try to get usr_id of sender, if not, use system account
-                        $addr = Mail_API::getEmailAddress($structure->headers['from']);
+                        $addr = Mail_Helper::getEmailAddress($structure->headers['from']);
                         if (PEAR::isError($addr)) {
                             // XXX should we log or is this expected?
                             Error_Handler::logError(array($addr->getMessage()." addr: $addr", $addr->getDebugInfo()), __FILE__, __LINE__);
@@ -840,9 +840,9 @@ class Support
 
         // we can't trust the in-reply-to from the imap c-client, so let's
         // try to manually parse that value from the full headers
-        $references = Mail_API::getAllReferences($headers);
+        $references = Mail_Helper::getAllReferences($headers);
 
-        $message_id = Mail_API::getMessageID($headers, $message_body);
+        $message_id = Mail_Helper::getMessageID($headers, $message_body);
         $workflow = Workflow::getIssueIDforNewEmail($info['ema_prj_id'], $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
         if ($workflow == 'new') {
             $should_create_issue = true;
@@ -909,7 +909,7 @@ class Support
             }
         }
 
-        $sender_email = Mail_API::getEmailAddress($from);
+        $sender_email = Mail_Helper::getEmailAddress($from);
         if (PEAR::isError($sender_email)) {
             $sender_email = 'Error Parsing Email <>';
         }
@@ -949,7 +949,7 @@ class Support
             array_push($addresses_not_too_add, $project_details['prj_outgoing_sender_email']);
 
             if (!empty($to)) {
-                $to_addresses = Mail_API::getAddressInfo($to, true);
+                $to_addresses = Mail_Helper::getAddressInfo($to, true);
                 foreach ($to_addresses as $address) {
                     if ((in_array($address['email'], $addresses_not_too_add)) || (!Workflow::shouldEmailAddress($prj_id, $address['email']) ||
                             (!Workflow::shouldAutoAddToNotificationList($prj_id)))) {
@@ -958,14 +958,14 @@ class Support
                     if (empty($address['sender_name'])) {
                         $recipient = $address['email'];
                     } else {
-                        $recipient = Mail_API::getFormattedName($address['sender_name'], $address['email']);
+                        $recipient = Mail_Helper::getFormattedName($address['sender_name'], $address['email']);
                     }
                     Notification::subscribeEmail(Auth::getUserID(), $issue_id, $address['email'], Notification::getDefaultActions($issue_id, $recipient, 'issue_from_email'));
                     Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $from, $date, $subject, $recipient);
                 }
             }
             if (!empty($cc)) {
-                $cc_addresses = Mail_API::getAddressInfo($cc, true);
+                $cc_addresses = Mail_Helper::getAddressInfo($cc, true);
                 foreach ($cc_addresses as $address) {
                     if ((in_array($address['email'], $addresses_not_too_add)) || (!Workflow::shouldEmailAddress($prj_id, $address['email']) ||
                             (!Workflow::shouldAutoAddToNotificationList($prj_id)))) {
@@ -974,7 +974,7 @@ class Support
                     if (empty($address['sender_name'])) {
                         $recipient = $address['email'];
                     } else {
-                        $recipient = Mail_API::getFormattedName($address['sender_name'], $address['email']);
+                        $recipient = Mail_Helper::getFormattedName($address['sender_name'], $address['email']);
                     }
                     Notification::subscribeEmail(Auth::getUserID(), $issue_id, $address['email'], Notification::getDefaultActions($issue_id, $recipient, 'issue_from_email'));
                     Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $from, $date, $subject, $recipient);
@@ -1081,7 +1081,7 @@ class Support
     function insertEmail($row, &$structure, &$sup_id, $closing = false)
     {
         // get usr_id from FROM header
-        $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($row['from']));
+        $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($row['from']));
         if (!empty($usr_id) && !empty($row["customer_id"])) {
             $row["customer_id"] = User::getCustomerID($usr_id);
         }
@@ -1090,7 +1090,7 @@ class Support
         }
 
         // try to get the parent ID
-        $reference_message_id = Mail_API::getReferenceMessageID($row['full_email']);
+        $reference_message_id = Mail_Helper::getReferenceMessageID($row['full_email']);
         $parent_id = '';
         if (!empty($reference_message_id)) {
             $parent_id = Support::getIDByMessageID($reference_message_id);
@@ -1362,11 +1362,11 @@ class Support
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
                 $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
-                $res[$i]["sup_from"] = join(', ', Mail_API::getName($res[$i]["sup_from"], true));
+                $res[$i]["sup_from"] = join(', ', Mail_Helper::getName($res[$i]["sup_from"], true));
                 if ((empty($res[$i]["sup_to"])) && (!empty($res[$i]["sup_iss_id"]))) {
                     $res[$i]["sup_to"] = "Notification List";
                 } else {
-                    $to = Mail_API::getName($res[$i]["sup_to"]);
+                    $to = Mail_Helper::getName($res[$i]["sup_to"]);
                     if (PEAR::isError($to)) {
                         // ignore unformattable headers
                     } else {
@@ -1467,7 +1467,7 @@ class Support
         }
 
         // figure out who should be the 'owner' of this attachment
-        $sender_email = strtolower(Mail_API::getEmailAddress($input->headers['from']));
+        $sender_email = strtolower(Mail_Helper::getEmailAddress($input->headers['from']));
         $usr_id = User::getUserIDByEmail($sender_email);
         $unknown_user = false;
         if (empty($usr_id)) {
@@ -1599,7 +1599,7 @@ class Support
                 );
                 Notification::notifyNewEmail($usr_id, $issue_id, $t, false, false, '', $res[$i]['sup_id']);
                 if ($authorize) {
-                    Authorized_Replier::manualInsert($issue_id, Mail_API::getEmailAddress(@$structure->headers['from']), false);
+                    Authorized_Replier::manualInsert($issue_id, Mail_Helper::getEmailAddress(@$structure->headers['from']), false);
                 }
             }
             return 1;
@@ -1639,12 +1639,12 @@ class Support
             $res["timestamp"] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
             $res["sup_date"] = Date_Helper::getFormattedDate($res["sup_date"]);
             $res["sup_subject"] = Mime_Helper::fixEncoding($res["sup_subject"]);
-            $res['reply_subject'] = Mail_API::removeExcessRe('Re: ' . $res["sup_subject"], true);
+            $res['reply_subject'] = Mail_Helper::removeExcessRe('Re: ' . $res["sup_subject"], true);
             $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
             $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);
 
             if (!empty($res['sup_iss_id'])) {
-                $res['reply_subject'] = Mail_API::formatSubject($res['sup_iss_id'], $res['reply_subject']);
+                $res['reply_subject'] = Mail_Helper::formatSubject($res['sup_iss_id'], $res['reply_subject']);
             }
 
             return $res;
@@ -1970,7 +1970,7 @@ class Support
     function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $attachments = null)
     {
         // hack needed to get the full headers of this web-based email
-        $mail = new Mail_API;
+        $mail = new Mail_Helper;
         $mail->setTextBody($body);
 
         $body = $mail->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
@@ -2032,20 +2032,20 @@ class Support
     function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $attachment, $message_id, $sender_usr_id = false)
     {
         $prj_id = Issue::getProjectID($issue_id);
-        $subject = Mail_API::formatSubject($issue_id, $subject);
+        $subject = Mail_Helper::formatSubject($issue_id, $subject);
         $recipients = Support::getRecipientsCC($cc);
         $recipients[] = $to;
         // send the emails now, one at a time
         foreach ($recipients as $recipient) {
-            $mail = new Mail_API;
+            $mail = new Mail_Helper;
             if (!empty($issue_id)) {
                 // add the warning message to the current message' body, if needed
-                $fixed_body = Mail_API::addWarningMessage($issue_id, $recipient, $body, array());
+                $fixed_body = Mail_Helper::addWarningMessage($issue_id, $recipient, $body, array());
                 $mail->setHeaders(array(
                     "Message-Id" => $message_id
                 ));
                 // skip users who don't have access to this issue (but allow non-users and users without access to this project) to get emails
-                $recipient_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($recipient), true);
+                $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient), true);
                 if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != NULL)))) ||
                         (empty($recipient_usr_id)) && (Issue::isPrivate($issue_id))) {
                     continue;
@@ -2053,7 +2053,7 @@ class Support
             } else {
                 $fixed_body = $body;
             }
-            if (User::getRoleByUser(User::getUserIDByEmail(Mail_API::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
+            if (User::getRoleByUser(User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
                 $type = 'customer_email';
             } else {
                 $type = 'other_email';
@@ -2105,7 +2105,7 @@ class Support
         }
 
         // get ID of whoever is sending this.
-        $sender_usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($_POST["from"]));
+        $sender_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($_POST["from"]));
         if (empty($sender_usr_id)) {
             $sender_usr_id = false;
         }
@@ -2119,9 +2119,9 @@ class Support
 
 
         // remove extra 'Re: ' from subject
-        $_POST['subject'] = Mail_API::removeExcessRe($_POST['subject'], true);
+        $_POST['subject'] = Mail_Helper::removeExcessRe($_POST['subject'], true);
         $internal_only = false;
-        $message_id = Mail_API::generateMessageID();
+        $message_id = Mail_Helper::generateMessageID();
         // hack needed to get the full headers of this web-based email
         $full_email = Support::buildFullHeaders($_POST["issue_id"], $message_id, $_POST["from"],
                 $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $in_reply_to, $_FILES["attachment"]);
@@ -2134,7 +2134,7 @@ class Support
                 // add the message body as a note
                 $_POST['full_message'] = $full_email;
                 $_POST['title'] = $_POST["subject"];
-                $_POST['note'] = Mail_API::getCannedBlockedMsgExplanation() . $_POST["message"];
+                $_POST['note'] = Mail_Helper::getCannedBlockedMsgExplanation() . $_POST["message"];
                 Note::insert(Auth::getUserID(), $_POST["issue_id"], false, true, false, true, true);
                 Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'web');
                 return 1;
@@ -2149,7 +2149,7 @@ class Support
                 $recipients = array_merge($recipients, Support::getRecipientsCC($_POST['cc']));
                 for ($i = 0; $i < count($recipients); $i++) {
                     if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($_POST["issue_id"], $recipients[$i]))) {
-                        Notification::subscribeEmail(Auth::getUserID(), $_POST["issue_id"], Mail_API::getEmailAddress($recipients[$i]),
+                        Notification::subscribeEmail(Auth::getUserID(), $_POST["issue_id"], Mail_Helper::getEmailAddress($recipients[$i]),
                                         Notification::getDefaultActions($_POST['issue_id'], $recipients[$i], 'add_unknown_user'));
                     }
                 }
@@ -2191,7 +2191,7 @@ class Support
                 $project_info = Project::getOutgoingSenderAddress(Auth::getCurrentProject());
                 // use the project-related outgoing email address, if there is one
                 if (!empty($project_info['email'])) {
-                    $from = Mail_API::getFormattedName(User::getFullName(Auth::getUserID()), $project_info['email']);
+                    $from = Mail_Helper::getFormattedName(User::getFullName(Auth::getUserID()), $project_info['email']);
                 } else {
                     // otherwise, use the real email address for the current user
                     $from = User::getFromHeader(Auth::getUserID());
@@ -2569,19 +2569,19 @@ class Support
 
         $issue_id = $email['issue_id'];
         $prj_id = Issue::getProjectID($issue_id);
-        $sender_email = strtolower(Mail_API::getEmailAddress($email['from']));
+        $sender_email = strtolower(Mail_Helper::getEmailAddress($email['from']));
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($email['full_email']);
-        if ((Mail_API::isVacationAutoResponder($email['headers'])) || (Notification::isBounceMessage($sender_email)) ||
+        if ((Mail_Helper::isVacationAutoResponder($email['headers'])) || (Notification::isBounceMessage($sender_email)) ||
                 (!Support::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
             $_POST = array(
                 'full_message'=> $email['full_email'],
                 'title'       => @$email['headers']['subject'],
-                'note'        => Mail_API::getCannedBlockedMsgExplanation($issue_id) . $email['body'],
-                'message_id'  => Mail_API::getMessageID($text_headers, $body),
+                'note'        => Mail_Helper::getCannedBlockedMsgExplanation($issue_id) . $email['body'],
+                'message_id'  => Mail_Helper::getMessageID($text_headers, $body),
             );
             // avoid having this type of message re-open the issue
-            if (Mail_API::isVacationAutoResponder($email['headers'])) {
+            if (Mail_Helper::isVacationAutoResponder($email['headers'])) {
                 $closing = true;
                 $notify = false;
             } else {
@@ -2598,7 +2598,7 @@ class Support
             $_POST['from'] = $sender_email;
 
             // avoid having this type of message re-open the issue
-            if (Mail_API::isVacationAutoResponder($email['headers'])) {
+            if (Mail_Helper::isVacationAutoResponder($email['headers'])) {
                 $email_type = 'vacation-autoresponder';
             } else {
                 $email_type = 'routed';
@@ -2606,7 +2606,7 @@ class Support
             Workflow::handleBlockedEmail($prj_id, $issue_id, $_POST, $email_type);
 
             // try to get usr_id of sender, if not, use system account
-            $usr_id = User::getUserIDByEmail(Mail_API::getEmailAddress($email['from']), true);
+            $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($email['from']), true);
             if (!$usr_id) {
                 $usr_id = APP_SYSTEM_USER_ID;
             }
@@ -2633,11 +2633,11 @@ class Support
         array_push($addresses_not_too_add, $project_details['prj_outgoing_sender_email']);
 
         $addresses = array();
-        $to_addresses = Mail_API::getEmailAddresses(@$email['to']);
+        $to_addresses = Mail_Helper::getEmailAddresses(@$email['to']);
         if (count($to_addresses)) {
             $addresses = $to_addresses;
         }
-        $cc_addresses = Mail_API::getEmailAddresses(@$email['cc']);
+        $cc_addresses = Mail_Helper::getEmailAddresses(@$email['cc']);
         if (count($cc_addresses)) {
             $addresses = array_merge($addresses, $cc_addresses);
         }

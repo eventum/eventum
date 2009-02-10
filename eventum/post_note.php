@@ -83,7 +83,7 @@ if (@$_POST["cat"] == "post_note") {
             "note"           => $note,
             "parent_note_id" => $_GET["id"]
         ));
-        $reply_subject = Mail_API::removeExcessRe($note['not_title']);
+        $reply_subject = Mail_Helper::removeExcessRe($note['not_title']);
     }
 }
 if (empty($reply_subject)) {
