@@ -26,13 +26,8 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: db_access.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: db_access.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 require_once(APP_INC_PATH . "class.db_api.php");
 $db_api =& new DB_API;
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included db_access file');
-}

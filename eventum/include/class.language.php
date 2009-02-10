@@ -233,8 +233,3 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
 _bindtextdomain('eventum', APP_PATH . 'misc/localization/');
 _bind_textdomain_codeset('eventum', APP_CHARSET);
 _textdomain('eventum');
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Language Class');
-}

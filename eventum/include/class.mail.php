@@ -1031,8 +1031,3 @@ class Mail_API
         return $return;
     }
 }
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Mail_API Class');
-}

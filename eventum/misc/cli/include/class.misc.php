@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.misc.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: class.misc.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 
@@ -91,9 +91,4 @@ class Misc
         }
         return $input;
     }
-}
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Misc Class');
 }

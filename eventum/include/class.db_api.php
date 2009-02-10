@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.db_api.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.db_api.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 $TOTAL_QUERIES = 0;
@@ -153,9 +153,4 @@ class DB_API
         END)";
         return str_replace("\n", " ", $sql);
     }
-}
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included DB_API Class');
 }

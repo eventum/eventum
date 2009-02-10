@@ -50,12 +50,10 @@ define('APP_LOG_PATH', APP_PATH . 'logs/');
 define('APP_ERROR_LOG', APP_LOG_PATH . 'errors.log');
 define('APP_LOCKS_PATH', APP_PATH . 'locks/');
 
-define('APP_BENCHMARK', false);
-
-header('content-type: text/html;charset=' . APP_CHARSET);
+header('Content-Type: text/html; charset=' . APP_CHARSET);
 
 set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);
-require_once('File/Util.php');
+require_once 'File/Util.php';
 
 list($warnings, $errors) = checkRequirements();
 if ((count($warnings) > 0) || (count($errors) > 0)) {
@@ -90,7 +88,7 @@ if ((count($warnings) > 0) || (count($errors) > 0)) {
             <br />
             <b>The following problems were found:</b>
             <br /><br />
-            ' . implode("\n<hr>\n", array_merge($errors, $warnings)) . '
+            ', implode("\n<hr>\n", array_merge($errors, $warnings)), '
             <br /><br />
             <b>Please resolve the issues described above. For file permission errors, please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
             <br /><br />
@@ -104,7 +102,7 @@ if ((count($warnings) > 0) || (count($errors) > 0)) {
 </body>
 </html>';
     if (count($errors) > 0) {
-        exit;
+        exit(1);
     }
 }
 
@@ -121,7 +119,6 @@ if (@$_POST['cat'] == 'install') {
     // check for the optional IMAP extension
     $tpl->assign('is_imap_enabled', function_exists('imap_open'));
 }
-
 
 $full_url = dirname($_SERVER['PHP_SELF']);
 $pieces = explode('/', $full_url);

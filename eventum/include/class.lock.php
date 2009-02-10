@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.lock.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.lock.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 
@@ -108,9 +108,4 @@ class Lock
             return $pids[$name];
         }
     }
-}
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Lock Class');
 }

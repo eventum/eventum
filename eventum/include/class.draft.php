@@ -465,8 +465,3 @@ class Draft
         return $res;
     }
 }
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Draft Class');
-}

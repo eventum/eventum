@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.template.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.template.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
@@ -118,14 +118,6 @@ class Template_API
      */
     function displayTemplate()
     {
-        if (APP_BENCHMARK) {
-            // stop the benchmarking
-            $GLOBALS["bench"]->stop();
-            $profiling = $GLOBALS["bench"]->getProfiling();
-            // last minute check on the benchmarking results
-            $this->assign(array("benchmark_total" => sprintf("%.4f", $profiling[count($profiling)-1]["total"]),
-                                "benchmark_results" => base64_encode(serialize($profiling))));
-        }
         $this->processTemplate();
         // finally display the parsed template
         $this->smarty->display($this->tpl_name);
@@ -220,9 +212,4 @@ class Template_API
 
         $this->assign('app_messages', Misc::getMessages());
     }
-}
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Template Class');
 }

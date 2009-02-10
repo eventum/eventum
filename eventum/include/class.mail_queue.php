@@ -459,8 +459,3 @@ class Mail_Queue
         }
     }
 }
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Mail_Queue Class');
-}

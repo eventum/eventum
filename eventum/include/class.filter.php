@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.filter.php 3813 2009-01-26 13:13:53Z glen $
+// @(#) $Id: class.filter.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -815,9 +815,4 @@ class Filter
 
         return $fields;
     }
-}
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Filter Class');
 }

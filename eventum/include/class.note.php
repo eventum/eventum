@@ -883,8 +883,3 @@ class Note
         }
     }
 }
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Note Class');
-}

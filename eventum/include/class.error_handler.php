@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.error_handler.php 3809 2009-01-25 03:40:17Z glen $
+// @(#) $Id: class.error_handler.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
@@ -234,9 +234,4 @@ class Error_Handler
 
         return $msg;
     }
-}
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included '.__CLASS__.'Class');
 }

@@ -2,46 +2,11 @@
 <hr size="1" noshade color="{$cell_color}">
 
 <table border="0" width="100%">
-  {if $benchmark_total}
-  {literal}
-  <script language="JavaScript">
-  <!--
-  function openBenchmark()
-  {
-      var f = getForm('benchmark_form');
-      var width = 500;
-      var height = 450;
-      var w_offset = 30;
-      var h_offset = 30;
-      var location = 'top=' + h_offset + ',left=' + w_offset + ',';
-      if (screen.width) {
-          location = 'top=' + h_offset + ',left=' + (screen.width - (width + w_offset)) + ',';
-      }
-      var features = 'width=' + width + ',height=' + height + ',' + location + 'resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-      var benchmarkWin = window.open('', '_benchmark', features);
-      f.submit();
-      benchmarkWin.focus();
-  }
-  //-->
-  </script>
-  {/literal}
-  <form name="benchmark_form" target="_benchmark" method="post" action="{$rel_url}benchmark.php">
-  <input type="hidden" name="encoded_stats" value="{$benchmark_results}">
-  {/if}
   <tr>
-    <td {if $benchmark_total}width="60%"{/if} valign="top" class="footer">
+    <td valign="top" class="footer">
       <i><a href="http://www.mysql.com/products/eventum" target="_mysql" class="link" title="Eventum Issue Tracking System">{$application_title}</a> {$application_version}</i><br />
-      <i>Copyright &copy; 2003 - 2008 <a href="http://www.mysql.com" target="_mysql" class="link" title="MySQL AB">MySQL AB</a>,
+      <i>Copyright &copy; 2003 - 2008 <a href="http://www.mysql.com" target="_blank" class="link" title="MySQL AB">MySQL AB</a>,
       2008 - 2009 Sun Microsystem Inc.</i>
     </td>
-    {if $benchmark_total}
-    <td align="right" valign="top" width="40%" class="footer">
-      {t 1=$benchmark_total}Page generated in %1 seconds{/t} {if $total_queries}({$total_queries} {t}queries{/t}){/if}<br />
-      <a class="link" href="javascript:void(null);" onClick="javascript:openBenchmark();">{t}Benchmark Statistics{/t}</a>
-    </td>
-    {/if}
   </tr>
-  {if $benchmark_total}
-  </form>
-  {/if}
 </table>

@@ -88,8 +88,3 @@ class Setup
         return 1;
     }
 }
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Setup Class');
-}

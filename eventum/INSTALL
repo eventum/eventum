@@ -9,7 +9,6 @@ that it needs to work properly:
 - Smarty 2.6.18 (http://smarty.php.net)
 - PEAR packages:
    Auth_SASL 1.0.2
-   Benchmark 1.2.7
    DB 1.7.13
    Date 1.4.7
    HTTP 1.4.0

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.date.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.date.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
@@ -453,9 +453,4 @@ class Date_API
         $display = date($display_format, $start) . " - " . date($display_format, $end);
         return array($value,$display);
     }
-}
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Date_API Class');
 }

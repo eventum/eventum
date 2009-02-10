@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3803 2009-01-13 18:28:04Z balsdorf $
+// @(#) $Id: class.report.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -936,9 +936,4 @@ class Report
 
         return $data;
     }
-}
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Report Class');
 }

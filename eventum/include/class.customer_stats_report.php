@@ -26,7 +26,7 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.customer_stats_report.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: class.customer_stats_report.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -748,9 +748,4 @@ class Customer_Stats_Report
     {
         return $this->time_tracking_categories;
     }
-}
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Customer_Stats_Report Class');
 }

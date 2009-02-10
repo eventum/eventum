@@ -125,10 +125,6 @@ if (!defined('APP_ENABLE_FULLTEXT')) {
     define('APP_ENABLE_FULLTEXT', false);
 }
 
-if (!defined('APP_BENCHMARK')) {
-    define('APP_BENCHMARK', false);
-}
-
 if (!defined('APP_DEFAULT_ASSIGNED_EMAILS')) {
     define('APP_DEFAULT_ASSIGNED_EMAILS', 1);
 }
@@ -156,13 +152,6 @@ if (!defined('APP_EMAIL_ENCODING')) {
 }
 
 define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
-
-if (APP_BENCHMARK) {
-    // always benchmark the scripts
-    require_once 'Benchmark/Timer.php';
-    $bench = new Benchmark_Timer;
-    $bench->start();
-}
 
 include_once(APP_INC_PATH . 'class.language.php');
 include_once(APP_INC_PATH . 'db_access.php');

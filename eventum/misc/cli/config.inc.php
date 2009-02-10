@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: config.inc.php 3555 2008-03-15 16:45:34Z glen $
+// @(#) $Id: config.inc.php 3822 2009-02-10 06:35:01Z glen $
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -35,6 +35,5 @@ set_time_limit(0);
 define('APP_PATH', dirname(__FILE__) . '/');
 define('APP_INC_PATH', APP_PATH . 'include/');
 define('APP_PEAR_PATH', APP_INC_PATH . 'pear/');
-define('APP_BENCHMARK', false);
 
 set_include_path(get_include_path() . PATH_SEPARATOR . APP_PEAR_PATH);

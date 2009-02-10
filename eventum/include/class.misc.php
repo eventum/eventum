@@ -746,8 +746,3 @@ class Misc
         return self::$messages;
     }
 }
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Misc Class');
-}

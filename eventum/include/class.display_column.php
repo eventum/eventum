@@ -316,8 +316,3 @@ class Display_Column
         }
     }
 }
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Display_Column Class');
-}

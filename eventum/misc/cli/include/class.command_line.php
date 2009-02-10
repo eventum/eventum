@@ -25,7 +25,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.command_line.php 3786 2008-12-02 17:08:25Z glen $
+// @(#) $Id: class.command_line.php 3822 2009-02-10 06:35:01Z glen $
 //
 
 require_once(APP_INC_PATH . 'class.misc.php');
@@ -1740,10 +1740,4 @@ $explanation";
     {
         die("Error - $msg. Run script with --help for usage information.\n");
     }
-}
-
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Command_Line Class');
 }

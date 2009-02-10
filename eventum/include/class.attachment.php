@@ -638,8 +638,3 @@ class Attachment
         }
     }
 }
-
-// benchmarking the included file (aka setup time)
-if (APP_BENCHMARK) {
-    $GLOBALS['bench']->setMarker('Included Attachment Class');
-}
