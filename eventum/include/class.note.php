@@ -34,7 +34,7 @@ require_once(APP_INC_PATH . "class.history.php");
 require_once(APP_INC_PATH . "class.user.php");
 require_once(APP_INC_PATH . "class.misc.php");
 require_once(APP_INC_PATH . "class.issue.php");
-require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.date_helper.php");
 require_once(APP_INC_PATH . "class.draft.php");
 require_once(APP_INC_PATH . "class.authorized_replier.php");
 

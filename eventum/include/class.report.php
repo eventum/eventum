@@ -26,13 +26,13 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.report.php 3833 2009-02-10 07:23:54Z glen $
+// @(#) $Id: class.report.php 3834 2009-02-10 07:37:26Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
 require_once(APP_INC_PATH . "class.misc.php");
 require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.date_helper.php");
 require_once(APP_INC_PATH . "class.status.php");
 require_once(APP_INC_PATH . "class.history.php");
 require_once(APP_INC_PATH . "class.phone_support.php");

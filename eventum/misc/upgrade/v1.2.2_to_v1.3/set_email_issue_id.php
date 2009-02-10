@@ -2,7 +2,7 @@
 require_once(dirname(__FILE__) . "/../../../init.php");
 require_once(APP_INC_PATH . "db_access.php");
 require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.mail.php");
+require_once(APP_INC_PATH . "class.mail_helper.php");
 require_once(APP_PEAR_PATH . "Mail/mimeDecode.php");
 
 ini_set("memory_limit", '1024M');

@@ -28,7 +28,7 @@
 //
 
 require_once(APP_INC_PATH . "customer/class.abstract_customer_backend.php");
-require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.date_helper.php");
 
 /**
  * Example customer backend. This does not cover all functionality, but should provide an idea

@@ -28,11 +28,11 @@
 //
 
 require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.mail.php");
+require_once(APP_INC_PATH . "class.mail_helper.php");
 require_once(APP_INC_PATH . "class.support.php");
 require_once(APP_INC_PATH . "class.issue.php");
 require_once(APP_INC_PATH . "class.mime_helper.php");
-require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.date_helper.php");
 require_once(APP_INC_PATH . "class.setup.php");
 require_once(APP_INC_PATH . "class.notification.php");
 require_once(APP_INC_PATH . "class.user.php");

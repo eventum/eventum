@@ -26,10 +26,10 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: workload_date_range.php 3828 2009-02-10 07:01:48Z glen $
+// @(#) $Id: workload_date_range.php 3834 2009-02-10 07:37:26Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
-require_once(APP_INC_PATH . "class.template.php");
+require_once(APP_INC_PATH . "class.template_helper.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.report.php");
 require_once(APP_INC_PATH . "class.session.php");

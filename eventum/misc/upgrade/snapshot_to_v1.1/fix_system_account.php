@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__) . "/../../../init.php");
 require_once(APP_INC_PATH . "db_access.php");
-require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.date_helper.php");
 
 $stmt = "SELECT MAX(usr_id)+1 FROM eventum_user";
 $res = DB_Helper::getInstance()->getOne($stmt);

@@ -37,7 +37,7 @@ require_once(APP_INC_PATH . "class.note.php");
 require_once(APP_INC_PATH . "class.history.php");
 require_once(APP_INC_PATH . "class.notification.php");
 require_once(APP_INC_PATH . "class.pager.php");
-require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.date_helper.php");
 require_once(APP_INC_PATH . "class.category.php");
 require_once(APP_INC_PATH . "class.release.php");
 require_once(APP_INC_PATH . "class.resolution.php");

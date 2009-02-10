@@ -26,14 +26,14 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.group.php 3832 2009-02-10 07:21:46Z glen $
+// @(#) $Id: class.group.php 3834 2009-02-10 07:37:26Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
 require_once(APP_INC_PATH . "class.auth.php");
 require_once(APP_INC_PATH . "class.misc.php");
 require_once(APP_INC_PATH . "class.prefs.php");
-require_once(APP_INC_PATH . "class.date.php");
+require_once(APP_INC_PATH . "class.date_helper.php");
 require_once(APP_INC_PATH . "class.project.php");
 
 /**
