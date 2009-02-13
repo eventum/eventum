@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: new.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: new.php 3836 2009-02-13 15:49:25Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template_helper.php");
@@ -75,7 +75,7 @@ if (@$_POST["cat"] == "report") {
         // email listing page
         $tpl->assign("new_issue_id", $res);
         $tpl->assign("quarantine", Issue::getQuarantineInfo($res));
-        $tpl->assign("errors", $insert_errors);
+        $tpl->assign("errors", Issue::getInsertErrors());
         $tpl->assign("ticket", Issue::getDetails($res));
     } else {
         // need to show everything again
