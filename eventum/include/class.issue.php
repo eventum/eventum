@@ -1262,10 +1262,10 @@ class Issue
                 $assign[] = $users[$i];
             }
 
+            Workflow::handleNewIssue(Misc::escapeInteger($_POST["project"]),  $new_issue_id, false, false);
+
             // also notify any users that want to receive emails anytime a new issue is created
             Notification::notifyNewIssue($_POST['project'], $new_issue_id);
-
-            Workflow::handleNewIssue(Misc::escapeInteger($_POST["project"]),  $new_issue_id, false, false);
 
             return $new_issue_id;
         }
@@ -2035,12 +2035,13 @@ class Issue
             $has_assignee = true;
         }
 
+        Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
+
         // send special 'an issue was auto-created for you' notification back to the sender
         Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $summary);
+
         // also notify any users that want to receive emails anytime a new issue is created
         Notification::notifyNewIssue($prj_id, $issue_id, $exclude_list);
-
-        Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
 
         return $issue_id;
     }

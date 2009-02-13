@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 - Fixed case sensitivity problem when excluding project aliases from being added to notification list (Bryan)
 - Always allow issue reporter to email the issue (Bryan)
 - Rip out Benchmark (Elan Ruusamäe)
+- call Workflow::handleNewIssue before Notifications are sent out (Elan Ruusamäe)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
