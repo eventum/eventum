@@ -1951,63 +1951,40 @@ class Issue
 
         $initial_status = Project::getInitialStatus($prj_id);
         // add new issue
-        $stmt = "INSERT INTO
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
-                 (
-                    iss_prj_id,\n";
+        $stmt = "INSERT INTO " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue ".
+            "SET
+                    iss_prj_id=". $prj_id . ",\n";
+
         if (!empty($category)) {
-            $stmt .= "iss_prc_id,\n";
+            $stmt .= "iss_prc_id=" .  Misc::escapeInteger($category) . ",\n";
         }
-        $stmt .= "iss_pri_id,
-                    iss_usr_id,";
+
+        $stmt .= "iss_pri_id=" . Misc::escapeInteger($priority) . ",";
+        $stmt .= "iss_usr_id=" . Misc::escapeInteger($reporter) . ",";
+
         if (!empty($initial_status)) {
-            $stmt .= "iss_sta_id,";
+            $stmt .= "iss_sta_id=" . Misc::escapeInteger($initial_status) . ",";
         }
+
         if (!empty($customer_id)) {
             $stmt .= "
-                    iss_customer_id,
-                    iss_customer_contact_id,
-                    iss_contact_person_lname,
-                    iss_contact_person_fname,
-                    iss_contact_email,
-                    iss_contact_phone,
-                    iss_contact_timezone,";
+                    iss_customer_id = " . Misc::escapeInteger($customer_id) . ",
+                    iss_customer_contact_id = " . Misc::escapeInteger($customer_contact_id) . ",
+                    iss_contact_person_lname = '" . Misc::escapeString($contact['last_name']) . "',
+                    iss_contact_person_fname = '" . Misc::escapeString($contact['first_name']) . "',
+                    iss_contact_email = '" . Misc::escapeString($sender_email) . "',
+                    iss_contact_phone = '" . Misc::escapeString($contact['phone']) . "',
+                    iss_contact_timezone = '" . Misc::escapeString($contact_timezone) . "',";
         }
         $stmt .= "
-                    iss_created_date,
-                    iss_last_public_action_date,
-                    iss_last_public_action_type,
-                    iss_summary,
-                    iss_description,
-                    iss_root_message_id
-                 ) VALUES (
-                    " . $prj_id . ",\n";
-        if (!empty($category)) {
-            $stmt .=  Misc::escapeInteger($category) . ",\n";
-        }
-        $stmt .= Misc::escapeInteger($priority) . ",
-                    " . Misc::escapeInteger($reporter) . ",";
-        if (!empty($initial_status)) {
-            $stmt .= Misc::escapeInteger($initial_status) . ",";
-        }
-        if (!empty($customer_id)) {
-            $stmt .= "
-                    " . Misc::escapeInteger($customer_id) . ",
-                    " . Misc::escapeInteger($customer_contact_id) . ",
-                    '" . Misc::escapeString($contact['last_name']) . "',
-                    '" . Misc::escapeString($contact['first_name']) . "',
-                    '" . Misc::escapeString($sender_email) . "',
-                    '" . Misc::escapeString($contact['phone']) . "',
-                    '" . Misc::escapeString($contact_timezone) . "',";
-        }
-        $stmt .= "
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    'created',
-                    '" . Misc::escapeString($summary) . "',
-                    '" . Misc::escapeString($description) . "',
-                    '" . Misc::escapeString($msg_id) . "'
-                 )";
+                    iss_created_date = '" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_public_action_date = '" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_public_action_type = 'created',
+                    iss_summary = '" . Misc::escapeString($summary) . "',
+                    iss_description = '" . Misc::escapeString($description) . "',
+                    iss_root_message_id = '" . Misc::escapeString($msg_id) . "'
+                 ";
+
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -2030,7 +2007,7 @@ class Issue
             }
             // add the reporter to the notification list
             $emails[] = $sender;
-            $emails = array_unique($emails); // COMPAT: version >= 4.0.1
+            $emails = array_unique($emails);
             $actions = Notification::getDefaultActions($new_issue_id, false, 'issue_from_email');
             foreach ($emails as $address) {
                 Notification::subscribeEmail($reporter, $new_issue_id, $address, $actions);
