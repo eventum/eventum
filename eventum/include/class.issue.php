@@ -2276,7 +2276,7 @@ class Issue
             $stmt .= "iss_pri_id=". Misc::escapeInteger($data['priority']) . ",";
         }
 
-        $stmt .= "iss_usr_id=". Misc::escapeInteger($data['reporter']);
+        $stmt .= "iss_usr_id=". Misc::escapeInteger($data['reporter']) .",";
 
         $initial_status = Project::getInitialStatus($prj_id);
         if (!empty($initial_status)) {
