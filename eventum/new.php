@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: new.php 3836 2009-02-13 15:49:25Z glen $
+// @(#) $Id: new.php 3842 2009-02-13 17:19:03Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.template_helper.php");
@@ -69,7 +69,7 @@ if (Customer::hasCustomerIntegration($prj_id)) {
 }
 
 if (@$_POST["cat"] == "report") {
-    $res = Issue::insert();
+    $res = Issue::createFromPost();
     if ($res != -1) {
         // show direct links to the issue page, issue listing page and
         // email listing page
