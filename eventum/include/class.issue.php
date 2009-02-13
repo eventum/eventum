@@ -1989,76 +1989,76 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            $new_issue_id = DB_Helper::get_last_insert_id();
-            $has_TAM = false;
-            $has_RR = false;
-            // log the creation of the issue
-            History::add($new_issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
-
-            $emails = array();
-            $manager_usr_ids = array();
-            if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($customer_id))) {
-                // if there are any technical account managers associated with this customer, add these users to the notification list
-                $managers = Customer::getAccountManagers($prj_id, $customer_id);
-                $manager_usr_ids = array_keys($managers);
-                $manager_emails = array_values($managers);
-                $emails = array_merge($emails, $manager_emails);
-            }
-            // add the reporter to the notification list
-            $emails[] = $sender;
-            $emails = array_unique($emails);
-            $actions = Notification::getDefaultActions($new_issue_id, false, 'issue_from_email');
-            foreach ($emails as $address) {
-                Notification::subscribeEmail($reporter, $new_issue_id, $address, $actions);
-            }
-
-            // only assign the issue to an user if the associated customer has any technical account managers
-            $users = array();
-            if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
-                foreach ($manager_usr_ids as $manager_usr_id) {
-                    $users[] = $manager_usr_id;
-                    Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $manager_usr_id, false);
-                    History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
-                }
-                $has_TAM = true;
-            }
-            // now add the user/issue association
-            if (@count($assignment) > 0) {
-                for ($i = 0; $i < count($assignment); $i++) {
-                    Notification::subscribeUser($reporter, $new_issue_id, $assignment[$i], $actions);
-                    Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $assignment[$i]);
-                    if ($assignment[$i] != $usr_id) {
-                        $users[] = $assignment[$i];
-                    }
-                }
-            } else {
-                // only use the round-robin feature if this new issue was not
-                // already assigned to a customer account manager
-                if (@count($manager_usr_ids) < 1) {
-                    $assignee = Round_Robin::getNextAssignee($prj_id);
-                    // assign the issue to the round robin person
-                    if (!empty($assignee)) {
-                        Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $assignee, false);
-                        History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
-                        $users[] = $assignee;
-                        $has_RR = true;
-                    }
-                }
-            }
-            if (count($users) > 0) {
-                $has_assignee = true;
-            }
-
-            // send special 'an issue was auto-created for you' notification back to the sender
-            Notification::notifyAutoCreatedIssue($prj_id, $new_issue_id, $sender, $date, $summary);
-            // also notify any users that want to receive emails anytime a new issue is created
-            Notification::notifyNewIssue($prj_id, $new_issue_id, $exclude_list);
-
-            Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
-
-            return $new_issue_id;
         }
+
+        $new_issue_id = DB_Helper::get_last_insert_id();
+        $has_TAM = false;
+        $has_RR = false;
+        // log the creation of the issue
+        History::add($new_issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
+
+        $emails = array();
+        $manager_usr_ids = array();
+        if ((Customer::hasCustomerIntegration($prj_id)) && (!empty($customer_id))) {
+            // if there are any technical account managers associated with this customer, add these users to the notification list
+            $managers = Customer::getAccountManagers($prj_id, $customer_id);
+            $manager_usr_ids = array_keys($managers);
+            $manager_emails = array_values($managers);
+            $emails = array_merge($emails, $manager_emails);
+        }
+        // add the reporter to the notification list
+        $emails[] = $sender;
+        $emails = array_unique($emails);
+        $actions = Notification::getDefaultActions($new_issue_id, false, 'issue_from_email');
+        foreach ($emails as $address) {
+            Notification::subscribeEmail($reporter, $new_issue_id, $address, $actions);
+        }
+
+        // only assign the issue to an user if the associated customer has any technical account managers
+        $users = array();
+        if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
+            foreach ($manager_usr_ids as $manager_usr_id) {
+                $users[] = $manager_usr_id;
+                Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $manager_usr_id, false);
+                History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
+            }
+            $has_TAM = true;
+        }
+        // now add the user/issue association
+        if (@count($assignment) > 0) {
+            for ($i = 0; $i < count($assignment); $i++) {
+                Notification::subscribeUser($reporter, $new_issue_id, $assignment[$i], $actions);
+                Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $assignment[$i]);
+                if ($assignment[$i] != $usr_id) {
+                    $users[] = $assignment[$i];
+                }
+            }
+        } else {
+            // only use the round-robin feature if this new issue was not
+            // already assigned to a customer account manager
+            if (@count($manager_usr_ids) < 1) {
+                $assignee = Round_Robin::getNextAssignee($prj_id);
+                // assign the issue to the round robin person
+                if (!empty($assignee)) {
+                    Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $assignee, false);
+                    History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
+                    $users[] = $assignee;
+                    $has_RR = true;
+                }
+            }
+        }
+        if (count($users) > 0) {
+            $has_assignee = true;
+        }
+
+        // send special 'an issue was auto-created for you' notification back to the sender
+        Notification::notifyAutoCreatedIssue($prj_id, $new_issue_id, $sender, $date, $summary);
+        // also notify any users that want to receive emails anytime a new issue is created
+        Notification::notifyNewIssue($prj_id, $new_issue_id, $exclude_list);
+
+        Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
+
+        return $new_issue_id;
     }
 
     /**
@@ -2161,143 +2161,143 @@ class Issue
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            $new_issue_id = DB_Helper::get_last_insert_id();
-            $has_TAM = false;
-            $has_RR = false;
-            $info = User::getNameEmail($usr_id);
-            // log the creation of the issue
-            History::add($new_issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
-
-            $emails = array();
-            if (Customer::hasCustomerIntegration($prj_id)) {
-                if (!empty($data['contact_extra_emails']) && count($data['contact_extra_emails']) > 0) {
-                    $emails = $data['contact_extra_emails'];
-                }
-                // add the primary contact to the notification list
-                if ($data['add_primary_contact'] == 'yes') {
-                    $contact_email = User::getEmailByContactID($data['contact']);
-                    if (!empty($contact_email)) {
-                        $emails[] = $contact_email;
-                    }
-                }
-                // if there are any technical account managers associated with this customer, add these users to the notification list
-                $managers = Customer::getAccountManagers($prj_id, $data['customer']);
-                $manager_usr_ids = array_keys($managers);
-                $manager_emails = array_values($managers);
-                $emails = array_merge($emails, $manager_emails);
-            }
-            // add the reporter to the notification list
-            $emails[] = $info['usr_email'];
-            $emails = array_unique($emails);
-            foreach ($emails as $address) {
-                Notification::subscribeEmail($usr_id, $new_issue_id, $address, Notification::getDefaultActions($new_issue_id, $address, 'new_issue'));
-            }
-
-            // only assign the issue to an user if the associated customer has any technical account managers
-            $users = array();
-            $has_TAM = false;
-            if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
-                foreach ($manager_usr_ids as $manager_usr_id) {
-                    $users[] = $manager_usr_id;
-                    Issue::addUserAssociation($usr_id, $new_issue_id, $manager_usr_id, false);
-                    History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
-                }
-                $has_TAM = true;
-            }
-            // now add the user/issue association (aka assignments)
-            if (!empty($data['users']) && count($data['users']) > 0) {
-                for ($i = 0; $i < count($data['users']); $i++) {
-                    Notification::subscribeUser($usr_id, $new_issue_id, $data['users'][$i],
-                                    Notification::getDefaultActions($new_issue_id, User::getEmail($data['users'][$i]), 'new_issue'));
-                    Issue::addUserAssociation($usr_id, $new_issue_id, $data['users'][$i]);
-                    if ($data['users'][$i] != $usr_id) {
-                        $users[] = $data['users'][$i];
-                    }
-                }
-            } else {
-                // only use the round-robin feature if this new issue was not
-                // already assigned to a customer account manager
-                if (@count($manager_usr_ids) < 1) {
-                    $assignee = Round_Robin::getNextAssignee($prj_id);
-                    // assign the issue to the round robin person
-                    if (!empty($assignee)) {
-                        $users[] = $assignee;
-                        Issue::addUserAssociation($usr_id, $new_issue_id, $assignee, false);
-                        History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
-                        $has_RR = true;
-                    }
-                }
-            }
-
-            // now process any files being uploaded
-            $found = 0;
-            for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
-                if (!@empty($_FILES["file"]["name"][$i])) {
-                    $found = 1;
-                    break;
-                }
-            }
-            if ($found) {
-                $files = array();
-                for ($i = 0; $i < count($_FILES["file"]["name"]); $i++) {
-                    $filename = @$_FILES["file"]["name"][$i];
-                    if (empty($filename)) {
-                        continue;
-                    }
-                    $blob = Misc::getFileContents($_FILES["file"]["tmp_name"][$i]);
-                    if (empty($blob)) {
-                        // error reading a file
-                        self::$insert_errors["file[$i]"] = "There was an error uploading the file '$filename'.";
-                        continue;
-                    }
-                    $files[] = array(
-                        "filename" => $filename,
-                        "type"     => $_FILES['file']['type'][$i],
-                        "blob"     => $blob
-                    );
-                }
-                if (count($files) > 0) {
-                    $attachment_id = Attachment::add($new_issue_id, $usr_id, 'Files uploaded at issue creation time');
-                    foreach ($files as $file) {
-                        Attachment::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
-                    }
-                }
-            }
-            // need to associate any emails ?
-            if (!empty($data['attached_emails'])) {
-                $items = explode(",", $data['attached_emails']);
-                Support::associate($usr_id, $new_issue_id, $items);
-            }
-            // need to notify any emails being converted into issues ?
-            if (@count($data['notify_senders']) > 0) {
-                $recipients = Notification::notifyEmailConvertedIntoIssue($prj_id, $new_issue_id, $data['notify_senders'], @$data['customer']);
-            } else {
-                $recipients = array();
-            }
-            // need to process any custom fields ?
-            if (@count($data['custom_fields']) > 0) {
-                foreach ($data['custom_fields'] as $fld_id => $value) {
-                    Custom_Field::associateIssue($new_issue_id, $fld_id, $value);
-                }
-            }
-            // also send a special confirmation email to the customer contact
-            if ((@$data['notify_customer'] == 'yes') && (!empty($data['contact']))) {
-                // also need to pass the list of sender emails already notified,
-                // so we can avoid notifying the same person again
-                $contact_email = User::getEmailByContactID($data['contact']);
-                if (@!in_array($contact_email, $recipients)) {
-                    Customer::notifyCustomerIssue($prj_id, $new_issue_id, $data['contact']);
-                }
-            }
-
-            Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
-
-            // also notify any users that want to receive emails anytime a new issue is created
-            Notification::notifyNewIssue($prj_id, $new_issue_id);
-
-            return $new_issue_id;
         }
+
+        $new_issue_id = DB_Helper::get_last_insert_id();
+        $has_TAM = false;
+        $has_RR = false;
+        $info = User::getNameEmail($usr_id);
+        // log the creation of the issue
+        History::add($new_issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
+
+        $emails = array();
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            if (!empty($data['contact_extra_emails']) && count($data['contact_extra_emails']) > 0) {
+                $emails = $data['contact_extra_emails'];
+            }
+            // add the primary contact to the notification list
+            if ($data['add_primary_contact'] == 'yes') {
+                $contact_email = User::getEmailByContactID($data['contact']);
+                if (!empty($contact_email)) {
+                    $emails[] = $contact_email;
+                }
+            }
+            // if there are any technical account managers associated with this customer, add these users to the notification list
+            $managers = Customer::getAccountManagers($prj_id, $data['customer']);
+            $manager_usr_ids = array_keys($managers);
+            $manager_emails = array_values($managers);
+            $emails = array_merge($emails, $manager_emails);
+        }
+        // add the reporter to the notification list
+        $emails[] = $info['usr_email'];
+        $emails = array_unique($emails);
+        foreach ($emails as $address) {
+            Notification::subscribeEmail($usr_id, $new_issue_id, $address, Notification::getDefaultActions($new_issue_id, $address, 'new_issue'));
+        }
+
+        // only assign the issue to an user if the associated customer has any technical account managers
+        $users = array();
+        $has_TAM = false;
+        if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
+            foreach ($manager_usr_ids as $manager_usr_id) {
+                $users[] = $manager_usr_id;
+                Issue::addUserAssociation($usr_id, $new_issue_id, $manager_usr_id, false);
+                History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
+            }
+            $has_TAM = true;
+        }
+        // now add the user/issue association (aka assignments)
+        if (!empty($data['users']) && count($data['users']) > 0) {
+            for ($i = 0; $i < count($data['users']); $i++) {
+                Notification::subscribeUser($usr_id, $new_issue_id, $data['users'][$i],
+                                Notification::getDefaultActions($new_issue_id, User::getEmail($data['users'][$i]), 'new_issue'));
+                Issue::addUserAssociation($usr_id, $new_issue_id, $data['users'][$i]);
+                if ($data['users'][$i] != $usr_id) {
+                    $users[] = $data['users'][$i];
+                }
+            }
+        } else {
+            // only use the round-robin feature if this new issue was not
+            // already assigned to a customer account manager
+            if (@count($manager_usr_ids) < 1) {
+                $assignee = Round_Robin::getNextAssignee($prj_id);
+                // assign the issue to the round robin person
+                if (!empty($assignee)) {
+                    $users[] = $assignee;
+                    Issue::addUserAssociation($usr_id, $new_issue_id, $assignee, false);
+                    History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
+                    $has_RR = true;
+                }
+            }
+        }
+
+        // now process any files being uploaded
+        $found = 0;
+        for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
+            if (!@empty($_FILES["file"]["name"][$i])) {
+                $found = 1;
+                break;
+            }
+        }
+        if ($found) {
+            $files = array();
+            for ($i = 0; $i < count($_FILES["file"]["name"]); $i++) {
+                $filename = @$_FILES["file"]["name"][$i];
+                if (empty($filename)) {
+                    continue;
+                }
+                $blob = Misc::getFileContents($_FILES["file"]["tmp_name"][$i]);
+                if (empty($blob)) {
+                    // error reading a file
+                    self::$insert_errors["file[$i]"] = "There was an error uploading the file '$filename'.";
+                    continue;
+                }
+                $files[] = array(
+                    "filename" => $filename,
+                    "type"     => $_FILES['file']['type'][$i],
+                    "blob"     => $blob
+                );
+            }
+            if (count($files) > 0) {
+                $attachment_id = Attachment::add($new_issue_id, $usr_id, 'Files uploaded at issue creation time');
+                foreach ($files as $file) {
+                    Attachment::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
+                }
+            }
+        }
+        // need to associate any emails ?
+        if (!empty($data['attached_emails'])) {
+            $items = explode(",", $data['attached_emails']);
+            Support::associate($usr_id, $new_issue_id, $items);
+        }
+        // need to notify any emails being converted into issues ?
+        if (@count($data['notify_senders']) > 0) {
+            $recipients = Notification::notifyEmailConvertedIntoIssue($prj_id, $new_issue_id, $data['notify_senders'], @$data['customer']);
+        } else {
+            $recipients = array();
+        }
+        // need to process any custom fields ?
+        if (@count($data['custom_fields']) > 0) {
+            foreach ($data['custom_fields'] as $fld_id => $value) {
+                Custom_Field::associateIssue($new_issue_id, $fld_id, $value);
+            }
+        }
+        // also send a special confirmation email to the customer contact
+        if ((@$data['notify_customer'] == 'yes') && (!empty($data['contact']))) {
+            // also need to pass the list of sender emails already notified,
+            // so we can avoid notifying the same person again
+            $contact_email = User::getEmailByContactID($data['contact']);
+            if (@!in_array($contact_email, $recipients)) {
+                Customer::notifyCustomerIssue($prj_id, $new_issue_id, $data['contact']);
+            }
+        }
+
+        Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
+
+        // also notify any users that want to receive emails anytime a new issue is created
+        Notification::notifyNewIssue($prj_id, $new_issue_id);
+
+        return $new_issue_id;
     }
 
 
