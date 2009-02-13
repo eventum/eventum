@@ -1927,13 +1927,24 @@ class Issue
      */
     function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment, $date, $msg_id)
     {
+        $data = array();
         $exclude_list = array();
+
         $sender_email = Mail_Helper::getEmailAddress($sender);
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $reporter = $sender_usr_id;
             $exclude_list[] = $sender_usr_id;
         }
+
+        $data = array(
+            'category' => $category,
+            'priority' => $priority,
+            'description' => $description,
+            'summary' => $summary,
+            'msg_id' => $msg_id,
+        );
+
         if (Customer::hasCustomerIntegration($prj_id)) {
             list($customer_id, $customer_contact_id) = Customer::getCustomerIDByEmails($prj_id, array($sender_email));
             if (!empty($customer_id)) {
@@ -1941,6 +1952,15 @@ class Issue
                 // overwrite the reporter with the customer contact
                 $reporter = User::getUserIDByContactID($customer_contact_id);
                 $contact_timezone = Date_Helper::getPreferredTimezone($reporter);
+
+                $data['customer'] = $customer_id;
+                $data['contact'] = $customer_contact_id;
+#                $data['contract'] =  // XXX missing
+                $data['contact_person_lname'] = $contact['last_name'];
+                $data['contact_person_fname'] = $contact['first_name'];
+                $data['contact_email'] = $sender_email;
+                $data['contact_phone'] = $contact['phone'];
+                $data['contact_timezone'] = $contact_timezone;
             }
         } else {
             $customer_id = FALSE;
@@ -1949,53 +1969,17 @@ class Issue
             $reporter = APP_SYSTEM_USER_ID;
         }
 
-        $initial_status = Project::getInitialStatus($prj_id);
-        // add new issue
-        $stmt = "INSERT INTO " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue ".
-            "SET
-                    iss_prj_id=". $prj_id . ",\n";
+        $data['reporter'] = $reporter;
 
-        if (!empty($category)) {
-            $stmt .= "iss_prc_id=" .  Misc::escapeInteger($category) . ",\n";
-        }
-
-        $stmt .= "iss_pri_id=" . Misc::escapeInteger($priority) . ",";
-        $stmt .= "iss_usr_id=" . Misc::escapeInteger($reporter) . ",";
-
-        if (!empty($initial_status)) {
-            $stmt .= "iss_sta_id=" . Misc::escapeInteger($initial_status) . ",";
-        }
-
-        if (!empty($customer_id)) {
-            $stmt .= "
-                    iss_customer_id = " . Misc::escapeInteger($customer_id) . ",
-                    iss_customer_contact_id = " . Misc::escapeInteger($customer_contact_id) . ",
-                    iss_contact_person_lname = '" . Misc::escapeString($contact['last_name']) . "',
-                    iss_contact_person_fname = '" . Misc::escapeString($contact['first_name']) . "',
-                    iss_contact_email = '" . Misc::escapeString($sender_email) . "',
-                    iss_contact_phone = '" . Misc::escapeString($contact['phone']) . "',
-                    iss_contact_timezone = '" . Misc::escapeString($contact_timezone) . "',";
-        }
-        $stmt .= "
-                    iss_created_date = '" . Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_public_action_date = '" . Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_public_action_type = 'created',
-                    iss_summary = '" . Misc::escapeString($summary) . "',
-                    iss_description = '" . Misc::escapeString($description) . "',
-                    iss_root_message_id = '" . Misc::escapeString($msg_id) . "'
-                 ";
-
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        $issue_id = self::insertIssue($prj_id, $usr_id, $data);
+        if ($issue_id == -1) {
             return -1;
         }
 
-        $new_issue_id = DB_Helper::get_last_insert_id();
         $has_TAM = false;
         $has_RR = false;
         // log the creation of the issue
-        History::add($new_issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
+        History::add($issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
 
         $emails = array();
         $manager_usr_ids = array();
@@ -2009,9 +1993,9 @@ class Issue
         // add the reporter to the notification list
         $emails[] = $sender;
         $emails = array_unique($emails);
-        $actions = Notification::getDefaultActions($new_issue_id, false, 'issue_from_email');
+        $actions = Notification::getDefaultActions($issue_id, false, 'issue_from_email');
         foreach ($emails as $address) {
-            Notification::subscribeEmail($reporter, $new_issue_id, $address, $actions);
+            Notification::subscribeEmail($reporter, $issue_id, $address, $actions);
         }
 
         // only assign the issue to an user if the associated customer has any technical account managers
@@ -2019,16 +2003,16 @@ class Issue
         if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
             foreach ($manager_usr_ids as $manager_usr_id) {
                 $users[] = $manager_usr_id;
-                Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $manager_usr_id, false);
-                History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
+                Issue::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $manager_usr_id, false);
+                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
             }
             $has_TAM = true;
         }
         // now add the user/issue association
         if (@count($assignment) > 0) {
             for ($i = 0; $i < count($assignment); $i++) {
-                Notification::subscribeUser($reporter, $new_issue_id, $assignment[$i], $actions);
-                Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $assignment[$i]);
+                Notification::subscribeUser($reporter, $issue_id, $assignment[$i], $actions);
+                Issue::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $assignment[$i]);
                 if ($assignment[$i] != $usr_id) {
                     $users[] = $assignment[$i];
                 }
@@ -2040,8 +2024,8 @@ class Issue
                 $assignee = Round_Robin::getNextAssignee($prj_id);
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {
-                    Issue::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $assignee, false);
-                    History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
+                    Issue::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $assignee, false);
+                    History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
                     $users[] = $assignee;
                     $has_RR = true;
                 }
@@ -2052,17 +2036,18 @@ class Issue
         }
 
         // send special 'an issue was auto-created for you' notification back to the sender
-        Notification::notifyAutoCreatedIssue($prj_id, $new_issue_id, $sender, $date, $summary);
+        Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $summary);
         // also notify any users that want to receive emails anytime a new issue is created
-        Notification::notifyNewIssue($prj_id, $new_issue_id, $exclude_list);
+        Notification::notifyNewIssue($prj_id, $issue_id, $exclude_list);
 
-        Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
+        Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
 
-        return $new_issue_id;
+        return $issue_id;
     }
 
+
     /**
-     * Return errors that happened when creating new issue.
+     * Return errors that happened when creating new issue from POST method.
      *
      * @return  array
      */
@@ -2070,105 +2055,54 @@ class Issue
     static function getInsertErrors() {
         return self::$insert_errors;
     }
-
     /**
      * Method used to add a new issue using the normal report form.
-     * @TODO    rename to createFromPost and let insert() be the base
+     * @TODO    rename to createFromPost()
      *
      * @access  public
      * @return  integer The new issue ID
      */
     function insert()
     {
-        $data = $_POST;
+        $keys = array(
+            'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
+            'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
+            'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'summary', 'users',
+        );
+        $data = array();
+        foreach ($keys as $key) {
+            if (isset($_POST[$key])) {
+                $data[$key] = $_POST[$key];
+            }
+        }
 
         $prj_id = Auth::getCurrentProject();
         $usr_id = Auth::getUserID();
 
-        $initial_status = Project::getInitialStatus($prj_id);
-
-        // XXX missing_fields never used
-        $missing_fields = array();
-        if ($data['category'] == -1) {
-            $missing_fields[] = 'Category';
-        }
-        if ($data['priority'] == -1) {
-            $missing_fields[] = 'Priority';
-        }
-
-        if ($data['estimated_dev_time'] == '') {
-            $data['estimated_dev_time'] = 0;
-        }
-
-        // add new issue
-        $stmt = "INSERT INTO " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue ".
-                "SET ".
-                    "iss_prj_id=" . $prj_id . ",";
-        if (!empty($data['group'])) {
-            $stmt .= "iss_grp_id=" . Misc::escapeInteger($data['group']) . ",\n";
-        }
-        if (!empty($data['category'])) {
-            $stmt .= "iss_prc_id=". Misc::escapeInteger($data['category']) . ",\n";
-        }
-        if (!empty($data['release'])) {
-            $stmt .= "iss_pre_id=". Misc::escapeInteger($data['release']) . ",\n";
-        }
-        if (!empty($data['priority'])) {
-            $stmt .= "iss_pri_id=". Misc::escapeInteger($data['priority']) . ",";
-        }
-
         // if we are creating an issue for a customer, put the
         // main customer contact as the reporter for it
-        $stmt .= "iss_usr_id=";
         if (Customer::hasCustomerIntegration($prj_id)) {
             $contact_usr_id = User::getUserIDByContactID($data['contact']);
             if (empty($contact_usr_id)) {
                 $contact_usr_id = $usr_id;
             }
-            $stmt .= Misc::escapeInteger($contact_usr_id) . ",";
+            $data['reporter'] = $contact_usr_id;
         } else {
-            $stmt .= $usr_id . ",";
+            $data['reporter'] = $usr_id;
         }
 
-        if (!empty($initial_status)) {
-            $stmt .= "iss_sta_id=" . Misc::escapeInteger($initial_status) . ",";
-        }
+        $data['msg_id'] = Mail_Helper::generateMessageID();
 
-        if (Customer::hasCustomerIntegration($prj_id)) {
-            $stmt .= "
-                    iss_customer_id=". Misc::escapeInteger($data['customer']) . ",
-                    iss_customer_contract_id='". Misc::escapeString($data['contract']) . "',
-                    iss_customer_contact_id=". Misc::escapeInteger($data['contact']) . ",
-                    iss_contact_person_lname='". Misc::escapeString($data['contact_person_lname']) . "',
-                    iss_contact_person_fname='". Misc::escapeString($data['contact_person_fname']) . "',
-                    iss_contact_email='". Misc::escapeString($data['contact_email']) . "',
-                    iss_contact_phone='". Misc::escapeString($data['contact_phone']) . "',
-                    iss_contact_timezone='". Misc::escapeString($data['contact_timezone']) . "',";
-        }
-
-        $stmt .= "
-                    iss_created_date='". Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_public_action_type='created',
-                    iss_summary='" . Misc::escapeString($data['summary']) . "',
-                    iss_description='" . Misc::escapeString($data['description']) . "',
-                    iss_dev_time='" . Misc::escapeString($data['estimated_dev_time']) . "',
-                    iss_private=" . Misc::escapeInteger($data['private']) . " ,
-                    iss_root_message_id='". Misc::escapeString(Mail_Helper::generateMessageID()) . "'
-        ";
-
-        $res = DB_Helper::getInstance()->query($stmt);
-        if (PEAR::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+        $issue_id = self::insertIssue($prj_id, $usr_id, $data);
+        if ($issue_id == -1) {
             return -1;
         }
 
-        $new_issue_id = DB_Helper::get_last_insert_id();
         $has_TAM = false;
         $has_RR = false;
         $info = User::getNameEmail($usr_id);
         // log the creation of the issue
-        History::add($new_issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
 
         $emails = array();
         if (Customer::hasCustomerIntegration($prj_id)) {
@@ -2192,7 +2126,7 @@ class Issue
         $emails[] = $info['usr_email'];
         $emails = array_unique($emails);
         foreach ($emails as $address) {
-            Notification::subscribeEmail($usr_id, $new_issue_id, $address, Notification::getDefaultActions($new_issue_id, $address, 'new_issue'));
+            Notification::subscribeEmail($usr_id, $issue_id, $address, Notification::getDefaultActions($issue_id, $address, 'new_issue'));
         }
 
         // only assign the issue to an user if the associated customer has any technical account managers
@@ -2201,17 +2135,17 @@ class Issue
         if ((Customer::hasCustomerIntegration($prj_id)) && (count($manager_usr_ids) > 0)) {
             foreach ($manager_usr_ids as $manager_usr_id) {
                 $users[] = $manager_usr_id;
-                Issue::addUserAssociation($usr_id, $new_issue_id, $manager_usr_id, false);
-                History::add($new_issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
+                Issue::addUserAssociation($usr_id, $issue_id, $manager_usr_id, false);
+                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager_usr_id) . ' (TAM)');
             }
             $has_TAM = true;
         }
         // now add the user/issue association (aka assignments)
         if (!empty($data['users']) && count($data['users']) > 0) {
             for ($i = 0; $i < count($data['users']); $i++) {
-                Notification::subscribeUser($usr_id, $new_issue_id, $data['users'][$i],
-                                Notification::getDefaultActions($new_issue_id, User::getEmail($data['users'][$i]), 'new_issue'));
-                Issue::addUserAssociation($usr_id, $new_issue_id, $data['users'][$i]);
+                Notification::subscribeUser($usr_id, $issue_id, $data['users'][$i],
+                                Notification::getDefaultActions($issue_id, User::getEmail($data['users'][$i]), 'new_issue'));
+                Issue::addUserAssociation($usr_id, $issue_id, $data['users'][$i]);
                 if ($data['users'][$i] != $usr_id) {
                     $users[] = $data['users'][$i];
                 }
@@ -2224,8 +2158,8 @@ class Issue
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {
                     $users[] = $assignee;
-                    Issue::addUserAssociation($usr_id, $new_issue_id, $assignee, false);
-                    History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
+                    Issue::addUserAssociation($usr_id, $issue_id, $assignee, false);
+                    History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
                     $has_RR = true;
                 }
             }
@@ -2259,7 +2193,7 @@ class Issue
                 );
             }
             if (count($files) > 0) {
-                $attachment_id = Attachment::add($new_issue_id, $usr_id, 'Files uploaded at issue creation time');
+                $attachment_id = Attachment::add($issue_id, $usr_id, 'Files uploaded at issue creation time');
                 foreach ($files as $file) {
                     Attachment::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
                 }
@@ -2268,18 +2202,18 @@ class Issue
         // need to associate any emails ?
         if (!empty($data['attached_emails'])) {
             $items = explode(",", $data['attached_emails']);
-            Support::associate($usr_id, $new_issue_id, $items);
+            Support::associate($usr_id, $issue_id, $items);
         }
         // need to notify any emails being converted into issues ?
         if (@count($data['notify_senders']) > 0) {
-            $recipients = Notification::notifyEmailConvertedIntoIssue($prj_id, $new_issue_id, $data['notify_senders'], @$data['customer']);
+            $recipients = Notification::notifyEmailConvertedIntoIssue($prj_id, $issue_id, $data['notify_senders'], @$data['customer']);
         } else {
             $recipients = array();
         }
         // need to process any custom fields ?
         if (@count($data['custom_fields']) > 0) {
             foreach ($data['custom_fields'] as $fld_id => $value) {
-                Custom_Field::associateIssue($new_issue_id, $fld_id, $value);
+                Custom_Field::associateIssue($issue_id, $fld_id, $value);
             }
         }
         // also send a special confirmation email to the customer contact
@@ -2288,16 +2222,105 @@ class Issue
             // so we can avoid notifying the same person again
             $contact_email = User::getEmailByContactID($data['contact']);
             if (@!in_array($contact_email, $recipients)) {
-                Customer::notifyCustomerIssue($prj_id, $new_issue_id, $data['contact']);
+                Customer::notifyCustomerIssue($prj_id, $issue_id, $data['contact']);
             }
         }
 
-        Workflow::handleNewIssue($prj_id, $new_issue_id, $has_TAM, $has_RR);
+        Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
 
         // also notify any users that want to receive emails anytime a new issue is created
-        Notification::notifyNewIssue($prj_id, $new_issue_id);
+        Notification::notifyNewIssue($prj_id, $issue_id);
 
-        return $new_issue_id;
+        return $issue_id;
+    }
+
+    /**
+     * Insert issue to database.
+     *
+     * @param   integer $prj_id The project ID
+     * @param   integer $usr_id The user responsible for this action
+     * @param   array $data of issue to be inserted
+     * @return  integer The new issue ID
+     */
+    private function insertIssue($prj_id, $usr_id, $data)
+    {
+
+        // XXX missing_fields never used
+        $missing_fields = array();
+        if ($data['category'] == -1) {
+            $missing_fields[] = 'Category';
+        }
+        if ($data['priority'] == -1) {
+            $missing_fields[] = 'Priority';
+        }
+
+        if ($data['estimated_dev_time'] == '') {
+            $data['estimated_dev_time'] = 0;
+        }
+
+        // add new issue
+        $stmt = "INSERT INTO " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue ".
+                "SET ".
+                    "iss_prj_id=" . $prj_id . ",";
+        if (!empty($data['group'])) {
+            $stmt .= "iss_grp_id=" . Misc::escapeInteger($data['group']) . ",\n";
+        }
+        if (!empty($data['category'])) {
+            $stmt .= "iss_prc_id=". Misc::escapeInteger($data['category']) . ",\n";
+        }
+        if (!empty($data['release'])) {
+            $stmt .= "iss_pre_id=". Misc::escapeInteger($data['release']) . ",\n";
+        }
+        if (!empty($data['priority'])) {
+            $stmt .= "iss_pri_id=". Misc::escapeInteger($data['priority']) . ",";
+        }
+
+        $stmt .= "iss_usr_id=". Misc::escapeInteger($data['reporter']);
+
+        $initial_status = Project::getInitialStatus($prj_id);
+        if (!empty($initial_status)) {
+            $stmt .= "iss_sta_id=" . Misc::escapeInteger($initial_status) . ",";
+        }
+
+        if (Customer::hasCustomerIntegration($prj_id)) {
+            $stmt .= "
+                    iss_customer_id=". Misc::escapeInteger($data['customer']) . ",";
+            if (!empty($data['contact'])) {
+            $stmt .= "
+                    iss_customer_contract_id='". Misc::escapeString($data['contract']) . "',";
+            }
+            $stmt .= "
+                    iss_customer_contact_id=". Misc::escapeInteger($data['contact']) . ",
+                    iss_contact_person_lname='". Misc::escapeString($data['contact_person_lname']) . "',
+                    iss_contact_person_fname='". Misc::escapeString($data['contact_person_fname']) . "',
+                    iss_contact_email='". Misc::escapeString($data['contact_email']) . "',
+                    iss_contact_phone='". Misc::escapeString($data['contact_phone']) . "',
+                    iss_contact_timezone='". Misc::escapeString($data['contact_timezone']) . "',";
+        }
+
+        $stmt .= "
+                    iss_created_date='". Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_public_action_type='created',
+                    iss_summary='" . Misc::escapeString($data['summary']) . "',
+                    iss_description='" . Misc::escapeString($data['description']) . "',
+                    iss_dev_time='" . Misc::escapeString($data['estimated_dev_time']) . "',";
+            if (!empty($data['contact'])) {
+                $stmt .= "
+                    iss_private=" . Misc::escapeInteger($data['private']) . " ,";
+            }
+        $stmt .= "
+                    iss_root_message_id='". Misc::escapeString($data['msg_id']) ."'
+        ";
+
+        $res = DB_Helper::getInstance()->query($stmt);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return -1;
+        }
+
+        $issue_id = DB_Helper::get_last_insert_id();
+        return $issue_id;
     }
 
 
