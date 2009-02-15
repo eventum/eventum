@@ -8,7 +8,7 @@
           </td>
         </tr>
         <tr>
-          {assign var="colspan" value=2}
+          {assign var="colspan" value=3}
           <td bgcolor="{$cell_color}" class="default_white">{t}Assignment{/t}</td>
           <td bgcolor="{$cell_color}" class="default_white">{t}Status{/t}</td>
           {if $releases|@count > 0}
@@ -23,6 +23,7 @@
           {assign var="colspan" value=$colspan+1}
           <td bgcolor="{$cell_color}" class="default_white">{t}Category{/t}</td>
           {/if}
+          <td bgcolor="{$cell_color}" class="default_white">{t}Closed Status{/t}</td>
         </tr>
         <tr>
           <td>
@@ -65,6 +66,15 @@
               {include file="error_icon.tpl.html" field="category"}
           </td>
           {/if}
+          <td>
+              <select name="closed_status" class="default">
+                <option value=""></option>
+                {html_options options=$closed_status}
+              </select>
+              <br />
+              <span class="default">Select closed status to close issue</span>
+              {include file="error_icon.tpl.html" field="closed_status"}
+          </td>
         </tr>
         <tr>
           <td bgcolor="{$cell_color}" colspan="{$colspan}" align="center">

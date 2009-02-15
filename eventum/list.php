@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: list.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: list.php 3843 2009-02-15 07:55:14Z balsdorf $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "db_access.php");
@@ -115,6 +115,7 @@ $tpl->assign("refresh_page", "list.php");
 if (Auth::getCurrentRole() > User::getRoleID("Developer")) {
     $tpl->assign("users", $users);
     $tpl->assign("open_status", Status::getAssocStatusList($prj_id, false));
+    $tpl->assign("closed_status", Status::getClosedAssocList($prj_id));
     $tpl->assign("available_releases", Release::getAssocList($prj_id));
 }
 

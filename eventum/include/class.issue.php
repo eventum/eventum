@@ -3650,6 +3650,11 @@ class Issue
                 }
                 History::add($items[$i], Auth::getUserID(), History::getTypeID('issue_bulk_updated'), "Issue updated ($changes) by " . User::getFullName(Auth::getUserID()));
             }
+
+            // close if request
+            if ((isset($_REQUEST['closed_status'])) && (!empty($_REQUEST['closed_status']))) {
+                Issue::close(Auth::getUserID(), $items[$i], true, 0, $_REQUEST['closed_status'], 'Bulk closed');
+            }
         }
         return true;
     }

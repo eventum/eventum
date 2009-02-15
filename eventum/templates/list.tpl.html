@@ -63,8 +63,11 @@ function bulkUpdate()
     if ((f.elements.category) && (f.elements.category.selectedIndex != 0)) {
         changed[changed.length] = 'Category';
     }
+    if ((f.elements.closed_status) && (f.elements.closed_status.selectedIndex != 0)) {
+        changed[changed.length] = 'Closed Status';
+    }
     if (changed.length < 1) {
-        alert('{/literal}{t escape=js}Please choose new values for the select issues{/t}{literal}');
+        alert('{/literal}{t escape=js}Please choose new values for the selected issues{/t}{literal}');
         return false;
     }
     var msg = '{/literal}{t escape=js}Warning: If you continue, you will change the {/t}{literal}';

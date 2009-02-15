@@ -6,8 +6,10 @@ Eventum Issue Tracking System
 - Get default actions individualy for each address being added to notification list (Bryan)
 - Fixed case sensitivity problem when excluding project aliases from being added to notification list (Bryan)
 - Always allow issue reporter to email the issue (Bryan)
+- Added manage aliases interface (Dave Anderson)
 - Rip out Benchmark (Elan Ruusamäe)
 - call Workflow::handleNewIssue before Notifications are sent out (Elan Ruusamäe)
+- Added ability to bulk close issues (Bryan Alsdorf)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
