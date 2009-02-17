@@ -765,7 +765,7 @@ class Support
                         }
 
                         if (Workflow::shouldAutoAddToNotificationList($info['ema_prj_id'])) {
-                            Support::addExtraRecipientsToNotificationList($info['ema_prj_id'], $t);
+                            Support::addExtraRecipientsToNotificationList($info['ema_prj_id'], $t, $should_create_issue);
                         }
 
                         Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
@@ -939,46 +939,6 @@ class Support
             if ((!empty($associate_email)) && (!empty($reference_issue_id))) {
                 $reference_sup_id = Support::getIDByMessageID($associate_email);
                 Support::associate(APP_SYSTEM_USER_ID, $issue_id, array($reference_sup_id));
-            }
-
-
-            // add to and cc addresses to notification list
-            $prj_id = Auth::getCurrentProject();
-            $project_details = Project::getDetails($prj_id);
-            $addresses_not_too_add = explode(',', $project_details['prj_mail_aliases']);
-            array_push($addresses_not_too_add, $project_details['prj_outgoing_sender_email']);
-
-            if (!empty($to)) {
-                $to_addresses = Mail_Helper::getAddressInfo($to, true);
-                foreach ($to_addresses as $address) {
-                    if ((in_array($address['email'], $addresses_not_too_add)) || (!Workflow::shouldEmailAddress($prj_id, $address['email']) ||
-                            (!Workflow::shouldAutoAddToNotificationList($prj_id)))) {
-                        continue;
-                    }
-                    if (empty($address['sender_name'])) {
-                        $recipient = $address['email'];
-                    } else {
-                        $recipient = Mail_Helper::getFormattedName($address['sender_name'], $address['email']);
-                    }
-                    Notification::subscribeEmail(Auth::getUserID(), $issue_id, $address['email'], Notification::getDefaultActions($issue_id, $recipient, 'issue_from_email'));
-                    Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $from, $date, $subject, $recipient);
-                }
-            }
-            if (!empty($cc)) {
-                $cc_addresses = Mail_Helper::getAddressInfo($cc, true);
-                foreach ($cc_addresses as $address) {
-                    if ((in_array($address['email'], $addresses_not_too_add)) || (!Workflow::shouldEmailAddress($prj_id, $address['email']) ||
-                            (!Workflow::shouldAutoAddToNotificationList($prj_id)))) {
-                        continue;
-                    }
-                    if (empty($address['sender_name'])) {
-                        $recipient = $address['email'];
-                    } else {
-                        $recipient = Mail_Helper::getFormattedName($address['sender_name'], $address['email']);
-                    }
-                    Notification::subscribeEmail(Auth::getUserID(), $issue_id, $address['email'], Notification::getDefaultActions($issue_id, $recipient, 'issue_from_email'));
-                    Notification::notifyAutoCreatedIssue($prj_id, $issue_id, $from, $date, $subject, $recipient);
-                }
             }
         }
         // need to check crm for customer association
@@ -2618,7 +2578,7 @@ class Support
     }
 
 
-    function addExtraRecipientsToNotificationList($prj_id, $email)
+    function addExtraRecipientsToNotificationList($prj_id, $email, $is_auto_created = false)
     {
         if ((empty($email['to'])) && (!empty($email['sup_to']))) {
             $email['to'] = $email['sup_to'];
@@ -2646,6 +2606,9 @@ class Support
             $address = strtolower($address);
             if ((!in_array($address, $subscribers)) && (!in_array($address, $addresses_not_too_add))) {
                 Notification::subscribeEmail(Auth::getUserID(), $email['issue_id'], $address, Notification::getDefaultActions($email['issue_id'], $address, 'add_extra_recipients'));
+                if ($is_auto_created) {
+                    Notification::notifyAutoCreatedIssue($prj_id, $email['issue_id'], $email['from'], $email['date'], $email['subject'], $address);
+                }
             }
         }
     }
