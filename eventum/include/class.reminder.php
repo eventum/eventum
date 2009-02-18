@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.reminder.php 3832 2009-02-10 07:21:46Z glen $
+// @(#) $Id: class.reminder.php 3845 2009-02-18 18:37:57Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -801,7 +801,7 @@ class Reminder
                         $conditions[$i]['rlc_value'] = $conditions[$i]['rlc_value'] * 60 * 60;
                         if (@$reminder["rem_skip_weekend"] == 1) {
                             $sql_field = Reminder_Condition::getSQLField($conditions[$i]['rlc_rmf_id']);
-                            $conditions[$i]['rmf_sql_representation'] = DB_API::getNoWeekendDateDiffSQL($sql_field);
+                            $conditions[$i]['rmf_sql_representation'] = DB_Helper::getNoWeekendDateDiffSQL($sql_field);
                         }
                     }
                 }
