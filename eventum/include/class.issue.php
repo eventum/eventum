@@ -2255,7 +2255,7 @@ class Issue
             $missing_fields[] = 'Priority';
         }
 
-        if ($data['estimated_dev_time'] == '') {
+        if ((!isset($data['estimated_dev_time'])) || ($data['estimated_dev_time'] == '')) {
             $data['estimated_dev_time'] = 0;
         }
 
@@ -3653,7 +3653,7 @@ class Issue
 
             // close if request
             if ((isset($_REQUEST['closed_status'])) && (!empty($_REQUEST['closed_status']))) {
-                Issue::close(Auth::getUserID(), $items[$i], true, 0, $_REQUEST['closed_status'], 'Bulk closed');
+                Issue::close(Auth::getUserID(), $items[$i], true, 0, $_REQUEST['closed_status'], 'Issue Bulk closed', $_REQUEST['notification_list']);
             }
         }
         return true;

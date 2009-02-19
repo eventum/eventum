@@ -23,7 +23,7 @@
           {assign var="colspan" value=$colspan+1}
           <td bgcolor="{$cell_color}" class="default_white">{t}Category{/t}</td>
           {/if}
-          <td bgcolor="{$cell_color}" class="default_white">{t}Closed Status{/t}</td>
+          <td bgcolor="{$cell_color}" class="default_white">{t}Close{/t}</td>
         </tr>
         <tr>
           <td>
@@ -67,13 +67,19 @@
           </td>
           {/if}
           <td>
+              <span class="default">Select closed status to close issue</span><br />
               <select name="closed_status" class="default">
                 <option value=""></option>
                 {html_options options=$closed_status}
               </select>
               <br />
-              <span class="default">Select closed status to close issue</span>
-              {include file="error_icon.tpl.html" field="closed_status"}
+              <span class="default">
+              {t}Send Notification To{/t}:<br />
+              <input id="notification_internal" type="radio" name="notification_list" checked value="internal">
+              <label for="notification_internal">{t}Internal Users{/t} ({t}Will save as a note{/t})</label><br />
+              <input id="notification_all" type="radio" name="notification_list" value="all">
+              <label for="notification_all">{t}All{/t}</label>
+              </span>
           </td>
         </tr>
         <tr>
