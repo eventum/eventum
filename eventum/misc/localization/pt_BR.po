@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-10 09:41+0200\n"
+"POT-Creation-Date: 2009-02-19 17:20+0200\n"
 "PO-Revision-Date: 2009-01-13 10:26-0200\n"
 "Last-Translator: Georger Rommel Ferreira de Araújo <georger_br@yahoo.com."
 "br>\n"
@@ -696,6 +696,23 @@ msgid "Assignment"
 msgstr "Designado"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Select closed status to close issue"
+msgstr "Por favor selecione o novo status do chamado."
+
+#: misc/localization/eventum.c
+msgid "Send Notification To"
+msgstr "Enviar Notificação Para"
+
+#: misc/localization/eventum.c
+msgid "Internal Users"
+msgstr "Usuários Internos"
+
+#: misc/localization/eventum.c
+msgid "Will save as a note"
+msgstr "Será salva como uma nota"
+
+#: misc/localization/eventum.c
 msgid "Bulk Update"
 msgstr "Atualização em Lote"
 
@@ -835,18 +852,6 @@ msgstr "Sim"
 #: misc/localization/eventum.c include/class.misc.php:716
 msgid "No"
 msgstr "Não"
-
-#: misc/localization/eventum.c
-msgid "Send Notification To"
-msgstr "Enviar Notificação Para"
-
-#: misc/localization/eventum.c
-msgid "Internal Users"
-msgstr "Usuários Internos"
-
-#: misc/localization/eventum.c
-msgid "Will save as a note"
-msgstr "Será salva como uma nota"
 
 #: misc/localization/eventum.c
 msgid "Will save as email"
@@ -2520,7 +2525,8 @@ msgid "Please choose which issues to update."
 msgstr "Por favor escolha os chamados que deseja atualizar."
 
 #: misc/localization/eventum.c
-msgid "Please choose new values for the select issues"
+#, fuzzy
+msgid "Please choose new values for the selected issues"
 msgstr "Por favor escolha novos valores para os chamados selecionados"
 
 #: misc/localization/eventum.c
@@ -8584,30 +8590,30 @@ msgstr "Checkins SCM asociados pelo usuário SCM '"
 msgid "Postmaster notify: see transcript for details"
 msgstr "Notificação do Postmaster: veja os detalhes na transcrição"
 
-#: include/class.support.php:1493
+#: include/class.support.php:1453
 msgid "Attachment originated from an email"
 msgstr "Anexo originado de um email"
 
-#: include/class.support.php:1495
+#: include/class.support.php:1455
 msgid "Attachment originated from a note"
 msgstr "Anexo originado de uma nota"
 
-#: include/class.support.php:1547
+#: include/class.support.php:1507
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Email (assunto: '%1$s') associado por %2$s"
 
-#: include/class.support.php:1890
+#: include/class.support.php:1850
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (assunto: '%1$s') desassociado por %2$s"
 
-#: include/class.support.php:2248
+#: include/class.support.php:2208
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email sainte enviado por %1$s"
 
-#: include/class.support.php:2614
+#: include/class.support.php:2574
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email de '%1$s' bloqueado"

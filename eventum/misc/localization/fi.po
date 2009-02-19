@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-10 09:41+0200\n"
+"POT-Creation-Date: 2009-02-19 17:20+0200\n"
 "PO-Revision-Date: 2007-11-10 17:22+0200\n"
 "Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -690,6 +690,24 @@ msgid "Assignment"
 msgstr "Tehtävä"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Select closed status to close issue"
+msgstr "Valitse vikailmoitukselle uusi tila."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Send Notification To"
+msgstr "Lähetä ilmoitus henkilölle:"
+
+#: misc/localization/eventum.c
+msgid "Internal Users"
+msgstr "Sisäiset käyttäjät"
+
+#: misc/localization/eventum.c
+msgid "Will save as a note"
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "Bulk Update"
 msgstr "Massapäivitys"
 
@@ -829,19 +847,6 @@ msgstr "Kyllä"
 #: misc/localization/eventum.c include/class.misc.php:716
 msgid "No"
 msgstr "Ei"
-
-#: misc/localization/eventum.c
-#, fuzzy
-msgid "Send Notification To"
-msgstr "Lähetä ilmoitus henkilölle:"
-
-#: misc/localization/eventum.c
-msgid "Internal Users"
-msgstr "Sisäiset käyttäjät"
-
-#: misc/localization/eventum.c
-msgid "Will save as a note"
-msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Will save as email"
@@ -2620,7 +2625,8 @@ msgid "Please choose which issues to update."
 msgstr "Valitse päivitettävät vikailmoitukset."
 
 #: misc/localization/eventum.c
-msgid "Please choose new values for the select issues"
+#, fuzzy
+msgid "Please choose new values for the selected issues"
 msgstr "Valitse uudet arvot valituille vikailmoituksille."
 
 #: misc/localization/eventum.c
@@ -8673,30 +8679,30 @@ msgstr "SCM:n sisäänkirjaukset liitettynä SCM käyttäjään"
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1493
+#: include/class.support.php:1453
 msgid "Attachment originated from an email"
 msgstr "Liite tuli sähköpostista"
 
-#: include/class.support.php:1495
+#: include/class.support.php:1455
 msgid "Attachment originated from a note"
 msgstr "Liite tuli viestistä"
 
-#: include/class.support.php:1547
+#: include/class.support.php:1507
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liittäjänä %2$s"
 
-#: include/class.support.php:1890
+#: include/class.support.php:1850
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liitoksen poistajana %2$s"
 
-#: include/class.support.php:2248
+#: include/class.support.php:2208
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Sähköpostiviestin lähettäjänä %1$s"
 
-#: include/class.support.php:2614
+#: include/class.support.php:2574
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Sähköpostiviesti lähettäjältä '%1$s' estetty"
