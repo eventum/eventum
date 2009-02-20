@@ -10,6 +10,11 @@
 {else}
 {t escape=no}We recieved a message from {$sender_name} and created an issue from it. Since you were a recipient of the original message, we are sending you the issue details.{/t}
 {/if}
+
+{t escape=no}To view more details of this issue please visit the following URL{/t}:
+{$app_base_url}view.php?id={$data.iss_id}
+{/textformat}
+
 {/textformat}
 
 

@@ -11,6 +11,7 @@ Eventum Issue Tracking System
 - call Workflow::handleNewIssue before Notifications are sent out (Elan Ruusamäe)
 - Added ability to bulk close issues (Bryan Alsdorf)
 - Consolidated code that auto added CC address to the notification list (Bryan)
+- Added issue URL to issue auto created email (Bryan)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
