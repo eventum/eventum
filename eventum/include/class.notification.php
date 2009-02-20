@@ -1167,7 +1167,7 @@ class Notification
             ));
 
             // figure out if sender has a real account or not
-            $sender_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($sender));
+            $sender_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($sender), true);
             if ((!empty($sender_usr_id)) && (Issue::canAccess($issue_id, $sender_usr_id))) {
                 $can_access = 1;
             } else {
