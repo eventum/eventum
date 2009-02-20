@@ -15,8 +15,6 @@
 {$app_base_url}view.php?id={$data.iss_id}
 {/textformat}
 
-{/textformat}
-
 
 {if $sender_can_access == 1}
 {t escape=no}
