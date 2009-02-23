@@ -153,6 +153,12 @@ if (!defined('APP_EMAIL_ENCODING')) {
 
 define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
 
+// if set, normal calls to eventum are redirected to a maintenance page while
+// requests to /manage/ still work
+if (!defined('APP_MAINTENANCE')) {
+    define('APP_MAINTENANCE', false);
+}
+
 include_once(APP_INC_PATH . 'class.language.php');
 include_once(APP_INC_PATH . 'db_access.php');
 include_once(APP_INC_PATH . 'class.auth.php');
@@ -169,3 +175,14 @@ Language::setup();
 
 // set charset
 Header('Content-Type: text/html; charset=' . APP_CHARSET);
+
+// display maintenance message if requested.
+if (APP_MAINTENANCE){
+    $is_manage = (strpos($_SERVER['PHP_SELF'],'/manage/') !== false);
+    if (APP_MAINTENANCE && !$is_manage) {
+        $tpl = new Template_Helper();
+        $tpl->setTemplate("maintenance.tpl.html");
+        $tpl->displayTemplate();
+        exit;
+	}
+}

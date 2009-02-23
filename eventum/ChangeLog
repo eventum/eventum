@@ -13,6 +13,7 @@ Eventum Issue Tracking System
 - Consolidated code that auto added CC address to the notification list (Bryan)
 - Added issue URL to issue auto created email (Bryan)
 - Added admin page to manage email aliases (Dave Anderson)
+- Added offline / maintenance screen displayed based on constant in config file. While offline, management pages are still accessible (CmputrAce)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
