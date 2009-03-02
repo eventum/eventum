@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: get_attachment.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: get_attachment.php 3856 2009-03-02 12:28:09Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 require_once(APP_INC_PATH . "class.auth.php");
@@ -41,9 +41,13 @@ if (@$_GET['cat'] == 'blocked_email') {
 } else {
     $email = Support::getFullEmail($_GET["sup_id"]);
 }
-if (!empty($_GET['cid'])) {
-    list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET["filename"], $_GET["cid"]);
+if (!empty($_GET['raw'])) {
+    Attachment::outputDownload($email, 'message.eml', strlen($email), 'message/rfc822');
 } else {
-    list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET["filename"]);
+    if (!empty($_GET['cid'])) {
+        list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET["filename"], $_GET["cid"]);
+    } else {
+        list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET["filename"]);
+    }
+    Attachment::outputDownload($data, $_GET["filename"], strlen($data), $mimetype);
 }
-Attachment::outputDownload($data, $_GET["filename"], strlen($data), $mimetype);

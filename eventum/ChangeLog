@@ -8,12 +8,13 @@ Eventum Issue Tracking System
 - Always allow issue reporter to email the issue (Bryan)
 - Added manage aliases interface (Dave Anderson)
 - Rip out Benchmark (Elan Ruusamäe)
-- call Workflow::handleNewIssue before Notifications are sent out (Elan Ruusamäe)
+- Call Workflow::handleNewIssue before Notifications are sent out (Elan Ruusamäe)
 - Added ability to bulk close issues (Bryan Alsdorf)
 - Consolidated code that auto added CC address to the notification list (Bryan)
 - Added issue URL to issue auto created email (Bryan)
 - Added admin page to manage email aliases (Dave Anderson)
 - Added offline / maintenance screen displayed based on constant in config file. While offline, management pages are still accessible (CmputrAce)
+- Add Download Raw Email support to email view (Elan Ruusamäe)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
