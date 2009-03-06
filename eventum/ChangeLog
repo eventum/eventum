@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Added issue URL to issue auto created email (Bryan)
 - Added admin page to manage email aliases (Dave Anderson)
 - Added offline / maintenance screen displayed based on constant in config file. While offline, management pages are still accessible (CmputrAce)
+- Display new issue notification when issue is moved (Bryan)
 - Add Download Raw Email support to email view (Elan Ruusamäe)
 
 2009-01-14, Version 2.2

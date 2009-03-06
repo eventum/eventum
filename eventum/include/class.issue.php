@@ -395,15 +395,16 @@ class Issue
      *
      * @access  public
      * @param   integer $issue_id The issue ID
+     * @param   boolean $force_refresh If the cache should not be used.
      * @return  integer The project ID
      */
-    function getProjectID($issue_id)
+    function getProjectID($issue_id, $force_refresh = false)
     {
         static $returns;
 
         $issue_id = Misc::escapeInteger($issue_id);
 
-        if (!empty($returns[$issue_id])) {
+        if ((!empty($returns[$issue_id])) && ($force_refresh != true)) {
             return $returns[$issue_id];
         }
 
@@ -1715,7 +1716,10 @@ class Issue
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             }
 
-            // XXX: Send notification about issue being moved
+            // clear project cache
+            self::getProjectID($issue_id, true);
+
+            Notification::notifyNewIssue($new_prj_id, $issue_id);
         }
     }
 
