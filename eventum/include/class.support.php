@@ -640,6 +640,11 @@ class Support
                     return;
                 }
             }
+
+            // TODO:
+            // disabling return here allows routing and issue auto creating from same account
+            // but it will download email store it in database and do nothing 
+            // with it if it does not match support@ address.
             return;
         }
 
