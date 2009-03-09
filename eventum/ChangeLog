@@ -16,6 +16,7 @@ Eventum Issue Tracking System
 - Added offline / maintenance screen displayed based on constant in config file. While offline, management pages are still accessible (CmputrAce)
 - Display new issue notification when issue is moved (Bryan)
 - Add Download Raw Email support to email view (Elan Ruusamäe)
+- Allow using download_emails.php for routing and issue creation for same IMAP account (Elan Ruusamäe)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
