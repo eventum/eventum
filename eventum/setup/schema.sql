@@ -365,7 +365,7 @@ CREATE TABLE `%TABLE_PREFIX%project_release` (
   UNIQUE KEY pre_title (pre_prj_id, pre_title),
   KEY pre_prj_id (pre_prj_id)
 ) ENGINE = MYISAM DEFAULT CHARSET=utf8;
-INSERT INTO `%TABLE_PREFIX%project_release` (pre_id, pre_prj_id, pre_title, pre_scheduled_date, pre_status) VALUES (1, 1, 'Example Release', (NOW() + INTERVAL 1 MONTH), 'available');
+INSERT INTO `%TABLE_PREFIX%project_release` (pre_id, pre_prj_id, pre_title, pre_scheduled_date, pre_status) VALUES (1, 1, 'Example Release', (CURDATE() + INTERVAL 1 MONTH), 'available');
 
 DROP TABLE IF EXISTS `%TABLE_PREFIX%project_user`;
 CREATE TABLE `%TABLE_PREFIX%project_user` (
