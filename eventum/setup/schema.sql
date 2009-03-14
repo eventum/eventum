@@ -428,7 +428,7 @@ CREATE TABLE `%TABLE_PREFIX%support_email` (
   sup_message_id varchar(255) NOT NULL default '',
   sup_date datetime NOT NULL default '0000-00-00 00:00:00',
   sup_from varchar(255) NOT NULL default '',
-  sup_to text NOT NULL default '',
+  sup_to text NOT NULL,
   sup_cc text default NULL,
   sup_subject varchar(255) NOT NULL default '',
   sup_has_attachment tinyint(1) NOT NULL default 0,
