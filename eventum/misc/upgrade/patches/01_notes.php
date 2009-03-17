@@ -1,4 +1,4 @@
-<?
+<?php
 
 function db_patch_1() {
 	$stmts = array();
