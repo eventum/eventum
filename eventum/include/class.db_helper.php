@@ -26,10 +26,8 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.db_helper.php 3832 2009-02-10 07:21:46Z glen $
+// @(#) $Id: class.db_helper.php 3864 2009-03-18 01:25:12Z glen $
 //
-
-$TOTAL_QUERIES = 0;
 
 require_once("DB.php");
 require_once(APP_INC_PATH . "class.error_handler.php");

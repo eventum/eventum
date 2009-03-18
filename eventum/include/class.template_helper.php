@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.template_helper.php 3828 2009-02-10 07:01:48Z glen $
+// @(#) $Id: class.template_helper.php 3864 2009-03-18 01:25:12Z glen $
 //
 
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
@@ -198,8 +198,6 @@ class Template_Helper
         // this is only used by the textarea resize script
         $js_script_name = str_replace('/', '_', str_replace('.php', '', $_SERVER['PHP_SELF']));
         $this->assign("js_script_name", $js_script_name);
-
-        $this->assign("total_queries", $GLOBALS['TOTAL_QUERIES']);
 
         $this->assign(array(
             "cell_color"     => APP_CELL_COLOR,
