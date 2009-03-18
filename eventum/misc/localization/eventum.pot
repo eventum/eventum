@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-19 17:20+0200\n"
+"POT-Creation-Date: 2009-03-18 04:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,7 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
-#: misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
 msgid "An error occurred while trying to run your query"
 msgstr ""
 
@@ -577,6 +577,7 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
 msgid "All"
 msgstr ""
 
@@ -850,6 +851,7 @@ msgstr ""
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
 #: misc/localization/eventum.c misc/localization/eventum.c
+#: misc/localization/eventum.c
 msgid "Close"
 msgstr ""
 
@@ -3137,7 +3139,7 @@ msgstr ""
 msgid "Order"
 msgstr ""
 
-#: misc/localization/eventum.c
+#: misc/localization/eventum.c misc/localization/eventum.c
 msgid "Save"
 msgstr ""
 
@@ -3707,6 +3709,40 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid "No email accounts could be found."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Thank you, the email aliases were removed successfully"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "New Alias"
+msgstr ""
+
+#: misc/localization/eventum.c misc/localization/eventum.c
+msgid "Please choose which emails need to be restored."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Please choose which aliases need to be removed."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid ""
+"WARNING: This action will permanently remove the selected email aliases from "
+"your email account."
+msgstr ""
+
+#: misc/localization/eventum.c misc/localization/eventum.c
+msgid "Email Alias"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "No aliases could be found."
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Delete Alias"
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -5496,6 +5532,14 @@ msgid "send email to"
 msgstr ""
 
 #: misc/localization/eventum.c
+msgid "list all email aliases"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "manage alias"
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "No users could be found."
 msgstr ""
 
@@ -6470,10 +6514,6 @@ msgstr ""
 
 #: misc/localization/eventum.c
 msgid "Removed Emails"
-msgstr ""
-
-#: misc/localization/eventum.c
-msgid "Please choose which emails need to be restored."
 msgstr ""
 
 #: misc/localization/eventum.c
@@ -7793,6 +7833,10 @@ msgid "display in fixed width font"
 msgstr ""
 
 #: misc/localization/eventum.c
+msgid "Download Raw Email"
+msgstr ""
+
+#: misc/localization/eventum.c
 msgid "Raw Headers"
 msgstr ""
 
@@ -8400,7 +8444,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr ""
 
-#: include/class.routing.php:233 include/class.support.php:797
+#: include/class.routing.php:233 include/class.support.php:802
 #, php-format
 msgid "Email routed from %1$s"
 msgstr ""
@@ -8445,30 +8489,30 @@ msgstr ""
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1453
+#: include/class.support.php:1458
 msgid "Attachment originated from an email"
 msgstr ""
 
-#: include/class.support.php:1455
+#: include/class.support.php:1460
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: include/class.support.php:1507
+#: include/class.support.php:1512
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: include/class.support.php:1850
+#: include/class.support.php:1855
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
 
-#: include/class.support.php:2208
+#: include/class.support.php:2213
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
 
-#: include/class.support.php:2574
+#: include/class.support.php:2579
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""

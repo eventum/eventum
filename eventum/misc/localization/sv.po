@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-19 17:20+0200\n"
+"POT-Creation-Date: 2009-03-18 04:28+0200\n"
 "PO-Revision-Date: 2007-11-10 03:02+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Swedish <eventum-devel@lists.mysql.com>\n"
@@ -3595,6 +3595,49 @@ msgstr "Inga e-postutkast kunde hittas."
 
 #: misc/localization/eventum.c
 #, fuzzy
+msgid "Thank you, the email aliases were removed successfully"
+msgstr "Tack så mycket, e-postmeddelandet har markerats som borttaget."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "New Alias"
+msgstr "Värdnamn:"
+
+#: misc/localization/eventum.c
+msgid "Please choose which emails need to be restored."
+msgstr "Vänligen välj vilka e-postmeddelanden som skall återskapas."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Please choose which aliases need to be removed."
+msgstr "Vänligen välj vilka poster som skall tas bort."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"WARNING: This action will permanently remove the selected email aliases from "
+"your email account."
+msgstr ""
+"VARNING: Åtgärden kommer ta bort valda e-postmeddelanden från ditt e-"
+"postkonto."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Email Alias"
+msgstr "Epostmeddelanden"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "No aliases could be found."
+msgstr "Inga ärenden kunde hittas."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Delete Alias"
+msgstr "radera"
+
+#: misc/localization/eventum.c
+#, fuzzy
 msgid "Please enter the title of this email response."
 msgstr "Vänligen ange rubrik för noteringen."
 
@@ -5659,6 +5702,16 @@ msgstr "Skicka e-post"
 
 #: misc/localization/eventum.c
 #, fuzzy
+msgid "list all email aliases"
+msgstr "lista tillgängliga e-postmeddelanden"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "manage alias"
+msgstr "Version"
+
+#: misc/localization/eventum.c
+#, fuzzy
 msgid "No users could be found."
 msgstr "Inga ärenden kunde hittas."
 
@@ -6685,10 +6738,6 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid "Removed Emails"
 msgstr "Borttagna e-postmeddelanden"
-
-#: misc/localization/eventum.c
-msgid "Please choose which emails need to be restored."
-msgstr "Vänligen välj vilka e-postmeddelanden som skall återskapas."
 
 #: misc/localization/eventum.c
 msgid "Please choose which emails need to be permanently removed."
@@ -8125,6 +8174,11 @@ msgid "display in fixed width font"
 msgstr "visa i fixerad bredd"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Download Raw Email"
+msgstr "Ladda upp fil"
+
+#: misc/localization/eventum.c
 msgid "Raw Headers"
 msgstr "Visa header"
 
@@ -8775,7 +8829,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Fel: Vänligen ange din e-postadress."
 
-#: include/class.routing.php:233 include/class.support.php:797
+#: include/class.routing.php:233 include/class.support.php:802
 #, php-format
 msgid "Email routed from %1$s"
 msgstr ""
@@ -8820,30 +8874,30 @@ msgstr ""
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1453
+#: include/class.support.php:1458
 msgid "Attachment originated from an email"
 msgstr ""
 
-#: include/class.support.php:1455
+#: include/class.support.php:1460
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: include/class.support.php:1507
+#: include/class.support.php:1512
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: include/class.support.php:1850
+#: include/class.support.php:1855
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
 
-#: include/class.support.php:2208
+#: include/class.support.php:2213
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr ""
 
-#: include/class.support.php:2574
+#: include/class.support.php:2579
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""

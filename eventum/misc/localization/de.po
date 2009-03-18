@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-19 17:20+0200\n"
+"POT-Creation-Date: 2009-03-18 04:28+0200\n"
 "PO-Revision-Date: 2007-02-26 22:19+0100\n"
 "Last-Translator: Ralf Kühnbaum-Grashorn <ralf@x-systeme.de>\n"
 "Language-Team: German\n"
@@ -3708,6 +3708,49 @@ msgid "No email accounts could be found."
 msgstr "Keine e-Mail Konten gefunden"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Thank you, the email aliases were removed successfully"
+msgstr "Vielen Dank, die ausgewählten e-Mails wurden erfolgreich gelöscht."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "New Alias"
+msgstr "Host Alias:"
+
+#: misc/localization/eventum.c
+msgid "Please choose which emails need to be restored."
+msgstr "Bitte wählen Sie die e-Mails aus, die wiederhergestellt werden sollen."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Please choose which aliases need to be removed."
+msgstr "Bitte wählen Sie die Einträge aus, die gelöscht werden können."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"WARNING: This action will permanently remove the selected email aliases from "
+"your email account."
+msgstr ""
+"Warnung: Diese Aktion entfernt die ausgewählten Einträge endgültig aus "
+"Ihreme-Mail Account"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Email Alias"
+msgstr "e-Mail Liste:"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "No aliases could be found."
+msgstr "Keine Veröffentlichungen gefunden"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Delete Alias"
+msgstr "Löschen"
+
+#: misc/localization/eventum.c
 msgid "Please enter the title of this email response."
 msgstr "Bitte geben Sie einen Titel für diese e-Mail Antwort ein."
 
@@ -5597,6 +5640,16 @@ msgid "send email to"
 msgstr "e-Mail senden an"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "list all email aliases"
+msgstr "Verfügbare e-Mails auflisten"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "manage alias"
+msgstr "Veröffenlichungen verwalten"
+
+#: misc/localization/eventum.c
 msgid "No users could be found."
 msgstr "Keine Benutzer gefunden"
 
@@ -6638,10 +6691,6 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid "Removed Emails"
 msgstr "Gelöschte e-Mails"
-
-#: misc/localization/eventum.c
-msgid "Please choose which emails need to be restored."
-msgstr "Bitte wählen Sie die e-Mails aus, die wiederhergestellt werden sollen."
 
 #: misc/localization/eventum.c
 msgid "Please choose which emails need to be permanently removed."
@@ -8041,6 +8090,11 @@ msgid "display in fixed width font"
 msgstr "Mit fester Größe anzeigen"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Download Raw Email"
+msgstr "Datei laden"
+
+#: misc/localization/eventum.c
 msgid "Raw Headers"
 msgstr "Originale Kopfdaten"
 
@@ -8662,7 +8716,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Fehler: Bitte geben Sie Ihre eMail Benutzer ID (Benuterkonto) an."
 
-#: include/class.routing.php:233 include/class.support.php:797
+#: include/class.routing.php:233 include/class.support.php:802
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Email zugeührt von %1$s"
@@ -8711,30 +8765,30 @@ msgstr ""
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1453
+#: include/class.support.php:1458
 msgid "Attachment originated from an email"
 msgstr ""
 
-#: include/class.support.php:1455
+#: include/class.support.php:1460
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: include/class.support.php:1507
+#: include/class.support.php:1512
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr ""
 
-#: include/class.support.php:1850
+#: include/class.support.php:1855
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr ""
 
-#: include/class.support.php:2208
+#: include/class.support.php:2213
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Ausgehende eMail gesendet von %1$s"
 
-#: include/class.support.php:2574
+#: include/class.support.php:2579
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr ""

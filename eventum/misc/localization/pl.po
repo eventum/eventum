@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-19 17:20+0200\n"
+"POT-Creation-Date: 2009-03-18 04:28+0200\n"
 "PO-Revision-Date: 2007-11-10 03:13+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Polish <eventum-devel@lists.mysql.com>\n"
@@ -3446,6 +3446,45 @@ msgstr "Kolejka wiadomości nie została odnaleziona."
 
 #: misc/localization/eventum.c
 #, fuzzy
+msgid "Thank you, the email aliases were removed successfully"
+msgstr "Dziękuję, plik został usunięty."
+
+#: misc/localization/eventum.c
+msgid "New Alias"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "Please choose which emails need to be restored."
+msgstr "Proszę wybrać, który email powinien być przywrócony"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Please choose which aliases need to be removed."
+msgstr "Proszę wybrać które z wpisów mają być usunięte."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"WARNING: This action will permanently remove the selected email aliases from "
+"your email account."
+msgstr "Ta czynność trwale usunie zaznaczone pozycje,"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Email Alias"
+msgstr "emaili"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "No aliases could be found."
+msgstr "Żadna notatka nie mogła zostać znaleziona."
+
+#: misc/localization/eventum.c
+msgid "Delete Alias"
+msgstr ""
+
+#: misc/localization/eventum.c
+#, fuzzy
 msgid "Please enter the title of this email response."
 msgstr "Podaj nazwę nowego rozwiązania."
 
@@ -5329,6 +5368,14 @@ msgid "send email to"
 msgstr ""
 
 #: misc/localization/eventum.c
+msgid "list all email aliases"
+msgstr ""
+
+#: misc/localization/eventum.c
+msgid "manage alias"
+msgstr ""
+
+#: misc/localization/eventum.c
 #, fuzzy
 msgid "No users could be found."
 msgstr "Nie znaleziono zgłoszeń."
@@ -6348,10 +6395,6 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid "Removed Emails"
 msgstr "Usunięte emaile"
-
-#: misc/localization/eventum.c
-msgid "Please choose which emails need to be restored."
-msgstr "Proszę wybrać, który email powinien być przywrócony"
 
 #: misc/localization/eventum.c
 msgid "Please choose which emails need to be permanently removed."
@@ -7687,6 +7730,11 @@ msgid "display in fixed width font"
 msgstr ""
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Download Raw Email"
+msgstr "pobierz plik"
+
+#: misc/localization/eventum.c
 msgid "Raw Headers"
 msgstr ""
 
@@ -8300,7 +8348,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Błąd: proszę wpisać konto email"
 
-#: include/class.routing.php:233 include/class.support.php:797
+#: include/class.routing.php:233 include/class.support.php:802
 #, php-format
 msgid "Email routed from %1$s"
 msgstr ""
@@ -8346,30 +8394,30 @@ msgstr ""
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1453
+#: include/class.support.php:1458
 msgid "Attachment originated from an email"
 msgstr ""
 
-#: include/class.support.php:1455
+#: include/class.support.php:1460
 msgid "Attachment originated from a note"
 msgstr ""
 
-#: include/class.support.php:1507
+#: include/class.support.php:1512
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Email (temat: '%1$s') przypisany przez %2$s"
 
-#: include/class.support.php:1850
+#: include/class.support.php:1855
 #, fuzzy, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Email (temat: '%1$s') przypisany przez %2$s"
 
-#: include/class.support.php:2208
+#: include/class.support.php:2213
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Email wysłany przez %1$s"
 
-#: include/class.support.php:2574
+#: include/class.support.php:2579
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Email od '%1$s' został zablokowany"

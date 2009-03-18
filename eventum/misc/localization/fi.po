@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-19 17:20+0200\n"
+"POT-Creation-Date: 2009-03-18 04:28+0200\n"
 "PO-Revision-Date: 2007-11-10 17:22+0200\n"
 "Last-Translator: Jyrki Heinonen <jyrki.heinonen@gmail.com>\n"
 "Language-Team: Finnish <eventum-devel@lists.mysql.com>\n"
@@ -3714,6 +3714,49 @@ msgid "No email accounts could be found."
 msgstr "Sähköpostitilejä ei löytyny."
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Thank you, the email aliases were removed successfully"
+msgstr "Kiitos, valitut sähköpostiviestit poistettiin onnistuneesti."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "New Alias"
+msgstr "Nimen alias:"
+
+#: misc/localization/eventum.c
+msgid "Please choose which emails need to be restored."
+msgstr "Valitse mitkä sähköpostiviestit palautetaan."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Please choose which aliases need to be removed."
+msgstr "Valitse poistettavat merkinnät"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"WARNING: This action will permanently remove the selected email aliases from "
+"your email account."
+msgstr ""
+"VAROITUS: Tämä toiminto poistaa valitut sähköpostiviestit tililtäsi "
+"pysyvästi."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Email Alias"
+msgstr "Sähköpostilista:"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "No aliases could be found."
+msgstr "Julkaisuja ei löytynyt,"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Delete Alias"
+msgstr "Poista"
+
+#: misc/localization/eventum.c
 msgid "Please enter the title of this email response."
 msgstr "Syötä sähköpostivastauksen otsikko."
 
@@ -5525,6 +5568,16 @@ msgid "send email to"
 msgstr "lähetä sähköpostia osoitteeseen"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "list all email aliases"
+msgstr "luetteloi mahdolliset sähköpostiviestit"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "manage alias"
+msgstr "Hallinnoi julkaisuja"
+
+#: misc/localization/eventum.c
 msgid "No users could be found."
 msgstr "Käyttäjiä ei löytynyt."
 
@@ -6562,10 +6615,6 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid "Removed Emails"
 msgstr "Poistetut sähköpostiviestit"
-
-#: misc/localization/eventum.c
-msgid "Please choose which emails need to be restored."
-msgstr "Valitse mitkä sähköpostiviestit palautetaan."
 
 #: misc/localization/eventum.c
 msgid "Please choose which emails need to be permanently removed."
@@ -7993,6 +8042,11 @@ msgid "display in fixed width font"
 msgstr "näytä kiinteä leveyksisellä fontilla"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Download Raw Email"
+msgstr "lataa tiedosto"
+
+#: misc/localization/eventum.c
 msgid "Raw Headers"
 msgstr "Raakaotsikot"
 
@@ -8632,7 +8686,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Virhe: Syötä sähköpostitilisi käyttäjätunnus."
 
-#: include/class.routing.php:233 include/class.support.php:797
+#: include/class.routing.php:233 include/class.support.php:802
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Sähköposti välitetty %1$s"
@@ -8679,30 +8733,30 @@ msgstr "SCM:n sisäänkirjaukset liitettynä SCM käyttäjään"
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1453
+#: include/class.support.php:1458
 msgid "Attachment originated from an email"
 msgstr "Liite tuli sähköpostista"
 
-#: include/class.support.php:1455
+#: include/class.support.php:1460
 msgid "Attachment originated from a note"
 msgstr "Liite tuli viestistä"
 
-#: include/class.support.php:1507
+#: include/class.support.php:1512
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liittäjänä %2$s"
 
-#: include/class.support.php:1850
+#: include/class.support.php:1855
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Sähköposti (aihe: '%1$s') liitoksen poistajana %2$s"
 
-#: include/class.support.php:2208
+#: include/class.support.php:2213
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Sähköpostiviestin lähettäjänä %1$s"
 
-#: include/class.support.php:2574
+#: include/class.support.php:2579
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Sähköpostiviesti lähettäjältä '%1$s' estetty"

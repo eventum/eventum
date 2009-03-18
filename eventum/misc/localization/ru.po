@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-19 17:20+0200\n"
+"POT-Creation-Date: 2009-03-18 04:28+0200\n"
 "PO-Revision-Date: 2007-11-10 02:59+0200\n"
 "Last-Translator: Elan Ruusamäe <glen@delfi.ee>\n"
 "Language-Team: Russian <eventum-devel@lists.mysql.com>\n"
@@ -3783,6 +3783,49 @@ msgid "No email accounts could be found."
 msgstr "Учетные записи почты не найдены."
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Thank you, the email aliases were removed successfully"
+msgstr "Спасибо, эл.письма отмечены как удаленные успешно."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "New Alias"
+msgstr "Синоним хоста:"
+
+#: misc/localization/eventum.c
+msgid "Please choose which emails need to be restored."
+msgstr "Пожалуйста, выберите эл. письма, которые необходимо восстановить."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Please choose which aliases need to be removed."
+msgstr "Пожалуйста выберите, какие записи необходимо удалить."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"WARNING: This action will permanently remove the selected email aliases from "
+"your email account."
+msgstr ""
+"ПРЕДУПРЕЖДЕНИЕ: Это действие удалит без возможности восстановления выбранные "
+"эл. письма из учетной записи вашей эл. почты."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Email Alias"
+msgstr "Список адресов эл.почты:"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "No aliases could be found."
+msgstr "Релизы не найдены."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Delete Alias"
+msgstr "Удалить"
+
+#: misc/localization/eventum.c
 msgid "Please enter the title of this email response."
 msgstr "Пожалуйста, укажите название для запланированного ответа по эл.почте."
 
@@ -5634,6 +5677,16 @@ msgid "send email to"
 msgstr "отправить эл. почту адресату"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "list all email aliases"
+msgstr "список доступных эл.писем"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "manage alias"
+msgstr "Управление релизами"
+
+#: misc/localization/eventum.c
 msgid "No users could be found."
 msgstr "Пользователи не найдены"
 
@@ -6689,10 +6742,6 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid "Removed Emails"
 msgstr "Удаленные письма"
-
-#: misc/localization/eventum.c
-msgid "Please choose which emails need to be restored."
-msgstr "Пожалуйста, выберите эл. письма, которые необходимо восстановить."
 
 #: misc/localization/eventum.c
 msgid "Please choose which emails need to be permanently removed."
@@ -8141,6 +8190,11 @@ msgid "display in fixed width font"
 msgstr "отображать с фикс. шириной шрифта"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Download Raw Email"
+msgstr "загрузить файл"
+
+#: misc/localization/eventum.c
 msgid "Raw Headers"
 msgstr "Исходные заголовки"
 
@@ -8785,7 +8839,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Ошибка: Пожалуйста, укажите идентификатор учетной записи эл. почты."
 
-#: include/class.routing.php:233 include/class.support.php:797
+#: include/class.routing.php:233 include/class.support.php:802
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Эл. письмо маршутизировано от %1$s"
@@ -8832,30 +8886,30 @@ msgstr "Новые версии SCM связанные пользователе�
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1453
+#: include/class.support.php:1458
 msgid "Attachment originated from an email"
 msgstr "Приложение создано из эл. почты"
 
-#: include/class.support.php:1455
+#: include/class.support.php:1460
 msgid "Attachment originated from a note"
 msgstr "Приложение создано из примечания"
 
-#: include/class.support.php:1507
+#: include/class.support.php:1512
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Эл. письмо (тема: '%1$s') связанно пользователем %2$s"
 
-#: include/class.support.php:1850
+#: include/class.support.php:1855
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Эл. письмо (тема: '%1$s') разъединено пользователем %2$s"
 
-#: include/class.support.php:2208
+#: include/class.support.php:2213
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Исходящее эл. писмо отправлено пользователем %1$s"
 
-#: include/class.support.php:2574
+#: include/class.support.php:2579
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Эл. письмо от  '%1$s'  заблокировано"

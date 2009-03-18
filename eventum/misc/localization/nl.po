@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eventum\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-19 17:20+0200\n"
+"POT-Creation-Date: 2009-03-18 04:28+0200\n"
 "PO-Revision-Date: 2008-05-06 15:48+0100\n"
 "Last-Translator: Alex Krappen <sam.krappen@zeeland.nl>\n"
 "Language-Team: Dutch <eventum-devel@lists.mysql.com>\n"
@@ -3662,6 +3662,49 @@ msgid "No email accounts could be found."
 msgstr "Er zijn geen emailaccounts gevonden."
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Thank you, the email aliases were removed successfully"
+msgstr "De emails zijn als 'Verwijderd' gemarkeerd."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "New Alias"
+msgstr "Host Alias:"
+
+#: misc/localization/eventum.c
+msgid "Please choose which emails need to be restored."
+msgstr "Selecteer de emails die hersteld moeten worden."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Please choose which aliases need to be removed."
+msgstr "Selecteer welke items dienen te worden verwijderd."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid ""
+"WARNING: This action will permanently remove the selected email aliases from "
+"your email account."
+msgstr ""
+"Waarschuwing: Deze actie verwijdert de geselecteerde berichten definitief "
+"van uw emailaccount."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Email Alias"
+msgstr "Berichtenlijst:"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "No aliases could be found."
+msgstr "Geen fasen gevonden."
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "Delete Alias"
+msgstr "Verwijderen"
+
+#: misc/localization/eventum.c
 msgid "Please enter the title of this email response."
 msgstr "Voer de titel van deze antwoordemail in."
 
@@ -5500,6 +5543,16 @@ msgid "send email to"
 msgstr "Bericht versturen aan"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "list all email aliases"
+msgstr "beschikbare berichten weergeven"
+
+#: misc/localization/eventum.c
+#, fuzzy
+msgid "manage alias"
+msgstr "Fases beheren"
+
+#: misc/localization/eventum.c
 msgid "No users could be found."
 msgstr "Geen gebruikers gevonden."
 
@@ -6531,10 +6584,6 @@ msgstr ""
 #: misc/localization/eventum.c
 msgid "Removed Emails"
 msgstr "Verwijderde emails."
-
-#: misc/localization/eventum.c
-msgid "Please choose which emails need to be restored."
-msgstr "Selecteer de emails die hersteld moeten worden."
 
 #: misc/localization/eventum.c
 msgid "Please choose which emails need to be permanently removed."
@@ -7896,6 +7945,11 @@ msgid "display in fixed width font"
 msgstr "weergeven in een lettertype met vaste breedte"
 
 #: misc/localization/eventum.c
+#, fuzzy
+msgid "Download Raw Email"
+msgstr "bestand downloaden"
+
+#: misc/localization/eventum.c
 msgid "Raw Headers"
 msgstr ""
 
@@ -8534,7 +8588,7 @@ msgstr ""
 msgid "Error: Please provide the email account ID."
 msgstr "Fout: Geef een geldig e-mail account."
 
-#: include/class.routing.php:233 include/class.support.php:797
+#: include/class.routing.php:233 include/class.support.php:802
 #, php-format
 msgid "Email routed from %1$s"
 msgstr "Bericht afkomstig van %1$s"
@@ -8581,30 +8635,30 @@ msgstr "Binnenkomende controles SCM toegeovegd door SCM-gebruiker '"
 msgid "Postmaster notify: see transcript for details"
 msgstr ""
 
-#: include/class.support.php:1453
+#: include/class.support.php:1458
 msgid "Attachment originated from an email"
 msgstr "Bijlage van bericht"
 
-#: include/class.support.php:1455
+#: include/class.support.php:1460
 msgid "Attachment originated from a note"
 msgstr "Bijlage van notitie"
 
-#: include/class.support.php:1507
+#: include/class.support.php:1512
 #, php-format
 msgid "Email (subject: '%1$s') associated by %2$s"
 msgstr "Bericht (Onderwerp: '%1$s') gekoppeld door %2$s"
 
-#: include/class.support.php:1850
+#: include/class.support.php:1855
 #, php-format
 msgid "Email (subject: '%1$s') disassociated by %2$s"
 msgstr "Bericht (Onderwerp: '%1$s') ontkoppeld door %2$s"
 
-#: include/class.support.php:2208
+#: include/class.support.php:2213
 #, php-format
 msgid "Outgoing email sent by %1$s"
 msgstr "Uitgaande berichten verzonden door %1$s"
 
-#: include/class.support.php:2574
+#: include/class.support.php:2579
 #, php-format
 msgid "Email from '%1$s' blocked"
 msgstr "Berichten van '%1$s' geblokkeerd"
