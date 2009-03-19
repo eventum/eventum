@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: class.auth.php 3866 2009-03-19 16:24:08Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -34,7 +34,6 @@ require_once(APP_INC_PATH . "class.project.php");
 require_once(APP_INC_PATH . "class.user.php");
 require_once(APP_INC_PATH . "class.customer.php");
 require_once(APP_INC_PATH . "class.date_helper.php");
-require_once(APP_CONFIG_PATH . "private_key.php");
 
 /**
  * Class to handle authentication issues.
@@ -44,6 +43,20 @@ require_once(APP_CONFIG_PATH . "private_key.php");
  */
 class Auth
 {
+    /**
+     * Method used to get private key used for hashing session cookies.
+     *
+     * @access  public
+     * @return  string  The private_key hash.
+     */
+    public static function privateKey() {
+        static $private_key = null;
+        if (is_null($private_key)) {
+            require_once APP_CONFIG_PATH . "/private_key.php";
+        }
+        return $private_key;
+    }
+
     /**
      * Method used to save the login information into a log file. It will be
      * useful for administrative purposes, so we know which customers were able
@@ -254,7 +267,7 @@ class Auth
     function isValidCookie($cookie)
     {
         if ((empty($cookie["email"])) || (empty($cookie["hash"])) ||
-               ($cookie["hash"] != md5($GLOBALS["private_key"] . md5($cookie["login_time"]) . $cookie["email"]))) {
+               ($cookie["hash"] != md5(self::privateKey() . md5($cookie["login_time"]) . $cookie["email"]))) {
             return false;
         } else {
             $usr_id = User::getUserIDByEmail(@$cookie["email"]);
@@ -281,7 +294,7 @@ class Auth
         $cookie = array(
             "email"      => $email,
             "login_time" => $time,
-            "hash"       => md5($GLOBALS["private_key"] . md5($time) . $email),
+            "hash"       => md5(self::privateKey() . md5($time) . $email),
         );
         $cookie = base64_encode(serialize($cookie));
         Auth::setCookie($cookie_name, $cookie, APP_COOKIE_EXPIRE);
@@ -483,15 +496,13 @@ class Auth
      */
     function createFakeCookie($usr_id, $project = false)
     {
-        require_once(APP_CONFIG_PATH . "private_key.php");
-
         $user_details = User::getDetails($usr_id);
 
         $time = time();
         $cookie = array(
             "email" => $user_details['usr_email'],
             "login_time"    =>  $time,
-            "hash"       => md5($GLOBALS["private_key"] . md5($time) . $user_details['usr_email']),
+            "hash"       => md5(self::privateKey() . md5($time) . $user_details['usr_email']),
         );
         $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
         if ($project) {

@@ -37,27 +37,6 @@
  * @author Bryan Alsdorf <bryan@mysql.com>
  */
 
-/**
- * List of available locales present in Eventum.
- *
- * Note that the locales are first tested before they are listed as choices in
- * Preferences page.
- */
-
-$avail_langs = array(
-    'pl_PL' =>  'Polish',
-#    'en_US' =>  'English',
-    'ru_RU' =>  'Russian',
-    'de_DE' =>  'German',
-#    'fr_FR' =>  'French',
-    'it_IT' =>  'Italian',
-    'fi_FI' =>  'Finnish',
-    'es_ES' =>  'Spanish',
-#    'nl_NL' =>  'Dutch',
-    'sv_SE' =>  'Swedish',
-    'pt_BR' =>  'Brazilian Portuguese',
-);
-
 class Language
 {
 
@@ -78,6 +57,26 @@ class Language
     }
 
     /**
+     * List of available locales present in Eventum.
+     *
+     * Note that the locales are first tested before they are listed as choices in
+     * Preferences page.
+     */
+    private static $avail_langs = array(
+        'pl_PL' =>  'Polish',
+#       'en_US' =>  'English',
+        'ru_RU' =>  'Russian',
+        'de_DE' =>  'German',
+#       'fr_FR' =>  'French',
+        'it_IT' =>  'Italian',
+        'fi_FI' =>  'Finnish',
+        'es_ES' =>  'Spanish',
+#       'nl_NL' =>  'Dutch',
+        'sv_SE' =>  'Swedish',
+        'pt_BR' =>  'Brazilian Portuguese',
+    );
+
+    /**
      * Method used to get available languages.
 	 * Uses $avail_langs array and verifies that the language can be used.
      *
@@ -86,10 +85,8 @@ class Language
      */
     function getAvailableLanguages()
     {
-        global $avail_langs;
-
 		$languages = array();
-		foreach ($avail_langs as $code => $language) {
+		foreach (self::$avail_langs as $code => $language) {
 			$res = Language::set($code);
 			if ($res) {
 				$languages[$code] = $language;
@@ -161,7 +158,7 @@ class Language
 				return false;
 			}
 		}
-        User::setLocalizedRoles();
+        User::resetLocalizedRoles();
 
 		return true;
     }

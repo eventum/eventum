@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: class.user.php 3866 2009-03-19 16:24:08Z glen $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -39,18 +39,6 @@ require_once(APP_INC_PATH . "class.validation.php");
 require_once(APP_INC_PATH . "class.date_helper.php");
 require_once(APP_INC_PATH . "class.project.php");
 require_once(APP_INC_PATH . "class.setup.php");
-require_once(APP_CONFIG_PATH . "private_key.php");
-
-// definition of roles
-$roles = array(
-    1 => "Viewer",
-    2 => "Reporter",
-    3 => "Customer",
-    4 => "Standard User",
-    5 => "Developer",
-    6 => "Manager",
-    7 => "Administrator"
-);
 
 /**
  * Class to handle the business logic related to the administration
@@ -62,6 +50,37 @@ $roles = array(
 
 class User
 {
+
+    // definition of roles
+    private static $roles = array(
+        1 => "Viewer",
+        2 => "Reporter",
+        3 => "Customer",
+        4 => "Standard User",
+        5 => "Developer",
+        6 => "Manager",
+        7 => "Administrator"
+    );
+
+    private static $localized_roles;
+    private static function getLocalizedRoles()
+    {
+        if (is_null(self::$localized_roles)) {
+            foreach (self::$roles as $id => $role) {
+                self::$localized_roles[$id] = ev_gettext($role);
+            }
+        }
+        return self::$localized_roles;
+    }
+
+    /**
+     * Method to reset localized roles, i.e after changing active language.
+     */
+    public static function resetLocalizedRoles()
+    {
+        self::$localized_roles = null;
+    }
+
     /**
      * Method used to get the user ID associated with the given customer
      * contact ID.
@@ -277,7 +296,7 @@ class User
             if ($res == NULL) {
                 return -2;
             } else {
-                $check_hash = md5($res . md5($email) . $GLOBALS["private_key"]);
+                $check_hash = md5($res . md5($email) . Auth::privateKey());
                 if ($hash != $check_hash) {
                     return -3;
                 } else {
@@ -332,7 +351,7 @@ class User
                 Project::associateUser($projects[$i], $new_usr_id, $role);
             }
             // send confirmation email to user
-            $hash = md5($_POST["full_name"] . md5($_POST["email"]) . $GLOBALS["private_key"]);
+            $hash = md5($_POST["full_name"] . md5($_POST["email"]) . Auth::privateKey());
 
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/visitor_account.tpl.text');
@@ -365,7 +384,7 @@ class User
     {
         $info = User::getDetails($usr_id);
         // send confirmation email to user
-        $hash = md5($info["usr_full_name"] . md5($info["usr_email"]) . $GLOBALS["private_key"]);
+        $hash = md5($info["usr_full_name"] . md5($info["usr_email"]) . Auth::privateKey());
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
@@ -540,7 +559,6 @@ class User
         }
     }
 
-
     /**
      * Method used to get an associative array of the available roles.
      *
@@ -549,10 +567,8 @@ class User
      */
     function getAssocRoleIDs()
     {
-        global $roles;
-        reset($roles);
         $assoc_roles = array();
-        while (list($key, $value) = each($roles)) {
+        while (list($key, $value) = each(self::$roles)) {
             $value = str_replace(" ", "_", strtolower($value));
             $assoc_roles[$value] = (integer) $key;
         }
@@ -571,9 +587,9 @@ class User
     function getRoles($exclude_role = FALSE)
     {
         if ($exclude_role == false) {
-            return $GLOBALS['localized_roles'];
+            return self::getLocalizedRoles();
         } else {
-            $roles = $GLOBALS['localized_roles'];
+            $roles = self::getLocalizedRoles();
             if (!is_array($exclude_role)) {
                 $exclude_role = array($exclude_role);
             }
@@ -595,7 +611,8 @@ class User
      */
     function getRole($role_id)
     {
-        return $GLOBALS['localized_roles'][$role_id];
+        $roles = self::getLocalizedRoles();
+        return $roles[$role_id];
     }
 
 
@@ -608,9 +625,7 @@ class User
      */
     function getRoleID($role_title)
     {
-        global $roles;
-
-        foreach ($roles as $role_id => $role) {
+        foreach (self::$roles as $role_id => $role) {
             if (strtolower($role) == strtolower($role_title)) {
                 return $role_id;
             }
@@ -1522,21 +1537,4 @@ class User
         }
         return $res;
     }
-
-
-    function setLocalizedRoles()
-    {
-        $GLOBALS['localized_roles'] = array(
-            1 => ev_gettext("Viewer"),
-            2 => ev_gettext("Reporter"),
-            3 => ev_gettext("Customer"),
-            4 => ev_gettext("Standard User"),
-            5 => ev_gettext("Developer"),
-            6 => ev_gettext("Manager"),
-            7 => ev_gettext("Administrator")
-        );
-    }
-
 }
-
-User::setLocalizedRoles();
