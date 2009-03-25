@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3866 2009-03-19 16:24:08Z glen $
+// @(#) $Id: class.user.php 3867 2009-03-25 20:37:23Z balsdorf $
 //
 
 require_once(APP_INC_PATH . "class.error_handler.php");
@@ -568,7 +568,7 @@ class User
     function getAssocRoleIDs()
     {
         $assoc_roles = array();
-        while (list($key, $value) = each(self::$roles)) {
+        foreach (self::$roles as $key => $value) {
             $value = str_replace(" ", "_", strtolower($value));
             $assoc_roles[$value] = (integer) $key;
         }
