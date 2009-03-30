@@ -27,8 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "db_access.php");
 
 
 /**

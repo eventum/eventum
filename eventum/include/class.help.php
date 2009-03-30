@@ -26,10 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.help.php 3866 2009-03-19 16:24:08Z glen $
+// @(#) $Id: class.help.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
 
 /**
  * Class to handle the business logic related to the help

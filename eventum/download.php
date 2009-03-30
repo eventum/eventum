@@ -26,12 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: download.php 3828 2009-02-10 07:01:48Z glen $
+// @(#) $Id: download.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.attachment.php");
-require_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 

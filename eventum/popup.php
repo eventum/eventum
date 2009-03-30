@@ -26,27 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: popup.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: popup.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
-require_once(APP_INC_PATH . "class.template_helper.php");
-require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.note.php");
-require_once(APP_INC_PATH . "class.time_tracking.php");
-require_once(APP_INC_PATH . "class.issue.php");
-require_once(APP_INC_PATH . "class.impact_analysis.php");
-require_once(APP_INC_PATH . "class.filter.php");
-require_once(APP_INC_PATH . "class.support.php");
-require_once(APP_INC_PATH . "class.attachment.php");
-require_once(APP_INC_PATH . "class.scm.php");
-require_once(APP_INC_PATH . "class.notification.php");
-require_once(APP_INC_PATH . "class.phone_support.php");
-require_once(APP_INC_PATH . "class.status.php");
-require_once(APP_INC_PATH . "class.history.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.authorized_replier.php");
-require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("popup.tpl.html");

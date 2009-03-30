@@ -26,19 +26,13 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: preferences.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: preferences.php 3868 2009-03-30 00:22:35Z glen $
 
 // skip language init if we're saving language
 if (@$_POST['language']) {
     define('SKIP_LANGUAGE_INIT', true);
 }
 require_once(dirname(__FILE__) . "/init.php");
-require_once(APP_INC_PATH . "class.template_helper.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.prefs.php");
-require_once(APP_INC_PATH . "class.setup.php");
-require_once(APP_INC_PATH . "class.date_helper.php");
-require_once(APP_INC_PATH . "db_access.php");
 
 // must do Language::setPreference before template is initialized
 if (@$_POST["cat"] == "update_account") {

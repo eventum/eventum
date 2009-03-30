@@ -26,11 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.round_robin.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: class.round_robin.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . 'class.date_helper.php');
-require_once(APP_INC_PATH . 'class.error_handler.php');
 
 class Round_Robin
 {

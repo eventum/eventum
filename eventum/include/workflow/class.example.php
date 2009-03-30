@@ -27,7 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once(APP_INC_PATH . "workflow/class.abstract_workflow_backend.php");
 
 /**
  * Example workflow backend class. For example purposes it will print what

@@ -26,17 +26,9 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: customer_stats.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: customer_stats.php 3868 2009-03-30 00:22:35Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
-require_once(APP_INC_PATH . "class.template_helper.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.report.php");
-require_once(APP_INC_PATH . "class.date_helper.php");
-require_once(APP_INC_PATH . "db_access.php");
-require_once(APP_INC_PATH . "class.customer.php");
-require_once(APP_INC_PATH . "class.customer_stats_report.php");
-require_once(APP_INC_PATH . "class.session.php");
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("reports/customer_stats.tpl.html");

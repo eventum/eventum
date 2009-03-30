@@ -26,17 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.stats.php 3825 2009-02-10 06:57:44Z glen $
+// @(#) $Id: class.stats.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.release.php");
-require_once(APP_INC_PATH . "class.priority.php");
-require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.project.php");
-require_once(APP_INC_PATH . "class.status.php");
 
 /**
  * Class to handle the business logic related to the generation of the

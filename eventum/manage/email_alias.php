@@ -29,7 +29,6 @@
 // @(#) $Id: email_alias.php 3797 2009-01-28 20:14:39Z anderson $
 
 require_once(dirname(__FILE__) . "/../init.php");
-require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("manage/email_alias.tpl.html");

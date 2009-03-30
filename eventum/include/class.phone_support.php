@@ -26,16 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.phone_support.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: class.phone_support.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.history.php");
-require_once(APP_INC_PATH . "class.issue.php");
-require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.date_helper.php");
 
 /**
  * Class to handle the business logic related to the phone support

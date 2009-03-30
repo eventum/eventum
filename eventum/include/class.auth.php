@@ -26,14 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.auth.php 3866 2009-03-19 16:24:08Z glen $
+// @(#) $Id: class.auth.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
-require_once(APP_INC_PATH . "class.project.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.customer.php");
-require_once(APP_INC_PATH . "class.date_helper.php");
 
 /**
  * Class to handle authentication issues.

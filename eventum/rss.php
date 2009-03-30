@@ -26,16 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: rss.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: rss.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
-require_once(APP_INC_PATH . "db_access.php");
-require_once(APP_INC_PATH . "class.setup.php");
-require_once(APP_INC_PATH . "class.filter.php");
-require_once(APP_INC_PATH . "class.issue.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.validation.php");
-require_once(APP_INC_PATH . "class.project.php");
 
 $setup = Setup::load();
 if (empty($setup['tool_caption'])) {

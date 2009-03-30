@@ -27,7 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once(APP_INC_PATH . "class.priority.php");
 
 /**
  * Manages fields that are associated with an issue but can be displayed in many different places.

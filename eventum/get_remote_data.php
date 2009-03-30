@@ -26,14 +26,9 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: get_remote_data.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: get_remote_data.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
-require_once(APP_INC_PATH . "db_access.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.note.php");
-require_once(APP_INC_PATH . "class.draft.php");
-require_once(APP_INC_PATH . "class.mail_queue.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 

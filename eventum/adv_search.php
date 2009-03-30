@@ -26,20 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: adv_search.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: adv_search.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
-require_once(APP_INC_PATH . "db_access.php");
-require_once(APP_INC_PATH . "class.template_helper.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.category.php");
-require_once(APP_INC_PATH . "class.priority.php");
-require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.release.php");
-require_once(APP_INC_PATH . "class.project.php");
-require_once(APP_INC_PATH . "class.filter.php");
-require_once(APP_INC_PATH . "class.status.php");
-require_once(APP_INC_PATH . "class.user.php");
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("adv_search.tpl.html");

@@ -26,14 +26,12 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.date_helper.php 3826 2009-02-10 06:59:40Z glen $
+// @(#) $Id: class.date_helper.php 3868 2009-03-30 00:22:35Z glen $
 //
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
 $_DATE_TIMEZONE_DEFAULT = 'UTC';
 
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.prefs.php");
 require_once(APP_PEAR_PATH . "Date.php");
 
 if (!defined('APP_DEFAULT_TIMEZONE')) {

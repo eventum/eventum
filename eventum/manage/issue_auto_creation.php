@@ -26,19 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: issue_auto_creation.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: issue_auto_creation.php 3868 2009-03-30 00:22:35Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
-require_once(APP_INC_PATH . "class.template_helper.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.email_account.php");
-require_once(APP_INC_PATH . "class.category.php");
-require_once(APP_INC_PATH . "class.priority.php");
-require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.project.php");
-require_once(APP_INC_PATH . "class.setup.php");
-require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("manage/index.tpl.html");

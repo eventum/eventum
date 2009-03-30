@@ -26,17 +26,11 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.template_helper.php 3864 2009-03-18 01:25:12Z glen $
+// @(#) $Id: class.template_helper.php 3868 2009-03-30 00:22:35Z glen $
 //
 
 require_once(APP_PEAR_PATH . "Net/UserAgent/Detect.php");
 require_once(APP_SMARTY_PATH . "Smarty.class.php");
-require_once(APP_INC_PATH . "class.project.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.setup.php");
-require_once(APP_INC_PATH . "class.link_filter.php");
-require_once(APP_INC_PATH . "class.custom_field.php");
 
 /**
  * Class used to abstract the backend template system used by the site. This

@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: scm_ping.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: scm_ping.php 3868 2009-03-30 00:22:35Z glen $
 
 // shortcut to exit out when no issue id-s are passed in request
 // as this script is always called by CVS but we handle only ones which can be
@@ -36,10 +36,6 @@ if (empty($_GET['issue'])) {
 }
 
 require_once(dirname(__FILE__) . "/init.php");
-require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.scm.php");
-require_once(APP_INC_PATH . "class.workflow.php");
-require_once(APP_INC_PATH . "db_access.php");
 
 foreach ($_GET['issue'] as $issue_id) {
     $files = array();

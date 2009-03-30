@@ -26,10 +26,9 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.link_filter.php 3832 2009-02-10 07:21:46Z glen $
+// @(#) $Id: class.link_filter.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . "class.user.php");
 
 /**
  * Class to handle parsing content for links.
@@ -348,7 +347,6 @@ class Link_Filter
      */
     function callbackIssueLinks($matches)
     {
-        require_once(APP_INC_PATH . "class.issue.php");
         // check if the issue is still open
         if (Issue::isClosed($matches[5])) {
             $class = 'closed_link';

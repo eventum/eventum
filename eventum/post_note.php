@@ -25,12 +25,6 @@
 // +----------------------------------------------------------------------+
 
 require_once(dirname(__FILE__) . "/init.php");
-require_once(APP_INC_PATH . "class.template_helper.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.note.php");
-require_once(APP_INC_PATH . "class.issue_field.php");
-require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("post_note.tpl.html");

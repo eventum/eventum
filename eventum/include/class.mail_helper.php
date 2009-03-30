@@ -27,12 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
-require_once(APP_INC_PATH . "class.setup.php");
-require_once(APP_INC_PATH . "class.mail_queue.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.mime_helper.php");
-require_once(APP_INC_PATH . "class.reminder.php");
 require_once(APP_PEAR_PATH . "Mail/RFC822.php");
 
 /**

@@ -27,8 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
-require_once(APP_INC_PATH . "class.setup.php");
 
 /**
  * Class to hold methods and algorythms that woudln't fit in other classes, such

@@ -26,11 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: csv.php 3797 2009-01-12 20:14:39Z balsdorf $
+// @(#) $Id: csv.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once(dirname(__FILE__) . '/init.php');
-require_once(APP_INC_PATH . 'class.auth.php');
-require_once(APP_INC_PATH . 'db_access.php');
 
 Auth::checkAuthentication(APP_COOKIE);
 

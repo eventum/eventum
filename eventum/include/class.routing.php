@@ -27,19 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.mail_helper.php");
-require_once(APP_INC_PATH . "class.support.php");
-require_once(APP_INC_PATH . "class.issue.php");
-require_once(APP_INC_PATH . "class.mime_helper.php");
-require_once(APP_INC_PATH . "class.date_helper.php");
-require_once(APP_INC_PATH . "class.setup.php");
-require_once(APP_INC_PATH . "class.notification.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.note.php");
-require_once(APP_INC_PATH . "class.project.php");
-require_once(APP_INC_PATH . "class.status.php");
-require_once(APP_INC_PATH . "class.history.php");
 
 /**
  * Class to handle all routing functionality

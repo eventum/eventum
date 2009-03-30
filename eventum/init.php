@@ -159,10 +159,7 @@ if (!defined('APP_MAINTENANCE')) {
     define('APP_MAINTENANCE', false);
 }
 
-include_once(APP_INC_PATH . 'class.language.php');
-include_once(APP_INC_PATH . 'db_access.php');
-include_once(APP_INC_PATH . 'class.auth.php');
-include_once(APP_INC_PATH . 'class.misc.php');
+require_once APP_INC_PATH . '/autoload.php';
 
 // fix magic_quote_gpc'ed values
 if (get_magic_quotes_gpc()) {

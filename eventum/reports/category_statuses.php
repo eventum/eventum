@@ -27,10 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 require_once(dirname(__FILE__) . "/../init.php");
-require_once(APP_INC_PATH . "class.template_helper.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.report.php");
-require_once(APP_INC_PATH . "db_access.php");
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("reports/category_statuses.tpl.html");

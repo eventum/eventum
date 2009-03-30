@@ -26,11 +26,10 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.db_helper.php 3864 2009-03-18 01:25:12Z glen $
+// @(#) $Id: class.db_helper.php 3868 2009-03-30 00:22:35Z glen $
 //
 
 require_once("DB.php");
-require_once(APP_INC_PATH . "class.error_handler.php");
 
 /**
  * Class to manage all tasks related to the DB abstraction module. This is only

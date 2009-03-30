@@ -28,9 +28,6 @@
 //
 //
 require_once(dirname(__FILE__) . "/../../init.php");
-require_once(APP_INC_PATH . "db_access.php");
-require_once(APP_INC_PATH . "class.customer.php");
-require_once(APP_INC_PATH . "class.user.php");
 
 // creates user accounts for all the customers
 $prj_id = 1;

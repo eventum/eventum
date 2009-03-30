@@ -40,7 +40,6 @@
 */
 
 require_once(APP_PEAR_PATH . "Mail/mimeDecode.php");
-require_once(APP_INC_PATH . "class.error_handler.php");
 
 /**
  * Class to handle the business logic related to the MIME email

@@ -26,10 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.customer.php 3832 2009-02-10 07:21:46Z glen $
+// @(#) $Id: class.customer.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . 'class.misc.php');
 
 // Constants used by customer class.
 define("CUSTOMER_EXCLUDE_EXPIRED", 1);

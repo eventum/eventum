@@ -26,12 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.error_handler.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: class.error_handler.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.mail_helper.php");
-require_once(APP_INC_PATH . "class.setup.php");
 
 /**
  * Class to manage all tasks related to error conditions of the site, such as

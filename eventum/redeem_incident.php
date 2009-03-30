@@ -28,9 +28,6 @@
 
 // This page handles marking an issue as 'redeeming' an incident.
 require_once(dirname(__FILE__) . "/init.php");
-require_once(APP_INC_PATH . "class.template_helper.php");
-require_once(APP_INC_PATH . "class.customer.php");
-require_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 

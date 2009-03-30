@@ -26,15 +26,9 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: customer_stats_graph.php 3834 2009-02-10 07:37:26Z glen $
+// @(#) $Id: customer_stats_graph.php 3868 2009-03-30 00:22:35Z glen $
 //
 require_once(dirname(__FILE__) . "/../init.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.customer_stats_report.php");
-require_once(APP_INC_PATH . "class.prefs.php");
-require_once(APP_INC_PATH . "class.date_helper.php");
-require_once(APP_INC_PATH . "class.session.php");
-require_once(APP_INC_PATH . "db_access.php");
 require_once(APP_JPGRAPH_PATH . "jpgraph.php");
 require_once(APP_JPGRAPH_PATH . "jpgraph_bar.php");
 

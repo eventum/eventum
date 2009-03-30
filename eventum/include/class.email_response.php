@@ -26,11 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.email_response.php 3832 2009-02-10 07:21:46Z glen $
+// @(#) $Id: class.email_response.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
-require_once(APP_INC_PATH . "class.misc.php");
 
 /**
  * Class to handle the business logic related to the administration

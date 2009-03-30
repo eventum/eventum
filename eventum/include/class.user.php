@@ -26,19 +26,9 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3867 2009-03-25 20:37:23Z balsdorf $
+// @(#) $Id: class.user.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.mail_helper.php");
-require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.prefs.php");
-require_once(APP_INC_PATH . "class.notification.php");
-require_once(APP_INC_PATH . "class.validation.php");
-require_once(APP_INC_PATH . "class.date_helper.php");
-require_once(APP_INC_PATH . "class.project.php");
-require_once(APP_INC_PATH . "class.setup.php");
 
 /**
  * Class to handle the business logic related to the administration

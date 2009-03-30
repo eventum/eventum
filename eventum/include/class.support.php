@@ -27,20 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
-require_once(APP_INC_PATH . "class.auth.php");
-require_once(APP_INC_PATH . "class.user.php");
-require_once(APP_INC_PATH . "class.pager.php");
-require_once(APP_INC_PATH . "class.mail_helper.php");
-require_once(APP_INC_PATH . "class.note.php");
-require_once(APP_INC_PATH . "class.misc.php");
-require_once(APP_INC_PATH . "class.mime_helper.php");
-require_once(APP_INC_PATH . "class.date_helper.php");
-require_once(APP_INC_PATH . "class.history.php");
-require_once(APP_INC_PATH . "class.issue.php");
-require_once(APP_INC_PATH . "class.email_account.php");
-require_once(APP_INC_PATH . "class.search_profile.php");
-require_once(APP_INC_PATH . "class.routing.php");
 
 /**
  * Class to handle the business logic related to the email feature of

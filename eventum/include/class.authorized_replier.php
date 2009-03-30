@@ -26,10 +26,9 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.authorized_replier.php 3827 2009-02-10 07:00:47Z glen $
+// @(#) $Id: class.authorized_replier.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . "class.user.php");
 
 /**
  * Class designed to handle adding, removing and viewing authorized repliers for an issue.

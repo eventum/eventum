@@ -26,13 +26,10 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id$
+// @(#) $Id: validate.php 3868 2009-03-30 00:22:35Z glen $
 //
 
 require_once(dirname(__FILE__) . '/init.php');
-include_once(APP_INC_PATH . "class.auth.php");
-include_once(APP_INC_PATH . "class.issue.php");
-include_once(APP_INC_PATH . "db_access.php");
 
 Auth::checkAuthentication(APP_COOKIE);
 

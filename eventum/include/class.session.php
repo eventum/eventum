@@ -26,11 +26,9 @@
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.session.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.session.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once(APP_INC_PATH . "class.error_handler.php");
-require_once(APP_INC_PATH . "class.setup.php");
 
 /**
  * Wrapper class for sessions. This is an initial bare bones implementation.
