@@ -120,7 +120,12 @@ function checkDelete(f)
                         </select>
                         {include file="error_icon.tpl.html" field="users[]"}
                         <div class="default" id="selection_users[]" />
-                        <script language="Javascript">showSelections('group_form', 'users[]');</script>
+                        {literal}
+                        <script language="Javascript">jQuery().ready(function() {
+                            showSelections('group_form', 'users[]');
+                        });
+                        </script>
+                        {/literal}
                     </td>
                 </tr>
                 <tr>
