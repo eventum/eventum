@@ -216,12 +216,10 @@ function checkRequirements()
     $errors = array();
     $warnings = array();
 
+    $extensions = get_loaded_extensions();
+
     // check for GD support
-    ob_start();
-    phpinfo();
-    $contents = ob_get_contents();
-    ob_end_clean();
-    if (!preg_match('/GD Support.*<\/td><td.*>enabled/U', $contents)) {
+    if (array_search('gd', $extensions) === false) {
         $errors[] = 'The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.';
     }
     // check for session support
