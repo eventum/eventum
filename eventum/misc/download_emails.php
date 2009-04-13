@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: download_emails.php 3871 2009-04-13 20:06:55Z glen $
+// @(#) $Id: download_emails.php 3872 2009-04-13 20:51:59Z glen $
 
 ini_set("memory_limit", "256M");
 
@@ -36,93 +36,178 @@ require_once(APP_INC_PATH . "class.lock.php");
 require_once(APP_INC_PATH . "class.project.php");
 require_once(APP_INC_PATH . "db_access.php");
 
+// setup constant to be used globally
+define('SAPI_CLI', 'cli' == php_sapi_name());
+
+/**
+ * Display status message.
+ *
+ * Respects calling context:
+ * - for CLI output is displayed to STDOUT,
+ * - for Web newlines are converted to HTML linebreaks.
+ */
+function msg() {
+    $args = func_get_args();
+    // let messages be newline terminated
+    $args[] = "";
+    $msg = implode("\n", $args);
+
+    if (SAPI_CLI) {
+        fwrite(STDOUT, $msg);
+    } else {
+        $msg = nl2br($msg);
+        echo $msg;
+    }
+}
+
+/**
+ * Display fatal error message and exit program.
+ *
+ * Respects calling context:
+ * - for CLI output is displayed to STDERR,
+ * - for Web newlines are converted to HTML linebreaks.
+ */
+function fatal() {
+    $args = func_get_args();
+    // let messages be newline terminated
+    $args[] = "";
+    $msg = implode("\n", $args);
+
+    if (SAPI_CLI) {
+        fwrite(STDERR, 'ERROR: '.$msg);
+    } else {
+        $msg = '<b>ERROR</b>: '.nl2br($msg);
+        echo $msg;
+    }
+
+    exit(1);
+}
+
+/**
+ * Get parameters needed for this script.
+ *
+ * for CLI mode these are take from command line arguments
+ * for Web mode those are taken as named _GET parameters.
+ *
+ * @return  array   $config
+ */
+function getParams() {
+    // some defaults,
+    $config = array(
+        'fix-lock' => false,
+        'username' => null,
+        'hostname' => null,
+        'mailbox' => null,
+    );
+
+    if (SAPI_CLI) {
+        global $argc, $argv;
+        // --fix-lock may be only the last argument (first or fourth)
+        if ($argv[$argc - 1] == '--fix-lock') {
+            // no other args are allowed
+            $config['fix-lock'] = true;
+        }
+
+        if ($argc > 1) {
+            $config['username'] = $argv[1];
+        }
+        if ($argc > 2) {
+            $config['hostname'] = $argv[2];
+        }
+        if ($argc > 3) {
+            $config['mailbox'] = $argv[3];
+        }
+    } else {
+        foreach (array_keys($config) as $key) {
+            if (isset($_GET[$key])) {
+                $config[$key] = $_GET[$key];
+            }
+        }
+    }
+    return $config;
+}
+
 // we need the IMAP extension for this to work
 if (!function_exists('imap_open')) {
-    echo "Error: Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.\n";
-    echo "Please refer to the PHP manual for more details about how to enable the IMAP extension.\n";
-    exit;
+    fatal(
+        "Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.",
+        "Please refer to the PHP manual for more details about how to enable the IMAP extension."
+    );
 }
 
-// determine if this script is being called from the web or command line
-$fix_lock = false;
-if (isset($_SERVER['HTTP_HOST'])) {
-    // web
-    $type = 'web';
-    if (@$_GET['fix-lock'] == 1) {
-        $fix_lock = true;
-    }
-    $username = @$_GET['username'];
-    $hostname = @$_GET['hostname'];
-    $mailbox = @$_GET['mailbox'];
-} else {
-    // command line
-    // argv/argc needs to be enabled
-    if (ini_get("register_argc_argv") == "Off") {
-        echo "Error: Eventum requires the ini setting register_argc_argv to be enabled to run this script.\n";
-        echo "Please refer to the PHP manual for more details on how to change this ini setting.\n";
-        exit;
-    }
-
-    $type = 'cli';
-    if (in_array('--fix-lock', $argv)) {
-        $fix_lock = true;
-    }
-    $username = @$argv[1];
-    $hostname = @$argv[2];
-    $mailbox = @$argv[3];
+// argv/argc needs to be enabled in CLI mode
+if (SAPI_CLI && ini_get('register_argc_argv') == 'Off') {
+    fatal(
+        "Eventum requires the ini setting register_argc_argv to be enabled to run this script.",
+        "Please refer to the PHP manual for more details on how to change this ini setting."
+    );
 }
+
+$config = getParams();
 
 // check for the required parameters
-if (($fix_lock != true) && ((empty($username)) || (empty($hostname)))) {
-    if ($type == 'cli') {
-        echo "Error: Wrong number of parameters given. Expected parameters related to the email account:\n";
-        echo " 1 - username\n";
-        echo " 2 - hostname\n";
-        echo " 3 - mailbox (only required if IMAP account)\n";
-        echo "Example: php download_emails.php user example.com INBOX\n";
+if (!$config['fix-lock'] && (empty($config['username']) || empty($config['hostname']))) {
+    if (SAPI_CLI) {
+        fatal(
+            "Wrong number of parameters given. Expected parameters related to the email account:",
+            " 1 - username",
+            " 2 - hostname",
+            " 3 - mailbox (only required if IMAP account)",
+            "Example: php download_emails.php user example.com INBOX"
+        );
     } else {
-        echo "Error: Wrong number of parameters given. Expected parameters related to email account:<br />\n";
-        echo "download_emails.php?username=<i>username</i>&hostname=<i>hostname</i>&mailbox=<i>mailbox</i><br />";
+        fatal(
+            "Wrong number of parameters given. Expected parameters related to email account:",
+            "download_emails.php?username=<i>username</i>&hostname=<i>hostname</i>&mailbox=<i>mailbox</i>"
+        );
     }
-    exit;
 }
 
-// get the account ID since we need it for locking.
-$account_id = Email_Account::getAccountID($username, $hostname, $mailbox);
-if (($account_id == 0) && ($fix_lock != true)) {
-    echo "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again.\n";
-    exit;
+// get the account ID early since we need it also for unlocking.
+$account_id = Email_Account::getAccountID($config['username'], $config['hostname'], $config['mailbox']);
+if (!$account_id && !$config['fix-lock']) {
+    fatal(
+        "Could not find a email account with the parameter provided.",
+        "Please verify your email account settings and try again."
+    );
 }
 
-if ($fix_lock == true) {
+if ($config['fix-lock']) {
     // if there is no account id, unlock all accounts
-    if (empty($account_id)) {
+    if (!$account_id) {
         $prj_ids = array_keys(Project::getAll());
         foreach ($prj_ids as $prj_id) {
             $ema_ids = Email_Account::getAssocList($prj_id);
             foreach ($ema_ids as $ema_id => $ema_title) {
-                Lock::release('download_emails_' . $ema_id);
+                $lockfile = 'download_emails_' . $ema_id;
+                Lock::release($lockfile);
+                msg("Removed lock file '$lockfile'.");
             }
         }
     } else {
-        Lock::release('download_emails_' . $account_id);
+        $lockfile = 'download_emails_' . $account_id;
+        Lock::release($lockfile);
+        msg("Removed lock file '$lockfile'.");
     }
-    echo "The lock file was removed successfully.\n";
-    exit;
+    exit(0);
 }
 
 // check if there is another instance of this script already running
 if (!Lock::acquire('download_emails_' . $account_id)) {
-    if ($type == 'cli') {
-        echo "Error: Another instance of the script is still running for the specified account. " .
-                    "If this is not accurate, you may fix it by running this script with '--fix-lock' " .
-                    "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock' " .
-                    "as the only parameter.\n";
+    if (SAPI_CLI) {
+        fatal(
+            "Another instance of the script is still running for the specified account.",
+            "If this is not accurate, you may fix it by running this script with '--fix-lock'",
+            "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock'",
+            "as the only parameter."
+        );
     } else {
-        echo "Error: Another instance of the script is still running for the specified account. " .
-                    "If this is not accurate, you may fix it by running this script with 'fix-lock=1' " .
-                    "in the query string or you may unlock ALL accounts by running this script with 'fix-lock=1' " .
-                    "as the only parameter.<br />\n";
+        fatal(
+            "Another instance of the script is still running for the specified account. ",
+            "If this is not accurate, you may fix it by running this script with 'fix-lock=1'",
+            "in the query string or you may unlock ALL accounts by running this script with 'fix-lock=1'",
+            "as the only parameter."
+        );
     }
     exit;
 }
@@ -130,9 +215,8 @@ if (!Lock::acquire('download_emails_' . $account_id)) {
 $account = Email_Account::getDetails($account_id);
 $mbox = Support::connectEmailServer($account);
 if ($mbox == false) {
-    echo "Error: Could not connect to the email server. Please verify your email account settings and try again.\n";
     Lock::release('download_emails_' . $account_id);
-    exit;
+    fatal("Could not connect to the email server. Please verify your email account settings and try again.");
 }
 
 $total_emails = Support::getTotalEmails($mbox);
