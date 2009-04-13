@@ -26,16 +26,19 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.date_helper.php 3868 2009-03-30 00:22:35Z glen $
+// @(#) $Id: class.date_helper.php 3873 2009-04-13 21:25:59Z glen $
 //
 
 // this line needed to make sure PEAR knows all eventum dates are stored as UTC (GMT).
-$_DATE_TIMEZONE_DEFAULT = 'UTC';
+$GLOBALS['_DATE_TIMEZONE_DEFAULT'] = 'UTC';
 
 require_once(APP_PEAR_PATH . "Date.php");
 
 if (!defined('APP_DEFAULT_TIMEZONE')) {
     define('APP_DEFAULT_TIMEZONE', 'UTC');
+}
+if (!defined('APP_DEFAULT_WEEKDAY')) {
+    define('APP_DEFAULT_WEEKDAY', 0);
 }
 define("SECOND", 1);
 define("MINUTE", SECOND * 60);
@@ -354,6 +357,17 @@ class Date_Helper
     function getDefaultTimezone()
     {
         return APP_DEFAULT_TIMEZONE;
+    }
+
+    /**
+     * Method used to get the default start of week day.
+     *
+     * @access  public
+     * @return  integer 0 - Sunday, 1 - Monday
+     */
+    function getDefaultWeekday()
+    {
+        return APP_DEFAULT_WEEKDAY;
     }
 
 

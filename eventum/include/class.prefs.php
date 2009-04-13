@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.prefs.php 3868 2009-03-30 00:22:35Z glen $
+// @(#) $Id: class.prefs.php 3873 2009-04-13 21:25:59Z glen $
 //
 
 
@@ -45,25 +45,29 @@ class Prefs
      *
      * @access  public
      * @param   array $projects An array of projects this user will have access too.
-     * @return  string The serialized array of the default preferences
+     * @return  string array of the default preferences
      */
-    function getDefaults($projects)
+    public function getDefaults($projects = null)
     {
         $prefs = array(
             'receive_assigned_emails' => array(),
             'receive_new_emails'      => array(),
             'timezone'                => Date_Helper::getDefaultTimezone(),
+            'week_firstday'           => Date_Helper::getDefaultWeekday(),
             'list_refresh_rate'       => APP_DEFAULT_REFRESH_RATE,
             'emails_refresh_rate'     => APP_DEFAULT_REFRESH_RATE,
             'email_signature'         => '',
             'auto_append_sig'         => 'no',
-            'auto_append_note_sig'    => 'no'
+            'auto_append_note_sig'    => 'no',
         );
-        foreach ($projects as $prj_id) {
-            $prefs['receive_assigned_emails'][$prj_id] = APP_DEFAULT_ASSIGNED_EMAILS;
-            $prefs['receive_new_emails'][$prj_id] = APP_DEFAULT_NEW_EMAILS;
+
+        if (is_array($projects)) {
+            foreach ($projects as $prj_id) {
+                $prefs['receive_assigned_emails'][$prj_id] = APP_DEFAULT_ASSIGNED_EMAILS;
+                $prefs['receive_new_emails'][$prj_id] = APP_DEFAULT_NEW_EMAILS;
+            }
         }
-        return serialize($prefs);
+        return $prefs;
     }
 
 
@@ -74,7 +78,7 @@ class Prefs
      * @param   integer $usr_id The user ID
      * @return  array The preferences
      */
-    function get($usr_id)
+    public function get($usr_id)
     {
         static $returns;
 
@@ -93,19 +97,24 @@ class Prefs
         $res = DB_Helper::getInstance()->getOne($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            $res = @unserialize($res);
-            // check for the refresh rate variables, and use the default values if appropriate
-            if (empty($res['list_refresh_rate'])) {
-                $res['list_refresh_rate'] = APP_DEFAULT_REFRESH_RATE;
-            }
-            if (empty($res['emails_refresh_rate'])) {
-                $res['emails_refresh_rate'] = APP_DEFAULT_REFRESH_RATE;
-            }
-            $returns[$usr_id] = $res;
-            return $returns[$usr_id];
+            return null;
         }
+
+        if ($res) {
+            // for empty row there's nothing to unserialize
+            $res = unserialize($res);
+        }
+
+        // merge fetched user prefs with system defaults
+        $defaults = self::getDefaults();
+        if (empty($res)) {
+            // array_merge wants arguments as arrays
+            $res = array();
+        }
+        $res = array_merge($defaults, $res);
+
+        // cache and return
+        return $returns[$usr_id] = $res;
     }
 
 
@@ -116,7 +125,7 @@ class Prefs
      * @param   integer $usr_id The user ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function set($usr_id)
+    public function set($usr_id)
     {
         // if the user is trying to upload a new signature, override any changes to the textarea
         if (!empty($_FILES["file_signature"]["name"])) {

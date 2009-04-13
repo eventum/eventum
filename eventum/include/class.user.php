@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3868 2009-03-30 00:22:35Z glen $
+// @(#) $Id: class.user.php 3873 2009-04-13 21:25:59Z glen $
 //
 
 
@@ -312,7 +312,7 @@ class User
         if (Auth::userExists($_POST["email"])) {
             return -2;
         }
-        $prefs = Prefs::getDefaults($projects);
+        $prefs = serialize(Prefs::getDefaults($projects));
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
@@ -1087,7 +1087,7 @@ class User
             }
             $projects[] = $prj_id;
         }
-        $prefs = Prefs::getDefaults($projects);
+        $prefs = serialize(Prefs::getDefaults($projects));
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "user
                  (
