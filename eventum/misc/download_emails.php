@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: download_emails.php 3823 2009-02-10 06:46:03Z glen $
+// @(#) $Id: download_emails.php 3871 2009-04-13 20:06:55Z glen $
 
 ini_set("memory_limit", "256M");
 
@@ -71,7 +71,6 @@ if (isset($_SERVER['HTTP_HOST'])) {
     $hostname = @$argv[2];
     $mailbox = @$argv[3];
 }
-
 
 // check for the required parameters
 if (($fix_lock != true) && ((empty($username)) || (empty($hostname)))) {
@@ -134,17 +133,17 @@ if ($mbox == false) {
     echo "Error: Could not connect to the email server. Please verify your email account settings and try again.\n";
     Lock::release('download_emails_' . $account_id);
     exit;
-} else {
-    $total_emails = Support::getTotalEmails($mbox);
-
-    if ($total_emails > 0) {
-        for ($i = 1; $i <= $total_emails; $i++) {
-            Support::getEmailInfo($mbox, $account, $i);
-        }
-    }
-    imap_expunge($mbox);
-    Support::clearErrors();
 }
+
+$total_emails = Support::getTotalEmails($mbox);
+
+if ($total_emails > 0) {
+    for ($i = 1; $i <= $total_emails; $i++) {
+        Support::getEmailInfo($mbox, $account, $i);
+    }
+}
+imap_expunge($mbox);
+Support::clearErrors();
 
 // clear the lock
 Lock::release('download_emails_' . $account_id);
