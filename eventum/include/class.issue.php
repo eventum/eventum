@@ -701,8 +701,10 @@ class Issue
                     iss_summary,
                     sta_title
                  FROM
+                    (
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "status
+                    )
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
                  ON
@@ -3513,7 +3515,7 @@ class Issue
 
         $items = Misc::escapeInteger($_POST['item']);
         $new_status_id = Misc::escapeInteger($_POST['status']);
-        $new_release_id = Misc::escapeInteger($_POST['release']);
+        $new_release_id = Misc::escapeInteger(@$_POST['release']);
         $new_priority_id = Misc::escapeInteger($_POST['priority']);
         $new_category_id = Misc::escapeInteger($_POST['category']);
 

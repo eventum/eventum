@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: xmlrpc.php 3868 2009-03-30 00:22:35Z glen $
+// @(#) $Id: xmlrpc.php 3874 2009-04-15 14:51:08Z balsdorf $
 //
 require_once(dirname(__FILE__) . "/../init.php");
 error_reporting(0);
@@ -107,13 +107,14 @@ function getOpenIssues($p)
         return $auth;
     }
     $prj_id = XML_RPC_decode($p->getParam(2));
+    createFakeCookie($prj_id);
     $show_all_issues = XML_RPC_decode($p->getParam(3));
     $status = XML_RPC_decode($p->getParam(4));
     $status_id = Status::getStatusID($status);
     $usr_id = User::getUserIDByEmail($email);
 
     $res = Issue::getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id);
-    
+
     if (empty($res)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "There are currently no open issues");
     } else {
@@ -183,7 +184,7 @@ function getIssueDetails($p)
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
     createFakeCookie($email, Issue::getProjectID($issue_id));
-    
+
     $res = Issue::getDetails($issue_id);
     foreach ($res as $k => $v) {
         $res[$k] = base64_encode($v);
@@ -311,15 +312,15 @@ function takeIssue($p)
     if (count($current_assignees) > 0) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Issue is currently assigned to " . join(',', $current_assignees));
     }
-    
+
     $usr_id = User::getUserIDByEmail($email);
-    
+
     // check if the assignee is even allowed to be in the given project
     $projects = Project::getRemoteAssocListByUser($usr_id);
     if (!in_array($project_id, array_keys($projects))) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The selected developer is not permitted in the project associated with issue #$issue_id");
     }
-    
+
     $res = Issue::remoteAssign($issue_id, $usr_id, $usr_id);
     if ($res == -1) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not assign issue #$issue_id to $email");
@@ -344,10 +345,10 @@ function addAuthorizedReplier($p)
     $issue_id = XML_RPC_decode($p->getParam(2));
     $project_id = XML_RPC_decode($p->getParam(3));
     $new_replier = XML_RPC_decode($p->getParam(4));
-    
+
     $usr_id = User::getUserIDByEmail($email);
     $replier_usr_id = User::getUserIDByEmail($new_replier);
-    
+
     // if this is an actual user, not just an email address check permissions
     if (!empty($replier_usr_id)) {
         // check if the assignee is even allowed to be in the given project
@@ -356,12 +357,12 @@ function addAuthorizedReplier($p)
             return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The given user is not permitted in the project associated with issue #$issue_id");
         }
     }
-    
+
     // check if user is already authorized
     if (Authorized_Replier::isAuthorizedReplier($issue_id, $new_replier)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "The given user is already an authorized replier on issue #$issue_id");
     }
-    
+
     $res = Authorized_Replier::remoteAddAuthorizedReplier($issue_id, $usr_id, $new_replier);
     if ($res == -1) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Could not add '$new_replier' as an authorized replier to issue #$issue_id");
@@ -427,7 +428,7 @@ function lookupCustomer($p)
     if (!in_array($field, $possible_fields)) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Unknown field type '$field'");
     }
-    
+
     $usr_id = User::getUserIDByEmail($email);
     // only customers should be able to use this page
     $role_id = User::getRoleByUser($usr_id, $prj_id);
@@ -455,7 +456,7 @@ function closeIssue($p)
     $resolution_id = XML_RPC_decode($p->getParam(4));
     $send_notification = XML_RPC_decode($p->getParam(5));
     $note = XML_RPC_decode($p->getParam(6));
-    
+
     createFakeCookie($email, Issue::getProjectID($issue_id));
 
     $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
@@ -584,7 +585,7 @@ function getNote($p)
     $issue_id = XML_RPC_decode($p->getParam(2));
     $note_id = XML_RPC_decode($p->getParam(3));
     $note = Note::getNoteBySequence($issue_id, $note_id);
-    
+
     if ((count($note) < 1) || (!is_array($note))) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Note #" . $note_id . " does not exist for issue #$issue_id");
     }
@@ -608,7 +609,7 @@ function convertNote($p)
     $note_id = XML_RPC_decode($p->getParam(3));
     $target = XML_RPC_decode($p->getParam(4));
     $authorize_sender = XML_RPC_decode($p->getParam(5));
-    
+
     createFakeCookie($email, Issue::getProjectID($issue_id));
     $res = Note::convertNote($note_id, $target, $authorize_sender);
     if ($res) {
@@ -655,11 +656,11 @@ function getWeeklyReport($p)
     $start = XML_RPC_decode($p->getParam(3));
     $end = XML_RPC_decode($p->getParam(4));
     $separate_closed = XML_RPC_decode($p->getParam(5));
-    
+
     // we have to set a project so the template class works, even though the weekly report doesn't actually need it
     $projects = Project::getAssocList(Auth::getUserID());
     createFakeCookie($email, current(array_keys($projects)));
-    
+
     // figure out the correct week
     if ((empty($start)) || (empty($end))) {
         $start = date("U") - (DAY * (date("w") - 1));
@@ -669,7 +670,7 @@ function getWeeklyReport($p)
         $end = date("Y-m-d", ($start + (DAY * 6)));
         $start = date("Y-m-d", $start);
     }
-    
+
     if ($separate_closed) {
         // emulate smarty value for reports/weekly_data.tpl.tmpl:
         // {if $smarty.post.separate_closed == 1}
@@ -678,7 +679,7 @@ function getWeeklyReport($p)
     $tpl = new Template_Helper();
     $tpl->setTemplate("reports/weekly_data.tpl.html");
     $tpl->assign("data", Report::getWeeklyReport(User::getUserIDByEmail($email), $start, $end, $separate_closed));
-    
+
     $ret = $tpl->getTemplateContents(). "\n";
     return new XML_RPC_Response(XML_RPC_Encode(base64_encode($ret)));
 }
@@ -701,7 +702,7 @@ function timeClock($p)
         return $auth;
     }
     $action = XML_RPC_decode($p->getParam(2));
-    
+
     if ($action == "in") {
         $res = User::clockIn(User::getUserIDByEmail($email));
     } elseif ($action == "out") {
@@ -714,7 +715,7 @@ function timeClock($p)
         }
         return new XML_RPC_Response(XML_RPC_Encode("$email " . $msg . ".\n"));
     }
-    
+
     if ($res == 1) {
         return new XML_RPC_Response(XML_RPC_Encode("$email successfully clocked " . $action . ".\n"));
     } else {
@@ -733,7 +734,7 @@ function getDraftListing($p)
         return $auth;
     }
     $issue_id = XML_RPC_decode($p->getParam(2));
-    
+
     $drafts = Draft::getList($issue_id);
 
     // since xml-rpc has issues, lets base64 encode everything
@@ -757,7 +758,7 @@ function getDraft($p)
     $issue_id = XML_RPC_decode($p->getParam(2));
     $draft_id = XML_RPC_decode($p->getParam(3));
     $draft = Draft::getDraftBySequence($issue_id, $draft_id);
-    
+
     if ((count($draft) < 1) || (!is_array($draft))) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Draft #" . $draft_id . " does not exist for issue #$issue_id");
     }
@@ -785,7 +786,7 @@ function sendDraft($p)
     $draft_id = XML_RPC_decode($p->getParam(3));
     $draft = Draft::getDraftBySequence($issue_id, $draft_id);
     createFakeCookie($email, Issue::getProjectID($issue_id));
-    
+
     if ((count($draft) < 1) || (!is_array($draft))) {
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Draft #" . $draft_id . " does not exist for issue #$issue_id");
     }
@@ -812,9 +813,9 @@ function redeemIssue($p)
     $prj_id = Issue::getProjectID($issue_id);
     createFakeCookie($email, $prj_id);
     $customer_id = Issue::getCustomerID($issue_id);
-    
+
     $all_types = Customer::getIncidentTypes($prj_id);
-    
+
     if (!Customer::hasCustomerIntegration($prj_id)) {
         // no customer integration
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
@@ -831,7 +832,7 @@ function redeemIssue($p)
             }
         }
     }
-    
+
     foreach ($types as $type_id) {
         $res = Customer::flagIncident($prj_id, $issue_id, $type_id);
         if ($res == -1) {
@@ -855,9 +856,9 @@ function unredeemIssue($p)
 
     $prj_id = Issue::getProjectID($issue_id);
     createFakeCookie($email, $prj_id);
-    
+
     $customer_id = Issue::getCustomerID($issue_id);
-    
+
     if (!Customer::hasCustomerIntegration($prj_id)) {
         // no customer integration
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
@@ -872,7 +873,7 @@ function unredeemIssue($p)
             }
         }
     }
-    
+
     foreach ($types as $type_id) {
         $res = Customer::unflagIncident($prj_id, $issue_id, $type_id);
         if ($res == -1) {
@@ -897,7 +898,7 @@ function getIncidentTypes($p)
     $prj_id = Issue::getProjectID($issue_id);
     createFakeCookie($email, $prj_id);
     $customer_id = Issue::getCustomerID($issue_id);
-    
+
     if (!Customer::hasCustomerIntegration($prj_id)) {
         // no customer integration
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "No customer integration for issue #$issue_id");
@@ -905,16 +906,16 @@ function getIncidentTypes($p)
         // check if is per incident contract
         return new XML_RPC_Response(0, $XML_RPC_erruser+1, "Customer for issue #$issue_id does not have a per-incident contract");
     }
-    
+
     $details = Customer::getDetails($prj_id, $customer_id);
-    
+
     foreach ($details['incident_details'] as $type_id => $type_details) {
         $is_redeemed = Customer::isRedeemedIncident($prj_id, $issue_id, $type_id);
         if ((($redeemed_only) && (!$is_redeemed)) || ((!$redeemed_only) && ($is_redeemed))) {
             unset($details['incident_details'][$type_id]);
         }
     }
-    
+
     return new XML_RPC_Response(XML_RPC_Encode($details['incident_details']));
 }
 
@@ -928,13 +929,13 @@ function logCommand($p)
         return $auth;
     }
     $command = base64_decode(XML_RPC_decode($p->getParam(2)));
-    
+
     $msg = $email . "\t" . $command . "\n";
-    
+
     $fp = @fopen(APP_CLI_LOG, "a");
     @fwrite($fp, $msg);
     @fclose($fp);
-    
+
     return new XML_RPC_Response(XML_RPC_Encode('OK'));
 }
 

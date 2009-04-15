@@ -18,7 +18,9 @@ Eventum Issue Tracking System
 - Add Download Raw Email support to email view (Elan Ruusamäe)
 - Fixed bug with upgrade process if short_tags is disabled. Fixed #42718 (Bryan)
 - Allow using download_emails.php for routing and issue creation for same IMAP account (Elan Ruusamäe)
+- Fixed problem with manage groups page in IE7 (Bryan)
 - When loading user preferences always merge them with system defaults (Elan Ruusamäe)
+- Fixed problem with CLI open-issues. Fixed #44238 (Bryan)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
