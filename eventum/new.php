@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: new.php 3875 2009-05-11 17:04:05Z rlambe $
+// @(#) $Id: new.php 3876 2009-05-11 23:12:23Z glen $
 
 require_once(dirname(__FILE__) . "/init.php");
 
@@ -41,7 +41,7 @@ $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
 // If the project has changed since the new issue form was requested, then change it back
-$issue_prj_id = (isset($_REQUEST['prj_id'])) ? intval($_REQUEST['prj_id']) : 0;
+$issue_prj_id = !empty($_REQUEST['prj_id']) ? (int )$_REQUEST['prj_id'] : 0;
 if (($issue_prj_id > 0) && ($issue_prj_id != $prj_id)) {
     // Switch the project back
     $assigned_projects = Project::getAssocList($usr_id);
