@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: new.php 3868 2009-03-30 00:22:35Z glen $
+// @(#) $Id: new.php 3875 2009-05-11 17:04:05Z rlambe $
 
 require_once(dirname(__FILE__) . "/init.php");
 
@@ -39,6 +39,20 @@ if (Auth::getCurrentRole() < User::getRoleID("Reporter")) {
 }
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
+
+// If the project has changed since the new issue form was requested, then change it back
+$issue_prj_id = (isset($_REQUEST['prj_id'])) ? intval($_REQUEST['prj_id']) : 0;
+if (($issue_prj_id > 0) && ($issue_prj_id != $prj_id)) {
+    // Switch the project back
+    $assigned_projects = Project::getAssocList($usr_id);
+    if (isset($assigned_projects[$issue_prj_id])) {
+        $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+        Auth::setCurrentProject($issue_prj_id, $cookie["remember"]);
+        $prj_id = $issue_prj_id;
+    } else {
+        $tpl->assign("error_msg", "1");
+    }
+}
 
 if (Customer::hasCustomerIntegration($prj_id)) {
     if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
