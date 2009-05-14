@@ -59,9 +59,19 @@ define('APP_DEFAULT_PAGER_SIZE', 5);
 define('APP_DEFAULT_REFRESH_RATE', 5); // in minutes
 
 // new users will use these for default preferences
-define('APP_DEFAULT_ASSIGNED_EMAILS', 1);// if the user will recieve an email when an issue is assigned to him
-define('APP_DEFAULT_NEW_EMAILS', 0);// if the user will recieve an email when ANY issue is created
+// if the user will recieve an email when an issue is assigned to him
+define('APP_DEFAULT_ASSIGNED_EMAILS', true);
+// if the user will recieve an email when ANY issue is created
+define('APP_DEFAULT_NEW_EMAILS', false);
+// locale used for localized messages
+define('APP_DEFAULT_LOCALE', 'en_US');
+// timezone for displayed times in web and emails
+define('APP_DEFAULT_TIMEZONE', 'Europe/Tallinn');
+// default day of week start: 0 = sunday; 1 = monday
+define('APP_DEFAULT_WEEKDAY', 1);
 
+// application charset, there is no good reason to use anything else than utf8,
+// unless you use really old mysql which doesn't support charsets
 define('APP_CHARSET', '%{CHARSET}%');
 
 // define colors used by eventum
@@ -80,8 +90,6 @@ define('APP_HASH_TYPE', 'MD5');
 
 // if full text searching is enabled
 define('APP_ENABLE_FULLTEXT', '%{APP_ENABLE_FULLTEXT}%');
-
-define('APP_DEFAULT_LOCALE', 'en_US');
 
 // 'native' or 'php'. Try native first, if you experience strange issues
 // such as language switching randomly, try php
