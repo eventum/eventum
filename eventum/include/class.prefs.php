@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.prefs.php 3873 2009-04-13 21:25:59Z glen $
+// @(#) $Id: class.prefs.php 3880 2009-05-14 17:38:32Z glen $
 //
 
 
@@ -105,8 +105,14 @@ class Prefs
             $res = unserialize($res);
         }
 
+        // get projects list for user
+        $projects = array();
+        foreach (Project::getAssocList($usr_id) as $prj_id => $prj_title) {
+            $projects[] = $prj_id;
+        }
+
         // merge fetched user prefs with system defaults
-        $defaults = self::getDefaults();
+        $defaults = self::getDefaults($projects);
         if (empty($res)) {
             // array_merge wants arguments as arrays
             $res = array();
