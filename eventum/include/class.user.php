@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.user.php 3873 2009-04-13 21:25:59Z glen $
+// @(#) $Id: class.user.php 3878 2009-05-14 17:04:26Z glen $
 //
 
 
@@ -684,15 +684,19 @@ class User
         $res = DB_Helper::getInstance()->getRow($stmt, DB_FETCHMODE_ASSOC);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-            return "";
-        } else {
-            $roles =  Project::getAssocList($usr_id, false, true);
-            $res["projects"] = @array_keys($roles);
-            $res["roles"] = $roles;
-            $res['group'] = Group::getName($res['usr_grp_id']);
-            $returns[$usr_id] = $res;
-            return $res;
+            return null;
         }
+
+        // do not fill empty projects, roles, groups for inexistent users
+        if (!empty($res)) {
+            $roles =  Project::getAssocList($usr_id, false, true);
+            $res['projects'] = @array_keys($roles);
+            $res['roles'] = $roles;
+            $res['group'] = Group::getName($res['usr_grp_id']);
+        }
+
+        $returns[$usr_id] = $res;
+        return $res;
     }
 
 
