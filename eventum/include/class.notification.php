@@ -902,7 +902,8 @@ class Notification
         ));
 
         $setup = Setup::load();
-        $final_type = $type;
+        // type of notification is sent out: email, note, blocked_email
+        $notify_type = $type;
         $sender_usr_id = false;
         $threading_headers = Mail_Helper::getBaseThreadingHeaders($issue_id);
         $emails = array_unique($emails);
@@ -953,7 +954,7 @@ class Notification
                 // special handling of blocked messages
                 if ($data['note']['not_is_blocked'] == 1) {
                     $subject = ev_gettext('BLOCKED');
-                    $final_type = 'blocked_email';
+                    $notify_type = 'blocked_email';
                 }
                 if (!empty($data["note"]["not_unknown_user"])) {
                     $sender = $data["note"]["not_unknown_user"];
@@ -965,12 +966,7 @@ class Notification
                     $sender_usr_id = false;
                 }
 
-                $from = Notification::getFixedFromHeader($issue_id, $sender, 'note');
-            } else {
-                $from = Notification::getFixedFromHeader($issue_id, '', 'issue');
-            }
-            // show the title of the note, not the issue summary
-            if ($type == 'notes') {
+                // show the title of the note, not the issue summary
                 $extra_subject = $data['note']['not_title'];
                 // don't add the "[#3333] Note: " prefix to messages that already have that in the subject line
                 if (strstr($extra_subject, "[#$issue_id] $subject: ")) {
@@ -985,7 +981,19 @@ class Notification
                 $extra_subject = $data['iss_summary'];
                 $full_subject = "[#$issue_id] $subject: $extra_subject";
             }
-            $mail->send($from, $emails[$i], $full_subject, TRUE, $issue_id, $final_type, $sender_usr_id, $type_id);
+
+            if ($type == 'updated') {
+                $notify_type = 'notes';
+                $sender_usr_id = Auth::getUserID();
+                $sender = User::getEmail($sender_usr_id);
+            }
+
+            if ($notify_type == 'notes' && $sender) {
+                $from = Notification::getFixedFromHeader($issue_id, $sender, 'note');
+            } else {
+                $from = Notification::getFixedFromHeader($issue_id, '', 'issue');
+            }
+            $mail->send($from, $emails[$i], $full_subject, TRUE, $issue_id, $notify_type, $sender_usr_id, $type_id);
 
             $_EVENTUM_LAST_NOTIFIED_LIST[$issue_id][] = $emails[$i];
         }
