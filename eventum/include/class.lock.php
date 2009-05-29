@@ -26,7 +26,7 @@
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
-// @(#) $Id: class.lock.php 3822 2009-02-10 06:35:01Z glen $
+// @(#) $Id: class.lock.php 3881 2009-05-29 09:21:05Z glen $
 //
 
 
@@ -44,15 +44,15 @@ class Lock
         $pid = Lock::getProcessID($name);
         if (!empty($pid)) {
             return false;
-        } else {
-            // create the pid file
-            $fp = @fopen(Lock::_getProcessFilename($name), 'w');
-            @flock($fp, LOCK_EX);
-            @fwrite($fp, getmypid());
-            @flock($fp, LOCK_UN);
-            @fclose($fp);
-            return true;
         }
+
+        // create the pid file
+        $fp = fopen(Lock::_getProcessFilename($name), 'w');
+        flock($fp, LOCK_EX);
+        fwrite($fp, getmypid());
+        flock($fp, LOCK_UN);
+        fclose($fp);
+        return true;
     }
 
 
