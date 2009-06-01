@@ -982,12 +982,6 @@ class Notification
                 $full_subject = "[#$issue_id] $subject: $extra_subject";
             }
 
-            if ($type == 'updated') {
-                $notify_type = 'notes';
-                $sender_usr_id = Auth::getUserID();
-                $sender = User::getEmail($sender_usr_id);
-            }
-
             if ($notify_type == 'notes' && $sender) {
                 $from = Notification::getFixedFromHeader($issue_id, $sender, 'note');
             } else {

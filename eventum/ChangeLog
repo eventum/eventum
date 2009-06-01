@@ -21,7 +21,6 @@ Eventum Issue Tracking System
 - Fixed problem with manage groups page in IE7 (Bryan)
 - When loading user preferences always merge them with system defaults (Elan Ruusamäe)
 - Fixed problem with CLI open-issues. Fixed #44238 (Bryan)
-- Send issue updated emails as note from user who updated issue (Elan Ruusamäe)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
