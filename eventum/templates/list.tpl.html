@@ -8,8 +8,8 @@
 <script language="JavaScript">
 <!--
 var page_url = '{$smarty.server.PHP_SELF}';
-var current_page = '{$list_info.current_page}';
-var last_page = '{$list_info.last_page}';
+var current_page = {if $list_info.current_page == ''}0{else}{$list_info.current_page}{/if};
+var last_page = {if $list_info.last_page == ''}0{else}{$list_info.last_page}{/if};
 {literal}
 // this function will display the bulk update form if any issues are selected.
 // if no issues are selected it will be hidden.
