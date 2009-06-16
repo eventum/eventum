@@ -33,6 +33,11 @@ require_once(dirname(__FILE__) . "/init.php");
 $tpl = new Template_Helper();
 $tpl->setTemplate("signup.tpl.html");
 
+// log anonymous users out so they can use the signup form
+if (Auth::hasValidCookie(APP_COOKIE) && Auth::isAnonUser()) {
+    Auth::logout();
+}
+
 if (@$_POST['cat'] == 'signup') {
     $setup = Setup::load();
     $res = User::createVisitorAccount($setup['accounts_role'], $setup['accounts_projects']);

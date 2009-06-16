@@ -108,7 +108,13 @@ class Auth
         }
         $failed_url .= "&url=" . Auth::getRequestedURL();
         if (!isset($_COOKIE[$cookie_name])) {
-            Auth::redirect($failed_url, $is_popup);
+        	if (defined('APP_ANON_USER')) {
+	            Auth::createFakeCookie(User::getUserIDByEmail(APP_ANON_USER));
+	            Auth::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+	            Session::init(User::getUserIDByEmail(APP_ANON_USER));
+        	} else {
+        		Auth::redirect($failed_url, $is_popup);
+        	}
         }
         $cookie = $_COOKIE[$cookie_name];
         $cookie = unserialize(base64_decode($cookie));
@@ -160,6 +166,23 @@ class Auth
         // renew the project cookie as well
         $prj_cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
         Auth::setCurrentProject($prj_id, $prj_cookie["remember"]);
+    }
+
+
+    /**
+     * Method for logging out the currently logged in user.
+     *
+     * @access  public
+     * @returns void
+     */
+    function logout()
+    {
+        Auth::removeCookie(APP_COOKIE);
+        // if 'remember projects' is true don't remove project cookie
+        $project_cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+        if (empty($project_cookie['remember'])) {
+            Auth::removeCookie(APP_PROJECT_COOKIE);
+        }
     }
 
 
@@ -234,6 +257,18 @@ class Auth
         } else {
             return true;
         }
+    }
+
+
+    /**
+     * Method to check if the current user is an anonymous user.
+     *
+     * @access  public
+     * @return  boolean
+     */
+    function isAnonUser()
+    {
+        return Auth::getUserID() == User::getUserIDByEmail(APP_ANON_USER);
     }
 
 
@@ -424,7 +459,7 @@ class Auth
             return isset($cookie['prj_id']) ? (int )$cookie['prj_id'] : null;
         }
         if (!in_array($cookie["prj_id"], array_keys($projects))) {
-            Auth::redirect(APP_RELATIVE_URL . "select_project.php?err=1");
+            Auth::redirect(APP_RELATIVE_URL . "select_project.php");
         }
         return $cookie["prj_id"];
     }

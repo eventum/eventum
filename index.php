@@ -40,7 +40,12 @@ if (!Misc::isWritableDirectory(APP_TPL_COMPILE_PATH)) {
 $tpl = new Template_Helper();
 $tpl->setTemplate("index.tpl.html");
 
-if (Auth::hasValidCookie(APP_COOKIE)) {
+// log anonymous users out so they can use the login form
+if (Auth::hasValidCookie(APP_COOKIE) && Auth::isAnonUser()) {
+    Auth::logout();
+}
+
+if (Auth::hasValidCookie(APP_COOKIE) && !Auth::isAnonUser()) {
     $cookie = Auth::getCookieInfo(APP_COOKIE);
     if (!empty($_REQUEST["url"])) {
         $extra = '?url=' . $_REQUEST["url"];

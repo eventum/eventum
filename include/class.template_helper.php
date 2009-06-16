@@ -172,6 +172,7 @@ class Template_Helper
             $this->assign("current_email", $info["usr_email"]);
             $this->assign("current_user_id", $usr_id);
             $this->assign("is_current_user_clocked_in", User::isClockedIn($usr_id));
+            $this->assign("is_anon_user", Auth::isAnonUser());
             $this->assign("roles", User::getAssocRoleIDs());
         }
         $this->assign('app_path', APP_PATH);

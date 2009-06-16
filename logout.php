@@ -30,11 +30,6 @@
 
 require_once(dirname(__FILE__) . "/init.php");
 
-Auth::removeCookie(APP_COOKIE);
+Auth::logout();
 
-// if 'remember projects' is true don't remove project cookie
-$project_cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-if (empty($project_cookie['remember'])) {
-    Auth::removeCookie(APP_PROJECT_COOKIE);
-}
 Auth::redirect(APP_RELATIVE_URL . "index.php?err=6");

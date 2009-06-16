@@ -47,6 +47,10 @@ $tpl->setTemplate("preferences.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE);
 
+if (Auth::isAnonUser()) {
+    Auth::redirect("index.php");
+}
+
 $usr_id = Auth::getUserID();
 
 if (@$_POST["cat"] == "update_account") {

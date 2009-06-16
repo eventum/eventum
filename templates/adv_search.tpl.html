@@ -302,6 +302,7 @@ function disableCustomFields(disable)
             </select>
           </td>
         </tr>
+	{if !$is_anon_user}
         <tr>
           <td colspan="5">
             <table width="100%" cellspacing="0" border="0" cellpadding="0">
@@ -319,6 +320,7 @@ function disableCustomFields(disable)
             </table>
           </td>
         </tr>
+	{/if}
         <tr>
           <td colspan="5">
           <hr>
@@ -609,6 +611,7 @@ function disableCustomFields(disable)
             <input class="button" type="reset" value="{t}Reset{/t}">
           </td>
         </tr>
+	{if !$is_anon_user}
         <tr>
           <td colspan="5" align="center" bgcolor="{$light_color}">
             <span class="default">{t}Search Title{/t}:</span>
@@ -625,6 +628,7 @@ function disableCustomFields(disable)
             <input class="button" type="button" value="{t}Save Search{/t}" onClick="javascript:saveCustomFilter(this.form);">
           </td>
         </tr>
+	{/if}
         </form>
       </table>
     </td>
@@ -633,6 +637,7 @@ function disableCustomFields(disable)
     </td>
   </tr>
 </table>
+{if !$is_anon_user}
 <br />
 <table width="450" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
@@ -692,6 +697,7 @@ function disableCustomFields(disable)
     </td>
   </tr>
 </table>
+{/if}
 
 <script language="JavaScript">
 <!--
