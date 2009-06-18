@@ -1,3 +1,16 @@
 * API cleanups:
 
 * Check compatability PEAR Date 1.5.0 (I recall it being broken)
+
+* Manage Statuses is silly, if you update one status it deletes all entries for
+  that prs_sta_id and reinserts everything again except the one you perhaps removed:
+
+UPDATE eventum.eventum_status SET sta_title='discovery', sta_abbreviation='DSC', sta_rank=1, sta_color='#cc9966', sta_is_closed=0 WHERE sta_id=1
+SELECT prj_id, prj_title FROM eventum.eventum_project, eventum.eventum_project_status WHERE prj_id=prs_prj_id AND prs_sta_id=1
+DELETE FROM eventum.eventum_project_status WHERE prs_sta_id IN (1)
+INSERT INTO eventum.eventum_project_status ( prs_sta_id, prs_prj_id) VALUES ( 1, 5)
+INSERT INTO eventum.eventum_project_status ( prs_sta_id, prs_prj_id) VALUES ( 1, 4)
+INSERT INTO eventum.eventum_project_status ( prs_sta_id, prs_prj_id) VALUES ( 1, 9)
+INSERT INTO eventum.eventum_project_status ( prs_sta_id, prs_prj_id) VALUES ( 1, 6)
+INSERT INTO eventum.eventum_project_status ( prs_sta_id, prs_prj_id) VALUES ( 1, 7)
+UPDATE eventum.eventum_issue SET iss_sta_id=0 WHERE iss_sta_id=1 AND iss_prj_id IN (1)
