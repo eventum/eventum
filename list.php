@@ -101,7 +101,14 @@ $tpl->assign("refresh_page", "list.php");
 // items needed for bulk update tool
 if (Auth::getCurrentRole() > User::getRoleID("Developer")) {
     $tpl->assign("users", $users);
-    $tpl->assign("open_status", Status::getAssocStatusList($prj_id, false));
+
+    if (Workflow::hasWorkflowIntegration($prj_id)) {
+        $open_statuses = Workflow::getAllowedStatuses($prj_id);
+    } else {
+        $open_statuses = Status::getAssocStatusList($prj_id, false);
+    }
+
+    $tpl->assign("open_status", $open_statuses);
     $tpl->assign("closed_status", Status::getClosedAssocList($prj_id));
     $tpl->assign("available_releases", Release::getAssocList($prj_id));
 }

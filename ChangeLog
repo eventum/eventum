@@ -21,7 +21,8 @@ Eventum Issue Tracking System
 - Fixed problem with manage groups page in IE7 (Bryan)
 - When loading user preferences always merge them with system defaults (Elan Ruusamäe)
 - Fixed problem with CLI open-issues. Fixed #44238 (Bryan)
-- Merged patch for anonymous user access from Bryan Petty [Tierra] with minor modifications (Bryan) 
+- Merged patch for anonymous user access from Bryan Petty [Tierra] with minor modifications (Bryan)
+- Call Workflow::getAllowedStatuses from bulk update (Bryan)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)

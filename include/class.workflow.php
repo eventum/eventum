@@ -341,7 +341,7 @@ class Workflow
      * @param   integer $issue_id The ID of the issue.
      * @return  array An associative array of statuses valid for this issue.
      */
-    function getAllowedStatuses($prj_id, $issue_id)
+    function getAllowedStatuses($prj_id, $issue_id = null)
     {
         if (!Workflow::hasWorkflowIntegration($prj_id)) {
             return;
