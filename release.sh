@@ -3,17 +3,18 @@ set -e
 set -x
 app=eventum
 rc=RC1
-svn=svn://eventum.mysql.org/eventum-gpl/trunk/eventum
 dir=$app
 
 # checkout
 rm -rf $dir
-svn export $svn $dir
+bzr clone lp:eventum $dir
+rm -rf $dir/.bzr*
 
 # tidy up
 cd $dir
 version=$(awk -F"'" '/APP_VERSION/{print $4}' init.php)
 make -C misc/localization
+touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rwX templates_c locks logs config
 rm -f release.sh phpxref.cfg phpxref.sh make-tag.sh
 
