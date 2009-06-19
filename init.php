@@ -151,6 +151,10 @@ if (!defined('APP_EMAIL_ENCODING')) {
     }
 }
 
+if (!defined('APP_ANON_USER')) {
+	define('APP_ANON_USER', '');
+}
+
 define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
 
 // if set, normal calls to eventum are redirected to a maintenance page while
