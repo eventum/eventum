@@ -23,6 +23,7 @@ Eventum Issue Tracking System
 - Fixed problem with CLI open-issues. Fixed #44238 (Bryan)
 - Merged patch for anonymous user access from Bryan Petty [Tierra] with minor modifications (Bryan)
 - Call Workflow::getAllowedStatuses from bulk update (Bryan)
+- Added ability to set message when bulk closing an issue (Bryan)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)

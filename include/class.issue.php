@@ -3632,7 +3632,7 @@ class Issue
 
             // close if request
             if ((isset($_REQUEST['closed_status'])) && (!empty($_REQUEST['closed_status']))) {
-                Issue::close(Auth::getUserID(), $items[$i], true, 0, $_REQUEST['closed_status'], 'Issue Bulk closed', $_REQUEST['notification_list']);
+                Issue::close(Auth::getUserID(), $items[$i], true, 0, Misc::escapeInteger($_REQUEST['closed_status']), Misc::escapeString($_REQUEST['closed_message']), $_REQUEST['notification_list']);
             }
         }
         return true;

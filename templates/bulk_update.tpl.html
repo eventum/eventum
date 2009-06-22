@@ -73,13 +73,23 @@
                 {html_options options=$closed_status}
               </select>
               <br />
+              <a class="link default" id="bulk_set_closed_message" href="#">{t}Set Close Message{/t}</a>
+              <br />
               <span class="default">
               {t}Send Notification To{/t}:<br />
               <input id="notification_internal" type="radio" name="notification_list" checked value="internal">
               <label for="notification_internal">{t}Internal Users{/t} ({t}Will save as a note{/t})</label><br />
               <input id="notification_all" type="radio" name="notification_list" value="all">
               <label for="notification_all">{t}All{/t}</label>
+              <input type="hidden" name="closed_message" value="" id="closed_message">
               </span>
+              
+              <div id="close_message_popup" style="display: none">
+                  <label for="closed_message">{t}Closed Message{/t}</label><br />
+                  <textarea id="closed_message_popup" name="closed_message_popup" rows="8" cols="80">Issue Bulk closed</textarea>
+                  <br />
+                  <input id="closed_set_message" type="button" value="{t}Set Message{/t}">
+              </div>
           </td>
         </tr>
         <tr>
@@ -92,3 +102,19 @@
     </td>
   </tr>
 </table>
+<script language="Javascript">
+{literal}
+jQuery("#bulk_set_closed_message").bind("click", function (e) {
+    jQuery.blockUI({ 
+                message: jQuery("#close_message_popup"),
+                css: {
+                    width: '600px'
+                }
+                });
+});
+jQuery("#closed_set_message").bind("click", function () {
+    jQuery("#closed_message").val(jQuery("#closed_message_popup").val());
+    jQuery.unblockUI();
+});
+{/literal}
+</script>
