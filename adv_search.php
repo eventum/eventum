@@ -83,7 +83,12 @@ if (!empty($_GET["custom_id"])) {
             $check_perm = false;
         }
     }
-    $tpl->assign("options", Filter::getDetails($_GET["custom_id"], $check_perm));
+    $options = Filter::getDetails($_GET["custom_id"], $check_perm);
+} else {
+    $options = array();
+    $options["cst_rows"] = APP_DEFAULT_PAGER_SIZE;
 }
+$tpl->assign("options", $options);
+
 
 $tpl->displayTemplate();

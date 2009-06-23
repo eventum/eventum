@@ -24,6 +24,7 @@ Eventum Issue Tracking System
 - Merged patch for anonymous user access from Bryan Petty [Tierra] with minor modifications (Bryan)
 - Call Workflow::getAllowedStatuses from bulk update (Bryan)
 - Added ability to set message when bulk closing an issue (Bryan)
+- Use APP_DEFAULT_PAGER_SIZE on advanced search page. Fixes #45045 (Robbert-Jan Roos)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
