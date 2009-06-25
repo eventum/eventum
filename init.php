@@ -120,6 +120,12 @@ if (!defined('APP_SYSTEM_USER_ID')) {
     define('APP_SYSTEM_USER_ID', 1);
 }
 
+// email address of anonymous user.
+// if you want anonymous users getting access to your eventum.
+if (!defined('APP_ANON_USER')) {
+	define('APP_ANON_USER', null);
+}
+
 // if full text searching is enabled
 if (!defined('APP_ENABLE_FULLTEXT')) {
     define('APP_ENABLE_FULLTEXT', false);
@@ -149,10 +155,6 @@ if (!defined('APP_EMAIL_ENCODING')) {
     } else {
         define('APP_EMAIL_ENCODING', '7bit');
     }
-}
-
-if (!defined('APP_ANON_USER')) {
-	define('APP_ANON_USER', '');
 }
 
 define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');

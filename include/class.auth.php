@@ -108,7 +108,7 @@ class Auth
         }
         $failed_url .= "&url=" . Auth::getRequestedURL();
         if (!isset($_COOKIE[$cookie_name])) {
-            if (defined('APP_ANON_USER')) {
+            if (APP_ANON_USER) {
                 $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
                 $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
                 Auth::createFakeCookie($anon_usr_id, $prj_id);
