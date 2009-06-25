@@ -109,15 +109,15 @@ class Auth
         $failed_url .= "&url=" . Auth::getRequestedURL();
         if (!isset($_COOKIE[$cookie_name])) {
             if (defined('APP_ANON_USER')) {
-        		$anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
+                $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
                 $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
-	            Auth::createFakeCookie($anon_usr_id, $prj_id);
-	            Auth::createLoginCookie(APP_COOKIE, APP_ANON_USER);
-	            Auth::setCurrentProject($prj_id, true);
-	            Session::init($anon_usr_id);
-        	} else {
-        		Auth::redirect($failed_url, $is_popup);
-        	}
+                Auth::createFakeCookie($anon_usr_id, $prj_id);
+                Auth::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+                Auth::setCurrentProject($prj_id, true);
+                Session::init($anon_usr_id);
+            } else {
+                Auth::redirect($failed_url, $is_popup);
+            }
         }
         $cookie = $_COOKIE[$cookie_name];
         $cookie = unserialize(base64_decode($cookie));
