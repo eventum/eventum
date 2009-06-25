@@ -30,6 +30,16 @@
 
 require_once(dirname(__FILE__) . "/init.php");
 
+if (!empty($_GET['custom_id'])) {
+    $filters = Filter::getListing(true);
+    foreach ($filters as $filter) {
+        if ($filter['cst_id'] == (int )$_GET['custom_id']) {
+            $url = 'list.php?cat=search&' . $filter['url'];
+            Auth::redirect($url);
+        }
+    }
+}
+
 $tpl = new Template_Helper();
 $tpl->setTemplate("searchbar.tpl.html");
 
