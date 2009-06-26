@@ -345,7 +345,7 @@ class Auth
     function redirect($new_url, $is_popup = false)
     {
         if ($is_popup) {
-            $html = '<script language="JavaScript">
+            $html = '<script type="text/javascript">
                      <!--
                      if (window.opener) {
                          window.opener.location.href = "' . $new_url . '";

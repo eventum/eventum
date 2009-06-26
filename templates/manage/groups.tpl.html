@@ -1,5 +1,5 @@
 {literal}
-<script language="Javascript">
+<script type="text/javascript">
 function validateForm(f)
 {
     if (isWhitespace(f.group_name.value)) {
@@ -121,7 +121,7 @@ function checkDelete(f)
                         {include file="error_icon.tpl.html" field="users[]"}
                         <div class="default" id="selection_users[]" />
                         {literal}
-                        <script language="Javascript">jQuery().ready(function() {
+                        <script type="text/javascript">jQuery().ready(function() {
                             showSelections('group_form', 'users[]');
                         });
                         </script>

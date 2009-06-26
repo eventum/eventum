@@ -38,7 +38,7 @@
 <input type="hidden" name="field_name" value="{$smarty.get.field_name}">
 <textarea rows="0" cols="0" name="textarea"></textarea>
 </form>
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 var textarea = window.opener.document.{$smarty.get.form_name}.{$smarty.get.field_name};
 document.forms[0].textarea.value = textarea.value;
@@ -47,7 +47,7 @@ document.forms[0].submit();
 </script>
 {else}
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 function fixSpelling()
 {
@@ -140,7 +140,7 @@ function buildSuggestionBox()
 </table>
 </form>
 {if $spell_check.total_words > 0}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 buildSuggestionBox();
 //-->

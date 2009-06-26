@@ -14,7 +14,7 @@
   {include file="app_messages.tpl.html"}
 {/if}
 </center>
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 {if $current_user_prefs.close_popup_windows}
 setTimeout('closeAndRefresh()', 2000);
@@ -29,7 +29,7 @@ setTimeout('closeAndRefresh()', 2000);
   {/if}
 {else}
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 function validate(f)
 {
@@ -193,7 +193,7 @@ function setSignature(f)
 </form>
 {if $parent_note_id or $smarty.get.cat == 'reply'}
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 window.onload = focusMessageBox;
 function focusMessageBox()

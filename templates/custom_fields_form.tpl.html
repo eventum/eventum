@@ -11,7 +11,7 @@
   {/if}
   </span>
   </center>
-  <script language="JavaScript">
+  <script type="text/javascript">
   <!--
   {if $current_user_prefs.close_popup_windows == '1'}
   setTimeout('closeAndRefresh()', 2000);
@@ -26,7 +26,7 @@
   {/if}
 {else}
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 var custom_fields_info = new Array();
 function validateForm(f)
@@ -36,7 +36,7 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
-<script language="JavaScript" src="js/dynamic_custom_field.js.php?iss_id={$smarty.get.issue_id}"></script>
+<script type="text/javascript" src="js/dynamic_custom_field.js.php?iss_id={$smarty.get.issue_id}"></script>
 <form name="custom_field_form" method="post" action="{$smarty.server.PHP_SELF}" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
 <input type="hidden" name="cat" value="update_values">
 <input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">

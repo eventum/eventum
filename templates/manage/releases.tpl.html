@@ -3,9 +3,9 @@
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              <script language="JavaScript" src="{$rel_url}js/dynCalendar.js"></script>
+              <script type="text/javascript" src="{$rel_url}js/dynCalendar.js"></script>
               {literal}
-              <script language="JavaScript">
+              <script type="text/javascript">
               <!--
               function validateForm(f)
               {
@@ -79,7 +79,7 @@
                 </td>
                 <td bgcolor="{$light_color}">
                   {html_select_date field_array="scheduled_date" prefix="" time=$info.pre_scheduled_date start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar = new dynCalendar('tCalendar', 'calendarCallback', '{$rel_url}images/');
                   tCalendar.setMonthCombo(false);
@@ -122,7 +122,7 @@
               <tr>
                 <td colspan="2">
                   {literal}
-                  <script language="JavaScript">
+                  <script type="text/javascript">
                   <!--
                   function checkDelete(f)
                   {

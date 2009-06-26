@@ -22,7 +22,7 @@
             </ul>
             <b>{t}Otherwise, you will be automatically redirected to the Issue Details Page in 5 seconds.{/t}</b>
             {literal}
-            <script language="JavaScript">
+            <script type="text/javascript">
             <!--
             setTimeout('openDetailPage()', 5000);
             function openDetailPage()
@@ -44,8 +44,8 @@
 {else}
 {literal}
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<script language="JavaScript" src="js/overlib_mini.js"></script>
-<script language="JavaScript">
+<script type="text/javascript" src="js/overlib_mini.js"></script>
+<script type="text/javascript">
 <!--
 function validateDuplicate(f)
 {

@@ -1,6 +1,6 @@
 {include file="header.tpl.html" extra_title=$extra_title}
 
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 window.name = '_email' + {$email.sup_id}
 var issue_id = '{$issue_id}';
@@ -83,7 +83,7 @@ function moveMessage()
     {/if}
   </span>
 </center>
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 {if $current_user_prefs.close_popup_windows == '1'}
 setTimeout('closeAndRefresh()', 2000);

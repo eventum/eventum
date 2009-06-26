@@ -14,7 +14,7 @@
 {/if}
 
 </center>
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 {if $current_user_prefs.close_popup_windows}
 setTimeout('closeAndRefresh()', 2000);
@@ -38,7 +38,7 @@ setTimeout('closeAndRefresh()', 2000);
 {/if}
   </span>
 </center>
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 {if $current_user_prefs.close_popup_windows == '1'}
 setTimeout('closeAndRefresh()', 2000);
@@ -52,7 +52,7 @@ setTimeout('closeAndRefresh()', 2000);
   </center>
 {/if}
 {else}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 checkWindowClose('{t}If you close this window, you will lose your message{/t}');
 
@@ -145,8 +145,8 @@ function setSignature(f)
 </script>
 {/literal}
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<script language="JavaScript" src="js/overlib_mini.js"></script>
-<script language="JavaScript" src="js/autocomplete.js"></script>
+<script type="text/javascript" src="js/overlib_mini.js"></script>
+<script type="text/javascript" src="js/autocomplete.js"></script>
 <form onSubmit="javascript:return validate(this);" name="send_email_form" method="post" action="{$smarty.server.PHP_SELF}" enctype="multipart/form-data">
 <input type="hidden" name="cat" value="send_email">
 <input type="hidden" name="parent_id" value="{$parent_email_id}">
@@ -345,7 +345,7 @@ function setSignature(f)
 
 {if $parent_email_id or $smarty.get.cat == 'reply'}
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 window.onload = focusMessageBox;
 function focusMessageBox()

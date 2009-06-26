@@ -1,7 +1,7 @@
 
-<script language="JavaScript" src="{$rel_url}js/dynCalendar.js"></script>
+<script type="text/javascript" src="{$rel_url}js/dynCalendar.js"></script>
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 function clearFilters(f)
 {
@@ -136,7 +136,7 @@ function validateForm(f)
                     <option {if $options.arrival_date.filter_type == "between"}selected{/if} value="between">{t}Between{/t}</option>
                   </select>&nbsp;
                   {html_select_date field_array="arrival_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar7 = new dynCalendar('tCalendar7', 'calendarCallback_arrival', '{$rel_url}images/');
                   tCalendar7.setMonthCombo(false);
@@ -147,7 +147,7 @@ function validateForm(f)
                 <td nowrap id="arrival_date1" width="50%" valign="bottom">
                   <span class="default">{t}Arrival Date:{/t} <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="arrival_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar8 = new dynCalendar('tCalendar8', 'calendarCallback_arrival_end', '{$rel_url}images/');
                   tCalendar8.setMonthCombo(false);
@@ -171,7 +171,7 @@ function validateForm(f)
 <br />
 
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 var f = getForm('email_filter_form');
 

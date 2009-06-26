@@ -50,7 +50,7 @@
 </table>
 {else}
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 var has_per_incident_contract = false;
 
@@ -143,7 +143,7 @@ function setSignature(f)
               <option value="-1">{t}Please choose a status{/t}</option>
               {html_options options=$statuses}
             </select>
-            <script language="Javascript">selectOnlyValidOption(document.forms['close_form'].elements['status']);</script>
+            <script type="text/javascript">selectOnlyValidOption(document.forms['close_form'].elements['status']);</script>
             {include file="error_icon.tpl.html" field="status"}
           </td>
         </tr>

@@ -11,7 +11,7 @@
   {/if}
   </span>
   </center>
-  <script language="JavaScript">
+  <script type="text/javascript">
   <!--
   {if $current_user_prefs.close_popup_windows == '1'}
   setTimeout('closeAndRefresh()', 2000);
@@ -25,7 +25,7 @@
   </center>
   {/if}
 {else}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 {if $has_customer_integration}
     var convert_email_warning = "{t escape=js}WARNING: Converting this note to an email will send the email to any customers that may be listed in this issue\'s notification list.{/t}";

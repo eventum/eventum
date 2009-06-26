@@ -2,9 +2,9 @@
 {include file="header.tpl.html" extra_title=$extra_title}
 {include file="navigation.tpl.html"}
 
-<script language="JavaScript" src="{$rel_url}js/dynCalendar.js"></script>
+<script type="text/javascript" src="{$rel_url}js/dynCalendar.js"></script>
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 function saveCustomFilter(f)
 {
@@ -343,7 +343,7 @@ function disableCustomFields(disable)
                   </select>&nbsp;
                   <span id="created_date1">
                   {html_select_date field_array="created_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar = new dynCalendar('tCalendar', 'calendarCallback_created', '{$rel_url}images/');
                   tCalendar.setMonthCombo(false);
@@ -359,7 +359,7 @@ function disableCustomFields(disable)
                 <td nowrap id="created_date2" width="40%" valign="bottom">
                   <span class="default">Created: <i>(End date)</i></span><br />
                   {html_select_date field_array="created_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar2 = new dynCalendar('tCalendar2', 'calendarCallback_created_end', '{$rel_url}images/');
                   tCalendar2.setMonthCombo(false);
@@ -387,7 +387,7 @@ function disableCustomFields(disable)
                   </select>&nbsp;
                   <span id="updated_date1">
                   {html_select_date field_array="updated_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar3 = new dynCalendar('tCalendar3', 'calendarCallback_updated', '{$rel_url}images/');
                   tCalendar3.setMonthCombo(false);
@@ -403,7 +403,7 @@ function disableCustomFields(disable)
                 <td nowrap id="updated_date2" width="40%" valign="bottom">
                   <span class="default">{t}Last Updated{/t}: <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="updated_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar4 = new dynCalendar('tCalendar4', 'calendarCallback_updated_end', '{$rel_url}images/');
                   tCalendar4.setMonthCombo(false);
@@ -431,7 +431,7 @@ function disableCustomFields(disable)
                   </select>&nbsp;
                   <span id="first_response_date1">
                   {html_select_date field_array="first_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar7 = new dynCalendar('tCalendar7', 'calendarCallback_first_response', '{$rel_url}images/');
                   tCalendar7.setMonthCombo(false);
@@ -447,7 +447,7 @@ function disableCustomFields(disable)
                 <td nowrap id="first_response_date2" width="40%" valign="bottom">
                   <span class="default">{t}First Response By Staff{/t}: <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="first_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar8 = new dynCalendar('tCalendar8', 'calendarCallback_first_response_end', '{$rel_url}images/');
                   tCalendar8.setMonthCombo(false);
@@ -475,7 +475,7 @@ function disableCustomFields(disable)
                   </select>&nbsp;
                   <span id="last_response_date1">
                   {html_select_date field_array="last_response_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar5 = new dynCalendar('tCalendar5', 'calendarCallback_last_response', '{$rel_url}images/');
                   tCalendar5.setMonthCombo(false);
@@ -491,7 +491,7 @@ function disableCustomFields(disable)
                 <td nowrap id="last_response_date2" width="40%" valign="bottom">
                   <span class="default">{t}Last Response by Staff{/t}: <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="last_response_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar6 = new dynCalendar('tCalendar6', 'calendarCallback_last_response_end', '{$rel_url}images/');
                   tCalendar6.setMonthCombo(false);
@@ -519,7 +519,7 @@ function disableCustomFields(disable)
                   </select>&nbsp;
                   <span id="closed_date1">
                   {html_select_date field_array="closed_date" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar9 = new dynCalendar('tCalendar9', 'calendarCallback_closed', '{$rel_url}images/');
                   tCalendar9.setMonthCombo(false);
@@ -536,7 +536,7 @@ function disableCustomFields(disable)
                 <td nowrap id="closed_date2" width="40%" valign="bottom">
                   <span class="default">{t}Status Closed{/t}: <i>({t}End date{/t})</i></span><br />
                   {html_select_date field_array="closed_date_end" prefix="" start_year="-10" end_year="+10" all_extra='class="default"'}
-                  <script language="JavaScript" type="text/javascript">
+                  <script type="text/javascript" type="text/javascript">
                   <!--
                   tCalendar10 = new dynCalendar('tCalendar10', 'calendarCallback_closed_end', '{$rel_url}images/');
                   tCalendar10.setMonthCombo(false);
@@ -699,7 +699,7 @@ function disableCustomFields(disable)
 </table>
 {/if}
 
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 var f = getForm('custom_filter_form');
 

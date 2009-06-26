@@ -1,7 +1,7 @@
 {capture assign="extra_title"}{t}Recent Activity{/t}{/capture}
 {include file="header.tpl.html" extra_title=$extra_title}
-<script language="javascript" src="{$rel_url}js/httpclient.js"></script>
-<script language="javascript" src="{$rel_url}js/expandable_cell.js"></script>
+<script type="text/javascript" src="{$rel_url}js/httpclient.js"></script>
+<script type="text/javascript" src="{$rel_url}js/expandable_cell.js"></script>
 <br />
 <form method="post" action="{$smarty.server.PHP_SELF}" name="recent_activity">
 <input type="hidden" name="cat" value="generate">
@@ -96,7 +96,7 @@
   </tr>
 </table>
 </form>
-<script language="JavaScript">
+<script type="text/javascript">
 {literal}
 function changeType(type) {
     if (type == 'range') {

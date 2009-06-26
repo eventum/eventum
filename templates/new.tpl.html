@@ -62,7 +62,7 @@
   </tr>
 </table>
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 setTimeout('openDetailPage()', 5000);
 function openDetailPage()
@@ -76,7 +76,7 @@ function openDetailPage()
 {/literal}
 {else}
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 function validateForm(f)
 {
@@ -140,7 +140,7 @@ function validateForm(f)
 //-->
 </script>
 {/literal}
-<script language="JavaScript" src="js/dynamic_custom_field.js.php?form_type=report_form"></script>
+<script type="text/javascript" src="js/dynamic_custom_field.js.php?form_type=report_form"></script>
 {if $message != ''}
 <table align="center" border="0" cellspacing="0" cellpadding="1" bgcolor="red">
   <tr>
@@ -243,7 +243,7 @@ function validateForm(f)
               {html_options options=$users selected=$selected_users}
             </select>
             {include file="error_icon.tpl.html" field="users[]"}
-            <script language="Javascript">selectOnlyValidOption(document.forms['report_form'].elements['users[]']);</script>
+            <script type="text/javascript">selectOnlyValidOption(document.forms['report_form'].elements['users[]']);</script>
           </td>
         </tr>
         {/if}
@@ -402,7 +402,7 @@ function validateForm(f)
 </form>
 
 {literal}
-<script language="JavaScript">
+<script type="text/javascript">
 <!--
 window.onload = setFocus;
 function setFocus()

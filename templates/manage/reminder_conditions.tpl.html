@@ -3,7 +3,7 @@
         <tr>
           <td>
             <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-              <script language="JavaScript">
+              <script type="text/javascript">
               <!--
               var url = '{$smarty.server.PHP_SELF}';
               var rem_id = '{$rem_id}';
@@ -144,7 +144,7 @@
                   {/if}
                   <input type="text" size="5" name="value" class="default" value="{$info.rlc_value}">
                   <span class="small_default"><i>{t}(in hours please){/t}</i></span>
-                  <script language="Javascript">disableValueField(document.forms['reminder_form'].comparison_field)</script>
+                  <script type="text/javascript">disableValueField(document.forms['reminder_form'].comparison_field)</script>
                   {/if}
                   {include file="error_icon.tpl.html" field="value"}
                 </td>
@@ -167,7 +167,7 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <script language="JavaScript">
+                  <script type="text/javascript">
                   <!--
                   var rem_id = '{$rem_id}';
                   var rma_id = '{$rma_id}';
