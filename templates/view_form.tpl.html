@@ -438,7 +438,7 @@ function collapseDescription()
             <span id="description1" {get_display_style element_name="description"}>{$issue.iss_description|activateLinks:"link"}</span>
             <span id="description_hidden" style="display: none"><i>{t}Description is currently collapsed{/t}. <a class="link" href="javascript:void(null);" onClick="javascript:toggleVisibility('description');collapseDescription();">{t}Click to expand.{/t}</a></i></span>
             {literal}
-            <script>
+            <script type="text/javascript">
             collapseDescription();
             </script>
             {/literal}

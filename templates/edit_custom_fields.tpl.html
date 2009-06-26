@@ -1,6 +1,6 @@
 {* Should be included and past the variables 'custom_fields' (an array of custom fields) and
 'form_type' which should be either 'anonymous' or 'report' *}
-<script>
+<script type="text/javascript">
 {literal}
 var custom_fields_info = new Array();
 {/literal}
@@ -61,7 +61,7 @@ var custom_fields_info = new Array();
     </select>
     {/if}
     {if $custom_fields[i].dynamic_options|@count > 0}
-    <script>custom_field_init_dynamic_options({$custom_fields[i].fld_id});</script>
+    <script type="text/javascript">custom_field_init_dynamic_options({$custom_fields[i].fld_id});</script>
     {/if}
     {if $custom_fields[i].fld_type == 'multiple'}
       {assign var="custom_field_sufix" value="[]"}
