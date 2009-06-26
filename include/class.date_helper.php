@@ -241,7 +241,9 @@ class Date_Helper
      */
     function getTimezoneList()
     {
-        return Date_TimeZone::getAvailableIDs();
+    	$time_zones = Date_TimeZone::getAvailableIDs();
+    	asort($time_zones);
+        return $time_zones;
     }
 
 
