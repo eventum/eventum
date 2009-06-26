@@ -2234,6 +2234,11 @@ class Issue
             $missing_fields[] = 'Priority';
         }
 
+        // if there is no reporter set, use the system user
+        if (empty($data['reporter'])) {
+        	$data['reporter'] = APP_SYSTEM_USER_ID;
+        }
+
         if ((!isset($data['estimated_dev_time'])) || ($data['estimated_dev_time'] == '')) {
             $data['estimated_dev_time'] = 0;
         }
