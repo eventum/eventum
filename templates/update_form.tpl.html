@@ -64,10 +64,10 @@
   </tr>
 </table>
 {else}
-{literal}
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<script type="text/javascript" src="js/overlib_mini.js"></script>
+<script type="text/javascript" src="{$rel_url}js/overlib_mini.js"></script>
 <script type="text/javascript">
+{literal}
 <!--
 function openHistory(issue_id)
 {
@@ -125,8 +125,8 @@ function closeIssue(issue_id)
     }
 }
 //-->
-</script>
 {/literal}
+</script>
 
 {if $project_auto_switched == 1}
 <center>

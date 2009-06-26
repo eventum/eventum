@@ -42,10 +42,10 @@
   </tr>
 </table>
 {else}
-{literal}
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
-<script type="text/javascript" src="js/overlib_mini.js"></script>
+<script type="text/javascript" src="{$rel_url}js/overlib_mini.js"></script>
 <script type="text/javascript">
+{literal}
 <!--
 function validateDuplicate(f)
 {
@@ -57,8 +57,8 @@ function validateDuplicate(f)
     return true;
 }
 //-->
-</script>
 {/literal}
+</script>
 <table width="80%" bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
 <form name="duplicate_form" onSubmit="javascript:return validateDuplicate(this);" method="post" action="duplicate.php">
 <input type="hidden" name="cat" value="mark">
