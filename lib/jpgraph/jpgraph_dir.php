@@ -16,15 +16,13 @@
 //------------------------------------------------------------------
 // The full absolute name of directory to be used as a cache. This directory MUST
 // be readable and writable for PHP. Must end with '/'
-DEFINE("CACHE_DIR","/tmp/jpgraph_cache/");
+define('CACHE_DIR', '/tmp/jpgraph_cache/');
 
 // The URL relative name where the cache can be found, i.e
 // under what HTTP directory can the cache be found. Normally
 // you would probably assign an alias in apache configuration
 // for the cache directory. 
-DEFINE("APACHE_CACHE_DIR","/jpgraph_cache/");
+define('APACHE_CACHE_DIR', '/jpgraph_cache/');
 
 // Directory for TTF fonts. Must end with '/'
-DEFINE("TTF_DIR", APP_JPGRAPH_PATH . "ttf/");
-
-?>
+define('TTF_DIR', APP_JPGRAPH_PATH . '/ttf/');

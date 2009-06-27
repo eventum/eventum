@@ -67,7 +67,7 @@ class Stats
      */
     function getPieChart()
     {
-        if (!@file_exists(APP_JPGRAPH_PATH)) {
+        if (!file_exists(APP_JPGRAPH_PATH)) {
             return false;
         } else {
             return true;

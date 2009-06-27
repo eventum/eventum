@@ -29,18 +29,14 @@
 // @(#) $Id: stats_chart.php 3868 2009-03-30 00:22:35Z glen $
 
 require_once dirname(__FILE__) . '/../init.php';
-
-ini_set('memory_limit', '64M');
-error_reporting(0);
-
-@require_once(APP_JPGRAPH_PATH . "jpgraph.php");
-@require_once(APP_JPGRAPH_PATH . "jpgraph_pie.php");
+require_once APP_JPGRAPH_PATH . '/jpgraph.php';
+require_once APP_JPGRAPH_PATH . '/jpgraph_pie.php';
 
 Auth::checkAuthentication(APP_COOKIE);
 
 // check to see if the TTF file is available or not
 $ttf_font = TTF_DIR . "verdana.ttf";
-if (!@file_exists($ttf_font)) {
+if (!file_exists($ttf_font)) {
     $font = FF_FONT1;
 } else {
     $font = FF_VERDANA;
@@ -90,7 +86,7 @@ $data = array_values($data);
 // check the values coming from the database and if they are all empty, then
 // output a pre-generated 'No Data Available' picture
 if ((!Stats::hasData($data)) || ((Auth::getCurrentRole() <= User::getRoleID("Reporter")) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
-    readfile(APP_PATH . "images/no_data.gif");
+    readfile(APP_PATH . "/htdocs/images/no_data.gif");
     exit;
 }
 
