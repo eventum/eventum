@@ -58,7 +58,7 @@ class Misc
             echo " [required] -> ";
         }
         flush();
-        $input = trim(Misc::getInput(true));
+        $input = trim(self::getInput());
         if (empty($input)) {
             if ($default_value === FALSE) {
                 die("ERROR: Required parameter was not provided!\n");
@@ -77,19 +77,8 @@ class Misc
      * @access  public
      * @return  string The standard input value
      */
-    function getInput($is_one_liner = FALSE)
+    function getInput()
     {
-        $terminator = "\n";
-
-        $stdin = fopen("php://stdin", "r");
-        $input = '';
-        while (!feof($stdin)) {
-            $buffer = fgets($stdin, 256);
-            $input .= $buffer;
-            if (strstr($input, $terminator)) {
-                break;
-            }
-        }
-        return $input;
+        return fgets(STDIN);
     }
 }
