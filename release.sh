@@ -9,7 +9,12 @@ dir=$app
 # checkout
 rm -rf $dir
 
-bzr clone lp:eventum $dir
+# if running in bzr checkout clone that instead
+if [ "$(bzr revno)" ]; then
+	bzr clone . $dir
+else
+	bzr clone lp:eventum $dir
+fi
 
 # tidy up
 cd $dir
@@ -26,10 +31,13 @@ if [ "$rc" = "dev" ]; then
 	rc=-dev-r$revno
 fi
 
+# update to include checksums of js files
+./js-chksum.pl
+
 make -C localization
 touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rwX templates_c locks logs config
-rm -f release.sh phpxref.cfg phpxref.sh make-tag.sh
+rm -f release.sh phpxref.cfg phpxref.sh make-tag.sh js-chksum.pl
 
 # sanity check
 if [ -z "$revno" ]; then
