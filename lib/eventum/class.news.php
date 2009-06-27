@@ -141,7 +141,7 @@ class News
             $new_news_id = DB_Helper::get_last_insert_id();
             // now populate the project-news mapping table
             foreach ($_POST['projects'] as $prj_id) {
-                News::addProjectAssociation($new_news_id, $prj_id);
+                self::addProjectAssociation($new_news_id, $prj_id);
             }
             return 1;
         }
@@ -166,7 +166,7 @@ class News
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            News::removeProjectAssociations($_POST['items']);
+            self::removeProjectAssociations($_POST['items']);
             return true;
         }
     }
@@ -232,9 +232,9 @@ class News
             return -1;
         } else {
             // remove all of the associations with projects, then add them all again
-            News::removeProjectAssociations($_POST['id']);
+            self::removeProjectAssociations($_POST['id']);
             foreach ($_POST['projects'] as $prj_id) {
-                News::addProjectAssociation($_POST['id'], $prj_id);
+                self::addProjectAssociation($_POST['id'], $prj_id);
             }
             return 1;
         }
@@ -262,7 +262,7 @@ class News
             return "";
         } else {
             // get all of the project associations here as well
-            $res['projects'] = array_keys(News::getAssociatedProjects($res['nws_id']));
+            $res['projects'] = array_keys(self::getAssociatedProjects($res['nws_id']));
             $res['nws_message'] = nl2br(htmlspecialchars($res['nws_message']));
             return $res;
         }
@@ -290,7 +290,7 @@ class News
             return "";
         } else {
             // get all of the project associations here as well
-            $res['projects'] = array_keys(News::getAssociatedProjects($res['nws_id']));
+            $res['projects'] = array_keys(self::getAssociatedProjects($res['nws_id']));
             return $res;
         }
     }
@@ -319,7 +319,7 @@ class News
         } else {
             // get the list of associated projects
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['projects'] = implode(", ", array_values(News::getAssociatedProjects($res[$i]['nws_id'])));
+                $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['nws_id'])));
             }
             return $res;
         }

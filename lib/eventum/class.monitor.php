@@ -108,7 +108,7 @@ class Monitor
                 continue;
             }
             // check the owner and group for these files
-            list($owner, $group) = Monitor::_getOwnerAndGroup($file_path);
+            list($owner, $group) = self::_getOwnerAndGroup($file_path);
             if ((@$options['check_owner']) && ($options['owner'] != $owner)) {
                 echo ev_gettext('ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %3$s)', $file_path, $owner, $options['owner']) . "\n";
             }
@@ -116,7 +116,7 @@ class Monitor
                 echo ev_gettext('ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %3$s)', $file_path, $group, $options['group']) . "\n";
             }
             // check permission bits
-            $perm = Monitor::_getOctalPerms($file_path);
+            $perm = self::_getOctalPerms($file_path);
             if ((@$options['check_permission']) && ($options['permission'] != $perm)) {
                 echo ev_gettext('ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)', $file_path, $perm, $options['permission']) . "\n";
             }
@@ -146,7 +146,7 @@ class Monitor
                 continue;
             }
             // check permission bits
-            $perm = Monitor::_getOctalPerms($dir_path);
+            $perm = self::_getOctalPerms($dir_path);
             if ((@$options['check_permission']) && ($options['permission'] != $perm)) {
                 echo ev_gettext('ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)', $dir_path, $perm, $options['permission']) . "\n";
             }

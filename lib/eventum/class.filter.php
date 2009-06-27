@@ -111,7 +111,7 @@ class Filter
      */
     function save()
     {
-        $cst_id = Filter::getFilterID($_POST["title"]);
+        $cst_id = self::getFilterID($_POST["title"]);
         // loop through all available date fields and prepare the values for the sql query
         $date_fields = array(
             'created_date',
@@ -386,7 +386,7 @@ class Filter
             return "";
         } else {
             if ((count($res) > 0) && ($build_url == true)) {
-                $filter_info = Filter::getFiltersInfo();
+                $filter_info = self::getFiltersInfo();
                 for ($i = 0; $i < count($res); $i++) {
                     $res[$i]['url'] = '';
                     foreach ($filter_info as $field => $filter) {
@@ -518,7 +518,7 @@ class Filter
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_filter
                      WHERE";
-            if (Filter::isGlobal($cst_id)) {
+            if (self::isGlobal($cst_id)) {
                 if (Auth::getCurrentRole() >= User::getRoleID('Manager')) {
                     $stmt .= " cst_is_global=1 AND ";
                 } else {

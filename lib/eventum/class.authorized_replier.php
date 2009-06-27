@@ -118,7 +118,7 @@ class Authorized_Replier
         }
 
         foreach ($iur_ids as $id) {
-            $replier = Authorized_Replier::getReplier($id);
+            $replier = self::getReplier($id);
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user_replier
                      WHERE
@@ -145,7 +145,7 @@ class Authorized_Replier
      */
     function manualInsert($issue_id, $email, $add_history = true)
     {
-        if (Authorized_Replier::isAuthorizedReplier($issue_id, $email)) {
+        if (self::isAuthorizedReplier($issue_id, $email)) {
             return -1;
         } else {
             $email = strtolower(Mail_Helper::getEmailAddress($email));
@@ -159,7 +159,7 @@ class Authorized_Replier
             // first check if this is an actual user or just an email address
             $usr_id = User::getUserIDByEmail($email, true);
             if (!empty($usr_id)) {
-                return Authorized_Replier::addUser($issue_id, $usr_id, $add_history);
+                return self::addUser($issue_id, $usr_id, $add_history);
             }
 
             $stmt = "INSERT INTO
@@ -245,7 +245,7 @@ class Authorized_Replier
         $usr_id = User::getUserIDByEmail($email, true);
         if (!empty($usr_id)) {
             // real user, get id
-            $is_usr_authorized = Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id);
+            $is_usr_authorized = self::isUserAuthorizedReplier($issue_id, $usr_id);
             if ($is_usr_authorized) {
                 return true;
             }
@@ -372,7 +372,7 @@ class Authorized_Replier
      */
     function remoteAddAuthorizedReplier($issue_id, $usr_id, $replier)
     {
-        $res = Authorized_Replier::manualInsert($issue_id, $replier, false);
+        $res = self::manualInsert($issue_id, $replier, false);
         if ($res != -1) {
             // save a history entry about this...
             History::add($issue_id, $usr_id, History::getTypeID('remote_replier_added'),

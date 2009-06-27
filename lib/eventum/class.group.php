@@ -68,7 +68,7 @@ class Group
         } else {
             $grp_id = DB_Helper::get_last_insert_id();
             
-            Group::setProjects($grp_id, $_POST["projects"]);
+            self::setProjects($grp_id, $_POST["projects"]);
             
             foreach ($_POST["users"] as $usr_id) {
                 User::setGroupID($usr_id, $grp_id);
@@ -101,9 +101,9 @@ class Group
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Group::setProjects($_POST["id"], $_POST["projects"]);
+            self::setProjects($_POST["id"], $_POST["projects"]);
             // get old users so we can remove any ones that have been removed
-            $existing_users = Group::getUsers($_POST["id"]);
+            $existing_users = self::getUsers($_POST["id"]);
             $diff = array_diff($existing_users, Misc::escapeInteger($_POST["users"]));
             if (count($diff) > 0) {
                 foreach ($diff as $usr_id) {
@@ -126,7 +126,7 @@ class Group
     function remove()
     {
         foreach (Misc::escapeInteger(@$_POST["items"]) as $grp_id) {
-            $users = Group::getUsers($grp_id);
+            $users = self::getUsers($grp_id);
             
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . ".`" . APP_TABLE_PREFIX . "group`
@@ -137,7 +137,7 @@ class Group
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
-                Group::removeProjectsByGroup($grp_id);
+                self::removeProjectsByGroup($grp_id);
                 
                 foreach ($users as $usr_id) {
                     User::setGroupID($usr_id, false);
@@ -159,7 +159,7 @@ class Group
     {
         $grp_id = Misc::escapeInteger($grp_id);
         $projects = Misc::escapeInteger($projects);
-        Group::removeProjectsByGroup($grp_id);
+        self::removeProjectsByGroup($grp_id);
         
         // make new associations
         foreach ($projects as $prj_id) {
@@ -258,8 +258,8 @@ class Group
             return -1;
         } else {
             if (count($res) > 0) {
-                $res["users"] = Group::getUsers($grp_id);
-                $res["projects"] = Group::getProjects($grp_id);
+                $res["users"] = self::getUsers($grp_id);
+                $res["projects"] = self::getProjects($grp_id);
                 $res["project_ids"] = array_keys($res["projects"]);
                 $res["manager"] = User::getFullName($res["grp_manager_usr_id"]);
             } else {
@@ -284,7 +284,7 @@ class Group
         if (empty($grp_id)) {
             return "";
         }
-        $details = Group::getDetails($grp_id);
+        $details = self::getDetails($grp_id);
         if (count($details) < 1) {
             return "";
         } else {
@@ -316,8 +316,8 @@ class Group
             return -1;
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["users"] = Group::getUsers($res[$i]['grp_id']);
-                $res[$i]["projects"] = Group::getProjects($res[$i]['grp_id']);
+                $res[$i]["users"] = self::getUsers($res[$i]['grp_id']);
+                $res[$i]["projects"] = self::getProjects($res[$i]['grp_id']);
                 $res[$i]["manager"] = User::getFullName($res[$i]["grp_manager_usr_id"]);
             }
             return $res;

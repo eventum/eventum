@@ -104,7 +104,7 @@ class Pager
      *
      * @access  public
      * @param   int $row Current page number (starts from zero)
-     * @param   int $total_rows Total number of rows, as returned by Pager::getTotalRows()
+     * @param   int $total_rows Total number of rows, as returned by self::getTotalRows()
      * @param   int $per_page Maximum number of rows per page
      * @param   string $show_links An option to show 'Next'/'Previous' links, page numbering links or both ('sides', 'pages' or 'all')
      * @param   string $show_blank An option to show 'Next'/'Previous' strings even if there are no appropriate next or previous pages
@@ -124,7 +124,7 @@ class Pager
                 "next"     => ev_gettext("Next") . " &gt;&gt;"
             );
         }
-        $extra_vars = Pager::_buildQueryString();
+        $extra_vars = self::_buildQueryString();
         $file = $_SERVER["SCRIPT_NAME"];
         $number_of_pages = ceil($total_rows / $per_page);
         $subscript = 0;
@@ -167,7 +167,7 @@ class Pager
 
 
     /**
-     * Returns a portion of an array of links, as returned by the Pager::getLinks()
+     * Returns a portion of an array of links, as returned by the self::getLinks()
      * function. This is especially useful for preventing a huge list of links
      * on the paginated list.
      *

@@ -161,9 +161,9 @@ class SCM
             $res[$i]['removed'] = $res[$i]['isc_new_version'] == 'NONE';
 
             $res[$i]["isc_commit_msg"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isc_commit_msg"])));
-            $res[$i]["checkout_url"] = SCM::parseURL($setup["checkout_url"], $res[$i]);
-            $res[$i]["diff_url"] = SCM::parseURL($setup["diff_url"], $res[$i]);
-            $res[$i]["scm_log_url"] = SCM::parseURL($setup["scm_log_url"], $res[$i]);
+            $res[$i]["checkout_url"] = self::parseURL($setup["checkout_url"], $res[$i]);
+            $res[$i]["diff_url"] = self::parseURL($setup["diff_url"], $res[$i]);
+            $res[$i]["scm_log_url"] = self::parseURL($setup["scm_log_url"], $res[$i]);
             $res[$i]["isc_created_date"] = Date_Helper::getFormattedDate($res[$i]["isc_created_date"]);
         }
         return $res;

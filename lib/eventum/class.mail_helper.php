@@ -95,7 +95,7 @@ class Mail_Helper
         $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|Îòâåò|Antwort|SV|[Aa][Ww])(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
         if (preg_match($re_pattern, $subject, $matches)) {
             $subject = preg_replace($re_pattern, '$1Re: $5', $subject);
-            return Mail_Helper::removeExcessRe($subject);
+            return self::removeExcessRe($subject);
         } else {
             return $subject;
         }
@@ -151,7 +151,7 @@ class Mail_Helper
      */
     function getEmailAddresses($str)
     {
-        $str = Mail_Helper::fixAddressQuoting($str);
+        $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
         $structs = Mail_RFC822::parseAddressList($str);
         $addresses = array();
@@ -175,7 +175,7 @@ class Mail_Helper
     function fixAddressQuoting($address)
     {
         // split multiple addresses if needed
-        $addresses = Mail_Helper::splitAddresses($address);
+        $addresses = self::splitAddresses($address);
 
         $return = array();
         foreach ($addresses as $address) {
@@ -220,7 +220,7 @@ class Mail_Helper
      */
     function getAddressInfo($address, $multiple = false)
     {
-        $address = Mail_Helper::fixAddressQuoting($address);
+        $address = self::fixAddressQuoting($address);
         $t = Mail_RFC822::parseAddressList($address, null, null, false);
         if (PEAR::isError($t)) {
             return $t;
@@ -258,7 +258,7 @@ class Mail_Helper
     function getEmailAddress($address)
     {
         $address = Mime_Helper::encodeAddress($address);
-        $info = Mail_Helper::getAddressInfo($address);
+        $info = self::getAddressInfo($address);
         if (PEAR::isError($info)) {
             return $info;
         }
@@ -276,7 +276,7 @@ class Mail_Helper
      */
     function getName($address, $multiple = false)
     {
-        $info = Mail_Helper::getAddressInfo($address, true);
+        $info = self::getAddressInfo($address, true);
         if (PEAR::isError($info)) {
             return $info;
         }
@@ -443,8 +443,8 @@ class Mail_Helper
      */
     function stripWarningMessage($str)
     {
-        $str = str_replace(Mail_Helper::getWarningMessage('allowed'), '', $str);
-        $str = str_replace(Mail_Helper::getWarningMessage('blocked'), '', $str);
+        $str = str_replace(self::getWarningMessage('allowed'), '', $str);
+        $str = str_replace(self::getWarningMessage('blocked'), '', $str);
         return $str;
     }
 
@@ -486,7 +486,7 @@ class Mail_Helper
         if ((@$setup['email_routing']['status'] == 'enabled') &&
                 ($setup['email_routing']['warning']['status'] == 'enabled')) {
             // check if the recipient can send emails to the customer
-            $recipient_email = Mail_Helper::getEmailAddress($to);
+            $recipient_email = self::getEmailAddress($to);
             $recipient_usr_id = User::getUserIDByEmail($recipient_email);
             // don't add the warning message if the recipient is an unknown email address
             if (empty($recipient_usr_id)) {
@@ -498,9 +498,9 @@ class Mail_Helper
                     return $body;
                 } else {
                     if (!Support::isAllowedToEmail($issue_id, $recipient_email)) {
-                        $warning = Mail_Helper::getWarningMessage('blocked');
+                        $warning = self::getWarningMessage('blocked');
                     } else {
-                        $warning = Mail_Helper::getWarningMessage('allowed');
+                        $warning = self::getWarningMessage('allowed');
                     }
                     if (@$headers['Content-Transfer-Encoding'] == 'base64') {
                         return base64_encode($warning . "\n\n" . trim(base64_decode($body)));
@@ -571,7 +571,7 @@ class Mail_Helper
         $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
         $headers = array(
             'From'    => $from,
-            'To'      => Mail_Helper::fixAddressQuoting($to),
+            'To'      => self::fixAddressQuoting($to),
             'Subject' => $subject
         );
 
@@ -684,10 +684,10 @@ class Mail_Helper
 
         // add specialized headers if they are not already added
         if (empty($headers['X-Eventum-Type'])) {
-            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $email['maq_type'], $headers, $sender_usr_id);
+            $headers += self::getSpecializedHeaders($issue_id, $email['maq_type'], $headers, $sender_usr_id);
         }
 
-        $params = Mail_Helper::getSMTPSettings($address);
+        $params = self::getSMTPSettings($address);
         $mail =& Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
         if (PEAR::isError($res)) {
@@ -714,7 +714,7 @@ class Mail_Helper
      */
     function prepareHeaders($headers)
     {
-        $params = Mail_Helper::getSMTPSettings();
+        $params = self::getSMTPSettings();
         $mail =& Mail::factory('smtp', $params);
         return $mail->prepareHeaders($headers);
     }
@@ -812,7 +812,7 @@ class Mail_Helper
             return trim($matches[1]);
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
-            $references = explode(" ", Mail_Helper::unfold(trim($matches[1])));
+            $references = explode(" ", self::unfold(trim($matches[1])));
             $references = array_map('trim', $references);
             // return the first message-id in the list of references
             return $references[0];
@@ -835,7 +835,7 @@ class Mail_Helper
             $references[] = trim($matches[1]);
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
-            $references = array_merge($references, explode(" ", Mail_Helper::unfold(trim($matches[1]))));
+            $references = array_merge($references, explode(" ", self::unfold(trim($matches[1]))));
             $references = array_map('trim', $references);
             $references = array_unique($references);
         }
@@ -862,11 +862,11 @@ class Mail_Helper
             $class = 'Support';
         }
 
-        $msg_id = Mail_Helper::getMessageID($text_headers, $body);
+        $msg_id = self::getMessageID($text_headers, $body);
 
         // check if the In-Reply-To header exists and if so, does it relate to a message stored in Eventum
         // if it does not, set new In-Reply-To header
-        $reference_msg_id = Mail_Helper::getReferenceMessageID($text_headers);
+        $reference_msg_id = self::getReferenceMessageID($text_headers);
         $reference_issue_id = false;
         if (!empty($reference_msg_id)) {
             // check if referenced msg id is associated with this issue
@@ -876,7 +876,7 @@ class Mail_Helper
         if ((empty($reference_msg_id)) || ($reference_issue_id != $issue_id)) {
             $reference_msg_id = Issue::getRootMessageID($issue_id);
         }
-        $references = Mail_Helper::getReferences($issue_id, $reference_msg_id, $type);
+        $references = self::getReferences($issue_id, $reference_msg_id, $type);
 
         // now the fun part, re-writing the email headers
         if (empty($headers['message-id'])) {
@@ -895,12 +895,12 @@ class Mail_Helper
         $headers['in-reply-to'] = $reference_msg_id;
         if (preg_match('/^References: (.*)/mi', $text_headers) > 0) {
             // replace existing header
-            $text_headers = preg_replace('/^References: (.*)/mi', 'References: ' . Mail_Helper::fold(join(' ', $references)), $text_headers, 1);
+            $text_headers = preg_replace('/^References: (.*)/mi', 'References: ' . self::fold(join(' ', $references)), $text_headers, 1);
         } else {
             // add new header after In-Reply-To
-            $text_headers = preg_replace('/^In-Reply-To: (.*)$/mi', "In-Reply-To: $1\r\nReferences: " . Mail_Helper::fold(join(' ', $references)), $text_headers, 1);
+            $text_headers = preg_replace('/^In-Reply-To: (.*)$/mi', "In-Reply-To: $1\r\nReferences: " . self::fold(join(' ', $references)), $text_headers, 1);
         }
-        $headers['references'] = Mail_Helper::fold(join(' ', $references));
+        $headers['references'] = self::fold(join(' ', $references));
         return array($text_headers . "\r\n\r\n" . $body, $headers);
     }
 
@@ -918,7 +918,7 @@ class Mail_Helper
     function getReferences($issue_id, $msg_id, $type)
     {
         $references = array();
-        Mail_Helper::_getReferences($msg_id, $type, $references);
+        self::_getReferences($msg_id, $type, $references);
         $references[] = Issue::getRootMessageID($issue_id);
         $references = array_reverse(array_unique($references));
         return $references;
@@ -944,7 +944,7 @@ class Mail_Helper
         }
         $parent_msg_id = call_user_func(array($class, 'getParentMessageIDbyMessageID'), $msg_id);
         if (!empty($parent_msg_id)) {
-            Mail_Helper::_getReferences($parent_msg_id, $type, $references);
+            self::_getReferences($parent_msg_id, $type, $references);
         }
     }
 
@@ -954,7 +954,7 @@ class Mail_Helper
     {
         $root_msg_id = Issue::getRootMessageID($issue_id);
         return array(
-            "Message-ID"    =>  Mail_Helper::generateMessageID(),
+            "Message-ID"    =>  self::generateMessageID(),
             "In-Reply-To"   =>  $root_msg_id,
             "References"    =>  $root_msg_id
         );

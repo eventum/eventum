@@ -53,7 +53,7 @@ class Language
 
         ini_set('mbstring.internal_encoding', 'UTF8');
 
-        Language::set(APP_DEFAULT_LOCALE);
+        self::set(APP_DEFAULT_LOCALE);
     }
 
     /**
@@ -87,13 +87,13 @@ class Language
     {
 		$languages = array();
 		foreach (self::$avail_langs as $code => $language) {
-			$res = Language::set($code);
+			$res = self::set($code);
 			if ($res) {
 				$languages[$code] = $language;
 			}
 		}
 
-		Language::restore();
+		self::restore();
 		return $languages;
     }
 
@@ -111,7 +111,7 @@ class Language
         if (!empty($usr_id)) {
 			// try user preference
             $usr_lang = User::getLang($usr_id);
-			if (Language::set($usr_lang)) {
+			if (self::set($usr_lang)) {
 				$lang = $usr_lang;
 			}
         }
@@ -119,8 +119,8 @@ class Language
 		if ($lang == null) {
 			// fall back to system default
 			define('APP_CURRENT_LOCALE', APP_DEFAULT_LOCALE);
-			// we don't need to set language again as APP_DEFAULT_LOCALE was set by Language::setup()
-			// Language::set(APP_CURRENT_LOCALE);
+			// we don't need to set language again as APP_DEFAULT_LOCALE was set by self::setup()
+			// self::set(APP_CURRENT_LOCALE);
 		} else {
 			define('APP_CURRENT_LOCALE', $lang);
 		}
@@ -167,7 +167,7 @@ class Language
     function restore()
     {
 		$locale = defined('APP_CURRENT_LOCALE') ? APP_CURRENT_LOCALE : APP_DEFAULT_LOCALE;
-		Language::set($locale);
+		self::set($locale);
     }
 }
 

@@ -55,7 +55,7 @@ class Notification
             // broken address, don't send the email...
             return true;
         }
-        $subscribed_emails = Notification::getSubscribedEmails($issue_id, 'emails');
+        $subscribed_emails = self::getSubscribedEmails($issue_id, 'emails');
         $subscribed_emails = array_map('strtolower', $subscribed_emails);
         if (@in_array($email, $subscribed_emails)) {
             return true;
@@ -221,7 +221,7 @@ class Notification
      */
     function isIssueRoutingSender($issue_id, $sender)
     {
-        $check = Notification::getFixedFromHeader($issue_id, $sender, 'issue');
+        $check = self::getFixedFromHeader($issue_id, $sender, 'issue');
         $check_email = strtolower(Mail_Helper::getEmailAddress($check));
         $sender_email = strtolower(Mail_Helper::getEmailAddress($sender));
         if ($check_email == $sender_email) {
@@ -261,19 +261,19 @@ class Notification
         }
 
         // automatically subscribe this sender to email notifications on this issue
-        $subscribed_emails = Notification::getSubscribedEmails($issue_id, 'emails');
+        $subscribed_emails = self::getSubscribedEmails($issue_id, 'emails');
         $subscribed_emails = array_map('strtolower', $subscribed_emails);
-        if ((!Notification::isIssueRoutingSender($issue_id, $sender)) &&
-                (!Notification::isBounceMessage($sender_email)) &&
+        if ((!self::isIssueRoutingSender($issue_id, $sender)) &&
+                (!self::isBounceMessage($sender_email)) &&
                 (!in_array($sender_email, $subscribed_emails)) &&
                 (Workflow::shouldAutoAddToNotificationList($prj_id))) {
             $actions = array('emails');
-            Notification::subscribeEmail($usr_id, $issue_id, $sender_email, $actions);
+            self::subscribeEmail($usr_id, $issue_id, $sender_email, $actions);
         }
 
         // get the subscribers
         $emails = array();
-        $users = Notification::getUsersByIssue($issue_id, 'emails');
+        $users = self::getUsersByIssue($issue_id, 'emails');
         for ($i = 0; $i < count($users); $i++) {
             if (empty($users[$i]["sub_usr_id"])) {
                 if ($internal_only == false) {
@@ -309,7 +309,7 @@ class Notification
         // change the sender of the message to {prefix}{issue_id}@{host}
         //  - keep everything else in the message, except 'From:', 'Sender:', 'To:', 'Cc:'
         // make 'Joe Blow <joe@example.com>' become 'Joe Blow [CSC] <eventum_59@example.com>'
-        $from = Notification::getFixedFromHeader($issue_id, $sender, 'issue');
+        $from = self::getFixedFromHeader($issue_id, $sender, 'issue');
 
         list($_headers, $body) = Mime_Helper::splitBodyHeader($full_message);
         $header_names = Mime_Helper::getHeaderNames($_headers);
@@ -461,7 +461,7 @@ class Notification
                 $res['reference_msg_id'] = false;
             }
 
-            $data = Notification::getIssueDetails($issue_id);
+            $data = self::getIssueDetails($issue_id);
             $data["note"] = $res;
             return $data;
         }
@@ -498,7 +498,7 @@ class Notification
             if (count($res) == 0) {
                 return "";
             } else {
-                $data = Notification::getIssueDetails($issue_id);
+                $data = self::getIssueDetails($issue_id);
                 $data["emails"] = $res;
                 return $data;
             }
@@ -535,7 +535,7 @@ class Notification
             return "";
         } else {
             $res["files"] = Attachment::getFileList($res["iat_id"]);
-            $data = Notification::getIssueDetails($issue_id);
+            $data = self::getIssueDetails($issue_id);
             $data["attachment"] = $res;
             return $data;
         }
@@ -659,7 +659,7 @@ class Notification
         }
 
         $emails = array();
-        $users = Notification::getUsersByIssue($issue_id, 'updated');
+        $users = self::getUsersByIssue($issue_id, 'updated');
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
         $user_emails = array_map('strtolower', $user_emails);
         for ($i = 0; $i < count($users); $i++) {
@@ -680,10 +680,10 @@ class Notification
         // get additional email addresses to notify
         $emails = array_merge($emails, Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'issue_updated', array('old' => $old, 'new' => $new)));
 
-        $data = Notification::getIssueDetails($issue_id);
+        $data = self::getIssueDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
-        Notification::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), FALSE);
+        self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), FALSE);
     }
 
 
@@ -709,7 +709,7 @@ class Notification
         }
 
         $emails = array();
-        $users = Notification::getUsersByIssue($issue_id, 'updated');
+        $users = self::getUsersByIssue($issue_id, 'updated');
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
         $user_emails = array_map('strtolower', $user_emails);
         for ($i = 0; $i < count($users); $i++) {
@@ -727,10 +727,10 @@ class Notification
                 $emails[] = $email;
             }
         }
-        $data = Notification::getIssueDetails($issue_id);
+        $data = self::getIssueDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
-        Notification::notifySubscribers($issue_id, $emails, 'updated', $data, 'Status Change', FALSE);
+        self::notifySubscribers($issue_id, $emails, 'updated', $data, 'Status Change', FALSE);
     }
 
 
@@ -757,7 +757,7 @@ class Notification
             }
         }
         $emails = array();
-        $users = Notification::getUsersByIssue($issue_id, $type);
+        $users = self::getUsersByIssue($issue_id, $type);
         if (($extra_recipients) && (count($extra) > 0)) {
             $users = array_merge($users, $extra);
         }
@@ -811,7 +811,7 @@ class Notification
             $headers = false;
             switch ($type) {
                 case 'closed':
-                    $data = Notification::getIssueDetails($issue_id);
+                    $data = self::getIssueDetails($issue_id);
                     $data["closer_name"] = User::getFullName(History::getIssueCloser($issue_id));
                     $subject = ev_gettext('Closed');
 
@@ -824,7 +824,7 @@ class Notification
                     return false;
                     break;
                 case 'notes':
-                    $data = Notification::getNote($issue_id, $ids);
+                    $data = self::getNote($issue_id, $ids);
                     $headers = array(
                         'Message-ID'    =>  $data['note']['not_message_id'],
                     );
@@ -841,11 +841,11 @@ class Notification
                     return false;
                     break;
                 case 'files':
-                    $data = Notification::getAttachment($issue_id, $ids);
+                    $data = self::getAttachment($issue_id, $ids);
                     $subject = 'File Attached';
                     break;
             }
-            Notification::notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $ids, $headers);
+            self::notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $ids, $headers);
         }
     }
 
@@ -983,9 +983,9 @@ class Notification
             }
 
             if ($notify_type == 'notes' && $sender) {
-                $from = Notification::getFixedFromHeader($issue_id, $sender, 'note');
+                $from = self::getFixedFromHeader($issue_id, $sender, 'note');
             } else {
-                $from = Notification::getFixedFromHeader($issue_id, '', 'issue');
+                $from = self::getFixedFromHeader($issue_id, '', 'issue');
             }
             $mail->send($from, $emails[$i], $full_subject, TRUE, $issue_id, $notify_type, $sender_usr_id, $type_id);
 
@@ -1101,13 +1101,13 @@ class Notification
             $irc_notice .= $data['customer_info']['customer_name'] . ", ";
         }
         $irc_notice .= $data['iss_summary'];
-        Notification::notifyIRC($prj_id, $irc_notice, $issue_id);
+        self::notifyIRC($prj_id, $irc_notice, $issue_id);
         $data['custom_fields'] = array();// empty place holder so notifySubscribers will fill it in with appropriate data for the user
         $subject = ev_gettext('New Issue');
         $headers = array(
             "Message-ID"    =>  $data['iss_root_message_id']
         );
-        Notification::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
+        self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }
 
 
@@ -1185,7 +1185,7 @@ class Notification
             $mail->setTextBody($text_message);
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
             $setup = $mail->getSMTPSettings();
-            $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
+            $from = self::getFixedFromHeader($issue_id, $setup["from"], 'issue');
             $recipient = Mime_Helper::fixEncoding($recipient);
             $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 0, $issue_id, 'auto_created_issue');
 
@@ -1262,7 +1262,7 @@ class Notification
                 $mail = new Mail_Helper;
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $from = Notification::getFixedFromHeader($issue_id, $setup["from"], 'issue');
+                $from = self::getFixedFromHeader($issue_id, $setup["from"], 'issue');
                 $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
                 $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 1, $issue_id, 'email_converted_to_issue');
             }
@@ -1289,7 +1289,7 @@ class Notification
             $notice .= "Assignment: " . implode(', ', $assignment) . "; ";
         }
         $notice .= "BLOCKED email from '$from')";
-        Notification::notifyIRC(Issue::getProjectID($issue_id), $notice, $issue_id);
+        self::notifyIRC(Issue::getProjectID($issue_id), $notice, $issue_id);
     }
 
 
@@ -1463,7 +1463,7 @@ class Notification
         if (count($assignees) > 0) {
 
             // get issue details
-            $issue = Notification::getIssueDetails($issue_id);
+            $issue = self::getIssueDetails($issue_id);
             // open text template
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/' . $type . '.tpl.text');
@@ -1486,7 +1486,7 @@ class Notification
                 $mail = new Mail_Helper;
                 $mail->setTextBody($text_message);
                 $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-                $mail->send(Notification::getFixedFromHeader($issue_id, '', 'issue'), User::getFromHeader($assignees[$i]), "[#$issue_id] $title: " . $issue['iss_summary'], TRUE, $issue_id, $type);
+                $mail->send(self::getFixedFromHeader($issue_id, '', 'issue'), User::getFromHeader($assignees[$i]), "[#$issue_id] $title: " . $issue['iss_summary'], TRUE, $issue_id, $type);
             }
             Language::restore();
         }
@@ -1521,7 +1521,7 @@ class Notification
             return false;
         }
         // get issue details
-        $issue = Notification::getIssueDetails($issue_id);
+        $issue = self::getIssueDetails($issue_id);
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/assigned.tpl.text');
@@ -1539,7 +1539,7 @@ class Notification
             $mail = new Mail_Helper;
             $mail->setTextBody($text_message);
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-            $mail->send(Notification::getFixedFromHeader($issue_id, '', 'issue'), $emails[$i], "[#$issue_id] New Assignment: " . $issue['iss_summary'], TRUE, $issue_id, 'assignment');
+            $mail->send(self::getFixedFromHeader($issue_id, '', 'issue'), $emails[$i], "[#$issue_id] New Assignment: " . $issue['iss_summary'], TRUE, $issue_id, 'assignment');
         }
         Language::restore();
     }
@@ -1713,7 +1713,7 @@ class Notification
                 $user_info = User::getNameEmail($res["sub_usr_id"]);
                 $res["sub_email"] = $user_info["usr_email"];
             }
-            return array_merge($res, Notification::getSubscribedActions($sub_id));
+            return array_merge($res, self::getSubscribedActions($sub_id));
         }
     }
 
@@ -1773,7 +1773,7 @@ class Notification
                     $res[$i]["sub_email"] = User::getFromHeader($res[$i]["sub_usr_id"]);
                 }
                 // need to get the list of subscribed actions now
-                $actions = Notification::getSubscribedActions($res[$i]["sub_id"]);
+                $actions = self::getSubscribedActions($res[$i]["sub_id"]);
                 $res[$i]["actions"] = @implode(", ", array_keys($actions));
             }
             return $res;
@@ -1803,7 +1803,7 @@ class Notification
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Notification::remove($res);
+            self::remove($res);
             return true;
         }
     }
@@ -1830,7 +1830,7 @@ class Notification
 
         for ($i = 0; $i < count($items); $i++) {
             $sub_id = $items[$i];
-            $subscriber = Notification::getSubscriber($sub_id);
+            $subscriber = self::getSubscriber($sub_id);
             $stmt = "DELETE FROM
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                      WHERE
@@ -1996,7 +1996,7 @@ class Notification
         } else {
             $sub_id = DB_Helper::get_last_insert_id();
             for ($i = 0; $i < count($actions); $i++) {
-                Notification::addType($sub_id, $actions[$i]);
+                self::addType($sub_id, $actions[$i]);
             }
             // need to mark the issue as updated
             Issue::markAsUpdated($issue_id);
@@ -2032,7 +2032,7 @@ class Notification
         // first check if this is an actual user or just an email address
         $sub_usr_id = User::getUserIDByEmail($form_email, true);
         if (!empty($sub_usr_id)) {
-            return Notification::subscribeUser($usr_id, $issue_id, $sub_usr_id, $actions);
+            return self::subscribeUser($usr_id, $issue_id, $sub_usr_id, $actions);
         }
 
         $issue_id = Misc::escapeInteger($issue_id);
@@ -2083,7 +2083,7 @@ class Notification
         } else {
             $sub_id = DB_Helper::get_last_insert_id();
             for ($i = 0; $i < count($actions); $i++) {
-                Notification::addType($sub_id, $actions[$i]);
+                self::addType($sub_id, $actions[$i]);
             }
             // need to mark the issue as updated
             Issue::markAsUpdated($issue_id);
@@ -2179,13 +2179,13 @@ class Notification
             DB_Helper::getInstance()->query($stmt);
             // now add them all again
             for ($i = 0; $i < count($_POST["actions"]); $i++) {
-                Notification::addType($sub_id, $_POST["actions"][$i]);
+                self::addType($sub_id, $_POST["actions"][$i]);
             }
             // need to mark the issue as updated
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
             History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_updated'),
-                            ev_gettext('Notification list entry (\'%1$s\') updated by %2$s', Notification::getSubscriber($sub_id), User::getFullName(Auth::getUserID())));
+                            ev_gettext('Notification list entry (\'%1$s\') updated by %2$s', self::getSubscriber($sub_id), User::getFullName(Auth::getUserID())));
             return 1;
         }
     }

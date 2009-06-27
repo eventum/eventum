@@ -112,16 +112,16 @@ class Attachment
      */
     function outputDownload(&$data, $filename, $filesize, $filetype)
     {
-        $filename = Attachment::nameToSafe($filename);
+        $filename = self::nameToSafe($filename);
         $parts = pathinfo($filename);
-        if (in_array(strtolower(@$parts["extension"]), Attachment::_getPHPExtensions())) {
+        if (in_array(strtolower(@$parts["extension"]), self::_getPHPExtensions())) {
             // instead of redirecting the user to a PHP script that may contain malicious code, we highlight the code
             highlight_string($data);
         } else {
             if ((empty($filename)) && (!empty($filetype))) {
                 // inline images
                 header("Content-Type: $filetype");
-            } elseif ((in_array(strtolower(@$parts["extension"]), Attachment::_getTextPlainExtensions())) && ($filesize < 5000)) {
+            } elseif ((in_array(strtolower(@$parts["extension"]), self::_getTextPlainExtensions())) && ($filesize < 5000)) {
                 // always force the browser to display the contents of these special files
                 header('Content-Type: text/plain');
                 header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
@@ -131,7 +131,7 @@ class Attachment
                 } else {
                     header("Content-Type: " . $filetype);
                 }
-                if (!in_array(strtolower(@$parts["extension"]), Attachment::_getNoDownloadExtensions())) {
+                if (!in_array(strtolower(@$parts["extension"]), self::_getNoDownloadExtensions())) {
                     header("Content-Disposition: attachment; filename=\"" . urlencode($filename) . "\"");
                 } else {
                     header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
@@ -186,11 +186,11 @@ class Attachment
                             iaf_iat_id=iat_id";
                 $attachment_id = DB_Helper::getInstance()->getOne($stmt);
 
-                $res = Attachment::getFileList($attachment_id);
+                $res = self::getFileList($attachment_id);
                 if (@count($res) > 1) {
-                    Attachment::removeFile($iaf_id);
+                    self::removeFile($iaf_id);
                 } else {
-                    Attachment::remove($attachment_id);
+                    self::remove($attachment_id);
                 }
                 return 1;
             }
@@ -255,7 +255,7 @@ class Attachment
             return false;
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                Attachment::remove($res[$i]);
+                self::remove($res[$i]);
             }
             return true;
         }
@@ -293,7 +293,7 @@ class Attachment
                 return -2;
             } else {
                 $issue_id = $res;
-                $files = Attachment::getFileList($iat_id);
+                $files = self::getFileList($iat_id);
                 $stmt = "DELETE FROM
                             " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_attachment
                          WHERE
@@ -305,7 +305,7 @@ class Attachment
                     return -1;
                 }
                 for ($i = 0; $i < count($files); $i++) {
-                    Attachment::removeFile($files[$i]['iaf_id']);
+                    self::removeFile($files[$i]['iaf_id']);
                 }
                 if ($add_history) {
                     Issue::markAsUpdated($usr_id);
@@ -412,7 +412,7 @@ class Attachment
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["iat_description"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["iat_description"])));
-                $res[$i]["files"] = Attachment::getFileList($res[$i]["iat_id"]);
+                $res[$i]["files"] = self::getFileList($res[$i]["iat_id"]);
                 $res[$i]["iat_created_date"] = Date_Helper::getFormattedDate($res[$i]["iat_created_date"]);
 
                 // if there is an unknown user, user that instead of the user_full_name
@@ -465,12 +465,12 @@ class Attachment
         } else {
             $internal_only = false;
         }
-        $attachment_id = Attachment::add($_POST["issue_id"], $usr_id, @$_POST["file_description"], $internal_only);
+        $attachment_id = self::add($_POST["issue_id"], $usr_id, @$_POST["file_description"], $internal_only);
         foreach ($files as $file) {
-            $res = Attachment::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
+            $res = self::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
             if ($res !== true) {
                 // we must rollback whole attachment (all files)
-                Attachment::remove($attachment_id, false);
+                self::remove($attachment_id, false);
                 return -1;
             }
         }

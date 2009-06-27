@@ -66,7 +66,7 @@ class Reminder
     function changeRank($rem_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
-        $ranking = Reminder::_getRanking();
+        $ranking = self::_getRanking();
         $ranks = array_values($ranking);
         $ids = array_keys($ranking);
         $last = end($ids);
@@ -219,7 +219,7 @@ class Reminder
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return '';
         } else {
-            $requirements = Reminder::getRequirements($rem_id);
+            $requirements = self::getRequirements($rem_id);
             if (!empty($requirements)) {
                 $res['type'] = $requirements['type'];
                 if ($res['type'] == 'support_level') {
@@ -230,7 +230,7 @@ class Reminder
                     $res['rer_iss_id'] = array_values($requirements['values']);
                 }
             }
-            $priorities = Reminder::getAssociatedPriorities($rem_id);
+            $priorities = self::getAssociatedPriorities($rem_id);
             if (count($priorities) > 0) {
                 $res['check_priority'] = 'yes';
                 $res['rer_pri_id'] = $priorities;
@@ -470,22 +470,22 @@ class Reminder
             // map the reminder requirements now
             if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
                 for ($i = 0; $i < count($_POST['support_levels']); $i++) {
-                    Reminder::addSupportLevelAssociation($new_rem_id, $_POST['support_levels'][$i]);
+                    self::addSupportLevelAssociation($new_rem_id, $_POST['support_levels'][$i]);
                 }
             } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
                 for ($i = 0; $i < count($_POST['issues']); $i++) {
-                    Reminder::addIssueAssociation($new_rem_id, $_POST['issues'][$i]);
+                    self::addIssueAssociation($new_rem_id, $_POST['issues'][$i]);
                 }
             } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
                 for ($i = 0; $i < count($_POST['customers']); $i++) {
-                    Reminder::addCustomerAssociation($new_rem_id, $_POST['customers'][$i]);
+                    self::addCustomerAssociation($new_rem_id, $_POST['customers'][$i]);
                 }
             } elseif (@$_POST['reminder_type'] == 'all_issues') {
-                 Reminder::associateAllIssues($new_rem_id);
+                 self::associateAllIssues($new_rem_id);
             }
             if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
                 for ($i = 0; $i < count($_POST['priorities']); $i++) {
-                    Reminder::addPriorityAssociation($new_rem_id, $_POST['priorities'][$i]);
+                    self::addPriorityAssociation($new_rem_id, $_POST['priorities'][$i]);
                 }
             }
             return 1;
@@ -516,26 +516,26 @@ class Reminder
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Reminder::removeAllAssociations($_POST['id']);
+            self::removeAllAssociations($_POST['id']);
             // map the reminder requirements now
             if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
                 for ($i = 0; $i < count($_POST['support_levels']); $i++) {
-                    Reminder::addSupportLevelAssociation($_POST['id'], $_POST['support_levels'][$i]);
+                    self::addSupportLevelAssociation($_POST['id'], $_POST['support_levels'][$i]);
                 }
             } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
                 for ($i = 0; $i < count($_POST['issues']); $i++) {
-                    Reminder::addIssueAssociation($_POST['id'], $_POST['issues'][$i]);
+                    self::addIssueAssociation($_POST['id'], $_POST['issues'][$i]);
                 }
             } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
                 for ($i = 0; $i < count($_POST['customers']); $i++) {
-                    Reminder::addCustomerAssociation($_POST['id'], $_POST['customers'][$i]);
+                    self::addCustomerAssociation($_POST['id'], $_POST['customers'][$i]);
                 }
             } elseif (@$_POST['reminder_type'] == 'all_issues') {
-                 Reminder::associateAllIssues($_POST['id']);
+                 self::associateAllIssues($_POST['id']);
             }
             if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
                 for ($i = 0; $i < count($_POST['priorities']); $i++) {
-                    Reminder::addPriorityAssociation($_POST['id'], $_POST['priorities'][$i]);
+                    self::addPriorityAssociation($_POST['id'], $_POST['priorities'][$i]);
                 }
             }
             return 1;
@@ -562,7 +562,7 @@ class Reminder
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Reminder::removeAllAssociations($_POST["items"]);
+            self::removeAllAssociations($_POST["items"]);
             $stmt = "SELECT
                         rma_id
                      FROM
@@ -654,7 +654,7 @@ class Reminder
                 $res[$i]['rem_created_date'] = Date_Helper::getFormattedDate($res[$i]["rem_created_date"]);
                 $actions = Reminder_Action::getList($res[$i]['rem_id']);
                 $res[$i]['total_actions'] = count($actions);
-                $priorities = Reminder::getAssociatedPriorities($res[$i]['rem_id']);
+                $priorities = self::getAssociatedPriorities($res[$i]['rem_id']);
                 $priority_titles = Priority::getAssocList($res[$i]['rem_prj_id']);
                 $res[$i]['priorities'] = array();
                 if (count($priorities) > 0) {
@@ -664,7 +664,7 @@ class Reminder
                 } else {
                     $res[$i]['priorities'][] = 'Any';
                 }
-                $requirements = Reminder::getRequirements($res[$i]['rem_id']);
+                $requirements = self::getRequirements($res[$i]['rem_id']);
                 $res[$i]['type'] = $requirements['type'];
             }
             return $res;
@@ -725,7 +725,7 @@ class Reminder
                     iss_id
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue";
-        $stmt .= Reminder::getWhereClause($reminder, $conditions);
+        $stmt .= self::getWhereClause($reminder, $conditions);
         $stmt .= ' AND iss_trigger_reminders=1 ';
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
@@ -757,7 +757,7 @@ class Reminder
         $stmt = '
                   WHERE
                     iss_prj_id=' . $reminder['rem_prj_id'] . "\n";
-        $requirement = Reminder::getRequirements($reminder['rem_id']);
+        $requirement = self::getRequirements($reminder['rem_id']);
         if ($requirement['type'] == 'issue') {
             $stmt .= ' AND iss_id IN (' . implode(', ', $requirement['values']) . ")\n";
         } else {
@@ -776,7 +776,7 @@ class Reminder
                 }
             }
         }
-        $priorities = Reminder::getAssociatedPriorities($reminder['rem_id']);
+        $priorities = self::getAssociatedPriorities($reminder['rem_id']);
         if (count($priorities) > 0) {
             $stmt .= ' AND iss_pri_id IN (' . implode(', ', $priorities) . ")\n";
         }
@@ -823,13 +823,13 @@ class Reminder
      */
     function getSQLQuery($rem_id, $rma_id)
     {
-        $reminder = Reminder::getDetails($rem_id);
+        $reminder = self::getDetails($rem_id);
         $conditions = Reminder_Condition::getList($rma_id);
         $stmt = "SELECT
                     iss_id
                  FROM
                     " . APP_TABLE_PREFIX . "issue";
-        $stmt .= Reminder::getWhereClause($reminder, $conditions);
+        $stmt .= self::getWhereClause($reminder, $conditions);
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
         return $stmt;

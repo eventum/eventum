@@ -106,35 +106,35 @@ class Auth
         if ($failed_url == NULL) {
             $failed_url = APP_RELATIVE_URL . "index.php?err=5";
         }
-        $failed_url .= "&url=" . Auth::getRequestedURL();
+        $failed_url .= "&url=" . self::getRequestedURL();
         if (!isset($_COOKIE[$cookie_name])) {
             if (APP_ANON_USER) {
                 $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
                 $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
-                Auth::createFakeCookie($anon_usr_id, $prj_id);
-                Auth::createLoginCookie(APP_COOKIE, APP_ANON_USER);
-                Auth::setCurrentProject($prj_id, true);
+                self::createFakeCookie($anon_usr_id, $prj_id);
+                self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+                self::setCurrentProject($prj_id, true);
                 Session::init($anon_usr_id);
             } else {
-                Auth::redirect($failed_url, $is_popup);
+                self::redirect($failed_url, $is_popup);
             }
         }
         $cookie = $_COOKIE[$cookie_name];
         $cookie = unserialize(base64_decode($cookie));
-        if (!Auth::isValidCookie($cookie)) {
-            Auth::removeCookie($cookie_name);
-            Auth::redirect($failed_url, $is_popup);
+        if (!self::isValidCookie($cookie)) {
+            self::removeCookie($cookie_name);
+            self::redirect($failed_url, $is_popup);
         }
-        if (Auth::isPendingUser($cookie["email"])) {
-            Auth::removeCookie($cookie_name);
-            Auth::redirect(APP_RELATIVE_URL . "index.php?err=9", $is_popup);
+        if (self::isPendingUser($cookie["email"])) {
+            self::removeCookie($cookie_name);
+            self::redirect(APP_RELATIVE_URL . "index.php?err=9", $is_popup);
         }
-        if (!Auth::isActiveUser($cookie["email"])) {
-            Auth::removeCookie($cookie_name);
-            Auth::redirect(APP_RELATIVE_URL . "index.php?err=7", $is_popup);
+        if (!self::isActiveUser($cookie["email"])) {
+            self::removeCookie($cookie_name);
+            self::redirect(APP_RELATIVE_URL . "index.php?err=7", $is_popup);
         }
 
-        $usr_id = Auth::getUserID();
+        $usr_id = self::getUserID();
 
         // check the session
         Session::verify($usr_id);
@@ -144,10 +144,10 @@ class Auth
         }
 
         // check whether the project selection is set or not
-        $prj_id = Auth::getCurrentProject();
+        $prj_id = self::getCurrentProject();
         if (empty($prj_id)) {
             // redirect to select project page
-            Auth::redirect(APP_RELATIVE_URL . "select_project.php?url=" . Auth::getRequestedURL(), $is_popup);
+            self::redirect(APP_RELATIVE_URL . "select_project.php?url=" . self::getRequestedURL(), $is_popup);
         }
         // check the expiration date for a 'Customer' type user
         $customer_id = User::getCustomerID($usr_id);
@@ -160,15 +160,15 @@ class Auth
 
         // auto switch project
         if (isset($_GET['switch_prj_id'])) {
-            Auth::setCurrentProject($_GET['switch_prj_id'], false);
-            Auth::redirect($_SERVER['PHP_SELF'] . '?' . str_replace("switch_prj_id=" . $_GET['switch_prj_id'], "", $_SERVER['QUERY_STRING']));
+            self::setCurrentProject($_GET['switch_prj_id'], false);
+            self::redirect($_SERVER['PHP_SELF'] . '?' . str_replace("switch_prj_id=" . $_GET['switch_prj_id'], "", $_SERVER['QUERY_STRING']));
         }
 
         // if the current session is still valid, then renew the expiration
-        Auth::createLoginCookie($cookie_name, $cookie['email']);
+        self::createLoginCookie($cookie_name, $cookie['email']);
         // renew the project cookie as well
-        $prj_cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-        Auth::setCurrentProject($prj_id, $prj_cookie["remember"]);
+        $prj_cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
+        self::setCurrentProject($prj_id, $prj_cookie["remember"]);
     }
 
 
@@ -180,11 +180,11 @@ class Auth
      */
     function logout()
     {
-        Auth::removeCookie(APP_COOKIE);
+        self::removeCookie(APP_COOKIE);
         // if 'remember projects' is true don't remove project cookie
-        $project_cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+        $project_cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
         if (empty($project_cookie['remember'])) {
-            Auth::removeCookie(APP_PROJECT_COOKIE);
+            self::removeCookie(APP_PROJECT_COOKIE);
         }
     }
 
@@ -255,7 +255,7 @@ class Auth
     {
         $cookie = @$_COOKIE[$cookie_name];
         $cookie = unserialize(base64_decode($cookie));
-        if (!Auth::isValidCookie($cookie)) {
+        if (!self::isValidCookie($cookie)) {
             return false;
         } else {
             return true;
@@ -271,7 +271,7 @@ class Auth
      */
     function isAnonUser()
     {
-        return Auth::getUserID() == User::getUserIDByEmail(APP_ANON_USER);
+        return self::getUserID() == User::getUserIDByEmail(APP_ANON_USER);
     }
 
 
@@ -330,7 +330,7 @@ class Auth
             "hash"       => md5(self::privateKey() . md5($time) . $email),
         );
         $cookie = base64_encode(serialize($cookie));
-        Auth::setCookie($cookie_name, $cookie, APP_COOKIE_EXPIRE);
+        self::setCookie($cookie_name, $cookie, APP_COOKIE_EXPIRE);
     }
 
 
@@ -380,7 +380,7 @@ class Auth
      */
     function removeCookie($cookie_name)
     {
-        Auth::setCookie($cookie_name, '', time()-36000);
+        self::setCookie($cookie_name, '', time()-36000);
     }
 
 
@@ -419,7 +419,7 @@ class Auth
     {
         $usr_id = User::getUserIDByEmail($email, true);
         $user = User::getDetails($usr_id);
-        if ($user['usr_password'] != Auth::hashPassword($password)) {
+        if ($user['usr_password'] != self::hashPassword($password)) {
             return false;
         } else {
             return true;
@@ -435,7 +435,7 @@ class Auth
      */
     function getUserID()
     {
-        $info = Auth::getCookieInfo(APP_COOKIE);
+        $info = self::getCookieInfo(APP_COOKIE);
         if (empty($info)) {
             return '';
         } else {
@@ -452,17 +452,17 @@ class Auth
      */
     function getCurrentProject()
     {
-        $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+        $cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
         if (empty($cookie)) {
             return "";
         }
-        $usr_id = Auth::getUserID();
+        $usr_id = self::getUserID();
         $projects = Project::getAssocList($usr_id);
         if ($usr_id == APP_SYSTEM_USER_ID) {
             return isset($cookie['prj_id']) ? (int )$cookie['prj_id'] : null;
         }
         if (!in_array($cookie["prj_id"], array_keys($projects))) {
-            Auth::redirect(APP_RELATIVE_URL . "select_project.php");
+            self::redirect(APP_RELATIVE_URL . "select_project.php");
         }
         return $cookie["prj_id"];
     }
@@ -476,7 +476,7 @@ class Auth
      */
     function getCurrentProjectName()
     {
-        $proj_id = Auth::getCurrentProject();
+        $proj_id = self::getCurrentProject();
         if (!empty($proj_id)) {
             return Project::getName($proj_id);
         }
@@ -491,8 +491,8 @@ class Auth
      */
     function getCurrentRole()
     {
-        $prj_id = Auth::getCurrentProject();
-        $usr_id = Auth::getUserID();
+        $prj_id = self::getCurrentProject();
+        $usr_id = self::getUserID();
         if ((!empty($prj_id)) && (!empty($usr_id))) {
             return User::getRoleByUser($usr_id, $prj_id);
         } else {
@@ -516,7 +516,7 @@ class Auth
             "remember" => $remember
         );
         $cookie = base64_encode(serialize($cookie));
-        Auth::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
+        self::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
         $_COOKIE[APP_PROJECT_COOKIE] = $cookie;
     }
 

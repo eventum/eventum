@@ -372,7 +372,7 @@ class User
      */
     function sendPasswordConfirmationEmail($usr_id)
     {
-        $info = User::getDetails($usr_id);
+        $info = self::getDetails($usr_id);
         // send confirmation email to user
         $hash = md5($info["usr_full_name"] . md5($info["usr_email"]) . Auth::privateKey());
 
@@ -403,11 +403,11 @@ class User
      */
     function confirmNewPassword($email)
     {
-        $usr_id = User::getUserIDByEmail($email);
+        $usr_id = self::getUserIDByEmail($email);
         // create the new password
         $_POST["new_password"] = substr(md5(microtime() . uniqid("")), 0, 12);
         $_POST["confirm_password"] = $_POST["new_password"];
-        User::updatePassword($usr_id, true);
+        self::updatePassword($usr_id, true);
     }
 
 
@@ -449,7 +449,7 @@ class User
             return "";
         } else {
             if ((empty($res)) && ($check_aliases)) {
-                $returns[$email] = User::getUserIDByAlias($email);
+                $returns[$email] = self::getUserIDByAlias($email);
             } else {
                 $returns[$email] = $res;
             }
@@ -584,7 +584,7 @@ class User
                 $exclude_role = array($exclude_role);
             }
             foreach ($exclude_role as $role_title) {
-                unset($roles[User::getRoleID($role_title)]);
+                unset($roles[self::getRoleID($role_title)]);
             }
 
             return $roles;
@@ -636,7 +636,7 @@ class User
         static $returns;
 
         if ($usr_id == APP_SYSTEM_USER_ID) {
-            return User::getRoleID("Administrator");
+            return self::getRoleID("Administrator");
         }
 
         if (!empty($returns[$usr_id][$prj_id])) {
@@ -1161,8 +1161,8 @@ class User
                 $role = current($roles);
                 $role = $role['pru_role'];
                 if (($show_customers == false) && (
-                    ((@$roles[Auth::getCurrentProject()]['pru_role']) == User::getRoleID("Customer")) ||
-                    ((count($roles) == 1) && ($role == User::getRoleID("Customer"))))) {
+                    ((@$roles[Auth::getCurrentProject()]['pru_role']) == self::getRoleID("Customer")) ||
+                    ((count($roles) == 1) && ($role == self::getRoleID("Customer"))))) {
                     continue;
                 }
                 $row = $res[$i];
@@ -1278,7 +1278,7 @@ class User
      */
     function getFromHeader($usr_id)
     {
-        $info = User::getNameEmail($usr_id);
+        $info = self::getNameEmail($usr_id);
         return $info["usr_full_name"] . " <" . $info["usr_email"] . ">";
     }
 
@@ -1476,12 +1476,12 @@ class User
     function addAlias($usr_id, $email)
     {
         // see if alias belongs to a user right now
-        $email_usr_id = User::getUserIDByEmail($email);
+        $email_usr_id = self::getUserIDByEmail($email);
         if (!empty($email_usr_id)) {
             return false;
         }
 
-        $existing_alias_usr_id = User::getUserIDByAlias($email);
+        $existing_alias_usr_id = self::getUserIDByAlias($email);
         if (!empty($existing_alias_usr_id)) {
             return false;
         }

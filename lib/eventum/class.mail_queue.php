@@ -175,18 +175,18 @@ class Mail_Queue
     function send($status, $limit)
     {
         // get list of emails to send
-        $emails = Mail_Queue::_getList($status, $limit);
+        $emails = self::_getList($status, $limit);
         // foreach email
         for ($i = 0; $i < count($emails); $i++) {
             $current_status = $status;
             if ($emails[$i]['maq_type'] == 'error') {
                 $current_status = 'error';
             }
-            $result = Mail_Queue::_sendEmail($emails[$i]['recipient'], $emails[$i]['headers'], $emails[$i]['body'], $current_status);
+            $result = self::_sendEmail($emails[$i]['recipient'], $emails[$i]['headers'], $emails[$i]['body'], $current_status);
             if (PEAR::isError($result)) {
-                Mail_Queue::_saveLog($emails[$i]['id'], 'error', Mail_Queue::_getErrorMessage($result));
+                self::_saveLog($emails[$i]['id'], 'error', self::_getErrorMessage($result));
             } else {
-                Mail_Queue::_saveLog($emails[$i]['id'], 'sent', '');
+                self::_saveLog($emails[$i]['id'], 'sent', '');
                 if ($emails[$i]['save_copy']) {
                     // send a copy of this email to eventum_sent@
                     Mail_Helper::saveEmailInformation($emails[$i]);
@@ -209,7 +209,7 @@ class Mail_Queue
     function _sendEmail($recipient, $text_headers, $body, $status)
     {
         $header_names = Mime_Helper::getHeaderNames($text_headers);
-        $_headers = Mail_Queue::_getHeaders($text_headers, $body);
+        $_headers = self::_getHeaders($text_headers, $body);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {
             // need to remove the quotes to avoid a parsing problem

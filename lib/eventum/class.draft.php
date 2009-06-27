@@ -105,11 +105,11 @@ class Draft
             return -1;
         } else {
             $new_emd_id = DB_Helper::get_last_insert_id();
-            Draft::addEmailRecipient($new_emd_id, $to, false);
+            self::addEmailRecipient($new_emd_id, $to, false);
             $cc = str_replace(',', ';', $cc);
             $ccs = explode(';', $cc);
             foreach ($ccs as $cc) {
-                Draft::addEmailRecipient($new_emd_id, $cc, true);
+                self::addEmailRecipient($new_emd_id, $cc, true);
             }
             Issue::markAsUpdated($issue_id, "draft saved");
             if ($add_history_entry) {
@@ -158,7 +158,7 @@ class Draft
         } else {
             Issue::markAsUpdated($issue_id, "draft saved");
             History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), ev_gettext('Email message draft updated by %1$s', User::getFullName($usr_id)));
-            Draft::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
+            self::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
             return 1;
         }
     }
@@ -282,7 +282,7 @@ class Draft
             } else {
                 $res['from'] = User::getFromHeader($res['emd_usr_id']);
             }
-            list($res['to'], $res['cc']) = Draft::getEmailRecipients($emd_id);
+            list($res['to'], $res['cc']) = self::getEmailRecipients($emd_id);
             return $res;
         }
     }
@@ -327,7 +327,7 @@ class Draft
                 } else {
                     $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
                 }
-                list($res[$i]['to'], ) = Draft::getEmailRecipients($res[$i]['emd_id']);
+                list($res[$i]['to'], ) = self::getEmailRecipients($res[$i]['emd_id']);
                 if (empty($res[$i]['to'])) {
                     $res[$i]['to'] = "Notification List";
                 }
@@ -407,7 +407,7 @@ class Draft
             if (empty($res)) {
                 return array();
             } else {
-                return Draft::getDetails($res);
+                return self::getDetails($res);
             }
         }
     }
@@ -422,7 +422,7 @@ class Draft
     function send($draft_id)
     {
         $draft_id = Misc::escapeInteger($draft_id);
-        $draft = Draft::getDetails($draft_id);
+        $draft = self::getDetails($draft_id);
         $_POST["issue_id"] = $draft["emd_iss_id"];
         $_POST["subject"] = $draft["emd_subject"];
         $_POST["from"] = User::getFromHeader(Auth::getUserID());
@@ -432,7 +432,7 @@ class Draft
         $_POST["ema_id"] = Email_Account::getEmailAccount();
         $res = Support::sendEmail();
         if ($res == 1) {
-           Draft::remove($draft_id);
+           self::remove($draft_id);
         }
         return $res;
     }

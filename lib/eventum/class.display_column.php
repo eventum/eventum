@@ -59,7 +59,7 @@ class Display_Column
         }
 
         $current_role = Auth::getCurrentRole();
-        $data = Display_Column::getSelectedColumns($prj_id, $page);
+        $data = self::getSelectedColumns($prj_id, $page);
         $has_customer_integration = Customer::hasCustomerIntegration($prj_id);
         $only_with_customers = array('iss_customer_id', 'support_level');
 
@@ -92,7 +92,7 @@ class Display_Column
                 continue;
             }
             // get title
-            $data[$field] = Display_Column::getColumnInfo($page, $field);
+            $data[$field] = self::getColumnInfo($page, $field);
         }
         $returns[$prj_id][$page] = $data;
         return $data;
@@ -135,7 +135,7 @@ class Display_Column
         } else {
             $returns[$prj_id][$page] = array();
             foreach ($res as $field_name => $row) {
-                $returns[$prj_id][$page][$field_name] = Display_Column::getColumnInfo($page, $field_name);
+                $returns[$prj_id][$page][$field_name] = self::getColumnInfo($page, $field_name);
                 $returns[$prj_id][$page][$field_name]['min_role'] = $row['ctd_min_role'];
                 $returns[$prj_id][$page][$field_name]['rank'] = $row['ctd_rank'];
             }
@@ -154,7 +154,7 @@ class Display_Column
      */
     function getColumnInfo($page, $column)
     {
-        $columns = Display_Column::getAllColumns($page);
+        $columns = self::getAllColumns($page);
         return $columns[$column];
     }
 
@@ -291,7 +291,7 @@ class Display_Column
     function setupNewProject($prj_id)
     {
         $page = 'list_issues';
-        $columns = Display_Column::getAllColumns($page);
+        $columns = self::getAllColumns($page);
         $rank = 1;
         foreach ($columns as $field_name => $column) {
             if (!empty($column['default_role'])) {

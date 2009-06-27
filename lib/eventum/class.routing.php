@@ -89,11 +89,11 @@ class Routing
 
         // find which issue ID this email refers to
         if (isset($structure->headers['to'])) {
-            $issue_id = Routing::getMatchingIssueIDs($structure->headers['to'], 'email');
+            $issue_id = self::getMatchingIssueIDs($structure->headers['to'], 'email');
         }
         // we need to try the Cc header as well
         if (empty($issue_id) and isset($structure->headers['cc'])) {
-            $issue_id = Routing::getMatchingIssueIDs($structure->headers['cc'], 'email');
+            $issue_id = self::getMatchingIssueIDs($structure->headers['cc'], 'email');
         }
 
         if (empty($issue_id)) {
@@ -269,12 +269,12 @@ class Routing
 
         // find which issue ID this email refers to
         if (isset($structure->headers['to'])) {
-            $issue_id = Routing::getMatchingIssueIDs($structure->headers['to'], 'note');
+            $issue_id = self::getMatchingIssueIDs($structure->headers['to'], 'note');
         }
         // validation is always a good idea
         if (empty($issue_id) and isset($structure->headers['cc'])) {
             // we need to try the Cc header as well
-            $issue_id = Routing::getMatchingIssueIDs($structure->headers['cc'], 'note');
+            $issue_id = self::getMatchingIssueIDs($structure->headers['cc'], 'note');
         }
 
         if (empty($issue_id)) {
@@ -386,12 +386,12 @@ class Routing
 
         // find which issue ID this email refers to
         if (isset($structure->headers['to'])) {
-            $issue_id = Routing::getMatchingIssueIDs($structure->headers['to'], 'draft');
+            $issue_id = self::getMatchingIssueIDs($structure->headers['to'], 'draft');
         }
         // validation is always a good idea
         if (empty($issue_id) and isset($structure->headers['cc'])) {
             // we need to try the Cc header as well
-            $issue_id = Routing::getMatchingIssueIDs($structure->headers['cc'], 'draft');
+            $issue_id = self::getMatchingIssueIDs($structure->headers['cc'], 'draft');
         }
 
         if (empty($issue_id)) {

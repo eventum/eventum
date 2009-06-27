@@ -41,13 +41,13 @@ class Lock
      */
     function acquire($name)
     {
-        $pid = Lock::getProcessID($name);
+        $pid = self::getProcessID($name);
         if (!empty($pid)) {
             return false;
         }
 
         // create the pid file
-        $fp = fopen(Lock::_getProcessFilename($name), 'w');
+        $fp = fopen(self::_getProcessFilename($name), 'w');
         flock($fp, LOCK_EX);
         fwrite($fp, getmypid());
         flock($fp, LOCK_UN);
@@ -66,7 +66,7 @@ class Lock
      */
     function release($name)
     {
-        @unlink(Lock::_getProcessFilename($name));
+        @unlink(self::_getProcessFilename($name));
     }
 
 
@@ -100,7 +100,7 @@ class Lock
             return $pids[$name];
         }
 
-        $pid_file = Lock::_getProcessFilename($name);
+        $pid_file = self::_getProcessFilename($name);
         if (!file_exists($pid_file)) {
             return 0;
         } else {

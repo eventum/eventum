@@ -252,7 +252,7 @@ class Note
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return array();
         } else {
-            return Note::getDetails($res);
+            return self::getDetails($res);
         }
     }
 
@@ -561,10 +561,10 @@ class Note
     function convertNote($note_id, $target, $authorize_sender = false)
     {
         $note_id = Misc::escapeInteger($note_id);
-        $issue_id = Note::getIssueID($note_id);
+        $issue_id = self::getIssueID($note_id);
         $email_account_id = Email_Account::getEmailAccount();
-        $blocked_message = Note::getBlockedMessage($note_id);
-        $unknown_user = Note::getUnknownUser($note_id);
+        $blocked_message = self::getBlockedMessage($note_id);
+        $unknown_user = self::getUnknownUser($note_id);
         $structure = Mime_Helper::decode($blocked_message, true, true);
         $body = $structure->body;
         $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
@@ -618,7 +618,7 @@ class Note
                 }
                 Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $t, $internal_only, false, '', $sup_id);
                 Issue::markAsUpdated($issue_id, $update_type);
-                Note::remove($note_id, false);
+                self::remove($note_id, false);
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_email'),
                         "Note converted to e-mail (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID()));
                 // now add sender as an authorized replier
@@ -637,7 +637,7 @@ class Note
                 false, $unknown_user);
             // remove the note, if the draft was created successfully
             if ($res) {
-                Note::remove($note_id, false);
+                self::remove($note_id, false);
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_draft'),
                         "Note converted to draft (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID()));
             }

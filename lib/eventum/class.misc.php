@@ -109,7 +109,7 @@ class Misc
             echo " [required] -> ";
         }
         flush();
-        $input = trim(Misc::getInput(true));
+        $input = trim(self::getInput(true));
         if (empty($input)) {
             if ($default_value === FALSE) {
                 die("ERROR: Required parameter was not provided!\n");
@@ -284,7 +284,7 @@ class Misc
            // manipulation on it farther down
            $args = $in_args;
            if (is_array($value)) {
-               Misc::array_map_deep($value, $in_func, $in_args, $in_index);
+               self::array_map_deep($value, $in_func, $in_args, $in_index);
            } else {
                array_splice($args, $in_index - 1, $in_index - 1, $value);
                $value = call_user_func_array($in_func, $args);
@@ -366,7 +366,7 @@ class Misc
     {
         if (is_array($input)) {
             foreach ($input as $key => $value) {
-                $input[$key] = Misc::escapeString($value);
+                $input[$key] = self::escapeString($value);
             }
         } else {
             $input = DB_Helper::escapeString($input);
@@ -386,7 +386,7 @@ class Misc
     {
         if (is_array($input)) {
             foreach ($input as $key => $value) {
-                $input[$key] = Misc::escapeInteger($value);
+                $input[$key] = self::escapeInteger($value);
             }
         } else {
             settype($input, 'integer');
@@ -408,7 +408,7 @@ class Misc
         $boolean = array();
         $pieces = explode(" ", $value);
         for ($i = 0; $i < count($pieces); $i++) {
-            $boolean[] = "$field LIKE '%" . Misc::escapeString($pieces[$i]) . "%'";
+            $boolean[] = "$field LIKE '%" . self::escapeString($pieces[$i]) . "%'";
         }
         return "(" . implode(" OR ", $boolean) . ")";
     }
@@ -424,12 +424,12 @@ class Misc
     function getRandomTip($tpl)
     {
         $tip_dir = $tpl->smarty->template_dir . "/tips";
-        $files = Misc::getFileList($tip_dir);
+        $files = self::getFileList($tip_dir);
         $i = rand(0, (integer)count($files));
         // some weird bug in the rand() function where sometimes the
         // second parameter is non-inclusive makes us have to do this
         if (!isset($files[$i])) {
-            return Misc::getRandomTip($tpl);
+            return self::getRandomTip($tpl);
         } else {
             return $files[$i];
         }
@@ -688,7 +688,7 @@ class Misc
     {
         foreach ($values as $key => $value) {
             if (is_array($value)) {
-                $values[$key] = Misc::base64encode($value);
+                $values[$key] = self::base64encode($value);
             } elseif (is_object($value)) {
                 $values[$key] = $value;
             } else {

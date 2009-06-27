@@ -152,7 +152,7 @@ class Custom_Field
         $prj_id = Auth::getCurrentProject();
         $issue_id = Misc::escapeInteger($_POST["issue_id"]);
 
-        $old_values = Custom_Field::getValuesByIssue($prj_id, $issue_id);
+        $old_values = self::getValuesByIssue($prj_id, $issue_id);
 
 
         if ((isset($_POST['custom_fields'])) && (count($_POST['custom_fields']) > 0)) {
@@ -202,7 +202,7 @@ class Custom_Field
                     if ($field_types[$fld_id] == 'integer') {
                         $value = Misc::escapeInteger($value);
                     }
-                    $fld_db_name = Custom_Field::getDBValueFieldNameByType($field_types[$fld_id]);
+                    $fld_db_name = self::getDBValueFieldNameByType($field_types[$fld_id]);
 
                     // first check if there is actually a record for this field for the issue
                     $stmt = "SELECT
@@ -269,7 +269,7 @@ class Custom_Field
                         $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_value, $value);
                     }
                 } else {
-                    $old_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id, true);
+                    $old_value = self::getDisplayValue($_POST['issue_id'], $fld_id, true);
 
                     if (!is_array($old_value)) {
                         $old_value = array($old_value);
@@ -279,20 +279,20 @@ class Custom_Field
                     }
                     if ((count(array_diff($old_value, $value)) > 0) || (count(array_diff($value, $old_value)) > 0)) {
 
-                        $old_display_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id);
+                        $old_display_value = self::getDisplayValue($_POST['issue_id'], $fld_id);
                         // need to remove all associated options from issue_custom_field and then
                         // add the selected options coming from the form
-                        Custom_Field::removeIssueAssociation($fld_id, $_POST["issue_id"]);
+                        self::removeIssueAssociation($fld_id, $_POST["issue_id"]);
                         if (@count($value) > 0) {
-                            Custom_Field::associateIssue($_POST["issue_id"], $fld_id, $value);
+                            self::associateIssue($_POST["issue_id"], $fld_id, $value);
                         }
-                        $new_display_value = Custom_Field::getDisplayValue($_POST['issue_id'], $fld_id);
+                        $new_display_value = self::getDisplayValue($_POST['issue_id'], $fld_id);
                         $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_display_value, $new_display_value);
                     }
                 }
             }
 
-            Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, Custom_Field::getValuesByIssue($prj_id, $issue_id));
+            Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, self::getValuesByIssue($prj_id, $issue_id));
             Issue::markAsUpdated($_POST["issue_id"]);
             // need to save a history entry for this
 
@@ -331,7 +331,7 @@ class Custom_Field
     function associateIssue($iss_id, $fld_id, $value)
     {
         // check if this is a date field
-        $fld_details = Custom_Field::getDetails($fld_id);
+        $fld_details = self::getDetails($fld_id);
         if (!is_array($value)) {
             $value = array($value);
         }
@@ -346,7 +346,7 @@ class Custom_Field
                      (
                         icf_iss_id,
                         icf_fld_id,
-                        " . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']) . "
+                        " . self::getDBValueFieldNameByType($fld_details['fld_type']) . "
                      ) VALUES (
                         " . Misc::escapeInteger($iss_id) . ",
                         " . Misc::escapeInteger($fld_id) . ",
@@ -411,7 +411,7 @@ class Custom_Field
             } else {
                 for ($i = 0; $i < count($res); $i++) {
                     // check if this has a dynamic field custom backend
-                    $backend = Custom_Field::getBackend($res[$i]['fld_id']);
+                    $backend = self::getBackend($res[$i]['fld_id']);
                     if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Custom_Field_Backend"))) {
                         $res[$i]['dynamic_options'] = $backend->getStructuredData();
                         $res[$i]['controlling_field_id'] = $backend->getControllingCustomFieldID();
@@ -431,10 +431,10 @@ class Custom_Field
                     }
 
 
-                    $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
+                    $res[$i]["field_options"] = self::getOptions($res[$i]["fld_id"]);
 
                     // get the default value (if one exists)
-                    $backend = Custom_Field::getBackend($res[$i]["fld_id"]);
+                    $backend = self::getBackend($res[$i]["fld_id"]);
                     if ((is_object($backend)) && (method_exists($backend, 'getDefaultValue'))) {
                         $res[$i]['default_value'] = $backend->getDefaultValue($res[$i]['fld_id']);
                     } else {
@@ -467,7 +467,7 @@ class Custom_Field
             return $returns[$fld_id . $value];
         }
 
-        $backend = Custom_Field::getBackend($fld_id);
+        $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && ((method_exists($backend, 'getList')) || (method_exists($backend, 'getOptionValue')))) {
             if (method_exists($backend, 'getOptionValue')) {
                 return $backend->getOptionValue($fld_id, $value);
@@ -521,7 +521,7 @@ class Custom_Field
             return $returns[$fld_id . $value];
         }
 
-        $backend = Custom_Field::getBackend($fld_id);
+        $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
             $values = $backend->getList($fld_id, false);
             $key = array_search($value, $values);
@@ -582,7 +582,7 @@ class Custom_Field
                     fld_report_form_required,
                     fld_anonymous_form_required,
                     fld_close_form_required,
-                    " . Custom_Field::getDBValueFieldSQL() . " as value,
+                    " . self::getDBValueFieldSQL() . " as value,
                     icf_value,
                     icf_value_date,
                     icf_value_integer,
@@ -626,12 +626,12 @@ class Custom_Field
                     if ($res[$i]["fld_type"] == "combo") {
                         $res[$i]["selected_cfo_id"] = $res[$i]["value"];
                         $res[$i]["original_value"] = $res[$i]["value"];
-                        $res[$i]["value"] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
-                        $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
+                        $res[$i]["value"] = self::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
+                        $res[$i]["field_options"] = self::getOptions($res[$i]["fld_id"]);
 
                         // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
                         if ((!empty($res[$i]['original_value'])) && (!isset($res[$i]['field_options'][$res[$i]['original_value']]))) {
-                            $res[$i]['field_options'][$res[$i]['original_value']] = Custom_Field::getOptionValue($res[$i]['fld_id'], $res[$i]['original_value']);
+                            $res[$i]['field_options'][$res[$i]['original_value']] = self::getOptionValue($res[$i]['fld_id'], $res[$i]['original_value']);
                         }
 
                         $fields[] = $res[$i];
@@ -648,18 +648,18 @@ class Custom_Field
                         $original_value = $res[$i]['value'];
                         if (!$found) {
                             $res[$i]["selected_cfo_id"] = array($res[$i]["value"]);
-                            $res[$i]["value"] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
-                            $res[$i]["field_options"] = Custom_Field::getOptions($res[$i]["fld_id"]);
+                            $res[$i]["value"] = self::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
+                            $res[$i]["field_options"] = self::getOptions($res[$i]["fld_id"]);
                             $fields[] = $res[$i];
                             $found_index = count($fields) - 1;
                         } else {
-                            $fields[$found_index]['value'] .= ', ' . Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
+                            $fields[$found_index]['value'] .= ', ' . self::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
                             $fields[$found_index]['selected_cfo_id'][] = $res[$i]["value"];
                         }
 
                         // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
                         if (!in_array($original_value, $fields[$found_index]['field_options'])) {
-                            $fields[$found_index]['field_options'][$original_value] = Custom_Field::getOptionValue($res[$i]['fld_id'], $original_value);
+                            $fields[$found_index]['field_options'][$original_value] = self::getOptionValue($res[$i]['fld_id'], $original_value);
                         }
                     } else {
                         $res[$i]['value'] = $res[$i][self::getDBValueFieldNameByType($res[$i]['fld_type'])];
@@ -667,7 +667,7 @@ class Custom_Field
                     }
                 }
                 foreach ($fields as $key => $field) {
-                    $backend = Custom_Field::getBackend($field['fld_id']);
+                    $backend = self::getBackend($field['fld_id']);
                     if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Custom_Field_Backend"))) {
                         $fields[$key]['dynamic_options'] = $backend->getStructuredData();
                         $fields[$key]['controlling_field_id'] = $backend->getControllingCustomFieldID();
@@ -704,7 +704,7 @@ class Custom_Field
     function getValuesByIssue($prj_id, $iss_id)
     {
         $values = array();
-        $list = Custom_Field::getListByIssue($prj_id, $iss_id);
+        $list = self::getListByIssue($prj_id, $iss_id);
         foreach ($list as $field) {
             if ($field['fld_type'] == 'combo') {
                 $values[$field['fld_id']] = array(
@@ -809,7 +809,7 @@ class Custom_Field
             $_POST["min_role"] = 1;
         }
         if (!isset($_POST["rank"])) {
-            $_POST["rank"] = (Custom_Field::getMaxRank() + 1);
+            $_POST["rank"] = (self::getMaxRank() + 1);
         }
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
@@ -850,13 +850,13 @@ class Custom_Field
             $new_id = DB_Helper::get_last_insert_id();
             if (($_POST["field_type"] == 'combo') || ($_POST["field_type"] == 'multiple')) {
                 foreach ($_POST["field_options"] as $option_value) {
-                    $params = Custom_Field::parseParameters($option_value);
-                    Custom_Field::addOptions($new_id, $params["value"]);
+                    $params = self::parseParameters($option_value);
+                    self::addOptions($new_id, $params["value"]);
                 }
             }
             // add the project associations!
             for ($i = 0; $i < count($_POST["projects"]); $i++) {
-                Custom_Field::associateProject($_POST["projects"][$i], $new_id);
+                self::associateProject($_POST["projects"][$i], $new_id);
             }
             return 1;
         }
@@ -913,14 +913,14 @@ class Custom_Field
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]["projects"] = @implode(", ", array_values(Custom_Field::getAssociatedProjects($res[$i]["fld_id"])));
+                $res[$i]["projects"] = @implode(", ", array_values(self::getAssociatedProjects($res[$i]["fld_id"])));
                 if (($res[$i]["fld_type"] == "combo") || ($res[$i]["fld_type"] == "multiple")) {
                     if (!empty($res[$i]['fld_backend'])) {
-                        $res[$i]["field_options"] = @implode(", ", array_values(Custom_Field::getOptions($res[$i]["fld_id"])));
+                        $res[$i]["field_options"] = @implode(", ", array_values(self::getOptions($res[$i]["fld_id"])));
                     }
                 }
                 if (!empty($res[$i]['fld_backend'])) {
-                    $res[$i]['field_options'] = 'Backend: ' . Custom_Field::getBackendName($res[$i]['fld_backend']);
+                    $res[$i]['field_options'] = 'Backend: ' . self::getBackendName($res[$i]['fld_backend']);
                 }
                 $res[$i]['min_role_name'] = @User::getRole($res[$i]['fld_min_role']);
             }
@@ -987,9 +987,9 @@ class Custom_Field
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            $res["projects"] = @array_keys(Custom_Field::getAssociatedProjects($fld_id));
+            $res["projects"] = @array_keys(self::getAssociatedProjects($fld_id));
             $t = array();
-            $options = Custom_Field::getOptions($fld_id);
+            $options = self::getOptions($fld_id);
             foreach ($options as $cfo_id => $cfo_value) {
                 $res["field_options"]["existing:" . $cfo_id . ":" . $cfo_value] = $cfo_value;
             }
@@ -1017,7 +1017,7 @@ class Custom_Field
         if (isset($returns[$return_key])) {
             return $returns[$return_key];
         }
-        $backend = Custom_Field::getBackend($fld_id);
+        $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
             $list = $backend->getList($fld_id);
             if ($ids != false) {
@@ -1118,9 +1118,9 @@ class Custom_Field
             $_POST["min_role"] = 1;
         }
         if (!isset($_POST["rank"])) {
-            $_POST["rank"] = (Custom_Field::getMaxRank() + 1);
+            $_POST["rank"] = (self::getMaxRank() + 1);
         }
-        $old_details = Custom_Field::getDetails($_POST["id"]);
+        $old_details = self::getDetails($_POST["id"]);
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field
                  SET
@@ -1158,25 +1158,25 @@ class Custom_Field
                 // gotta remove all custom field options if the field is being changed from a combo box to a text field
                 if ((!in_array($old_details['fld_type'], array('text', 'textarea'))) &&
                       (!in_array($_POST["field_type"], array('combo', 'multiple')))) {
-                   Custom_Field::removeOptionsByFields($_POST["id"]);
+                   self::removeOptionsByFields($_POST["id"]);
                 }
                 if (in_array($_POST['field_type'], array('text', 'textarea', 'date', 'integer'))) {
                     // update values for all other option types
-                    Custom_Field::updateValuesForNewType($_POST['id']);
+                    self::updateValuesForNewType($_POST['id']);
                 }
             }
             // update the custom field options, if any
             if (($_POST["field_type"] == "combo") || ($_POST["field_type"] == "multiple")) {
                 $updated_options = array();
                 foreach ($_POST["field_options"] as $option_value) {
-                    $params = Custom_Field::parseParameters($option_value);
+                    $params = self::parseParameters($option_value);
                     if ($params["type"] == 'new') {
-                        Custom_Field::addOptions($_POST["id"], $params["value"]);
+                        self::addOptions($_POST["id"], $params["value"]);
                     } else {
                         $updated_options[] = $params["id"];
                         // check if the user is trying to update the value of this option
-                        if ($params["value"] != Custom_Field::getOptionValue($_POST["id"], $params["id"])) {
-                            Custom_Field::updateOption($params["id"], $params["value"]);
+                        if ($params["value"] != self::getOptionValue($_POST["id"], $params["id"])) {
+                            self::updateOption($params["id"], $params["value"]);
                         }
                     }
                 }
@@ -1186,17 +1186,17 @@ class Custom_Field
             if (in_array($_POST["field_type"], array('combo', 'multiple'))) {
                 $diff_ids = @array_diff($current_options, $updated_options);
                 if (@count($diff_ids) > 0) {
-                    Custom_Field::removeOptions($_POST['id'], array_values($diff_ids));
+                    self::removeOptions($_POST['id'], array_values($diff_ids));
                 }
             }
             // now we need to check for any changes in the project association of this custom field
             // and update the mapping table accordingly
-            $old_proj_ids = @array_keys(Custom_Field::getAssociatedProjects($_POST["id"]));
+            $old_proj_ids = @array_keys(self::getAssociatedProjects($_POST["id"]));
             // COMPAT: this next line requires PHP > 4.0.4
             $diff_ids = array_diff($old_proj_ids, $_POST["projects"]);
             if (count($diff_ids) > 0) {
                 foreach ($diff_ids as $removed_prj_id) {
-                    Custom_Field::removeIssueAssociation($_POST["id"], false, $removed_prj_id );
+                    self::removeIssueAssociation($_POST["id"], false, $removed_prj_id );
                 }
             }
             // update the project associations now
@@ -1210,7 +1210,7 @@ class Custom_Field
                 return -1;
             } else {
                 for ($i = 0; $i < count($_POST["projects"]); $i++) {
-                    Custom_Field::associateProject($_POST["projects"][$i], $_POST["id"]);
+                    self::associateProject($_POST["projects"][$i], $_POST["id"]);
                 }
             }
             return 1;
@@ -1319,7 +1319,7 @@ class Custom_Field
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Custom_Field::removeOptions($ids, $res);
+            self::removeOptions($ids, $res);
             return true;
         }
     }
@@ -1450,7 +1450,7 @@ class Custom_Field
         $sql = "SELECT
                     fld_id,
                     fld_type,
-                    " . Custom_Field::getDBValueFieldSQL() . " as value
+                    " . self::getDBValueFieldSQL() . " as value
                 FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "custom_field,
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_custom_field
@@ -1469,7 +1469,7 @@ class Custom_Field
                     if ($raw) {
                         $values[] = $res[$i]['value'];
                     } else {
-                        $values[] = Custom_Field::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
+                        $values[] = self::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
                     }
                 } else {
                     $values[] = $res[$i]['value'];
@@ -1510,7 +1510,7 @@ class Custom_Field
         $fld_id = $_REQUEST['id'];
         $direction = $_REQUEST['direction'];
         // get array of all fields and current ranks
-        $fields = Custom_Field::getList();
+        $fields = self::getList();
         for ($i = 0;$i < count($fields); $i++) {
             if ($fields[$i]['fld_id'] == $fld_id) {
                 // this is the field we want to mess with
@@ -1526,18 +1526,18 @@ class Custom_Field
                     break;
                 }
                 // update this entry
-                Custom_Field::setRank($fld_id, $target_row['fld_rank']);
+                self::setRank($fld_id, $target_row['fld_rank']);
 
                 // update field we stole this rank from
-                Custom_Field::setRank($target_row['fld_id'], $fields[$i]['fld_rank']);
+                self::setRank($target_row['fld_id'], $fields[$i]['fld_rank']);
             }
         }
 
         // re-order everything starting from 1
-        $fields = Custom_Field::getList();
+        $fields = self::getList();
         $rank = 1;
         foreach ($fields as $field) {
-            Custom_Field::setRank($field['fld_id'], $rank++);
+            self::setRank($field['fld_id'], $rank++);
         }
         return 1;
     }
@@ -1583,7 +1583,7 @@ class Custom_Field
             // make sure we only list the backends
             if (preg_match('/^class\.(.*)\.php$/', $files[$i])) {
                 // display a prettyfied backend name in the admin section
-                $list[$files[$i]] = Custom_Field::getBackendName($files[$i]);
+                $list[$files[$i]] = self::getBackendName($files[$i]);
             }
         }
         return $list;
@@ -1686,7 +1686,7 @@ class Custom_Field
      */
     function formatValue($value, $fld_id, $issue_id)
     {
-        $backend = Custom_Field::getBackend($fld_id);
+        $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'formatValue'))) {
             return $backend->formatValue($value, $fld_id, $issue_id);
         } else {
@@ -1705,11 +1705,11 @@ class Custom_Field
     function populateAllFields($issue_id)
     {
         $prj_id = Issue::getProjectID($issue_id);
-        $fields = Custom_Field::getListByIssue($prj_id, $issue_id, APP_SYSTEM_USER_ID);
+        $fields = self::getListByIssue($prj_id, $issue_id, APP_SYSTEM_USER_ID);
         foreach ($fields as $field) {
             if (empty($field['value'])) {
-                Custom_Field::removeIssueAssociation($field['fld_id'], $issue_id);
-                Custom_Field::associateIssue($issue_id, $field['fld_id'], '');
+                self::removeIssueAssociation($field['fld_id'], $issue_id);
+                self::associateIssue($issue_id, $field['fld_id'], '');
             }
         }
     }
@@ -1748,8 +1748,8 @@ class Custom_Field
      */
     function updateValuesForNewType($fld_id)
     {
-        $details = Custom_Field::getDetails($fld_id, true);
-        $db_field_name = Custom_Field::getDBValueFieldNameByType($details['fld_type']);
+        $details = self::getDetails($fld_id, true);
+        $db_field_name = self::getDBValueFieldNameByType($details['fld_type']);
 
 
         $sql = "UPDATE

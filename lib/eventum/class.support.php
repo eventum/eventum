@@ -70,7 +70,7 @@ class Support
                 if (!$account_details['leave_copy']) {
                     // try to re-use an open connection to the imap server
                     if (!in_array($res[$i]['sup_ema_id'], array_keys($accounts))) {
-                        $accounts[$res[$i]['sup_ema_id']] = Support::connectEmailServer(Email_Account::getDetails($res[$i]['sup_ema_id']));
+                        $accounts[$res[$i]['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($res[$i]['sup_ema_id']));
                     }
                     $mbox = $accounts[$res[$i]['sup_ema_id']];
                     if ($mbox !== FALSE) {
@@ -90,7 +90,7 @@ class Support
                     }
                 }
                 // remove the email record from the table
-                Support::removeEmail($res[$i]['sup_id']);
+                self::removeEmail($res[$i]['sup_id']);
             }
             return 1;
         }
@@ -140,7 +140,7 @@ class Support
      */
     function getListingSides($sup_id)
     {
-        $options = Support::saveSearchParams();
+        $options = self::saveSearchParams();
 
         $stmt = "SELECT
                     sup_id,
@@ -157,7 +157,7 @@ class Support
         if (!empty($options['keywords'])) {
             $stmt .= "," . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "support_email_body";
         }
-        $stmt .= Support::buildWhereClause($options);
+        $stmt .= self::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
                     " . $options["sort_by"] . " " . $options["sort_order"];
@@ -415,11 +415,11 @@ class Support
      */
     function connectEmailServer($info)
     {
-        $mbox = @imap_open(Support::getServerURI($info), $info['ema_username'], $info['ema_password']);
+        $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
         if ($mbox === FALSE) {
             $errors = @imap_errors();
             if (strstr(strtolower($errors[0]), 'certificate failure')) {
-                $mbox = @imap_open(Support::getServerURI($info, TRUE), $info['ema_username'], $info['ema_password']);
+                $mbox = @imap_open(self::getServerURI($info, TRUE), $info['ema_username'], $info['ema_password']);
             } else {
                 Error_Handler::logError('Error while connecting to the email server - ' . $errors[0], __FILE__, __LINE__);
             }
@@ -524,7 +524,7 @@ class Support
         unset($body);
 
         // if message_id already exists, return immediately -- nothing to do
-        if (Support::exists($message_id) || Note::exists($message_id)) {
+        if (self::exists($message_id) || Note::exists($message_id)) {
             return;
         }
 
@@ -567,7 +567,7 @@ class Support
                 if ($res != false) {
                     $return = Routing::route_emails($message);
                     if ($return === true) {
-                        Support::deleteMessage($info, $mbox, $num);
+                        self::deleteMessage($info, $mbox, $num);
                         return;
                     }
                     // TODO: handle errors?
@@ -587,15 +587,15 @@ class Support
 
                     if ($info['ema_leave_copy']) {
                         if ($return === true) {
-                            Support::deleteMessage($info, $mbox, $num);
+                            self::deleteMessage($info, $mbox, $num);
                         }
                     } else {
                         if ($return !== true) {
                             // in case of error, create bounce, but still
                             // delete email not to send bounce in next process :)
-                            Support::bounceMessage($email, $return);
+                            self::bounceMessage($email, $return);
                         }
-                        Support::deleteMessage($info, $mbox, $num);
+                        self::deleteMessage($info, $mbox, $num);
                     }
                     return;
                 }
@@ -613,15 +613,15 @@ class Support
 
                     if ($info['ema_leave_copy']) {
                         if ($return === true) {
-                            Support::deleteMessage($info, $mbox, $num);
+                            self::deleteMessage($info, $mbox, $num);
                         }
                     } else {
                         if ($return !== true) {
                             // in case of error, create bounce, but still
                             // delete email not to send bounce in next process :)
-                            Support::bounceMessage($email, $return);
+                            self::bounceMessage($email, $return);
                         }
-                        Support::deleteMessage($info, $mbox, $num);
+                        self::deleteMessage($info, $mbox, $num);
                     }
                     return;
                 }
@@ -653,7 +653,7 @@ class Support
             // the following items are not inserted, but useful in some methods
             'headers'        => @$structure->headers
         );
-        $should_create_array = Support::createIssueFromEmail(
+        $should_create_array = self::createIssueFromEmail(
             $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::fixEncoding( @$structure->headers['subject']), $t['to'], $t['cc']);
         $should_create_issue = $should_create_array['should_create_issue'];
         $associate_email = $should_create_array['associate_email'];
@@ -727,7 +727,7 @@ class Support
             }
         } else {
             // check if we need to block this email
-            if (($should_create_issue == true) || (!Support::blockEmailIfNeeded($t))) {
+            if (($should_create_issue == true) || (!self::blockEmailIfNeeded($t))) {
                 if (!empty($t['issue_id'])) {
                     list($t['full_email'], $t['headers']) = Mail_Helper::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
                 }
@@ -735,11 +735,11 @@ class Support
                 // make variable available for workflow to be able to detect whether this email created new issue
                 $t['should_create_issue'] = $should_create_array['should_create_issue'];
 
-                $res = Support::insertEmail($t, $structure, $sup_id);
+                $res = self::insertEmail($t, $structure, $sup_id);
                 if ($res != -1) {
                     // only extract the attachments from the email if we are associating the email to an issue
                     if (!empty($t['issue_id'])) {
-                        Support::extractAttachments($t['issue_id'], $structure);
+                        self::extractAttachments($t['issue_id'], $structure);
 
                         // notifications about new emails are always external
                         $internal_only = false;
@@ -756,7 +756,7 @@ class Support
                         }
 
                         if (Workflow::shouldAutoAddToNotificationList($info['ema_prj_id'])) {
-                            Support::addExtraRecipientsToNotificationList($info['ema_prj_id'], $t, $should_create_issue);
+                            self::addExtraRecipientsToNotificationList($info['ema_prj_id'], $t, $should_create_issue);
                         }
 
                         Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
@@ -869,9 +869,9 @@ class Support
                             $type = 'note';
                             $parent_id = Note::getIDByMessageID($reference_msg_id);
                             break;
-                        } elseif ((Support::exists($reference_msg_id)) || (Issue::getIssueByRootMessageID($reference_msg_id) != false)) {
+                        } elseif ((self::exists($reference_msg_id)) || (Issue::getIssueByRootMessageID($reference_msg_id) != false)) {
                             // email or issue exists
-                            $issue_id = Support::getIssueByMessageID($reference_msg_id);
+                            $issue_id = self::getIssueByMessageID($reference_msg_id);
                             if (empty($issue_id)) {
                                 $issue_id = Issue::getIssueByRootMessageID($reference_msg_id);
                             }
@@ -928,8 +928,8 @@ class Support
             }
             // associate any existing replied-to email with this new issue
             if ((!empty($associate_email)) && (!empty($reference_issue_id))) {
-                $reference_sup_id = Support::getIDByMessageID($associate_email);
-                Support::associate(APP_SYSTEM_USER_ID, $issue_id, array($reference_sup_id));
+                $reference_sup_id = self::getIDByMessageID($associate_email);
+                self::associate(APP_SYSTEM_USER_ID, $issue_id, array($reference_sup_id));
             }
         }
         // need to check crm for customer association
@@ -1044,9 +1044,9 @@ class Support
         $reference_message_id = Mail_Helper::getReferenceMessageID($row['full_email']);
         $parent_id = '';
         if (!empty($reference_message_id)) {
-            $parent_id = Support::getIDByMessageID($reference_message_id);
+            $parent_id = self::getIDByMessageID($reference_message_id);
             // make sure it is in the same issue
-            if ((!empty($parent_id)) && ((empty($row['issue_id'])) || (@$row['issue_id'] != Support::getIssueFromEmail($parent_id)))) {
+            if ((!empty($parent_id)) && ((empty($row['issue_id'])) || (@$row['issue_id'] != self::getIssueFromEmail($parent_id)))) {
                 $parent_id = '';
             }
         }
@@ -1152,33 +1152,33 @@ class Support
      */
     function saveSearchParams()
     {
-        $sort_by = Support::getParam('sort_by');
-        $sort_order = Support::getParam('sort_order');
-        $rows = Support::getParam('rows');
+        $sort_by = self::getParam('sort_by');
+        $sort_order = self::getParam('sort_order');
+        $rows = self::getParam('rows');
         $cookie = array(
             'rows'             => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
-            'pagerRow'         => Support::getParam('pagerRow'),
-            'hide_associated'  => Support::getParam('hide_associated'),
+            'pagerRow'         => self::getParam('pagerRow'),
+            'hide_associated'  => self::getParam('hide_associated'),
             "sort_by"          => $sort_by ? $sort_by : "sup_date",
             "sort_order"       => $sort_order ? $sort_order : "DESC",
             // quick filter form options
-            'keywords'         => Support::getParam('keywords'),
-            'sender'           => Support::getParam('sender'),
-            'to'               => Support::getParam('to'),
-            'ema_id'           => Support::getParam('ema_id'),
-            'filter'           => Support::getParam('filter')
+            'keywords'         => self::getParam('keywords'),
+            'sender'           => self::getParam('sender'),
+            'to'               => self::getParam('to'),
+            'ema_id'           => self::getParam('ema_id'),
+            'filter'           => self::getParam('filter')
         );
         // now do some magic to properly format the date fields
         $date_fields = array(
             'arrival_date'
         );
         foreach ($date_fields as $field_name) {
-            $field = Support::getParam($field_name);
+            $field = self::getParam($field_name);
             if ((empty($field)) || ($cookie['filter'][$field_name] != 'yes')) {
                 continue;
             }
             $end_field_name = $field_name . '_end';
-            $end_field = Support::getParam($end_field_name);
+            $end_field = self::getParam($end_field_name);
             @$cookie[$field_name] = array(
                 'Year'        => $field['Year'],
                 'Month'       => $field['Month'],
@@ -1279,7 +1279,7 @@ class Support
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     ON
                         sup_iss_id = iss_id";
-        $stmt .= Support::buildWhereClause($options);
+        $stmt .= self::buildWhereClause($options);
         $stmt .= "
                  ORDER BY
                     " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]);
@@ -1481,8 +1481,8 @@ class Support
             return -1;
         } else {
             for ($i = 0; $i < count($items); $i++) {
-                $full_email = Support::getFullEmail($items[$i]);
-                Support::extractAttachments($issue_id, $full_email);
+                $full_email = self::getFullEmail($items[$i]);
+                self::extractAttachments($issue_id, $full_email);
             }
             Issue::markAsUpdated($issue_id, "email");
             // save a history entry for each email being associated to this issue
@@ -1515,7 +1515,7 @@ class Support
      */
     function associate($usr_id, $issue_id, $items, $authorize = false, $add_recipients_to_nl = false)
     {
-        $res = Support::associateEmail($usr_id, $issue_id, $items);
+        $res = self::associateEmail($usr_id, $issue_id, $items);
         if ($res == 1) {
             $stmt = "SELECT
                         sup_id,
@@ -1630,7 +1630,7 @@ class Support
         } else if (count($res) < 1) {
             return array();
         } else {
-            return Support::getEmailDetails($res[1], $res[0]);
+            return self::getEmailDetails($res[1], $res[0]);
         }
     }
 
@@ -1984,7 +1984,7 @@ class Support
     {
         $prj_id = Issue::getProjectID($issue_id);
         $subject = Mail_Helper::formatSubject($issue_id, $subject);
-        $recipients = Support::getRecipientsCC($cc);
+        $recipients = self::getRecipientsCC($cc);
         $recipients[] = $to;
         // send the emails now, one at a time
         foreach ($recipients as $recipient) {
@@ -2050,7 +2050,7 @@ class Support
     {
         // if we are replying to an existing email, set the In-Reply-To: header accordingly
         if ($parent_sup_id) {
-            $in_reply_to = Support::getMessageIDByID($parent_sup_id);
+            $in_reply_to = self::getMessageIDByID($parent_sup_id);
         } else {
             $in_reply_to = false;
         }
@@ -2074,14 +2074,14 @@ class Support
         $internal_only = false;
         $message_id = Mail_Helper::generateMessageID();
         // hack needed to get the full headers of this web-based email
-        $full_email = Support::buildFullHeaders($_POST["issue_id"], $message_id, $_POST["from"],
+        $full_email = self::buildFullHeaders($_POST["issue_id"], $message_id, $_POST["from"],
                 $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $in_reply_to, $_FILES["attachment"]);
 
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($_POST['issue_id'])) {
             $user_info = User::getNameEmail(Auth::getUserID());
             // check whether the current user is allowed to send this email to customers or not
-            if (!Support::isAllowedToEmail($_POST["issue_id"], $user_info['usr_email'])) {
+            if (!self::isAllowedToEmail($_POST["issue_id"], $user_info['usr_email'])) {
                 // add the message body as a note
                 $_POST['full_message'] = $full_email;
                 $_POST['title'] = $_POST["subject"];
@@ -2097,7 +2097,7 @@ class Support
             if (!empty($_POST['issue_id'])) {
                 // add the recipients to the notification list of the associated issue
                 $recipients = array($_POST['to']);
-                $recipients = array_merge($recipients, Support::getRecipientsCC($_POST['cc']));
+                $recipients = array_merge($recipients, self::getRecipientsCC($_POST['cc']));
                 for ($i = 0; $i < count($recipients); $i++) {
                     if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($_POST["issue_id"], $recipients[$i]))) {
                         Notification::subscribeEmail(Auth::getUserID(), $_POST["issue_id"], Mail_Helper::getEmailAddress($recipients[$i]),
@@ -2120,9 +2120,9 @@ class Support
                 // build the list of unknown recipients
                 if (!empty($_POST['to'])) {
                     $recipients = array($_POST['to']);
-                    $recipients = array_merge($recipients, Support::getRecipientsCC($_POST['cc']));
+                    $recipients = array_merge($recipients, self::getRecipientsCC($_POST['cc']));
                 } else {
-                    $recipients = Support::getRecipientsCC($_POST['cc']);
+                    $recipients = self::getRecipientsCC($_POST['cc']);
                 }
                 $unknowns = array();
                 for ($i = 0; $i < count($recipients); $i++) {
@@ -2134,7 +2134,7 @@ class Support
                     $to = array_shift($unknowns);
                     $cc = implode('; ', $unknowns);
                     // send direct emails
-                    Support::sendDirectEmail($_POST['issue_id'], $from, $to, $cc,
+                    self::sendDirectEmail($_POST['issue_id'], $from, $to, $cc,
                         $_POST['subject'], $_POST['message'], $_FILES['attachment'], $message_id, $sender_usr_id);
                 }
             } else {
@@ -2148,7 +2148,7 @@ class Support
                     $from = User::getFromHeader(Auth::getUserID());
                 }
                 // send direct emails
-                Support::sendDirectEmail($_POST['issue_id'], $from, $_POST['to'], $_POST['cc'],
+                self::sendDirectEmail($_POST['issue_id'], $from, $_POST['to'], $_POST['cc'],
                         $_POST['subject'], $_POST['message'], $_FILES['attachment'], $message_id);
             }
         }
@@ -2180,7 +2180,7 @@ class Support
         }
         $structure = Mime_Helper::decode($full_email, true, false);
         $t['headers'] = $structure->headers;
-        $res = Support::insertEmail($t, $structure, $sup_id);
+        $res = self::insertEmail($t, $structure, $sup_id);
         if (!empty($_POST["issue_id"])) {
             // need to send a notification
             Notification::notifyNewEmail(Auth::getUserID(), $_POST["issue_id"], $t, $internal_only, false, $type, $sup_id);
@@ -2423,13 +2423,13 @@ class Support
     function moveEmail($sup_id, $current_ema_id, $new_ema_id)
     {
         $usr_id = Auth::getUserID();
-        $email = Support::getEmailDetails($current_ema_id, $sup_id);
+        $email = self::getEmailDetails($current_ema_id, $sup_id);
         if (!empty($email['sup_iss_id'])) {
             return -1;
         }
 
         $info = Email_Account::getDetails($new_ema_id);
-        $full_email = Support::getFullEmail($sup_id);
+        $full_email = self::getFullEmail($sup_id);
         $structure = Mime_Helper::decode($full_email, true, true);
         $headers = '';
         foreach ($structure->headers as $key => $value) {
@@ -2440,7 +2440,7 @@ class Support
         }
 
         // handle auto creating issues (if needed)
-        $should_create_array = Support::createIssueFromEmail($info, $headers, $email['seb_body'], $email['timestamp'], $email['sup_from'], $email['sup_subject']);
+        $should_create_array = self::createIssueFromEmail($info, $headers, $email['seb_body'], $email['timestamp'], $email['sup_from'], $email['sup_subject']);
         $should_create_issue = $should_create_array['should_create_issue'];
         $associate_email = $should_create_array['associate_email'];
         $issue_id = $should_create_array['issue_id'];
@@ -2482,7 +2482,7 @@ class Support
             'full_email'     => $email['seb_full_email'],
             'has_attachment' => $email['sup_has_attachment']
         );
-        Workflow::handleNewEmail(Support::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
+        Workflow::handleNewEmail(self::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
         return 1;
     }
 
@@ -2523,7 +2523,7 @@ class Support
         $sender_email = strtolower(Mail_Helper::getEmailAddress($email['from']));
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($email['full_email']);
         if ((Mail_Helper::isVacationAutoResponder($email['headers'])) || (Notification::isBounceMessage($sender_email)) ||
-                (!Support::isAllowedToEmail($issue_id, $sender_email))) {
+                (!self::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
             $_POST = array(
                 'full_message'=> $email['full_email'],
@@ -2542,7 +2542,7 @@ class Support
             $res = Note::insert(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing, $notify, true);
             // associate the email attachments as internal-only files on this issue
             if ($res != -1) {
-                Support::extractAttachments($issue_id, $email['full_email'], true, $res);
+                self::extractAttachments($issue_id, $email['full_email'], true, $res);
             }
 
             $_POST['issue_id'] = $issue_id;

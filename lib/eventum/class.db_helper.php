@@ -29,7 +29,7 @@
 // @(#) $Id: class.db_helper.php 3868 2009-03-30 00:22:35Z glen $
 //
 
-require_once("DB.php");
+require_once 'DB.php';
 
 /**
  * Class to manage all tasks related to the DB abstraction module. This is only

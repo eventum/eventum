@@ -191,7 +191,7 @@ class Date_Helper
     function getUnixTimestamp($timestamp, $timezone = FALSE)
     {
         if (!$timezone) {
-            $timezone = Date_Helper::getPreferredTimezone();
+            $timezone = self::getPreferredTimezone();
         }
         $date = new Date($timestamp);
         // now convert to another timezone and return the timestamp
@@ -211,7 +211,7 @@ class Date_Helper
     function getRFC822Date($timestamp, $timezone = FALSE)
     {
         if (!$timezone) {
-            $timezone = Date_Helper::getPreferredTimezone();
+            $timezone = self::getPreferredTimezone();
         }
         $date = new Date($timestamp);
         // now convert to another timezone and return the date
@@ -276,8 +276,8 @@ class Date_Helper
     function getTimezoneShortNameByUser($usr_id)
     {
         $date = new Date();
-        $date->convertTZById(Date_Helper::getPreferredTimezone($usr_id));
-        return Date_Helper::getTimezoneShortName($date);
+        $date->convertTZById(self::getPreferredTimezone($usr_id));
+        return self::getTimezoneShortName($date);
     }
 
     /**
@@ -292,7 +292,7 @@ class Date_Helper
     function getFormattedDate($ts, $timezone = FALSE)
     {
         if ($timezone === FALSE) {
-            $timezone = Date_Helper::getPreferredTimezone();
+            $timezone = self::getPreferredTimezone();
         }
 
         $date = self::getDateGMT($ts);
@@ -319,7 +319,7 @@ class Date_Helper
         $date = new Date($timestamp);
         // now convert to another timezone and return the date
         if ($convert) {
-            $timezone = Date_Helper::getPreferredTimezone();
+            $timezone = self::getPreferredTimezone();
             $date->convertTZById($timezone);
         }
         return $date->format('%d %b %Y');
@@ -339,11 +339,11 @@ class Date_Helper
             $usr_id = Auth::getUserID();
         }
         if (empty($usr_id)) {
-            return Date_Helper::getDefaultTimezone();
+            return self::getDefaultTimezone();
         }
         $prefs = Prefs::get($usr_id);
         if (empty($prefs["timezone"])) {
-            return Date_Helper::getDefaultTimezone();
+            return self::getDefaultTimezone();
         } else {
             return $prefs["timezone"];
         }
@@ -384,7 +384,7 @@ class Date_Helper
     function convertDateGMT($date)
     {
         $dt = new Date($date);
-        $dt->setTZbyID(Date_Helper::getPreferredTimezone());
+        $dt->setTZbyID(self::getPreferredTimezone());
         $dt->toUTC();
         return $dt->format('%Y-%m-%d %H:%M:%S');
     }
@@ -420,16 +420,16 @@ class Date_Helper
 
         // previous weeks
         for ($week = $weeks_past; $week > 0; $week--) {
-            $option = Date_Helper::formatWeekOption($current_start - ($week * WEEK));
+            $option = self::formatWeekOption($current_start - ($week * WEEK));
             $options[$option[0]] = $option[1];
         }
 
-        $option = Date_Helper::formatWeekOption($current_start);
+        $option = self::formatWeekOption($current_start);
         $options[$option[0]] = $option[1];
 
         // future weeks
         for ($week = 1; $week <= $weeks_future; $week++) {
-            $option = Date_Helper::formatWeekOption($current_start + ($week * WEEK));
+            $option = self::formatWeekOption($current_start + ($week * WEEK));
             $options[$option[0]] = $option[1];
         }
 

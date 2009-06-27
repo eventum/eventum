@@ -289,7 +289,7 @@ class Status
             $new_status_id = DB_Helper::get_last_insert_id();
             // now populate the project-status mapping table
             foreach ($_POST['projects'] as $prj_id) {
-                Status::addProjectAssociation($new_status_id, $prj_id);
+                self::addProjectAssociation($new_status_id, $prj_id);
             }
             return 1;
         }
@@ -322,12 +322,12 @@ class Status
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            $projects = Status::getAssociatedProjects($_POST['id']);
+            $projects = self::getAssociatedProjects($_POST['id']);
             $current_projects = array_keys($projects);
             // remove all of the associations with projects, then add them all again
-            Status::removeProjectAssociations($_POST['id']);
+            self::removeProjectAssociations($_POST['id']);
             foreach ($_POST['projects'] as $prj_id) {
-                Status::addProjectAssociation($_POST['id'], $prj_id);
+                self::addProjectAssociation($_POST['id'], $prj_id);
             }
             // need to update all issues that are not supposed to have the changed sta_id to '0'
             $removed_projects = array();
@@ -372,7 +372,7 @@ class Status
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Status::removeProjectAssociations($_POST['items']);
+            self::removeProjectAssociations($_POST['items']);
             // also set all issues currently set to these statuses to status '0'
             $stmt = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
@@ -462,7 +462,7 @@ class Status
             return "";
         } else {
             // get all of the project associations here as well
-            $res['projects'] = array_keys(Status::getAssociatedProjects($res['sta_id']));
+            $res['projects'] = array_keys(self::getAssociatedProjects($res['sta_id']));
             return $res;
         }
     }
@@ -490,7 +490,7 @@ class Status
         } else {
             // get the list of associated projects
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['projects'] = implode(", ", array_values(Status::getAssociatedProjects($res[$i]['sta_id'])));
+                $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['sta_id'])));
             }
             return $res;
         }

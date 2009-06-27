@@ -148,10 +148,10 @@ class Search_Profile
      */
     function save($usr_id, $prj_id, $type, $profile)
     {
-        if (!Search_Profile::_exists($usr_id, $prj_id, $type)) {
-            return Search_Profile::_insert($usr_id, $prj_id, $type, $profile);
+        if (!self::_exists($usr_id, $prj_id, $type)) {
+            return self::_insert($usr_id, $prj_id, $type, $profile);
         } else {
-            return Search_Profile::_update($usr_id, $prj_id, $type, $profile);
+            return self::_update($usr_id, $prj_id, $type, $profile);
         }
     }
 

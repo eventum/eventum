@@ -63,7 +63,7 @@ class Mime_Helper
     function getCharacterSet($input)
     {
         if (!is_object($input)) {
-            $structure = Mime_Helper::decode($input, false, false);
+            $structure = self::decode($input, false, false);
         } else {
             $structure = $input;
         }
@@ -93,14 +93,14 @@ class Mime_Helper
      * @access  public
      * @param   object $output The parsed message structure
      * @return  string The message body
-     * @see     Mime_Helper::decode()
+     * @see     self::decode()
      */
     function getMessageBody(&$output)
     {
         $parts = array();
-        Mime_Helper::parse_output($output, $parts);
+        self::parse_output($output, $parts);
         if (empty($parts)) {
-            Error_Handler::logError(array("Mime_Helper::parse_output failed. Corrupted MIME in email?", $output), __FILE__, __LINE__);
+            Error_Handler::logError(array("self::parse_output failed. Corrupted MIME in email?", $output), __FILE__, __LINE__);
             // we continue as if nothing happened until it's clear it's right check to do.
         }
         $str = '';
@@ -211,15 +211,15 @@ class Mime_Helper
      */
     function encodeAddress($address)
     {
-        $address = MIME_Helper::removeQuotes($address);
-        if (Mime_Helper::is8bit($address)) {
+        $address = self::removeQuotes($address);
+        if (self::is8bit($address)) {
             // split into name and address section
             preg_match("/(.*)<(.*)>/", $address, $matches);
            $address = "=?" . APP_CHARSET . "?Q?" .
                 str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . "?= <" . $matches[2] . ">";
            return $address;
         } else {
-            return MIME_Helper::quoteSender($address);
+            return self::quoteSender($address);
         }
     }
 
@@ -235,7 +235,7 @@ class Mime_Helper
         if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
             return str_replace("_", ' ', quoted_printable_decode($matches[1])) . " <" . $matches[2] . ">";
         } else {
-            return Mime_Helper::removeQuotes($address);
+            return self::removeQuotes($address);
         }
     }
 
@@ -279,7 +279,7 @@ class Mime_Helper
     {
         // encodes emails headers
         foreach ($headers as $name => $value) {
-            $headers[$name] = Mime_Helper::encode($value);
+            $headers[$name] = self::encode($value);
         }
         return $headers;
     }
@@ -299,7 +299,7 @@ class Mime_Helper
     function encode($text, $charset = APP_CHARSET)
     {
         /* Return if nothing needs to be encoded. */
-        if (!MIME_Helper::is8bit($text)) {
+        if (!self::is8bit($text)) {
             return $text;
         }
 
@@ -310,12 +310,12 @@ class Mime_Helper
         $size = preg_match_all("/([^\s]+)([\s]*)/", $text, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $key => $val) {
-            if (MIME_Helper::is8bit($val[1])) {
+            if (self::is8bit($val[1])) {
                 if ((($key + 1) < $size) &&
-                    MIME_Helper::is8bit($matches[$key + 1][1])) {
-                    $line .= MIME_Helper::_encode($val[1] . $val[2], $charset) . ' ';
+                    self::is8bit($matches[$key + 1][1])) {
+                    $line .= self::_encode($val[1] . $val[2], $charset) . ' ';
                 } else {
-                    $line .= MIME_Helper::_encode($val[1], $charset) . $val[2];
+                    $line .= self::_encode($val[1], $charset) . $val[2];
                 }
             } else {
                 $line .= $val[1] . $val[2];
@@ -345,7 +345,7 @@ class Mime_Helper
            characters long. If longer, you must split the word. */
         if (($txt_len + $char_len + 7) > 75) {
             $pos = intval((68 - $char_len) / 2);
-            return MIME_Helper::_encode(substr($text, 0, $pos), $charset) . ' ' . MIME_Helper::_encode(substr($text, $pos), $charset);
+            return self::_encode(substr($text, 0, $pos), $charset) . ' ' . self::_encode(substr($text, $pos), $charset);
         } else {
             return '=?' . $charset . '?b?' . trim(base64_encode($text)) . '?=';
         }
@@ -450,7 +450,7 @@ class Mime_Helper
             } else {
                 $filename = $first_part . "-" . $numeric_portion . substr($filename, strrpos($filename, '.'));
             }
-            return MIME_Helper::getAttachmentName($list, $filename);
+            return self::getAttachmentName($list, $filename);
         } else {
             return $filename;
         }
@@ -467,9 +467,9 @@ class Mime_Helper
     function hasAttachments($message)
     {
         if (!is_object($message)) {
-            $message = Mime_Helper::decode($message, true);
+            $message = self::decode($message, true);
         }
-        $attachments = Mime_Helper::_getAttachmentDetails($message, true);
+        $attachments = self::_getAttachmentDetails($message, true);
         if (count($attachments) > 0) {
             return true;
         } else {
@@ -489,9 +489,9 @@ class Mime_Helper
     function getAttachments($message)
     {
         if (!is_object($message)) {
-            $message = Mime_Helper::decode($message, true);
+            $message = self::decode($message, true);
         }
-        return Mime_Helper::_getAttachmentDetails($message, true);
+        return self::_getAttachmentDetails($message, true);
     }
 
 
@@ -506,9 +506,9 @@ class Mime_Helper
     function getAttachmentCIDs($message)
     {
         if (!is_object($message)) {
-            $message = Mime_Helper::decode($message, true);
+            $message = self::decode($message, true);
         }
-        return Mime_Helper::_getAttachmentDetails($message, true);
+        return self::_getAttachmentDetails($message, true);
     }
 
 
@@ -517,7 +517,7 @@ class Mime_Helper
         $attachments = array();
         if (isset($mime_part->parts)) {
             for ($i = 0; $i < count($mime_part->parts); $i++) {
-                $t = Mime_Helper::_getAttachmentDetails($mime_part->parts[$i], $return_body, $return_filename, $return_cid);
+                $t = self::_getAttachmentDetails($mime_part->parts[$i], $return_body, $return_filename, $return_cid);
                 $attachments = array_merge($t, $attachments);
             }
         }
@@ -547,8 +547,8 @@ class Mime_Helper
             }
             $found = 1;
         } else {
-            if ((!in_array($content_type, Mime_Helper::_getInvalidContentTypes())) &&
-                    (in_array(@strtolower($mime_part->disposition), Mime_Helper::_getValidDispositions())) &&
+            if ((!in_array($content_type, self::_getInvalidContentTypes())) &&
+                    (in_array(@strtolower($mime_part->disposition), self::_getValidDispositions())) &&
                     (!empty($mime_part_filename))) {
                 // if requested, return only the details of a particular filename
                 if (($return_filename != false) && ($mime_part_filename != $return_filename)) {
@@ -589,9 +589,9 @@ class Mime_Helper
     {
         $parts = array();
         if (!is_object($message)) {
-            $message = Mime_Helper::decode($message, true);
+            $message = self::decode($message, true);
         }
-        $details = Mime_Helper::_getAttachmentDetails($message, true, $filename, $cid);
+        $details = self::_getAttachmentDetails($message, true, $filename, $cid);
         if (count($details) == 1) {
             return array(
                 $details[0]['filetype'],
@@ -638,7 +638,7 @@ class Mime_Helper
             }
         }
         if ($include_bodies) {
-            $email->body = Mime_Helper::getMessageBody($email);
+            $email->body = self::getMessageBody($email);
         }
 
         return $email;
@@ -675,7 +675,7 @@ class Mime_Helper
     {
         if (!empty($obj->parts)) {
             for ($i = 0; $i < count($obj->parts); $i++) {
-                Mime_Helper::parse_output($obj->parts[$i], $parts);
+                self::parse_output($obj->parts[$i], $parts);
             }
         } else {
             $ctype = @strtolower($obj->ctype_primary.'/'.$obj->ctype_secondary);
@@ -684,9 +684,9 @@ class Mime_Helper
                     if (((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) || (!empty($obj->d_parameters['filename']))) {
                         @$parts['attachments'][] = $obj->body;
                     } else {
-                        $text = Mime_Helper::convertString($obj->body, @$obj->ctype_parameters['charset']);
+                        $text = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
                         if (@$obj->ctype_parameters['format'] == 'flowed') {
-                            $text = Mime_Helper::decodeFlowedBodies($text, @$obj->ctype_parameters['delsp']);
+                            $text = self::decodeFlowedBodies($text, @$obj->ctype_parameters['delsp']);
                         }
                         @$parts['text'][] = $text;
                     }
@@ -695,7 +695,7 @@ class Mime_Helper
                     if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
                         @$parts['attachments'][] = $obj->body;
                     } else {
-                        @$parts['html'][] = Mime_Helper::convertString($obj->body, @$obj->ctype_parameters['charset']);
+                        @$parts['html'][] = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
                     }
                     break;
                 // special case for Apple Mail
@@ -703,7 +703,7 @@ class Mime_Helper
                     if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
                         @$parts['attachments'][] = $obj->body;
                     } else {
-                        @$parts['html'][] = Mime_Helper::convertString($obj->body, @$obj->ctype_parameters['charset']);
+                        @$parts['html'][] = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
                     }
                     break;
                 default:

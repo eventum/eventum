@@ -109,7 +109,7 @@ class Customer
         static $setup_backends;
 
         if (empty($setup_backends[$prj_id])) {
-            $backend_class = Customer::_getBackendNameByProject($prj_id);
+            $backend_class = self::_getBackendNameByProject($prj_id);
             if (empty($backend_class)) {
                 $setup_backends[$prj_id] = false;
             } else {
@@ -136,7 +136,7 @@ class Customer
      */
     function hasCustomerIntegration($prj_id)
     {
-        $backend = Customer::_getBackendNameByProject($prj_id);
+        $backend = self::_getBackendNameByProject($prj_id);
         if (empty($backend)) {
             return false;
         } else {
@@ -148,10 +148,10 @@ class Customer
     // XXX: put documentation here
     function getBackendImplementationName($prj_id)
     {
-        if (!Customer::hasCustomerIntegration($prj_id)) {
+        if (!self::hasCustomerIntegration($prj_id)) {
             return '';
         }
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getName();
     }
 
@@ -165,7 +165,7 @@ class Customer
      */
     function doesBackendUseSupportLevels($prj_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         if ($backend === FALSE) {
             return false;
         } else {
@@ -186,7 +186,7 @@ class Customer
      */
     function getContractStatus($prj_id, $customer_id, $contract_id = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getContractStatus($customer_id, $contract_id);
     }
 
@@ -202,7 +202,7 @@ class Customer
      */
     function getCustomerTitlesByIssues($prj_id, &$result)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         $backend->getCustomerTitlesByIssues($result);
     }
 
@@ -218,7 +218,7 @@ class Customer
      */
     function getSupportLevelsByIssues($prj_id, &$result)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         $backend->getSupportLevelsByIssues($result);
     }
 
@@ -235,7 +235,7 @@ class Customer
      */
     function getDetails($prj_id, $customer_id, $force_refresh = false, $contract_id = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getDetails($customer_id, $force_refresh, $contract_id);
     }
 
@@ -252,7 +252,7 @@ class Customer
      */
     function isRedeemedIncident($prj_id, $issue_id, $incident_type = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->isRedeemedIncident($issue_id, $incident_type);
     }
 
@@ -267,10 +267,10 @@ class Customer
      */
     function getRedeemedIncidentDetails($prj_id, $issue_id)
     {
-        $types = Customer::getIncidentTypes($prj_id);
+        $types = self::getIncidentTypes($prj_id);
         $data = array();
         foreach ($types as $id => $title) {
-            if (Customer::isRedeemedIncident($prj_id, $issue_id, $id)) {
+            if (self::isRedeemedIncident($prj_id, $issue_id, $id)) {
                 $data[$id] = array(
                     'title' =>  $title,
                     'is_redeemed'   =>  1
@@ -292,16 +292,16 @@ class Customer
      */
     function updateRedeemedIncidents($prj_id, $issue_id, $data)
     {
-        $details = Customer::getDetails($prj_id, Issue::getCustomerID($issue_id), Issue::getContractID($issue_id));
+        $details = self::getDetails($prj_id, Issue::getCustomerID($issue_id), Issue::getContractID($issue_id));
         foreach ($details['incident_details'] as $type_id => $type_details) {
-            $is_redeemed = Customer::isRedeemedIncident($prj_id, $issue_id, $type_id);
+            $is_redeemed = self::isRedeemedIncident($prj_id, $issue_id, $type_id);
             if (($is_redeemed) && (@$data[$type_id] != 1)) {
                 // un-redeem issue
-                $res = Customer::unflagIncident($prj_id, $issue_id, $type_id);
+                $res = self::unflagIncident($prj_id, $issue_id, $type_id);
             } elseif ((!$is_redeemed) && (@$data[$type_id] == 1)) {
                 // redeem issue
                 if (($type_details['total'] - $type_details['redeemed']) > 0) {
-                    $res = Customer::flagIncident($prj_id, $issue_id, $type_id);
+                    $res = self::flagIncident($prj_id, $issue_id, $type_id);
                 } else {
                     $res = -1;
                 }
@@ -326,7 +326,7 @@ class Customer
      */
     function flagIncident($prj_id, $issue_id, $incident_type)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->flagIncident($issue_id, $incident_type);
     }
 
@@ -342,7 +342,7 @@ class Customer
      */
     function unflagIncident($prj_id, $issue_id, $incident_type)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->unflagIncident($issue_id, $incident_type);
     }
 
@@ -359,7 +359,7 @@ class Customer
      */
     function hasIncidentsLeft($prj_id, $customer_id, $incident_type = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->hasIncidentsLeft($customer_id, $incident_type);
     }
 
@@ -375,7 +375,7 @@ class Customer
      */
     function hasPerIncidentContract($prj_id, $customer_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->hasPerIncidentContract($customer_id);
     }
 
@@ -392,7 +392,7 @@ class Customer
      */
     function getTotalIncidents($prj_id, $support_no, $incident_type)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getTotalIncidents($support_no, $incident_type);
     }
 
@@ -409,7 +409,7 @@ class Customer
      */
     function getIncidentsRemaining($prj_id, $support_no, $incident_type)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getIncidentsRemaining($support_no, $incident_type);
     }
 
@@ -423,7 +423,7 @@ class Customer
      */
     function getIncidentTypes($prj_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getIncidentTypes();
     }
 
@@ -440,7 +440,7 @@ class Customer
      */
     function sendIncidentLimitNotice($prj_id, $contact_id, $customer_id, $new_issue = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->sendIncidentLimitNotice($contact_id, $customer_id, $new_issue);
     }
 
@@ -454,7 +454,7 @@ class Customer
      */
     function getAssocList($prj_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getAssocList();
     }
 
@@ -468,7 +468,7 @@ class Customer
      */
     function getTitle($prj_id, $customer_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         if ($backend === FALSE) {
             return '';
         } else {
@@ -487,7 +487,7 @@ class Customer
      */
     function getTitles($prj_id, $customer_ids)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getTitles($customer_ids);
     }
 
@@ -502,7 +502,7 @@ class Customer
      */
     function getContactEmailAssocList($prj_id, $customer_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getContactEmailAssocList($customer_id);
     }
 
@@ -517,7 +517,7 @@ class Customer
      */
     function getCustomerIDByEmails($prj_id, $emails)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getCustomerIDByEmails($emails);
     }
 
@@ -532,7 +532,7 @@ class Customer
      */
     function getOverallStats($prj_id, $customer_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getOverallStats($customer_id);
     }
 
@@ -547,7 +547,7 @@ class Customer
      */
     function getProfile($prj_id, $usr_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getProfile($usr_id);
     }
 
@@ -561,7 +561,7 @@ class Customer
      */
     function getContractDetails($prj_id, $contact_id, $restrict_expiration = TRUE)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getContractDetails($contact_id, $restrict_expiration);
     }
 
@@ -576,7 +576,7 @@ class Customer
      */
     function getContactDetails($prj_id, $contact_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getContactDetails($contact_id);
     }
 
@@ -592,7 +592,7 @@ class Customer
      */
     function getCustomerIDsLikeEmail($prj_id, $email)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getCustomerIDsLikeEmail($email);
     }
 
@@ -613,7 +613,7 @@ class Customer
      */
     function notifyIssueClosed($prj_id, $issue_id, $contact_id, $send_notification, $resolution_id, $status_id, $reason)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->notifyIssueClosed($issue_id, $contact_id, $send_notification, $resolution_id, $status_id, $reason);
     }
 
@@ -630,7 +630,7 @@ class Customer
      */
     function lookup($prj_id, $field, $value)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->lookup($field, $value);
     }
 
@@ -647,7 +647,7 @@ class Customer
      */
     function notifyCustomerIssue($prj_id, $issue_id, $contact_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->notifyCustomerIssue($issue_id, $contact_id);
     }
 
@@ -661,7 +661,7 @@ class Customer
      */
     function getSupportLevelAssocList($prj_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getSupportLevelAssocList();
     }
 
@@ -678,7 +678,7 @@ class Customer
      */
     function getSupportLevelID($prj_id, $customer_id, $contract_id = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getSupportLevelID($customer_id, $contract_id);
     }
 
@@ -694,7 +694,7 @@ class Customer
      */
     function getListBySupportLevel($prj_id, $support_level_id, $support_options = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getListBySupportLevel($support_level_id, $support_options);
     }
 
@@ -708,7 +708,7 @@ class Customer
      */
     function getGroupedSupportLevels($prj_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getGroupedSupportLevels($prj_id);
     }
 
@@ -725,7 +725,7 @@ class Customer
      */
     function sendExpirationNotice($prj_id, $contact_id, $is_expired = FALSE, $contract_id = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->sendExpirationNotice($contact_id, $is_expired, $contract_id);
     }
 
@@ -741,7 +741,7 @@ class Customer
      */
     function isAllowedSupportContact($prj_id, $customer_contact_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->isAllowedSupportContact($customer_contact_id);
     }
 
@@ -759,7 +759,7 @@ class Customer
      */
     function getCustomerInfoFromEmails($prj_id, $sup_ids)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getCustomerInfoFromEmails($sup_ids);
     }
 
@@ -778,7 +778,7 @@ class Customer
      */
     function notifyEmailConvertedIntoIssue($prj_id, $issue_id, $sup_ids, $customer_id = FALSE)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id);
     }
 
@@ -797,7 +797,7 @@ class Customer
      */
     function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->notifyAutoCreatedIssue($issue_id, $sender, $date, $subject);
     }
 
@@ -811,7 +811,7 @@ class Customer
      */
     function getExpirationOffset($prj_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->_getExpirationOffset();
     }
 
@@ -826,7 +826,7 @@ class Customer
      */
     function getContactLoginDetails($prj_id, $contact_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getContactLoginDetails($contact_id);
     }
 
@@ -843,7 +843,7 @@ class Customer
      */
     function getContractEndDate($prj_id, $customer_id, $contract_id = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getContractEndDate($customer_id, $contract_id);
     }
 
@@ -858,7 +858,7 @@ class Customer
      */
     function getSalesAccountManager($prj_id, $customer_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getSalesAccountManager($customer_id);
     }
 
@@ -875,7 +875,7 @@ class Customer
      */
     function getContractStartDate($prj_id, $customer_id, $contract_id = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getContractStartDate($customer_id, $contract_id);
     }
 
@@ -888,7 +888,7 @@ class Customer
      */
     function getNewIssueMessage($prj_id, $customer_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getNewIssueMessage($customer_id);
     }
 
@@ -904,7 +904,7 @@ class Customer
      */
     function getBusinessHours($prj_id, $customer_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getBusinessHours($customer_id);
     }
 
@@ -921,7 +921,7 @@ class Customer
      */
     function hasMinimumResponseTime($prj_id, $customer_id, $contract_id = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->hasMinimumResponseTime($customer_id, $contract_id);
     }
 
@@ -937,7 +937,7 @@ class Customer
      */
     function getMinimumResponseTime($prj_id, $customer_id, $contract_id = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getMinimumResponseTime($customer_id, $contract_id);
     }
 
@@ -953,7 +953,7 @@ class Customer
      */
     function getMaximumFirstResponseTime($prj_id, $customer_id, $contract_id = false)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         return $backend->getMaximumFirstResponseTime($customer_id, $contract_id);
     }
 
@@ -968,7 +968,7 @@ class Customer
      */
     function authenticateCustomer($prj_id, $customer_id, $contact_id)
     {
-        $backend =& Customer::_getBackend($prj_id);
+        $backend =& self::_getBackend($prj_id);
         if (method_exists($backend, 'authenticateCustomer')) {
             $backend->authenticateCustomer($customer_id, $contact_id);
         } else {
@@ -976,29 +976,29 @@ class Customer
             $usr_id = Auth::getUserID();
             $contact_id = User::getCustomerContactID($usr_id);
             if ((!empty($contact_id)) && ($contact_id != -1)) {
-                $status = Customer::getContractStatus($prj_id, User::getCustomerID($usr_id));
+                $status = self::getContractStatus($prj_id, User::getCustomerID($usr_id));
                 $email = User::getEmailByContactID($contact_id);
                 if ($status == 'expired') {
-                    Customer::sendExpirationNotice($prj_id, $contact_id, true);
+                    self::sendExpirationNotice($prj_id, $contact_id, true);
                     Auth::saveLoginAttempt($email, 'failure', 'expired contract');
 
                     Auth::removeCookie(APP_PROJECT_COOKIE);
 
                     $contact_id = User::getCustomerContactID($usr_id);
-                    $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/customer_expired.tpl.html");
-                    $tpl->assign('customer', Customer::getContractDetails($prj_id, $contact_id, false));
+                    $tpl->setTemplate("customer/" . self::getBackendImplementationName($prj_id) . "/customer_expired.tpl.html");
+                    $tpl->assign('customer', self::getContractDetails($prj_id, $contact_id, false));
                     $tpl->displayTemplate();
                     exit;
                 } elseif ($status == 'in_grace_period') {
-                    Customer::sendExpirationNotice($prj_id, $contact_id);
-                    $tpl->setTemplate("customer/" . Customer::getBackendImplementationName($prj_id) . "/grace_period.tpl.html");
-                    $tpl->assign('customer', Customer::getContractDetails($prj_id, $contact_id, false));
-                    $tpl->assign('expiration_offset', Customer::getExpirationOffset($prj_id));
+                    self::sendExpirationNotice($prj_id, $contact_id);
+                    $tpl->setTemplate("customer/" . self::getBackendImplementationName($prj_id) . "/grace_period.tpl.html");
+                    $tpl->assign('customer', self::getContractDetails($prj_id, $contact_id, false));
+                    $tpl->assign('expiration_offset', self::getExpirationOffset($prj_id));
                     $tpl->displayTemplate();
                     exit;
                 }
                 // check with cnt_support to see if this contact is allowed in this support contract
-                if (!Customer::isAllowedSupportContact($prj_id, $contact_id)) {
+                if (!self::isAllowedSupportContact($prj_id, $contact_id)) {
                     Auth::saveLoginAttempt($email, 'failure', 'not allowed as technical contact');
                     Auth::redirect(APP_RELATIVE_URL . "index.php?err=4&email=" . $email);
                 }
@@ -1032,7 +1032,7 @@ class Customer
             return "";
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['customer_title'] = Customer::getTitle($res[$i]['cam_prj_id'], $res[$i]['cam_customer_id']);
+                $res[$i]['customer_title'] = self::getTitle($res[$i]['cam_prj_id'], $res[$i]['cam_customer_id']);
             }
             return $res;
         }
@@ -1261,7 +1261,7 @@ class Customer
             return array();
         } else {
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['customer_title'] = Customer::getTitle($res[$i]['cno_prj_id'], $res[$i]['cno_customer_id']);
+                $res[$i]['customer_title'] = self::getTitle($res[$i]['cno_prj_id'], $res[$i]['cno_customer_id']);
             }
             return $res;
         }

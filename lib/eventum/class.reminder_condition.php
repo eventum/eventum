@@ -213,7 +213,7 @@ class Reminder_Condition
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 if (!empty($res[$i]['rlc_comparison_rmf_id'])) {
-                    $res[$i]['rlc_value'] = ev_gettext("Field") . ': ' . Reminder_Condition::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
+                    $res[$i]['rlc_value'] = ev_gettext("Field") . ': ' . self::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
                 }elseif (strtolower($res[$i]['rmf_title']) == 'status') {
                     $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
                 } elseif (strtolower($res[$i]['rmf_title']) == 'category') {

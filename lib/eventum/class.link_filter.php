@@ -269,9 +269,9 @@ class Link_Filter
         
         // process issue link seperatly since it has to do something special
         $text = Misc::activateLinks($text, $class);
-        $text = Link_Filter::processIssueSpecificLinks($text);
+        $text = self::processIssueSpecificLinks($text);
         
-        $filters = Link_Filter::getFilters($prj_id);
+        $filters = self::getFilters($prj_id);
         
         if (count($filters) > 0) {
             foreach ($filters as $filter) {
@@ -292,7 +292,7 @@ class Link_Filter
      */
     function activateLinks($text)
     {
-        return Link_Filter::processText(Auth::getCurrentProject(), $text);
+        return self::processText(Auth::getCurrentProject(), $text);
     }
 
 

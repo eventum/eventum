@@ -218,7 +218,7 @@ class History
     function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array())
     {
 
-        $htt_list = History::getTypeID(
+        $htt_list = self::getTypeID(
             array_merge(array(
                 'notification_removed',
                 'notification_added',
@@ -274,7 +274,7 @@ class History
                     Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
                 }
                 if (isset($_POST['separate_status_changed'])) {
-                    History::fillStatusChangedOnlyIssues($res, $usr_id, $start, $end);
+                    self::fillStatusChangedOnlyIssues($res, $usr_id, $start, $end);
                 }
                 foreach ($res as $index => $row) {
                     if ((!empty($row["iss_customer_id"])) && (Customer::hasCustomerIntegration($row['iss_prj_id']))) {
@@ -395,7 +395,7 @@ class History
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
                 WHERE
                     his_iss_id = " . Misc::escapeInteger($issue_id) . " AND
-                    his_htt_id = '" . History::getTypeID('issue_closed') . "'
+                    his_htt_id = '" . self::getTypeID('issue_closed') . "'
                 ORDER BY
                     his_created_date DESC
                 LIMIT 1";
@@ -432,8 +432,8 @@ class History
                  FROM
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history
                  WHERE
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id != " . History::getTypeID('status_changed') . " AND
-                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id != " . History::getTypeID('issue_updated') . " AND
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id != " . self::getTypeID('status_changed') . " AND
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_htt_id != " . self::getTypeID('issue_updated') . " AND
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_iss_id IN (" . $ids . ") AND
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_usr_id = " . Misc::escapeInteger($usr_id) . " AND
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_history.his_created_date BETWEEN '" . Misc::escapeString($start) . "' AND '" . Misc::escapeString($end) . "'

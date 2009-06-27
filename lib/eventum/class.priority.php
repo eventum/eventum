@@ -51,7 +51,7 @@ class Priority
     function changeRank($prj_id, $pri_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
-        $ranking = Priority::_getRanking($prj_id);
+        $ranking = self::_getRanking($prj_id);
         $ranks = array_values($ranking);
         $ids = array_keys($ranking);
         $last = end($ids);

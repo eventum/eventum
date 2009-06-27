@@ -112,7 +112,7 @@ class Round_Robin
     function getNextAssignee($prj_id)
     {
         // get the full list of users for the given project
-        list($blackout_start, $blackout_end, $users) = Round_Robin::getUsersByProject($prj_id);
+        list($blackout_start, $blackout_end, $users) = self::getUsersByProject($prj_id);
         if (count($users) == 0) {
             return 0;
         } else {
@@ -135,7 +135,7 @@ class Round_Robin
             do {
                 $user = new Date(Date_Helper::getCurrentUnixTimestampGMT());
                 $user->convertTZById($users[$next_usr_id]['timezone']);
-                list($today, $tomorrow) = Round_Robin::getBlackoutDates($user, $blackout_start, $blackout_end);
+                list($today, $tomorrow) = self::getBlackoutDates($user, $blackout_start, $blackout_end);
                 $first = new Date($today . ' ' . $blackout_start);
                 $first->setTZById($users[$next_usr_id]['timezone']);
                 $second = new Date($tomorrow . ' ' . $blackout_end);
@@ -174,7 +174,7 @@ class Round_Robin
             } else {
                 $next_assignee = $user_ids[++$assignee_index];
             }
-            Round_Robin::markNextAssignee($prj_id, $next_assignee);
+            self::markNextAssignee($prj_id, $next_assignee);
             return $assignee;
         }
     }
@@ -191,7 +191,7 @@ class Round_Robin
      */
     function markNextAssignee($prj_id, $usr_id)
     {
-        $prr_id = Round_Robin::getID($prj_id);
+        $prr_id = self::getID($prj_id);
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "round_robin_user
                  SET
@@ -327,7 +327,7 @@ class Round_Robin
             $new_id = DB_Helper::get_last_insert_id();
             // add all of the user associated with this round robin entry
             foreach ($_POST['users'] as $usr_id) {
-                Round_Robin::addUserAssociation($new_id, $usr_id);
+                self::addUserAssociation($new_id, $usr_id);
             }
             return 1;
         }
@@ -391,7 +391,7 @@ class Round_Robin
         } else {
             // get the list of associated users
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['users'] = implode(", ", array_values(Round_Robin::getAssociatedUsers($res[$i]['prr_id'])));
+                $res[$i]['users'] = implode(", ", array_values(self::getAssociatedUsers($res[$i]['prr_id'])));
             }
             return $res;
         }
@@ -450,7 +450,7 @@ class Round_Robin
             return "";
         } else {
             // get all of the user associations here as well
-            $res['users'] = array_keys(Round_Robin::getAssociatedUsers($res['prr_id']));
+            $res['users'] = array_keys(self::getAssociatedUsers($res['prr_id']));
             return $res;
         }
     }
@@ -480,9 +480,9 @@ class Round_Robin
             return -1;
         } else {
             // remove all of the associations with users, then add them all again
-            Round_Robin::removeUserAssociations($_POST['id']);
+            self::removeUserAssociations($_POST['id']);
             foreach ($_POST['users'] as $usr_id) {
-                Round_Robin::addUserAssociation($_POST['id'], $usr_id);
+                self::addUserAssociation($_POST['id'], $usr_id);
             }
             return 1;
         }
@@ -535,7 +535,7 @@ class Round_Robin
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Round_Robin::removeUserAssociations($_POST['items']);
+            self::removeUserAssociations($_POST['items']);
             return true;
         }
     }

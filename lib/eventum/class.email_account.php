@@ -156,7 +156,7 @@ class Email_Account
      */
     function getProjectID($ema_id)
     {
-        $details = Email_Account::getDetails($ema_id);
+        $details = self::getDetails($ema_id);
         return $details['ema_prj_id'];
     }
 

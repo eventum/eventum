@@ -53,7 +53,7 @@ class Reminder_Action
     function changeRank($rem_id, $rma_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
-        $ranking = Reminder_Action::_getRanking($rem_id);
+        $ranking = self::_getRanking($rem_id);
         $ranks = array_values($ranking);
         $ids = array_keys($ranking);
         $last = end($ids);
@@ -167,8 +167,8 @@ class Reminder_Action
             return '';
         } else {
             // get the user list, if appropriate
-            if (Reminder_Action::isUserList($res['rma_rmt_id'])) {
-                $res['user_list'] = Reminder_Action::getUserList($res['rma_id']);
+            if (self::isUserList($res['rma_rmt_id'])) {
+                $res['user_list'] = self::getUserList($res['rma_id']);
             }
             return $res;
         }
@@ -211,8 +211,8 @@ class Reminder_Action
         } else {
             $new_rma_id = DB_Helper::get_last_insert_id();
             // add the user list, if appropriate
-            if (Reminder_Action::isUserList($_POST['type'])) {
-                Reminder_Action::associateUserList($new_rma_id, $_POST['user_list']);
+            if (self::isUserList($_POST['type'])) {
+                self::associateUserList($new_rma_id, $_POST['user_list']);
             }
             return 1;
         }
@@ -315,10 +315,10 @@ class Reminder_Action
             return -1;
         } else {
             // remove any user list associated with this reminder action
-            Reminder_Action::clearActionUserList($_POST['id']);
+            self::clearActionUserList($_POST['id']);
             // add the user list back in, if appropriate
-            if (Reminder_Action::isUserList($_POST['type'])) {
-                Reminder_Action::associateUserList($_POST['id'], $_POST['user_list']);
+            if (self::isUserList($_POST['type'])) {
+                self::associateUserList($_POST['id'], $_POST['user_list']);
             }
             return 1;
         }
@@ -405,7 +405,7 @@ class Reminder_Action
                  WHERE
                     rlc_rma_id IN ($items)";
         DB_Helper::getInstance()->query($stmt);
-        Reminder_Action::clearActionUserList($action_ids);
+        self::clearActionUserList($action_ids);
     }
 
 
@@ -581,7 +581,7 @@ class Reminder_Action
     {
         $type = '';
         // - see which action type we're talking about here...
-        $action_type = Reminder_Action::getActionType($action['rma_rmt_id']);
+        $action_type = self::getActionType($action['rma_rmt_id']);
         // - do we also need to alert the group leader about this?
         $group_leader_usr_id = 0;
         if ($action['rma_alert_group_leader']) {
@@ -622,7 +622,7 @@ class Reminder_Action
                 break;
             case 'email_list':
                 $type = 'email';
-                $list = Reminder_Action::getUserList($action['rma_id']);
+                $list = self::getUserList($action['rma_id']);
                 $to = array();
                 foreach ($list as $key => $value) {
                     // add the recipient to the list if it's a simple email address
@@ -662,7 +662,7 @@ class Reminder_Action
                 break;
             case 'sms_list':
                 $type = 'sms';
-                $list = Reminder_Action::getUserList($action['rma_id']);
+                $list = self::getUserList($action['rma_id']);
                 $to = array();
                 foreach ($list as $key => $value) {
                     // add the recipient to the list if it's a simple email address
@@ -716,15 +716,15 @@ class Reminder_Action
             // a notice about this on reminder_sent@, if needed
             if (!$action['rma_alert_irc']) {
                 if (@$setup['email_reminder']['status'] == 'enabled') {
-                    Reminder_Action::_recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions);
+                    self::_recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions);
                 }
                 return false;
             }
         }
         // - save a history entry about this action
-        Reminder_Action::saveHistory($issue_id, $action['rma_id']);
+        self::saveHistory($issue_id, $action['rma_id']);
         // - save this action as the latest triggered one for the given issue ID
-        Reminder_Action::recordLastTriggered($issue_id, $action['rma_id']);
+        self::recordLastTriggered($issue_id, $action['rma_id']);
 
         // - perform the action
         if (count($to) > 0) {

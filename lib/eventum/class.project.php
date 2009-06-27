@@ -332,7 +332,7 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return "";
         } else {
-            $res["prj_assigned_users"] = Project::getUserColList($res["prj_id"]);
+            $res["prj_assigned_users"] = self::getUserColList($res["prj_id"]);
             $res['assigned_statuses'] = array_keys(Status::getAssocStatusList($res['prj_id']));
             return $res;
         }
@@ -357,7 +357,7 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Project::removeUserByProjects($_POST["items"]);
+            self::removeUserByProjects($_POST["items"]);
             Category::removeByProjects($_POST["items"]);
             Release::removeByProjects($_POST["items"]);
             Filter::removeByProjects($_POST["items"]);
@@ -435,13 +435,13 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         } else {
-            Project::removeUserByProjects(array($_POST["id"]), $_POST["users"]);
+            self::removeUserByProjects(array($_POST["id"]), $_POST["users"]);
             for ($i = 0; $i < count($_POST["users"]); $i++) {
                 if ($_POST["users"][$i] == $_POST["lead_usr_id"]) {
-                    Project::associateUser($_POST["id"], $_POST["users"][$i], User::getRoleID("Manager"));
+                    self::associateUser($_POST["id"], $_POST["users"][$i], User::getRoleID("Manager"));
                 } elseif (User::getRoleByUser($_POST["users"][$i], $_POST["id"]) == '') {
                     // users who are now being associated with this project should be set to 'Standard User'
-                    Project::associateUser($_POST["id"], $_POST["users"][$i], User::getRoleID("Standard User"));
+                    self::associateUser($_POST["id"], $_POST["users"][$i], User::getRoleID("Standard User"));
                 }
             }
             $statuses = array_keys(Status::getAssocStatusList($_POST["id"]));
@@ -558,7 +558,7 @@ class Project
                 } else {
                     $role_id = User::getRoleID("Standard User");
                 }
-                Project::associateUser($new_prj_id, $_POST["users"][$i], $role_id);
+                self::associateUser($new_prj_id, $_POST["users"][$i], $role_id);
             }
             foreach ($_POST['statuses'] as $sta_id) {
                 Status::addProjectAssociation($sta_id, $new_prj_id);
@@ -766,7 +766,7 @@ class Project
      */
     function getAddressBookEmails($prj_id, $issue_id)
     {
-        $list = Project::getAddressBook($prj_id, $issue_id);
+        $list = self::getAddressBook($prj_id, $issue_id);
         $emails = array();
         foreach ($list as $address => $name) {
             $emails[] = Mail_Helper::getEmailAddress($address);
@@ -793,7 +793,7 @@ class Project
             return $returns[$key];
         }
 
-        $res = Project::getAddressBookAssocList($prj_id, $issue_id);
+        $res = self::getAddressBookAssocList($prj_id, $issue_id);
         if (empty($res)) {
             return "";
         } else {
@@ -1072,7 +1072,7 @@ class Project
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
         }
-        $fields = Project::getDisplayFields();
+        $fields = self::getDisplayFields();
         foreach ($fields as $field_name => $field_title) {
             if (!isset($res[$field_name])) {
                 $res[$field_name] = 0;

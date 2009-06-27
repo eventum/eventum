@@ -92,7 +92,7 @@ class Email_Response
             $new_response_id = DB_Helper::get_last_insert_id();
             // now populate the project-news mapping table
             foreach ($_POST['projects'] as $prj_id) {
-                Email_Response::addProjectAssociation($new_response_id, $prj_id);
+                self::addProjectAssociation($new_response_id, $prj_id);
             }
             return 1;
         }
@@ -117,7 +117,7 @@ class Email_Response
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            Email_Response::removeProjectAssociations($_POST['items']);
+            self::removeProjectAssociations($_POST['items']);
             return true;
         }
     }
@@ -182,9 +182,9 @@ class Email_Response
             return -1;
         } else {
             // remove all of the associations with projects, then add them all again
-            Email_Response::removeProjectAssociations($_POST['id']);
+            self::removeProjectAssociations($_POST['id']);
             foreach ($_POST['projects'] as $prj_id) {
-                Email_Response::addProjectAssociation($_POST['id'], $prj_id);
+                self::addProjectAssociation($_POST['id'], $prj_id);
             }
             return 1;
         }
@@ -214,7 +214,7 @@ class Email_Response
             return "";
         } else {
             // get all of the project associations here as well
-            $res['projects'] = array_keys(Email_Response::getAssociatedProjects($res['ere_id']));
+            $res['projects'] = array_keys(self::getAssociatedProjects($res['ere_id']));
             return $res;
         }
     }
@@ -273,7 +273,7 @@ class Email_Response
         } else {
             // get the list of associated projects
             for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['projects'] = implode(", ", array_values(Email_Response::getAssociatedProjects($res[$i]['ere_id'])));
+                $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['ere_id'])));
             }
             return $res;
         }

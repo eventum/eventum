@@ -49,7 +49,6 @@ class Session
      */
     function set($name, $var)
     {
-        GLOBAL $_SESSION;
         $_SESSION[$name] = $var;
     }
     
@@ -63,7 +62,6 @@ class Session
      */
     function get($name)
     {
-        GLOBAL $_SESSION;
         return @$_SESSION[$name];
     }
     
@@ -77,7 +75,6 @@ class Session
      */
     function is_set($name)
     {
-        GLOBAL $_SESSION;
         return isset($_SESSION[$name]);
     }
 
@@ -118,8 +115,8 @@ class Session
 
         // Don't check the IP of the session, since this caused problems for users that use a proxy farm that uses
         // a different IP address each page load.
-        if (!Session::is_set('usr_id')) {
-            Session::init($usr_id);
+        if (!self::is_set('usr_id')) {
+            self::init($usr_id);
         }
     }
 

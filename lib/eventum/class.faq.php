@@ -100,7 +100,7 @@ class FAQ
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } else {
-            FAQ::removeSupportLevelAssociations($_POST['items']);
+            self::removeSupportLevelAssociations($_POST['items']);
             return true;
         }
     }
@@ -167,10 +167,10 @@ class FAQ
             return -1;
         } else {
             // remove all of the associations with support levels, then add them all again
-            FAQ::removeSupportLevelAssociations($_POST['id']);
+            self::removeSupportLevelAssociations($_POST['id']);
             if (Customer::doesBackendUseSupportLevels($_POST['project'])) {
                 foreach ($_POST['support_levels'] as $support_level_id) {
-                    FAQ::addSupportLevelAssociation($_POST['id'], $support_level_id);
+                    self::addSupportLevelAssociation($_POST['id'], $support_level_id);
                 }
             }
             return 1;
@@ -218,7 +218,7 @@ class FAQ
             if (Customer::doesBackendUseSupportLevels(Misc::escapeInteger($_POST['project']))) {
                 // now populate the faq-support level mapping table
                 foreach ($_POST['support_levels'] as $support_level_id) {
-                    FAQ::addSupportLevelAssociation($new_faq_id, $support_level_id);
+                    self::addSupportLevelAssociation($new_faq_id, $support_level_id);
                 }
             }
             return 1;
@@ -271,7 +271,7 @@ class FAQ
         } else {
             if (Customer::doesBackendUseSupportLevels($res['faq_prj_id'])) {
                 // get all of the support level associations here as well
-                $res['support_levels'] = array_keys(FAQ::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
+                $res['support_levels'] = array_keys(self::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
             }
             if (empty($res['faq_updated_date'])) {
                 $res['faq_updated_date'] = $res['faq_created_date'];
@@ -308,7 +308,7 @@ class FAQ
             // get the list of associated support levels
             for ($i = 0; $i < count($res); $i++) {
                 if (Customer::doesBackendUseSupportLevels($res[$i]['faq_prj_id'])) {
-                    $res[$i]['support_levels'] = implode(", ", array_values(FAQ::getAssociatedSupportLevels($res[$i]['faq_prj_id'], $res[$i]['faq_id'])));
+                    $res[$i]['support_levels'] = implode(", ", array_values(self::getAssociatedSupportLevels($res[$i]['faq_prj_id'], $res[$i]['faq_id'])));
                 }
             }
             return $res;
@@ -358,7 +358,7 @@ class FAQ
     function changeRank($faq_id, $rank_type)
     {
         // check if the current rank is not already the first or last one
-        $ranking = FAQ::_getRanking();
+        $ranking = self::_getRanking();
         $ranks = array_values($ranking);
         $ids = array_keys($ranking);
         $last = end($ids);
