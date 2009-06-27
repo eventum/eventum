@@ -75,7 +75,7 @@ class DB_Helper
         if (PEAR::isError($this->dbh)) {
             Error_Handler::logError(array($this->dbh->getMessage(), $this->dbh->getDebugInfo()), __FILE__, __LINE__);
             $error_type = "db";
-            require_once(APP_PATH . "offline.php");
+            require_once APP_PATH . "/htdocs/offline.php";
             exit(1);
         }
         $this->dbh->query("SET SQL_MODE = ''");

@@ -34,7 +34,7 @@ if (stristr(APP_BASE_URL, 'https://') !== false) {
 }
 
 $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_contents);
-$fp = fopen(APP_PATH . 'config.inc.php', 'w');
+$fp = fopen(APP_PATH . '/config.inc.php', 'w');
 if ($fp === FALSE) {
     echo "Could not open the file 'config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     exit(1);

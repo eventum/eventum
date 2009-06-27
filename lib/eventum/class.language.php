@@ -227,6 +227,6 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
 }
 
 // this won't change over the request. so set it once and permanently
-_bindtextdomain('eventum', APP_PATH . 'misc/localization/');
+_bindtextdomain('eventum', APP_PATH . '/localization/');
 _bind_textdomain_codeset('eventum', APP_CHARSET);
 _textdomain('eventum');

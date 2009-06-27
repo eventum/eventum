@@ -2,25 +2,25 @@
 // upgrade the config.inc.php file
 
 define('APP_PATH', realpath(dirname(__FILE__) . '/../../../') . '/');
-define('APP_CONFIG_PATH', APP_PATH . 'config/');
+define('APP_CONFIG_PATH', APP_PATH . '/config/');
 
-if (!is_writable(APP_PATH . 'config/')) {
-    echo "Error: '" . APP_PATH . "config/' is not writeable. Please change
+if (!is_writable(APP_PATH . '/config/')) {
+    echo "Error: '" . APP_PATH . "/config/' is not writeable. Please change
             this directory to be writeable by the webserver.";
     exit(1);
 }
 
 // make backup copy
-$backup_file = APP_PATH . "config/config.inc.pre_2_0.php";
-if (copy(APP_PATH . "config.inc.php", $backup_file) == false) {
+$backup_file = APP_PATH . "/config/config.inc.pre_2_0.php";
+if (copy(APP_PATH . "/config.inc.php", $backup_file) == false) {
     echo "Unable to create backup copy of config.inc.php. Please check your config/ directory is writeable and try again.";
     exit(1);
 }
 
 // read old file and parse out needed values
-$old_config = file_get_contents(APP_PATH . "config.inc.php");
+$old_config = file_get_contents(APP_PATH . "/config.inc.php");
 
-$config_contents = implode("", file(APP_PATH . "setup/config.php"));
+$config_contents = implode("", file(APP_PATH . "/setup/config.php"));
 $config_contents = str_replace("%{APP_SQL_DBHOST}%", get_old_value('APP_SQL_DBHOST'), $config_contents);
 $config_contents = str_replace("%{APP_SQL_DBNAME}%", get_old_value('APP_SQL_DBNAME'), $config_contents);
 $config_contents = str_replace("%{APP_SQL_DBUSER}%", get_old_value('APP_SQL_DBUSER'), $config_contents);
@@ -37,7 +37,7 @@ if (stristr(get_old_value('APP_BASE_URL'), 'https://') !== false) {
 }
 $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_contents);
 
-$fp = fopen(APP_PATH . 'config/config.php', 'w');
+$fp = fopen(APP_PATH . '/config/config.php', 'w');
 if ($fp === FALSE) {
     echo "Could not open the file 'config/config.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     exit(1);
@@ -49,12 +49,12 @@ if ($fp === FALSE) {
 }
 fclose($fp);
 
-if (copy(APP_PATH . "setup.conf.php", APP_CONFIG_PATH . "setup.php") == false) {
-	echo "Unable to copy '" . APP_PATH . "setup.conf.php' to '" .APP_CONFIG_PATH . "setup.php'";
+if (copy(APP_PATH . "/setup.conf.php", APP_CONFIG_PATH . "/setup.php") == false) {
+	echo "Unable to copy '" . APP_PATH . "/setup.conf.php' to '" .APP_CONFIG_PATH . "/setup.php'";
 	exit(1);
 }
-if (copy(APP_PATH . "include/private_key.php", APP_CONFIG_PATH . "private_key.php") == false) {
-	echo "Unable to copy '" . APP_PATH . "include/private_key.php' to '" .APP_CONFIG_PATH . "private_key.php'";
+if (copy(APP_PATH . "/include/private_key.php", APP_CONFIG_PATH . "/private_key.php") == false) {
+	echo "Unable to copy '" . APP_PATH . "/include/private_key.php' to '" .APP_CONFIG_PATH . "/private_key.php'";
 	exit(1);
 }
 

@@ -38,7 +38,7 @@ Monitor::checkDiskspace($partition);
 
 // the owner, group and filesize settings should be changed to match the correct permissions on your server.
 $required_files = array(
-    APP_PATH . 'config/config.php' => array(
+    APP_CONFIG_PATH . '/config.php' => array(
         'check_owner'      => true,
         'owner'            => 'apache',
         'check_group'      => true,
@@ -46,7 +46,7 @@ $required_files = array(
         'check_permission' => true,
         'permission'       => 755,
     ),
-    APP_PATH . 'config/setup.php' => array(
+    APP_CONFIG_PATH . '/setup.php' => array(
         'check_owner'      => true,
         'owner'            => 'apache',
         'check_group'      => true,

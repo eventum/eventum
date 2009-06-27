@@ -126,15 +126,15 @@ class Monitor
             }
         }
         $required_directories = array(
-            APP_PATH . 'misc/routed_emails' => array(
+            APP_PATH . '/misc/routed_emails' => array(
                 'check_permission' => true,
                 'permission'       => 770,
             ),
-            APP_PATH . 'misc/routed_notes' => array(
+            APP_PATH . '/misc/routed_notes' => array(
                 'check_permission' => true,
                 'permission'       => 770,
             ),
-            APP_PATH . 'setup' => array(
+            APP_PATH . '/htdocs/setup' => array(
                 'check_permission' => true,
                 'permission'       => 100,
             ),

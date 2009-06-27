@@ -4,13 +4,13 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 // make backup copy
-$backup_file = APP_PATH . "config.inc.pre_1_7_0.php";
-if (copy(APP_PATH . "config.inc.php", $backup_file) == false) {
+$backup_file = APP_PATH . "/config.inc.pre_1_7_0.php";
+if (copy(APP_PATH . "/config.inc.php", $backup_file) == false) {
     echo "Unable to create backup copy of config.inc.php. Please check your base directory is writeable and try again.";
     exit(1);
 }
 
-$config_contents = implode("", file(APP_PATH . "setup/config.inc.php"));
+$config_contents = implode("", file(APP_PATH . "/setup/config.inc.php"));
 $config_backup = $config_contents;
 $config_contents = str_replace("%{APP_PATH}%", APP_PATH, $config_contents);
 $config_contents = str_replace("%{APP_SQL_DBHOST}%", APP_SQL_DBHOST, $config_contents);
@@ -34,7 +34,7 @@ if (stristr(APP_BASE_URL, 'https://') !== false) {
 }
 
 $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_contents);
-$fp = fopen(APP_PATH . 'config.inc.php', 'w');
+$fp = fopen(APP_PATH . '/config.inc.php', 'w');
 if ($fp === FALSE) {
     echo "Could not open the file 'config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     exit(1);
