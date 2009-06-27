@@ -57,7 +57,7 @@ http://eventum.mysql.org
 Setting Up The Required Cron Scripts
 ====================================
 
-1)- Mail Queue Process (misc/process_mail_queue.php)
+1)- Mail Queue Process (process_mail_queue.php)
 
 Beginning with the first release of Eventum, emails are not directly sent out
 from the various scripts, but rather added to a mail queue table that is
@@ -65,7 +65,7 @@ processed by a cron job. If an email cannot be sent, it will be marked as such
 in the mail queue log, and the cron job script will re-try to send it again the
 next time it runs.
 
-* * * * * cd /path-to-eventum/misc; /usr/bin/php process_mail_queue.php
+* * * * * <PATH-TO-EVENTUM>/process_mail_queue.php
 
 The above line will run the mail queue script every minute. To setup the SMTP
 server that Eventum should use to send these queued emails, go to:
@@ -73,13 +73,13 @@ server that Eventum should use to send these queued emails, go to:
  Administration >>> General Setup > SMTP (Outgoing Email) Settings
 
 
-2)- Email Download (misc/download_emails.php)
+2)- Email Download (download_emails.php)
 
 In order for Eventum's email integration feature to work, you need to setup a
 cron job to run the script above every so often. The following is an example of
 the required crontab line:
 
-0 * * * * cd /path-to-eventum/misc; /usr/bin/php download_emails.php username_here mail.domain.com INBOX
+0 * * * * <PATH-TO-EVENTUM>/download_emails.php username_here mail.domain.com INBOX
 
 The above will run the command every hour, and will download emails associated
 with the given email account. If you have more than one email account, you may
@@ -89,24 +89,25 @@ feature with the appropriate email accounts, go to:
  Administration >>> Manage Email Accounts
 
 You can also call the download_emails script via the web, using the following URL:
-http://eventum_server/path-to-eventum/misc/download_emails.php?username=username_here&hostname=mail.domain.com&mailbox=INBOX
+http://eventum_server/<PATH-TO-EVENTUM>/download_emails.php?username=username_here&hostname=mail.domain.com&mailbox=INBOX
 
+You need to copy it first to htdocs directory.
 
-3)- Reminder System (misc/check_reminders.php)
+3)- Reminder System (check_reminders.php)
 
 The reminder system was designed with the objective as serving as a safe net
 for issues that need attention. Depending on what configuration you create, you
 may have several reminders (or alerts) be sent out whenever an issue needs
 attention, for whatever parameter you may deem necessary.
 
-*/10 * * * * cd /path-to-eventum/misc; /usr/bin/php check_reminders.php
+*/10 * * * * <PATH-TO-EVENTUM>/check_reminders.php
 
 It is recommended that you run the reminder cron job every 10 minutes, so it
 won't flood you with alerts too often, but it would still be enough to handle
 most cases.
 
 
-4)- Heartbeat Monitor (misc/monitor.php)
+4)- Heartbeat Monitor (monitor.php)
 
 The heartbeat monitor is a feature designed for the administrator that wants to
 be alerted whenever a common problem in Eventum is detected, like the database
@@ -116,7 +117,7 @@ the heartbeat monitor, you may need to customize some of the checks to be
 appropriate for your own system, particularly the permission and file checks on
 Monitor::checkConfiguration().
 
-*/10 * * * * cd /path-to-eventum/misc; /usr/bin/php monitor.php
+*/10 * * * * <PATH-TO-EVENTUM>/monitor.php
 
 
 
@@ -138,7 +139,7 @@ Once the account is added, set the account to be downloaded as describe above
 (2)- Email Download).
 
 
-1)- Email Routing Script (misc/route_emails.php)
+1)- Email Routing Script (route_emails.php)
 
 The email routing feature is used to automatically associate a thread of emails
 into an Eventum issue. By setting up qmail (or even postfix) to deliver emails
@@ -151,11 +152,11 @@ The entire email message should be passed as standard input to the script, and
 the only parameter to it should be email account to which this email should be
 associated with. The following is an example of a successful run of this script:
 
-cat example_email.txt | php route_emails.php 1
+./route_emails.php 1 < example_note_email.txt
 
 This script also saves any routed messages it receives in a separate directory,
 so you would never lose emails. Create a 'routed_emails' sub-directory under
-/path-to-eventum/misc/ and setup the proper permission bits on it.
+/<PATH-TO-EVENTUM>/misc/ and setup the proper permission bits on it.
 
 IMPORTANT: Please be aware that depending on the MDA that you are using (qmail,
 postfix or whatever), you may need to manually change the exit codes used in
@@ -164,7 +165,7 @@ exit code 78 to signal a configuration problem, but other agents may need
 different exit codes.
 
 
-2)- Note Routing Script (misc/route_notes.php)
+2)- Note Routing Script (route_notes.php)
 
 The note routing feature is used to automatically associate a thread of notes
 into an Eventum issue. By setting up qmail (or even postfix) to deliver emails
@@ -176,11 +177,11 @@ the issue and broadcasted to the notification list staff members.
 The entire email message should be passed as standard input to the script. The
 following is an example of a successful run of this script:
 
-cat example_note_email.txt | php route_notes.php
+./route_notes.php < example_note_email.txt
 
 This script also saves any routed messages it receives in a separate directory,
 so you would never lose notes. Create a 'routed_notes' sub-directory under
-/path-to-eventum/misc/ and setup the proper permission bits on it.
+/<PATH-TO-EVENTUM>/misc/ and setup the proper permission bits on it.
 
 IMPORTANT: Please be aware that depending on the MDA that you are using (qmail,
 postfix or whatever), you may need to manually change the exit codes used in
@@ -189,7 +190,7 @@ exit code 78 to signal a configuration problem, but other agents may need
 different exit codes.
 
 
-3)- Draft Routing Script (misc/route_drafts.php)
+3)- Draft Routing Script (route_drafts.php)
 
 The draft routing feature is used to automatically associate a thread of drafts
 into an Eventum issue. By setting up qmail (or even postfix) to deliver emails
@@ -200,11 +201,11 @@ in Eventum. These drafts will NOT broadcasted to the notification list.
 The entire email message should be passed as standard input to the script. The
 following is an example of a successful run of this script:
 
-cat example_draft_email.txt | php route_drafts.php
+<PATH-TO-EVENTUM>/route_drafts.php < example_note_email.txt
 
 This script also saves any routed messages it receives in a separate directory,
 so you would never lose drafts. Create a 'routed_drafts' sub-directory under
-/path-to-eventum/misc/ and setup the proper permission bits on it.
+<PATH-TO-EVENTUM>/misc/ and setup the proper permission bits on it.
 
 IMPORTANT: Please be aware that depending on the MDA that you are using (qmail,
 postfix or whatever), you may need to manually change the exit codes used in
@@ -213,7 +214,7 @@ exit code 78 to signal a configuration problem, but other agents may need
 different exit codes.
 
 
-4)- IRC Notification Bot (misc/irc/bot.php)
+4)- IRC Notification Bot (irc/eventum-irc-bot)
 
 The IRC notification bot is a nice feature for remote teams that want to handle
 issues and want to have a quick and easy way to get simple notifications. Right
@@ -226,14 +227,14 @@ now the bot notifies of the following actions:
 To invoke the notification bot and let it running on the server, this is the
 proper command:
 
-php bot.php &
+./irc/eventum-irc-bot &
 
 NOTE: You will need to manually edit config/irc_config.php to set your appropriate
 preferences, like IRC server and channel that the bot should join. An example
 config file is located in setup/irc_config.php
 
 
-5)- Command-line Interface (misc/cli/eventum)
+5)- Command-line Interface (cli/eventum)
 
 The Eventum command-line interface allows you to access most of the features
 of the web interface straight from your command shell. In order to install it,
@@ -241,12 +242,12 @@ you will need PHP and if you use SSL, the curl and openssl PHP extensions.
 
 Assuming you have the requirements properly setup::
 
- - Just copy the path-to-eventum/misc/cli directory to another location (e.g.
+ - Just copy the <PATH-TO-EVENTUM>/cli directory to another location (e.g.
    copy to ~/bin/)
  - Add that location to your PATH environment variable
- - Set the required permission in the script (chmod 700 ~/bin/cli/eventum)
+ - Set the required permission in the script (chmod 700 ~/bin/eventum)
  - Copy the new .eventumrc example file to your home directory
-   (cp ~/bin/cli/eventumrc_example ~/.eventumrc)
+   (cp ~/cli/eventumrc ~/.eventumrc)
    -> Edit ~/.eventumrc and set the appropriate values in there
  - Run it (eventum --help)
  - Test it with 'eventum 1' (display issue #1 details)

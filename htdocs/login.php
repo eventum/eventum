@@ -1,0 +1,75 @@
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
+// +----------------------------------------------------------------------+
+// | Eventum - Issue Tracking System                                      |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2003 - 2008 MySQL AB                                   |
+// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
+// |                                                                      |
+// | This program is free software; you can redistribute it and/or modify |
+// | it under the terms of the GNU General Public License as published by |
+// | the Free Software Foundation; either version 2 of the License, or    |
+// | (at your option) any later version.                                  |
+// |                                                                      |
+// | This program is distributed in the hope that it will be useful,      |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+// | GNU General Public License for more details.                         |
+// |                                                                      |
+// | You should have received a copy of the GNU General Public License    |
+// | along with this program; if not, write to:                           |
+// |                                                                      |
+// | Free Software Foundation, Inc.                                       |
+// | 59 Temple Place - Suite 330                                          |
+// | Boston, MA 02111-1307, USA.                                          |
+// +----------------------------------------------------------------------+
+// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// +----------------------------------------------------------------------+
+//
+// @(#) $Id: login.php 3868 2009-03-30 00:22:35Z glen $
+
+require_once dirname(__FILE__) . '/../init.php';
+
+if (Validation::isWhitespace($_POST["email"])) {
+    Auth::redirect(APP_RELATIVE_URL . "index.php?err=1");
+}
+if (Validation::isWhitespace($_POST["passwd"])) {
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'empty password');
+    Auth::redirect(APP_RELATIVE_URL . "index.php?err=2&email=" . $_POST["email"]);
+}
+
+// check if user exists
+if (!Auth::userExists($_POST["email"])) {
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'unknown user');
+    Auth::redirect(APP_RELATIVE_URL . "index.php?err=3");
+}
+// check if the password matches
+if (!Auth::isCorrectPassword($_POST["email"], $_POST["passwd"])) {
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'wrong password');
+    Auth::redirect(APP_RELATIVE_URL . "index.php?err=3&email=" . $_POST["email"]);
+}
+
+// handle aliases since the user is now authenticated
+$_POST['email'] = User::getEmail(User::getUserIDByEmail($_POST['email'], true));
+
+// check if this user did already confirm his account
+if (Auth::isPendingUser($_POST["email"])) {
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'pending user');
+    Auth::redirect(APP_RELATIVE_URL . "index.php?err=9", $is_popup);
+}
+// check if this user is really an active one
+if (!Auth::isActiveUser($_POST["email"])) {
+    Auth::saveLoginAttempt($_POST["email"], 'failure', 'inactive user');
+    Auth::redirect(APP_RELATIVE_URL . "index.php?err=7", $is_popup);
+}
+
+Auth::saveLoginAttempt($_POST["email"], 'success');
+// redirect to the initial page
+@Auth::createLoginCookie(APP_COOKIE, $_POST["email"]);
+Session::init(User::getUserIDByEmail($_POST['email']));
+if (!empty($_POST["url"])) {
+    $extra = '?url=' . urlencode($_POST["url"]);
+} else {
+    $extra = '';
+}
+Auth::redirect(APP_RELATIVE_URL . "select_project.php" . $extra);

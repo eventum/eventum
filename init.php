@@ -45,75 +45,72 @@ define('APP_URL', 'http://www.mysql.com/products/eventum/');
 define('APP_VERSION', '2.2');
 
 // define base path
-define('APP_PATH', realpath(dirname(__FILE__)) . '/');
-define('APP_CONFIG_PATH', APP_PATH . 'config/');
+define('APP_PATH', realpath(dirname(__FILE__)));
+define('APP_CONFIG_PATH', APP_PATH . '/config');
 
-// include local site config
-require_once APP_CONFIG_PATH . 'config.php';
+// include local site config. may override any default
+require_once APP_CONFIG_PATH . '/config.php';
 
 // define other paths
-if (!defined('APP_INC_PATH')) {
-    define('APP_INC_PATH', APP_PATH . 'include/');
-}
-
-if (!defined('APP_PEAR_PATH')) {
-    define('APP_PEAR_PATH', APP_INC_PATH . 'pear/');
+if (!defined('APP_SETUP_FILE')) {
+    define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
 }
 
 if (!defined('APP_TPL_PATH')) {
-    define('APP_TPL_PATH', APP_PATH . 'templates/');
+    define('APP_TPL_PATH', APP_PATH . '/templates');
 }
 
 if (!defined('APP_TPL_COMPILE_PATH')) {
-    define('APP_TPL_COMPILE_PATH', APP_PATH . 'templates_c');
+    define('APP_TPL_COMPILE_PATH', APP_PATH . '/templates_c');
+}
+
+if (!defined('APP_INC_PATH')) {
+    define('APP_INC_PATH', APP_PATH . '/lib/eventum');
+}
+
+if (!defined('APP_PEAR_PATH')) {
+    define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
 }
 
 if (!defined('APP_SMARTY_PATH')) {
-    define('APP_SMARTY_PATH', APP_INC_PATH . 'Smarty/');
+    define('APP_SMARTY_PATH', APP_PATH . '/lib/Smarty');
 }
 
 if (!defined('APP_JPGRAPH_PATH')) {
-    define('APP_JPGRAPH_PATH', APP_INC_PATH . 'jpgraph/');
+    define('APP_JPGRAPH_PATH', APP_PATH . '/lib/jpgraph');
 }
 
 if (!defined('APP_LOCKS_PATH')) {
-    define('APP_LOCKS_PATH', APP_PATH . 'locks/');
-}
-
-if (!defined('APP_SETUP_FILE')) {
-    define('APP_SETUP_FILE', APP_CONFIG_PATH . 'setup.php');
+    define('APP_LOCKS_PATH', APP_PATH . '/locks');
 }
 
 if (!defined('APP_SQL_PATCHES_PATH')) {
-    define('APP_SQL_PATCHES_PATH', APP_PATH . 'misc/upgrade/patches');
+    define('APP_SQL_PATCHES_PATH', APP_PATH . '/upgrade/patches');
 }
 
 if (!defined('APP_LOG_PATH')) {
-    define('APP_LOG_PATH', APP_PATH . 'logs/');
+    define('APP_LOG_PATH', APP_PATH . '/logs');
 }
 
 if (!defined('APP_ROUTED_MAILS_SAVEDIR')) {
-    define('APP_ROUTED_MAILS_SAVEDIR', APP_PATH . 'misc/');
+    define('APP_ROUTED_MAILS_SAVEDIR', APP_PATH . '/misc');
 }
 
 if (!defined('APP_ERROR_LOG')) {
-    define('APP_ERROR_LOG', APP_LOG_PATH . 'errors.log');
+    define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
 }
 
 if (!defined('APP_CLI_LOG')) {
-    define('APP_CLI_LOG', APP_LOG_PATH . 'cli.log');
+    define('APP_CLI_LOG', APP_LOG_PATH . '/cli.log');
 }
 
 if (!defined('APP_IRC_LOG')) {
-    define('APP_IRC_LOG', APP_LOG_PATH . 'irc_bot.log');
+    define('APP_IRC_LOG', APP_LOG_PATH . '/irc_bot.log');
 }
 
 if (!defined('APP_LOGIN_LOG')) {
-    define('APP_LOGIN_LOG', APP_LOG_PATH . 'login_attempts.log');
+    define('APP_LOGIN_LOG', APP_LOG_PATH . '/login_attempts.log');
 }
-
-// add pear to the include path
-set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
 
 // define the user_id of system user
 if (!defined('APP_SYSTEM_USER_ID')) {
@@ -123,7 +120,7 @@ if (!defined('APP_SYSTEM_USER_ID')) {
 // email address of anonymous user.
 // if you want anonymous users getting access to your eventum.
 if (!defined('APP_ANON_USER')) {
-	define('APP_ANON_USER', null);
+	define('APP_ANON_USER', '');
 }
 
 // if full text searching is enabled
@@ -137,6 +134,9 @@ if (!defined('APP_DEFAULT_ASSIGNED_EMAILS')) {
 if (!defined('APP_DEFAULT_NEW_EMAILS')) {
     define('APP_DEFAULT_NEW_EMAILS', 0);
 }
+if (!defined('APP_RELATIVE_URL')) {
+    define('APP_RELATIVE_URL', '/');
+}
 if (!defined('APP_COOKIE_URL')) {
     define('APP_COOKIE_URL', APP_RELATIVE_URL);
 }
@@ -148,6 +148,9 @@ if (!defined('APP_HASH_TYPE')) {
 }
 if (!defined('APP_DEFAULT_LOCALE')) {
     define('APP_DEFAULT_LOCALE', 'en_US');
+}
+if (!defined('APP_CHARSET')) {
+    define('APP_CHARSET', 'UTF-8');
 }
 if (!defined('APP_EMAIL_ENCODING')) {
     if (APP_CHARSET == 'UTF-8') {
@@ -163,6 +166,11 @@ define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
 // requests to /manage/ still work
 if (!defined('APP_MAINTENANCE')) {
     define('APP_MAINTENANCE', false);
+}
+
+// add pear to the include path
+if (defined('APP_PEAR_PATH')) {
+    set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
 }
 
 require_once APP_INC_PATH . '/autoload.php';
