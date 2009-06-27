@@ -52,7 +52,7 @@ if (Auth::hasValidCookie(APP_COOKIE) && !Auth::isAnonUser()) {
     } else {
         $extra = '';
     }
-    Auth::redirect(APP_RELATIVE_URL . "select_project.php" . $extra);
+    Auth::redirect(APP_RELATIVE_URL . "/select_project.php" . $extra);
 }
 
 $projects = Project::getAnonymousList();

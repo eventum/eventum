@@ -1297,7 +1297,7 @@ class Support
         } else {
             if ((count($res) < 1) && ($current_row > 0)) {
                 // if there are no results, and the page is not the first page reset page to one and reload results
-                Auth::redirect(APP_RELATIVE_URL . "emails.php?pagerRow=0&rows=$max");
+                Auth::redirect(APP_RELATIVE_URL . "/emails.php?pagerRow=0&rows=$max");
             }
             if (Customer::hasCustomerIntegration($prj_id)) {
                 $customer_ids = array();

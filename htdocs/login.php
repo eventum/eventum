@@ -31,22 +31,22 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 if (Validation::isWhitespace($_POST["email"])) {
-    Auth::redirect(APP_RELATIVE_URL . "index.php?err=1");
+    Auth::redirect(APP_RELATIVE_URL . "/index.php?err=1");
 }
 if (Validation::isWhitespace($_POST["passwd"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'empty password');
-    Auth::redirect(APP_RELATIVE_URL . "index.php?err=2&email=" . $_POST["email"]);
+    Auth::redirect(APP_RELATIVE_URL . "/index.php?err=2&email=" . $_POST["email"]);
 }
 
 // check if user exists
 if (!Auth::userExists($_POST["email"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'unknown user');
-    Auth::redirect(APP_RELATIVE_URL . "index.php?err=3");
+    Auth::redirect(APP_RELATIVE_URL . "/index.php?err=3");
 }
 // check if the password matches
 if (!Auth::isCorrectPassword($_POST["email"], $_POST["passwd"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'wrong password');
-    Auth::redirect(APP_RELATIVE_URL . "index.php?err=3&email=" . $_POST["email"]);
+    Auth::redirect(APP_RELATIVE_URL . "/index.php?err=3&email=" . $_POST["email"]);
 }
 
 // handle aliases since the user is now authenticated
@@ -55,12 +55,12 @@ $_POST['email'] = User::getEmail(User::getUserIDByEmail($_POST['email'], true));
 // check if this user did already confirm his account
 if (Auth::isPendingUser($_POST["email"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'pending user');
-    Auth::redirect(APP_RELATIVE_URL . "index.php?err=9", $is_popup);
+    Auth::redirect(APP_RELATIVE_URL . "/index.php?err=9", $is_popup);
 }
 // check if this user is really an active one
 if (!Auth::isActiveUser($_POST["email"])) {
     Auth::saveLoginAttempt($_POST["email"], 'failure', 'inactive user');
-    Auth::redirect(APP_RELATIVE_URL . "index.php?err=7", $is_popup);
+    Auth::redirect(APP_RELATIVE_URL . "/index.php?err=7", $is_popup);
 }
 
 Auth::saveLoginAttempt($_POST["email"], 'success');
@@ -72,4 +72,4 @@ if (!empty($_POST["url"])) {
 } else {
     $extra = '';
 }
-Auth::redirect(APP_RELATIVE_URL . "select_project.php" . $extra);
+Auth::redirect(APP_RELATIVE_URL . "/select_project.php" . $extra);

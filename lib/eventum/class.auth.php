@@ -104,7 +104,7 @@ class Auth
     function checkAuthentication($cookie_name, $failed_url = NULL, $is_popup = false)
     {
         if ($failed_url == NULL) {
-            $failed_url = APP_RELATIVE_URL . "index.php?err=5";
+            $failed_url = APP_RELATIVE_URL . "/index.php?err=5";
         }
         $failed_url .= "&url=" . self::getRequestedURL();
         if (!isset($_COOKIE[$cookie_name])) {
@@ -127,11 +127,11 @@ class Auth
         }
         if (self::isPendingUser($cookie["email"])) {
             self::removeCookie($cookie_name);
-            self::redirect(APP_RELATIVE_URL . "index.php?err=9", $is_popup);
+            self::redirect(APP_RELATIVE_URL . "/index.php?err=9", $is_popup);
         }
         if (!self::isActiveUser($cookie["email"])) {
             self::removeCookie($cookie_name);
-            self::redirect(APP_RELATIVE_URL . "index.php?err=7", $is_popup);
+            self::redirect(APP_RELATIVE_URL . "/index.php?err=7", $is_popup);
         }
 
         $usr_id = self::getUserID();
@@ -147,7 +147,7 @@ class Auth
         $prj_id = self::getCurrentProject();
         if (empty($prj_id)) {
             // redirect to select project page
-            self::redirect(APP_RELATIVE_URL . "select_project.php?url=" . self::getRequestedURL(), $is_popup);
+            self::redirect(APP_RELATIVE_URL . "/select_project.php?url=" . self::getRequestedURL(), $is_popup);
         }
         // check the expiration date for a 'Customer' type user
         $customer_id = User::getCustomerID($usr_id);
@@ -462,7 +462,7 @@ class Auth
             return isset($cookie['prj_id']) ? (int )$cookie['prj_id'] : null;
         }
         if (!in_array($cookie["prj_id"], array_keys($projects))) {
-            self::redirect(APP_RELATIVE_URL . "select_project.php");
+            self::redirect(APP_RELATIVE_URL . "/select_project.php");
         }
         return $cookie["prj_id"];
     }

@@ -59,7 +59,7 @@ $data = Report::getCustomFieldReport(@$_GET["custom_field"], @$_GET["custom_opti
 $field_details = Custom_Field::getDetails(@$_GET["custom_field"]);
 
 if (count($data) < 2) {
-    header("Location: " . APP_RELATIVE_URL . "images/no_data.gif");
+    header("Location: " . APP_RELATIVE_URL . "/images/no_data.gif");
 }
 
 if (@$_GET["type"] == "pie") {
