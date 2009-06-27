@@ -615,7 +615,7 @@ class Misc
      */
     function highlightQuotedReply($text)
     {
-        require_once(APP_SMARTY_PATH . "plugins/modifier.highlight_quoted.php");
+        require_once APP_INC_PATH . './smarty/modifier.highlight_quoted.php';
         return smarty_modifier_highlight_quoted($text);
     }
 
