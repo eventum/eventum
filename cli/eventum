@@ -40,7 +40,7 @@ if (($argv[1] == '--help') || ($argv[1] == 'help')) {
 
 $should_confirm = Command_Line::isSafeExecution();
 
-$client = new XML_RPC_Client($relative_url . "rpc/xmlrpc.php", $url, $port);
+$client = new XML_RPC_Client($relative_url . "/rpc/xmlrpc.php", $url, $port);
 //$client->setDebug(1);
 
 // need to process authentication first
