@@ -174,11 +174,14 @@ class SCM
      * Method used to associate a new checkin with an existing issue
      *
      * @access  public
-     * @param   integer $issue_id The issue ID
-     * @param   integer $i The offset of the file that was changed
+     * @param   integer $issue_id The ID of the issue.
+     * @param   string $module The SCM module commit was made.
+     * @param   array $file File info with their version numbers changes made on.
+     * @param   string $username SCM user doing the checkin.
+     * @param   string $commit_msg Message associated with the SCM commit.
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    function logCheckin($issue_id, $i)
+    function logCheckin($issue_id, $module, $file, $username, $commit_msg)
     {
         $stmt = "INSERT INTO
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_checkin
@@ -193,25 +196,25 @@ class SCM
                     isc_commit_msg
                  ) VALUES (
                     $issue_id,
-                    '" . Misc::escapeString($_GET["module"]) . "',
-                    '" . Misc::escapeString($_GET["files"][$i]) . "',
-                    '" . Misc::escapeString($_GET["old_versions"][$i]) . "',
-                    '" . Misc::escapeString($_GET["new_versions"][$i]) . "',
+                    '" . Misc::escapeString($module) . "',
+                    '" . Misc::escapeString($file['file']) . "',
+                    '" . Misc::escapeString($file['old_version']) . "',
+                    '" . Misc::escapeString($file['new_version']) . "',
                     '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Misc::escapeString($_GET["username"]) . "',
-                    '" . Misc::escapeString($_GET["commit_msg"]) . "'
+                    '" . Misc::escapeString($username) . "',
+                    '" . Misc::escapeString($commit_msg) . "'
                  )";
         $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
-        } else {
-            // need to mark this issue as updated
-            Issue::markAsUpdated($issue_id, 'scm checkin');
-            // need to save a history entry for this
-            History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('scm_checkin_associated'),
-                            ev_gettext("SCM Checkins associated by SCM user '") . $_GET["username"] . '\'.');
-            return 1;
         }
+
+        // need to mark this issue as updated
+        Issue::markAsUpdated($issue_id, 'scm checkin');
+        // need to save a history entry for this
+        History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('scm_checkin_associated'),
+                        ev_gettext("SCM Checkins associated by SCM user '") . $username . '\'.');
+        return 1;
     }
 }

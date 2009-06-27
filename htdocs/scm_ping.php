@@ -38,20 +38,22 @@ if (empty($_GET['issue'])) {
 require_once dirname(__FILE__) . '/../init.php';
 
 foreach ($_GET['issue'] as $issue_id) {
-    $files = array();
-    for ($y = 0; $y < count($_GET['files']); $y++) {
-        SCM::logCheckin($issue_id, $y);
-        $files[] = array(
-            'file' => $_GET['files'][$y],
-            'old_version' => $_GET['old_versions'][$y],
-            'new_version' => $_GET['new_versions'][$y],
-        );
-    }
-
-    $prj_id = Issue::getProjectID($issue_id);
     $module = $_GET['module'];
     $username = $_GET['username'];
     $commit_msg = $_GET['commit_msg'];
 
+    $files = array();
+    for ($y = 0; $y < count($_GET['files']); $y++) {
+        $file = array(
+            'file' => $_GET['files'][$y],
+            'old_version' => $_GET['old_versions'][$y],
+            'new_version' => $_GET['new_versions'][$y],
+        );
+
+        SCM::logCheckin($issue_id, $module, $file, $username, $commit_msg);
+        $files[] = $file;
+    }
+
+    $prj_id = Issue::getProjectID($issue_id);
     Workflow::handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg);
 }
