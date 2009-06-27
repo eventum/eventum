@@ -11,10 +11,6 @@
 //
 // @(#) $Id: eventum 3786 2008-12-02 17:08:25Z glen $
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-set_time_limit(0);
-
 // definitions of path related variables
 define('APP_PATH', dirname(__FILE__) . '/');
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
