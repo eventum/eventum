@@ -57,8 +57,8 @@ class Mail_Helper
      */
     function Mail_Helper()
     {
-        @require_once(APP_PEAR_PATH . 'Mail.php');
-        @require_once(APP_PEAR_PATH . 'Mail/mime.php');
+        require_once 'Mail.php';
+        require_once 'Mail/mime.php';
         $this->mime = new Mail_mime("\r\n");
     }
 

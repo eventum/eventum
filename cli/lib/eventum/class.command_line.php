@@ -30,8 +30,8 @@
 //
 
 require_once APP_INC_PATH . '/class.misc.php';
-require_once APP_PEAR_PATH . '/PEAR.php';
-require_once APP_PEAR_PATH . '/XML/RPC.php';
+require_once 'PEAR.php';
+require_once 'XML/RPC.php';
 
 $_displayed_confirmation = false;
 
