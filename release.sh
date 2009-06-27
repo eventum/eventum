@@ -2,24 +2,40 @@
 set -e
 set -x
 app=eventum
-rc=RC1
+#rc=RC1 # release candidate
+rc=dev # development version
 dir=$app
 
 # checkout
 rm -rf $dir
+
 bzr clone lp:eventum $dir
-rm -rf $dir/.bzr*
 
 # tidy up
 cd $dir
 version=$(awk -F"'" '/APP_VERSION/{print $4}' init.php)
-make -C misc/localization
+
+if [ "$rc" = "dev" ]; then
+	revno=$(bzr revno $dir)
+	sed -i -e "
+		/define('APP_VERSION'/ {
+			idefine('APP_VERSION', '$version-$revno');
+		    d
+
+		}" init.php
+	rc=-dev-r$revno
+fi
+
+make -C localization
 touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 chmod -R a+rwX templates_c locks logs config
 rm -f release.sh phpxref.cfg phpxref.sh make-tag.sh
 
 # sanity check
-find -name '*.php' | xargs -l1 php -l
+if [ -z "$revno" ]; then
+	find -name '*.php' | xargs -l1 php -l
+fi
+rm -rf .bzr*
 cd -
 
 # make tarball and md5 checksum
