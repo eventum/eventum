@@ -50,7 +50,7 @@ class Command_Line
         $msg = new XML_RPC_Message("getResolutionAssocList");
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $list = XML_RPC_decode($result->value());
         if (count($list) > 1) {
@@ -63,7 +63,7 @@ class Command_Line
             $resolution_id = Misc::prompt($prompt, false);
             $available_ids = array_keys($list);
             if (!in_array($resolution_id, $available_ids)) {
-                Command_Line::quit("Entered resolution doesn't match any in the list available to you");
+                self::quit("Entered resolution doesn't match any in the list available to you");
             }
         } else {
             if (count($list) == 0) {
@@ -93,7 +93,7 @@ class Command_Line
                         new XML_RPC_Value($prj_id, 'int')));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $list = XML_RPC_decode($result->value());
         if (count($list) > 1) {
@@ -108,7 +108,7 @@ class Command_Line
             $lowercase_values = array_map('strtolower', array_values($list));
             if ((!in_array(strtolower($status), $lowercase_keys)) &&
                     (!in_array(strtolower($status), $lowercase_values)))  {
-                Command_Line::quit("Entered status doesn't match any in the list available to you");
+                self::quit("Entered status doesn't match any in the list available to you");
             } else {
                 if (in_array(strtolower($status), $lowercase_keys)) {
                     $status_title = $list[strtoupper($status)];
@@ -134,19 +134,19 @@ class Command_Line
      */
     function closeIssue(&$rpc_conn, $auth, $issue_id)
     {
-        $details = Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        Command_Line::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
 
         // prompt for status selection (accept abbreviations)
-        $new_status = Command_Line::promptStatusSelection($rpc_conn, $auth, $details['iss_prj_id']);
+        $new_status = self::promptStatusSelection($rpc_conn, $auth, $details['iss_prj_id']);
         // check if the issue already is set to the new status
         if ((strtolower($details['sta_title']) == strtolower($new_status)) ||
                 (strtolower($details['sta_abbreviation']) == strtolower($new_status))) {
-            Command_Line::quit("Issue #$issue_id is already set to status '" . $details['sta_title'] . "'");
+            self::quit("Issue #$issue_id is already set to status '" . $details['sta_title'] . "'");
         }
 
         // prompt for status selection (accept abbreviations)
-        $resolution_id = Command_Line::promptResolutionSelection($rpc_conn);
+        $resolution_id = self::promptResolutionSelection($rpc_conn);
 
         // ask whether to send a notification email about this action or not (defaults to yes)
         $msg = "Would you like to send a notification email about this issue being closed? [y/n]";
@@ -173,7 +173,7 @@ class Command_Line
         $msg = new XML_RPC_Message("closeIssue", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         echo "OK - Issue #$issue_id successfully closed.\n";
         if (XML_RPC_decode($result->value()) == 'INCIDENT') {
@@ -193,7 +193,7 @@ class Command_Line
      */
     function lookupCustomer(&$rpc_conn, $auth, $field, $value)
     {
-        $project_id = Command_Line::promptProjectSelection($rpc_conn, $auth, TRUE);
+        $project_id = self::promptProjectSelection($rpc_conn, $auth, TRUE);
 
         $params = array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -205,7 +205,7 @@ class Command_Line
         $msg = new XML_RPC_Message("lookupCustomer", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $res = XML_RPC_decode($result->value());
         if (!is_array($res)) {
@@ -296,13 +296,13 @@ class Command_Line
      */
     function printFileList(&$rpc_conn, $auth, $issue_id)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         $msg = new XML_RPC_Message("getFileList", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                         new XML_RPC_Value($issue_id, 'int')));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $list = XML_RPC_decode($result->value());
         $i = 1;
@@ -329,14 +329,14 @@ class Command_Line
      */
     function getFile(&$rpc_conn, $auth, $issue_id, $file_number)
     {
-        $details = Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         // check if the provided file number is valid
         $msg = new XML_RPC_Message("getFileList", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                     new XML_RPC_Value($issue_id, 'int')));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $list = XML_RPC_decode($result->value());
         $file_id = 0;
@@ -350,7 +350,7 @@ class Command_Line
             }
         }
         if (empty($file_id)) {
-            Command_Line::quit("Unknown file number #$file_number. Please review the list of available files with 'list-files'");
+            self::quit("Unknown file number #$file_number. Please review the list of available files with 'list-files'");
         }
 
         echo "Downloading file #$file_number from issue $issue_id...\n";
@@ -362,7 +362,7 @@ class Command_Line
         $msg = new XML_RPC_Message("getFile", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $details = XML_RPC_decode($result->value());
         $details['iaf_file'] = base64_decode($details['iaf_file']);
@@ -374,10 +374,10 @@ class Command_Line
             if (strtolower($ret) == 'y') {
                 @unlink($details['iaf_filename']);
                 if (@file_exists($details['iaf_filename'])) {
-                    Command_Line::quit("No permission to remove the file");
+                    self::quit("No permission to remove the file");
                 }
             } else {
-                Command_Line::quit("Download halted");
+                self::quit("Download halted");
             }
         }
         $fp = fopen($details['iaf_filename'], 'w');
@@ -408,13 +408,13 @@ class Command_Line
             ));
             $result = $rpc_conn->send($msg);
             if ($result->faultCode()) {
-                Command_Line::quit($result->faultString());
+                self::quit($result->faultString());
             }
             $may_change_issue = XML_RPC_decode($result->value());
             // if not, show confirmation message
             if ($may_change_issue != 'yes') {
                 echo "WARNING: You are not currently assigned to issue #$issue_id.\n";
-                Command_Line::promptConfirmation($rpc_conn, $auth, $issue_id, false);
+                self::promptConfirmation($rpc_conn, $auth, $issue_id, false);
             }
         }
     }
@@ -432,13 +432,13 @@ class Command_Line
      */
     function checkIssuePermissions(&$rpc_conn, $auth, $issue_id)
     {
-        $projects = Command_Line::getUserAssignedProjects($rpc_conn, $auth);
+        $projects = self::getUserAssignedProjects($rpc_conn, $auth);
 
         $msg = new XML_RPC_Message("getIssueDetails", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                         new XML_RPC_Value($issue_id, 'int')));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $details = XML_RPC_decode($result->value());
 
@@ -455,7 +455,7 @@ class Command_Line
             }
         }
         if (!$found) {
-            Command_Line::quit("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
+            self::quit("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
         }
         return $details;
     }
@@ -474,9 +474,9 @@ class Command_Line
     {
         // check if the given email address is indeed an email
         if (!strstr($developer, '@')) {
-            Command_Line::quit("The third argument for this command needs to be a valid email address");
+            self::quit("The third argument for this command needs to be a valid email address");
         }
-        $details = Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         $params = array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -488,7 +488,7 @@ class Command_Line
         $msg = new XML_RPC_Message("assignIssue", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         echo "OK - Issue #$issue_id successfully assigned to '$developer'\n";
     }
@@ -505,7 +505,7 @@ class Command_Line
      */
     function takeIssue(&$rpc_conn, $auth, $issue_id)
     {
-        $details = Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         $params = array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -516,7 +516,7 @@ class Command_Line
         $msg = new XML_RPC_Message("takeIssue", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         echo "OK - Issue #$issue_id successfully taken.\n";
     }
@@ -535,9 +535,9 @@ class Command_Line
     {
         // check if the given email address is indeed an email
         if (!strstr($new_replier, '@')) {
-            Command_Line::quit("The third argument for this command needs to be a valid email address");
+            self::quit("The third argument for this command needs to be a valid email address");
         }
-        $details = Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         $params = array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -549,7 +549,7 @@ class Command_Line
         $msg = new XML_RPC_Message("addAuthorizedReplier", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         echo "OK - '$new_replier' successfully added as an authorized replier to issue #$issue_id\n";
     }
@@ -566,13 +566,13 @@ class Command_Line
      */
     function setIssueStatus(&$rpc_conn, $auth, $issue_id, $new_status)
     {
-        $details = Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        Command_Line::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
 
         // check if the issue already is set to the new status
         if ((strtolower($details['sta_title']) == strtolower($new_status)) ||
                 (strtolower($details['sta_abbreviation']) == strtolower($new_status))) {
-            Command_Line::quit("Issue #$issue_id is already set to status '" . $details['sta_title'] . "'");
+            self::quit("Issue #$issue_id is already set to status '" . $details['sta_title'] . "'");
         }
 
         // check if the given status is a valid option
@@ -584,14 +584,14 @@ class Command_Line
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $statuses = XML_RPC_decode($result->value());
         $titles = array_map('strtolower', array_values($statuses));
         $abbreviations = array_map('strtolower', array_keys($statuses));
         if ((!in_array(strtolower($new_status), $titles)) &&
                 (!in_array(strtolower($new_status), $abbreviations))) {
-            Command_Line::quit("Status '$new_status' could not be matched against the list of available statuses");
+            self::quit("Status '$new_status' could not be matched against the list of available statuses");
         }
 
         // if the user is passing an abbreviation, use the real title instead
@@ -608,7 +608,7 @@ class Command_Line
         $msg = new XML_RPC_Message("setIssueStatus", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         echo "OK - Status successfully changed to '$new_status' on issue #$issue_id\n";
     }
@@ -625,14 +625,14 @@ class Command_Line
      */
     function addTimeEntry(&$rpc_conn, $auth, $issue_id, $time_spent)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        Command_Line::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
 
         // list the time tracking categories
         $msg = new XML_RPC_Message("getTimeTrackingCategories", array(new XML_RPC_Value($auth[0], 'string'),  new XML_RPC_Value($auth[1], 'string')));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $cats = XML_RPC_decode($result->value());
 
@@ -643,7 +643,7 @@ class Command_Line
         $prompt .= "Please enter the number of the time tracking category";
         $cat_id = Misc::prompt($prompt, false);
         if (!in_array($cat_id, array_keys($cats))) {
-            Command_Line::quit("The selected time tracking category number didn't match any existing category");
+            self::quit("The selected time tracking category number didn't match any existing category");
         }
 
         $prompt = "Please enter a quick summary of what you worked on";
@@ -660,7 +660,7 @@ class Command_Line
         $msg = new XML_RPC_Message("recordTimeWorked", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         echo "OK - Added time tracking entry to issue #$issue_id\n";
     }
@@ -676,7 +676,7 @@ class Command_Line
      */
     function printIssueDetails(&$rpc_conn, $auth, $issue_id)
     {
-        $details = Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        $details = self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         $msg = '';
         if (!empty($details["quarantine"]["iqu_status"])) {
@@ -719,7 +719,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function printOpenIssues(&$rpc_conn, $auth, $show_all_issues, $status)
     {
-        $project_id = Command_Line::promptProjectSelection($rpc_conn, $auth);
+        $project_id = self::promptProjectSelection($rpc_conn, $auth);
         // check the status option
         // check if the given status is a valid option
         if (!empty($status)) {
@@ -731,14 +731,14 @@ Account Manager: " . @$details['customer_info']['account_manager'];
             ));
             $result = $rpc_conn->send($msg);
             if ($result->faultCode()) {
-                Command_Line::quit($result->faultString());
+                self::quit($result->faultString());
             }
             $statuses = XML_RPC_decode($result->value());
             $titles = array_map('strtolower', array_values($statuses));
             $abbreviations = array_map('strtolower', array_keys($statuses));
             if ((!in_array(strtolower($status), $titles)) &&
                     (!in_array(strtolower($status), $abbreviations))) {
-                Command_Line::quit("Status '$status' could not be matched against the list of available statuses");
+                self::quit("Status '$status' could not be matched against the list of available statuses");
             }
             // if the user is passing an abbreviation, use the real title instead
             if (in_array(strtolower($status), $abbreviations)) {
@@ -755,7 +755,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $issues = XML_RPC_decode($result->value());
         if (!empty($status)) {
@@ -793,7 +793,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         return XML_RPC_decode($result->value());
     }
@@ -811,7 +811,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
     function promptProjectSelection(&$rpc_conn, $auth, $only_customer_projects = FALSE)
     {
         // list the projects that this user is assigned to
-        $projects = Command_Line::getUserAssignedProjects($rpc_conn, $auth, $only_customer_projects);
+        $projects = self::getUserAssignedProjects($rpc_conn, $auth, $only_customer_projects);
 
         if (count($projects) > 1) {
             // need to ask which project this person is asking about
@@ -829,7 +829,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
                 }
             }
             if (!$found) {
-                Command_Line::quit("Entered project number doesn't match any in the list of projects assigned to you");
+                self::quit("Entered project number doesn't match any in the list of projects assigned to you");
             }
         } else {
             $project_id = $projects[0]['id'];
@@ -848,7 +848,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function printStatusList(&$rpc_conn, $auth)
     {
-        $project_id = Command_Line::promptProjectSelection($rpc_conn, $auth);
+        $project_id = self::promptProjectSelection($rpc_conn, $auth);
         $msg = new XML_RPC_Message("getAbbreviationAssocList", array(
             new XML_RPC_Value($auth[0], 'string'),
             new XML_RPC_Value($auth[1], 'string'),
@@ -857,7 +857,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $items = XML_RPC_decode($result->value());
         echo "Available Statuses:\n";
@@ -876,7 +876,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function printDeveloperList(&$rpc_conn, $auth)
     {
-        $project_id = Command_Line::promptProjectSelection($rpc_conn, $auth);
+        $project_id = self::promptProjectSelection($rpc_conn, $auth);
         $msg = new XML_RPC_Message("getDeveloperList", array(
             new XML_RPC_Value($auth[0], 'string'),
             new XML_RPC_Value($auth[1], 'string'),
@@ -884,7 +884,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $developers = XML_RPC_decode($result->value());
         echo "Available Developers:\n";
@@ -904,13 +904,13 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function listEmails(&$rpc_conn, $auth, $issue_id)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         $msg = new XML_RPC_Message("getEmailListing", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                         new XML_RPC_Value($issue_id, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $emails = XML_RPC_decode($result->value());
         if (!is_array($emails) || count($emails) < 1) {
@@ -946,7 +946,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
                 "title" => "Subject"
             )
         );
-        Command_Line::printTable($format, $emails);
+        self::printTable($format, $emails);
     }
 
 
@@ -962,13 +962,13 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function printEmail(&$rpc_conn, $auth, $issue_id, $email_id, $display_full)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         $msg = new XML_RPC_Message("getEmail", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                     new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($email_id, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $email = XML_RPC_decode($result->value());
         // since xml-rpc has issues, we have to base64 decode everything
@@ -1000,13 +1000,13 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function listNotes(&$rpc_conn, $auth, $issue_id)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         $msg = new XML_RPC_Message("getNoteListing", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                         new XML_RPC_Value($issue_id, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $notes = XML_RPC_decode($result->value());
         // since xml-rpc has issues, we have to base64 decode everything
@@ -1041,7 +1041,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
                 "title" => "Date"
             )
         );
-        Command_Line::printTable($format, $notes);
+        self::printTable($format, $notes);
     }
 
 
@@ -1056,9 +1056,9 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function printNote(&$rpc_conn, $auth, $issue_id, $note_id)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
-        $note = Command_Line::getNote($rpc_conn, $auth, $issue_id, $note_id);
+        $note = self::getNote($rpc_conn, $auth, $issue_id, $note_id);
         echo sprintf("%15s: %s\n", "Date", $note["not_created_date"]);
         echo sprintf("%15s: %s\n", "From", $note["not_from"]);
         echo sprintf("%15s: %s\n", "Title", $note["not_title"]);
@@ -1083,7 +1083,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
                         new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($note_id, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $note = XML_RPC_decode($result->value());
         // since xml-rpc has issues, we have to base64 decode everything
@@ -1109,14 +1109,14 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function convertNote(&$rpc_conn, $auth, $issue_id, $note_id, $target, $authorize_sender)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        Command_Line::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
 
-        $note_details = Command_Line::getNote($rpc_conn, $auth, $issue_id, $note_id);
+        $note_details = self::getNote($rpc_conn, $auth, $issue_id, $note_id);
         if (count($note_details) < 2) {
-            Command_Line::quit("Note #$note_id does not exist for issue #$issue_id");
+            self::quit("Note #$note_id does not exist for issue #$issue_id");
         } elseif ($note_details["has_blocked_message"] != 1) {
-            Command_Line::quit("Note #$note_id does not have a blocked message attached so cannot be converted");
+            self::quit("Note #$note_id does not have a blocked message attached so cannot be converted");
         }
         $msg = new XML_RPC_Message("convertNote", array(
             new XML_RPC_Value($auth[0], 'string'),
@@ -1128,7 +1128,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $message = XML_RPC_decode($result->value());
         if ($message == "OK") {
@@ -1160,7 +1160,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         } else {
             $ret = XML_RPC_decode($result->value());
             echo base64_decode($ret);
@@ -1185,7 +1185,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         ));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         } else {
             echo XML_RPC_decode($result->value());
         }
@@ -1202,13 +1202,13 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function listDrafts(&$rpc_conn, $auth, $issue_id)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
         $msg = new XML_RPC_Message("getDraftListing", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'),
                         new XML_RPC_Value($issue_id, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $drafts = XML_RPC_decode($result->value());
         // since xml-rpc has issues, we have to base64 decode everything
@@ -1244,7 +1244,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
                 "title" => "Date"
             )
         );
-        Command_Line::printTable($format, $drafts);
+        self::printTable($format, $drafts);
     }
 
 
@@ -1259,9 +1259,9 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function printDraft(&$rpc_conn, $auth, $issue_id, $draft_id)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
 
-        $draft = Command_Line::getDraft($rpc_conn, $auth, $issue_id, $draft_id);
+        $draft = self::getDraft($rpc_conn, $auth, $issue_id, $draft_id);
         echo sprintf("%15s: %s\n", "Date", $draft["emd_updated_date"]);
         echo sprintf("%15s: %s\n", "From", $draft["from"]);
         echo sprintf("%15s: %s\n", "To", $draft["to"]);
@@ -1290,7 +1290,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
                         new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($draft_id, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $draft = XML_RPC_decode($result->value());
         // since xml-rpc has issues, we have to base64 decode everything
@@ -1319,7 +1319,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
                         new XML_RPC_Value($issue_id, "int"), new XML_RPC_Value($draft_id, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         echo XML_RPC_decode($result->value());
     }
@@ -1335,10 +1335,10 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function redeemIssue(&$rpc_conn, $auth, $issue_id)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        Command_Line::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
 
-        $types = Command_Line::promptIncidentTypes($rpc_conn, $auth, $issue_id);
+        $types = self::promptIncidentTypes($rpc_conn, $auth, $issue_id);
         foreach ($types as $type_id => $type_value) {
             $types[$type_id] = new XML_RPC_Value($type_value, 'string');
         }
@@ -1352,7 +1352,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         $msg = new XML_RPC_Message("redeemIssue", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         echo "OK - Issue #$issue_id successfully marked as redeemed incident.\n";
     }
@@ -1368,10 +1368,10 @@ Account Manager: " . @$details['customer_info']['account_manager'];
      */
     function unredeemIssue(&$rpc_conn, $auth, $issue_id)
     {
-        Command_Line::checkIssuePermissions($rpc_conn, $auth, $issue_id);
-        Command_Line::checkIssueAssignment($rpc_conn, $auth, $issue_id);
+        self::checkIssuePermissions($rpc_conn, $auth, $issue_id);
+        self::checkIssueAssignment($rpc_conn, $auth, $issue_id);
 
-        $types = Command_Line::promptIncidentTypes($rpc_conn, $auth, $issue_id, true);
+        $types = self::promptIncidentTypes($rpc_conn, $auth, $issue_id, true);
         foreach ($types as $type_id => $type_value) {
             $types[$type_id] = new XML_RPC_Value($type_value, 'string');
         }
@@ -1385,7 +1385,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         $msg = new XML_RPC_Message("unredeemIssue", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         echo "OK - Issue #$issue_id successfully marked as unredeemed incident.\n";
     }
@@ -1411,14 +1411,14 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         $msg = new XML_RPC_Message("getIncidentTypes", $params);
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $types =  XML_RPC_decode($result->value());
         if (count($types) < 1) {
             if ($redeemed_only) {
-                Command_Line::quit("No incident types have been redeemed for this issue");
+                self::quit("No incident types have been redeemed for this issue");
             } else {
-                Command_Line::quit("All incident types have already been redeemed for this issue");
+                self::quit("All incident types have already been redeemed for this issue");
             }
         }
         $prompt = "Please enter a comma seperated list of incident types to ";
@@ -1432,12 +1432,12 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         $requested_types = Misc::prompt($prompt, false);
         $requested_types = explode(',', $requested_types);
         if (count($requested_types) < 1) {
-            Command_Line::quit("Please enter a comma seperated list of issue types");
+            self::quit("Please enter a comma seperated list of issue types");
         } else {
             $type_keys = array_keys($types);
             foreach ($requested_types as $type_id) {
                 if (!in_array($type_id, $type_keys)) {
-                    Command_Line::quit("Input '$type_id' is not a valid incident type");
+                    self::quit("Input '$type_id' is not a valid incident type");
                 }
             }
             return $requested_types;
@@ -1491,12 +1491,12 @@ Account Manager: " . @$details['customer_info']['account_manager'];
                     new XML_RPC_Value($issue_id, "int")));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         } else {
             switch ($args[2]) {
                 case 'convert-note':
                 case 'cn':
-                    $note_details = Command_Line::getNote($rpc_conn, $auth, $issue_id, $args[3]);
+                    $note_details = self::getNote($rpc_conn, $auth, $issue_id, $args[3]);
                     $msg = "These are the current details for issue #$issue_id, note #" . $args[3] . ":\n" .
                             "   Date: " . $note_details["not_created_date"] . "\n" .
                             "   From: " . $note_details["not_from"] . "\n" .
@@ -1536,14 +1536,14 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         $msg = new XML_RPC_Message("isValidLogin", array(new XML_RPC_Value($email), new XML_RPC_Value($password)));
         $result = $rpc_conn->send($msg);
         if (!is_object($result)) {
-            Command_Line::quit("result is not an object. This is most likely due connection problems or openssl/curl extension not loaded.");
+            self::quit("result is not an object. This is most likely due connection problems or openssl/curl extension not loaded.");
         }
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
         $is_valid = XML_RPC_Decode($result->value());
         if ($is_valid != 'yes') {
-            Command_Line::quit("Login information could not be authenticated");
+            self::quit("Login information could not be authenticated");
         }
     }
 
@@ -1562,7 +1562,7 @@ Account Manager: " . @$details['customer_info']['account_manager'];
         $msg = new XML_RPC_Message("logCommand", array(new XML_RPC_Value($auth[0], 'string'), new XML_RPC_Value($auth[1], 'string'), new XML_RPC_Value($command, 'string')));
         $result = $rpc_conn->send($msg);
         if ($result->faultCode()) {
-            Command_Line::quit($result->faultString());
+            self::quit($result->faultString());
         }
     }
 
