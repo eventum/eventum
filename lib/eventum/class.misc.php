@@ -219,29 +219,6 @@ class Misc
         );
     }
 
-
-    /**
-     * Method used to get the full contents of the given file.
-     *
-     * @access  public
-     * @param   string $full_path The full path to the file
-     * @return  string The full contents of the file
-     */
-    function getFileContents($full_path)
-    {
-        if (!@file_exists($full_path)) {
-            return '';
-        }
-        $fp = @fopen($full_path, "rb");
-        if (!$fp) {
-            return '';
-        }
-        $contents = @fread($fp, filesize($full_path));
-        @fclose($fp);
-        return $contents;
-    }
-
-
     /**
      * Method used to replace all special whitespace characters (\n,
      * \r and \t) by their string equivalents. It is usually used in

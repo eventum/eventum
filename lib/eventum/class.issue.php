@@ -1215,7 +1215,7 @@ class Issue
                     if (empty($filename)) {
                         continue;
                     }
-                    $blob = Misc::getFileContents($_FILES["file"]["tmp_name"][$i]);
+                    $blob = file_get_contents($_FILES["file"]["tmp_name"][$i]);
                     if (!empty($blob)) {
                         Attachment::addFile($attachment_id, $filename, $_FILES["file"]["type"][$i], $blob);
                     }
@@ -2160,7 +2160,7 @@ class Issue
                 if (empty($filename)) {
                     continue;
                 }
-                $blob = Misc::getFileContents($_FILES["file"]["tmp_name"][$i]);
+                $blob = file_get_contents($_FILES["file"]["tmp_name"][$i]);
                 if (empty($blob)) {
                     // error reading a file
                     self::$insert_errors["file[$i]"] = "There was an error uploading the file '$filename'.";

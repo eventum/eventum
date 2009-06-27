@@ -135,7 +135,7 @@ class Prefs
     {
         // if the user is trying to upload a new signature, override any changes to the textarea
         if (!empty($_FILES["file_signature"]["name"])) {
-            $_POST['signature'] = Misc::getFileContents($_FILES["file_signature"]["tmp_name"]);
+            $_POST['signature'] = file_get_contents($_FILES["file_signature"]["tmp_name"]);
         }
 
         $data = serialize(array(

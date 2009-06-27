@@ -447,7 +447,7 @@ class Attachment
             if (empty($filename)) {
                 continue;
             }
-            $blob = Misc::getFileContents($_FILES["attachment"]["tmp_name"][$i]);
+            $blob = file_get_contents($_FILES["attachment"]["tmp_name"][$i]);
             if (empty($blob)) {
                 return -1;
             }

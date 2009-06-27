@@ -1944,7 +1944,7 @@ class Support
             for ($i = 0; $i < count($attachments['name']); $i++) {
                 if (!empty($attachments["name"][$i])) {
                     $mail->addAttachment($attachments["name"][$i],
-                                         Misc::getFileContents($attachments["tmp_name"][$i]),
+                                         file_get_contents($attachments["tmp_name"][$i]),
                                          $attachments["type"][$i]);
                 }
             }
@@ -2011,7 +2011,7 @@ class Support
             }
             if ($attachment && !empty($attachment["name"][0])) {
                 $mail->addAttachment($attachment["name"][0],
-                                     Misc::getFileContents($attachment["tmp_name"][0]),
+                                     file_get_contents($attachment["tmp_name"][0]),
                                      $attachment["type"][0]);
             }
             $mail->setTextBody($fixed_body);
