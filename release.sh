@@ -19,7 +19,7 @@ if [ "$rc" = "dev" ]; then
 	revno=$(bzr revno $dir)
 	sed -i -e "
 		/define('APP_VERSION'/ {
-			idefine('APP_VERSION', '$version-$revno');
+			idefine('APP_VERSION', '$version-bzr$revno');
 		    d
 
 		}" init.php
