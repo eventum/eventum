@@ -29,6 +29,7 @@
 //
 // @(#) $Id: route_notes.php 3823 2009-02-10 06:46:03Z glen $
 
+ini_set('memory_limit', '1024M');
 require_once 'init.php';
 
 $full_message = Misc::getInput();

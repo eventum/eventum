@@ -29,7 +29,7 @@
 //
 // @(#) $Id: process_mail_queue.php 3823 2009-02-10 06:46:03Z glen $
 
-ini_set("memory_limit", "256M");
+ini_set("memory_limit", '1024M');
 
 require_once 'init.php';
 

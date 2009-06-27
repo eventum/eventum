@@ -30,7 +30,7 @@
 // @(#) $Id: bot.php 3825 2009-02-10 06:57:44Z glen $
 //
 
-ini_set('memory_limit', '256M');
+ini_set('memory_limit', '1024M');
 
 require_once dirname(__FILE__) . '/../init.php';
 

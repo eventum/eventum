@@ -29,7 +29,7 @@
 //
 // @(#) $Id: download_emails.php 3872 2009-04-13 20:51:59Z glen $
 
-ini_set("memory_limit", "256M");
+ini_set("memory_limit", "1024M");
 
 require_once 'init.php';
 
