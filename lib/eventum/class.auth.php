@@ -127,11 +127,11 @@ class Auth
         }
         if (self::isPendingUser($cookie["email"])) {
             self::removeCookie($cookie_name);
-            self::redirect(APP_RELATIVE_URL . "/index.php?err=9", $is_popup);
+            self::redirect("index.php?err=9", $is_popup);
         }
         if (!self::isActiveUser($cookie["email"])) {
             self::removeCookie($cookie_name);
-            self::redirect(APP_RELATIVE_URL . "/index.php?err=7", $is_popup);
+            self::redirect("index.php?err=7", $is_popup);
         }
 
         $usr_id = self::getUserID();
@@ -147,7 +147,7 @@ class Auth
         $prj_id = self::getCurrentProject();
         if (empty($prj_id)) {
             // redirect to select project page
-            self::redirect(APP_RELATIVE_URL . "/select_project.php?url=" . self::getRequestedURL(), $is_popup);
+            self::redirect("select_project.php?url=" . self::getRequestedURL(), $is_popup);
         }
         // check the expiration date for a 'Customer' type user
         $customer_id = User::getCustomerID($usr_id);
@@ -338,36 +338,42 @@ class Auth
      * Method used to redirect people to another URL.
      *
      * @access  public
-     * @param   string $new_url The URL the user should be redirected to
+     * @param   string $url The URL the user should be redirected to
      * @param   boolean $is_popup Whether the current window is a popup or not
      * @return  void
      */
-    function redirect($new_url, $is_popup = false)
+    function redirect($url, $is_popup = false)
     {
+        // prepend APP_RELATIVE_URL if $url is not absolute
+        // however this is not really neccessary modern browsers work with relative Location's too
+        $data = parse_url($url);
+        if (!isset($data['scheme'])) {
+            $url = APP_RELATIVE_URL . '/' . $url;
+        }
+
         if ($is_popup) {
             $html = '<script type="text/javascript">
                      <!--
                      if (window.opener) {
-                         window.opener.location.href = "' . $new_url . '";
+                         window.opener.location.href = "' . $url . '";
                          window.close();
                      } else {
-                        location.href = "' . $new_url . '";
+                        location.href = "' . $url . '";
                      }
                      //-->
                      </script>';
             echo $html;
-            exit;
         } else {
             // IIS 5 has problems with "Location" header so don't use it under IIS
             if (strstr($_SERVER['SERVER_SOFTWARE'], 'IIS')) {
                 // IIS
-                header("Refresh: 0; URL=$new_url");
+                header("Refresh: 0; URL=$url");
             } else {
                 // all servers that work correctly
-                header("Location: $new_url");
+                header("Location: $url");
             }
-            exit;
         }
+        exit;
     }
 
 
@@ -462,7 +468,7 @@ class Auth
             return isset($cookie['prj_id']) ? (int )$cookie['prj_id'] : null;
         }
         if (!in_array($cookie["prj_id"], array_keys($projects))) {
-            self::redirect(APP_RELATIVE_URL . "/select_project.php");
+            self::redirect("select_project.php");
         }
         return $cookie["prj_id"];
     }

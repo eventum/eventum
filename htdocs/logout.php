@@ -31,5 +31,4 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 Auth::logout();
-
-Auth::redirect(APP_RELATIVE_URL . "/index.php?err=6");
+Auth::redirect("index.php?err=6");

@@ -2673,7 +2673,7 @@ class Issue
                 self::getLastStatusChangeDates($prj_id, $res);
             } elseif ($current_row > 0) {
                 // if there are no results, and the page is not the first page reset page to one and reload results
-                Auth::redirect(APP_RELATIVE_URL . "/list.php?pagerRow=0&rows=$max");
+                Auth::redirect("list.php?pagerRow=0&rows=$max");
             }
             $groups = Group::getAssocList($prj_id);
             $categories = Category::getAssocList($prj_id);

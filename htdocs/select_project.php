@@ -35,11 +35,11 @@ $tpl->setTemplate("select_project.tpl.html");
 
 // check if cookies are enabled, first of all
 if (!Auth::hasCookieSupport(APP_COOKIE)) {
-    Auth::redirect(APP_RELATIVE_URL . "index.php?err=11");
+    Auth::redirect("index.php?err=11");
 }
 
 if (!Auth::hasValidCookie(APP_COOKIE)) {
-    Auth::redirect(APP_RELATIVE_URL . "index.php?err=5");
+    Auth::redirect("index.php?err=5");
 }
 
 if (@$_GET["err"] == '') {
@@ -48,7 +48,7 @@ if (@$_GET["err"] == '') {
         if (!empty($_GET["url"])) {
             Auth::redirect($_GET["url"]);
         } else {
-            Auth::redirect(APP_RELATIVE_URL . "main.php");
+            Auth::redirect("main.php");
         }
     }
 
@@ -66,7 +66,7 @@ if (@$_GET["err"] == '') {
         if (!empty($_GET["url"])) {
             Auth::redirect($_GET["url"]);
         } else {
-            Auth::redirect(APP_RELATIVE_URL . "main.php");
+            Auth::redirect("main.php");
         }
     } elseif ((!empty($_GET["url"])) && (
             (preg_match("/.*view\.php\?id=(\d*)/", $_GET["url"], $matches) > 0) ||
@@ -110,7 +110,7 @@ if ($select_prj) {
         if (!empty($_POST["url"])) {
             Auth::redirect($_POST["url"]);
         } else {
-            Auth::redirect(APP_RELATIVE_URL . "list.php");
+            Auth::redirect("list.php");
         }
     }
 }

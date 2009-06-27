@@ -49,7 +49,7 @@ if (empty($rows)) {
 if (@$_REQUEST['view'] == 'my_assignments') {
     $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
     Search_Profile::remove($usr_id, $prj_id, 'issue');
-    Auth::redirect(APP_RELATIVE_URL . "/list.php?users=$usr_id&hide_closed=1&rows=$rows&sort_by=" .
+    Auth::redirect("list.php?users=$usr_id&hide_closed=1&rows=$rows&sort_by=" .
             $profile['sort_by'] . "&sort_order=" . $profile['sort_order']);
 }
 

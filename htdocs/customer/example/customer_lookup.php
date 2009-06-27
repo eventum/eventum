@@ -40,7 +40,7 @@ $prj_id = Auth::getCurrentProject();
 // only customers should be able to use this page
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('Developer')) {
-    Auth::redirect(APP_RELATIVE_URL . "/list.php");
+    Auth::redirect("list.php");
 }
 
 if (@$_POST['cat'] == 'lookup') {

@@ -32,7 +32,7 @@ require_once dirname(__FILE__) . '/../../init.php';
 
 Auth::checkAuthentication(APP_COOKIE);
 if (Auth::getCurrentRole() <= User::getRoleID("Customer")) {
-    Auth::redirect("../main.php");
+    Auth::redirect("main.php");
 }
 
 $tpl = new Template_Helper();

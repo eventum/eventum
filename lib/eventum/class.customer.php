@@ -1000,7 +1000,7 @@ class Customer
                 // check with cnt_support to see if this contact is allowed in this support contract
                 if (!self::isAllowedSupportContact($prj_id, $contact_id)) {
                     Auth::saveLoginAttempt($email, 'failure', 'not allowed as technical contact');
-                    Auth::redirect(APP_RELATIVE_URL . "/index.php?err=4&email=" . $email);
+                    Auth::redirect("index.php?err=4&email=" . $email);
                 }
             }
         }
