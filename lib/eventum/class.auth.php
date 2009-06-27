@@ -344,13 +344,6 @@ class Auth
      */
     function redirect($url, $is_popup = false)
     {
-        // prepend APP_RELATIVE_URL if $url is not absolute
-        // however this is not really neccessary modern browsers work with relative Location's too
-        $data = parse_url($url);
-        if (!isset($data['scheme'])) {
-            $url = APP_RELATIVE_URL . '/' . $url;
-        }
-
         if ($is_popup) {
             $html = '<script type="text/javascript">
                      <!--
