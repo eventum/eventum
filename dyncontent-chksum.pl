@@ -33,7 +33,7 @@ sub process_file {
 	my @lines;
 	open(my $fh, '<', $file) or die $!;
 	while (<$fh>) {
-		if (my ($tag, $script) = $_ =~ /(<script.*src="{\$rel_url})([^"]+)/i) {
+		if (my ($tag, $script) = $_ =~ /(<(?:script.+src|link.+rel="stylesheet".+href)="{\$rel_url})([^"]+)/i) {
 			my ($pre, $post) = ($`, $');
 			if ($script !~ /\?/) {
 				$_ = $pre. $tag. $script .'?c='.checksum($script). $post;
