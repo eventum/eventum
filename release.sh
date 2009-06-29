@@ -31,8 +31,8 @@ if [ "$rc" = "dev" ]; then
 	rc=-dev-r$revno
 fi
 
-# update to include checksums of js files
-./js-chksum.pl
+# update to include checksums of js/css files
+./dyncontent-chksum.pl
 
 make -C localization
 touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
