@@ -1,4 +1,5 @@
 * API cleanups:
+ - Support::getEmailInfo() does more than the name says
 
 * Check compatability PEAR Date 1.5.0 (I recall it being broken)
 
