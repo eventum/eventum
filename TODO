@@ -18,3 +18,9 @@ UPDATE eventum.eventum_issue SET iss_sta_id=0 WHERE iss_sta_id=1 AND iss_prj_id 
 * Make it possible to have several SCM backends (CVS, maybe several SVN)
 
 * Make it possible via workflow to map SCM user to real Eventum user
+
+* Default issue priority is defined in bizarre locations
+ - for auto created issues from email, it's a property of email account
+ - for issues created from web interface, it is hardcoded to '3'
+
+-> default value should be property of project
