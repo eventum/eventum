@@ -33,22 +33,43 @@ ini_set("memory_limit", '1024M');
 
 require_once 'init.php';
 
-// determine if this script is being called from the web or command line
-$fix_lock = false;
-if (isset($_SERVER['HTTP_HOST'])) {
-    // web
-    if (@$_GET['fix-lock'] == 1) {
-        $fix_lock = true;
+// setup constant to be used globally
+define('SAPI_CLI', 'cli' == php_sapi_name());
+
+/**
+ * Get parameters needed for this script.
+ *
+ * for CLI mode these are take from command line arguments
+ * for Web mode those are taken as named _GET parameters.
+ *
+ * @return  array   $config
+ */
+function getParams() {
+    // defaults
+    $config = array(
+        'fix-lock' => false,
+    );
+
+    if (SAPI_CLI) {
+        global $argc, $argv;
+        // --fix-lock may be only the last argument
+        if ($argv[$argc - 1] == '--fix-lock') {
+            // no other args are allowed
+            $config['fix-lock'] = true;
+        }
+
+    } else {
+        foreach (array_keys($config) as $key) {
+            if (isset($_GET[$key])) {
+                $config[$key] = $_GET[$key];
+            }
+        }
     }
-} else {
-    // command line
-    if (in_array('--fix-lock', $argv)) {
-        $fix_lock = true;
-    }
+    return $config;
 }
 
 // if requested, clear the lock
-if ($fix_lock) {
+if ($config['fix_lock']) {
     Mail_Queue::removeProcessFile();
     echo "The lock file was removed successfully.\n";
     exit;
@@ -56,8 +77,8 @@ if ($fix_lock) {
 
 if (!Mail_Queue::isSafeToRun()) {
     $pid = Lock::getProcessID('process_mail_queue');
-    echo "ERROR: There is already a process (pid=$pid) of this script running. ";
-    echo "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n";
+    fwrite(STDERR, "ERROR: There is already a process (pid=$pid) of this script running.");
+    fwrite(STDERR, "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n");
     exit;
 }
 
