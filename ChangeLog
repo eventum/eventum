@@ -28,6 +28,7 @@ Eventum Issue Tracking System
 - Use System user ID when inserting an issue if no reporter is specified (Bryan)
 - make bookmarkable custom filters via searchbar.php?custom_id=N (Elan Ruusamäe)
 - Sort timezones alphabetically (Bryan)
+- Added ability to sort by scheduled release (Robbert-Jan Roos)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)

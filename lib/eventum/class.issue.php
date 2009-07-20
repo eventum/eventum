@@ -2446,17 +2446,25 @@ class Issue
             "last_action_date" => "desc",
             "usr_full_name" => "asc",
             "iss_expected_resolution_date" => "desc",
+            "pre_title" => "asc",
+            "assigned" => "asc"
         );
 
         foreach ($custom_fields as $fld_id => $fld_name) {
             $fields['custom_field_' . $fld_id] = "desc";
         }
+
+        $sortfields = array_combine(array_keys($fields), array_keys($fields));
+        $sortfields["pre_title"] = "pre_scheduled_date";
+        $sortfields["assigned"] = "isu_usr_id";
+
         $items = array(
             "links"  => array(),
             "images" => array()
         );
-        foreach ($fields as $field => $sort_order) {
-            if ($options["sort_by"] == $field) {
+        foreach ($sortfields as $field => $sortfield) {
+            $sort_order = $fields[$field];
+            if ($options["sort_by"] == $sortfield) {
                 $items["images"][$field] = "images/" . strtolower($options["sort_order"]) . ".gif";
                 if (strtolower($options["sort_order"]) == "asc") {
                     $sort_order = "desc";
@@ -2464,7 +2472,7 @@ class Issue
                     $sort_order = "asc";
                 }
             }
-            $items["links"][$field] = $_SERVER["PHP_SELF"] . "?sort_by=" . $field . "&sort_order=" . $sort_order;
+            $items["links"][$field] = $_SERVER["PHP_SELF"] . "?sort_by=" . $sortfield . "&sort_order=" . $sort_order;
         }
         return $items;
     }
@@ -2585,7 +2593,7 @@ class Issue
                 ON
                     (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
         }
-        if (!empty($options["users"])) {
+        if (!empty($options["users"]) || $options["sort_by"] === "isu_usr_id") {
             $stmt .= "
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
@@ -3061,7 +3069,7 @@ class Issue
                 ON
                     (icf_iss_id = iss_id AND icf_fld_id = $fld_id) \n";
         }
-        if (!empty($options["users"])) {
+        if (!empty($options["users"]) || @$options["sort_by"] == "isu_usr_id") {
             $stmt .= "
                  LEFT JOIN
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue_user
@@ -3081,6 +3089,13 @@ class Issue
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "subscription
                  ON
                     sub_iss_id=iss_id";
+        }
+        if (@$options["sort_by"] == "pre_scheduled_date") {
+            $stmt .= "
+                 LEFT JOIN
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "project_release
+                 ON
+                    iss_pre_id = pre_id";
         }
         if (@$options['sort_by'] == 'prc_title') {
             $stmt .= "
