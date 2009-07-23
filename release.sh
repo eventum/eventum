@@ -36,6 +36,7 @@ fi
 
 make -C localization
 touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
+chmod -R a+rX .
 chmod -R a+rwX templates_c locks logs config
 rm -f release.sh phpxref.cfg phpxref.sh make-tag.sh js-chksum.pl
 
