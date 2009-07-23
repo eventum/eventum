@@ -373,8 +373,9 @@ class Eventum_Bot
     }
 }
 
-$bot = &new Eventum_Bot();
-$irc = &new Net_SmartIRC();
+require_once 'Net/SmartIRC.php';
+$bot = new Eventum_Bot();
+$irc = new Net_SmartIRC();
 $irc->setLogdestination(SMARTIRC_FILE);
 $irc->setLogfile(APP_IRC_LOG);
 $irc->setUseSockets(TRUE);
