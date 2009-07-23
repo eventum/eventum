@@ -60,7 +60,7 @@ class Issue_Field
      */
     public static function getDisplayData($issue_id, $location)
     {
-        $prj_id = self::getProjectID($issue_id);
+        $prj_id = Issue::getProjectID($issue_id);
         $available_fields = self::getAvailableFields();
         $fields = self::getFieldsToDisplay($issue_id, $location);
         $data = array();
@@ -87,7 +87,7 @@ class Issue_Field
      */
     private static function getFieldsToDisplay($issue_id, $location)
     {
-        $prj_id = self::getProjectID($issue_id);
+        $prj_id = Issue::getProjectID($issue_id);
         return Workflow::getIssueFieldsToDisplay($prj_id, $issue_id, $location);
     }
 
@@ -104,9 +104,9 @@ class Issue_Field
     {
         switch ($field_name) {
             case 'assignee':
-                return self::getAssignedUserIDs($issue_id);
+                return Issue::getAssignedUserIDs($issue_id);
             case 'priority':
-                return self::getPriority($issue_id);
+                return Issue::getPriority($issue_id);
         }
         return false;
     }
@@ -124,9 +124,9 @@ class Issue_Field
     {
         switch ($field_name) {
             case 'assignee':
-                return self::setAssignees($issue_id, $value);
+                return Issue::setAssignees($issue_id, $value);
             case 'priority':
-                return self::setPriority($issue_id, $value);
+                return Issue::setPriority($issue_id, $value);
         }
     }
 
@@ -140,11 +140,11 @@ class Issue_Field
      */
     private static function getOptions($field_name, $issue_id)
     {
-        $prj_id = self::getProjectID($issue_id);
+        $prj_id = Issue::getProjectID($issue_id);
         switch ($field_name) {
             case 'assignee':
                 $users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
-                $current_assignees = self::getAssignedUserIDs($issue_id);
+                $current_assignees = Issue::getAssignedUserIDs($issue_id);
                 foreach ($current_assignees as $usr_id) {
                     if (!isset($users[$usr_id])) {
                         $users[$usr_id] = User::getFullName($usr_id);
