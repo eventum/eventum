@@ -2447,7 +2447,7 @@ class Issue
             "usr_full_name" => "asc",
             "iss_expected_resolution_date" => "desc",
             "pre_title" => "asc",
-            "assigned" => "asc"
+            "assigned" => "asc",
         );
 
         foreach ($custom_fields as $fld_id => $fld_name) {
