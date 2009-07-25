@@ -24,11 +24,11 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 //
 // @(#) $Id: class.lock.php 3881 2009-05-29 09:21:05Z glen $
 //
-
 
 class Lock
 {
@@ -39,7 +39,7 @@ class Lock
      * @param   string $name The name of this lock file
      * @return  boolean
      */
-    function acquire($name)
+    public static function acquire($name)
     {
         $pid = self::getProcessID($name);
         if (!empty($pid)) {
@@ -47,7 +47,7 @@ class Lock
         }
 
         // create the pid file
-        $fp = fopen(self::_getProcessFilename($name), 'w');
+        $fp = fopen(self::getProcessFilename($name), 'w');
         flock($fp, LOCK_EX);
         fwrite($fp, getmypid());
         flock($fp, LOCK_UN);
@@ -64,9 +64,12 @@ class Lock
      * @param   string $name The name of this lock file
      * @return  void
      */
-    function release($name)
+    public static function release($name)
     {
-        @unlink(self::_getProcessFilename($name));
+        $pid_file = self::getProcessFilename($name);
+        if (file_exists($pid_file)) {
+            unlink($pid_file);
+        }
     }
 
 
@@ -78,9 +81,9 @@ class Lock
      * @param   string $name The name of this lock file
      * @return  string The full path of the process file
      */
-    function _getProcessFilename($name)
+    private static function getProcessFilename($name)
     {
-        return APP_LOCKS_PATH . $name . '.pid';
+        return APP_LOCKS_PATH . '/'. $name . '.pid';
     }
 
 
@@ -91,7 +94,7 @@ class Lock
      * @param   string $name The name of this lock file
      * @return  integer The process ID of the script
      */
-    function getProcessID($name)
+    public static function getProcessID($name)
     {
         static $pids;
 
@@ -100,11 +103,11 @@ class Lock
             return $pids[$name];
         }
 
-        $pid_file = self::_getProcessFilename($name);
+        $pid_file = self::getProcessFilename($name);
         if (!file_exists($pid_file)) {
             return 0;
         } else {
-            $pids[$name] = trim(implode('', file($pid_file)));
+            $pids[$name] = trim(file_get_contents($pid_file));
             return $pids[$name];
         }
     }
