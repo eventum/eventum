@@ -72,12 +72,12 @@ $config = getParams();
 
 // if requested, clear the lock
 if ($config['fix-lock']) {
-    Mail_Queue::removeProcessFile();
+    Lock::release('process_mail_queue');
     echo "The lock file was removed successfully.\n";
     exit(0);
 }
 
-if (!Mail_Queue::isSafeToRun()) {
+if (!Lock::acquire('process_mail_queue')) {
     $pid = Lock::getProcessID('process_mail_queue');
     fwrite(STDERR, "ERROR: There is already a process (pid=$pid) of this script running.");
     fwrite(STDERR, "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n");
@@ -92,4 +92,4 @@ Mail_Queue::send('pending', $limit);
 $limit = 50;
 Mail_Queue::send('error', $limit);
 
-Mail_Queue::removeProcessFile();
+Lock::release('process_mail_queue');

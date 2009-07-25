@@ -31,30 +31,6 @@ require_once 'Mail.php';
 class Mail_Queue
 {
     /**
-     * Checks whether it is safe or not to run the mail queue script.
-     *
-     * @access  public
-     * @return  boolean
-     */
-    function isSafeToRun()
-    {
-        return Lock::acquire('process_mail_queue');
-    }
-
-
-    /**
-     * Clears the lock file for the next time this script runs again.
-     *
-     * @access  public
-     * @return  void
-     */
-    function removeProcessFile()
-    {
-        Lock::release('process_mail_queue');
-    }
-
-
-    /**
      * Adds an email to the outgoing mail queue.
      *
      * @access  public
