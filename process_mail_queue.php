@@ -68,8 +68,10 @@ function getParams() {
     return $config;
 }
 
+$config = getParams();
+
 // if requested, clear the lock
-if ($config['fix_lock']) {
+if ($config['fix-lock']) {
     Mail_Queue::removeProcessFile();
     echo "The lock file was removed successfully.\n";
     exit;
