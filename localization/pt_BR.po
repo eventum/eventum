@@ -696,9 +696,8 @@ msgid "Assignment"
 msgstr "Designado"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Select closed status to close issue"
-msgstr "Por favor selecione o novo status do chamado."
+msgstr "Selecione o status de fechamento para fechar o(s) chamado(s)"
 
 #: misc/localization/eventum.c
 msgid "Send Notification To"
@@ -2525,7 +2524,6 @@ msgid "Please choose which issues to update."
 msgstr "Por favor escolha os chamados que deseja atualizar."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please choose new values for the selected issues"
 msgstr "Por favor escolha novos valores para os chamados selecionados"
 
@@ -3610,47 +3608,41 @@ msgid "No email accounts could be found."
 msgstr "Nenhuma conta de email foi encontrada."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the email aliases were removed successfully"
-msgstr "Obrigado, os emails foram marcados como excluídos com sucesso."
+msgstr ""
+"Obrigado, os endereços de email alternativos foram removidos com sucesso"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "New Alias"
-msgstr "Alias de Host:"
+msgstr "Novo Email Alternativo"
 
 #: misc/localization/eventum.c
 msgid "Please choose which emails need to be restored."
 msgstr "Por favor escolha quais emails devem ser restaurados."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please choose which aliases need to be removed."
-msgstr "Por favor escolha quais entradas devem ser removidas."
+msgstr "Por favor escolha quais emails alternativos devem ser removidos."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid ""
 "WARNING: This action will permanently remove the selected email aliases from "
 "your email account."
 msgstr ""
-"AVISO: Esta ação excluirá permanentemente os emails selecionados da sua "
-"conta de email."
+"AVISO: Esta ação excluirá permanentemente da sua conta de email os emails "
+"alternativos selecionados."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Email Alias"
-msgstr "Lista de Emails:"
+msgstr "Email Alternativo"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "No aliases could be found."
-msgstr "Nenhuma versão foi encontrada."
+msgstr "Nenhum email alternativo foi encontrado."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Delete Alias"
-msgstr "Excluir"
+msgstr "Excluir Email Alternativo"
 
 #: misc/localization/eventum.c
 msgid "Please enter the title of this email response."
@@ -5494,14 +5486,12 @@ msgid "send email to"
 msgstr "enviar email para"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "list all email aliases"
-msgstr "listar emails disponíveis"
+msgstr "listar todos os emails alternativos"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "manage alias"
-msgstr "Gerenciar Versões"
+msgstr "gerenciar emails alternativos"
 
 #: misc/localization/eventum.c
 msgid "No users could be found."
@@ -7953,13 +7943,12 @@ msgid "display in fixed width font"
 msgstr "exibir com fonte de largura fixa"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Download Raw Email"
-msgstr "baixar arquivo"
+msgstr "Baixar Email em Formato Original"
 
 #: misc/localization/eventum.c
 msgid "Raw Headers"
-msgstr "Cabeçalhos Completos"
+msgstr "Cabeçalhos em Formato Original"
 
 #: misc/localization/eventum.c
 msgid "Move Message To"
@@ -8136,7 +8125,7 @@ msgstr "Mudar Status Para"
 
 #: misc/localization/eventum.c
 msgid "View Email Raw Headers"
-msgstr "Visualizar Cabeçalhos Completos do Email"
+msgstr "Visualizar Cabeçalhos do Email em Formato Original"
 
 #: misc/localization/eventum.c
 msgid "The specified note does not exist."
@@ -8168,7 +8157,7 @@ msgstr "Anexos:"
 
 #: misc/localization/eventum.c
 msgid "Blocked Message Raw Headers"
-msgstr "Cabeçalhos Completos da Mensagem Bloqueada"
+msgstr "Cabeçalhos da Mensagem Bloqueada em Formato Original"
 
 #: adv_search.php:62 include/class.filter.php:669 list.php:80
 msgid "un-assigned"
@@ -8725,6 +8714,21 @@ msgstr "Detalhes do Chamado #%1$s"
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
+
+#~ msgid "Set Close Message"
+#~ msgstr "Definir Mensagem de Fechamento"
+
+#~ msgid "Closed Message"
+#~ msgstr "Mensagem de Fechamento"
+
+#~ msgid "Set Message"
+#~ msgstr "Definir Mensagem"
+
+#~ msgid "Register"
+#~ msgstr "Solicitar Conta"
+
+#~ msgid "Closed Status"
+#~ msgstr "Status de Fechamento"
 
 #~ msgid "Page generated in %1 seconds"
 #~ msgstr "Página gerada em %1 segundo(s)"
