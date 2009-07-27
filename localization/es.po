@@ -7,9 +7,9 @@ msgstr ""
 "Project-Id-Version: Eventum 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-18 04:28+0200\n"
-"PO-Revision-Date: 2009-01-23 11:20-0200\n"
+"PO-Revision-Date: 2009-07-16 11:36-0200\n"
 "Last-Translator: Normando Hall <nhall@unixlan.com.ar>\n"
-"Language-Team: Unixlan <nhall@unixlan.com.ar>\n"
+"Language-Team: Spanish <eventum-devel@lists.mysql.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -705,9 +705,8 @@ msgid "Assignment"
 msgstr "Asignación"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Select closed status to close issue"
-msgstr "Por favor, seleccione el nuevo estado para este caso."
+msgstr "Seleccione estado cerrado para cerrar el caso"
 
 #: misc/localization/eventum.c
 msgid "Send Notification To"
@@ -2556,7 +2555,6 @@ msgid "Please choose which issues to update."
 msgstr "Por favor, escoja cuáles casos actualizar."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please choose new values for the selected issues"
 msgstr "Por favor, escoja nuevos valores para los casos seleccionados"
 
@@ -3679,47 +3677,40 @@ msgid "No email accounts could be found."
 msgstr "No se encontró correos."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Thank you, the email aliases were removed successfully"
-msgstr "Gracias, los emails fueron marcados como removidos satisfactoriamente."
+msgstr "Gracias, el alias del email fue eliminado correctamente"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "New Alias"
-msgstr "Alias de Host:"
+msgstr "Nuevo Alias"
 
 #: misc/localization/eventum.c
 msgid "Please choose which emails need to be restored."
 msgstr "Por favor, seleccione cuales correos necesitan ser restaurados."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Please choose which aliases need to be removed."
-msgstr "Por favor, escoja cuáles registros necesitan ser eliminados."
+msgstr "Por favor, escoja cuáles alias necesitan ser eliminados."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid ""
 "WARNING: This action will permanently remove the selected email aliases from "
 "your email account."
 msgstr ""
-"ADVERTENCIA: Esta acción eliminará permanentemente los emails seleccionados "
-"de su cuenta de email."
+"ADVERTENCIA: Esta acción eliminará permanentemente los alias de su cuenta de "
+"email."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Email Alias"
-msgstr "Lista de Correo:"
+msgstr "Alias Email"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "No aliases could be found."
-msgstr "No se encontró releases."
+msgstr "No se encontraron alias."
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Delete Alias"
-msgstr "Suprimir"
+msgstr "Eliminar Alias"
 
 # correo o email
 #: misc/localization/eventum.c
@@ -5634,15 +5625,12 @@ msgid "send email to"
 msgstr "enviar email a"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "list all email aliases"
-msgstr "listar correos disponibles"
+msgstr "listar todos los alias"
 
-# En el ambiente informático se utiliza la misma palabra "Release", no tiene sentido traducirla. Si se está utilizando eEventum para desarrollo de software, los usuarios deben estar familiarizados con el término.
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "manage alias"
-msgstr "Administrar Releases"
+msgstr "gestionar alias"
 
 #: misc/localization/eventum.c
 msgid "No users could be found."
@@ -8145,9 +8133,8 @@ msgid "display in fixed width font"
 msgstr "desplegar en fuente de ancho fijo"
 
 #: misc/localization/eventum.c
-#, fuzzy
 msgid "Download Raw Email"
-msgstr "descargar archivo"
+msgstr "Descargar Formato Original Email"
 
 #: misc/localization/eventum.c
 msgid "Raw Headers"
@@ -8925,6 +8912,20 @@ msgstr "Detalles Caso #%1$s"
 #, php-format
 msgid "#%1$s - %2$s"
 msgstr "#%1$s - %2$s"
+
+#~ msgid "Set Close Message"
+#~ msgstr "Cerrar Conjunto de Mensajes"
+
+#~ msgid "Closed Message"
+#~ msgstr "Mensaje Cerrado"
+
+# Tampoco lo comprendo, aunque el template es el bulk_update
+#~ msgid "Set Message"
+#~ msgstr "Juego de Mensajes"
+
+# Registrarse?
+#~ msgid "Register"
+#~ msgstr "Registrar"
 
 #~ msgid "Page generated in %1 seconds"
 #~ msgstr "Página generada en %1 segundos"
