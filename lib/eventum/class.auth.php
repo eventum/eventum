@@ -104,7 +104,7 @@ class Auth
     function checkAuthentication($cookie_name, $failed_url = NULL, $is_popup = false)
     {
         if ($failed_url == NULL) {
-            $failed_url = APP_RELATIVE_URL . "/index.php?err=5";
+            $failed_url = "index.php?err=5";
         }
         $failed_url .= "&url=" . self::getRequestedURL();
         if (!isset($_COOKIE[$cookie_name])) {
