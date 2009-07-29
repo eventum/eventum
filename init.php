@@ -35,7 +35,6 @@ if (!file_exists(dirname(__FILE__) . '/config/config.php')) {
 // setup change some PHP settings
 ini_set('allow_url_fopen', 0);
 set_time_limit(0);
-set_magic_quotes_runtime(0);
 ini_set('memory_limit', '128M');
 
 // prevent session from messing up the browser cache
