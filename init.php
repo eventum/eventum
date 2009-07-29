@@ -29,7 +29,7 @@
 
 if (!file_exists(dirname(__FILE__) . '/config/config.php')) {
     Header('Location: setup/');
-    exit;
+    exit(0);
 }
 
 // setup change some PHP settings
@@ -193,6 +193,6 @@ if (APP_MAINTENANCE){
         $tpl = new Template_Helper();
         $tpl->setTemplate("maintenance.tpl.html");
         $tpl->displayTemplate();
-        exit;
+        exit(0);
 	}
 }
