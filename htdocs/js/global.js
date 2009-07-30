@@ -798,4 +798,53 @@ $(document).ready(function() {
         firstDay: user_prefs.week_firstday
     });
 });
+
+$(document).ready(function(){
+    // dialog type calender isn't working in Konqueror beacuse it's not a supported browser by either jQuery or jQuery UI
+    // http://groups.google.com/group/jquery-ui/browse_thread/thread/ea61238c34cb5f33/046837b02fb90b5c
+    if (navigator.appName != 'Konqueror') {
+        $(".inline_date_pick").click(function() {
+
+            var masterObj = this;
+            var masterObjPos = $(masterObj).offset();
+            // offset gives uses top and left but datepicker needs pageX and pageY
+            var masterObjPos = {pageX:masterObjPos.left, pageY:masterObjPos.top};
+
+            // as i cannot find any documentation about ui.datepicker in dialog mode + blockUI, then i'll disable blockui while showing datepicker
+            // i found in ui.datepicker when in dialog mode: "if ($.blockUI) $.blockUI(this.dpDiv);" so i assume the point was to show the calender in blockUI?
+            var tmp_blockUI = $.blockUI;
+            $.blockUI = false;
+
+            $(this).datepicker(
+                // we use dialog type calender so we won't haveto have a hidden element on the page
+                'dialog',
+                // selected date
+                masterObj.innerHTML,
+                // onclick handler
+                function (date, dteObj) {
+                    fieldName = masterObj.id.substr(0,masterObj.id.indexOf('|'));
+                    issueID = masterObj.id.substr(masterObj.id.indexOf('|')+1);
+                    if (date == '') {
+                        // clear button
+                        dteObj.selectedDay = 0;
+                        dteObj.selectedMonth = 0;
+                        dteObj.selectedYear = 0;
+                    }
+                    $.post("/ajax/update.php", {fieldName: fieldName, issueID: issueID, day: dteObj.selectedDay, month: (dteObj.selectedMonth+1), year: dteObj.selectedYear}, function(data) {
+                        masterObj.innerHTML = data;
+                    }, "text");
+                },
+                // config
+                {dateFormat: 'dd M yy', duration: "", firstDay: 1},
+                // position of the datepicker calender - taken from div's offset
+                masterObjPos
+            );
+
+            // restore blockUI
+            $.blockUI = tmp_blockUI;
+
+            return false;
+        });
+    }
+});
 //-->
