@@ -1658,8 +1658,8 @@ class Issue
         $stmt = "UPDATE
                     " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                  SET
-                    iss_updated_date='" . Date_API::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_API::getCurrentDateGMT() . "',
+                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_public_action_type='updated'";
 
         switch ($field_name) {
@@ -1718,7 +1718,7 @@ class Issue
         $stmt .= "
                  WHERE
                     iss_id=$issue_id";
-        $res = $GLOBALS["db_api"]->dbh->query($stmt);
+        $res = DB_Helper::getInstance()->query($stmt);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return -1;
