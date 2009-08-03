@@ -53,7 +53,7 @@ if (!Issue::canAccess($_POST['issue_id'], $usr_id)) {
 	exit;
 }
 
-switch ($_POST['fieldName']) {
+switch ($_POST['field_name']) {
     case 'expected_resolution_date':
         $day = (int)$_POST['day'];
         $month = (int)$_POST['month'];

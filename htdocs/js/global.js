@@ -822,15 +822,15 @@ $(document).ready(function(){
                 masterObj.innerHTML,
                 // onclick handler
                 function (date, dteObj) {
-                    fieldName = masterObj.id.substr(0,masterObj.id.indexOf('|'));
-                    issueID = masterObj.id.substr(masterObj.id.indexOf('|')+1);
+                    field_name = masterObj.id.substr(0,masterObj.id.indexOf('|'));
+                    issue_id = masterObj.id.substr(masterObj.id.indexOf('|')+1);
                     if (date == '') {
                         // clear button
                         dteObj.selectedDay = 0;
                         dteObj.selectedMonth = 0;
                         dteObj.selectedYear = 0;
                     }
-                    $.post("/ajax/update.php", {fieldName: fieldName, issue_id: issueID, day: dteObj.selectedDay, month: (dteObj.selectedMonth+1), year: dteObj.selectedYear}, function(data) {
+                    $.post("/ajax/update.php", {field_name: field_name, issue_id: issue_id, day: dteObj.selectedDay, month: (dteObj.selectedMonth+1), year: dteObj.selectedYear}, function(data) {
                         masterObj.innerHTML = data;
                     }, "text");
                 },
