@@ -1,15 +1,42 @@
 <?
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
+// +----------------------------------------------------------------------+
+// | Eventum - Issue Tracking System                                      |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2003 - 2008 MySQL AB                                   |
+// | Copyright (c) 2008 - 2009 Sun Microsystem Inc.                       |
+// |                                                                      |
+// | This program is free software; you can redistribute it and/or modify |
+// | it under the terms of the GNU General Public License as published by |
+// | the Free Software Foundation; either version 2 of the License, or    |
+// | (at your option) any later version.                                  |
+// |                                                                      |
+// | This program is distributed in the hope that it will be useful,      |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+// | GNU General Public License for more details.                         |
+// |                                                                      |
+// | You should have received a copy of the GNU General Public License    |
+// | along with this program; if not, write to:                           |
+// |                                                                      |
+// | Free Software Foundation, Inc.                                       |
+// | 59 Temple Place - Suite 330                                          |
+// | Boston, MA 02111-1307, USA.                                          |
+// +----------------------------------------------------------------------+
+// | Authors: Raul Raat <raul.raat@delfi.ee>                              |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
+// +----------------------------------------------------------------------+
+//
+// @(#) $Id: update.php 3868 2009-03-30 00:22:35Z raul $
+
 require_once(dirname(__FILE__) . '/../../init.php');
 require_once(APP_INC_PATH . "/class.auth.php");
 require_once(APP_INC_PATH . "/class.issue.php");
 
 // check login
-if (!Auth::hasValidCookie(APP_COOKIE)) {
-    exit;
-}
+Auth::checkAuthentication(APP_COOKIE);
 
-if (!is_numeric($_POST['issueID'])) {
+if (!is_numeric($_POST['issue_id'])) {
     exit;
 }
 
@@ -26,7 +53,7 @@ switch ($_POST['fieldName']) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
         }
 
-        if (Issue::updateField($_POST['issueID'], $_POST['fieldName'], $date) !== -1) {
+        if (Issue::updateField($_POST['issue_id'], $_POST['fieldName'], $date) !== -1) {
             if (!is_null($date)) {
                 echo Date_Helper::getSimpleDate(sprintf('%04d-%02d-%02d', $year, $month, $day), false);
             }
