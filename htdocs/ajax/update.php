@@ -36,8 +36,21 @@ require_once(APP_INC_PATH . "/class.issue.php");
 // check login
 Auth::checkAuthentication(APP_COOKIE);
 
-if (!is_numeric($_POST['issue_id'])) {
+// check if correct issue id was sent
+if (!is_numeric($_POST['issue_id']) || !Issue::exists($_POST['issue_id'])) {
     exit;
+}
+
+$usr_id = Auth::getUserID();
+
+// check if user role is above "Standard User"
+if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRoleID("Standard User")) {
+	exit;
+}
+
+// check if user can acess the issue
+if (!Issue::canAccess($_POST['issue_id'], $usr_id)) {
+	exit;
 }
 
 switch ($_POST['fieldName']) {
