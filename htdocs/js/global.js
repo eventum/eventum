@@ -830,7 +830,7 @@ $(document).ready(function(){
                         dteObj.selectedMonth = 0;
                         dteObj.selectedYear = 0;
                     }
-                    $.post("/ajax/update.php", {fieldName: fieldName, issueID: issue_id, day: dteObj.selectedDay, month: (dteObj.selectedMonth+1), year: dteObj.selectedYear}, function(data) {
+                    $.post("/ajax/update.php", {fieldName: fieldName, issue_id: issueID, day: dteObj.selectedDay, month: (dteObj.selectedMonth+1), year: dteObj.selectedYear}, function(data) {
                         masterObj.innerHTML = data;
                     }, "text");
                 },
