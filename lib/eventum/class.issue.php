@@ -619,6 +619,60 @@ class Issue
         }
     }
 
+    /**
+     * Method used to set the expected resolution date of an issue
+     *
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     * @param   string $expected_resolution_date The Expected Resolution Date to set this issue too
+     * @return  integer 1 if the update worked, -1 otherwise
+     */
+    function setExpectedResolutionDate($issue_id, $expected_resolution_date)
+    {
+        $issue_id = Misc::escapeInteger($issue_id);
+        $expected_resolution_date = Misc::escapeString($expected_resolution_date);
+
+        if ($expected_resolution_date != self::getExpectedResolutionDate($issue_id)) {
+            $sql = "UPDATE
+                        " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                    SET
+                        iss_expected_resolution_date = '$expected_resolution_date'
+                    WHERE
+                        iss_id = $issue_id";
+
+            $res = DB_Helper::getInstance()->query($sql);
+            if (PEAR::isError($res)) {
+                Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+
+    /**
+     * Returns the current issue expected resolution date
+     *
+     * @access  public
+     * @param   integer $issue_id The ID of the issue
+     * @return  string The Expected Resolution Date
+     */
+    function getExpectedResolutionDate($issue_id)
+    {
+        $sql = "SELECT
+                    iss_expected_resolution_date
+                FROM
+                    " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
+                WHERE
+                    iss_id = " . Misc::escapeInteger($issue_id);
+        $res = DB_Helper::getInstance()->getOne($sql);
+        if (PEAR::isError($res)) {
+            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            return 0;
+        } else {
+            return $res;
+        }
+    }
 
     /**
      * Method used to set the category of an issue
