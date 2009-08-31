@@ -55,9 +55,9 @@ if (!Issue::canAccess($_POST['issue_id'], $usr_id)) {
 
 switch ($_POST['field_name']) {
     case 'expected_resolution_date':
-        $day = (int)$_POST['day'];
-        $month = (int)$_POST['month'];
-        $year = (int)$_POST['year'];
+        $day = Misc::escapeInteger($_POST['day']);
+        $month = Misc::escapeInteger($_POST['month']);
+        $year = Misc::escapeInteger($_POST['year']);
 
         if ($day == 0 && $month == 1 && $year == 0) {
             // clear button
