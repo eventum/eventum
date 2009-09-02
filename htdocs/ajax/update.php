@@ -66,9 +66,9 @@ switch ($_POST['field_name']) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
         }
 
-        if (Issue::updateField($_POST['issue_id'], $_POST['field_name'], $date) !== -1) {
+        if (Issue::setExpectedResolutionDate($_POST['issue_id'], $date) !== -1) {
             if (!is_null($date)) {
-                echo Date_Helper::getSimpleDate(sprintf('%04d-%02d-%02d', $year, $month, $day), false);
+                echo Date_Helper::getSimpleDate($date, false);
             }
         } else {
             echo 'update failed';
