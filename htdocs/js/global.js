@@ -822,8 +822,8 @@ $(document).ready(function(){
                 masterObj.innerHTML,
                 // onclick handler
                 function (date, dteObj) {
-                    field_name = masterObj.id.substr(0,masterObj.id.indexOf('|'));
-                    issue_id = masterObj.id.substr(masterObj.id.indexOf('|')+1);
+                    var field_name = masterObj.id.substr(0,masterObj.id.indexOf('|'));
+                    var issue_id = masterObj.id.substr(masterObj.id.indexOf('|')+1);
                     if (date == '') {
                         // clear button
                         dteObj.selectedDay = 0;
