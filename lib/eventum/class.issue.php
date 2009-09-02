@@ -646,7 +646,7 @@ class Issue
             } else {
             	$usr_id = Auth::getUserID();
                 Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date));
-				History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated (Expected Resolution Date: " . History::formatChanges($current, $expected_resolution_date) . ") by " . User::getFullName($usr_id));
+                History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated (Expected Resolution Date: " . History::formatChanges($current, $expected_resolution_date) . ") by " . User::getFullName($usr_id));
                 return 1;
             }
         }
