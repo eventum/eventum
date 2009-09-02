@@ -631,20 +631,22 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $expected_resolution_date = Misc::escapeString($expected_resolution_date);
-
-        if ($expected_resolution_date != self::getExpectedResolutionDate($issue_id)) {
+        $current = self::getExpectedResolutionDate($issue_id);
+        if ($expected_resolution_date != $current) {
             $sql = "UPDATE
                         " . APP_DEFAULT_DB . "." . APP_TABLE_PREFIX . "issue
                     SET
-                        iss_expected_resolution_date = '$expected_resolution_date'
+                        iss_expected_resolution_date = " . (empty($expected_resolution_date) ? "null" : " '$expected_resolution_date'") . " 
                     WHERE
                         iss_id = $issue_id";
-
             $res = DB_Helper::getInstance()->query($sql);
             if (PEAR::isError($res)) {
                 Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
                 return -1;
             } else {
+            	$usr_id = Auth::getUserID();
+                Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date));
+				History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated (Expected Resolution Date: " . History::formatChanges($current, $expected_resolution_date) . ") by " . User::getFullName($usr_id));
                 return 1;
             }
         }
