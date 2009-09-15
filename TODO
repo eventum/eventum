@@ -1,7 +1,7 @@
 * API cleanups:
  - Support::getEmailInfo() does more than the name says
 
-* Check compatability PEAR Date 1.5.0 (I recall it being broken)
+* mail queue view (at least) is broken with PEAR Date 1.5.0
 
 * Manage Statuses is silly, if you update one status it deletes all entries for
   that prs_sta_id and reinserts everything again except the one you perhaps removed:
