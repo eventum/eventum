@@ -31,6 +31,7 @@ Eventum Issue Tracking System
 - Added ability to sort by scheduled release (Robbert-Jan Roos)
 - Remove call to set_magic_quotes_runtime() since it is deprecated in PHP 5.3 (Bryan)
 - Added links to list.php to search for issues from same reporter or customer (Bryan)
+- Added ability for Custom Field backends to use ajax to get options (Bryan)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)

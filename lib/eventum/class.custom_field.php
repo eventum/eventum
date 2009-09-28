@@ -414,9 +414,10 @@ class Custom_Field
                     $backend = self::getBackend($res[$i]['fld_id']);
                     if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Custom_Field_Backend"))) {
                         $res[$i]['dynamic_options'] = $backend->getStructuredData();
-                        $res[$i]['controlling_field_id'] = $backend->getControllingCustomFieldID();
+                        $res[$i]['controlling_field_id'] = $backend->getDOMid();
                         $res[$i]['controlling_field_name'] = $backend->getControllingCustomFieldName();
                         $res[$i]['hide_when_no_options'] = $backend->hideWhenNoOptions();
+                        $res[$i]['lookup_method'] = $backend->lookupMethod();
                     }
                     // check if the backend implements "isRequired"
                     if ((is_object($backend)) && (method_exists($backend, 'isRequired'))) {
@@ -627,7 +628,7 @@ class Custom_Field
                         $res[$i]["selected_cfo_id"] = $res[$i]["value"];
                         $res[$i]["original_value"] = $res[$i]["value"];
                         $res[$i]["value"] = self::getOptionValue($res[$i]["fld_id"], $res[$i]["value"]);
-                        $res[$i]["field_options"] = self::getOptions($res[$i]["fld_id"]);
+                        $res[$i]["field_options"] = self::getOptions($res[$i]["fld_id"], false, $iss_id);
 
                         // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
                         if ((!empty($res[$i]['original_value'])) && (!isset($res[$i]['field_options'][$res[$i]['original_value']]))) {
@@ -673,6 +674,7 @@ class Custom_Field
                         $fields[$key]['controlling_field_id'] = $backend->getControllingCustomFieldID();
                         $fields[$key]['controlling_field_name'] = $backend->getControllingCustomFieldName();
                         $fields[$key]['hide_when_no_options'] = $backend->hideWhenNoOptions();
+                        $fields[$key]['lookup_method'] = $backend->lookupMethod();
                     }
 
                     // check if the backend implements "isRequired"
@@ -916,13 +918,13 @@ class Custom_Field
                 $res[$i]["projects"] = @implode(", ", array_values(self::getAssociatedProjects($res[$i]["fld_id"])));
                 if (($res[$i]["fld_type"] == "combo") || ($res[$i]["fld_type"] == "multiple")) {
                     if (!empty($res[$i]['fld_backend'])) {
-                        $res[$i]["field_options"] = @implode(", ", array_values(self::getOptions($res[$i]["fld_id"])));
+                        $res[$i]["field_options"] = implode(", ", array_values(self::getOptions($res[$i]["fld_id"])));
                     }
                 }
                 if (!empty($res[$i]['fld_backend'])) {
                     $res[$i]['field_options'] = 'Backend: ' . self::getBackendName($res[$i]['fld_backend']);
                 }
-                $res[$i]['min_role_name'] = @User::getRole($res[$i]['fld_min_role']);
+                $res[$i]['min_role_name'] = User::getRole($res[$i]['fld_min_role']);
             }
             return $res;
         }
@@ -1006,9 +1008,10 @@ class Custom_Field
      * @access  public
      * @param   integer $fld_id The custom field ID
      * @param   array $ids An array of ids to return values for.
+     * @param   integer $issue_id The ID of the issue
      * @return  array The list of custom field options
      */
-    function getOptions($fld_id, $ids = false)
+    function getOptions($fld_id, $ids = false, $issue_id =  false)
     {
         static $returns;
 
@@ -1019,7 +1022,7 @@ class Custom_Field
         }
         $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
-            $list = $backend->getList($fld_id);
+            $list = $backend->getList($fld_id, $issue_id);
             if ($ids != false) {
                 foreach ($list as $id => $value) {
                     if (!in_array($id, $ids)) {
@@ -1632,10 +1635,20 @@ class Custom_Field
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
             return false;
         } elseif (!empty($res)) {
-            require_once APP_INC_PATH . "/custom_field/$res";
+            $file_name = APP_INC_PATH . "/custom_field/$res";
+            if (!file_exists($file_name)) {
+                $returns[$fld_id] = false;
+                return $returns[$fld_id];
+            }
+            require_once $file_name;
 
             $file_name_chunks = explode(".", $res);
             $class_name = $file_name_chunks[1] . "_Custom_Field_Backend";
+
+            if (!class_exists($class_name)) {
+                $returns[$fld_id] = false;
+                return $returns[$fld_id];
+            }
 
             $returns[$fld_id] = new $class_name;
         } else {

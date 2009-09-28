@@ -37,7 +37,7 @@
  */
 class Dynamic_Custom_Field_Backend
 {
-    function getList($fld_id)
+    function getList($fld_id, $issue_id = false)
     {
         $list = array();
         $data = $this->getStructuredData();
@@ -113,6 +113,45 @@ class Dynamic_Custom_Field_Backend
     function hideWhenNoOptions()
     {
         return false;
+    }
+
+
+    /**
+     * Returns the DOM ID of the controlling field, by default this will return
+     * 'custom_field_XX' where XX is the ID returned by getControllingCustomFieldID()
+     * but this should be overridden if a field other then a custom field
+     * is used.
+     *
+     * @return  string
+     */
+    function getDomID()
+    {
+        return 'custom_field_' . $this->getControllingCustomFieldID();
+    }
+
+
+    /**
+     * Should return 'local' or 'ajax'. If ajax is specified then getDynamicOptions()
+     * should be implemented as well
+     *
+     * @return string
+     */
+    function lookupMethod()
+    {
+        return 'local';
+    }
+
+
+    /**
+     * This method should return the correct options to display for the given
+     * data. This array of data will contain all the information from the
+     * new issue form or the edit custom field form (as appropriate)
+     * @param   $data   array
+     * @return  array
+     */
+    function getDynamicOptions($data)
+    {
+        return null;
     }
 }
 

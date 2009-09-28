@@ -5,9 +5,10 @@ i = dynamic_options.length;
 dynamic_options[i] = new Object();
 dynamic_options[i].target_field_id = {$field.fld_id};
 dynamic_options[i].fld_type = '{$field.fld_type}';
-dynamic_options[i].controlling_field_id = {$field.controlling_field_id};
+dynamic_options[i].controlling_field_id = '{$field.controlling_field_id}';
 dynamic_options[i].controlling_field_name = '{$field.controlling_field_name}';
 dynamic_options[i].hide_when_no_options = '{$field.hide_when_no_options}';
+dynamic_options[i].lookup_method = '{$field.lookup_method}';
 dynamic_options[i].groups = new Array();
     {foreach from=$field.structured_data key=key item=group}
     j = dynamic_options[i].groups.length;
@@ -49,85 +50,108 @@ function custom_field_init_dynamic_options(fld_id)
     for (var i = 0; i < dynamic_options.length; i++) {
         if (dynamic_options[i].target_field_id == fld_id) {
             // set alert on target field prompting them to choose controlling field first
-            target_field = getPageElement('custom_field_' + dynamic_options[i].target_field_id);
-            target_field.onmousedown = custom_field_prompt_choose_controller;
-            target_field.onkeypress = custom_field_prompt_choose_controller;
+            target_field = $('#custom_field_' + dynamic_options[i].target_field_id);
+            target_field.bind("focus.choose_controller", dynamic_options[i].target_field_id, function(e) {
+                target_field = e.target;
+                target_id = e.data;
+                details = custom_field_get_details_by_target(target_id);
+
+                alert('{/literal}{t escape=js}Please choose{/t} ' + details.controlling_field_name + ' {t}first{/t}{literal}');
+
+                target_field.blur();
+                return false;
+            });
 
             // set event handler for controlling field
-            controlling_field = getPageElement('custom_field_' + dynamic_options[i].controlling_field_id);
-            controlling_field.onchange = custom_field_handle_controller_change;
+            controlling_field = $('#' + dynamic_options[i].controlling_field_id);
+            controlling_field.bind('change.change_options', dynamic_options[i].controlling_field_id, function(e) {
+                custom_field_set_new_options($(e.target), false);
+            });
             custom_field_set_new_options(controlling_field, true, fld_id);
             break;
         }
     }
 }
 
-function custom_field_handle_controller_change(e)
-{
-    if (!e) var e = window.event;
-    controller = getEventTarget(e);
-    custom_field_set_new_options(controller, false);
-}
 
 function custom_field_set_new_options(controller, keep_target_value, target_fld_id) {
-    chunks = controller.id.split('_');
-    controller_id = chunks[2];
-
     // get current value of controller field
-    value = $(controller).val();
+    value = controller.val();
 
     // find the object
     if (target_fld_id != undefined) {
         details = new Array();
         details[0] = custom_field_get_details_by_target(target_fld_id);
     } else {
-        details = custom_field_get_details_by_controller(controller_id, target_fld_id);
+        details = custom_field_get_details_by_controller(controller.attr('id'), target_fld_id);
     }
-
     for (var i = 0; i < details.length; i++) {
         // get the target/targets
         var targets = new Array();
-        targets[0] = target = getPageElement('custom_field_' + details[i].target_field_id);
+        targets[0] = target = $('#custom_field_' + details[i].target_field_id);
 
         for (var targ_num = 0; targ_num < targets.length; targ_num++) {
-            target = targets[targ_num];
+            wrapped_target = targets[targ_num];
+            target = wrapped_target.get(0);
             // see if this value has a set of options for the child field
             if (keep_target_value) {
                 // get the current value
-                if (target.type == 'text' || target.type == 'textarea') {
-                    current_value = target.value;
-                } else {
-                    current_value = target.options[target.selectedIndex].value;
-                }
+                current_value = wrapped_target.val();
             }
             if (target.type != 'text' && target.type != 'textarea' && details[i].fld_type != 'date') {
                 target.options.length = 1;
             }
             var show = false;
-            for (var j = 0; j < details[i].groups.length; j++) {
-                for (var k = 0; k < details[i].groups[j].keys.length; k++) {
-                    if (((typeof value == 'object') && (value.indexOf(details[i].groups[j].keys[k]) > -1)) || (details[i].groups[j].keys[k] == value)) {
-                        show = true;
-                        for (var l = 0; l < details[i].groups[j].options.length; l++) {
-                            target.options[target.options.length] = details[i].groups[j].options[l];
-                        }
-                        target.onmousedown = '';
-                        target.onkeypress = '';
-                        if (keep_target_value) {
-                            if (target.type == 'text' || target.type == 'textarea') {
-                                target.value = current_value;
-                            } else {
-                                selectOption(target.form, target.name, current_value);
+            if (details[i].lookup_method == 'local') {
+                for (var j = 0; j < details[i].groups.length; j++) {
+                    for (var k = 0; k < details[i].groups[j].keys.length; k++) {
+                        if (((typeof value == 'object') && (value.indexOf(details[i].groups[j].keys[k]) > -1)) || (details[i].groups[j].keys[k] == value)) {
+                            show = true;
+                            for (var l = 0; l < details[i].groups[j].options.length; l++) {
+                                target.options[target.options.length] = details[i].groups[j].options[l];
                             }
-                        } else {
-                            if (target.type == 'text' || target.type == 'textarea') {
-                                target.value = '';
+                            // unbind "choose a controller" message
+                            wrapped_target.unbind("focus.choose_controller");
+                            if (keep_target_value) {
+                                if (target.type == 'text' || target.type == 'textarea') {
+                                    target.value = current_value;
+                                } else {
+                                    selectOption(target.form, target.name, current_value);
+                                }
                             } else {
-                                target.selectedIndex = 0;
+                                if (target.type == 'text' || target.type == 'textarea') {
+                                    target.value = '';
+                                } else {
+                                    target.selectedIndex = 0;
+                                }
                             }
                         }
                     }
                 }
+            } else if (details[i].lookup_method == 'ajax') {
+                // submit form via ajax trying to get data
+                $('#report_form').ajaxSubmit({
+                    'type':   'GET',
+                    'url':  'rpc/get_custom_field_dynamic_options.php',
+                    'dataType': 'json',
+                    'data': {
+                        'fld_id':   details[i].target_field_id
+                    },
+                    'success': function(options, status) {
+                        console.info(options);
+                        if (options != null) {
+                            target.options.length = 0;
+                            $.each(options, function(key, val) {
+                                target.options[target.options.length] = new Option(val, key);
+                                return true;
+                            });
+                            $(target).unbind("focus.choose_controller");
+                        } else {
+                            target.options.length = 0;
+                            target.options[0] = new Option('Please choose an option', "");
+                        }
+                    }
+                })
             }
 
             if (details[i].hide_when_no_options == 1) {
@@ -140,19 +164,5 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
         }
     }
 
-}
-
-function custom_field_prompt_choose_controller(e) {
-    if (!e) var e = window.event;
-    target_field = getEventTarget(e);
-    chunks = target_field.id.split('_');
-    target_id = chunks[2];
-
-    details = custom_field_get_details_by_target(target_id);
-
-    alert('{/literal}{t escape=js}Please choose{/t} ' + details.controlling_field_name + ' {t}first{/t}{literal}');
-    target_field.blur();
-    e.cancelBubble = true;
-    return false;
 }
 {/literal}
