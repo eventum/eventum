@@ -261,7 +261,9 @@ function disableFields()
             {elseif $field_name == 'pre_title'}
               {$list[i].pre_title|escape:"html"}
             {elseif $field_name == 'iss_customer_id'}
-              {$list[i].customer_title|escape:"html"}
+              <a href="list.php?view=customer&customer_id={$list[i].iss_customer_id}" class="link"
+              title="View other issues from this customer">
+              {$list[i].customer_title|escape:"html"}</a>
             {elseif $field_name == 'support_level'}
               {$list[i].support_level|escape:"html"}
             {elseif $field_name == 'sta_rank'}
@@ -275,7 +277,9 @@ function disableFields()
             {elseif $field_name == 'last_action_date'}
               {$list[i].last_action_date|escape:"html"}
             {elseif $field_name == 'usr_full_name'}
-              {$list[i].usr_full_name|escape:"html"}
+              <a href="list.php?view=reporter&reporter_id={$list[i].iss_usr_id}" class="link"
+              title="View other issues from this reporter">
+              {$list[i].usr_full_name|escape:"html"}</a>
             {elseif $field_name == 'iss_percent_complete'}
               {$list[i].iss_percent_complete|escape:"html"}%
             {elseif $field_name == 'iss_expected_resolution_date'}

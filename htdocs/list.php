@@ -46,11 +46,25 @@ if (empty($rows)) {
     $rows = APP_DEFAULT_PAGER_SIZE;
 }
 
-if (@$_REQUEST['view'] == 'my_assignments') {
-    $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
-    Search_Profile::remove($usr_id, $prj_id, 'issue');
-    Auth::redirect("list.php?users=$usr_id&hide_closed=1&rows=$rows&sort_by=" .
-            $profile['sort_by'] . "&sort_order=" . $profile['sort_order']);
+if (isset($_REQUEST['view'])) {
+    if ($_REQUEST['view'] == 'my_assignments') {
+        $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
+        Search_Profile::remove($usr_id, $prj_id, 'issue');
+        Auth::redirect("list.php?users=$usr_id&hide_closed=1&rows=$rows&sort_by=" .
+                $profile['sort_by'] . "&sort_order=" . $profile['sort_order']);
+    } elseif (($_REQUEST['view'] == 'customer') && (isset($_REQUEST['customer_id']))) {
+        $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
+        Search_Profile::remove($usr_id, $prj_id, 'issue');
+        Auth::redirect("list.php?customer_id=" . Misc::escapeInteger($_REQUEST['customer_id']) .
+                "&hide_closed=1&rows=$rows&sort_by=" . $profile['sort_by'] .
+                "&sort_order=" . $profile['sort_order']);
+    } elseif (($_REQUEST['view'] == 'reporter') && (isset($_REQUEST['reporter_id']))) {
+        $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
+        Search_Profile::remove($usr_id, $prj_id, 'issue');
+        Auth::redirect("list.php?reporter=" . Misc::escapeInteger($_REQUEST['reporter_id']) .
+                "&hide_closed=1&rows=$rows&sort_by=" . $profile['sort_by'] .
+                "&sort_order=" . $profile['sort_order']);
+    }
 }
 
 $options = Issue::saveSearchParams();

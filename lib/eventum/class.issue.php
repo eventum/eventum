@@ -2236,7 +2236,7 @@ class Issue
 
         // if there is no reporter set, use the system user
         if (empty($data['reporter'])) {
-        	$data['reporter'] = APP_SYSTEM_USER_ID;
+            $data['reporter'] = APP_SYSTEM_USER_ID;
         }
 
         if ((!isset($data['estimated_dev_time'])) || ($data['estimated_dev_time'] == '')) {
@@ -2361,6 +2361,7 @@ class Issue
             'hide_closed'    => $hide_closed,
             "sort_by"        => $sort_by ? $sort_by : "pri_rank",
             "sort_order"     => $sort_order ? $sort_order : "ASC",
+            "customer_id"    => self::getParam('customer_id'),
             // quick filter form
             'keywords'       => self::getParam('keywords'),
             'search_type'    => $search_type,
@@ -2899,6 +2900,9 @@ class Issue
                 $stmt .= " OR " . Misc::prepareBooleanSearch('iss_description', $options["keywords"]) . ")";
             }
             $stmt .= "\n) ";
+        }
+        if (!empty($options['customer_id'])) {
+            $stmt .= " AND iss_customer_id=" . Misc::escapeInteger($options["customer_id"]);
         }
         if (!empty($options["priority"])) {
             $stmt .= " AND iss_pri_id=" . Misc::escapeInteger($options["priority"]);
@@ -3652,7 +3656,7 @@ class Issue
 
             // close if request
             if ((isset($_REQUEST['closed_status'])) && (!empty($_REQUEST['closed_status']))) {
-                self::close(Auth::getUserID(), $items[$i], true, 0, Misc::escapeInteger($_REQUEST['closed_status']), Misc::escapeString($_REQUEST['closed_message']), $_REQUEST['notification_list']);
+                self::close(Auth::getUserID(), $items[$i], true, 0, $_REQUEST['closed_status'], $_REQUEST['closed_message'], $_REQUEST['notification_list']);
             }
         }
         return true;
