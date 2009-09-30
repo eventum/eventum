@@ -48,6 +48,13 @@ class DB_Helper
     function getInstance() {
         if (!self::$instance) {
             self::$instance =& new DB_Helper();
+
+            if (PEAR::isError($e = self::$instance->dbh)) {
+                Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);
+                $error_type = "db";
+                require_once APP_PATH . "/htdocs/offline.php";
+                exit(1);
+            }
         }
         return self::$instance->dbh;
     }
@@ -59,7 +66,7 @@ class DB_Helper
      *
      * @access public
      */
-    function __construct() {
+    private function __construct() {
         $dsn = array(
             'phptype'  => APP_SQL_DBTYPE,
             'hostspec' => APP_SQL_DBHOST,
@@ -71,12 +78,10 @@ class DB_Helper
         if ((defined('APP_SQL_DBPORT')) && (APP_SQL_DBPORT != 3306)) {
             $dsn['port'] = APP_SQL_DBPORT;
         }
+
         $this->dbh = DB::connect($dsn);
         if (PEAR::isError($this->dbh)) {
-            Error_Handler::logError(array($this->dbh->getMessage(), $this->dbh->getDebugInfo()), __FILE__, __LINE__);
-            $error_type = "db";
-            require_once APP_PATH . "/htdocs/offline.php";
-            exit(1);
+            return;
         }
         $this->dbh->query("SET SQL_MODE = ''");
         if (strtolower(APP_CHARSET) == 'utf-8' || strtolower(APP_CHARSET) == 'utf8') {
