@@ -245,6 +245,18 @@ function checkRequirements()
     if (!empty($error)) {
         $errors[] = $error;
     }
+    $error = checkPermissions(APP_SETUP_FILE, "File '" . APP_SETUP_FILE. "'");
+    if (!empty($error)) {
+        $errors[] = $error;
+    }
+    $error = checkPermissions(APP_CONFIG_PATH . '/private_key.php', "File '" . APP_CONFIG_PATH . '/private_key.php'. "'");
+    if (!empty($error)) {
+        $errors[] = $error;
+    }
+    $error = checkPermissions(APP_CONFIG_PATH . '/config.php', "File '" . APP_CONFIG_PATH . '/config.php'. "'");
+    if (!empty($error)) {
+        $errors[] = $error;
+    }
     $error = checkPermissions(APP_LOCKS_PATH, "Directory '" . APP_LOCKS_PATH . "'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;
@@ -264,7 +276,6 @@ function checkRequirements()
 
     return array($warnings, $errors);
 }
-
 
 function replace_table_prefix($str)
 {
