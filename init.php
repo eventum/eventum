@@ -27,7 +27,7 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-if (!file_exists(dirname(__FILE__) . '/config/config.php')) {
+if (!file_exists(dirname(__FILE__) . '/config/config.php') || !filesize(dirname(__FILE__) . '/config/config.php')) {
     Header('Location: setup/');
     exit(0);
 }
@@ -49,6 +49,10 @@ define('APP_CONFIG_PATH', APP_PATH . '/config');
 
 // include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';
+
+if (!defined('APP_COOKIE')) {
+    define('APP_COOKIE', 'eventum');
+}
 
 // define other paths
 if (!defined('APP_SETUP_FILE')) {
