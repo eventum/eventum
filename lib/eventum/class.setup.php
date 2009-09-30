@@ -48,8 +48,12 @@ class Setup
     function load($force = false)
     {
         static $setup;
-        if ((empty($setup)) || ($force == true)) {
-            require(APP_SETUP_FILE);
+        if (empty($setup) || $force == true) {
+            $eventum_setup_string = null;
+            require_once APP_SETUP_FILE;
+            if (empty($eventum_setup_string)) {
+                return null;
+            }
             $setup = unserialize(base64_decode($eventum_setup_string));
         }
         return $setup;
