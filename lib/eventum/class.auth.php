@@ -70,23 +70,7 @@ class Auth
         } else {
             $msg .= "not successful because of '$extra'.\n";
         }
-        $fp = @fopen(APP_LOGIN_LOG, "a");
-        @fwrite($fp, $msg);
-        @fclose($fp);
-    }
-
-
-    /**
-     * Method used to get the requested URI for the 'current' page the user is
-     * trying to access. This is used to get the appropriate URL and save it
-     * if the user does not have the login cookie.
-     *
-     * @access  public
-     * @return  string The requested URI for the current page
-     */
-    function getRequestedURL()
-    {
-        return urlencode($_SERVER["REQUEST_URI"]);
+        file_put_contents(APP_LOGIN_LOG, $msg, FILE_APPEND);
     }
 
 
@@ -106,7 +90,7 @@ class Auth
         if ($failed_url == NULL) {
             $failed_url = "index.php?err=5";
         }
-        $failed_url .= "&url=" . self::getRequestedURL();
+        $failed_url .= "&url=" . urlencode($_SERVER['REQUEST_URI']);
         if (!isset($_COOKIE[$cookie_name])) {
             if (APP_ANON_USER) {
                 $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
@@ -147,7 +131,7 @@ class Auth
         $prj_id = self::getCurrentProject();
         if (empty($prj_id)) {
             // redirect to select project page
-            self::redirect("select_project.php?url=" . self::getRequestedURL(), $is_popup);
+            self::redirect("select_project.php?url=" . urlencode($_SERVER['REQUEST_URI']), $is_popup);
         }
         // check the expiration date for a 'Customer' type user
         $customer_id = User::getCustomerID($usr_id);
@@ -394,14 +378,14 @@ class Auth
     {
         if (empty($email)) {
             return false;
-        } else {
-            $usr_id = User::getUserIDByEmail($email, true);
-            if (empty($usr_id)) {
-                return false;
-            } else {
-                return true;
-            }
         }
+
+        $usr_id = User::getUserIDByEmail($email, true);
+        if (empty($usr_id)) {
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -409,6 +393,7 @@ class Auth
      * Checks whether the provided password match against the email
      * address provided.
      *
+     * @see     class.auth.php
      * @access  public
      * @param   string $email The email address to check for
      * @param   string $password The password of the user to check for
@@ -416,15 +401,13 @@ class Auth
      */
     function isCorrectPassword($email, $password)
     {
-        $usr_id = User::getUserIDByEmail($email, true);
-        $user = User::getDetails($usr_id);
-        if ($user['usr_password'] != self::hashPassword($password)) {
+        $prj_id = self::getCurrentProject();
+        if (!self::hasAuthIntegration($prj_id)) {
             return false;
-        } else {
-            return true;
         }
+        $backend =& self::_getBackend($prj_id);
+        return $backend->isCorrectPassword($email, $password);
     }
-
 
     /**
      * Gets the current user ID.
@@ -437,9 +420,9 @@ class Auth
         $info = self::getCookieInfo(APP_COOKIE);
         if (empty($info)) {
             return '';
-        } else {
-            return User::getUserIDByEmail($info["email"]);
         }
+
+        return User::getUserIDByEmail($info['email']);
     }
 
 
@@ -453,7 +436,7 @@ class Auth
     {
         $cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
         if (empty($cookie)) {
-            return "";
+            return '';
         }
         $usr_id = self::getUserID();
         $projects = Project::getAssocList($usr_id);
@@ -504,14 +487,14 @@ class Auth
      * Sets the current selected project for the user session.
      *
      * @access  public
-     * @param   integer $project The project ID
+     * @param   integer $prj_id The project ID
      * @param   integer $remember Whether to automatically remember the setting or not
      * @return  void
      */
-    function setCurrentProject($project, $remember)
+    function setCurrentProject($prj_id, $remember)
     {
         $cookie = array(
-            "prj_id"   => $project,
+            "prj_id"   => $prj_id,
             "remember" => $remember
         );
         $cookie = base64_encode(serialize($cookie));
@@ -526,7 +509,7 @@ class Auth
      * @param   integer $usr_id The ID of the user.
      * @param   integer $prj_id The ID of the project.
      */
-    function createFakeCookie($usr_id, $project = false)
+    function createFakeCookie($usr_id, $prj_id = false)
     {
         $user_details = User::getDetails($usr_id);
 
@@ -537,9 +520,9 @@ class Auth
             "hash"       => md5(self::privateKey() . md5($time) . $user_details['usr_email']),
         );
         $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
-        if ($project) {
+        if ($prj_id) {
             $cookie = array(
-                "prj_id"   => $project,
+                "prj_id"   => $prj_id,
                 "remember" => false
             );
         }
@@ -572,7 +555,7 @@ class Auth
      * @param   string  $value The value of the cookie
      * @param   string  $expiration The expiration data of the cookie
      */
-    function setCookie($name, $value, $expiration)
+    public static function setCookie($name, $value, $expiration)
     {
         if (is_null(APP_COOKIE_DOMAIN)) {
 
@@ -581,5 +564,4 @@ class Auth
             setcookie($name, $value, $expiration, APP_COOKIE_URL, APP_COOKIE_DOMAIN);
         }
     }
-
 }
