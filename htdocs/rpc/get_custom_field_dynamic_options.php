@@ -25,11 +25,11 @@
 // +----------------------------------------------------------------------+
 //
 
-require_once(dirname(__FILE__) . "/../../init.php");
-require_once(APP_PEAR_PATH . '/Services/JSON.php');
+require_once dirname(__FILE__) . '/../../init.php';
+require_once 'Services/JSON.php';
 
 // if there is no field ID, return false
-if (!isset($_GET['fld_id'])) {
+if (empty($_GET['fld_id'])) {
     exit(0);
 }
 
