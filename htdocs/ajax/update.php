@@ -29,31 +29,32 @@
 //
 // @(#) $Id: update.php 3868 2009-03-30 00:22:35Z raul $
 
-require_once(dirname(__FILE__) . '/../../init.php');
-require_once(APP_INC_PATH . "/class.auth.php");
-require_once(APP_INC_PATH . "/class.issue.php");
+require_once dirname(__FILE__) . '/../init.php';
 
 // check login
 Auth::checkAuthentication(APP_COOKIE);
 
+$field_name = !empty($_POST['field_name']) ? $_POST['field_name'] : null;
+$issue_id = !empty($_POST['issue_id']) ? (int )$_POST['issue_id'] : null;
+
 // check if correct issue id was sent
-if (!is_numeric($_POST['issue_id']) || !Issue::exists($_POST['issue_id'])) {
-    exit;
+if (!$issue_id || !Issue::exists($issue_id)) {
+    die("Invalid issue_id");
 }
 
 $usr_id = Auth::getUserID();
 
 // check if user role is above "Standard User"
-if (User::getRoleByUser($usr_id, Issue::getProjectID($_POST['issue_id'])) < User::getRoleID("Standard User")) {
-    exit;
+if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRoleID("Standard User")) {
+    die("Forbidden");
 }
 
 // check if user can acess the issue
-if (!Issue::canAccess($_POST['issue_id'], $usr_id)) {
-    exit;
+if (!Issue::canAccess($issue_id, $usr_id)) {
+    die("Forbidden");
 }
 
-switch ($_POST['field_name']) {
+switch ($field_name) {
     case 'expected_resolution_date':
         $day = Misc::escapeInteger($_POST['day']);
         $month = Misc::escapeInteger($_POST['month']);
@@ -66,18 +67,17 @@ switch ($_POST['field_name']) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
         }
 
-        if (Issue::setExpectedResolutionDate($_POST['issue_id'], $date) !== -1) {
-            if (!is_null($date)) {
-                echo Date_Helper::getSimpleDate($date, false);
-            }
-        } else {
-            echo 'update failed';
+        $res = Issue::setExpectedResolutionDate($issue_id, $date)
+        if ($res == -1) {
+            die("Update failed");
         }
 
-        exit;
+        if (!is_null($date)) {
+            echo Date_Helper::getSimpleDate($date, false);
+        }
     break;
 
     default:
-        die('object type not supported');
+        die("Object type '$field_name' not supported");
     break;
 }
