@@ -51,7 +51,7 @@ if (!isset($data['port'])) {
     $data['port'] = $data['scheme'] == 'https' ? 443 : 80;
 }
 
-$input = fgets(STDIN);
+$input = getInput();
 
 // remove the first element which is the name of this script
 array_shift($argv);
