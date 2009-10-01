@@ -41,8 +41,8 @@ define('APP_CHARSET', 'UTF-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_PATH', realpath(dirname(__FILE__) . '/../..'));
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-define('APP_PEAR_PATH', APP_INC_PATH . '/lib/pear');
-define('APP_SMARTY_PATH', APP_INC_PATH . '/lib/Smarty');
+define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
+define('APP_SMARTY_PATH', APP_PATH . '/lib/Smarty');
 define('APP_CONFIG_PATH', APP_PATH . '/config');
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
 define('APP_TPL_PATH', APP_PATH . '/templates');
@@ -245,6 +245,18 @@ function checkRequirements()
     if (!empty($error)) {
         $errors[] = $error;
     }
+    $error = checkPermissions(APP_SETUP_FILE, "File '" . APP_SETUP_FILE. "'");
+    if (!empty($error)) {
+        $errors[] = $error;
+    }
+    $error = checkPermissions(APP_CONFIG_PATH . '/private_key.php', "File '" . APP_CONFIG_PATH . '/private_key.php'. "'");
+    if (!empty($error)) {
+        $errors[] = $error;
+    }
+    $error = checkPermissions(APP_CONFIG_PATH . '/config.php', "File '" . APP_CONFIG_PATH . '/config.php'. "'");
+    if (!empty($error)) {
+        $errors[] = $error;
+    }
     $error = checkPermissions(APP_LOCKS_PATH, "Directory '" . APP_LOCKS_PATH . "'", TRUE);
     if (!empty($error)) {
         $errors[] = $error;
@@ -264,7 +276,6 @@ function checkRequirements()
 
     return array($warnings, $errors);
 }
-
 
 function replace_table_prefix($str)
 {
