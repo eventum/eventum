@@ -67,7 +67,7 @@ switch ($field_name) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
         }
 
-        $res = Issue::setExpectedResolutionDate($issue_id, $date)
+        $res = Issue::setExpectedResolutionDate($issue_id, $date);
         if ($res == -1) {
             die("Update failed");
         }
