@@ -36,18 +36,11 @@ if (stristr(get_old_value('APP_BASE_URL'), 'https://') !== false) {
     $protocol_type = 'http://';
 }
 $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_contents);
-
-$fp = fopen(APP_PATH . '/config/config.php', 'w');
-if ($fp === FALSE) {
-    echo "Could not open the file 'config/config.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
+$res = file_put_contents(APP_PATH . '/config/config.php', $config_contents):
+if (!$res) {
+    echo "Could not write file 'config.inc.php'. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     exit(1);
 }
-$res = fwrite($fp, $config_contents);
-if ($fp === FALSE) {
-    echo "Could not write the configuration information to 'config/config.php'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
-    exit(1);
-}
-fclose($fp);
 
 if (copy(APP_PATH . "/setup.conf.php", APP_CONFIG_PATH . "/setup.php") == false) {
 	echo "Unable to copy '" . APP_PATH . "/setup.conf.php' to '" .APP_CONFIG_PATH . "/setup.php'";

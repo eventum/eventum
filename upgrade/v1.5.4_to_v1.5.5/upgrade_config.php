@@ -10,7 +10,7 @@ if (copy(APP_PATH . "/config.inc.php", $backup_file) == false) {
     exit(1);
 }
 
-$config_contents = implode("", file(APP_PATH . "/setup/config.inc.php"));
+$config_contents = file_get_contents(APP_PATH . "/setup/config.inc.php");
 $config_backup = $config_contents;
 $config_contents = str_replace("%{APP_PATH}%", APP_PATH, $config_contents);
 $config_contents = str_replace("%{APP_SQL_DBHOST}%", APP_SQL_DBHOST, $config_contents);
@@ -32,19 +32,13 @@ if (stristr(APP_BASE_URL, 'https://') !== false) {
 } else {
     $protocol_type = 'http://';
 }
-
 $config_contents = str_replace("%{PROTOCOL_TYPE}%", $protocol_type, $config_contents);
-$fp = fopen(APP_PATH . '/config.inc.php', 'w');
-if ($fp === FALSE) {
-    echo "Could not open the file 'config.inc.php' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
+
+$res = file_put_contents(APP_CONFIG_PATH . '/config.php', $config_contents):
+if (!$res) {
+    echo "Could not write file 'config.inc.php'. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again.";
     exit(1);
 }
-$res = fwrite($fp, $config_contents);
-if ($fp === FALSE) {
-    echo "Could not write the configuration information to 'config.inc.php'. The file should be writable by the user that the web server runs as. Please correct this problem and try again.";
-    exit(1);
-}
-fclose($fp);
 ?>
 Done. Your configuration file (config.inc.php) has been upgraded to version 1.5.5.<br />
 A backup copy has been made in the file <i>'<?php echo $backup_file; ?>'</i>.
