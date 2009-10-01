@@ -393,7 +393,6 @@ class Auth
      * Checks whether the provided password match against the email
      * address provided.
      *
-     * @see     class.auth.php
      * @access  public
      * @param   string $email The email address to check for
      * @param   string $password The password of the user to check for
@@ -401,13 +400,15 @@ class Auth
      */
     function isCorrectPassword($email, $password)
     {
-        $prj_id = self::getCurrentProject();
-        if (!self::hasAuthIntegration($prj_id)) {
+        $usr_id = User::getUserIDByEmail($email, true);
+        $user = User::getDetails($usr_id);
+        if ($user['usr_password'] != self::hashPassword($password)) {
             return false;
+        } else {
+            return true;
         }
-        $backend =& self::_getBackend($prj_id);
-        return $backend->isCorrectPassword($email, $password);
     }
+
 
     /**
      * Gets the current user ID.
