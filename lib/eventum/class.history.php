@@ -131,7 +131,7 @@ class History
         } else {
             for ($i = 0; $i < count($res); $i++) {
                 $res[$i]["his_created_date"] = Date_Helper::getFormattedDate($res[$i]["his_created_date"]);
-                $res[$i]["his_summary"] = Mime_Helper::fixEncoding($res[$i]["his_summary"]);
+                $res[$i]["his_summary"] = Link_Filter::processText(Auth::getCurrentProject(), Mime_Helper::fixEncoding($res[$i]["his_summary"]));
             }
             return $res;
         }
