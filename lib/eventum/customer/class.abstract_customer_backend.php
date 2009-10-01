@@ -122,10 +122,8 @@ class Abstract_Customer_Backend
     {
         return false;
     }
-}
 
-Class blah
-{
+
     /**
      * Connect to the customer database
      *
@@ -232,7 +230,7 @@ Class blah
      * @param   integer $customer_id The customer ID
      * @return  boolean
      */
-    function hasPerIncidentContract($customer_id)
+    public function hasPerIncidentContract($customer_id)
     {
         return false;
     }
