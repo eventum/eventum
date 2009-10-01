@@ -59,7 +59,6 @@ class Setup
         return $setup;
     }
 
-
     /**
      * Method used to save the setup options for the application.
      *
@@ -71,24 +70,21 @@ class Setup
     {
         // this is needed to check if the file can be created or not
         if (!file_exists(APP_SETUP_FILE)) {
-            if (!@is_writable(APP_CONFIG_PATH)) {
+            if (!is_writable(APP_CONFIG_PATH)) {
                 clearstatcache();
                 return -1;
             }
         } else {
-            if (!@is_writable(APP_SETUP_FILE)) {
+            if (!is_writable(APP_SETUP_FILE)) {
                 clearstatcache();
                 return -2;
             }
         }
-        $fp = @fopen(APP_SETUP_FILE, "w");
-        if (!$fp) {
+        $contents = "<?php\n\$eventum_setup_string='" . base64_encode(serialize($options)) . "';\n?>";
+        $res = file_put_contents(APP_SETUP_FILE, $contents);
+        if (!$res) {
             return -2;
         }
-        @flock($fp, LOCK_EX);
-        @fwrite($fp, "<?php\n\$eventum_setup_string='" . base64_encode(serialize($options)) . "';\n?>");
-        @flock($fp, LOCK_UN);
-        @fclose($fp);
         return 1;
     }
 }

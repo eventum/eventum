@@ -40,11 +40,9 @@ class Draft
     {
         list($usec,) = explode(" ", microtime());
         $filename = date('Y-m-d_H-i-s_') . $usec . '.draft.txt';
-        $path = APP_ROUTED_MAILS_SAVEDIR . 'routed_drafts/' . $filename;
-        $fp = @fopen($file, 'w');
-        @fwrite($fp, $message);
-        @fclose($fp);
-        @chmod($file, 0644);
+        $path = APP_ROUTED_MAILS_SAVEDIR . '/routed_drafts/' . $filename;
+        file_put_contents($file, $message);
+        chmod($file, 0644);
     }
 
 
