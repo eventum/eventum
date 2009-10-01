@@ -29,7 +29,7 @@
 //
 // @(#) $Id: update.php 3868 2009-03-30 00:22:35Z raul $
 
-require_once dirname(__FILE__) . '/../init.php';
+require_once dirname(__FILE__) . '/../../init.php';
 
 // check login
 Auth::checkAuthentication(APP_COOKIE);
