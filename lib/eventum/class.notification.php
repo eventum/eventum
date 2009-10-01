@@ -610,11 +610,11 @@ class Notification
                 @$diffs[] = '+' . ev_gettext('Assignment List') . ': ' . implode(', ', User::getFullName($new['assignments']));
             }
         }
-        if (@$old['iss_expected_resolution_date'] != $new['expected_resolution_date']) {
+        if (isset($new['expected_resolution_date']) && @$old['iss_expected_resolution_date'] != $new['expected_resolution_date']) {
             $diffs[] = '-' . ev_gettext('Expected Resolution Date') . ': ' . $old['iss_expected_resolution_date'];
             $diffs[] = '+' . ev_gettext('Expected Resolution Date') . ': ' . $new['expected_resolution_date'];
         }
-        if ($old["iss_prc_id"] != $new["category"]) {
+        if (isset($new["category"]) && $old["iss_prc_id"] != $new["category"]) {
             $diffs[] = '-' . ev_gettext('Category') . ': ' . Category::getTitle($old["iss_prc_id"]);
             $diffs[] = '+' . ev_gettext('Category') . ': ' . Category::getTitle($new["category"]);
         }
@@ -622,27 +622,27 @@ class Notification
             $diffs[] = '-' . ev_gettext('Release') . ': ' . Release::getTitle($old["iss_pre_id"]);
             $diffs[] = '+' . ev_gettext('Release') . ': ' . Release::getTitle($new["release"]);
         }
-        if ($old["iss_pri_id"] != $new["priority"]) {
+        if (isset($new["priority"]) && $old["iss_pri_id"] != $new["priority"]) {
             $diffs[] = '-' . ev_gettext('Priority') . ': ' . Priority::getTitle($old["iss_pri_id"]);
             $diffs[] = '+' . ev_gettext('Priority') . ': ' . Priority::getTitle($new["priority"]);
         }
-        if ($old["iss_sta_id"] != $new["status"]) {
+        if (isset($new["status"]) && $old["iss_sta_id"] != $new["status"]) {
             $diffs[] = '-' . ev_gettext('Status') . ': ' . Status::getStatusTitle($old["iss_sta_id"]);
             $diffs[] = '+' . ev_gettext('Status') . ': ' . Status::getStatusTitle($new["status"]);
         }
-        if ($old["iss_res_id"] != $new["resolution"]) {
+        if (isset($new["resolution"]) && $old["iss_res_id"] != $new["resolution"]) {
             $diffs[] = '-' . ev_gettext('Resolution') . ': ' . Resolution::getTitle($old["iss_res_id"]);
             $diffs[] = '+' . ev_gettext('Resolution') . ': ' . Resolution::getTitle($new["resolution"]);
         }
-        if ($old["iss_dev_time"] != $new["estimated_dev_time"]) {
+        if (isset($new["estimated_dev_time"]) && $old["iss_dev_time"] != $new["estimated_dev_time"]) {
             $diffs[] = '-' . ev_gettext('Estimated Dev. Time') . ': ' . Misc::getFormattedTime($old["iss_dev_time"]*60);
             $diffs[] = '+' . ev_gettext('Estimated Dev. Time') . ': ' . Misc::getFormattedTime($new["estimated_dev_time"]*60);
         }
-        if ($old["iss_summary"] != $new["summary"]) {
+        if (isset($new["summary"]) && $old["iss_summary"] != $new["summary"]) {
             $diffs[] = '-' . ev_gettext('Summary') . ': ' . $old['iss_summary'];
             $diffs[] = '+' . ev_gettext('Summary') . ': ' . $new['summary'];
         }
-        if ($old["iss_description"] != $new["description"]) {
+        if (isset($new["description"]) && $old["iss_description"] != $new["description"]) {
             // need real diff engine here
             require_once 'Text/Diff.php';
             require_once 'Text/Diff/Renderer.php';

@@ -51,16 +51,7 @@ function custom_field_init_dynamic_options(fld_id)
         if (dynamic_options[i].target_field_id == fld_id) {
             // set alert on target field prompting them to choose controlling field first
             target_field = $('#custom_field_' + dynamic_options[i].target_field_id);
-            target_field.bind("focus.choose_controller", dynamic_options[i].target_field_id, function(e) {
-                target_field = e.target;
-                target_id = e.data;
-                details = custom_field_get_details_by_target(target_id);
-
-                alert('{/literal}{t escape=js}Please choose{/t} ' + details.controlling_field_name + ' {t}first{/t}{literal}');
-
-                target_field.blur();
-                return false;
-            });
+            target_field.bind("focus.choose_controller", dynamic_options[i].target_field_id, prompt_choose_controller_first);
 
             // set event handler for controlling field
             controlling_field = $('#' + dynamic_options[i].controlling_field_id);
@@ -71,6 +62,17 @@ function custom_field_init_dynamic_options(fld_id)
             break;
         }
     }
+}
+
+function prompt_choose_controller_first(e) {
+    target_field = e.target;
+    target_id = e.data;
+    details = custom_field_get_details_by_target(target_id);
+
+    alert('{/literal}{t escape=js}Please choose{/t} ' + details.controlling_field_name + ' {t}first{/t}{literal}');
+
+    target_field.blur();
+    return false;
 }
 
 
@@ -138,7 +140,9 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
                         'fld_id':   details[i].target_field_id
                     },
                     'success': function(options, status) {
-                        console.info(options);
+                        var wrapped_target = $(target);
+                        var target_id_chunks = wrapped_target.attr('id').split('_');
+                        var details = custom_field_get_details_by_target(target_id_chunks[2]);
                         if (options != null) {
                             target.options.length = 0;
                             $.each(options, function(key, val) {
@@ -149,6 +153,7 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
                         } else {
                             target.options.length = 0;
                             target.options[0] = new Option('Please choose an option', "");
+                            wrapped_target.bind("focus.choose_controller", details.target_field_id, prompt_choose_controller_first);
                         }
                     }
                 })
