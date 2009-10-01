@@ -73,6 +73,8 @@ function patch_database() {
 		1 => '01_notes.php',
 		2 => '02_usr_alias.php',
 		3 => '03_prj_mail_aliases.php',
+		4 => '04_isu_order.php',
+		5 => '05_his_rename.php',
 	);
 
 	// sanity check. check that the version table exists.
