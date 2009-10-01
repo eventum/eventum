@@ -33,6 +33,7 @@ Eventum Issue Tracking System
 - Added links to list.php to search for issues from same reporter or customer (Bryan)
 - Added ability for Custom Field backends to use ajax to get options (Bryan)
 - Fixed bug with abstract customer backend (Bryan)
+- Added ability to update expected resolution date and custom fields on list issues page (Raul Raat)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
