@@ -1778,7 +1778,7 @@ class Issue
                     $associated_id
                  )";
         DB_Helper::getInstance()->query($stmt);
-        History::add($issue_id, $usr_id, History::getTypeID('issue_associated'), "Issue associated to #$associated_id by " . User::getFullName($usr_id));
+        History::add($issue_id, $usr_id, History::getTypeID('issue_associated'), "Issue associated to Issue #$associated_id by " . User::getFullName($usr_id));
         // link the associated issue back to this one
         if ($link_issues) {
             self::addAssociation($associated_id, $issue_id, $usr_id, FALSE);
@@ -1836,9 +1836,9 @@ class Issue
                     )";
         DB_Helper::getInstance()->query($stmt);
         History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_unassociated'),
-                "Issue association #$associated_id removed by " . User::getFullName(Auth::getUserID()));
+                "Issue association to Issue #$associated_id removed by " . User::getFullName(Auth::getUserID()));
         History::add($associated_id, Auth::getUserID(), History::getTypeID('issue_unassociated'),
-                "Issue association #$issue_id removed by " . User::getFullName(Auth::getUserID()));
+                "Issue association to Issue #$issue_id removed by " . User::getFullName(Auth::getUserID()));
     }
 
 
