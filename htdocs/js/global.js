@@ -799,16 +799,15 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function(){
-    // dialog type calender isn't working in Konqueror beacuse it's not a supported browser by either jQuery or jQuery UI
-    // http://groups.google.com/group/jquery-ui/browse_thread/thread/ea61238c34cb5f33/046837b02fb90b5c
-    if (navigator.appName != 'Konqueror') {
+// dialog type calender isn't working in Konqueror beacuse it's not a supported browser by either jQuery or jQuery UI
+// http://groups.google.com/group/jquery-ui/browse_thread/thread/ea61238c34cb5f33/046837b02fb90b5c
+if (navigator.appName != 'Konqueror') {
+	$(document).ready(function() {
         $(".inline_date_pick").click(function() {
-
             var masterObj = this;
             var masterObjPos = $(masterObj).offset();
             // offset gives uses top and left but datepicker needs pageX and pageY
-            var masterObjPos = {pageX:masterObjPos.left, pageY:masterObjPos.top};
+            var masterObjPos = {pageX: masterObjPos.left, pageY: masterObjPos.top};
 
             // as i cannot find any documentation about ui.datepicker in dialog mode + blockUI, then i'll disable blockui while showing datepicker
             // i found in ui.datepicker when in dialog mode: "if ($.blockUI) $.blockUI(this.dpDiv);" so i assume the point was to show the calender in blockUI?
@@ -845,6 +844,6 @@ $(document).ready(function(){
 
             return false;
         });
-    }
-});
+	});
+}
 //-->
