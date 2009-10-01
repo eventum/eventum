@@ -160,7 +160,8 @@ class Mail_Queue
             }
             $result = self::_sendEmail($emails[$i]['recipient'], $emails[$i]['headers'], $emails[$i]['body'], $current_status);
             if (PEAR::isError($result)) {
-                self::_saveLog($emails[$i]['id'], 'error', self::_getErrorMessage($result));
+                $details = $result->getMessage() . "/" . $result->getDebugInfo();
+                self::_saveLog($emails[$i]['id'], 'error', $details);
             } else {
                 self::_saveLog($emails[$i]['id'], 'sent', '');
                 if ($emails[$i]['save_copy']) {
@@ -317,21 +318,6 @@ class Mail_Queue
             return true;
         }
     }
-
-
-    /**
-     * Handles the PEAR_Error object returned from the SMTP server, and returns
-     * an appropriate error message string.
-     *
-     * @access  private
-     * @param   object $error The PEAR_Error object
-     * @return  string The error message
-     */
-    function _getErrorMessage($error)
-    {
-        return $error->getMessage() . "/" . $error->getDebugInfo();
-    }
-
 
     /**
      * Returns the mail queue for a specific issue.
