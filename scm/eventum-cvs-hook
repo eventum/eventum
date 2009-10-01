@@ -51,7 +51,7 @@ if (!isset($data['port'])) {
     $data['port'] = $data['scheme'] == 'https' ? 443 : 80;
 }
 
-$input = getInput();
+$input = fgets(STDIN);
 
 // remove the first element which is the name of this script
 array_shift($argv);
@@ -126,14 +126,9 @@ if (count($matches[1]) > 0) {
 
 function getInput()
 {
-    $terminator = "\n";
-
-    $stdin = fopen("php://stdin", "r");
-    $input = '';
-    while (!feof($stdin)) {
-        $buffer = fgets($stdin, 256);
-        $input .= $buffer;
+    $buffer = '';
+    while (!feof(STDIN)) {
+        $buffer .= fgets(STDIN);
     }
-    fclose($stdin);
-    return $input;
+    return $buffer;
 }
