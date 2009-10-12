@@ -81,4 +81,10 @@ class Eventum_Autoload {
 	}
 }
 
-spl_autoload_register(array('Eventum_Autoload', 'autoload'));
+if (function_exists('spl_autoload_register')) {
+	spl_autoload_register(array('Eventum_Autoload', 'autoload'));
+} else {
+	function __autoload($className) {
+		Eventum_Autoload::autoload($className);
+	}
+}
