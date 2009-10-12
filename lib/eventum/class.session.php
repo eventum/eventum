@@ -87,7 +87,7 @@ class Session
      */
     function init($usr_id)
     {
-        @session_start();
+        session_start();
 
         // clear all old session variables
         $_SESSION = array();
@@ -111,7 +111,7 @@ class Session
      */
     function verify($usr_id)
     {
-        @session_start();
+        session_start();
 
         // Don't check the IP of the session, since this caused problems for users that use a proxy farm that uses
         // a different IP address each page load.
@@ -126,6 +126,6 @@ class Session
      */
     function destroy()
     {
-        @session_destroy();
+        session_destroy();
     }
 }
