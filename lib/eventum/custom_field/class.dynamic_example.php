@@ -26,9 +26,7 @@
 // +----------------------------------------------------------------------+
 //
 
-include_once(APP_INC_PATH . "/custom_field/class.dynamic.php");
-include_once(APP_INC_PATH . "/class.custom_field.php");
-
+require_once "class.dynamic.php";
 
 /**
  * Example dynamic custom field. This requires you create a custom field with the name "Dynamic Controller" and the options "red",
@@ -71,12 +69,10 @@ class Dynamic_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
         return $data;
     }
 
-
     function getControllingCustomFieldID()
     {
         return Custom_Field::getIDByTitle(self::getControllingCustomFieldName());
     }
-
 
     function getControllingCustomFieldName()
     {

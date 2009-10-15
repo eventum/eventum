@@ -41,5 +41,3 @@ class Developer_List_Custom_Field_Backend
         return User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID("Standard User"));
     }
 }
-
-

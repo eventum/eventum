@@ -82,7 +82,6 @@ class Dynamic_Custom_Field_Backend
        return array();
    }
    
-   
     /**
      * Returns the ID of the "controlling" custom field.
      * 
@@ -92,7 +91,6 @@ class Dynamic_Custom_Field_Backend
     {
         return 0;
     }
-   
    
     /**
      * Returns the name of the "controlling" custom field.
@@ -104,7 +102,6 @@ class Dynamic_Custom_Field_Backend
         return '';
     }
     
-    
     /**
      * Returns true if this row should be hidden if it has no value
      * 
@@ -114,7 +111,6 @@ class Dynamic_Custom_Field_Backend
     {
         return false;
     }
-
 
     /**
      * Returns the DOM ID of the controlling field, by default this will return
@@ -129,7 +125,6 @@ class Dynamic_Custom_Field_Backend
         return 'custom_field_' . $this->getControllingCustomFieldID();
     }
 
-
     /**
      * Should return 'local' or 'ajax'. If ajax is specified then getDynamicOptions()
      * should be implemented as well
@@ -140,7 +135,6 @@ class Dynamic_Custom_Field_Backend
     {
         return 'local';
     }
-
 
     /**
      * This method should return the correct options to display for the given
@@ -154,5 +148,3 @@ class Dynamic_Custom_Field_Backend
         return null;
     }
 }
-
-

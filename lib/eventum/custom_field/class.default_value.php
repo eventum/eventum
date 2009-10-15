@@ -40,4 +40,3 @@ class Default_Value_Custom_Field_Backend
         return '123';
     }
 }
-

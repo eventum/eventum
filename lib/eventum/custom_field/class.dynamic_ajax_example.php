@@ -25,7 +25,7 @@
 // +----------------------------------------------------------------------+
 //
 
-include_once(APP_INC_PATH . "/custom_field/class.dynamic.php");
+require_once "class.dynamic.php";
 
 class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
 {
@@ -62,12 +62,10 @@ class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Bac
         return $data;
     }
 
-
     function getOptionValue($fld_id, $value)
     {
         return $value;
     }
-
 
     function getControllingCustomFieldName()
     {
@@ -84,7 +82,6 @@ class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Bac
         return 'priority';
     }
 
-
     /**
      * Should return 'local' or 'ajax'.
      *
@@ -95,7 +92,6 @@ class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Bac
         return 'ajax';
     }
 
-
     function getDynamicOptions($data)
     {
         $value = $data['priority'];
@@ -105,6 +101,4 @@ class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Bac
             }
         }
     }
-
-
 }
