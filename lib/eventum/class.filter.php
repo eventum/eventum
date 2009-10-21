@@ -682,6 +682,8 @@ class Filter
                 $display = User::getFullName($filter_details);
             } elseif ($filter['param'] == 'release') {
                 $display = Release::getTitle($filter_details);
+            } elseif ($filter['param'] == 'customer_id') {
+                $display = Customer::getTitle($prj_id, $filter_details);
             } else {
                 $display = $filter_details;
             }
@@ -792,6 +794,10 @@ class Filter
             'reporter'  =>  array(
                 'title' =>  ev_gettext("Reporter"),
                 'param' =>  'reporter'
+            ),
+            'customer_id'=>  array(
+                'title' =>  ev_gettext("Customer"),
+                'param' =>  'customer_id'
             )
         );
 

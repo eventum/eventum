@@ -1,6 +1,6 @@
 
 {literal}
-<script type="text/javascript">
+<script language="JavaScript">
 <!--
 function clearFilters(f)
 {
@@ -40,6 +40,7 @@ function clearFilters(f)
     setHiddenFieldValue(f, 'show_authorized_issues', '');
     setHiddenFieldValue(f, 'show_notification_list_issues', '');
     setHiddenFieldValue(f, 'reporter', '');
+    setHiddenFieldValue(f, 'customer_id', '');
     //other fields
     setHiddenFieldValue(f, 'release', '');
     setHiddenFieldValue(f, 'custom_field', '');
@@ -67,7 +68,7 @@ function runCustomFilter(f)
 //-->
 </script>
 {/literal}
-<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center" id="quick_filter">
+<table bgcolor="{$cell_color}" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr id="filter_form1" {get_display_style element_name="filter_form"}>
     <td>
       &nbsp;
@@ -101,6 +102,7 @@ function runCustomFilter(f)
         <input type="hidden" name="show_notification_list_issues" value="{$options.show_notification_list_issues}">
         <input type="hidden" name="custom_field" value="{$options.custom_field|@serialize|urlencode}">
         <input type="hidden" name="reporter" value="{$options.reporter}">
+        <input type="hidden" name="customer_id" value="{$options.customer_id}">
         {if $categories|@count < 1}
         <input type="hidden" name="category" value="">
         {/if}
