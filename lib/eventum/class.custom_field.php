@@ -338,6 +338,8 @@ class Custom_Field
         foreach ($value as $item) {
             if ($fld_details['fld_type'] == 'integer') {
                 $item = Misc::escapeInteger($item);
+            } elseif ((in_array($fld_details['fld_type'], array('combo', 'multiple')) && ($item == -1))) {
+                continue;
             } else {
                 $item = "'" . Misc::escapeString($item) . "'";
             }
@@ -432,7 +434,7 @@ class Custom_Field
                     }
 
 
-                    $res[$i]["field_options"] = self::getOptions($res[$i]["fld_id"]);
+                    $res[$i]["field_options"] = self::getOptions($res[$i]["fld_id"], false, false, $form_type);
 
                     // get the default value (if one exists)
                     $backend = self::getBackend($res[$i]["fld_id"]);
@@ -1011,7 +1013,7 @@ class Custom_Field
      * @param   integer $issue_id The ID of the issue
      * @return  array The list of custom field options
      */
-    function getOptions($fld_id, $ids = false, $issue_id =  false)
+    function getOptions($fld_id, $ids = false, $issue_id = false, $form_type = false)
     {
         static $returns;
 
@@ -1022,7 +1024,7 @@ class Custom_Field
         }
         $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
-            $list = $backend->getList($fld_id, $issue_id);
+            $list = $backend->getList($fld_id, $issue_id, $form_type);
             if ($ids != false) {
                 foreach ($list as $id => $value) {
                     if (!in_array($id, $ids)) {
@@ -1030,7 +1032,7 @@ class Custom_Field
                     }
                 }
             }
-            $returns[$return_key] = $list;
+            // don't cache the return value for fields with backends
             return $list;
         } else {
             $stmt = "SELECT

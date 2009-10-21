@@ -35,6 +35,7 @@ Eventum Issue Tracking System
 - Fixed bug with abstract customer backend (Bryan)
 - Added ability to update expected resolution date and custom fields on list issues page (Raul Raat)
 - Filter for links issue history popup (Elan Ruusamäe)
+- Misc files for Custom fields (Bryan Alsdorf)
 
 2009-01-14, Version 2.2
 - Fixed few errors with template localization (Alessandro Ogier)
