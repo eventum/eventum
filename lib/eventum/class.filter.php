@@ -411,7 +411,7 @@ class Filter
                                 }
                             }
                         } else {
-                            if (@$filter['is_custom'] != 1) {
+                            if ((@$filter['is_custom'] != 1) && (isset($res[$i]['cst_' . $field]))) {
                                 $res[$i]['url'] .= $filter['param'] . '=' . urlencode($res[$i]['cst_' . $field]) . '&';
                             }
                         }
