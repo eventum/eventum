@@ -93,3 +93,6 @@ define('APP_ENABLE_FULLTEXT', '%{APP_ENABLE_FULLTEXT}%');
 // 'native' or 'php'. Try native first, if you experience strange issues
 // such as language switching randomly, try php
 define('APP_GETTEXT_MODE', 'native');
+
+// director where to save routed drafts/notes/emails. leave empty/undefined to disable.
+define('APP_ROUTED_MAILS_SAVEDIR', APP_PATH . '/misc');

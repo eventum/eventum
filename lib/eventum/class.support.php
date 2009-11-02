@@ -245,13 +245,14 @@ class Support
      */
     function saveRoutedEmail($message)
     {
-        list($usec,) = explode(" ", microtime());
-        $filename = date('Y-m-d_H-i-s_') . $usec . '.email.txt';
-        $file = APP_ROUTED_MAILS_SAVEDIR . 'routed_emails/' . $filename;
-        $fp = @fopen($file, 'w');
-        @fwrite($fp, $message);
-        @fclose($fp);
-        @chmod($file, 0644);
+        if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
+            return;
+        }
+        list($usec,) = explode(' ', microtime());
+        $filename = date('Y-m-d_H-i-s_') . $usec . '.note.txt';
+        $file = APP_ROUTED_MAILS_SAVEDIR . '/routed_emails/' . $filename;
+        file_put_contents($file, $message);
+        chmod($file, 0644);
     }
 
 

@@ -38,9 +38,12 @@ class Draft
      */
     function saveRoutedMessage($message)
     {
-        list($usec,) = explode(" ", microtime());
+        if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
+            return;
+        }
+        list($usec,) = explode(' ', microtime());
         $filename = date('Y-m-d_H-i-s_') . $usec . '.draft.txt';
-        $path = APP_ROUTED_MAILS_SAVEDIR . '/routed_drafts/' . $filename;
+        $file = APP_ROUTED_MAILS_SAVEDIR . '/routed_drafts/' . $filename;
         file_put_contents($file, $message);
         chmod($file, 0644);
     }

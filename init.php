@@ -95,10 +95,6 @@ if (!defined('APP_LOG_PATH')) {
     define('APP_LOG_PATH', APP_PATH . '/logs');
 }
 
-if (!defined('APP_ROUTED_MAILS_SAVEDIR')) {
-    define('APP_ROUTED_MAILS_SAVEDIR', APP_PATH . '/misc');
-}
-
 if (!defined('APP_ERROR_LOG')) {
     define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
 }
